@@ -1,0 +1,5 @@
+path.sh
+build
+dist
+__pycache__
+*.egg-info
