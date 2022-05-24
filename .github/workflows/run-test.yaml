@@ -57,8 +57,22 @@ jobs:
         shell: bash
         run: |
           python3 -m pip install -qq --upgrade pip
-          python3 -m pip install -qq wheel twine typing_extensions
+          python3 -m pip install -qq wheel twine typing_extensions websockets
           python3 -m pip install -qq torch==${{ matrix.torch }}+cpu torchaudio==${{ matrix.torchaudio }}+cpu numpy -f https://download.pytorch.org/whl/cpu/torch_stable.html
+
+      - name: Cache kaldifeat
+        id: my-cache
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/tmp/kaldifeat
+          key: cache-tmp-${{ matrix.python-version }}
+
+      - name: Install kaldifeat
+        if: steps.my-cache.outputs.cache-hit != 'true'
+        shell: bash
+        run: |
+          .github/scripts/install-kaldifeat.sh
 
       - name: Install sherpa
         shell: bash
@@ -74,6 +88,8 @@ jobs:
       - name: Start server
         shell: bash
         run: |
+          export PYTHONPATH=~/tmp/kaldifeat/kaldifeat/python:$PYTHONPATH
+
           sherpa/bin/offline_server.py \
             --port 6006 \
             --num-device 0 \
