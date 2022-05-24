@@ -198,7 +198,8 @@ class OfflineServer:
         logging.info("started")
         task = asyncio.create_task(self.feature_consumer_task())
 
-        # We can create multiple consumer tasks if needed
+        # If you use multiple GPUs, you can create multiple
+        # feature consumer tasks.
         #  asyncio.create_task(self.feature_consumer_task())
         #  asyncio.create_task(self.feature_consumer_task())
 
@@ -351,11 +352,11 @@ def main():
     offline_server = OfflineServer(
         nn_model_filename=nn_model_filename,
         bpe_model_filename=bpe_model_filename,
-        num_device=2,
+        num_device=1,
         max_wait_ms=5,
-        batch_size=40,
-        feature_extractor_pool_size=10,
-        nn_pool_size=4,
+        batch_size=25,
+        feature_extractor_pool_size=5,
+        nn_pool_size=1,
     )
     asyncio.run(offline_server.loop(port))
 
