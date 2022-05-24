@@ -11,7 +11,7 @@ C++; while IO-bound tasks, such as socket communication, are implemented
 in Python.
 
 **Caution**: We assume the model is trained using pruned stateless RNN-T
-from [icefa][icefall] and it is from a directory like
+from [icefall][icefall] and it is from a directory like
 `pruned_transducer_statelessX` where `X` >=2.
 
 ## Installation
@@ -27,7 +27,8 @@ cd sherpa
 pip install -r ./requirements.txt
 ```
 
-Third, install C++ extension. You can use one of the following methods.
+Third, install the C++ extension of `sherpa`. You can use one of
+the following methods.
 
 ### Option 1: Use `pip`
 
@@ -66,11 +67,12 @@ It should print the version of `sherpa`.
 
 To start the server, you need to first generate two files:
 
-- (1) The torch script model file. You can use `export.py` in
-`pruned_transducer_statelessX` from [icefall][icefall]
+- (1) The torch script model file. You can use `export.py --jit=1` in
+`pruned_transducer_statelessX` from [icefall][icefall].
 
 - (2) The BPE model file. You can find it in `data/lang_bpe_XXX/bpe.model`
-in icefall, where `XXX` the number of BPE tokens used in the training.
+in [icefall][icefall], where `XXX` is the number of BPE tokens used in
+the training.
 
 With the above two files ready, you can start the server with the
 following command:
@@ -122,7 +124,7 @@ After starting the server, you can use the following command to start the client
 
 You can use `./sherpa/bin/offline_client.py --help` to view the usage message.
 
-The following show how to use the client send some test waves to the server
+The following shows how to use the client to send some test waves to the server
 for recognition.
 
 ```bash
@@ -136,9 +138,12 @@ sherpa/bin/offline_client.py \
 
 ### RTF test
 
-We provide a demo `./sherpa/bin/decode_mainifest.py` to decode the test-clean
-dataset from the LibriSpeech corpus.  It creates 50 connections to the server
-using websockets and sends audio files to the server for recognition.
-At the end, it will show you the RTF and WER.
+We provide a demo [./sherpa/bin/decode_mainifest.py](./sherpa/bin/decode_mainifest.py)
+to decode the `test-clean` dataset from the LibriSpeech corpus.
+
+It creates 50 connections to the server using websockets and sends audio files
+to the server for recognition.
+
+At the end, it will display the RTF and the WER.
 
 [icefall]: https://github.com/k2-fsa/icefall/
