@@ -39,8 +39,102 @@ import websockets
 from _sherpa import RnntModel, greedy_search
 from icefall.utils import setup_logger
 from torch.nn.utils.rnn import pad_sequence
+import argparse
 
 LOG_EPS = math.log(1e-10)
+
+# You can use
+#   icefall/egs/librispeech/ASR/pruned_transducer_statelessX/export.py --jit 1
+# to generate the following model
+DEFAULT_NN_MODEL_FILENAME = "/ceph-fj/fangjun/open-source-2/icefall-master-2/egs/librispeech/ASR/pruned_transducer_stateless3/exp/cpu_jit.pt"  # noqa
+DEFAULT_BPE_MODEL_FILENAME = "/ceph-fj/fangjun/open-source-2/icefall-master-2/egs/librispeech/ASR/data/lang_bpe_500/bpe.model"
+
+
+def get_args():
+    parser = argparse.ArgumentParser(
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter
+    )
+
+    parser.add_argument(
+        "--port",
+        type=int,
+        default=6006,
+        help="The server will listen on this port",
+    )
+
+    parser.add_argument(
+        "--num-device",
+        type=int,
+        default=1,
+        help="""Number of GPU devices to use. Set it to 0 to use CPU
+        for computation. If positive, then GPUs with ID 0, 1, ..., num_device-1
+        will be used for computation. You can use the environment variable
+        CUDA_VISIBLE_DEVICES to map available GPU devices.
+        """,
+    )
+
+    parser.add_argument(
+        "--max-batch-size",
+        type=int,
+        default=25,
+        help="""Max batch size for computation. Note if there are not enough
+        requests in the queue, it will wait for max_wait_ms time. After that,
+        even if there are still not enough requests, it still sends the
+        available requests in the queue for computation.
+        """,
+    )
+
+    parser.add_argument(
+        "--max-wait-ms",
+        type=float,
+        default=5,
+        help="""Max time in millisecond to wait to build batches for inference.
+        If there are not enough requests in the feature queue to build a batch
+        of max_batch_size, it waits up to this time before fetching available
+        requests for computation.
+        """,
+    )
+
+    parser.add_argument(
+        "--feature-extractor-pool-size",
+        type=int,
+        default=5,
+        help="""Number of threads for feature extraction. By default, feature
+        extraction are run on CPU.
+        """,
+    )
+
+    parser.add_argument(
+        "--nn-pool-size",
+        type=int,
+        default=1,
+        help="""Number of threads for NN computation and decoding.
+        Note: It should be in general less than or equal to num_device
+        if num_device is positive.
+        """,
+    )
+
+    parser.add_argument(
+        "--nn-model-filename",
+        type=str,
+        default=DEFAULT_NN_MODEL_FILENAME,
+        help="""The torchscript model. You can use
+          icefall/egs/librispeech/ASR/pruned_transducer_statelessX/export.py --jit=1
+        to generate this model.
+        """,
+    )
+
+    parser.add_argument(
+        "--bpe-model-filename",
+        type=str,
+        default=DEFAULT_BPE_MODEL_FILENAME,
+        help="""The BPE model
+        You can find it in the directory egs/librispeech/ASR/data/lang_bpe_xxx
+        where xxx is the number of BPE tokens you used to train the model.
+        """,
+    )
+
+    return parser.parse_args()
 
 
 def run_model_and_do_greedy_search(
@@ -105,7 +199,7 @@ class OfflineServer:
             and decoding. For each device, there will be a corresponding
             torchscript model. We assume available device IDs are
             0, 1, ... , num_device - 1. You can use the environment variable
-            CUDA_VISBILE_DEVICES to achieve this.
+            CUDA_VISIBLE_DEVICES to achieve this.
           batch_size:
             Max batch size for inference.
           max_wait_ms:
@@ -346,17 +440,25 @@ class OfflineServer:
 
 @torch.no_grad()
 def main():
-    nn_model_filename = "/ceph-fj/fangjun/open-source-2/icefall-master-2/egs/librispeech/ASR/pruned_transducer_stateless3/exp/cpu_jit.pt"  # noqa
-    bpe_model_filename = "/ceph-fj/fangjun/open-source-2/icefall-master-2/egs/librispeech/ASR/data/lang_bpe_500/bpe.model"
-    port = 6006  # the server will listen on this port
+    args = get_args()
+
+    nn_model_filename = args.nn_model_filename
+    bpe_model_filename = args.bpe_model_filename
+    port = args.port
+    num_device = args.num_device
+    max_wait_ms = args.max_wait_ms
+    batch_size = args.max_batch_size
+    feature_extractor_pool_size = args.feature_extractor_pool_size
+    nn_pool_size = args.nn_pool_size
+
     offline_server = OfflineServer(
         nn_model_filename=nn_model_filename,
         bpe_model_filename=bpe_model_filename,
-        num_device=1,
-        max_wait_ms=5,
-        batch_size=25,
-        feature_extractor_pool_size=5,
-        nn_pool_size=1,
+        num_device=num_device,
+        max_wait_ms=max_wait_ms,
+        batch_size=batch_size,
+        feature_extractor_pool_size=feature_extractor_pool_size,
+        nn_pool_size=nn_pool_size,
     )
     asyncio.run(offline_server.loop(port))
 
@@ -380,6 +482,7 @@ torch::jit::getExecutorMode() = false;
 torch::jit::getProfilingMode() = false;
 torch::jit::setGraphExecutorOptimize(false);
 """
+
 
 if __name__ == "__main__":
     torch.manual_seed(20220519)

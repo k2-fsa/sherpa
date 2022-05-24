@@ -19,29 +19,68 @@
 A client for offline ASR recognition.
 
 Usage:
-    ./offline_client.py
+    ./offline_client.py \
+      --server-addr localhost \
+      --server-port 6006 \
+      /path/to/foo.wav \
+      /path/to/bar.wav
 
 (Note: You have to first start the server before starting the client)
 """
+import argparse
 import asyncio
 
 import torchaudio
 import websockets
 
 
+def get_args():
+    parser = argparse.ArgumentParser(
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter
+    )
+
+    parser.add_argument(
+        "--server-addr",
+        type=str,
+        default="localhost",
+        help="Address of the server",
+    )
+
+    parser.add_argument(
+        "--server-port",
+        type=int,
+        default=6006,
+        help="Port of the server",
+    )
+
+    parser.add_argument(
+        "sound_files",
+        type=str,
+        nargs="+",
+        help="The input sound file(s) to transcribe. "
+        "Supported formats are those supported by torchaudio.load(). "
+        "For example, wav and flac are supported. "
+        "The sample rate has to be 16kHz.",
+    )
+
+    return parser.parse_args()
+
+
 async def main():
-    test_wavs = [
-        "/ceph-fj/fangjun/open-source-2/icefall-models/icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/test_wavs/1089-134686-0001.wav",
-        "/ceph-fj/fangjun/open-source-2/icefall-models/icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/test_wavs/1221-135766-0001.wav",
-        "/ceph-fj/fangjun/open-source-2/icefall-models/icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/test_wavs/1221-135766-0002.wav",
-    ]
-    async with websockets.connect("ws://localhost:6006") as websocket:
-        for test_wav in test_wavs:
+    args = get_args()
+    assert len(args.sound_files) > 0, f"Empty sound files"
+
+    server_addr = args.server_addr
+    server_port = args.server_port
+
+    async with websockets.connect(f"ws://{server_addr}:{server_port}") as websocket:
+        for test_wav in args.sound_files:
             print(f"Sending {test_wav}")
             wave, sample_rate = torchaudio.load(test_wav)
+            assert sample_rate == 16000, sample_rate
+
             wave = wave.squeeze(0)
             num_bytes = wave.numel() * wave.element_size()
-            print(f"Sending {num_bytes}, {wave.shape}")
             await websocket.send((num_bytes).to_bytes(8, "big", signed=True))
 
             frame_size = (2 ** 20) // 4  # max payload is 1MB
@@ -51,7 +90,8 @@ async def main():
                 await websocket.send(wave.numpy().data[start:end])
                 start = end
             decoding_results = await websocket.recv()
-            print(decoding_results)
+            print(test_wav, "\n", decoding_results)
+            print()
 
 
 if __name__ == "__main__":
