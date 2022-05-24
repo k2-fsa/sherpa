@@ -32,7 +32,7 @@ Third, install C++ extension. You can use one of the following methods.
 ### Option 1: Use `pip`
 
 ```bash
-pip install k2-sherpa
+pip install --verbose k2-sherpa
 ```
 
 ### Option 2: Build from source with `setup.py`
