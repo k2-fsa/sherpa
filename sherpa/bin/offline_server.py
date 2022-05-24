@@ -37,7 +37,6 @@ import sentencepiece as spm
 import torch
 import websockets
 from _sherpa import RnntModel, greedy_search
-from icefall.utils import setup_logger
 from torch.nn.utils.rnn import pad_sequence
 import argparse
 
@@ -486,7 +485,8 @@ torch::jit::setGraphExecutorOptimize(false);
 
 if __name__ == "__main__":
     torch.manual_seed(20220519)
-    log_dir = Path("./log")
-    log_dir.mkdir(exist_ok=True, parents=True)
-    setup_logger(log_dir / "log")
+
+    formatter = "%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] %(message)s"
+    logging.basicConfig(format=formatter, level=logging.INFO)
+
     main()
