@@ -1,10 +1,22 @@
 #!/usr/bin/env python3
 
 import re
+import sys
 
 import setuptools
 
 from cmake.cmake_extension import BuildExtension, bdist_wheel, cmake_extension
+
+if sys.version_info < (3,):
+    print("Python 2 has reached end-of-life and is no longer supported by sherpa.")
+    sys.exit(-1)
+
+if sys.version_info < (3, 7):
+    print(
+        "Python 3.6 has reached end-of-life on December 31st, 2021 "
+        "and is no longer supported by sherpa."
+    )
+    sys.exit(-1)
 
 
 def read_long_description():
@@ -46,12 +58,12 @@ setuptools.setup(
         "Programming Language :: C++",
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
         "Topic :: Scientific/Engineering :: Artificial Intelligence",
     ],
-    python_requires=">=3.6.0",
+    python_requires=">=3.7.0",
     license="Apache licensed, as found in the LICENSE file",
 )
 

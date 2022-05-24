@@ -2,3 +2,4 @@ torch
 torchaudio
 websockets
 kaldifeat
+sentencepiece>=0.1.96
