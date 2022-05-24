@@ -21,7 +21,6 @@ on:
   push:
     branches:
       - master
-      - first-version-1
   pull_request:
     branches:
       - master
