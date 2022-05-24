@@ -58,8 +58,7 @@ jobs:
         run: |
           python3 -m pip install -qq --upgrade pip
           python3 -m pip install -qq wheel twine typing_extensions
-          python3 -m pip install -qq torch==${{ matrix.torch }}+cpu -f https://download.pytorch.org/whl/cpu/torch_stable.html
-          python3 -m pip install -qq torchaudio==${{ matrix.torchaudio }}+cpu -f https://download.pytorch.org/whl/cpu/torch_stable.html
+          python3 -m pip install -qq torch==${{ matrix.torch }}+cpu torchaudio==${{ matrix.torchaudio }}+cpu numpy -f https://download.pytorch.org/whl/cpu/torch_stable.html
 
       - name: Install sherpa
         shell: bash
