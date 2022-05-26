@@ -21,7 +21,7 @@ for decoding, in parallel.
 
 Usage:
 
-    ./decode_mainifest.py
+    ./decode_manifest.py
 
 (Note: You have to first start the server before starting the client)
 """
