@@ -14,6 +14,11 @@ in Python.
 from [icefall][icefall] and it is from a directory like
 `pruned_transducer_statelessX` where `X` >=2.
 
+We provide a Colab notebook, containing how to start the server, how to
+start the client, and how to decode `test-clean` of LibriSpeech.
+
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1JX5Ph2onYm1ZjNP_94eGqZ-DIRMLlIca?usp=sharing)
+
 ## Installation
 
 First, you have to install `PyTorch` and `torchaudio`. PyTorch 1.10 is known
@@ -151,5 +156,21 @@ It creates 50 connections to the server using websockets and sends audio files
 to the server for recognition.
 
 At the end, it will display the RTF and the WER.
+
+To give you an idea of the performance of the pretrained model,
+the Colab notebook
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1JX5Ph2onYm1ZjNP_94eGqZ-DIRMLlIca?usp=sharing)
+shows the following results:
+
+```
+RTF: 0.0094
+total_duration: 19452.481 seconds (5.40 hours)
+processing time: 183.305 seconds (0.05 hours)
+%WER = 2.06
+
+Errors: 112 insertions, 93 deletions, 876 substitutions, over 52576 reference words (51607 correct)
+```
+
+If you have a GPU with a larger RAM (e.g., 32 GB), you can get an even **lower** RTF.
 
 [icefall]: https://github.com/k2-fsa/icefall/
