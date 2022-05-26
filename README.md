@@ -36,6 +36,12 @@ the following methods.
 pip install --verbose k2-sherpa
 ```
 
+or
+
+```bash
+pip install --verbose git+https://github.com/k2-fsa/shera
+```
+
 ### Option 2: Build from source with `setup.py`
 
 ```bash

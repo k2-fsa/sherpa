@@ -26,6 +26,7 @@ Usage:
 (Note: You have to first start the server before starting the client)
 """
 
+import argparse
 import asyncio
 import time
 
@@ -34,11 +35,42 @@ import websockets
 from icefall.utils import store_transcripts, write_error_stats
 from lhotse import CutSet, load_manifest
 
+DEFAULT_MANIFEST_FILENAME = "/ceph-fj/fangjun/open-source-2/icefall-master-2/egs/librispeech/ASR/data/fbank/cuts_test-clean.json.gz"
 
-async def send(cuts: CutSet, name: str):
+
+def get_args():
+    parser = argparse.ArgumentParser(
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter
+    )
+
+    parser.add_argument(
+        "--server-addr",
+        type=str,
+        default="localhost",
+        help="Address of the server",
+    )
+
+    parser.add_argument(
+        "--server-port",
+        type=int,
+        default=6006,
+        help="Port of the server",
+    )
+
+    parser.add_argument(
+        "--default-manifest-filename",
+        type=str,
+        default=DEFAULT_MANIFEST_FILENAME,
+        help="Path to the manifest for decoding",
+    )
+
+    return parser.parse_args()
+
+
+async def send(cuts: CutSet, name: str, server_addr: str, server_port: int):
     total_duration = 0.0
     results = []
-    async with websockets.connect("ws://localhost:6006") as websocket:
+    async with websockets.connect(f"ws://{server_addr}:{server_port}") as websocket:
         for i, c in enumerate(cuts):
             if i % 5 == 0:
                 print(f"{name}: {i}/{len(cuts)}")
@@ -64,7 +96,11 @@ async def send(cuts: CutSet, name: str):
 
 
 async def main():
-    filename = "/ceph-fj/fangjun/open-source-2/icefall-master-2/egs/librispeech/ASR/data/fbank/cuts_test-clean.json.gz"
+    args = get_args()
+    filename = args.default_manifest_name
+    server_addr = args.server_addr
+    server_port = args.server_port
+
     cuts = load_manifest(filename)
     num_tasks = 50  # we start this number of tasks to send the requests
     cuts_list = cuts.split(num_tasks)
@@ -72,7 +108,9 @@ async def main():
 
     start_time = time.time()
     for i in range(num_tasks):
-        task = asyncio.create_task(send(cuts_list[i], f"task-{i}"))
+        task = asyncio.create_task(
+            send(cuts_list[i], f"task-{i}", server_addr, server_port)
+        )
         tasks.append(task)
 
     ans_list = await asyncio.gather(*tasks)
@@ -90,14 +128,18 @@ async def main():
 
     print(f"RTF: {rtf:.4f}")
     print(
-        f"total_duration: {total_duration:.2f} seconds "
+        f"total_duration: {total_duration:.3f} seconds "
         f"({total_duration/3600:.2f} hours)"
     )
     print(f"processing time: {elapsed:.3f} seconds " f"({elapsed/3600:.2f} hours)")
 
     store_transcripts(filename="recogs-test-clean.txt", texts=results)
     with open("errs-test-clean.txt", "w") as f:
-        wer = write_error_stats(f, "test-set", results, enable_log=True)
+        write_error_stats(f, "test-set", results, enable_log=True)
+
+    with open("errs-test-clean.txt", "r") as f:
+        print(f.readline())  # WER
+        print(f.readline())  # Detailed errors
 
 
 if __name__ == "__main__":
