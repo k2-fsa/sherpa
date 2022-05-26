@@ -58,7 +58,7 @@ def get_args():
     )
 
     parser.add_argument(
-        "--default-manifest-filename",
+        "--manifest-filename",
         type=str,
         default=DEFAULT_MANIFEST_FILENAME,
         help="Path to the manifest for decoding",
@@ -97,7 +97,7 @@ async def send(cuts: CutSet, name: str, server_addr: str, server_port: int):
 
 async def main():
     args = get_args()
-    filename = args.default_manifest_name
+    filename = args.manifest_filename
     server_addr = args.server_addr
     server_port = args.server_port
 

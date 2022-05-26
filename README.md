@@ -144,7 +144,7 @@ sherpa/bin/offline_client.py \
 
 ### RTF test
 
-We provide a demo [./sherpa/bin/decode_mainifest.py](./sherpa/bin/decode_mainifest.py)
+We provide a demo [./sherpa/bin/decode_manifest.py](./sherpa/bin/decode_manifest.py)
 to decode the `test-clean` dataset from the LibriSpeech corpus.
 
 It creates 50 connections to the server using websockets and sends audio files
