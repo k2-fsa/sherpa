@@ -1,0 +1,9 @@
+FROM  nvcr.io/nvidia/tritonserver:21.10-py3-sdk
+LABEL maintainer="NVIDIA"
+LABEL repository="tritonserver"
+
+RUN apt-get update && apt-get install -y libsndfile1
+RUN pip3 install soundfile
+RUN pip3 install kaldialign
+
+WORKDIR /workspace
