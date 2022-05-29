@@ -60,6 +60,9 @@ cp $SHERPA/triton/scripts/export_jit.py $ICEFALL_DIR/egs/librispeech/ASR/pruned_
 
 cd $ICEFALL_DIR/egs/librispeech/ASR/pruned_stateless_transducer3
 python3 export_jit.py --pretrained-model <pretrained_model_path> --output-dir <jit_model_dir> --bpe-model <bpe_model_path>
+
+# copy bpe file to <jit_model_dir>, later we would mount <jit_model_dir> to the triton docker container
+cp <bpe_model_path> <jit_model_dir>
 ```
 
 
@@ -221,7 +224,7 @@ The first argument is the path of audio file used for testing, and the second ar
 Then in client docker container, we can simply run the testing:
 
 ```bash
-perf_analyzer -m conformer_transducer -b 1 -a -p 20000 --concurrency-range 100:200:50 -i gRPC --input-data=./input.json  -u localhost:8001
+perf_analyzer -m conformer_transducer -b 1 -a -p 20000 --concurrency-range 100:200:50 -i gRPC --input-data=<input.json>  -u localhost:8001
 ```
 
 Where:

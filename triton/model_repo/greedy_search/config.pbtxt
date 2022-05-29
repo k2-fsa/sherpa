@@ -23,7 +23,7 @@ parameters [
   },
   {
     key: "bpe_model",
-    value: { string_value: "/ws/yuekaiz/icefall-asr-librispeech-pruned-transducer-stateless3-2022-04-29/data/lang_bpe_500/bpe.model"}
+    value: { string_value: "/ws/bpe.model"}
   },
   {
    key: "FORCE_CPU_ONLY_INPUT_TENSORS", 
@@ -36,7 +36,7 @@ input [
   {
     name: "encoder_out__0"
     data_type: TYPE_FP32
-    dims: [-1, 512] # [-1, feature_size]
+    dims: [-1, 512] # [-1, encoder_out_dim]
   },
   {
     name: "encoder_out_lens__1"

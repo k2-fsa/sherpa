@@ -1,3 +1,17 @@
+# Copyright (c) 2021, NVIDIA CORPORATION.  All rights reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 import triton_python_backend_utils as pb_utils
 from torch.utils.dlpack import to_dlpack
 import torch
@@ -72,10 +86,10 @@ class TritonPythonModel:
             value = value["string_value"]
             if key == "num_mel_bins":
                 opts.mel_opts.num_bins = int(value)
-            # elif key == "frame_shift_in_ms":
-            #     opts.frame_opts.frame_shift_ms = float(value)
-            # elif key == "frame_length_in_ms":
-            #     opts.frame_opts.frame_length_ms = float(value)
+            elif key == "frame_shift_in_ms":
+                opts.frame_opts.frame_shift_ms = float(value)
+            elif key == "frame_length_in_ms":
+                opts.frame_opts.frame_length_ms = float(value)
             elif key == "sample_rate":
                 opts.frame_opts.samp_freq = int(value)
         opts.device = torch.device(self.device)
@@ -131,10 +145,6 @@ class TritonPythonModel:
                 f_l = f.shape[0]
                 speech[i, 0: f_l, :] = f.to(self.output0_dtype)
                 speech_lengths[i][0] = f_l
-            # put speech feature on device will cause empty output
-            # we will follow this issue and now temporarily put it on cpu
-            speech = speech.cpu()
-            speech_lengths = speech_lengths.cpu()
 
             out0 = pb_utils.Tensor.from_dlpack("speech__0", to_dlpack(speech))
             out1 = pb_utils.Tensor.from_dlpack("speech_lengths__1",

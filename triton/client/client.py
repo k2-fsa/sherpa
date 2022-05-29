@@ -18,7 +18,7 @@ from multiprocessing import Pool
 import argparse
 import os
 import tritonclient.grpc as grpcclient
-from utils import cal_cer
+from utils import write_error_stats
 from offline_client import SpeechClient
 import numpy as np
 
@@ -62,6 +62,14 @@ if __name__ == '__main__':
         required=False,
         default=None,
         help='single wav file'
+    )
+    
+    parser.add_argument(
+        '--errs_file',
+        type=str,
+        required=False,
+        default="./wer_results.txt",
+        help='output of wer anaylasis'
     )
 
     FLAGS = parser.parse_args()
@@ -122,6 +130,12 @@ if __name__ == '__main__':
         predictions = pool.map(single_job, tasks)
 
     predictions = [item for sublist in predictions for item in sublist]
+    results = []
     if transcripts:
-        cer = cal_cer(predictions, transcripts)
-        print("CER is: {}".format(cer))
+        assert len(transcripts) == len(predictions)
+        for i in range(len(transcripts)):
+            results.append((transcripts[i], predictions[i]))
+        with open(FLAGS.errs_file, "w") as f:
+                wer = write_error_stats(
+                    f, f"Testset", results, enable_log=True
+                )
