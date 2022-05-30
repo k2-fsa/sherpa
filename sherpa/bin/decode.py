@@ -24,8 +24,8 @@ from kaldifeat import FbankOptions, OnlineFbank, OnlineFeature
 def unstack_states(
     states: List[List[torch.Tensor]],
 ) -> List[List[List[torch.Tensor]]]:
-    """Unstack the emformer state corresponding to a batch of utterances
-    into a list of states, were the i-th entry is the state from the i-th
+    """Unstack the Emformer state corresponding to a batch of utterances
+    into a list of states, wwere the i-th entry is the state from the i-th
     utterance in the batch.
 
     Args:
@@ -58,7 +58,7 @@ def stack_states(
     state_list: List[List[List[torch.Tensor]]],
 ) -> List[List[torch.Tensor]]:
     """Stack list of Emformer states that correspond to separate utterances
-    into a single emformer state so that it can be used as an input for
+    into a single Emformer state so that it can be used as an input for
     Emformer when those utterances are formed into a batch.
 
     Note:
@@ -67,7 +67,7 @@ def stack_states(
     Args:
       state_list:
         Each element in state_list corresponding to the internal state
-        of the emformer model for a single utterance.
+        of the Emformer model for a single utterance.
     Returns:
       Return a new state corresponding to a batch of utterances.
       See the input argument of :func:`unstack_states` for the meaning
@@ -188,15 +188,15 @@ class Stream(object):
             self.features.append(frame)
             self.num_fetched_frames += 1
 
-    def add_tail_paddings(self, n: int = 20):
+    def add_tail_paddings(self, n: int = 20) -> None:
         """Add some tail paddings so that we have enough context to process
-        frames at the very end of the utterance.
+        frames at the very end of an utterance.
 
         Args:
           n:
-            Number of tail padding frame to be added. You can increase it if
-            it happens that there are always some missing tokens for the last
-            word of the utterance.
+            Number of tail padding frames to be added. You can increase it if
+            it happens that there are many missing tokens for the last word of
+            an utterance.
         """
         tail_padding = torch.full(
             (1, self.feature_extractor.opts.mel_opts.num_bins),
