@@ -49,7 +49,7 @@ class RnntEmformerModel {
       const torch::Tensor &features, const torch::Tensor &features_length,
       torch::optional<State> states = torch::nullopt);
 
-  State GetEncoderInitState();
+  State GetEncoderInitStates();
 
   /** Run the decoder network.
    *

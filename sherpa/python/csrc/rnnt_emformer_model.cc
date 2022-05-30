@@ -46,7 +46,7 @@ void PybindRnntEmformerModel(py::module &m) {  // NOLINT
            py::call_guard<py::gil_scoped_release>())
       .def("decoder_forward", &PyClass::ForwardDecoder,
            py::arg("decoder_input"), py::call_guard<py::gil_scoped_release>())
-      .def("get_encoder_init_state", &PyClass::GetEncoderInitState,
+      .def("get_encoder_init_states", &PyClass::GetEncoderInitStates,
            py::call_guard<py::gil_scoped_release>())
       .def_property_readonly("device",
                              [](const PyClass &self) -> py::object {

@@ -40,6 +40,7 @@ import torchaudio
 from kaldifeat import FbankOptions, OnlineFbank, OnlineFeature
 
 from sherpa import RnntEmformerModel, streaming_greedy_search
+from decode import Stream
 
 torch.set_num_threads(1)
 torch.set_num_interop_threads(1)
@@ -176,97 +177,84 @@ class StreamingServer(object):
         self.blank_id = self.model.blank_id
         self.log_eps = math.log(1e-10)
 
-    def _create_streaming_feature_extractor(self) -> OnlineFeature:
-        """Create a CPU streaming feature extractor.
-
-        At present, we assume it returns a fbank feature extractor with
-        fixed options. In the future, we will support passing in the options
-        from outside.
-
-        Returns:
-          Return a CPU streaming feature extractor.
-        """
-        opts = FbankOptions()
-        opts.device = "cpu"
-        opts.frame_opts.dither = 0
-        opts.frame_opts.snip_edges = False
-        opts.frame_opts.samp_freq = 16000
-        opts.mel_opts.num_bins = 80
-        return OnlineFbank(opts)
+        self.initial_states = self.model.get_encoder_init_states()
+        decoder_input = torch.tensor(
+            [[self.blank_id] * self.context_size],
+            device=device,
+            dtype=torch.int64,
+        )
+        self.initial_decoder_out = self.model.decoder_forward(decoder_input).squeeze(1)
 
     def loop(self):
-        feat_extractor = self._create_streaming_feature_extractor()
+        stream = Stream(
+            context_size=self.context_size,
+            blank_id=self.blank_id,
+            initial_states=self.initial_states,
+            decoder_out=self.initial_decoder_out,
+        )
         chunk_size = 1024
 
         wav, sample_rate = torchaudio.load(TEST_WAV)
         wav = wav.squeeze(0)
-        features = []
-        num_processed_frames = 0
         start = 0
-        hyp = [self.blank_id] * self.context_size
-
-        decoder_input = torch.tensor(
-            [hyp],
-            device=self.model.device,
-            dtype=torch.int64,
-        )
-
-        decoder_out = self.model.decoder_forward(decoder_input).squeeze(1)
-        states = self.model.get_encoder_init_state()
         while True:
             end = start + chunk_size
             data = wav[start:end]
             start = end
             if data.numel() == 0:
                 break
-            feat_extractor.accept_waveform(
+            stream.accept_waveform(
                 sampling_rate=sample_rate,
                 waveform=data,
             )
-
-            while num_processed_frames < feat_extractor.num_frames_ready:
-                f = feat_extractor.get_frame(num_processed_frames)
-                features.append(f)
-                num_processed_frames += 1
-
-            if len(features) >= self.chunk_length:
-                chunk = features[: self.chunk_length]
-                features = features[self.segment_length :]
+            while len(stream.features) > self.chunk_length:
+                chunk = stream.features[: self.chunk_length]
+                stream.features = stream.features[self.segment_length :]
                 chunk = torch.cat(chunk, dim=0)
                 chunk = chunk.unsqueeze(0)
-                hyp, decoder_out, states = process_features(
+                stream.hyp, stream.decoder_out, stream.states = process_features(
                     model=self.model,
                     features=chunk,
                     sp=self.sp,
-                    hyps=hyp,
-                    decoder_out=decoder_out,
-                    states=states,
+                    hyps=stream.hyp,
+                    decoder_out=stream.decoder_out,
+                    states=stream.states,
                 )
 
-        feat_extractor.input_finished()
+        stream.input_finished()
+        while len(stream.features) >= self.chunk_length:
+            chunk = stream.features[: self.chunk_length]
+            stream.features = stream.features[self.segment_length :]
+            chunk = torch.cat(chunk, dim=0)
+            chunk = chunk.unsqueeze(0)
+            stream.hyp, stream.decoder_out, stream.states = process_features(
+                model=self.model,
+                features=chunk,
+                sp=self.sp,
+                hyps=stream.hyp,
+                decoder_out=stream.decoder_out,
+                states=stream.states,
+            )
 
-        while num_processed_frames < feat_extractor.num_frames_ready:
-            f = feat_extractor.get_frame(num_processed_frames)
-            features.append(f)
-            num_processed_frames += 1
-
-        chunk = torch.cat(features, dim=0)
-        chunk = torch.nn.functional.pad(
-            chunk,
-            (0, 0, 0, self.chunk_length - chunk.size(0)),
-            mode="constant",
-            value=self.log_eps,
-        )
-        chunk = chunk.unsqueeze(0)
-        hyp, decoder_out, state = process_features(
-            model=self.model,
-            features=chunk,
-            sp=self.sp,
-            hyps=hyp,
-            decoder_out=decoder_out,
-            states=states,
-        )
-        logging.info(f"Final results: {self.sp.decode(hyp[self.context_size:])}")
+        if len(stream.features) > 0:
+            chunk = torch.cat(stream.features, dim=0)
+            stream.features = []
+            chunk = torch.nn.functional.pad(
+                chunk,
+                (0, 0, 0, self.chunk_length - chunk.size(0)),
+                mode="constant",
+                value=self.log_eps,
+            )
+            chunk = chunk.unsqueeze(0)
+            stream.hyp, stream.decoder_out, stream.states = process_features(
+                model=self.model,
+                features=chunk,
+                sp=self.sp,
+                hyps=stream.hyp,
+                decoder_out=stream.decoder_out,
+                states=stream.states,
+            )
+        logging.info(f"Final results: {self.sp.decode(stream.hyp[self.context_size:])}")
 
 
 @torch.no_grad()

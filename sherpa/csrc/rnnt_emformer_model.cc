@@ -72,7 +72,7 @@ RnntEmformerModel::StreamingForwardEncoder(
   return {encoder_out, next_states};
 }
 
-RnntEmformerModel::State RnntEmformerModel::GetEncoderInitState() {
+RnntEmformerModel::State RnntEmformerModel::GetEncoderInitStates() {
   torch::IValue ivalue = encoder_.run_method("get_init_state", device_);
   torch::List<torch::IValue> list = ivalue.toList();
   int32_t num_layers = list.size();
