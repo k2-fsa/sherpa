@@ -28,9 +28,10 @@ Usage:
     ./streaming_server.py
 """
 
-import logging
 import argparse
 import asyncio
+import logging
+import math
 from typing import List, Optional, Tuple
 
 import sentencepiece as spm
@@ -38,12 +39,35 @@ import torch
 import torchaudio
 from kaldifeat import FbankOptions, OnlineFbank, OnlineFeature
 
+from sherpa import RnntEmformerModel, streaming_greedy_search
+
+torch.set_num_threads(1)
+torch.set_num_interop_threads(1)
+
+# See https://github.com/pytorch/pytorch/issues/38342
+# and https://github.com/pytorch/pytorch/issues/33354
+#
+# If we don't do this, the delay increases whenever there is
+# a new request that changes the actual batch size.
+# If you use `py-spy dump --pid <server-pid> --native`, you will
+# see a lot of time is spent in re-compiling the torch script model.
+torch._C._jit_set_profiling_executor(False)
+torch._C._jit_set_profiling_mode(False)
+torch._C._set_graph_executor_optimize(False)
+"""
+// Use the following in C++
+torch::jit::getExecutorMode() = false;
+torch::jit::getProfilingMode() = false;
+torch::jit::setGraphExecutorOptimize(false);
+"""
+
+
 DEFAULT_NN_MODEL_FILENAME = "/ceph-fj/fangjun/open-source-2/icefall-streaming-2/egs/librispeech/ASR/pruned_stateless_emformer_rnnt2/exp-full/cpu_jit-epoch-39-avg-6-use-averaged-model-1.pt"  # noqa
 DEFAULT_BPE_MODEL_FILENAME = "/ceph-fj/fangjun/open-source-2/icefall-streaming-2/egs/librispeech/ASR/data/lang_bpe_500/bpe.model"  # noqa
 
 TEST_WAV = "/ceph-fj/fangjun/open-source-2/icefall-models/icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/test_wavs/1089-134686-0001.wav"
 TEST_WAV = "/ceph-fj/fangjun/open-source-2/icefall-models/icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/test_wavs/1221-135766-0001.wav"
-TEST_WAV = "/ceph-fj/fangjun/open-source-2/icefall-models/icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/test_wavs/1221-135766-0002.wav"
+#  TEST_WAV = "/ceph-fj/fangjun/open-source-2/icefall-models/icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/test_wavs/1221-135766-0002.wav"
 
 
 def get_args():
@@ -74,78 +98,13 @@ def get_args():
     return parser.parse_args()
 
 
-def greedy_search(
-    model: torch.jit.ScriptModule,
-    encoder_out: torch.Tensor,
-    hyp: List[int],
-    sp: spm.SentencePieceProcessor,
-    decoder_out: Optional[torch.Tensor] = None,
-):
-    """
-    Args:
-      model:
-        The RNN-T model.
-      encoder_out:
-        A 3-D tensor of shape (N, T, encoder_out_dim) containing the output of
-        the encoder model.
-      sp:
-        The BPE model.
-    """
-    assert encoder_out.ndim == 3
-
-    blank_id = model.decoder.blank_id
-    context_size = model.decoder.context_size
-    device = next(model.parameters()).device
-    T = encoder_out.size(1)
-
-    if decoder_out is None:
-        decoder_input = torch.tensor(
-            [hyp[-context_size:]],
-            device=device,
-            dtype=torch.int64,
-        )
-
-        decoder_out = model.decoder(decoder_input, need_pad=False).squeeze(1)
-        # decoder_out is of shape (N, decoder_out_dim)
-
-    for t in range(T):
-        current_encoder_out = encoder_out[:, t]
-        # current_encoder_out's shape: (batch_size, encoder_out_dim)
-
-        logits = model.joiner(current_encoder_out, decoder_out)
-        # logits'shape (batch_size,  vocab_size)
-
-        assert logits.ndim == 2, logits.shape
-        y = logits.argmax(dim=1).tolist()
-        emitted = False
-        for i, v in enumerate(y):
-            if v != blank_id:
-                hyp.append(v)
-                emitted = True
-        if emitted:
-            # update decoder output
-            decoder_input = torch.tensor(
-                [hyp[-context_size:]],
-                device=device,
-                dtype=torch.int64,
-            )
-            decoder_out = model.decoder(
-                decoder_input,
-                need_pad=False,
-            ).squeeze(1)
-
-            logging.info(f"Partial result :\n{sp.decode(hyp[context_size:])}")
-
-    return hyp, decoder_out
-
-
 def process_features(
-    model: torch.jit.ScriptModule,
+    model: RnntEmformerModel,
     features: torch.Tensor,
     sp: spm.SentencePieceProcessor,
-    hyp: List[int],
-    decoder_out: Optional[torch.Tensor] = None,
-    state: Optional[List[List[torch.Tensor]]] = None,
+    hyps: List[int],
+    decoder_out: torch.Tensor,
+    states: List[List[torch.Tensor]],
 ) -> Tuple[List[int], torch.Tensor, List[List[torch.Tensor]]]:
     """Process features for each stream in parallel.
 
@@ -160,7 +119,7 @@ def process_features(
     assert features.ndim == 3
     batch_size = features.size(0)
 
-    device = next(model.parameters()).device
+    device = model.device
     features = features.to(device)
     feature_lens = torch.full(
         (batch_size,),
@@ -168,23 +127,17 @@ def process_features(
         device=device,
     )
 
-    states = model.encoder.get_init_state()
-
-    (encoder_out, encoder_out_lens, state) = model.encoder.streaming_forward(
+    (encoder_out, states) = model.encoder_streaming_forward(
         features,
         feature_lens,
-        state,
+        states,
     )
-
-    hyp, decoder_out = greedy_search(
-        model=model,
-        encoder_out=encoder_out,
-        hyp=hyp,
-        sp=sp,
-        decoder_out=decoder_out,
+    decoder_out, hyps = streaming_greedy_search(
+        model=model, encoder_out=encoder_out, decoder_out=decoder_out, hyps=[hyps]
     )
+    logging.info(f"Partial result: {sp.decode(hyps[0][2:])}")
 
-    return hyp, decoder_out, state
+    return hyps[0], decoder_out, states
 
 
 class StreamingServer(object):
@@ -205,12 +158,12 @@ class StreamingServer(object):
         else:
             device = torch.device("cpu")
 
-        self.model = torch.jit.load(nn_model_filename, map_location=device)
+        self.model = RnntEmformerModel(nn_model_filename, device=device)
 
         # number of frames before subsampling
-        self.segment_length = self.model.encoder.segment_length
+        self.segment_length = self.model.segment_length
 
-        self.right_context_length = self.model.encoder.right_context_length
+        self.right_context_length = self.model.right_context_length
 
         # We add 3 here since the subsampling method is using
         # ((len - 1) // 2 - 1) // 2)
@@ -219,9 +172,9 @@ class StreamingServer(object):
         self.sp = spm.SentencePieceProcessor()
         self.sp.load(bpe_model_filename)
 
-        self.context_size = self.model.decoder.context_size
-        self.blank_id = self.model.decoder.blank_id
-        self.log_eps = self.model.encoder.log_eps
+        self.context_size = self.model.context_size
+        self.blank_id = self.model.blank_id
+        self.log_eps = math.log(1e-10)
 
     def _create_streaming_feature_extractor(self) -> OnlineFeature:
         """Create a CPU streaming feature extractor.
@@ -251,8 +204,15 @@ class StreamingServer(object):
         num_processed_frames = 0
         start = 0
         hyp = [self.blank_id] * self.context_size
-        decoder_out = None
-        state = None
+
+        decoder_input = torch.tensor(
+            [hyp],
+            device=self.model.device,
+            dtype=torch.int64,
+        )
+
+        decoder_out = self.model.decoder_forward(decoder_input).squeeze(1)
+        states = self.model.get_encoder_init_state()
         while True:
             end = start + chunk_size
             data = wav[start:end]
@@ -274,13 +234,13 @@ class StreamingServer(object):
                 features = features[self.segment_length :]
                 chunk = torch.cat(chunk, dim=0)
                 chunk = chunk.unsqueeze(0)
-                hyp, decoder_out, state = process_features(
+                hyp, decoder_out, states = process_features(
                     model=self.model,
                     features=chunk,
                     sp=self.sp,
-                    hyp=hyp,
+                    hyps=hyp,
                     decoder_out=decoder_out,
-                    state=state,
+                    states=states,
                 )
 
         feat_extractor.input_finished()
@@ -302,13 +262,14 @@ class StreamingServer(object):
             model=self.model,
             features=chunk,
             sp=self.sp,
-            hyp=hyp,
+            hyps=hyp,
             decoder_out=decoder_out,
-            state=state,
+            states=states,
         )
         logging.info(f"Final results: {self.sp.decode(hyp[self.context_size:])}")
 
 
+@torch.no_grad()
 def main():
     args = get_args()
     nn_model_filename = args.nn_model_filename

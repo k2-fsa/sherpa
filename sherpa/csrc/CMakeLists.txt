@@ -1,6 +1,7 @@
 # Please sort the filenames alphabetically
 set(sherpa_srcs
   rnnt_beam_search.cc
+  rnnt_emformer_model.cc
   rnnt_model.cc
 )
 
