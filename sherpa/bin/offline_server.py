@@ -21,6 +21,8 @@ of the audio for recognition. It supports multiple clients sending at
 the same time.
 
 Usage:
+    ./offline_server.py --help
+
     ./offline_server.py
 """
 
