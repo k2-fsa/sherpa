@@ -32,36 +32,16 @@ import argparse
 import asyncio
 import logging
 import math
+import warnings
+from concurrent.futures import ThreadPoolExecutor
 from typing import List, Optional, Tuple
 
 import sentencepiece as spm
 import torch
-import torchaudio
-from kaldifeat import FbankOptions, OnlineFbank, OnlineFeature
-
+import websockets
 from sherpa import RnntEmformerModel, streaming_greedy_search
-from decode import Stream
 
-torch.set_num_threads(1)
-torch.set_num_interop_threads(1)
-
-# See https://github.com/pytorch/pytorch/issues/38342
-# and https://github.com/pytorch/pytorch/issues/33354
-#
-# If we don't do this, the delay increases whenever there is
-# a new request that changes the actual batch size.
-# If you use `py-spy dump --pid <server-pid> --native`, you will
-# see a lot of time is spent in re-compiling the torch script model.
-torch._C._jit_set_profiling_executor(False)
-torch._C._jit_set_profiling_mode(False)
-torch._C._set_graph_executor_optimize(False)
-"""
-// Use the following in C++
-torch::jit::getExecutorMode() = false;
-torch::jit::getProfilingMode() = false;
-torch::jit::setGraphExecutorOptimize(false);
-"""
-
+from decode import Stream, stack_states, unstack_states
 
 DEFAULT_NN_MODEL_FILENAME = "/ceph-fj/fangjun/open-source-2/icefall-streaming-2/egs/librispeech/ASR/pruned_stateless_emformer_rnnt2/exp-full/cpu_jit-epoch-39-avg-6-use-averaged-model-1.pt"  # noqa
 DEFAULT_BPE_MODEL_FILENAME = "/ceph-fj/fangjun/open-source-2/icefall-streaming-2/egs/librispeech/ASR/data/lang_bpe_500/bpe.model"  # noqa
@@ -74,6 +54,13 @@ TEST_WAV = "/ceph-fj/fangjun/open-source-2/icefall-models/icefall-asr-librispeec
 def get_args():
     parser = argparse.ArgumentParser(
         formatter_class=argparse.ArgumentDefaultsHelpFormatter
+    )
+
+    parser.add_argument(
+        "--port",
+        type=int,
+        default=6006,
+        help="The server will listen on this port",
     )
 
     parser.add_argument(
@@ -99,46 +86,61 @@ def get_args():
     return parser.parse_args()
 
 
-def process_features(
-    model: RnntEmformerModel,
-    features: torch.Tensor,
-    sp: spm.SentencePieceProcessor,
-    hyps: List[int],
-    decoder_out: torch.Tensor,
-    states: List[List[torch.Tensor]],
-) -> Tuple[List[int], torch.Tensor, List[List[torch.Tensor]]]:
-    """Process features for each stream in parallel.
-
-    Args:
-      model:
-        The RNN-T model.
-      features:
-        A 3-D tensor of shape (N, T, C).
-      sp:
-        Then BPE model.
-    """
-    assert features.ndim == 3
-    batch_size = features.size(0)
-
+def run_model_and_do_greedy_search(
+    server: "StreamingServer",
+    stream_list: List[Stream],
+):
+    model = server.model
     device = model.device
-    features = features.to(device)
-    feature_lens = torch.full(
+    segment_length = server.segment_length
+    chunk_length = server.chunk_length
+
+    batch_size = len(stream_list)
+
+    state_list = []
+    decoder_out_list = []
+    hyp_list = []
+    feature_list = []
+    for s in stream_list:
+        state_list.append(s.states)
+        decoder_out_list.append(s.decoder_out)
+        hyp_list.append(s.hyp)
+
+        f = s.features[:chunk_length]
+        s.features = s.features[segment_length:]
+
+        b = torch.cat(f, dim=0)
+        feature_list.append(b)
+
+    features = torch.stack(feature_list, dim=0).to(device)
+    states = stack_states(state_list)
+    decoder_out = torch.cat(decoder_out_list, dim=0)
+
+    features_length = torch.full(
         (batch_size,),
         fill_value=features.size(1),
         device=device,
     )
 
-    (encoder_out, states) = model.encoder_streaming_forward(
+    (encoder_out, next_states) = model.encoder_streaming_forward(
         features,
-        feature_lens,
+        features_length,
         states,
     )
-    decoder_out, hyps = streaming_greedy_search(
-        model=model, encoder_out=encoder_out, decoder_out=decoder_out, hyps=[hyps]
-    )
-    logging.info(f"Partial result: {sp.decode(hyps[0][2:])}")
 
-    return hyps[0], decoder_out, states
+    next_decoder_out, next_hyp_list = streaming_greedy_search(
+        model=model,
+        encoder_out=encoder_out,
+        decoder_out=decoder_out,
+        hyps=hyp_list,
+    )
+
+    next_state_list = unstack_states(next_states)
+    next_decoder_out_list = next_decoder_out.split(1)
+    for i, s in enumerate(stream_list):
+        s.states = next_state_list[i]
+        s.decoder_out = next_decoder_out_list[i]
+        s.hyp = next_hyp_list[i]
 
 
 class StreamingServer(object):
@@ -177,7 +179,8 @@ class StreamingServer(object):
         self.blank_id = self.model.blank_id
         self.log_eps = math.log(1e-10)
 
-        self.initial_states = self.model.get_encoder_init_states()
+        initial_states = self.model.get_encoder_init_states()
+        self.initial_states = unstack_states(initial_states)[0]
         decoder_input = torch.tensor(
             [[self.blank_id] * self.context_size],
             device=device,
@@ -185,81 +188,194 @@ class StreamingServer(object):
         )
         self.initial_decoder_out = self.model.decoder_forward(decoder_input).squeeze(1)
 
-    def loop(self):
+        self.nn_pool = ThreadPoolExecutor(
+            max_workers=2,
+            thread_name_prefix="nn",
+        )
+
+        self.stream_queue = asyncio.Queue()
+        self.max_wait_ms = 10
+        self.max_batch_size = 20
+
+    async def stream_consumer_task(self):
+        """The function extract streams from the queue, batches them up, sends
+        them to the RNN-T model for computation and decoding.
+        """
+        while True:
+            if self.stream_queue.empty():
+                await asyncio.sleep(self.max_wait_ms / 1000)
+                continue
+
+            batch = []
+            try:
+                while len(batch) < self.max_batch_size:
+                    item = self.stream_queue.get_nowait()
+
+                    assert len(item[0].features) >= self.chunk_length, len(
+                        item[0].features
+                    )
+
+                    batch.append(item)
+            except asyncio.QueueEmpty:
+                pass
+            stream_list = [b[0] for b in batch]
+            future_list = [b[1] for b in batch]
+
+            loop = asyncio.get_running_loop()
+            await loop.run_in_executor(
+                self.nn_pool,
+                run_model_and_do_greedy_search,
+                self,
+                stream_list,
+            )
+
+            for f in future_list:
+                self.stream_queue.task_done()
+                f.set_result(None)
+
+    async def compute_and_decode(
+        self,
+        stream: Stream,
+    ) -> None:
+        """Put the stream into the queue and wait it to be processed by the
+        consumer task.
+
+        Args:
+          stream:
+            The stream to be processed. Note: It is changed in-place.
+        """
+        loop = asyncio.get_running_loop()
+        future = loop.create_future()
+        await self.stream_queue.put((stream, future))
+        await future
+
+    async def run(self, port: int):
+        task = asyncio.create_task(self.stream_consumer_task())
+
+        async with websockets.serve(self.handle_connection, "", port):
+            await asyncio.Future()  # run forever
+
+    async def handle_connection(
+        self,
+        socket: websockets.WebSocketServerProtocol,
+    ):
+        """Receive audio samples from the client, process it, and sends
+        deocoding result back to the client.
+
+        Args:
+          socket:
+            The socket for communicating with the client.
+        """
+        logging.info(f"Connected: {socket.remote_address}")
         stream = Stream(
             context_size=self.context_size,
             blank_id=self.blank_id,
             initial_states=self.initial_states,
             decoder_out=self.initial_decoder_out,
         )
-        chunk_size = 1024
 
-        wav, sample_rate = torchaudio.load(TEST_WAV)
-        wav = wav.squeeze(0)
-        start = 0
+        last = b""
         while True:
-            end = start + chunk_size
-            data = wav[start:end]
-            start = end
-            if data.numel() == 0:
+            samples, last = await self.recv_audio_samples(socket, last)
+            if samples is None:
                 break
-            stream.accept_waveform(
-                sampling_rate=sample_rate,
-                waveform=data,
-            )
+
+            # TODO(fangjun): At present, we assume the sampling rate
+            # of the received audio samples is always 16000.
+            stream.accept_waveform(sampling_rate=16000, waveform=samples)
+
             while len(stream.features) > self.chunk_length:
-                chunk = stream.features[: self.chunk_length]
-                stream.features = stream.features[self.segment_length :]
-                chunk = torch.cat(chunk, dim=0)
-                chunk = chunk.unsqueeze(0)
-                stream.hyp, stream.decoder_out, stream.states = process_features(
-                    model=self.model,
-                    features=chunk,
-                    sp=self.sp,
-                    hyps=stream.hyp,
-                    decoder_out=stream.decoder_out,
-                    states=stream.states,
-                )
+                await self.compute_and_decode(stream)
+                await socket.send(f"{self.sp.decode(stream.hyp[self.context_size:])}")
 
         stream.input_finished()
-        while len(stream.features) >= self.chunk_length:
-            chunk = stream.features[: self.chunk_length]
-            stream.features = stream.features[self.segment_length :]
-            chunk = torch.cat(chunk, dim=0)
-            chunk = chunk.unsqueeze(0)
-            stream.hyp, stream.decoder_out, stream.states = process_features(
-                model=self.model,
-                features=chunk,
-                sp=self.sp,
-                hyps=stream.hyp,
-                decoder_out=stream.decoder_out,
-                states=stream.states,
-            )
+        while len(stream.features) > self.chunk_length:
+            await self.compute_and_decode(stream)
 
         if len(stream.features) > 0:
-            chunk = torch.cat(stream.features, dim=0)
+            n = self.chunk_length - len(stream.features)
+            stream.add_tail_paddings(n)
+            await self.compute_and_decode(stream)
             stream.features = []
-            chunk = torch.nn.functional.pad(
-                chunk,
-                (0, 0, 0, self.chunk_length - chunk.size(0)),
-                mode="constant",
-                value=self.log_eps,
-            )
-            chunk = chunk.unsqueeze(0)
-            stream.hyp, stream.decoder_out, stream.states = process_features(
-                model=self.model,
-                features=chunk,
-                sp=self.sp,
-                hyps=stream.hyp,
-                decoder_out=stream.decoder_out,
-                states=stream.states,
-            )
-        logging.info(f"Final results: {self.sp.decode(stream.hyp[self.context_size:])}")
+
+        result = self.sp.decode(stream.hyp[self.context_size :])
+        await socket.send(result)
+        await socket.send("Done")
+
+        logging.info(f"Disconnected: {socket.remote_address}")
+
+    async def recv_audio_samples(
+        self,
+        socket: websockets.WebSocketServerProtocol,
+        last: Optional[bytes] = None,
+    ) -> Tuple[Optional[torch.Tensor], Optional[bytes]]:
+        """Receives a tensor from the client.
+
+        The message from the client has the following format:
+
+            - a header of 8 bytes, containing the number of bytes of the tensor.
+              The header is in big endian format.
+            - a binary representation of the 1-D torch.float32 tensor.
+
+        Args:
+          socket:
+            The socket for communicating with the client.
+          last:
+            Previous received content.
+        Returns:
+          Return a tuple containing:
+            - A 1-D torch.float32 tensor containing the audio samples
+            - Data for the next chunk, if any
+        """
+        header_len = 8
+
+        if last is None:
+            last = b""
+
+        async def receive_header():
+            buf = last
+            async for message in socket:
+                buf += message
+                if len(buf) >= header_len:
+                    break
+            if buf:
+                header = buf[:header_len]
+                remaining = buf[header_len:]
+            else:
+                header = None
+                remaining = None
+
+            return header, remaining
+
+        header, received = await receive_header()
+
+        if header is None:
+            return None, None
+
+        expected_num_bytes = int.from_bytes(header, "big", signed=True)
+
+        async for message in socket:
+            received += message
+            if len(received) >= expected_num_bytes:
+                break
+
+        if not received or received == b"Done":
+            return None, None
+
+        this_chunk = received[:expected_num_bytes]
+        next_chunk = received[expected_num_bytes:]
+
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+            # PyTorch warns that the underlying buffer is not writable.
+            # We ignore it here as we are not going to write it anyway.
+            return torch.frombuffer(this_chunk, dtype=torch.float32), next_chunk
 
 
 @torch.no_grad()
 def main():
     args = get_args()
+    port = args.port
     nn_model_filename = args.nn_model_filename
     bpe_model_filename = args.bpe_model_filename
 
@@ -267,8 +383,28 @@ def main():
         nn_model_filename=nn_model_filename,
         bpe_model_filename=bpe_model_filename,
     )
-    server.loop()
+    asyncio.run(server.run(port))
 
+
+torch.set_num_threads(1)
+torch.set_num_interop_threads(1)
+
+# See https://github.com/pytorch/pytorch/issues/38342
+# and https://github.com/pytorch/pytorch/issues/33354
+#
+# If we don't do this, the delay increases whenever there is
+# a new request that changes the actual batch size.
+# If you use `py-spy dump --pid <server-pid> --native`, you will
+# see a lot of time is spent in re-compiling the torch script model.
+torch._C._jit_set_profiling_executor(False)
+torch._C._jit_set_profiling_mode(False)
+torch._C._set_graph_executor_optimize(False)
+"""
+// Use the following in C++
+torch::jit::getExecutorMode() = false;
+torch::jit::getProfilingMode() = false;
+torch::jit::setGraphExecutorOptimize(false);
+"""
 
 if __name__ == "__main__":
     formatter = "%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] %(message)s"

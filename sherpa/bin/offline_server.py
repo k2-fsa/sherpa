@@ -139,7 +139,7 @@ def get_args():
 
 
 def run_model_and_do_greedy_search(
-    model: torch.jit.ScriptModule,
+    model: RnntModel,
     features: List[torch.Tensor],
 ) -> List[List[int]]:
     """Run RNN-T model with the given features and use greedy search
@@ -289,7 +289,7 @@ class OfflineServer:
 
         return ans
 
-    async def loop(self, port: int):
+    async def run(self, port: int):
         logging.info("started")
         task = asyncio.create_task(self.feature_consumer_task())
 
@@ -461,7 +461,7 @@ def main():
         feature_extractor_pool_size=feature_extractor_pool_size,
         nn_pool_size=nn_pool_size,
     )
-    asyncio.run(offline_server.loop(port))
+    asyncio.run(offline_server.run(port))
 
 
 torch.set_num_threads(1)

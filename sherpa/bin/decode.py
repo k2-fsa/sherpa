@@ -15,10 +15,82 @@
 # limitations under the License.
 
 import math
-from typing import List, Optional
+from typing import List
 
 import torch
 from kaldifeat import FbankOptions, OnlineFbank, OnlineFeature
+
+
+def unstack_states(
+    states: List[List[torch.Tensor]],
+) -> List[List[List[torch.Tensor]]]:
+    """Unstack the emformer state corresponding to a batch of utterances
+    into a list of states, were the i-th entry is the state from the i-th
+    utterance in the batch.
+
+    Args:
+      states:
+        A list-of-list of tensors. ``len(states)`` equals to number of
+        layers in the Emformer. ``states[i]`` contains the states for
+        the i-th layer. ``states[i][k]`` is either a 3-D tensor of shape
+        ``(T, N, C)`` or a 2-D tensor of shape ``(C, N)``
+    Returns:
+      Return the states for each utterance. ans[i] is the state for the i-th
+      utterance.
+    """
+    batch_size = states[0][0].size(1)
+    num_layers = len(states)
+
+    ans = [None] * batch_size
+    for i in range(batch_size):
+        ans[i] = [[] for _ in range(num_layers)]
+
+    for li, layer in enumerate(states):
+        for s in layer:
+            s_list = s.unbind(dim=1)
+            # We will use stack(dim=1) later in stack_states()
+            for bi, b in enumerate(ans):
+                b[li].append(s_list[bi])
+    return ans
+
+
+def stack_states(
+    state_list: List[List[List[torch.Tensor]]],
+) -> List[List[torch.Tensor]]:
+    """Stack list of Emformer states that correspond to separate utterances
+    into a single emformer state so that it can be used as an input for
+    Emformer when those utterances are formed into a batch.
+
+    Note:
+      It is the inverse of :func:`unstack_states`.
+
+    Args:
+      state_list:
+        Each element in state_list corresponding to the internal state
+        of the emformer model for a single utterance.
+    Returns:
+      Return a new state corresponding to a batch of utterances.
+      See the input argument of :func:`unstack_states` for the meaning
+      of the returned tensor.
+    """
+    batch_size = len(state_list)
+    ans = []
+    for layer in state_list[0]:
+        # layer is a list of tensors
+        if batch_size > 1:
+            ans.append([[s] for s in layer])
+            # Note: We will stack ans[layer][s][] later to get ans[layer][s]
+        else:
+            ans.append([s.unsqueeze(1) for s in layer])
+
+    for b, states in enumerate(state_list[1:], 1):
+        for li, layer in enumerate(states):
+            for si, s in enumerate(layer):
+                ans[li][si].append(s)
+                if b == batch_size - 1:
+                    ans[li][si] = torch.stack(ans[li][si], dim=1)
+                    # We will use unbind(dim=1) later in unstack_states()
+    return ans
 
 
 def _create_streaming_feature_extractor() -> OnlineFeature:
@@ -109,22 +181,27 @@ class Stream(object):
         self.feature_extractor.input_finished()
         self._fetch_frames()
 
-        # Add some tail paddings so that we have enough context to process
-        # frames at the very end of the utterance.
-        tail_padding = torch.full(
-            (1, self.feature_extractor.opts.mel_opts.num_bins),
-            fill_value=self.log_eps,
-            dtype=torch.float32,
-        )
-
-        # Note(fangjun): You can increase 20 to some other value if it happens
-        # that there are always some missing tokens for the last word of
-        # the utterance.
-        self.features += [tail_padding] * 20
-
     def _fetch_frames(self) -> None:
         """Fetch frames from the feature extractor"""
         while self.num_fetched_frames < self.feature_extractor.num_frames_ready:
             frame = self.feature_extractor.get_frame(self.num_fetched_frames)
             self.features.append(frame)
             self.num_fetched_frames += 1
+
+    def add_tail_paddings(self, n: int = 20):
+        """Add some tail paddings so that we have enough context to process
+        frames at the very end of the utterance.
+
+        Args:
+          n:
+            Number of tail padding frame to be added. You can increase it if
+            it happens that there are always some missing tokens for the last
+            word of the utterance.
+        """
+        tail_padding = torch.full(
+            (1, self.feature_extractor.opts.mel_opts.num_bins),
+            fill_value=self.log_eps,
+            dtype=torch.float32,
+        )
+
+        self.features += [tail_padding] * n
