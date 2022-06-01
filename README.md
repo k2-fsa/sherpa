@@ -7,14 +7,18 @@ CPU-bound tasks, such as neural network computation, are implemented in
 C++; while IO-bound tasks, such as socket communication, are implemented
 in Python.
 
-**Caution**: We assume the model is trained using pruned stateless RNN-T
-from [icefall][icefall] and it is from a directory like
-`pruned_transducer_statelessX` where `X` >=2.
+**Caution**: For offline ASR, we assume the model is trained using pruned
+stateless RNN-T from [icefall][icefall] and it is from a directory like
+`pruned_transducer_statelessX` where `X` >=2. For streaming ASR, we
+assume the model is using `pruned_stateless_emformer_rnnt2`.
 
-We provide a Colab notebook, containing how to start the server, how to
-start the client, and how to decode `test-clean` of LibriSpeech.
+For the offline ASR, we provide a Colab notebook, containing how to start the
+server, how to start the client, and how to decode `test-clean` of LibriSpeech.
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1JX5Ph2onYm1ZjNP_94eGqZ-DIRMLlIca?usp=sharing)
+
+For the streaming ASR, we provide a YouTube demo, showing you how to use it.
+See <https://www.youtube.com/watch?v=z7HgaZv5W0U>
 
 ## Installation
 
@@ -60,7 +64,6 @@ make -j
 export PYTHONPATH=$PWD/../sherpa/python:$PWD/lib:$PYTHONPATH
 ```
 
-
 ## Usage
 
 First, check that `sherpa` has been installed successfully:
@@ -72,9 +75,6 @@ python3 -c "import sherpa; print(sherpa.__version__)"
 It should print the version of `sherpa`.
 
 #### Streaming ASR with pruned stateless Emformer RNN-T
-
-We provide a YouTube demo, showing you how to use it.
-See <https://www.youtube.com/watch?v=z7HgaZv5W0U>
 
 #### Start the server
 
@@ -152,21 +152,19 @@ python3 -m http.server 6008
 Then open your browser and go to `http://localhost:6008/record.html`. You will
 see a UI like the following screenshot.
 
-Click the button `Record` you `Speak`!
+Click the button `Record` and `speak`!
 
-![]
 ![web client screenshot](./pic/emformer-streaming-asr-web-client.png)
 
 
-**Caution**: For the webclient, we hard-code the server port to `6006`.
-You can change the file `./sherpa/bin/pruned_stateless_emformer_rnnt2/web/record.js`
+**Caution**: For the web client, we hard-code the server port to `6006`.
+You can change the file [./sherpa/bin/pruned_stateless_emformer_rnnt2/web/record.js](./sherpa/bin/pruned_stateless_emformer_rnnt2/web/record.js)
 to replace `6006` in it to whatever port the server is using.
 
 **Caution**: `http://0.0.0.0:6008/record.html` or `http://127.0.0.1:6008/record.html`
 won't work. You have to use `localhost`. Otherwise, you won't be able to use
 your microphone in your browser since we are not using `https` which requires
 a certificate.
-
 
 ### Offline ASR
 
