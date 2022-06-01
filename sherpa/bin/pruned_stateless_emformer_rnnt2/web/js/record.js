@@ -21,7 +21,7 @@ function initWebSocket() {
 
   // Listen for messages
   socket.addEventListener('message', function(event) {
-    document.getElementById('results').innerHTML = event.data;
+    document.getElementById('results').value = event.data;
     console.log('Received message: ', event.data);
   });
 }
@@ -48,7 +48,7 @@ let leftchannel = [];  // TODO: Use a single channel
 let recordingLength = 0;  // number of samples so far
 
 clearBtn.onclick = function() {
-  document.getElementById('results').innerHTML = '';
+  document.getElementById('results').value = '';
 };
 
 // copied/modified from https://mdn.github.io/web-dictaphone/
