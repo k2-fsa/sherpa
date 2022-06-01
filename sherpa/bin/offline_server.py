@@ -311,7 +311,7 @@ class OfflineServer:
         The message from the client has the following format:
 
             - a header of 8 bytes, containing the number of bytes of the tensor.
-              The header is in big endian format.
+              The header is in little endian format.
             - a binary representation of the 1-D torch.float32 tensor.
 
         Args:
@@ -325,7 +325,7 @@ class OfflineServer:
         async for message in socket:
             if expected_num_bytes is None:
                 assert len(message) >= 8, (len(message), message)
-                expected_num_bytes = int.from_bytes(message[:8], "big", signed=True)
+                expected_num_bytes = int.from_bytes(message[:8], "little", signed=True)
                 received += message[8:]
                 if len(received) == expected_num_bytes:
                     break

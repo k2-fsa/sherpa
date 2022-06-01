@@ -365,7 +365,7 @@ class StreamingServer(object):
 
         The message from the client contains two parts: header and payload
 
-            - the header contains 8 bytes in big endian format, specifying
+            - the header contains 8 bytes in little endian format, specifying
               the number of bytes in the payload.
 
             - the payload contains either a binary representation of the 1-D
@@ -408,7 +408,7 @@ class StreamingServer(object):
         if header is None:
             return None, None
 
-        expected_num_bytes = int.from_bytes(header, "big", signed=True)
+        expected_num_bytes = int.from_bytes(header, "little", signed=True)
 
         async for message in socket:
             received += message

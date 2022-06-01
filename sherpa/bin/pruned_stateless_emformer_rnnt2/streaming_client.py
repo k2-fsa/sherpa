@@ -99,14 +99,14 @@ async def main():
             d = wave.numpy().data[start:end]
 
             num_bytes = d.nbytes
-            await websocket.send((num_bytes).to_bytes(8, "big", signed=True))
+            await websocket.send((num_bytes).to_bytes(8, "little", signed=True))
 
             await websocket.send(d)
 
             start = end
 
         s = b"Done"
-        await websocket.send((len(s)).to_bytes(8, "big", signed=True))
+        await websocket.send((len(s)).to_bytes(8, "little", signed=True))
         await websocket.send(s)
 
         logging.info("Send done")
