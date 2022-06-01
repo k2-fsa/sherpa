@@ -1,6 +1,6 @@
 ## Introduction
 
-An ASR server framework in **Python**, aiming to support both streaming
+An ASR server framework in **Python**, supporting both streaming
 and non-streaming recognition.
 
 CPU-bound tasks, such as neural network computation, are implemented in
@@ -152,10 +152,12 @@ python3 -m http.server 6008
 Then open your browser and go to `http://localhost:6008/record.html`. You will
 see a UI like the following screenshot.
 
-Click the button `Record` and `speak`!
-
 ![web client screenshot](./pic/emformer-streaming-asr-web-client.png)
 
+Click the button `Record`.
+
+Now you can `speak` and you will get recognition results from the
+server in real-time.
 
 **Caution**: For the web client, we hard-code the server port to `6006`.
 You can change the file [./sherpa/bin/pruned_stateless_emformer_rnnt2/web/record.js](./sherpa/bin/pruned_stateless_emformer_rnnt2/web/record.js)
