@@ -51,8 +51,12 @@ std::pair<torch::Tensor, RnntEmformerModel::State>
 RnntEmformerModel::StreamingForwardEncoder(
     const torch::Tensor &features, const torch::Tensor &features_length,
     torch::optional<State> states /*= torch::nullopt*/) {
-  // It contains [torch.Tensor, torch.Tensor List[List[torch.Tensor]]
-  // We skip the second entry.
+  // It contains [torch.Tensor, torch.Tensor, List[List[torch.Tensor]]
+  // which are [encoder_out, encoder_out_len, states]
+  //
+  // We skip the second entry `encoder_out_len` since we assume the
+  // feature input are of fixed chunk size and there are no paddings.
+  // We can figure out `encoder_out_len` from `encoder_out`.
   torch::IValue ivalue = encoder_.run_method("streaming_forward", features,
                                              features_length, states);
   auto tuple_ptr = ivalue.toTuple();

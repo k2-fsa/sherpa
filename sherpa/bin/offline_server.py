@@ -80,7 +80,7 @@ def get_args():
         default=25,
         help="""Max batch size for computation. Note if there are not enough
         requests in the queue, it will wait for max_wait_ms time. After that,
-        even if there are still not enough requests, it still sends the
+        even if there are not enough requests, it still sends the
         available requests in the queue for computation.
         """,
     )

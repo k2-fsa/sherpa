@@ -27,7 +27,7 @@
 namespace sherpa {
 
 /** It wraps a torch script model, which is from
- * pruned_stateless_emformer_rnnt/mode.py within icefall.
+ * pruned_stateless_emformer_rnnt2/model.py within icefall.
  */
 class RnntEmformerModel {
  public:

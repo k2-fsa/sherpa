@@ -25,7 +25,7 @@ def unstack_states(
     states: List[List[torch.Tensor]],
 ) -> List[List[List[torch.Tensor]]]:
     """Unstack the Emformer state corresponding to a batch of utterances
-    into a list of states, wwere the i-th entry is the state from the i-th
+    into a list of states, where the i-th entry is the state for the i-th
     utterance in the batch.
 
     Args:
@@ -36,7 +36,8 @@ def unstack_states(
         ``(T, N, C)`` or a 2-D tensor of shape ``(C, N)``
     Returns:
       Return the states for each utterance. ans[i] is the state for the i-th
-      utterance.
+      utterance. Note that the returned state does not contain the batch
+      dimension.
     """
     batch_size = states[0][0].size(1)
     num_layers = len(states)
@@ -66,7 +67,7 @@ def stack_states(
 
     Args:
       state_list:
-        Each element in state_list corresponding to the internal state
+        Each element in state_list corresponds to the internal state
         of the Emformer model for a single utterance.
     Returns:
       Return a new state corresponding to a batch of utterances.
@@ -127,7 +128,8 @@ class Stream(object):
           blank_id:
             Blank token ID of the BPE model.
           initial_states:
-            The initial states of the Emformer model.
+            The initial states of the Emformer model. Note that the state
+            does not contain the batch dimension.
           decoder_out:
             The initial decoder out corresponding to the decoder input
             `[blank_id]*context_size`

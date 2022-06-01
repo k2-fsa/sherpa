@@ -83,13 +83,51 @@ def get_args():
         """,
     )
 
+    parser.add_argument(
+        "--nn-pool-size",
+        type=int,
+        default=1,
+        help="Number of threads for NN computation and decoding.",
+    )
+
+    parser.add_argument(
+        "--max-batch-size",
+        type=int,
+        default=50,
+        help="""Max batch size for computation. Note if there are not enough
+        requests in the queue, it will wait for max_wait_ms time. After that,
+        even if there are not enough requests, it still sends the
+        available requests in the queue for computation.
+        """,
+    )
+
+    parser.add_argument(
+        "--max-wait-ms",
+        type=float,
+        default=10,
+        help="""Max time in millisecond to wait to build batches for inference.
+        If there are not enough requests in the stream queue to build a batch
+        of max_batch_size, it waits up to this time before fetching available
+        requests for computation.
+        """,
+    )
+
     return parser.parse_args()
 
 
 def run_model_and_do_greedy_search(
     server: "StreamingServer",
     stream_list: List[Stream],
-):
+) -> None:
+    """Run the model on the given stream list and do greedy search.
+    Args:
+      server:
+        An instance of `StreamingServer`.
+      stream_list:
+        A list of streams to be processed. It is changed in-place.
+        That is, the attribute `states`, `decoder_out`, and `hyp` are
+        updated in-place.
+    """
     model = server.model
     device = model.device
     segment_length = server.segment_length
@@ -128,6 +166,9 @@ def run_model_and_do_greedy_search(
         states,
     )
 
+    # Note: It does not return the next_encoder_out_len since
+    # there are no paddings for streaming ASR. Each stream
+    # has the same input number of frames, i.e., server.chunk_length.
     next_decoder_out, next_hyp_list = streaming_greedy_search(
         model=model,
         encoder_out=encoder_out,
@@ -148,6 +189,9 @@ class StreamingServer(object):
         self,
         nn_model_filename: str,
         bpe_model_filename: str,
+        nn_pool_size: int,
+        max_wait_ms: float,
+        max_batch_size: int,
     ):
         """
         Args:
@@ -155,6 +199,14 @@ class StreamingServer(object):
             Path to the torchscript model
           bpe_model_filename:
             Path to the BPE model
+          nn_pool_size:
+            Number of threads for the thread pool that is responsible for
+            neural network computation and decoding.
+          max_wait_ms:
+            Max wait time in milliseconds in order to build a batch of
+            `batch_size`.
+          max_batch_size:
+            Max batch size for inference.
         """
         if torch.cuda.is_available():
             device = torch.device("cuda", 0)
@@ -189,13 +241,13 @@ class StreamingServer(object):
         self.initial_decoder_out = self.model.decoder_forward(decoder_input).squeeze(1)
 
         self.nn_pool = ThreadPoolExecutor(
-            max_workers=2,
+            max_workers=nn_pool_size,
             thread_name_prefix="nn",
         )
 
         self.stream_queue = asyncio.Queue()
-        self.max_wait_ms = 10
-        self.max_batch_size = 20
+        self.max_wait_ms = max_wait_ms
+        self.max_batch_size = max_batch_size
 
     async def stream_consumer_task(self):
         """The function extract streams from the queue, batches them up, sends
@@ -311,11 +363,14 @@ class StreamingServer(object):
     ) -> Tuple[Optional[torch.Tensor], Optional[bytes]]:
         """Receives a tensor from the client.
 
-        The message from the client has the following format:
+        The message from the client contains two parts: header and payload
 
-            - a header of 8 bytes, containing the number of bytes of the tensor.
-              The header is in big endian format.
-            - a binary representation of the 1-D torch.float32 tensor.
+            - the header contains 8 bytes in big endian format, specifying
+              the number of bytes in the payload.
+
+            - the payload contains either a binary representation of the 1-D
+              torch.float32 tensor or the bytes object b"Done" which means
+              the end of utterance.
 
         Args:
           socket:
@@ -326,6 +381,7 @@ class StreamingServer(object):
           Return a tuple containing:
             - A 1-D torch.float32 tensor containing the audio samples
             - Data for the next chunk, if any
+         or return a tuple (None, None) meaning the end of utterance.
         """
         header_len = 8
 
@@ -375,13 +431,22 @@ class StreamingServer(object):
 @torch.no_grad()
 def main():
     args = get_args()
+
+    logging.info(vars(args))
+
     port = args.port
     nn_model_filename = args.nn_model_filename
     bpe_model_filename = args.bpe_model_filename
+    nn_pool_size = args.nn_pool_size
+    max_batch_size = args.max_batch_size
+    max_wait_ms = args.max_wait_ms
 
     server = StreamingServer(
         nn_model_filename=nn_model_filename,
         bpe_model_filename=bpe_model_filename,
+        nn_pool_size=nn_pool_size,
+        max_batch_size=max_batch_size,
+        max_wait_ms=max_wait_ms,
     )
     asyncio.run(server.run(port))
 
