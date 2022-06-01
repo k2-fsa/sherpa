@@ -42,8 +42,8 @@ with open("sherpa/python/sherpa/__init__.py", "a") as f:
 setuptools.setup(
     name=package_name,
     version=get_package_version(),
-    author="Fangjun Kuang",
-    author_email="csukuangfj@gmail.com",
+    author="The sherpa development team",
+    author_email="dpovey@gmail.com",
     package_dir={
         "sherpa": "sherpa/python/sherpa",
     },
