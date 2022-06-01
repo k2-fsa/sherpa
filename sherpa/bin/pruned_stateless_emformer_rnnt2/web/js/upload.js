@@ -80,13 +80,12 @@ function onFileChange() {
     //
     // It has two purposes:
     //  (1) Simulate streaming
-    //  (2) There is a limit on number of bytes in the payload that can be
+    //  (2) There is a limit on the number of bytes in the payload that can be
     //      sent by websocket, which is 1MB, I think. We can send a large
     //      audio file for decoding in this approach.
     let buf = float32_samples.buffer
     let n = 1024 * 4;  // send this number of bytes per request.
     console.log('buf length, ' + buf.byteLength);
-    let start = 0;
     for (let start = 0; start < buf.byteLength; start += n) {
       send_data(buf.slice(start, start + n));
     }
