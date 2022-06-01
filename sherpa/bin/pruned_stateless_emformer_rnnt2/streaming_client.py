@@ -16,19 +16,19 @@
 # limitations under the License.
 
 """
-A client for offline ASR recognition.
+A client for streaming ASR recognition.
 
 Usage:
-    ./offline_client.py \
+    ./streaming_client.py \
       --server-addr localhost \
       --server-port 6006 \
-      /path/to/foo.wav \
-      /path/to/bar.wav
+      /path/to/foo.wav
 
 (Note: You have to first start the server before starting the client)
 """
 import argparse
 import asyncio
+import logging
 
 import torchaudio
 import websockets
@@ -54,10 +54,9 @@ def get_args():
     )
 
     parser.add_argument(
-        "sound_files",
+        "sound_file",
         type=str,
-        nargs="+",
-        help="The input sound file(s) to transcribe. "
+        help="The input sound file to transcribe. "
         "Supported formats are those supported by torchaudio.load(). "
         "For example, wav and flac are supported. "
         "The sample rate has to be 16kHz.",
@@ -66,33 +65,57 @@ def get_args():
     return parser.parse_args()
 
 
+async def receive_results(socket: websockets.WebSocketServerProtocol):
+    partial_result = ""
+    async for message in socket:
+        if message == "Done":
+            break
+        partial_result = message
+        logging.info(f"Partial result: {partial_result}")
+
+    return partial_result
+
+
 async def main():
     args = get_args()
-    assert len(args.sound_files) > 0, f"Empty sound files"
 
     server_addr = args.server_addr
     server_port = args.server_port
+    test_wav = args.sound_file
 
     async with websockets.connect(f"ws://{server_addr}:{server_port}") as websocket:
-        for test_wav in args.sound_files:
-            print(f"Sending {test_wav}")
-            wave, sample_rate = torchaudio.load(test_wav)
-            assert sample_rate == 16000, sample_rate
+        logging.info(f"Sending {test_wav}")
+        wave, sample_rate = torchaudio.load(test_wav)
+        assert sample_rate == 16000, sample_rate
 
-            wave = wave.squeeze(0)
-            num_bytes = wave.numel() * wave.element_size()
+        receive_task = asyncio.create_task(receive_results(websocket))
+
+        wave = wave.squeeze(0)
+
+        chunk_size = 4096
+        start = 0
+        while start < wave.numel():
+            end = start + chunk_size
+            d = wave.numpy().data[start:end]
+
+            num_bytes = d.nbytes
             await websocket.send((num_bytes).to_bytes(8, "little", signed=True))
 
-            frame_size = (2 ** 20) // 4  # max payload is 1MB
-            start = 0
-            while start < wave.numel():
-                end = start + frame_size
-                await websocket.send(wave.numpy().data[start:end])
-                start = end
-            decoding_results = await websocket.recv()
-            print(test_wav, "\n", decoding_results)
-            print()
+            await websocket.send(d)
+
+            start = end
+
+        s = b"Done"
+        await websocket.send((len(s)).to_bytes(8, "little", signed=True))
+        await websocket.send(s)
+
+        logging.info("Send done")
+
+        decoding_results = await receive_task
+        logging.info(f"{test_wav}\n{decoding_results}")
 
 
 if __name__ == "__main__":
+    formatter = "%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] %(message)s"
+    logging.basicConfig(format=formatter, level=logging.INFO)
     asyncio.run(main())

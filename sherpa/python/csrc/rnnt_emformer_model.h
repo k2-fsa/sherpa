@@ -15,21 +15,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+#ifndef SHERPA_PYTHON_CSRC_RNNT_EMFORMER_MODEL_H_
+#define SHERPA_PYTHON_CSRC_RNNT_EMFORMER_MODEL_H_
 
 #include "sherpa/python/csrc/sherpa.h"
 
-#include "sherpa/python/csrc/rnnt_beam_search.h"
-#include "sherpa/python/csrc/rnnt_emformer_model.h"
-#include "sherpa/python/csrc/rnnt_model.h"
-
 namespace sherpa {
 
-PYBIND11_MODULE(_sherpa, m) {
-  m.doc() = "pybind11 binding of sherpa";
-
-  PybindRnntModel(m);
-  PybindRnntEmformerModel(m);
-  PybindRnntBeamSearch(m);
-}
+void PybindRnntEmformerModel(py::module &m);  // NOLINT
 
 }  // namespace sherpa
+
+#endif  // SHERPA_PYTHON_CSRC_RNNT_EMFORMER_MODEL_H_

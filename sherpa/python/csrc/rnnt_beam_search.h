@@ -22,7 +22,7 @@
 
 namespace sherpa {
 
-void PybindRnntBeamSearch(py::module &m);
+void PybindRnntBeamSearch(py::module &m);  // NOLINT
 
 }  // namespace sherpa
 

@@ -18,7 +18,7 @@
 #ifndef SHERPA_CSRC_RNNT_MODEL_H_
 #define SHERPA_CSRC_RNNT_MODEL_H_
 
-#include <tuple>
+#include <string>
 #include <utility>
 
 #include "torch/script.h"
@@ -53,7 +53,7 @@ class RnntModel {
    * @param features  A 3-D tensor of shape (N, T, C).
    * @param features_length A 1-D tensor of shape (N,) containing the number of
    *                       valid frames in `features`.
-   * @return Return a tuple containing two tensors:
+   * @return Return a pair containing two tensors:
    *         - encoder_out, a 3-D tensor of shape (N, T, C)
    *         - encoder_out_length, a 1-D tensor of shape (N,) containing the
    *           number of valid frames in `encoder_out`.
@@ -90,26 +90,6 @@ class RnntModel {
    * @return Return a tensor of shape (N, T, joiner_dim).
    */
   torch::Tensor ForwardDecoderProj(const torch::Tensor &decoder_out);
-
-  /** TODO(fangjun): Implement it
-   *
-   * Run the encoder network in a streaming fashion.
-   *
-   * @param features  A 3-D tensor of shape (N, T, C).
-   * @param features_length  A 1-D tensor of shape (N,) containing the number of
-   *                         valid frames in `features`.
-   * @param prev_state  It contains the previous state from the encoder network.
-   *
-   * @return Return a tuple containing 3 entries:
-   *          - encoder_out, a 3-D tensor of shape (N, T, C)
-   *          - encoder_out_length, a 1-D tensor of shape (N,) containing the
-   *            number of valid frames in encoder_out
-   *          - next_state, the state for the encoder network.
-   */
-  std::tuple<torch::Tensor, torch::Tensor, torch::IValue>
-  StreamingForwardEncoder(const torch::Tensor &features,
-                          const torch::Tensor &feature_lengths,
-                          torch::IValue prev_state);
 
  private:
   torch::jit::Module model_;

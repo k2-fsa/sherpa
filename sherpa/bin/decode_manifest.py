@@ -98,7 +98,7 @@ async def send(
             samples = c.load_audio().reshape(-1).astype(np.float32)
             num_bytes = samples.nbytes
 
-            await websocket.send((num_bytes).to_bytes(8, "big", signed=True))
+            await websocket.send((num_bytes).to_bytes(8, "little", signed=True))
 
             frame_size = (2 ** 20) // 4  # max payload is 1MB
             start = 0

@@ -21,6 +21,8 @@ of the audio for recognition. It supports multiple clients sending at
 the same time.
 
 Usage:
+    ./offline_server.py --help
+
     ./offline_server.py
 """
 
@@ -78,7 +80,7 @@ def get_args():
         default=25,
         help="""Max batch size for computation. Note if there are not enough
         requests in the queue, it will wait for max_wait_ms time. After that,
-        even if there are still not enough requests, it still sends the
+        even if there are not enough requests, it still sends the
         available requests in the queue for computation.
         """,
     )
@@ -137,7 +139,7 @@ def get_args():
 
 
 def run_model_and_do_greedy_search(
-    model: torch.jit.ScriptModule,
+    model: RnntModel,
     features: List[torch.Tensor],
 ) -> List[List[int]]:
     """Run RNN-T model with the given features and use greedy search
@@ -287,7 +289,7 @@ class OfflineServer:
 
         return ans
 
-    async def loop(self, port: int):
+    async def run(self, port: int):
         logging.info("started")
         task = asyncio.create_task(self.feature_consumer_task())
 
@@ -309,7 +311,7 @@ class OfflineServer:
         The message from the client has the following format:
 
             - a header of 8 bytes, containing the number of bytes of the tensor.
-              The header is in big endian format.
+              The header is in little endian format.
             - a binary representation of the 1-D torch.float32 tensor.
 
         Args:
@@ -323,7 +325,7 @@ class OfflineServer:
         async for message in socket:
             if expected_num_bytes is None:
                 assert len(message) >= 8, (len(message), message)
-                expected_num_bytes = int.from_bytes(message[:8], "big", signed=True)
+                expected_num_bytes = int.from_bytes(message[:8], "little", signed=True)
                 received += message[8:]
                 if len(received) == expected_num_bytes:
                     break
@@ -459,7 +461,7 @@ def main():
         feature_extractor_pool_size=feature_extractor_pool_size,
         nn_pool_size=nn_pool_size,
     )
-    asyncio.run(offline_server.loop(port))
+    asyncio.run(offline_server.run(port))
 
 
 torch.set_num_threads(1)

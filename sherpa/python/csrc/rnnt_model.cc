@@ -19,13 +19,14 @@
 #include "sherpa/python/csrc/rnnt_model.h"
 
 #include <memory>
+#include <string>
 
 #include "sherpa/csrc/rnnt_model.h"
 #include "torch/torch.h"
 
 namespace sherpa {
 
-void PybindRnntModel(py::module &m) {
+void PybindRnntModel(py::module &m) {  // NOLINT
   using PyClass = RnntModel;
   py::class_<PyClass>(m, "RnntModel")
       .def(py::init([](const std::string &filename,

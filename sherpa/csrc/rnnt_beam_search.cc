@@ -16,6 +16,11 @@
  * limitations under the License.
  */
 
+#include "sherpa/csrc/rnnt_beam_search.h"
+
+#include <algorithm>
+
+#include "sherpa/csrc/rnnt_emformer_model.h"
 #include "sherpa/csrc/rnnt_model.h"
 #include "torch/all.h"
 
@@ -42,8 +47,8 @@ static void BuildDecoderInput(const std::vector<std::vector<int32_t>> &hyps,
 }
 
 std::vector<std::vector<int32_t>> GreedySearch(
-    RnntModel &model, torch::Tensor encoder_out,
-    torch::Tensor encoder_out_length) {
+    RnntModel &model,  // NOLINT
+    torch::Tensor encoder_out, torch::Tensor encoder_out_length) {
   TORCH_CHECK(encoder_out.dim() == 3, "encoder_out.dim() is ",
               encoder_out.dim(), "Expected is 3");
   TORCH_CHECK(encoder_out.scalar_type() == torch::kFloat,
@@ -139,6 +144,52 @@ std::vector<std::vector<int32_t>> GreedySearch(
   }
 
   return ans;
+}
+
+torch::Tensor StreamingGreedySearch(RnntEmformerModel &model,  // NOLINT
+                                    torch::Tensor encoder_out,
+                                    torch::Tensor decoder_out,
+                                    std::vector<std::vector<int32_t>> *hyps) {
+  TORCH_CHECK(encoder_out.dim() == 3, encoder_out.dim(), " vs ", 3);
+  TORCH_CHECK(decoder_out.dim() == 2, decoder_out.dim(), " vs ", 2);
+
+  TORCH_CHECK(encoder_out.size(0) == decoder_out.size(0), encoder_out.size(0),
+              " vs ", decoder_out.size(0));
+
+  auto device = model.Device();
+  int32_t blank_id = model.BlankId();
+  int32_t unk_id = model.UnkId();
+  int32_t context_size = model.ContextSize();
+
+  int32_t N = encoder_out.size(0);
+  int32_t T = encoder_out.size(1);
+
+  auto decoder_input =
+      torch::full({N, context_size}, blank_id,
+                  torch::dtype(torch::kLong)
+                      .memory_format(torch::MemoryFormat::Contiguous));
+
+  for (int32_t t = 0; t != T; ++t) {
+    auto cur_encoder_out = encoder_out.index({torch::indexing::Slice(), t});
+
+    auto logits = model.ForwardJoiner(cur_encoder_out, decoder_out);
+    auto max_indices = logits.argmax(/*dim*/ -1).cpu();
+    auto max_indices_accessor = max_indices.accessor<int64_t, 1>();
+    bool emitted = false;
+    for (int32_t n = 0; n != N; ++n) {
+      auto index = max_indices_accessor[n];
+      if (index != blank_id && index != unk_id) {
+        emitted = true;
+        (*hyps)[n].push_back(index);
+      }
+    }
+
+    if (emitted) {
+      BuildDecoderInput(*hyps, &decoder_input);
+      decoder_out = model.ForwardDecoder(decoder_input.to(device)).squeeze(1);
+    }
+  }
+  return decoder_out;
 }
 
 }  // namespace sherpa
