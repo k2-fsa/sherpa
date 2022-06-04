@@ -93,9 +93,9 @@ jobs:
           v=${major}${minor}
           if [ ${v} -eq 102 ]; then v=""; else v="+cu${v}"; fi
 
-          python3 -m pip install -qq --upgrade pip
-          python3 -m pip install -qq wheel twine typing_extensions websockets sentencepiece>=0.1.96 soundfile
-          python3 -m pip install -qq torch==${{ matrix.torch }}${v} torchaudio==${{ matrix.torchaudio }}${v} -f https://download.pytorch.org/whl/torch_stable.html numpy
+          python3 -m pip install --upgrade pip
+          python3 -m pip install wheel twine typing_extensions websockets sentencepiece>=0.1.96 soundfile
+          python3 -m pip install torch==${{ matrix.torch }}${v} torchaudio==${{ matrix.torchaudio }}${v} -f https://download.pytorch.org/whl/torch_stable.html numpy
 
           python3 -c "import torch; print('torch version:', torch.__version__)"
 
