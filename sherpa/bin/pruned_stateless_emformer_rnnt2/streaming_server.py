@@ -212,6 +212,7 @@ class StreamingServer(object):
             device = torch.device("cuda", 0)
         else:
             device = torch.device("cpu")
+        logging.info(f"Using device: {device}")
 
         self.model = RnntEmformerModel(nn_model_filename, device=device)
 
