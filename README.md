@@ -1,3 +1,10 @@
+<div align="center">
+<img src="./pic/os-green.svg">
+<img src="./pic/python_ge_3.7-blue.svg">
+<img src="./pic/pytorch_ge_1.6.0-blueviolet.svg">
+<img src="./pic/cuda_ge_10.1-orange.svg">
+</div>
+
 ## Introduction
 
 An ASR server framework in **Python**, supporting both streaming
@@ -36,7 +43,7 @@ pip install -r ./requirements.txt
 Third, install the C++ extension of `sherpa`. You can use one of
 the following methods.
 
-### Option 1: Use `pip`
+### Option 1: Use `pip` (Support Linux/macOS/Windows)
 
 ```bash
 pip install --verbose k2-sherpa
@@ -48,13 +55,13 @@ or
 pip install --verbose git+https://github.com/k2-fsa/shera
 ```
 
-### Option 2: Build from source with `setup.py`
+### Option 2: Build from source with `setup.py` (Support Linux/macOS/Windows)
 
 ```bash
 python3 setup.py install
 ```
 
-### Option 3: Build from source with `cmake`
+### Option 3: Build from source with `cmake` (Support Linux/macOS/Windows)
 
 ```bash
 mkdir build

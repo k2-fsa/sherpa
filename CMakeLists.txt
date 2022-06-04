@@ -33,6 +33,18 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 include(pybind11)
 include(torch)
 
+if(WIN32)
+  # disable various warnings for MSVC
+  # 4624: destructor was implicitly defined as deleted because a base class destructor is inaccessible or deleted
+  set(disabled_warnings
+      /wd4624
+  )
+  message(STATUS "Disabled warnings: ${disabled_warnings}")
+  foreach(w IN LISTS disabled_warnings)
+    string(APPEND CMAKE_CXX_FLAGS " ${w} ")
+  endforeach()
+endif()
+
 include_directories(${CMAKE_SOURCE_DIR})
 
 message(STATUS "CMAKE_CXX_FLAGS: ${CMAKE_CXX_FLAGS}")
