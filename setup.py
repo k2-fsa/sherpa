@@ -73,5 +73,7 @@ with open("sherpa/python/sherpa/__init__.py", "r") as f:
 
 with open("sherpa/python/sherpa/__init__.py", "w") as f:
     for line in lines:
-        if "__version__" not in line:
-            f.write(line)
+        if "__version__" in line and "torch" not in line:
+            # skip __version__ = "x.x.x"
+            continue
+        f.write(line)

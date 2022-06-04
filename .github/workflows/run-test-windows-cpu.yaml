@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-name: Run tests
+name: Run tests windows cpu
 
 on:
   push:
@@ -25,12 +25,12 @@ on:
       - master
 
 jobs:
-  run_tests:
+  run_tests_windows_cpu:
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-18.04, macos-10.15]
+        os: [windows-2019]
         torch: ["1.10.0"]
         torchaudio: ["0.10.0"]
         python-version: [3.7, 3.8, 3.9]
@@ -39,47 +39,29 @@ jobs:
         with:
           fetch-depth: 0
 
+      # see https://github.com/microsoft/setup-msbuild
+      - name: Add msbuild to PATH
+        uses: microsoft/setup-msbuild@v1.0.2
+
       - name: Setup Python
         uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Install GCC 7
-        if: startsWith(matrix.os, 'ubuntu')
-        run: |
-          sudo apt-get install -y gcc-7 g++-7
-          echo "CC=/usr/bin/gcc-7" >> $GITHUB_ENV
-          echo "CXX=/usr/bin/g++-7" >> $GITHUB_ENV
+      - name: Display Python version
+        run: python -c "import sys; print(sys.version)"
 
       - name: Install PyTorch ${{ matrix.torch }}
         shell: bash
-        if: startsWith(matrix.os, 'ubuntu')
         run: |
           python3 -m pip install --upgrade pip
-          python3 -m pip install wheel twine typing_extensions websockets sentencepiece>=0.1.96
+          python3 -m pip install wheel twine typing_extensions websockets sentencepiece>=0.1.96 soundfile
           python3 -m pip install torch==${{ matrix.torch }}+cpu torchaudio==${{ matrix.torchaudio }}+cpu numpy -f https://download.pytorch.org/whl/cpu/torch_stable.html
 
-      - name: Install PyTorch ${{ matrix.torch }}
-        shell: bash
-        if: startsWith(matrix.os, 'macos')
-        run: |
-          python3 -m pip install --upgrade pip
-          python3 -m pip install wheel twine typing_extensions websockets sentencepiece>=0.1.96
-          python3 -m pip install torch==${{ matrix.torch }} torchaudio==${{ matrix.torchaudio }} numpy -f https://download.pytorch.org/whl/cpu/torch_stable.html
-
-      - name: Cache kaldifeat
-        id: my-cache
-        uses: actions/cache@v2
-        with:
-          path: |
-            ~/tmp/kaldifeat
-          key: cache-tmp-${{ matrix.python-version }}-${{ matrix.os }}
-
       - name: Install kaldifeat
-        if: steps.my-cache.outputs.cache-hit != 'true'
         shell: bash
         run: |
-          .github/scripts/install-kaldifeat.sh
+          python3 -m pip install --verbose kaldifeat
 
       - name: Install sherpa
         shell: bash

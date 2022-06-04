@@ -1,0 +1,123 @@
+# Copyright      2022  Xiaomi Corp.       (author: Fangjun Kuang)
+
+# See ../../LICENSE for clarification regarding multiple authors
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+name: Run streaming ASR tests windows cuda
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  run_streaming_asr_tests_windows_cuda:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-2019]
+        torch: ["1.10.0"]
+        torchaudio: ["0.10.0"]
+        cuda: ["11.3.1"]
+        python-version: [3.7, 3.8, 3.9]
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      # see https://github.com/microsoft/setup-msbuild
+      - name: Add msbuild to PATH
+        uses: microsoft/setup-msbuild@v1.0.2
+
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Display Python version
+        run: python -c "import sys; print(sys.version)"
+
+      # See https://github.com/Jimver/cuda-toolkit/blob/master/src/links/windows-links.ts
+      # for available CUDA versions
+      - uses: Jimver/cuda-toolkit@v0.2.7
+        id: cuda-toolkit
+        with:
+          cuda: ${{ matrix.cuda }}
+
+      - name: Display CUDA version
+        shell: bash
+        run: |
+          echo "Installed cuda version is: ${{ steps.cuda-toolkit.outputs.cuda }}"
+          echo "Cuda install location: ${{steps.cuda-toolkit.outputs.CUDA_PATH}}"
+          nvcc --version
+
+      - name: Remove CUDA installation package
+        shell: bash
+        run: |
+          rm "C:/hostedtoolcache/windows/cuda_installer-windows/${{ matrix.cuda }}/x64/cuda_installer_${{ matrix.cuda }}.exe"
+
+      - name: Download cuDNN
+        shell: bash
+        run: |
+          GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/cudnn-for-windows
+          cd cudnn-for-windows
+          git lfs pull --include="cudnn-windows-x86_64-8.4.1.50_cuda11.6-archive.zip"
+          unzip cudnn-windows-x86_64-8.4.1.50_cuda11.6-archive.zip
+          rm cudnn-windows-x86_64-8.4.1.50_cuda11.6-archive.zip
+          ls -lh *
+          ls -lh */*
+
+          echo "PWD: $PWD"
+
+      - name: Install PyTorch ${{ matrix.torch }}
+        shell: bash
+        run: |
+          version=${{ matrix.cuda }}
+          major=${version:0:2}
+          minor=${version:3:1}
+          v=${major}${minor}
+          if [ ${v} -eq 102 ]; then v=""; else v="+cu${v}"; fi
+
+          python3 -m pip install --upgrade pip
+          python3 -m pip install wheel twine typing_extensions websockets sentencepiece>=0.1.96 soundfile
+          python3 -m pip install torch==${{ matrix.torch }}${v} torchaudio==${{ matrix.torchaudio }}${v} -f https://download.pytorch.org/whl/torch_stable.html numpy
+
+          python3 -c "import torch; print('torch version:', torch.__version__)"
+
+          python3 -m torch.utils.collect_env
+
+      - name: Display CMake version
+        run: |
+          cmake --version
+          cmake --help
+
+      - name: Install kaldifeat
+        shell: bash
+        run: |
+          echo "PWD: $PWD"
+          export KALDIFEAT_CMAKE_ARGS="-DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCUDNN_INCLUDE_PATH=d:/a/sherpa/sherpa/cudnn-for-windows/cudnn-windows-x86_64-8.4.1.50_cuda11.6-archive/include -DCUDNN_LIBRARY_PATH=d:/a/sherpa/sherpa/cudnn-for-windows/cudnn-windows-x86_64-8.4.1.50_cuda11.6-archive/lib/cudnn.lib"
+          python3 -m pip install --verbose kaldifeat
+
+      - name: Install sherpa
+        shell: bash
+        run: |
+          echo "PWD: $PWD"
+          export SHERPA_CMAKE_ARGS="-DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCUDNN_INCLUDE_PATH=d:/a/sherpa/sherpa/cudnn-for-windows/cudnn-windows-x86_64-8.4.1.50_cuda11.6-archive/include -DCUDNN_LIBRARY_PATH=d:/a/sherpa/sherpa/cudnn-for-windows/cudnn-windows-x86_64-8.4.1.50_cuda11.6-archive/lib/cudnn.lib"
+          python3 setup.py install
+
+          python3 -c "import sherpa; print(sherpa.__version__)"

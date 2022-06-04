@@ -3,3 +3,4 @@ build
 dist
 __pycache__
 *.egg-info
+torch_version.py
