@@ -120,4 +120,4 @@ jobs:
           export SHERPA_CMAKE_ARGS="-DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCUDNN_INCLUDE_PATH=d:/a/sherpa/sherpa/cudnn-for-windows/cudnn-windows-x86_64-8.4.1.50_cuda11.6-archive/include -DCUDNN_LIBRARY_PATH=d:/a/sherpa/sherpa/cudnn-for-windows/cudnn-windows-x86_64-8.4.1.50_cuda11.6-archive/lib/cudnn.lib"
           python3 setup.py install
 
-          python3 -c "import sherpa; print(shperpa.__version__)"
+          python3 -c "import sherpa; print(sherpa.__version__)"
