@@ -90,6 +90,8 @@ class BuildExtension(build_ext):
             if make_args == "" and system_make_args == "":
                 print("for fast compilation, run:")
                 print('export SHERPA_MAKE_ARGS="-j"; python setup.py install')
+                print('Setting make_args to "-j4"')
+                make_args = "-j4"
 
             build_cmd = f"""
                 cd {self.build_temp}
@@ -124,3 +126,11 @@ class BuildExtension(build_ext):
         for so in lib_so:
             print(f"Copying {so} to {self.build_lib}/")
             shutil.copy(f"{so}", f"{self.build_lib}/")
+
+        print(
+            f"Copying {sherpa_dir}/sherpa/python/sherpa/torch_version.py to {self.build_lib}/sherpa"  # noqa
+        )
+        shutil.copy(
+            f"{sherpa_dir}/sherpa/python/sherpa/torch_version.py",
+            f"{self.build_lib}/sherpa",
+        )

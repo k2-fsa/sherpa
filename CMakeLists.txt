@@ -33,6 +33,12 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 include(pybind11)
 include(torch)
 
+# TORCH_VERSION is defined in cmake/torch.cmake
+configure_file(
+  ${CMAKE_SOURCE_DIR}/sherpa/python/sherpa/torch_version.py.in
+  ${CMAKE_SOURCE_DIR}/sherpa/python/sherpa/torch_version.py @ONLY
+)
+
 if(WIN32)
   # disable various warnings for MSVC
   # 4624: destructor was implicitly defined as deleted because a base class destructor is inaccessible or deleted
