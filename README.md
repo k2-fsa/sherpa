@@ -1,8 +1,9 @@
 <div align="center">
-<img src="./pic/os-brightgreen.svg">
-<img src="./pic/python_ge_3.7-blue.svg">
-<img src="./pic/pytorch_ge_1.6.0-blueviolet.svg">
-<img src="./pic/cuda_ge_10.1-orange.svg">
+<img src="./docs/source/installation/pic/os-brightgreen.svg">
+<img src="./docs/source/installation/pic/os-brightgreen.svg">
+<img src="./docs/source/installation/pic/python_ge_3.7-blue.svg">
+<img src="./docs/source/installation/pic/pytorch_ge_1.6.0-blueviolet.svg">
+<img src="./docs/source/installation/pic/cuda_ge_10.1-orange.svg">
 </div>
 
 ## Introduction
@@ -159,7 +160,7 @@ python3 -m http.server 6008
 Then open your browser and go to `http://localhost:6008/record.html`. You will
 see a UI like the following screenshot.
 
-![web client screenshot](./pic/emformer-streaming-asr-web-client.png)
+![web client screenshot](./docs/source/_static/emformer-streaming-asr-web-client.png)
 
 Click the button `Record`.
 

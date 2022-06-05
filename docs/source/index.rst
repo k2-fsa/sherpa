@@ -3,18 +3,14 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to sherpa's documentation!
-==================================
+sherpa
+======
+
+`sherpa <https://github.com/k2-fsa/shpera>`_ is an ASR framework
+for streaming and non-streaming recognition.
 
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+   ./installation/index
