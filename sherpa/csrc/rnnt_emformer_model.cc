@@ -27,9 +27,14 @@ RnntEmformerModel::RnntEmformerModel(const std::string &filename,
     : device_(device) {
   model_ = torch::jit::load(filename, device);
   model_.eval();
+
+#if SHERPA_TORCH_VERSION_MAJOR > 1 || \
+    (SHERPA_TORCH_VERSION_MAJOR == 1 && SHERPA_TORCH_VERSION_MINOR >= 10)
+  // torch::jit::optimize_for_inference is available only in torch>=1.10
   if (optimize_for_inference) {
     model_ = torch::jit::optimize_for_inference(model_);
   }
+#endif
 
   encoder_ = model_.attr("encoder").toModule();
   decoder_ = model_.attr("decoder").toModule();

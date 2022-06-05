@@ -60,7 +60,7 @@ std::vector<std::vector<int32_t>> GreedySearch(
               "encoder_out_length.scalar_type() is ",
               encoder_out_length.scalar_type());
 
-  TORCH_CHECK(encoder_out_length.is_cpu());
+  TORCH_CHECK(encoder_out_length.device().is_cpu());
 
   torch::Device device = model.Device();
   encoder_out = encoder_out.to(device);
