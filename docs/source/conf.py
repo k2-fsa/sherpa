@@ -51,6 +51,7 @@ extensions = [
     "sphinx.ext.napoleon",
     "sphinx_autodoc_typehints",
     "sphinx_rtd_theme",
+    "sphinxcontrib.youtube",
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -65,7 +66,7 @@ master_doc = "index"
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
-exclude_patterns = []
+exclude_patterns = ['installation/pic/*.md']
 
 
 # -- Options for HTML output -------------------------------------------------
