@@ -27,3 +27,4 @@ for streaming ASR.
 
    ./installation/index
    ./streaming_asr/index
+   faq

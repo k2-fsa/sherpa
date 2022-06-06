@@ -30,11 +30,6 @@ are listed as follows:
    If you install a CUDA version of PyTorch, please also install cuDNN.
    Otherwise, you will get CMake configuration errors later.
 
-.. NOTE::
-
-   We use `torchaudio <https://github.com/pytorch/audio>`_ in the client.
-   Please also install ``torchaudio`` before proceeding.
-
 Assume you have installed ``PyTorch``. The steps to install ``sherpa`` from source
 are given below.
 
@@ -69,7 +64,7 @@ are given below.
   Refer to :ref:`fix cuDNN not found` if you encouter this problem during
   installation.
 
-To check that you have installed ``sherpa`` successfully,
+To check that you have installed ``sherpa`` successfully, use
 
 .. code-block:: bash
 
@@ -77,7 +72,9 @@ To check that you have installed ``sherpa`` successfully,
 
 It should print the version of ``sherpa``.
 
-Congratulations! You have installed ``sherpa`` successfully. Let us start
+**Congratulations!**
+
+You have installed ``sherpa`` successfully. Let us start
 to play with it.
 
 The following shows you a `YouTube video <https://www.youtube.com/watch?v=z7HgaZv5W0U>`_,

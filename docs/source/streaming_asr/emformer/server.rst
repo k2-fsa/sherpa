@@ -36,7 +36,7 @@ pretrained model: `<https://huggingface.co/csukuangfj/icefall-asr-librispeech-pr
 
 .. hint::
 
-   You can find pretrained models in `RESULTS.md` for all the recipes in
+   You can find pretrained models in ``RESULTS.md`` for all the recipes in
    `icefall <https://github.com/k2-fsa/icefall>`_.
 
    For instance, the pretrained models for the LibriSpeech dataset can be
@@ -61,5 +61,5 @@ The following shows you how to start the server with the above pretrained model.
 
 That's it!
 
-Now you can start the :ref:`emformer_client`, record your voice, and check
-the recognition results from the server.
+Now you can start the :ref:`emformer_client`, record your voice in real-time,
+and check the recognition results from the server.

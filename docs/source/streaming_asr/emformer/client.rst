@@ -3,7 +3,7 @@
 Client
 ======
 
-Using the client, you can record you voice in real-time, send them to the
+With the client you can record you voice in real-time, send it to the
 server, and get the recognition results back from the server.
 
 We provide a web client for this purpose.
@@ -12,7 +12,7 @@ We provide a web client for this purpose.
 
    Please first start the :ref:`emformer_server` before you start the client.
 
-   Also, we have hard coded the server port to be 6006. Please either pass
+   Also, we have hard coded the server port to 6006. Please either pass
    ``--port 6006`` when starting the server or change the client
    `<https://github.com/k2-fsa/sherpa/blob/master/sherpa/bin/pruned_stateless_emformer_rnnt2/web/js/record.js#L7>`_
    to use whaterver the port the server is using.
@@ -50,7 +50,7 @@ and speak! You should see the recognition results from the server.
 .. hint::
 
    If you are using Chrome, you can right click the page, and then click
-   ``inspect`` in the popup menu, and then click console. You will see
+   ``inspect`` in the popup menu, and then click ``console``. You will see
    some diagnostic message. This helps you to debug if you are unable to click
    the ``Record`` button.
 
