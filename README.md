@@ -6,6 +6,8 @@
 <img src="./docs/source/installation/pic/cuda_ge_10.1-orange.svg">
 </div>
 
+[![Documentation Status](https://github.com/k2-fsa/sherpa/actions/workflows/build-doc.yml/badge.svg)](https://k2-fsa.github.io/sherpa/)
+
 ## Introduction
 
 An ASR server framework in **Python**, supporting both streaming
