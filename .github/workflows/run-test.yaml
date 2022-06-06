@@ -31,14 +31,9 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-18.04, macos-10.15]
-        torch: ["1.10.0", "1.6.0"]
-        torchaudio: ["0.10.0", "0.6.0"]
+        torch: ["1.10.0"]
+        torchaudio: ["0.10.0"]
         python-version: [3.7, 3.8]
-        exclude:
-          - torch: "1.10.0"
-            torchaudio: "0.6.0"
-          - torch: "1.6.0"
-            torchaudio: "0.10.0"
     steps:
       - uses: actions/checkout@v2
         with:
@@ -62,13 +57,7 @@ jobs:
         run: |
           python3 -m pip install --upgrade pip
           python3 -m pip install wheel twine typing_extensions websockets sentencepiece>=0.1.96
-          python3 -m pip install torch==${{ matrix.torch }}+cpu numpy -f https://download.pytorch.org/whl/cpu/torch_stable.html
-
-          if [[ ${{ matrix.torchaudio }} == "0.10.0" ]]; then
-            pip install torchaudio==${{ matrix.torchaudio }}+cpu -f https://download.pytorch.org/whl/cpu/torch_stable.html
-          else
-            pip install torchaudio==${{ matrix.torchaudio }}
-          fi
+          python3 -m pip install torch==${{ matrix.torch }}+cpu torchaudio==${{ matrix.torchaudio }}+cpu numpy -f https://download.pytorch.org/whl/cpu/torch_stable.html
 
       - name: Install PyTorch ${{ matrix.torch }}
         shell: bash
@@ -84,7 +73,7 @@ jobs:
         with:
           path: |
             ~/tmp/kaldifeat
-          key: cache-tmp-${{ matrix.python-version }}-${{ matrix.os }}
+          key: cache-tmp-${{ matrix.python-version }}-${{ matrix.os }}-${{ matrix.torch }}
 
       - name: Install kaldifeat
         if: steps.my-cache.outputs.cache-hit != 'true'

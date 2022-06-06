@@ -93,7 +93,6 @@ async def main():
         wave = wave.squeeze(0)
 
         chunk_size = 4096
-        sleep_time = chunk_size / 16000
         start = 0
         while start < wave.numel():
             end = start + chunk_size
@@ -103,7 +102,6 @@ async def main():
             await websocket.send((num_bytes).to_bytes(8, "little", signed=True))
 
             await websocket.send(d)
-            await asyncio.sleep(sleep_time)
 
             start = end
 
