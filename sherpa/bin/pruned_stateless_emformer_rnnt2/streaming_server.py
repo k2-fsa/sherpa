@@ -356,6 +356,7 @@ class StreamingServer(object):
         result = self.sp.decode(stream.hyp[self.context_size :])
         await socket.send(result)
         await socket.send("Done")
+        socket.close()
 
         logging.info(f"Disconnected: {socket.remote_address}")
 

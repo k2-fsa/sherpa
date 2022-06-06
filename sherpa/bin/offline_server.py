@@ -36,7 +36,7 @@ from pathlib import Path
 from typing import List, Optional
 
 import kaldifeat
-import nump as np
+import numpy as np
 import sentencepiece as spm
 import torch
 import websockets
@@ -442,6 +442,7 @@ class OfflineServer:
             result = self.sp.decode(hyp)
             await socket.send(result)
 
+        socket.close()
         logging.info(f"Disconnected: {socket.remote_address}")
 
 
