@@ -26,6 +26,7 @@ Usage:
     ./offline_server.py
 """
 
+import argparse
 import asyncio
 import logging
 import math
@@ -35,12 +36,12 @@ from pathlib import Path
 from typing import List, Optional
 
 import kaldifeat
+import nump as np
 import sentencepiece as spm
 import torch
 import websockets
 from _sherpa import RnntModel, greedy_search
 from torch.nn.utils.rnn import pad_sequence
-import argparse
 
 LOG_EPS = math.log(1e-10)
 
@@ -340,7 +341,12 @@ class OfflineServer:
             warnings.simplefilter("ignore")
             # PyTorch warns that the underlying buffer is not writable.
             # We ignore it here as we are not going to write it anyway.
-            return torch.frombuffer(received, dtype=torch.float32)
+            if hasattr(torch, "frombuffer"):
+                # Note: torch.frombuffer is available only in torch>= 1.10
+                return torch.frombuffer(received, dtype=torch.float32)
+            else:
+                array = np.frombuffer(received, dtype=np.float32)
+                return torch.from_numpy(array)
 
     async def feature_consumer_task(self):
         """This function extracts features from the feature_queue,

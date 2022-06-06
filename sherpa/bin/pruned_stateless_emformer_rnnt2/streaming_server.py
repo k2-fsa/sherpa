@@ -36,12 +36,13 @@ import warnings
 from concurrent.futures import ThreadPoolExecutor
 from typing import List, Optional, Tuple
 
+import numpy as np
 import sentencepiece as spm
 import torch
 import websockets
-from sherpa import RnntEmformerModel, streaming_greedy_search
-
 from decode import Stream, stack_states, unstack_states
+
+from sherpa import RnntEmformerModel, streaming_greedy_search
 
 DEFAULT_NN_MODEL_FILENAME = "/ceph-fj/fangjun/open-source-2/icefall-streaming-2/egs/librispeech/ASR/pruned_stateless_emformer_rnnt2/exp-full/cpu_jit-epoch-39-avg-6-use-averaged-model-1.pt"  # noqa
 DEFAULT_BPE_MODEL_FILENAME = "/ceph-fj/fangjun/open-source-2/icefall-streaming-2/egs/librispeech/ASR/data/lang_bpe_500/bpe.model"  # noqa
@@ -158,6 +159,7 @@ def run_model_and_do_greedy_search(
         (batch_size,),
         fill_value=features.size(1),
         device=device,
+        dtype=torch.int64,
     )
 
     (encoder_out, next_states) = model.encoder_streaming_forward(
@@ -426,7 +428,12 @@ class StreamingServer(object):
             warnings.simplefilter("ignore")
             # PyTorch warns that the underlying buffer is not writable.
             # We ignore it here as we are not going to write it anyway.
-            return torch.frombuffer(this_chunk, dtype=torch.float32), next_chunk
+            if hasattr(torch, "frombuffer"):
+                # Note: torch.frombuffer is available only in torch>= 1.10
+                return torch.frombuffer(this_chunk, dtype=torch.float32), next_chunk
+            else:
+                array = np.frombuffer(this_chunk, dtype=np.float32)
+                return torch.from_numpy(array), next_chunk
 
 
 @torch.no_grad()
