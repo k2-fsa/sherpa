@@ -84,7 +84,7 @@ jobs:
         with:
           path: |
             ~/tmp/kaldifeat
-          key: cache-tmp-${{ matrix.python-version }}-${{ matrix.os }}
+          key: cache-tmp-${{ matrix.python-version }}-${{ matrix.os }}-${{ matrix.torch }}
 
       - name: Install kaldifeat
         if: steps.my-cache.outputs.cache-hit != 'true'
