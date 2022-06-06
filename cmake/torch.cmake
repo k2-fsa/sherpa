@@ -20,6 +20,18 @@ message(STATUS "TORCH_LIBRARIES: ${TORCH_LIBRARIES}")
 string(APPEND CMAKE_CXX_FLAGS " ${TORCH_CXX_FLAGS} ")
 
 execute_process(
+  COMMAND "${PYTHON_EXECUTABLE}" -c "import torch; print(torch.__version__.split('.')[0])"
+  OUTPUT_STRIP_TRAILING_WHITESPACE
+  OUTPUT_VARIABLE SHERPA_TORCH_VERSION_MAJOR
+)
+
+execute_process(
+  COMMAND "${PYTHON_EXECUTABLE}" -c "import torch; print(torch.__version__.split('.')[1])"
+  OUTPUT_STRIP_TRAILING_WHITESPACE
+  OUTPUT_VARIABLE SHERPA_TORCH_VERSION_MINOR
+)
+
+execute_process(
   COMMAND "${PYTHON_EXECUTABLE}" -c "import torch; print(torch.__version__)"
   OUTPUT_STRIP_TRAILING_WHITESPACE
   OUTPUT_VARIABLE TORCH_VERSION
