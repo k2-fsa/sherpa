@@ -3,7 +3,7 @@
 ```bash
 git clone https://github.com/k2-fsa/sherpa
 
-cd sherpa/sherpa/bin/pruned_stateless_emformer_rnnt2/web
+cd sherpa/sherpa/bin/web
 python3 -m http.server 6009
 ```
 and then go to <http://localhost:6009>

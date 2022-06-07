@@ -26,7 +26,8 @@
 namespace sherpa {
 
 /** It wraps a torch script model, which is from
- * pruned_transducer_stateless2/mode.py within icefall.
+ * pruned_transducer_stateless2/model.py or
+ * pruned_transducer_stateless4/model.py within icefall.
  */
 class RnntModel {
  public:
@@ -42,11 +43,18 @@ class RnntModel {
 
   ~RnntModel() = default;
 
+  using State = std::vector<torch::Tensor>;
+
+  State GetEncoderInitStates(int32_t left_context);
+
   torch::Device Device() const { return device_; }
 
   int32_t BlankId() const { return blank_id_; }
   int32_t UnkId() const { return unk_id_; }
   int32_t ContextSize() const { return context_size_; }
+  // Hard code the subsampling_factor to be 4 here since the subsampling
+  // method using ((len - 1) // 2 - 1) // 2)
+  int32_t SubSamplingFactor() const { return 4; }
 
   /** Run the encoder network.
    *
@@ -60,6 +68,30 @@ class RnntModel {
    */
   std::pair<torch::Tensor, torch::Tensor> ForwardEncoder(
       const torch::Tensor &features, const torch::Tensor &features_length);
+
+  /** Run the encoder network in streaming mode.
+   *
+   * @param features  A 3-D tensor of shape (N, T, C).
+   * @param features_length A 1-D tensor of shape (N,) containing the number of
+   *                       valid frames in `features`.
+   * @param states A list of tensors containing the decode caches of previous
+   *              frames. It is almost transparent to users, initially this
+   *              comes from the return value of `GetEncoderInitStates`, then it
+   *              will be updated after finishing each chunk.
+   * @param processed_lengths How many frames have processed until now.
+   * @param left_context How many previous frames can be seen for current
+   *                     chunk.
+   * @param right_context How many future frames can be seen for current
+   *                      chunk.
+   * @return Return a pair containing two tensors:
+   *         - encoder_out, a 3-D tensor of shape (N, T, C)
+   *         - encoder_out_length, a 1-D tensor of shape (N,) containing the
+   *           number of valid frames in `encoder_out`.
+   */
+  std::tuple<torch::Tensor, torch::Tensor, State> StreamingForwardEncoder(
+      const torch::Tensor &features, const torch::Tensor &features_length,
+      State &states, const torch::Tensor &processed_lengths,
+      int32_t left_context, int32_t right_context);
 
   /** Run the decoder network.
    *
