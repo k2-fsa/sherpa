@@ -28,6 +28,7 @@ Usage:
 """
 import argparse
 import asyncio
+import http
 import logging
 
 import torchaudio
@@ -76,13 +77,7 @@ async def receive_results(socket: websockets.WebSocketServerProtocol):
     return partial_result
 
 
-async def main():
-    args = get_args()
-
-    server_addr = args.server_addr
-    server_port = args.server_port
-    test_wav = args.sound_file
-
+async def run(server_addr: str, server_port: int, test_wav: str):
     async with websockets.connect(f"ws://{server_addr}:{server_port}") as websocket:
         logging.info(f"Sending {test_wav}")
         wave, sample_rate = torchaudio.load(test_wav)
@@ -113,6 +108,32 @@ async def main():
 
         decoding_results = await receive_task
         logging.info(f"{test_wav}\n{decoding_results}")
+
+
+async def main():
+    args = get_args()
+
+    server_addr = args.server_addr
+    server_port = args.server_port
+    test_wav = args.sound_file
+
+    max_retry_count = 5
+    count = 0
+    while count < max_retry_count:
+        count += 1
+        try:
+            await run(server_addr, server_port, test_wav)
+            break
+        except websockets.exceptions.InvalidStatusCode as e:
+            print(e.status_code)
+            print(http.client.responses[e.status_code])
+            print(e.headers)
+
+            if e.status_code != http.HTTPStatus.SERVICE_UNAVAILABLE:
+                raise
+            await asyncio.sleep(2)
+        except:
+            raise
 
 
 if __name__ == "__main__":

@@ -30,6 +30,7 @@ Usage:
 
 import argparse
 import asyncio
+import http
 import logging
 import math
 import warnings
@@ -40,16 +41,9 @@ import numpy as np
 import sentencepiece as spm
 import torch
 import websockets
-from decode import Stream, stack_states, unstack_states
-
 from sherpa import RnntEmformerModel, streaming_greedy_search
 
-DEFAULT_NN_MODEL_FILENAME = "/ceph-fj/fangjun/open-source-2/icefall-streaming-2/egs/librispeech/ASR/pruned_stateless_emformer_rnnt2/exp-full/cpu_jit-epoch-39-avg-6-use-averaged-model-1.pt"  # noqa
-DEFAULT_BPE_MODEL_FILENAME = "/ceph-fj/fangjun/open-source-2/icefall-streaming-2/egs/librispeech/ASR/data/lang_bpe_500/bpe.model"  # noqa
-
-TEST_WAV = "/ceph-fj/fangjun/open-source-2/icefall-models/icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/test_wavs/1089-134686-0001.wav"
-TEST_WAV = "/ceph-fj/fangjun/open-source-2/icefall-models/icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/test_wavs/1221-135766-0001.wav"
-#  TEST_WAV = "/ceph-fj/fangjun/open-source-2/icefall-models/icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/test_wavs/1221-135766-0002.wav"
+from decode import Stream, stack_states, unstack_states
 
 
 def get_args():
@@ -67,7 +61,6 @@ def get_args():
     parser.add_argument(
         "--nn-model-filename",
         type=str,
-        default=DEFAULT_NN_MODEL_FILENAME,
         help="""The torchscript model. You can use
           icefall/egs/librispeech/ASR/pruned_transducer_statelessX/export.py --jit=1
         to generate this model.
@@ -77,7 +70,6 @@ def get_args():
     parser.add_argument(
         "--bpe-model-filename",
         type=str,
-        default=DEFAULT_BPE_MODEL_FILENAME,
         help="""The BPE model
         You can find it in the directory egs/librispeech/ASR/data/lang_bpe_xxx
         where xxx is the number of BPE tokens you used to train the model.
@@ -110,6 +102,32 @@ def get_args():
         If there are not enough requests in the stream queue to build a batch
         of max_batch_size, it waits up to this time before fetching available
         requests for computation.
+        """,
+    )
+
+    parser.add_argument(
+        "--max-message-size",
+        type=int,
+        default=(1 << 20),
+        help="""Max message size in bytes.
+        The max size per message cannot exceed this limit.
+        """,
+    )
+
+    parser.add_argument(
+        "--max-queue-size",
+        type=int,
+        default=32,
+        help="Max number of messages in the queue for each connection.",
+    )
+
+    parser.add_argument(
+        "--max-active-connections",
+        type=int,
+        default=500,
+        help="""Maximum number of active connections. The server will refuse
+        to accept new connections once the current number of active connections
+        equals to this limit.
         """,
     )
 
@@ -194,6 +212,9 @@ class StreamingServer(object):
         nn_pool_size: int,
         max_wait_ms: float,
         max_batch_size: int,
+        max_message_size: int,
+        max_queue_size: int,
+        max_active_connections: int,
     ):
         """
         Args:
@@ -209,6 +230,13 @@ class StreamingServer(object):
             `batch_size`.
           max_batch_size:
             Max batch size for inference.
+          max_message_size:
+            Max size in bytes per message.
+          max_queue_size:
+            Max number of messages in the queue for each connection.
+          max_active_connections:
+            Max number of active connections. Once number of active client
+            equals to this limit, the server refuses to accept new connections.
         """
         if torch.cuda.is_available():
             device = torch.device("cuda", 0)
@@ -251,6 +279,11 @@ class StreamingServer(object):
         self.stream_queue = asyncio.Queue()
         self.max_wait_ms = max_wait_ms
         self.max_batch_size = max_batch_size
+        self.max_message_size = max_message_size
+        self.max_queue_size = max_queue_size
+        self.max_active_connections = max_active_connections
+
+        self.current_active_connections = 0
 
     async def stream_consumer_task(self):
         """The function extract streams from the queue, batches them up, sends
@@ -304,10 +337,33 @@ class StreamingServer(object):
         await self.stream_queue.put((stream, future))
         await future
 
+    async def process_request(
+        self,
+        unused_path: str,
+        unused_request_headers: websockets.Headers,
+    ) -> Optional[Tuple[http.HTTPStatus, websockets.Headers, bytes]]:
+        if self.current_active_connections < self.max_active_connections:
+            self.current_active_connections += 1
+            return None
+
+        # Refuse new connections
+        status = http.HTTPStatus.SERVICE_UNAVAILABLE  # 503
+        header = {"Hint": "The server is overloaded. Please retry later."}
+        response = b"The server is busy. Please retry later."
+
+        return status, header, response
+
     async def run(self, port: int):
         task = asyncio.create_task(self.stream_consumer_task())
 
-        async with websockets.serve(self.handle_connection, "", port):
+        async with websockets.serve(
+            self.handle_connection,
+            host="",
+            port=port,
+            max_size=self.max_message_size,
+            max_queue=self.max_queue_size,
+            process_request=self.process_request,
+        ):
             await asyncio.Future()  # run forever
 
     async def handle_connection(
@@ -356,7 +412,9 @@ class StreamingServer(object):
         result = self.sp.decode(stream.hyp[self.context_size :])
         await socket.send(result)
         await socket.send("Done")
-        socket.close()
+
+        # Decrement so that it can accept new connections
+        self.current_active_connections -= 1
 
         logging.info(f"Disconnected: {socket.remote_address}")
 
@@ -449,6 +507,9 @@ def main():
     nn_pool_size = args.nn_pool_size
     max_batch_size = args.max_batch_size
     max_wait_ms = args.max_wait_ms
+    max_message_size = args.max_message_size
+    max_queue_size = args.max_queue_size
+    max_active_connections = args.max_active_connections
 
     server = StreamingServer(
         nn_model_filename=nn_model_filename,
@@ -456,6 +517,9 @@ def main():
         nn_pool_size=nn_pool_size,
         max_batch_size=max_batch_size,
         max_wait_ms=max_wait_ms,
+        max_message_size=max_message_size,
+        max_queue_size=max_queue_size,
+        max_active_connections=max_active_connections,
     )
     asyncio.run(server.run(port))
 
