@@ -30,6 +30,7 @@ Usage:
 
 import argparse
 import asyncio
+import http
 import logging
 import math
 import warnings
@@ -40,16 +41,9 @@ import numpy as np
 import sentencepiece as spm
 import torch
 import websockets
-from decode import Stream, stack_states, unstack_states
-
 from sherpa import RnntEmformerModel, streaming_greedy_search
 
-DEFAULT_NN_MODEL_FILENAME = "/ceph-fj/fangjun/open-source-2/icefall-streaming-2/egs/librispeech/ASR/pruned_stateless_emformer_rnnt2/exp-full/cpu_jit-epoch-39-avg-6-use-averaged-model-1.pt"  # noqa
-DEFAULT_BPE_MODEL_FILENAME = "/ceph-fj/fangjun/open-source-2/icefall-streaming-2/egs/librispeech/ASR/data/lang_bpe_500/bpe.model"  # noqa
-
-TEST_WAV = "/ceph-fj/fangjun/open-source-2/icefall-models/icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/test_wavs/1089-134686-0001.wav"
-TEST_WAV = "/ceph-fj/fangjun/open-source-2/icefall-models/icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/test_wavs/1221-135766-0001.wav"
-#  TEST_WAV = "/ceph-fj/fangjun/open-source-2/icefall-models/icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/test_wavs/1221-135766-0002.wav"
+from decode import Stream, stack_states, unstack_states
 
 
 def get_args():
@@ -67,9 +61,9 @@ def get_args():
     parser.add_argument(
         "--nn-model-filename",
         type=str,
-        default=DEFAULT_NN_MODEL_FILENAME,
         help="""The torchscript model. You can use
-          icefall/egs/librispeech/ASR/pruned_transducer_statelessX/export.py --jit=1
+          icefall/egs/librispeech/ASR/pruned_transducer_statelessX/export.py \
+                  --jit=1
         to generate this model.
         """,
     )
@@ -77,7 +71,6 @@ def get_args():
     parser.add_argument(
         "--bpe-model-filename",
         type=str,
-        default=DEFAULT_BPE_MODEL_FILENAME,
         help="""The BPE model
         You can find it in the directory egs/librispeech/ASR/data/lang_bpe_xxx
         where xxx is the number of BPE tokens you used to train the model.
@@ -110,6 +103,32 @@ def get_args():
         If there are not enough requests in the stream queue to build a batch
         of max_batch_size, it waits up to this time before fetching available
         requests for computation.
+        """,
+    )
+
+    parser.add_argument(
+        "--max-message-size",
+        type=int,
+        default=(1 << 20),
+        help="""Max message size in bytes.
+        The max size per message cannot exceed this limit.
+        """,
+    )
+
+    parser.add_argument(
+        "--max-queue-size",
+        type=int,
+        default=32,
+        help="Max number of messages in the queue for each connection.",
+    )
+
+    parser.add_argument(
+        "--max-active-connections",
+        type=int,
+        default=500,
+        help="""Maximum number of active connections. The server will refuse
+        to accept new connections once the current number of active connections
+        equals to this limit.
         """,
     )
 
@@ -194,6 +213,9 @@ class StreamingServer(object):
         nn_pool_size: int,
         max_wait_ms: float,
         max_batch_size: int,
+        max_message_size: int,
+        max_queue_size: int,
+        max_active_connections: int,
     ):
         """
         Args:
@@ -209,6 +231,13 @@ class StreamingServer(object):
             `batch_size`.
           max_batch_size:
             Max batch size for inference.
+          max_message_size:
+            Max size in bytes per message.
+          max_queue_size:
+            Max number of messages in the queue for each connection.
+          max_active_connections:
+            Max number of active connections. Once number of active client
+            equals to this limit, the server refuses to accept new connections.
         """
         if torch.cuda.is_available():
             device = torch.device("cuda", 0)
@@ -225,7 +254,7 @@ class StreamingServer(object):
 
         # We add 3 here since the subsampling method is using
         # ((len - 1) // 2 - 1) // 2)
-        self.chunk_length = (self.segment_length + 3) + self.right_context_length
+        self.chunk_length = self.segment_length + 3 + self.right_context_length
 
         self.sp = spm.SentencePieceProcessor()
         self.sp.load(bpe_model_filename)
@@ -241,7 +270,8 @@ class StreamingServer(object):
             device=device,
             dtype=torch.int64,
         )
-        self.initial_decoder_out = self.model.decoder_forward(decoder_input).squeeze(1)
+        initial_decoder_out = self.model.decoder_forward(decoder_input)
+        self.initial_decoder_out = initial_decoder_out.squeeze(1)
 
         self.nn_pool = ThreadPoolExecutor(
             max_workers=nn_pool_size,
@@ -251,6 +281,11 @@ class StreamingServer(object):
         self.stream_queue = asyncio.Queue()
         self.max_wait_ms = max_wait_ms
         self.max_batch_size = max_batch_size
+        self.max_message_size = max_message_size
+        self.max_queue_size = max_queue_size
+        self.max_active_connections = max_active_connections
+
+        self.current_active_connections = 0
 
     async def stream_consumer_task(self):
         """The function extract streams from the queue, batches them up, sends
@@ -304,11 +339,36 @@ class StreamingServer(object):
         await self.stream_queue.put((stream, future))
         await future
 
+    async def process_request(
+        self,
+        unused_path: str,
+        unused_request_headers: websockets.Headers,
+    ) -> Optional[Tuple[http.HTTPStatus, websockets.Headers, bytes]]:
+        if self.current_active_connections < self.max_active_connections:
+            self.current_active_connections += 1
+            return None
+
+        # Refuse new connections
+        status = http.HTTPStatus.SERVICE_UNAVAILABLE  # 503
+        header = {"Hint": "The server is overloaded. Please retry later."}
+        response = b"The server is busy. Please retry later."
+
+        return status, header, response
+
     async def run(self, port: int):
         task = asyncio.create_task(self.stream_consumer_task())
 
-        async with websockets.serve(self.handle_connection, "", port):
+        async with websockets.serve(
+            self.handle_connection,
+            host="",
+            port=port,
+            max_size=self.max_message_size,
+            max_queue=self.max_queue_size,
+            process_request=self.process_request,
+        ):
             await asyncio.Future()  # run forever
+
+        await task  # not reachable
 
     async def handle_connection(
         self,
@@ -321,7 +381,10 @@ class StreamingServer(object):
           socket:
             The socket for communicating with the client.
         """
-        logging.info(f"Connected: {socket.remote_address}")
+        logging.info(
+            f"Connected: {socket.remote_address}. "
+            f"Number of connections: {self.current_active_connections}/{self.max_active_connections}"  # noqa
+        )
         stream = Stream(
             context_size=self.context_size,
             blank_id=self.blank_id,
@@ -341,7 +404,9 @@ class StreamingServer(object):
 
             while len(stream.features) > self.chunk_length:
                 await self.compute_and_decode(stream)
-                await socket.send(f"{self.sp.decode(stream.hyp[self.context_size:])}")
+                await socket.send(
+                    f"{self.sp.decode(stream.hyp[self.context_size:])}"
+                )  # noqa
 
         stream.input_finished()
         while len(stream.features) > self.chunk_length:
@@ -353,10 +418,12 @@ class StreamingServer(object):
             await self.compute_and_decode(stream)
             stream.features = []
 
-        result = self.sp.decode(stream.hyp[self.context_size :])
+        result = self.sp.decode(stream.hyp[self.context_size :])  # noqa
         await socket.send(result)
         await socket.send("Done")
-        socket.close()
+
+        # Decrement so that it can accept new connections
+        self.current_active_connections -= 1
 
         logging.info(f"Disconnected: {socket.remote_address}")
 
@@ -431,7 +498,10 @@ class StreamingServer(object):
             # We ignore it here as we are not going to write it anyway.
             if hasattr(torch, "frombuffer"):
                 # Note: torch.frombuffer is available only in torch>= 1.10
-                return torch.frombuffer(this_chunk, dtype=torch.float32), next_chunk
+                return (
+                    torch.frombuffer(this_chunk, dtype=torch.float32),
+                    next_chunk,
+                )  # noqa
             else:
                 array = np.frombuffer(this_chunk, dtype=np.float32)
                 return torch.from_numpy(array), next_chunk
@@ -449,6 +519,9 @@ def main():
     nn_pool_size = args.nn_pool_size
     max_batch_size = args.max_batch_size
     max_wait_ms = args.max_wait_ms
+    max_message_size = args.max_message_size
+    max_queue_size = args.max_queue_size
+    max_active_connections = args.max_active_connections
 
     server = StreamingServer(
         nn_model_filename=nn_model_filename,
@@ -456,6 +529,9 @@ def main():
         nn_pool_size=nn_pool_size,
         max_batch_size=max_batch_size,
         max_wait_ms=max_wait_ms,
+        max_message_size=max_message_size,
+        max_queue_size=max_queue_size,
+        max_active_connections=max_active_connections,
     )
     asyncio.run(server.run(port))
 
@@ -481,6 +557,8 @@ torch::jit::setGraphExecutorOptimize(false);
 """
 
 if __name__ == "__main__":
-    formatter = "%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] %(message)s"
+    formatter = (
+        "%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] %(message)s"  # noqa
+    )
     logging.basicConfig(format=formatter, level=logging.INFO)
     main()

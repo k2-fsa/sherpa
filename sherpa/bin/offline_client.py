@@ -29,6 +29,8 @@ Usage:
 """
 import argparse
 import asyncio
+import http
+from typing import List
 
 import torchaudio
 import websockets
@@ -66,15 +68,11 @@ def get_args():
     return parser.parse_args()
 
 
-async def main():
-    args = get_args()
-    assert len(args.sound_files) > 0, f"Empty sound files"
-
-    server_addr = args.server_addr
-    server_port = args.server_port
-
-    async with websockets.connect(f"ws://{server_addr}:{server_port}") as websocket:
-        for test_wav in args.sound_files:
+async def run(server_addr: str, server_port: int, test_wavs: List[str]):
+    async with websockets.connect(
+        f"ws://{server_addr}:{server_port}"
+    ) as websocket:  # noqa
+        for test_wav in test_wavs:
             print(f"Sending {test_wav}")
             wave, sample_rate = torchaudio.load(test_wav)
             assert sample_rate == 16000, sample_rate
@@ -92,6 +90,32 @@ async def main():
             decoding_results = await websocket.recv()
             print(test_wav, "\n", decoding_results)
             print()
+
+
+async def main():
+    args = get_args()
+    assert len(args.sound_files) > 0, "Empty sound files"
+
+    server_addr = args.server_addr
+    server_port = args.server_port
+
+    max_retry_count = 5
+    count = 0
+    while count < max_retry_count:
+        count += 1
+        try:
+            await run(server_addr, server_port, args.sound_files)
+            break
+        except websockets.exceptions.InvalidStatusCode as e:
+            print(e.status_code)
+            print(http.client.responses[e.status_code])
+            print(e.headers)
+
+            if e.status_code != http.HTTPStatus.SERVICE_UNAVAILABLE:
+                raise
+            await asyncio.sleep(2)
+        except:  # noqa
+            raise
 
 
 if __name__ == "__main__":

@@ -28,12 +28,12 @@ Usage:
 
 import argparse
 import asyncio
+import http
 import logging
 import math
 import warnings
 from concurrent.futures import ThreadPoolExecutor
-from pathlib import Path
-from typing import List, Optional
+from typing import List, Optional, Tuple
 
 import kaldifeat
 import numpy as np
@@ -44,12 +44,6 @@ from _sherpa import RnntModel, greedy_search
 from torch.nn.utils.rnn import pad_sequence
 
 LOG_EPS = math.log(1e-10)
-
-# You can use
-#   icefall/egs/librispeech/ASR/pruned_transducer_statelessX/export.py --jit 1
-# to generate the following model
-DEFAULT_NN_MODEL_FILENAME = "/ceph-fj/fangjun/open-source-2/icefall-master-2/egs/librispeech/ASR/pruned_transducer_stateless3/exp/cpu_jit.pt"  # noqa
-DEFAULT_BPE_MODEL_FILENAME = "/ceph-fj/fangjun/open-source-2/icefall-master-2/egs/librispeech/ASR/data/lang_bpe_500/bpe.model"
 
 
 def get_args():
@@ -119,9 +113,9 @@ def get_args():
     parser.add_argument(
         "--nn-model-filename",
         type=str,
-        default=DEFAULT_NN_MODEL_FILENAME,
         help="""The torchscript model. You can use
-          icefall/egs/librispeech/ASR/pruned_transducer_statelessX/export.py --jit=1
+          icefall/egs/librispeech/ASR/pruned_transducer_statelessX/export.py \
+             --jit=1
         to generate this model.
         """,
     )
@@ -129,10 +123,35 @@ def get_args():
     parser.add_argument(
         "--bpe-model-filename",
         type=str,
-        default=DEFAULT_BPE_MODEL_FILENAME,
         help="""The BPE model
         You can find it in the directory egs/librispeech/ASR/data/lang_bpe_xxx
         where xxx is the number of BPE tokens you used to train the model.
+        """,
+    )
+
+    parser.add_argument(
+        "--max-message-size",
+        type=int,
+        default=(1 << 20),
+        help="""Max message size in bytes.
+        The max size per message cannot exceed this limit.
+        """,
+    )
+
+    parser.add_argument(
+        "--max-queue-size",
+        type=int,
+        default=32,
+        help="Max number of messages in the queue for each connection.",
+    )
+
+    parser.add_argument(
+        "--max-active-connections",
+        type=int,
+        default=500,
+        help="""Maximum number of active connections. The server will refuse
+        to accept new connections once the current number of active connections
+        equals to this limit.
         """,
     )
 
@@ -150,11 +169,15 @@ def run_model_and_do_greedy_search(
       model:
         The RNN-T model.
       features:
-        A list of 2-D tensors. Each entry is of shape (num_frames, feature_dim).
+        A list of 2-D tensors. Each entry is of shape
+        (num_frames, feature_dim).
     Returns:
       Return a list-of-list containing the decoding token IDs.
     """
-    features_length = torch.tensor([f.size(0) for f in features], dtype=torch.int64)
+    features_length = torch.tensor(
+        [f.size(0) for f in features],
+        dtype=torch.int64,
+    )
     features = pad_sequence(
         features,
         batch_first=True,
@@ -186,8 +209,11 @@ class OfflineServer:
         num_device: int,
         batch_size: int,
         max_wait_ms: float,
-        feature_extractor_pool_size: int = 3,
-        nn_pool_size: int = 3,
+        feature_extractor_pool_size: int,
+        nn_pool_size: int,
+        max_message_size: int,
+        max_queue_size: int,
+        max_active_connections: int,
     ):
         """
         Args:
@@ -212,6 +238,13 @@ class OfflineServer:
           nn_pool_size:
             Number of threads for the thread pool that is used for NN
             computation and decoding.
+          max_message_size:
+            Max size in bytes per message.
+          max_queue_size:
+            Max number of messages in the queue for each connection.
+          max_active_connections:
+            Max number of active connections. Once number of active client
+            equals to this limit, the server refuses to accept new connections.
         """
         self.feature_extractor = self._build_feature_extractor()
         self.nn_models = self._build_nn_model(nn_model_filename, num_device)
@@ -236,6 +269,12 @@ class OfflineServer:
 
         self.max_wait_ms = max_wait_ms
         self.batch_size = batch_size
+
+        self.max_message_size = max_message_size
+        self.max_queue_size = max_queue_size
+        self.max_active_connections = max_active_connections
+
+        self.current_active_connections = 0
 
     def _build_feature_extractor(self):
         """Build a fbank feature extractor for extracting features.
@@ -290,6 +329,22 @@ class OfflineServer:
 
         return ans
 
+    async def process_request(
+        self,
+        unused_path: str,
+        unused_request_headers: websockets.Headers,
+    ) -> Optional[Tuple[http.HTTPStatus, websockets.Headers, bytes]]:
+        if self.current_active_connections < self.max_active_connections:
+            self.current_active_connections += 1
+            return None
+
+        # Refuse new connections
+        status = http.HTTPStatus.SERVICE_UNAVAILABLE  # 503
+        header = {"Hint": "The server is overloaded. Please retry later."}
+        response = b"The server is busy. Please retry later."
+
+        return status, header, response
+
     async def run(self, port: int):
         logging.info("started")
         task = asyncio.create_task(self.feature_consumer_task())
@@ -299,43 +354,81 @@ class OfflineServer:
         #  asyncio.create_task(self.feature_consumer_task())
         #  asyncio.create_task(self.feature_consumer_task())
 
-        async with websockets.serve(self.handle_connection, "", port):
+        async with websockets.serve(
+            self.handle_connection,
+            host="",
+            port=port,
+            max_size=self.max_message_size,
+            max_queue=self.max_queue_size,
+            process_request=self.process_request,
+        ):
             await asyncio.Future()  # run forever
         await task
 
     async def recv_audio_samples(
         self,
         socket: websockets.WebSocketServerProtocol,
-    ) -> Optional[torch.Tensor]:
+        last: Optional[bytes] = None,
+    ) -> Tuple[Optional[torch.Tensor], Optional[bytes]]:
         """Receives a tensor from the client.
 
-        The message from the client has the following format:
+        The message from the client contains two parts: header and payload
 
-            - a header of 8 bytes, containing the number of bytes of the tensor.
-              The header is in little endian format.
-            - a binary representation of the 1-D torch.float32 tensor.
+            - the header contains 8 bytes in little endian format, specifying
+              the number of bytes in the payload.
+
+            - the payload contains either a binary representation of the 1-D
+              torch.float32 tensor or the bytes object b"Done" which means
+              the end of utterance.
 
         Args:
           socket:
             The socket for communicating with the client.
+          last:
+            Previous received content.
         Returns:
-          Return a 1-D torch.float32 tensor.
+          Return a tuple containing:
+            - A 1-D torch.float32 tensor containing the audio samples
+            - Data for the next chunk, if any
+         or return a tuple (None, None) meaning the end of utterance.
         """
-        expected_num_bytes = None
-        received = b""
-        async for message in socket:
-            if expected_num_bytes is None:
-                assert len(message) >= 8, (len(message), message)
-                expected_num_bytes = int.from_bytes(message[:8], "little", signed=True)
-                received += message[8:]
-                if len(received) == expected_num_bytes:
+        header_len = 8
+
+        if last is None:
+            last = b""
+
+        async def receive_header():
+            buf = last
+            async for message in socket:
+                buf += message
+                if len(buf) >= header_len:
                     break
+            if buf:
+                header = buf[:header_len]
+                remaining = buf[header_len:]
             else:
-                received += message
-                if len(received) == expected_num_bytes:
-                    break
-        if not received:
-            return None
+                header = None
+                remaining = None
+
+            return header, remaining
+
+        header, received = await receive_header()
+
+        if header is None:
+            return None, None
+
+        expected_num_bytes = int.from_bytes(header, "little", signed=True)
+
+        async for message in socket:
+            received += message
+            if len(received) >= expected_num_bytes:
+                break
+
+        if not received or received == b"Done":
+            return None, None
+
+        this_chunk = received[:expected_num_bytes]
+        next_chunk = received[expected_num_bytes:]
 
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
@@ -343,10 +436,13 @@ class OfflineServer:
             # We ignore it here as we are not going to write it anyway.
             if hasattr(torch, "frombuffer"):
                 # Note: torch.frombuffer is available only in torch>= 1.10
-                return torch.frombuffer(received, dtype=torch.float32)
+                return (
+                    torch.frombuffer(this_chunk, dtype=torch.float32),
+                    next_chunk,
+                )
             else:
-                array = np.frombuffer(received, dtype=np.float32)
-                return torch.from_numpy(array)
+                array = np.frombuffer(this_chunk, dtype=np.float32)
+                return torch.from_numpy(array), next_chunk
 
     async def feature_consumer_task(self):
         """This function extracts features from the feature_queue,
@@ -432,9 +528,14 @@ class OfflineServer:
           socket:
             The socket for communicating with the client.
         """
-        logging.info(f"Connected: {socket.remote_address}")
+        logging.info(
+            f"Connected: {socket.remote_address}. "
+            f"Number of connections: {self.current_active_connections}/{self.max_active_connections}"  # noqa
+        )
+
+        last = b""
         while True:
-            samples = await self.recv_audio_samples(socket)
+            samples, last = await self.recv_audio_samples(socket, last)
             if samples is None:
                 break
             features = await self.compute_features(samples)
@@ -442,7 +543,9 @@ class OfflineServer:
             result = self.sp.decode(hyp)
             await socket.send(result)
 
-        socket.close()
+        # Decrement so that it can accept new connections
+        self.current_active_connections -= 1
+
         logging.info(f"Disconnected: {socket.remote_address}")
 
 
@@ -458,6 +561,9 @@ def main():
     batch_size = args.max_batch_size
     feature_extractor_pool_size = args.feature_extractor_pool_size
     nn_pool_size = args.nn_pool_size
+    max_message_size = args.max_message_size
+    max_queue_size = args.max_queue_size
+    max_active_connections = args.max_active_connections
 
     offline_server = OfflineServer(
         nn_model_filename=nn_model_filename,
@@ -467,6 +573,9 @@ def main():
         batch_size=batch_size,
         feature_extractor_pool_size=feature_extractor_pool_size,
         nn_pool_size=nn_pool_size,
+        max_message_size=max_message_size,
+        max_queue_size=max_queue_size,
+        max_active_connections=max_active_connections,
     )
     asyncio.run(offline_server.run(port))
 
@@ -495,7 +604,9 @@ torch::jit::setGraphExecutorOptimize(false);
 if __name__ == "__main__":
     torch.manual_seed(20220519)
 
-    formatter = "%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] %(message)s"
+    formatter = (
+        "%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] %(message)s"  # noqa
+    )
     logging.basicConfig(format=formatter, level=logging.INFO)
 
     main()
