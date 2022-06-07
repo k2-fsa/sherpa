@@ -35,7 +35,7 @@ import websockets
 from icefall.utils import store_transcripts, write_error_stats
 from lhotse import CutSet, load_manifest
 
-DEFAULT_MANIFEST_FILENAME = "/ceph-fj/fangjun/open-source-2/icefall-master-2/egs/librispeech/ASR/data/fbank/cuts_test-clean.json.gz"
+DEFAULT_MANIFEST_FILENAME = "/ceph-fj/fangjun/open-source-2/icefall-master-2/egs/librispeech/ASR/data/fbank/cuts_test-clean.json.gz"  # noqa
 
 
 def get_args():
@@ -90,7 +90,9 @@ async def send(
 ):
     total_duration = 0.0
     results = []
-    async with websockets.connect(f"ws://{server_addr}:{server_port}") as websocket:
+    async with websockets.connect(
+        f"ws://{server_addr}:{server_port}"
+    ) as websocket:  # noqa
         for i, c in enumerate(cuts):
             if i % log_interval == 0:
                 print(f"{name}: {i}/{len(cuts)}")
@@ -110,7 +112,9 @@ async def send(
 
             total_duration += c.duration
 
-            results.append((c.supervisions[0].text.split(), decoding_results.split()))
+            results.append(
+                (c.supervisions[0].text.split(), decoding_results.split())
+            )  # noqa
 
     return total_duration, results
 
@@ -130,7 +134,13 @@ async def main():
     start_time = time.time()
     for i in range(num_tasks):
         task = asyncio.create_task(
-            send(cuts_list[i], f"task-{i}", server_addr, server_port, log_interval)
+            send(
+                cuts=cuts_list[i],
+                name=f"task-{i}",
+                server_addr=server_addr,
+                server_port=server_port,
+                log_interval=log_interval,
+            )
         )
         tasks.append(task)
 
@@ -152,7 +162,9 @@ async def main():
         f"total_duration: {total_duration:.3f} seconds "
         f"({total_duration/3600:.2f} hours)"
     )
-    print(f"processing time: {elapsed:.3f} seconds " f"({elapsed/3600:.2f} hours)")
+    print(
+        f"processing time: {elapsed:.3f} seconds " f"({elapsed/3600:.2f} hours)"
+    )  # noqa
 
     store_transcripts(filename="recogs-test-clean.txt", texts=results)
     with open("errs-test-clean.txt", "w") as f:

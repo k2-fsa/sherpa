@@ -78,7 +78,9 @@ async def receive_results(socket: websockets.WebSocketServerProtocol):
 
 
 async def run(server_addr: str, server_port: int, test_wav: str):
-    async with websockets.connect(f"ws://{server_addr}:{server_port}") as websocket:
+    async with websockets.connect(
+        f"ws://{server_addr}:{server_port}"
+    ) as websocket:  # noqa
         logging.info(f"Sending {test_wav}")
         wave, sample_rate = torchaudio.load(test_wav)
         assert sample_rate == 16000, sample_rate
@@ -132,11 +134,13 @@ async def main():
             if e.status_code != http.HTTPStatus.SERVICE_UNAVAILABLE:
                 raise
             await asyncio.sleep(2)
-        except:
+        except:  # noqa
             raise
 
 
 if __name__ == "__main__":
-    formatter = "%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] %(message)s"
+    formatter = (
+        "%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] %(message)s"  # noqa
+    )
     logging.basicConfig(format=formatter, level=logging.INFO)
     asyncio.run(main())

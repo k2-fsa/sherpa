@@ -62,7 +62,8 @@ def get_args():
         "--nn-model-filename",
         type=str,
         help="""The torchscript model. You can use
-          icefall/egs/librispeech/ASR/pruned_transducer_statelessX/export.py --jit=1
+          icefall/egs/librispeech/ASR/pruned_transducer_statelessX/export.py \
+                  --jit=1
         to generate this model.
         """,
     )
@@ -253,7 +254,7 @@ class StreamingServer(object):
 
         # We add 3 here since the subsampling method is using
         # ((len - 1) // 2 - 1) // 2)
-        self.chunk_length = (self.segment_length + 3) + self.right_context_length
+        self.chunk_length = self.segment_length + 3 + self.right_context_length
 
         self.sp = spm.SentencePieceProcessor()
         self.sp.load(bpe_model_filename)
@@ -269,7 +270,8 @@ class StreamingServer(object):
             device=device,
             dtype=torch.int64,
         )
-        self.initial_decoder_out = self.model.decoder_forward(decoder_input).squeeze(1)
+        initial_decoder_out = self.model.decoder_forward(decoder_input)
+        self.initial_decoder_out = initial_decoder_out.squeeze(1)
 
         self.nn_pool = ThreadPoolExecutor(
             max_workers=nn_pool_size,
@@ -366,6 +368,8 @@ class StreamingServer(object):
         ):
             await asyncio.Future()  # run forever
 
+        await task  # not reachable
+
     async def handle_connection(
         self,
         socket: websockets.WebSocketServerProtocol,
@@ -377,7 +381,10 @@ class StreamingServer(object):
           socket:
             The socket for communicating with the client.
         """
-        logging.info(f"Connected: {socket.remote_address}")
+        logging.info(
+            f"Connected: {socket.remote_address}. "
+            f"Number of connections: {self.current_active_connections}/{self.max_active_connections}"  # noqa
+        )
         stream = Stream(
             context_size=self.context_size,
             blank_id=self.blank_id,
@@ -397,7 +404,9 @@ class StreamingServer(object):
 
             while len(stream.features) > self.chunk_length:
                 await self.compute_and_decode(stream)
-                await socket.send(f"{self.sp.decode(stream.hyp[self.context_size:])}")
+                await socket.send(
+                    f"{self.sp.decode(stream.hyp[self.context_size:])}"
+                )  # noqa
 
         stream.input_finished()
         while len(stream.features) > self.chunk_length:
@@ -409,7 +418,7 @@ class StreamingServer(object):
             await self.compute_and_decode(stream)
             stream.features = []
 
-        result = self.sp.decode(stream.hyp[self.context_size :])
+        result = self.sp.decode(stream.hyp[self.context_size :])  # noqa
         await socket.send(result)
         await socket.send("Done")
 
@@ -489,7 +498,10 @@ class StreamingServer(object):
             # We ignore it here as we are not going to write it anyway.
             if hasattr(torch, "frombuffer"):
                 # Note: torch.frombuffer is available only in torch>= 1.10
-                return torch.frombuffer(this_chunk, dtype=torch.float32), next_chunk
+                return (
+                    torch.frombuffer(this_chunk, dtype=torch.float32),
+                    next_chunk,
+                )  # noqa
             else:
                 array = np.frombuffer(this_chunk, dtype=np.float32)
                 return torch.from_numpy(array), next_chunk
@@ -545,6 +557,8 @@ torch::jit::setGraphExecutorOptimize(false);
 """
 
 if __name__ == "__main__":
-    formatter = "%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] %(message)s"
+    formatter = (
+        "%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] %(message)s"  # noqa
+    )
     logging.basicConfig(format=formatter, level=logging.INFO)
     main()
