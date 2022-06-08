@@ -27,7 +27,7 @@ namespace sherpa {
 
 /** The base class of stateless transducer model, it has an encoder, decoder
  *  and joiner, and the decoder is stateless.
- *  See the code in pruned_transducer_stateless{2,3,4}/model.py in icefall
+ *  See the code in pruned_transducer_statelessX/model.py in icefall
  *  repo for for more details.
  */
 
