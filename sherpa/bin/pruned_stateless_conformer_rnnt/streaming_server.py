@@ -41,7 +41,7 @@ import numpy as np
 import sentencepiece as spm
 import torch
 import websockets
-from sherpa import RnntModel, streaming_greedy_search, conformer_streaming_greedy_search
+from sherpa import RnntConformerModel, streaming_greedy_search
 
 from decode import Stream
 
@@ -231,7 +231,7 @@ def run_model_and_do_greedy_search(
     # Note: It does not return the next_encoder_out_len since
     # there are no paddings for streaming ASR. Each stream
     # has the same input number of frames, i.e., server.chunk_length.
-    next_decoder_out, next_hyp_list = conformer_streaming_greedy_search(
+    next_decoder_out, next_hyp_list = streaming_greedy_search(
         model=model,
         encoder_out=encoder_out,
         decoder_out=decoder_out,
@@ -298,7 +298,7 @@ class StreamingServer(object):
         else:
             device = torch.device("cpu")
 
-        self.model = RnntModel(nn_model_filename, device=device)
+        self.model = RnntConformerModel(nn_model_filename, device=device)
 
         self.subsampling_factor = self.model.subsampling_factor
 

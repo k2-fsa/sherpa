@@ -16,26 +16,26 @@
  * limitations under the License.
  */
 
-#include "sherpa/python/csrc/rnnt_model.h"
+#include "sherpa/python/csrc/rnnt_conformer_model.h"
 
 #include <memory>
 #include <string>
 
-#include "sherpa/csrc/rnnt_model.h"
+#include "sherpa/csrc/rnnt_conformer_model.h"
 #include "torch/torch.h"
 
 namespace sherpa {
 
-void PybindRnntModel(py::module &m) {  // NOLINT
-  using PyClass = RnntModel;
-  py::class_<PyClass>(m, "RnntModel")
+void PybindRnntConformerModel(py::module &m) {  // NOLINT
+  using PyClass = RnntConformerModel;
+  py::class_<PyClass>(m, "RnntConformerModel")
       .def(py::init([](const std::string &filename,
                        py::object device = py::str("cpu"),
                        bool optimize_for_inference =
-                           false) -> std::unique_ptr<RnntModel> {
+                           false) -> std::unique_ptr<RnntConformerModel> {
              std::string device_str =
                  device.is_none() ? "cpu" : py::str(device);
-             return std::make_unique<RnntModel>(
+             return std::make_unique<RnntConformerModel>(
                  filename, torch::Device(device_str), optimize_for_inference);
            }),
            py::arg("filename"), py::arg("device") = py::str("cpu"),

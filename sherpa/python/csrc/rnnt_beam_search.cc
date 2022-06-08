@@ -32,7 +32,7 @@ void PybindRnntBeamSearch(py::module &m) {  // NOLINT
 
   m.def(
       "streaming_greedy_search",
-      [](RnntEmformerModel &model, torch::Tensor encoder_out,
+      [](RnntConformerModel &model, torch::Tensor encoder_out,
          torch::Tensor decoder_out, std::vector<std::vector<int32_t>> &hyps)
           -> std::pair<torch::Tensor, std::vector<std::vector<int32_t>>> {
         decoder_out =
@@ -41,13 +41,14 @@ void PybindRnntBeamSearch(py::module &m) {  // NOLINT
       },
       py::arg("model"), py::arg("encoder_out"), py::arg("decoder_out"),
       py::arg("hyps"), py::call_guard<py::gil_scoped_release>());
+
   m.def(
-      "conformer_streaming_greedy_search",
-      [](RnntModel &model, torch::Tensor encoder_out, torch::Tensor decoder_out,
-         std::vector<std::vector<int32_t>> &hyps)
+      "streaming_greedy_search",
+      [](RnntEmformerModel &model, torch::Tensor encoder_out,
+         torch::Tensor decoder_out, std::vector<std::vector<int32_t>> &hyps)
           -> std::pair<torch::Tensor, std::vector<std::vector<int32_t>>> {
-        decoder_out = ConformerStreamingGreedySearch(model, encoder_out,
-                                                     decoder_out, &hyps);
+        decoder_out =
+            StreamingGreedySearch(model, encoder_out, decoder_out, &hyps);
         return {decoder_out, hyps};
       },
       py::arg("model"), py::arg("encoder_out"), py::arg("decoder_out"),

@@ -22,7 +22,7 @@
 
 namespace sherpa {
 
-void PybindRnntModel(py::module &m);  // NOLINT
+void PybindRnntConformerModel(py::module &m);  // NOLINT
 
 }  // namespace sherpa
 

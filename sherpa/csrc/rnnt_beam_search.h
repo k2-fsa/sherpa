@@ -20,6 +20,7 @@
 
 #include <vector>
 
+#include "sherpa/csrc/rnnt_conformer_model.h"
 #include "sherpa/csrc/rnnt_emformer_model.h"
 #include "sherpa/csrc/rnnt_model.h"
 
@@ -43,7 +44,7 @@ namespace sherpa {
  * decoding results for the corresponding input in encoder_out.
  */
 std::vector<std::vector<int32_t>> GreedySearch(
-    RnntModel &model,  // NOLINT
+    RnntConformerModel &model,  // NOLINT
     torch::Tensor encoder_out, torch::Tensor encoder_out_length);
 
 /** Greedy search for streaming recognition.
@@ -57,16 +58,10 @@ std::vector<std::vector<int32_t>> GreedySearch(
  *
  * @return Return the decoder output for the next chunk.
  */
-torch::Tensor StreamingGreedySearch(RnntEmformerModel &model,  // NOLINT
+torch::Tensor StreamingGreedySearch(RnntModel &model,  // NOLINT
                                     torch::Tensor encoder_out,
                                     torch::Tensor decoder_out,
                                     std::vector<std::vector<int32_t>> *hyps);
-
-// TODO(WeiKang): Merge into StreamingGreedySearch above.
-torch::Tensor ConformerStreamingGreedySearch(
-    RnntModel &model,  // NOLINT
-    torch::Tensor encoder_out, torch::Tensor decoder_out,
-    std::vector<std::vector<int32_t>> *hyps);
 
 }  // namespace sherpa
 

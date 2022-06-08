@@ -22,6 +22,7 @@
 #include <utility>
 #include <vector>
 
+#include "sherpa/csrc/rnnt_model.h"
 #include "torch/script.h"
 
 namespace sherpa {
@@ -29,7 +30,7 @@ namespace sherpa {
 /** It wraps a torch script model, which is from
  * pruned_stateless_emformer_rnnt2/model.py within icefall.
  */
-class RnntEmformerModel {
+class RnntEmformerModel : public RnntModel {
  public:
   /**
    * @param filename Path name of the torch script model.
@@ -56,7 +57,7 @@ class RnntEmformerModel {
    * @param decoder_input  A 2-D tensor of shape (N, U).
    * @return Return a tensor of shape (N, U, decoder_dim)
    */
-  torch::Tensor ForwardDecoder(const torch::Tensor &decoder_input);
+  torch::Tensor ForwardDecoder(const torch::Tensor &decoder_input) override;
 
   /** Run the joiner network.
    *
@@ -65,12 +66,12 @@ class RnntEmformerModel {
    * @return Return a tensor of shape (N, vocab_size)
    */
   torch::Tensor ForwardJoiner(const torch::Tensor &encoder_out,
-                              const torch::Tensor &decoder_out);
+                              const torch::Tensor &decoder_out) override;
 
-  torch::Device Device() const { return device_; }
-  int32_t BlankId() const { return blank_id_; }
-  int32_t UnkId() const { return unk_id_; }
-  int32_t ContextSize() const { return context_size_; }
+  torch::Device Device() const override { return device_; }
+  int32_t BlankId() const override { return blank_id_; }
+  int32_t UnkId() const override { return unk_id_; }
+  int32_t ContextSize() const override { return context_size_; }
   int32_t SegmentLength() const { return segment_length_; }
   int32_t RightContextLength() const { return right_context_length_; }
 
