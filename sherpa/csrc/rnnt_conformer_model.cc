@@ -17,6 +17,8 @@
  */
 #include "sherpa/csrc/rnnt_conformer_model.h"
 
+#include <tuple>
+
 namespace sherpa {
 
 RnntConformerModel::RnntConformerModel(const std::string &filename,
