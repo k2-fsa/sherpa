@@ -80,8 +80,9 @@ RnntConformerModel::State RnntConformerModel::GetEncoderInitStates(
 std::tuple<torch::Tensor, torch::Tensor, RnntConformerModel::State>
 RnntConformerModel::StreamingForwardEncoder(
     const torch::Tensor &features, const torch::Tensor &features_length,
-    RnntConformerModel::State &states, const torch::Tensor &processed_lengths,
-    int32_t left_context, int32_t right_context) {
+    const RnntConformerModel::State &states,
+    const torch::Tensor &processed_lengths, int32_t left_context,
+    int32_t right_context) {
   auto outputs =
       encoder_
           .run_method("streaming_forward", features, features_length, states,

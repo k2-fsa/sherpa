@@ -20,7 +20,9 @@
 #define SHERPA_CSRC_RNNT_CONFORMER_MODEL_H_
 
 #include <string>
+#include <tuple>
 #include <utility>
+#include <vector>
 
 #include "sherpa/csrc/rnnt_model.h"
 #include "torch/script.h"
@@ -92,7 +94,7 @@ class RnntConformerModel : public RnntModel {
    */
   std::tuple<torch::Tensor, torch::Tensor, State> StreamingForwardEncoder(
       const torch::Tensor &features, const torch::Tensor &features_length,
-      State &states, const torch::Tensor &processed_lengths,
+      const State &states, const torch::Tensor &processed_lengths,
       int32_t left_context, int32_t right_context);
 
   /** Run the decoder network.
@@ -144,4 +146,4 @@ class RnntConformerModel : public RnntModel {
 
 }  // namespace sherpa
 
-#endif  // SHERPA_CSRC_RNNT_COMFORMER_MODEL_H_
+#endif  // SHERPA_CSRC_RNNT_CONFORMER_MODEL_H_

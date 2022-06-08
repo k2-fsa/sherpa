@@ -98,7 +98,7 @@ jobs:
           export PYTHONPATH=~/tmp/kaldifeat/kaldifeat/python:$PYTHONPATH
           export PYTHONPATH=~/tmp/kaldifeat/build/lib:$PYTHONPATH
 
-          sherpa/bin/offline_server.py \
+          sherpa/bin/conformer_rnnt/offline_server.py \
             --port 6006 \
             --num-device 0 \
             --max-batch-size 10 \
@@ -113,7 +113,7 @@ jobs:
       - name: Start client
         shell: bash
         run: |
-          sherpa/bin/offline_client.py \
+          sherpa/bin/conformer_rnnt/offline_client.py \
             --server-addr localhost \
             --server-port 6006 \
             icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/test_wavs/1089-134686-0001.wav \
