@@ -41,7 +41,7 @@ import numpy as np
 import sentencepiece as spm
 import torch
 import websockets
-from sherpa import RnntModel, streaming_greedy_search
+from sherpa import RnntModel, streaming_greedy_search, conformer_streaming_greedy_search
 
 from decode import Stream
 
@@ -200,8 +200,6 @@ def run_model_and_do_greedy_search(
         b = torch.cat(f, dim=0)
         feature_list.append(b)
 
-    logging.info("batching")
-
     features = torch.stack(feature_list, dim=0).to(device)
 
     states = [
@@ -220,8 +218,6 @@ def run_model_and_do_greedy_search(
 
     processed_lens = torch.tensor(processed_len_list, device=device)
 
-    logging.info(f"processed_lens : {processed_lens}")
-
     (encoder_out, encoder_out_lens,
      next_states) = model.encoder_streaming_forward(
          features,
@@ -232,19 +228,15 @@ def run_model_and_do_greedy_search(
          right_context,
      )
 
-    logging.info("finish encoder")
-
     # Note: It does not return the next_encoder_out_len since
     # there are no paddings for streaming ASR. Each stream
     # has the same input number of frames, i.e., server.chunk_length.
-    next_decoder_out, next_hyp_list = streaming_greedy_search(
+    next_decoder_out, next_hyp_list = conformer_streaming_greedy_search(
         model=model,
         encoder_out=encoder_out,
         decoder_out=decoder_out,
         hyps=hyp_list,
     )
-
-    logging.info("finish search")
 
     next_state_list = [
         torch.unbind(next_states[0], dim=2),
@@ -256,8 +248,6 @@ def run_model_and_do_greedy_search(
         s.processed_len += encoder_out_lens[i]
         s.decoder_out = next_decoder_out_list[i]
         s.hyp = next_hyp_list[i]
-
-    logging.info("done one chunk")
 
 
 class StreamingServer(object):
@@ -307,7 +297,6 @@ class StreamingServer(object):
             device = torch.device("cuda", 0)
         else:
             device = torch.device("cpu")
-        logging.info(f"Using device: {device}")
 
         self.model = RnntModel(nn_model_filename, device=device)
 
@@ -328,10 +317,6 @@ class StreamingServer(object):
             self.decode_chunk_size + 2 +
             self.decode_right_context) * self.subsampling_factor + 3
 
-        logging.info(
-            f"chunk_length : {self.chunk_length}, chunk_size : {self.decode_chunk_size}, left context : {self.decode_left_context}, right context : {self.decode_right_context}"
-        )
-
         self.sp = spm.SentencePieceProcessor()
         self.sp.load(bpe_model_filename)
 
@@ -341,7 +326,6 @@ class StreamingServer(object):
 
         self.initial_states = self.model.get_encoder_init_states(
             self.decode_left_context)
-        logging.info(f"initial_states : {self.initial_states}")
         decoder_input = torch.tensor(
             [[self.blank_id] * self.context_size],
             device=device,
@@ -376,19 +360,13 @@ class StreamingServer(object):
             batch = []
             try:
                 while len(batch) < self.max_batch_size:
-                    logging.info(f"once")
                     item = self.stream_queue.get_nowait()
-
-                    logging.info(f"batch size : {len(batch)}")
 
                     assert len(item[0].features) >= self.chunk_length, len(
                         item[0].features)
 
-                    logging.info(f"feature size : {len(item[0].features)}")
-
                     batch.append(item)
             except asyncio.QueueEmpty:
-                logging.info(f"here")
                 pass
             stream_list = [b[0] for b in batch]
             future_list = [b[1] for b in batch]
@@ -477,15 +455,12 @@ class StreamingServer(object):
         last = b""
         while True:
             samples, last = await self.recv_audio_samples(socket, last)
-            logging.info(f"samples : {samples}")
             if samples is None:
                 break
 
             # TODO(fangjun): At present, we assume the sampling rate
             # of the received audio samples is always 16000.
             stream.accept_waveform(sampling_rate=16000, waveform=samples)
-
-            logging.info(f"features length: {len(stream.features)}")
 
             while len(stream.features) > self.chunk_length:
                 await self.compute_and_decode(stream)

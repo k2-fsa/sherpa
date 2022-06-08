@@ -62,6 +62,12 @@ torch::Tensor StreamingGreedySearch(RnntEmformerModel &model,  // NOLINT
                                     torch::Tensor decoder_out,
                                     std::vector<std::vector<int32_t>> *hyps);
 
+// TODO(WeiKang): Merge into StreamingGreedySearch above.
+torch::Tensor ConformerStreamingGreedySearch(
+    RnntModel &model,  // NOLINT
+    torch::Tensor encoder_out, torch::Tensor decoder_out,
+    std::vector<std::vector<int32_t>> *hyps);
+
 }  // namespace sherpa
 
 #endif  // SHERPA_CSRC_RNNT_BEAM_SEARCH_H_
