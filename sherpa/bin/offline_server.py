@@ -47,7 +47,8 @@ LOG_EPS = math.log(1e-10)
 
 def get_args():
     parser = argparse.ArgumentParser(
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter
+    )
 
     parser.add_argument(
         "--port",
@@ -291,8 +292,9 @@ class OfflineServer:
 
         return fbank
 
-    def _build_nn_model(self, nn_model_filename: str,
-                        num_device: int) -> List[RnntConformerModel]:
+    def _build_nn_model(
+        self, nn_model_filename: str, num_device: int
+    ) -> List[RnntConformerModel]:
         """Build a torch script model for each given device.
 
         Args:
@@ -599,9 +601,7 @@ torch::jit::setGraphExecutorOptimize(false);
 if __name__ == "__main__":
     torch.manual_seed(20220519)
 
-    formatter = (
-        "%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] %(message)s"  # noqa
-    )
+    formatter = "%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] %(message)s"  # noqa
     logging.basicConfig(format=formatter, level=logging.INFO)
 
     main()

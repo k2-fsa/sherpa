@@ -48,7 +48,8 @@ from decode import Stream
 
 def get_args():
     parser = argparse.ArgumentParser(
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter
+    )
 
     parser.add_argument(
         "--port",
@@ -87,16 +88,14 @@ def get_args():
         "--decode-left-context",
         type=int,
         default=32,
-        help=
-        "left context can be seen during decoding (in frames after subsampling)",
+        help="left context can be seen during decoding (in frames after subsampling)",
     )
 
     parser.add_argument(
         "--decode-right-context",
         type=int,
         default=2,
-        help=
-        "right context can be seen during decoding (in frames after subsampling)",
+        help="right context can be seen during decoding (in frames after subsampling)",
     )
 
     parser.add_argument(
@@ -195,7 +194,7 @@ def run_model_and_do_greedy_search(
         processed_len_list.append(s.processed_len)
 
         f = s.features[:chunk_length]
-        s.features = s.features[chunk_size * subsampling_factor:]
+        s.features = s.features[chunk_size * subsampling_factor :]
 
         b = torch.cat(f, dim=0)
         feature_list.append(b)
@@ -210,7 +209,7 @@ def run_model_and_do_greedy_search(
     decoder_out = torch.cat(decoder_out_list, dim=0)
 
     features_length = torch.full(
-        (batch_size, ),
+        (batch_size,),
         fill_value=features.size(1),
         device=device,
         dtype=torch.int64,
@@ -218,15 +217,18 @@ def run_model_and_do_greedy_search(
 
     processed_lens = torch.tensor(processed_len_list, device=device)
 
-    (encoder_out, encoder_out_lens,
-     next_states) = model.encoder_streaming_forward(
-         features,
-         features_length,
-         states,
-         processed_lens,
-         left_context,
-         right_context,
-     )
+    (
+        encoder_out,
+        encoder_out_lens,
+        next_states,
+    ) = model.encoder_streaming_forward(
+        features,
+        features_length,
+        states,
+        processed_lens,
+        left_context,
+        right_context,
+    )
 
     # Note: It does not return the next_encoder_out_len since
     # there are no paddings for streaming ASR. Each stream
@@ -240,7 +242,7 @@ def run_model_and_do_greedy_search(
 
     next_state_list = [
         torch.unbind(next_states[0], dim=2),
-        torch.unbind(next_states[1], dim=2)
+        torch.unbind(next_states[1], dim=2),
     ]
     next_decoder_out_list = next_decoder_out.split(1)
     for i, s in enumerate(stream_list):
@@ -314,8 +316,8 @@ class StreamingServer(object):
         # and decoding mismatch by seeing padding values.
         # Note: chunk_length is in frames before subsampling.
         self.chunk_length = (
-            self.decode_chunk_size + 2 +
-            self.decode_right_context) * self.subsampling_factor + 3
+            self.decode_chunk_size + 2 + self.decode_right_context
+        ) * self.subsampling_factor + 3
 
         self.sp = spm.SentencePieceProcessor()
         self.sp.load(bpe_model_filename)
@@ -325,7 +327,8 @@ class StreamingServer(object):
         self.log_eps = math.log(1e-10)
 
         self.initial_states = self.model.get_encoder_init_states(
-            self.decode_left_context)
+            self.decode_left_context
+        )
         decoder_input = torch.tensor(
             [[self.blank_id] * self.context_size],
             device=device,
@@ -363,7 +366,8 @@ class StreamingServer(object):
                     item = self.stream_queue.get_nowait()
 
                     assert len(item[0].features) >= self.chunk_length, len(
-                        item[0].features)
+                        item[0].features
+                    )
 
                     batch.append(item)
             except asyncio.QueueEmpty:
@@ -419,12 +423,12 @@ class StreamingServer(object):
         task = asyncio.create_task(self.stream_consumer_task())
 
         async with websockets.serve(
-                self.handle_connection,
-                host="",
-                port=port,
-                max_size=self.max_message_size,
-                max_queue=self.max_queue_size,
-                process_request=self.process_request,
+            self.handle_connection,
+            host="",
+            port=port,
+            max_size=self.max_message_size,
+            max_queue=self.max_queue_size,
+            process_request=self.process_request,
         ):
             await asyncio.Future()  # run forever
 
@@ -478,7 +482,7 @@ class StreamingServer(object):
             await self.compute_and_decode(stream)
             stream.features = []
 
-        result = self.sp.decode(stream.hyp[self.context_size:])  # noqa
+        result = self.sp.decode(stream.hyp[self.context_size :])  # noqa
         await socket.send(result)
         await socket.send("Done")
 
@@ -623,8 +627,6 @@ torch::jit::setGraphExecutorOptimize(false);
 """
 
 if __name__ == "__main__":
-    formatter = (
-        "%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] %(message)s"  # noqa
-    )
+    formatter = "%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] %(message)s"  # noqa
     logging.basicConfig(format=formatter, level=logging.INFO)
     main()

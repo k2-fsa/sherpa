@@ -39,7 +39,8 @@ DEFAULT_MANIFEST_FILENAME = "/ceph-fj/fangjun/open-source-2/icefall-master-2/egs
 
 def get_args():
     parser = argparse.ArgumentParser(
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter
+    )
 
     parser.add_argument(
         "--server-addr",
@@ -89,7 +90,8 @@ async def send(
     total_duration = 0.0
     results = []
     async with websockets.connect(
-            f"ws://{server_addr}:{server_port}") as websocket:  # noqa
+        f"ws://{server_addr}:{server_port}"
+    ) as websocket:  # noqa
         for i, c in enumerate(cuts):
             if i % log_interval == 0:
                 print(f"{name}: {i}/{len(cuts)}")
@@ -97,10 +99,9 @@ async def send(
             samples = c.load_audio().reshape(-1).astype(np.float32)
             num_bytes = samples.nbytes
 
-            await websocket.send((num_bytes).to_bytes(8, "little",
-                                                      signed=True))
+            await websocket.send((num_bytes).to_bytes(8, "little", signed=True))
 
-            frame_size = (2**20) // 4  # max payload is 1MB
+            frame_size = (2 ** 20) // 4  # max payload is 1MB
             start = 0
             while start < samples.size:
                 end = start + frame_size
@@ -110,8 +111,9 @@ async def send(
 
             total_duration += c.duration
 
-            results.append((c.supervisions[0].text.split(),
-                            decoding_results.split()))  # noqa
+            results.append(
+                (c.supervisions[0].text.split(), decoding_results.split())
+            )  # noqa
 
     return total_duration, results
 
@@ -137,7 +139,8 @@ async def main():
                 server_addr=server_addr,
                 server_port=server_port,
                 log_interval=log_interval,
-            ))
+            )
+        )
         tasks.append(task)
 
     ans_list = await asyncio.gather(*tasks)
@@ -154,10 +157,13 @@ async def main():
     rtf = elapsed / total_duration
 
     print(f"RTF: {rtf:.4f}")
-    print(f"total_duration: {total_duration:.3f} seconds "
-          f"({total_duration/3600:.2f} hours)")
-    print(f"processing time: {elapsed:.3f} seconds "
-          f"({elapsed/3600:.2f} hours)")  # noqa
+    print(
+        f"total_duration: {total_duration:.3f} seconds "
+        f"({total_duration/3600:.2f} hours)"
+    )
+    print(
+        f"processing time: {elapsed:.3f} seconds " f"({elapsed/3600:.2f} hours)"
+    )  # noqa
 
     store_transcripts(filename="recogs-test-clean.txt", texts=results)
     with open("errs-test-clean.txt", "w") as f:
