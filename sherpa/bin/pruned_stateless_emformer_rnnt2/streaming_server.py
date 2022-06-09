@@ -14,7 +14,6 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
 """
 A server for streaming ASR recognition. By streaming it means the audio samples
 are coming in real-time. You don't need to wait until all audio samples are
@@ -182,9 +181,9 @@ def run_model_and_do_greedy_search(
     )
 
     (encoder_out, next_states) = model.encoder_streaming_forward(
-        features,
-        features_length,
-        states,
+        features=features,
+        features_length=features_length,
+        states=states,
     )
 
     # Note: It does not return the next_encoder_out_len since
@@ -557,8 +556,6 @@ torch::jit::setGraphExecutorOptimize(false);
 """
 
 if __name__ == "__main__":
-    formatter = (
-        "%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] %(message)s"  # noqa
-    )
+    formatter = "%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] %(message)s"  # noqa
     logging.basicConfig(format=formatter, level=logging.INFO)
     main()

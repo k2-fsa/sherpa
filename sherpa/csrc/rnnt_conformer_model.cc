@@ -71,9 +71,8 @@ RnntConformerModel::State RnntConformerModel::GetEncoderInitStates(
       encoder_.run_method("get_init_state", left_context, device_);
   torch::List<torch::IValue> list = ivalue.toList();
 
-  RnntConformerModel::State states;
-  states.emplace_back(list.get(0).toTensor());
-  states.emplace_back(list.get(1).toTensor());
+  RnntConformerModel::State states = {list.get(0).toTensor(),
+                                      list.get(1).toTensor()};
   return states;
 }
 
@@ -81,21 +80,20 @@ std::tuple<torch::Tensor, torch::Tensor, RnntConformerModel::State>
 RnntConformerModel::StreamingForwardEncoder(
     const torch::Tensor &features, const torch::Tensor &features_length,
     const RnntConformerModel::State &states,
-    const torch::Tensor &processed_lengths, int32_t left_context,
+    const torch::Tensor &processed_frames, int32_t left_context,
     int32_t right_context) {
   auto outputs =
       encoder_
           .run_method("streaming_forward", features, features_length, states,
-                      processed_lengths, left_context, right_context)
+                      processed_frames, left_context, right_context)
           .toTuple();
   auto encoder_out = outputs->elements()[0].toTensor();
   auto encoder_out_length = outputs->elements()[1].toTensor();
 
   torch::List<torch::IValue> list = outputs->elements()[2].toList();
 
-  RnntConformerModel::State next_states;
-  next_states.emplace_back(list.get(0).toTensor());
-  next_states.emplace_back(list.get(1).toTensor());
+  RnntConformerModel::State next_states = {list.get(0).toTensor(),
+                                           list.get(1).toTensor()};
 
   return {encoder_out, encoder_out_length, next_states};
 }

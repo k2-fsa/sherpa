@@ -48,7 +48,7 @@ static void BuildDecoderInput(const std::vector<std::vector<int32_t>> &hyps,
 }
 
 std::vector<std::vector<int32_t>> GreedySearch(
-    RnntConformerModel &model,  // NOLINT
+    RnntModel &model,  // NOLINT
     torch::Tensor encoder_out, torch::Tensor encoder_out_length) {
   TORCH_CHECK(encoder_out.dim() == 3, "encoder_out.dim() is ",
               encoder_out.dim(), "Expected is 3");

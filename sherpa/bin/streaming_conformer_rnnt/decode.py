@@ -55,7 +55,7 @@ class Stream(object):
           blank_id:
             Blank token ID of the BPE model.
           initial_states:
-            The initial states of the Emformer model. Note that the state
+            The initial states of the Conformer model. Note that the state
             does not contain the batch dimension.
           decoder_out:
             The initial decoder out corresponding to the decoder input
@@ -70,7 +70,8 @@ class Stream(object):
         self.states = initial_states
         self.decoder_out = decoder_out
 
-        self.processed_len = 0
+        # The number of frames (after subsampling) been processed.
+        self.processed_frames = 0
 
         self.context_size = context_size
         self.hyp = [blank_id] * context_size

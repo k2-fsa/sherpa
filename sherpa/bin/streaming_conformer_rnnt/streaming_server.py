@@ -186,12 +186,12 @@ def run_model_and_do_greedy_search(
     decoder_out_list = []
     hyp_list = []
     feature_list = []
-    processed_len_list = []
+    processed_frames_list = []
     for s in stream_list:
         state_list.append(s.states)
         decoder_out_list.append(s.decoder_out)
         hyp_list.append(s.hyp)
-        processed_len_list.append(s.processed_len)
+        processed_frames_list.append(s.processed_frames)
 
         f = s.features[:chunk_length]
         s.features = s.features[chunk_size * subsampling_factor :]
@@ -215,19 +215,19 @@ def run_model_and_do_greedy_search(
         dtype=torch.int64,
     )
 
-    processed_lens = torch.tensor(processed_len_list, device=device)
+    processed_frames = torch.tensor(processed_frames_list, device=device)
 
     (
         encoder_out,
         encoder_out_lens,
         next_states,
     ) = model.encoder_streaming_forward(
-        features,
-        features_length,
-        states,
-        processed_lens,
-        left_context,
-        right_context,
+        features=features,
+        features_length=features_length,
+        states=states,
+        processed_frames=processed_frames,
+        left_context=left_context,
+        right_context=right_context,
     )
 
     # Note: It does not return the next_encoder_out_len since
@@ -247,7 +247,7 @@ def run_model_and_do_greedy_search(
     next_decoder_out_list = next_decoder_out.split(1)
     for i, s in enumerate(stream_list):
         s.states = [next_state_list[0][i], next_state_list[1][i]]
-        s.processed_len += encoder_out_lens[i]
+        s.processed_frames += encoder_out_lens[i]
         s.decoder_out = next_decoder_out_list[i]
         s.hyp = next_hyp_list[i]
 

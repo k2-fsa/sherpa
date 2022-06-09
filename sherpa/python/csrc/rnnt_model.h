@@ -1,5 +1,6 @@
 /**
- * Copyright (c)  2022  Xiaomi Corporation (authors: Fangjun Kuang)
+ * Copyright (c)  2022  Xiaomi Corporation (authors: Fangjun Kuang,
+ *                                                   Wei Kang)
  *
  * See LICENSE for clarification regarding multiple authors
  *
@@ -15,15 +16,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#ifndef SHERPA_PYTHON_CSRC_RNNT_EMFORMER_MODEL_H_
-#define SHERPA_PYTHON_CSRC_RNNT_EMFORMER_MODEL_H_
+#ifndef SHERPA_PYTHON_CSRC_RNNT_MODEL_H_
+#define SHERPA_PYTHON_CSRC_RNNT_MODEL_H_
 
 #include "sherpa/python/csrc/sherpa.h"
 
 namespace sherpa {
 
-void PybindRnntEmformerModel(py::module &m);  // NOLINT
+void PybindRnntModel(py::module &m);  // NOLINT
 
 }  // namespace sherpa
 
-#endif  // SHERPA_PYTHON_CSRC_RNNT_EMFORMER_MODEL_H_
+#endif  // SHERPA_PYTHON_CSRC_RNNT_MODEL_H_

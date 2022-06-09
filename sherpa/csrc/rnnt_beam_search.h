@@ -44,7 +44,7 @@ namespace sherpa {
  * decoding results for the corresponding input in encoder_out.
  */
 std::vector<std::vector<int32_t>> GreedySearch(
-    RnntConformerModel &model,  // NOLINT
+    RnntModel &model,  // NOLINT
     torch::Tensor encoder_out, torch::Tensor encoder_out_length);
 
 /** Greedy search for streaming recognition.

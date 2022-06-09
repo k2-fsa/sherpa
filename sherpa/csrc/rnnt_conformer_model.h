@@ -45,7 +45,7 @@ class RnntConformerModel : public RnntModel {
                               torch::Device device = torch::kCPU,
                               bool optimize_for_inference = false);
 
-  ~RnntConformerModel() = default;
+  ~RnntConformerModel() override = default;
 
   using State = std::vector<torch::Tensor>;
 
@@ -94,7 +94,7 @@ class RnntConformerModel : public RnntModel {
    */
   std::tuple<torch::Tensor, torch::Tensor, State> StreamingForwardEncoder(
       const torch::Tensor &features, const torch::Tensor &features_length,
-      const State &states, const torch::Tensor &processed_lengths,
+      const State &states, const torch::Tensor &processed_frames,
       int32_t left_context, int32_t right_context);
 
   /** Run the decoder network.

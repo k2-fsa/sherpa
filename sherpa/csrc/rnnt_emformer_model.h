@@ -42,7 +42,7 @@ class RnntEmformerModel : public RnntModel {
                              torch::Device device = torch::kCPU,
                              bool optimize_for_inference = false);
 
-  ~RnntEmformerModel() = default;
+  ~RnntEmformerModel() override = default;
 
   using State = std::vector<std::vector<torch::Tensor>>;
 
