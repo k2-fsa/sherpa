@@ -46,4 +46,6 @@ where `X>=2`. And the model is trained for streaming recognition.
 | [streaming_conformer_rnnt/streaming_client.py](./streaming_conformer_rnnt/streaming_client.py) | The client for streaming ASR |
 | [streaming_conformer_rnnt/decode.py](./streaming_conformer_rnnt/decode.py) | Utilities for streaming ASR|
 
-TODO: Add pretrained streaming model.
+You can use the pretrained model from
+<https://huggingface.co/pkufool/icefall-asr-librispeech-pruned-stateless-streaming-conformer-rnnt2-2022-06-10>
+to test it.
