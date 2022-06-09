@@ -35,10 +35,10 @@ static void PybindRnntEmformerModel(py::module &m) {  // NOLINT
       .def(py::init([](const std::string &filename,
                        py::object device = py::str("cpu"),
                        bool optimize_for_inference =
-                           false) -> std::unique_ptr<RnntEmformerModel> {
+                           false) -> std::unique_ptr<PyClass> {
              std::string device_str =
                  device.is_none() ? "cpu" : py::str(device);
-             return std::make_unique<RnntEmformerModel>(
+             return std::make_unique<PyClass>(
                  filename, torch::Device(device_str), optimize_for_inference);
            }),
            py::arg("filename"), py::arg("device") = py::str("cpu"),
