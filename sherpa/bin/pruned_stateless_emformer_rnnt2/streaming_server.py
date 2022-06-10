@@ -135,6 +135,7 @@ def get_args():
     return parser.parse_args()
 
 
+@torch.no_grad()
 def run_model_and_do_greedy_search(
     server: "StreamingServer",
     stream_list: List[Stream],
