@@ -104,6 +104,7 @@ following command:
   --port 6006 \
   --max-batch-size 50 \
   --max-wait-ms 5 \
+  --max-active-connections 500 \
   --nn-pool-size 1 \
   --nn-model-filename ./path/to/exp/cpu_jit.pt \
   --bpe-model-filename ./path/to/data/lang_bpe_500/bpe.model
@@ -111,6 +112,13 @@ following command:
 
 You can use `./sherpa/bin/pruned_stateless_emformer_rnnt2/streaming_server.py --help`
 to view the help message.
+
+**Hint**: You can use the environment variable `CUDA_VISIBLE_DEVICES` to control
+which GPU is used. For instance, to use GPU 3 in the server, just set
+`export CUDA_VISIBLE_DEVICES="3"` before starting the server.
+
+**Note: To keep the server from OOM error, please tune `--max-batch-size`
+and `--max-active-connections`.
 
 We provide a pretrained model using the LibriSpeech dataset at
 <https://huggingface.co/csukuangfj/icefall-asr-librispeech-pruned-stateless-emformer-rnnt2-2022-06-01>
@@ -196,9 +204,10 @@ following command:
 ```bash
 sherpa/bin/offline_server.py \
   --port 6006 \
-  --num-device 0 \
+  --num-device 1 \
   --max-batch-size 10 \
   --max-wait-ms 5 \
+  --max-active-connections 500 \
   --feature-extractor-pool-size 5 \
   --nn-pool-size 1 \
   --nn-model-filename ./path/to/exp/cpu_jit.pt \
@@ -206,6 +215,11 @@ sherpa/bin/offline_server.py \
 ```
 
 You can use `./sherpa/bin/offline_server.py --help` to view the help message.
+
+**HINT**: If you don't have GPU, please set `--num-device` to `0`.
+
+**Caution**: To keep the server from out-of-memory error, you can tune
+`--max-batch-size` and `--max-active-connections`.
 
 We provide a pretrained model using the LibriSpeech dataset at
 <https://huggingface.co/csukuangfj/icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13>
@@ -218,9 +232,10 @@ git clone https://huggingface.co/csukuangfj/icefall-asr-librispeech-pruned-trans
 
 sherpa/bin/offline_server.py \
   --port 6006 \
-  --num-device 0 \
+  --num-device 1 \
   --max-batch-size 10 \
   --max-wait-ms 5 \
+  --max-active-connections 500 \
   --feature-extractor-pool-size 5 \
   --nn-pool-size 1 \
   --nn-model-filename ./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/exp/cpu_jit.pt \
