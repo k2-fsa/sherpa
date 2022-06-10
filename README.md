@@ -117,7 +117,7 @@ to view the help message.
 which GPU is used. For instance, to use GPU 3 in the server, just set
 `export CUDA_VISIBLE_DEVICES="3"` before starting the server.
 
-**Note: To keep the server from OOM error, please tune `--max-batch-size`
+**Note**: To keep the server from OOM error, please tune `--max-batch-size`
 and `--max-active-connections`.
 
 We provide a pretrained model using the LibriSpeech dataset at
