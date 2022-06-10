@@ -47,18 +47,8 @@ static void PybindRnntEmformerModel(py::module &m) {  // NOLINT
            py::arg("features"), py::arg("features_length"),
            py::arg("states") = py::none(),
            py::call_guard<py::gil_scoped_release>())
-      .def("decoder_forward", &PyClass::ForwardDecoder,
-           py::arg("decoder_input"), py::call_guard<py::gil_scoped_release>())
       .def("get_encoder_init_states", &PyClass::GetEncoderInitStates,
            py::call_guard<py::gil_scoped_release>())
-      .def_property_readonly("device",
-                             [](const PyClass &self) -> py::object {
-                               py::object ans =
-                                   py::module_::import("torch").attr("device");
-                               return ans(self.Device().str());
-                             })
-      .def_property_readonly("blank_id", &PyClass::BlankId)
-      .def_property_readonly("context_size", &PyClass::ContextSize)
       .def_property_readonly("segment_length", &PyClass::SegmentLength)
       .def_property_readonly("right_context_length",
                              &PyClass::RightContextLength);
@@ -84,22 +74,26 @@ static void PybindRnntConformerModel(py::module &m) {  // NOLINT
            py::arg("features"), py::arg("features_length"), py::arg("states"),
            py::arg("processed_frames"), py::arg("left_context"),
            py::arg("right_context"), py::call_guard<py::gil_scoped_release>())
-      .def("decoder_forward", &PyClass::ForwardDecoder,
-           py::arg("decoder_input"), py::call_guard<py::gil_scoped_release>())
       .def("get_encoder_init_states", &PyClass::GetEncoderInitStates,
            py::arg("left_context"), py::call_guard<py::gil_scoped_release>())
-      .def_property_readonly("blank_id", &PyClass::BlankId)
-      .def_property_readonly("unk_id", &PyClass::UnkId)
-      .def_property_readonly("context_size", &PyClass::ContextSize)
-      .def_property_readonly("subsampling_factor", &PyClass::SubSamplingFactor)
-      .def_property_readonly("device", [](const PyClass &self) -> py::object {
-        py::object ans = py::module_::import("torch").attr("device");
-        return ans(self.Device().str());
-      });
+      .def_property_readonly("subsampling_factor", &PyClass::SubSamplingFactor);
 }
 
 void PybindRnntModel(py::module &m) {  // NOLINT
-  py::class_<RnntModel>(m, "RnntModel");
+  using PyClass = RnntModel;
+  py::class_<PyClass>(m, "RnntModel")
+      .def("decoder_forward", &PyClass::ForwardDecoder,
+           py::arg("decoder_input"), py::call_guard<py::gil_scoped_release>())
+      .def_property_readonly("device",
+                             [](const PyClass &self) -> py::object {
+                               py::object ans =
+                                   py::module_::import("torch").attr("device");
+                               return ans(self.Device().str());
+                             })
+      .def_property_readonly("blank_id", &PyClass::BlankId)
+      .def_property_readonly("unk_id", &PyClass::UnkId)
+      .def_property_readonly("context_size", &PyClass::ContextSize);
+
   PybindRnntEmformerModel(m);
   PybindRnntConformerModel(m);
 }
