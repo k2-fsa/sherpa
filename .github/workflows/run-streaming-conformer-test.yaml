@@ -31,9 +31,14 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-18.04, macos-10.15]
-        torch: ["1.10.0"]
-        torchaudio: ["0.10.0"]
+        torch: ["1.10.0", "1.6.0"]
+        torchaudio: ["0.10.0", "0.6.0"]
         python-version: [3.7, 3.8]
+        exclude:
+          - torch: "1.10.0"
+            torchaudio: "0.6.0"
+          - torch: "1.6.0"
+            torchaudio: "0.10.0"
 
     steps:
       - uses: actions/checkout@v2

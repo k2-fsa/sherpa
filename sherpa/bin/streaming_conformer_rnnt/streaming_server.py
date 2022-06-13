@@ -156,6 +156,7 @@ def get_args():
     return parser.parse_args()
 
 
+@torch.no_grad()
 def run_model_and_do_greedy_search(
     server: "StreamingServer",
     stream_list: List[Stream],
@@ -352,7 +353,7 @@ class StreamingServer(object):
         self.current_active_connections = 0
 
     async def stream_consumer_task(self):
-        """The function extract streams from the queue, batches them up, sends
+        """This function extracts streams from the queue, batches them up, sends
         them to the RNN-T model for computation and decoding.
         """
         while True:
@@ -438,7 +439,7 @@ class StreamingServer(object):
         self,
         socket: websockets.WebSocketServerProtocol,
     ):
-        """Receive audio samples from the client, process it, and sends
+        """Receive audio samples from the client, process it, and send
         deocoding result back to the client.
 
         Args:

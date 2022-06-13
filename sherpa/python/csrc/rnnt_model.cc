@@ -22,62 +22,10 @@
 #include <memory>
 #include <string>
 
-#include "sherpa/csrc/rnnt_conformer_model.h"
-#include "sherpa/csrc/rnnt_emformer_model.h"
 #include "sherpa/csrc/rnnt_model.h"
 #include "torch/torch.h"
 
 namespace sherpa {
-
-static void PybindRnntEmformerModel(py::module &m) {  // NOLINT
-  using PyClass = RnntEmformerModel;
-  py::class_<PyClass, RnntModel>(m, "RnntEmformerModel")
-      .def(py::init([](const std::string &filename,
-                       py::object device = py::str("cpu"),
-                       bool optimize_for_inference =
-                           false) -> std::unique_ptr<PyClass> {
-             std::string device_str =
-                 device.is_none() ? "cpu" : py::str(device);
-             return std::make_unique<PyClass>(
-                 filename, torch::Device(device_str), optimize_for_inference);
-           }),
-           py::arg("filename"), py::arg("device") = py::str("cpu"),
-           py::arg("optimize_for_inference") = false)
-      .def("encoder_streaming_forward", &PyClass::StreamingForwardEncoder,
-           py::arg("features"), py::arg("features_length"),
-           py::arg("states") = py::none(),
-           py::call_guard<py::gil_scoped_release>())
-      .def("get_encoder_init_states", &PyClass::GetEncoderInitStates,
-           py::call_guard<py::gil_scoped_release>())
-      .def_property_readonly("segment_length", &PyClass::SegmentLength)
-      .def_property_readonly("right_context_length",
-                             &PyClass::RightContextLength);
-}
-
-static void PybindRnntConformerModel(py::module &m) {  // NOLINT
-  using PyClass = RnntConformerModel;
-  py::class_<PyClass, RnntModel>(m, "RnntConformerModel")
-      .def(py::init([](const std::string &filename,
-                       py::object device = py::str("cpu"),
-                       bool optimize_for_inference =
-                           false) -> std::unique_ptr<PyClass> {
-             std::string device_str =
-                 device.is_none() ? "cpu" : py::str(device);
-             return std::make_unique<PyClass>(
-                 filename, torch::Device(device_str), optimize_for_inference);
-           }),
-           py::arg("filename"), py::arg("device") = py::str("cpu"),
-           py::arg("optimize_for_inference") = false)
-      .def("encoder", &PyClass::ForwardEncoder, py::arg("features"),
-           py::arg("features_length"), py::call_guard<py::gil_scoped_release>())
-      .def("encoder_streaming_forward", &PyClass::StreamingForwardEncoder,
-           py::arg("features"), py::arg("features_length"), py::arg("states"),
-           py::arg("processed_frames"), py::arg("left_context"),
-           py::arg("right_context"), py::call_guard<py::gil_scoped_release>())
-      .def("get_encoder_init_states", &PyClass::GetEncoderInitStates,
-           py::arg("left_context"), py::call_guard<py::gil_scoped_release>())
-      .def_property_readonly("subsampling_factor", &PyClass::SubSamplingFactor);
-}
 
 void PybindRnntModel(py::module &m) {  // NOLINT
   using PyClass = RnntModel;
@@ -93,9 +41,6 @@ void PybindRnntModel(py::module &m) {  // NOLINT
       .def_property_readonly("blank_id", &PyClass::BlankId)
       .def_property_readonly("unk_id", &PyClass::UnkId)
       .def_property_readonly("context_size", &PyClass::ContextSize);
-
-  PybindRnntEmformerModel(m);
-  PybindRnntConformerModel(m);
 }
 
 }  // namespace sherpa

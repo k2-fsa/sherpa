@@ -2,7 +2,7 @@
 
 ## pruned_transducer_statelessX
 
-Files in the part assume the model is from `pruned_transducer_statelessX` in
+Files in this part assume the model is from `pruned_transducer_statelessX` in
 the folder <https://github.com/k2-fsa/icefall/tree/master/egs/librispeech/ASR>
 where `X>=2`.
 
@@ -21,7 +21,7 @@ For instance, you can use <https://huggingface.co/csukuangfj/icefall-asr-librisp
 
 ## pruned_stateless_emformer_rnnt2
 
-Files in the part assume the model is from `pruned_stateless_emformer_rnnt2` in
+Files in this part assume the model is from `pruned_stateless_emformer_rnnt2` in
 the folder <https://github.com/k2-fsa/icefall/tree/master/egs/librispeech/ASR>.
 
 | Filename | Description |
@@ -36,7 +36,7 @@ to test it.
 
 ## Streaming pruned_transducer_statelessX
 
-Files in the part assume the model is from `pruned_transducer_statelessX` in
+Files in this part assume the model is from `pruned_transducer_statelessX` in
 the folder <https://github.com/k2-fsa/icefall/tree/master/egs/librispeech/ASR>
 where `X>=2`. And the model is trained for streaming recognition.
 

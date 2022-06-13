@@ -56,8 +56,8 @@ class RnntConformerModel : public RnntModel {
   int32_t BlankId() const override { return blank_id_; }
   int32_t UnkId() const override { return unk_id_; }
   int32_t ContextSize() const override { return context_size_; }
-  // Hard code the subsampling_factor to be 4 here since the subsampling
-  // method using ((len - 1) // 2 - 1) // 2)
+  // Hard code the subsampling_factor to 4 here since the subsampling
+  // method uses ((len - 1) // 2 - 1) // 2)
   int32_t SubSamplingFactor() const { return 4; }
 
   /** Run the encoder network.
