@@ -1,4 +1,7 @@
 FROM  nvcr.io/nvidia/tritonserver:22.05-py3-sdk
+# https://docs.nvidia.com/deeplearning/frameworks/support-matrix/index.html
+# Please choose previous tritonserver:xx.xx if you encounter cuda driver mismatch issue
+
 LABEL maintainer="NVIDIA"
 LABEL repository="tritonserver"
 
