@@ -20,6 +20,7 @@
 
 #include <algorithm>
 
+#include "sherpa/csrc/rnnt_conformer_model.h"
 #include "sherpa/csrc/rnnt_emformer_model.h"
 #include "sherpa/csrc/rnnt_model.h"
 #include "torch/all.h"
@@ -146,7 +147,7 @@ std::vector<std::vector<int32_t>> GreedySearch(
   return ans;
 }
 
-torch::Tensor StreamingGreedySearch(RnntEmformerModel &model,  // NOLINT
+torch::Tensor StreamingGreedySearch(RnntModel &model,  // NOLINT
                                     torch::Tensor encoder_out,
                                     torch::Tensor decoder_out,
                                     std::vector<std::vector<int32_t>> *hyps) {
@@ -169,6 +170,9 @@ torch::Tensor StreamingGreedySearch(RnntEmformerModel &model,  // NOLINT
                   torch::dtype(torch::kLong)
                       .memory_format(torch::MemoryFormat::Contiguous));
 
+  encoder_out = model.ForwardEncoderProj(encoder_out);
+  decoder_out = model.ForwardDecoderProj(decoder_out);
+
   for (int32_t t = 0; t != T; ++t) {
     auto cur_encoder_out = encoder_out.index({torch::indexing::Slice(), t});
 
@@ -187,6 +191,7 @@ torch::Tensor StreamingGreedySearch(RnntEmformerModel &model,  // NOLINT
     if (emitted) {
       BuildDecoderInput(*hyps, &decoder_input);
       decoder_out = model.ForwardDecoder(decoder_input.to(device)).squeeze(1);
+      decoder_out = model.ForwardDecoderProj(decoder_out);
     }
   }
   return decoder_out;

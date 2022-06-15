@@ -32,8 +32,8 @@ void PybindRnntBeamSearch(py::module &m) {  // NOLINT
 
   m.def(
       "streaming_greedy_search",
-      [](RnntEmformerModel &model, torch::Tensor encoder_out,
-         torch::Tensor decoder_out, std::vector<std::vector<int32_t>> &hyps)
+      [](RnntModel &model, torch::Tensor encoder_out, torch::Tensor decoder_out,
+         std::vector<std::vector<int32_t>> &hyps)
           -> std::pair<torch::Tensor, std::vector<std::vector<int32_t>>> {
         decoder_out =
             StreamingGreedySearch(model, encoder_out, decoder_out, &hyps);

@@ -3,8 +3,9 @@ add_definitions(-DTORCH_API_INCLUDE_EXTENSION_H)
 # Please sort files alphabetically
 pybind11_add_module(_sherpa
   rnnt_beam_search.cc
-  rnnt_emformer_model.cc
   rnnt_model.cc
+  rnnt_emformer_model.cc
+  rnnt_conformer_model.cc
   sherpa.cc
 )
 

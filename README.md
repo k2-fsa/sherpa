@@ -202,7 +202,7 @@ With the above two files ready, you can start the server with the
 following command:
 
 ```bash
-sherpa/bin/offline_server.py \
+sherpa/bin/conformer_rnnt/offline_server.py \
   --port 6006 \
   --num-device 1 \
   --max-batch-size 10 \
@@ -214,7 +214,7 @@ sherpa/bin/offline_server.py \
   --bpe-model-filename ./path/to/data/lang_bpe_500/bpe.model
 ```
 
-You can use `./sherpa/bin/offline_server.py --help` to view the help message.
+You can use `./sherpa/bin/conformer_rnnt/offline_server.py --help` to view the help message.
 
 **HINT**: If you don't have GPU, please set `--num-device` to `0`.
 
@@ -230,7 +230,7 @@ The following shows how to use the above pretrained model to start the server.
 git lfs install
 git clone https://huggingface.co/csukuangfj/icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13
 
-sherpa/bin/offline_server.py \
+sherpa/bin/conformer_rnnt/offline_server.py \
   --port 6006 \
   --num-device 1 \
   --max-batch-size 10 \
@@ -246,20 +246,20 @@ sherpa/bin/offline_server.py \
 After starting the server, you can use the following command to start the client:
 
 ```bash
-./sherpa/bin/offline_client.py \
+./sherpa/bin/conformer_rnnt/offline_client.py \
     --server-addr localhost \
     --server-port 6006 \
     /path/to/foo.wav \
     /path/to/bar.wav
 ```
 
-You can use `./sherpa/bin/offline_client.py --help` to view the usage message.
+You can use `./sherpa/bin/conformer_rnnt/offline_client.py --help` to view the usage message.
 
 The following shows how to use the client to send some test waves to the server
 for recognition.
 
 ```bash
-sherpa/bin/offline_client.py \
+sherpa/bin/conformer_rnnt/offline_client.py \
   --server-addr localhost \
   --server-port 6006 \
   icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13//test_wavs/1089-134686-0001.wav \
@@ -269,7 +269,7 @@ sherpa/bin/offline_client.py \
 
 #### RTF test
 
-We provide a demo [./sherpa/bin/decode_manifest.py](./sherpa/bin/decode_manifest.py)
+We provide a demo [./sherpa/bin/conformer_rnnt/decode_manifest.py](./sherpa/bin/conformer_rnnt/decode_manifest.py)
 to decode the `test-clean` dataset from the LibriSpeech corpus.
 
 It creates 50 connections to the server using websockets and sends audio files

@@ -14,7 +14,6 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
 """
 A server for offline ASR recognition. Offline means you send all the content
 of the audio for recognition. It supports multiple clients sending at
@@ -40,7 +39,7 @@ import numpy as np
 import sentencepiece as spm
 import torch
 import websockets
-from _sherpa import RnntModel, greedy_search
+from _sherpa import RnntConformerModel, greedy_search
 from torch.nn.utils.rnn import pad_sequence
 
 LOG_EPS = math.log(1e-10)
@@ -159,7 +158,7 @@ def get_args():
 
 @torch.no_grad()
 def run_model_and_do_greedy_search(
-    model: RnntModel,
+    model: RnntConformerModel,
     features: List[torch.Tensor],
 ) -> List[List[int]]:
     """Run RNN-T model with the given features and use greedy search
@@ -295,7 +294,7 @@ class OfflineServer:
 
     def _build_nn_model(
         self, nn_model_filename: str, num_device: int
-    ) -> List[RnntModel]:
+    ) -> List[RnntConformerModel]:
         """Build a torch script model for each given device.
 
         Args:
@@ -310,7 +309,7 @@ class OfflineServer:
           Return a list of torch script models.
         """
         if num_device < 1:
-            model = RnntModel(
+            model = RnntConformerModel(
                 filename=nn_model_filename,
                 device="cpu",
                 optimize_for_inference=False,
@@ -320,7 +319,7 @@ class OfflineServer:
         ans = []
         for i in range(num_device):
             device = torch.device("cuda", i)
-            model = RnntModel(
+            model = RnntConformerModel(
                 filename=nn_model_filename,
                 device=device,
                 optimize_for_inference=False,
@@ -353,7 +352,6 @@ class OfflineServer:
         # feature consumer tasks.
         #  asyncio.create_task(self.feature_consumer_task())
         #  asyncio.create_task(self.feature_consumer_task())
-
         async with websockets.serve(
             self.handle_connection,
             host="",
@@ -600,13 +598,10 @@ torch::jit::getProfilingMode() = false;
 torch::jit::setGraphExecutorOptimize(false);
 """
 
-
 if __name__ == "__main__":
     torch.manual_seed(20220519)
 
-    formatter = (
-        "%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] %(message)s"  # noqa
-    )
+    formatter = "%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] %(message)s"  # noqa
     logging.basicConfig(format=formatter, level=logging.INFO)
 
     main()

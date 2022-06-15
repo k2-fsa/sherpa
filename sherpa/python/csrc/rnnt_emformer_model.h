@@ -1,5 +1,6 @@
 /**
- * Copyright (c)  2022  Xiaomi Corporation (authors: Fangjun Kuang)
+ * Copyright (c)  2022  Xiaomi Corporation (authors: Fangjun Kuang,
+ *                                                   Wei Kang)
  *
  * See LICENSE for clarification regarding multiple authors
  *

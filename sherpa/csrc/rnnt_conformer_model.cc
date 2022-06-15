@@ -15,13 +15,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#include "sherpa/csrc/rnnt_model.h"
+#include "sherpa/csrc/rnnt_conformer_model.h"
+
+#include <tuple>
 
 namespace sherpa {
 
-RnntModel::RnntModel(const std::string &filename,
-                     torch::Device device /*=torch::kCPU*/,
-                     bool optimize_for_inference /*=false*/)
+RnntConformerModel::RnntConformerModel(const std::string &filename,
+                                       torch::Device device /*=torch::kCPU*/,
+                                       bool optimize_for_inference /*=false*/)
     : device_(device) {
   model_ = torch::jit::load(filename, device);
   model_.eval();
@@ -50,7 +52,7 @@ RnntModel::RnntModel(const std::string &filename,
   context_size_ = decoder_.attr("context_size").toInt();
 }
 
-std::pair<torch::Tensor, torch::Tensor> RnntModel::ForwardEncoder(
+std::pair<torch::Tensor, torch::Tensor> RnntConformerModel::ForwardEncoder(
     const torch::Tensor &features, const torch::Tensor &features_length) {
   auto outputs = model_.attr("encoder")
                      .toModule()
@@ -63,12 +65,46 @@ std::pair<torch::Tensor, torch::Tensor> RnntModel::ForwardEncoder(
   return {encoder_out, encoder_out_length};
 }
 
-torch::Tensor RnntModel::ForwardDecoder(const torch::Tensor &decoder_input) {
+RnntConformerModel::State RnntConformerModel::GetEncoderInitStates(
+    int32_t left_context) {
+  torch::IValue ivalue =
+      encoder_.run_method("get_init_state", left_context, device_);
+  torch::List<torch::IValue> list = ivalue.toList();
+
+  RnntConformerModel::State states = {list.get(0).toTensor(),
+                                      list.get(1).toTensor()};
+  return states;
+}
+
+std::tuple<torch::Tensor, torch::Tensor, RnntConformerModel::State>
+RnntConformerModel::StreamingForwardEncoder(
+    const torch::Tensor &features, const torch::Tensor &features_length,
+    const RnntConformerModel::State &states,
+    const torch::Tensor &processed_frames, int32_t left_context,
+    int32_t right_context) {
+  auto outputs =
+      encoder_
+          .run_method("streaming_forward", features, features_length, states,
+                      processed_frames, left_context, right_context)
+          .toTuple();
+  auto encoder_out = outputs->elements()[0].toTensor();
+  auto encoder_out_length = outputs->elements()[1].toTensor();
+
+  torch::List<torch::IValue> list = outputs->elements()[2].toList();
+
+  RnntConformerModel::State next_states = {list.get(0).toTensor(),
+                                           list.get(1).toTensor()};
+
+  return {encoder_out, encoder_out_length, next_states};
+}
+
+torch::Tensor RnntConformerModel::ForwardDecoder(
+    const torch::Tensor &decoder_input) {
   return decoder_.run_method("forward", decoder_input, /*need_pad*/ false)
       .toTensor();
 }
 
-torch::Tensor RnntModel::ForwardJoiner(
+torch::Tensor RnntConformerModel::ForwardJoiner(
     const torch::Tensor &projected_encoder_out,
     const torch::Tensor &projected_decoder_out) {
   return joiner_
@@ -77,11 +113,13 @@ torch::Tensor RnntModel::ForwardJoiner(
       .toTensor();
 }
 
-torch::Tensor RnntModel::ForwardEncoderProj(const torch::Tensor &encoder_out) {
+torch::Tensor RnntConformerModel::ForwardEncoderProj(
+    const torch::Tensor &encoder_out) {
   return encoder_proj_.run_method("forward", encoder_out).toTensor();
 }
 
-torch::Tensor RnntModel::ForwardDecoderProj(const torch::Tensor &decoder_out) {
+torch::Tensor RnntConformerModel::ForwardDecoderProj(
+    const torch::Tensor &decoder_out) {
   return decoder_proj_.run_method("forward", decoder_out).toTensor();
 }
 

@@ -39,6 +39,7 @@ jobs:
             torchaudio: "0.6.0"
           - torch: "1.6.0"
             torchaudio: "0.10.0"
+
     steps:
       - uses: actions/checkout@v2
         with:

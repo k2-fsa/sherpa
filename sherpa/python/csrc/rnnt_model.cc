@@ -1,5 +1,6 @@
 /**
- * Copyright (c)  2022  Xiaomi Corporation (authors: Fangjun Kuang)
+ * Copyright (c)  2022  Xiaomi Corporation (authors: Fangjun Kuang,
+ *                                                   Wei Kang)
  *
  * See LICENSE for clarification regarding multiple authors
  *
@@ -29,23 +30,17 @@ namespace sherpa {
 void PybindRnntModel(py::module &m) {  // NOLINT
   using PyClass = RnntModel;
   py::class_<PyClass>(m, "RnntModel")
-      .def(py::init([](const std::string &filename,
-                       py::object device = py::str("cpu"),
-                       bool optimize_for_inference =
-                           false) -> std::unique_ptr<RnntModel> {
-             std::string device_str =
-                 device.is_none() ? "cpu" : py::str(device);
-             return std::make_unique<RnntModel>(
-                 filename, torch::Device(device_str), optimize_for_inference);
-           }),
-           py::arg("filename"), py::arg("device") = py::str("cpu"),
-           py::arg("optimize_for_inference") = false)
-      .def("encoder", &PyClass::ForwardEncoder, py::arg("features"),
-           py::arg("features_length"), py::call_guard<py::gil_scoped_release>())
-      .def_property_readonly("device", [](const PyClass &self) -> py::object {
-        py::object ans = py::module_::import("torch").attr("device");
-        return ans(self.Device().str());
-      });
+      .def("decoder_forward", &PyClass::ForwardDecoder,
+           py::arg("decoder_input"), py::call_guard<py::gil_scoped_release>())
+      .def_property_readonly("device",
+                             [](const PyClass &self) -> py::object {
+                               py::object ans =
+                                   py::module_::import("torch").attr("device");
+                               return ans(self.Device().str());
+                             })
+      .def_property_readonly("blank_id", &PyClass::BlankId)
+      .def_property_readonly("unk_id", &PyClass::UnkId)
+      .def_property_readonly("context_size", &PyClass::ContextSize);
 }
 
 }  // namespace sherpa

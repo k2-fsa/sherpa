@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-name: Run tests
+name: Run streaming conformer ASR tests
 
 on:
   push:
@@ -25,15 +25,21 @@ on:
       - master
 
 jobs:
-  run_tests:
+  run_streaming_conformer_asr_tests:
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
         os: [ubuntu-18.04, macos-10.15]
-        torch: ["1.10.0"]
-        torchaudio: ["0.10.0"]
+        torch: ["1.10.0", "1.6.0"]
+        torchaudio: ["0.10.0", "0.6.0"]
         python-version: [3.7, 3.8]
+        exclude:
+          - torch: "1.10.0"
+            torchaudio: "0.6.0"
+          - torch: "1.6.0"
+            torchaudio: "0.10.0"
+
     steps:
       - uses: actions/checkout@v2
         with:
@@ -57,7 +63,13 @@ jobs:
         run: |
           python3 -m pip install --upgrade pip
           python3 -m pip install wheel twine typing_extensions websockets sentencepiece>=0.1.96
-          python3 -m pip install torch==${{ matrix.torch }}+cpu torchaudio==${{ matrix.torchaudio }}+cpu numpy -f https://download.pytorch.org/whl/cpu/torch_stable.html
+          python3 -m pip install torch==${{ matrix.torch }}+cpu numpy -f https://download.pytorch.org/whl/cpu/torch_stable.html
+
+          if [[ ${{ matrix.torchaudio }} == "0.10.0" ]]; then
+            pip install torchaudio==${{ matrix.torchaudio }}+cpu -f https://download.pytorch.org/whl/cpu/torch_stable.html
+          else
+            pip install torchaudio==${{ matrix.torchaudio }}
+          fi
 
       - name: Install PyTorch ${{ matrix.torch }}
         shell: bash
@@ -90,7 +102,7 @@ jobs:
         shell: bash
         run: |
           git lfs install
-          git clone https://huggingface.co/csukuangfj/icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13
+          git clone https://huggingface.co/pkufool/icefall-asr-librispeech-pruned-stateless-streaming-conformer-rnnt4-2022-06-10
 
       - name: Start server
         shell: bash
@@ -98,24 +110,21 @@ jobs:
           export PYTHONPATH=~/tmp/kaldifeat/kaldifeat/python:$PYTHONPATH
           export PYTHONPATH=~/tmp/kaldifeat/build/lib:$PYTHONPATH
 
-          sherpa/bin/conformer_rnnt/offline_server.py \
+          ./sherpa/bin/streaming_conformer_rnnt/streaming_server.py \
             --port 6006 \
-            --num-device 0 \
-            --max-batch-size 10 \
+            --max-batch-size 50 \
             --max-wait-ms 5 \
-            --feature-extractor-pool-size 5 \
             --nn-pool-size 1 \
-            --nn-model-filename ./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/exp/cpu_jit.pt \
-            --bpe-model-filename ./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/data/lang_bpe_500/bpe.model &
+            --nn-model-filename ./icefall-asr-librispeech-pruned-stateless-streaming-conformer-rnnt4-2022-06-10/exp/cpu_jit-epoch-29-avg-6.pt \
+            --bpe-model-filename ./icefall-asr-librispeech-pruned-stateless-streaming-conformer-rnnt4-2022-06-10/data/lang_bpe_500/bpe.model &
+
           echo "Sleep 10 seconds to wait for the server startup"
           sleep 10
 
       - name: Start client
         shell: bash
         run: |
-          sherpa/bin/conformer_rnnt/offline_client.py \
+          ./sherpa/bin/streaming_conformer_rnnt/streaming_client.py \
             --server-addr localhost \
             --server-port 6006 \
-            icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/test_wavs/1089-134686-0001.wav \
-            icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/test_wavs/1221-135766-0001.wav \
-            icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/test_wavs/1221-135766-0002.wav
+            ./icefall-asr-librispeech-pruned-stateless-streaming-conformer-rnnt4-2022-06-10/test_wavs/1221-135766-0002.wav

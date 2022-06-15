@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-# Copyright      2022  Xiaomi Corp.        (authors: Fangjun Kuang)
+# Copyright      2022  Xiaomi Corp.        (authors: Fangjun Kuang,
+#                                                    Wei Kang)
 #
 # See LICENSE for clarification regarding multiple authors
 #
@@ -40,9 +41,9 @@ import numpy as np
 import sentencepiece as spm
 import torch
 import websockets
-from sherpa import RnntEmformerModel, streaming_greedy_search
+from sherpa import RnntConformerModel, streaming_greedy_search
 
-from decode import Stream, stack_states, unstack_states
+from decode import Stream
 
 
 def get_args():
@@ -74,6 +75,27 @@ def get_args():
         You can find it in the directory egs/librispeech/ASR/data/lang_bpe_xxx
         where xxx is the number of BPE tokens you used to train the model.
         """,
+    )
+
+    parser.add_argument(
+        "--decode-chunk-size",
+        type=int,
+        default=8,
+        help="The chunk size for decoding (in frames after subsampling)",
+    )
+
+    parser.add_argument(
+        "--decode-left-context",
+        type=int,
+        default=32,
+        help="left context can be seen during decoding (in frames after subsampling)",
+    )
+
+    parser.add_argument(
+        "--decode-right-context",
+        type=int,
+        default=2,
+        help="right context can be seen during decoding (in frames after subsampling)",
     )
 
     parser.add_argument(
@@ -150,8 +172,14 @@ def run_model_and_do_greedy_search(
     """
     model = server.model
     device = model.device
-    segment_length = server.segment_length
+    # Note: chunk_length is in frames before subsampling
     chunk_length = server.chunk_length
+    subsampling_factor = server.subsampling_factor
+    # Note: chunk_size, left_context and right_context are in frames
+    # after subsampling
+    chunk_size = server.decode_chunk_size
+    left_context = server.decode_left_context
+    right_context = server.decode_right_context
 
     batch_size = len(stream_list)
 
@@ -159,19 +187,26 @@ def run_model_and_do_greedy_search(
     decoder_out_list = []
     hyp_list = []
     feature_list = []
+    processed_frames_list = []
     for s in stream_list:
         state_list.append(s.states)
         decoder_out_list.append(s.decoder_out)
         hyp_list.append(s.hyp)
+        processed_frames_list.append(s.processed_frames)
 
         f = s.features[:chunk_length]
-        s.features = s.features[segment_length:]
+        s.features = s.features[chunk_size * subsampling_factor :]
 
         b = torch.cat(f, dim=0)
         feature_list.append(b)
 
     features = torch.stack(feature_list, dim=0).to(device)
-    states = stack_states(state_list)
+
+    states = [
+        torch.stack([x[0] for x in state_list], dim=2),
+        torch.stack([x[1] for x in state_list], dim=2),
+    ]
+
     decoder_out = torch.cat(decoder_out_list, dim=0)
 
     features_length = torch.full(
@@ -181,10 +216,19 @@ def run_model_and_do_greedy_search(
         dtype=torch.int64,
     )
 
-    (encoder_out, next_states) = model.encoder_streaming_forward(
+    processed_frames = torch.tensor(processed_frames_list, device=device)
+
+    (
+        encoder_out,
+        encoder_out_lens,
+        next_states,
+    ) = model.encoder_streaming_forward(
         features=features,
         features_length=features_length,
         states=states,
+        processed_frames=processed_frames,
+        left_context=left_context,
+        right_context=right_context,
     )
 
     # Note: It does not return the next_encoder_out_len since
@@ -197,10 +241,14 @@ def run_model_and_do_greedy_search(
         hyps=hyp_list,
     )
 
-    next_state_list = unstack_states(next_states)
+    next_state_list = [
+        torch.unbind(next_states[0], dim=2),
+        torch.unbind(next_states[1], dim=2),
+    ]
     next_decoder_out_list = next_decoder_out.split(1)
     for i, s in enumerate(stream_list):
-        s.states = next_state_list[i]
+        s.states = [next_state_list[0][i], next_state_list[1][i]]
+        s.processed_frames += encoder_out_lens[i]
         s.decoder_out = next_decoder_out_list[i]
         s.hyp = next_hyp_list[i]
 
@@ -210,6 +258,9 @@ class StreamingServer(object):
         self,
         nn_model_filename: str,
         bpe_model_filename: str,
+        decode_chunk_size: int,
+        decode_left_context: int,
+        decode_right_context: int,
         nn_pool_size: int,
         max_wait_ms: float,
         max_batch_size: int,
@@ -223,6 +274,12 @@ class StreamingServer(object):
             Path to the torchscript model
           bpe_model_filename:
             Path to the BPE model
+          decode_chunk_size:
+            The chunk size for decoding (in frames after subsampling)
+          decode_left_context:
+            The left context for decoding (in frames after subsampling)
+          decode_right_context:
+            The right context for decoding (in frames after subsampling)
           nn_pool_size:
             Number of threads for the thread pool that is responsible for
             neural network computation and decoding.
@@ -243,18 +300,25 @@ class StreamingServer(object):
             device = torch.device("cuda", 0)
         else:
             device = torch.device("cpu")
-        logging.info(f"Using device: {device}")
 
-        self.model = RnntEmformerModel(nn_model_filename, device=device)
+        self.model = RnntConformerModel(nn_model_filename, device=device)
 
-        # number of frames before subsampling
-        self.segment_length = self.model.segment_length
+        self.subsampling_factor = self.model.subsampling_factor
 
-        self.right_context_length = self.model.right_context_length
+        # Note: The following 3 attributes are in frames after subsampling.
+        self.decode_chunk_size = decode_chunk_size
+        self.decode_left_context = decode_left_context
+        self.decode_right_context = decode_right_context
 
         # We add 3 here since the subsampling method is using
         # ((len - 1) // 2 - 1) // 2)
-        self.chunk_length = self.segment_length + 3 + self.right_context_length
+        # We plus 2 here because we will cut off one frame on each side
+        # of encoder_embed output (in conformer.py) to avoid a training
+        # and decoding mismatch by seeing padding values.
+        # Note: chunk_length is in frames before subsampling.
+        self.chunk_length = (
+            self.decode_chunk_size + 2 + self.decode_right_context
+        ) * self.subsampling_factor + 3
 
         self.sp = spm.SentencePieceProcessor()
         self.sp.load(bpe_model_filename)
@@ -263,8 +327,9 @@ class StreamingServer(object):
         self.blank_id = self.model.blank_id
         self.log_eps = math.log(1e-10)
 
-        initial_states = self.model.get_encoder_init_states()
-        self.initial_states = unstack_states(initial_states)[0]
+        self.initial_states = self.model.get_encoder_init_states(
+            self.decode_left_context
+        )
         decoder_input = torch.tensor(
             [[self.blank_id] * self.context_size],
             device=device,
@@ -516,6 +581,9 @@ def main():
     port = args.port
     nn_model_filename = args.nn_model_filename
     bpe_model_filename = args.bpe_model_filename
+    decode_chunk_size = args.decode_chunk_size
+    decode_left_context = args.decode_left_context
+    decode_right_context = args.decode_right_context
     nn_pool_size = args.nn_pool_size
     max_batch_size = args.max_batch_size
     max_wait_ms = args.max_wait_ms
@@ -526,6 +594,9 @@ def main():
     server = StreamingServer(
         nn_model_filename=nn_model_filename,
         bpe_model_filename=bpe_model_filename,
+        decode_chunk_size=decode_chunk_size,
+        decode_left_context=decode_left_context,
+        decode_right_context=decode_right_context,
         nn_pool_size=nn_pool_size,
         max_batch_size=max_batch_size,
         max_wait_ms=max_wait_ms,
