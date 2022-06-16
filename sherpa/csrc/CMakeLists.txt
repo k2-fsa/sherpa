@@ -6,7 +6,7 @@ set(sherpa_srcs
 )
 
 add_library(sherpa_core ${sherpa_srcs})
-target_link_libraries(sherpa_core PUBLIC ${TORCH_LIBRARIES})
+target_link_libraries(sherpa_core PUBLIC ${TORCH_LIBRARIES} ${K2_LIBRARIES})
 
 target_compile_definitions(sherpa_core PUBLIC SHERPA_TORCH_VERSION_MAJOR=${SHERPA_TORCH_VERSION_MAJOR})
 target_compile_definitions(sherpa_core PUBLIC SHERPA_TORCH_VERSION_MINOR=${SHERPA_TORCH_VERSION_MINOR})

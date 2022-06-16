@@ -37,6 +37,7 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 
 include(pybind11)
 include(torch)
+include(k2)
 
 # TORCH_VERSION is defined in cmake/torch.cmake
 configure_file(

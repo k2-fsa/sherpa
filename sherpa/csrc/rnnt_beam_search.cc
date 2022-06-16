@@ -20,6 +20,7 @@
 
 #include <algorithm>
 
+#include "k2/torch_api.h"
 #include "sherpa/csrc/rnnt_conformer_model.h"
 #include "sherpa/csrc/rnnt_emformer_model.h"
 #include "sherpa/csrc/rnnt_model.h"
@@ -195,6 +196,12 @@ torch::Tensor StreamingGreedySearch(RnntModel &model,  // NOLINT
     }
   }
   return decoder_out;
+}
+
+void ModifiedBeamSearch() {
+  auto sizes = torch::tensor({1, 3, 2, 0}, torch::kInt);
+  auto row_splits = torch::empty_like(sizes);
+  k2::ExclusiveSum(sizes, &row_splits);
 }
 
 }  // namespace sherpa
