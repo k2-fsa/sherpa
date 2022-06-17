@@ -162,7 +162,7 @@ We provide two clients at present:
 ##### Web client
 
 ```bash
-cd ./sherpa/bin/pruned_stateless_emformer_rnnt2/web
+cd ./sherpa/bin/web
 python3 -m http.server 6008
 ```
 
@@ -177,7 +177,7 @@ Now you can `speak` and you will get recognition results from the
 server in real-time.
 
 **Caution**: For the web client, we hard-code the server port to `6006`.
-You can change the file [./sherpa/bin/pruned_stateless_emformer_rnnt2/web/record.js](./sherpa/bin/pruned_stateless_emformer_rnnt2/web/record.js)
+You can change the file [./sherpa/bin/web/record.js](./sherpa/bin/web/record.js)
 to replace `6006` in it to whatever port the server is using.
 
 **Caution**: `http://0.0.0.0:6008/record.html` or `http://127.0.0.1:6008/record.html`
