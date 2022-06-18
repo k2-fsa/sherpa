@@ -33,3 +33,6 @@ if((NOT K2_TORCH_VERSION_MAJOR VERSION_EQUAL SHERPA_TORCH_VERSION_MAJOR) OR
     "to compile sherpa. Please make them the same.".
     )
 endif()
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${K2_CXX_FLAGS}")
+message(STATUS "CMAKE_CXX_FLAGS: {CMAKE_CXX_FLAGS}")

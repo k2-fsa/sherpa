@@ -27,6 +27,7 @@ Usage:
 
 import argparse
 import asyncio
+import functools
 import http
 import logging
 import math
@@ -39,7 +40,7 @@ import numpy as np
 import sentencepiece as spm
 import torch
 import websockets
-from _sherpa import RnntConformerModel, greedy_search
+from _sherpa import RnntConformerModel, greedy_search, modified_beam_search
 from torch.nn.utils.rnn import pad_sequence
 
 LOG_EPS = math.log(1e-10)
@@ -154,7 +155,28 @@ def get_args():
         """,
     )
 
+    parser.add_argument(
+        "--decoding-method",
+        type=str,
+        default="greedy_search",
+        help="""Decoding method to use. Currently, only greedy_search and
+        modified_beam_search are implemented.
+        """,
+    )
+
+    parser.add_argument(
+        "--num-active-paths",
+        type=int,
+        default=4,
+        help="""Used only when decoding_method is modified_beam_search.
+        It specifies number of active paths for each utterance. Due to
+        merging paths with identical token sequences, the actual number
+        may be less than "num_active_paths".
+        """,
+    )
+
     return parser.parse_args()
+
 
 @torch.no_grad()
 def run_model_and_do_greedy_search(
@@ -200,6 +222,57 @@ def run_model_and_do_greedy_search(
     return hyp_tokens
 
 
+@torch.no_grad()
+def run_model_and_do_modified_beam_search(
+    model: RnntConformerModel,
+    features: List[torch.Tensor],
+    num_active_paths: int,
+) -> List[List[int]]:
+    """Run RNN-T model with the given features and use greedy search
+    to decode the output of the model.
+
+    Args:
+      model:
+        The RNN-T model.
+      features:
+        A list of 2-D tensors. Each entry is of shape
+        (num_frames, feature_dim).
+      num_active_paths:
+        Used only when decoding_method is modified_beam_search.
+        It specifies number of active paths for each utterance. Due to
+        merging paths with identical token sequences, the actual number
+        may be less than "num_active_paths".
+    Returns:
+      Return a list-of-list containing the decoding token IDs.
+    """
+    features_length = torch.tensor(
+        [f.size(0) for f in features],
+        dtype=torch.int64,
+    )
+    features = pad_sequence(
+        features,
+        batch_first=True,
+        padding_value=LOG_EPS,
+    )
+
+    device = model.device
+    features = features.to(device)
+    features_length = features_length.to(device)
+
+    encoder_out, encoder_out_length = model.encoder(
+        features=features,
+        features_length=features_length,
+    )
+
+    hyp_tokens = modified_beam_search(
+        model=model,
+        encoder_out=encoder_out,
+        encoder_out_length=encoder_out_length.cpu(),
+        num_active_paths=num_active_paths,
+    )
+    return hyp_tokens
+
+
 class OfflineServer:
     def __init__(
         self,
@@ -213,6 +286,8 @@ class OfflineServer:
         max_message_size: int,
         max_queue_size: int,
         max_active_connections: int,
+        decoding_method: str,
+        num_active_paths: int,
     ):
         """
         Args:
@@ -244,6 +319,14 @@ class OfflineServer:
           max_active_connections:
             Max number of active connections. Once number of active client
             equals to this limit, the server refuses to accept new connections.
+          decoding_method:
+            The decoding method to use. Currently, only greedy_search and
+            modified_beam_search are implemented.
+          num_active_paths:
+            Used only when decoding_method is modified_beam_search.
+            It specifies number of active paths for each utterance. Due to
+            merging paths with identical token sequences, the actual number
+            may be less than "num_active_paths".
         """
         self.feature_extractor = self._build_feature_extractor()
         self.nn_models = self._build_nn_model(nn_model_filename, num_device)
@@ -274,6 +357,27 @@ class OfflineServer:
         self.max_active_connections = max_active_connections
 
         self.current_active_connections = 0
+
+        assert decoding_method in (
+            "greedy_search",
+            "modified_beam_search",
+        ), decoding_method
+        if decoding_method == "greedy_search":
+            nn_and_decoding_func = run_model_and_do_greedy_search
+        elif decoding_method == "modified_beam_search":
+            nn_and_decoding_func = functools.partial(
+                run_model_and_do_modified_beam_search,
+                num_active_paths=num_active_paths,
+            )
+        else:
+            raise ValueError(
+                f"Unsupported decoding_method: {decoding_method} "
+                "Please use greedy_search or modified_beam_search"
+            )
+
+        self.nn_and_decoding_func = nn_and_decoding_func
+        self.decoding_method = decoding_method
+        self.num_active_paths = num_active_paths
 
     def _build_feature_extractor(self):
         """Build a fbank feature extractor for extracting features.
@@ -467,7 +571,7 @@ class OfflineServer:
 
             hyp_tokens = await loop.run_in_executor(
                 self.nn_pool,
-                run_model_and_do_greedy_search,
+                self.nn_and_decoding_func,
                 model,
                 feature_list,
             )
@@ -551,6 +655,8 @@ class OfflineServer:
 def main():
     args = get_args()
 
+    logging.info(vars(args))
+
     nn_model_filename = args.nn_model_filename
     bpe_model_filename = args.bpe_model_filename
     port = args.port
@@ -562,6 +668,13 @@ def main():
     max_message_size = args.max_message_size
     max_queue_size = args.max_queue_size
     max_active_connections = args.max_active_connections
+    decoding_method = args.decoding_method
+    num_active_paths = args.num_active_paths
+
+    assert decoding_method in ("greedy_search", "modified_beam_search"), decoding_method
+
+    if decoding_method == "modified_beam_search":
+        assert num_active_paths >= 1, num_active_paths
 
     offline_server = OfflineServer(
         nn_model_filename=nn_model_filename,
@@ -574,6 +687,8 @@ def main():
         max_message_size=max_message_size,
         max_queue_size=max_queue_size,
         max_active_connections=max_active_connections,
+        decoding_method=decoding_method,
+        num_active_paths=num_active_paths,
     )
     asyncio.run(offline_server.run(port))
 
@@ -601,7 +716,9 @@ torch::jit::setGraphExecutorOptimize(false);
 if __name__ == "__main__":
     torch.manual_seed(20220519)
 
-    formatter = "%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] %(message)s"  # noqa
+    formatter = (
+        "%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] %(message)s"  # noqa
+    )
     logging.basicConfig(format=formatter, level=logging.INFO)
 
     main()

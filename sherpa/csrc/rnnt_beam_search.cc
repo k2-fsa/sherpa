@@ -21,12 +21,22 @@
 #include <algorithm>
 
 #include "k2/torch_api.h"
+#include "sherpa/csrc/hypothesis.h"
 #include "sherpa/csrc/rnnt_conformer_model.h"
 #include "sherpa/csrc/rnnt_emformer_model.h"
 #include "sherpa/csrc/rnnt_model.h"
 #include "torch/all.h"
 
 namespace sherpa {
+
+static inline torch::Tensor FloorDivide(torch::Tensor a, int32_t b) {
+#if SHERPA_TORCH_VERSION_MAJOR > 1 || \
+    (SHERPA_TORCH_VERSION_MAJOR == 1 && SHERPA_TORCH_VERSION_MINOR > 7)
+  return torch::div(a, b, /*rounding_mode*/ "trunc");
+#else
+  return torch::floor_divide(a, b);
+#endif
+}
 
 /**
  * Construct the decoder input from the current hypothesis.
@@ -48,11 +58,53 @@ static void BuildDecoderInput(const std::vector<std::vector<int32_t>> &hyps,
   }
 }
 
+static torch::Tensor BuildDecoderInput(const std::vector<Hypothesis> hyps,
+                                       int32_t context_size) {
+  int32_t num_hyps = hyps.size();
+  torch::Tensor decoder_input =
+      torch::empty({num_hyps, context_size},
+                   torch::dtype(torch::kLong)
+                       .memory_format(torch::MemoryFormat::Contiguous));
+
+  int64_t *p = decoder_input.data_ptr<int64_t>();
+  for (const auto &h : hyps) {
+    auto start = h.ys.end() - context_size;
+    auto end = h.ys.end();
+
+    std::copy(start, end, p);
+    p += context_size;
+  }
+
+  return decoder_input;
+}
+
+/** Return a ragged shape with axes [utt][num_hyps].
+ *
+ * @param hyps hyps.size() == batch_size. Each entry contains the active
+ *              hypotheses of an utterance.
+ * @return Return a ragged shape with 2 axes [utt][num_hyps]. Note that the
+ *         shape is on CPU.
+ */
+static k2::RaggedShapePtr GetHypsShape(const std::vector<Hypotheses> &hyps) {
+  int32_t num_utt = hyps.size();
+  torch::Tensor row_splits = torch::empty(
+      {num_utt + 1},
+      torch::dtype(torch::kInt).memory_format(torch::MemoryFormat::Contiguous));
+  auto row_splits_acc = row_splits.accessor<int32_t, 1>();
+  for (int32_t i = 0; i != num_utt; ++i) {
+    row_splits_acc[i] = hyps[i].Size();
+  }
+
+  k2::ExclusiveSum(row_splits, &row_splits);
+
+  return k2::RaggedShape2(row_splits, torch::Tensor(), row_splits_acc[num_utt]);
+}
+
 std::vector<std::vector<int32_t>> GreedySearch(
     RnntModel &model,  // NOLINT
     torch::Tensor encoder_out, torch::Tensor encoder_out_length) {
   TORCH_CHECK(encoder_out.dim() == 3, "encoder_out.dim() is ",
-              encoder_out.dim(), "Expected is 3");
+              encoder_out.dim(), "Expected value is 3");
   TORCH_CHECK(encoder_out.scalar_type() == torch::kFloat,
               "encoder_out.scalar_type() is ", encoder_out.scalar_type());
 
@@ -202,6 +254,172 @@ void ModifiedBeamSearch() {
   auto sizes = torch::tensor({1, 3, 2, 0}, torch::kInt);
   auto row_splits = torch::empty_like(sizes);
   k2::ExclusiveSum(sizes, &row_splits);
+}
+
+std::vector<std::vector<int32_t>> ModifiedBeamSearch(
+    RnntModel &model,  // NOLINT
+    torch::Tensor encoder_out, torch::Tensor encoder_out_length,
+    int32_t num_active_paths /*=4*/) {
+  TORCH_CHECK(encoder_out.dim() == 3, "encoder_out.dim() is ",
+              encoder_out.dim(), "Expected value is 3");
+  TORCH_CHECK(encoder_out.scalar_type() == torch::kFloat,
+              "encoder_out.scalar_type() is ", encoder_out.scalar_type());
+
+  TORCH_CHECK(encoder_out_length.dim() == 1, "encoder_out_length.dim() is",
+              encoder_out_length.dim());
+  TORCH_CHECK(encoder_out_length.scalar_type() == torch::kLong,
+              "encoder_out_length.scalar_type() is ",
+              encoder_out_length.scalar_type());
+
+  TORCH_CHECK(encoder_out_length.device().is_cpu());
+
+  torch::Device device = model.Device();
+  encoder_out = encoder_out.to(device);
+
+  torch::nn::utils::rnn::PackedSequence packed_seq =
+      torch::nn::utils::rnn::pack_padded_sequence(encoder_out,
+                                                  encoder_out_length,
+                                                  /*batch_first*/ true,
+                                                  /*enforce_sorted*/ false);
+
+  auto projected_encoder_out = model.ForwardEncoderProj(packed_seq.data());
+
+  int32_t blank_id = model.BlankId();
+  int32_t unk_id = model.UnkId();
+  int32_t context_size = model.ContextSize();
+
+  int32_t batch_size = encoder_out_length.size(0);
+
+  std::vector<int32_t> blanks(context_size, blank_id);
+  Hypotheses blank_hyp({{blanks, 0}});
+
+  std::deque<Hypotheses> finalized;
+  std::vector<Hypotheses> cur(batch_size, blank_hyp);
+  std::vector<Hypothesis> prev;
+
+  using torch::indexing::Slice;
+  auto batch_sizes_acc = packed_seq.batch_sizes().accessor<int64_t, 1>();
+  int32_t num_batches = packed_seq.batch_sizes().numel();
+  int32_t offset = 0;
+
+  for (int32_t i = 0; i != num_batches; ++i) {
+    int32_t cur_batch_size = batch_sizes_acc[i];
+    int32_t start = offset;
+    int32_t end = start + cur_batch_size;
+    auto cur_encoder_out = projected_encoder_out.index({Slice(start, end)});
+    offset = end;
+
+    cur_encoder_out = cur_encoder_out.unsqueeze(1).unsqueeze(1);
+    // Now cur_encoder_out's shape is (cur_batch_size, 1, 1, joiner_dim)
+
+    if (cur_batch_size < cur.size()) {
+      for (int32_t k = static_cast<int32_t>(cur.size()) - 1;
+           k >= cur_batch_size; --k) {
+        finalized.push_front(std::move(cur[k]));
+      }
+      cur.erase(cur.begin() + cur_batch_size, cur.end());
+    }
+
+    // Due to merging paths with identical token sequences,
+    // not all utterances have "num_active_paths" paths.
+    auto hyps_shape = GetHypsShape(cur);
+    int32_t num_hyps = k2::TotSize(hyps_shape, 1);
+
+    prev.clear();
+    prev.reserve(num_hyps);
+    for (auto &hyps : cur) {
+      for (auto &h : hyps) {
+        prev.push_back(std::move(h.second));
+      }
+    }
+    cur.clear();
+    cur.reserve(cur_batch_size);
+
+    auto ys_log_probs = torch::empty({num_hyps, 1}, torch::kFloat);
+
+    auto ys_log_probs_acc = ys_log_probs.accessor<float, 2>();
+    for (int32_t k = 0; k != prev.size(); ++k) {
+      ys_log_probs_acc[k][0] = prev[k].log_prob;
+    }
+
+    auto decoder_input = BuildDecoderInput(prev, context_size).to(device);
+
+    auto decoder_out = model.ForwardDecoder(decoder_input);
+    decoder_out = model.ForwardDecoderProj(decoder_out);
+    // decoder_out is of shape (num_hyps, 1, joiner_dim)
+
+    auto index = k2::RowIds(hyps_shape, 1).to(torch::kLong).to(device);
+
+    cur_encoder_out = cur_encoder_out.index_select(/*dim*/ 0, /*index*/ index);
+    // cur_encoder_out is of shape (num_hyps, 1, 1, joiner_dim)
+
+    auto logits =
+        model.ForwardJoiner(cur_encoder_out, decoder_out.unsqueeze(1));
+
+    // logits' shape is (cur_batch_size, 1, 1, vocab_size)
+    logits = logits.squeeze(1).squeeze(1);
+    // now logits' shape is (cur_batch_size, vocab_size)
+
+    auto log_probs = logits.log_softmax(-1).cpu();
+
+    log_probs.add_(ys_log_probs);
+
+    int32_t vocab_size = log_probs.size(1);
+    log_probs = log_probs.reshape(-1);
+    auto row_splits = k2::RowSplits(hyps_shape, 1);
+    auto row_splits_acc = row_splits.accessor<int32_t, 1>();
+
+    for (int32_t k = 0; k != cur_batch_size; ++k) {
+      int32_t start = row_splits_acc[k];
+      int32_t end = row_splits_acc[k + 1];
+
+      torch::Tensor values, indexes;
+      std::tie(values, indexes) =
+          log_probs.slice(/*dim*/ 0, start * vocab_size, end * vocab_size)
+              .topk(/*k*/ num_active_paths, /*dim*/ 0,
+                    /*largest*/ true, /*sorted*/ true);
+
+      auto topk_hyp_indexes = FloorDivide(indexes, vocab_size);
+      auto topk_token_indexes = torch::remainder(indexes, vocab_size);
+
+      auto values_acc = values.accessor<float, 1>();
+      auto topk_hyp_indexes_acc = topk_hyp_indexes.accessor<int64_t, 1>();
+      auto topk_token_indexes_acc = topk_token_indexes.accessor<int64_t, 1>();
+
+      Hypotheses hyps;
+      for (int32_t j = 0; j != values.numel(); ++j) {
+        int32_t hyp_idx = topk_hyp_indexes_acc[j];
+        Hypothesis new_hyp = prev[start + hyp_idx];  // note: hyp_idx is 0 based
+
+        int32_t new_token = topk_token_indexes_acc[j];
+        if (new_token != blank_id && new_token != unk_id) {
+          new_hyp.ys.push_back(new_token);
+        }
+
+        // We already added log_prob of the path to log_probs before, so
+        // we use values_acc[j] here directly.
+        new_hyp.log_prob = values_acc[j];
+        hyps.Add(std::move(new_hyp));
+      }
+      cur.push_back(std::move(hyps));
+    }
+  }
+
+  for (auto &h : finalized) {
+    cur.push_back(std::move(h));
+  }
+
+  auto unsorted_indices = packed_seq.unsorted_indices().cpu();
+  auto unsorted_indices_accessor = unsorted_indices.accessor<int64_t, 1>();
+
+  std::vector<std::vector<int32_t>> ans(batch_size);
+  for (int32_t i = 0; i != batch_size; ++i) {
+    Hypothesis hyp = cur[unsorted_indices_accessor[i]].GetMostProbable(true);
+    torch::ArrayRef<int32_t> arr(hyp.ys);
+    ans[i] = arr.slice(context_size).vec();
+  }
+
+  return ans;
 }
 
 }  // namespace sherpa
