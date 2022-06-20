@@ -6,7 +6,7 @@ Server
 
 .. hint::
 
-   Please first refer to :ref:`installation` to install ``sherpa``
+   Please first refer to :ref:`installation` to install `sherpa`_
    before proceeding.
 
 The server is responsible for accepting audio samples from the client,

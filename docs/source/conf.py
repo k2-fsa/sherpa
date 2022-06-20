@@ -66,7 +66,7 @@ master_doc = "index"
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
-exclude_patterns = ['installation/pic/*.md']
+exclude_patterns = ["installation/pic/*.md"]
 
 
 # -- Options for HTML output -------------------------------------------------
@@ -102,3 +102,13 @@ html_theme_options = {
     "prev_next_buttons_location": "bottom",
     "style_external_links": True,
 }
+rst_epilog = """
+.. _BPE: https://arxiv.org/pdf/1508.07909v5.pdf
+.. _Conformer: https://arxiv.org/abs/2005.08100
+.. _Emformer: https://arxiv.org/pdf/2010.10759.pdf
+.. _LibriSpeech: https://www.openslr.org/12
+.. _aishell: https://www.openslr.org/33
+.. _sherpa: https://github.com/k2-fsa/sherpa
+.. _transducer: https://arxiv.org/pdf/1211.3711.pdf
+.. _asyncio: https://docs.python.org/3/library/asyncio.html
+"""

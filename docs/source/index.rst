@@ -19,7 +19,7 @@ with the `global interpreter lock (GIL) <https://docs.python.org/3/glossary.html
 released so that multiple threads can run concurrently.
 
 The following content describes how to install ``sherpa`` and its usage
-for streaming ASR.
+for both streaming ASR and offline ASR (i.e., non-streaming ASR).
 
 .. toctree::
    :maxdepth: 2
@@ -27,4 +27,5 @@ for streaming ASR.
 
    ./installation/index
    ./streaming_asr/index
+   ./offline_asr/index
    faq
