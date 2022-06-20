@@ -77,6 +77,15 @@ def get_args():
         help="Controls how frequently we print the log.",
     )
 
+    parser.add_argument(
+        "--compute-cer",
+        action="store_true",
+        default=False,
+        help="""True to compute CER, e.g., for Chinese.
+        False to compute WER, e.g., for English words.
+        """,
+    )
+
     return parser.parse_args()
 
 
@@ -86,6 +95,7 @@ async def send(
     server_addr: str,
     server_port: int,
     log_interval: int,
+    compute_cer: bool,
 ):
     total_duration = 0.0
     results = []
@@ -111,9 +121,16 @@ async def send(
 
             total_duration += c.duration
 
-            results.append(
-                (c.supervisions[0].text.split(), decoding_results.split())
-            )  # noqa
+            if compute_cer:
+                ref = c.supervisions[0].text.split()
+                hyp = decoding_results.split()
+                ref = list("".join(ref))
+                hyp = list("".join(hyp))
+                results.append((ref, hyp))
+            else:
+                results.append(
+                    (c.supervisions[0].text.split(), decoding_results.split())
+                )  # noqa
 
     return total_duration, results
 
@@ -125,6 +142,7 @@ async def main():
     server_port = args.server_port
     num_tasks = args.num_tasks
     log_interval = args.log_interval
+    compute_cer = args.compute_cer
 
     cuts = load_manifest(filename)
     cuts_list = cuts.split(num_tasks)
@@ -139,6 +157,7 @@ async def main():
                 server_addr=server_addr,
                 server_port=server_port,
                 log_interval=log_interval,
+                compute_cer=compute_cer,
             )
         )
         tasks.append(task)
