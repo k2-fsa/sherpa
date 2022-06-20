@@ -196,12 +196,17 @@ To start the server, you need to first generate two files:
 
 - (2) The BPE model file. You can find it in `data/lang_bpe_XXX/bpe.model`
 in [icefall][icefall], where `XXX` is the number of BPE tokens used in
-the training.
+the training. If you use a dataset like aishell to train your model where
+the modeling unit is Chinese characters, you need to provide a `tokens.txt`
+file which can be found in `data/lang_char/tokens.txt` in [icefall][icefall].
 
 With the above two files ready, you can start the server with the
 following command:
 
 ```bash
+# If you provide a bpe.model, e.g., for LibriSpeech,
+# you can use the following command:
+#
 sherpa/bin/conformer_rnnt/offline_server.py \
   --port 6006 \
   --num-device 1 \
@@ -214,6 +219,22 @@ sherpa/bin/conformer_rnnt/offline_server.py \
   --bpe-model-filename ./path/to/data/lang_bpe_500/bpe.model
 ```
 
+```bash
+# If you provide a tokens.txt, e.g., for aishell,
+# you can use the following command:
+#
+sherpa/bin/conformer_rnnt/offline_server.py \
+  --port 6006 \
+  --num-device 1 \
+  --max-batch-size 10 \
+  --max-wait-ms 5 \
+  --max-active-connections 500 \
+  --feature-extractor-pool-size 5 \
+  --nn-pool-size 1 \
+  --nn-model-filename ./path/to/exp/cpu_jit.pt \
+  --token-filename ./path/to/data/lang_char/tokens.txt
+```
+
 You can use `./sherpa/bin/conformer_rnnt/offline_server.py --help` to view the help message.
 
 **HINT**: If you don't have GPU, please set `--num-device` to `0`.
@@ -221,10 +242,17 @@ You can use `./sherpa/bin/conformer_rnnt/offline_server.py --help` to view the h
 **Caution**: To keep the server from out-of-memory error, you can tune
 `--max-batch-size` and `--max-active-connections`.
 
-We provide a pretrained model using the LibriSpeech dataset at
-<https://huggingface.co/csukuangfj/icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13>
+We provide pretrained models for the following two datasets:
 
-The following shows how to use the above pretrained model to start the server.
+- (1) LibriSpeech: <https://huggingface.co/csukuangfj/icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13>
+      It uses a BPE model with vocabulary size 500.
+
+- (2) aishell: <https://huggingface.co/csukuangfj/icefall-aishell-pruned-transducer-stateless3-2022-06-20>
+      It uses Chinese characters as models units. The vocabulary size is 4336.
+
+The following shows how to use the above pretrained models to start the server.
+
+- **Use the pretrained model trained with the Librispeech dataset**
 
 ```bash
 git lfs install
@@ -240,6 +268,24 @@ sherpa/bin/conformer_rnnt/offline_server.py \
   --nn-pool-size 1 \
   --nn-model-filename ./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/exp/cpu_jit.pt \
   --bpe-model-filename ./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/data/lang_bpe_500/bpe.model
+```
+
+- **For the pretrained model trained with the aishell dataset**
+
+```bash
+git lfs install
+git clone https://huggingface.co/csukuangfj/icefall-aishell-pruned-transducer-stateless3-2022-06-20
+
+sherpa/bin/conformer_rnnt/offline_server.py \
+  --port 6006 \
+  --num-device 1 \
+  --max-batch-size 10 \
+  --max-wait-ms 5 \
+  --max-active-connections 500 \
+  --feature-extractor-pool-size 5 \
+  --nn-pool-size 1 \
+  --nn-model-filename ./icefall-aishell-pruned-transducer-stateless3-2022-06-20/exp/pretrained-epoch-29-avg-5-torch-1.6.0.pt \
+  --token-filename ./icefall-aishell-pruned-transducer-stateless3-2022-06-20/data/lang_char/tokens.txt
 ```
 
 #### Start the client
@@ -259,12 +305,23 @@ The following shows how to use the client to send some test waves to the server
 for recognition.
 
 ```bash
+# If you use the pretrained model from the LibriSpeech dataset
 sherpa/bin/conformer_rnnt/offline_client.py \
   --server-addr localhost \
   --server-port 6006 \
   icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13//test_wavs/1089-134686-0001.wav \
   icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13//test_wavs/1221-135766-0001.wav \
   icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13//test_wavs/1221-135766-0002.wav
+```
+
+```bash
+# If you use the pretrained model from the aishell dataset
+sherpa/bin/conformer_rnnt/offline_client.py \
+  --server-addr localhost \
+  --server-port 6006 \
+  ./icefall-aishell-pruned-transducer-stateless3-2022-06-20/test_wavs/BAC009S0764W0121.wav \
+  ./icefall-aishell-pruned-transducer-stateless3-2022-06-20/test_wavs/BAC009S0764W0122.wav \
+  ./icefall-aishell-pruned-transducer-stateless3-2022-06-20/test_wavs/BAC009S0764W0123.wav
 ```
 
 #### RTF test
