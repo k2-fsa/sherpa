@@ -141,6 +141,9 @@ Here, before running the web client, you need to map your server ports to your l
 ```
 ssh -R 6006:localhost:6006 -R 6008:localhost:6008 your_local_username@your_local_ip
 ```
+**Note**:
+(1) You only need to do this if the asr server is running on a machine different from the client. 
+(2) The command is run in the terminal on the server machine.
 #### Start the client
 
 We provide two clients at present:
