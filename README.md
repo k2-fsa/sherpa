@@ -137,7 +137,10 @@ git clone https://huggingface.co/csukuangfj/icefall-asr-librispeech-pruned-state
   --nn-model-filename ./icefall-asr-librispeech-pruned-stateless-emformer-rnnt2-2022-06-01/exp/cpu_jit-epoch-39-avg-6-use-averaged-model-1.pt \
   --bpe-model-filename ./icefall-asr-librispeech-pruned-stateless-emformer-rnnt2-2022-06-01/data/lang_bpe_500/bpe.model
 ```
-
+Here, Before running the web client, you also need to map your server ports to your local ports in the server terminal with the following command:
+```
+ssh -R 6006:localhost:6006 -R 6008:localhost:6008 your_local_username@your_local_ip
+```
 #### Start the client
 
 We provide two clients at present:
