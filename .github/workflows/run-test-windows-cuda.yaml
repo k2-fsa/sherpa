@@ -113,6 +113,8 @@ jobs:
           export KALDIFEAT_CMAKE_ARGS="-DCMAKE_BUILD_TYPE=$BUILD_TYPE -DCUDNN_INCLUDE_PATH=d:/a/sherpa/sherpa/cudnn-for-windows/cudnn-windows-x86_64-8.4.1.50_cuda11.6-archive/include -DCUDNN_LIBRARY_PATH=d:/a/sherpa/sherpa/cudnn-for-windows/cudnn-windows-x86_64-8.4.1.50_cuda11.6-archive/lib/cudnn.lib"
           python3 -m pip install --verbose kaldifeat
 
+          python3 -m pip install k2==1.15.1.dev20220617+cpu.torch${{ matrix.torch }} -f https://k2-fsa.org/nightly/index.html
+
       - name: Install sherpa
         shell: bash
         run: |
