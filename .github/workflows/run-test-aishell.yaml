@@ -20,7 +20,6 @@ on:
   push:
     branches:
       - master
-      - aishell-example
   pull_request:
     branches:
       - master
@@ -140,6 +139,6 @@ jobs:
           sherpa/bin/conformer_rnnt/offline_client.py \
             --server-addr localhost \
             --server-port 6006 \
-            icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13//test_wavs/1089-134686-0001.wav \
-            icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13//test_wavs/1221-135766-0001.wav \
-            icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13//test_wavs/1221-135766-0002.wav
+            ./icefall-aishell-pruned-transducer-stateless3-2022-06-20/test_wavs/BAC009S0764W0121.wav \
+            ./icefall-aishell-pruned-transducer-stateless3-2022-06-20/test_wavs/BAC009S0764W0122.wav \
+            ./icefall-aishell-pruned-transducer-stateless3-2022-06-20/test_wavs/BAC009S0764W0123.wav
