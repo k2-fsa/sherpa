@@ -28,6 +28,7 @@ Usage:
 import argparse
 import asyncio
 import time
+from pathlib import Path
 
 import numpy as np
 import websockets
@@ -184,11 +185,13 @@ async def main():
         f"processing time: {elapsed:.3f} seconds " f"({elapsed/3600:.2f} hours)"
     )  # noqa
 
-    store_transcripts(filename="recogs-test-clean.txt", texts=results)
-    with open("errs-test-clean.txt", "w") as f:
+    name = Path(filename).stem.split(".")[0]
+    store_transcripts(filename=f"recogs-{name}.txt", texts=results)
+
+    with open(f"errs-{name}.txt", "w") as f:
         write_error_stats(f, "test-set", results, enable_log=True)
 
-    with open("errs-test-clean.txt", "r") as f:
+    with open(f"errs-{name}.txt", "r") as f:
         print(f.readline())  # WER
         print(f.readline())  # Detailed errors
 
