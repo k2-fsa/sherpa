@@ -10,13 +10,15 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
 set(CMAKE_SKIP_BUILD_RPATH FALSE)
 set(BUILD_RPATH_USE_ORIGIN TRUE)
 set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
+
 if(NOT APPLE)
-  set(CMAKE_INSTALL_RPATH "$ORIGIN")
-  set(CMAKE_BUILD_RPATH "$ORIGIN")
+  set(SHERPA_RPATH_ORIGIN "$ORIGIN")
 else()
-  set(CMAKE_INSTALL_RPATH "@loader_path")
-  set(CMAKE_BUILD_RPATH "@loader_path")
+  set(SHERPA_RPATH_ORIGIN "@loader_path")
 endif()
+
+set(CMAKE_INSTALL_RPATH ${SHERPA_RPATH_ORIGIN})
+set(CMAKE_BUILD_RPATH ${SHERPA_RPATH_ORIGIN})
 
 set(BUILD_SHARED_LIBS ON)
 if(WIN32)
@@ -32,11 +34,19 @@ endif()
 set(CMAKE_CXX_STANDARD 14 CACHE STRING "The C++ version to be used.")
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+option(SHERPA_ENABLE_TESTS "Whether to build tests" ON)
+
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/Modules)
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 
 include(pybind11)
 include(torch)
+include(k2)
+
+if(SHERPA_ENABLE_TESTS)
+  enable_testing()
+  include(googletest)
+endif()
 
 # TORCH_VERSION is defined in cmake/torch.cmake
 configure_file(

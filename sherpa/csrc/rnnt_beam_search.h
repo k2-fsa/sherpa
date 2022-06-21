@@ -26,7 +26,7 @@
 
 namespace sherpa {
 
-/** RNN-T Greedy search decoding by limiting the max symol per frame to one.
+/** RNN-T greedy search decoding by limiting the max symbol per frame to one.
  *
  * @param model The RNN-T model.
  *
@@ -39,9 +39,9 @@ namespace sherpa {
  *                         and its shape is (batch_size,). Also, it must be
  *                         on CPU.
  *
- * @return Return A list-of-list of token IDs containing the decoding results.
+ * @return Return A list-of-list of token IDs containing the decoded results.
  * The returned vector has size `batch_size` and each entry contains the
- * decoding results for the corresponding input in encoder_out.
+ * decoded results for the corresponding input in encoder_out.
  */
 std::vector<std::vector<int32_t>> GreedySearch(
     RnntModel &model,  // NOLINT
@@ -62,6 +62,34 @@ torch::Tensor StreamingGreedySearch(RnntModel &model,  // NOLINT
                                     torch::Tensor encoder_out,
                                     torch::Tensor decoder_out,
                                     std::vector<std::vector<int32_t>> *hyps);
+
+/** RNN-T modified beam search for offline recognition.
+ *
+ * By modified we mean that the maximum symbol per frame is limited to 1.
+ *
+ * @param model The RNN-T model.
+ * @param encoder_out Output from the encoder network. Its shape is
+ *                    (batch_size, T, encoder_out_dim) and its dtype is
+ *                    torch::kFloat. It should be on the same device as `model`.
+ *
+ * @param encoder_out_lens A 1-D tensor containing the valid frames before
+ *                         padding in `encoder_out`. Its dtype is torch.kLong
+ *                         and its shape is (batch_size,). Also, it must be
+ *                         on CPU.
+ *
+ * @param num_active_paths  Number of active paths for each utterance.
+ *                          Note: Due to merging paths with identical token
+ *                          sequences, the actual number of active path for
+ *                          each utterance may be smaller than this value.
+ *
+ * @return Return A list-of-list of token IDs containing the decoded results.
+ * The returned vector has size `batch_size` and each entry contains the
+ * decoded results for the corresponding input in encoder_out.
+ */
+std::vector<std::vector<int32_t>> ModifiedBeamSearch(
+    RnntModel &model,  // NOLINT
+    torch::Tensor encoder_out, torch::Tensor encoder_out_length,
+    int32_t num_active_paths = 4);
 
 }  // namespace sherpa
 
