@@ -91,7 +91,7 @@ html_context = {
     "github_user": "k2-fsa",
     "github_repo": "sherpa",
     "github_version": "master",
-    "conf_py_path": "/sherpa/docs/source/",
+    "conf_py_path": "/docs/source/",
 }
 
 # refer to
