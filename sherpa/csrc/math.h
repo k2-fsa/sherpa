@@ -16,6 +16,9 @@
  * limitations under the License.
  */
 // This file is copied from k2/csrc/utils.h
+#ifndef SHERPA_CSRC_MATH_H_
+#define SHERPA_CSRC_MATH_H_
+
 #include <cmath>
 
 namespace sherpa {
@@ -74,3 +77,4 @@ struct LogAdd<float> {
 };
 
 }  // namespace sherpa
+#endif  // SHERPA_CSRC_MATH_H_

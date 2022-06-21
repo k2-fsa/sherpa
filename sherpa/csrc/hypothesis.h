@@ -19,7 +19,9 @@
 #ifndef SHERPA_CSRC_HYPOTHESIS_H_
 #define SHERPA_CSRC_HYPOTHESIS_H_
 
+#include <string>
 #include <unordered_map>
+#include <utility>
 #include <vector>
 
 #include "torch/all.h"

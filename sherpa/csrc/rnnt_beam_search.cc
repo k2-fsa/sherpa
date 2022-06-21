@@ -19,6 +19,8 @@
 #include "sherpa/csrc/rnnt_beam_search.h"
 
 #include <algorithm>
+#include <deque>
+#include <utility>
 
 #include "k2/torch_api.h"
 #include "sherpa/csrc/hypothesis.h"

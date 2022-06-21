@@ -19,6 +19,7 @@
 #include "sherpa/csrc/hypothesis.h"
 
 #include <algorithm>
+#include <utility>
 
 #include "sherpa/csrc/math.h"
 namespace sherpa {
