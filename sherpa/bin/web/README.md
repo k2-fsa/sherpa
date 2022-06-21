@@ -13,7 +13,7 @@ You will see a page like the following screenshot:
 ![Screenshot if you visit http://localhost:6009](./pic/web-ui.png)
 
 If your server is listening at the port *6006* with address **localhost**,
-then you can either click **Upload** or **Record** to play with it.
+then you can either click **Upload** or **Streaming_Record**, **Offline_Record** to play with it.
 
 ## File descriptions
 

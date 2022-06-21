@@ -290,7 +290,7 @@ sherpa/bin/conformer_rnnt/offline_server.py \
   --max-active-connections 500 \
   --feature-extractor-pool-size 5 \
   --nn-pool-size 1 \
-  --nn-model-filename ./icefall-aishell-pruned-transducer-stateless3-2022-06-20/exp/pretrained-epoch-29-avg-5-torch-1.6.0.pt \
+  --nn-model-filename ./icefall-aishell-pruned-transducer-stateless3-2022-06-20/exp/cpu_jit-epoch-29-avg-5-torch-1.6.0.pt \
   --token-filename ./icefall-aishell-pruned-transducer-stateless3-2022-06-20/data/lang_char/tokens.txt
 ```
 

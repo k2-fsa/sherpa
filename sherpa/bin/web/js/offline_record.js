@@ -9,13 +9,13 @@ function initWebSocket() {
   // Connection opened
   socket.addEventListener('open', function(event) {
     console.log('connected');
-    document.getElementById('record').disabled = false;
+    document.getElementById('offline_record').disabled = false;
   });
 
   // Connection closed
   socket.addEventListener('close', function(event) {
     console.log('disconnected');
-    document.getElementById('record').disabled = true;
+    document.getElementById('offline_record').disabled = true;
     initWebSocket();
   });
 
@@ -26,8 +26,8 @@ function initWebSocket() {
   });
 }
 
-const recordBtn = document.getElementById('record');
-const stopBtn = document.getElementById('stop');
+const recordBtn = document.getElementById('offline_record');
+const stopBtn = document.getElementById('offline_stop');
 const clearBtn = document.getElementById('clear');
 const soundClips = document.getElementById('sound-clips');
 const canvas = document.getElementById('canvas');
@@ -89,7 +89,6 @@ if (navigator.mediaDevices.getUserMedia) {
     recorder.onaudioprocess = function(e) {
       let samples = new Float32Array(e.inputBuffer.getChannelData(0))
       samples = downsampleBuffer(samples, expectedSampleRate);
-
       let buf = new Int16Array(samples.length);
       for (var i = 0; i < samples.length; ++i) {
         let s = samples[i];
@@ -101,14 +100,6 @@ if (navigator.mediaDevices.getUserMedia) {
         samples[i] = s;
         buf[i] = s * 32767;
       }
-
-      const header = new ArrayBuffer(8);
-      new DataView(header).setInt32(
-          0, samples.byteLength, true /* littleEndian */);
-
-      socket.send(new BigInt64Array(header, 0, 1));
-      socket.send(samples);
-
       leftchannel.push(buf);
       recordingLength += bufferSize;
     };
@@ -130,7 +121,7 @@ if (navigator.mediaDevices.getUserMedia) {
 
     stopBtn.onclick = function() {
       console.log('recorder stopped');
-      socket.close();
+      // socket.close();
 
       // stopBtn recording
       recorder.disconnect(audioCtx.destination);
@@ -170,6 +161,11 @@ if (navigator.mediaDevices.getUserMedia) {
 
       audio.controls = true;
       let samples = flatten(leftchannel);
+      let buf = new Float32Array(samples.length);
+      for (var i = 0; i < samples.length; ++i) {
+        let s = samples[i];
+        buf[i] = s / 32767.0;
+      }
       const blob = toWav(samples);
 
       leftchannel = [];
@@ -191,6 +187,13 @@ if (navigator.mediaDevices.getUserMedia) {
           clipLabel.textContent = newClipName;
         }
       };
+
+      const header = new ArrayBuffer(8);
+      new DataView(header).setInt32(
+          0, buf.byteLength, true /* littleEndian */);
+
+      socket.send(new BigInt64Array(header, 0, 1));
+      socket.send(buf);
     };
   };
 
