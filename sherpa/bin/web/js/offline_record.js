@@ -96,8 +96,6 @@ if (navigator.mediaDevices.getUserMedia) {
           s = 1;
         else if (s <= -1)
           s = -1;
-
-        samples[i] = s;
         buf[i] = s * 32767;
       }
       leftchannel.push(buf);
