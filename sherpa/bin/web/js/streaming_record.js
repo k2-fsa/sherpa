@@ -9,13 +9,13 @@ function initWebSocket() {
   // Connection opened
   socket.addEventListener('open', function(event) {
     console.log('connected');
-    document.getElementById('record').disabled = false;
+    document.getElementById('streaming_record').disabled = false;
   });
 
   // Connection closed
   socket.addEventListener('close', function(event) {
     console.log('disconnected');
-    document.getElementById('record').disabled = true;
+    document.getElementById('streaming_record').disabled = true;
     initWebSocket();
   });
 
@@ -26,8 +26,8 @@ function initWebSocket() {
   });
 }
 
-const recordBtn = document.getElementById('record');
-const stopBtn = document.getElementById('stop');
+const recordBtn = document.getElementById('streaming_record');
+const stopBtn = document.getElementById('streaming_stop');
 const clearBtn = document.getElementById('clear');
 const soundClips = document.getElementById('sound-clips');
 const canvas = document.getElementById('canvas');
