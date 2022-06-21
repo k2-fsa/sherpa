@@ -45,7 +45,7 @@ class Stream(object):
         self,
         context_size: int,
         blank_id: int,
-        initial_states: List[List[torch.Tensor]],
+        initial_states: List[torch.Tensor],
         decoder_out: torch.Tensor,
     ) -> None:
         """

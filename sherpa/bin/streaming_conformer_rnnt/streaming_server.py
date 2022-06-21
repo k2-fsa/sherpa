@@ -193,10 +193,8 @@ def run_model_and_do_greedy_search(
         decoder_out_list.append(s.decoder_out)
         hyp_list.append(s.hyp)
         processed_frames_list.append(s.processed_frames)
-
         f = s.features[:chunk_length]
         s.features = s.features[chunk_size * subsampling_factor :]
-
         b = torch.cat(f, dim=0)
         feature_list.append(b)
 
@@ -336,7 +334,9 @@ class StreamingServer(object):
             dtype=torch.int64,
         )
         initial_decoder_out = self.model.decoder_forward(decoder_input)
-        self.initial_decoder_out = initial_decoder_out.squeeze(1)
+        self.initial_decoder_out = self.model.forward_decoder_proj(
+            initial_decoder_out.squeeze(1)
+        )
 
         self.nn_pool = ThreadPoolExecutor(
             max_workers=nn_pool_size,

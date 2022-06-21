@@ -224,7 +224,6 @@ torch::Tensor StreamingGreedySearch(RnntModel &model,  // NOLINT
                       .memory_format(torch::MemoryFormat::Contiguous));
 
   encoder_out = model.ForwardEncoderProj(encoder_out);
-  decoder_out = model.ForwardDecoderProj(decoder_out);
 
   for (int32_t t = 0; t != T; ++t) {
     auto cur_encoder_out = encoder_out.index({torch::indexing::Slice(), t});

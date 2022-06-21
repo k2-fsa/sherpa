@@ -1,0 +1,12 @@
+usage: offline_client.py [-h] [--server-addr SERVER_ADDR] [--server-port SERVER_PORT] sound_files [sound_files ...]
+
+positional arguments:
+  sound_files           The input sound file(s) to transcribe. Supported formats are those supported by torchaudio.load(). For
+                        example, wav and flac are supported. The sample rate has to be 16kHz.
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --server-addr SERVER_ADDR
+                        Address of the server (default: localhost)
+  --server-port SERVER_PORT
+                        Port of the server (default: 6006)

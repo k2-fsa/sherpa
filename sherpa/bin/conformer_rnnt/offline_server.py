@@ -35,6 +35,7 @@ import warnings
 from concurrent.futures import ThreadPoolExecutor
 from typing import List, Optional, Tuple
 
+import k2
 import kaldifeat
 import numpy as np
 import sentencepiece as spm
@@ -125,7 +126,20 @@ def get_args():
         type=str,
         help="""The BPE model
         You can find it in the directory egs/librispeech/ASR/data/lang_bpe_xxx
+        from icefall,
         where xxx is the number of BPE tokens you used to train the model.
+        Note: Use it only when your model is using BPE. You don't need to
+        provide it if you provide `--token-filename`
+        """,
+    )
+
+    parser.add_argument(
+        "--token-filename",
+        type=str,
+        help="""Filename for tokens.txt
+        You can find it in the directory
+        egs/aishell/ASR/data/lang_char/tokens.txt from icefall.
+        Note: You don't need to provide it if you provide `--bpe-model`
         """,
     )
 
@@ -276,8 +290,9 @@ def run_model_and_do_modified_beam_search(
 class OfflineServer:
     def __init__(
         self,
-        nn_model_filename: str,
-        bpe_model_filename: str,
+        nn_model_filename: Optional[str],
+        bpe_model_filename: Optional[str],
+        token_filename: str,
         num_device: int,
         batch_size: int,
         max_wait_ms: float,
@@ -294,7 +309,11 @@ class OfflineServer:
           nn_model_filename:
             Path to the torch script model.
           bpe_model_filename:
-            Path to the BPE model.
+            Path to the BPE model. If it is None, you have to provide
+            `token_filename`.
+          token_filename:
+            Path to tokens.txt. If it is None, you have to provide
+            `bpe_model_filename`.
           num_device:
             If 0, use CPU for neural network computation and decoding.
             If positive, it means the number of GPUs to use for NN computation
@@ -344,8 +363,11 @@ class OfflineServer:
 
         self.feature_queue = asyncio.Queue()
 
-        self.sp = spm.SentencePieceProcessor()
-        self.sp.load(bpe_model_filename)
+        if bpe_model_filename:
+            self.sp = spm.SentencePieceProcessor()
+            self.sp.load(bpe_model_filename)
+        else:
+            self.token_table = k2.SymbolTable.from_file(token_filename)
 
         self.counter = 0
 
@@ -642,7 +664,10 @@ class OfflineServer:
                 break
             features = await self.compute_features(samples)
             hyp = await self.compute_and_decode(features)
-            result = self.sp.decode(hyp)
+            if hasattr(self, "sp"):
+                result = self.sp.decode(hyp)
+            else:
+                result = [self.token_table[i] for i in hyp]
             await socket.send(result)
 
         # Decrement so that it can accept new connections
@@ -659,6 +684,7 @@ def main():
 
     nn_model_filename = args.nn_model_filename
     bpe_model_filename = args.bpe_model_filename
+    token_filename = args.token_filename
     port = args.port
     num_device = args.num_device
     max_wait_ms = args.max_wait_ms
@@ -676,9 +702,16 @@ def main():
     if decoding_method == "modified_beam_search":
         assert num_active_paths >= 1, num_active_paths
 
+    if bpe_model_filename:
+        assert token_filename is None
+
+    if token_filename:
+        assert bpe_model_filename is None
+
     offline_server = OfflineServer(
         nn_model_filename=nn_model_filename,
         bpe_model_filename=bpe_model_filename,
+        token_filename=token_filename,
         num_device=num_device,
         max_wait_ms=max_wait_ms,
         batch_size=batch_size,

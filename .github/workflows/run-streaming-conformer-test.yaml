@@ -21,11 +21,11 @@ on:
     branches:
       - master
   pull_request:
-    branches:
-      - master
+    types: [labeled]
 
 jobs:
   run_streaming_conformer_asr_tests:
+    if: github.event.label.name == 'ready' || github.event_name == 'push'
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -115,7 +115,7 @@ jobs:
             --max-batch-size 50 \
             --max-wait-ms 5 \
             --nn-pool-size 1 \
-            --nn-model-filename ./icefall-asr-librispeech-pruned-stateless-streaming-conformer-rnnt4-2022-06-10/exp/cpu_jit-epoch-29-avg-6.pt \
+            --nn-model-filename ./icefall-asr-librispeech-pruned-stateless-streaming-conformer-rnnt4-2022-06-10/exp/cpu_jit-epoch-29-avg-6_torch-${{ matrix.torch }}.pt \
             --bpe-model-filename ./icefall-asr-librispeech-pruned-stateless-streaming-conformer-rnnt4-2022-06-10/data/lang_bpe_500/bpe.model &
 
           echo "Sleep 10 seconds to wait for the server startup"

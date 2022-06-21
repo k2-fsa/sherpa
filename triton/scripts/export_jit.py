@@ -23,8 +23,8 @@ Usage:
 ./pruned_transducer_stateless3/export_jit.py \
   --pretrained-model ./pruned_transducer_stateless3/exp \
   --output-dir ./pruned_transducer_stateless3/exp \
-  --bpe-model ./bpe.model 
-  
+  --bpe-model ./bpe.model
+
 It will generate three jit files under ouput_dir, then you should put these
 models under corresponding trtion mdoel_repo modules.
 
@@ -153,11 +153,11 @@ class Joiner(nn.Module):
         Returns:
           Return a tensor of shape (N, T, s_range, C).
         """
-        
+
         assert encoder_out.ndim == decoder_out.ndim == 4
         assert encoder_out.shape[:-1] == decoder_out.shape[:-1]
 
-       
+
         logit = self.encoder_proj(encoder_out) + self.decoder_proj(
             decoder_out
         )
@@ -315,7 +315,7 @@ def get_parser():
         help="""It specifies the path of input pretrained_transducer.pt torch model.
         """,
     )
-    
+
     parser.add_argument(
         "--bpe-model",
         type=str,
@@ -344,12 +344,12 @@ def get_parser():
 
 def main():
     args = get_parser().parse_args()
-    
+
     params = get_params()
     params.update(vars(args))
 
     assert torch.cuda.is_available()
-    # for cpu models, you need to modify the config.pbtxt files under model_repo 
+    # for cpu models, you need to modify the config.pbtxt files under model_repo
     device = torch.device("cuda", 0)
 
     logging.info(f"device: {device}")
@@ -362,15 +362,15 @@ def main():
     params.vocab_size = sp.get_piece_size()
 
     logging.info(params)
-    
+
     logging.info("About to create models")
- 
+
     encoder = get_encoder_model(params)
     decoder = get_decoder_model(params)
     joiner = get_joiner_model(params)
 
     checkpoint = torch.load(args.pretrained_model, map_location="cpu")
-    
+
     # remove the prefix, e.g. encoder.encoder.layre1.bias --> encoder.layer1.bias
     for old_key in list(checkpoint["model"].keys()):
         key_list = old_key.split(".")[1:]
@@ -386,7 +386,7 @@ def main():
     assert len(miss_keys) == 0
     miss_keys,_ = joiner.load_state_dict(checkpoint["model"], strict=False)
     assert len(miss_keys) == 0
-    
+
     encoder.cuda()
     encoder.eval()
 
@@ -395,19 +395,19 @@ def main():
 
     joiner.cuda()
     joiner.eval()
-    
-    
+
+
     os.makedirs(args.output_dir, exist_ok=True)
     encoder = torch.jit.script(encoder)
     filename = args.output_dir + "/encoder_jit.pt"
     encoder.save(filename)
     logging.info("Export encoder jit finished.")
-   
+
     decoder = torch.jit.script(decoder)
     filename = args.output_dir + "/decoder_jit.pt"
     decoder.save(filename)
     logging.info("Export decoder jit finished.")
-  
+
     joiner = torch.jit.script(joiner)
     filename = args.output_dir + "/joiner_jit.pt"
     joiner.save(filename)

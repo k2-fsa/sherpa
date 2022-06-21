@@ -21,19 +21,26 @@ on:
     branches:
       - master
   pull_request:
-    branches:
-      - master
+    types: [labeled]
 
 jobs:
   run_tests:
+    if: github.event.label.name == 'ready' || github.event_name == 'push'
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
         os: [ubuntu-18.04, macos-10.15]
-        torch: ["1.10.0"]
-        torchaudio: ["0.10.0"]
-        python-version: [3.7, 3.8]
+        torch: ["1.10.0", "1.6.0"]
+        torchaudio: ["0.10.0", "0.6.0"]
+        python-version: ["3.7", "3.8", "3.9"]
+        exclude:
+          - torch: "1.10.0"
+            torchaudio: "0.6.0"
+          - torch: "1.6.0"
+            torchaudio: "0.10.0"
+          - torch: "1.6.0"
+            python-version: "3.9"
     steps:
       - uses: actions/checkout@v2
         with:
@@ -57,7 +64,15 @@ jobs:
         run: |
           python3 -m pip install --upgrade pip
           python3 -m pip install wheel twine typing_extensions websockets sentencepiece>=0.1.96
-          python3 -m pip install torch==${{ matrix.torch }}+cpu torchaudio==${{ matrix.torchaudio }}+cpu numpy -f https://download.pytorch.org/whl/cpu/torch_stable.html
+          python3 -m pip install torch==${{ matrix.torch }}+cpu numpy -f https://download.pytorch.org/whl/cpu/torch_stable.html
+
+          if [[ ${{ matrix.torchaudio }} == "0.10.0" ]]; then
+            pip install k2==1.15.1.dev20220616+cpu.torch${{ matrix.torch }} -f https://k2-fsa.org/nightly/index.html
+            pip install torchaudio==${{ matrix.torchaudio }}+cpu -f https://download.pytorch.org/whl/cpu/torch_stable.html
+          else
+            pip install k2==1.15.1.dev20220617+cpu.torch${{ matrix.torch }} -f https://k2-fsa.org/nightly/index.html
+            pip install torchaudio==${{ matrix.torchaudio }}
+          fi
 
       - name: Install PyTorch ${{ matrix.torch }}
         shell: bash
@@ -66,6 +81,10 @@ jobs:
           python3 -m pip install --upgrade pip
           python3 -m pip install wheel twine typing_extensions websockets sentencepiece>=0.1.96
           python3 -m pip install torch==${{ matrix.torch }} torchaudio==${{ matrix.torchaudio }} numpy -f https://download.pytorch.org/whl/cpu/torch_stable.html
+
+          pip install k2==1.15.1.dev20220617+cpu.torch${{ matrix.torch }} -f https://k2-fsa.org/nightly/index.html
+
+          python3 -m torch.utils.collect_env
 
       - name: Cache kaldifeat
         id: my-cache
@@ -105,7 +124,7 @@ jobs:
             --max-wait-ms 5 \
             --feature-extractor-pool-size 5 \
             --nn-pool-size 1 \
-            --nn-model-filename ./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/exp/cpu_jit.pt \
+            --nn-model-filename ./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/exp/cpu_jit-torch-${{ matrix.torch }}.pt \
             --bpe-model-filename ./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/data/lang_bpe_500/bpe.model &
           echo "Sleep 10 seconds to wait for the server startup"
           sleep 10
