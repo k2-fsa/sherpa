@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-. path.sh
 
 export CUDA_VISIBLE_DEVICES=0
 
