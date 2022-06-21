@@ -1,10 +1,10 @@
-Conformer Transducer based non-streaming ASR
+Conformer transducer based non-streaming ASR
 ============================================
 
 This page describes how to use `sherpa`_ for non-streaming ASR based
 on `Conformer`_ `transducer`_.
 
-We use pre-trained models from the following datasets for demonstration:
+We use pre-trained models using the following datasets for demonstration:
 
   - `aishell`_
   - `LibriSpeech`_

@@ -7,6 +7,8 @@
 
 [![Documentation Status](https://github.com/k2-fsa/sherpa/actions/workflows/build-doc.yml/badge.svg)](https://k2-fsa.github.io/sherpa/)
 
+**Documentation**: <https://k2-fsa.github.io/sherpa/>
+
 ## Introduction
 
 An ASR server framework in **Python**, supporting both streaming

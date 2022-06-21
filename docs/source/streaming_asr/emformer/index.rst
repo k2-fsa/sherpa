@@ -1,9 +1,9 @@
-Streaming ASR with pruned stateless Emformer transducer
-=======================================================
+Emformer transducer based streaming ASR
+=======================================
 
-This page describes how to use ``sherpa`` for streaming
-ASR with the `Emformer <https://arxiv.org/abs/2010.10759>`_ model
-trained using `pruned stateless RNN-T <https://github.com/k2-fsa/icefall>`_.
+This page describes how to use `sherpa`_ for streaming
+ASR with `Emformer`_ transducer models
+trained with `pruned stateless trandcuer <https://github.com/k2-fsa/icefall>`_.
 
 .. hint::
 
