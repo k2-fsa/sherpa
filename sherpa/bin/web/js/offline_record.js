@@ -51,6 +51,12 @@ clearBtn.onclick = function() {
   document.getElementById('results').value = '';
 };
 
+function send_header(n) {
+  const header = new ArrayBuffer(8);
+  new DataView(header).setInt32(0, n, true /* littleEndian */);
+  socket.send(new BigInt64Array(header, 0, 1));
+}
+
 // copied/modified from https://mdn.github.io/web-dictaphone/
 // and
 // https://gist.github.com/meziantou/edb7217fddfbb70e899e
@@ -119,7 +125,6 @@ if (navigator.mediaDevices.getUserMedia) {
 
     stopBtn.onclick = function() {
       console.log('recorder stopped');
-      // socket.close();
 
       // stopBtn recording
       recorder.disconnect(audioCtx.destination);
@@ -186,12 +191,21 @@ if (navigator.mediaDevices.getUserMedia) {
         }
       };
 
-      const header = new ArrayBuffer(8);
-      new DataView(header).setInt32(
-          0, buf.byteLength, true /* littleEndian */);
+      let n = 1024 * 4;  // send this number of bytes per request.
+      console.log('buf length, ' + buf.byteLength);
+      send_header(buf.byteLength);
 
-      socket.send(new BigInt64Array(header, 0, 1));
-      socket.send(buf);
+      for (let start = 0; start < buf.byteLength; start += n) {
+        socket.send(buf.slice(start, start + n));
+      }
+
+      let done = new Int8Array(4);  // Done
+      done[0] = 68;                 //'D';
+      done[1] = 111;                //'o';
+      done[2] = 110;                //'n';
+      done[3] = 101;                //'e';
+      socket.send(done);
+      console.log('Sent Done');
     };
   };
 

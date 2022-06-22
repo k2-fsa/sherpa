@@ -91,6 +91,7 @@ async def run(server_addr: str, server_port: int, test_wavs: List[str]):
             decoding_results = await websocket.recv()
             print(test_wav, "\n", decoding_results)
             print()
+        await websocket.send(b"Done")
 
 
 async def main():

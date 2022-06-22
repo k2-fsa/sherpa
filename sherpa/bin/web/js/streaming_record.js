@@ -102,11 +102,6 @@ if (navigator.mediaDevices.getUserMedia) {
         buf[i] = s * 32767;
       }
 
-      const header = new ArrayBuffer(8);
-      new DataView(header).setInt32(
-          0, samples.byteLength, true /* littleEndian */);
-
-      socket.send(new BigInt64Array(header, 0, 1));
       socket.send(samples);
 
       leftchannel.push(buf);
@@ -130,6 +125,15 @@ if (navigator.mediaDevices.getUserMedia) {
 
     stopBtn.onclick = function() {
       console.log('recorder stopped');
+
+      let done = new Int8Array(4);  // Done
+      done[0] = 68;                 //'D';
+      done[1] = 111;                //'o';
+      done[2] = 110;                //'n';
+      done[3] = 101;                //'e';
+      socket.send(done);
+      console.log('Sent Done');
+
       socket.close();
 
       // stopBtn recording

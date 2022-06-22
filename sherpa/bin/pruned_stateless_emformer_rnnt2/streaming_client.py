@@ -98,19 +98,12 @@ async def run(server_addr: str, server_port: int, test_wav: str):
             end = start + chunk_size
             d = wave.numpy().data[start:end]
 
-            num_bytes = d.nbytes
-            await websocket.send((num_bytes).to_bytes(8, "little", signed=True))
-
             await websocket.send(d)
             await asyncio.sleep(sleep_time)  # in seconds
 
             start = end
 
-        s = b"Done"
-        await websocket.send((len(s)).to_bytes(8, "little", signed=True))
-        await websocket.send(s)
-
-        logging.info("Send done")
+        await websocket.send(b"Done")
 
         decoding_results = await receive_task
         logging.info(f"{test_wav}\n{decoding_results}")

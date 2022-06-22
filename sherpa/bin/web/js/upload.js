@@ -37,12 +37,10 @@ function initWebSocket() {
   });
 }
 
-function send_data(buf) {
+function send_header(n) {
   const header = new ArrayBuffer(8);
-  new DataView(header).setInt32(0, buf.byteLength, true /* littleEndian */);
+  new DataView(header).setInt32(0, n, true /* littleEndian */);
   socket.send(new BigInt64Array(header, 0, 1));
-
-  socket.send(buf);
 }
 
 function onFileChange() {
@@ -86,8 +84,9 @@ function onFileChange() {
     let buf = float32_samples.buffer
     let n = 1024 * 4;  // send this number of bytes per request.
     console.log('buf length, ' + buf.byteLength);
+    send_header(buf.byteLength);
     for (let start = 0; start < buf.byteLength; start += n) {
-      send_data(buf.slice(start, start + n));
+      socket.send(buf.slice(start, start + n));
     }
 
     let done = new Int8Array(4);  // Done
@@ -95,7 +94,7 @@ function onFileChange() {
     done[1] = 111;                //'o';
     done[2] = 110;                //'n';
     done[3] = 101;                //'e';
-    send_data(done);
+    socket.send(done);
   };
 
   reader.readAsArrayBuffer(file);
