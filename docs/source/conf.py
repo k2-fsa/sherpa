@@ -111,4 +111,6 @@ rst_epilog = """
 .. _sherpa: https://github.com/k2-fsa/sherpa
 .. _transducer: https://arxiv.org/pdf/1211.3711.pdf
 .. _asyncio: https://docs.python.org/3/library/asyncio.html
+.. _k2: https://github.com/k2-fsa/k2
+.. _PyTorch: https://pytorch.org/
 """
