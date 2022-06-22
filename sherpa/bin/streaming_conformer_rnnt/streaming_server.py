@@ -475,9 +475,8 @@ class StreamingServer(object):
             decoder_out=self.initial_decoder_out,
         )
 
-        last = b""
         while True:
-            samples, last = await self.recv_audio_samples(socket, last)
+            samples = await self.recv_audio_samples(socket)
             if samples is None:
                 break
 
@@ -508,67 +507,22 @@ class StreamingServer(object):
     async def recv_audio_samples(
         self,
         socket: websockets.WebSocketServerProtocol,
-        last: Optional[bytes] = None,
-    ) -> Tuple[Optional[torch.Tensor], Optional[bytes]]:
+    ) -> Optional[torch.Tensor]:
         """Receives a tensor from the client.
 
-        The message from the client contains two parts: header and payload
-
-            - the header contains 8 bytes in little endian format, specifying
-              the number of bytes in the payload.
-
-            - the payload contains either a binary representation of the 1-D
-              torch.float32 tensor or the bytes object b"Done" which means
-              the end of utterance.
+        Each message contains either a bytes buffer containing audio samples
+        in 16 kHz or contains b"Done" meaning the end of utterance.
 
         Args:
           socket:
             The socket for communicating with the client.
-          last:
-            Previous received content.
         Returns:
-          Return a tuple containing:
-            - A 1-D torch.float32 tensor containing the audio samples
-            - Data for the next chunk, if any
-         or return a tuple (None, None) meaning the end of utterance.
+          Return a 1-D torch.float32 tensor containing the audio samples or
+          return None.
         """
-        header_len = 8
-
-        if last is None:
-            last = b""
-
-        async def receive_header():
-            buf = last
-            async for message in socket:
-                buf += message
-                if len(buf) >= header_len:
-                    break
-            if buf:
-                header = buf[:header_len]
-                remaining = buf[header_len:]
-            else:
-                header = None
-                remaining = None
-
-            return header, remaining
-
-        header, received = await receive_header()
-
-        if header is None:
-            return None, None
-
-        expected_num_bytes = int.from_bytes(header, "little", signed=True)
-
-        async for message in socket:
-            received += message
-            if len(received) >= expected_num_bytes:
-                break
-
-        if not received or received == b"Done":
-            return None, None
-
-        this_chunk = received[:expected_num_bytes]
-        next_chunk = received[expected_num_bytes:]
+        message = await socket.recv()
+        if message == b"Done":
+            return None
 
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
@@ -576,13 +530,10 @@ class StreamingServer(object):
             # We ignore it here as we are not going to write it anyway.
             if hasattr(torch, "frombuffer"):
                 # Note: torch.frombuffer is available only in torch>= 1.10
-                return (
-                    torch.frombuffer(this_chunk, dtype=torch.float32),
-                    next_chunk,
-                )  # noqa
+                return torch.frombuffer(message, dtype=torch.float32)
             else:
-                array = np.frombuffer(this_chunk, dtype=np.float32)
-                return torch.from_numpy(array), next_chunk
+                array = np.frombuffer(message, dtype=np.float32)
+                return torch.from_numpy(array)
 
 
 @torch.no_grad()

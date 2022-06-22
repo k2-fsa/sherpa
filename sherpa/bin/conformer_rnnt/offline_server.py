@@ -492,67 +492,54 @@ class OfflineServer:
     async def recv_audio_samples(
         self,
         socket: websockets.WebSocketServerProtocol,
-        last: Optional[bytes] = None,
-    ) -> Tuple[Optional[torch.Tensor], Optional[bytes]]:
+    ) -> Optional[torch.Tensor]:
         """Receives a tensor from the client.
 
-        The message from the client contains two parts: header and payload
+        As the websocket protocol is a message based protocol, not a stream
+        protocol, we can receive the whole message sent by the client at once.
 
-            - the header contains 8 bytes in little endian format, specifying
-              the number of bytes in the payload.
+        The message from the client is a **bytes** buffer.
 
-            - the payload contains either a binary representation of the 1-D
-              torch.float32 tensor or the bytes object b"Done" which means
-              the end of utterance.
+        The first message can be either b"Done" meaning the client won't send
+        anything in the future or it can be a buffer containing 8 bytes
+        in **little** endian format, specifying the number of bytes in the audio
+        file, which will be sent by the client in the subsequent messages.
+        Since there is a limit in the message size posed by the websocket
+        protocol, the client may send the audio file in multiple messages if the
+        audio file is very large.
+
+        The second and remaining messages contain audio samples.
 
         Args:
           socket:
             The socket for communicating with the client.
-          last:
-            Previous received content.
         Returns:
-          Return a tuple containing:
-            - A 1-D torch.float32 tensor containing the audio samples
-            - Data for the next chunk, if any
-         or return a tuple (None, None) meaning the end of utterance.
+          Return a 1-D torch.float32 tensor containing the audio samples or
+          return None indicating the end of utterance.
         """
-        header_len = 8
+        header = await socket.recv()
+        if header == b"Done":
+            return None
 
-        if last is None:
-            last = b""
-
-        async def receive_header():
-            buf = last
-            async for message in socket:
-                buf += message
-                if len(buf) >= header_len:
-                    break
-            if buf:
-                header = buf[:header_len]
-                remaining = buf[header_len:]
-            else:
-                header = None
-                remaining = None
-
-            return header, remaining
-
-        header, received = await receive_header()
-
-        if header is None:
-            return None, None
+        assert len(header) == 8, f"The first message should contain 8 bytes"
 
         expected_num_bytes = int.from_bytes(header, "little", signed=True)
 
+        received = []
+        num_received_bytes = 0
         async for message in socket:
-            received += message
-            if len(received) >= expected_num_bytes:
+            received.append(message)
+            num_received_bytes += len(message)
+
+            if num_received_bytes >= expected_num_bytes:
                 break
 
-        if not received or received == b"Done":
-            return None, None
+        assert num_received_bytes == expected_num_bytes, (
+            num_received_bytes,
+            expected_num_bytes,
+        )
 
-        this_chunk = received[:expected_num_bytes]
-        next_chunk = received[expected_num_bytes:]
+        samples = b"".join(received)
 
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
@@ -560,13 +547,10 @@ class OfflineServer:
             # We ignore it here as we are not going to write it anyway.
             if hasattr(torch, "frombuffer"):
                 # Note: torch.frombuffer is available only in torch>= 1.10
-                return (
-                    torch.frombuffer(this_chunk, dtype=torch.float32),
-                    next_chunk,
-                )
+                return torch.frombuffer(samples, dtype=torch.float32)
             else:
-                array = np.frombuffer(this_chunk, dtype=np.float32)
-                return torch.from_numpy(array), next_chunk
+                array = np.frombuffer(samples, dtype=np.float32)
+                return torch.from_numpy(array)
 
     async def feature_consumer_task(self):
         """This function extracts features from the feature_queue,
@@ -679,9 +663,8 @@ class OfflineServer:
             f"Number of connections: {self.current_active_connections}/{self.max_active_connections}"  # noqa
         )
 
-        last = b""
         while True:
-            samples, last = await self.recv_audio_samples(socket, last)
+            samples = await self.recv_audio_samples(socket)
             if samples is None:
                 break
             features = await self.compute_features(samples)
