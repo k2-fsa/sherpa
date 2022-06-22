@@ -381,6 +381,28 @@ class StreamingServer(object):
           socket:
             The socket for communicating with the client.
         """
+        try:
+            await self.handle_connection_impl(socket)
+        finally:
+            # Decrement so that it can accept new connections
+            self.current_active_connections -= 1
+
+            logging.info(
+                f"Disconnected: {socket.remote_address}. "
+                f"Number of connections: {self.current_active_connections}/{self.max_active_connections}"  # noqa
+            )
+
+    async def handle_connection_impl(
+        self,
+        socket: websockets.WebSocketServerProtocol,
+    ):
+        """Receive audio samples from the client, process it, and send
+        deocoding result back to the client.
+
+        Args:
+          socket:
+            The socket for communicating with the client.
+        """
         logging.info(
             f"Connected: {socket.remote_address}. "
             f"Number of connections: {self.current_active_connections}/{self.max_active_connections}"  # noqa
@@ -421,11 +443,6 @@ class StreamingServer(object):
         result = self.sp.decode(stream.hyp[self.context_size :])  # noqa
         await socket.send(result)
         await socket.send("Done")
-
-        # Decrement so that it can accept new connections
-        self.current_active_connections -= 1
-
-        logging.info(f"Disconnected: {socket.remote_address}")
 
     async def recv_audio_samples(
         self,
@@ -557,6 +574,8 @@ torch::jit::setGraphExecutorOptimize(false);
 """
 
 if __name__ == "__main__":
-    formatter = "%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] %(message)s"  # noqa
+    formatter = (
+        "%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] %(message)s"  # noqa
+    )
     logging.basicConfig(format=formatter, level=logging.INFO)
     main()

@@ -60,7 +60,11 @@ jobs:
           python3 -m pip install -qq wheel twine typing_extensions websockets sentencepiece>=0.1.96 soundfile
           python3 -m pip install -qq torch==${{ matrix.torch }}+cpu numpy -f https://download.pytorch.org/whl/torch_stable.html
 
+          python3 -m pip install k2==1.16.dev20220621+cpu.torch${{ matrix.torch }} -f https://k2-fsa.org/nightly/index.html
+
           python3 -c "import torch; print('torch version:', torch.__version__)"
+
+          python3 -m torch.utils.collect_env
 
       - name: Install sherpa
         shell: bash
