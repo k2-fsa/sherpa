@@ -3,10 +3,10 @@
 Installation
 ============
 
-``sherpa`` supports both CPU and CUDA. To install a CUDA version of sherpa, all you
-need to do is to install PyTorch with CUDA support.
+`sherpa`_ supports both CPU and CUDA. To install a CUDA version of sherpa, all you
+need to do is to install `PyTorch`_ with CUDA support.
 
-Supported operating systems, Python versions, PyTorch versions, and CUDA versions
+Supported operating systems, Python versions, `PyTorch`_ versions, and CUDA versions
 are listed below:
 
     - |os_types|
@@ -14,7 +14,7 @@ are listed below:
     - |pytorch_versions|
     - |cuda_versions|
 
-We provide the following methods to install ``sherpa``. You can choose
+We provide the following methods to install `sherpa`_. You can choose
 the one that works best for you.
 
 .. toctree::

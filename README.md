@@ -33,47 +33,9 @@ See <https://www.youtube.com/watch?v=z7HgaZv5W0U>
 
 ## Installation
 
-First, you have to install `PyTorch` and `torchaudio`. PyTorch 1.10 is known
-to work. Other versions may also work.
-
-Second, clone this repository
-
-```bash
-git clone https://github.com/k2-fsa/sherpa
-cd sherpa
-pip install -r ./requirements.txt
-```
-
-Third, install the C++ extension of `sherpa`. You can use one of
-the following methods.
-
-### Option 1: Use `pip` (Support Linux/macOS/Windows)
-
-```bash
-pip install --verbose k2-sherpa
-```
-
-or
-
-```bash
-pip install --verbose git+https://github.com/k2-fsa/shera
-```
-
-### Option 2: Build from source with `setup.py` (Support Linux/macOS/Windows)
-
-```bash
-python3 setup.py install
-```
-
-### Option 3: Build from source with `cmake` (Support Linux/macOS/Windows)
-
-```bash
-mkdir build
-cd build
-cmake ..
-make -j
-export PYTHONPATH=$PWD/../sherpa/python:$PWD/lib:$PYTHONPATH
-```
+Please refer to
+<https://k2-fsa.github.io/sherpa/installation/index.html>
+for installation.
 
 ## Usage
 
@@ -84,6 +46,10 @@ python3 -c "import sherpa; print(sherpa.__version__)"
 ```
 
 It should print the version of `sherpa`.
+
+Visit
+<https://k2-fsa.github.io/sherpa/>
+to see more tutorials of `sherpa`.
 
 #### Streaming ASR with pruned stateless Emformer RNN-T
 

@@ -1,11 +1,11 @@
 Install from source
 ===================
 
-Before installing ``sherpa``, you have to install `PyTorch <https://pytorch.org/>`_.
-If you want to install a CUDA version of ``sherpa``, please install a CUDA version
-of ``PyTorch``.
+Before installing `sherpa`_, you have to install `PyTorch`_ and `k2`_.
+If you want to install a CUDA version of `sherpa`_, please install a CUDA version
+of `PyTorch`_ and `k2`_.
 
-Supported operating systems, Python versions, PyTorch versions, and CUDA versions
+Supported operating systems, Python versions, `PyTorch`_ versions, and CUDA versions
 are listed as follows:
 
     - |os_types|
@@ -30,8 +30,19 @@ are listed as follows:
    If you install a CUDA version of PyTorch, please also install cuDNN.
    Otherwise, you will get CMake configuration errors later.
 
-Assume you have installed ``PyTorch``. The steps to install ``sherpa`` from source
-are given below.
+Install `PyTorch`_
+------------------
+
+Please refer to `<https://pytorch.org/get-started/locally/>`_ to install PyTorch.
+
+Install `k2`_
+-------------
+
+Please refer to `<https://k2-fsa.github.io/k2/installation/index.html>`_
+to install `k2`_. You have to install ``k2 >= v1.16``.
+
+Install `sherpa`_
+-----------------
 
 .. code-block:: bash
 
@@ -59,26 +70,34 @@ are given below.
    or ``pip install --verbose k2-sherpa`` to install the C++
    extension.
 
+   ``python3 setup.py install`` always installs the latest version.
+
 .. hint::
 
   Refer to :ref:`fix cuDNN not found` if you encouter this problem during
   installation.
 
-To check that you have installed ``sherpa`` successfully, use
+.. caution::
+
+   ``pip install -r ./requirements.txt`` won't install all dependencies
+   of `sherpa`_. You have to install `PyTorch`_ and `k2`_ before you install
+   `sherpa`_.
+
+To check that you have installed `sherpa`_ successfully, run
 
 .. code-block:: bash
 
   python3 -c "import sherpa; print(sherpa.__version__)"
 
-It should print the version of ``sherpa``.
+It should print the version of `sherpa`_.
 
 **Congratulations!**
 
-You have installed ``sherpa`` successfully. Let us start
+You have installed `sherpa`_ successfully. Let us start
 to play with it.
 
 The following shows you a `YouTube video <https://www.youtube.com/watch?v=z7HgaZv5W0U>`_,
-demonstrating streaming ASR with ``sherpa``.
+demonstrating streaming ASR with `sherpa`_.
 
 .. note::
 
@@ -88,5 +107,5 @@ demonstrating streaming ASR with ``sherpa``.
 ..  youtube:: z7HgaZv5W0U
    :width: 120%
 
-Read more to see how to use ``sherpa`` for streaming ASR and non-streaming ASR.
+Read more to see how to use `sherpa`_ for streaming ASR and non-streaming ASR.
 
