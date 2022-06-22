@@ -72,7 +72,9 @@ async def receive_results(socket: websockets.WebSocketServerProtocol):
         if message == "Done":
             break
         partial_result = message
-        logging.info(f"Partial result: {partial_result}")
+        last_20_words = partial_result.split()[-20:]
+        last_20_words = " ".join(last_20_words)
+        logging.info(f"Partial result (last 20 words): {last_20_words}")
 
     return partial_result
 
@@ -90,6 +92,7 @@ async def run(server_addr: str, server_port: int, test_wav: str):
         wave = wave.squeeze(0)
 
         chunk_size = 4096
+        sleep_time = chunk_size / sample_rate  # in seconds
         start = 0
         while start < wave.numel():
             end = start + chunk_size
@@ -99,6 +102,7 @@ async def run(server_addr: str, server_port: int, test_wav: str):
             await websocket.send((num_bytes).to_bytes(8, "little", signed=True))
 
             await websocket.send(d)
+            await asyncio.sleep(sleep_time)  # in seconds
 
             start = end
 
@@ -139,6 +143,8 @@ async def main():
 
 
 if __name__ == "__main__":
-    formatter = "%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] %(message)s"  # noqa
+    formatter = (
+        "%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] %(message)s"  # noqa
+    )
     logging.basicConfig(format=formatter, level=logging.INFO)
     asyncio.run(main())
