@@ -1,0 +1,90 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    lintOptions {
+        abortOnError false
+    }
+    packagingOptions {
+        pickFirst 'lib/arm64-v8a/libc++_shared.so'
+    }
+
+    configurations {
+        extractForNativeBuild
+    }
+    compileSdkVersion 30
+    buildToolsVersion "30.0.3"
+
+    defaultConfig {
+        applicationId "com.xiaomi.k2"
+        minSdkVersion 21
+        targetSdkVersion 30
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        externalNativeBuild {
+            cmake {
+                targets "k2_device"
+                cppFlags ""
+                arguments "--info -v --stacktrace --scan --debug"
+            }
+        }
+
+        ndkVersion '21.1.6352462'
+//        ndkVersion '23.1.7779620'
+        ndk {
+            abiFilters 'arm64-v8a', 'x86_64'
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt')
+        }
+    }
+    externalNativeBuild {
+        cmake {
+            path "src/main/cpp/CMakeLists.txt"
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'com.google.android.material:material:1.2.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    testImplementation 'junit:junit:4.+'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+
+    implementation 'org.pytorch:pytorch_android:1.11'
+    extractForNativeBuild 'org.pytorch:pytorch_android:1.11'
+}
+
+task extractAARForNativeBuild {
+    doLast {
+        configurations.extractForNativeBuild.files.each {
+            def file = it.absoluteFile
+            copy {
+                from zipTree(file)
+                into "$buildDir/$file.name"
+                include "headers/**"
+                include "jni/**"
+            }
+        }
+    }
+}
+
+tasks.whenTaskAdded { task ->
+    if (task.name.contains('externalNativeBuild')) {
+        task.dependsOn(extractAARForNativeBuild)
+    }
+}
