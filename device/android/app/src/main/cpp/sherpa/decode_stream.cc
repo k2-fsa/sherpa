@@ -18,6 +18,9 @@
 
 #include "sherpa/decode_stream.h"
 
+#include <chrono>
+#include <thread>
+
 namespace sherpa {
 DecodeStream::DecodeStream(const RnntConformerModel::State &initial_state,
                            const torch::Tensor &decoder_out,
@@ -33,39 +36,56 @@ DecodeStream::DecodeStream(const RnntConformerModel::State &initial_state,
   fbank_opts.frame_opts.frame_length_ms = 25.0;
   fbank_opts.mel_opts.num_bins = 80;
 
-  feature_mutex_ = new std::mutex();
-
-  feature_extractor_ = new kaldifeat::OnlineFbank(fbank_opts);
+  feature_extractor_ = std::shared_ptr<kaldifeat::OnlineFbank>(
+      new kaldifeat::OnlineFbank(fbank_opts));
   hyp_ = {blank_id_, blank_id_};
 }
 
 void DecodeStream::AcceptWaveform(const torch::Tensor &waveform,
                                   int32_t sampling_rate) {
-  std::lock_guard<std::mutex> lock(*feature_mutex_);
+  std::lock_guard<std::mutex> lock(feature_mutex_);
   feature_extractor_->AcceptWaveform(sampling_rate, waveform);
   FetchFrames();
 }
 
 void DecodeStream::InputFinished() {
-  std::lock_guard<std::mutex> lock(*feature_mutex_);
+  std::lock_guard<std::mutex> lock(feature_mutex_);
   feature_extractor_->InputFinished();
   FetchFrames();
 }
 
 void DecodeStream::AddTailPaddings(int32_t n) {
   auto tail_padding = torch::full({1, 80}, log_eps_);
-  std::lock_guard<std::mutex> lock(*feature_mutex_);
+  std::lock_guard<std::mutex> lock(feature_mutex_);
   features_.reserve(features_.size() + n);
   for (int32_t i = 0; i < n; ++i) features_.push_back(tail_padding);
 }
 
+bool DecodeStream::IsFinished() /* const */ {
+  std::lock_guard<std::mutex> lock(feature_mutex_);
+  return feature_extractor_->IsLastFrame(num_fetched_frames_ - 1) &&
+         features_.empty();
+}
+
 torch::Tensor DecodeStream::GetFeature(int32_t length, int32_t shift) {
-  std::lock_guard<std::mutex> lock(*feature_mutex_);
+  while (features_.size() < length &&
+         !feature_extractor_->IsLastFrame(num_fetched_frames_ - 1)) {
+    std::this_thread::sleep_for(std::chrono::milliseconds(10));
+  }
+
+  std::lock_guard<std::mutex> lock(feature_mutex_);
   auto return_tensor = torch::cat(
-      std::vector<torch::Tensor>(features_.begin(), features_.begin() + length),
+      std::vector<torch::Tensor>(
+          features_.begin(),
+          features_.begin() +
+              std::min(length, static_cast<int32_t>(features_.size()))),
       0);
-  features_ =
-      std::vector<torch::Tensor>(features_.begin(), features_.begin() + shift);
+
+  features_ = std::vector<torch::Tensor>(
+      features_.begin() +
+          std::min(shift, static_cast<int32_t>(features_.size())),
+      features_.end());
+
   return return_tensor;
 }
 

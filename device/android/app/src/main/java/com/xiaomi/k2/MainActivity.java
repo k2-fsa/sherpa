@@ -86,7 +86,6 @@ public class MainActivity extends AppCompatActivity {
           if (!startRecord) {
             startRecord = true;
             startRecordThread();
-            startAsrThread();
             button.setText("Stop Record");
           } else {
             startRecord = false;
@@ -151,7 +150,11 @@ public class MainActivity extends AppCompatActivity {
   private void startRecordThread() {
     new Thread(
             () -> {
+              Log.i(LOG_TAG, "Init decode stream.");
               Recognizer.initDecodeStream();
+              startAsrThread();
+              Log.i(LOG_TAG, "Init decode stream done");
+
               WaveView waveView = findViewById(R.id.waveView);
               record.startRecording();
               Process.setThreadPriority(Process.THREAD_PRIORITY_AUDIO);
@@ -173,9 +176,10 @@ public class MainActivity extends AppCompatActivity {
                   runOnUiThread(() -> button.setEnabled(true));
                 }
               }
+              waveView.resetView();
               Recognizer.inputFinished();
               record.stop();
-              waveView.resetView();
+              Log.i(LOG_TAG, "Recording thread exit.");
             })
         .start();
   }
@@ -203,6 +207,7 @@ public class MainActivity extends AppCompatActivity {
                     });
               }
 
+              Log.i(LOG_TAG, "Waiting for final results.");
               // Wait for final result
               while (true) {
                 if (!Recognizer.isFinished()) {
@@ -221,6 +226,7 @@ public class MainActivity extends AppCompatActivity {
                   break;
                 }
               }
+              Log.i(LOG_TAG, "Decoding thread exit.");
             })
         .start();
   }

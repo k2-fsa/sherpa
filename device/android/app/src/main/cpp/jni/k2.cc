@@ -102,9 +102,8 @@ void InitDecodeStream() {
   initial_decoder_out =
       g_model->ForwardDecoderProj(initial_decoder_out.squeeze(1));
 
-  auto decode_stream =
-      DecodeStream(initial_states, initial_decoder_out, context_size, blank_id);
-  g_decode_stream = std::make_shared<DecodeStream>(decode_stream);
+  g_decode_stream = std::shared_ptr<DecodeStream>(new DecodeStream(
+      initial_states, initial_decoder_out, context_size, blank_id));
 }
 
 void AcceptWaveform(JNIEnv *env, jobject, jfloatArray jWaveform) {
@@ -132,39 +131,43 @@ jstring Decode(JNIEnv *env, jobject) {
   int chunk_shift = g_chunk_size * subsampling_factor;
 
   torch::Tensor features = g_decode_stream->GetFeature(chunk_size, chunk_shift);
-  features = features.unsqueeze(0);
 
-  torch::Tensor features_length =
-      torch::tensor(std::vector<int32_t>(1, features.size(1)),
-                    torch::device(features.device()));
+  std::vector<int32_t> hyp;
+  if (features.size(0) >=
+      (2 + g_right_context) * g_model->SubSamplingFactor() + 7) {
+    features = features.unsqueeze(0);
+    torch::Tensor features_length =
+        torch::tensor(std::vector<int32_t>(1, features.size(1)),
+                      torch::device(features.device()));
 
-  auto states = g_decode_stream->GetState();
-  states = {states[0].unsqueeze(2), states[1].unsqueeze(2)};
+    auto states = g_decode_stream->GetState();
+    states = {states[0].unsqueeze(2), states[1].unsqueeze(2)};
 
-  torch::Tensor processed_frames = torch::tensor(
-      std::vector<int64_t>(1, g_decode_stream->GetNumProcessedFrames()),
-      torch::device(features.device()));
+    torch::Tensor processed_frames = torch::tensor(
+        std::vector<int64_t>(1, g_decode_stream->GetNumProcessedFrames()),
+        torch::device(features.device()));
 
-  auto encoder_out_tuple = g_model->StreamingForwardEncoder(
-      features, features_length, states, processed_frames, g_left_context,
-      g_right_context);
-  torch::Tensor encoder_out = std::get<0>(encoder_out_tuple);
-  torch::Tensor encoder_out_length = std::get<1>(encoder_out_tuple);
-  auto next_states = std::get<2>(encoder_out_tuple);
-  next_states = {next_states[0].squeeze(2), next_states[1].squeeze(2)};
+    auto encoder_out_tuple = g_model->StreamingForwardEncoder(
+        features, features_length, states, processed_frames, g_left_context,
+        g_right_context);
+    torch::Tensor encoder_out = std::get<0>(encoder_out_tuple);
+    torch::Tensor encoder_out_length = std::get<1>(encoder_out_tuple);
+    auto next_states = std::get<2>(encoder_out_tuple);
+    next_states = {next_states[0].squeeze(2), next_states[1].squeeze(2)};
 
-  torch::Tensor decoder_out = g_decode_stream->GetDecoderOut();
-  auto hyp = g_decode_stream->GetHyp();
-  std::vector<std::vector<int32_t>> hyps = {hyp};
+    torch::Tensor decoder_out = g_decode_stream->GetDecoderOut();
+    hyp = g_decode_stream->GetHyp();
+    std::vector<std::vector<int32_t>> hyps = {hyp};
 
-  auto next_decoder_out =
-      StreamingGreedySearch(*g_model, encoder_out, decoder_out, &hyps);
+    auto next_decoder_out =
+        StreamingGreedySearch(*g_model, encoder_out, decoder_out, &hyps);
 
-  g_decode_stream->SetDecoderOut(next_decoder_out);
-  g_decode_stream->SetHyp(hyps[0]);
-  g_decode_stream->SetState(next_states);
-  g_decode_stream->UpdateNumProcessedFrames(
-      encoder_out_length[0].item<int32_t>());
+    g_decode_stream->SetDecoderOut(next_decoder_out);
+    g_decode_stream->SetHyp(hyps[0]);
+    g_decode_stream->SetState(next_states);
+    g_decode_stream->UpdateNumProcessedFrames(
+        encoder_out_length[0].item<int32_t>());
+  }
 
   int32_t context_size = g_model->ContextSize();
   hyp = g_decode_stream->GetHyp();

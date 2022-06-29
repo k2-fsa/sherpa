@@ -33,6 +33,9 @@ class DecodeStream {
                const torch::Tensor &decoder_out, int32_t context_size = 2,
                int32_t blank_id = 0);
 
+  DecodeStream(const DecodeStream &L);
+  DecodeStream &operator=(const DecodeStream &L);
+
   void AcceptWaveform(const torch::Tensor &waveform,
                       int32_t sampling_rate = 16000);
 
@@ -59,13 +62,9 @@ class DecodeStream {
   int32_t ContextSize() const { return context_size_; }
   int32_t BlankId() const { return blank_id_; }
 
-  bool IsFinished() const {
-    std::lock_guard<std::mutex> lock(*feature_mutex_);
-    return feature_extractor_->IsLastFrame(num_fetched_frames_) &&
-           features_.empty();
-  }
+  bool IsFinished() /* const */;
 
-  ~DecodeStream() { delete feature_extractor_; }
+  ~DecodeStream() {}
 
  private:
   void FetchFrames();
@@ -75,12 +74,12 @@ class DecodeStream {
   int32_t num_processed_frames_ = 0;
   int32_t context_size_;
   int32_t blank_id_;
-  std::mutex *feature_mutex_;
+  std::mutex feature_mutex_;
   std::vector<int32_t> hyp_;
   RnntConformerModel::State state_;
   torch::Tensor decoder_out_;
   std::vector<torch::Tensor> features_;
-  kaldifeat::OnlineFbank *feature_extractor_;
+  std::shared_ptr<kaldifeat::OnlineFbank> feature_extractor_;
 };
 
 }  // namespace sherpa
