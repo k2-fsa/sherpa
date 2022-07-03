@@ -44,11 +44,11 @@ class RnntEmformerModel : public RnntModel {
 
   ~RnntEmformerModel() override = default;
 
-  using State = std::vector<std::vector<torch::Tensor>>;
+  using State = std::pair<std::vector<std::vector<torch::Tensor>>, std::vector<torch::Tensor>>
 
   std::pair<torch::Tensor, State> StreamingForwardEncoder(
       const torch::Tensor &features, const torch::Tensor &features_length,
-      torch::optional<State> states = torch::nullopt);
+      torch::optional<State> states);
 
   State GetEncoderInitStates();
 
@@ -72,7 +72,7 @@ class RnntEmformerModel : public RnntModel {
   int32_t BlankId() const override { return blank_id_; }
   int32_t UnkId() const override { return unk_id_; }
   int32_t ContextSize() const override { return context_size_; }
-  int32_t SegmentLength() const { return segment_length_; }
+  int32_t ChunkLength() const { return chunk_length_; }
   int32_t RightContextLength() const { return right_context_length_; }
 
  private:
@@ -87,7 +87,7 @@ class RnntEmformerModel : public RnntModel {
   int32_t blank_id_;
   int32_t unk_id_;
   int32_t context_size_;
-  int32_t segment_length_;
+  int32_t chunk_length_;
   int32_t right_context_length_;
 };
 

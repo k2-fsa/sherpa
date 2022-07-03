@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#include "sherpa/csrc/rnnt_emformer_model.h"
+#include "sherpa/csrc/rnnt_conv_emformer_model.h"
 
 #include <vector>
 
@@ -48,14 +48,14 @@ RnntEmformerModel::RnntEmformerModel(const std::string &filename,
   }
 
   context_size_ = decoder_.attr("context_size").toInt();
-  segment_length_ = encoder_.attr("segment_length").toInt();
+  chunk_length_ = encoder_.attr("chunk_length").toInt();
   right_context_length_ = encoder_.attr("right_context_length").toInt();
 }
 
 std::pair<torch::Tensor, RnntEmformerModel::State>
 RnntEmformerModel::StreamingForwardEncoder(
     const torch::Tensor &features, const torch::Tensor &features_length,
-    torch::optional<State> states /*= torch::nullopt*/) {
+    State states /*= torch::nullopt*/) {
   // It contains [torch.Tensor, torch.Tensor, List[List[torch.Tensor]]
   // which are [encoder_out, encoder_out_len, states]
   //
@@ -67,30 +67,52 @@ RnntEmformerModel::StreamingForwardEncoder(
   auto tuple_ptr = ivalue.toTuple();
   torch::Tensor encoder_out = tuple_ptr->elements()[0].toTensor();
 
-  torch::List<torch::IValue> list = tuple_ptr->elements()[2].toList();
+  auto tuple_ptr_states = tuple_ptr->elements()[2].toTuple();
+  torch::List<torch::Ivalue> list_attn = tuple_ptr_states->elements()[0].toList();
+  torch::List<torch::Ivalue> list_conv = tuple_ptr_states->elements()[1].toList();
+
   int32_t num_layers = list.size();
 
-  std::vector<std::vector<torch::Tensor>> next_states;
-  next_states.reserve(num_layers);
-
+  std::vector<std::vector<torch::Tensor>> next_state_attn;
+  next_state_attn.reserve(num_layers);
   for (int32_t i = 0; i != num_layers; ++i) {
-    next_states.emplace_back(
-        c10::impl::toTypedList<torch::Tensor>(list.get(i).toList()).vec());
+    next_state_attn.emplace_back(
+        c10::impl::toTypedList<torch::Tensor>(list_attn.get(i).toList()).vec());
   }
+
+  std::vector<torch.Tensro> next_state_conv;
+  next_state_conv.reserve(num_layers);
+  for (int32_t i = 0; i != num_layers; ++i) {
+    next_state_conv.emplace_back(list_conv.get(i));
+  }
+
+  State next_states = {next_state_attn, next_state_conv};
 
   return {encoder_out, next_states};
 }
 
 RnntEmformerModel::State RnntEmformerModel::GetEncoderInitStates() {
   torch::IValue ivalue = encoder_.run_method("get_init_state", device_);
-  torch::List<torch::IValue> list = ivalue.toList();
-  int32_t num_layers = list.size();
-  State states;
-  states.reserve(num_layers);
+  auto tuple_ptr = ivalue.toTuple();
+  torch::List<torch::IValue> list_attn = tuple_ptr->elements()[0].toList();
+  torch::List<torch::IValue> list_conv = tuple_ptr->elements()[1].toList();
+
+  int32_t num_layers = list_attn.size();
+
+  std::vector<std::vector<torch::Tensor>> state_attn;
+  state_attn.reserve(num_layers);
   for (int32_t i = 0; i != num_layers; ++i) {
-    states.emplace_back(
-        c10::impl::toTypedList<torch::Tensor>(list.get(i).toList()).vec());
+    state_attn.emplace_back(
+        c10::impl::toTypedList<torch::Tensor>(list_attn.get(i).toList()).vec());
   }
+
+  std::vector<torch.Tensor> state_conv;
+  state_conv.reserve(num_layers);
+  for (int32_t i = 0; i != num_layers; ++i) {
+    state_conv.emplace_back(list_conv.get(i));
+  }
+
+  State states = {state_attn, state_conv};
   return states;
 }
 
