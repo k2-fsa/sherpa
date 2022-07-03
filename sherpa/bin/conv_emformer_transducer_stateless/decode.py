@@ -15,83 +15,118 @@
 # limitations under the License.
 
 import math
-from typing import List
+from typing import List, Tuple
 
 import torch
 from kaldifeat import FbankOptions, OnlineFbank, OnlineFeature
 
 
 def unstack_states(
-    states: List[List[torch.Tensor]],
-) -> List[List[List[torch.Tensor]]]:
-    """Unstack the Emformer state corresponding to a batch of utterances
-    into a list of states, where the i-th entry is the state for the i-th
+    states: Tuple[List[List[torch.Tensor]], List[torch.Tensor]]
+) -> List[Tuple[List[List[torch.Tensor]], List[torch.Tensor]]]:
+    """Unstack the emformer state corresponding to a batch of utterances
+    into a list of states, where the i-th entry is the state from the i-th
     utterance in the batch.
 
     Args:
       states:
-        A list-of-list of tensors. ``len(states)`` equals to number of
-        layers in the Emformer. ``states[i]`` contains the states for
-        the i-th layer. ``states[i][k]`` is either a 3-D tensor of shape
-        ``(T, N, C)`` or a 2-D tensor of shape ``(C, N)``
+        A tuple of 2 elements.
+        ``states[0]`` is the attention caches of a batch of utterance.
+        ``states[1]`` is the convolution caches of a batch of utterance.
+        ``len(states[0])`` and ``len(states[1])`` both eqaul to number of layers.  # noqa
+
     Returns:
-      Return the states for each utterance. ans[i] is the state for the i-th
-      utterance. Note that the returned state does not contain the batch
-      dimension.
+      A list of states.
+      ``states[i]`` is a tuple of 2 elements of i-th utterance.
+      ``states[i][0]`` is the attention caches of i-th utterance.
+      ``states[i][1]`` is the convolution caches of i-th utterance.
+      ``len(states[i][0])`` and ``len(states[i][1])`` both eqaul to number of layers.  # noqa
     """
-    batch_size = states[0][0].size(1)
-    num_layers = len(states)
+
+    attn_caches, conv_caches = states
+    batch_size = conv_caches[0].size(0)
+    num_layers = len(attn_caches)
+
+    list_attn_caches = [None] * batch_size
+    for i in range(batch_size):
+        list_attn_caches[i] = [[] for _ in range(num_layers)]
+    for li, layer in enumerate(attn_caches):
+        for s in layer:
+            s_list = s.unbind(dim=1)
+            for bi, b in enumerate(list_attn_caches):
+                b[li].append(s_list[bi])
+
+    list_conv_caches = [None] * batch_size
+    for i in range(batch_size):
+        list_conv_caches[i] = [None] * num_layers
+    for li, layer in enumerate(conv_caches):
+        c_list = layer.unbind(dim=0)
+        for bi, b in enumerate(list_conv_caches):
+            b[li] = c_list[bi]
 
     ans = [None] * batch_size
     for i in range(batch_size):
-        ans[i] = [[] for _ in range(num_layers)]
+        ans[i] = [list_attn_caches[i], list_conv_caches[i]]
 
-    for li, layer in enumerate(states):
-        for s in layer:
-            s_list = s.unbind(dim=1)
-            # We will use stack(dim=1) later in stack_states()
-            for bi, b in enumerate(ans):
-                b[li].append(s_list[bi])
     return ans
 
 
 def stack_states(
-    state_list: List[List[List[torch.Tensor]]],
-) -> List[List[torch.Tensor]]:
-    """Stack list of Emformer states that correspond to separate utterances
-    into a single Emformer state so that it can be used as an input for
-    Emformer when those utterances are formed into a batch.
+    state_list: List[Tuple[List[List[torch.Tensor]], List[torch.Tensor]]]
+) -> Tuple[List[List[torch.Tensor]], List[torch.Tensor]]:
+    """Stack list of emformer states that correspond to separate utterances
+    into a single emformer state so that it can be used as an input for
+    emformer when those utterances are formed into a batch.
 
     Note:
       It is the inverse of :func:`unstack_states`.
 
     Args:
       state_list:
-        Each element in state_list corresponds to the internal state
-        of the Emformer model for a single utterance.
+        Each element in state_list corresponding to the internal state
+        of the emformer model for a single utterance.
+        ``states[i]`` is a tuple of 2 elements of i-th utterance.
+        ``states[i][0]`` is the attention caches of i-th utterance.
+        ``states[i][1]`` is the convolution caches of i-th utterance.
+        ``len(states[i][0])`` and ``len(states[i][1])`` both eqaul to number of layers.  # noqa
+
     Returns:
-      Return a new state corresponding to a batch of utterances.
+      A new state corresponding to a batch of utterances.
       See the input argument of :func:`unstack_states` for the meaning
       of the returned tensor.
     """
     batch_size = len(state_list)
-    ans = []
-    for layer in state_list[0]:
-        # layer is a list of tensors
-        if batch_size > 1:
-            ans.append([[s] for s in layer])
-            # Note: We will stack ans[layer][s][] later to get ans[layer][s]
-        else:
-            ans.append([s.unsqueeze(1) for s in layer])
 
+    attn_caches = []
+    for layer in state_list[0][0]:
+        if batch_size > 1:
+            # Note: We will stack attn_caches[layer][s][] later to get attn_caches[layer][s]  # noqa
+            attn_caches.append([[s] for s in layer])
+        else:
+            attn_caches.append([s.unsqueeze(1) for s in layer])
     for b, states in enumerate(state_list[1:], 1):
-        for li, layer in enumerate(states):
+        for li, layer in enumerate(states[0]):
             for si, s in enumerate(layer):
-                ans[li][si].append(s)
+                attn_caches[li][si].append(s)
                 if b == batch_size - 1:
-                    ans[li][si] = torch.stack(ans[li][si], dim=1)
-                    # We will use unbind(dim=1) later in unstack_states()
-    return ans
+                    attn_caches[li][si] = torch.stack(
+                        attn_caches[li][si], dim=1
+                    )
+
+    conv_caches = []
+    for layer in state_list[0][1]:
+        if batch_size > 1:
+            # Note: We will stack conv_caches[layer][] later to get conv_caches[layer]  # noqa
+            conv_caches.append([layer])
+        else:
+            conv_caches.append(layer.unsqueeze(0))
+    for b, states in enumerate(state_list[1:], 1):
+        for li, layer in enumerate(states[1]):
+            conv_caches[li].append(layer)
+            if b == batch_size - 1:
+                conv_caches[li] = torch.stack(conv_caches[li], dim=0)
+
+    return [attn_caches, conv_caches]
 
 
 def _create_streaming_feature_extractor() -> OnlineFeature:
@@ -118,7 +153,7 @@ class Stream(object):
         self,
         context_size: int,
         blank_id: int,
-        initial_states: List[List[torch.Tensor]],
+        initial_states: Tuple[List[List[torch.Tensor]], List[torch.Tensor]],
         decoder_out: torch.Tensor,
     ) -> None:
         """
