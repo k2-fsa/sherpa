@@ -26,7 +26,7 @@ cmdline-tools/bin/sdkmanager --install --sdk_root=. "ndk;21.1.6352462"
 
 You can also setup your Android SDK with Android Studio, if you have a machine with GUI, see [Android Studio documents](https://developer.android.com/studio/install) for how to use it.
 
-Note: We refer [Pytorch android StreamingASR demo](https://github.com/pytorch/android-demo-app/tree/master/StreamingASR) to setup this android demo, the platform and build-tools version above are known to work. You might encounter issues if you use other versions.
+Note: We refer to [Pytorch android StreamingASR demo](https://github.com/pytorch/android-demo-app/tree/master/StreamingASR) to setup this android demo, the platform and build-tools version above are known to work. You might encounter issues if you use other versions.
 
 ## Build apk
 

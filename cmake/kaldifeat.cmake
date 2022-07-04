@@ -24,8 +24,8 @@ function(download_kaldifeat)
 
   include(FetchContent)
 
-  set(kaldifeat_URL "https://github.com/pkufool/kaldifeat/archive/refs/tags/v1.15.tar.gz")
-  set(kaldifeat_HASH "SHA256=2cc19ab1a2c8a6152ff0e7ab8f968c072d012d9330d4ec7ee397e10f4c66aa47")
+  set(kaldifeat_URL "https://github.com/csukuangfj/kaldifeat/archive/refs/tags/v1.17.tar.gz")
+  set(kaldifeat_HASH "SHA256=4defbd681ab19600a22aae2d994726d452d2bb06f0071f6e0c6bf31bebba4e0d")
 
   set(kaldifeat_BUILD_TESTS OFF CACHE BOOL "" FORCE)
 
@@ -44,7 +44,13 @@ function(download_kaldifeat)
 
   set(KALDIFEAT_TORCH_VERSION_MAJOR ${K2_TORCH_VERSION_MAJOR})
   set(KALDIFEAT_TORCH_VERSION_MINOR ${K2_TORCH_VERSION_MINOR})
-  add_subdirectory(${kaldifeat_SOURCE_DIR}/kaldifeat/csrc ${kaldifeat_BINARY_DIR} EXCLUDE_FROM_ALL)
+
+  if (ANDROID)
+    # android don't need python wrapper.
+    add_subdirectory(${kaldifeat_SOURCE_DIR}/kaldifeat/csrc ${kaldifeat_BINARY_DIR} EXCLUDE_FROM_ALL)
+  else()
+    add_subdirectory(${kaldifeat_SOURCE_DIR} ${kaldifeat_BINARY_DIR} EXCLUDE_FROM_ALL)
+  endif()
 
   target_include_directories(kaldifeat_core PUBLIC ${kaldifeat_SOURCE_DIR})
 endfunction()

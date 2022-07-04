@@ -24,7 +24,7 @@
 #include <cstdlib>
 #include <fstream>
 #include <memory>
-#include <regex>  // NOLINT
+#include <regex>
 #include <set>
 #include <sstream>
 #include <string>
@@ -32,7 +32,7 @@
 #include <vector>
 
 #include "sherpa/csrc/rnnt_beam_search.h"
-#include "sherpa/decode_stream.h"
+#include "sherpa/csrc/decode_stream.h"
 #include "torch/all.h"
 #include "torch/script.h"
 #include "torch/utils.h"

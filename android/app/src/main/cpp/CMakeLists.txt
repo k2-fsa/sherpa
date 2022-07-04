@@ -4,7 +4,7 @@ project(k2_device CXX)
 
 set(K2_ANDROID "0.1")
 
-set(SHERPA_ROOT ${CMAKE_SOURCE_DIR}/../../../../../..)
+set(SHERPA_ROOT ${CMAKE_SOURCE_DIR}/../../../../..)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_VERBOSE_MAKEFILE ON)
@@ -69,18 +69,17 @@ set(K2_TORCH_VERSION_MINOR 11)
 set(SHERPA_TORCH_VERSION_MAJOR 1)
 set(SHERPA_TORCH_VERSION_MINOR 11)
 
-add_subdirectory(${SHERPA_ROOT}/sherpa/csrc ${CMAKE_BINARY_DIR}/lib)
-
 link_libraries(log libc++_shared.so android)
 
 include(kaldifeat)
 
+add_subdirectory(${SHERPA_ROOT}/sherpa/csrc ${CMAKE_BINARY_DIR}/lib)
+
 set(bin_dep_libs
   ${TORCH_LIBRARIES}
   sherpa_core
-  kaldifeat_core
 )
 
-add_library(k2_device SHARED sherpa/decode_stream.cc jni/k2.cc)
+add_library(k2_device SHARED jni/k2.cc)
 set_property(TARGET k2_device PROPERTY CXX_STANDARD 14)
 target_link_libraries(k2_device ${bin_dep_libs})
