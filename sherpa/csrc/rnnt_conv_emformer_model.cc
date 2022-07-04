@@ -21,7 +21,7 @@
 
 namespace sherpa {
 
-RnntEmformerModel::RnntEmformerModel(const std::string &filename,
+RnntConvEmformerModel::RnntConvEmformerModel(const std::string &filename,
                                      torch::Device device /*=torch::kCPU*/,
                                      bool optimize_for_inference /*=false*/)
     : device_(device) {
@@ -52,8 +52,8 @@ RnntEmformerModel::RnntEmformerModel(const std::string &filename,
   right_context_length_ = encoder_.attr("right_context_length").toInt();
 }
 
-std::pair<torch::Tensor, RnntEmformerModel::State>
-RnntEmformerModel::StreamingForwardEncoder(
+std::pair<torch::Tensor, RnntConvEmformerModel::State>
+RnntConvEmformerModel::StreamingForwardEncoder(
     const torch::Tensor &features, const torch::Tensor &features_length,
     State states /*= torch::nullopt*/) {
   // It contains [torch.Tensor, torch.Tensor, List[List[torch.Tensor]]
@@ -62,7 +62,7 @@ RnntEmformerModel::StreamingForwardEncoder(
   // We skip the second entry `encoder_out_len` since we assume the
   // feature input are of fixed chunk size and there are no paddings.
   // We can figure out `encoder_out_len` from `encoder_out`.
-  torch::IValue ivalue = encoder_.run_method("streaming_forward", features,
+  torch::IValue ivalue = encoder_.run_method("infer", features,
                                              features_length, states);
   auto tuple_ptr = ivalue.toTuple();
   torch::Tensor encoder_out = tuple_ptr->elements()[0].toTensor();
@@ -91,7 +91,7 @@ RnntEmformerModel::StreamingForwardEncoder(
   return {encoder_out, next_states};
 }
 
-RnntEmformerModel::State RnntEmformerModel::GetEncoderInitStates() {
+RnntConvEmformerModel::State RnntConvEmformerModel::GetEncoderInitStates() {
   torch::IValue ivalue = encoder_.run_method("get_init_state", device_);
   auto tuple_ptr = ivalue.toTuple();
   torch::List<torch::IValue> list_attn = tuple_ptr->elements()[0].toList();
@@ -116,13 +116,13 @@ RnntEmformerModel::State RnntEmformerModel::GetEncoderInitStates() {
   return states;
 }
 
-torch::Tensor RnntEmformerModel::ForwardDecoder(
+torch::Tensor RnntConvEmformerModel::ForwardDecoder(
     const torch::Tensor &decoder_input) {
   return decoder_.run_method("forward", decoder_input, /*need_pad*/ false)
       .toTensor();
 }
 
-torch::Tensor RnntEmformerModel::ForwardJoiner(
+torch::Tensor RnntConvEmformerModel::ForwardJoiner(
     const torch::Tensor &encoder_out, const torch::Tensor &decoder_out) {
   return joiner_.run_method("forward", encoder_out, decoder_out).toTensor();
 }

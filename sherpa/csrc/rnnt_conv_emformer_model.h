@@ -30,7 +30,7 @@ namespace sherpa {
 /** It wraps a torch script model, which is from
  * pruned_stateless_emformer_rnnt2/model.py within icefall.
  */
-class RnntEmformerModel : public RnntModel {
+class RnntConvEmformerModel : public RnntModel {
  public:
   /**
    * @param filename Path name of the torch script model.
@@ -38,11 +38,11 @@ class RnntEmformerModel : public RnntModel {
    * @param optimize_for_inference true to invoke
    *                               torch::jit::optimize_for_inference().
    */
-  explicit RnntEmformerModel(const std::string &filename,
+  explicit RnntConvEmformerModel(const std::string &filename,
                              torch::Device device = torch::kCPU,
                              bool optimize_for_inference = false);
 
-  ~RnntEmformerModel() override = default;
+  ~RnntConvEmformerModel() override = default;
 
   using State = std::pair<std::vector<std::vector<torch::Tensor>>, std::vector<torch::Tensor>>
 

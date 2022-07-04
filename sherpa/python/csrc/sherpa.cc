@@ -20,6 +20,7 @@
 
 #include "sherpa/python/csrc/rnnt_beam_search.h"
 #include "sherpa/python/csrc/rnnt_conformer_model.h"
+#include "sherpa/python/csrc/rnnt_conv_emformer_model.h"
 #include "sherpa/python/csrc/rnnt_emformer_model.h"
 #include "sherpa/python/csrc/rnnt_model.h"
 
@@ -30,6 +31,7 @@ PYBIND11_MODULE(_sherpa, m) {
 
   PybindRnntModel(m);
   PybindRnntConformerModel(m);
+  PybindRnntConvEmformerModel(m);
   PybindRnntEmformerModel(m);
   PybindRnntBeamSearch(m);
 }

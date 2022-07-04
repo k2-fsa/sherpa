@@ -17,20 +17,20 @@
  * limitations under the License.
  */
 
-#include "sherpa/python/csrc/rnnt_emformer_model.h"
+#include "sherpa/python/csrc/rnnt_conv_emformer_model.h"
 
 #include <memory>
 #include <string>
 
-#include "sherpa/csrc/rnnt_emformer_model.h"
+#include "sherpa/csrc/rnnt_conv_emformer_model.h"
 #include "sherpa/csrc/rnnt_model.h"
 #include "torch/torch.h"
 
 namespace sherpa {
 
-void PybindRnntEmformerModel(py::module &m) {  // NOLINT
-  using PyClass = RnntEmformerModel;
-  py::class_<PyClass, RnntModel>(m, "RnntEmformerModel")
+void PybindRnntConvEmformerModel(py::module &m) {  // NOLINT
+  using PyClass = RnntConvEmformerModel;
+  py::class_<PyClass, RnntModel>(m, "RnntConvEmformerModel")
       .def(py::init([](const std::string &filename,
                        py::object device = py::str("cpu"),
                        bool optimize_for_inference =
@@ -48,7 +48,7 @@ void PybindRnntEmformerModel(py::module &m) {  // NOLINT
            py::call_guard<py::gil_scoped_release>())
       .def("get_encoder_init_states", &PyClass::GetEncoderInitStates,
            py::call_guard<py::gil_scoped_release>())
-      .def_property_readonly("segment_length", &PyClass::SegmentLength)
+      .def_property_readonly("chunk_length", &PyClass::ChunkLength)
       .def_property_readonly("right_context_length",
                              &PyClass::RightContextLength);
 }
