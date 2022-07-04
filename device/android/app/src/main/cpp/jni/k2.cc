@@ -79,7 +79,8 @@ void Init(JNIEnv *env, jobject, jstring jModelPath, jstring jTokenPath) {
     int32_t id;
     std::string token;
     if (!(iss >> token >> id)) {
-      break;
+      LOGE("Invalid line : %s, Skipping...\n", line.c_str());
+      continue;
     }
     g_token_dict.insert(std::pair<int32_t, std::string>(id, token));
   }
@@ -92,7 +93,7 @@ void InitDecodeStream() {
 
   auto initial_states = g_model->GetEncoderInitStates(g_left_context);
 
-  // we can do like this because the batch size is 1.
+  // we can do it like this because the batch size is always 1.
   auto tokens = std::vector<int64_t>(context_size, blank_id);
   auto decoder_input = torch::from_blob(
       tokens.data(), {1, static_cast<int64_t>(tokens.size())}, torch::kInt64);
@@ -133,6 +134,13 @@ jstring Decode(JNIEnv *env, jobject) {
   torch::Tensor features = g_decode_stream->GetFeature(chunk_size, chunk_shift);
 
   std::vector<int32_t> hyp;
+  // Plus 2 here because we will cut off one frame in each side of embed_out
+  // in conformer to fix the training and decoding mismatch.
+  // See
+  // https://github.com/k2-fsa/icefall/blob/10e8bc5b563e3c5b46ff981ee92a1b79cfb3ac09/egs/librispeech/ASR/pruned_transducer_stateless2/conformer.py#L333-L354
+  // Plus 7 here because we subsample features with method like
+  // `((x_len - 1) // 2 - 1 ) // 1`, we need to keep at least one frame for each
+  // chunk.
   if (features.size(0) >=
       (2 + g_right_context) * g_model->SubSamplingFactor() + 7) {
     features = features.unsqueeze(0);
@@ -150,6 +158,7 @@ jstring Decode(JNIEnv *env, jobject) {
     auto encoder_out_tuple = g_model->StreamingForwardEncoder(
         features, features_length, states, processed_frames, g_left_context,
         g_right_context);
+
     torch::Tensor encoder_out = std::get<0>(encoder_out_tuple);
     torch::Tensor encoder_out_length = std::get<1>(encoder_out_tuple);
     auto next_states = std::get<2>(encoder_out_tuple);
@@ -176,6 +185,7 @@ jstring Decode(JNIEnv *env, jobject) {
     oss << g_token_dict[hyp[i]];
   }
   std::string text = oss.str();
+  // Remove the "▁" token in bpe tokens.
   text = std::regex_replace(text, std::regex("▁"), " ");
   return env->NewStringUTF(text.c_str());
 }
@@ -193,6 +203,8 @@ JNIEXPORT jint JNI_OnLoad(JavaVM *vm, void *) {
     return JNI_ERR;
   }
 
+  // See JNI signature here:
+  // https://docs.oracle.com/javase/7/docs/technotes/guides/jni/spec/types.html#wp16432
   static const JNINativeMethod methods[] = {
       {"init", "(Ljava/lang/String;Ljava/lang/String;)V",
        reinterpret_cast<void *>(sherpa::jni::Init)},

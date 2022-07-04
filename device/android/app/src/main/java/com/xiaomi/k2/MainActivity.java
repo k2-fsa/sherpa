@@ -24,7 +24,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 public class MainActivity extends AppCompatActivity {
-  private final int MY_PERMISSIONS_RECORD_AUDIO = 1;
+  private final int K2_PERMISSIONS_RECORD_AUDIO = 1;
   private static final String LOG_TAG = "k2";
   private static final int SAMPLE_RATE = 16000; // The sampling rate
 
@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
   @Override
   public void onRequestPermissionsResult(
       int requestCode, String[] permissions, int[] grantResults) {
-    if (requestCode == MY_PERMISSIONS_RECORD_AUDIO) {
+    if (requestCode == K2_PERMISSIONS_RECORD_AUDIO) {
       if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
         Log.i(LOG_TAG, "record permission is granted");
         initRecoder();
@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
     if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO)
         != PackageManager.PERMISSION_GRANTED) {
       ActivityCompat.requestPermissions(
-          this, new String[] {Manifest.permission.RECORD_AUDIO}, MY_PERMISSIONS_RECORD_AUDIO);
+          this, new String[] {Manifest.permission.RECORD_AUDIO}, K2_PERMISSIONS_RECORD_AUDIO);
     } else {
       initRecoder();
     }
@@ -184,6 +184,7 @@ public class MainActivity extends AppCompatActivity {
         .start();
   }
 
+  // Just for displaying the waveform.
   private double calculateScale(short[] buffer) {
     int amplitude = 0;
     for (short value : buffer) {

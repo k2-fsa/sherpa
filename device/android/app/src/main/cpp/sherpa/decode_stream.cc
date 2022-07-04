@@ -68,6 +68,7 @@ bool DecodeStream::IsFinished() /* const */ {
 }
 
 torch::Tensor DecodeStream::GetFeature(int32_t length, int32_t shift) {
+  // Wait until there are enough feature frames
   while (features_.size() < length &&
          !feature_extractor_->IsLastFrame(num_fetched_frames_ - 1)) {
     std::this_thread::sleep_for(std::chrono::milliseconds(10));
