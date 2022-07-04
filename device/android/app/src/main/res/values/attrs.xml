@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="WaveView">
+        <attr name="BarNum" format="integer" />
+        <attr name="BarColor" format="reference|color" />
+        <attr name="DelayTime" format="integer" />
+        <attr name="BarOffset" format="integer" />
+    </declare-styleable>
+</resources>
