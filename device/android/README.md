@@ -1,5 +1,7 @@
 ## Setup Android SDK
 
+* From commandline
+
 ```bash
 mkdir android_sdk
 cd android_sdk
@@ -20,7 +22,9 @@ cmdline-tools/bin/sdkmanager --install --sdk_root=. "build-tools;30.0.3"
 cmdline-tools/bin/sdkmanager --install --sdk_root=. "ndk;21.1.6352462"
 ```
 
-Hint: You can also setup your Android SDK with Android Studio, if you have a machine with GUI, see [Android Studio documents](https://developer.android.com/studio/install) for how to use it.
+* Android studio
+
+You can also setup your Android SDK with Android Studio, if you have a machine with GUI, see [Android Studio documents](https://developer.android.com/studio/install) for how to use it.
 
 Note: We refer [Pytorch android StreamingASR demo](https://github.com/pytorch/android-demo-app/tree/master/StreamingASR) to setup this android demo, the platform and build-tools version above are known to work. You might encounter issues if you use other versions.
 
@@ -35,7 +39,7 @@ git clone https://github.com/k2-fsa/sherpa.git
 * Prepare model and vocabulary file
 
 Put `jit.pt` and `tokens.txt` into `device/android/app/src/main/assets`.
-See [app/src/main/assets/README.md](./app/src/main/assets/README.md) for more details.
+See [device/android/app/src/main/assets/README.md](./app/src/main/assets/README.md) for more details.
 
 * Build with gradle
 

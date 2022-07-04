@@ -1,6 +1,6 @@
 This is the folder to put torch.script.jit model and vocabulary dict.
 
-* The torch.script.jit models could be exported from [icefall](https://github.com/k2-fsa/icefall) pruned_transducer_statelessX recipes in LibriSpeech dataset.
+* The torch.script.jit model could be exported from [icefall librispeech pruned_transducer_statelessX](https://github.com/k2-fsa/icefall/tree/master/egs/librispeech/ASR) recipes.
 The exporting command is (taking pruned_transducer_stateless4 as an example):
 
 ```bash
@@ -17,7 +17,7 @@ python pruned_transducer_stateless4/export.py \
 
 **Caution:** The torch.script.jit model **MUST** be named `jit.pt`.
 
-**Note:** Only pruned transducer models in LibriSpeech are supported now, will add streaming models for Chinese dataset soon. 
+**Note:** Only streaming transducer models in LibriSpeech are supported now (i.e. The model must be trained with `dynamic-chunk-training=1`), will add streaming model for Chinese datasets soon. 
 
 * The vocabulary dict is a text file named `tokens.txt`. It has two columns as follows:
 
@@ -33,9 +33,10 @@ T 6
 ED 8
 ▁OF 9
 ```
-You can get this file from `data/lang_bpe_xxx/` in the LibriSpeech recipes after running `prepare.sh`.
 
-**Note:** You can only use model trained with bpe tokens now.
+You can get this file from folder `egs/librispeech/ASR/data/lang_bpe_xxx` after running `prepare.sh`.
+
+**Note:** You can only use models trained with bpe tokens now.
 
 
 You can get pre-trained models from following links:
