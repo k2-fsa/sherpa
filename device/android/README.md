@@ -35,7 +35,7 @@ git clone https://github.com/k2-fsa/sherpa.git
 * Prepare model and vocabulary file
 
 Put `jit.pt` and `tokens.txt` into `device/android/app/src/main/assets`.
-See [device/android/app/src/main/assets/README.md](./device/android/app/src/main/assets/README.md) for more details.
+See [app/src/main/assets/README.md](./app/src/main/assets/README.md) for more details.
 
 * Build with gradle
 
@@ -45,5 +45,5 @@ cd device/android/app
 ./gradlew build
 ```
 
-Now, you can get apk from `device/android/app/build/outputs/apk/app-release.apk`.
+Now, you can get apk from `app/build/outputs/apk/app-release.apk`.
 
