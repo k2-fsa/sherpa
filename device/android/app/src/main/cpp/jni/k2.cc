@@ -24,7 +24,7 @@
 #include <cstdlib>
 #include <fstream>
 #include <memory>
-#include <regex>
+#include <regex>  // NOLINT
 #include <set>
 #include <sstream>
 #include <string>
@@ -48,12 +48,12 @@
 namespace sherpa {
 namespace jni {
 
-// TODO: Move these global variables to java size.
+// TODO(Wei Kang): Move these global variables to java size.
 std::shared_ptr<RnntConformerModel> g_model;
 std::shared_ptr<DecodeStream> g_decode_stream;
 std::unordered_map<int, std::string> g_token_dict;
 
-// TODO: Make them configurable
+// TODO(Wei Kang): Make them configurable
 static int g_left_context = 32;
 static int g_chunk_size = 8;
 static int g_right_context = 0;
