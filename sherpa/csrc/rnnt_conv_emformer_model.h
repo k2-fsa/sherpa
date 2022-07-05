@@ -44,7 +44,8 @@ class RnntConvEmformerModel : public RnntModel {
 
   ~RnntConvEmformerModel() override = default;
 
-  using State = std::pair<std::vector<std::vector<torch::Tensor>>, std::vector<torch::Tensor>>;
+  using State = std::pair<std::vector<std::vector<torch::Tensor>>,
+                          std::vector<torch::Tensor>>;
 
   std::pair<torch::Tensor, State> StreamingForwardEncoder(
       const torch::Tensor &features, const torch::Tensor &features_length,
@@ -66,7 +67,8 @@ class RnntConvEmformerModel : public RnntModel {
    * @return Return a tensor of shape (N, vocab_size)
    */
   torch::Tensor ForwardJoiner(const torch::Tensor &projected_encoder_out,
-                              const torch::Tensor &projected_decoder_out) override;
+                              const torch::Tensor &projected_decoder_out
+                              ) override;
   /** Run the joiner.encoder_proj network.
      *
      * @param encoder_out  The output from the encoder, which is of shape (N,T,C).
