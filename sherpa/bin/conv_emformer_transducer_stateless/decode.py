@@ -175,6 +175,8 @@ class Stream(object):
         self.features: List[torch.Tensor] = []
         self.num_fetched_frames = 0
 
+        self.num_processed_frames = 0
+
         self.states = initial_states
         self.decoder_out = decoder_out
 

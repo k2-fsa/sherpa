@@ -40,6 +40,9 @@ RnntConvEmformerModel::RnntConvEmformerModel(const std::string &filename,
   decoder_ = model_.attr("decoder").toModule();
   joiner_ = model_.attr("joiner").toModule();
 
+  encoder_proj_ = joiner_.attr("encoder_proj").toModule();
+  decoder_proj_ = joiner_.attr("decoder_proj").toModule();
+
   blank_id_ = decoder_.attr("blank_id").toInt();
 
   unk_id_ = blank_id_;
@@ -50,28 +53,32 @@ RnntConvEmformerModel::RnntConvEmformerModel(const std::string &filename,
   context_size_ = decoder_.attr("context_size").toInt();
   chunk_length_ = encoder_.attr("chunk_length").toInt();
   right_context_length_ = encoder_.attr("right_context_length").toInt();
+  // Add 2 here since we will drop the first and last frame after subsampling;
+  // Add 3 here since the subsampling is ((len - 1) // 2 - 1) // 2.
+  pad_length_ = right_context_length_ + 2 * encoder_.attr("subsampling_factor").toInt() + 3;
 }
 
 std::pair<torch::Tensor, RnntConvEmformerModel::State>
 RnntConvEmformerModel::StreamingForwardEncoder(
     const torch::Tensor &features, const torch::Tensor &features_length,
-    State states /*= torch::nullopt*/) {
+    const torch::Tensor &num_processed_frames, State states) {
   // It contains [torch.Tensor, torch.Tensor, List[List[torch.Tensor]]
   // which are [encoder_out, encoder_out_len, states]
   //
   // We skip the second entry `encoder_out_len` since we assume the
   // feature input are of fixed chunk size and there are no paddings.
   // We can figure out `encoder_out_len` from `encoder_out`.
-  torch::IValue ivalue = encoder_.run_method("infer", features,
-                                             features_length, states);
+  auto states_tuple = torch::ivalue::Tuple::create(std::get<0>(states), std::get<1>(states));
+  torch::IValue ivalue = encoder_.run_method("infer", features, features_length,
+                                             num_processed_frames, states_tuple);
   auto tuple_ptr = ivalue.toTuple();
   torch::Tensor encoder_out = tuple_ptr->elements()[0].toTensor();
 
   auto tuple_ptr_states = tuple_ptr->elements()[2].toTuple();
-  torch::List<torch::Ivalue> list_attn = tuple_ptr_states->elements()[0].toList();
-  torch::List<torch::Ivalue> list_conv = tuple_ptr_states->elements()[1].toList();
+  torch::List<torch::IValue> list_attn = tuple_ptr_states->elements()[0].toList();
+  torch::List<torch::IValue> list_conv = tuple_ptr_states->elements()[1].toList();
 
-  int32_t num_layers = list.size();
+  int32_t num_layers = list_attn.size();
 
   std::vector<std::vector<torch::Tensor>> next_state_attn;
   next_state_attn.reserve(num_layers);
@@ -80,10 +87,10 @@ RnntConvEmformerModel::StreamingForwardEncoder(
         c10::impl::toTypedList<torch::Tensor>(list_attn.get(i).toList()).vec());
   }
 
-  std::vector<torch.Tensro> next_state_conv;
+  std::vector<torch::Tensor> next_state_conv;
   next_state_conv.reserve(num_layers);
   for (int32_t i = 0; i != num_layers; ++i) {
-    next_state_conv.emplace_back(list_conv.get(i));
+    next_state_conv.emplace_back(list_conv.get(i).toTensor());
   }
 
   State next_states = {next_state_attn, next_state_conv};
@@ -92,7 +99,7 @@ RnntConvEmformerModel::StreamingForwardEncoder(
 }
 
 RnntConvEmformerModel::State RnntConvEmformerModel::GetEncoderInitStates() {
-  torch::IValue ivalue = encoder_.run_method("get_init_state", device_);
+  torch::IValue ivalue = encoder_.run_method("init_states", device_);
   auto tuple_ptr = ivalue.toTuple();
   torch::List<torch::IValue> list_attn = tuple_ptr->elements()[0].toList();
   torch::List<torch::IValue> list_conv = tuple_ptr->elements()[1].toList();
@@ -106,14 +113,13 @@ RnntConvEmformerModel::State RnntConvEmformerModel::GetEncoderInitStates() {
         c10::impl::toTypedList<torch::Tensor>(list_attn.get(i).toList()).vec());
   }
 
-  std::vector<torch.Tensor> state_conv;
+  std::vector<torch::Tensor> state_conv;
   state_conv.reserve(num_layers);
   for (int32_t i = 0; i != num_layers; ++i) {
-    state_conv.emplace_back(list_conv.get(i));
+    state_conv.emplace_back(list_conv.get(i).toTensor());
   }
 
-  State states = {state_attn, state_conv};
-  return states;
+  return {state_attn, state_conv};
 }
 
 torch::Tensor RnntConvEmformerModel::ForwardDecoder(
@@ -123,8 +129,19 @@ torch::Tensor RnntConvEmformerModel::ForwardDecoder(
 }
 
 torch::Tensor RnntConvEmformerModel::ForwardJoiner(
-    const torch::Tensor &encoder_out, const torch::Tensor &decoder_out) {
-  return joiner_.run_method("forward", encoder_out, decoder_out).toTensor();
+    const torch::Tensor &projected_encoder_out,
+    const torch::Tensor &projected_decoder_out) {
+  return joiner_.run_method("forward", projected_encoder_out, projected_decoder_out,
+                           /*project_input*/ false).toTensor();
 }
 
+torch::Tensor RnntConvEmformerModel::ForwardEncoderProj(
+    const torch::Tensor &encoder_out) {
+  return encoder_proj_.run_method("forward", encoder_out).toTensor();
+}
+
+torch::Tensor RnntConvEmformerModel::ForwardDecoderProj(
+    const torch::Tensor &decoder_out) {
+  return decoder_proj_.run_method("forward", decoder_out).toTensor();
+}
 }  // namespace sherpa
