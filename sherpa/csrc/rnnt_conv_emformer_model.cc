@@ -55,7 +55,8 @@ RnntConvEmformerModel::RnntConvEmformerModel(const std::string &filename,
   right_context_length_ = encoder_.attr("right_context_length").toInt();
   // Add 2 here since we will drop the first and last frame after subsampling;
   // Add 3 here since the subsampling is ((len - 1) // 2 - 1) // 2.
-  pad_length_ = right_context_length_ + 2 * encoder_.attr("subsampling_factor").toInt() + 3;
+  pad_length_ = right_context_length_
+                + 2 * encoder_.attr("subsampling_factor").toInt() + 3;
 }
 
 std::pair<torch::Tensor, RnntConvEmformerModel::State>
@@ -68,15 +69,19 @@ RnntConvEmformerModel::StreamingForwardEncoder(
   // We skip the second entry `encoder_out_len` since we assume the
   // feature input are of fixed chunk size and there are no paddings.
   // We can figure out `encoder_out_len` from `encoder_out`.
-  auto states_tuple = torch::ivalue::Tuple::create(std::get<0>(states), std::get<1>(states));
+  auto states_tuple = torch::ivalue::Tuple::create(
+    std::get<0>(states), std::get<1>(states));
   torch::IValue ivalue = encoder_.run_method("infer", features, features_length,
-                                             num_processed_frames, states_tuple);
+                                             num_processed_frames,
+                                             states_tuple);
   auto tuple_ptr = ivalue.toTuple();
   torch::Tensor encoder_out = tuple_ptr->elements()[0].toTensor();
 
   auto tuple_ptr_states = tuple_ptr->elements()[2].toTuple();
-  torch::List<torch::IValue> list_attn = tuple_ptr_states->elements()[0].toList();
-  torch::List<torch::IValue> list_conv = tuple_ptr_states->elements()[1].toList();
+  torch::List<torch::IValue> list_attn =
+    tuple_ptr_states->elements()[0].toList();
+  torch::List<torch::IValue> list_conv =
+    tuple_ptr_states->elements()[1].toList();
 
   int32_t num_layers = list_attn.size();
 
@@ -131,7 +136,9 @@ torch::Tensor RnntConvEmformerModel::ForwardDecoder(
 torch::Tensor RnntConvEmformerModel::ForwardJoiner(
     const torch::Tensor &projected_encoder_out,
     const torch::Tensor &projected_decoder_out) {
-  return joiner_.run_method("forward", projected_encoder_out, projected_decoder_out,
+  return joiner_.run_method("forward",
+                            projected_encoder_out,
+                            projected_decoder_out,
                            /*project_input*/ false).toTensor();
 }
 
