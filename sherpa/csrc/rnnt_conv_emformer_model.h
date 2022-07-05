@@ -67,8 +67,7 @@ class RnntConvEmformerModel : public RnntModel {
    * @return Return a tensor of shape (N, vocab_size)
    */
   torch::Tensor ForwardJoiner(const torch::Tensor &projected_encoder_out,
-                              const torch::Tensor &projected_decoder_out
-                              ) override;
+                           const torch::Tensor &projected_decoder_out) override;
   /** Run the joiner.encoder_proj network.
      *
      * @param encoder_out  The output from the encoder, which is of shape (N,T,C).
