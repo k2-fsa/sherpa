@@ -41,8 +41,14 @@ import numpy as np
 import sentencepiece as spm
 import torch
 import websockets
-from _sherpa import RnntConformerModel, greedy_search, modified_beam_search
 from torch.nn.utils.rnn import pad_sequence
+
+from sherpa import (
+    RnntConformerModel,
+    convert_timestamp,
+    greedy_search,
+    modified_beam_search,
+)
 
 LOG_EPS = math.log(1e-10)
 
@@ -228,12 +234,12 @@ def run_model_and_do_greedy_search(
         features_length=features_length,
     )
 
-    hyp_tokens = greedy_search(
+    hyp_tokens, timestamps = greedy_search(
         model=model,
         encoder_out=encoder_out,
         encoder_out_length=encoder_out_length.cpu(),
     )
-    return hyp_tokens
+    return hyp_tokens, timestamps
 
 
 @torch.no_grad()
@@ -575,17 +581,17 @@ class OfflineServer:
             self.counter = (self.counter + 1) % len(self.nn_models)
             model = self.nn_models[self.counter]
 
-            hyp_tokens = await loop.run_in_executor(
+            hyp_tokens, timestamps = await loop.run_in_executor(
                 self.nn_pool,
                 self.nn_and_decoding_func,
                 model,
                 feature_list,
             )
 
-            for i, hyp in enumerate(hyp_tokens):
+            for i, (hyp, timestamp) in enumerate(zip(hyp_tokens, timestamps)):
                 self.feature_queue.task_done()
                 future = batch[i][1]
-                loop.call_soon(future.set_result, hyp)
+                loop.call_soon(future.set_result, (hyp, timestamp))
 
     async def compute_features(self, samples: torch.Tensor) -> torch.Tensor:
         """Compute the fbank features for the given audio samples.
@@ -668,11 +674,15 @@ class OfflineServer:
             if samples is None:
                 break
             features = await self.compute_features(samples)
-            hyp = await self.compute_and_decode(features)
+            hyp, timestamp = await self.compute_and_decode(features)
+            timestamp = convert_timestamp(timestamp, subsampling_factor=4)
             if hasattr(self, "sp"):
                 result = self.sp.decode(hyp)
+                h = [self.sp.id_to_piece(i) for i in hyp]
+                print(list(zip(h, timestamp)))
             else:
                 result = [self.token_table[i] for i in hyp]
+            print(timestamp)
             await socket.send(result)
 
 

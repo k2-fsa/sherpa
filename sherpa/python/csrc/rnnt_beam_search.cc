@@ -45,9 +45,12 @@ Args:
     Its dtype is ``torch.kLong`` and its shape is ``(batch_size,)``. Also,
     it must be on CPU.
 Returns:
-  Return A list-of-list of token IDs containing the decoded results. The
-  returned vector has size ``batch_size`` and each entry contains the
-  decoded results for the corresponding input in ``encoder_out``.
+  Return a pair containing:
+    - A list-of-list of token IDs containing the decoded results. The vector
+      has size `batch_size` and each entry contains the decoded results
+      for the corresponding input in encoder_out.
+    - A list-of-list of frame numbers specifying on which frame the
+      corresponding token ID is decoded.
 )doc";
 
 static constexpr const char *kModifiedBeamSearchDoc = R"doc(

@@ -15,3 +15,5 @@ from _sherpa import (
     modified_beam_search,
     streaming_greedy_search,
 )
+
+from .timestamp import convert_timestamp

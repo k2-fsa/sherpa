@@ -102,9 +102,9 @@ static k2::RaggedShapePtr GetHypsShape(const std::vector<Hypotheses> &hyps) {
   return k2::RaggedShape2(row_splits, torch::Tensor(), row_splits_acc[num_utt]);
 }
 
-std::vector<std::vector<int32_t>> GreedySearch(
-    RnntModel &model,  // NOLINT
-    torch::Tensor encoder_out, torch::Tensor encoder_out_length) {
+std::pair<std::vector<std::vector<int32_t>>, std::vector<std::vector<int32_t>>>
+GreedySearch(RnntModel &model, torch::Tensor encoder_out,
+             torch::Tensor encoder_out_length) {
   TORCH_CHECK(encoder_out.dim() == 3, "encoder_out.dim() is ",
               encoder_out.dim(), "Expected value is 3");
   TORCH_CHECK(encoder_out.scalar_type() == torch::kFloat,
@@ -121,6 +121,8 @@ std::vector<std::vector<int32_t>> GreedySearch(
   torch::Device device = model.Device();
   encoder_out = encoder_out.to(device);
 
+  // Note: pack_padded_sequence() will sort input utterances by number of
+  // frames. We have to undo the sort at the end
   torch::nn::utils::rnn::PackedSequence packed_seq =
       torch::nn::utils::rnn::pack_padded_sequence(encoder_out,
                                                   encoder_out_length,
@@ -137,6 +139,7 @@ std::vector<std::vector<int32_t>> GreedySearch(
 
   std::vector<int32_t> blanks(context_size, blank_id);
   std::vector<std::vector<int32_t>> hyps(batch_size, blanks);
+  std::vector<std::vector<int32_t>> timestamps(batch_size);
 
   auto decoder_input =
       torch::full({batch_size, context_size}, blank_id,
@@ -176,6 +179,7 @@ std::vector<std::vector<int32_t>> GreedySearch(
       if (index != blank_id && index != unk_id) {
         emitted = true;
         hyps[k].push_back(index);
+        timestamps[k].push_back(i);
       }
     }
 
@@ -192,14 +196,16 @@ std::vector<std::vector<int32_t>> GreedySearch(
   auto unsorted_indices = packed_seq.unsorted_indices().cpu();
   auto unsorted_indices_accessor = unsorted_indices.accessor<int64_t, 1>();
 
-  std::vector<std::vector<int32_t>> ans(batch_size);
+  std::vector<std::vector<int32_t>> ans_hyps(batch_size);
+  std::vector<std::vector<int32_t>> ans_timestamps(batch_size);
 
   for (int32_t i = 0; i != batch_size; ++i) {
-    torch::ArrayRef<int32_t> arr(hyps[unsorted_indices_accessor[i]]);
-    ans[i] = arr.slice(context_size).vec();
+    torch::ArrayRef<int32_t> arr_indices(hyps[unsorted_indices_accessor[i]]);
+    ans_hyps[i] = arr_indices.slice(context_size).vec();
+    ans_timestamps[i] = std::move(timestamps[unsorted_indices_accessor[i]]);
   }
 
-  return ans;
+  return {ans_hyps, ans_timestamps};
 }
 
 torch::Tensor StreamingGreedySearch(RnntModel &model,  // NOLINT
