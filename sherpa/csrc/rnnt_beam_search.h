@@ -48,8 +48,8 @@ namespace sherpa {
  *    corresponding token ID is decoded.
  */
 std::pair<std::vector<std::vector<int32_t>>, std::vector<std::vector<int32_t>>>
-GreedySearch(RnntModel &model, torch::Tensor encoder_out,
-             torch::Tensor encoder_out_length);
+GreedySearch(RnntModel &model,  // NOLINT
+             torch::Tensor encoder_out, torch::Tensor encoder_out_length);
 
 /** Greedy search for streaming recognition.
  *
@@ -86,14 +86,17 @@ torch::Tensor StreamingGreedySearch(RnntModel &model,  // NOLINT
  *                          sequences, the actual number of active path for
  *                          each utterance may be smaller than this value.
  *
- * @return Return A list-of-list of token IDs containing the decoded results.
- * The returned vector has size `batch_size` and each entry contains the
- * decoded results for the corresponding input in encoder_out.
+ * @return Return a pair containing:
+ *  - A list-of-list of token IDs containing the decoded results. The vector
+ *    has size `batch_size` and each entry contains the decoded results
+ *    for the corresponding input in encoder_out.
+ *  - A list-of-list of frame numbers specifying on which frame the
+ *    corresponding token ID is decoded.
  */
-std::vector<std::vector<int32_t>> ModifiedBeamSearch(
-    RnntModel &model,  // NOLINT
-    torch::Tensor encoder_out, torch::Tensor encoder_out_length,
-    int32_t num_active_paths = 4);
+std::pair<std::vector<std::vector<int32_t>>, std::vector<std::vector<int32_t>>>
+ModifiedBeamSearch(RnntModel &model,  // NOLINT
+                   torch::Tensor encoder_out, torch::Tensor encoder_out_length,
+                   int32_t num_active_paths = 4);
 
 }  // namespace sherpa
 

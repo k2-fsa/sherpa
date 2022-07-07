@@ -75,9 +75,12 @@ Args:
     identical token sequences, the actual number of active path for each
     utterance may be smaller than this value.
 Returns:
-  Return A list-of-list of token IDs containing the decoded results. The
-  returned vector has size ``batch_size`` and each entry contains the
-  decoded results for the corresponding input in ``encoder_out``.
+  Return a pair containing:
+    - A list-of-list of token IDs containing the decoded results. The vector
+      has size `batch_size` and each entry contains the decoded results
+      for the corresponding input in encoder_out.
+    - A list-of-list of frame numbers specifying on which frame the
+      corresponding token ID is decoded.
 )doc";
 
 void PybindRnntBeamSearch(py::module &m) {  // NOLINT

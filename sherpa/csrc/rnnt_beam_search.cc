@@ -103,8 +103,8 @@ static k2::RaggedShapePtr GetHypsShape(const std::vector<Hypotheses> &hyps) {
 }
 
 std::pair<std::vector<std::vector<int32_t>>, std::vector<std::vector<int32_t>>>
-GreedySearch(RnntModel &model, torch::Tensor encoder_out,
-             torch::Tensor encoder_out_length) {
+GreedySearch(RnntModel &model,  // NOLINT
+             torch::Tensor encoder_out, torch::Tensor encoder_out_length) {
   TORCH_CHECK(encoder_out.dim() == 3, "encoder_out.dim() is ",
               encoder_out.dim(), "Expected value is 3");
   TORCH_CHECK(encoder_out.scalar_type() == torch::kFloat,
@@ -257,16 +257,10 @@ torch::Tensor StreamingGreedySearch(RnntModel &model,  // NOLINT
   return decoder_out;
 }
 
-void ModifiedBeamSearch() {
-  auto sizes = torch::tensor({1, 3, 2, 0}, torch::kInt);
-  auto row_splits = torch::empty_like(sizes);
-  k2::ExclusiveSum(sizes, &row_splits);
-}
-
-std::vector<std::vector<int32_t>> ModifiedBeamSearch(
-    RnntModel &model,  // NOLINT
-    torch::Tensor encoder_out, torch::Tensor encoder_out_length,
-    int32_t num_active_paths /*=4*/) {
+std::pair<std::vector<std::vector<int32_t>>, std::vector<std::vector<int32_t>>>
+ModifiedBeamSearch(RnntModel &model,  // NOLINT
+                   torch::Tensor encoder_out, torch::Tensor encoder_out_length,
+                   int32_t num_active_paths /*=4*/) {
   TORCH_CHECK(encoder_out.dim() == 3, "encoder_out.dim() is ",
               encoder_out.dim(), "Expected value is 3");
   TORCH_CHECK(encoder_out.scalar_type() == torch::kFloat,
@@ -401,6 +395,7 @@ std::vector<std::vector<int32_t>> ModifiedBeamSearch(
         int32_t new_token = topk_token_indexes_acc[j];
         if (new_token != blank_id && new_token != unk_id) {
           new_hyp.ys.push_back(new_token);
+          new_hyp.timestamps.push_back(i);
         }
 
         // We already added log_prob of the path to log_probs before, so
@@ -419,14 +414,17 @@ std::vector<std::vector<int32_t>> ModifiedBeamSearch(
   auto unsorted_indices = packed_seq.unsorted_indices().cpu();
   auto unsorted_indices_accessor = unsorted_indices.accessor<int64_t, 1>();
 
-  std::vector<std::vector<int32_t>> ans(batch_size);
+  std::vector<std::vector<int32_t>> ans_hyps(batch_size);
+  std::vector<std::vector<int32_t>> ans_timestamps(batch_size);
   for (int32_t i = 0; i != batch_size; ++i) {
     Hypothesis hyp = cur[unsorted_indices_accessor[i]].GetMostProbable(true);
-    torch::ArrayRef<int32_t> arr(hyp.ys);
-    ans[i] = arr.slice(context_size).vec();
+    torch::ArrayRef<int32_t> arr_ys(hyp.ys);
+
+    ans_hyps[i] = arr_ys.slice(context_size).vec();
+    ans_timestamps[i] = std::move(hyp.timestamps);
   }
 
-  return ans;
+  return {ans_hyps, ans_timestamps};
 }
 
 }  // namespace sherpa
