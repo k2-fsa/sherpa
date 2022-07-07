@@ -45,9 +45,12 @@ Args:
     Its dtype is ``torch.kLong`` and its shape is ``(batch_size,)``. Also,
     it must be on CPU.
 Returns:
-  Return A list-of-list of token IDs containing the decoded results. The
-  returned vector has size ``batch_size`` and each entry contains the
-  decoded results for the corresponding input in ``encoder_out``.
+  Return a pair containing:
+    - A list-of-list of token IDs containing the decoded results. The vector
+      has size `batch_size` and each entry contains the decoded results
+      for the corresponding input in encoder_out.
+    - A list-of-list of frame numbers specifying on which frame the
+      corresponding token ID is decoded.
 )doc";
 
 static constexpr const char *kModifiedBeamSearchDoc = R"doc(
@@ -72,9 +75,12 @@ Args:
     identical token sequences, the actual number of active path for each
     utterance may be smaller than this value.
 Returns:
-  Return A list-of-list of token IDs containing the decoded results. The
-  returned vector has size ``batch_size`` and each entry contains the
-  decoded results for the corresponding input in ``encoder_out``.
+  Return a pair containing:
+    - A list-of-list of token IDs containing the decoded results. The vector
+      has size `batch_size` and each entry contains the decoded results
+      for the corresponding input in encoder_out.
+    - A list-of-list of frame numbers specifying on which frame the
+      corresponding token ID is decoded.
 )doc";
 
 void PybindRnntBeamSearch(py::module &m) {  // NOLINT
@@ -85,14 +91,18 @@ void PybindRnntBeamSearch(py::module &m) {  // NOLINT
   m.def(
       "streaming_greedy_search",
       [](RnntModel &model, torch::Tensor encoder_out, torch::Tensor decoder_out,
-         std::vector<std::vector<int32_t>> &hyps)
-          -> std::pair<torch::Tensor, std::vector<std::vector<int32_t>>> {
-        decoder_out =
-            StreamingGreedySearch(model, encoder_out, decoder_out, &hyps);
-        return {decoder_out, hyps};
+         const std::vector<int32_t> &frame_offset,
+         std::vector<std::vector<int32_t>> &hyps,
+         std::vector<std::vector<int32_t>> &timestamps)
+          -> std::tuple<torch::Tensor, std::vector<std::vector<int32_t>>,
+                        std::vector<std::vector<int32_t>>> {
+        decoder_out = StreamingGreedySearch(model, encoder_out, decoder_out,
+                                            frame_offset, &hyps, &timestamps);
+        return {decoder_out, hyps, timestamps};
       },
       py::arg("model"), py::arg("encoder_out"), py::arg("decoder_out"),
-      py::arg("hyps"), py::call_guard<py::gil_scoped_release>());
+      py::arg("frame_offset"), py::arg("hyps"), py::arg("timestamps"),
+      py::call_guard<py::gil_scoped_release>());
 
   m.def("modified_beam_search", &ModifiedBeamSearch, py::arg("model"),
         py::arg("encoder_out"), py::arg("encoder_out_length"),

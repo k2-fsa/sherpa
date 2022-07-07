@@ -18,6 +18,7 @@
 #ifndef SHERPA_CSRC_RNNT_BEAM_SEARCH_H_
 #define SHERPA_CSRC_RNNT_BEAM_SEARCH_H_
 
+#include <utility>
 #include <vector>
 
 #include "sherpa/csrc/rnnt_conformer_model.h"
@@ -39,13 +40,16 @@ namespace sherpa {
  *                         and its shape is (batch_size,). Also, it must be
  *                         on CPU.
  *
- * @return Return A list-of-list of token IDs containing the decoded results.
- * The returned vector has size `batch_size` and each entry contains the
- * decoded results for the corresponding input in encoder_out.
+ * @return Return a pair containing:
+ *  - A list-of-list of token IDs containing the decoded results. The vector
+ *    has size `batch_size` and each entry contains the decoded results
+ *    for the corresponding input in encoder_out.
+ *  - A list-of-list of frame numbers specifying on which frame the
+ *    corresponding token ID is decoded.
  */
-std::vector<std::vector<int32_t>> GreedySearch(
-    RnntModel &model,  // NOLINT
-    torch::Tensor encoder_out, torch::Tensor encoder_out_length);
+std::pair<std::vector<std::vector<int32_t>>, std::vector<std::vector<int32_t>>>
+GreedySearch(RnntModel &model,  // NOLINT
+             torch::Tensor encoder_out, torch::Tensor encoder_out_length);
 
 /** Greedy search for streaming recognition.
  *
@@ -54,14 +58,18 @@ std::vector<std::vector<int32_t>> GreedySearch(
  *                    device as `model`.
  * @param decoder_out A 2-D tensor of shape (N, C). It should be on the same
  *                    device as `model`.
+ * @param frame_offset TODO
  * @param hyps The decoded tokens. Note: It is modified in-place.
+ * @param timestamps TODO
  *
  * @return Return the decoder output for the next chunk.
  */
-torch::Tensor StreamingGreedySearch(RnntModel &model,  // NOLINT
-                                    torch::Tensor encoder_out,
-                                    torch::Tensor decoder_out,
-                                    std::vector<std::vector<int32_t>> *hyps);
+torch::Tensor StreamingGreedySearch(
+    RnntModel &model,  // NOLINT
+    torch::Tensor encoder_out, torch::Tensor decoder_out,
+    const std::vector<int32_t> &frame_offset,
+    std::vector<std::vector<int32_t>> *hyps,
+    std::vector<std::vector<int32_t>> *timestamps);
 
 /** RNN-T modified beam search for offline recognition.
  *
@@ -82,14 +90,17 @@ torch::Tensor StreamingGreedySearch(RnntModel &model,  // NOLINT
  *                          sequences, the actual number of active path for
  *                          each utterance may be smaller than this value.
  *
- * @return Return A list-of-list of token IDs containing the decoded results.
- * The returned vector has size `batch_size` and each entry contains the
- * decoded results for the corresponding input in encoder_out.
+ * @return Return a pair containing:
+ *  - A list-of-list of token IDs containing the decoded results. The vector
+ *    has size `batch_size` and each entry contains the decoded results
+ *    for the corresponding input in encoder_out.
+ *  - A list-of-list of frame numbers specifying on which frame the
+ *    corresponding token ID is decoded.
  */
-std::vector<std::vector<int32_t>> ModifiedBeamSearch(
-    RnntModel &model,  // NOLINT
-    torch::Tensor encoder_out, torch::Tensor encoder_out_length,
-    int32_t num_active_paths = 4);
+std::pair<std::vector<std::vector<int32_t>>, std::vector<std::vector<int32_t>>>
+ModifiedBeamSearch(RnntModel &model,  // NOLINT
+                   torch::Tensor encoder_out, torch::Tensor encoder_out_length,
+                   int32_t num_active_paths = 4);
 
 }  // namespace sherpa
 
