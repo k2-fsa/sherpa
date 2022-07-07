@@ -58,14 +58,18 @@ GreedySearch(RnntModel &model,  // NOLINT
  *                    device as `model`.
  * @param decoder_out A 2-D tensor of shape (N, C). It should be on the same
  *                    device as `model`.
+ * @param frame_offset TODO
  * @param hyps The decoded tokens. Note: It is modified in-place.
+ * @param timestamps TODO
  *
  * @return Return the decoder output for the next chunk.
  */
-torch::Tensor StreamingGreedySearch(RnntModel &model,  // NOLINT
-                                    torch::Tensor encoder_out,
-                                    torch::Tensor decoder_out,
-                                    std::vector<std::vector<int32_t>> *hyps);
+torch::Tensor StreamingGreedySearch(
+    RnntModel &model,  // NOLINT
+    torch::Tensor encoder_out, torch::Tensor decoder_out,
+    const std::vector<int32_t> &frame_offset,
+    std::vector<std::vector<int32_t>> *hyps,
+    std::vector<std::vector<int32_t>> *timestamps);
 
 /** RNN-T modified beam search for offline recognition.
  *

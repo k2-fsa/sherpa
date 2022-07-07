@@ -208,10 +208,12 @@ GreedySearch(RnntModel &model,  // NOLINT
   return {ans_hyps, ans_timestamps};
 }
 
-torch::Tensor StreamingGreedySearch(RnntModel &model,  // NOLINT
-                                    torch::Tensor encoder_out,
-                                    torch::Tensor decoder_out,
-                                    std::vector<std::vector<int32_t>> *hyps) {
+torch::Tensor StreamingGreedySearch(
+    RnntModel &model,  // NOLINT
+    torch::Tensor encoder_out, torch::Tensor decoder_out,
+    const std::vector<int32_t> &frame_offset,
+    std::vector<std::vector<int32_t>> *hyps,
+    std::vector<std::vector<int32_t>> *timestamps) {
   TORCH_CHECK(encoder_out.dim() == 3, encoder_out.dim(), " vs ", 3);
   TORCH_CHECK(decoder_out.dim() == 2, decoder_out.dim(), " vs ", 2);
 
@@ -245,6 +247,7 @@ torch::Tensor StreamingGreedySearch(RnntModel &model,  // NOLINT
       if (index != blank_id && index != unk_id) {
         emitted = true;
         (*hyps)[n].push_back(index);
+        (*timestamps)[n].push_back(t + frame_offset[n]);
       }
     }
 

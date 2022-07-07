@@ -40,7 +40,7 @@ import numpy as np
 import sentencepiece as spm
 import torch
 import websockets
-from sherpa import RnntEmformerModel, streaming_greedy_search
+from sherpa import RnntEmformerModel, convert_timestamp, streaming_greedy_search
 
 from decode import Stream, stack_states, unstack_states
 
@@ -159,10 +159,14 @@ def run_model_and_do_greedy_search(
     decoder_out_list = []
     hyp_list = []
     feature_list = []
+    frame_offset_list = []
+    timestamps_list = []
     for s in stream_list:
         state_list.append(s.states)
         decoder_out_list.append(s.decoder_out)
         hyp_list.append(s.hyp)
+        frame_offset_list.append(s.frame_offset)
+        timestamps_list.append(s.timestamps)
 
         f = s.features[:chunk_length]
         s.features = s.features[segment_length:]
@@ -190,11 +194,13 @@ def run_model_and_do_greedy_search(
     # Note: It does not return the next_encoder_out_len since
     # there are no paddings for streaming ASR. Each stream
     # has the same input number of frames, i.e., server.chunk_length.
-    next_decoder_out, next_hyp_list = streaming_greedy_search(
+    next_decoder_out, next_hyp_list, next_timestamps_list = streaming_greedy_search(
         model=model,
         encoder_out=encoder_out,
         decoder_out=decoder_out,
+        frame_offset=frame_offset_list,
         hyps=hyp_list,
+        timestamps=timestamps_list,
     )
 
     next_state_list = unstack_states(next_states)
@@ -203,6 +209,8 @@ def run_model_and_do_greedy_search(
         s.states = next_state_list[i]
         s.decoder_out = next_decoder_out_list[i]
         s.hyp = next_hyp_list[i]
+        s.timestamps = next_timestamps_list[i]
+        s.frame_offset += encoder_out.size(1)
 
 
 class StreamingServer(object):
@@ -438,6 +446,10 @@ class StreamingServer(object):
             stream.add_tail_paddings(n)
             await self.compute_and_decode(stream)
             stream.features = []
+
+        timestamps = convert_timestamp(stream.timestamps, subsampling_factor=4)
+        h = [self.sp.id_to_piece(i) for i in stream.hyp[self.context_size :]]
+        print(list(zip(h, timestamps)))
 
         result = self.sp.decode(stream.hyp[self.context_size :])  # noqa
         await socket.send(result)

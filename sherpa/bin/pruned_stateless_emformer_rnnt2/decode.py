@@ -147,6 +147,13 @@ class Stream(object):
         self.hyp = [blank_id] * context_size
         self.log_eps = math.log(1e-10)
 
+        # It has the same shape as self.hyp
+        # self.timestamps[i] is the frame number on which self.hyp[i] is decoded
+        self.timestamps = []
+
+        # It indicates how many frames after subsampling the model has processed
+        self.frame_offset = 0
+
     def accept_waveform(
         self,
         sampling_rate: float,
