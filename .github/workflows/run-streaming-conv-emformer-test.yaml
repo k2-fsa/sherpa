@@ -1,5 +1,5 @@
-# Copyright      2022  Xiaomi Corp.       (author: Fangjun Kuang)
-
+# Copyright      2022  Xiaomi Corp.       (author: Fangjun Kuang,
+#                                                  Zengwei Yao)
 # See ../../LICENSE for clarification regarding multiple authors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-name: Run streaming conformer ASR tests
+name: Run streaming ConvEmformer ASR tests
 
 on:
   push:
@@ -24,7 +24,7 @@ on:
     types: [labeled]
 
 jobs:
-  run_streaming_conformer_asr_tests:
+  run_streaming_conv_emformer_asr_tests:
     if: github.event.label.name == 'ready' || github.event_name == 'push'
     runs-on: ${{ matrix.os }}
     strategy:
@@ -117,7 +117,7 @@ jobs:
           export PYTHONPATH=~/tmp/kaldifeat/kaldifeat/python:$PYTHONPATH
           export PYTHONPATH=~/tmp/kaldifeat/build/lib:$PYTHONPATH
 
-          ./sherpa/bin/streaming_conformer_rnnt/streaming_server.py \
+          ./sherpa/bin/conv_emformer_transducer_stateless/streaming_server.py \
             --port 6006 \
             --max-batch-size 50 \
             --max-wait-ms 5 \
@@ -131,7 +131,7 @@ jobs:
       - name: Start client
         shell: bash
         run: |
-          ./sherpa/bin/streaming_conformer_rnnt/streaming_client.py \
+          ./sherpa/bin/conv_emformer_transducer_stateless/streaming_client.py \
             --server-addr localhost \
             --server-port 6006 \
             ./icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05/test_wavs/1221-135766-0002.wav
