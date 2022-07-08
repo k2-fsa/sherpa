@@ -70,7 +70,7 @@ RnntConvEmformerModel::StreamingForwardEncoder(
   // feature input are of fixed chunk size and there are no paddings.
   // We can figure out `encoder_out_len` from `encoder_out`.
   auto states_tuple = torch::ivalue::Tuple::create(
-    std::get<0>(states), std::get<1>(states));
+    states.first, states.second);
   torch::IValue ivalue = encoder_.run_method("infer", features, features_length,
                                              num_processed_frames,
                                              states_tuple);
