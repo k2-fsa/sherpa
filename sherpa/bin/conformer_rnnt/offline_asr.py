@@ -65,6 +65,7 @@ Note: We provide pre-trained models for testing.
       $wav3
 
 (2) Pre-trained model with the aishell dataset
+
     sudo apt-get install git-lfs
     git lfs install
     git clone https://huggingface.co/csukuangfj/icefall-aishell-pruned-transducer-stateless3-2022-06-20
@@ -353,6 +354,8 @@ def main():
         expected_sample_rate=sample_rate,
     )
 
+    logging.info("Decoding started.")
+
     hyps = offline_asr.decode_waves(waves)
 
     s = "\n"
@@ -360,8 +363,28 @@ def main():
         s += f"{filename}:\n{hyp}\n\n"
     logging.info(s)
 
-    logging.info("Decoding Done")
+    logging.info("Decoding done.")
 
+
+torch.set_num_threads(1)
+torch.set_num_interop_threads(1)
+
+# See https://github.com/pytorch/pytorch/issues/38342
+# and https://github.com/pytorch/pytorch/issues/33354
+#
+# If we don't do this, the delay increases whenever there is
+# a new request that changes the actual batch size.
+# If you use `py-spy dump --pid <server-pid> --native`, you will
+# see a lot of time is spent in re-compiling the torch script model.
+torch._C._jit_set_profiling_executor(False)
+torch._C._jit_set_profiling_mode(False)
+torch._C._set_graph_executor_optimize(False)
+"""
+// Use the following in C++
+torch::jit::getExecutorMode() = false;
+torch::jit::getProfilingMode() = false;
+torch::jit::setGraphExecutorOptimize(false);
+"""
 
 if __name__ == "__main__":
     torch.manual_seed(20220609)
