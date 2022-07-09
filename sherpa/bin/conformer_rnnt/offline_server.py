@@ -30,7 +30,6 @@ import asyncio
 import functools
 import http
 import logging
-import math
 import warnings
 from concurrent.futures import ThreadPoolExecutor
 from typing import List, Optional, Tuple
@@ -41,10 +40,9 @@ import numpy as np
 import sentencepiece as spm
 import torch
 import websockets
-from _sherpa import RnntConformerModel, greedy_search, modified_beam_search
-from torch.nn.utils.rnn import pad_sequence
+from sherpa import RnntConformerModel
 
-LOG_EPS = math.log(1e-10)
+from decode import run_model_and_do_greedy_search, run_model_and_do_modified_beam_search
 
 
 def get_args():
@@ -192,107 +190,12 @@ def get_args():
     return parser.parse_args()
 
 
-@torch.no_grad()
-def run_model_and_do_greedy_search(
-    model: RnntConformerModel,
-    features: List[torch.Tensor],
-) -> List[List[int]]:
-    """Run RNN-T model with the given features and use greedy search
-    to decode the output of the model.
-
-    Args:
-      model:
-        The RNN-T model.
-      features:
-        A list of 2-D tensors. Each entry is of shape
-        (num_frames, feature_dim).
-    Returns:
-      Return a list-of-list containing the decoding token IDs.
-    """
-    features_length = torch.tensor(
-        [f.size(0) for f in features],
-        dtype=torch.int64,
-    )
-    features = pad_sequence(
-        features,
-        batch_first=True,
-        padding_value=LOG_EPS,
-    )
-
-    device = model.device
-    features = features.to(device)
-    features_length = features_length.to(device)
-
-    encoder_out, encoder_out_length = model.encoder(
-        features=features,
-        features_length=features_length,
-    )
-
-    hyp_tokens = greedy_search(
-        model=model,
-        encoder_out=encoder_out,
-        encoder_out_length=encoder_out_length.cpu(),
-    )
-    return hyp_tokens
-
-
-@torch.no_grad()
-def run_model_and_do_modified_beam_search(
-    model: RnntConformerModel,
-    features: List[torch.Tensor],
-    num_active_paths: int,
-) -> List[List[int]]:
-    """Run RNN-T model with the given features and use greedy search
-    to decode the output of the model.
-
-    Args:
-      model:
-        The RNN-T model.
-      features:
-        A list of 2-D tensors. Each entry is of shape
-        (num_frames, feature_dim).
-      num_active_paths:
-        Used only when decoding_method is modified_beam_search.
-        It specifies number of active paths for each utterance. Due to
-        merging paths with identical token sequences, the actual number
-        may be less than "num_active_paths".
-    Returns:
-      Return a list-of-list containing the decoding token IDs.
-    """
-    features_length = torch.tensor(
-        [f.size(0) for f in features],
-        dtype=torch.int64,
-    )
-    features = pad_sequence(
-        features,
-        batch_first=True,
-        padding_value=LOG_EPS,
-    )
-
-    device = model.device
-    features = features.to(device)
-    features_length = features_length.to(device)
-
-    encoder_out, encoder_out_length = model.encoder(
-        features=features,
-        features_length=features_length,
-    )
-
-    hyp_tokens = modified_beam_search(
-        model=model,
-        encoder_out=encoder_out,
-        encoder_out_length=encoder_out_length.cpu(),
-        num_active_paths=num_active_paths,
-    )
-    return hyp_tokens
-
-
 class OfflineServer:
     def __init__(
         self,
-        nn_model_filename: Optional[str],
+        nn_model_filename: str,
         bpe_model_filename: Optional[str],
-        token_filename: str,
+        token_filename: Optional[str],
         num_device: int,
         batch_size: int,
         max_wait_ms: float,
@@ -401,7 +304,7 @@ class OfflineServer:
         self.decoding_method = decoding_method
         self.num_active_paths = num_active_paths
 
-    def _build_feature_extractor(self):
+    def _build_feature_extractor(self) -> kaldifeat.OfflineFeature:
         """Build a fbank feature extractor for extracting features.
 
         TODO:
@@ -521,7 +424,7 @@ class OfflineServer:
         if header == b"Done":
             return None
 
-        assert len(header) == 8, f"The first message should contain 8 bytes"
+        assert len(header) == 8, "The first message should contain 8 bytes"
 
         expected_num_bytes = int.from_bytes(header, "little", signed=True)
 
