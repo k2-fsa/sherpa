@@ -292,10 +292,12 @@ class OfflineAsr(object):
             wavs[i] contains audio samples for the i-th utterance.
 
             Note:
-              Whether it should be in the range [-32768, 32676] or be normalized
+              Whether it should be in the range [-32768, 32767] or be normalized
               to [-1, 1] depends on which range you used for your training data.
+              For instance, if your training data used [-32768, 32767],
+              then the given waves have to contain samples in this range.
 
-              All models trained by icefall use normalized range [-1, 1].
+              All models trained in icefall use the normalized range [-1, 1].
         Returns:
           Return a list of decoded results. `ans[i]` contains the decoded
           results for `wavs[i]`.
