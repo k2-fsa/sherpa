@@ -87,7 +87,7 @@ Note: We provide pre-trained models for testing.
 import argparse
 import functools
 import logging
-from typing import List, Optional
+from typing import List, Optional, Union
 
 import k2
 import kaldifeat
@@ -177,7 +177,8 @@ def get_args():
 
 
 def read_sound_files(
-    filenames: List[str], expected_sample_rate: float
+    filenames: List[str],
+    expected_sample_rate: int,
 ) -> List[torch.Tensor]:
     """Read a list of sound files into a list 1-D float32 torch tensors.
     Args:
@@ -207,7 +208,8 @@ class OfflineAsr(object):
         token_filename: Optional[str],
         decoding_method: str,
         num_active_paths: int,
-        sample_rate: float = 16000,
+        sample_rate: int = 16000,
+        device: Union[str, torch.device] = "cpu",
     ):
         """
         Args:
@@ -229,10 +231,12 @@ class OfflineAsr(object):
             may be less than "num_active_paths".
           sample_rate:
             Expected sample rate of the feature extractor.
+          device:
+            The device to use for computation.
         """
         self.model = RnntConformerModel(
             filename=nn_model_filename,
-            device="cpu",
+            device=device,
             optimize_for_inference=False,
         )
 
@@ -242,7 +246,10 @@ class OfflineAsr(object):
         else:
             self.token_table = k2.SymbolTable.from_file(token_filename)
 
-        self.feature_extractor = self._build_feature_extractor(sample_rate)
+        self.feature_extractor = self._build_feature_extractor(
+            sample_rate=sample_rate,
+            device=device,
+        )
 
         assert decoding_method in (
             "greedy_search",
@@ -262,20 +269,25 @@ class OfflineAsr(object):
             )
 
         self.nn_and_decoding_func = nn_and_decoding_func
+        self.device = device
 
     def _build_feature_extractor(
         self,
-        sample_rate: float = 16000,
+        sample_rate: int = 16000,
+        device: Union[str, torch.device] = "cpu",
     ) -> kaldifeat.OfflineFeature:
         """Build a fbank feature extractor for extracting features.
 
         Args:
           sample_rate:
             Expected sample rate of the feature extractor.
-
+          device:
+            The device to use for computation.
+        Returns:
+          Return a fbank feature extractor.
         """
         opts = kaldifeat.FbankOptions()
-        opts.device = "cpu"  # Note: It also supports CUDA, e.g., "cuda:0"
+        opts.device = device
         opts.frame_opts.dither = 0
         opts.frame_opts.snip_edges = False
         opts.frame_opts.samp_freq = sample_rate
@@ -303,6 +315,7 @@ class OfflineAsr(object):
           Return a list of decoded results. `ans[i]` contains the decoded
           results for `wavs[i]`.
         """
+        waves = [w.to(self.device) for w in waves]
         features = self.feature_extractor(waves)
 
         tokens = self.nn_and_decoding_func(self.model, features)
@@ -340,6 +353,12 @@ def main():
     if token_filename:
         assert bpe_model_filename is None
 
+    device = torch.device("cpu")
+    if torch.cuda.is_available():
+        device = torch.device("cuda", 0)
+
+    logging.info(f"device: {device}")
+
     offline_asr = OfflineAsr(
         nn_model_filename=nn_model_filename,
         bpe_model_filename=bpe_model_filename,
@@ -347,6 +366,7 @@ def main():
         decoding_method=decoding_method,
         num_active_paths=num_active_paths,
         sample_rate=sample_rate,
+        device=device,
     )
 
     waves = read_sound_files(
