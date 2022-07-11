@@ -41,7 +41,11 @@ import numpy as np
 import sentencepiece as spm
 import torch
 import websockets
-from sherpa import RnntConformerModel, streaming_greedy_search
+from sherpa import (
+    RnntConformerModel,
+    convert_timestamp,
+    streaming_greedy_search,
+)
 
 from decode import Stream
 
@@ -188,11 +192,13 @@ def run_model_and_do_greedy_search(
     hyp_list = []
     feature_list = []
     processed_frames_list = []
+    timestamps_list = []
     for s in stream_list:
         state_list.append(s.states)
         decoder_out_list.append(s.decoder_out)
         hyp_list.append(s.hyp)
         processed_frames_list.append(s.processed_frames)
+        timestamps_list.append(s.timestamps)
         f = s.features[:chunk_length]
         s.features = s.features[chunk_size * subsampling_factor :]
         b = torch.cat(f, dim=0)
@@ -216,7 +222,11 @@ def run_model_and_do_greedy_search(
 
     processed_frames = torch.tensor(processed_frames_list, device=device)
 
-    (encoder_out, encoder_out_lens, next_states,) = model.encoder_streaming_forward(
+    (
+        encoder_out,
+        encoder_out_lens,
+        next_states,
+    ) = model.encoder_streaming_forward(
         features=features,
         features_length=features_length,
         states=states,
@@ -228,11 +238,17 @@ def run_model_and_do_greedy_search(
     # Note: It does not return the next_encoder_out_len since
     # there are no paddings for streaming ASR. Each stream
     # has the same input number of frames, i.e., server.chunk_length.
-    next_decoder_out, next_hyp_list = streaming_greedy_search(
+    (
+        next_decoder_out,
+        next_hyp_list,
+        next_timestamps_list,
+    ) = streaming_greedy_search(
         model=model,
         encoder_out=encoder_out,
         decoder_out=decoder_out,
+        frame_offset=processed_frames_list,
         hyps=hyp_list,
+        timestamps=timestamps_list,
     )
 
     next_state_list = [
@@ -243,6 +259,7 @@ def run_model_and_do_greedy_search(
     for i, s in enumerate(stream_list):
         s.states = [next_state_list[0][i], next_state_list[1][i]]
         s.processed_frames += encoder_out_lens[i]
+        s.timestamps = next_timestamps_list[i]
         s.decoder_out = next_decoder_out_list[i]
         s.hyp = next_hyp_list[i]
 
@@ -500,6 +517,10 @@ class StreamingServer(object):
             await self.compute_and_decode(stream)
             stream.features = []
 
+        timestamps = convert_timestamp(stream.timestamps, subsampling_factor=4)
+        h = [self.sp.id_to_piece(i) for i in stream.hyp[self.context_size :]]
+        print(list(zip(h, timestamps)))
+
         result = self.sp.decode(stream.hyp[self.context_size :])  # noqa
         await socket.send(result)
         await socket.send("Done")
@@ -592,8 +613,6 @@ torch::jit::setGraphExecutorOptimize(false);
 """
 
 if __name__ == "__main__":
-    formatter = (
-        "%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] %(message)s"  # noqa
-    )
+    formatter = "%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] %(message)s"  # noqa
     logging.basicConfig(format=formatter, level=logging.INFO)
     main()

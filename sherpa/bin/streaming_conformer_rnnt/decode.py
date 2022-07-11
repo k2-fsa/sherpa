@@ -73,6 +73,10 @@ class Stream(object):
         # The number of frames (after subsampling) been processed.
         self.processed_frames = 0
 
+        # It has the same shape as self.hyp
+        # self.timestamps[i] is the frame number on which self.hyp[i] is decoded
+        self.timestamps = []
+
         self.context_size = context_size
         self.hyp = [blank_id] * context_size
         self.log_eps = math.log(1e-10)
