@@ -357,9 +357,9 @@ std::vector<std::vector<int32_t>> ModifiedBeamSearch(
     auto logits =
         model.ForwardJoiner(cur_encoder_out, decoder_out.unsqueeze(1));
 
-    // logits' shape is (cur_batch_size, 1, 1, vocab_size)
+    // logits' shape is (num_hyps, 1, 1, vocab_size)
     logits = logits.squeeze(1).squeeze(1);
-    // now logits' shape is (cur_batch_size, vocab_size)
+    // now logits' shape is (num_hyps, vocab_size)
 
     auto log_probs = logits.log_softmax(-1).cpu();
 
