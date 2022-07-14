@@ -42,6 +42,7 @@ void PybindRnntModel(py::module &m) {  // NOLINT
                              })
       .def_property_readonly("blank_id", &PyClass::BlankId)
       .def_property_readonly("unk_id", &PyClass::UnkId)
+      .def_property_readonly("vocab_size", &PyClass::VocabSize)
       .def_property_readonly("context_size", &PyClass::ContextSize);
 }
 
