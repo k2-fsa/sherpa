@@ -10,6 +10,7 @@ if torch.__version__.split("+")[0] != sherpa_torch_version.split("+")[0]:
 
 from _sherpa import (
     RnntConformerModel,
+    RnntConvEmformerModel,
     RnntEmformerModel,
     greedy_search,
     modified_beam_search,
