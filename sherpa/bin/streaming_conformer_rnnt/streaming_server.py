@@ -42,7 +42,11 @@ import numpy as np
 import sentencepiece as spm
 import torch
 import websockets
-from sherpa import RnntConformerModel, fast_beam_search, streaming_greedy_search
+from sherpa import (
+    RnntConformerModel,
+    fast_beam_search_one_best,
+    streaming_greedy_search,
+)
 
 from decode import Stream
 
@@ -275,7 +279,7 @@ def run_model_and_do_greedy_search(
 
     if decoding_method == "fast_beam_search":
         processed_lens = processed_frames + encoder_out_lens
-        next_hyp_list = fast_beam_search(
+        next_hyp_list = fast_beam_search_one_best(
             model=model,
             encoder_out=encoder_out,
             processed_lens=processed_lens,

@@ -78,44 +78,6 @@ Returns:
   decoded results for the corresponding input in ``encoder_out``.
 )doc";
 
-static constexpr const char *kFastBeamSearchDoc = R"doc(
-RNN-T fast beam search decoding using an Fsa based graph.
-
-Note: This decoding method only suitable for stateless decoder using limited
-      left contexts, and the maximum symbol per frame is limited to 1.
-
-Args:
-  model:
-    The RNN-T model. It can be an instance of its subclass, such as
-    :class:`RnntConformerModel` and :class:`RnntConformerModel`.
-  encoder_out:
-    Output from the encoder network. Its shape is
-   ``(batch_size, T, encoder_out_dim)`` and its dtype is ``torch::kFloat``.
-    It should be on the same device as ``model``.
-  processed_lens:
-    A 1-D tensor containing the valid frames before padding that have been
-    processed by encoder network until now. For offline recognition, it equals
-    to ``encoder_out_lens`` of encoder outputs. For online recognition, it is
-    the cumulative sum of ``encoder_out_lens`` of previous chunks (including
-    current chunk).
-    Its dtype is ``torch.kLong`` and its shape is ``(batch_size,)``.
-
-  rnnt_decoding_config:
-    The configuration of Fsa based RNN-T decoding, refer to
-    https://k2-fsa.github.io/k2/python_api/api.html#rnntdecodingconfig for more
-    details.
-
-  rnnt_decoding_streams_list:
-    A list containing the RnntDecodingStream for each sequences, its size is
-    ``encoder_out.size(0)``. It stores the decoding graph, internal decoding
-    states and partial results.
-
-Returns:
-  Return A list-of-list of token IDs containing the decoded results. The
-  returned vector has size ``batch_size`` and each entry contains the
-  decoded results for the corresponding input in ``encoder_out``.
-)doc";
-
 void PybindRnntBeamSearch(py::module &m) {  // NOLINT
   m.def("greedy_search", &GreedySearch, py::arg("model"),
         py::arg("encoder_out"), py::arg("encoder_out_length"),
@@ -137,11 +99,6 @@ void PybindRnntBeamSearch(py::module &m) {  // NOLINT
         py::arg("encoder_out"), py::arg("encoder_out_length"),
         py::arg("num_active_paths"), py::call_guard<py::gil_scoped_release>(),
         kModifiedBeamSearchDoc);
-
-  m.def("fast_beam_search", &FastBeamSearch, py::arg("model"),
-        py::arg("encoder_out"), py::arg("processed_lens"),
-        py::arg("rnnt_decoding_config"), py::arg("rnnt_decoding_streams_list"),
-        py::call_guard<py::gil_scoped_release>(), kFastBeamSearchDoc);
 }
 
 }  // namespace sherpa

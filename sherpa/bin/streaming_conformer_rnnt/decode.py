@@ -79,9 +79,7 @@ class Stream(object):
         self.decoding_graph = decoding_graph
         if decoding_method == "fast_beam_search":
             assert decoding_graph is not None
-            self.rnnt_decoding_stream = k2.create_rnnt_decoding_stream(
-                decoding_graph.arcs
-            )
+            self.rnnt_decoding_stream = k2.RnntDecodingStream(decoding_graph)
             self.hyp = []
         elif decoding_method == "greedy_search":
             assert decoder_out is not None

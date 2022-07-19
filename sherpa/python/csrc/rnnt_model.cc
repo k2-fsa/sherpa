@@ -32,8 +32,12 @@ void PybindRnntModel(py::module &m) {  // NOLINT
   py::class_<PyClass>(m, "RnntModel")
       .def("decoder_forward", &PyClass::ForwardDecoder,
            py::arg("decoder_input"), py::call_guard<py::gil_scoped_release>())
+      .def("joiner_forward", &PyClass::ForwardJoiner, py::arg("projected_encoder_out"),
+           py::arg("projected_decoder_out"), py::call_guard<py::gil_scoped_release>())
       .def("forward_decoder_proj", &PyClass::ForwardDecoderProj,
            py::arg("decoder_out"), py::call_guard<py::gil_scoped_release>())
+      .def("forward_encoder_proj", &PyClass::ForwardEncoderProj,
+           py::arg("encoder_out"), py::call_guard<py::gil_scoped_release>())
       .def_property_readonly("device",
                              [](const PyClass &self) -> py::object {
                                py::object ans =

@@ -93,53 +93,6 @@ std::vector<std::vector<int32_t>> ModifiedBeamSearch(
     torch::Tensor encoder_out, torch::Tensor encoder_out_length,
     int32_t num_active_paths = 4);
 
-/** RNN-T fast beam search decoding using an Fsa based graph.
- *
- * Note: This decoding method only suitable for stateless decoder using limited
- *       left contexts, and the maximum symbol per frame is limited to 1.
- *
- * @param model The RNN-T model.
- * @param encoder_out Output from the encoder network. Its shape is
- *                    (batch_size, T, encoder_out_dim) and its dtype is
- *                    torch::kFloat. It should be on the same device as `model`.
- * @processed_lens  A 1-D tensor containing the valid frames before padding that
- *                  have been processed by encoder network until now.
- *                  For offline recognition, it equals to `encoder_out_lens`
- *                  of encoder outputs. For online recognition, it is
- *                  the cumulative sum of `encoder_out_lens` of previous
- *                  chunks (including current chunk).
- *                  Its dtype is `torch.kLong` and its shape is `(batch_size,)`.
- *
- * @rnnt_decoding_config  The configuration of Fsa based RNN-T decoding, refer
- *     to https://k2-fsa.github.io/k2/python_api/api.html#rnntdecodingconfig for
- *     more details.
- *
- * @rnnt_decoding_streams_list  A vector containing the RnntDecodingStream for
- *    each sequences, its size is `encoder_out.size(0)`. It stores the decoding
- *    graph, internal decoding states and partial results.
- *
- * @return  Return A list-of-list of token IDs containing the decoded results.
- *   The returned vector has size ``batch_size`` and each entry contains the
- *   decoded results for the corresponding input in ``encoder_out``.
- */
-std::vector<std::vector<int32_t>> FastBeamSearch(
-    RnntModel &model,  // NOLINT
-    torch::Tensor encoder_out, torch::Tensor processed_lens,
-    const std::shared_ptr<k2::rnnt_decoding::RnntDecodingConfig> decode_config,
-    std::vector<std::shared_ptr<k2::rnnt_decoding::RnntDecodingStream>>
-        &decode_stream_list);
-
-/** Return the shortest paths as linear FSAs from the start state
- *  to the final state in the tropical semiring.
- *
- *  Note:
- *    It uses the opposite sign. That is, It uses `max` instead of `min`.
- *
- *  @param lattice The input Fsas.
- *  @return An FsaVec containing the best paths as linear FSAs.
- */
-k2::FsaVec ShortestPath(k2::FsaVec &lattice);  // NOLINT
-
 }  // namespace sherpa
 
 #endif  // SHERPA_CSRC_RNNT_BEAM_SEARCH_H_
