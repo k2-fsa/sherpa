@@ -20,6 +20,7 @@
 
 #include <vector>
 
+#include "sherpa/csrc/hypothesis.h"
 #include "sherpa/csrc/rnnt_conformer_model.h"
 #include "sherpa/csrc/rnnt_emformer_model.h"
 #include "sherpa/csrc/rnnt_model.h"
@@ -79,7 +80,7 @@ torch::Tensor StreamingGreedySearch(RnntModel &model,  // NOLINT
  *
  * @param num_active_paths  Number of active paths for each utterance.
  *                          Note: Due to merging paths with identical token
- *                          sequences, the actual number of active path for
+ *                          sequences, the actual number of active paths for
  *                          each utterance may be smaller than this value.
  *
  * @return Return A list-of-list of token IDs containing the decoded results.
@@ -89,6 +90,24 @@ torch::Tensor StreamingGreedySearch(RnntModel &model,  // NOLINT
 std::vector<std::vector<int32_t>> ModifiedBeamSearch(
     RnntModel &model,  // NOLINT
     torch::Tensor encoder_out, torch::Tensor encoder_out_length,
+    int32_t num_active_paths = 4);
+
+/** Modified beam search for streaming recognition.
+ *
+ * @param model The stateless RNN-T Emformer model.
+ * @param encoder_out A 3-D tensor of shape (N, T, C). It should be on the same
+ *                    device as `model`.
+ * @param hyps The decoded results from the previous chunk.
+ * @param num_active_paths  Number of active paths for each utterance.
+ *                          Note: Due to merging paths with identical token
+ *                          sequences, the actual number of active paths for
+ *                          each utterance may be smaller than this value.
+ *
+ * @return Return the decoded results for the next chunk.
+ */
+std::vector<Hypotheses> StreamingModifiedBeamSearch(
+    RnntModel &model,  // NOLINT
+    torch::Tensor encoder_out, std::vector<Hypotheses> hyps,
     int32_t num_active_paths = 4);
 
 }  // namespace sherpa

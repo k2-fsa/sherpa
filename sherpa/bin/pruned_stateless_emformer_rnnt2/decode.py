@@ -15,10 +15,11 @@
 # limitations under the License.
 
 import math
-from typing import List
+from typing import List, Optional
 
 import torch
 from kaldifeat import FbankOptions, OnlineFbank, OnlineFeature
+from sherpa import Hypotheses, Hypothesis
 
 
 def unstack_states(
@@ -119,7 +120,7 @@ class Stream(object):
         context_size: int,
         blank_id: int,
         initial_states: List[List[torch.Tensor]],
-        decoder_out: torch.Tensor,
+        decoder_out: Optional[torch.Tensor],
     ) -> None:
         """
         Args:
@@ -131,8 +132,8 @@ class Stream(object):
             The initial states of the Emformer model. Note that the state
             does not contain the batch dimension.
           decoder_out:
-            The initial decoder out corresponding to the decoder input
-            `[blank_id]*context_size`
+            Optional. The initial decoder out corresponding to the decoder input
+            `[blank_id]*context_size`. Used only for greedy_search.
         """
         self.feature_extractor = _create_streaming_feature_extractor()
         # It contains a list of 2-D tensors representing the feature frames.
@@ -144,8 +145,11 @@ class Stream(object):
         self.decoder_out = decoder_out
 
         self.context_size = context_size
-        self.hyp = [blank_id] * context_size
+        self.hyp = [blank_id] * context_size  # used only for greedy_search
         self.log_eps = math.log(1e-10)
+
+        # Used only for modified_beam_search
+        self.hyps = Hypotheses([Hypothesis(ys=self.hyp, log_prob=0.0)])
 
     def accept_waveform(
         self,

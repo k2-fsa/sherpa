@@ -40,7 +40,11 @@ import numpy as np
 import sentencepiece as spm
 import torch
 import websockets
-from sherpa import RnntEmformerModel, streaming_greedy_search
+from sherpa import (
+    RnntEmformerModel,
+    streaming_greedy_search,
+    streaming_modified_beam_search,
+)
 
 from decode import Stream, stack_states, unstack_states
 
@@ -131,6 +135,26 @@ def get_args():
         """,
     )
 
+    parser.add_argument(
+        "--decoding-method",
+        type=str,
+        default="greedy_search",
+        help="""Decoding method to use. Currently, only greedy_search and
+        modified_beam_search are implemented.
+        """,
+    )
+
+    parser.add_argument(
+        "--num-active-paths",
+        type=int,
+        default=4,
+        help="""Used only when decoding_method is modified_beam_search.
+        It specifies number of active paths for each utterance. Due to
+        merging paths with identical token sequences, the actual number
+        may be less than "num_active_paths".
+        """,
+    )
+
     return parser.parse_args()
 
 
@@ -205,6 +229,70 @@ def run_model_and_do_greedy_search(
         s.hyp = next_hyp_list[i]
 
 
+@torch.no_grad()
+def run_model_and_do_modified_beam_search(
+    server: "StreamingServer",
+    stream_list: List[Stream],
+) -> None:
+    """Run the model on the given stream list and do modified_beam_search.
+    Args:
+      server:
+        An instance of `StreamingServer`.
+      stream_list:
+        A list of streams to be processed. It is changed in-place.
+        That is, the attribute `states` and `hyps` are
+        updated in-place.
+    """
+    model = server.model
+    device = model.device
+
+    segment_length = server.segment_length
+    chunk_length = server.chunk_length
+
+    batch_size = len(stream_list)
+
+    state_list = []
+    hyps_list = []
+    feature_list = []
+    for s in stream_list:
+        state_list.append(s.states)
+        hyps_list.append(s.hyps)
+
+        f = s.features[:chunk_length]
+        s.features = s.features[segment_length:]
+
+        b = torch.cat(f, dim=0)
+        feature_list.append(b)
+
+    features = torch.stack(feature_list, dim=0).to(device)
+    states = stack_states(state_list)
+
+    features_length = torch.full(
+        (batch_size,),
+        fill_value=features.size(1),
+        device=device,
+        dtype=torch.int64,
+    )
+
+    (encoder_out, next_states) = model.encoder_streaming_forward(
+        features=features,
+        features_length=features_length,
+        states=states,
+    )
+    # Note: There are no paddings for streaming ASR. Each stream
+    # has the same input number of frames, i.e., server.chunk_length.
+    next_hyps_list = streaming_modified_beam_search(
+        model=model,
+        encoder_out=encoder_out,
+        hyps=hyps_list,
+    )
+
+    next_state_list = unstack_states(next_states)
+    for i, s in enumerate(stream_list):
+        s.states = next_state_list[i]
+        s.hyps = next_hyps_list[i]
+
+
 class StreamingServer(object):
     def __init__(
         self,
@@ -216,6 +304,8 @@ class StreamingServer(object):
         max_message_size: int,
         max_queue_size: int,
         max_active_connections: int,
+        decoding_method: str,
+        num_active_paths: int,
     ):
         """
         Args:
@@ -238,6 +328,14 @@ class StreamingServer(object):
           max_active_connections:
             Max number of active connections. Once number of active client
             equals to this limit, the server refuses to accept new connections.
+          decoding_method:
+            The decoding method to use. Currently, only greedy_search and
+            modified_beam_search are implemented.
+          num_active_paths:
+            Used only when decoding_method is modified_beam_search.
+            It specifies number of active paths for each utterance. Due to
+            merging paths with identical token sequences, the actual number
+            may be less than "num_active_paths".
         """
         if torch.cuda.is_available():
             device = torch.device("cuda", 0)
@@ -265,13 +363,24 @@ class StreamingServer(object):
 
         initial_states = self.model.get_encoder_init_states()
         self.initial_states = unstack_states(initial_states)[0]
-        decoder_input = torch.tensor(
-            [[self.blank_id] * self.context_size],
-            device=device,
-            dtype=torch.int64,
-        )
-        initial_decoder_out = self.model.decoder_forward(decoder_input)
-        self.initial_decoder_out = initial_decoder_out.squeeze(1)
+
+        self.initial_decoder_out = None
+        if decoding_method == "greedy_search":
+            decoder_input = torch.tensor(
+                [[self.blank_id] * self.context_size],
+                device=device,
+                dtype=torch.int64,
+            )
+            initial_decoder_out = self.model.decoder_forward(decoder_input)
+            self.initial_decoder_out = initial_decoder_out.squeeze(1)
+            self.run_nn_and_decode_func = run_model_and_do_greedy_search
+        elif decoding_method == "modified_beam_search":
+            self.run_nn_and_decode_func = run_model_and_do_modified_beam_search
+        else:
+            raise ValueError(f"Unsupported method: {decoding_method}")
+
+        self.decoding_method = decoding_method
+        self.num_active_paths = num_active_paths
 
         self.nn_pool = ThreadPoolExecutor(
             max_workers=nn_pool_size,
@@ -314,7 +423,7 @@ class StreamingServer(object):
             loop = asyncio.get_running_loop()
             await loop.run_in_executor(
                 self.nn_pool,
-                run_model_and_do_greedy_search,
+                self.run_nn_and_decode_func,
                 self,
                 stream_list,
             )
@@ -425,9 +534,15 @@ class StreamingServer(object):
 
             while len(stream.features) > self.chunk_length:
                 await self.compute_and_decode(stream)
-                await socket.send(
-                    f"{self.sp.decode(stream.hyp[self.context_size:])}"
-                )  # noqa
+
+                if self.decoding_method == "greedy_search":
+                    hyp = stream.hyp[self.context_size :]
+                elif self.decoding_method == "modified_beam_search":
+                    hyp = stream.hyps.get_most_probable(True).ys[self.context_size :]
+                else:
+                    raise ValueError(f"Unsupported method: {self.decoding_method}")
+
+                await socket.send(f"{self.sp.decode(hyp)}")
 
         stream.input_finished()
         while len(stream.features) > self.chunk_length:
@@ -439,7 +554,15 @@ class StreamingServer(object):
             await self.compute_and_decode(stream)
             stream.features = []
 
-        result = self.sp.decode(stream.hyp[self.context_size :])  # noqa
+        if self.decoding_method == "greedy_search":
+            hyp = stream.hyp[self.context_size :]
+        elif self.decoding_method == "modified_beam_search":
+            hyp = stream.hyps.get_most_probable(True).ys[self.context_size :]
+        else:
+            raise ValueError(f"Unsupported method: {self.decoding_method}")
+
+        result = self.sp.decode(hyp)
+
         await socket.send(result)
         await socket.send("Done")
 
@@ -490,6 +613,13 @@ def main():
     max_message_size = args.max_message_size
     max_queue_size = args.max_queue_size
     max_active_connections = args.max_active_connections
+    decoding_method = args.decoding_method
+    num_active_paths = args.num_active_paths
+
+    assert decoding_method in ("greedy_search", "modified_beam_search"), decoding_method
+
+    if decoding_method == "modified_beam_search":
+        assert num_active_paths >= 1, num_active_paths
 
     server = StreamingServer(
         nn_model_filename=nn_model_filename,
@@ -500,6 +630,8 @@ def main():
         max_message_size=max_message_size,
         max_queue_size=max_queue_size,
         max_active_connections=max_active_connections,
+        decoding_method=decoding_method,
+        num_active_paths=num_active_paths,
     )
     asyncio.run(server.run(port))
 

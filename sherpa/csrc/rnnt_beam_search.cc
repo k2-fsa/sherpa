@@ -60,7 +60,7 @@ static void BuildDecoderInput(const std::vector<std::vector<int32_t>> &hyps,
   }
 }
 
-static torch::Tensor BuildDecoderInput(const std::vector<Hypothesis> hyps,
+static torch::Tensor BuildDecoderInput(const std::vector<Hypothesis> &hyps,
                                        int32_t context_size) {
   int32_t num_hyps = hyps.size();
   torch::Tensor decoder_input =
@@ -251,12 +251,6 @@ torch::Tensor StreamingGreedySearch(RnntModel &model,  // NOLINT
   return decoder_out;
 }
 
-void ModifiedBeamSearch() {
-  auto sizes = torch::tensor({1, 3, 2, 0}, torch::kInt);
-  auto row_splits = torch::empty_like(sizes);
-  k2::ExclusiveSum(sizes, &row_splits);
-}
-
 std::vector<std::vector<int32_t>> ModifiedBeamSearch(
     RnntModel &model,  // NOLINT
     torch::Tensor encoder_out, torch::Tensor encoder_out_length,
@@ -421,6 +415,115 @@ std::vector<std::vector<int32_t>> ModifiedBeamSearch(
   }
 
   return ans;
+}
+
+std::vector<Hypotheses> StreamingModifiedBeamSearch(
+    RnntModel &model,  // NOLINT
+    torch::Tensor encoder_out, std::vector<Hypotheses> in_hyps,
+    int32_t num_active_paths /*= 4*/) {
+  TORCH_CHECK(encoder_out.dim() == 3, encoder_out.dim(), " vs ", 3);
+
+  auto device = model.Device();
+  int32_t blank_id = model.BlankId();
+  int32_t unk_id = model.UnkId();
+  int32_t context_size = model.ContextSize();
+
+  int32_t N = encoder_out.size(0);
+  int32_t T = encoder_out.size(1);
+
+  encoder_out = model.ForwardEncoderProj(encoder_out);
+
+  std::vector<Hypotheses> cur = std::move(in_hyps);
+  std::vector<Hypothesis> prev;
+
+  for (int32_t t = 0; t != T; ++t) {
+    auto cur_encoder_out = encoder_out.index({torch::indexing::Slice(), t});
+    cur_encoder_out = cur_encoder_out.unsqueeze(1).unsqueeze(1);
+    // Now cur_encoder_out's shape is (N, 1, 1, joiner_dim)
+
+    // Due to merging paths with identical token sequences,
+    // not all utterances have "num_active_paths" paths.
+    auto hyps_shape = GetHypsShape(cur);
+    int32_t num_hyps = k2::TotSize(hyps_shape, 1);
+
+    prev.clear();
+    prev.reserve(num_hyps);
+    for (auto &hyps : cur) {
+      for (auto &h : hyps) {
+        prev.push_back(std::move(h.second));
+      }
+    }
+    cur.clear();
+    cur.reserve(N);
+
+    auto ys_log_probs = torch::empty({num_hyps, 1}, torch::kFloat);
+
+    auto ys_log_probs_acc = ys_log_probs.accessor<float, 2>();
+    for (int32_t k = 0; k != num_hyps; ++k) {
+      ys_log_probs_acc[k][0] = prev[k].log_prob;
+    }
+
+    auto decoder_input = BuildDecoderInput(prev, context_size).to(device);
+    auto decoder_out = model.ForwardDecoder(decoder_input);
+    decoder_out = model.ForwardDecoderProj(decoder_out);
+    // decoder_out is of shape (num_hyps, 1, joiner_dim)
+
+    auto index = k2::RowIds(hyps_shape, 1).to(torch::kLong).to(device);
+    cur_encoder_out = cur_encoder_out.index_select(/*dim*/ 0, /*index*/ index);
+    // cur_encoder_out is of shape (num_hyps, 1, 1, joiner_dim)
+
+    auto logits =
+        model.ForwardJoiner(cur_encoder_out, decoder_out.unsqueeze(1));
+    // logits' shape is (num_hyps, 1, 1, vocab_size)
+    logits = logits.squeeze(1).squeeze(1);
+    // now logits' shape is (num_hyps, vocab_size)
+
+    auto log_probs = logits.log_softmax(-1).cpu();
+
+    log_probs.add_(ys_log_probs);
+
+    int32_t vocab_size = log_probs.size(1);
+    log_probs = log_probs.reshape(-1);
+    auto row_splits = k2::RowSplits(hyps_shape, 1);
+    auto row_splits_acc = row_splits.accessor<int32_t, 1>();
+
+    for (int32_t k = 0; k != N; ++k) {
+      int32_t start = row_splits_acc[k];
+      int32_t end = row_splits_acc[k + 1];
+
+      torch::Tensor values, indexes;
+      std::tie(values, indexes) =
+          log_probs.slice(/*dim*/ 0, start * vocab_size, end * vocab_size)
+              .topk(/*k*/ num_active_paths, /*dim*/ 0,
+                    /*largest*/ true, /*sorted*/ true);
+
+      auto topk_hyp_indexes = FloorDivide(indexes, vocab_size);
+      auto topk_token_indexes = torch::remainder(indexes, vocab_size);
+
+      auto values_acc = values.accessor<float, 1>();
+      auto topk_hyp_indexes_acc = topk_hyp_indexes.accessor<int64_t, 1>();
+      auto topk_token_indexes_acc = topk_token_indexes.accessor<int64_t, 1>();
+
+      Hypotheses hyps;
+      for (int32_t j = 0; j != values.numel(); ++j) {
+        int32_t hyp_idx = topk_hyp_indexes_acc[j];
+        Hypothesis new_hyp = prev[start + hyp_idx];  // note: hyp_idx is 0 based
+
+        int32_t new_token = topk_token_indexes_acc[j];
+        if (new_token != blank_id && new_token != unk_id) {
+          new_hyp.ys.push_back(new_token);
+        }
+
+        // We already added log_prob of the path to log_probs before, so
+        // we use values_acc[j] here directly.
+        new_hyp.log_prob = values_acc[j];
+        hyps.Add(std::move(new_hyp));
+      }
+      cur.push_back(std::move(hyps));
+    }  // for (int32_t k = 0; k != N; ++k)
+  }    // for (int32_t t = 0; t != T; ++t)
+
+  return cur;
 }
 
 }  // namespace sherpa
