@@ -20,7 +20,6 @@
 #include <utility>
 #include <vector>
 
-#include "k2/torch_api.h"
 #include "sherpa/csrc/rnnt_beam_search.h"
 #include "torch/torch.h"
 
