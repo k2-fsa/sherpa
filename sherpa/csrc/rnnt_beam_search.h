@@ -18,10 +18,8 @@
 #ifndef SHERPA_CSRC_RNNT_BEAM_SEARCH_H_
 #define SHERPA_CSRC_RNNT_BEAM_SEARCH_H_
 
-#include <memory>
 #include <vector>
 
-#include "k2/torch_api.h"
 #include "sherpa/csrc/rnnt_conformer_model.h"
 #include "sherpa/csrc/rnnt_emformer_model.h"
 #include "sherpa/csrc/rnnt_model.h"
