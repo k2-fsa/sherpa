@@ -41,6 +41,7 @@ RnntEmformerModel::RnntEmformerModel(const std::string &filename,
   joiner_ = model_.attr("joiner").toModule();
 
   blank_id_ = decoder_.attr("blank_id").toInt();
+  vocab_size_ = decoder_.attr("vocab_size").toInt();
 
   unk_id_ = blank_id_;
   if (decoder_.hasattr("unk_id")) {

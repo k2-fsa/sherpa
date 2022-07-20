@@ -39,8 +39,8 @@ class RnntConvEmformerModel : public RnntModel {
    *                               torch::jit::optimize_for_inference().
    */
   explicit RnntConvEmformerModel(const std::string &filename,
-                             torch::Device device = torch::kCPU,
-                             bool optimize_for_inference = false);
+                                 torch::Device device = torch::kCPU,
+                                 bool optimize_for_inference = false);
 
   ~RnntConvEmformerModel() override = default;
 
@@ -66,13 +66,14 @@ class RnntConvEmformerModel : public RnntModel {
    * @param decoder_out  A 2-D tensor of shape (N, C).
    * @return Return a tensor of shape (N, vocab_size)
    */
-  torch::Tensor ForwardJoiner(const torch::Tensor &projected_encoder_out,
-                           const torch::Tensor &projected_decoder_out) override;
+  torch::Tensor ForwardJoiner(
+      const torch::Tensor &projected_encoder_out,
+      const torch::Tensor &projected_decoder_out) override;
   /** Run the joiner.encoder_proj network.
-     *
-     * @param encoder_out  The output from the encoder, which is of shape (N,T,C).
-     * @return Return a tensor of shape (N, T, joiner_dim).
-     */
+   *
+   * @param encoder_out  The output from the encoder, which is of shape (N,T,C).
+   * @return Return a tensor of shape (N, T, joiner_dim).
+   */
   torch::Tensor ForwardEncoderProj(const torch::Tensor &encoder_out) override;
 
   /** Run the joiner.decoder_proj network.
@@ -82,14 +83,14 @@ class RnntConvEmformerModel : public RnntModel {
    */
   torch::Tensor ForwardDecoderProj(const torch::Tensor &decoder_out) override;
 
-
   torch::Device Device() const override { return device_; }
   int32_t BlankId() const override { return blank_id_; }
   int32_t UnkId() const override { return unk_id_; }
   int32_t ContextSize() const override { return context_size_; }
+  int32_t VocabSize() const override { return vocab_size_; }
   int32_t ChunkLength() const { return chunk_length_; }
   int32_t RightContextLength() const { return right_context_length_; }
-  int32_t PadLength() const {return pad_length_; }
+  int32_t PadLength() const { return pad_length_; }
 
  private:
   torch::jit::Module model_;
@@ -103,6 +104,7 @@ class RnntConvEmformerModel : public RnntModel {
 
   torch::Device device_;
   int32_t blank_id_;
+  int32_t vocab_size_;
   int32_t unk_id_;
   int32_t context_size_;
   int32_t chunk_length_;
