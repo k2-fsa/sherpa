@@ -251,12 +251,6 @@ torch::Tensor StreamingGreedySearch(RnntModel &model,  // NOLINT
   return decoder_out;
 }
 
-void ModifiedBeamSearch() {
-  auto sizes = torch::tensor({1, 3, 2, 0}, torch::kInt);
-  auto row_splits = torch::empty_like(sizes);
-  k2::ExclusiveSum(sizes, &row_splits);
-}
-
 std::vector<std::vector<int32_t>> ModifiedBeamSearch(
     RnntModel &model,  // NOLINT
     torch::Tensor encoder_out, torch::Tensor encoder_out_length,

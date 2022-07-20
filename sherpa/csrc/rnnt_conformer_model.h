@@ -56,6 +56,7 @@ class RnntConformerModel : public RnntModel {
   int32_t BlankId() const override { return blank_id_; }
   int32_t UnkId() const override { return unk_id_; }
   int32_t ContextSize() const override { return context_size_; }
+  int32_t VocabSize() const override { return vocab_size_; }
   // Hard code the subsampling_factor to 4 here since the subsampling
   // method uses ((len - 1) // 2 - 1) // 2)
   int32_t SubSamplingFactor() const { return 4; }
@@ -142,6 +143,7 @@ class RnntConformerModel : public RnntModel {
   int32_t blank_id_;
   int32_t unk_id_;
   int32_t context_size_;
+  int32_t vocab_size_;
 };
 
 }  // namespace sherpa
