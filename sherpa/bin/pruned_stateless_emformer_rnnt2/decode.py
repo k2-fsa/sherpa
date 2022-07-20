@@ -16,6 +16,7 @@
 
 import math
 from typing import List, Optional
+
 import k2
 import torch
 from kaldifeat import FbankOptions, OnlineFbank, OnlineFeature
@@ -152,18 +153,14 @@ class Stream(object):
 
         if decoding_method == "fast_beam_search":
             assert decoding_graph is not None
-            self.rnnt_decoding_stream = k2.create_rnnt_decoding_stream(
-                decoding_graph.arcs
-            )
+            self.rnnt_decoding_stream = k2.RnntDecodingStream(decoding_graph)
             self.hyp = []
         elif decoding_method == "greedy_search":
             assert decoder_out is not None
             self.decoder_out = decoder_out
             self.hyp = [blank_id] * context_size
         else:
-            assert (
-                False
-            ), f"Decoding method : {decoding_method} is not supported."
+            assert False, f"Decoding method : {decoding_method} is not supported."
 
         self.processed_frames = 0
         self.context_size = context_size

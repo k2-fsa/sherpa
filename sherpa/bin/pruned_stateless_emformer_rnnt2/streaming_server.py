@@ -41,13 +41,10 @@ import numpy as np
 import sentencepiece as spm
 import torch
 import websockets
-from sherpa import (
-    RnntEmformerModel,
-    fast_beam_search_one_best,
-    streaming_greedy_search,
-)
-
 from decode import Stream, stack_states, unstack_states
+
+from sherpa import (RnntEmformerModel, fast_beam_search_one_best,
+                    streaming_greedy_search)
 
 
 def get_args():
@@ -527,7 +524,8 @@ class StreamingServer(object):
             while len(stream.features) > self.chunk_length:
                 await self.compute_and_decode(stream)
                 await socket.send(
-                    f"{self.sp.decode(stream.hyp[self.context_size:] if self.decoding_method != 'fast_beam_search' else stream.hyp)}"                )  # noqa
+                    f"{self.sp.decode(stream.hyp[self.context_size:] if self.decoding_method != 'fast_beam_search' else stream.hyp)}"
+                )  # noqa
 
         stream.input_finished()
         while len(stream.features) > self.chunk_length:

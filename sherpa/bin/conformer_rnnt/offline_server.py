@@ -40,9 +40,10 @@ import numpy as np
 import sentencepiece as spm
 import torch
 import websockets
-from sherpa import RnntConformerModel
+from decode import (run_model_and_do_greedy_search,
+                    run_model_and_do_modified_beam_search)
 
-from decode import run_model_and_do_greedy_search, run_model_and_do_modified_beam_search
+from sherpa import RnntConformerModel
 
 
 def get_args():

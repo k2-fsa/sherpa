@@ -8,13 +8,8 @@ if torch.__version__.split("+")[0] != sherpa_torch_version.split("+")[0]:
         f"But you are using PyTorch {torch.__version__} to run it"
     )
 
-from _sherpa import (
-    RnntConformerModel,
-    RnntConvEmformerModel,
-    RnntEmformerModel,
-    greedy_search,
-    modified_beam_search,
-    streaming_greedy_search,
-)
+from _sherpa import (RnntConformerModel, RnntConvEmformerModel,
+                     RnntEmformerModel, greedy_search, modified_beam_search,
+                     streaming_greedy_search)
 
 from .decode import fast_beam_search_one_best

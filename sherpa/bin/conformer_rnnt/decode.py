@@ -18,8 +18,9 @@ import math
 from typing import List
 
 import torch
-from sherpa import RnntConformerModel, greedy_search, modified_beam_search
 from torch.nn.utils.rnn import pad_sequence
+
+from sherpa import RnntConformerModel, greedy_search, modified_beam_search
 
 LOG_EPS = math.log(1e-10)
 
