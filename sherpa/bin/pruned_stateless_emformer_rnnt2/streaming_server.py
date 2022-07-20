@@ -536,13 +536,13 @@ class StreamingServer(object):
                 await self.compute_and_decode(stream)
 
                 if self.decoding_method == "greedy_search":
-                    hyp = stream.hyp[self.context_size :]
+                    hyp = stream.hyp
                 elif self.decoding_method == "modified_beam_search":
-                    hyp = stream.hyps.get_most_probable(True).ys[self.context_size :]
+                    hyp = stream.hyps.get_most_probable(True).ys
                 else:
                     raise ValueError(f"Unsupported method: {self.decoding_method}")
 
-                await socket.send(f"{self.sp.decode(hyp)}")
+                await socket.send(f"{self.sp.decode(hyp[self.context_size:])}")
 
         stream.input_finished()
         while len(stream.features) > self.chunk_length:
@@ -555,13 +555,13 @@ class StreamingServer(object):
             stream.features = []
 
         if self.decoding_method == "greedy_search":
-            hyp = stream.hyp[self.context_size :]
+            hyp = stream.hyp
         elif self.decoding_method == "modified_beam_search":
-            hyp = stream.hyps.get_most_probable(True).ys[self.context_size :]
+            hyp = stream.hyps.get_most_probable(True).ys
         else:
             raise ValueError(f"Unsupported method: {self.decoding_method}")
 
-        result = self.sp.decode(hyp)
+        result = self.sp.decode(hyp[self.context_size :])
 
         await socket.send(result)
         await socket.send("Done")

@@ -53,7 +53,7 @@ void PybindHypothesis(py::module &m) {  // NOLINT
         .def(py::init<>())
         .def(py::init<std::vector<Hypothesis>>(), py::arg("hyps"))
         .def("get_most_probable", &PyClass::GetMostProbable,
-             py::arg("length_norm"));
+             py::arg("length_norm"), py::call_guard<py::gil_scoped_release>());
   }
 }
 
