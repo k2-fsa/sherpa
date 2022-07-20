@@ -200,7 +200,8 @@ def run_model_and_do_search(
     server: "StreamingServer",
     stream_list: List[Stream],
 ) -> None:
-    """Run the model on the given stream list and do greedy search.
+    """Run the model on the given stream list and do search with given decoding
+       method.
     Args:
       server:
         An instance of `StreamingServer`.
