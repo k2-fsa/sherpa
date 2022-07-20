@@ -46,7 +46,7 @@ class RnntEmformerModel : public RnntModel {
 
   using State = std::vector<std::vector<torch::Tensor>>;
 
-  std::pair<torch::Tensor, State> StreamingForwardEncoder(
+  std::tuple<torch::Tensor, torch::Tensor, State> StreamingForwardEncoder(
       const torch::Tensor &features, const torch::Tensor &features_length,
       torch::optional<State> states = torch::nullopt);
 

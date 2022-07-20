@@ -64,14 +64,10 @@ class Stream(object):
             The decoding method to use, currently, only greedy_search and
             fast_beam_search are supported.
           decoding_graph:
-            The Fsa based decoding graph for fast_beam_search. Only used when
-            decoding_method is fast_beam_search, and it can not be None if
-            decoding_method is fast_beam_search.
+            The Fsa based decoding graph for fast_beam_search.
           decoder_out:
             The initial decoder out corresponding to the decoder input
-            `[blank_id]*context_size`. Only used when decoding_method is
-            greedy_search, and it can not be None if decoding_method is
-            greedy_search.
+            `[blank_id]*context_size`
         """
         self.feature_extractor = _create_streaming_feature_extractor()
         # It contains a list of 2-D tensors representing the feature frames.
@@ -83,16 +79,18 @@ class Stream(object):
         self.decoding_graph = decoding_graph
         if decoding_method == "fast_beam_search":
             assert decoding_graph is not None
-            self.rnnt_decoding_stream = k2.RnntDecodingStream(decoding_graph)
+            self.rnnt_decoding_stream = k2.create_rnnt_decoding_stream(
+                decoding_graph.arcs
+            )
             self.hyp = []
         elif decoding_method == "greedy_search":
             assert decoder_out is not None
             self.decoder_out = decoder_out
             self.hyp = [blank_id] * context_size
         else:
-            raise ValueError(
-                f"Decoding method {decoding_method} is not supported."
-            )
+            assert (
+                False
+            ), f"Decoding method : {decoding_method} is not supported."
 
         # The number of frames (after subsampling) been processed.
         self.processed_frames = 0
