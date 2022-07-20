@@ -586,9 +586,16 @@ class StreamingServer(object):
 
             while len(stream.features) > self.chunk_length:
                 await self.compute_and_decode(stream)
-                await socket.send(
-                    f"{self.sp.decode(stream.hyp[self.context_size:] if self.decoding_method != 'fast_beam_search' else stream.hyp)}"
-                )  # noqa
+                if self.decoding_method == "greedy_search":
+                    await socket.send(
+                        f"{self.sp.decode(stream.hyp[self.context_size:])}"
+                    )  # noqa
+                elif self.decoding_method == "fast_beam_search":
+                    await socket.send(f"{self.sp.decode(stream.hyp)}")  # noqa
+                else:
+                    raise ValueError(
+                        f"Decoding method {self.decoding_method} is not supported."
+                    )
 
         stream.input_finished()
         while len(stream.features) > self.chunk_length:
