@@ -196,7 +196,7 @@ def get_args():
 
 
 @torch.no_grad()
-def run_model_and_do_greedy_search(
+def run_model_and_do_search(
     server: "StreamingServer",
     stream_list: List[Stream],
 ) -> None:
@@ -286,7 +286,7 @@ def run_model_and_do_greedy_search(
             rnnt_decoding_config=rnnt_decoding_config,
             rnnt_decoding_streams_list=rnnt_decoding_streams_list,
         )
-    else:
+    elif decoding_method == "greedy_search":
         # Note: It does not return the next_encoder_out_len since
         # there are no paddings for streaming ASR. Each stream
         # has the same input number of frames, i.e., server.chunk_length.
@@ -296,6 +296,8 @@ def run_model_and_do_greedy_search(
             decoder_out=decoder_out,
             hyps=hyp_list,
         )
+    else:
+        raise ValueError(f"Decoding method {decoding_method} is not supported.")
 
     next_state_list = [
         torch.unbind(next_states[0], dim=2),
@@ -403,7 +405,6 @@ class StreamingServer(object):
         )
 
         self.decoding_method = decoding_method
-        assert self.decoding_method in ["greedy_search", "fast_beam_search"]
 
         self.initial_decoder_out = None
         self.decoding_graph = None
@@ -416,7 +417,7 @@ class StreamingServer(object):
                 max_contexts=max_contexts,
             )
             self.decoding_graph = k2.trivial_graph(self.vocab_size - 1, device)
-        else:
+        elif decoding_method == "greedy_search":
             decoder_input = torch.tensor(
                 [[self.blank_id] * self.context_size],
                 device=device,
@@ -425,6 +426,10 @@ class StreamingServer(object):
             initial_decoder_out = self.model.decoder_forward(decoder_input)
             self.initial_decoder_out = self.model.forward_decoder_proj(
                 initial_decoder_out.squeeze(1)
+            )
+        else:
+            raise ValueError(
+                f"Decoding method {decoding_method} is not supported."
             )
 
         self.nn_pool = ThreadPoolExecutor(
@@ -468,7 +473,7 @@ class StreamingServer(object):
             loop = asyncio.get_running_loop()
             await loop.run_in_executor(
                 self.nn_pool,
-                run_model_and_do_greedy_search,
+                run_model_and_do_search,
                 self,
                 stream_list,
             )

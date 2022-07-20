@@ -13,16 +13,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from typing import List, Union
+
 import k2
 import torch
 from _sherpa import RnntModel
-from typing import List, Union
 
 
 def fast_beam_search_one_best(
     model: RnntModel,
     encoder_out: torch.Tensor,
-    processed_lens: List[int],
+    processed_lens: torch.Tensor,
     rnnt_decoding_config: k2.RnntDecodingConfig,
     rnnt_decoding_streams_list: List[k2.RnntDecodingStream],
     temperature: float = 1.0,
@@ -38,11 +39,11 @@ def fast_beam_search_one_best(
       encoder_out:
         A tensor of shape (N, T, C) from the encoder.
       processed_lens:
-        A 1-D list containing the valid frames before padding that have been
+        A 1-D tensor containing the valid frames before padding that have been
         processed by encoder network until now. For offline recognition, it equals
         to ``encoder_out_lens`` of encoder outputs. For online recognition, it is
         the cumulative sum of ``encoder_out_lens`` of previous chunks (including
-        current chunk). Its shape is batch_size.
+        current chunk). Its dtype is `torch.kLong` and its shape is `(batch_size,)`.
       rnnt_decoding_config:
         The configuration of Fsa based RNN-T decoding, refer to
         https://k2-fsa.github.io/k2/python_api/api.html#rnntdecodingconfig for more
@@ -73,7 +74,7 @@ def fast_beam_search_one_best(
 def fast_beam_search(
     model: RnntModel,
     encoder_out: torch.Tensor,
-    processed_lens: List[int],
+    processed_lens: torch.Tensor,
     rnnt_decoding_config: k2.RnntDecodingConfig,
     rnnt_decoding_streams_list: List[k2.RnntDecodingStream],
     temperature: float = 1.0,
@@ -88,11 +89,11 @@ def fast_beam_search(
       encoder_out:
         A tensor of shape (N, T, C) from the encoder.
       processed_lens:
-        A 1-D list containing the valid frames before padding that have been
+        A 1-D tensor containing the valid frames before padding that have been
         processed by encoder network until now. For offline recognition, it equals
         to ``encoder_out_lens`` of encoder outputs. For online recognition, it is
         the cumulative sum of ``encoder_out_lens`` of previous chunks (including
-        current chunk). Its shape is batch_size.
+        current chunk). Its dtype is `torch.kLong` and its shape is `(batch_size,)`.
       rnnt_decoding_config:
         The configuration of Fsa based RNN-T decoding, refer to
         https://k2-fsa.github.io/k2/python_api/api.html#rnntdecodingconfig for more
@@ -129,15 +130,15 @@ def fast_beam_search(
         contexts = contexts.to(torch.int64)
         # decoder_out is of shape (shape.NumElements(), 1, decoder_out_dim)
         decoder_out = model.decoder_forward(contexts)
-        decoder_out = model.forward_decoder_proj(decoder_out)
+        decoder_out = model.forward_decoder_proj(decoder_out).squeeze(1)
         # current_encoder_out is of shape
-        # (shape.NumElements(), 1, joiner_dim)
+        # (shape.NumElements(), joiner_dim)
         # fmt: off
         current_encoder_out = torch.index_select(
             encoder_out[:, t], 0, shape.row_ids(1).to(torch.int64)
         )
         # fmt: on
-        logits = model.forward_joiner(
+        logits = model.joiner_forward(
             current_encoder_out,
             decoder_out,
         )
