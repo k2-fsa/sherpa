@@ -86,8 +86,11 @@ def get_args():
         "--token-filename",
         type=str,
         help="""Filename for tokens.txt
-        You can find it in the directory
-        egs/aishell/ASR/data/lang_char/tokens.txt from icefall.
+        For instance, you can find it in the directory
+	    egs/aishell/ASR/data/lang_char/tokens.txt
+	    or
+	    egs/wenetspeech/ASR/data/lang_char/tokens.txt
+	    from icefall
         Note: You don't need to provide it if you provide `--bpe-model`
         """,
     )
@@ -275,11 +278,7 @@ def run_model_and_do_search(
 
     processed_frames = torch.tensor(processed_frames_list, device=device)
 
-    (
-        encoder_out,
-        encoder_out_lens,
-        next_states,
-    ) = model.encoder_streaming_forward(
+    (encoder_out, encoder_out_lens, next_states,) = model.encoder_streaming_forward(
         features=features,
         features_length=features_length,
         states=states,
@@ -447,9 +446,7 @@ class StreamingServer(object):
                 initial_decoder_out.squeeze(1)
             )
         else:
-            raise ValueError(
-                f"Decoding method {decoding_method} is not supported."
-            )
+            raise ValueError(f"Decoding method {decoding_method} is not supported.")
 
         self.nn_pool = ThreadPoolExecutor(
             max_workers=nn_pool_size,
@@ -607,16 +604,20 @@ class StreamingServer(object):
                 await self.compute_and_decode(stream)
                 if self.decoding_method == "greedy_search":
                     if hasattr(self, "sp"):
-                        result = self.sp.decode(stream.hyp[self.context_size:])
+                        result = self.sp.decode(stream.hyp[self.context_size :]) # noqa
                     else:
-                        result = [self.token_table[i] for i in stream.hyp[self.context_size:]]
-                    await socket.send(result)  # noqa
+                        result = [
+                            self.token_table[i] for i in stream.hyp[self.context_size :]
+                        ]  # noqa
+                    await socket.send(result)
                 elif self.decoding_method == "fast_beam_search":
                     if hasattr(self, "sp"):
-                        result = self.sp.decode(stream.hyp[self.context_size:])
+                        result = self.sp.decode(stream.hyp)
                     else:
-                        result = [self.token_table[i] for i in stream.hyp[self.context_size:]]
-                    await socket.send(result)  # noqa
+                        result = [
+                            self.token_table[i] for i in stream.hyp
+                        ]
+                    await socket.send(result) 
                 else:
                     raise ValueError(
                         f"Decoding method {self.decoding_method} is not supported."
@@ -632,12 +633,28 @@ class StreamingServer(object):
             await self.compute_and_decode(stream)
             stream.features = []
 
-        if hasattr(self, "sp"):
-            result = self.sp.decode(stream.hyp[self.context_size:])
+        if self.decoding_method == "greedy_search":
+            if hasattr(self, "sp"):
+                result = self.sp.decode(stream.hyp[self.context_size :]) # noqa
+            else:
+                result = [
+                    self.token_table[i] for i in stream.hyp[self.context_size :]
+                ]  # noqa
+            await socket.send(result)
+            await socket.send("Done")
+        elif self.decoding_method == "fast_beam_search":
+            if hasattr(self, "sp"):
+                result = self.sp.decode(stream.hyp)
+            else:
+                result = [
+                    self.token_table[i] for i in stream.hyp
+                ]
+            await socket.send(result) 
+            await socket.send("Done")
         else:
-            result = [self.token_table[i] for i in stream.hyp[self.context_size:]]
-        await socket.send(result)
-        await socket.send("Done")
+            raise ValueError(
+                f"Decoding method {self.decoding_method} is not supported."
+            )
 
     async def recv_audio_samples(
         self,
@@ -737,6 +754,8 @@ torch::jit::setGraphExecutorOptimize(false);
 """
 
 if __name__ == "__main__":
-    formatter = "%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] %(message)s"  # noqa
+    formatter = (
+        "%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] %(message)s"  # noqa
+    )
     logging.basicConfig(format=formatter, level=logging.INFO)
     main()
