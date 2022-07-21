@@ -353,6 +353,8 @@ def main():
     if token_filename:
         assert bpe_model_filename is None
 
+    assert bpe_model_filename or token_filename
+
     device = torch.device("cpu")
     if torch.cuda.is_available():
         device = torch.device("cuda", 0)

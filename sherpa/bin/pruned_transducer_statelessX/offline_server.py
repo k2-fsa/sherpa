@@ -611,6 +611,8 @@ def main():
     if token_filename:
         assert bpe_model_filename is None
 
+    assert bpe_model_filename or token_filename
+
     offline_server = OfflineServer(
         nn_model_filename=nn_model_filename,
         bpe_model_filename=bpe_model_filename,
