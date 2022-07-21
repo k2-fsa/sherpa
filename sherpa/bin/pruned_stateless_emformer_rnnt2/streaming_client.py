@@ -43,6 +43,7 @@ def get_args():
     parser.add_argument(
         "--server-addr",
         type=str,
+        required=True,
         default="localhost",
         help="Address of the server",
     )
@@ -57,6 +58,7 @@ def get_args():
     parser.add_argument(
         "sound_file",
         type=str,
+        required=True,
         help="The input sound file to transcribe. "
         "Supported formats are those supported by torchaudio.load(). "
         "For example, wav and flac are supported. "

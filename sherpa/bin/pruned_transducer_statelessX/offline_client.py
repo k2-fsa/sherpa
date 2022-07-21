@@ -58,6 +58,7 @@ def get_args():
     parser.add_argument(
         "sound_files",
         type=str,
+        required=True,
         nargs="+",
         help="The input sound file(s) to transcribe. "
         "Supported formats are those supported by torchaudio.load(). "

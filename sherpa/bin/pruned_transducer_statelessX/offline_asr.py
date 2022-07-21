@@ -107,6 +107,7 @@ def get_args():
     parser.add_argument(
         "--nn-model-filename",
         type=str,
+        required=True,
         help="""The torchscript model. You can use
           icefall/egs/librispeech/ASR/pruned_transducer_statelessX/export.py \
              --jit=1
@@ -348,12 +349,21 @@ def main():
         assert num_active_paths >= 1, num_active_paths
 
     if bpe_model_filename:
-        assert token_filename is None
+        assert token_filename is None, (
+            "You need to provide either --bpe_model_filename or --token_filename parameter."
+            " But not both."
+        )
 
     if token_filename:
-        assert bpe_model_filename is None
+        assert bpe_model_filename is None, (
+            "You need to provide either --bpe_model_filename or --token_filename parameter."
+            " But not both."
+        )
 
-    assert bpe_model_filename or token_filename
+    assert bpe_model_filename or token_filename, (
+        "You need to provide either --bpe_model_filename or --token_filename parameter."
+        " But not both."
+    )
 
     device = torch.device("cpu")
     if torch.cuda.is_available():

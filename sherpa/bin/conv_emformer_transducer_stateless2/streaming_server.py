@@ -65,6 +65,7 @@ def get_args():
     parser.add_argument(
         "--nn-model-filename",
         type=str,
+        required=True,
         help="""The torchscript model. You can use
           icefall/egs/librispeech/ASR/pruned_transducer_statelessX/export.py \
                   --jit=1
@@ -75,6 +76,7 @@ def get_args():
     parser.add_argument(
         "--bpe-model-filename",
         type=str,
+        required=True,
         help="""The BPE model
         You can find it in the directory egs/librispeech/ASR/data/lang_bpe_xxx
         where xxx is the number of BPE tokens you used to train the model.
