@@ -24,7 +24,7 @@ on:
     types: [labeled]
 
 jobs:
-  run_streaming_conformer_asr_tests:
+  run_wenetspeech_streaming_conformer_asr_tests:
     if: github.event.label.name == 'ready' || github.event_name == 'push'
     runs-on: ${{ matrix.os }}
     strategy:
