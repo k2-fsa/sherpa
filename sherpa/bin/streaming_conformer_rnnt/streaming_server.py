@@ -42,13 +42,13 @@ import numpy as np
 import sentencepiece as spm
 import torch
 import websockets
+from decode import Stream
+
 from sherpa import (
     RnntConformerModel,
     fast_beam_search_one_best,
     streaming_greedy_search,
 )
-
-from decode import Stream
 
 
 def get_args():
@@ -265,11 +265,7 @@ def run_model_and_do_search(
 
     processed_frames = torch.tensor(processed_frames_list, device=device)
 
-    (
-        encoder_out,
-        encoder_out_lens,
-        next_states,
-    ) = model.encoder_streaming_forward(
+    (encoder_out, encoder_out_lens, next_states,) = model.encoder_streaming_forward(
         features=features,
         features_length=features_length,
         states=states,
@@ -429,9 +425,7 @@ class StreamingServer(object):
                 initial_decoder_out.squeeze(1)
             )
         else:
-            raise ValueError(
-                f"Decoding method {decoding_method} is not supported."
-            )
+            raise ValueError(f"Decoding method {decoding_method} is not supported.")
 
         self.nn_pool = ThreadPoolExecutor(
             max_workers=nn_pool_size,
@@ -708,6 +702,8 @@ torch::jit::setGraphExecutorOptimize(false);
 """
 
 if __name__ == "__main__":
-    formatter = "%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] %(message)s"  # noqa
+    formatter = (
+        "%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] %(message)s"  # noqa
+    )
     logging.basicConfig(format=formatter, level=logging.INFO)
     main()

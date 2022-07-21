@@ -19,6 +19,7 @@
 #define SHERPA_CSRC_RNNT_CONV_EMFORMER_MODEL_H_
 
 #include <string>
+#include <tuple>
 #include <utility>
 #include <vector>
 
@@ -47,7 +48,7 @@ class RnntConvEmformerModel : public RnntModel {
   using State = std::pair<std::vector<std::vector<torch::Tensor>>,
                           std::vector<torch::Tensor>>;
 
-  std::pair<torch::Tensor, State> StreamingForwardEncoder(
+  std::tuple<torch::Tensor, torch::Tensor, State> StreamingForwardEncoder(
       const torch::Tensor &features, const torch::Tensor &features_length,
       const torch::Tensor &num_processed_frames, State states);
 
