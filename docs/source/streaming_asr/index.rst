@@ -3,10 +3,12 @@ Streaming ASR
 
 This page describes how to use `sherpa`_ for streaming ASR.
 
-Currently, only streaming ASR based on `Emformer`_
-`transducer`_ (i.e., Emformer-T) is implemented.
+Currently, implemented streaming ASR models include:
+`Emformer`_ `transducer`_ (i.e., Emformer-T)
+and `ConvEmformer`_ `transducer`_ (i.e., ConvEmformer-T).
 
 .. toctree::
    :maxdepth: 2
 
    emformer/index
+   conv_emformer/index
