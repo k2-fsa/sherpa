@@ -19,6 +19,7 @@
 #define SHERPA_CSRC_RNNT_EMFORMER_MODEL_H_
 
 #include <string>
+#include <tuple>
 #include <utility>
 #include <vector>
 
