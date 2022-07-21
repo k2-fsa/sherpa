@@ -3,7 +3,7 @@
 Client
 ======
 
-With the client you can record you voice in real-time, send it to the
+With the client you can record your voice in real-time, send it to the
 server, and get the recognition results back from the server.
 
 We provide a web client for this purpose.

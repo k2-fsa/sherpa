@@ -16,7 +16,7 @@ trained with `pruned stateless transdcuer <https://github.com/k2-fsa/icefall>`_.
 
 There are no **recurrent** modules in the transducer model:
 
-  - The encoder network (i.e., the transcription network) is an ConvEmformer model
+  - The encoder network (i.e., the transcription network) is a ConvEmformer model
   - The decoder network (i.e., the prediction network) is a
     `stateless network <https://ieeexplore.ieee.org/document/9054419>`_,
     consisting of an ``nn.Embedding()`` and a ``nn.Conv1d()``.
