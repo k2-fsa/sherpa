@@ -118,7 +118,7 @@ jobs:
           export PYTHONPATH=~/tmp/kaldifeat/kaldifeat/python:$PYTHONPATH
           export PYTHONPATH=~/tmp/kaldifeat/build/lib:$PYTHONPATH
 
-          ./sherpa/bin/conv_emformer_transducer_stateless/streaming_server.py \
+          ./sherpa/bin/conv_emformer_transducer_stateless2/streaming_server.py \
             --port 6006 \
             --max-batch-size 50 \
             --max-wait-ms 5 \
@@ -133,7 +133,7 @@ jobs:
       - name: Start client
         shell: bash
         run: |
-          ./sherpa/bin/conv_emformer_transducer_stateless/streaming_client.py \
+          ./sherpa/bin/conv_emformer_transducer_stateless2/streaming_client.py \
             --server-addr localhost \
             --server-port 6006 \
             ./icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05/test_wavs/1221-135766-0002.wav

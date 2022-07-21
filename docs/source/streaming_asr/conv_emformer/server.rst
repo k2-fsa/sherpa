@@ -19,7 +19,7 @@ Usage
 .. code-block::
 
    cd /path/to/sherpa
-   ./sherpa/bin/conv_emformer_transducer_stateless/streaming_server.py --help
+   ./sherpa/bin/conv_emformer_transducer_stateless2/streaming_server.py --help
 
 shows the usage message.
 
@@ -51,7 +51,7 @@ The following shows you how to start the server with the above pretrained model.
     git lfs install
     git clone https://huggingface.co/Zengwei/icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05
 
-    ./sherpa/bin/conv_emformer_transducer_stateless/streaming_server.py \
+    ./sherpa/bin/conv_emformer_transducer_stateless2/streaming_server.py \
       --port 6007 \
       --max-batch-size 50 \
       --max-wait-ms 5 \

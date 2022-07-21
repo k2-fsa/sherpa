@@ -118,7 +118,7 @@ jobs:
           export PYTHONPATH=~/tmp/kaldifeat/kaldifeat/python:$PYTHONPATH
           export PYTHONPATH=~/tmp/kaldifeat/build/lib:$PYTHONPATH
 
-          ./sherpa/bin/streaming_conformer_rnnt/streaming_server.py \
+          ./sherpa/bin/streaming_pruned_transducer_statelessX/streaming_server.py \
             --port 6006 \
             --max-batch-size 50 \
             --max-wait-ms 5 \
@@ -133,7 +133,7 @@ jobs:
       - name: Start client
         shell: bash
         run: |
-          ./sherpa/bin/streaming_conformer_rnnt/streaming_client.py \
+          ./sherpa/bin/streaming_pruned_transducer_statelessX/streaming_client.py \
             --server-addr localhost \
             --server-port 6006 \
             ./icefall-asr-librispeech-pruned-stateless-streaming-conformer-rnnt4-2022-06-10/test_wavs/1221-135766-0002.wav
