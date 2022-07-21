@@ -44,8 +44,11 @@ import torch
 import websockets
 from decode import Stream
 
-from sherpa import (RnntConformerModel, fast_beam_search_one_best,
-                    streaming_greedy_search)
+from sherpa import (
+    RnntConformerModel,
+    fast_beam_search_one_best,
+    streaming_greedy_search,
+)
 
 
 def get_args():

@@ -94,8 +94,7 @@ import kaldifeat
 import sentencepiece as spm
 import torch
 import torchaudio
-from decode import (run_model_and_do_greedy_search,
-                    run_model_and_do_modified_beam_search)
+from decode import run_model_and_do_greedy_search, run_model_and_do_modified_beam_search
 
 from sherpa import RnntConformerModel
 

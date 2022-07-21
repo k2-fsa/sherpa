@@ -43,8 +43,7 @@ import torch
 import websockets
 from decode import Stream, stack_states, unstack_states
 
-from sherpa import (RnntEmformerModel, fast_beam_search_one_best,
-                    streaming_greedy_search)
+from sherpa import RnntEmformerModel, fast_beam_search_one_best, streaming_greedy_search
 
 
 def get_args():
@@ -198,7 +197,7 @@ def run_model_and_do_search(
     if decoding_method == "greedy_search":
         decoder_out_list = []
         hyp_list = []
-    else:
+    elif decoding_method == "fast_beam_search":
         rnnt_decoding_streams_list = []
         rnnt_decoding_config = server.rnnt_decoding_config
 

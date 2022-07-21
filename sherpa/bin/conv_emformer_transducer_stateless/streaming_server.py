@@ -43,8 +43,11 @@ import torch
 import websockets
 from decode import Stream, stack_states, unstack_states
 
-from sherpa import (RnntConvEmformerModel, fast_beam_search_one_best,
-                    streaming_greedy_search)
+from sherpa import (
+    RnntConvEmformerModel,
+    fast_beam_search_one_best,
+    streaming_greedy_search,
+)
 
 
 def get_args():
