@@ -81,7 +81,7 @@ Start the server
 ----------------
 
 The entry point of the server is
-`sherpa/bin/conformer_rnnt/offline_server.py <https://github.com/k2-fsa/sherpa/blob/master/sherpa/bin/conformer_rnnt/offline_server.py>`_.
+`sherpa/bin/pruned_transducer_statelessX/offline_server.py <https://github.com/k2-fsa/sherpa/blob/master/sherpa/bin/pruned_transducer_statelessX/offline_server.py>`_.
 
 One thing worth mentioning is that the entry point is a Python script.
 In `sherpa`_, the server is implemented using `asyncio`_, where **IO-bound**
@@ -101,12 +101,12 @@ To view the usage information of the server, you can use:
 
 .. code-block:: bash
 
-   $ ./sherpa/bin/conformer_rnnt/offline_server.py --help
+   $ ./sherpa/bin/pruned_transducer_statelessX/offline_server.py --help
 
 which gives the following output:
 
 .. literalinclude:: ./code/offline-server-help.txt
-   :caption: Output of ``./sherpa/bin/conformer_rnnt/offline_server.py --help``
+   :caption: Output of ``./sherpa/bin/pruned_transducer_statelessX/offline_server.py --help``
 
 The following shows an example about how to use the above pre-trained model
 to start the server:
@@ -129,16 +129,16 @@ Start the client
 ----------------
 
 We also provide a Python script
-`sherpa/bin/conformer_rnnt/offline_client.py <https://github.com/k2-fsa/sherpa/blob/master/sherpa/bin/conformer_rnnt/offline_client.py>`_ for the client.
+`sherpa/bin/pruned_transducer_statelessX/offline_client.py <https://github.com/k2-fsa/sherpa/blob/master/sherpa/bin/pruned_transducer_statelessX/offline_client.py>`_ for the client.
 
 .. code-block:: bash
 
-   ./sherpa/bin/conformer_rnnt/offline_client.py --help
+   ./sherpa/bin/pruned_transducer_statelessX/offline_client.py --help
 
 shows the following help information:
 
 .. literalinclude:: ./code/offline-client-help.txt
-   :caption: Output of ``./sherpa/bin/conformer_rnnt/offline_client.py --help``
+   :caption: Output of ``./sherpa/bin/pruned_transducer_statelessX/offline_client.py --help``
 
 We provide some test waves in the git repo you just cloned. The following command
 shows you how to start the client:

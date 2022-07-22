@@ -8,9 +8,9 @@ where `X>=2`.
 
 | Filename | Description |
 |----------|-------------|
-| [conformer_rnnt/offline_server.py](./conformer_rnnt/offline_server.py) | The server for offline ASR |
-| [conformer_rnnt/offline_client.py](./conformer/offline_client.py) | The client for offline ASR |
-| [conformer_rnnt/decode_manifest.py](./conformer_rnnt/decode_manifest.py) | Demo for computing RTF and WER|
+| [pruned_transducer_statelessX/offline_server.py](./pruned_transducer_statelessX/offline_server.py) | The server for offline ASR |
+| [pruned_transducer_statelessX/offline_client.py](./pruned_transducer_statelessX/offline_client.py) | The client for offline ASR |
+| [pruned_transducer_statelessX/decode_manifest.py](./pruned_transducer_statelessX/decode_manifest.py) | Demo for computing RTF and WER|
 
 If you want to test the offline server without training your own model, you
 can download pretrained models on the LibriSpeech corpus by visiting
@@ -42,9 +42,9 @@ where `X>=2`. And the model is trained for streaming recognition.
 
 | Filename | Description |
 |----------|-------------|
-| [streaming_conformer_rnnt/streaming_conformer_rnnt/streaming_server.py](./streaming_conformer_rnnt/streaming_server.py) | The server for streaming ASR |
-| [streaming_conformer_rnnt/streaming_client.py](./streaming_conformer_rnnt/streaming_client.py) | The client for streaming ASR |
-| [streaming_conformer_rnnt/decode.py](./streaming_conformer_rnnt/decode.py) | Utilities for streaming ASR|
+| [streaming_pruned_transducer_statelessX/streaming_server.py](./streaming_pruned_transducer_statelessX/streaming_server.py) | The server for streaming ASR |
+| [streaming_pruned_transducer_statelessX/streaming_client.py](./streaming_pruned_transducer_statelessX/streaming_client.py) | The client for streaming ASR |
+| [streaming_pruned_transducer_statelessX/decode.py](./streaming_pruned_transducer_statelessX/decode.py) | Utilities for streaming ASR|
 
 You can use the pretrained model from
 <https://huggingface.co/pkufool/icefall-asr-librispeech-pruned-stateless-streaming-conformer-rnnt4-2022-06-10>
