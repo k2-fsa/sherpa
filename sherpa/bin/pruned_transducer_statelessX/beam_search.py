@@ -15,8 +15,8 @@
 # limitations under the License.
 
 
-from typing import List
 import math
+from typing import List
 
 import torch
 from torch.nn.utils.rnn import pad_sequence

@@ -85,7 +85,6 @@ Note: We provide pre-trained models for testing.
       $wav3
 """
 import argparse
-import functools
 import logging
 from typing import List, Optional, Union
 
@@ -94,7 +93,7 @@ import kaldifeat
 import sentencepiece as spm
 import torch
 import torchaudio
-from decode import run_model_and_do_greedy_search, run_model_and_do_modified_beam_search
+from beam_search import GreedySearchOffline, ModifiedBeamSearchOffline
 
 from sherpa import RnntConformerModel
 
@@ -193,7 +192,8 @@ def read_sound_files(
     for f in filenames:
         wave, sample_rate = torchaudio.load(f)
         assert sample_rate == expected_sample_rate, (
-            f"expected sample rate: {expected_sample_rate}. " f"Given: {sample_rate}"
+            f"expected sample rate: {expected_sample_rate}. "
+            f"Given: {sample_rate}"
         )
         # We use only the first channel
         ans.append(wave[0])
@@ -255,20 +255,33 @@ class OfflineAsr(object):
             "greedy_search",
             "modified_beam_search",
         ), decoding_method
+        # if decoding_method == "greedy_search":
+        #     nn_and_decoding_func = run_model_and_do_greedy_search
+        # elif decoding_method == "modified_beam_search":
+        #     nn_and_decoding_func = functools.partial(
+        #         run_model_and_do_modified_beam_search,
+        #         num_active_paths=num_active_paths,
+        #     )
+        # else:
+        #     raise ValueError(
+        #         f"Unsupported decoding_method: {decoding_method} "
+        #         "Please use greedy_search or modified_beam_search"
+        #     )
+
         if decoding_method == "greedy_search":
-            nn_and_decoding_func = run_model_and_do_greedy_search
+            self.beam_search = GreedySearchOffline(
+                self.model,
+                device,
+            )
         elif decoding_method == "modified_beam_search":
-            nn_and_decoding_func = functools.partial(
-                run_model_and_do_modified_beam_search,
-                num_active_paths=num_active_paths,
+            self.beam_search = ModifiedBeamSearchOffline(
+                self.blank_id, self.context_size, num_active_paths
             )
         else:
             raise ValueError(
-                f"Unsupported decoding_method: {decoding_method} "
-                "Please use greedy_search or modified_beam_search"
+                f"Decoding method {decoding_method} is not supported."
             )
 
-        self.nn_and_decoding_func = nn_and_decoding_func
         self.device = device
 
     def _build_feature_extractor(
@@ -318,7 +331,7 @@ class OfflineAsr(object):
         waves = [w.to(self.device) for w in waves]
         features = self.feature_extractor(waves)
 
-        tokens = self.nn_and_decoding_func(self.model, features)
+        tokens = self.beam_search.process(self.model, features)
 
         if hasattr(self, "sp"):
             results = self.sp.decode(tokens)
@@ -342,7 +355,10 @@ def main():
     sample_rate = args.sample_rate
     sound_files = args.sound_files
 
-    assert decoding_method in ("greedy_search", "modified_beam_search"), decoding_method
+    assert decoding_method in (
+        "greedy_search",
+        "modified_beam_search",
+    ), decoding_method
 
     if decoding_method == "modified_beam_search":
         assert num_active_paths >= 1, num_active_paths
@@ -409,9 +425,7 @@ torch::jit::setGraphExecutorOptimize(false);
 if __name__ == "__main__":
     torch.manual_seed(20220609)
 
-    formatter = (
-        "%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] %(message)s"  # noqa
-    )
+    formatter = "%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] %(message)s"  # noqa
     logging.basicConfig(format=formatter, level=logging.INFO)
 
     main()
