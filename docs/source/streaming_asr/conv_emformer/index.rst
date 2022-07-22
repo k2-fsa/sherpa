@@ -1,5 +1,5 @@
 ConvEmformer transducer based streaming ASR
-=======================================
+===========================================
 
 This page describes how to use `sherpa`_ for streaming
 ASR with `ConvEmformer`_ transducer models

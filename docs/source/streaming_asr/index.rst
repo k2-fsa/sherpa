@@ -12,4 +12,4 @@ and `ConvEmformer`_ `transducer`_ (i.e., ConvEmformer-T).
 
    emformer/index
    conv_emformer/index
-   conformer_rnnt/index
+   conformer/index

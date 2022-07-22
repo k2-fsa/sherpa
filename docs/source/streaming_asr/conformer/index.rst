@@ -1,6 +1,6 @@
-Streaming ASR based on Conformer RNNT
-=============
-
+Conformer transducer based streaming ASR
+========================================
+ConvEmformer transducer based streaming ASR
 This page describes how to use `sherpa`_ for streaming ASR based on Conformer RNNT.
 
 .. toctree::
