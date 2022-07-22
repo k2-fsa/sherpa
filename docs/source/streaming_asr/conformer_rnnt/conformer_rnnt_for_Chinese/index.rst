@@ -1,5 +1,5 @@
-Conformer transducer stateless based streaming Chinese ASR
-=======================================
+Streaming Chinese ASR
+=====================
 
 This page describes how to use `sherpa`_ for streaming
 ASR with `Conformer`_ transducer models
