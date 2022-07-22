@@ -57,7 +57,7 @@ Note: We provide pre-trained models for testing.
     wav2=./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/test_wavs/1221-135766-0001.wav
     wav3=./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/test_wavs/1221-135766-0002.wav
 
-    sherpa/bin/conformer_rnnt/offline_asr.py \
+    sherpa/bin/pruned_transducer_statelessX/offline_asr.py \
       --nn-model-filename $nn_model_filename \
       --bpe-model $bpe_model \
       $wav1 \
@@ -77,7 +77,7 @@ Note: We provide pre-trained models for testing.
     wav2=./icefall-aishell-pruned-transducer-stateless3-2022-06-20/test_wavs/BAC009S0764W0122.wav
     wav3=./icefall-aishell-pruned-transducer-stateless3-2022-06-20/test_wavs/BAC009S0764W0123.wav
 
-    sherpa/bin/conformer_rnnt/offline_asr.py \
+    sherpa/bin/pruned_transducer_statelessX/offline_asr.py \
       --nn-model-filename $nn_model_filename \
       --token-filename $token_filename \
       $wav1 \
