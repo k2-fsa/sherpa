@@ -2,7 +2,7 @@ from typing import List
 
 import k2
 import torch
-from decode import Stream
+from stream import Stream
 
 from sherpa import fast_beam_search_one_best, streaming_greedy_search
 

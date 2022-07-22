@@ -41,7 +41,7 @@ import sentencepiece as spm
 import torch
 import websockets
 from beam_search import FastBeamSearch, GreedySearch
-from decode import Stream
+from stream import Stream
 
 from sherpa import RnntConvEmformerModel
 

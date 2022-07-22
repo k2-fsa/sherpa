@@ -2,7 +2,7 @@ from typing import List
 
 import k2
 import torch
-from decode import Stream, stack_states, unstack_states
+from stream import Stream, stack_states, unstack_states
 
 from sherpa import (
     Hypotheses,
