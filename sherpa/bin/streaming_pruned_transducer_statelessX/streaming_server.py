@@ -83,6 +83,19 @@ def get_args():
     )
 
     parser.add_argument(
+        "--token-filename",
+        type=str,
+        help="""Filename for tokens.txt
+        For instance, you can find it in the directory
+	    egs/aishell/ASR/data/lang_char/tokens.txt
+	    or
+	    egs/wenetspeech/ASR/data/lang_char/tokens.txt
+	    from icefall
+        Note: You don't need to provide it if you provide `--bpe-model`
+        """,
+    )
+
+    parser.add_argument(
         "--decode-chunk-size",
         type=int,
         default=8,
@@ -315,6 +328,7 @@ class StreamingServer(object):
         self,
         nn_model_filename: str,
         bpe_model_filename: str,
+        token_filename: str,
         decode_chunk_size: int,
         decode_left_context: int,
         decode_right_context: int,
@@ -334,7 +348,11 @@ class StreamingServer(object):
           nn_model_filename:
             Path to the torchscript model
           bpe_model_filename:
-            Path to the BPE model
+            Path to the BPE model. If it is None, you have to provide
+            `token_filename`.
+          token_filename:
+            Path to tokens.txt. If it is None, you have to provide
+            `bpe_model_filename`.
           decode_chunk_size:
             The chunk size for decoding (in frames after subsampling)
           decode_left_context:
@@ -389,8 +407,11 @@ class StreamingServer(object):
             self.decode_chunk_size + 2 + self.decode_right_context
         ) * self.subsampling_factor + 3
 
-        self.sp = spm.SentencePieceProcessor()
-        self.sp.load(bpe_model_filename)
+        if bpe_model_filename:
+            self.sp = spm.SentencePieceProcessor()
+            self.sp.load(bpe_model_filename)
+        else:
+            self.token_table = k2.SymbolTable.from_file(token_filename)
 
         self.context_size = self.model.context_size
         self.blank_id = self.model.blank_id
@@ -582,11 +603,21 @@ class StreamingServer(object):
             while len(stream.features) > self.chunk_length:
                 await self.compute_and_decode(stream)
                 if self.decoding_method == "greedy_search":
-                    await socket.send(
-                        f"{self.sp.decode(stream.hyp[self.context_size:])}"
-                    )  # noqa
+                    if hasattr(self, "sp"):
+                        result = self.sp.decode(stream.hyp[self.context_size :]) # noqa
+                    else:
+                        result = [
+                            self.token_table[i] for i in stream.hyp[self.context_size :]
+                        ]  # noqa
+                    await socket.send(result)
                 elif self.decoding_method == "fast_beam_search":
-                    await socket.send(f"{self.sp.decode(stream.hyp)}")  # noqa
+                    if hasattr(self, "sp"):
+                        result = self.sp.decode(stream.hyp)
+                    else:
+                        result = [
+                            self.token_table[i] for i in stream.hyp
+                        ]
+                    await socket.send(result) 
                 else:
                     raise ValueError(
                         f"Decoding method {self.decoding_method} is not supported."
@@ -602,9 +633,28 @@ class StreamingServer(object):
             await self.compute_and_decode(stream)
             stream.features = []
 
-        result = self.sp.decode(stream.hyp[self.context_size :])  # noqa
-        await socket.send(result)
-        await socket.send("Done")
+        if self.decoding_method == "greedy_search":
+            if hasattr(self, "sp"):
+                result = self.sp.decode(stream.hyp[self.context_size :]) # noqa
+            else:
+                result = [
+                    self.token_table[i] for i in stream.hyp[self.context_size :]
+                ]  # noqa
+            await socket.send(result)
+            await socket.send("Done")
+        elif self.decoding_method == "fast_beam_search":
+            if hasattr(self, "sp"):
+                result = self.sp.decode(stream.hyp)
+            else:
+                result = [
+                    self.token_table[i] for i in stream.hyp
+                ]
+            await socket.send(result) 
+            await socket.send("Done")
+        else:
+            raise ValueError(
+                f"Decoding method {self.decoding_method} is not supported."
+            )
 
     async def recv_audio_samples(
         self,
@@ -647,6 +697,7 @@ def main():
     port = args.port
     nn_model_filename = args.nn_model_filename
     bpe_model_filename = args.bpe_model_filename
+    token_filename = args.token_filename
     decode_chunk_size = args.decode_chunk_size
     decode_left_context = args.decode_left_context
     decode_right_context = args.decode_right_context
@@ -664,6 +715,7 @@ def main():
     server = StreamingServer(
         nn_model_filename=nn_model_filename,
         bpe_model_filename=bpe_model_filename,
+        token_filename=token_filename,
         decode_chunk_size=decode_chunk_size,
         decode_left_context=decode_left_context,
         decode_right_context=decode_right_context,
