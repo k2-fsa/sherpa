@@ -1,5 +1,5 @@
-# Copyright (c)  2022  Xiaomi Corporation (authors: Fangjun Kuang)
-#
+# Copyright      2021  Fangjun Kuang (csukuangfj@gmail.com)
+
 # See ../../LICENSE for clarification regarding multiple authors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,10 +26,11 @@ on:
 
 jobs:
   style_check:
-    runs-on: ubuntu-18.04
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        python-version: [3.8]
+        os: [ubuntu-18.04, macos-10.15]
+        python-version: [3.7, 3.9]
       fail-fast: false
 
     steps:
@@ -42,7 +43,22 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Check style with cpplint
+      - name: Install Python dependencies
+        run: |
+          python3 -m pip install --upgrade pip black==21.6b0 flake8==3.9.2 click==8.0.4
+          # See https://github.com/psf/black/issues/2964
+          # The version of click should be selected from 8.0.0, 8.0.1, 8.0.2, 8.0.3, and 8.0.4
+
+      - name: Run flake8
         shell: bash
         working-directory: ${{github.workspace}}
-        run: ./scripts/check_style_cpplint.sh
+        run: |
+          # stop the build if there are Python syntax errors or undefined names
+          flake8 . --count --show-source --statistics
+          flake8 .
+
+      - name: Run black
+        shell: bash
+        working-directory: ${{github.workspace}}
+        run: |
+          black --check --diff .
