@@ -9,6 +9,9 @@
 
 **Documentation**: <https://k2-fsa.github.io/sherpa/>
 
+Try `sherpa` from within your browser without installing anything:
+<https://huggingface.co/spaces/k2-fsa/automatic-speech-recognition>
+
 ## Introduction
 
 An ASR server framework in **Python**, supporting both streaming
