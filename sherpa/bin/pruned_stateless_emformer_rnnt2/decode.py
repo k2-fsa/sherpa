@@ -15,12 +15,10 @@
 # limitations under the License.
 
 import math
-from typing import List, Optional
+from typing import List
 
-import k2
 import torch
 from kaldifeat import FbankOptions, OnlineFbank, OnlineFeature
-from sherpa import Hypotheses, Hypothesis
 
 
 def unstack_states(
@@ -119,11 +117,7 @@ class Stream(object):
     def __init__(
         self,
         context_size: int,
-        blank_id: int,
         initial_states: List[List[torch.Tensor]],
-        decoding_method: str = "greedy_search",
-        decoding_graph: Optional[k2.Fsa] = None,
-        decoder_out: Optional[torch.Tensor] = None,
     ) -> None:
         """
         Args:
@@ -150,21 +144,6 @@ class Stream(object):
         self.num_fetched_frames = 0
 
         self.states = initial_states
-        self.decoding_graph = decoding_graph
-
-        if decoding_method == "fast_beam_search":
-            assert decoding_graph is not None
-            self.rnnt_decoding_stream = k2.RnntDecodingStream(decoding_graph)
-            self.hyp = []
-        elif decoding_method == "greedy_search":
-            assert decoder_out is not None
-            self.decoder_out = decoder_out
-            self.hyp = [blank_id] * context_size
-        elif decoding_method == "modified_beam_search":
-            hyp = [blank_id] * context_size
-            self.hyps = Hypotheses([Hypothesis(ys=hyp, log_prob=0.0)])
-        else:
-            raise ValueError(f"Decoding method : {decoding_method} is not supported.")
 
         self.processed_frames = 0
         self.context_size = context_size

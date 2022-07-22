@@ -472,7 +472,7 @@ class StreamingServer(object):
             initial_states=self.initial_states,
         )
 
-        self.beam_search.get_attribute_stream(stream)
+        self.beam_search.init_stream(stream)
 
         while True:
             samples = await self.recv_audio_samples(socket)
