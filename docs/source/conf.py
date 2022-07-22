@@ -113,5 +113,7 @@ rst_epilog = """
 .. _transducer: https://arxiv.org/pdf/1211.3711.pdf
 .. _asyncio: https://docs.python.org/3/library/asyncio.html
 .. _k2: https://github.com/k2-fsa/k2
+.. _icefall: https://github.com/k2-fsa/icefall
 .. _PyTorch: https://pytorch.org/
+.. _Huggingface: https://huggingface.co
 """
