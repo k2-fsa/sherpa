@@ -30,10 +30,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-18.04, macos-10.15]
+        os: [ubuntu-latest, macos-latest]
         torch: ["1.10.0", "1.6.0"]
         torchaudio: ["0.10.0", "0.6.0"]
-        python-version: [3.7, 3.8]
+        python-version: ["3.7", "3.8"]
+        decoding: ["greedy_search", "modified_beam_search", "fast_beam_search"]
         exclude:
           - torch: "1.10.0"
             torchaudio: "0.6.0"
@@ -119,6 +120,7 @@ jobs:
           export PYTHONPATH=~/tmp/kaldifeat/build/lib:$PYTHONPATH
 
           ./sherpa/bin/pruned_stateless_emformer_rnnt2/streaming_server.py \
+            --decoding-method ${{ matrix.decoding }} \
             --port 6006 \
             --max-batch-size 50 \
             --max-wait-ms 5 \

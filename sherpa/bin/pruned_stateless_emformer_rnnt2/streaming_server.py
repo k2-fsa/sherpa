@@ -36,11 +36,17 @@ import warnings
 from concurrent.futures import ThreadPoolExecutor
 from typing import List, Optional, Tuple
 
+import k2
 import numpy as np
 import sentencepiece as spm
 import torch
 import websockets
-from sherpa import RnntEmformerModel, streaming_greedy_search
+from sherpa import (
+    RnntEmformerModel,
+    streaming_greedy_search,
+    streaming_modified_beam_search,
+    fast_beam_search_one_best,
+)
 
 from decode import Stream, stack_states, unstack_states
 
@@ -131,6 +137,50 @@ def get_args():
         """,
     )
 
+    parser.add_argument(
+        "--decoding-method",
+        type=str,
+        default="greedy_search",
+        help="""Decoding method to use. Currently, only greedy_search,
+        modified_beam_search, and fast_beam_search are implemented.
+        """,
+    )
+
+    parser.add_argument(
+        "--num-active-paths",
+        type=int,
+        default=4,
+        help="""Used only when decoding_method is modified_beam_search.
+        It specifies number of active paths for each utterance. Due to
+        merging paths with identical token sequences, the actual number
+        may be less than "num_active_paths".
+        """,
+    )
+    parser.add_argument(
+        "--beam",
+        type=float,
+        default=10.0,
+        help="""A floating point value to calculate the cutoff score during beam
+            search (i.e., `cutoff = max-score - beam`), which is the same as the
+            `beam` in Kaldi.
+            Used only when --decoding-method is fast_beam_search.
+            """,
+    )
+
+    parser.add_argument(
+        "--max-contexts",
+        type=int,
+        default=8,
+        help="""Used only when --decoding-method is fast_beam_search.""",
+    )
+
+    parser.add_argument(
+        "--max-states",
+        type=int,
+        default=32,
+        help="""Used only when --decoding-method is fast_beam_search.""",
+    )
+
     return parser.parse_args()
 
 
@@ -152,26 +202,30 @@ def run_model_and_do_greedy_search(
     device = model.device
     segment_length = server.segment_length
     chunk_length = server.chunk_length
+    decoding_method = server.decoding_method
 
     batch_size = len(stream_list)
 
     state_list = []
+    feature_list = []
+
     decoder_out_list = []
     hyp_list = []
-    feature_list = []
+
     for s in stream_list:
-        state_list.append(s.states)
         decoder_out_list.append(s.decoder_out)
         hyp_list.append(s.hyp)
 
+        state_list.append(s.states)
+
         f = s.features[:chunk_length]
         s.features = s.features[segment_length:]
-
         b = torch.cat(f, dim=0)
         feature_list.append(b)
 
     features = torch.stack(feature_list, dim=0).to(device)
     states = stack_states(state_list)
+
     decoder_out = torch.cat(decoder_out_list, dim=0)
 
     features_length = torch.full(
@@ -181,7 +235,11 @@ def run_model_and_do_greedy_search(
         dtype=torch.int64,
     )
 
-    (encoder_out, next_states) = model.encoder_streaming_forward(
+    (
+        encoder_out,
+        encoder_out_lens,
+        next_states,
+    ) = model.encoder_streaming_forward(  # noqa
         features=features,
         features_length=features_length,
         states=states,
@@ -197,12 +255,157 @@ def run_model_and_do_greedy_search(
         hyps=hyp_list,
     )
 
-    next_state_list = unstack_states(next_states)
     next_decoder_out_list = next_decoder_out.split(1)
+
+    next_state_list = unstack_states(next_states)
     for i, s in enumerate(stream_list):
         s.states = next_state_list[i]
         s.decoder_out = next_decoder_out_list[i]
+
         s.hyp = next_hyp_list[i]
+
+
+@torch.no_grad()
+def run_model_and_do_fast_beam_search(
+    server: "StreamingServer",
+    stream_list: List[Stream],
+) -> None:
+    """Run the model on the given stream list and do fast_beam_search.
+    Args:
+      server:
+        An instance of `StreamingServer`.
+      stream_list:
+        A list of streams to be processed. It is changed in-place.
+        That is, the attribute `states`, `decoder_out`, and `hyp` are
+        updated in-place.
+    """
+    model = server.model
+    device = model.device
+    segment_length = server.segment_length
+    chunk_length = server.chunk_length
+    decoding_method = server.decoding_method
+
+    batch_size = len(stream_list)
+
+    state_list = []
+    feature_list = []
+    processed_frames_list = []
+
+    rnnt_decoding_streams_list = []
+    rnnt_decoding_config = server.rnnt_decoding_config
+
+    for s in stream_list:
+        rnnt_decoding_streams_list.append(s.rnnt_decoding_stream)
+
+        state_list.append(s.states)
+        processed_frames_list.append(s.processed_frames)
+
+        f = s.features[:chunk_length]
+        s.features = s.features[segment_length:]
+        b = torch.cat(f, dim=0)
+        feature_list.append(b)
+
+    features = torch.stack(feature_list, dim=0).to(device)
+    states = stack_states(state_list)
+
+    features_length = torch.full(
+        (batch_size,),
+        fill_value=features.size(1),
+        device=device,
+        dtype=torch.int64,
+    )
+
+    processed_frames = torch.tensor(processed_frames_list, device=device)
+
+    (
+        encoder_out,
+        encoder_out_lens,
+        next_states,
+    ) = model.encoder_streaming_forward(  # noqa
+        features=features,
+        features_length=features_length,
+        states=states,
+    )
+
+    processed_lens = processed_frames + encoder_out_lens
+    next_hyp_list = fast_beam_search_one_best(
+        model=model,
+        encoder_out=encoder_out,
+        processed_lens=processed_lens,
+        rnnt_decoding_config=rnnt_decoding_config,
+        rnnt_decoding_streams_list=rnnt_decoding_streams_list,
+    )
+
+    next_state_list = unstack_states(next_states)
+    for i, s in enumerate(stream_list):
+        s.states = next_state_list[i]
+        s.processed_frames += encoder_out_lens[i]
+
+        s.hyp = next_hyp_list[i]
+
+
+@torch.no_grad()
+def run_model_and_do_modified_beam_search(
+    server: "StreamingServer",
+    stream_list: List[Stream],
+) -> None:
+    """Run the model on the given stream list and do modified_beam_search.
+    Args:
+      server:
+        An instance of `StreamingServer`.
+      stream_list:
+        A list of streams to be processed. It is changed in-place.
+        That is, the attribute `states` and `hyps` are
+        updated in-place.
+    """
+    model = server.model
+    device = model.device
+
+    segment_length = server.segment_length
+    chunk_length = server.chunk_length
+
+    batch_size = len(stream_list)
+
+    state_list = []
+    hyps_list = []
+    feature_list = []
+    for s in stream_list:
+        state_list.append(s.states)
+        hyps_list.append(s.hyps)
+
+        f = s.features[:chunk_length]
+        s.features = s.features[segment_length:]
+
+        b = torch.cat(f, dim=0)
+        feature_list.append(b)
+
+    features = torch.stack(feature_list, dim=0).to(device)
+    states = stack_states(state_list)
+
+    features_length = torch.full(
+        (batch_size,),
+        fill_value=features.size(1),
+        device=device,
+        dtype=torch.int64,
+    )
+
+    (encoder_out, _, next_states) = model.encoder_streaming_forward(
+        features=features,
+        features_length=features_length,
+        states=states,
+    )
+    # Note: There are no paddings for streaming ASR. Each stream
+    # has the same input number of frames, i.e., server.chunk_length.
+    next_hyps_list = streaming_modified_beam_search(
+        model=model,
+        encoder_out=encoder_out,
+        hyps=hyps_list,
+    )
+
+    next_state_list = unstack_states(next_states)
+    for i, s in enumerate(stream_list):
+        s.states = next_state_list[i]
+        s.hyps = next_hyps_list[i]
 
 
 class StreamingServer(object):
@@ -210,12 +413,17 @@ class StreamingServer(object):
         self,
         nn_model_filename: str,
         bpe_model_filename: str,
+        beam: float,
+        max_states: int,
+        max_contexts: int,
+        decoding_method: str,
         nn_pool_size: int,
         max_wait_ms: float,
         max_batch_size: int,
         max_message_size: int,
         max_queue_size: int,
         max_active_connections: int,
+        num_active_paths: int,
     ):
         """
         Args:
@@ -223,6 +431,15 @@ class StreamingServer(object):
             Path to the torchscript model
           bpe_model_filename:
             Path to the BPE model
+          beam:
+            The beam for fast_beam_search decoding.
+          max_states:
+            The max_states for fast_beam_search decoding.
+          max_contexts:
+            The max_contexts for fast_beam_search decoding.
+          decoding_method:
+            The decoding method to use, can be greedy_search, fast_beam_search,
+            or modified_beam_search.
           nn_pool_size:
             Number of threads for the thread pool that is responsible for
             neural network computation and decoding.
@@ -238,6 +455,11 @@ class StreamingServer(object):
           max_active_connections:
             Max number of active connections. Once number of active client
             equals to this limit, the server refuses to accept new connections.
+          num_active_paths:
+            Used only when decoding_method is modified_beam_search.
+            It specifies number of active paths for each utterance. Due to
+            merging paths with identical token sequences, the actual number
+            may be less than "num_active_paths".
         """
         if torch.cuda.is_available():
             device = torch.device("cuda", 0)
@@ -261,17 +483,49 @@ class StreamingServer(object):
 
         self.context_size = self.model.context_size
         self.blank_id = self.model.blank_id
+        self.vocab_size = self.model.vocab_size
         self.log_eps = math.log(1e-10)
 
         initial_states = self.model.get_encoder_init_states()
         self.initial_states = unstack_states(initial_states)[0]
-        decoder_input = torch.tensor(
-            [[self.blank_id] * self.context_size],
-            device=device,
-            dtype=torch.int64,
-        )
-        initial_decoder_out = self.model.decoder_forward(decoder_input)
-        self.initial_decoder_out = initial_decoder_out.squeeze(1)
+
+        self.decoding_method = decoding_method
+        assert self.decoding_method in [
+            "greedy_search",
+            "fast_beam_search",
+            "modified_beam_search",
+        ]
+
+        self.initial_decoder_out = None
+        self.decoding_graph = None
+        if decoding_method == "fast_beam_search":
+            self.rnnt_decoding_config = k2.RnntDecodingConfig(
+                vocab_size=self.vocab_size,
+                decoder_history_len=self.context_size,
+                beam=beam,
+                max_states=max_states,
+                max_contexts=max_contexts,
+            )
+            self.decoding_graph = k2.trivial_graph(self.vocab_size - 1, device)
+            self.run_nn_and_decode_func = run_model_and_do_fast_beam_search
+        elif decoding_method == "greedy_search":
+            decoder_input = torch.tensor(
+                [[self.blank_id] * self.context_size],
+                device=device,
+                dtype=torch.int64,
+            )
+            initial_decoder_out = self.model.decoder_forward(decoder_input)
+            self.initial_decoder_out = self.model.forward_decoder_proj(
+                initial_decoder_out.squeeze(1)
+            )
+            self.run_nn_and_decode_func = run_model_and_do_greedy_search
+        elif decoding_method == "modified_beam_search":
+            self.run_nn_and_decode_func = run_model_and_do_modified_beam_search
+        else:
+            raise ValueError(f"Unsupported method: {decoding_method}")
+
+        self.decoding_method = decoding_method
+        self.num_active_paths = num_active_paths
 
         self.nn_pool = ThreadPoolExecutor(
             max_workers=nn_pool_size,
@@ -314,7 +568,7 @@ class StreamingServer(object):
             loop = asyncio.get_running_loop()
             await loop.run_in_executor(
                 self.nn_pool,
-                run_model_and_do_greedy_search,
+                self.run_nn_and_decode_func,
                 self,
                 stream_list,
             )
@@ -411,8 +665,23 @@ class StreamingServer(object):
             context_size=self.context_size,
             blank_id=self.blank_id,
             initial_states=self.initial_states,
+            decoding_method=self.decoding_method,
+            decoding_graph=self.decoding_graph,
             decoder_out=self.initial_decoder_out,
         )
+
+        async def send_results():
+            if self.decoding_method == "greedy_search":
+                hyp = stream.hyp[self.context_size :]  # noqa
+            elif self.decoding_method == "modified_beam_search":
+                hyp = stream.hyps.get_most_probable(True).ys
+                hyp = hyp[self.context_size :]  # noqa
+            elif self.decoding_method == "fast_beam_search":
+                hyp = stream.hyp
+            else:
+                raise ValueError("Unsupported method " f"{self.decoding_method}")
+
+            await socket.send(f"{self.sp.decode(hyp)}")
 
         while True:
             samples = await self.recv_audio_samples(socket)
@@ -425,9 +694,8 @@ class StreamingServer(object):
 
             while len(stream.features) > self.chunk_length:
                 await self.compute_and_decode(stream)
-                await socket.send(
-                    f"{self.sp.decode(stream.hyp[self.context_size:])}"
-                )  # noqa
+
+                await send_results()
 
         stream.input_finished()
         while len(stream.features) > self.chunk_length:
@@ -439,8 +707,7 @@ class StreamingServer(object):
             await self.compute_and_decode(stream)
             stream.features = []
 
-        result = self.sp.decode(stream.hyp[self.context_size :])  # noqa
-        await socket.send(result)
+        await send_results()
         await socket.send("Done")
 
     async def recv_audio_samples(
@@ -484,22 +751,42 @@ def main():
     port = args.port
     nn_model_filename = args.nn_model_filename
     bpe_model_filename = args.bpe_model_filename
+    beam = args.beam
+    max_states = args.max_states
+    max_contexts = args.max_contexts
+    decoding_method = args.decoding_method
     nn_pool_size = args.nn_pool_size
     max_batch_size = args.max_batch_size
     max_wait_ms = args.max_wait_ms
     max_message_size = args.max_message_size
     max_queue_size = args.max_queue_size
     max_active_connections = args.max_active_connections
+    decoding_method = args.decoding_method
+    num_active_paths = args.num_active_paths
+
+    assert decoding_method in (
+        "greedy_search",
+        "modified_beam_search",
+        "fast_beam_search",
+    ), decoding_method
+
+    if decoding_method == "modified_beam_search":
+        assert num_active_paths >= 1, num_active_paths
 
     server = StreamingServer(
         nn_model_filename=nn_model_filename,
         bpe_model_filename=bpe_model_filename,
+        beam=beam,
+        max_states=max_states,
+        max_contexts=max_contexts,
+        decoding_method=decoding_method,
         nn_pool_size=nn_pool_size,
         max_batch_size=max_batch_size,
         max_wait_ms=max_wait_ms,
         max_message_size=max_message_size,
         max_queue_size=max_queue_size,
         max_active_connections=max_active_connections,
+        num_active_paths=num_active_paths,
     )
     asyncio.run(server.run(port))
 

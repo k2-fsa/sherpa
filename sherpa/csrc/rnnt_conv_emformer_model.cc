@@ -60,7 +60,7 @@ RnntConvEmformerModel::RnntConvEmformerModel(
                 2 * encoder_.attr("subsampling_factor").toInt() + 3;
 }
 
-std::pair<torch::Tensor, RnntConvEmformerModel::State>
+std::tuple<torch::Tensor, torch::Tensor, RnntConvEmformerModel::State>
 RnntConvEmformerModel::StreamingForwardEncoder(
     const torch::Tensor &features, const torch::Tensor &features_length,
     const torch::Tensor &num_processed_frames, State states) {
@@ -75,6 +75,8 @@ RnntConvEmformerModel::StreamingForwardEncoder(
       "infer", features, features_length, num_processed_frames, states_tuple);
   auto tuple_ptr = ivalue.toTuple();
   torch::Tensor encoder_out = tuple_ptr->elements()[0].toTensor();
+
+  torch::Tensor encoder_out_length = tuple_ptr->elements()[1].toTensor();
 
   auto tuple_ptr_states = tuple_ptr->elements()[2].toTuple();
   torch::List<torch::IValue> list_attn =
@@ -99,7 +101,7 @@ RnntConvEmformerModel::StreamingForwardEncoder(
 
   State next_states = {next_state_attn, next_state_conv};
 
-  return {encoder_out, next_states};
+  return {encoder_out, encoder_out_length, next_states};
 }
 
 RnntConvEmformerModel::State RnntConvEmformerModel::GetEncoderInitStates() {

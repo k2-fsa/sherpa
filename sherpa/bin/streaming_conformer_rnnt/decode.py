@@ -90,9 +90,7 @@ class Stream(object):
             self.decoder_out = decoder_out
             self.hyp = [blank_id] * context_size
         else:
-            raise ValueError(
-                f"Decoding method {decoding_method} is not supported."
-            )
+            assert False, f"Decoding method : {decoding_method} is not supported."
 
         # The number of frames (after subsampling) been processed.
         self.processed_frames = 0

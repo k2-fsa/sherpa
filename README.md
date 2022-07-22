@@ -325,3 +325,30 @@ Errors: 112 insertions, 93 deletions, 876 substitutions, over 52576 reference wo
 If you have a GPU with a larger RAM (e.g., 32 GB), you can get an even **lower** RTF.
 
 [icefall]: https://github.com/k2-fsa/icefall/
+
+
+### Contributing
+
+Contributions to ```sherpa``` are very welcomed. There are many possible ways to make contributions 
+and two of them are:
+- To write documentation
+- To write code:
+  - To follow the code style in the repository
+  - To write a new features (support new architectures, new beam search, etc)
+
+### Follow the code style
+
+We use the following tools to make the code style to be as consistent as possible:
+
+  - [black](https://github.com/psf/black), to format the code
+  - [flake8](https://github.com/PyCQA/flake8), to check the style and quality of the code
+  - [isort](https://github.com/PyCQA/isort), to sort ``imports``
+
+After running the following commands:
+
+    $ git clone https://github.com/k2-fsa/sherpa
+    $ cd sherpa
+    $ pip install pre-commit
+    $ pre-commit install
+
+it will run the checks whenever you run ``git commit`` **automatically**
