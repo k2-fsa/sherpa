@@ -34,7 +34,7 @@ jobs:
         torch: ["1.7.1"]
         torchaudio: ["0.7.2"]
         cuda: ["10.1.243"]
-        python-version: [3.7, 3.8]
+        python-version: ["3.7", "3.8"]
     steps:
       - uses: actions/checkout@v2
         with:

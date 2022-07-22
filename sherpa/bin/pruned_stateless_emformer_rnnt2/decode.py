@@ -20,6 +20,7 @@ from typing import List, Optional
 import k2
 import torch
 from kaldifeat import FbankOptions, OnlineFbank, OnlineFeature
+from sherpa import Hypotheses, Hypothesis
 
 
 def unstack_states(
@@ -139,8 +140,8 @@ class Stream(object):
           decoding_graph:
             The Fsa based decoding graph for fast_beam_search.
           decoder_out:
-            The initial decoder out corresponding to the decoder input
-            `[blank_id]*context_size`
+            Optional. The initial decoder out corresponding to the decoder input
+            `[blank_id]*context_size`. Used only for greedy_search.
         """
         self.feature_extractor = _create_streaming_feature_extractor()
         # It contains a list of 2-D tensors representing the feature frames.
@@ -159,12 +160,14 @@ class Stream(object):
             assert decoder_out is not None
             self.decoder_out = decoder_out
             self.hyp = [blank_id] * context_size
+        elif decoding_method == "modified_beam_search":
+            hyp = [blank_id] * context_size
+            self.hyps = Hypotheses([Hypothesis(ys=hyp, log_prob=0.0)])
         else:
             raise ValueError(f"Decoding method : {decoding_method} is not supported.")
 
         self.processed_frames = 0
         self.context_size = context_size
-        self.hyp = [blank_id] * context_size
         self.log_eps = math.log(1e-10)
 
     def accept_waveform(

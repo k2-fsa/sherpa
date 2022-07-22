@@ -9,12 +9,15 @@ if torch.__version__.split("+")[0] != sherpa_torch_version.split("+")[0]:
     )
 
 from _sherpa import (
+    Hypotheses,
+    Hypothesis,
     RnntConformerModel,
     RnntConvEmformerModel,
     RnntEmformerModel,
     greedy_search,
     modified_beam_search,
     streaming_greedy_search,
+    streaming_modified_beam_search,
 )
 
 from .decode import fast_beam_search_one_best
