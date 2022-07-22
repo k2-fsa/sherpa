@@ -24,6 +24,7 @@ for both streaming ASR and offline ASR (i.e., non-streaming ASR).
    :maxdepth: 2
    :caption: Contents:
 
+   ./huggingface/index
    ./installation/index
    ./streaming_asr/index
    ./offline_asr/index
