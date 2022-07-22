@@ -10,7 +10,7 @@ We provide a web client for this purpose.
 
 .. caution::
 
-   Please first start the :ref:`conv_emformer_server_english` before you start the client.
+   Please first start the :ref:`conformer_rnnt_server_english` before you start the client.
 
    Also, we have hard coded the server port to 6006. Please either pass
    ``--port 6006`` when starting the server or change the client
