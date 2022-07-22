@@ -27,7 +27,6 @@ Usage:
 
 import argparse
 import asyncio
-import functools
 import http
 import logging
 import warnings
@@ -40,7 +39,7 @@ import numpy as np
 import sentencepiece as spm
 import torch
 import websockets
-from decode import run_model_and_do_greedy_search, run_model_and_do_modified_beam_search
+from beam_search import GreedySearchOffline, ModifiedBeamSearchOffline
 
 from sherpa import RnntConformerModel
 
@@ -250,6 +249,13 @@ class OfflineServer:
             merging paths with identical token sequences, the actual number
             may be less than "num_active_paths".
         """
+        if num_device < 1:
+            device = torch.device("cpu")
+        else:
+            device = torch.device("cuda")
+
+        logging.info(f"Using device: {device}")
+
         self.feature_extractor = self._build_feature_extractor()
         self.nn_models = self._build_nn_model(nn_model_filename, num_device)
 
@@ -283,25 +289,20 @@ class OfflineServer:
 
         self.current_active_connections = 0
 
-        assert decoding_method in (
-            "greedy_search",
-            "modified_beam_search",
-        ), decoding_method
         if decoding_method == "greedy_search":
-            nn_and_decoding_func = run_model_and_do_greedy_search
+            self.beam_search = GreedySearchOffline(
+                self.model,
+                device,
+            )
         elif decoding_method == "modified_beam_search":
-            nn_and_decoding_func = functools.partial(
-                run_model_and_do_modified_beam_search,
-                num_active_paths=num_active_paths,
+            self.beam_search = ModifiedBeamSearchOffline(
+                self.blank_id, self.context_size, num_active_paths
             )
         else:
             raise ValueError(
-                f"Unsupported decoding_method: {decoding_method} "
-                "Please use greedy_search or modified_beam_search"
+                f"Decoding method {decoding_method} is not supported."
             )
 
-        self.nn_and_decoding_func = nn_and_decoding_func
-        self.decoding_method = decoding_method
         self.num_active_paths = num_active_paths
 
     def _build_feature_extractor(self) -> kaldifeat.OfflineFeature:
@@ -480,7 +481,7 @@ class OfflineServer:
 
             hyp_tokens = await loop.run_in_executor(
                 self.nn_pool,
-                self.nn_and_decoding_func,
+                self.beam_search.process,
                 model,
                 feature_list,
             )
@@ -600,7 +601,10 @@ def main():
     decoding_method = args.decoding_method
     num_active_paths = args.num_active_paths
 
-    assert decoding_method in ("greedy_search", "modified_beam_search"), decoding_method
+    assert decoding_method in (
+        "greedy_search",
+        "modified_beam_search",
+    ), decoding_method
 
     if decoding_method == "modified_beam_search":
         assert num_active_paths >= 1, num_active_paths
@@ -652,9 +656,7 @@ torch::jit::setGraphExecutorOptimize(false);
 if __name__ == "__main__":
     torch.manual_seed(20220519)
 
-    formatter = (
-        "%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] %(message)s"  # noqa
-    )
+    formatter = "%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] %(message)s"  # noqa
     logging.basicConfig(format=formatter, level=logging.INFO)
 
     main()
