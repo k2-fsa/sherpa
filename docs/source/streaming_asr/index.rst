@@ -8,7 +8,8 @@ Currently, implemented streaming ASR models include:
 and `ConvEmformer`_ `transducer`_ (i.e., ConvEmformer-T).
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
 
    emformer/index
    conv_emformer/index
+   conformer/index
