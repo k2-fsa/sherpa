@@ -442,7 +442,6 @@ class StreamingServer(object):
 
             while len(stream.features) > self.chunk_length:
                 await self.compute_and_decode(stream)
-
                 await send_results()
 
         stream.input_finished()

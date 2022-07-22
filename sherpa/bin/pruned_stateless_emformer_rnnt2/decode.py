@@ -123,19 +123,9 @@ class Stream(object):
         Args:
           context_size:
             Context size of the RNN-T decoder model.
-          blank_id:
-            Blank token ID of the BPE model.
           initial_states:
             The initial states of the Emformer model. Note that the state
             does not contain the batch dimension.
-          decoding_method:
-            The decoding method to use, currently, only greedy_search and
-            fast_beam_search are supported.
-          decoding_graph:
-            The Fsa based decoding graph for fast_beam_search.
-          decoder_out:
-            Optional. The initial decoder out corresponding to the decoder input
-            `[blank_id]*context_size`. Used only for greedy_search.
         """
         self.feature_extractor = _create_streaming_feature_extractor()
         # It contains a list of 2-D tensors representing the feature frames.
