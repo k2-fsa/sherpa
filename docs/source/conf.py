@@ -105,6 +105,7 @@ html_theme_options = {
 rst_epilog = """
 .. _BPE: https://arxiv.org/pdf/1508.07909v5.pdf
 .. _Conformer: https://arxiv.org/abs/2005.08100
+.. _ConvEmformer: https://arxiv.org/pdf/2110.05241.pdf
 .. _Emformer: https://arxiv.org/pdf/2010.10759.pdf
 .. _LibriSpeech: https://www.openslr.org/12
 .. _aishell: https://www.openslr.org/33

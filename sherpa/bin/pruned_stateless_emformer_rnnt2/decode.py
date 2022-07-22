@@ -17,6 +17,7 @@
 import math
 from typing import List, Optional
 
+import k2
 import torch
 from kaldifeat import FbankOptions, OnlineFbank, OnlineFeature
 from sherpa import Hypotheses, Hypothesis
@@ -120,7 +121,9 @@ class Stream(object):
         context_size: int,
         blank_id: int,
         initial_states: List[List[torch.Tensor]],
-        decoder_out: Optional[torch.Tensor],
+        decoding_method: str = "greedy_search",
+        decoding_graph: Optional[k2.Fsa] = None,
+        decoder_out: Optional[torch.Tensor] = None,
     ) -> None:
         """
         Args:
@@ -131,6 +134,11 @@ class Stream(object):
           initial_states:
             The initial states of the Emformer model. Note that the state
             does not contain the batch dimension.
+          decoding_method:
+            The decoding method to use, currently, only greedy_search and
+            fast_beam_search are supported.
+          decoding_graph:
+            The Fsa based decoding graph for fast_beam_search.
           decoder_out:
             Optional. The initial decoder out corresponding to the decoder input
             `[blank_id]*context_size`. Used only for greedy_search.
@@ -142,14 +150,25 @@ class Stream(object):
         self.num_fetched_frames = 0
 
         self.states = initial_states
-        self.decoder_out = decoder_out
+        self.decoding_graph = decoding_graph
 
+        if decoding_method == "fast_beam_search":
+            assert decoding_graph is not None
+            self.rnnt_decoding_stream = k2.RnntDecodingStream(decoding_graph)
+            self.hyp = []
+        elif decoding_method == "greedy_search":
+            assert decoder_out is not None
+            self.decoder_out = decoder_out
+            self.hyp = [blank_id] * context_size
+        elif decoding_method == "modified_beam_search":
+            hyp = [blank_id] * context_size
+            self.hyps = Hypotheses([Hypothesis(ys=hyp, log_prob=0.0)])
+        else:
+            raise ValueError(f"Decoding method : {decoding_method} is not supported.")
+
+        self.processed_frames = 0
         self.context_size = context_size
-        self.hyp = [blank_id] * context_size  # used only for greedy_search
         self.log_eps = math.log(1e-10)
-
-        # Used only for modified_beam_search
-        self.hyps = Hypotheses([Hypothesis(ys=self.hyp, log_prob=0.0)])
 
     def accept_waveform(
         self,

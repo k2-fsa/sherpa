@@ -43,6 +43,7 @@ RnntConformerModel::RnntConformerModel(const std::string &filename,
   decoder_proj_ = joiner_.attr("decoder_proj").toModule();
 
   blank_id_ = decoder_.attr("blank_id").toInt();
+  vocab_size_ = decoder_.attr("vocab_size").toInt();
 
   unk_id_ = blank_id_;
   if (decoder_.hasattr("unk_id")) {

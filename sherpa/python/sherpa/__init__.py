@@ -19,3 +19,5 @@ from _sherpa import (
     streaming_greedy_search,
     streaming_modified_beam_search,
 )
+
+from .decode import fast_beam_search_one_best

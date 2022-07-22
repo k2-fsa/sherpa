@@ -40,6 +40,7 @@ class RnntModel {
   virtual int32_t BlankId() const = 0;
   virtual int32_t UnkId() const = 0;
   virtual int32_t ContextSize() const = 0;
+  virtual int32_t VocabSize() const = 0;
 
   /** Run the decoder network.
    *

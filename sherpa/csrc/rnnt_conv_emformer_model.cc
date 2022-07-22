@@ -21,9 +21,9 @@
 
 namespace sherpa {
 
-RnntConvEmformerModel::RnntConvEmformerModel(const std::string &filename,
-                                     torch::Device device /*=torch::kCPU*/,
-                                     bool optimize_for_inference /*=false*/)
+RnntConvEmformerModel::RnntConvEmformerModel(
+    const std::string &filename, torch::Device device /*=torch::kCPU*/,
+    bool optimize_for_inference /*=false*/)
     : device_(device) {
   model_ = torch::jit::load(filename, device);
   model_.eval();
@@ -44,6 +44,7 @@ RnntConvEmformerModel::RnntConvEmformerModel(const std::string &filename,
   decoder_proj_ = joiner_.attr("decoder_proj").toModule();
 
   blank_id_ = decoder_.attr("blank_id").toInt();
+  vocab_size_ = decoder_.attr("vocab_size").toInt();
 
   unk_id_ = blank_id_;
   if (decoder_.hasattr("unk_id")) {
@@ -55,11 +56,11 @@ RnntConvEmformerModel::RnntConvEmformerModel(const std::string &filename,
   right_context_length_ = encoder_.attr("right_context_length").toInt();
   // Add 2 here since we will drop the first and last frame after subsampling;
   // Add 3 here since the subsampling is ((len - 1) // 2 - 1) // 2.
-  pad_length_ = right_context_length_
-                + 2 * encoder_.attr("subsampling_factor").toInt() + 3;
+  pad_length_ = right_context_length_ +
+                2 * encoder_.attr("subsampling_factor").toInt() + 3;
 }
 
-std::pair<torch::Tensor, RnntConvEmformerModel::State>
+std::tuple<torch::Tensor, torch::Tensor, RnntConvEmformerModel::State>
 RnntConvEmformerModel::StreamingForwardEncoder(
     const torch::Tensor &features, const torch::Tensor &features_length,
     const torch::Tensor &num_processed_frames, State states) {
@@ -69,19 +70,19 @@ RnntConvEmformerModel::StreamingForwardEncoder(
   // We skip the second entry `encoder_out_len` since we assume the
   // feature input are of fixed chunk size and there are no paddings.
   // We can figure out `encoder_out_len` from `encoder_out`.
-  auto states_tuple = torch::ivalue::Tuple::create(
-    states.first, states.second);
-  torch::IValue ivalue = encoder_.run_method("infer", features, features_length,
-                                             num_processed_frames,
-                                             states_tuple);
+  auto states_tuple = torch::ivalue::Tuple::create(states.first, states.second);
+  torch::IValue ivalue = encoder_.run_method(
+      "infer", features, features_length, num_processed_frames, states_tuple);
   auto tuple_ptr = ivalue.toTuple();
   torch::Tensor encoder_out = tuple_ptr->elements()[0].toTensor();
 
+  torch::Tensor encoder_out_length = tuple_ptr->elements()[1].toTensor();
+
   auto tuple_ptr_states = tuple_ptr->elements()[2].toTuple();
   torch::List<torch::IValue> list_attn =
-    tuple_ptr_states->elements()[0].toList();
+      tuple_ptr_states->elements()[0].toList();
   torch::List<torch::IValue> list_conv =
-    tuple_ptr_states->elements()[1].toList();
+      tuple_ptr_states->elements()[1].toList();
 
   int32_t num_layers = list_attn.size();
 
@@ -100,7 +101,7 @@ RnntConvEmformerModel::StreamingForwardEncoder(
 
   State next_states = {next_state_attn, next_state_conv};
 
-  return {encoder_out, next_states};
+  return {encoder_out, encoder_out_length, next_states};
 }
 
 RnntConvEmformerModel::State RnntConvEmformerModel::GetEncoderInitStates() {
@@ -136,10 +137,10 @@ torch::Tensor RnntConvEmformerModel::ForwardDecoder(
 torch::Tensor RnntConvEmformerModel::ForwardJoiner(
     const torch::Tensor &projected_encoder_out,
     const torch::Tensor &projected_decoder_out) {
-  return joiner_.run_method("forward",
-                            projected_encoder_out,
-                            projected_decoder_out,
-                           /*project_input*/ false).toTensor();
+  return joiner_
+      .run_method("forward", projected_encoder_out, projected_decoder_out,
+                  /*project_input*/ false)
+      .toTensor();
 }
 
 torch::Tensor RnntConvEmformerModel::ForwardEncoderProj(

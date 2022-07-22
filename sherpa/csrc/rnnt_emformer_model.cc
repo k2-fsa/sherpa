@@ -41,6 +41,7 @@ RnntEmformerModel::RnntEmformerModel(const std::string &filename,
   joiner_ = model_.attr("joiner").toModule();
 
   blank_id_ = decoder_.attr("blank_id").toInt();
+  vocab_size_ = decoder_.attr("vocab_size").toInt();
 
   unk_id_ = blank_id_;
   if (decoder_.hasattr("unk_id")) {
@@ -52,7 +53,7 @@ RnntEmformerModel::RnntEmformerModel(const std::string &filename,
   right_context_length_ = encoder_.attr("right_context_length").toInt();
 }
 
-std::pair<torch::Tensor, RnntEmformerModel::State>
+std::tuple<torch::Tensor, torch::Tensor, RnntEmformerModel::State>
 RnntEmformerModel::StreamingForwardEncoder(
     const torch::Tensor &features, const torch::Tensor &features_length,
     torch::optional<State> states /*= torch::nullopt*/) {
@@ -66,6 +67,7 @@ RnntEmformerModel::StreamingForwardEncoder(
                                              features_length, states);
   auto tuple_ptr = ivalue.toTuple();
   torch::Tensor encoder_out = tuple_ptr->elements()[0].toTensor();
+  torch::Tensor encoder_out_length = tuple_ptr->elements()[1].toTensor();
 
   torch::List<torch::IValue> list = tuple_ptr->elements()[2].toList();
   int32_t num_layers = list.size();
@@ -78,7 +80,7 @@ RnntEmformerModel::StreamingForwardEncoder(
         c10::impl::toTypedList<torch::Tensor>(list.get(i).toList()).vec());
   }
 
-  return {encoder_out, next_states};
+  return {encoder_out, encoder_out_length, next_states};
 }
 
 RnntEmformerModel::State RnntEmformerModel::GetEncoderInitStates() {
