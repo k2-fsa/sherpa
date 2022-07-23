@@ -9,7 +9,13 @@ from sherpa import fast_beam_search_one_best, streaming_greedy_search
 
 class FastBeamSearch:
     def __init__(
-        self, vocab_size, context_size, beam, max_states, max_contexts, device
+        self,
+        vocab_size: int,
+        context_size: int,
+        beam: int,
+        max_states: int,
+        max_contexts: int,
+        device: torch.device,
     ):
         """
         Args:
@@ -37,7 +43,7 @@ class FastBeamSearch:
         self.device = device
         self.context_size = context_size
 
-    def init_stream(self, stream: "Stream"):
+    def init_stream(self, stream: Stream):
         """
         Attributes to add to each stream
         """
@@ -50,14 +56,14 @@ class FastBeamSearch:
         server: "StreamingServer",
         stream_list: List[Stream],
     ) -> None:
-        """Run the model on the given stream list and do search with given decoding
+        """Run the model on the given stream list and do search with fast_beam_search
            method.
         Args:
           server:
             An instance of `StreamingServer`.
           stream_list:
             A list of streams to be processed. It is changed in-place.
-            That is, the attribute `states`, `decoder_out`, and `hyp` are
+            That is, the attribute `states` and `hyp` are
             updated in-place.
         """
         model = server.model
@@ -137,7 +143,7 @@ class FastBeamSearch:
             s.processed_frames += encoder_out_lens[i]
             s.hyp = next_hyp_list[i]
 
-    def get_texts(self, stream):
+    def get_texts(self, stream: Stream):
         """
         Return text after decoding
         Args:
@@ -152,7 +158,7 @@ class FastBeamSearch:
 
 
 class GreedySearch:
-    def __init__(self, model, device):
+    def __init__(self, model: "RnntConformerModel", device: torch.device):
         """
         Args:
           model:
@@ -175,7 +181,7 @@ class GreedySearch:
             initial_decoder_out.squeeze(1)
         )
 
-    def init_stream(self, stream: "Stream"):
+    def init_stream(self, stream: Stream):
         """
         Attributes to add to each stream
         """
@@ -188,14 +194,14 @@ class GreedySearch:
         server: "StreamingServer",
         stream_list: List[Stream],
     ) -> None:
-        """Run the model on the given stream list and do search with given decoding
+        """Run the model on the given stream list and do search with greedy_search
            method.
         Args:
           server:
             An instance of `StreamingServer`.
           stream_list:
             A list of streams to be processed. It is changed in-place.
-            That is, the attribute `states`, `decoder_out`, and `hyp` are
+            That is, the attribute `states` and `hyp` are
             updated in-place.
         """
         model = server.model
@@ -277,7 +283,7 @@ class GreedySearch:
             s.decoder_out = next_decoder_out_list[i]
             s.hyp = next_hyp_list[i]
 
-    def get_texts(self, stream):
+    def get_texts(self, stream: Stream):
         """
         Return text after decoding
         Args:

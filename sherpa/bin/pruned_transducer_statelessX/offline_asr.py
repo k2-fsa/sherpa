@@ -255,18 +255,6 @@ class OfflineAsr(object):
             "greedy_search",
             "modified_beam_search",
         ), decoding_method
-        # if decoding_method == "greedy_search":
-        #     nn_and_decoding_func = run_model_and_do_greedy_search
-        # elif decoding_method == "modified_beam_search":
-        #     nn_and_decoding_func = functools.partial(
-        #         run_model_and_do_modified_beam_search,
-        #         num_active_paths=num_active_paths,
-        #     )
-        # else:
-        #     raise ValueError(
-        #         f"Unsupported decoding_method: {decoding_method} "
-        #         "Please use greedy_search or modified_beam_search"
-        #     )
 
         if decoding_method == "greedy_search":
             self.beam_search = GreedySearchOffline(

@@ -27,7 +27,7 @@ LOG_EPS = math.log(1e-10)
 
 
 class GreedySearchOffline:
-    def __init__(self, model, device):
+    def __init__(self, model: "RnntConformerModel", device: torch.device):
         """
         Args:
           model:
@@ -55,7 +55,7 @@ class GreedySearchOffline:
         self,
         server: "StreamingServer",
         features: List[torch.Tensor],
-    ) -> None:
+    ) -> List[List[int]]:
         """
         Args:
           server:
@@ -97,16 +97,17 @@ class GreedySearchOffline:
 
 
 class ModifiedBeamSearchOffline:
-    def __init__(self, blank_id, context_size, num_active_paths):
+    def __init__(self, blank_id: int, context_size: int, num_active_paths: int):
         self.blank_id = blank_id
         self.context_size = context_size
         self.num_active_paths = num_active_paths
 
+    @torch.no_grad()
     def process(
         self,
         server: "StreamingServer",
         features: List[torch.Tensor],
-    ) -> None:
+    ) -> List[List[int]]:
         """Run RNN-T model with the given features and use greedy search
         to decode the output of the model.
 
