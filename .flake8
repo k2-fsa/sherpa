@@ -8,4 +8,5 @@ exclude =
   ./cmake,
   ./triton,
   ./sherpa/python/sherpa/__init__.py,
-  ./sherpa/python/sherpa/decode.py
+  ./sherpa/python/sherpa/decode.py,
+  ./sherpa/python/bin

@@ -34,20 +34,16 @@ import logging
 import math
 import warnings
 from concurrent.futures import ThreadPoolExecutor
-from typing import List, Optional, Tuple
+from typing import Optional, Tuple
 
-import k2
 import numpy as np
 import sentencepiece as spm
 import torch
 import websockets
-from decode import Stream, stack_states, unstack_states
+from beam_search import FastBeamSearch, GreedySearch
+from stream import Stream
 
-from sherpa import (
-    RnntConvEmformerModel,
-    fast_beam_search_one_best,
-    streaming_greedy_search,
-)
+from sherpa import RnntConvEmformerModel
 
 
 def get_args():
@@ -175,114 +171,6 @@ def get_args():
     return parser.parse_args()
 
 
-@torch.no_grad()
-def run_model_and_do_search(
-    server: "StreamingServer",
-    stream_list: List[Stream],
-) -> None:
-    """Run the model on the given stream list and do greedy search.
-    Args:
-      server:
-        An instance of `StreamingServer`.
-      stream_list:
-        A list of streams to be processed. It is changed in-place.
-        That is, the attribute `states`, `decoder_out`, and `hyp` are
-        updated in-place.
-    """
-    model = server.model
-    device = model.device
-    chunk_length = server.chunk_length
-    chunk_length_pad = server.chunk_length_pad
-    decoding_method = server.decoding_method
-
-    batch_size = len(stream_list)
-
-    state_list = []
-    feature_list = []
-    processed_frames_list = []
-    if decoding_method == "greedy_search":
-        decoder_out_list = []
-        hyp_list = []
-    else:
-        rnnt_decoding_streams_list = []
-        rnnt_decoding_config = server.rnnt_decoding_config
-
-    for s in stream_list:
-        if decoding_method == "greedy_search":
-            decoder_out_list.append(s.decoder_out)
-            hyp_list.append(s.hyp)
-        elif decoding_method == "fast_beam_search":
-            rnnt_decoding_streams_list.append(s.rnnt_decoding_stream)
-
-        state_list.append(s.states)
-        processed_frames_list.append(s.processed_frames)
-        f = s.features[:chunk_length_pad]
-        s.features = s.features[chunk_length:]
-        s.processed_frames += chunk_length
-
-        b = torch.cat(f, dim=0)
-        feature_list.append(b)
-
-    features = torch.stack(feature_list, dim=0).to(device)
-
-    states = stack_states(state_list)
-
-    if decoding_method == "greedy_search":
-        decoder_out = torch.cat(decoder_out_list, dim=0)
-
-    features_length = torch.full(
-        (batch_size,),
-        fill_value=features.size(1),
-        device=device,
-        dtype=torch.int64,
-    )
-
-    num_processed_frames = torch.tensor(processed_frames_list, device=device)
-
-    # fmt: off
-    (
-        encoder_out,
-        encoder_out_lens,
-        next_states,
-    ) = model.encoder_streaming_forward(
-        features=features,
-        features_length=features_length,
-        num_processed_frames=num_processed_frames,
-        states=states,
-    )
-    # fmt: on
-
-    if decoding_method == "fast_beam_search":
-        processed_lens = (num_processed_frames >> 2) + encoder_out_lens
-        next_hyp_list = fast_beam_search_one_best(
-            model=model,
-            encoder_out=encoder_out,
-            processed_lens=processed_lens,
-            rnnt_decoding_config=rnnt_decoding_config,
-            rnnt_decoding_streams_list=rnnt_decoding_streams_list,
-        )
-    else:
-        # Note: It does not return the next_encoder_out_len since
-        # there are no paddings for streaming ASR. Each stream
-        # has the same input number of frames, i.e., server.chunk_length.
-        next_decoder_out, next_hyp_list = streaming_greedy_search(
-            model=model,
-            encoder_out=encoder_out,
-            decoder_out=decoder_out,
-            hyps=hyp_list,
-        )
-
-    if decoding_method == "greedy_search":
-        next_decoder_out_list = next_decoder_out.split(1)
-
-    next_state_list = unstack_states(next_states)
-    for i, s in enumerate(stream_list):
-        s.states = next_state_list[i]
-        if decoding_method == "greedy_search":
-            s.decoder_out = next_decoder_out_list[i]
-        s.hyp = next_hyp_list[i]
-
-
 class StreamingServer(object):
     def __init__(
         self,
@@ -312,8 +200,8 @@ class StreamingServer(object):
           max_contexts:
             The max_contexts for fast_beam_search decoding.
           decoding_method:
-            The decoding method to use, can be either greedy_search or
-            fast_beam_search.
+            The decoding method to use, can be either greedy_search
+            or fast_beam_search.
           nn_pool_size:
             Number of threads for the thread pool that is responsible for
             neural network computation and decoding.
@@ -356,32 +244,27 @@ class StreamingServer(object):
         self.log_eps = math.log(1e-10)
 
         self.initial_states = self.model.get_encoder_init_states()
-        self.decoding_method = decoding_method
-
-        assert self.decoding_method in ["greedy_search", "fast_beam_search"]
-
-        self.initial_decoder_out = None
-        self.decoding_graph = None
 
         if decoding_method == "fast_beam_search":
-            self.rnnt_decoding_config = k2.RnntDecodingConfig(
+            self.beam_search = FastBeamSearch(
                 vocab_size=self.vocab_size,
-                decoder_history_len=self.context_size,
+                context_size=self.context_size,
                 beam=beam,
                 max_states=max_states,
                 max_contexts=max_contexts,
-            )
-            self.decoding_graph = k2.trivial_graph(self.vocab_size - 1, device)
-        else:
-            decoder_input = torch.tensor(
-                [[self.blank_id] * self.context_size],
                 device=device,
-                dtype=torch.int64,
             )
-            initial_decoder_out = self.model.decoder_forward(decoder_input)
-            self.initial_decoder_out = self.model.forward_decoder_proj(
-                initial_decoder_out.squeeze(1)
+        elif decoding_method == "greedy_search":
+            self.beam_search = GreedySearch(
+                self.model,
+                device,
             )
+        else:
+            raise ValueError(
+                f"Decoding method {decoding_method} is not supported."
+            )
+
+        self.beam_search.sp = self.sp
 
         self.nn_pool = ThreadPoolExecutor(
             max_workers=nn_pool_size,
@@ -424,7 +307,7 @@ class StreamingServer(object):
             loop = asyncio.get_running_loop()
             await loop.run_in_executor(
                 self.nn_pool,
-                run_model_and_do_search,
+                self.beam_search.process,
                 self,
                 stream_list,
             )
@@ -520,12 +403,10 @@ class StreamingServer(object):
 
         stream = Stream(
             context_size=self.context_size,
-            blank_id=self.blank_id,
             initial_states=self.initial_states,
-            decoding_method=self.decoding_method,
-            decoding_graph=self.decoding_graph,
-            decoder_out=self.initial_decoder_out,
         )
+
+        self.beam_search.init_stream(stream)
 
         while True:
             samples = await self.recv_audio_samples(socket)
@@ -539,7 +420,7 @@ class StreamingServer(object):
             while len(stream.features) > self.chunk_length_pad:
                 await self.compute_and_decode(stream)
                 await socket.send(
-                    f"{self.sp.decode(stream.hyp[self.context_size:])}"
+                    f"{self.beam_search.get_texts(stream)}"
                 )  # noqa
 
         stream.input_finished()
@@ -552,7 +433,7 @@ class StreamingServer(object):
             await self.compute_and_decode(stream)
             stream.features = []
 
-        result = self.sp.decode(stream.hyp[self.context_size :])  # noqa
+        result = self.beam_search.get_texts(stream)
         await socket.send(result)
         await socket.send("Done")
 
@@ -646,8 +527,8 @@ torch::jit::setGraphExecutorOptimize(false);
 """
 
 if __name__ == "__main__":
-    # fmt: off
+    # fmt:off
     formatter = "%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] %(message)s"  # noqa
-    # fmt: on
+    # fmt:on
     logging.basicConfig(format=formatter, level=logging.INFO)
     main()
