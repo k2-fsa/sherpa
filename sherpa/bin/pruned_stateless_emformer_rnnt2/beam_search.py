@@ -105,15 +105,17 @@ class FastBeamSearch:
 
         processed_frames = torch.tensor(processed_frames_list, device=device)
 
+        # fmt: off
         (
             encoder_out,
             encoder_out_lens,
             next_states,
-        ) = model.encoder_streaming_forward(  # noqa
+        ) = model.encoder_streaming_forward(
             features=features,
             features_length=features_length,
             states=states,
         )
+        # fmt: on
 
         processed_lens = processed_frames + encoder_out_lens
         next_hyp_list = fast_beam_search_one_best(
@@ -220,11 +222,7 @@ class GreedySearch:
             dtype=torch.int64,
         )
 
-        (
-            encoder_out,
-            _,
-            next_states,
-        ) = model.encoder_streaming_forward(  # noqa
+        (encoder_out, _, next_states,) = model.encoder_streaming_forward(
             features=features,
             features_length=features_length,
             states=states,
@@ -255,7 +253,7 @@ class GreedySearch:
           stream:
             Stream to be processed.
         """
-        hyp = stream.hyp[self.context_size :]  # noqa
+        hyp = stream.hyp[self.context_size :]
         return self.sp.decode(hyp)
 
 

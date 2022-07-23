@@ -288,9 +288,11 @@ class OfflineServer:
         elif decoding_method == "modified_beam_search":
             self.beam_search = ModifiedBeamSearchOffline(num_active_paths)
         else:
+            # fmt: off
             raise ValueError(
                 f"Decoding method {decoding_method} is not supported."
             )
+            # fmt: on
 
         self.num_active_paths = num_active_paths
 

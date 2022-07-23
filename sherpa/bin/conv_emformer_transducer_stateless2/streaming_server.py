@@ -260,9 +260,11 @@ class StreamingServer(object):
                 device,
             )
         else:
+            # fmt: off
             raise ValueError(
                 f"Decoding method {decoding_method} is not supported."
             )
+            # fmt: on
 
         self.beam_search.sp = self.sp
 
@@ -419,9 +421,11 @@ class StreamingServer(object):
 
             while len(stream.features) > self.chunk_length_pad:
                 await self.compute_and_decode(stream)
+                # fmt: off
                 await socket.send(
                     f"{self.beam_search.get_texts(stream)}"
-                )  # noqa
+                )
+                # fmt: on
 
         stream.input_finished()
         while len(stream.features) > self.chunk_length_pad:

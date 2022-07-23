@@ -107,6 +107,7 @@ class FastBeamSearch:
             dtype=torch.int64,
         )
 
+        # fmt: off
         processed_frames = torch.tensor(
             processed_frames_list, device=self.device
         )
@@ -123,6 +124,7 @@ class FastBeamSearch:
             left_context=left_context,
             right_context=right_context,
         )
+        # fmt: on
 
         processed_lens = processed_frames + encoder_out_lens
         next_hyp_list = fast_beam_search_one_best(
@@ -248,6 +250,7 @@ class GreedySearch:
 
         processed_frames = torch.tensor(processed_frames_list, device=device)
 
+        # fmt: off
         (
             encoder_out,
             encoder_out_lens,
@@ -260,6 +263,7 @@ class GreedySearch:
             left_context=left_context,
             right_context=right_context,
         )
+        # fmt: on
 
         # Note: It does not return the next_encoder_out_len since
         # there are no paddings for streaming ASR. Each stream
