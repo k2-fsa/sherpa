@@ -105,7 +105,6 @@ class FastBeamSearch:
 
         processed_frames = torch.tensor(processed_frames_list, device=device)
 
-        # fmt: off
         (
             encoder_out,
             encoder_out_lens,
@@ -115,7 +114,6 @@ class FastBeamSearch:
             features_length=features_length,
             states=states,
         )
-        # fmt: on
 
         processed_lens = processed_frames + encoder_out_lens
         next_hyp_list = fast_beam_search_one_best(

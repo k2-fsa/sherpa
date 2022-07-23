@@ -260,11 +260,9 @@ class StreamingServer(object):
                 device,
             )
         else:
-            # fmt: off
             raise ValueError(
                 f"Decoding method {decoding_method} is not supported."
             )
-            # fmt: on
 
         self.beam_search.sp = self.sp
 
@@ -421,11 +419,7 @@ class StreamingServer(object):
 
             while len(stream.features) > self.chunk_length_pad:
                 await self.compute_and_decode(stream)
-                # fmt: off
-                await socket.send(
-                    f"{self.beam_search.get_texts(stream)}"
-                )
-                # fmt: on
+                await socket.send(f"{self.beam_search.get_texts(stream)}")
 
         stream.input_finished()
         while len(stream.features) > self.chunk_length_pad:
@@ -531,8 +525,6 @@ torch::jit::setGraphExecutorOptimize(false);
 """
 
 if __name__ == "__main__":
-    # fmt:off
     formatter = "%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] %(message)s"  # noqa
-    # fmt:on
     logging.basicConfig(format=formatter, level=logging.INFO)
     main()

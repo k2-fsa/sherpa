@@ -277,17 +277,13 @@ class StreamingServer(object):
                 device,
             )
         elif decoding_method == "modified_beam_search":
-            # fmt: off
             self.beam_search = ModifiedBeamSearch(
                 self.blank_id, self.context_size
             )
-            # fmt: on
         else:
-            # fmt: off
             raise ValueError(
                 f"Decoding method {decoding_method} is not supported."
             )
-            # fmt: on
 
         self.beam_search.sp = self.sp
         self.num_active_paths = num_active_paths
@@ -564,8 +560,6 @@ torch::jit::setGraphExecutorOptimize(false);
 """
 
 if __name__ == "__main__":
-    # fmt:off
     formatter = "%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] %(message)s"  # noqa
-    # fmt:on
     logging.basicConfig(format=formatter, level=logging.INFO)
     main()

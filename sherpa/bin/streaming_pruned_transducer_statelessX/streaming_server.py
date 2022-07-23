@@ -325,21 +325,17 @@ class StreamingServer(object):
                 device,
             )
         else:
-            # fmt: off
             raise ValueError(
                 f"Decoding method {decoding_method} is not supported."
             )
-            # fmt: on
 
         if bpe_model_filename:
             self.beam_search.sp = spm.SentencePieceProcessor()
             self.beam_search.sp.load(bpe_model_filename)
         else:
-            # fmt: off
             self.beam_search.token_table = k2.SymbolTable.from_file(
                 token_filename
             )
-            # fmt: on
 
         self.nn_pool = ThreadPoolExecutor(
             max_workers=nn_pool_size,
@@ -608,8 +604,6 @@ torch::jit::setGraphExecutorOptimize(false);
 """
 
 if __name__ == "__main__":
-    # fmt:off
     formatter = "%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] %(message)s"  # noqa
-    # fmt:on
     logging.basicConfig(format=formatter, level=logging.INFO)
     main()

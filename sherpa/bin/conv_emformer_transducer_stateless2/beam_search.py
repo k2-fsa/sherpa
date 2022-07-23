@@ -103,7 +103,6 @@ class FastBeamSearch:
             device=device,
         )
 
-        # fmt: off
         (
             encoder_out,
             encoder_out_lens,
@@ -114,7 +113,6 @@ class FastBeamSearch:
             num_processed_frames=num_processed_frames,
             states=states,
         )
-        # fmt: on
 
         processed_lens = (num_processed_frames >> 2) + encoder_out_lens
         next_hyp_list = fast_beam_search_one_best(
@@ -225,7 +223,6 @@ class GreedySearch:
             device=device,
         )
 
-        # fmt: off
         (
             encoder_out,
             encoder_out_lens,
@@ -236,7 +233,6 @@ class GreedySearch:
             num_processed_frames=num_processed_frames,
             states=states,
         )
-        # fmt: on
 
         # Note: It does not return the next_encoder_out_len since
         # there are no paddings for streaming ASR. Each stream
