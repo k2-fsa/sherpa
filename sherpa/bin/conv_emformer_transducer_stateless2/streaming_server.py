@@ -239,12 +239,18 @@ def run_model_and_do_search(
 
     num_processed_frames = torch.tensor(processed_frames_list, device=device)
 
-    (encoder_out, encoder_out_lens, next_states) = model.encoder_streaming_forward(
+    # fmt: off
+    (
+        encoder_out,
+        encoder_out_lens,
+        next_states,
+    ) = model.encoder_streaming_forward(
         features=features,
         features_length=features_length,
         num_processed_frames=num_processed_frames,
         states=states,
     )
+    # fmt: on
 
     if decoding_method == "fast_beam_search":
         processed_lens = (num_processed_frames >> 2) + encoder_out_lens
@@ -306,7 +312,8 @@ class StreamingServer(object):
           max_contexts:
             The max_contexts for fast_beam_search decoding.
           decoding_method:
-            The decoding method to use, can be either greedy_search or fast_beam_search.
+            The decoding method to use, can be either greedy_search or
+            fast_beam_search.
           nn_pool_size:
             Number of threads for the thread pool that is responsible for
             neural network computation and decoding.
@@ -639,8 +646,8 @@ torch::jit::setGraphExecutorOptimize(false);
 """
 
 if __name__ == "__main__":
-    formatter = (
-        "%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] %(message)s"  # noqa
-    )
+    # fmt: off
+    formatter = "%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] %(message)s"  # noqa
+    # fmt: on
     logging.basicConfig(format=formatter, level=logging.INFO)
     main()

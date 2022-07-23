@@ -35,7 +35,7 @@ import websockets
 from icefall.utils import store_transcripts, write_error_stats
 from lhotse import CutSet, load_manifest
 
-DEFAULT_MANIFEST_FILENAME = "/ceph-fj/fangjun/open-source/icefall-tdnnf/egs/librispeech/ASR/data/fbank/librispeech_cuts_test-clean.jsonl.gz"
+DEFAULT_MANIFEST_FILENAME = "/ceph-fj/fangjun/open-source/icefall-tdnnf/egs/librispeech/ASR/data/fbank/librispeech_cuts_test-clean.jsonl.gz"  # noqa
 
 
 def get_args():
@@ -112,7 +112,7 @@ async def send(
 
             await websocket.send((num_bytes).to_bytes(8, "little", signed=True))
 
-            frame_size = (2**20) // 4  # max payload is 1MB
+            frame_size = (2 ** 20) // 4  # max payload is 1MB
             start = 0
             while start < samples.size:
                 end = start + frame_size
