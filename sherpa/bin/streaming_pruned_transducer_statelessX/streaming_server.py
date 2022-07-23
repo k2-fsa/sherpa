@@ -77,10 +77,10 @@ def get_args():
     parser.add_argument(
         "--bpe-model-filename",
         type=str,
-        required=True,
         help="""The BPE model
         You can find it in the directory egs/librispeech/ASR/data/lang_bpe_xxx
         where xxx is the number of BPE tokens you used to train the model.
+        Note: You don't need to provide it if you provide `--token-filename`.
         """,
     )
 

@@ -118,3 +118,4 @@ jobs:
           python3 setup.py install
 
           python3 -c "import sherpa; print(sherpa.__version__)"
+          # We only tests that it compiles successfully on Windows with CUDA support

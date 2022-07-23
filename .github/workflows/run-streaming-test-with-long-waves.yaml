@@ -30,11 +30,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-18.04, macos-10.15]
+        os: [ubuntu-18.04]
         torch: ["1.10.0", "1.6.0"]
         torchaudio: ["0.10.0", "0.6.0"]
-        python-version: ["3.7", "3.8", "3.9"]
-        decoding: ["greedy_search", "modified_beam_search"]
+        python-version: ["3.8"]
+        decoding: ["greedy_search", "modified_beam_search", "fast_beam_search"]
         exclude:
           - torch: "1.10.0"
             torchaudio: "0.6.0"
@@ -147,18 +147,18 @@ jobs:
             --server-port 6006 \
             ./sherpa-long-audio-test-data/10-minutes.wav
 
-      - name: Start client (20-minutes.wav)
-        shell: bash
-        run: |
-          ./sherpa/bin/pruned_stateless_emformer_rnnt2/streaming_client.py \
-            --server-addr localhost \
-            --server-port 6006 \
-            ./sherpa-long-audio-test-data/20-minutes.wav
-
-      - name: Start client (30-minutes.wav)
-        shell: bash
-        run: |
-          ./sherpa/bin/pruned_stateless_emformer_rnnt2/streaming_client.py \
-            --server-addr localhost \
-            --server-port 6006 \
-            ./sherpa-long-audio-test-data/30-minutes.wav
+      # - name: Start client (20-minutes.wav)
+      #   shell: bash
+      #   run: |
+      #     ./sherpa/bin/pruned_stateless_emformer_rnnt2/streaming_client.py \
+      #       --server-addr localhost \
+      #       --server-port 6006 \
+      #       ./sherpa-long-audio-test-data/20-minutes.wav
+      #
+      # - name: Start client (30-minutes.wav)
+      #   shell: bash
+      #   run: |
+      #     ./sherpa/bin/pruned_stateless_emformer_rnnt2/streaming_client.py \
+      #       --server-addr localhost \
+      #       --server-port 6006 \
+      #       ./sherpa-long-audio-test-data/30-minutes.wav

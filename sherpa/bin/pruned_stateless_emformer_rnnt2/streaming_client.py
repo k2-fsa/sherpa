@@ -31,7 +31,6 @@ import argparse
 import asyncio
 import http
 import logging
-from typing import List
 
 import torchaudio
 import websockets
@@ -82,33 +81,32 @@ async def receive_results(socket: websockets.WebSocketServerProtocol):
     return partial_result
 
 
-async def run(server_addr: str, server_port: int, test_wavs: List[str]):
-    for test_wav in test_wavs:
-        async with websockets.connect(
-            f"ws://{server_addr}:{server_port}"
-        ) as websocket:  # noqa
-            logging.info(f"Sending {test_wav}")
-            wave, sample_rate = torchaudio.load(test_wav)
-            assert sample_rate == 16000, sample_rate
+async def run(server_addr: str, server_port: int, test_wav: str):
+    async with websockets.connect(
+        f"ws://{server_addr}:{server_port}"
+    ) as websocket:  # noqa
+        logging.info(f"Sending {test_wav}")
+        wave, sample_rate = torchaudio.load(test_wav)
+        assert sample_rate == 16000, sample_rate
 
-            wave = wave.squeeze(0)
-            receive_task = asyncio.create_task(receive_results(websocket))
+        wave = wave.squeeze(0)
+        receive_task = asyncio.create_task(receive_results(websocket))
 
-            frame_size = 4096
-            sleep_time = frame_size / sample_rate  # in seconds
-            start = 0
-            while start < wave.numel():
-                end = start + min(frame_size, wave.numel() - start)
-                d = wave.numpy().data[start:end]
+        frame_size = 4096
+        sleep_time = frame_size / sample_rate  # in seconds
+        start = 0
+        while start < wave.numel():
+            end = start + min(frame_size, wave.numel() - start)
+            d = wave.numpy().data[start:end]
 
-                await websocket.send(d)
-                await asyncio.sleep(sleep_time)  # in seconds
+            await websocket.send(d)
+            await asyncio.sleep(sleep_time)  # in seconds
 
-                start += frame_size
+            start += frame_size
 
-            await websocket.send(b"Done")
-            decoding_results = await receive_task
-            logging.info(f"{test_wav}\n{decoding_results}")
+        await websocket.send(b"Done")
+        decoding_results = await receive_task
+        logging.info(f"{test_wav}\n{decoding_results}")
 
 
 async def main():
@@ -119,25 +117,26 @@ async def main():
     server_port = args.server_port
 
     max_retry_count = 5
-    count = 0
-    while count < max_retry_count:
-        count += 1
-        try:
-            await run(server_addr, server_port, args.sound_files)
-            break
-        except websockets.exceptions.InvalidStatusCode as e:
-            print(e.status_code)
-            print(http.client.responses[e.status_code])
-            print(e.headers)
+    for sound_file in args.sound_files:
+        count = 0
+        while count < max_retry_count:
+            count += 1
+            try:
+                await run(server_addr, server_port, sound_file)
+                break
+            except websockets.exceptions.InvalidStatusCode as e:
+                print(e.status_code)
+                print(http.client.responses[e.status_code])
+                print(e.headers)
 
-            if e.status_code != http.HTTPStatus.SERVICE_UNAVAILABLE:
-                raise
-            await asyncio.sleep(2)
-        except:  # noqa
-            raise
+                if e.status_code != http.HTTPStatus.SERVICE_UNAVAILABLE:
+                    raise
+                await asyncio.sleep(2)
 
 
 if __name__ == "__main__":
+    # fmt: off
     formatter = "%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] %(message)s"  # noqa
+    # fmt: on
     logging.basicConfig(format=formatter, level=logging.INFO)
     asyncio.run(main())

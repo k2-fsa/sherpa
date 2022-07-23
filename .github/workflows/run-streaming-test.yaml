@@ -137,4 +137,6 @@ jobs:
           ./sherpa/bin/pruned_stateless_emformer_rnnt2/streaming_client.py \
             --server-addr localhost \
             --server-port 6006 \
-            ./icefall-asr-librispeech-pruned-stateless-emformer-rnnt2-2022-06-01/test_wavs/1221-135766-0001.wav
+            ./icefall-asr-librispeech-pruned-stateless-emformer-rnnt2-2022-06-01/test_wavs/1089-134686-0001.wav \
+            ./icefall-asr-librispeech-pruned-stateless-emformer-rnnt2-2022-06-01/test_wavs/1221-135766-0001.wav \
+            ./icefall-asr-librispeech-pruned-stateless-emformer-rnnt2-2022-06-01/test_wavs/1221-135766-0002.wav
