@@ -419,9 +419,7 @@ class StreamingServer(object):
 
             while len(stream.features) > self.chunk_length_pad:
                 await self.compute_and_decode(stream)
-                await socket.send(
-                    f"{self.beam_search.get_texts(stream)}"
-                )  # noqa
+                await socket.send(f"{self.beam_search.get_texts(stream)}")
 
         stream.input_finished()
         while len(stream.features) > self.chunk_length_pad:
@@ -527,8 +525,6 @@ torch::jit::setGraphExecutorOptimize(false);
 """
 
 if __name__ == "__main__":
-    # fmt:off
     formatter = "%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] %(message)s"  # noqa
-    # fmt:on
     logging.basicConfig(format=formatter, level=logging.INFO)
     main()

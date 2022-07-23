@@ -99,7 +99,8 @@ class FastBeamSearch:
         )
 
         num_processed_frames = torch.tensor(
-            processed_frames_list, device=device
+            processed_frames_list,
+            device=device,
         )
 
         (
@@ -218,7 +219,8 @@ class GreedySearch:
         )
 
         num_processed_frames = torch.tensor(
-            processed_frames_list, device=device
+            processed_frames_list,
+            device=device,
         )
 
         (

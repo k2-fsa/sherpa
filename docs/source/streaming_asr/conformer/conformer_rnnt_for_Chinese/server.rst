@@ -19,7 +19,7 @@ Usage
 .. code-block::
 
    cd /path/to/sherpa
-   ./sherpa/bin/streaming_conformer_rnnt/streaming_server.py --help
+   ./sherpa/bin/streaming_pruned_transducer_statelessX/streaming_server.py --help
 
 shows the usage message.
 
@@ -51,7 +51,7 @@ The following shows you how to start the server with the above pretrained model.
     git lfs install
     git clone https://huggingface.co/luomingshuang/icefall_asr_wenetspeech_pruned_transducer_stateless5_streaming
 
-    ./sherpa/bin/streaming_conformer_rnnt/streaming_server.py \
+    ./sherpa/bin/streaming_pruned_transducer_statelessX/streaming_server.py \
       --port 6006 \
       --max-batch-size 50 \
       --max-wait-ms 5 \

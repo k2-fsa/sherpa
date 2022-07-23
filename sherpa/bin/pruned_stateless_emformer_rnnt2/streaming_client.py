@@ -135,8 +135,6 @@ async def main():
 
 
 if __name__ == "__main__":
-    # fmt: off
     formatter = "%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] %(message)s"  # noqa
-    # fmt: on
     logging.basicConfig(format=formatter, level=logging.INFO)
     asyncio.run(main())
