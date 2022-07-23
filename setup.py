@@ -8,7 +8,11 @@ import setuptools
 from cmake.cmake_extension import BuildExtension, bdist_wheel, cmake_extension
 
 if sys.version_info < (3,):
-    print("Python 2 has reached end-of-life and is no longer supported by sherpa.")
+    # fmt: off
+    print(
+        "Python 2 has reached end-of-life and is no longer supported by sherpa."
+    )
+    # fmt: on
     sys.exit(-1)
 
 if sys.version_info < (3, 7):
