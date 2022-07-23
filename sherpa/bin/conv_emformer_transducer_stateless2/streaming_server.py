@@ -247,12 +247,12 @@ class StreamingServer(object):
 
         if decoding_method == "fast_beam_search":
             self.beam_search = FastBeamSearch(
-                self.vocab_size,
-                self.context_size,
-                beam,
-                max_states,
-                max_contexts,
-                device,
+                vocab_size=self.vocab_size,
+                context_size=self.context_size,
+                beam=beam,
+                max_states=max_states,
+                max_contexts=max_contexts,
+                device=device,
             )
         elif decoding_method == "greedy_search":
             self.beam_search = GreedySearch(
@@ -527,8 +527,8 @@ torch::jit::setGraphExecutorOptimize(false);
 """
 
 if __name__ == "__main__":
-    # fmt: off
+    # fmt:off
     formatter = "%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] %(message)s"  # noqa
-    # fmt: on
+    # fmt:on
     logging.basicConfig(format=formatter, level=logging.INFO)
     main()
