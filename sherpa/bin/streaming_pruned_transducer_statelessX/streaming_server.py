@@ -77,10 +77,10 @@ def get_args():
     parser.add_argument(
         "--bpe-model-filename",
         type=str,
-        required=True,
         help="""The BPE model
         You can find it in the directory egs/librispeech/ASR/data/lang_bpe_xxx
         where xxx is the number of BPE tokens you used to train the model.
+        Note: You don't need to provide it if you provide `--token-filename`.
         """,
     )
 
@@ -89,10 +89,10 @@ def get_args():
         type=str,
         help="""Filename for tokens.txt
         For instance, you can find it in the directory
-	    egs/aishell/ASR/data/lang_char/tokens.txt
-	    or
-	    egs/wenetspeech/ASR/data/lang_char/tokens.txt
-	    from icefall
+        egs/aishell/ASR/data/lang_char/tokens.txt
+        or
+        egs/wenetspeech/ASR/data/lang_char/tokens.txt
+        from icefall
         Note: You don't need to provide it if you provide `--bpe-model`
         """,
     )
@@ -108,14 +108,16 @@ def get_args():
         "--decode-left-context",
         type=int,
         default=32,
-        help="left context can be seen during decoding (in frames after subsampling)",
+        help="""left context can be seen during decoding
+        (in frames after subsampling)""",
     )
 
     parser.add_argument(
         "--decode-right-context",
         type=int,
         default=2,
-        help="right context can be seen during decoding (in frames after subsampling)",
+        help="""right context can be seen during decoding
+        (in frames after subsampling)""",
     )
 
     parser.add_argument(
@@ -257,7 +259,7 @@ def run_model_and_do_search(
         state_list.append(s.states)
         processed_frames_list.append(s.processed_frames)
         f = s.features[:chunk_length]
-        s.features = s.features[chunk_size * subsampling_factor :]
+        s.features = s.features[chunk_size * subsampling_factor :]  # noqa
         b = torch.cat(f, dim=0)
         feature_list.append(b)
 
@@ -280,7 +282,12 @@ def run_model_and_do_search(
 
     processed_frames = torch.tensor(processed_frames_list, device=device)
 
-    (encoder_out, encoder_out_lens, next_states,) = model.encoder_streaming_forward(
+    # fmt: off
+    (
+        encoder_out,
+        encoder_out_lens,
+        next_states,
+    ) = model.encoder_streaming_forward(
         features=features,
         features_length=features_length,
         states=states,
@@ -288,6 +295,7 @@ def run_model_and_do_search(
         left_context=left_context,
         right_context=right_context,
     )
+    # fmt: on
 
     if decoding_method == "fast_beam_search":
         processed_lens = processed_frames + encoder_out_lens
@@ -368,7 +376,8 @@ class StreamingServer(object):
           max_contexts:
             The max_contexts for fast_beam_search decoding.
           decoding_method:
-            The decoding method to use, can be either greedy_search or fast_beam_search.
+            The decoding method to use, can be either greedy_search or
+            fast_beam_search.
           nn_pool_size:
             Number of threads for the thread pool that is responsible for
             neural network computation and decoding.
@@ -448,7 +457,11 @@ class StreamingServer(object):
                 initial_decoder_out.squeeze(1)
             )
         else:
-            raise ValueError(f"Decoding method {decoding_method} is not supported.")
+            # fmt: off
+            raise ValueError(
+                f"Decoding method {decoding_method} is not supported."
+            )
+            # fmt: on
 
         self.nn_pool = ThreadPoolExecutor(
             max_workers=nn_pool_size,
@@ -606,23 +619,28 @@ class StreamingServer(object):
                 await self.compute_and_decode(stream)
                 if self.decoding_method == "greedy_search":
                     if hasattr(self, "sp"):
-                        result = self.sp.decode(stream.hyp[self.context_size :]) # noqa
+                        # fmt: off
+                        result = self.sp.decode(
+                            stream.hyp[self.context_size :] # noqa
+                        )
+                        # fmt: on
                     else:
+                        # fmt: off
                         result = [
-                            self.token_table[i] for i in stream.hyp[self.context_size :]
-                        ]  # noqa
+                            self.token_table[i]
+                            for i in stream.hyp[self.context_size :] # noqa
+                        ]
+                        # fmt: on
                     await socket.send(result)
                 elif self.decoding_method == "fast_beam_search":
                     if hasattr(self, "sp"):
                         result = self.sp.decode(stream.hyp)
                     else:
-                        result = [
-                            self.token_table[i] for i in stream.hyp
-                        ]
-                    await socket.send(result) 
+                        result = [self.token_table[i] for i in stream.hyp]
+                    await socket.send(result)
                 else:
                     raise ValueError(
-                        f"Decoding method {self.decoding_method} is not supported."
+                        f"Decoding method {self.decoding_method} is not supported."  # noqa
                     )
 
         stream.input_finished()
@@ -637,21 +655,22 @@ class StreamingServer(object):
 
         if self.decoding_method == "greedy_search":
             if hasattr(self, "sp"):
-                result = self.sp.decode(stream.hyp[self.context_size :]) # noqa
+                result = self.sp.decode(stream.hyp[self.context_size :])  # noqa
             else:
+                # fmt: off
                 result = [
-                    self.token_table[i] for i in stream.hyp[self.context_size :]
-                ]  # noqa
+                    self.token_table[i]
+                    for i in stream.hyp[self.context_size :]  # noqa
+                ]
+                # fmt: on
             await socket.send(result)
             await socket.send("Done")
         elif self.decoding_method == "fast_beam_search":
             if hasattr(self, "sp"):
                 result = self.sp.decode(stream.hyp)
             else:
-                result = [
-                    self.token_table[i] for i in stream.hyp
-                ]
-            await socket.send(result) 
+                result = [self.token_table[i] for i in stream.hyp]
+            await socket.send(result)
             await socket.send("Done")
         else:
             raise ValueError(
@@ -756,8 +775,8 @@ torch::jit::setGraphExecutorOptimize(false);
 """
 
 if __name__ == "__main__":
-    formatter = (
-        "%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] %(message)s"  # noqa
-    )
+    # fmt: off
+    formatter = "%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] %(message)s"  # noqa
+    # fmt: on
     logging.basicConfig(format=formatter, level=logging.INFO)
     main()

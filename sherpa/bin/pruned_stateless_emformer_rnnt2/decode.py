@@ -20,6 +20,7 @@ from typing import List, Optional
 import k2
 import torch
 from kaldifeat import FbankOptions, OnlineFbank, OnlineFeature
+
 from sherpa import Hypotheses, Hypothesis
 
 
@@ -164,7 +165,11 @@ class Stream(object):
             hyp = [blank_id] * context_size
             self.hyps = Hypotheses([Hypothesis(ys=hyp, log_prob=0.0)])
         else:
-            raise ValueError(f"Decoding method : {decoding_method} is not supported.")
+            # fmt: off
+            raise ValueError(
+                f"Decoding method : {decoding_method} is not supported."
+            )
+            # fmt: on
 
         self.processed_frames = 0
         self.context_size = context_size

@@ -41,14 +41,14 @@ import numpy as np
 import sentencepiece as spm
 import torch
 import websockets
+from decode import Stream, stack_states, unstack_states
+
 from sherpa import (
     RnntEmformerModel,
+    fast_beam_search_one_best,
     streaming_greedy_search,
     streaming_modified_beam_search,
-    fast_beam_search_one_best,
 )
-
-from decode import Stream, stack_states, unstack_states
 
 
 def get_args():
@@ -204,7 +204,6 @@ def run_model_and_do_greedy_search(
     device = model.device
     segment_length = server.segment_length
     chunk_length = server.chunk_length
-    decoding_method = server.decoding_method
 
     batch_size = len(stream_list)
 
@@ -285,7 +284,6 @@ def run_model_and_do_fast_beam_search(
     device = model.device
     segment_length = server.segment_length
     chunk_length = server.chunk_length
-    decoding_method = server.decoding_method
 
     batch_size = len(stream_list)
 
@@ -681,7 +679,11 @@ class StreamingServer(object):
             elif self.decoding_method == "fast_beam_search":
                 hyp = stream.hyp
             else:
-                raise ValueError("Unsupported method " f"{self.decoding_method}")
+                # fmt: off
+                raise ValueError(
+                    "Unsupported method " f"{self.decoding_method}"
+                )
+                # fmt: on
 
             await socket.send(f"{self.sp.decode(hyp)}")
 
@@ -814,8 +816,8 @@ torch::jit::setGraphExecutorOptimize(false);
 """
 
 if __name__ == "__main__":
-    formatter = (
-        "%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] %(message)s"  # noqa
-    )
+    # fmt: off
+    formatter = "%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] %(message)s"  # noqa
+    # fmt: on
     logging.basicConfig(format=formatter, level=logging.INFO)
     main()

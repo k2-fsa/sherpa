@@ -110,7 +110,10 @@ def stack_states(
             for si, s in enumerate(layer):
                 attn_caches[li][si].append(s)
                 if b == batch_size - 1:
-                    attn_caches[li][si] = torch.stack(attn_caches[li][si], dim=1)
+                    attn_caches[li][si] = torch.stack(
+                        attn_caches[li][si],
+                        dim=1,
+                    )
 
     conv_caches = []
     for layer in state_list[0][1]:
@@ -193,7 +196,11 @@ class Stream(object):
             self.decoder_out = decoder_out
             self.hyp = [blank_id] * context_size
         else:
-            raise ValueError(f"Decoding method : {decoding_method} is not supported.")
+            # fmt: off
+            raise ValueError(
+                f"Decoding method {decoding_method} is not supported."
+            )
+            # fmt: on
 
         self.processed_frames = 0
         self.context_size = context_size

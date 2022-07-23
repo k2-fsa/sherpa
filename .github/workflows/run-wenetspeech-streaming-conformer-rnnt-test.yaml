@@ -30,7 +30,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-18.04, macos-10.15]
+        os: [ubuntu-18.04, macos-latest]
         torch: ["1.11.0", "1.7.1"]
         torchaudio: ["0.11.0", "0.7.2"]
         python-version: ["3.7", "3.8"]
@@ -123,4 +123,6 @@ jobs:
           ./sherpa/bin/streaming_pruned_transducer_statelessX/streaming_client.py \
             --server-addr localhost \
             --server-port 6006 \
-            ./icefall_asr_wenetspeech_pruned_transducer_stateless5_streaming/test_wavs/DEV_T0000000001.wav
+            ./icefall_asr_wenetspeech_pruned_transducer_stateless5_streaming/test_wavs/DEV_T0000000000.wav \
+            ./icefall_asr_wenetspeech_pruned_transducer_stateless5_streaming/test_wavs/DEV_T0000000001.wav \
+            ./icefall_asr_wenetspeech_pruned_transducer_stateless5_streaming/test_wavs/DEV_T0000000002.wav

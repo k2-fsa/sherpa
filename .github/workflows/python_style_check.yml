@@ -61,4 +61,4 @@ jobs:
         shell: bash
         working-directory: ${{github.workspace}}
         run: |
-          black --check --diff .
+          black --check --exclude triton --diff .
