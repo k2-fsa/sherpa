@@ -5,6 +5,7 @@ max-line-length = 80
 
 exclude =
   .git,
+  ./cmake,
   ./triton,
   ./sherpa/python/sherpa/__init__.py,
   ./sherpa/python/sherpa/decode.py
