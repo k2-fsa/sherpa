@@ -111,6 +111,7 @@ def get_args():
     parser.add_argument(
         "--nn-model-filename",
         type=str,
+        required=True,
         help="""The torchscript model. You can use
           icefall/egs/librispeech/ASR/pruned_transducer_statelessX/export.py \
              --jit=1
@@ -610,10 +611,21 @@ def main():
         assert num_active_paths >= 1, num_active_paths
 
     if bpe_model_filename:
-        assert token_filename is None
+        assert token_filename is None, (
+            "You need to provide either --bpe-model-filename or "
+            "--token-filename parameter. But not both."
+        )
 
     if token_filename:
-        assert bpe_model_filename is None
+        assert bpe_model_filename is None, (
+            "You need to provide either --bpe-model-filename or "
+            "--token-filename parameter. But not both."
+        )
+
+    assert bpe_model_filename or token_filename, (
+        "You need to provide either --bpe-model-filename or "
+        "--token-filename parameter. But not both."
+    )
 
     offline_server = OfflineServer(
         nn_model_filename=nn_model_filename,
@@ -655,8 +667,9 @@ torch::jit::setGraphExecutorOptimize(false);
 
 if __name__ == "__main__":
     torch.manual_seed(20220519)
-
+    # fmt: off
     formatter = "%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] %(message)s"  # noqa
+    # fmt: on
     logging.basicConfig(format=formatter, level=logging.INFO)
 
     main()

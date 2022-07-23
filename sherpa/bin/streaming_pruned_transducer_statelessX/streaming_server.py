@@ -63,6 +63,7 @@ def get_args():
     parser.add_argument(
         "--nn-model-filename",
         type=str,
+        required=True,
         help="""The torchscript model. You can use
           icefall/egs/librispeech/ASR/pruned_transducer_statelessX/export.py \
                   --jit=1
@@ -76,6 +77,7 @@ def get_args():
         help="""The BPE model
         You can find it in the directory egs/librispeech/ASR/data/lang_bpe_xxx
         where xxx is the number of BPE tokens you used to train the model.
+        Note: You don't need to provide it if you provide `--token-filename`.
         """,
     )
 
@@ -84,8 +86,10 @@ def get_args():
         type=str,
         help="""Filename for tokens.txt
         For instance, you can find it in the directory
-        egs/aishell/ASR/data/lang_char/tokens.txt or
-        egs/wenetspeech/ASR/data/lang_char/tokens.txt from icefall
+        egs/aishell/ASR/data/lang_char/tokens.txt
+        or
+        egs/wenetspeech/ASR/data/lang_char/tokens.txt
+        from icefall
         Note: You don't need to provide it if you provide `--bpe-model`
         """,
     )
@@ -600,6 +604,8 @@ torch::jit::setGraphExecutorOptimize(false);
 """
 
 if __name__ == "__main__":
+    # fmt: off
     formatter = "%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] %(message)s"  # noqa
+    # fmt: on
     logging.basicConfig(format=formatter, level=logging.INFO)
     main()

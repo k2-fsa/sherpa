@@ -110,7 +110,8 @@ def stack_states(
                 attn_caches[li][si].append(s)
                 if b == batch_size - 1:
                     attn_caches[li][si] = torch.stack(
-                        attn_caches[li][si], dim=1
+                        attn_caches[li][si],
+                        dim=1,
                     )
 
     conv_caches = []
@@ -169,7 +170,6 @@ class Stream(object):
         self.num_fetched_frames = 0
 
         self.states = initial_states
-
         self.processed_frames = 0
         self.context_size = context_size
         self.log_eps = math.log(1e-10)

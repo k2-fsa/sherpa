@@ -83,7 +83,7 @@ Note: We provide pre-trained models for testing.
       $wav1 \
       $wav2 \
       $wav3
-"""
+"""  # noqa
 import argparse
 import logging
 from typing import List, Optional, Union
@@ -106,6 +106,7 @@ def get_args():
     parser.add_argument(
         "--nn-model-filename",
         type=str,
+        required=True,
         help="""The torchscript model. You can use
           icefall/egs/librispeech/ASR/pruned_transducer_statelessX/export.py \
              --jit=1
@@ -191,10 +192,12 @@ def read_sound_files(
     ans = []
     for f in filenames:
         wave, sample_rate = torchaudio.load(f)
+        # fmt: off
         assert sample_rate == expected_sample_rate, (
             f"expected sample rate: {expected_sample_rate}. "
             f"Given: {sample_rate}"
         )
+        # fmt: on
         # We use only the first channel
         ans.append(wave[0])
     return ans
@@ -352,10 +355,21 @@ def main():
         assert num_active_paths >= 1, num_active_paths
 
     if bpe_model_filename:
-        assert token_filename is None
+        assert token_filename is None, (
+            "You need to provide either --bpe-model-filename or "
+            "--token-filename parameter. But not both."
+        )
 
     if token_filename:
-        assert bpe_model_filename is None
+        assert bpe_model_filename is None, (
+            "You need to provide either --bpe-model-filename or "
+            "--token-filename parameter. But not both."
+        )
+
+    assert bpe_model_filename or token_filename, (
+        "You need to provide either --bpe-model-filename or "
+        "--token-filename parameter. But not both."
+    )
 
     device = torch.device("cpu")
     if torch.cuda.is_available():
@@ -412,8 +426,9 @@ torch::jit::setGraphExecutorOptimize(false);
 
 if __name__ == "__main__":
     torch.manual_seed(20220609)
-
+    # fmt: off
     formatter = "%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] %(message)s"  # noqa
+    # fmt: on
     logging.basicConfig(format=formatter, level=logging.INFO)
 
     main()

@@ -22,7 +22,8 @@ Usage:
     ./streaming_client.py \
       --server-addr localhost \
       --server-port 6006 \
-      /path/to/foo.wav
+      /path/to/foo.wav \
+      /path/to/bar.wav
 
 (Note: You have to first start the server before starting the client)
 """
@@ -55,9 +56,10 @@ def get_args():
     )
 
     parser.add_argument(
-        "sound_file",
+        "sound_files",
         type=str,
-        help="The input sound file to transcribe. "
+        nargs="+",
+        help="The input sound file(s) to transcribe. "
         "Supported formats are those supported by torchaudio.load(). "
         "For example, wav and flac are supported. "
         "The sample rate has to be 16kHz.",
@@ -87,57 +89,54 @@ async def run(server_addr: str, server_port: int, test_wav: str):
         wave, sample_rate = torchaudio.load(test_wav)
         assert sample_rate == 16000, sample_rate
 
+        wave = wave.squeeze(0)
         receive_task = asyncio.create_task(receive_results(websocket))
 
-        wave = wave.squeeze(0)
-
-        chunk_size = 4096
-        sleep_time = chunk_size / sample_rate  # in seconds
+        frame_size = 4096
+        sleep_time = frame_size / sample_rate  # in seconds
         start = 0
         while start < wave.numel():
-            end = start + chunk_size
+            end = start + min(frame_size, wave.numel() - start)
             d = wave.numpy().data[start:end]
 
             await websocket.send(d)
             await asyncio.sleep(sleep_time)  # in seconds
 
-            start = end
+            start += frame_size
 
         await websocket.send(b"Done")
-
         decoding_results = await receive_task
         logging.info(f"{test_wav}\n{decoding_results}")
 
 
 async def main():
     args = get_args()
+    assert len(args.sound_files) > 0, "Empty sound files"
 
     server_addr = args.server_addr
     server_port = args.server_port
-    test_wav = args.sound_file
 
     max_retry_count = 5
-    count = 0
-    while count < max_retry_count:
-        count += 1
-        try:
-            await run(server_addr, server_port, test_wav)
-            break
-        except websockets.exceptions.InvalidStatusCode as e:
-            print(e.status_code)
-            print(http.client.responses[e.status_code])
-            print(e.headers)
+    for sound_file in args.sound_files:
+        count = 0
+        while count < max_retry_count:
+            count += 1
+            try:
+                await run(server_addr, server_port, sound_file)
+                break
+            except websockets.exceptions.InvalidStatusCode as e:
+                print(e.status_code)
+                print(http.client.responses[e.status_code])
+                print(e.headers)
 
-            if e.status_code != http.HTTPStatus.SERVICE_UNAVAILABLE:
-                raise
-            await asyncio.sleep(2)
-        except:  # noqa
-            raise
+                if e.status_code != http.HTTPStatus.SERVICE_UNAVAILABLE:
+                    raise
+                await asyncio.sleep(2)
 
 
 if __name__ == "__main__":
-    formatter = (
-        "%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] %(message)s"  # noqa
-    )
+    # fmt: off
+    formatter = "%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] %(message)s"  # noqa
+    # fmt: on
     logging.basicConfig(format=formatter, level=logging.INFO)
     asyncio.run(main())

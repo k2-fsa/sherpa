@@ -134,7 +134,6 @@ class Stream(object):
         self.num_fetched_frames = 0
 
         self.states = initial_states
-
         self.processed_frames = 0
         self.context_size = context_size
         self.log_eps = math.log(1e-10)

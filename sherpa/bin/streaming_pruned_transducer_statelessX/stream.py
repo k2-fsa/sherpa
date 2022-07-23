@@ -61,6 +61,7 @@ class Stream(object):
         self.num_fetched_frames = 0
 
         self.states = initial_states
+
         # The number of frames (after subsampling) been processed.
         self.processed_frames = 0
         self.context_size = context_size

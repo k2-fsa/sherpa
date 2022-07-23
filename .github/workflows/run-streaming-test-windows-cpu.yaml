@@ -34,7 +34,7 @@ jobs:
         torch: ["1.10.0"]
         torchaudio: ["0.10.0"]
         python-version: ["3.7", "3.8", "3.9"]
-        decoding: ["greedy_search", "modified_beam_search"]
+        decoding: ["greedy_search", "modified_beam_search", "fast_beam_search"]
     steps:
       - uses: actions/checkout@v2
         with:
@@ -103,4 +103,6 @@ jobs:
           ./sherpa/bin/pruned_stateless_emformer_rnnt2/streaming_client.py \
             --server-addr localhost \
             --server-port 6006 \
-            ./icefall-asr-librispeech-pruned-stateless-emformer-rnnt2-2022-06-01/test_wavs/1221-135766-0001.wav
+            ./icefall-asr-librispeech-pruned-stateless-emformer-rnnt2-2022-06-01/test_wavs/1089-134686-0001.wav \
+            ./icefall-asr-librispeech-pruned-stateless-emformer-rnnt2-2022-06-01/test_wavs/1221-135766-0001.wav \
+            ./icefall-asr-librispeech-pruned-stateless-emformer-rnnt2-2022-06-01/test_wavs/1221-135766-0002.wav

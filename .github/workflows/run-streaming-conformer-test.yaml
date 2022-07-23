@@ -30,7 +30,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-18.04, macos-10.15]
+        os: [ubuntu-18.04, macos-latest]
         torch: ["1.10.0", "1.6.0"]
         torchaudio: ["0.10.0", "0.6.0"]
         python-version: ["3.7", "3.8"]
@@ -136,4 +136,6 @@ jobs:
           ./sherpa/bin/streaming_pruned_transducer_statelessX/streaming_client.py \
             --server-addr localhost \
             --server-port 6006 \
+            ./icefall-asr-librispeech-pruned-stateless-streaming-conformer-rnnt4-2022-06-10/test_wavs/1089-134686-0001.wav \
+            ./icefall-asr-librispeech-pruned-stateless-streaming-conformer-rnnt4-2022-06-10/test_wavs/1221-135766-0001.wav \
             ./icefall-asr-librispeech-pruned-stateless-streaming-conformer-rnnt4-2022-06-10/test_wavs/1221-135766-0002.wav
