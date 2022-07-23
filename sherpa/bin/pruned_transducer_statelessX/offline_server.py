@@ -250,13 +250,6 @@ class OfflineServer:
             merging paths with identical token sequences, the actual number
             may be less than "num_active_paths".
         """
-        if num_device < 1:
-            device = torch.device("cpu")
-        else:
-            device = torch.device("cuda")
-
-        logging.info(f"Using device: {device}")
-
         self.feature_extractor = self._build_feature_extractor()
         self.nn_models = self._build_nn_model(nn_model_filename, num_device)
 
@@ -291,14 +284,9 @@ class OfflineServer:
         self.current_active_connections = 0
 
         if decoding_method == "greedy_search":
-            self.beam_search = GreedySearchOffline(
-                self.model,
-                device,
-            )
+            self.beam_search = GreedySearchOffline()
         elif decoding_method == "modified_beam_search":
-            self.beam_search = ModifiedBeamSearchOffline(
-                self.blank_id, self.context_size, num_active_paths
-            )
+            self.beam_search = ModifiedBeamSearchOffline(num_active_paths)
         else:
             raise ValueError(
                 f"Decoding method {decoding_method} is not supported."

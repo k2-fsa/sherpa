@@ -21,45 +21,25 @@ from typing import List
 import torch
 from torch.nn.utils.rnn import pad_sequence
 
-from sherpa import greedy_search, modified_beam_search
+from sherpa import RnntConformerModel, greedy_search, modified_beam_search
 
 LOG_EPS = math.log(1e-10)
 
 
 class GreedySearchOffline:
-    def __init__(self, model: "RnntConformerModel", device: torch.device):
-        """
-        Args:
-          model:
-            RNN-T model decoder model
-          device:
-            Device on which the computation will occur
-        """
-
-        self.blank_id = model.blank_id
-        self.context_size = model.context_size
-        self.device = device
-
-        decoder_input = torch.tensor(
-            [[self.blank_id] * self.context_size],
-            device=self.device,
-            dtype=torch.int64,
-        )
-        initial_decoder_out = model.decoder_forward(decoder_input)
-        self.initial_decoder_out = model.forward_decoder_proj(
-            initial_decoder_out.squeeze(1)
-        )
+    def __init__(self):
+        pass
 
     @torch.no_grad()
     def process(
         self,
-        server: "StreamingServer",
+        model: "RnntConformerModel",
         features: List[torch.Tensor],
     ) -> List[List[int]]:
         """
         Args:
-          server:
-            An instance of `StreamingServer`.
+          model:
+            RNN-T model decoder model
 
           features:
             A list of 2-D tensors. Each entry is of shape
@@ -67,7 +47,6 @@ class GreedySearchOffline:
         Returns:
           Return a list-of-list containing the decoding token IDs.
         """
-        model = server.model
         features_length = torch.tensor(
             [f.size(0) for f in features],
             dtype=torch.int64,
@@ -97,15 +76,21 @@ class GreedySearchOffline:
 
 
 class ModifiedBeamSearchOffline:
-    def __init__(self, blank_id: int, context_size: int, num_active_paths: int):
-        self.blank_id = blank_id
-        self.context_size = context_size
+    def __init__(self, num_active_paths: int):
+        """
+        Args:
+          num_active_paths:
+            Used only when decoding_method is modified_beam_search.
+            It specifies number of active paths for each utterance. Due to
+            merging paths with identical token sequences, the actual number
+            may be less than "num_active_paths".
+        """
         self.num_active_paths = num_active_paths
 
     @torch.no_grad()
     def process(
         self,
-        server: "StreamingServer",
+        model: "RnntConformerModel",
         features: List[torch.Tensor],
     ) -> List[List[int]]:
         """Run RNN-T model with the given features and use greedy search
@@ -120,7 +105,6 @@ class ModifiedBeamSearchOffline:
         Returns:
           Return a list-of-list containing the decoding token IDs.
         """
-        model = server.model
         features_length = torch.tensor(
             [f.size(0) for f in features],
             dtype=torch.int64,

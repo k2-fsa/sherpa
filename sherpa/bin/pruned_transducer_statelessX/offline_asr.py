@@ -260,14 +260,9 @@ class OfflineAsr(object):
         ), decoding_method
 
         if decoding_method == "greedy_search":
-            self.beam_search = GreedySearchOffline(
-                self.model,
-                device,
-            )
+            self.beam_search = GreedySearchOffline()
         elif decoding_method == "modified_beam_search":
-            self.beam_search = ModifiedBeamSearchOffline(
-                self.blank_id, self.context_size, num_active_paths
-            )
+            self.beam_search = ModifiedBeamSearchOffline(num_active_paths)
         else:
             raise ValueError(
                 f"Decoding method {decoding_method} is not supported."
