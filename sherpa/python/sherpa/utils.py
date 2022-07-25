@@ -2,7 +2,9 @@ import argparse
 
 
 def add_beam_search_arguments():
-    parser = argparse.ArgumentParser(description="Parameters for beam search")
+    parser = argparse.ArgumentParser(
+        description="Parameters for beam search", add_help=False
+    )
 
     parser.add_argument(
         "--decoding-method",

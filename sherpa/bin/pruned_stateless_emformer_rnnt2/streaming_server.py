@@ -49,6 +49,7 @@ from sherpa import RnntEmformerModel, add_beam_search_arguments
 def get_args():
     beam_search_parser = add_beam_search_arguments()
     parser = argparse.ArgumentParser(
+        parents=[beam_search_parser],
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
 
@@ -172,7 +173,7 @@ def get_args():
     )
 
     return (
-        parser.parse_known_args()[0],
+        parser.parse_args(),
         beam_search_parser.parse_known_args()[0],
     )
 

@@ -47,7 +47,8 @@ from sherpa import RnntConformerModel, add_beam_search_arguments
 def get_args():
     beam_search_parser = add_beam_search_arguments()
     parser = argparse.ArgumentParser(
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter
+        parents=[beam_search_parser],
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
 
     parser.add_argument(
@@ -169,7 +170,7 @@ def get_args():
     )
 
     return (
-        parser.parse_known_args()[0],
+        parser.parse_args(),
         beam_search_parser.parse_known_args()[0],
     )
 
