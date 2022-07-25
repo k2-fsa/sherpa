@@ -61,3 +61,18 @@ one of them and then click ``Submit for recognition``.
 .. image:: ./pic/hugging-face-sherpa-2.png
    :alt: screenshot of `<https://huggingface.co/spaces/k2-fsa/automatic-speech-recognition>`_
    :target: https://huggingface.co/spaces/k2-fsa/automatic-speech-recognition
+
+YouTube Video
+-------------
+
+We provide the following YouTube video demonstrating how to use
+`<https://huggingface.co/spaces/k2-fsa/automatic-speech-recognition>`_.
+
+.. note::
+
+   To get the latest news of `next-gen Kaldi <https://github.com/k2-fsa>`_, please subscribe
+   the following YouTube channel by `Nadira Povey <https://www.youtube.com/channel/UC_VaumpkmINz1pNkFXAN9mw>`_:
+
+      `<https://www.youtube.com/channel/UC_VaumpkmINz1pNkFXAN9mw>`_
+
+..  youtube:: ElN3r9dkKE4

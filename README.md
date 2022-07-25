@@ -12,6 +12,8 @@
 Try `sherpa` from within your browser without installing anything:
 <https://huggingface.co/spaces/k2-fsa/automatic-speech-recognition>
 
+See <https://k2-fsa.github.io/sherpa/huggingface/> for more details.
+
 ## Introduction
 
 An ASR server framework in **Python**, supporting both streaming
@@ -113,7 +115,7 @@ Here, before running the web client, you need to map your server ports to your l
 ssh -R 6006:localhost:6006 -R 6008:localhost:6008 your_local_username@your_local_ip
 ```
 **Note**:
-(1) You only need to do this if the asr server is running on a machine different from the client. 
+(1) You only need to do this if the asr server is running on a machine different from the client.
 (2) The command is run in the terminal on the server machine.
 #### Start the client
 
@@ -332,7 +334,7 @@ If you have a GPU with a larger RAM (e.g., 32 GB), you can get an even **lower**
 
 ### Contributing
 
-Contributions to ```sherpa``` are very welcomed. There are many possible ways to make contributions 
+Contributions to `sherpa` are very welcomed. There are many possible ways to make contributions
 and two of them are:
 - To write documentation
 - To write code:
