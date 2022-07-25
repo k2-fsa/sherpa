@@ -34,7 +34,7 @@ jobs:
         torch: ["1.10.0", "1.6.0"]
         torchaudio: ["0.10.0", "0.6.0"]
         python-version: ["3.7", "3.8"]
-        decoding: ["greedy_search", "fast_beam_search"]
+        decoding: ["greedy_search", "fast_beam_search", "fast_beam_search_nbest"]
         exclude:
           - torch: "1.10.0"
             torchaudio: "0.6.0"

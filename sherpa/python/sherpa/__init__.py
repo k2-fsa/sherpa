@@ -20,4 +20,9 @@ from _sherpa import (
     streaming_modified_beam_search,
 )
 
-from .decode import fast_beam_search_one_best
+from .decode import (
+    VALID_FAST_BEAM_SEARCH_METHOD,
+    fast_beam_search_nbest,
+    fast_beam_search_one_best,
+)
+from .utils import add_beam_search_arguments

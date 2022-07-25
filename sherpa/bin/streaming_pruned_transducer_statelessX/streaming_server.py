@@ -45,12 +45,14 @@ import websockets
 from beam_search import FastBeamSearch, GreedySearch
 from stream import Stream
 
-from sherpa import RnntConformerModel
+from sherpa import RnntConformerModel, add_beam_search_arguments
 
 
 def get_args():
+    beam_search_parser = add_beam_search_arguments()
     parser = argparse.ArgumentParser(
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter
+        parents=[beam_search_parser],
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
 
     parser.add_argument(
@@ -172,41 +174,10 @@ def get_args():
         """,
     )
 
-    parser.add_argument(
-        "--beam",
-        type=float,
-        default=10.0,
-        help="""A floating point value to calculate the cutoff score during beam
-        search (i.e., `cutoff = max-score - beam`), which is the same as the
-        `beam` in Kaldi.
-        Used only when --decoding-method is fast_beam_search.
-        """,
+    return (
+        parser.parse_args(),
+        beam_search_parser.parse_known_args()[0],
     )
-
-    parser.add_argument(
-        "--max-contexts",
-        type=int,
-        default=8,
-        help="""Used only when --decoding-method is fast_beam_search.""",
-    )
-
-    parser.add_argument(
-        "--max-states",
-        type=int,
-        default=32,
-        help="""Used only when --decoding-method is fast_beam_search.""",
-    )
-
-    parser.add_argument(
-        "--decoding-method",
-        type=str,
-        default="greedy_search",
-        help="""Decoding method to use. Currently, only greedy_search and
-        fast_beam_search are implemented.
-        """,
-    )
-
-    return parser.parse_args()
 
 
 class StreamingServer(object):
@@ -218,16 +189,13 @@ class StreamingServer(object):
         decode_chunk_size: int,
         decode_left_context: int,
         decode_right_context: int,
-        beam: float,
-        max_states: int,
-        max_contexts: int,
-        decoding_method: str,
         nn_pool_size: int,
         max_wait_ms: float,
         max_batch_size: int,
         max_message_size: int,
         max_queue_size: int,
         max_active_connections: int,
+        beam_search_params: dict,
     ):
         """
         Args:
@@ -269,6 +237,8 @@ class StreamingServer(object):
           max_active_connections:
             Max number of active connections. Once number of active client
             equals to this limit, the server refuses to accept new connections.
+          beam_search_params:
+            Dictionary containing all the parameters for beam search.
         """
         if torch.cuda.is_available():
             device = torch.device("cuda", 0)
@@ -308,20 +278,22 @@ class StreamingServer(object):
         self.initial_states = self.model.get_encoder_init_states(
             self.decode_left_context
         )
-        self.decoding_method = decoding_method
 
-        if decoding_method == "fast_beam_search":
+        # Add these params after loading the RNN-T model
+        beam_search_params["vocab_size"] = self.vocab_size
+        beam_search_params["context_size"] = self.context_size
+        beam_search_params["blank_id"] = self.blank_id
+
+        decoding_method = beam_search_params["decoding_method"]
+        if decoding_method.startswith("fast_beam_search"):
             self.beam_search = FastBeamSearch(
-                vocab_size=self.vocab_size,
-                context_size=self.context_size,
-                beam=beam,
-                max_states=max_states,
-                max_contexts=max_contexts,
+                beam_search_params=beam_search_params,
                 device=device,
             )
         elif decoding_method == "greedy_search":
             self.beam_search = GreedySearch(
                 self.model,
+                beam_search_params,
                 device,
             )
         else:
@@ -540,8 +512,8 @@ class StreamingServer(object):
 
 @torch.no_grad()
 def main():
-    args = get_args()
-
+    args, beam_search_parser = get_args()
+    beam_search_params = vars(beam_search_parser)
     logging.info(vars(args))
 
     port = args.port
@@ -551,10 +523,6 @@ def main():
     decode_chunk_size = args.decode_chunk_size
     decode_left_context = args.decode_left_context
     decode_right_context = args.decode_right_context
-    beam = args.beam
-    max_states = args.max_states
-    max_contexts = args.max_contexts
-    decoding_method = args.decoding_method
     nn_pool_size = args.nn_pool_size
     max_batch_size = args.max_batch_size
     max_wait_ms = args.max_wait_ms
@@ -569,16 +537,13 @@ def main():
         decode_chunk_size=decode_chunk_size,
         decode_left_context=decode_left_context,
         decode_right_context=decode_right_context,
-        beam=beam,
-        max_states=max_states,
-        max_contexts=max_contexts,
-        decoding_method=decoding_method,
         nn_pool_size=nn_pool_size,
         max_batch_size=max_batch_size,
         max_wait_ms=max_wait_ms,
         max_message_size=max_message_size,
         max_queue_size=max_queue_size,
         max_active_connections=max_active_connections,
+        beam_search_params=beam_search_params,
     )
     asyncio.run(server.run(port))
 
