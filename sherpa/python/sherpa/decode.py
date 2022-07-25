@@ -47,19 +47,22 @@ def fast_beam_search_nbest(
     Args:
       model:
         An instance of `Transducer`.
-      decoding_graph:
-        Decoding graph used for decoding, may be a TrivialGraph or a LG.
       encoder_out:
         A tensor of shape (N, T, C) from the encoder.
-      encoder_out_lens:
-        A tensor of shape (N,) containing the number of frames in `encoder_out`
-        before padding.
-      beam:
-        Beam value, similar to the beam used in Kaldi..
-      max_states:
-        Max states per stream per frame.
-      max_contexts:
-        Max contexts pre stream per frame.
+      processed_lens:
+        A 1-D tensor containing the valid frames before padding that have been
+        processed by encoder network until now. For offline recognition, it equals
+        to ``encoder_out_lens`` of encoder outputs. For online recognition, it is
+        the cumulative sum of ``encoder_out_lens`` of previous chunks (including
+        current chunk). Its dtype is `torch.kLong` and its shape is `(batch_size,)`.
+      rnnt_decoding_config:
+        The configuration of Fsa based RNN-T decoding, refer to
+        https://k2-fsa.github.io/k2/python_api/api.html#rnntdecodingconfig for more
+        details.
+      rnnt_decoding_streams_list:
+        A list containing the RnntDecodingStream for each sequences, its size is
+        ``encoder_out.size(0)``. It stores the decoding graph, internal decoding
+        states and partial results.
       num_paths:
         Number of paths to extract from the decoded lattice.
       nbest_scale:
@@ -135,7 +138,7 @@ def fast_beam_search_one_best(
         A list containing the RnntDecodingStream for each sequences, its size is
         ``encoder_out.size(0)``. It stores the decoding graph, internal decoding
         states and partial results.
-      tmperature:
+      temperature:
         Softmax temperature.
     Returns:
       Return the decoded result.

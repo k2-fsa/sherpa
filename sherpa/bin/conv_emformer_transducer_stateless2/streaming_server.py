@@ -43,12 +43,13 @@ import websockets
 from beam_search import FastBeamSearch, GreedySearch
 from stream import Stream
 
-from sherpa import RnntConvEmformerModel
+from sherpa import RnntConvEmformerModel, add_beam_search_arguments
 
 
 def get_args():
+    beam_search_parser = add_beam_search_arguments()
     parser = argparse.ArgumentParser(
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
 
     parser.add_argument(
@@ -72,11 +73,47 @@ def get_args():
     parser.add_argument(
         "--bpe-model-filename",
         type=str,
-        required=True,
         help="""The BPE model
         You can find it in the directory egs/librispeech/ASR/data/lang_bpe_xxx
         where xxx is the number of BPE tokens you used to train the model.
+        Note: You don't need to provide it if you provide `--token-filename`.
         """,
+    )
+
+    parser.add_argument(
+        "--token-filename",
+        type=str,
+        help="""Filename for tokens.txt
+        For instance, you can find it in the directory
+        egs/aishell/ASR/data/lang_char/tokens.txt
+        or
+        egs/wenetspeech/ASR/data/lang_char/tokens.txt
+        from icefall
+        Note: You don't need to provide it if you provide `--bpe-model`
+        """,
+    )
+
+    parser.add_argument(
+        "--decode-chunk-size",
+        type=int,
+        default=8,
+        help="The chunk size for decoding (in frames after subsampling)",
+    )
+
+    parser.add_argument(
+        "--decode-left-context",
+        type=int,
+        default=32,
+        help="""left context can be seen during decoding
+        (in frames after subsampling)""",
+    )
+
+    parser.add_argument(
+        "--decode-right-context",
+        type=int,
+        default=2,
+        help="""right context can be seen during decoding
+        (in frames after subsampling)""",
     )
 
     parser.add_argument(
@@ -134,41 +171,10 @@ def get_args():
         """,
     )
 
-    parser.add_argument(
-        "--beam",
-        type=float,
-        default=10.0,
-        help="""A floating point value to calculate the cutoff score during beam
-            search (i.e., `cutoff = max-score - beam`), which is the same as the
-            `beam` in Kaldi.
-            Used only when --decoding-method is fast_beam_search.
-            """,
+    return (
+        parser.parse_known_args()[0],
+        beam_search_parser.parse_known_args()[0],
     )
-
-    parser.add_argument(
-        "--max-contexts",
-        type=int,
-        default=8,
-        help="""Used only when --decoding-method is fast_beam_search.""",
-    )
-
-    parser.add_argument(
-        "--max-states",
-        type=int,
-        default=32,
-        help="""Used only when --decoding-method is fast_beam_search.""",
-    )
-
-    parser.add_argument(
-        "--decoding-method",
-        type=str,
-        default="greedy_search",
-        help="""Decoding method to use. Currently, only greedy_search and
-            fast_beam_search are implemented.
-            """,
-    )
-
-    return parser.parse_args()
 
 
 class StreamingServer(object):
@@ -176,16 +182,13 @@ class StreamingServer(object):
         self,
         nn_model_filename: str,
         bpe_model_filename: str,
-        beam: float,
-        max_states: int,
-        max_contexts: int,
-        decoding_method: str,
         nn_pool_size: int,
         max_wait_ms: float,
         max_batch_size: int,
         max_message_size: int,
         max_queue_size: int,
         max_active_connections: int,
+        beam_search_params: dict,
     ):
         """
         Args:
@@ -193,15 +196,6 @@ class StreamingServer(object):
             Path to the torchscript model
           bpe_model_filename:
             Path to the BPE model
-          beam:
-            The beam for fast_beam_search decoding.
-          max_states:
-            The max_states for fast_beam_search decoding.
-          max_contexts:
-            The max_contexts for fast_beam_search decoding.
-          decoding_method:
-            The decoding method to use, can be either greedy_search
-            or fast_beam_search.
           nn_pool_size:
             Number of threads for the thread pool that is responsible for
             neural network computation and decoding.
@@ -217,6 +211,8 @@ class StreamingServer(object):
           max_active_connections:
             Max number of active connections. Once number of active client
             equals to this limit, the server refuses to accept new connections.
+          beam_search_params:
+            Dictionary containing all the parameters for beam search.
         """
         if torch.cuda.is_available():
             device = torch.device("cuda", 0)
@@ -245,18 +241,21 @@ class StreamingServer(object):
 
         self.initial_states = self.model.get_encoder_init_states()
 
-        if decoding_method == "fast_beam_search":
+        # Add these params after loading the Conv-Emformer model
+        beam_search_params["vocab_size"] = self.vocab_size
+        beam_search_params["context_size"] = self.context_size
+        beam_search_params["blank_id"] = self.blank_id
+
+        decoding_method = beam_search_params["decoding_method"]
+        if decoding_method.startswith("fast_beam_search"):
             self.beam_search = FastBeamSearch(
-                vocab_size=self.vocab_size,
-                context_size=self.context_size,
-                beam=beam,
-                max_states=max_states,
-                max_contexts=max_contexts,
+                beam_search_params=beam_search_params,
                 device=device,
             )
         elif decoding_method == "greedy_search":
             self.beam_search = GreedySearch(
                 self.model,
+                beam_search_params,
                 device,
             )
         else:
@@ -471,17 +470,13 @@ class StreamingServer(object):
 
 @torch.no_grad()
 def main():
-    args = get_args()
-
+    args, beam_search_parser = get_args()
+    beam_search_params = vars(beam_search_parser)
     logging.info(vars(args))
 
     port = args.port
     nn_model_filename = args.nn_model_filename
     bpe_model_filename = args.bpe_model_filename
-    beam = args.beam
-    max_states = args.max_states
-    max_contexts = args.max_contexts
-    decoding_method = args.decoding_method
     nn_pool_size = args.nn_pool_size
     max_batch_size = args.max_batch_size
     max_wait_ms = args.max_wait_ms
@@ -492,16 +487,13 @@ def main():
     server = StreamingServer(
         nn_model_filename=nn_model_filename,
         bpe_model_filename=bpe_model_filename,
-        beam=beam,
-        max_states=max_states,
-        max_contexts=max_contexts,
-        decoding_method=decoding_method,
         nn_pool_size=nn_pool_size,
         max_batch_size=max_batch_size,
         max_wait_ms=max_wait_ms,
         max_message_size=max_message_size,
         max_queue_size=max_queue_size,
         max_active_connections=max_active_connections,
+        beam_search_params=beam_search_params,
     )
     asyncio.run(server.run(port))
 

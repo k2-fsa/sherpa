@@ -178,21 +178,30 @@ class FastBeamSearch:
 
 
 class GreedySearch:
-    def __init__(self, model: "RnntConformerModel", device: torch.device):
+    def __init__(
+        self,
+        model: "RnntConformerModel",
+        beam_search_params: dict,
+        device: torch.device,
+    ):
         """
         Args:
           model:
             RNN-T model decoder model
+          beam_search_params:
+            Dictionary containing all the parameters for beam search.
           device:
             Device on which the computation will occur
         """
 
-        self.blank_id = model.blank_id
-        self.context_size = model.context_size
+        self.beam_search_params = beam_search_params
         self.device = device
 
         decoder_input = torch.tensor(
-            [[self.blank_id] * self.context_size],
+            [
+                [self.beam_search_params["blank_id"]]
+                * self.beam_search_params["context_size"]
+            ],
             device=self.device,
             dtype=torch.int64,
         )
@@ -206,7 +215,9 @@ class GreedySearch:
         Attributes to add to each stream
         """
         stream.decoder_out = self.initial_decoder_out
-        stream.hyp = [self.blank_id] * self.context_size
+        stream.hyp = [
+            self.beam_search_params["blank_id"]
+        ] * self.beam_search_params["context_size"]
 
     @torch.no_grad()
     def process(
@@ -311,9 +322,12 @@ class GreedySearch:
             Stream to be processed.
         """
         if hasattr(self, "sp"):
-            result = self.sp.decode(stream.hyp[self.context_size :])  # noqa
+            result = self.sp.decode(
+                stream.hyp[self.beam_search_params["context_size"] :]
+            )  # noqa
         else:
             result = [
-                self.token_table[i] for i in stream.hyp[self.context_size :]
+                self.token_table[i]
+                for i in stream.hyp[self.beam_search_params["context_size"] :]
             ]  # noqa
         return result

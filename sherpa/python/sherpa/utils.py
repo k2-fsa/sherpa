@@ -34,6 +34,16 @@ def add_beam_search_arguments():
     )
 
     parser.add_argument(
+        "--num-active-paths",
+        type=int,
+        default=4,
+        help="""Used only when decoding_method is modified_beam_search.
+            It specifies number of active paths for each utterance. Due to
+            merging paths with identical token sequences, the actual number
+            may be less than "num_active_paths".""",
+    )
+
+    parser.add_argument(
         "--nbest-scale",
         type=float,
         default=0.5,

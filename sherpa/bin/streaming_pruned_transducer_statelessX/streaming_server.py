@@ -173,29 +173,6 @@ def get_args():
         """,
     )
 
-    # parser.add_argument(
-    #     "--max-contexts",
-    #     type=int,
-    #     default=8,
-    #     help="""Used only when --decoding-method is fast_beam_search.""",
-    # )
-    #
-    # parser.add_argument(
-    #     "--max-states",
-    #     type=int,
-    #     default=32,
-    #     help="""Used only when --decoding-method is fast_beam_search.""",
-    # )
-    #
-    # parser.add_argument(
-    #     "--decoding-method",
-    #     type=str,
-    #     default="greedy_search",
-    #     help="""Decoding method to use. Currently, only greedy_search and
-    #     fast_beam_search are implemented.
-    #     """,
-    # )
-
     return (
         parser.parse_known_args()[0],
         beam_search_parser.parse_known_args()[0],
@@ -304,6 +281,7 @@ class StreamingServer(object):
         # Add these params after loading the RNN-T model
         beam_search_params["vocab_size"] = self.vocab_size
         beam_search_params["context_size"] = self.context_size
+        beam_search_params["blank_id"] = self.blank_id
 
         decoding_method = beam_search_params["decoding_method"]
         if decoding_method.startswith("fast_beam_search"):
