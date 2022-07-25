@@ -192,12 +192,10 @@ def read_sound_files(
     ans = []
     for f in filenames:
         wave, sample_rate = torchaudio.load(f)
-        # fmt: off
         assert sample_rate == expected_sample_rate, (
             f"expected sample rate: {expected_sample_rate}. "
             f"Given: {sample_rate}"
         )
-        # fmt: on
         # We use only the first channel
         ans.append(wave[0])
     return ans
@@ -421,9 +419,7 @@ torch::jit::setGraphExecutorOptimize(false);
 
 if __name__ == "__main__":
     torch.manual_seed(20220609)
-    # fmt: off
     formatter = "%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] %(message)s"  # noqa
-    # fmt: on
     logging.basicConfig(format=formatter, level=logging.INFO)
 
     main()

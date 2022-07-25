@@ -109,7 +109,7 @@ class FastBeamSearch:
             encoder_out,
             encoder_out_lens,
             next_states,
-        ) = model.encoder_streaming_forward(  # noqa
+        ) = model.encoder_streaming_forward(
             features=features,
             features_length=features_length,
             states=states,
@@ -249,11 +249,7 @@ class GreedySearch:
             dtype=torch.int64,
         )
 
-        (
-            encoder_out,
-            _,
-            next_states,
-        ) = model.encoder_streaming_forward(  # noqa
+        (encoder_out, _, next_states,) = model.encoder_streaming_forward(
             features=features,
             features_length=features_length,
             states=states,
@@ -284,7 +280,7 @@ class GreedySearch:
           stream:
             Stream to be processed.
         """
-        hyp = stream.hyp[self.beam_search_params["context_size"] :]  # noqa
+        hyp = stream.hyp[self.beam_search_params["context_size"] :]
         return self.sp.decode(hyp)
 
 
