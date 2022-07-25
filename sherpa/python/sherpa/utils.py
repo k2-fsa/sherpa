@@ -1,0 +1,68 @@
+import argparse
+
+
+def add_beam_search_arguments():
+    parser = argparse.ArgumentParser(description="Parameters for beam search")
+
+    parser.add_argument(
+        "--decoding-method",
+        type=str,
+        default="greedy_search",
+        help="""Decoding method to use. Currently, only greedy_search and
+          fast_beam_search are implemented.
+          """,
+    )
+
+    parser.add_argument(
+        "--beam",
+        type=float,
+        default=10.0,
+        help="""A floating point value to calculate the cutoff score during beam
+        search (i.e., `cutoff = max-score - beam`), which is the same as the
+        `beam` in Kaldi.
+        Used only when --decoding-method is fast_beam_search.
+        """,
+    )
+
+    parser.add_argument(
+        "--num-paths",
+        type=int,
+        default=200,
+        help="""Number of paths for nbest decoding.
+           Used only when the decoding method is fast_beam_search_nbest,
+           fast_beam_search_nbest_LG, and fast_beam_search_nbest_oracle""",
+    )
+
+    parser.add_argument(
+        "--nbest-scale",
+        type=float,
+        default=0.5,
+        help="""Scale applied to lattice scores when computing nbest paths.
+        Used only when the decoding method is fast_beam_search_nbest,
+        fast_beam_search_nbest_LG, and fast_beam_search_nbest_oracle""",
+    )
+
+    parser.add_argument(
+        "--temperature",
+        type=float,
+        default=1.0,
+        help="""Softmax temperature.
+         The output of the model is (logits / temperature).log_softmax().
+         """,
+    )
+
+    parser.add_argument(
+        "--max-contexts",
+        type=int,
+        default=8,
+        help="""Used only when --decoding-method is fast_beam_search.""",
+    )
+
+    parser.add_argument(
+        "--max-states",
+        type=int,
+        default=32,
+        help="""Used only when --decoding-method is fast_beam_search.""",
+    )
+
+    return parser
