@@ -76,7 +76,7 @@ class GreedySearchOffline:
 
 
 class ModifiedBeamSearchOffline:
-    def __init__(self, beam_search_params: dict, num_active_paths: int):
+    def __init__(self, beam_search_params: dict):
         """
         Args:
           beam_search_params:
