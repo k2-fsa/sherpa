@@ -65,6 +65,7 @@ jobs:
           python3 -c "import torch; print('torch version:', torch.__version__)"
 
           python3 -m torch.utils.collect_env
+          .github/scripts/install-icefall.sh
 
       - name: Install sherpa
         shell: bash

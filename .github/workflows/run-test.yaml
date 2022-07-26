@@ -76,6 +76,7 @@ jobs:
           fi
 
           python3 -m torch.utils.collect_env
+          .github/scripts/install-icefall.sh
 
       - name: Install PyTorch ${{ matrix.torch }}
         shell: bash
@@ -88,6 +89,7 @@ jobs:
           python3 -m pip install k2==1.16.dev20220621+cpu.torch${{ matrix.torch }} -f https://k2-fsa.org/nightly/index.html
 
           python3 -m torch.utils.collect_env
+          .github/scripts/install-icefall.sh
 
       - name: Cache kaldifeat
         id: my-cache
@@ -119,6 +121,7 @@ jobs:
         run: |
           export PYTHONPATH=~/tmp/kaldifeat/kaldifeat/python:$PYTHONPATH
           export PYTHONPATH=~/tmp/kaldifeat/build/lib:$PYTHONPATH
+          export PYTHONPATH=~/tmp/icefall/:$PYTHONPATH
 
           sherpa/bin/pruned_transducer_statelessX/offline_server.py \
             --decoding-method ${{ matrix.decoding }} \

@@ -69,6 +69,7 @@ jobs:
           pip install k2==1.16.dev20220621+cpu.torch${{ matrix.torch }} -f https://k2-fsa.org/nightly/index.html
 
           python3 -m torch.utils.collect_env
+          .github/scripts/install-icefall.sh
 
           if [[ ${{ matrix.torchaudio }} == "0.10.0" ]]; then
             pip install torchaudio==${{ matrix.torchaudio }}+cpu -f https://download.pytorch.org/whl/cpu/torch_stable.html
@@ -87,6 +88,7 @@ jobs:
           pip install k2==1.16.dev20220621+cpu.torch${{ matrix.torch }} -f https://k2-fsa.org/nightly/index.html
 
           python3 -m torch.utils.collect_env
+          .github/scripts/install-icefall.sh
 
       - name: Cache kaldifeat
         id: my-cache
@@ -118,6 +120,7 @@ jobs:
         run: |
           export PYTHONPATH=~/tmp/kaldifeat/kaldifeat/python:$PYTHONPATH
           export PYTHONPATH=~/tmp/kaldifeat/build/lib:$PYTHONPATH
+          export PYTHONPATH=~/tmp/icefall/:$PYTHONPATH
 
           ./sherpa/bin/pruned_stateless_emformer_rnnt2/streaming_server.py \
             --decoding-method ${{ matrix.decoding }} \
