@@ -25,4 +25,5 @@ from .decode import (
     fast_beam_search_nbest,
     fast_beam_search_one_best,
 )
+from .nbest import Nbest
 from .utils import add_beam_search_arguments

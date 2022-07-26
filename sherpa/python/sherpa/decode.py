@@ -18,7 +18,7 @@ from typing import List, Union
 import k2
 import torch
 from _sherpa import RnntModel
-from icefall.decode import Nbest
+from nbest import Nbest
 
 VALID_FAST_BEAM_SEARCH_METHOD = ["fast_beam_search_nbest", "fast_beam_search"]
 
