@@ -1,4 +1,5 @@
 import argparse
+from pathlib import Path
 
 
 def add_beam_search_arguments():
@@ -75,6 +76,23 @@ def add_beam_search_arguments():
         type=int,
         default=32,
         help="""Used only when --decoding-method is fast_beam_search.""",
+    )
+
+    parser.add_argument(
+        "--lang-dir",
+        type=Path,
+        default="data/lang_bpe_500",
+        help="The lang dir containing word table and LG graph",
+    )
+
+    parser.add_argument(
+        "--ngram-lm-scale",
+        type=float,
+        default=0.01,
+        help="""
+        Used only when --decoding_method is fast_beam_search_nbest_LG.
+        It specifies the scale for n-gram LM scores.
+        """,
     )
 
     return parser
