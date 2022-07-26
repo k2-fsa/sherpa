@@ -34,7 +34,7 @@ jobs:
         torch: ["1.10.0"]
         torchaudio: ["0.10.0"]
         python-version: ["3.7", "3.8", "3.9"]
-        decoding: ["greedy_search", "modified_beam_search", "fast_beam_search"]
+        decoding: ["greedy_search", "modified_beam_search", "fast_beam_search", "fast_beam_search_nbest"]
     steps:
       - uses: actions/checkout@v2
         with:
@@ -62,6 +62,7 @@ jobs:
           python3 -m pip install k2==1.16.dev20220621+cpu.torch${{ matrix.torch }} -f https://k2-fsa.org/nightly/index.html
 
           python3 -m torch.utils.collect_env
+
 
       - name: Install kaldifeat
         shell: bash

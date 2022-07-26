@@ -4,44 +4,47 @@ import k2
 import torch
 from stream import Stream
 
-from sherpa import fast_beam_search_one_best, streaming_greedy_search
+from sherpa import (
+    VALID_FAST_BEAM_SEARCH_METHOD,
+    fast_beam_search_nbest,
+    fast_beam_search_one_best,
+    streaming_greedy_search,
+)
 
 
 class FastBeamSearch:
     def __init__(
         self,
-        vocab_size: int,
-        context_size: int,
-        beam: int,
-        max_states: int,
-        max_contexts: int,
+        beam_search_params: dict,
         device: torch.device,
     ):
         """
         Args:
-          vocab_size:
-            Vocabularize of the BPE
-          context_size:
-            Context size of the RNN-T decoder model.
-          beam:
-            The beam for fast_beam_search decoding.
-          max_states:
-            The max_states for fast_beam_search decoding.
-          max_contexts:
-            The max_contexts for fast_beam_search decoding.
+          beam_search_params
+            Dictionary containing all the parameters for beam search.
           device:
             Device on which the computation will occur
         """
+
+        decoding_method = beam_search_params["decoding_method"]
+        assert (
+            decoding_method in VALID_FAST_BEAM_SEARCH_METHOD
+        ), f"{decoding_method} is not a valid search method"
+
+        self.decoding_method = decoding_method
         self.rnnt_decoding_config = k2.RnntDecodingConfig(
-            vocab_size=vocab_size,
-            decoder_history_len=context_size,
-            beam=beam,
-            max_states=max_states,
-            max_contexts=max_contexts,
+            vocab_size=beam_search_params["vocab_size"],
+            decoder_history_len=beam_search_params["context_size"],
+            beam=beam_search_params["beam"],
+            max_states=beam_search_params["max_states"],
+            max_contexts=beam_search_params["max_contexts"],
         )
-        self.decoding_graph = k2.trivial_graph(vocab_size - 1, device)
+        self.decoding_graph = k2.trivial_graph(
+            beam_search_params["vocab_size"] - 1, device
+        )
         self.device = device
-        self.context_size = context_size
+        self.context_size = beam_search_params["context_size"]
+        self.beam_search_params = beam_search_params
 
     def init_stream(self, stream: Stream):
         """
@@ -125,13 +128,30 @@ class FastBeamSearch:
         )
 
         processed_lens = processed_frames + encoder_out_lens
-        next_hyp_list = fast_beam_search_one_best(
-            model=model,
-            encoder_out=encoder_out,
-            processed_lens=processed_lens,
-            rnnt_decoding_config=rnnt_decoding_config,
-            rnnt_decoding_streams_list=rnnt_decoding_streams_list,
-        )
+        if self.decoding_method == "fast_beam_search_nbest":
+            next_hyp_list = fast_beam_search_nbest(
+                model=model,
+                encoder_out=encoder_out,
+                processed_lens=processed_lens,
+                rnnt_decoding_config=rnnt_decoding_config,
+                rnnt_decoding_streams_list=rnnt_decoding_streams_list,
+                num_paths=self.beam_search_params["num_paths"],
+                nbest_scale=self.beam_search_params["nbest_scale"],
+                use_double_scores=True,
+                temperature=self.beam_search_params["temperature"],
+            )
+        elif self.decoding_method == "fast_beam_search":
+            next_hyp_list = fast_beam_search_one_best(
+                model=model,
+                encoder_out=encoder_out,
+                processed_lens=processed_lens,
+                rnnt_decoding_config=rnnt_decoding_config,
+                rnnt_decoding_streams_list=rnnt_decoding_streams_list,
+            )
+        else:
+            raise NotImplementedError(
+                f"{self.decoding_method} is not implemented"
+            )
 
         next_state_list = [
             torch.unbind(next_states[0], dim=2),
@@ -158,21 +178,30 @@ class FastBeamSearch:
 
 
 class GreedySearch:
-    def __init__(self, model: "RnntConformerModel", device: torch.device):
+    def __init__(
+        self,
+        model: "RnntConformerModel",
+        beam_search_params: dict,
+        device: torch.device,
+    ):
         """
         Args:
           model:
             RNN-T model decoder model
+          beam_search_params:
+            Dictionary containing all the parameters for beam search.
           device:
             Device on which the computation will occur
         """
 
-        self.blank_id = model.blank_id
-        self.context_size = model.context_size
+        self.beam_search_params = beam_search_params
         self.device = device
 
         decoder_input = torch.tensor(
-            [[self.blank_id] * self.context_size],
+            [
+                [self.beam_search_params["blank_id"]]
+                * self.beam_search_params["context_size"]
+            ],
             device=self.device,
             dtype=torch.int64,
         )
@@ -186,7 +215,9 @@ class GreedySearch:
         Attributes to add to each stream
         """
         stream.decoder_out = self.initial_decoder_out
-        stream.hyp = [self.blank_id] * self.context_size
+        stream.hyp = [
+            self.beam_search_params["blank_id"]
+        ] * self.beam_search_params["context_size"]
 
     @torch.no_grad()
     def process(
@@ -291,9 +322,12 @@ class GreedySearch:
             Stream to be processed.
         """
         if hasattr(self, "sp"):
-            result = self.sp.decode(stream.hyp[self.context_size :])  # noqa
+            result = self.sp.decode(
+                stream.hyp[self.beam_search_params["context_size"] :]
+            )  # noqa
         else:
             result = [
-                self.token_table[i] for i in stream.hyp[self.context_size :]
+                self.token_table[i]
+                for i in stream.hyp[self.beam_search_params["context_size"] :]
             ]  # noqa
         return result

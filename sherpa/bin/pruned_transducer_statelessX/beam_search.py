@@ -76,16 +76,13 @@ class GreedySearchOffline:
 
 
 class ModifiedBeamSearchOffline:
-    def __init__(self, num_active_paths: int):
+    def __init__(self, beam_search_params: dict):
         """
         Args:
-          num_active_paths:
-            Used only when decoding_method is modified_beam_search.
-            It specifies number of active paths for each utterance. Due to
-            merging paths with identical token sequences, the actual number
-            may be less than "num_active_paths".
+          beam_search_params:
+            Dictionary containing all the parameters for beam search.
         """
-        self.num_active_paths = num_active_paths
+        self.beam_search_params = beam_search_params
 
     @torch.no_grad()
     def process(
@@ -128,6 +125,6 @@ class ModifiedBeamSearchOffline:
             model=model,
             encoder_out=encoder_out,
             encoder_out_length=encoder_out_length.cpu(),
-            num_active_paths=self.num_active_paths,
+            num_active_paths=self.beam_search_params["num_active_paths"],
         )
         return hyp_tokens

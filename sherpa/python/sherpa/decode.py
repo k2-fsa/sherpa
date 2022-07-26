@@ -19,6 +19,93 @@ import k2
 import torch
 from _sherpa import RnntModel
 
+from .nbest import Nbest
+
+VALID_FAST_BEAM_SEARCH_METHOD = ["fast_beam_search_nbest", "fast_beam_search"]
+
+
+def fast_beam_search_nbest(
+    model: RnntModel,
+    encoder_out: torch.Tensor,
+    processed_lens: torch.Tensor,
+    rnnt_decoding_config: k2.RnntDecodingConfig,
+    rnnt_decoding_streams_list: List[k2.RnntDecodingStream],
+    num_paths: int,
+    nbest_scale: float = 0.5,
+    use_double_scores: bool = True,
+    temperature: float = 1.0,
+) -> List[List[int]]:
+    """It limits the maximum number of symbols per frame to 1.
+
+    The process to get the results is:
+     - (1) Use fast beam search to get a lattice
+     - (2) Select `num_paths` paths from the lattice using k2.random_paths()
+     - (3) Unique the selected paths
+     - (4) Intersect the selected paths with the lattice and compute the
+           shortest path from the intersection result
+     - (5) The path with the largest score is used as the decoding output.
+
+    Args:
+      model:
+        An instance of `Transducer`.
+      encoder_out:
+        A tensor of shape (N, T, C) from the encoder.
+      processed_lens:
+        A 1-D tensor containing the valid frames before padding that have been
+        processed by encoder network until now. For offline recognition, it equals
+        to ``encoder_out_lens`` of encoder outputs. For online recognition, it is
+        the cumulative sum of ``encoder_out_lens`` of previous chunks (including
+        current chunk). Its dtype is `torch.kLong` and its shape is `(batch_size,)`.
+      rnnt_decoding_config:
+        The configuration of Fsa based RNN-T decoding, refer to
+        https://k2-fsa.github.io/k2/python_api/api.html#rnntdecodingconfig for more
+        details.
+      rnnt_decoding_streams_list:
+        A list containing the RnntDecodingStream for each sequences, its size is
+        ``encoder_out.size(0)``. It stores the decoding graph, internal decoding
+        states and partial results.
+      num_paths:
+        Number of paths to extract from the decoded lattice.
+      nbest_scale:
+        It's the scale applied to the lattice.scores. A smaller value
+        yields more unique paths.
+      use_double_scores:
+        True to use double precision for computation. False to use
+        single precision.
+      temperature:
+        Softmax temperature.
+    Returns:
+      Return the decoded result.
+    """
+
+    lattice = fast_beam_search(
+        model=model,
+        encoder_out=encoder_out,
+        processed_lens=processed_lens,
+        rnnt_decoding_config=rnnt_decoding_config,
+        rnnt_decoding_streams_list=rnnt_decoding_streams_list,
+        temperature=temperature,
+    )
+
+    nbest = Nbest.from_lattice(
+        lattice=lattice,
+        num_paths=num_paths,
+        use_double_scores=use_double_scores,
+        nbest_scale=nbest_scale,
+    )
+
+    # at this point, nbest.fsa.scores are all zeros.
+    nbest = nbest.intersect(lattice)
+    # Now nbest.fsa.scores contains acoustic scores
+
+    max_indexes = nbest.tot_scores().argmax()
+
+    best_path = k2.index_fsa(nbest.fsa, max_indexes)
+
+    hyps = get_texts(best_path)
+
+    return hyps
+
 
 def fast_beam_search_one_best(
     model: RnntModel,
@@ -52,7 +139,7 @@ def fast_beam_search_one_best(
         A list containing the RnntDecodingStream for each sequences, its size is
         ``encoder_out.size(0)``. It stores the decoding graph, internal decoding
         states and partial results.
-      tmperature:
+      temperature:
         Softmax temperature.
     Returns:
       Return the decoded result.
@@ -110,9 +197,6 @@ def fast_beam_search(
       lattice is actually an acceptor.
     """
     assert encoder_out.ndim == 3
-
-    context_size = model.context_size
-    vocab_size = model.vocab_size
 
     B, T, C = encoder_out.shape
 

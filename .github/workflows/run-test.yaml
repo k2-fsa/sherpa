@@ -77,6 +77,7 @@ jobs:
 
           python3 -m torch.utils.collect_env
 
+
       - name: Install PyTorch ${{ matrix.torch }}
         shell: bash
         if: startsWith(matrix.os, 'macos')
@@ -88,6 +89,7 @@ jobs:
           python3 -m pip install k2==1.16.dev20220621+cpu.torch${{ matrix.torch }} -f https://k2-fsa.org/nightly/index.html
 
           python3 -m torch.utils.collect_env
+
 
       - name: Cache kaldifeat
         id: my-cache
