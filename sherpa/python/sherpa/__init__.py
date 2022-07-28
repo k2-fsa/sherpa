@@ -23,7 +23,9 @@ from _sherpa import (
 from .decode import (
     VALID_FAST_BEAM_SEARCH_METHOD,
     fast_beam_search_nbest,
+    fast_beam_search_nbest_LG,
     fast_beam_search_one_best,
 )
+from .lexicon import Lexicon
 from .nbest import Nbest
 from .utils import add_beam_search_arguments

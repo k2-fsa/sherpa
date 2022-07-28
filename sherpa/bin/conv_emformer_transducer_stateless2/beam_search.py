@@ -6,7 +6,9 @@ from stream import Stream, stack_states, unstack_states
 
 from sherpa import (
     VALID_FAST_BEAM_SEARCH_METHOD,
+    Lexicon,
     fast_beam_search_nbest,
+    fast_beam_search_nbest_LG,
     fast_beam_search_one_best,
     streaming_greedy_search,
 )
@@ -39,9 +41,18 @@ class FastBeamSearch:
             max_states=beam_search_params["max_states"],
             max_contexts=beam_search_params["max_contexts"],
         )
-        self.decoding_graph = k2.trivial_graph(
-            beam_search_params["vocab_size"] - 1, device
-        )
+        if decoding_method == "fast_beam_search_nbest_LG":
+            lexicon = Lexicon(beam_search_params["lang_dir"])
+            self.word_table = lexicon.word_table
+            lg_filename = beam_search_params["lang_dir"] / "LG.pt"
+            self.decoding_graph = k2.Fsa.from_dict(
+                torch.load(lg_filename, map_location=device)
+            )
+            self.decoding_graph.scores *= beam_search_params["ngram_lm_scale"]
+        else:
+            self.decoding_graph = k2.trivial_graph(
+                beam_search_params["vocab_size"] - 1, device
+            )
         self.device = device
         self.context_size = beam_search_params["context_size"]
         self.beam_search_params = beam_search_params
@@ -130,6 +141,18 @@ class FastBeamSearch:
                 use_double_scores=True,
                 temperature=self.beam_search_params["temperature"],
             )
+        elif self.decoding_method == "fast_beam_search_nbest_LG":
+            next_hyp_list = fast_beam_search_nbest_LG(
+                model=model,
+                encoder_out=encoder_out,
+                processed_lens=processed_lens,
+                rnnt_decoding_config=rnnt_decoding_config,
+                rnnt_decoding_streams_list=rnnt_decoding_streams_list,
+                num_paths=self.beam_search_params["num_paths"],
+                nbest_scale=self.beam_search_params["nbest_scale"],
+                use_double_scores=True,
+                temperature=self.beam_search_params["temperature"],
+            )
         elif self.decoding_method == "fast_beam_search":
             next_hyp_list = fast_beam_search_one_best(
                 model=model,
@@ -148,14 +171,20 @@ class FastBeamSearch:
             s.states = next_state_list[i]
             s.hyp = next_hyp_list[i]
 
-    def get_texts(self, stream: Stream):
+    def get_texts(self, stream: Stream) -> str:
         """
         Return text after decoding
         Args:
           stream:
             Stream to be processed.
         """
-        return self.sp.decode(stream.hyp)
+        if self.decoding_method == "fast_beam_search_nbest_LG":
+            result = [self.word_table[i] for i in stream.hyp]
+            result = " ".join(result)
+        else:
+            result = self.sp.decode(stream.hyp)
+
+        return result
 
 
 class GreedySearch:
@@ -284,7 +313,7 @@ class GreedySearch:
             s.decoder_out = next_decoder_out_list[i]
             s.hyp = next_hyp_list[i]
 
-    def get_texts(self, stream: Stream):
+    def get_texts(self, stream: Stream) -> str:
         """
         Return text after decoding
         Args:

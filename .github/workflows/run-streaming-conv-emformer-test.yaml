@@ -34,7 +34,7 @@ jobs:
         torch: ["1.10.0", "1.6.0"]
         torchaudio: ["0.10.0", "0.6.0"]
         python-version: ["3.7", "3.8"]
-        decoding: ["greedy_search", "fast_beam_search", "fast_beam_search_nbest"]
+        decoding: ["greedy_search", "fast_beam_search", "fast_beam_search_nbest", "fast_beam_search_nbest_LG"]
         exclude:
           - torch: "1.10.0"
             torchaudio: "0.6.0"
@@ -127,6 +127,7 @@ jobs:
             --nn-pool-size 1 \
             --nn-model-filename ./icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05/exp/cpu-jit-epoch-30-avg-10-torch-${{ matrix.torch }}.pt \
             --decoding-method ${{ matrix.decoding }} \
+            --lang-dir ./icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05/data/lang_bpe_500/ \
             --bpe-model-filename ./icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05/data/lang_bpe_500/bpe.model &
 
           echo "Sleep 10 seconds to wait for the server startup"

@@ -34,7 +34,7 @@ jobs:
         torch: ["1.10.0"]
         torchaudio: ["0.10.0"]
         python-version: ["3.7", "3.8", "3.9"]
-        decoding: ["greedy_search", "modified_beam_search", "fast_beam_search", "fast_beam_search_nbest"]
+        decoding: ["greedy_search", "modified_beam_search", "fast_beam_search", "fast_beam_search_nbest", "fast_beam_search_nbest_LG"]
     steps:
       - uses: actions/checkout@v2
         with:
@@ -93,6 +93,7 @@ jobs:
             --max-wait-ms 5 \
             --nn-pool-size 1 \
             --nn-model-filename ./icefall-asr-librispeech-pruned-stateless-emformer-rnnt2-2022-06-01/exp/cpu_jit-epoch-39-avg-6-use-averaged-model-1.pt \
+            --lang-dir ./icefall-asr-librispeech-pruned-stateless-emformer-rnnt2-2022-06-01/data/lang_bpe_500/ \
             --bpe-model-filename ./icefall-asr-librispeech-pruned-stateless-emformer-rnnt2-2022-06-01/data/lang_bpe_500/bpe.model &
 
           echo "Sleep 10 seconds to wait for the server startup"

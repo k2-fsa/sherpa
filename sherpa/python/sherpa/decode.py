@@ -21,7 +21,131 @@ from _sherpa import RnntModel
 
 from .nbest import Nbest
 
-VALID_FAST_BEAM_SEARCH_METHOD = ["fast_beam_search_nbest", "fast_beam_search"]
+VALID_FAST_BEAM_SEARCH_METHOD = [
+    "fast_beam_search_nbest_LG",
+    "fast_beam_search_nbest",
+    "fast_beam_search",
+]
+
+
+def fast_beam_search_nbest_LG(
+    model: RnntModel,
+    encoder_out: torch.Tensor,
+    processed_lens: torch.Tensor,
+    rnnt_decoding_config: k2.RnntDecodingConfig,
+    rnnt_decoding_streams_list: List[k2.RnntDecodingStream],
+    num_paths: int,
+    nbest_scale: float = 0.5,
+    use_double_scores: bool = True,
+    temperature: float = 1.0,
+) -> List[List[int]]:
+    """It limits the maximum number of symbols per frame to 1.
+
+    The process to get the results is:
+     - (1) Use fast beam search to get a lattice
+     - (2) Select `num_paths` paths from the lattice using k2.random_paths()
+     - (3) Unique the selected paths
+     - (4) Intersect the selected paths with the lattice and compute the
+           shortest path from the intersection result
+     - (5) The path with the largest score is used as the decoding output.
+
+    Args:
+      model:
+        An instance of `Transducer`.
+      encoder_out:
+        A tensor of shape (N, T, C) from the encoder.
+      processed_lens:
+        A 1-D tensor containing the valid frames before padding that have been
+        processed by encoder network until now. For offline recognition, it equals
+        to ``encoder_out_lens`` of encoder outputs. For online recognition, it is
+        the cumulative sum of ``encoder_out_lens`` of previous chunks (including
+        current chunk). Its dtype is `torch.kLong` and its shape is `(batch_size,)`.
+      rnnt_decoding_config:
+        The configuration of Fsa based RNN-T decoding, refer to
+        https://k2-fsa.github.io/k2/python_api/api.html#rnntdecodingconfig for more
+        details.
+      rnnt_decoding_streams_list:
+        A list containing the RnntDecodingStream for each sequences, its size is
+        ``encoder_out.size(0)``. It stores the decoding graph, internal decoding
+        states and partial results.
+      num_paths:
+        Number of paths to extract from the decoded lattice.
+      nbest_scale:
+        It's the scale applied to the lattice.scores. A smaller value
+        yields more unique paths.
+      use_double_scores:
+        True to use double precision for computation. False to use
+        single precision.
+      temperature:
+        Softmax temperature.
+    Returns:
+      Return the decoded result.
+    """
+
+    lattice = fast_beam_search(
+        model=model,
+        encoder_out=encoder_out,
+        processed_lens=processed_lens,
+        rnnt_decoding_config=rnnt_decoding_config,
+        rnnt_decoding_streams_list=rnnt_decoding_streams_list,
+        temperature=temperature,
+    )
+
+    nbest = Nbest.from_lattice(
+        lattice=lattice,
+        num_paths=num_paths,
+        use_double_scores=use_double_scores,
+        nbest_scale=nbest_scale,
+    )
+
+    # The following code is modified from nbest.intersect()
+    word_fsa = k2.invert(nbest.fsa)
+    if hasattr(lattice, "aux_labels"):
+        # delete token IDs as it is not needed
+        del word_fsa.aux_labels
+    word_fsa.scores.zero_()
+    word_fsa_with_epsilon_loops = k2.linear_fsa_with_self_loops(word_fsa)
+    path_to_utt_map = nbest.shape.row_ids(1)
+
+    if hasattr(lattice, "aux_labels"):
+        # lattice has token IDs as labels and word IDs as aux_labels.
+        # inv_lattice has word IDs as labels and token IDs as aux_labels
+        inv_lattice = k2.invert(lattice)
+        inv_lattice = k2.arc_sort(inv_lattice)
+    else:
+        inv_lattice = k2.arc_sort(lattice)
+
+    if inv_lattice.shape[0] == 1:
+        path_lattice = k2.intersect_device(
+            inv_lattice,
+            word_fsa_with_epsilon_loops,
+            b_to_a_map=torch.zeros_like(path_to_utt_map),
+            sorted_match_a=True,
+        )
+    else:
+        path_lattice = k2.intersect_device(
+            inv_lattice,
+            word_fsa_with_epsilon_loops,
+            b_to_a_map=path_to_utt_map,
+            sorted_match_a=True,
+        )
+
+    # path_lattice has word IDs as labels and token IDs as aux_labels
+    path_lattice = k2.top_sort(k2.connect(path_lattice))
+    tot_scores = path_lattice.get_tot_scores(
+        use_double_scores=use_double_scores,
+        log_semiring=True,  # Note: we always use True
+    )
+    # See https://github.com/k2-fsa/icefall/pull/420 for why
+    # we always use log_semiring=True
+
+    ragged_tot_scores = k2.RaggedTensor(nbest.shape, tot_scores)
+    best_hyp_indexes = ragged_tot_scores.argmax()
+    best_path = k2.index_fsa(nbest.fsa, best_hyp_indexes)
+
+    hyps = get_texts(best_path)
+
+    return hyps
 
 
 def fast_beam_search_nbest(
