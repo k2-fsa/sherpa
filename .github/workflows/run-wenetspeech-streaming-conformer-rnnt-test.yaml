@@ -118,6 +118,7 @@ jobs:
             --nn-pool-size 1 \
             --nn-model-filename ./icefall_asr_wenetspeech_pruned_transducer_stateless5_streaming/exp/cpu_jit_epoch_5_avg_1_torch.${{ matrix.torch }}.pt \
             --decoding-method ${{ matrix.decoding }} \
+            --lang-dir ./icefall_asr_wenetspeech_pruned_transducer_stateless5_streaming/data/lang_char/ \
             --token-filename ./icefall_asr_wenetspeech_pruned_transducer_stateless5_streaming/data/lang_char/tokens.txt &
           echo "Sleep 10 seconds to wait for the server startup"
           sleep 10
