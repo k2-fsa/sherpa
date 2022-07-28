@@ -95,6 +95,7 @@ jobs:
             --feature-extractor-pool-size 5 \
             --nn-pool-size 1 \
             --nn-model-filename ./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/exp/cpu_jit.pt \
+            --lang-dir ./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/data/lang_bpe_500/ \
             --bpe-model-filename ./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/data/lang_bpe_500/bpe.model &
           echo "Sleep 10 seconds to wait for the server startup"
           sleep 10

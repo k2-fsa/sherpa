@@ -127,6 +127,7 @@ jobs:
             --nn-pool-size 1 \
             --nn-model-filename ./icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05/exp/cpu-jit-epoch-30-avg-10-torch-${{ matrix.torch }}.pt \
             --decoding-method ${{ matrix.decoding }} \
+            --lang-dir ./icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05/data/lang_bpe_500/ \
             --bpe-model-filename ./icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05/data/lang_bpe_500/bpe.model &
 
           echo "Sleep 10 seconds to wait for the server startup"

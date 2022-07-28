@@ -128,6 +128,7 @@ jobs:
             --max-wait-ms 5 \
             --nn-pool-size 1 \
             --nn-model-filename ./icefall-asr-librispeech-pruned-stateless-emformer-rnnt2-2022-06-01/exp/cpu_jit-epoch-39-avg-6-use-averaged-model-1-torch-${{ matrix.torch }}.pt \
+            --lang-dir ./icefall-asr-librispeech-pruned-stateless-emformer-rnnt2-2022-06-01/data/lang_bpe_500/ \
             --bpe-model-filename ./icefall-asr-librispeech-pruned-stateless-emformer-rnnt2-2022-06-01/data/lang_bpe_500/bpe.model &
 
           echo "Sleep 10 seconds to wait for the server startup"
