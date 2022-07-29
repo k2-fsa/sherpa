@@ -9,6 +9,11 @@
 
 **Documentation**: <https://k2-fsa.github.io/sherpa/>
 
+Try `sherpa` from within your browser without installing anything:
+<https://huggingface.co/spaces/k2-fsa/automatic-speech-recognition>
+
+See <https://k2-fsa.github.io/sherpa/huggingface/> for more details.
+
 ## Introduction
 
 An ASR server framework in **Python**, supporting both streaming
@@ -110,7 +115,7 @@ Here, before running the web client, you need to map your server ports to your l
 ssh -R 6006:localhost:6006 -R 6008:localhost:6008 your_local_username@your_local_ip
 ```
 **Note**:
-(1) You only need to do this if the asr server is running on a machine different from the client. 
+(1) You only need to do this if the asr server is running on a machine different from the client.
 (2) The command is run in the terminal on the server machine.
 #### Start the client
 
@@ -181,7 +186,7 @@ following command:
 # If you provide a bpe.model, e.g., for LibriSpeech,
 # you can use the following command:
 #
-sherpa/bin/conformer_rnnt/offline_server.py \
+sherpa/bin/pruned_transducer_statelessX/offline_server.py \
   --port 6006 \
   --num-device 1 \
   --max-batch-size 10 \
@@ -197,7 +202,7 @@ sherpa/bin/conformer_rnnt/offline_server.py \
 # If you provide a tokens.txt, e.g., for aishell,
 # you can use the following command:
 #
-sherpa/bin/conformer_rnnt/offline_server.py \
+sherpa/bin/pruned_transducer_statelessX/offline_server.py \
   --port 6006 \
   --num-device 1 \
   --max-batch-size 10 \
@@ -209,7 +214,7 @@ sherpa/bin/conformer_rnnt/offline_server.py \
   --token-filename ./path/to/data/lang_char/tokens.txt
 ```
 
-You can use `./sherpa/bin/conformer_rnnt/offline_server.py --help` to view the help message.
+You can use `./sherpa/bin/pruned_transducer_statelessX/offline_server.py --help` to view the help message.
 
 **HINT**: If you don't have GPU, please set `--num-device` to `0`.
 
@@ -232,7 +237,7 @@ The following shows how to use the above pretrained models to start the server.
 git lfs install
 git clone https://huggingface.co/csukuangfj/icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13
 
-sherpa/bin/conformer_rnnt/offline_server.py \
+sherpa/bin/pruned_transducer_statelessX/offline_server.py \
   --port 6006 \
   --num-device 1 \
   --max-batch-size 10 \
@@ -250,7 +255,7 @@ sherpa/bin/conformer_rnnt/offline_server.py \
 git lfs install
 git clone https://huggingface.co/csukuangfj/icefall-aishell-pruned-transducer-stateless3-2022-06-20
 
-sherpa/bin/conformer_rnnt/offline_server.py \
+sherpa/bin/pruned_transducer_statelessX/offline_server.py \
   --port 6006 \
   --num-device 1 \
   --max-batch-size 10 \
@@ -266,21 +271,21 @@ sherpa/bin/conformer_rnnt/offline_server.py \
 After starting the server, you can use the following command to start the client:
 
 ```bash
-./sherpa/bin/conformer_rnnt/offline_client.py \
+./sherpa/bin/pruned_transducer_statelessX/offline_client.py \
     --server-addr localhost \
     --server-port 6006 \
     /path/to/foo.wav \
     /path/to/bar.wav
 ```
 
-You can use `./sherpa/bin/conformer_rnnt/offline_client.py --help` to view the usage message.
+You can use `./sherpa/bin/pruned_transducer_statelessX/offline_client.py --help` to view the usage message.
 
 The following shows how to use the client to send some test waves to the server
 for recognition.
 
 ```bash
 # If you use the pretrained model from the LibriSpeech dataset
-sherpa/bin/conformer_rnnt/offline_client.py \
+sherpa/bin/pruned_transducer_statelessX/offline_client.py \
   --server-addr localhost \
   --server-port 6006 \
   icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13//test_wavs/1089-134686-0001.wav \
@@ -290,7 +295,7 @@ sherpa/bin/conformer_rnnt/offline_client.py \
 
 ```bash
 # If you use the pretrained model from the aishell dataset
-sherpa/bin/conformer_rnnt/offline_client.py \
+sherpa/bin/pruned_transducer_statelessX/offline_client.py \
   --server-addr localhost \
   --server-port 6006 \
   ./icefall-aishell-pruned-transducer-stateless3-2022-06-20/test_wavs/BAC009S0764W0121.wav \
@@ -300,7 +305,7 @@ sherpa/bin/conformer_rnnt/offline_client.py \
 
 #### RTF test
 
-We provide a demo [./sherpa/bin/conformer_rnnt/decode_manifest.py](./sherpa/bin/conformer_rnnt/decode_manifest.py)
+We provide a demo [./sherpa/bin/pruned_transducer_statelessX/decode_manifest.py](./sherpa/bin/pruned_transducer_statelessX/decode_manifest.py)
 to decode the `test-clean` dataset from the LibriSpeech corpus.
 
 It creates 50 connections to the server using websockets and sends audio files
@@ -329,7 +334,7 @@ If you have a GPU with a larger RAM (e.g., 32 GB), you can get an even **lower**
 
 ### Contributing
 
-Contributions to ```sherpa``` are very welcomed. There are many possible ways to make contributions 
+Contributions to `sherpa` are very welcomed. There are many possible ways to make contributions
 and two of them are:
 - To write documentation
 - To write code:

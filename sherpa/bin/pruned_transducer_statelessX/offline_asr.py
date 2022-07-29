@@ -57,7 +57,7 @@ Note: We provide pre-trained models for testing.
     wav2=./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/test_wavs/1221-135766-0001.wav
     wav3=./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/test_wavs/1221-135766-0002.wav
 
-    sherpa/bin/conformer_rnnt/offline_asr.py \
+    sherpa/bin/pruned_transducer_statelessX/offline_asr.py \
       --nn-model-filename $nn_model_filename \
       --bpe-model $bpe_model \
       $wav1 \
@@ -77,15 +77,14 @@ Note: We provide pre-trained models for testing.
     wav2=./icefall-aishell-pruned-transducer-stateless3-2022-06-20/test_wavs/BAC009S0764W0122.wav
     wav3=./icefall-aishell-pruned-transducer-stateless3-2022-06-20/test_wavs/BAC009S0764W0123.wav
 
-    sherpa/bin/conformer_rnnt/offline_asr.py \
+    sherpa/bin/pruned_transducer_statelessX/offline_asr.py \
       --nn-model-filename $nn_model_filename \
       --token-filename $token_filename \
       $wav1 \
       $wav2 \
       $wav3
-"""
+"""  # noqa
 import argparse
-import functools
 import logging
 from typing import List, Optional, Union
 
@@ -94,19 +93,22 @@ import kaldifeat
 import sentencepiece as spm
 import torch
 import torchaudio
-from decode import run_model_and_do_greedy_search, run_model_and_do_modified_beam_search
+from beam_search import GreedySearchOffline, ModifiedBeamSearchOffline
 
-from sherpa import RnntConformerModel
+from sherpa import RnntConformerModel, add_beam_search_arguments
 
 
 def get_args():
+    beam_search_parser = add_beam_search_arguments()
     parser = argparse.ArgumentParser(
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter
+        parents=[beam_search_parser],
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
 
     parser.add_argument(
         "--nn-model-filename",
         type=str,
+        required=True,
         help="""The torchscript model. You can use
           icefall/egs/librispeech/ASR/pruned_transducer_statelessX/export.py \
              --jit=1
@@ -137,26 +139,6 @@ def get_args():
     )
 
     parser.add_argument(
-        "--decoding-method",
-        type=str,
-        default="greedy_search",
-        help="""Decoding method to use. Currently, only greedy_search and
-        modified_beam_search are implemented.
-        """,
-    )
-
-    parser.add_argument(
-        "--num-active-paths",
-        type=int,
-        default=4,
-        help="""Used only when decoding_method is modified_beam_search.
-        It specifies number of active paths for each utterance. Due to
-        merging paths with identical token sequences, the actual number
-        may be less than "num_active_paths".
-        """,
-    )
-
-    parser.add_argument(
         "--sample-rate",
         type=int,
         default=16000,
@@ -173,7 +155,10 @@ def get_args():
         "The sample rate has to equal to `--sample-rate`.",
     )
 
-    return parser.parse_args()
+    return (
+        parser.parse_args(),
+        beam_search_parser.parse_known_args()[0],
+    )
 
 
 def read_sound_files(
@@ -193,7 +178,8 @@ def read_sound_files(
     for f in filenames:
         wave, sample_rate = torchaudio.load(f)
         assert sample_rate == expected_sample_rate, (
-            f"expected sample rate: {expected_sample_rate}. " f"Given: {sample_rate}"
+            f"expected sample rate: {expected_sample_rate}. "
+            f"Given: {sample_rate}"
         )
         # We use only the first channel
         ans.append(wave[0])
@@ -206,10 +192,10 @@ class OfflineAsr(object):
         nn_model_filename: str,
         bpe_model_filename: Optional[str],
         token_filename: Optional[str],
-        decoding_method: str,
         num_active_paths: int,
         sample_rate: int = 16000,
         device: Union[str, torch.device] = "cpu",
+        beam_search_params: dict = {},
     ):
         """
         Args:
@@ -221,9 +207,6 @@ class OfflineAsr(object):
           token_filename:
             Path to tokens.txt. If it is None, you have to provide
             `bpe_model_filename`.
-          decoding_method:
-            The decoding method to use. Currently, only greedy_search and
-            modified_beam_search are implemented.
           num_active_paths:
             Used only when decoding_method is modified_beam_search.
             It specifies number of active paths for each utterance. Due to
@@ -233,6 +216,8 @@ class OfflineAsr(object):
             Expected sample rate of the feature extractor.
           device:
             The device to use for computation.
+          beam_search_params:
+            Dictionary containing all the parameters for beam search.
         """
         self.model = RnntConformerModel(
             filename=nn_model_filename,
@@ -251,24 +236,16 @@ class OfflineAsr(object):
             device=device,
         )
 
-        assert decoding_method in (
-            "greedy_search",
-            "modified_beam_search",
-        ), decoding_method
+        decoding_method = beam_search_params["decoding_method"]
         if decoding_method == "greedy_search":
-            nn_and_decoding_func = run_model_and_do_greedy_search
+            self.beam_search = GreedySearchOffline()
         elif decoding_method == "modified_beam_search":
-            nn_and_decoding_func = functools.partial(
-                run_model_and_do_modified_beam_search,
-                num_active_paths=num_active_paths,
-            )
+            self.beam_search = ModifiedBeamSearchOffline(beam_search_params)
         else:
             raise ValueError(
-                f"Unsupported decoding_method: {decoding_method} "
-                "Please use greedy_search or modified_beam_search"
+                f"Decoding method {decoding_method} is not supported."
             )
 
-        self.nn_and_decoding_func = nn_and_decoding_func
         self.device = device
 
     def _build_feature_extractor(
@@ -318,7 +295,7 @@ class OfflineAsr(object):
         waves = [w.to(self.device) for w in waves]
         features = self.feature_extractor(waves)
 
-        tokens = self.nn_and_decoding_func(self.model, features)
+        tokens = self.beam_search.process(self.model, features)
 
         if hasattr(self, "sp"):
             results = self.sp.decode(tokens)
@@ -331,27 +308,42 @@ class OfflineAsr(object):
 
 @torch.no_grad()
 def main():
-    args = get_args()
+    args, beam_search_parser = get_args()
+    beam_search_params = vars(beam_search_parser)
     logging.info(vars(args))
 
     nn_model_filename = args.nn_model_filename
     bpe_model_filename = args.bpe_model_filename
     token_filename = args.token_filename
-    decoding_method = args.decoding_method
     num_active_paths = args.num_active_paths
     sample_rate = args.sample_rate
     sound_files = args.sound_files
 
-    assert decoding_method in ("greedy_search", "modified_beam_search"), decoding_method
+    decoding_method = beam_search_params["decoding_method"]
+    assert decoding_method in (
+        "greedy_search",
+        "modified_beam_search",
+    ), decoding_method
 
     if decoding_method == "modified_beam_search":
         assert num_active_paths >= 1, num_active_paths
 
     if bpe_model_filename:
-        assert token_filename is None
+        assert token_filename is None, (
+            "You need to provide either --bpe-model-filename or "
+            "--token-filename parameter. But not both."
+        )
 
     if token_filename:
-        assert bpe_model_filename is None
+        assert bpe_model_filename is None, (
+            "You need to provide either --bpe-model-filename or "
+            "--token-filename parameter. But not both."
+        )
+
+    assert bpe_model_filename or token_filename, (
+        "You need to provide either --bpe-model-filename or "
+        "--token-filename parameter. But not both."
+    )
 
     device = torch.device("cpu")
     if torch.cuda.is_available():
@@ -363,10 +355,10 @@ def main():
         nn_model_filename=nn_model_filename,
         bpe_model_filename=bpe_model_filename,
         token_filename=token_filename,
-        decoding_method=decoding_method,
         num_active_paths=num_active_paths,
         sample_rate=sample_rate,
         device=device,
+        beam_search_params=beam_search_params,
     )
 
     waves = read_sound_files(
@@ -408,10 +400,7 @@ torch::jit::setGraphExecutorOptimize(false);
 
 if __name__ == "__main__":
     torch.manual_seed(20220609)
-
-    formatter = (
-        "%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] %(message)s"  # noqa
-    )
+    formatter = "%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] %(message)s"  # noqa
     logging.basicConfig(format=formatter, level=logging.INFO)
 
     main()

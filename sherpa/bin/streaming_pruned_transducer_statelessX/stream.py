@@ -1,5 +1,5 @@
-# Copyright      2022  Xiaomi Corp.        (authors: Fangjun Kuang)
-#
+# Copyright      2022  Xiaomi Corp.        (authors: Fangjun Kuang,
+#                                                    Wei Kang)
 # See LICENSE for clarification regarding multiple authors
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,85 +15,10 @@
 # limitations under the License.
 
 import math
-from typing import List, Optional
+from typing import List
 
-import k2
 import torch
 from kaldifeat import FbankOptions, OnlineFbank, OnlineFeature
-from sherpa import Hypotheses, Hypothesis
-
-
-def unstack_states(
-    states: List[List[torch.Tensor]],
-) -> List[List[List[torch.Tensor]]]:
-    """Unstack the Emformer state corresponding to a batch of utterances
-    into a list of states, where the i-th entry is the state for the i-th
-    utterance in the batch.
-
-    Args:
-      states:
-        A list-of-list of tensors. ``len(states)`` equals to number of
-        layers in the Emformer. ``states[i]`` contains the states for
-        the i-th layer. ``states[i][k]`` is either a 3-D tensor of shape
-        ``(T, N, C)`` or a 2-D tensor of shape ``(C, N)``
-    Returns:
-      Return the states for each utterance. ans[i] is the state for the i-th
-      utterance. Note that the returned state does not contain the batch
-      dimension.
-    """
-    batch_size = states[0][0].size(1)
-    num_layers = len(states)
-
-    ans = [None] * batch_size
-    for i in range(batch_size):
-        ans[i] = [[] for _ in range(num_layers)]
-
-    for li, layer in enumerate(states):
-        for s in layer:
-            s_list = s.unbind(dim=1)
-            # We will use stack(dim=1) later in stack_states()
-            for bi, b in enumerate(ans):
-                b[li].append(s_list[bi])
-    return ans
-
-
-def stack_states(
-    state_list: List[List[List[torch.Tensor]]],
-) -> List[List[torch.Tensor]]:
-    """Stack list of Emformer states that correspond to separate utterances
-    into a single Emformer state so that it can be used as an input for
-    Emformer when those utterances are formed into a batch.
-
-    Note:
-      It is the inverse of :func:`unstack_states`.
-
-    Args:
-      state_list:
-        Each element in state_list corresponds to the internal state
-        of the Emformer model for a single utterance.
-    Returns:
-      Return a new state corresponding to a batch of utterances.
-      See the input argument of :func:`unstack_states` for the meaning
-      of the returned tensor.
-    """
-    batch_size = len(state_list)
-    ans = []
-    for layer in state_list[0]:
-        # layer is a list of tensors
-        if batch_size > 1:
-            ans.append([[s] for s in layer])
-            # Note: We will stack ans[layer][s][] later to get ans[layer][s]
-        else:
-            ans.append([s.unsqueeze(1) for s in layer])
-
-    for b, states in enumerate(state_list[1:], 1):
-        for li, layer in enumerate(states):
-            for si, s in enumerate(layer):
-                ans[li][si].append(s)
-                if b == batch_size - 1:
-                    ans[li][si] = torch.stack(ans[li][si], dim=1)
-                    # We will use unbind(dim=1) later in unstack_states()
-    return ans
 
 
 def _create_streaming_feature_extractor() -> OnlineFeature:
@@ -119,29 +44,15 @@ class Stream(object):
     def __init__(
         self,
         context_size: int,
-        blank_id: int,
-        initial_states: List[List[torch.Tensor]],
-        decoding_method: str = "greedy_search",
-        decoding_graph: Optional[k2.Fsa] = None,
-        decoder_out: Optional[torch.Tensor] = None,
+        initial_states: List[torch.Tensor],
     ) -> None:
         """
         Args:
           context_size:
             Context size of the RNN-T decoder model.
-          blank_id:
-            Blank token ID of the BPE model.
           initial_states:
-            The initial states of the Emformer model. Note that the state
+            The initial states of the Conformer model. Note that the state
             does not contain the batch dimension.
-          decoding_method:
-            The decoding method to use, currently, only greedy_search and
-            fast_beam_search are supported.
-          decoding_graph:
-            The Fsa based decoding graph for fast_beam_search.
-          decoder_out:
-            Optional. The initial decoder out corresponding to the decoder input
-            `[blank_id]*context_size`. Used only for greedy_search.
         """
         self.feature_extractor = _create_streaming_feature_extractor()
         # It contains a list of 2-D tensors representing the feature frames.
@@ -150,22 +61,8 @@ class Stream(object):
         self.num_fetched_frames = 0
 
         self.states = initial_states
-        self.decoding_graph = decoding_graph
 
-        if decoding_method == "fast_beam_search":
-            assert decoding_graph is not None
-            self.rnnt_decoding_stream = k2.RnntDecodingStream(decoding_graph)
-            self.hyp = []
-        elif decoding_method == "greedy_search":
-            assert decoder_out is not None
-            self.decoder_out = decoder_out
-            self.hyp = [blank_id] * context_size
-        elif decoding_method == "modified_beam_search":
-            hyp = [blank_id] * context_size
-            self.hyps = Hypotheses([Hypothesis(ys=hyp, log_prob=0.0)])
-        else:
-            raise ValueError(f"Decoding method : {decoding_method} is not supported.")
-
+        # The number of frames (after subsampling) been processed.
         self.processed_frames = 0
         self.context_size = context_size
         self.log_eps = math.log(1e-10)

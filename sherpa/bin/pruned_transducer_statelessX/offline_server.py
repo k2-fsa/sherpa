@@ -27,7 +27,6 @@ Usage:
 
 import argparse
 import asyncio
-import functools
 import http
 import logging
 import warnings
@@ -40,14 +39,16 @@ import numpy as np
 import sentencepiece as spm
 import torch
 import websockets
-from decode import run_model_and_do_greedy_search, run_model_and_do_modified_beam_search
+from beam_search import GreedySearchOffline, ModifiedBeamSearchOffline
 
-from sherpa import RnntConformerModel
+from sherpa import RnntConformerModel, add_beam_search_arguments
 
 
 def get_args():
+    beam_search_parser = add_beam_search_arguments()
     parser = argparse.ArgumentParser(
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter
+        parents=[beam_search_parser],
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
 
     parser.add_argument(
@@ -112,6 +113,7 @@ def get_args():
     parser.add_argument(
         "--nn-model-filename",
         type=str,
+        required=True,
         help="""The torchscript model. You can use
           icefall/egs/librispeech/ASR/pruned_transducer_statelessX/export.py \
              --jit=1
@@ -167,27 +169,10 @@ def get_args():
         """,
     )
 
-    parser.add_argument(
-        "--decoding-method",
-        type=str,
-        default="greedy_search",
-        help="""Decoding method to use. Currently, only greedy_search and
-        modified_beam_search are implemented.
-        """,
+    return (
+        parser.parse_args(),
+        beam_search_parser.parse_known_args()[0],
     )
-
-    parser.add_argument(
-        "--num-active-paths",
-        type=int,
-        default=4,
-        help="""Used only when decoding_method is modified_beam_search.
-        It specifies number of active paths for each utterance. Due to
-        merging paths with identical token sequences, the actual number
-        may be less than "num_active_paths".
-        """,
-    )
-
-    return parser.parse_args()
 
 
 class OfflineServer:
@@ -204,8 +189,7 @@ class OfflineServer:
         max_message_size: int,
         max_queue_size: int,
         max_active_connections: int,
-        decoding_method: str,
-        num_active_paths: int,
+        beam_search_params: dict,
     ):
         """
         Args:
@@ -241,14 +225,8 @@ class OfflineServer:
           max_active_connections:
             Max number of active connections. Once number of active client
             equals to this limit, the server refuses to accept new connections.
-          decoding_method:
-            The decoding method to use. Currently, only greedy_search and
-            modified_beam_search are implemented.
-          num_active_paths:
-            Used only when decoding_method is modified_beam_search.
-            It specifies number of active paths for each utterance. Due to
-            merging paths with identical token sequences, the actual number
-            may be less than "num_active_paths".
+          beam_search_params:
+            Dictionary containing all the parameters for beam search.
         """
         self.feature_extractor = self._build_feature_extractor()
         self.nn_models = self._build_nn_model(nn_model_filename, num_device)
@@ -283,26 +261,15 @@ class OfflineServer:
 
         self.current_active_connections = 0
 
-        assert decoding_method in (
-            "greedy_search",
-            "modified_beam_search",
-        ), decoding_method
+        decoding_method = beam_search_params["decoding_method"]
         if decoding_method == "greedy_search":
-            nn_and_decoding_func = run_model_and_do_greedy_search
+            self.beam_search = GreedySearchOffline()
         elif decoding_method == "modified_beam_search":
-            nn_and_decoding_func = functools.partial(
-                run_model_and_do_modified_beam_search,
-                num_active_paths=num_active_paths,
-            )
+            self.beam_search = ModifiedBeamSearchOffline(beam_search_params)
         else:
             raise ValueError(
-                f"Unsupported decoding_method: {decoding_method} "
-                "Please use greedy_search or modified_beam_search"
+                f"Decoding method {decoding_method} is not supported."
             )
-
-        self.nn_and_decoding_func = nn_and_decoding_func
-        self.decoding_method = decoding_method
-        self.num_active_paths = num_active_paths
 
     def _build_feature_extractor(self) -> kaldifeat.OfflineFeature:
         """Build a fbank feature extractor for extracting features.
@@ -480,7 +447,7 @@ class OfflineServer:
 
             hyp_tokens = await loop.run_in_executor(
                 self.nn_pool,
-                self.nn_and_decoding_func,
+                self.beam_search.process,
                 model,
                 feature_list,
             )
@@ -581,7 +548,8 @@ class OfflineServer:
 
 @torch.no_grad()
 def main():
-    args = get_args()
+    args, beam_search_parser = get_args()
+    beam_search_params = vars(beam_search_parser)
 
     logging.info(vars(args))
 
@@ -597,19 +565,34 @@ def main():
     max_message_size = args.max_message_size
     max_queue_size = args.max_queue_size
     max_active_connections = args.max_active_connections
-    decoding_method = args.decoding_method
-    num_active_paths = args.num_active_paths
 
-    assert decoding_method in ("greedy_search", "modified_beam_search"), decoding_method
+    decoding_method = beam_search_params["decoding_method"]
+    assert decoding_method in (
+        "greedy_search",
+        "modified_beam_search",
+    ), decoding_method
 
     if decoding_method == "modified_beam_search":
-        assert num_active_paths >= 1, num_active_paths
+        assert beam_search_params["num_active_paths"] >= 1, beam_search_params[
+            "num_active_paths"
+        ]
 
     if bpe_model_filename:
-        assert token_filename is None
+        assert token_filename is None, (
+            "You need to provide either --bpe-model-filename or "
+            "--token-filename parameter. But not both."
+        )
 
     if token_filename:
-        assert bpe_model_filename is None
+        assert bpe_model_filename is None, (
+            "You need to provide either --bpe-model-filename or "
+            "--token-filename parameter. But not both."
+        )
+
+    assert bpe_model_filename or token_filename, (
+        "You need to provide either --bpe-model-filename or "
+        "--token-filename parameter. But not both."
+    )
 
     offline_server = OfflineServer(
         nn_model_filename=nn_model_filename,
@@ -623,8 +606,7 @@ def main():
         max_message_size=max_message_size,
         max_queue_size=max_queue_size,
         max_active_connections=max_active_connections,
-        decoding_method=decoding_method,
-        num_active_paths=num_active_paths,
+        beam_search_params=beam_search_params,
     )
     asyncio.run(offline_server.run(port))
 
@@ -651,10 +633,7 @@ torch::jit::setGraphExecutorOptimize(false);
 
 if __name__ == "__main__":
     torch.manual_seed(20220519)
-
-    formatter = (
-        "%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] %(message)s"  # noqa
-    )
+    formatter = "%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] %(message)s"  # noqa
     logging.basicConfig(format=formatter, level=logging.INFO)
 
     main()

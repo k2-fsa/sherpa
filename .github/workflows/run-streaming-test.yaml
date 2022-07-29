@@ -34,7 +34,7 @@ jobs:
         torch: ["1.10.0", "1.6.0"]
         torchaudio: ["0.10.0", "0.6.0"]
         python-version: ["3.7", "3.8"]
-        decoding: ["greedy_search", "modified_beam_search", "fast_beam_search"]
+        decoding: ["greedy_search", "modified_beam_search", "fast_beam_search", "fast_beam_search_nbest", "fast_beam_search_nbest_LG"]
         exclude:
           - torch: "1.10.0"
             torchaudio: "0.6.0"
@@ -70,6 +70,7 @@ jobs:
 
           python3 -m torch.utils.collect_env
 
+
           if [[ ${{ matrix.torchaudio }} == "0.10.0" ]]; then
             pip install torchaudio==${{ matrix.torchaudio }}+cpu -f https://download.pytorch.org/whl/cpu/torch_stable.html
           else
@@ -87,6 +88,7 @@ jobs:
           pip install k2==1.16.dev20220621+cpu.torch${{ matrix.torch }} -f https://k2-fsa.org/nightly/index.html
 
           python3 -m torch.utils.collect_env
+
 
       - name: Cache kaldifeat
         id: my-cache
@@ -126,6 +128,7 @@ jobs:
             --max-wait-ms 5 \
             --nn-pool-size 1 \
             --nn-model-filename ./icefall-asr-librispeech-pruned-stateless-emformer-rnnt2-2022-06-01/exp/cpu_jit-epoch-39-avg-6-use-averaged-model-1-torch-${{ matrix.torch }}.pt \
+            --lang-dir ./icefall-asr-librispeech-pruned-stateless-emformer-rnnt2-2022-06-01/data/lang_bpe_500/ \
             --bpe-model-filename ./icefall-asr-librispeech-pruned-stateless-emformer-rnnt2-2022-06-01/data/lang_bpe_500/bpe.model &
 
           echo "Sleep 10 seconds to wait for the server startup"
@@ -137,4 +140,6 @@ jobs:
           ./sherpa/bin/pruned_stateless_emformer_rnnt2/streaming_client.py \
             --server-addr localhost \
             --server-port 6006 \
-            ./icefall-asr-librispeech-pruned-stateless-emformer-rnnt2-2022-06-01/test_wavs/1221-135766-0001.wav
+            ./icefall-asr-librispeech-pruned-stateless-emformer-rnnt2-2022-06-01/test_wavs/1089-134686-0001.wav \
+            ./icefall-asr-librispeech-pruned-stateless-emformer-rnnt2-2022-06-01/test_wavs/1221-135766-0001.wav \
+            ./icefall-asr-librispeech-pruned-stateless-emformer-rnnt2-2022-06-01/test_wavs/1221-135766-0002.wav

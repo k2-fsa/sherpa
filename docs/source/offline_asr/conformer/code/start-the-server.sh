@@ -5,7 +5,7 @@ export CUDA_VISIBLE_DEVICES=1
 nn_model_filename=./icefall-aishell-pruned-transducer-stateless3-2022-06-20/exp/cpu_jit-epoch-29-avg-5-torch-1.6.0.pt
 token_filename=./icefall-aishell-pruned-transducer-stateless3-2022-06-20/data/lang_char/tokens.txt
 
-sherpa/bin/conformer_rnnt/offline_server.py \
+sherpa/bin/pruned_transducer_statelessX/offline_server.py \
   --port 6010 \
   --num-device 1 \
   --max-batch-size 10 \
