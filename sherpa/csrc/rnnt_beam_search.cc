@@ -22,8 +22,10 @@
 #include <deque>
 #include <utility>
 
+#ifndef ANDROID
 #include "k2/torch_api.h"
 #include "sherpa/csrc/hypothesis.h"
+#endif
 #include "sherpa/csrc/rnnt_conformer_model.h"
 #include "sherpa/csrc/rnnt_emformer_model.h"
 #include "sherpa/csrc/rnnt_model.h"
@@ -60,6 +62,7 @@ static void BuildDecoderInput(const std::vector<std::vector<int32_t>> &hyps,
   }
 }
 
+#ifndef ANDROID
 static torch::Tensor BuildDecoderInput(const std::vector<Hypothesis> &hyps,
                                        int32_t context_size) {
   int32_t num_hyps = hyps.size();
@@ -101,6 +104,7 @@ static k2::RaggedShapePtr GetHypsShape(const std::vector<Hypotheses> &hyps) {
 
   return k2::RaggedShape2(row_splits, torch::Tensor(), row_splits_acc[num_utt]);
 }
+#endif
 
 std::vector<std::vector<int32_t>> GreedySearch(
     RnntModel &model,  // NOLINT
@@ -251,6 +255,7 @@ torch::Tensor StreamingGreedySearch(RnntModel &model,  // NOLINT
   return decoder_out;
 }
 
+#ifndef ANDROID
 std::vector<std::vector<int32_t>> ModifiedBeamSearch(
     RnntModel &model,  // NOLINT
     torch::Tensor encoder_out, torch::Tensor encoder_out_length,
@@ -525,5 +530,6 @@ std::vector<Hypotheses> StreamingModifiedBeamSearch(
 
   return cur;
 }
+#endif
 
 }  // namespace sherpa

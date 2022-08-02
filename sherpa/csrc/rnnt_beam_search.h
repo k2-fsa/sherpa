@@ -20,7 +20,9 @@
 
 #include <vector>
 
+#ifndef ANDROID
 #include "sherpa/csrc/hypothesis.h"
+#endif
 #include "sherpa/csrc/rnnt_conformer_model.h"
 #include "sherpa/csrc/rnnt_emformer_model.h"
 #include "sherpa/csrc/rnnt_model.h"
@@ -64,6 +66,7 @@ torch::Tensor StreamingGreedySearch(RnntModel &model,  // NOLINT
                                     torch::Tensor decoder_out,
                                     std::vector<std::vector<int32_t>> *hyps);
 
+#ifndef ANDROID
 /** RNN-T modified beam search for offline recognition.
  *
  * By modified we mean that the maximum symbol per frame is limited to 1.
@@ -109,6 +112,7 @@ std::vector<Hypotheses> StreamingModifiedBeamSearch(
     RnntModel &model,  // NOLINT
     torch::Tensor encoder_out, std::vector<Hypotheses> hyps,
     int32_t num_active_paths = 4);
+#endif
 
 }  // namespace sherpa
 

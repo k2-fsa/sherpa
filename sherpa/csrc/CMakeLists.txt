@@ -6,17 +6,17 @@ set(sherpa_srcs
   rnnt_emformer_model.cc
 )
 
-if (ANDROID)
-  list(APPEND ${sherpa_srcs} decode_stream.cc)
+if(ANDROID)
+  list(APPEND sherpa_srcs decode_stream.cc)
 else()
-  list(APPEND ${sherpa_srcs} hypothesis.cc)
+  list(APPEND sherpa_srcs hypothesis.cc)
 endif()
 
 add_library(sherpa_core ${sherpa_srcs})
 
 target_link_libraries(sherpa_core PUBLIC ${TORCH_LIBRARIES} ${K2_LIBRARIES})
 
-if (ANDROID)
+if(ANDROID)
 target_link_libraries(sherpa_core PUBLIC kaldifeat_core)
 endif()
 

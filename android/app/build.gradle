@@ -53,7 +53,7 @@ android {
     }
     externalNativeBuild {
         cmake {
-            path "src/main/cpp/CMakeLists.txt"
+            path "../../CMakeLists.txt"
         }
     }
     compileOptions {
@@ -63,7 +63,6 @@ android {
 }
 
 dependencies {
-
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'com.google.android.material:material:1.2.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
@@ -73,6 +72,9 @@ dependencies {
 
     implementation 'org.pytorch:pytorch_android:1.11'
     extractForNativeBuild 'org.pytorch:pytorch_android:1.11'
+
+    implementation 'com.github.pkufool:k2:1.17.3'
+    extractForNativeBuild 'com.github.pkufool:k2:1.17.3'
 }
 
 task extractAARForNativeBuild {

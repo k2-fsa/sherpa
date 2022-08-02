@@ -39,10 +39,15 @@ option(SHERPA_ENABLE_TESTS "Whether to build tests" ON)
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/Modules)
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 
-if (ANDROID)
+if(ANDROID)
+  set(build_DIR ${CMAKE_SOURCE_DIR}/android/app/build)
   # Pytorch
   file(GLOB PYTORCH_INCLUDE_DIRS "${build_DIR}/pytorch_android*.aar/headers")
   file(GLOB PYTORCH_LINK_DIRS "${build_DIR}/pytorch_android*.aar/jni/${ANDROID_ABI}")
+
+  message("build_DiR" ${build_DIR})
+  message("pytorch_DiR" ${PYTORCH_LINK_DIRS})
+  message("pytorch_DiR" ${PYTORCH_INCLUDE_DIRS})
   
   find_library(PYTORCH_LIBRARIES pytorch_jni
     PATHS ${PYTORCH_LINK_DIRS}
@@ -68,13 +73,20 @@ if (ANDROID)
   
   find_library(K2_LIBRARIES
     NAMES k2_log k2context k2fsa
-    PATHS ${PYTORCH_LINK_DIRS}
+    PATHS ${K2_LINK_DIRS}
     NO_CMAKE_FIND_ROOT_PATH
   )
   
   include_directories(
     ${K2_INCLUDE_DIRS}
   )
+
+  # needed by kaldifeat
+  set(K2_TORCH_VERSION_MAJOR 1)
+  set(K2_TORCH_VERSION_MINOR 11)
+  # needed by sherpa
+  set(SHERPA_TORCH_VERSION_MAJOR 1)
+  set(SHERPA_TORCH_VERSION_MINOR 11)
 
   # needed by decode_stream.h
   include(kaldifeat)
@@ -114,6 +126,6 @@ message(STATUS "CMAKE_CXX_FLAGS: ${CMAKE_CXX_FLAGS}")
 add_subdirectory(sherpa)
 
 if (ANDROID)
-  add_subdirectory(android/app/main/cpp)
+  add_subdirectory(android/app/src/main/cpp)
 endif()
 

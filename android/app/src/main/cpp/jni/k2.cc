@@ -31,8 +31,8 @@
 #include <unordered_map>
 #include <vector>
 
-#include "sherpa/csrc/rnnt_beam_search.h"
 #include "sherpa/csrc/decode_stream.h"
+#include "sherpa/csrc/rnnt_beam_search.h"
 #include "torch/all.h"
 #include "torch/script.h"
 #include "torch/utils.h"
