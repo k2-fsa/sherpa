@@ -31,10 +31,10 @@ jobs:
       fail-fast: false
       matrix:
         os: [windows-2019]
-        torch: ["1.10.0"]
-        torchaudio: ["0.10.0"]
-        cuda: ["11.3.1"]
-        python-version: [3.7, 3.8, 3.9]
+        torch: ["1.7.1"]
+        torchaudio: ["0.7.2"]
+        cuda: ["10.1.243"]
+        python-version: ["3.7", "3.8"]
     steps:
       - uses: actions/checkout@v2
         with:
@@ -87,19 +87,17 @@ jobs:
       - name: Install PyTorch ${{ matrix.torch }}
         shell: bash
         run: |
-          version=${{ matrix.cuda }}
-          major=${version:0:2}
-          minor=${version:3:1}
-          v=${major}${minor}
-          if [ ${v} -eq 102 ]; then v=""; else v="+cu${v}"; fi
-
           python3 -m pip install --upgrade pip
           python3 -m pip install wheel twine typing_extensions websockets sentencepiece>=0.1.96 soundfile
-          python3 -m pip install torch==${{ matrix.torch }}${v} torchaudio==${{ matrix.torchaudio }}${v} -f https://download.pytorch.org/whl/torch_stable.html numpy
+          python3 -m pip install torch==${{ matrix.torch }}+cu101 torchaudio==${{ matrix.torchaudio }} -f https://download.pytorch.org/whl/torch_stable.html numpy
+
+          # python3 -m pip install k2==1.16.dev20220621+cuda10.1.torch${{ matrix.torch }} -f https://k2-fsa.org/nightly/index.html
+          python3 -m pip install k2==1.16.dev20220621+cpu.torch${{ matrix.torch }} -f https://k2-fsa.org/nightly/index.html
 
           python3 -c "import torch; print('torch version:', torch.__version__)"
 
           python3 -m torch.utils.collect_env
+
 
       - name: Display CMake version
         run: |
@@ -121,3 +119,4 @@ jobs:
           python3 setup.py install
 
           python3 -c "import sherpa; print(sherpa.__version__)"
+          # We only test that it compiles successfully on Windows with CUDA support

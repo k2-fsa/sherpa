@@ -49,6 +49,7 @@ void PybindRnntEmformerModel(py::module &m) {  // NOLINT
       .def("get_encoder_init_states", &PyClass::GetEncoderInitStates,
            py::call_guard<py::gil_scoped_release>())
       .def_property_readonly("segment_length", &PyClass::SegmentLength)
+      .def_property_readonly("vocab_size", &PyClass::VocabSize)
       .def_property_readonly("right_context_length",
                              &PyClass::RightContextLength);
 }

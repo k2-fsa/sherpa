@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.8 FATAL_ERROR)
 project(sherpa)
 
-set(SHERPA_VERSION "0.5")
+set(SHERPA_VERSION "0.6")
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
@@ -10,13 +10,15 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
 set(CMAKE_SKIP_BUILD_RPATH FALSE)
 set(BUILD_RPATH_USE_ORIGIN TRUE)
 set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
+
 if(NOT APPLE)
-  set(CMAKE_INSTALL_RPATH "$ORIGIN")
-  set(CMAKE_BUILD_RPATH "$ORIGIN")
+  set(SHERPA_RPATH_ORIGIN "$ORIGIN")
 else()
-  set(CMAKE_INSTALL_RPATH "@loader_path")
-  set(CMAKE_BUILD_RPATH "@loader_path")
+  set(SHERPA_RPATH_ORIGIN "@loader_path")
 endif()
+
+set(CMAKE_INSTALL_RPATH ${SHERPA_RPATH_ORIGIN})
+set(CMAKE_BUILD_RPATH ${SHERPA_RPATH_ORIGIN})
 
 set(BUILD_SHARED_LIBS ON)
 if(WIN32)
@@ -32,13 +34,60 @@ endif()
 set(CMAKE_CXX_STANDARD 14 CACHE STRING "The C++ version to be used.")
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+option(SHERPA_ENABLE_TESTS "Whether to build tests" ON)
+
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/Modules)
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 
-include(pybind11)
-include(torch)
-# needed by decode_stream.h
-include(kaldifeat)
+if (ANDROID)
+  # Pytorch
+  file(GLOB PYTORCH_INCLUDE_DIRS "${build_DIR}/pytorch_android*.aar/headers")
+  file(GLOB PYTORCH_LINK_DIRS "${build_DIR}/pytorch_android*.aar/jni/${ANDROID_ABI}")
+  
+  find_library(PYTORCH_LIBRARIES pytorch_jni
+    PATHS ${PYTORCH_LINK_DIRS}
+    NO_CMAKE_FIND_ROOT_PATH
+  )
+  
+  find_library(FBJNI_LIBRARIES fbjni
+    PATHS ${PYTORCH_LINK_DIRS}
+    NO_CMAKE_FIND_ROOT_PATH
+  )
+  
+  list(APPEND TORCH_LIBRARIES ${PYTORCH_LIBRARIES})
+  list(APPEND TORCH_LIBRARIES ${FBJNI_LIBRARIES})
+  
+  include_directories(
+    ${PYTORCH_INCLUDE_DIRS}
+    ${PYTORCH_INCLUDE_DIRS}/torch/csrc/api/include
+  )
+
+  # k2
+  file(GLOB K2_INCLUDE_DIRS "${build_DIR}/k2-*.aar/headers")
+  file(GLOB K2_LINK_DIRS "${build_DIR}/k2-*.aar/jni/${ANDROID_ABI}")
+  
+  find_library(K2_LIBRARIES
+    NAMES k2_log k2context k2fsa
+    PATHS ${PYTORCH_LINK_DIRS}
+    NO_CMAKE_FIND_ROOT_PATH
+  )
+  
+  include_directories(
+    ${K2_INCLUDE_DIRS}
+  )
+
+  # needed by decode_stream.h
+  include(kaldifeat)
+else()
+  include(pybind11)
+  include(torch)
+  include(k2)
+endif()
+
+if(SHERPA_ENABLE_TESTS)
+  enable_testing()
+  include(googletest)
+endif()
 
 # TORCH_VERSION is defined in cmake/torch.cmake
 configure_file(
@@ -63,3 +112,8 @@ include_directories(${CMAKE_SOURCE_DIR})
 message(STATUS "CMAKE_CXX_FLAGS: ${CMAKE_CXX_FLAGS}")
 
 add_subdirectory(sherpa)
+
+if (ANDROID)
+  add_subdirectory(android/app/main/cpp)
+endif()
+

@@ -19,6 +19,7 @@
 #define SHERPA_CSRC_RNNT_EMFORMER_MODEL_H_
 
 #include <string>
+#include <tuple>
 #include <utility>
 #include <vector>
 
@@ -46,7 +47,7 @@ class RnntEmformerModel : public RnntModel {
 
   using State = std::vector<std::vector<torch::Tensor>>;
 
-  std::pair<torch::Tensor, State> StreamingForwardEncoder(
+  std::tuple<torch::Tensor, torch::Tensor, State> StreamingForwardEncoder(
       const torch::Tensor &features, const torch::Tensor &features_length,
       torch::optional<State> states = torch::nullopt);
 
@@ -72,6 +73,7 @@ class RnntEmformerModel : public RnntModel {
   int32_t BlankId() const override { return blank_id_; }
   int32_t UnkId() const override { return unk_id_; }
   int32_t ContextSize() const override { return context_size_; }
+  int32_t VocabSize() const override { return vocab_size_; }
   int32_t SegmentLength() const { return segment_length_; }
   int32_t RightContextLength() const { return right_context_length_; }
 
@@ -86,6 +88,7 @@ class RnntEmformerModel : public RnntModel {
   torch::Device device_;
   int32_t blank_id_;
   int32_t unk_id_;
+  int32_t vocab_size_;
   int32_t context_size_;
   int32_t segment_length_;
   int32_t right_context_length_;

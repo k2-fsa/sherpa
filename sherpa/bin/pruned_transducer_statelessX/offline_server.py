@@ -29,7 +29,6 @@ import argparse
 import asyncio
 import http
 import logging
-import math
 import warnings
 from concurrent.futures import ThreadPoolExecutor
 from typing import List, Optional, Tuple
@@ -40,15 +39,16 @@ import numpy as np
 import sentencepiece as spm
 import torch
 import websockets
-from _sherpa import RnntConformerModel, greedy_search
-from torch.nn.utils.rnn import pad_sequence
+from beam_search import GreedySearchOffline, ModifiedBeamSearchOffline
 
-LOG_EPS = math.log(1e-10)
+from sherpa import RnntConformerModel, add_beam_search_arguments
 
 
 def get_args():
+    beam_search_parser = add_beam_search_arguments()
     parser = argparse.ArgumentParser(
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter
+        parents=[beam_search_parser],
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
 
     parser.add_argument(
@@ -113,6 +113,7 @@ def get_args():
     parser.add_argument(
         "--nn-model-filename",
         type=str,
+        required=True,
         help="""The torchscript model. You can use
           icefall/egs/librispeech/ASR/pruned_transducer_statelessX/export.py \
              --jit=1
@@ -168,59 +169,18 @@ def get_args():
         """,
     )
 
-    return parser.parse_args()
-
-
-@torch.no_grad()
-def run_model_and_do_greedy_search(
-    model: RnntConformerModel,
-    features: List[torch.Tensor],
-) -> List[List[int]]:
-    """Run RNN-T model with the given features and use greedy search
-    to decode the output of the model.
-
-    Args:
-      model:
-        The RNN-T model.
-      features:
-        A list of 2-D tensors. Each entry is of shape
-        (num_frames, feature_dim).
-    Returns:
-      Return a list-of-list containing the decoding token IDs.
-    """
-    features_length = torch.tensor(
-        [f.size(0) for f in features],
-        dtype=torch.int64,
+    return (
+        parser.parse_args(),
+        beam_search_parser.parse_known_args()[0],
     )
-    features = pad_sequence(
-        features,
-        batch_first=True,
-        padding_value=LOG_EPS,
-    )
-
-    device = model.device
-    features = features.to(device)
-    features_length = features_length.to(device)
-
-    encoder_out, encoder_out_length = model.encoder(
-        features=features,
-        features_length=features_length,
-    )
-
-    hyp_tokens = greedy_search(
-        model=model,
-        encoder_out=encoder_out,
-        encoder_out_length=encoder_out_length.cpu(),
-    )
-    return hyp_tokens
 
 
 class OfflineServer:
     def __init__(
         self,
-        nn_model_filename: Optional[str],
+        nn_model_filename: str,
         bpe_model_filename: Optional[str],
-        token_filename: str,
+        token_filename: Optional[str],
         num_device: int,
         batch_size: int,
         max_wait_ms: float,
@@ -229,6 +189,7 @@ class OfflineServer:
         max_message_size: int,
         max_queue_size: int,
         max_active_connections: int,
+        beam_search_params: dict,
     ):
         """
         Args:
@@ -264,6 +225,8 @@ class OfflineServer:
           max_active_connections:
             Max number of active connections. Once number of active client
             equals to this limit, the server refuses to accept new connections.
+          beam_search_params:
+            Dictionary containing all the parameters for beam search.
         """
         self.feature_extractor = self._build_feature_extractor()
         self.nn_models = self._build_nn_model(nn_model_filename, num_device)
@@ -298,7 +261,17 @@ class OfflineServer:
 
         self.current_active_connections = 0
 
-    def _build_feature_extractor(self):
+        decoding_method = beam_search_params["decoding_method"]
+        if decoding_method == "greedy_search":
+            self.beam_search = GreedySearchOffline()
+        elif decoding_method == "modified_beam_search":
+            self.beam_search = ModifiedBeamSearchOffline(beam_search_params)
+        else:
+            raise ValueError(
+                f"Decoding method {decoding_method} is not supported."
+            )
+
+    def _build_feature_extractor(self) -> kaldifeat.OfflineFeature:
         """Build a fbank feature extractor for extracting features.
 
         TODO:
@@ -389,67 +362,54 @@ class OfflineServer:
     async def recv_audio_samples(
         self,
         socket: websockets.WebSocketServerProtocol,
-        last: Optional[bytes] = None,
-    ) -> Tuple[Optional[torch.Tensor], Optional[bytes]]:
+    ) -> Optional[torch.Tensor]:
         """Receives a tensor from the client.
 
-        The message from the client contains two parts: header and payload
+        As the websocket protocol is a message based protocol, not a stream
+        protocol, we can receive the whole message sent by the client at once.
 
-            - the header contains 8 bytes in little endian format, specifying
-              the number of bytes in the payload.
+        The message from the client is a **bytes** buffer.
 
-            - the payload contains either a binary representation of the 1-D
-              torch.float32 tensor or the bytes object b"Done" which means
-              the end of utterance.
+        The first message can be either b"Done" meaning the client won't send
+        anything in the future or it can be a buffer containing 8 bytes
+        in **little** endian format, specifying the number of bytes in the audio
+        file, which will be sent by the client in the subsequent messages.
+        Since there is a limit in the message size posed by the websocket
+        protocol, the client may send the audio file in multiple messages if the
+        audio file is very large.
+
+        The second and remaining messages contain audio samples.
 
         Args:
           socket:
             The socket for communicating with the client.
-          last:
-            Previous received content.
         Returns:
-          Return a tuple containing:
-            - A 1-D torch.float32 tensor containing the audio samples
-            - Data for the next chunk, if any
-         or return a tuple (None, None) meaning the end of utterance.
+          Return a 1-D torch.float32 tensor containing the audio samples or
+          return None indicating the end of utterance.
         """
-        header_len = 8
+        header = await socket.recv()
+        if header == b"Done":
+            return None
 
-        if last is None:
-            last = b""
-
-        async def receive_header():
-            buf = last
-            async for message in socket:
-                buf += message
-                if len(buf) >= header_len:
-                    break
-            if buf:
-                header = buf[:header_len]
-                remaining = buf[header_len:]
-            else:
-                header = None
-                remaining = None
-
-            return header, remaining
-
-        header, received = await receive_header()
-
-        if header is None:
-            return None, None
+        assert len(header) == 8, "The first message should contain 8 bytes"
 
         expected_num_bytes = int.from_bytes(header, "little", signed=True)
 
+        received = []
+        num_received_bytes = 0
         async for message in socket:
-            received += message
-            if len(received) >= expected_num_bytes:
+            received.append(message)
+            num_received_bytes += len(message)
+
+            if num_received_bytes >= expected_num_bytes:
                 break
 
-        if not received or received == b"Done":
-            return None, None
+        assert num_received_bytes == expected_num_bytes, (
+            num_received_bytes,
+            expected_num_bytes,
+        )
 
-        this_chunk = received[:expected_num_bytes]
-        next_chunk = received[expected_num_bytes:]
+        samples = b"".join(received)
 
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
@@ -457,13 +417,10 @@ class OfflineServer:
             # We ignore it here as we are not going to write it anyway.
             if hasattr(torch, "frombuffer"):
                 # Note: torch.frombuffer is available only in torch>= 1.10
-                return (
-                    torch.frombuffer(this_chunk, dtype=torch.float32),
-                    next_chunk,
-                )
+                return torch.frombuffer(samples, dtype=torch.float32)
             else:
-                array = np.frombuffer(this_chunk, dtype=np.float32)
-                return torch.from_numpy(array), next_chunk
+                array = np.frombuffer(samples, dtype=np.float32)
+                return torch.from_numpy(array)
 
     async def feature_consumer_task(self):
         """This function extracts features from the feature_queue,
@@ -490,7 +447,7 @@ class OfflineServer:
 
             hyp_tokens = await loop.run_in_executor(
                 self.nn_pool,
-                run_model_and_do_greedy_search,
+                self.beam_search.process,
                 model,
                 feature_list,
             )
@@ -549,14 +506,35 @@ class OfflineServer:
           socket:
             The socket for communicating with the client.
         """
+        try:
+            await self.handle_connection_impl(socket)
+        finally:
+            # Decrement so that it can accept new connections
+            self.current_active_connections -= 1
+
+            logging.info(
+                f"Disconnected: {socket.remote_address}. "
+                f"Number of connections: {self.current_active_connections}/{self.max_active_connections}"  # noqa
+            )
+
+    async def handle_connection_impl(
+        self,
+        socket: websockets.WebSocketServerProtocol,
+    ):
+        """Receive audio samples from the client, process it, and sends
+        deocoding result back to the client.
+
+        Args:
+          socket:
+            The socket for communicating with the client.
+        """
         logging.info(
             f"Connected: {socket.remote_address}. "
             f"Number of connections: {self.current_active_connections}/{self.max_active_connections}"  # noqa
         )
 
-        last = b""
         while True:
-            samples, last = await self.recv_audio_samples(socket, last)
+            samples = await self.recv_audio_samples(socket)
             if samples is None:
                 break
             features = await self.compute_features(samples)
@@ -567,15 +545,13 @@ class OfflineServer:
                 result = [self.token_table[i] for i in hyp]
             await socket.send(result)
 
-        # Decrement so that it can accept new connections
-        self.current_active_connections -= 1
-
-        logging.info(f"Disconnected: {socket.remote_address}")
-
 
 @torch.no_grad()
 def main():
-    args = get_args()
+    args, beam_search_parser = get_args()
+    beam_search_params = vars(beam_search_parser)
+
+    logging.info(vars(args))
 
     nn_model_filename = args.nn_model_filename
     bpe_model_filename = args.bpe_model_filename
@@ -590,11 +566,33 @@ def main():
     max_queue_size = args.max_queue_size
     max_active_connections = args.max_active_connections
 
+    decoding_method = beam_search_params["decoding_method"]
+    assert decoding_method in (
+        "greedy_search",
+        "modified_beam_search",
+    ), decoding_method
+
+    if decoding_method == "modified_beam_search":
+        assert beam_search_params["num_active_paths"] >= 1, beam_search_params[
+            "num_active_paths"
+        ]
+
     if bpe_model_filename:
-        assert token_filename is None
+        assert token_filename is None, (
+            "You need to provide either --bpe-model-filename or "
+            "--token-filename parameter. But not both."
+        )
 
     if token_filename:
-        assert bpe_model_filename is None
+        assert bpe_model_filename is None, (
+            "You need to provide either --bpe-model-filename or "
+            "--token-filename parameter. But not both."
+        )
+
+    assert bpe_model_filename or token_filename, (
+        "You need to provide either --bpe-model-filename or "
+        "--token-filename parameter. But not both."
+    )
 
     offline_server = OfflineServer(
         nn_model_filename=nn_model_filename,
@@ -608,6 +606,7 @@ def main():
         max_message_size=max_message_size,
         max_queue_size=max_queue_size,
         max_active_connections=max_active_connections,
+        beam_search_params=beam_search_params,
     )
     asyncio.run(offline_server.run(port))
 
@@ -634,10 +633,7 @@ torch::jit::setGraphExecutorOptimize(false);
 
 if __name__ == "__main__":
     torch.manual_seed(20220519)
-
-    formatter = (
-        "%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] %(message)s"  # noqa
-    )
+    formatter = "%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] %(message)s"  # noqa
     logging.basicConfig(format=formatter, level=logging.INFO)
 
     main()

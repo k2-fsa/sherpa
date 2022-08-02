@@ -30,6 +30,7 @@ Usage:
 import argparse
 import asyncio
 import http
+import logging
 from typing import List
 
 import torchaudio
@@ -73,7 +74,7 @@ async def run(server_addr: str, server_port: int, test_wavs: List[str]):
         f"ws://{server_addr}:{server_port}"
     ) as websocket:  # noqa
         for test_wav in test_wavs:
-            print(f"Sending {test_wav}")
+            logging.info(f"Sending {test_wav}")
             wave, sample_rate = torchaudio.load(test_wav)
             assert sample_rate == 16000, sample_rate
 
@@ -82,14 +83,20 @@ async def run(server_addr: str, server_port: int, test_wavs: List[str]):
             await websocket.send((num_bytes).to_bytes(8, "little", signed=True))
 
             frame_size = (2 ** 20) // 4  # max payload is 1MB
+            sleep_time = 0.25
             start = 0
             while start < wave.numel():
                 end = start + frame_size
-                await websocket.send(wave.numpy().data[start:end])
+                d = wave.numpy().data[start:end]
+
+                await websocket.send(d)
+                await asyncio.sleep(sleep_time)  # in seconds
+
                 start = end
+
             decoding_results = await websocket.recv()
-            print(test_wav, "\n", decoding_results)
-            print()
+            logging.info(f"{test_wav}\n{decoding_results}")
+        await websocket.send(b"Done")
 
 
 async def main():
@@ -119,4 +126,6 @@ async def main():
 
 
 if __name__ == "__main__":
+    formatter = "%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] %(message)s"  # noqa
+    logging.basicConfig(format=formatter, level=logging.INFO)
     asyncio.run(main())

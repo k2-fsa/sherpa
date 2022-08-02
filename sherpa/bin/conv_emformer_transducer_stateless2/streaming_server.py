@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
-# Copyright      2022  Xiaomi Corp.        (authors: Fangjun Kuang,
-#                                                    Wei Kang)
+# Copyright      2022  Xiaomi Corp.        (authors: Fangjun Kuang)
 #
 # See LICENSE for clarification regarding multiple authors
 #
@@ -35,20 +34,23 @@ import logging
 import math
 import warnings
 from concurrent.futures import ThreadPoolExecutor
-from typing import List, Optional, Tuple
+from typing import Optional, Tuple
 
 import numpy as np
 import sentencepiece as spm
 import torch
 import websockets
-from sherpa import RnntConformerModel, streaming_greedy_search
+from beam_search import FastBeamSearch, GreedySearch
+from stream import Stream
 
-from decode import Stream
+from sherpa import RnntConvEmformerModel, add_beam_search_arguments
 
 
 def get_args():
+    beam_search_parser = add_beam_search_arguments()
     parser = argparse.ArgumentParser(
-        formatter_class=argparse.ArgumentDefaultsHelpFormatter
+        parents=[beam_search_parser],
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
 
     parser.add_argument(
@@ -61,6 +63,7 @@ def get_args():
     parser.add_argument(
         "--nn-model-filename",
         type=str,
+        required=True,
         help="""The torchscript model. You can use
           icefall/egs/librispeech/ASR/pruned_transducer_statelessX/export.py \
                   --jit=1
@@ -74,6 +77,20 @@ def get_args():
         help="""The BPE model
         You can find it in the directory egs/librispeech/ASR/data/lang_bpe_xxx
         where xxx is the number of BPE tokens you used to train the model.
+        Note: You don't need to provide it if you provide `--token-filename`.
+        """,
+    )
+
+    parser.add_argument(
+        "--token-filename",
+        type=str,
+        help="""Filename for tokens.txt
+        For instance, you can find it in the directory
+        egs/aishell/ASR/data/lang_char/tokens.txt
+        or
+        egs/wenetspeech/ASR/data/lang_char/tokens.txt
+        from icefall
+        Note: You don't need to provide it if you provide `--bpe-model`
         """,
     )
 
@@ -88,14 +105,16 @@ def get_args():
         "--decode-left-context",
         type=int,
         default=32,
-        help="left context can be seen during decoding (in frames after subsampling)",
+        help="""left context can be seen during decoding
+        (in frames after subsampling)""",
     )
 
     parser.add_argument(
         "--decode-right-context",
         type=int,
         default=2,
-        help="right context can be seen during decoding (in frames after subsampling)",
+        help="""right context can be seen during decoding
+        (in frames after subsampling)""",
     )
 
     parser.add_argument(
@@ -153,102 +172,10 @@ def get_args():
         """,
     )
 
-    return parser.parse_args()
-
-
-@torch.no_grad()
-def run_model_and_do_greedy_search(
-    server: "StreamingServer",
-    stream_list: List[Stream],
-) -> None:
-    """Run the model on the given stream list and do greedy search.
-    Args:
-      server:
-        An instance of `StreamingServer`.
-      stream_list:
-        A list of streams to be processed. It is changed in-place.
-        That is, the attribute `states`, `decoder_out`, and `hyp` are
-        updated in-place.
-    """
-    model = server.model
-    device = model.device
-    # Note: chunk_length is in frames before subsampling
-    chunk_length = server.chunk_length
-    subsampling_factor = server.subsampling_factor
-    # Note: chunk_size, left_context and right_context are in frames
-    # after subsampling
-    chunk_size = server.decode_chunk_size
-    left_context = server.decode_left_context
-    right_context = server.decode_right_context
-
-    batch_size = len(stream_list)
-
-    state_list = []
-    decoder_out_list = []
-    hyp_list = []
-    feature_list = []
-    processed_frames_list = []
-    for s in stream_list:
-        state_list.append(s.states)
-        decoder_out_list.append(s.decoder_out)
-        hyp_list.append(s.hyp)
-        processed_frames_list.append(s.processed_frames)
-        f = s.features[:chunk_length]
-        s.features = s.features[chunk_size * subsampling_factor :]
-        b = torch.cat(f, dim=0)
-        feature_list.append(b)
-
-    features = torch.stack(feature_list, dim=0).to(device)
-
-    states = [
-        torch.stack([x[0] for x in state_list], dim=2),
-        torch.stack([x[1] for x in state_list], dim=2),
-    ]
-
-    decoder_out = torch.cat(decoder_out_list, dim=0)
-
-    features_length = torch.full(
-        (batch_size,),
-        fill_value=features.size(1),
-        device=device,
-        dtype=torch.int64,
+    return (
+        parser.parse_args(),
+        beam_search_parser.parse_known_args()[0],
     )
-
-    processed_frames = torch.tensor(processed_frames_list, device=device)
-
-    (
-        encoder_out,
-        encoder_out_lens,
-        next_states,
-    ) = model.encoder_streaming_forward(
-        features=features,
-        features_length=features_length,
-        states=states,
-        processed_frames=processed_frames,
-        left_context=left_context,
-        right_context=right_context,
-    )
-
-    # Note: It does not return the next_encoder_out_len since
-    # there are no paddings for streaming ASR. Each stream
-    # has the same input number of frames, i.e., server.chunk_length.
-    next_decoder_out, next_hyp_list = streaming_greedy_search(
-        model=model,
-        encoder_out=encoder_out,
-        decoder_out=decoder_out,
-        hyps=hyp_list,
-    )
-
-    next_state_list = [
-        torch.unbind(next_states[0], dim=2),
-        torch.unbind(next_states[1], dim=2),
-    ]
-    next_decoder_out_list = next_decoder_out.split(1)
-    for i, s in enumerate(stream_list):
-        s.states = [next_state_list[0][i], next_state_list[1][i]]
-        s.processed_frames += encoder_out_lens[i]
-        s.decoder_out = next_decoder_out_list[i]
-        s.hyp = next_hyp_list[i]
 
 
 class StreamingServer(object):
@@ -256,15 +183,13 @@ class StreamingServer(object):
         self,
         nn_model_filename: str,
         bpe_model_filename: str,
-        decode_chunk_size: int,
-        decode_left_context: int,
-        decode_right_context: int,
         nn_pool_size: int,
         max_wait_ms: float,
         max_batch_size: int,
         max_message_size: int,
         max_queue_size: int,
         max_active_connections: int,
+        beam_search_params: dict,
     ):
         """
         Args:
@@ -272,12 +197,6 @@ class StreamingServer(object):
             Path to the torchscript model
           bpe_model_filename:
             Path to the BPE model
-          decode_chunk_size:
-            The chunk size for decoding (in frames after subsampling)
-          decode_left_context:
-            The left context for decoding (in frames after subsampling)
-          decode_right_context:
-            The right context for decoding (in frames after subsampling)
           nn_pool_size:
             Number of threads for the thread pool that is responsible for
             neural network computation and decoding.
@@ -293,50 +212,59 @@ class StreamingServer(object):
           max_active_connections:
             Max number of active connections. Once number of active client
             equals to this limit, the server refuses to accept new connections.
+          beam_search_params:
+            Dictionary containing all the parameters for beam search.
         """
         if torch.cuda.is_available():
             device = torch.device("cuda", 0)
         else:
             device = torch.device("cpu")
+        logging.info(f"Using device: {device}")
 
-        self.model = RnntConformerModel(nn_model_filename, device=device)
+        self.model = RnntConvEmformerModel(nn_model_filename, device=device)
 
-        self.subsampling_factor = self.model.subsampling_factor
+        # number of frames before subsampling
+        self.chunk_length = self.model.chunk_length
 
-        # Note: The following 3 attributes are in frames after subsampling.
-        self.decode_chunk_size = decode_chunk_size
-        self.decode_left_context = decode_left_context
-        self.decode_right_context = decode_right_context
+        self.right_context_length = self.model.right_context_length
 
         # We add 3 here since the subsampling method is using
         # ((len - 1) // 2 - 1) // 2)
-        # We plus 2 here because we will cut off one frame on each side
-        # of encoder_embed output (in conformer.py) to avoid a training
-        # and decoding mismatch by seeing padding values.
-        # Note: chunk_length is in frames before subsampling.
-        self.chunk_length = (
-            self.decode_chunk_size + 2 + self.decode_right_context
-        ) * self.subsampling_factor + 3
+        self.chunk_length_pad = self.chunk_length + self.model.pad_length
 
         self.sp = spm.SentencePieceProcessor()
         self.sp.load(bpe_model_filename)
 
         self.context_size = self.model.context_size
         self.blank_id = self.model.blank_id
+        self.vocab_size = self.model.vocab_size
         self.log_eps = math.log(1e-10)
 
-        self.initial_states = self.model.get_encoder_init_states(
-            self.decode_left_context
-        )
-        decoder_input = torch.tensor(
-            [[self.blank_id] * self.context_size],
-            device=device,
-            dtype=torch.int64,
-        )
-        initial_decoder_out = self.model.decoder_forward(decoder_input)
-        self.initial_decoder_out = self.model.forward_decoder_proj(
-            initial_decoder_out.squeeze(1)
-        )
+        self.initial_states = self.model.get_encoder_init_states()
+
+        # Add these params after loading the Conv-Emformer model
+        beam_search_params["vocab_size"] = self.vocab_size
+        beam_search_params["context_size"] = self.context_size
+        beam_search_params["blank_id"] = self.blank_id
+
+        decoding_method = beam_search_params["decoding_method"]
+        if decoding_method.startswith("fast_beam_search"):
+            self.beam_search = FastBeamSearch(
+                beam_search_params=beam_search_params,
+                device=device,
+            )
+        elif decoding_method == "greedy_search":
+            self.beam_search = GreedySearch(
+                self.model,
+                beam_search_params,
+                device,
+            )
+        else:
+            raise ValueError(
+                f"Decoding method {decoding_method} is not supported."
+            )
+
+        self.beam_search.sp = self.sp
 
         self.nn_pool = ThreadPoolExecutor(
             max_workers=nn_pool_size,
@@ -366,7 +294,7 @@ class StreamingServer(object):
                 while len(batch) < self.max_batch_size:
                     item = self.stream_queue.get_nowait()
 
-                    assert len(item[0].features) >= self.chunk_length, len(
+                    assert len(item[0].features) >= self.chunk_length_pad, len(
                         item[0].features
                     )
 
@@ -379,7 +307,7 @@ class StreamingServer(object):
             loop = asyncio.get_running_loop()
             await loop.run_in_executor(
                 self.nn_pool,
-                run_model_and_do_greedy_search,
+                self.beam_search.process,
                 self,
                 stream_list,
             )
@@ -446,20 +374,42 @@ class StreamingServer(object):
           socket:
             The socket for communicating with the client.
         """
+        try:
+            await self.handle_connection_impl(socket)
+        finally:
+            # Decrement so that it can accept new connections
+            self.current_active_connections -= 1
+
+            logging.info(
+                f"Disconnected: {socket.remote_address}. "
+                f"Number of connections: {self.current_active_connections}/{self.max_active_connections}"  # noqa
+            )
+
+    async def handle_connection_impl(
+        self,
+        socket: websockets.WebSocketServerProtocol,
+    ):
+        """Receive audio samples from the client, process it, and send
+        deocoding result back to the client.
+
+        Args:
+          socket:
+            The socket for communicating with the client.
+        """
         logging.info(
             f"Connected: {socket.remote_address}. "
             f"Number of connections: {self.current_active_connections}/{self.max_active_connections}"  # noqa
         )
+
         stream = Stream(
             context_size=self.context_size,
-            blank_id=self.blank_id,
             initial_states=self.initial_states,
-            decoder_out=self.initial_decoder_out,
         )
 
-        last = b""
+        self.beam_search.init_stream(stream)
+
         while True:
-            samples, last = await self.recv_audio_samples(socket, last)
+            samples = await self.recv_audio_samples(socket)
             if samples is None:
                 break
 
@@ -467,95 +417,43 @@ class StreamingServer(object):
             # of the received audio samples is always 16000.
             stream.accept_waveform(sampling_rate=16000, waveform=samples)
 
-            while len(stream.features) > self.chunk_length:
+            while len(stream.features) > self.chunk_length_pad:
                 await self.compute_and_decode(stream)
-                await socket.send(
-                    f"{self.sp.decode(stream.hyp[self.context_size:])}"
-                )  # noqa
+                await socket.send(f"{self.beam_search.get_texts(stream)}")
 
         stream.input_finished()
-        while len(stream.features) > self.chunk_length:
+        while len(stream.features) > self.chunk_length_pad:
             await self.compute_and_decode(stream)
 
         if len(stream.features) > 0:
-            n = self.chunk_length - len(stream.features)
+            n = self.chunk_length_pad - len(stream.features)
             stream.add_tail_paddings(n)
             await self.compute_and_decode(stream)
             stream.features = []
 
-        result = self.sp.decode(stream.hyp[self.context_size :])  # noqa
+        result = self.beam_search.get_texts(stream)
         await socket.send(result)
         await socket.send("Done")
-
-        # Decrement so that it can accept new connections
-        self.current_active_connections -= 1
-
-        logging.info(f"Disconnected: {socket.remote_address}")
 
     async def recv_audio_samples(
         self,
         socket: websockets.WebSocketServerProtocol,
-        last: Optional[bytes] = None,
-    ) -> Tuple[Optional[torch.Tensor], Optional[bytes]]:
+    ) -> Optional[torch.Tensor]:
         """Receives a tensor from the client.
 
-        The message from the client contains two parts: header and payload
-
-            - the header contains 8 bytes in little endian format, specifying
-              the number of bytes in the payload.
-
-            - the payload contains either a binary representation of the 1-D
-              torch.float32 tensor or the bytes object b"Done" which means
-              the end of utterance.
+        Each message contains either a bytes buffer containing audio samples
+        in 16 kHz or contains b"Done" meaning the end of utterance.
 
         Args:
           socket:
             The socket for communicating with the client.
-          last:
-            Previous received content.
         Returns:
-          Return a tuple containing:
-            - A 1-D torch.float32 tensor containing the audio samples
-            - Data for the next chunk, if any
-         or return a tuple (None, None) meaning the end of utterance.
+          Return a 1-D torch.float32 tensor containing the audio samples or
+          return None.
         """
-        header_len = 8
-
-        if last is None:
-            last = b""
-
-        async def receive_header():
-            buf = last
-            async for message in socket:
-                buf += message
-                if len(buf) >= header_len:
-                    break
-            if buf:
-                header = buf[:header_len]
-                remaining = buf[header_len:]
-            else:
-                header = None
-                remaining = None
-
-            return header, remaining
-
-        header, received = await receive_header()
-
-        if header is None:
-            return None, None
-
-        expected_num_bytes = int.from_bytes(header, "little", signed=True)
-
-        async for message in socket:
-            received += message
-            if len(received) >= expected_num_bytes:
-                break
-
-        if not received or received == b"Done":
-            return None, None
-
-        this_chunk = received[:expected_num_bytes]
-        next_chunk = received[expected_num_bytes:]
+        message = await socket.recv()
+        if message == b"Done":
+            return None
 
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
@@ -563,27 +461,21 @@ class StreamingServer(object):
             # We ignore it here as we are not going to write it anyway.
             if hasattr(torch, "frombuffer"):
                 # Note: torch.frombuffer is available only in torch>= 1.10
-                return (
-                    torch.frombuffer(this_chunk, dtype=torch.float32),
-                    next_chunk,
-                )  # noqa
+                return torch.frombuffer(message, dtype=torch.float32)
             else:
-                array = np.frombuffer(this_chunk, dtype=np.float32)
-                return torch.from_numpy(array), next_chunk
+                array = np.frombuffer(message, dtype=np.float32)
+                return torch.from_numpy(array)
 
 
 @torch.no_grad()
 def main():
-    args = get_args()
-
+    args, beam_search_parser = get_args()
+    beam_search_params = vars(beam_search_parser)
     logging.info(vars(args))
 
     port = args.port
     nn_model_filename = args.nn_model_filename
     bpe_model_filename = args.bpe_model_filename
-    decode_chunk_size = args.decode_chunk_size
-    decode_left_context = args.decode_left_context
-    decode_right_context = args.decode_right_context
     nn_pool_size = args.nn_pool_size
     max_batch_size = args.max_batch_size
     max_wait_ms = args.max_wait_ms
@@ -594,15 +486,13 @@ def main():
     server = StreamingServer(
         nn_model_filename=nn_model_filename,
         bpe_model_filename=bpe_model_filename,
-        decode_chunk_size=decode_chunk_size,
-        decode_left_context=decode_left_context,
-        decode_right_context=decode_right_context,
         nn_pool_size=nn_pool_size,
         max_batch_size=max_batch_size,
         max_wait_ms=max_wait_ms,
         max_message_size=max_message_size,
         max_queue_size=max_queue_size,
         max_active_connections=max_active_connections,
+        beam_search_params=beam_search_params,
     )
     asyncio.run(server.run(port))
 

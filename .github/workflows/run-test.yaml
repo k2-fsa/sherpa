@@ -30,7 +30,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-18.04, macos-10.15]
+        os: [ubuntu-18.04, macos-latest]
+        decoding: ["greedy_search", "modified_beam_search"]
         torch: ["1.10.0", "1.6.0"]
         torchaudio: ["0.10.0", "0.6.0"]
         python-version: ["3.7", "3.8", "3.9"]
@@ -66,13 +67,16 @@ jobs:
           python3 -m pip install wheel twine typing_extensions websockets sentencepiece>=0.1.96
           python3 -m pip install torch==${{ matrix.torch }}+cpu numpy -f https://download.pytorch.org/whl/cpu/torch_stable.html
 
+          python3 -m pip install k2==1.16.dev20220621+cpu.torch${{ matrix.torch }} -f https://k2-fsa.org/nightly/index.html
+
           if [[ ${{ matrix.torchaudio }} == "0.10.0" ]]; then
-            pip install k2==1.15.1.dev20220616+cpu.torch${{ matrix.torch }} -f https://k2-fsa.org/nightly/index.html
             pip install torchaudio==${{ matrix.torchaudio }}+cpu -f https://download.pytorch.org/whl/cpu/torch_stable.html
           else
-            pip install k2==1.15.1.dev20220617+cpu.torch${{ matrix.torch }} -f https://k2-fsa.org/nightly/index.html
             pip install torchaudio==${{ matrix.torchaudio }}
           fi
+
+          python3 -m torch.utils.collect_env
+
 
       - name: Install PyTorch ${{ matrix.torch }}
         shell: bash
@@ -82,9 +86,10 @@ jobs:
           python3 -m pip install wheel twine typing_extensions websockets sentencepiece>=0.1.96
           python3 -m pip install torch==${{ matrix.torch }} torchaudio==${{ matrix.torchaudio }} numpy -f https://download.pytorch.org/whl/cpu/torch_stable.html
 
-          pip install k2==1.15.1.dev20220617+cpu.torch${{ matrix.torch }} -f https://k2-fsa.org/nightly/index.html
+          python3 -m pip install k2==1.16.dev20220621+cpu.torch${{ matrix.torch }} -f https://k2-fsa.org/nightly/index.html
 
           python3 -m torch.utils.collect_env
+
 
       - name: Cache kaldifeat
         id: my-cache
@@ -117,7 +122,8 @@ jobs:
           export PYTHONPATH=~/tmp/kaldifeat/kaldifeat/python:$PYTHONPATH
           export PYTHONPATH=~/tmp/kaldifeat/build/lib:$PYTHONPATH
 
-          sherpa/bin/conformer_rnnt/offline_server.py \
+          sherpa/bin/pruned_transducer_statelessX/offline_server.py \
+            --decoding-method ${{ matrix.decoding }} \
             --port 6006 \
             --num-device 0 \
             --max-batch-size 10 \
@@ -125,6 +131,7 @@ jobs:
             --feature-extractor-pool-size 5 \
             --nn-pool-size 1 \
             --nn-model-filename ./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/exp/cpu_jit-torch-${{ matrix.torch }}.pt \
+            --lang-dir ./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/data/lang_bpe_500/ \
             --bpe-model-filename ./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/data/lang_bpe_500/bpe.model &
           echo "Sleep 10 seconds to wait for the server startup"
           sleep 10
@@ -132,7 +139,7 @@ jobs:
       - name: Start client
         shell: bash
         run: |
-          sherpa/bin/conformer_rnnt/offline_client.py \
+          sherpa/bin/pruned_transducer_statelessX/offline_client.py \
             --server-addr localhost \
             --server-port 6006 \
             icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/test_wavs/1089-134686-0001.wav \

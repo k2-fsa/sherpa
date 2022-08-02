@@ -35,7 +35,7 @@ import websockets
 from icefall.utils import store_transcripts, write_error_stats
 from lhotse import CutSet, load_manifest
 
-DEFAULT_MANIFEST_FILENAME = "/ceph-fj/fangjun/open-source-2/icefall-master-2/egs/librispeech/ASR/data/fbank/cuts_test-clean.json.gz"  # noqa
+DEFAULT_MANIFEST_FILENAME = "/ceph-fj/fangjun/open-source/icefall-tdnnf/egs/librispeech/ASR/data/fbank/librispeech_cuts_test-clean.jsonl.gz"  # noqa
 
 
 def get_args():
@@ -132,6 +132,7 @@ async def send(
                 results.append(
                     (c.supervisions[0].text.split(), decoding_results.split())
                 )  # noqa
+        await websocket.send(b"Done")
 
     return total_duration, results
 

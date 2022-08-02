@@ -3,7 +3,7 @@
 Client
 ======
 
-With the client you can record you voice in real-time, send it to the
+With the client you can record your voice in real-time, send it to the
 server, and get the recognition results back from the server.
 
 We provide a web client for this purpose.
@@ -14,7 +14,7 @@ We provide a web client for this purpose.
 
    Also, we have hard coded the server port to 6006. Please either pass
    ``--port 6006`` when starting the server or change the client
-   `<https://github.com/k2-fsa/sherpa/blob/master/sherpa/bin/pruned_stateless_emformer_rnnt2/web/js/record.js#L7>`_
+   `<https://github.com/k2-fsa/sherpa/blob/master/sherpa/bin/web/js/streaming_record.js#L7>`_
    to use whaterver the port the server is using.
 
 Usage
@@ -23,7 +23,7 @@ Usage
 .. code-block:: bash
 
    cd /path/to/sherpa
-   cd ./sherpa/bin/pruned_stateless_emformer_rnnt2/web
+   cd ./sherpa/bin/web
    python3 -m http.server 6008
 
 Then open your browser, and visit `<http://localhost:6008/record.html>`_.
