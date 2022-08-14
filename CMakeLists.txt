@@ -36,6 +36,11 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 option(SHERPA_ENABLE_TESTS "Whether to build tests" ON)
 
+include(CheckIncludeFileCXX)
+check_include_file_cxx(cxxabi.h SHERPA_HAVE_CXXABI_H)
+check_include_file_cxx(execinfo.h SHERPA_HAVE_EXECINFO_H)
+
+
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/Modules)
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 
