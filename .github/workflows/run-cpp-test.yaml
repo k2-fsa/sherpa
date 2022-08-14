@@ -100,7 +100,7 @@ jobs:
           mkdir build
           cd build
           cmake -DCMAKE_BUILD_TYPE=$BUILD_TYPE ..
-          make -j VERBOSE=1 sherpa
+          make -j VERBOSE=1
 
           ls -lh lib
           ls -lh bin
