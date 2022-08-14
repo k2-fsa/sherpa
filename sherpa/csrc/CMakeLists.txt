@@ -1,5 +1,6 @@
 # Please sort the filenames alphabetically
 set(sherpa_srcs
+  file_utils.cc
   hypothesis.cc
   log.cc
   parse_options.cc
@@ -10,6 +11,15 @@ set(sherpa_srcs
 )
 
 add_library(sherpa_core ${sherpa_srcs})
+
+if(SHERPA_HAVE_EXECINFO_H)
+  target_compile_definitions(sherpa_core PRIVATE SHERPA_HAVE_EXECINFO_H=1)
+endif()
+
+if(SHERPA_HAVE_CXXABI_H)
+  target_compile_definitions(sherpa_core PRIVATE SHERPA_HAVE_CXXABI_H=1)
+endif()
+
 target_link_libraries(sherpa_core PUBLIC ${TORCH_LIBRARIES} ${K2_LIBRARIES})
 
 target_compile_definitions(sherpa_core PUBLIC SHERPA_TORCH_VERSION_MAJOR=${SHERPA_TORCH_VERSION_MAJOR})
