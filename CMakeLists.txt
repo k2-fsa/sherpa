@@ -42,6 +42,7 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 include(pybind11)
 include(torch)
 include(k2)
+include(kaldifeat)
 
 if(SHERPA_ENABLE_TESTS)
   enable_testing()
