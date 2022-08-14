@@ -84,7 +84,7 @@ jobs:
           python3 -m torch.utils.collect_env
 
       - name: Cache kaldifeat
-        id: my-cache
+        id: my-cache-2
         uses: actions/cache@v2
         with:
           path: |
@@ -92,14 +92,19 @@ jobs:
           key: cache-tmp-${{ matrix.python-version }}-${{ matrix.os }}-${{ matrix.torch }}
 
       - name: Install kaldifeat
-        if: steps.my-cache.outputs.cache-hit != 'true'
+        if: steps.my-cache-2.outputs.cache-hit != 'true'
         shell: bash
         run: |
           .github/scripts/install-kaldifeat.sh
       - name: Install sherpa
         shell: bash
         run: |
+          export KALDIFEAT_INSTALL_PREFIX=$HOME/tmp/kaldifeat/build
+          echo $KALDIFEAT_INSTALL_PREFIX
+          ls -lh $KALDIFEAT_INSTALL_PREFIX
+
           python3 setup.py install
+
       - name: Download pretrained model and test-data
         shell: bash
         run: |
