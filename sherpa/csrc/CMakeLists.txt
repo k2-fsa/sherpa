@@ -2,6 +2,7 @@
 set(sherpa_srcs
   hypothesis.cc
   log.cc
+  parse_options.cc
   rnnt_beam_search.cc
   rnnt_conformer_model.cc
   rnnt_conv_emformer_model.cc
@@ -22,6 +23,7 @@ if(SHERPA_ENABLE_TESTS)
   set(sherpa_test_srcs
     test_hypothesis.cc
     test_log.cc
+    test_parse_options.cc
   )
 
   function(sherpa_add_test source)
