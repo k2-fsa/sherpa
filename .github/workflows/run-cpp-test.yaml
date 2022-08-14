@@ -33,6 +33,7 @@ jobs:
         os: [ubuntu-latest, macos-latest]
         torch: ["1.10.0", "1.6.0"]
         python-version: ["3.7", "3.8", "3.9"]
+        build_type: ["Release", "Debug"]
         exclude:
           - torch: "1.6.0"
             python-version: "3.9"
@@ -87,13 +88,35 @@ jobs:
 
       - name: Build sherpa
         shell: bash
+        env:
+          BUILD_TYPE: ${{ matrix.build_type }}
         run: |
           export KALDIFEAT_INSTALL_PREFIX=$HOME/tmp/kaldifeat/build
           echo $KALDIFEAT_INSTALL_PREFIX
           ls -lh $KALDIFEAT_INSTALL_PREFIX
 
+          echo "Build type: $BUILD_TYPE"
+
           mkdir build
           cd build
-          cmake ..
-          make -j VERBOSE=1 sherpa
+          cmake -DCMAKE_BUILD_TYPE=$BUILD_TYPE ..
+          make -j VERBOSE=1
+
+          ls -lh lib
+          ls -lh bin
+
+
+      - name: Test sherpa
+        shell: bash
+        run: |
+          cd build
+          # test_log
+          SHERPA_LOG_LEVEL=TRACE ./bin/test_log
+          SHERPA_LOG_LEVEL=DEBUG ./bin/test_log
+          SHERPA_LOG_LEVEL=INFO ./bin/test_log
+          SHERPA_LOG_LEVEL=WARNING ./bin/test_log
+          SHERPA_LOG_LEVEL=ERROR ./bin/test_log
+
           ./bin/sherpa
+
+          ctest --verbose --output-on-failure -E py # exclude Python tests

@@ -1,6 +1,7 @@
 # Please sort the filenames alphabetically
 set(sherpa_srcs
   hypothesis.cc
+  log.cc
   rnnt_beam_search.cc
   rnnt_conformer_model.cc
   rnnt_conv_emformer_model.cc
@@ -20,6 +21,7 @@ target_link_libraries(sherpa_core PUBLIC "-Wl,-rpath,${SHERPA_RPATH_ORIGIN}/torc
 if(SHERPA_ENABLE_TESTS)
   set(sherpa_test_srcs
     test_hypothesis.cc
+    test_log.cc
   )
 
   function(sherpa_add_test source)
