@@ -48,6 +48,8 @@ include(pybind11)
 include(torch)
 include(k2)
 include(kaldifeat)
+include(kaldi_native_io)
+include(sentencepiece)
 
 if(SHERPA_ENABLE_TESTS)
   enable_testing()

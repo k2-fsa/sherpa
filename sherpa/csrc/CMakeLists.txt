@@ -66,4 +66,8 @@ if(SHERPA_ENABLE_TESTS)
 endif()
 
 add_executable(sherpa sherpa.cc)
-target_link_libraries(sherpa sherpa_core ${KALDIFEAT_LIBRARIES})
+target_link_libraries(sherpa
+  sherpa_core
+  ${KALDIFEAT_LIBRARIES}
+  ${KALDI_NATIVE_IO_LIBRARIES}
+)
