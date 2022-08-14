@@ -48,6 +48,16 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
+      - name: Display gcc version
+        if: startsWith(matrix.os, 'ubuntu')
+        run: |
+          gcc --version
+
+      - name: Display clang version
+        if: startsWith(matrix.os, 'macos')
+        run: |
+          clang --version
+
       - name: Install PyTorch ${{ matrix.torch }}
         shell: bash
         if: startsWith(matrix.os, 'ubuntu')
@@ -105,6 +115,27 @@ jobs:
           ls -lh lib
           ls -lh bin
 
+      - name: Display dependencies
+        if: startsWith(matrix.os, 'ubuntu')
+        shell: bash
+        run: |
+          cd build
+
+          ldd lib/libsherpa_core.so
+
+          ldd bin/sherpa
+
+      - name: Display dependencies
+        if: startsWith(matrix.os, 'macos')
+        shell: bash
+        run: |
+          cd build
+
+          otool -L lib/libsherpa_core.dylib
+          otool -l lib/libsherpa_core.dylib
+
+          otool -L bin/sherpa
+          otool -l bin/sherpa
 
       - name: Test sherpa
         shell: bash
