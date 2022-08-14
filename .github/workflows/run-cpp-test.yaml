@@ -74,7 +74,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: |
-            ~/tmp2/kaldifeat
+            ~/tmp/kaldifeat
           key: cache-tmp-${{ matrix.python-version }}-${{ matrix.os }}-${{ matrix.torch }}
 
       - name: Install kaldifeat
@@ -87,7 +87,11 @@ jobs:
         shell: bash
         run: |
           export KALDIFEAT_INSTALL_PREFIX=$HOME/tmp/kaldifeat/build
+          echo $KALDIFEAT_INSTALL_PREFIX
+          ls -lh $KALDIFEAT_INSTALL_PREFIX
+
           mkdir build
           cd build
-          make -j sherpa
+          cmake ..
+          make -j VERBOSE=1 sherpa
           ./bin/sherpa
