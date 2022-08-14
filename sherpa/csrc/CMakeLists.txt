@@ -50,3 +50,6 @@ if(SHERPA_ENABLE_TESTS)
     sherpa_add_test(${source})
   endforeach()
 endif()
+
+add_executable(sherpa sherpa.cc)
+target_link_libraries(sherpa sherpa_core ${KALDIFEAT_LIBRARIES})
