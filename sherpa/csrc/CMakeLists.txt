@@ -1,13 +1,16 @@
 # Please sort the filenames alphabetically
 set(sherpa_srcs
+  fbank_features.cc
   file_utils.cc
   hypothesis.cc
   log.cc
+  offline_asr.cc
   parse_options.cc
   rnnt_beam_search.cc
   rnnt_conformer_model.cc
   rnnt_conv_emformer_model.cc
   rnnt_emformer_model.cc
+  symbol_table.cc
 )
 
 add_library(sherpa_core ${sherpa_srcs})
@@ -20,7 +23,13 @@ if(SHERPA_HAVE_CXXABI_H)
   target_compile_definitions(sherpa_core PRIVATE SHERPA_HAVE_CXXABI_H=1)
 endif()
 
-target_link_libraries(sherpa_core PUBLIC ${TORCH_LIBRARIES} ${K2_LIBRARIES})
+target_link_libraries(sherpa_core PUBLIC
+  ${TORCH_LIBRARIES}
+  ${K2_LIBRARIES}
+  ${KALDIFEAT_LIBRARIES}
+  ${KALDI_NATIVE_IO_LIBRARIES}
+  sentencepiece-static # see cmake/sentencepiece.cmake
+  )
 
 target_compile_definitions(sherpa_core PUBLIC SHERPA_TORCH_VERSION_MAJOR=${SHERPA_TORCH_VERSION_MAJOR})
 target_compile_definitions(sherpa_core PUBLIC SHERPA_TORCH_VERSION_MINOR=${SHERPA_TORCH_VERSION_MINOR})
@@ -66,9 +75,4 @@ if(SHERPA_ENABLE_TESTS)
 endif()
 
 add_executable(sherpa sherpa.cc)
-target_link_libraries(sherpa
-  sherpa_core
-  ${KALDIFEAT_LIBRARIES}
-  ${KALDI_NATIVE_IO_LIBRARIES}
-  sentencepiece-static # see cmake/sentencepiece.cmake
-)
+target_link_libraries(sherpa sherpa_core)
