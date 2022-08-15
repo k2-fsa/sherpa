@@ -62,7 +62,7 @@ jobs:
         shell: bash
         if: startsWith(matrix.os, 'ubuntu')
         run: |
-          python3 -m pip install --upgrade pip
+          python3 -m pip install --upgrade pip kaldi_native_io
           python3 -m pip install wheel twine typing_extensions
           python3 -m pip install torch==${{ matrix.torch }} numpy -f https://download.pytorch.org/whl/cpu/torch_stable.html
 
@@ -74,7 +74,7 @@ jobs:
         shell: bash
         if: startsWith(matrix.os, 'macos')
         run: |
-          python3 -m pip install --upgrade pip
+          python3 -m pip install --upgrade pip kaldi_native_io
           python3 -m pip install wheel twine typing_extensions
           python3 -m pip install torch==${{ matrix.torch }} numpy -f https://download.pytorch.org/whl/cpu/torch_stable.html
 
@@ -125,6 +125,9 @@ jobs:
 
           ldd bin/sherpa
 
+          readelf -d lib/libsherpa_core.so
+          readelf -d bin/sherpa
+
       - name: Display dependencies
         if: startsWith(matrix.os, 'macos')
         shell: bash
@@ -151,3 +154,106 @@ jobs:
           ./bin/sherpa
 
           ctest --verbose --output-on-failure -E py # exclude Python tests
+
+      - name: Download pretrained model and test-data
+        shell: bash
+        run: |
+          git lfs install
+          git clone https://huggingface.co/csukuangfj/icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13
+
+
+      - name: Test decoding a single wave
+        shell: bash
+        run: |
+          echo "Test greedy search"
+
+          ./build/bin/sherpa \
+            --decoding-method greedy_search \
+            --nn-model ./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/exp/cpu_jit-torch-${{ matrix.torch }}.pt \
+            --bpe-model ./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/data/lang_bpe_500/bpe.model \
+            icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/test_wavs/1089-134686-0001.wav
+
+          ./build/bin/sherpa \
+            --decoding-method modified_beam_search \
+            --num-active-paths 4 \
+            --nn-model ./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/exp/cpu_jit-torch-${{ matrix.torch }}.pt \
+            --bpe-model ./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/data/lang_bpe_500/bpe.model \
+            icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/test_wavs/1089-134686-0001.wav
+
+      - name: Test decoding multiple waves
+        shell: bash
+        run: |
+          echo "Test greedy search"
+
+          ./build/bin/sherpa \
+            --decoding-method greedy_search \
+            --nn-model ./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/exp/cpu_jit-torch-${{ matrix.torch }}.pt \
+            --bpe-model ./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/data/lang_bpe_500/bpe.model \
+            icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/test_wavs/1089-134686-0001.wav \
+            icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/test_wavs/1221-135766-0001.wav \
+            icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/test_wavs/1221-135766-0002.wav
+
+          ./build/bin/sherpa \
+            --decoding-method modified_beam_search \
+            --num-active-paths 4 \
+            --nn-model ./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/exp/cpu_jit-torch-${{ matrix.torch }}.pt \
+            --bpe-model ./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/data/lang_bpe_500/bpe.model \
+            icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/test_wavs/1089-134686-0001.wav \
+            icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/test_wavs/1221-135766-0001.wav \
+            icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/test_wavs/1221-135766-0002.wav
+
+      - name: Test decoding wav.scp
+        shell: bash
+        run: |
+          .github/scripts/generate_wav_scp.sh
+
+          echo "Test greedy search"
+          ./build/bin/sherpa \
+            --decoding-method greedy_search \
+            --nn-model ./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/exp/cpu_jit-torch-${{ matrix.torch }}.pt \
+            --bpe-model ./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/data/lang_bpe_500/bpe.model \
+            --use-wav-scp=true \
+            scp:wav.scp \
+            ark,scp,t:results.ark,results.scp
+
+          head results.scp results.ark
+
+          echo "Test modified_beam_search"
+
+          ./build/bin/sherpa \
+            --decoding-method modified_beam_search \
+            --nn-model ./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/exp/cpu_jit-torch-${{ matrix.torch }}.pt \
+            --bpe-model ./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/data/lang_bpe_500/bpe.model \
+            --use-wav-scp=true \
+            scp:wav.scp \
+            ark,scp,t:results2.ark,results2.scp
+
+          head results2.scp results2.ark
+
+      - name: Test decoding feats.scp
+        shell: bash
+        run: |
+          .github/scripts/generate_feats_scp.py scp:wav.scp ark,scp:feats.ark,feats.scp
+
+          echo "Test greedy search"
+          ./build/bin/sherpa \
+            --decoding-method greedy_search \
+            --nn-model ./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/exp/cpu_jit-torch-${{ matrix.torch }}.pt \
+            --bpe-model ./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/data/lang_bpe_500/bpe.model \
+            --use-feats-scp=true \
+            scp:feats.scp \
+            ark,scp,t:results3.ark,results3.scp
+
+          head results3.scp results3.ark
+
+          echo "Test modified_beam_search"
+
+          ./build/bin/sherpa \
+            --decoding-method modified_beam_search \
+            --nn-model ./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/exp/cpu_jit-torch-${{ matrix.torch }}.pt \
+            --bpe-model ./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/data/lang_bpe_500/bpe.model \
+            --use-feats-scp=true \
+            scp:feats.scp \
+            ark,scp,t:results4.ark,results4.scp
+
+          head results4.scp results4.ark
