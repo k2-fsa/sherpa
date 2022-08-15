@@ -34,9 +34,19 @@
 
 #include <stdlib.h>
 
+#include <ctime>
+#include <iomanip>
 #include <string>
 
 namespace sherpa {
+
+std::string GetDateTimeStr() {
+  std::ostringstream os;
+  std::time_t t = std::time(nullptr);
+  std::tm tm = *std::localtime(&t);
+  os << std::put_time(&tm, "%F %T");  // yyyy-mm-dd hh:mm:ss
+  return os.str();
+}
 
 static bool LocateSymbolRange(const std::string &trace_name, std::size_t *begin,
                               std::size_t *end) {

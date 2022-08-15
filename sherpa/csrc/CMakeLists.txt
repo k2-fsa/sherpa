@@ -70,4 +70,5 @@ target_link_libraries(sherpa
   sherpa_core
   ${KALDIFEAT_LIBRARIES}
   ${KALDI_NATIVE_IO_LIBRARIES}
+  sentencepiece-static # see cmake/sentencepiece.cmake
 )
