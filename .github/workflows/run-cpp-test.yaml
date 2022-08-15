@@ -151,8 +151,6 @@ jobs:
           SHERPA_LOG_LEVEL=WARNING ./bin/test_log
           SHERPA_LOG_LEVEL=ERROR ./bin/test_log
 
-          ./bin/sherpa
-
           ctest --verbose --output-on-failure -E py # exclude Python tests
 
       - name: Download pretrained model and test-data
@@ -160,7 +158,6 @@ jobs:
         run: |
           git lfs install
           git clone https://huggingface.co/csukuangfj/icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13
-
 
       - name: Test decoding a single wave
         shell: bash
