@@ -275,7 +275,7 @@ jobs:
           ./build/bin/sherpa \
             --decoding-method=greedy_search \
             --nn-model=./icefall-aishell-pruned-transducer-stateless3-2022-06-20/exp/cpu_jit-epoch-29-avg-5-torch-1.6.0.pt \
-            --token=./icefall-aishell-pruned-transducer-stateless3-2022-06-20/data/lang_char/tokens.txt \
+            --tokens=./icefall-aishell-pruned-transducer-stateless3-2022-06-20/data/lang_char/tokens.txt \
             icefall-aishell-pruned-transducer-stateless3-2022-06-20/test_wavs/BAC009S0764W0121.wav
 
           echo "Test modified_beam_search"
@@ -283,7 +283,7 @@ jobs:
           ./build/bin/sherpa \
             --decoding-method=modified_beam_search \
             --nn-model=./icefall-aishell-pruned-transducer-stateless3-2022-06-20/exp/cpu_jit-epoch-29-avg-5-torch-1.6.0.pt \
-            --token=./icefall-aishell-pruned-transducer-stateless3-2022-06-20/data/lang_char/tokens.txt \
+            --tokens=./icefall-aishell-pruned-transducer-stateless3-2022-06-20/data/lang_char/tokens.txt \
             icefall-aishell-pruned-transducer-stateless3-2022-06-20/test_wavs/BAC009S0764W0121.wav
 
       - name: Test decoding multiple waves (aishell)
@@ -294,7 +294,7 @@ jobs:
           ./build/bin/sherpa \
             --decoding-method=greedy_search \
             --nn-model=./icefall-aishell-pruned-transducer-stateless3-2022-06-20/exp/cpu_jit-epoch-29-avg-5-torch-1.6.0.pt \
-            --token=./icefall-aishell-pruned-transducer-stateless3-2022-06-20/data/lang_char/tokens.txt \
+            --tokens=./icefall-aishell-pruned-transducer-stateless3-2022-06-20/data/lang_char/tokens.txt \
             icefall-aishell-pruned-transducer-stateless3-2022-06-20/test_wavs/BAC009S0764W0121.wav \
             icefall-aishell-pruned-transducer-stateless3-2022-06-20/test_wavs/BAC009S0764W0122.wav \
             icefall-aishell-pruned-transducer-stateless3-2022-06-20/test_wavs/BAC009S0764W0123.wav
@@ -305,7 +305,7 @@ jobs:
             --decoding-method=modified_beam_search \
             --num-active-paths=4 \
             --nn-model=./icefall-aishell-pruned-transducer-stateless3-2022-06-20/exp/cpu_jit-epoch-29-avg-5-torch-1.6.0.pt \
-            --token=./icefall-aishell-pruned-transducer-stateless3-2022-06-20/data/lang_char/tokens.txt \
+            --tokens=./icefall-aishell-pruned-transducer-stateless3-2022-06-20/data/lang_char/tokens.txt \
             icefall-aishell-pruned-transducer-stateless3-2022-06-20/test_wavs/BAC009S0764W0121.wav \
             icefall-aishell-pruned-transducer-stateless3-2022-06-20/test_wavs/BAC009S0764W0122.wav \
             icefall-aishell-pruned-transducer-stateless3-2022-06-20/test_wavs/BAC009S0764W0123.wav
@@ -321,7 +321,7 @@ jobs:
             --decoding-method=greedy_search \
             --use-wav-scp=true \
             --nn-model=./icefall-aishell-pruned-transducer-stateless3-2022-06-20/exp/cpu_jit-epoch-29-avg-5-torch-1.6.0.pt \
-            --token=./icefall-aishell-pruned-transducer-stateless3-2022-06-20/data/lang_char/tokens.txt \
+            --tokens=./icefall-aishell-pruned-transducer-stateless3-2022-06-20/data/lang_char/tokens.txt \
             scp:wav_aishell.scp \
             ark,scp,t:results-aishell.ark,results-aishell.scp
 
@@ -333,7 +333,7 @@ jobs:
             --decoding-method=modified_beam_search \
             --use-wav-scp=true \
             --nn-model=./icefall-aishell-pruned-transducer-stateless3-2022-06-20/exp/cpu_jit-epoch-29-avg-5-torch-1.6.0.pt \
-            --token=./icefall-aishell-pruned-transducer-stateless3-2022-06-20/data/lang_char/tokens.txt \
+            --tokens=./icefall-aishell-pruned-transducer-stateless3-2022-06-20/data/lang_char/tokens.txt \
             scp:wav_aishell.scp \
             ark,scp,t:results2-aishell.ark,results2-aishell.scp
 
@@ -350,7 +350,7 @@ jobs:
             --decoding-method=greedy_search \
             --use-feats-scp=true \
             --nn-model=./icefall-aishell-pruned-transducer-stateless3-2022-06-20/exp/cpu_jit-epoch-29-avg-5-torch-1.6.0.pt \
-            --token=./icefall-aishell-pruned-transducer-stateless3-2022-06-20/data/lang_char/tokens.txt \
+            --tokens=./icefall-aishell-pruned-transducer-stateless3-2022-06-20/data/lang_char/tokens.txt \
             scp:feats_aishell.scp \
             ark,scp,t:results3-aishell.ark,results3-aishell.scp
 
@@ -362,7 +362,7 @@ jobs:
             --decoding-method=modified_beam_search \
             --use-feats-scp=true \
             --nn-model=./icefall-aishell-pruned-transducer-stateless3-2022-06-20/exp/cpu_jit-epoch-29-avg-5-torch-1.6.0.pt \
-            --token=./icefall-aishell-pruned-transducer-stateless3-2022-06-20/data/lang_char/tokens.txt \
+            --tokens=./icefall-aishell-pruned-transducer-stateless3-2022-06-20/data/lang_char/tokens.txt \
             scp:feats_aishell.scp \
             ark,scp,t:results4-aishell.ark,results4-aishell.scp
 
