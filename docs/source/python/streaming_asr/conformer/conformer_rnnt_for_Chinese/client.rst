@@ -1,4 +1,4 @@
-.. _conformer_rnnt_client_english:
+.. _conformer_rnnt_client_chinese:
 
 Client
 ======
@@ -10,7 +10,7 @@ We provide a web client for this purpose.
 
 .. caution::
 
-   Please first start the :ref:`conformer_rnnt_server_english` before you start the client.
+   Please first start the :ref:`conformer_rnnt_server_chinese` before you start the client.
 
    Also, we have hard coded the server port to 6006. Please either pass
    ``--port 6006`` when starting the server or change the client
@@ -53,6 +53,3 @@ and speak! You should see the recognition results from the server.
    ``inspect`` in the popup menu, and then click ``console``. You will see
    some diagnostic message. This helps you to debug if you are unable to click
    the ``Streaming-Record`` button.
-
-
-

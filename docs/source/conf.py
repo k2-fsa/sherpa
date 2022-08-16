@@ -66,7 +66,7 @@ master_doc = "index"
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
 # This pattern also affects html_static_path and html_extra_path.
-exclude_patterns = ["installation/pic/*.md"]
+exclude_patterns = ["python/installation/pic/*.md"]
 
 
 # -- Options for HTML output -------------------------------------------------
@@ -116,4 +116,7 @@ rst_epilog = """
 .. _icefall: https://github.com/k2-fsa/icefall
 .. _PyTorch: https://pytorch.org/
 .. _Huggingface: https://huggingface.co
+.. _WenetSpeech: https://github.com/wenet-e2e/WenetSpeech
+.. _GigaSpeech: https://github.com/SpeechColab/GigaSpeech
+.. _Kaldi: https://github.com/kaldi-asr/kaldi
 """

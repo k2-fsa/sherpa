@@ -177,4 +177,3 @@ shows you how to compute the ``WER`` and ``RTF`` of the `LibriSpeech`_
 
 .. |offline asr with librispeech colab notebook| image:: https://colab.research.google.com/assets/colab-badge.svg
    :target: https://colab.research.google.com/drive/1JX5Ph2onYm1ZjNP_94eGqZ-DIRMLlIca?usp=sharing
-

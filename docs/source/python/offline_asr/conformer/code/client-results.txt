@@ -9,4 +9,3 @@ Sending ./icefall-aishell-pruned-transducer-stateless3-2022-06-20/test_wavs/BAC0
 Sending ./icefall-aishell-pruned-transducer-stateless3-2022-06-20/test_wavs/BAC009S0764W0123.wav
 ./icefall-aishell-pruned-transducer-stateless3-2022-06-20/test_wavs/BAC009S0764W0123.wav
  但因为聚集了过多公共资源
-

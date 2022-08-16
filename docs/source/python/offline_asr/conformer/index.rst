@@ -24,4 +24,3 @@ in each demo so that you can play with it without any training.
 
    aishell
    librispeech
-

@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-export CUDA_VISIBLE_DEVICES=0
+export CUDA_VISIBLE_DEVICES=1
 
-nn_model_filename=./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/exp/cpu_jit-torch-1.6.0.pt
-bpe_model=./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/data/lang_bpe_500/bpe.model
+nn_model_filename=./icefall-aishell-pruned-transducer-stateless3-2022-06-20/exp/cpu_jit-epoch-29-avg-5-torch-1.6.0.pt
+token_filename=./icefall-aishell-pruned-transducer-stateless3-2022-06-20/data/lang_char/tokens.txt
 
 sherpa/bin/pruned_transducer_statelessX/offline_server.py \
   --port 6010 \
@@ -14,5 +14,4 @@ sherpa/bin/pruned_transducer_statelessX/offline_server.py \
   --nn-pool-size 2 \
   --max-active-connections 10 \
   --nn-model-filename $nn_model_filename \
-  --bpe-model-filename $bpe_model
-
+  --token-filename $token_filename

@@ -33,4 +33,3 @@ the one that works best for you.
 
 .. |pytorch_versions| image:: ./pic/pytorch_ge_1.6.0-blueviolet.svg
   :alt: Supported pytorch versions
-

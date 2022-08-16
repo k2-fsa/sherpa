@@ -108,4 +108,3 @@ demonstrating streaming ASR with `sherpa`_.
    :width: 120%
 
 Read more to see how to use `sherpa`_ for streaming ASR and non-streaming ASR.
-
