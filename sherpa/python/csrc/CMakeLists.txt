@@ -22,7 +22,7 @@ if(APPLE)
 endif()
 
 if(NOT WIN32)
-  target_link_libraries(_kaldifeat PRIVATE "-Wl,-rpath,${SHERPA_RPATH_ORIGIN}/sherpa/lib")
+  target_link_libraries(_sherpa PRIVATE "-Wl,-rpath,${SHERPA_RPATH_ORIGIN}/sherpa/lib")
 endif()
 
 

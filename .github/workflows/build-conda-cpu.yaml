@@ -22,11 +22,6 @@ jobs:
             python-version: "3.9"
 
     steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-
-    steps:
       # refer to https://github.com/actions/checkout
       - uses: actions/checkout@v2
         with:
