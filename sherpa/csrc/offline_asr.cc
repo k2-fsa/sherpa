@@ -88,7 +88,7 @@ void OfflineAsrOptions::Validate() const {
 
   if (tokens.empty()) {
     SHERPA_LOG(FATAL) << "Please provide --tokens";
-  };
+  }
 
   if (!FileExists(tokens)) {
     SHERPA_LOG(FATAL) << "\n--tokens=" << tokens << "\n"
