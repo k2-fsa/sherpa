@@ -11,6 +11,7 @@ per-file-ignores =
 exclude =
   .git,
   ./cmake,
+  ./scripts,
   ./triton,
   ./sherpa/python/sherpa/__init__.py,
   ./sherpa/python/sherpa/decode.py,

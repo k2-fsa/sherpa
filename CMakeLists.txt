@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.8 FATAL_ERROR)
 project(sherpa)
 
+# Remember to change
+# scripts/conda-cpu/sherpa/meta.yaml
 set(SHERPA_VERSION "0.6")
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
@@ -77,4 +79,11 @@ include_directories(${CMAKE_SOURCE_DIR})
 
 message(STATUS "CMAKE_CXX_FLAGS: ${CMAKE_CXX_FLAGS}")
 
+message(STATUS "CMAKE_INSTALL_PREFIX: ${CMAKE_INSTALL_PREFIX}")
+
 add_subdirectory(sherpa)
+
+install(FILES
+  ${PROJECT_SOURCE_DIR}/sherpa/python/sherpa/torch_version.py
+  DESTINATION ./
+)

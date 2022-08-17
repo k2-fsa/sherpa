@@ -1,9 +1,7 @@
 # Copyright (c)  2021-2022  Xiaomi Corporation (author: Fangjun Kuang)
 
-import glob
 import os
 import platform
-import shutil
 import sys
 from pathlib import Path
 
@@ -67,25 +65,46 @@ class BuildExtension(build_ext):
         if cmake_args == "":
             cmake_args = "-DCMAKE_BUILD_TYPE=Release"
 
+        extra_cmake_args = " -DSHERPA_ENABLE_TESTS=OFF "
+        extra_cmake_args += f" -DCMAKE_INSTALL_PREFIX={Path(self.build_lib).resolve()}/sherpa "  # noqa
+
         if "PYTHON_EXECUTABLE" not in cmake_args:
             print(f"Setting PYTHON_EXECUTABLE to {sys.executable}")
             cmake_args += f" -DPYTHON_EXECUTABLE={sys.executable}"
 
+        cmake_args += extra_cmake_args
+
         if is_windows():
             build_cmd = f"""
-                cmake {cmake_args} -B {self.build_temp} -S {sherpa_dir}
-                cmake --build {self.build_temp} --target _sherpa --config Release -- -m
+         cmake {cmake_args} -B {self.build_temp} -S {sherpa_dir}
+         cmake --build {self.build_temp} --target sherpa --config Release -- -m
+         cmake --build {self.build_temp} --target _sherpa --config Release -- -m
+         cmake --build {self.build_temp} --target install --config Release -- -m
             """
             print(f"build command is:\n{build_cmd}")
-            ret = os.system(f"cmake {cmake_args} -B {self.build_temp} -S {sherpa_dir}")
+            ret = os.system(
+                f"cmake {cmake_args} -B {self.build_temp} -S {sherpa_dir}"
+            )
             if ret != 0:
                 raise Exception("Failed to build sherpa")
 
             ret = os.system(
-                f"cmake --build {self.build_temp} --target _sherpa --config release -- -m"
+                f"cmake --build {self.build_temp} --target sherpa --config release -- -m"  # noqa
             )
             if ret != 0:
-                raise exception("failed to build sherpa")
+                raise Exception("failed to build sherpa")
+
+            ret = os.system(
+                f"cmake --build {self.build_temp} --target _sherpa --config release -- -m"  # noqa
+            )
+            if ret != 0:
+                raise Exception("failed to build _sherpa")
+
+            ret = os.system(
+                f"cmake --build {self.build_temp} --target install --config Release -- -m"  # noqa
+            )
+            if ret != 0:
+                raise Exception("Failed to install sherpa")
         else:
             if make_args == "" and system_make_args == "":
                 print("for fast compilation, run:")
@@ -99,7 +118,7 @@ class BuildExtension(build_ext):
                 cmake {cmake_args} {sherpa_dir}
 
 
-                make {make_args} _sherpa
+                make {make_args} sherpa _sherpa install
             """
             print(f"build command is:\n{build_cmd}")
 
@@ -110,27 +129,3 @@ class BuildExtension(build_ext):
                     "You can ask for help by creating an issue on GitHub.\n"
                     "\nClick:\n\thttps://github.com/k2-fsa/sherpa/issues/new\n"  # noqa
                 )
-
-        lib_so = glob.glob(f"{self.build_temp}/lib/*sherpa*.so")
-        lib_so += glob.glob(f"{self.build_temp}/lib/*sherpa*.dylib")  # macOS
-
-        # bin/Release/_sherpa.cp38-win_amd64.pyd
-        lib_so += glob.glob(
-            f"{self.build_temp}/**/*sherpa*.pyd", recursive=True
-        )  # windows
-
-        # lib/Release/*.lib
-        lib_so += glob.glob(
-            f"{self.build_temp}/**/*sherpa*.lib", recursive=True
-        )  # windows
-        for so in lib_so:
-            print(f"Copying {so} to {self.build_lib}/")
-            shutil.copy(f"{so}", f"{self.build_lib}/")
-
-        print(
-            f"Copying {sherpa_dir}/sherpa/python/sherpa/torch_version.py to {self.build_lib}/sherpa"  # noqa
-        )
-        shutil.copy(
-            f"{sherpa_dir}/sherpa/python/sherpa/torch_version.py",
-            f"{self.build_lib}/sherpa",
-        )

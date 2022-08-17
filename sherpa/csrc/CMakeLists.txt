@@ -77,3 +77,11 @@ endif()
 
 add_executable(sherpa sherpa.cc)
 target_link_libraries(sherpa sherpa_core)
+
+install(TARGETS sherpa_core
+  DESTINATION lib
+)
+
+install(TARGETS sherpa
+  DESTINATION  bin
+)

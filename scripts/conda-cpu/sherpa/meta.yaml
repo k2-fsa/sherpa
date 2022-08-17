@@ -1,0 +1,45 @@
+package:
+  name: sherpa
+  version: "0.6"
+
+source:
+  path: "{{ environ.get('SHERPA_ROOT_DIR') }}"
+
+build:
+  number: 0
+  string: cpu_py{{ environ.get('SHERPA_PYTHON_VERSION') }}_torch{{ environ.get('SHERPA_TORCH_VERSION') }}
+  script: |
+    conda install -y -q -c pytorch pytorch={{ environ.get('SHERPA_TORCH_VERSION') }} cpuonly & {{ PYTHON }} setup.py install --single-version-externally-managed --record=record.txt
+    mkdir -p $PREFIX/bin
+    cp sherpa/bin/sherpa* $PREFIX/bin
+    cp sherpa/lib/*sherpa* $PREFIX/bin
+    chmod +x $PREFIX/bin/sherpa*
+
+  features:
+    - cpuonly # [not osx]
+
+requirements:
+  build:
+    - {{ compiler('c') }} # [win]
+    - {{ compiler('cxx') }} # [win]
+
+  host:
+    - anaconda-client
+    - cmake=3.18
+    - python
+    - pytorch={{ environ.get('SHERPA_TORCH_VERSION') }}
+    - gcc_linux-64=7 # [linux]
+    - cpuonly
+
+  run:
+    - python
+    - pytorch={{ environ.get('SHERPA_TORCH_VERSION') }}
+
+about:
+  home: https://github.com/k2-fsa/sherpa
+  license: Apache V2
+  license_file: LICENSE
+  summary: Streaming and non-streaming ASR server for next-gen Kaldi
+  description: |
+    An ASR server framework supporting both streaming and non-streaming
+    recognition using next-gen Kaldi.
