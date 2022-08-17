@@ -22,7 +22,6 @@
 #include <vector>
 
 #include "kaldifeat/csrc/feature-fbank.h"
-#include "sentencepiece_processor.h"  // NOLINT
 #include "sherpa/csrc/parse_options.h"
 #include "sherpa/csrc/rnnt_conformer_model.h"
 #include "sherpa/csrc/symbol_table.h"
@@ -33,10 +32,10 @@ struct OfflineAsrOptions {
   /// Path to torchscript model
   std::string nn_model;
 
-  /// Path to BPE model file. Used only for BPE based models
-  std::string bpe_model;
-
-  /// Path to tokens.txt. Used only for non-BPE based models
+  /// Path to tokens.txt.
+  /// Each line the tokens.txt consists of two columms separated by a space:
+  ///  - column 1: symbol
+  ///  - column 2: integer ID of the symbol
   std::string tokens;
 
   /// Decoding method to use.
@@ -174,7 +173,6 @@ class OfflineAsr {
  private:
   OfflineAsrOptions opts_;
   RnntConformerModel model_;
-  sentencepiece::SentencePieceProcessor spm_;
   SymbolTable sym_;
 
   kaldifeat::Fbank fbank_;  // always on CPU

@@ -31,19 +31,7 @@ Usage:
 
   ./bin/sherpa --help
 
-(2) Use a BPE-base model for recognition
-
-  ./bin/sherpa \
-    --nn-model=/path/to/cpu_jit.pt \
-    --bpe-model=/path/to/bpe.model \
-    --use-gpu=false \
-    foo.wav \
-    bar.wav
-
-Note: You can get a pre-trained model for testing by visiting
-https://huggingface.co/wgb14/icefall-asr-gigaspeech-pruned-transducer-stateless2/tree/main/exp
-
-(3) Use a non-BPE-based model for recognition
+(2) Use a pretrained model for recognition
 
   ./bin/sherpa \
     --nn-model=/path/to/cpu_jit.pt \
@@ -52,24 +40,29 @@ https://huggingface.co/wgb14/icefall-asr-gigaspeech-pruned-transducer-stateless2
     foo.wav \
     bar.wav
 
-Note: You can get a pre-trained model for testing by visiting
-https://huggingface.co/luomingshuang/icefall_asr_wenetspeech_pruned_transducer_stateless2/tree/main/exp
+Note: You can get pre-trained models for testing by visiting
+ - Chinese: https://huggingface.co/luomingshuang/icefall_asr_wenetspeech_pruned_transducer_stateless2/tree/main/exp
+ - English: https://huggingface.co/wgb14/icefall-asr-gigaspeech-pruned-transducer-stateless2/tree/main/exp
 
-(4) Decode wav.scp (using a BPE-based model as an example)
+Hint: In case you only have `data/lang_bpe_500/bpe.model`, you can use
+`./scripts/bpe_model_to_tokens.py /path/to/bpe.model > tokens.txt` to generate
+`tokens.txt` from `bpe.model`.
+
+(3) Decode wav.scp
 
   ./bin/sherpa \
     --nn-model=/path/to/cpu_jit.pt \
-    --bpe-model=/path/to/bpe.model \
+    --tokens=/path/to/tokens.txt \
     --use-gpu=false \
     --use-wav-scp=false \
     scp:wav.scp \
     ark,scp,t:results.ark,results.scp
 
-(5) Decode feats.scp (using a BPE-based model as an example)
+(4) Decode feats.scp
 
   ./bin/sherpa \
     --nn-model=/path/to/cpu_jit.pt \
-    --bpe-model=/path/to/bpe.model \
+    --tokens=/path/to/tokens.txt \
     --use-gpu=false \
     --use-feats-scp=false \
     scp:feats.scp \
@@ -117,6 +110,12 @@ int main(int argc, char *argv[]) {
               "It specifies the batch size to use for decoding");
 
   po.Read(argc, argv);
+
+  if (po.NumArgs() < 1) {
+    po.PrintUsage();
+    exit(EXIT_FAILURE);
+  }
+
   opts.Validate();
 
   SHERPA_CHECK_EQ(opts.fbank_opts.frame_opts.samp_freq, expected_sample_rate)
@@ -125,11 +124,6 @@ int main(int argc, char *argv[]) {
 
   sherpa::OfflineAsr offline_asr(opts);
   SHERPA_LOG(INFO) << "\n" << opts.ToString();
-
-  if (po.NumArgs() < 1) {
-    po.PrintUsage();
-    exit(EXIT_FAILURE);
-  }
 
   if (use_wav_scp) {
     SHERPA_CHECK_EQ(po.NumArgs(), 2)

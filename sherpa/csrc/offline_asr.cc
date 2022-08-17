@@ -54,11 +54,7 @@ static void RegisterMelBanksOptions(ParseOptions *po,
 void OfflineAsrOptions::Register(ParseOptions *po) {
   po->Register("nn-model", &nn_model, "Path to the torchscript model");
 
-  po->Register("bpe-model", &bpe_model,
-               "Path to bpe.model. Used only for BPE based models");
-
-  po->Register("tokens", &tokens,
-               "Path to tokens.txt. Used only for non-BPE based models");
+  po->Register("tokens", &tokens, "Path to tokens.txt.");
 
   po->Register("decoding-method", &decoding_method,
                "Decoding method to use. Possible values are: greedy_search, "
@@ -90,32 +86,13 @@ void OfflineAsrOptions::Validate() const {
                       << nn_model << " does not exist!";
   }
 
-  if (bpe_model.empty()) {
-    SHERPA_CHECK(!tokens.empty())
-        << "Please provide --tokens when --bpe-model is not given";
-  }
-
   if (tokens.empty()) {
-    SHERPA_CHECK(!bpe_model.empty())
-        << "Please provide --bpe-model when --tokens is not given";
-  }
+    SHERPA_LOG(FATAL) << "Please provide --tokens";
+  };
 
-  if (!bpe_model.empty()) {
-    SHERPA_CHECK(tokens.empty())
-        << "Please don't provide --token model when --bpe-model is given";
-    if (!FileExists(bpe_model)) {
-      SHERPA_LOG(FATAL) << "\n--bpe-model=" << bpe_model << "\n"
-                        << bpe_model << " does not exist!";
-    }
-  }
-
-  if (!tokens.empty()) {
-    SHERPA_CHECK(bpe_model.empty())
-        << "Please don't provide --bpe-model model when --tokens is given";
-    if (!FileExists(tokens)) {
-      SHERPA_LOG(FATAL) << "\n--tokens=" << tokens << "\n"
-                        << tokens << " does not exist!";
-    }
+  if (!FileExists(tokens)) {
+    SHERPA_LOG(FATAL) << "\n--tokens=" << tokens << "\n"
+                      << tokens << " does not exist!";
   }
 
   if (decoding_method != "greedy_search" &&
@@ -124,18 +101,16 @@ void OfflineAsrOptions::Validate() const {
         << "Unsupported decoding method: " << decoding_method
         << ". Supported values are: greedy_search, modified_beam_search";
   }
+
+  if (decoding_method == "modified_beam_search") {
+    SHERPA_CHECK_GT(num_active_paths, 0);
+  }
 }
 
 std::string OfflineAsrOptions::ToString() const {
   std::ostringstream os;
   os << "--nn-model=" << nn_model << "\n";
-  if (!bpe_model.empty()) {
-    os << "--bpe-model=" << bpe_model << "\n";
-  }
-
-  if (!tokens.empty()) {
-    os << "--tokens=" << tokens << "\n";
-  }
+  os << "--tokens=" << tokens << "\n";
 
   os << "--decoding-method=" << decoding_method << "\n";
 
@@ -144,6 +119,7 @@ std::string OfflineAsrOptions::ToString() const {
   }
 
   os << "--use-gpu=" << std::boolalpha << use_gpu << "\n";
+
   return os.str();
 }
 
@@ -151,15 +127,8 @@ OfflineAsr::OfflineAsr(const OfflineAsrOptions &opts)
     : opts_(opts),
       model_(opts.nn_model,
              opts.use_gpu ? torch::Device("cuda:0") : torch::Device("cpu")),
-      fbank_(opts.fbank_opts) {
-  if (!opts.bpe_model.empty()) {
-    auto status = spm_.Load(opts.bpe_model);
-    SHERPA_CHECK(status.ok()) << status.ToString();
-  } else {
-    SHERPA_CHECK(!opts.tokens.empty());
-    sym_ = SymbolTable(opts.tokens);
-  }
-}
+      sym_(opts.tokens),
+      fbank_(opts.fbank_opts) {}
 
 std::vector<OfflineAsrResult> OfflineAsr::DecodeWaves(
     const std::vector<std::string> &filenames, float expected_sample_rate) {
@@ -211,19 +180,10 @@ std::vector<OfflineAsrResult> OfflineAsr::DecodeFeatures(
   }
 
   std::vector<OfflineAsrResult> results(features.size());
-  if (!opts_.bpe_model.empty()) {
-    for (size_t i = 0; i != features.size(); ++i) {
-      auto status = spm_.Decode(token_ids[i], &results[i].text);
-      SHERPA_CHECK(status.ok()) << status.ToString();
-
-      results[i].tokens = std::move(token_ids[i]);
-    }
-  } else {
-    for (size_t i = 0; i != features.size(); ++i) {
-      auto &r = results[i];
-      for (auto t : token_ids[i]) {
-        r.text += sym_[t];
-      }
+  for (size_t i = 0; i != features.size(); ++i) {
+    auto &text = results[i].text;
+    for (auto t : token_ids[i]) {
+      text += sym_[t];
     }
   }
 
