@@ -40,7 +40,7 @@ android {
 
         ndkVersion '21.1.6352462'
         ndk {
-            abiFilters 'arm64-v8a'//, 'x86_64'
+            abiFilters 'arm64-v8a', 'x86_64'
         }
     }
 
@@ -73,8 +73,8 @@ dependencies {
     implementation 'org.pytorch:pytorch_android:1.11'
     extractForNativeBuild 'org.pytorch:pytorch_android:1.11'
 
-    implementation 'com.github.pkufool:k2:1.17.3'
-    extractForNativeBuild 'com.github.pkufool:k2:1.17.3'
+    implementation 'com.github.pkufool:k2:1.17.4'
+    extractForNativeBuild 'com.github.pkufool:k2:1.17.4'
 }
 
 task extractAARForNativeBuild {

@@ -45,10 +45,6 @@ if(ANDROID)
   file(GLOB PYTORCH_INCLUDE_DIRS "${build_DIR}/pytorch_android*.aar/headers")
   file(GLOB PYTORCH_LINK_DIRS "${build_DIR}/pytorch_android*.aar/jni/${ANDROID_ABI}")
 
-  message("build_DiR" ${build_DIR})
-  message("pytorch_DiR" ${PYTORCH_LINK_DIRS})
-  message("pytorch_DiR" ${PYTORCH_INCLUDE_DIRS})
-  
   find_library(PYTORCH_LIBRARIES pytorch_jni
     PATHS ${PYTORCH_LINK_DIRS}
     NO_CMAKE_FIND_ROOT_PATH

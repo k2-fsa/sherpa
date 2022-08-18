@@ -18,8 +18,11 @@
 
 #include "sherpa/csrc/decode_stream.h"
 
+#include <algorithm>
 #include <chrono>
+#include <memory>
 #include <thread>
+#include <vector>
 
 namespace sherpa {
 DecodeStream::DecodeStream(const RnntConformerModel::State &initial_state,
