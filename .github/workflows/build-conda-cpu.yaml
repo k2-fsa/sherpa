@@ -14,12 +14,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-18.04, macos-10.15, windows-2019]
-        python-version: ["3.6", "3.7", "3.8", "3.9", "3.10"]
-        torch: ["1.10.0", "1.6.0"]
-        exclude:
-          - torch: "1.6.0"
-            python-version: "3.9"
+        # os: [ubuntu-18.04, macos-10.15, windows-2019]
+        os: [ubuntu-18.04]
+        # python-version: ["3.6", "3.7", "3.8", "3.9", "3.10"]
+        python-version: ["3.8"]
+        torch: ["1.11.1"]
 
     steps:
       # refer to https://github.com/actions/checkout
