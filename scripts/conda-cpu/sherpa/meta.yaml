@@ -26,14 +26,14 @@ requirements:
   host:
     - anaconda-client
     - cmake
-    - python
+    # - python
     - kaldifeat
     - kaldi_native_io
     - pytorch={{ environ.get('SHERPA_TORCH_VERSION') }}
     - cpuonly
 
   run:
-    - python
+    # - python
     - pytorch={{ environ.get('SHERPA_TORCH_VERSION') }}
     - kaldifeat
     - kaldi_native_io

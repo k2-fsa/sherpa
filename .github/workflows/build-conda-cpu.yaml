@@ -18,7 +18,7 @@ jobs:
         os: [ubuntu-18.04]
         # python-version: ["3.6", "3.7", "3.8", "3.9", "3.10"]
         python-version: ["3.8"]
-        torch: ["1.11.1"]
+        torch: ["1.12.1"]
 
     steps:
       # refer to https://github.com/actions/checkout
