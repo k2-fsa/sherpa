@@ -15,6 +15,11 @@ build:
     cp build/lib.linux-x86_64-*/sherpa/bin/sherpa $PREFIX/bin   # [linux]
     chmod +x $PREFIX/bin/sherpa  # [linux]
 
+    cp build/lib.macosx-*-x86_64-*/sherpa/bin/sherpa $PREFIX/bin # [osx]
+    chmod +x $PREFIX/bin/sherpa  # [osx]
+
+    cp build/lib.win-amd64-*/sherpa/bin/sherpa.exe $PREFIX/bin # [win]
+
   features:
     - cpuonly # [not osx]
 
@@ -27,10 +32,10 @@ requirements:
     - anaconda-client
     - cmake
     - python
-    - kaldifeat
-    - k2
-    - kaldi_native_io
     - pytorch={{ environ.get('SHERPA_TORCH_VERSION') }}
+    - kaldifeat
+    - kaldi_native_io
+    - k2
     - cpuonly
 
   run:
@@ -38,6 +43,7 @@ requirements:
     - pytorch={{ environ.get('SHERPA_TORCH_VERSION') }}
     - kaldifeat
     - kaldi_native_io
+    - k2
 
 about:
   home: https://github.com/k2-fsa/sherpa
