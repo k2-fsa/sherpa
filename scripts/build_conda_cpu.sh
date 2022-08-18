@@ -58,7 +58,7 @@ conda clean -q -a
 
 if [ -z $SHERPA_CONDA_TOKEN ]; then
   echo "Auto upload to anaconda.org is disabled since SHERPA_CONDA_TOKEN is not set"
-  conda build --no-test --no-anaconda-upload -c pytorch ./scripts/conda-cpu/sherpa
+  conda build --no-test --no-anaconda-upload -c pytorch -c kaldifeat -c kaldi_native_io ./scripts/conda-cpu/sherpa
 else
-  conda build --no-test -c pytorch --token $SHERPA_CONDA_TOKEN ./scripts/conda-cpu/sherpa
+  conda build --no-test -c pytorch -c kaldifeat -c kaldi_native_io --token $SHERPA_CONDA_TOKEN ./scripts/conda-cpu/sherpa
 fi
