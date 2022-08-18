@@ -39,6 +39,12 @@ jobs:
           conda install -y -q conda-build
           conda install -y -q -c pytorch pytorch=${{ matrix.torch }} cpuonly
 
+      - name: Display MKL
+        if: startsWith(matrix.os, 'macos') || startsWith(matrix.os, 'ubuntu')
+        shell: bash -l {0}
+        run: |
+          ls -lh $CONDA_PREFIX/lib/libmkl*
+
       - name: Display Python version
         shell: bash -l {0}
         run: |
