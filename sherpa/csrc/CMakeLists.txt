@@ -85,7 +85,7 @@ if(NOT WIN32)
     OUTPUT_VARIABLE PYTHON_SITE_PACKAGE_DIR
   )
   message(STATUS "PYTHON_SITE_PACKAGE_DIR: ${PYTHON_SITE_PACKAGE_DIR}")
-  target_link_libraries(sherpa PRIVATE "-Wl,-rpath,${PYTHON_SITE_PACKAGE_DIR}/sherpa/lib")
+  target_link_libraries(sherpa "-Wl,-rpath,${PYTHON_SITE_PACKAGE_DIR}/sherpa/lib")
 endif()
 
 install(TARGETS sherpa_core
