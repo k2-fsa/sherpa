@@ -78,6 +78,16 @@ endif()
 add_executable(sherpa sherpa.cc)
 target_link_libraries(sherpa sherpa_core)
 
+if(NOT WIN32)
+  execute_process(
+    COMMAND "${PYTHON_EXECUTABLE}" -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())"
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+    OUTPUT_VARIABLE PYTHON_SITE_PACKAGE_DIR
+  )
+  message(STATUS "PYTHON_SITE_PACKAGE_DIR: ${PYTHON_SITE_PACKAGE_DIR}")
+  target_link_libraries(sherpa PRIVATE "-Wl,-rpath,${PYTHON_SITE_PACKAGE_DIR}/sherpa/lib")
+endif()
+
 install(TARGETS sherpa_core
   DESTINATION lib
 )

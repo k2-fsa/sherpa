@@ -11,9 +11,9 @@ build:
   script: |
     conda install -y -q -c pytorch pytorch={{ environ.get('SHERPA_TORCH_VERSION') }} cpuonly & {{ PYTHON }} setup.py install --single-version-externally-managed --record=record.txt
     mkdir -p $PREFIX/bin
-    cp sherpa/bin/sherpa* $PREFIX/bin
-    cp sherpa/lib/*sherpa* $PREFIX/bin
-    chmod +x $PREFIX/bin/sherpa*
+
+    cp build/lib.linux-x86_64-*/sherpa/bin/sherpa $PREFIX/bin   # [linux]
+    chmod +x $PREFIX/bin/sherpa  # [linux]
 
   features:
     - cpuonly # [not osx]
