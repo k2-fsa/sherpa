@@ -28,6 +28,7 @@ requirements:
     - cmake
     - python
     - kaldifeat
+    - k2
     - kaldi_native_io
     - pytorch={{ environ.get('SHERPA_TORCH_VERSION') }}
     - cpuonly
