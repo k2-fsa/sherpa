@@ -34,7 +34,7 @@ requirements:
     - cpuonly
 
   run:
-    # - python
+    - python
     - pytorch={{ environ.get('SHERPA_TORCH_VERSION') }}
     - kaldifeat
     - kaldi_native_io
