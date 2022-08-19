@@ -11,8 +11,8 @@ build:
   script: |
     python setup.py install --single-version-externally-managed --record=record.txt
     # COPY build/lib.win-amd64-*/sherpa/bin/sherpa.exe %PREFIX%\Library\bin || exit 1
-    COPY build/lib.win-amd64-3.8/sherpa/bin/sherpa.exe C:\Miniconda\envs\sherpa\Library\bin
-    COPY build/lib.win-amd64-3.8/sherpa/lib/sherpa_core.lib C:\Miniconda\envs\sherpa\Library\lib
+    COPY 'build\lib.win-amd64-3.8\sherpa\bin/sherpa.exe' 'C:\Miniconda\envs\sherpa\Library\bin'
+    COPY 'build\lib.win-amd64-3.8\sherpa\lib/sherpa_core.lib' 'C:\Miniconda\envs\sherpa\Library\lib'
     # COPY build/lib.win-amd64-*/sherpa/lib/sherpa_core.lib %PREFIX%\Library\lib || exit 1
 
   features:
