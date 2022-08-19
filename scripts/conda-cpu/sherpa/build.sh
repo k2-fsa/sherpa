@@ -2,8 +2,6 @@
 
 echo "PREFIX: $PREFIX"
 
-$PREFIX/bin/python -m torch.utils.collect_env
-$PREFIX/bin/python -m k2.version
 
 # conda install -y -q -c pytorch pytorch={{ environ.get('SHERPA_TORCH_VERSION') }} cpuonly
 
@@ -19,6 +17,9 @@ if [ $os != "Linux" ]; then
   cp -v $PREFIX/lib/libmkl_intel_thread.dylib $PREFIX/lib/libmkl_intel_thread.2.dylib # [osx]
   ls -lh $PREFIX/lib/libmkl* # [not win]
 fi
+
+$PREFIX/bin/python -m torch.utils.collect_env
+$PREFIX/bin/python -m k2.version
 
 $PREFIX/bin/python setup.py install --single-version-externally-managed --record=record.txt
 
