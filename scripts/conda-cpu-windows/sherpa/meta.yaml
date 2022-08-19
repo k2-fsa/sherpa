@@ -10,9 +10,11 @@ build:
   string: cpu_py{{ environ.get('SHERPA_PYTHON_VERSION') }}_torch{{ environ.get('SHERPA_TORCH_VERSION') }}
   script: |
     python setup.py install --single-version-externally-managed --record=record.txt
-    cp -v build/lib.win-amd64-*/sherpa/bin/sherpa.exe $PREFIX/Library/bin
-    # COPY 'build\lib.win-amd64-3.8\sherpa\bin/sherpa.exe' 'C:\Miniconda\envs\sherpa\Library\bin'
-    # COPY 'build\lib.win-amd64-3.8\sherpa\lib/sherpa_core.lib' 'C:\Miniconda\envs\sherpa\Library\lib'
+    # cp -v build/lib.win-amd64-*/sherpa/bin/sherpa.exe $PREFIX/Library/bin
+    mkdir 'C:\Miniconda\envs\sherpa\Library\bin'
+    mkdir 'C:\Miniconda\envs\sherpa\Library\lib'
+    COPY 'build\lib.win-amd64-3.8\sherpa\bin\sherpa.exe' 'C:\Miniconda\envs\sherpa\Library\bin'
+    COPY 'build\lib.win-amd64-*\sherpa\lib\sherpa_core.lib' 'C:\Miniconda\envs\sherpa\Library\lib'
     # COPY build/lib.win-amd64-*/sherpa/lib/sherpa_core.lib %PREFIX%\Library\lib || exit 1
 
   features:
