@@ -39,6 +39,10 @@ if(NOT WIN32)
   target_link_libraries(sherpa_core PUBLIC "-Wl,-rpath,${SHERPA_RPATH_ORIGIN}/torch/lib64")
 endif()
 
+if(DEFINED ENV{CONDA_PREFIX} AND APPLE)
+  target_link_libraries(sherpa_core PUBLIC "-L $ENV{CONDA_PREFIX}/lib")
+endif()
+
 if(SHERPA_ENABLE_TESTS)
   set(sherpa_test_srcs
     test_hypothesis.cc
