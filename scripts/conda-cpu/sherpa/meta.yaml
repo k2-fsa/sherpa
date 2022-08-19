@@ -12,6 +12,9 @@ build:
     echo "PREFIX: $PREFIX"
     # conda install -y -q -c pytorch pytorch={{ environ.get('SHERPA_TORCH_VERSION') }} cpuonly
     ls -lh $PREFIX/lib/libmkl* # [not win]
+    cp -v $PREFIX/lib/libmkl_intel_ilp64.dylib $PREFIX/lib/libmkl_intel_ilp64.2.dylib # [osx]
+    cp -v $PREFIX/lib/libmkl_core.dylib $PREFIX/lib/libmkl_core.2.dylib # [osx]
+    cp -v $PREFIX/lib/libmkl_intel_thread.dylib $PREFIX/lib/libmkl_intel_thread.2.dylib # [osx]
 
     {{ PYTHON }} setup.py install --single-version-externally-managed --record=record.txt
     mkdir -p $PREFIX/bin
