@@ -1,7 +1,7 @@
 
 
-python -m torch.utils.collect_env
-python -m k2.version
+%PREFIX%/bin/python.exe -m torch.utils.collect_env
+%PREFIX%/bin/python.exe -m k2.version
 
 %PREFIX%/bin/python.exe setup.py install --single-version-externally-managed --record=record.txt
 
