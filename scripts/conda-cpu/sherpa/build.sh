@@ -2,15 +2,17 @@
 
 echo "PREFIX: $PREFIX"
 
-python -m torch.utils.collect_env
-python -m k2.version
+$PREFIX/bin/python -m torch.utils.collect_env
+$PREFIX/bin/python -m k2.version
 
 # conda install -y -q -c pytorch pytorch={{ environ.get('SHERPA_TORCH_VERSION') }} cpuonly
 
 os=$(uname -s)
+echo "os: $os"
 
 if [ $os != "Linux" ]; then
   export LIBRARY_PATH=$PREFIX/lib:$LIBRARY_PATH
+  echo "echo LIBRARY_PATH: $LIBRARY_PATH"
   ls -lh $PREFIX/lib/libmkl*
   cp -v $PREFIX/lib/libmkl_intel_ilp64.dylib $PREFIX/lib/libmkl_intel_ilp64.2.dylib # [osx]
   cp -v $PREFIX/lib/libmkl_core.dylib $PREFIX/lib/libmkl_core.2.dylib # [osx]
