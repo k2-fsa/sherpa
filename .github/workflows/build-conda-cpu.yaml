@@ -79,7 +79,8 @@ jobs:
           SHERPA_TORCH_VERSION: ${{ matrix.torch }}
           SHERPA_CONDA_TOKEN: ${{ secrets.SHERPA_CONDA_TOKEN}}
         run: |
-          ./scripts/build_conda_cpu_windows.sh
+          # ./scripts/build_conda_cpu_windows.sh
+          ./scripts/build_conda_cpu.sh
 
       - name: Display generated files
         if: startsWith(matrix.os, 'ubuntu')

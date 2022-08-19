@@ -96,24 +96,3 @@ install(TARGETS sherpa_core
 install(TARGETS sherpa
   DESTINATION  bin
 )
-
-if(DEFINED ENV{PREFIX} AND WIN32)
-  message(STATUS "PREFIX: $ENV{PREFIX}")
-  file(MAKE_DIRECTORY
-    DESTINATION
-      $ENV{PREFIX}/Library/bin
-  )
-
-  file(MAKE_DIRECTORY
-    DESTINATION
-      $ENV{PREFIX}/Library/lib
-  )
-
-  install(TARGETS sherpa
-    DESTINATION $ENV{PREFIX}/Library/bin
-  )
-
-  install(TARGETS sherpa_core
-    DESTINATION $ENV{PREFIX}/Library/lib
-  )
-endif()
