@@ -39,9 +39,6 @@ if(NOT WIN32)
   target_link_libraries(sherpa_core PUBLIC "-Wl,-rpath,${SHERPA_RPATH_ORIGIN}/torch/lib64")
 endif()
 
-# if(DEFINED ENV{CONDA_PREFIX} AND APPLE)
-#   target_link_libraries(sherpa_core PUBLIC "-L $ENV{CONDA_PREFIX}/lib")
-# endif()
 
 if(SHERPA_ENABLE_TESTS)
   set(sherpa_test_srcs
@@ -99,3 +96,24 @@ install(TARGETS sherpa_core
 install(TARGETS sherpa
   DESTINATION  bin
 )
+
+if(DEFINED ENV{PREFIX} AND WIN32)
+  message(STATUS "PREFIX: $ENV{PREFIX}")
+  file(MAKE_DIRECTORY
+    DESTINATION
+      $ENV{PREFIX}/Library/bin
+  )
+
+  file(MAKE_DIRECTORY
+    DESTINATION
+      $ENV{PREFIX}/Library/lib
+  )
+
+  install(TARGETS sherpa
+    DESTINATION $ENV{PREFIX}/Library/bin
+  )
+
+  install(TARGETS sherpa_core
+    DESTINATION $ENV{PREFIX}/Library/lib
+  )
+endif()

@@ -10,8 +10,7 @@ build:
   string: cpu_py{{ environ.get('SHERPA_PYTHON_VERSION') }}_torch{{ environ.get('SHERPA_TORCH_VERSION') }}
   script: |
     python setup.py install --single-version-externally-managed --record=record.txt
-    mkdir $PREFIX/Library/bin
-    cp -v build/lib.win-amd64-*/sherpa/bin/sherpa.exe $PREFIX/Library/bin
+    # mkdir $PREFIX/Library/bin
 
     # mkdir 'C:\Miniconda\envs\sherpa\Library\bin'
     # mkdir 'C:\Miniconda\envs\sherpa\Library\lib'
