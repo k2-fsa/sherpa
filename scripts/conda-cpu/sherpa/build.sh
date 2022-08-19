@@ -2,6 +2,9 @@
 
 echo "PREFIX: $PREFIX"
 
+python -m torch.utils.collect_env
+python -m k2.version
+
 # conda install -y -q -c pytorch pytorch={{ environ.get('SHERPA_TORCH_VERSION') }} cpuonly
 
 os=$(uname -s)

@@ -1,5 +1,8 @@
 
 
+python -m torch.utils.collect_env
+python -m k2.version
+
 python setup.py install --single-version-externally-managed --record=record.txt
 
 COPY build/lib.win-amd64-*/sherpa/bin/sherpa.exe %LIBRARY_BIN% || exit 1
