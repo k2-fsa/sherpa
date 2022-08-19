@@ -9,7 +9,8 @@ build:
   number: 0
   string: cpu_py{{ environ.get('SHERPA_PYTHON_VERSION') }}_torch{{ environ.get('SHERPA_TORCH_VERSION') }}
   script: |
-    conda install -y -q -c pytorch pytorch={{ environ.get('SHERPA_TORCH_VERSION') }} cpuonly
+    echo "PREFIX: $PREFIX"
+    # conda install -y -q -c pytorch pytorch={{ environ.get('SHERPA_TORCH_VERSION') }} cpuonly
     ls -lh $PREFIX/lib/libmkl* # [not win]
 
     {{ PYTHON }} setup.py install --single-version-externally-managed --record=record.txt
@@ -33,13 +34,14 @@ requirements:
 
   host:
     - anaconda-client
-    - cmake
+    - cmake=3.18
     - python
     - pytorch={{ environ.get('SHERPA_TORCH_VERSION') }}
     - kaldifeat
     - kaldi_native_io
     - k2
     - cpuonly
+    - gcc_linux-64=7 # [linux]
 
   run:
     - python

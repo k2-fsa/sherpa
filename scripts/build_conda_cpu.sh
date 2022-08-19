@@ -53,8 +53,8 @@ export SHERPA_PYTHON_VERSION
 # Example value: 1.7.1
 export SHERPA_TORCH_VERSION
 
-conda remove -q pytorch
-conda clean -q -a
+# conda remove -q pytorch
+# conda clean -q -a
 
 if [ -z $SHERPA_CONDA_TOKEN ]; then
   echo "Auto upload to anaconda.org is disabled since SHERPA_CONDA_TOKEN is not set"
