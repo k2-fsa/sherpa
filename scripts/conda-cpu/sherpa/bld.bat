@@ -1,9 +1,8 @@
 
+../_h_env/bin/python.exe -m torch.utils.collect_env
+../_h_env/bin/python.exe -m k2.version
 
-%PREFIX%/bin/python.exe -m torch.utils.collect_env
-%PREFIX%/bin/python.exe -m k2.version
-
-%PREFIX%/bin/python.exe setup.py install --single-version-externally-managed --record=record.txt
+../_h_env/bin/python.exe setup.py install --single-version-externally-managed --record=record.txt
 
 COPY build/lib.win-amd64-*/sherpa/bin/sherpa.exe %LIBRARY_BIN% || exit 1
 COPY build/lib.win-amd64-*/sherpa/lib/sherpa_core.lib %LIBRARY_LIB% || exit 1
