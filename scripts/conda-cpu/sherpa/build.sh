@@ -15,7 +15,7 @@ if [ $os != "Linux" ]; then
   ls -lh $PREFIX/lib/libmkl* # [not win]
 fi
 
-{{ PYTHON }} setup.py install --single-version-externally-managed --record=record.txt
+python setup.py install --single-version-externally-managed --record=record.txt
 
 if [ $os == "Linux" ]; then
   cp build/lib.linux-x86_64-*/sherpa/bin/sherpa $PREFIX/bin   # [linux]
