@@ -9,16 +9,30 @@ on:
       - '*'
 
 jobs:
+  generate_build_matrix:
+    # see https://github.com/pytorch/pytorch/pull/50633
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Generating build matrix
+        id: set-matrix
+        run: |
+          # outputting for debugging purposes
+          python scripts/github_actions/generate_build_matrix.py
+          MATRIX=$(python scripts/github_actions/generate_build_matrix.py)
+          echo "::set-output name=matrix::${MATRIX}"
+
   build_conda_cpu:
+    needs: generate_build_matrix
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
-        # os: [ubuntu-18.04, macos-10.15, windows-2019]
-        os: [windows-2019]
-        # python-version: ["3.6", "3.7", "3.8", "3.9", "3.10"]
-        python-version: ["3.8"]
-        torch: ["1.12.0"]
+        ${{ fromJson(needs.generate_build_matrix.outputs.matrix) }}
 
     steps:
       # refer to https://github.com/actions/checkout

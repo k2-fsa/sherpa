@@ -9,8 +9,7 @@ build:
   number: 0
   string: cpu_py{{ environ.get('SHERPA_PYTHON_VERSION') }}_torch{{ environ.get('SHERPA_TORCH_VERSION') }}
   script: |
-    echo "PREFIX: $PREFIX"
-    export LIBRARY_PATH=$PREFIX/lib:$LIBRARY_PATH
+    export LIBRARY_PATH=$PREFIX/lib:$LIBRARY_PATH # [not win]
     # conda install -y -q -c pytorch pytorch={{ environ.get('SHERPA_TORCH_VERSION') }} cpuonly
     #
     ls -lh $PREFIX/lib/libmkl* # [not win]
