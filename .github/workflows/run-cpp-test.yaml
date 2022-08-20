@@ -20,6 +20,7 @@ on:
   push:
     branches:
       - master
+      - t2
   pull_request:
     types: [labeled]
 
@@ -152,6 +153,16 @@ jobs:
           SHERPA_LOG_LEVEL=ERROR ./bin/test_log
 
           ctest --verbose --output-on-failure -E py # exclude Python tests
+
+      - name: Display sherpa version
+        shell: bash
+        run: |
+          cd build
+
+          ./bin/sherpa-version
+
+          ./bin/sherpa --help
+
 
       - name: Download pretrained model and test-data
         shell: bash

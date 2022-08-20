@@ -98,6 +98,8 @@ def generate_build_matrix(enable_cuda, test_only_latest_torch):
     # Only CUDA build are excluded since it occupies more disk space
     excluded_torch_versions = ["1.6.0", "1.7.0"]
 
+    excluded_python_versions = ["3.6"]
+
     #  os = ["ubuntu-18.04", "macos-10.15", "windows-2019"]
     os = ["macos-10.15", "windows-2019"]
 
@@ -110,10 +112,16 @@ def generate_build_matrix(enable_cuda, test_only_latest_torch):
         cuda_versions = python_cuda["cuda"]
         if enable_cuda:
             for p in python_versions:
+                if p in excluded_python_versions:
+                    continue
+
                 for c in cuda_versions:
                     ans.append({"torch": torch, "python-version": p, "cuda": c})
         else:
             for p in python_versions:
+                if p in excluded_python_versions:
+                    continue
+
                 for o in os:
                     ans.append({"torch": torch, "python-version": p, "os": o})
 

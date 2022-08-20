@@ -10,8 +10,7 @@ build:
   string: cpu_py{{ environ.get('SHERPA_PYTHON_VERSION') }}_torch{{ environ.get('SHERPA_TORCH_VERSION') }}
   script: |
     export LIBRARY_PATH=$PREFIX/lib:$LIBRARY_PATH # [not win]
-    # conda install -y -q -c pytorch pytorch={{ environ.get('SHERPA_TORCH_VERSION') }} cpuonly
-    #
+
     ls -lh $PREFIX/lib/libmkl* # [not win]
     cp -v $PREFIX/lib/libmkl_intel_ilp64.dylib $PREFIX/lib/libmkl_intel_ilp64.2.dylib # [osx]
     cp -v $PREFIX/lib/libmkl_core.dylib $PREFIX/lib/libmkl_core.2.dylib # [osx]
@@ -21,9 +20,13 @@ build:
     {{ PYTHON }} setup.py install --single-version-externally-managed --record=record.txt
 
     cp build/lib.linux-x86_64-*/sherpa/bin/sherpa $PREFIX/bin   # [linux]
+    cp build/lib.linux-x86_64-*/sherpa/bin/sherpa-version $PREFIX/bin   # [linux]
+
     cp build/lib.macosx-*-x86_64-*/sherpa/bin/sherpa $PREFIX/bin # [osx]
+    cp build/lib.macosx-*-x86_64-*/sherpa/bin/sherpa-version $PREFIX/bin # [osx]
 
     chmod +x $PREFIX/bin/sherpa  # [not win]
+    chmod +x $PREFIX/bin/sherpa-version  # [not win]
 
   features:
     - cpuonly # [not osx]

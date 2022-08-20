@@ -89,10 +89,17 @@ if(NOT WIN32)
   target_link_libraries(sherpa "-Wl,-rpath,${PYTHON_SITE_PACKAGE_DIR}/sherpa/lib")
 endif()
 
+configure_file(version.h.in ${CMAKE_CURRENT_BINARY_DIR}/version.h @ONLY)
+message(STATUS "Generated ${CMAKE_CURRENT_BINARY_DIR}/version.h")
+# sherpa-version does not have any dependencies. Its purpose is to help us debug
+# issues.
+add_executable(sherpa-version version.cc)
+target_include_directories(sherpa-version PRIVATE ${CMAKE_BINARY_DIR})
+
 install(TARGETS sherpa_core
   DESTINATION lib
 )
 
-install(TARGETS sherpa
+install(TARGETS sherpa sherpa-version
   DESTINATION  bin
 )
