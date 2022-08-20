@@ -4,6 +4,7 @@ on:
   push:
     branches:
     - master
+    - t2
     tags:
       - '*'
 
