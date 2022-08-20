@@ -3,7 +3,8 @@ Pretrained model with GigaSpeech
 
 .. hint::
 
-  We assume you have read :ref:`cpp_installation` and have compiled `sherpa`_.
+  We assume you have installed ``sherpa`` by following
+  :ref:`cpp_fronted_installation` before you start this section.
 
 Download the pretrained model
 -----------------------------
@@ -44,12 +45,21 @@ After cloning the repo, you will find the following files:
 
 - ``data/lang_bpe_500/bpe.model`` is the BPE model used in the training
 - ``exp/cpu_jit-iter-3488000-avg-15.pt`` and ``exp/cpu_jit-iter-3488000-avg-20.pt``
-  are two torchscript model exported using ``torch.jit.script()``. We can use
+  are two torchscript models exported using ``torch.jit.script()``. We can use
   any of them in the following tests.
 
 .. note::
 
    We won't use ``pretrained-xxx.pt`` in sherpa.
+
+Before we start, let us generate ``tokens.txt`` from the above ``bpe.model``:
+
+.. code-block:: bash
+
+  cd icefall-asr-gigaspeech-pruned-transducer-stateless2/data/lang_bpe_500
+  wget https://raw.githubusercontent.com/k2-fsa/sherpa/master/scripts/bpe_model_to_tokens.py
+  ./bpe_model_to_tokens.py ./bpe.model > tokens.txt
+
 
 Since the above repo does not contain test waves, we download some
 test files from `<https://huggingface.co/csukuangfj/icefall-asr-librispeech-pruned-transducer-stateless5-2022-05-13>`_.
@@ -73,41 +83,42 @@ recognition.
 Decode a single wave
 --------------------
 
-We assume you have placed the downloaded repo inside ``sherpa/build``.
-
 .. code-block:: bash
 
-    cd sherpa/build
+  nn_model=./icefall-asr-gigaspeech-pruned-transducer-stateless2/exp/cpu_jit-iter-3488000-avg-15.pt
+  tokens=./icefall-asr-gigaspeech-pruned-transducer-stateless2/data/lang_bpe_500/tokens.txt
 
-    nn_model=./icefall-asr-gigaspeech-pruned-transducer-stateless2/exp/cpu_jit-iter-3488000-avg-15.pt
-    bpe_model=./icefall-asr-gigaspeech-pruned-transducer-stateless2/data/lang_bpe_500/bpe.model
-    wav1=./icefall-asr-gigaspeech-pruned-transducer-stateless2/test_wavs/1089-134686-0001.wav
+  wav1=./icefall-asr-gigaspeech-pruned-transducer-stateless2/test_wavs/1089-134686-0001.wav
 
-    ./bin/sherpa \
-      --decoding-method=greedy_search \
-      --nn-model=$nn_model \
-      --bpe-model=$bpe_model \
-      $wav1
+  sherpa \
+    --nn-model=$nn_model \
+    --tokens=$tokens \
+    --use-gpu=false \
+    $wav1
+
 
 You will see the following output:
 
 .. code-block::
 
-  [I] /root/fangjun/open-source/sherpa/sherpa/csrc/parse_options.cc:495:int sherpa::ParseOptions::Read(int, const char* const*) 2022-08-16 22:18:03 ./bin/sherpa --decoding-method=greedy_search --nn-model=./icefall-asr-gigaspeech-pruned-transducer-stateless2/exp/cpu_jit-iter-3488000-avg-15.pt --bpe-model=./icefall-asr-gigaspeech-pruned-transducer-stateless2/data/lang_bpe_500/bpe.model ./icefall-asr-gigaspeech-pruned-transducer-stateless2/test_wavs/1089-134686-0001.wav
+  [I] /usr/share/miniconda/envs/sherpa/conda-bld/sherpa_1661003501349/work/sherpa/csrc/parse_options.cc:495:int sherpa::ParseOptions::Read(int, const char* const*) 2022-08-20 22:35:42 sherpa --nn-model=./icefall-asr-gigaspeech-pruned-transducer-stateless2/exp/cpu_jit-iter-3488000-avg-15.pt --tokens=./icefall-asr-gigaspeech-pruned-transducer-stateless2/data/lang_bpe_500/tokens.txt --use-gpu=false ./icefall-asr-gigaspeech-pruned-transducer-stateless2/test_wavs/1089-134686-0001.wav
 
-  [I] /root/fangjun/open-source/sherpa/sherpa/csrc/sherpa.cc:113:int main(int, char**) 2022-08-16 22:18:04
+  [I] /usr/share/miniconda/envs/sherpa/conda-bld/sherpa_1661003501349/work/sherpa/csrc/sherpa.cc:126:int main(int, char**) 2022-08-20 22:35:42
   --nn-model=./icefall-asr-gigaspeech-pruned-transducer-stateless2/exp/cpu_jit-iter-3488000-avg-15.pt
-  --bpe-model=./icefall-asr-gigaspeech-pruned-transducer-stateless2/data/lang_bpe_500/bpe.model
+  --tokens=./icefall-asr-gigaspeech-pruned-transducer-stateless2/data/lang_bpe_500/tokens.txt
   --decoding-method=greedy_search
   --use-gpu=false
 
-  [I] /root/fangjun/open-source/sherpa/sherpa/csrc/sherpa.cc:262:int main(int, char**) 2022-08-16 22:18:05
+  [I] /usr/share/miniconda/envs/sherpa/conda-bld/sherpa_1661003501349/work/sherpa/csrc/sherpa.cc:270:int main(int, char**) 2022-08-20 22:35:43
   filename: ./icefall-asr-gigaspeech-pruned-transducer-stateless2/test_wavs/1089-134686-0001.wav
-  result: AFTER EARLY NIGHTFALL THE YELLOW LAMPS WOULD LIGHT UP HERE AND THERE THE SQUALID QUARTER OF THE BROTHELS
+  result:  AFTER EARLY NIGHTFALL THE YELLOW LAMPS WOULD LIGHT UP HERE AND THERE THE SQUALID QUARTER OF THE BROTHELS
+
 
 .. hint::
 
-   You can pass the option ``--use-gpu=true`` to use GPU for computation.
+   You can pass the option ``--use-gpu=true`` to use GPU for computation (Assume
+   you have installed a CUDA version of ``sherpa``).
+
    Also, you can use ``--decoding-method=modified_beam_search`` to change
    the decoding method.
 
@@ -116,43 +127,45 @@ Decode multiple waves in parallel
 
 .. code-block:: bash
 
-  cd sherpa/build
-
   nn_model=./icefall-asr-gigaspeech-pruned-transducer-stateless2/exp/cpu_jit-iter-3488000-avg-15.pt
-  bpe_model=./icefall-asr-gigaspeech-pruned-transducer-stateless2/data/lang_bpe_500/bpe.model
+  tokens=./icefall-asr-gigaspeech-pruned-transducer-stateless2/data/lang_bpe_500/tokens.txt
+
   wav1=./icefall-asr-gigaspeech-pruned-transducer-stateless2/test_wavs/1089-134686-0001.wav
   wav2=./icefall-asr-gigaspeech-pruned-transducer-stateless2/test_wavs/1221-135766-0001.wav
   wav3=./icefall-asr-gigaspeech-pruned-transducer-stateless2/test_wavs/1221-135766-0002.wav
 
-  ./bin/sherpa \
-    --decoding-method=greedy_search \
+  sherpa \
     --nn-model=$nn_model \
-    --bpe-model=$bpe_model \
+    --tokens=$tokens \
+    --use-gpu=false \
     $wav1 \
     $wav2 \
     $wav3
 
+
 You will see the following output:
 
-.. code-block::
+.. code-block:: bash
 
-  [I] /root/fangjun/open-source/sherpa/sherpa/csrc/parse_options.cc:495:int sherpa::ParseOptions::Read(int, const char* const*) 2022-08-16 22:24:09 ./bin/sherpa --decoding-method=greedy_search --nn-model=./icefall-asr-gigaspeech-pruned-transducer-stateless2/exp/cpu_jit-iter-3488000-avg-15.pt --bpe-model=./icefall-asr-gigaspeech-pruned-transducer-stateless2/data/lang_bpe_500/bpe.model ./icefall-asr-gigaspeech-pruned-transducer-stateless2/test_wavs/1089-134686-0001.wav ./icefall-asr-gigaspeech-pruned-transducer-stateless2/test_wavs/1221-135766-0001.wav ./icefall-asr-gigaspeech-pruned-transducer-stateless2/test_wavs/1221-135766-0002.wav
+  [I] /usr/share/miniconda/envs/sherpa/conda-bld/sherpa_1661003501349/work/sherpa/csrc/parse_options.cc:495:int sherpa::ParseOptions::Read(int, const char* const*) 2022-08-20 22:38:18 sherpa --nn-model=./icefall-asr-gigaspeech-pruned-transducer-stateless2/exp/cpu_jit-iter-3488000-avg-15.pt --tokens=./icefall-asr-gigaspeech-pruned-transducer-stateless2/data/lang_bpe_500/tokens.txt --use-gpu=false ./icefall-asr-gigaspeech-pruned-transducer-stateless2/test_wavs/1089-134686-0001.wav ./icefall-asr-gigaspeech-pruned-transducer-stateless2/test_wavs/1221-135766-0001.wav ./icefall-asr-gigaspeech-pruned-transducer-stateless2/test_wavs/1221-135766-0002.wav
 
-  [I] /root/fangjun/open-source/sherpa/sherpa/csrc/sherpa.cc:113:int main(int, char**) 2022-08-16 22:24:10
+  [I] /usr/share/miniconda/envs/sherpa/conda-bld/sherpa_1661003501349/work/sherpa/csrc/sherpa.cc:126:int main(int, char**) 2022-08-20 22:38:19
   --nn-model=./icefall-asr-gigaspeech-pruned-transducer-stateless2/exp/cpu_jit-iter-3488000-avg-15.pt
-  --bpe-model=./icefall-asr-gigaspeech-pruned-transducer-stateless2/data/lang_bpe_500/bpe.model
+  --tokens=./icefall-asr-gigaspeech-pruned-transducer-stateless2/data/lang_bpe_500/tokens.txt
   --decoding-method=greedy_search
   --use-gpu=false
 
-  [I] /root/fangjun/open-source/sherpa/sherpa/csrc/sherpa.cc:276:int main(int, char**) 2022-08-16 22:24:14
+  [I] /usr/share/miniconda/envs/sherpa/conda-bld/sherpa_1661003501349/work/sherpa/csrc/sherpa.cc:284:int main(int, char**) 2022-08-20 22:38:23
   filename: ./icefall-asr-gigaspeech-pruned-transducer-stateless2/test_wavs/1089-134686-0001.wav
-  result: AFTER EARLY NIGHTFALL THE YELLOW LAMPS WOULD LIGHT UP HERE AND THERE THE SQUALID QUARTER OF THE BROTHELS
+  result:  AFTER EARLY NIGHTFALL THE YELLOW LAMPS WOULD LIGHT UP HERE AND THERE THE SQUALID QUARTER OF THE BROTHELS
 
   filename: ./icefall-asr-gigaspeech-pruned-transducer-stateless2/test_wavs/1221-135766-0001.wav
-  result: GOD AS A DIRECT CONSEQUENCE OF THE SIN WHICH MAN THUS PUNISHED HAD GIVEN HER A LOVELY CHILD WHOSE PLACE WAS ON THAT SAME DISHONORED BOSOM TO CONNECT HER PARENT FOR EVER WITH THE RACE AND DESCENT OF MORTALS AND TO BE FINALLY A BLESSED SOUL IN HEAVEN
+  result:  GOD AS A DIRECT CONSEQUENCE OF THE SIN WHICH MAN THUS PUNISHED HAD GIVEN HER A LOVELY CHILD WHOSE PLACE WAS ON THAT SAME DISHONORED BOSOM TO CONNECT HER PARENT FOR EVER WITH THE RACE AND DESCENT OF MORTALS AND TO BE FINALLY A BLESSED SOUL IN HEAVEN
 
   filename: ./icefall-asr-gigaspeech-pruned-transducer-stateless2/test_wavs/1221-135766-0002.wav
-  result: YET THESE THOUGHTS AFFECTED HESTER PRYNNE LESS WITH HOPE THAN APPREHENSION
+  result:  YET THESE THOUGHTS AFFECTED HESTER PRYNNE LESS WITH HOPE THAN APPREHENSION
+
+
 
 Decode wav.scp
 --------------
@@ -174,14 +187,13 @@ With the ``wav.scp`` ready, we can decode it with the following commands:
 .. code-block:: bash
 
   nn_model=./icefall-asr-gigaspeech-pruned-transducer-stateless2/exp/cpu_jit-iter-3488000-avg-15.pt
-  bpe_model=./icefall-asr-gigaspeech-pruned-transducer-stateless2/data/lang_bpe_500/bpe.model
+  tokens=./icefall-asr-gigaspeech-pruned-transducer-stateless2/data/lang_bpe_500/tokens.txt
 
-  ./bin/sherpa \
-    --decoding-method=greedy_search \
+  sherpa \
     --nn-model=$nn_model \
-    --bpe-model=$bpe_model \
+    --tokens=$tokens \
+    --use-gpu=false \
     --use-wav-scp=true \
-    --batch-size=2 \
     scp:wav.scp \
     ark,scp,t:results.ark,results.scp
 
@@ -189,11 +201,11 @@ You will see the following output:
 
 .. code-block:: bash
 
-  [I] /root/fangjun/open-source/sherpa/sherpa/csrc/parse_options.cc:495:int sherpa::ParseOptions::Read(int, const char* const*) 2022-08-16 22:30:16 ./bin/sherpa --decoding-method=greedy_search --nn-model=./icefall-asr-gigaspeech-pruned-transducer-stateless2/exp/cpu_jit-iter-3488000-avg-15.pt --bpe-model=./icefall-asr-gigaspeech-pruned-transducer-stateless2/data/lang_bpe_500/bpe.model --use-wav-scp=true --batch-size=2 scp:wav.scp ark,scp,t:results.ark,results.scp
+  [I] /usr/share/miniconda/envs/sherpa/conda-bld/sherpa_1661003501349/work/sherpa/csrc/parse_options.cc:495:int sherpa::ParseOptions::Read(int, const char* const*) 2022-08-20 22:40:36 sherpa --nn-model=./icefall-asr-gigaspeech-pruned-transducer-stateless2/exp/cpu_jit-iter-3488000-avg-15.pt --tokens=./icefall-asr-gigaspeech-pruned-transducer-stateless2/data/lang_bpe_500/tokens.txt --use-gpu=false --use-wav-scp=true scp:wav.scp ark,scp,t:results.ark,results.scp
 
-  [I] /root/fangjun/open-source/sherpa/sherpa/csrc/sherpa.cc:113:int main(int, char**) 2022-08-16 22:30:16
+  [I] /usr/share/miniconda/envs/sherpa/conda-bld/sherpa_1661003501349/work/sherpa/csrc/sherpa.cc:126:int main(int, char**) 2022-08-20 22:40:37
   --nn-model=./icefall-asr-gigaspeech-pruned-transducer-stateless2/exp/cpu_jit-iter-3488000-avg-15.pt
-  --bpe-model=./icefall-asr-gigaspeech-pruned-transducer-stateless2/data/lang_bpe_500/bpe.model
+  --tokens=./icefall-asr-gigaspeech-pruned-transducer-stateless2/data/lang_bpe_500/tokens.txt
   --decoding-method=greedy_search
   --use-gpu=false
 
@@ -215,18 +227,17 @@ If you have precomputed feats, you can decode it with the following code:
 .. code-block:: bash
 
   nn_model=./icefall-asr-gigaspeech-pruned-transducer-stateless2/exp/cpu_jit-iter-3488000-avg-15.pt
-  bpe_model=./icefall-asr-gigaspeech-pruned-transducer-stateless2/data/lang_bpe_500/bpe.model
+  tokens=./icefall-asr-gigaspeech-pruned-transducer-stateless2/data/lang_bpe_500/tokens.txt
 
-  ./bin/sherpa \
-    --decoding-method=greedy_search \
+  sherpa \
     --nn-model=$nn_model \
-    --bpe-model=$bpe_model \
+    --tokens=$tokens \
+    --use-gpu=false \
     --use-feats-scp=true \
-    --batch-size=2 \
     scp:feats.scp \
     ark,scp,t:results.ark,results.scp
 
-.. caution:: bash
+.. caution::
 
    ``feats.scp`` generated by kaldi's ``compute-fbank-feats`` are using
    unnormalized samples. That is, audio samples are in the range
@@ -239,3 +250,9 @@ If you have precomputed feats, you can decode it with the following code:
 
    It is perfectly OK to decode ``feats.scp`` from Kaldi using a model
    trained with features using unnormalized audio samples.
+
+.. note::
+
+   We provide a script to generate ``feats.ark`` and ``feats.scp`` from
+   ``wav.scp``. Please see
+   `<https://github.com/k2-fsa/sherpa/blob/master/.github/scripts/generate_feats_scp.py>`_

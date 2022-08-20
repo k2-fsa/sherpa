@@ -1,39 +1,15 @@
-.. _cpp_installation:
+.. _cpp_fronted_installation:
 
-Installation
-============
-
-Install dependencies
---------------------
-
-First, please refer to `<https://k2-fsa.github.io/k2/installation/index.html>`_
-to install `k2`_.
+C++ frontend Installation
+=========================
 
 
-.. code-block:: bash
+You can select ``one`` of the following methods for installation.
 
-   pip install kaldifeat kaldi_native_io
+.. toctree::
+   :maxdepth: 1
 
-Install C++ frontend of sherpa
-------------------------------
-
-.. code-block:: bash
-
-   git clone https://github.com/k2-fsa/sherpa
-   cd sherpa
-   mkdir build
-   cd build
-   cmake -DCMAKE_BUILD_TYPE=Release ..
-   make -j sherpa
-
-
-After running the above commands, you will get a binary ``./bin/sherpa`` in the
-build directory. You can use
-
-.. code-block:: bash
-
-   ./bin/sherpa --help
-
-to view usage information.
-
-Please read the section :ref:`cpp_non_streaming_asr` for more details.
+   conda-macos
+   conda-windows
+   conda-linux
+   from-source

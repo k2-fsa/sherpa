@@ -2,9 +2,6 @@ name: build_conda_cpu
 
 on:
   push:
-    branches:
-    - master
-    - t2
     tags:
       - '*'
 
