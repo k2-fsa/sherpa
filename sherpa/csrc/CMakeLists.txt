@@ -39,6 +39,10 @@ if(NOT WIN32)
   target_link_libraries(sherpa_core PUBLIC "-Wl,-rpath,${SHERPA_RPATH_ORIGIN}/torch/lib64")
 endif()
 
+if(DEFINED ENV{CONDA_PREFIX} AND APPLE)
+  target_link_libraries(sherpa_core PUBLIC "-L $ENV{CONDA_PREFIX}/lib")
+  target_link_libraries(sherpa_core PUBLIC "-Wl,-rpath,$ENV{CONDA_PREFIX}/lib")
+endif()
 
 if(SHERPA_ENABLE_TESTS)
   set(sherpa_test_srcs
@@ -88,6 +92,7 @@ if(NOT WIN32)
   message(STATUS "PYTHON_SITE_PACKAGE_DIR: ${PYTHON_SITE_PACKAGE_DIR}")
   target_link_libraries(sherpa "-Wl,-rpath,${PYTHON_SITE_PACKAGE_DIR}/sherpa/lib")
 endif()
+
 
 configure_file(version.h.in ${CMAKE_CURRENT_BINARY_DIR}/version.h @ONLY)
 message(STATUS "Generated ${CMAKE_CURRENT_BINARY_DIR}/version.h")
