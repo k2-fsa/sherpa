@@ -33,7 +33,7 @@ namespace sherpa {
  * If the file has multiple channels, only the first channel is returned.
  * Samples are normalized to the range [-1, 1).
  *
- * @param filename Path to the wave file. Only "*.wav" format are supported.
+ * @param filename Path to the wave file. Only "*.wav" format is supported.
  * @param expected_sample_rate  Expected sample rate of the wave file. It aborts
  *                              if the sample rate of the given file is not
  *                              equal to this value.
