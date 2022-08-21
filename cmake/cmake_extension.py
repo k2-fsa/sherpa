@@ -78,6 +78,7 @@ class BuildExtension(build_ext):
             build_cmd = f"""
          cmake {cmake_args} -B {self.build_temp} -S {sherpa_dir}
          cmake --build {self.build_temp} --target sherpa --config Release -- -m
+  cmake --build {self.build_temp} --target sherpa-version --config Release -- -m
          cmake --build {self.build_temp} --target _sherpa --config Release -- -m
          cmake --build {self.build_temp} --target install --config Release -- -m
             """
@@ -93,6 +94,12 @@ class BuildExtension(build_ext):
             )
             if ret != 0:
                 raise Exception("failed to build sherpa")
+
+            ret = os.system(
+                f"cmake --build {self.build_temp} --target sherpa-version --config release -- -m"  # noqa
+            )
+            if ret != 0:
+                raise Exception("failed to build sherpa-version")
 
             ret = os.system(
                 f"cmake --build {self.build_temp} --target _sherpa --config release -- -m"  # noqa
@@ -118,7 +125,7 @@ class BuildExtension(build_ext):
                 cmake {cmake_args} {sherpa_dir}
 
 
-                make {make_args} sherpa _sherpa install
+                make {make_args} sherpa sherpa-version _sherpa install
             """
             print(f"build command is:\n{build_cmd}")
 

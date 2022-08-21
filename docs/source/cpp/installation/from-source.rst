@@ -38,7 +38,7 @@ You can use
 
 to view usage information.
 
-``./bin/sherp-version`` displays the information about the environment that
+``./bin/sherpa-version`` displays the information about the environment that
 was used to build ``sherpa``.
 
 Please read the section :ref:`cpp_non_streaming_asr` for more details.

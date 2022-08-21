@@ -91,6 +91,8 @@ if(NOT WIN32)
   )
   message(STATUS "PYTHON_SITE_PACKAGE_DIR: ${PYTHON_SITE_PACKAGE_DIR}")
   target_link_libraries(sherpa "-Wl,-rpath,${PYTHON_SITE_PACKAGE_DIR}/sherpa/lib")
+
+  target_link_libraries(sherpa "-Wl,-rpath,${SHERPA_RPATH_ORIGIN}/../lib")
 endif()
 
 

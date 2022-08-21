@@ -9,7 +9,7 @@ conda for Linux
 CPU version
 -----------
 
-The command to install a CPU version ``sherpa`` for Linux using ``conda`` is:
+The command to install a CPU version of ``sherpa`` for Linux using ``conda`` is:
 
 .. code-block:: bash
 
@@ -93,3 +93,19 @@ CUDA version
 ------------
 
 To be done.
+
+If you have any issues about installing ``sherpa``, please create an issue
+at the following address:
+
+  `<https://github.com/k2-fsa/sherpa/issues>`_
+
+.. hint::
+
+   If you have a `WeChat <https://www.wechat.com/>`_ account, you can scan
+   the following QR code to join the WeChat group of next-gen Kaldi to get
+   help.
+
+   .. image:: pic/wechat-group-for-next-gen-kaldi.jpg
+    :width: 200
+    :align: center
+    :alt: WeChat group of next-gen Kaldi

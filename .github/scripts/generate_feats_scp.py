@@ -1,4 +1,14 @@
 #!/usr/bin/env python3
+"""
+Usage:
+
+    ./generate_feats_scp.py scp:wav.scp ark,scp:feats.ark,feats.scp
+
+It generates `feats.ark` and `feats.scp` from `wav.scp`.
+
+Different from Kaldi's `compute-fbank-feats`, this scripts uses
+normalized samples in the range [-1, 1] to compute features.
+"""
 
 import sys
 
