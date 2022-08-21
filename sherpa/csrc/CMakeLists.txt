@@ -1,23 +1,48 @@
 # Please sort the filenames alphabetically
 set(sherpa_srcs
+  fbank_features.cc
+  file_utils.cc
   hypothesis.cc
   log.cc
+  offline_asr.cc
   parse_options.cc
   rnnt_beam_search.cc
   rnnt_conformer_model.cc
   rnnt_conv_emformer_model.cc
   rnnt_emformer_model.cc
+  symbol_table.cc
 )
 
 add_library(sherpa_core ${sherpa_srcs})
-target_link_libraries(sherpa_core PUBLIC ${TORCH_LIBRARIES} ${K2_LIBRARIES})
+
+if(SHERPA_HAVE_EXECINFO_H)
+  target_compile_definitions(sherpa_core PRIVATE SHERPA_HAVE_EXECINFO_H=1)
+endif()
+
+if(SHERPA_HAVE_CXXABI_H)
+  target_compile_definitions(sherpa_core PRIVATE SHERPA_HAVE_CXXABI_H=1)
+endif()
+
+target_link_libraries(sherpa_core PUBLIC
+  ${TORCH_LIBRARIES}
+  ${K2_LIBRARIES}
+  ${KALDIFEAT_LIBRARIES}
+  ${KALDI_NATIVE_IO_LIBRARIES}
+  )
 
 target_compile_definitions(sherpa_core PUBLIC SHERPA_TORCH_VERSION_MAJOR=${SHERPA_TORCH_VERSION_MAJOR})
 target_compile_definitions(sherpa_core PUBLIC SHERPA_TORCH_VERSION_MINOR=${SHERPA_TORCH_VERSION_MINOR})
-target_link_libraries(sherpa_core PUBLIC "-Wl,-rpath,${SHERPA_RPATH_ORIGIN}/k2/lib")
-target_link_libraries(sherpa_core PUBLIC "-Wl,-rpath,${SHERPA_RPATH_ORIGIN}/k2/lib64")
-target_link_libraries(sherpa_core PUBLIC "-Wl,-rpath,${SHERPA_RPATH_ORIGIN}/torch/lib")
-target_link_libraries(sherpa_core PUBLIC "-Wl,-rpath,${SHERPA_RPATH_ORIGIN}/torch/lib64")
+if(NOT WIN32)
+  target_link_libraries(sherpa_core PUBLIC "-Wl,-rpath,${SHERPA_RPATH_ORIGIN}/k2/lib")
+  target_link_libraries(sherpa_core PUBLIC "-Wl,-rpath,${SHERPA_RPATH_ORIGIN}/k2/lib64")
+  target_link_libraries(sherpa_core PUBLIC "-Wl,-rpath,${SHERPA_RPATH_ORIGIN}/torch/lib")
+  target_link_libraries(sherpa_core PUBLIC "-Wl,-rpath,${SHERPA_RPATH_ORIGIN}/torch/lib64")
+endif()
+
+if(DEFINED ENV{CONDA_PREFIX} AND APPLE)
+  target_link_libraries(sherpa_core PUBLIC "-L $ENV{CONDA_PREFIX}/lib")
+  target_link_libraries(sherpa_core PUBLIC "-Wl,-rpath,$ENV{CONDA_PREFIX}/lib")
+endif()
 
 if(SHERPA_ENABLE_TESTS)
   set(sherpa_test_srcs
@@ -56,4 +81,32 @@ if(SHERPA_ENABLE_TESTS)
 endif()
 
 add_executable(sherpa sherpa.cc)
-target_link_libraries(sherpa sherpa_core ${KALDIFEAT_LIBRARIES})
+target_link_libraries(sherpa sherpa_core)
+
+if(NOT WIN32)
+  execute_process(
+    COMMAND "${PYTHON_EXECUTABLE}" -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())"
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+    OUTPUT_VARIABLE PYTHON_SITE_PACKAGE_DIR
+  )
+  message(STATUS "PYTHON_SITE_PACKAGE_DIR: ${PYTHON_SITE_PACKAGE_DIR}")
+  target_link_libraries(sherpa "-Wl,-rpath,${PYTHON_SITE_PACKAGE_DIR}/sherpa/lib")
+
+  target_link_libraries(sherpa "-Wl,-rpath,${SHERPA_RPATH_ORIGIN}/../lib")
+endif()
+
+
+configure_file(version.h.in ${CMAKE_CURRENT_BINARY_DIR}/version.h @ONLY)
+message(STATUS "Generated ${CMAKE_CURRENT_BINARY_DIR}/version.h")
+# sherpa-version does not have any dependencies. Its purpose is to help us debug
+# issues.
+add_executable(sherpa-version version.cc)
+target_include_directories(sherpa-version PRIVATE ${CMAKE_BINARY_DIR})
+
+install(TARGETS sherpa_core
+  DESTINATION lib
+)
+
+install(TARGETS sherpa sherpa-version
+  DESTINATION  bin
+)

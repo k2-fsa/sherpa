@@ -61,6 +61,10 @@ constexpr LogLevel FATAL = LogLevel::kFatal;
 
 std::string GetStackTrace();
 
+// Return a string with the format: yyyy-mm-dd hh:mm:ss
+// For instance, 2022-08-15 11:44:44
+std::string GetDateTimeStr();
+
 /* Return the current log level.
 
 
@@ -144,7 +148,8 @@ class Logger {
     }
 
     if (cur_level_ <= level_) {
-      fprintf(stderr, "%s:%u:%s ", filename, line_num, func_name);
+      fprintf(stderr, "%s:%u:%s %s ", filename, line_num, func_name,
+              GetDateTimeStr().c_str());
     }
   }
 

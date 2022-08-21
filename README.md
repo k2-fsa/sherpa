@@ -39,7 +39,7 @@ See <https://www.youtube.com/watch?v=z7HgaZv5W0U>
 ## Installation
 
 Please refer to
-<https://k2-fsa.github.io/sherpa/installation/index.html>
+<https://k2-fsa.github.io/sherpa/python/installation/index.html>
 for installation.
 
 ## Usage

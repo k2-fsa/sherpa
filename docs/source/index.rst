@@ -22,10 +22,17 @@ for both streaming ASR and offline ASR (i.e., non-streaming ASR).
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :caption: For Python users
 
-   ./huggingface/index
-   ./installation/index
-   ./streaming_asr/index
-   ./offline_asr/index
-   faq
+   ./python/huggingface/index
+   ./python/installation/index
+   ./python/streaming_asr/index
+   ./python/offline_asr/index
+   ./python/faq
+
+.. toctree::
+   :maxdepth: 2
+   :caption: For C++ users
+
+   ./cpp/installation/index
+   ./cpp/offline_asr/index

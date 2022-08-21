@@ -62,7 +62,7 @@ jobs:
         shell: bash
         if: startsWith(matrix.os, 'ubuntu')
         run: |
-          python3 -m pip install --upgrade pip
+          python3 -m pip install --upgrade pip kaldi_native_io
           python3 -m pip install wheel twine typing_extensions
           python3 -m pip install torch==${{ matrix.torch }} numpy -f https://download.pytorch.org/whl/cpu/torch_stable.html
 
@@ -74,7 +74,7 @@ jobs:
         shell: bash
         if: startsWith(matrix.os, 'macos')
         run: |
-          python3 -m pip install --upgrade pip
+          python3 -m pip install --upgrade pip kaldi_native_io
           python3 -m pip install wheel twine typing_extensions
           python3 -m pip install torch==${{ matrix.torch }} numpy -f https://download.pytorch.org/whl/cpu/torch_stable.html
 
@@ -125,6 +125,9 @@ jobs:
 
           ldd bin/sherpa
 
+          readelf -d lib/libsherpa_core.so
+          readelf -d bin/sherpa
+
       - name: Display dependencies
         if: startsWith(matrix.os, 'macos')
         shell: bash
@@ -148,6 +151,229 @@ jobs:
           SHERPA_LOG_LEVEL=WARNING ./bin/test_log
           SHERPA_LOG_LEVEL=ERROR ./bin/test_log
 
-          ./bin/sherpa
-
           ctest --verbose --output-on-failure -E py # exclude Python tests
+
+      - name: Display sherpa version
+        shell: bash
+        run: |
+          cd build
+
+          ./bin/sherpa-version
+
+          ./bin/sherpa --help
+
+
+      - name: Download pretrained model and test-data
+        shell: bash
+        run: |
+          git lfs install
+          git clone https://huggingface.co/csukuangfj/icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13
+
+      - name: Test decoding a single wave
+        shell: bash
+        run: |
+          echo "Test greedy search"
+
+          ./build/bin/sherpa \
+            --decoding-method=greedy_search \
+            --nn-model=./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/exp/cpu_jit-torch-${{ matrix.torch }}.pt \
+            --tokens=./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/data/lang_bpe_500/tokens.txt \
+            icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/test_wavs/1089-134686-0001.wav
+
+          echo "Test modified_beam_search"
+
+          ./build/bin/sherpa \
+            --decoding-method=modified_beam_search \
+            --num-active-paths=4 \
+            --nn-model=./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/exp/cpu_jit-torch-${{ matrix.torch }}.pt \
+            --tokens=./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/data/lang_bpe_500/tokens.txt \
+            icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/test_wavs/1089-134686-0001.wav
+
+      - name: Test decoding multiple waves
+        shell: bash
+        run: |
+          echo "Test greedy search"
+
+          ./build/bin/sherpa \
+            --decoding-method=greedy_search \
+            --nn-model=./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/exp/cpu_jit-torch-${{ matrix.torch }}.pt \
+            --tokens=./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/data/lang_bpe_500/tokens.txt \
+            icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/test_wavs/1089-134686-0001.wav \
+            icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/test_wavs/1221-135766-0001.wav \
+            icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/test_wavs/1221-135766-0002.wav
+
+          echo "Test modified_beam_search"
+
+          ./build/bin/sherpa \
+            --decoding-method=modified_beam_search \
+            --num-active-paths=4 \
+            --nn-model=./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/exp/cpu_jit-torch-${{ matrix.torch }}.pt \
+            --tokens=./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/data/lang_bpe_500/tokens.txt \
+            icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/test_wavs/1089-134686-0001.wav \
+            icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/test_wavs/1221-135766-0001.wav \
+            icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/test_wavs/1221-135766-0002.wav
+
+      - name: Test decoding wav.scp
+        shell: bash
+        run: |
+          .github/scripts/generate_wav_scp.sh
+
+          echo "Test greedy search"
+          ./build/bin/sherpa \
+            --decoding-method=greedy_search \
+            --nn-model=./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/exp/cpu_jit-torch-${{ matrix.torch }}.pt \
+            --tokens=./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/data/lang_bpe_500/tokens.txt \
+            --use-wav-scp=true \
+            scp:wav.scp \
+            ark,scp,t:results.ark,results.scp
+
+          head results.scp results.ark
+
+          echo "Test modified_beam_search"
+
+          ./build/bin/sherpa \
+            --decoding-method=modified_beam_search \
+            --nn-model=./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/exp/cpu_jit-torch-${{ matrix.torch }}.pt \
+            --tokens=./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/data/lang_bpe_500/tokens.txt \
+            --use-wav-scp=true \
+            scp:wav.scp \
+            ark,scp,t:results2.ark,results2.scp
+
+          head results2.scp results2.ark
+
+      - name: Test decoding feats.scp
+        shell: bash
+        run: |
+          export PYTHONPATH=$HOME/tmp/kaldifeat/build/lib:$HOME/tmp/kaldifeat/kaldifeat/python:$PYTHONPATH
+
+          .github/scripts/generate_feats_scp.py scp:wav.scp ark,scp:feats.ark,feats.scp
+
+          echo "Test greedy search"
+          ./build/bin/sherpa \
+            --decoding-method=greedy_search \
+            --nn-model=./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/exp/cpu_jit-torch-${{ matrix.torch }}.pt \
+            --tokens=./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/data/lang_bpe_500/tokens.txt \
+            --use-feats-scp=true \
+            scp:feats.scp \
+            ark,scp,t:results3.ark,results3.scp
+
+          head results3.scp results3.ark
+
+          echo "Test modified_beam_search"
+
+          ./build/bin/sherpa \
+            --decoding-method=modified_beam_search \
+            --nn-model=./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/exp/cpu_jit-torch-${{ matrix.torch }}.pt \
+            --tokens=./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/data/lang_bpe_500/tokens.txt \
+            --use-feats-scp=true \
+            scp:feats.scp \
+            ark,scp,t:results4.ark,results4.scp
+
+          head results4.scp results4.ark
+
+      - name: Download pretrained model and test-data (aishell)
+        shell: bash
+        run: |
+          git lfs install
+          git clone https://huggingface.co/csukuangfj/icefall-aishell-pruned-transducer-stateless3-2022-06-20
+
+      - name: Test decoding a single wave (aishell)
+        shell: bash
+        run: |
+          echo "Test greedy search"
+
+          ./build/bin/sherpa \
+            --decoding-method=greedy_search \
+            --nn-model=./icefall-aishell-pruned-transducer-stateless3-2022-06-20/exp/cpu_jit-epoch-29-avg-5-torch-1.6.0.pt \
+            --tokens=./icefall-aishell-pruned-transducer-stateless3-2022-06-20/data/lang_char/tokens.txt \
+            icefall-aishell-pruned-transducer-stateless3-2022-06-20/test_wavs/BAC009S0764W0121.wav
+
+          echo "Test modified_beam_search"
+
+          ./build/bin/sherpa \
+            --decoding-method=modified_beam_search \
+            --nn-model=./icefall-aishell-pruned-transducer-stateless3-2022-06-20/exp/cpu_jit-epoch-29-avg-5-torch-1.6.0.pt \
+            --tokens=./icefall-aishell-pruned-transducer-stateless3-2022-06-20/data/lang_char/tokens.txt \
+            icefall-aishell-pruned-transducer-stateless3-2022-06-20/test_wavs/BAC009S0764W0121.wav
+
+      - name: Test decoding multiple waves (aishell)
+        shell: bash
+        run: |
+          echo "Test greedy search"
+
+          ./build/bin/sherpa \
+            --decoding-method=greedy_search \
+            --nn-model=./icefall-aishell-pruned-transducer-stateless3-2022-06-20/exp/cpu_jit-epoch-29-avg-5-torch-1.6.0.pt \
+            --tokens=./icefall-aishell-pruned-transducer-stateless3-2022-06-20/data/lang_char/tokens.txt \
+            icefall-aishell-pruned-transducer-stateless3-2022-06-20/test_wavs/BAC009S0764W0121.wav \
+            icefall-aishell-pruned-transducer-stateless3-2022-06-20/test_wavs/BAC009S0764W0122.wav \
+            icefall-aishell-pruned-transducer-stateless3-2022-06-20/test_wavs/BAC009S0764W0123.wav
+
+          echo "Test modified_beam_search"
+
+          ./build/bin/sherpa \
+            --decoding-method=modified_beam_search \
+            --num-active-paths=4 \
+            --nn-model=./icefall-aishell-pruned-transducer-stateless3-2022-06-20/exp/cpu_jit-epoch-29-avg-5-torch-1.6.0.pt \
+            --tokens=./icefall-aishell-pruned-transducer-stateless3-2022-06-20/data/lang_char/tokens.txt \
+            icefall-aishell-pruned-transducer-stateless3-2022-06-20/test_wavs/BAC009S0764W0121.wav \
+            icefall-aishell-pruned-transducer-stateless3-2022-06-20/test_wavs/BAC009S0764W0122.wav \
+            icefall-aishell-pruned-transducer-stateless3-2022-06-20/test_wavs/BAC009S0764W0123.wav
+
+      - name: Test decoding wav.scp (aishell)
+        shell: bash
+        run: |
+          .github/scripts/generate_wav_scp_aishell.sh
+
+          echo "Test greedy search"
+
+          ./build/bin/sherpa \
+            --decoding-method=greedy_search \
+            --use-wav-scp=true \
+            --nn-model=./icefall-aishell-pruned-transducer-stateless3-2022-06-20/exp/cpu_jit-epoch-29-avg-5-torch-1.6.0.pt \
+            --tokens=./icefall-aishell-pruned-transducer-stateless3-2022-06-20/data/lang_char/tokens.txt \
+            scp:wav_aishell.scp \
+            ark,scp,t:results-aishell.ark,results-aishell.scp
+
+          head results-aishell.scp results-aishell.ark
+
+          echo "Test modified_beam_search"
+
+          ./build/bin/sherpa \
+            --decoding-method=modified_beam_search \
+            --use-wav-scp=true \
+            --nn-model=./icefall-aishell-pruned-transducer-stateless3-2022-06-20/exp/cpu_jit-epoch-29-avg-5-torch-1.6.0.pt \
+            --tokens=./icefall-aishell-pruned-transducer-stateless3-2022-06-20/data/lang_char/tokens.txt \
+            scp:wav_aishell.scp \
+            ark,scp,t:results2-aishell.ark,results2-aishell.scp
+
+          head results2-aishell.scp results2-aishell.ark
+
+      - name: Test decoding feats.scp (aishell)
+        shell: bash
+        run: |
+          export PYTHONPATH=$HOME/tmp/kaldifeat/build/lib:$HOME/tmp/kaldifeat/kaldifeat/python:$PYTHONPATH
+
+          .github/scripts/generate_feats_scp.py scp:wav_aishell.scp ark,scp:feats_aishell.ark,feats_aishell.scp
+
+          ./build/bin/sherpa \
+            --decoding-method=greedy_search \
+            --use-feats-scp=true \
+            --nn-model=./icefall-aishell-pruned-transducer-stateless3-2022-06-20/exp/cpu_jit-epoch-29-avg-5-torch-1.6.0.pt \
+            --tokens=./icefall-aishell-pruned-transducer-stateless3-2022-06-20/data/lang_char/tokens.txt \
+            scp:feats_aishell.scp \
+            ark,scp,t:results3-aishell.ark,results3-aishell.scp
+
+          head results3-aishell.scp results3-aishell.ark
+
+          echo "Test modified_beam_search"
+
+          ./build/bin/sherpa \
+            --decoding-method=modified_beam_search \
+            --use-feats-scp=true \
+            --nn-model=./icefall-aishell-pruned-transducer-stateless3-2022-06-20/exp/cpu_jit-epoch-29-avg-5-torch-1.6.0.pt \
+            --tokens=./icefall-aishell-pruned-transducer-stateless3-2022-06-20/data/lang_char/tokens.txt \
+            scp:feats_aishell.scp \
+            ark,scp,t:results4-aishell.ark,results4-aishell.scp
+
+          head results4-aishell.scp results4-aishell.ark
