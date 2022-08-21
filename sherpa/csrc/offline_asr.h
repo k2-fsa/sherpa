@@ -69,7 +69,7 @@ struct OfflineAsrResult {
   // For Chinese, it consists of Chinese words without spaces.
   std::string text;
 
-  // Decoded results in the token level.
+  // Decoded results at the token level.
   // For BPE-based models, it consists of a list of BPE tokens.
   std::vector<int32_t> tokens;
 
