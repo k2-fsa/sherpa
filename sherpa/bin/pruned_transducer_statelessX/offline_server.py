@@ -324,6 +324,19 @@ class OfflineServer:
 
         return ans
 
+    async def warmup(self) -> None:
+        """Do warmup to the torchscript model to decrease the waiting time
+        of the first request.
+
+        See https://github.com/k2-fsa/sherpa/pull/100 for details
+        """
+        logging.info("Warmup start")
+
+        samples = torch.rand(16000 * 1, dtype=torch.float32)  # 1 second
+        features = await self.compute_features(samples)
+        await self.compute_and_decode(features)
+        logging.info("Warmup done")
+
     async def process_request(
         self,
         unused_path: str,
@@ -343,6 +356,7 @@ class OfflineServer:
     async def run(self, port: int):
         logging.info("started")
         task = asyncio.create_task(self.feature_consumer_task())
+        await self.warmup()
 
         # If you use multiple GPUs, you can create multiple
         # feature consumer tasks.

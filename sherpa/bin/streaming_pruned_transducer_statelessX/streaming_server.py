@@ -324,6 +324,11 @@ class StreamingServer(object):
         self.current_active_connections = 0
 
     async def warmup(self) -> None:
+        """Do warmup to the torchscript model to decrease the waiting time
+        of the first request.
+
+        See https://github.com/k2-fsa/sherpa/pull/100 for details
+        """
         logging.info("Warmup start")
         stream = Stream(
             context_size=self.context_size,
@@ -331,7 +336,7 @@ class StreamingServer(object):
         )
         self.beam_search.init_stream(stream)
 
-        samples = torch.rand(16000 * 30, dtype=torch.float32)  # 30 seconds
+        samples = torch.rand(16000 * 1, dtype=torch.float32)  # 1 second
         stream.accept_waveform(sampling_rate=16000, waveform=samples)
 
         while len(stream.features) > self.chunk_length:
