@@ -323,6 +323,22 @@ class StreamingServer(object):
 
         self.current_active_connections = 0
 
+    async def warmup(self) -> None:
+        logging.info("Warmup start")
+        stream = Stream(
+            context_size=self.context_size,
+            initial_states=self.initial_states,
+        )
+        self.beam_search.init_stream(stream)
+
+        samples = torch.rand(16000 * 30, dtype=torch.float32)  # 30 seconds
+        stream.accept_waveform(sampling_rate=16000, waveform=samples)
+
+        while len(stream.features) > self.chunk_length:
+            await self.compute_and_decode(stream)
+
+        logging.info("Warmup done")
+
     async def stream_consumer_task(self):
         """This function extracts streams from the queue, batches them up, sends
         them to the RNN-T model for computation and decoding.
@@ -393,6 +409,7 @@ class StreamingServer(object):
 
     async def run(self, port: int):
         task = asyncio.create_task(self.stream_consumer_task())
+        await self.warmup()
 
         async with websockets.serve(
             self.handle_connection,
