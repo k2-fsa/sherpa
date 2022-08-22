@@ -28,7 +28,7 @@ int main(int argc, char *argv[]) {
   std::string nn_model = argv[1];
   std::string tokens = argv[2];
   float sample_rate = 16000;
-  bool use_gpu = true;
+  bool use_gpu = false;
 
   sherpa::DecodingOptions opts;
   opts.method = sherpa::kGreedySearch;
