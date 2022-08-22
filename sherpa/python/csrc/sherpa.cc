@@ -18,6 +18,9 @@
 
 #include "sherpa/python/csrc/sherpa.h"
 
+#include <string>
+
+#include "sherpa/csrc/version.h"
 #include "sherpa/python/csrc/hypothesis.h"
 #include "sherpa/python/csrc/rnnt_beam_search.h"
 #include "sherpa/python/csrc/rnnt_conformer_model.h"
@@ -29,6 +32,7 @@ namespace sherpa {
 
 PYBIND11_MODULE(_sherpa, m) {
   m.doc() = "pybind11 binding of sherpa";
+  m.attr("cxx_flags") = std::string(kCMakeCxxFlags);
 
   PybindHypothesis(m);
   PybindRnntModel(m);

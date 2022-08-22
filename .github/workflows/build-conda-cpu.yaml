@@ -2,6 +2,8 @@ name: build_conda_cpu
 
 on:
   push:
+    branches:
+      - cpp-api-offline-recognizer
     tags:
       - '*'
 

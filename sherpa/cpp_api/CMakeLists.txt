@@ -18,3 +18,20 @@ target_link_libraries(test_decode_features
   ${KALDI_NATIVE_IO_LIBRARIES}
   ${KALDIFEAT_LIBRARIES}
 )
+
+file(MAKE_DIRECTORY
+  DESTINATION
+    ${PROJECT_BINARY_DIR}/include/sherpa/cpp_api
+)
+
+install(FILES ./offline_recognizer.h
+  DESTINATION include/sherpa/cpp_api
+)
+
+install(FILES ./offline_recognizer.h
+  DESTINATION ${PROJECT_BINARY_DIR}/include/sherpa/cpp_api
+)
+
+install(TARGETS offline_recognizer
+  DESTINATION lib
+)
