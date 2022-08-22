@@ -148,8 +148,6 @@ std::vector<OfflineAsrResult> OfflineAsr::DecodeWaves(
 
 std::vector<OfflineAsrResult> OfflineAsr::DecodeFeatures(
     const std::vector<torch::Tensor> &features) {
-  auto device = model_.Device();
-
   torch::Tensor padded_features = torch::nn::utils::rnn::pad_sequence(
       features, /*batch_first*/ true,
       /*padding_value*/ -23.025850929940457f);
@@ -159,13 +157,23 @@ std::vector<OfflineAsrResult> OfflineAsr::DecodeFeatures(
     feature_length_vec[i] = features[i].size(0);
   }
 
-  torch::Tensor feature_lengths = torch::tensor(feature_length_vec, device);
-  padded_features = padded_features.to(device);
+  torch::Tensor feature_lengths = torch::tensor(feature_length_vec);
+
+  return DecodeFeatures(padded_features, feature_lengths);
+}
+
+std::vector<OfflineAsrResult> OfflineAsr::DecodeFeatures(
+    torch::Tensor features, torch::Tensor features_length) {
+  auto device = model_.Device();
+  features = features.to(device);
+  features_length = features_length.to(device).to(torch::kLong);
 
   torch::Tensor encoder_out;
   torch::Tensor encoder_out_length;
+
   std::tie(encoder_out, encoder_out_length) =
-      model_.ForwardEncoder(padded_features, feature_lengths);
+      model_.ForwardEncoder(features, features_length);
+  encoder_out_length = encoder_out_length.cpu();
 
   std::vector<std::vector<int32_t>> token_ids;
 
@@ -179,8 +187,9 @@ std::vector<OfflineAsrResult> OfflineAsr::DecodeFeatures(
                       << opts_.decoding_method;
   }
 
-  std::vector<OfflineAsrResult> results(features.size());
-  for (size_t i = 0; i != features.size(); ++i) {
+  int32_t batch_size = features.size(0);
+  std::vector<OfflineAsrResult> results(batch_size);
+  for (int32_t i = 0; i != batch_size; ++i) {
     auto &text = results[i].text;
     for (auto t : token_ids[i]) {
       text += sym_[t];

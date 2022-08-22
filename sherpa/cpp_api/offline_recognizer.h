@@ -19,6 +19,7 @@
 #define SHERPA_CPP_API_OFFLINE_RECOGNIZER_H_
 
 #include <memory>
+#include <string>
 #include <vector>
 
 namespace sherpa {
@@ -67,11 +68,18 @@ class OfflineRecognizer {
    *                  the symbol. If you have a bpe.model, please convert it
    *                  to tokens.txt first.
    * @param decoding_opts   Decoding options for this recognizer.
+   * @param use_gpu         true to use GPU for neural network computation.
+   *                        false to use CPU. If true, we always select GPU 0.
+   *                        You can use the environment variable
+   *                        CUDA_VISIBLE_DEVICES to control which device should
+   *                        be mapped to GPU 0.
    * @param sample_rate     The expected audio sample rate of the model.
    */
   OfflineRecognizer(const std::string &nn_model, const std::string &tokens,
                     const DecodingOptions &decoding_opts = {},
-                    float sample_rate = 16000);
+                    bool use_gpu = false, float sample_rate = 16000);
+
+  ~OfflineRecognizer();
 
   /** Decode a single file.
    *
@@ -114,7 +122,7 @@ class OfflineRecognizer {
    *
    * @param samples Pointer to a 1-D array of length `N` containing audio
    *                samples which should be normalized to the range [-1, 1]
-   *                if you use a model from icefall.
+   *                if you use a model from icefall. It should be on CPU.
    *
    * @param n  Length of the input samples.
    *
@@ -131,11 +139,11 @@ class OfflineRecognizer {
    * by the model, which is 16 kHz for models from icefall.
    *
    * @param samples Pointer to a 1-D array of length `n` containing pointers to
-   *                1-D arrays of audio samples.
+   *                1-D arrays of audio samples. All samples should be on CPU.
    *
    * @param samples_length  Pointer to a 1-D array of length `n`.
    *                        samples_length[i] contains the number of samples
-   *                        in samples[i]
+   *                        in samples[i]. It should be on CPU.
    *
    * @return Return the recognition results.
    */
@@ -144,7 +152,8 @@ class OfflineRecognizer {
 
   /** Decode fbank features.
    *
-   * @param features Pointer to a 2-D array of shape (T, C).
+   * @param features Pointer to a 2-D array of shape (T, C). It is in row-major
+   *                 and should be on CPU.
    * @param T Number of feature frames in `features`.
    * @param C Feature dimension which should match the one expected by the
    *          model.
@@ -152,14 +161,17 @@ class OfflineRecognizer {
    * @return Return the recognition result.
    */
   OfflineRecognitionResult DecodeFeatures(const float *features, int32_t T,
-                                          int32_t C);
+                                          int32_t C) {
+    return DecodeFeaturesBatch(features, &T, 1, T, C)[0];
+  }
 
   /** Decode a batch of fbank features.
    *
-   * @param features Pointer to a 3-D tensor of of shape (N, T, C)
+   * @param features Pointer to a 3-D tensor of shape (N, T, C). It is in
+   *                 row-major and should be on CPU.
    * @param features_length  Pointer to a 1-D tensor of shape (N,) containing
    *                         number of valid frames in `features` before
-   *                         padding.
+   *                         padding. It should be on CPU.
    * @param N Batch size.
    * @param T Number of feature frames.
    * @param C Feature dimension. It must match the one expected by the model.

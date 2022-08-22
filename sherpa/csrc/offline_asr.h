@@ -165,10 +165,23 @@ class OfflineAsr {
    *                 feature dimension.
    *
    * @return Return the recognition result. ans[i] contains the recognition
-   *         result for feature[i].
+   *         result for features[i].
    */
   std::vector<OfflineAsrResult> DecodeFeatures(
       const std::vector<torch::Tensor> &features);
+
+  /** Decode from pre-computed features.
+   *
+   * @param features A 3-D tensor of shape (N, T, C) containing pre-computed
+   *                 features.
+   * @param features_length A 1-D tensor of shape (N,) containing number of
+   *                        valid feature frames in `features` before padding.
+   *
+   * @return Return the recognition result. ans[i] contains the recognition
+   *         result for features[i].
+   */
+  std::vector<OfflineAsrResult> DecodeFeatures(torch::Tensor features,
+                                               torch::Tensor features_length);
 
  private:
   OfflineAsrOptions opts_;
