@@ -83,6 +83,7 @@ jobs:
           git clone https://huggingface.co/csukuangfj/icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13
 
       - name: Test decoding a single wave
+        if: startsWith(matrix.os, 'ubuntu')
         shell: bash -l {0}
         run: |
           export PATH=$CONDA_PREFIX/lib/site-packages/sherpa/bin:$PATH
@@ -107,9 +108,66 @@ jobs:
             icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/test_wavs/1089-134686-0001.wav
 
       - name: Test decoding multiple waves
+        if: startsWith(matrix.os, 'ubuntu')
         shell: bash -l {0}
         run: |
           export PATH=$CONDA_PREFIX/Library/bin:$PATH
+
+          echo "Test greedy search"
+
+          sherpa \
+            --decoding-method=greedy_search \
+            --nn-model=./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/exp/cpu_jit.pt \
+            --tokens=./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/data/lang_bpe_500/tokens.txt \
+            icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/test_wavs/1089-134686-0001.wav \
+            icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/test_wavs/1221-135766-0001.wav \
+            icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/test_wavs/1221-135766-0002.wav
+
+          echo "Test modified_beam_search"
+
+          sherpa \
+            --decoding-method=modified_beam_search \
+            --num-active-paths=4 \
+            --nn-model=./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/exp/cpu_jit.pt \
+            --tokens=./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/data/lang_bpe_500/tokens.txt \
+            icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/test_wavs/1089-134686-0001.wav \
+            icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/test_wavs/1221-135766-0001.wav \
+            icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/test_wavs/1221-135766-0002.wav
+
+      - name: Test decoding a single wave
+        if: startsWith(matrix.os, 'windows')
+        shell: cmd
+        run: |
+          set path=C:\Miniconda\envs\sherpa\lib\site-packages\sherpa\bin;%path%
+          set path=C:\Miniconda\envs\sherpa\lib\site-packages\sherpa\lib;%path%
+          set path=C:\Miniconda\envs\sherpa\lib\site-packages\torch\lib;%path%
+          set path=C:\Miniconda\envs\sherpa\Library\bin;%path%
+
+          echo "Test greedy search"
+
+          sherpa \
+            --decoding-method=greedy_search \
+            --nn-model=./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/exp/cpu_jit.pt \
+            --tokens=./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/data/lang_bpe_500/tokens.txt \
+            icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/test_wavs/1089-134686-0001.wav
+
+          echo "Test modified_beam_search"
+
+          sherpa \
+            --decoding-method=modified_beam_search \
+            --num-active-paths=4 \
+            --nn-model=./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/exp/cpu_jit.pt \
+            --tokens=./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/data/lang_bpe_500/tokens.txt \
+            icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/test_wavs/1089-134686-0001.wav
+
+      - name: Test decoding multiple waves
+        if: startsWith(matrix.os, 'windows')
+        shell: cmd
+        run: |
+          set path=C:\Miniconda\envs\sherpa\lib\site-packages\sherpa\bin;%path%
+          set path=C:\Miniconda\envs\sherpa\lib\site-packages\sherpa\lib;%path%
+          set path=C:\Miniconda\envs\sherpa\lib\site-packages\torch\lib;%path%
+          set path=C:\Miniconda\envs\sherpa\Library\bin;%path%
 
           echo "Test greedy search"
 
