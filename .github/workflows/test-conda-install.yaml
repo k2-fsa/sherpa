@@ -64,9 +64,9 @@ jobs:
           Add-Content $env:GITHUB_PATH "C:\Miniconda\envs\sherpa\lib\site-packages\sherpa\lib"
           Add-Content $env:GITHUB_PATH "C:\Miniconda\envs\sherpa\lib\site-packages\torch\lib"
 
-          sherpa-version
+          sherpa-version.exe
 
-          sherpa --help
+          sherpa.exe --help
 
       - name: Download pretrained model and test-data
         shell: bash
