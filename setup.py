@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 
+import os
 import re
 import sys
+from distutils.util import get_platform
+from pathlib import Path
 
 import setuptools
 
@@ -38,6 +41,18 @@ def get_package_version():
     return latest_version
 
 
+def get_binaries_to_install():
+    plat_name = get_platform()  # e.g., linux-x86_64
+    plat_specifier = ".%s-%d.%d" % (plat_name, *sys.version_info[:2])
+    bin_dir = Path("build") / ("lib" + plat_specifier) / "sherpa" / "bin"
+    bin_dir.mkdir(parents=True, exist_ok=True)
+    exe = []
+    for f in ["sherpa", "sherpa-version"]:
+        t = bin_dir / f
+        exe.append(str(t))
+    return exe
+
+
 package_name = "k2-sherpa"
 
 with open("sherpa/python/sherpa/__init__.py", "a") as f:
@@ -51,6 +66,7 @@ setuptools.setup(
     package_dir={
         "sherpa": "sherpa/python/sherpa",
     },
+    data_files=[("bin", get_binaries_to_install())],
     packages=["sherpa"],
     url="https://github.com/k2-fsa/sherpa",
     long_description=read_long_description(),
