@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 
-import os
 import re
 import sys
 from distutils.util import get_platform
