@@ -32,8 +32,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # os: [ubuntu-latest, windows-latest]
-        os: [windows-latest]
+        os: [ubuntu-latest, windows-latest]
         torch: ["1.12.0"]
         python-version: ["3.8"]
 
