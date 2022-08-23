@@ -61,7 +61,7 @@ jobs:
           git clone https://huggingface.co/csukuangfj/icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13
 
       - name: Test decoding a single wave
-        shell: bash
+        shell: bash -l {0}
         run: |
           echo "Test greedy search"
 
@@ -81,7 +81,7 @@ jobs:
             icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/test_wavs/1089-134686-0001.wav
 
       - name: Test decoding multiple waves
-        shell: bash
+        shell: bash -l {0}
         run: |
           echo "Test greedy search"
 
