@@ -100,7 +100,8 @@ def generate_build_matrix(enable_cuda, test_only_latest_torch):
 
     excluded_python_versions = ["3.6"]
 
-    os = ["ubuntu-18.04", "macos-10.15", "windows-2019"]
+    #  os = ["ubuntu-18.04", "macos-10.15", "windows-2019"]
+    os = ["ubuntu-18.04", "windows-2019"]
 
     ans = []
     for torch, python_cuda in matrix.items():

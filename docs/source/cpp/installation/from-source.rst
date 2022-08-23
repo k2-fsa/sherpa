@@ -8,13 +8,24 @@ Install from source (Linux/macOS/Windows)
 Install dependencies
 --------------------
 
+Install k2
+^^^^^^^^^^
+
 First, please refer to `<https://k2-fsa.github.io/k2/installation/index.html>`_
 to install `k2`_.
 
+.. hint::
+
+   If you are using macOS, you can dowload pre-built wheels from
+   `<https://k2-fsa.org/nightly/index.html>`_
+
+
+Install other dependencies
+^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. code-block:: bash
 
-   pip install kaldifeat kaldi_native_io
+   pip install -U kaldifeat kaldi_native_io
 
 Install from source
 -------------------
