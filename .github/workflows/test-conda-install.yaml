@@ -60,8 +60,9 @@ jobs:
       - name: Display sherpa version
         if: startsWith(matrix.os, 'windows')
         run: |
-          set path=%conda_prefix%\lib\site-packages\sherpa\bin;%path%
-          set path=%conda_prefix%\lib\site-packages\torch\lib;%path%
+          Add-Content $env:GITHUB_PATH "C:\Miniconda\envs\sherpa\lib\site-packages\sherpa\bin"
+          Add-Content $env:GITHUB_PATH "C:\Miniconda\envs\sherpa\lib\site-packages\sherpa\lib"
+          Add-Content $env:GITHUB_PATH "C:\Miniconda\envs\sherpa\lib\site-packages\torch\lib"
 
           sherpa-version
 
