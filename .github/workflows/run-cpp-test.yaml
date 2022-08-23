@@ -172,38 +172,36 @@ jobs:
       - name: Test C++ API
         shell: bash
         run: |
-          cd build
-
-          ./bin/test_decode_files \
+          ./build/bin/test_decode_files \
             ./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/exp/cpu_jit-torch-${{ matrix.torch }}.pt \
             ./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/data/lang_bpe_500/tokens.txt \
             ./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/test_wavs/1089-134686-0001.wav
 
-          ./bin/test_decode_files \
+          ./build/bin/test_decode_files \
             ./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/exp/cpu_jit-torch-${{ matrix.torch }}.pt \
             ./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/data/lang_bpe_500/tokens.txt \
             ./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/test_wavs/1089-134686-0001.wav \
             ./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/test_wavs/1221-135766-0001.wav \
             ./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/test_wavs/1221-135766-0002.wav
 
-          ./bin/test_decode_samples \
+          ./build/bin/test_decode_samples \
             ./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/exp/cpu_jit-torch-${{ matrix.torch }}.pt \
             ./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/data/lang_bpe_500/tokens.txt \
             ./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/test_wavs/1089-134686-0001.wav
 
-          ./bin/test_decode_samples \
+          ./build/bin/test_decode_samples \
             ./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/exp/cpu_jit-torch-${{ matrix.torch }}.pt \
             ./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/data/lang_bpe_500/tokens.txt \
             ./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/test_wavs/1089-134686-0001.wav \
             ./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/test_wavs/1221-135766-0001.wav \
             ./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/test_wavs/1221-135766-0002.wav
 
-          ./bin/test_decode_features \
+          ./build/bin/test_decode_features \
             ./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/exp/cpu_jit-torch-${{ matrix.torch }}.pt \
             ./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/data/lang_bpe_500/tokens.txt \
             ./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/test_wavs/1089-134686-0001.wav
 
-          ./bin/test_decode_features \
+          ./build/bin/test_decode_features \
             ./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/exp/cpu_jit-torch-${{ matrix.torch }}.pt \
             ./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/data/lang_bpe_500/tokens.txt \
             ./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/test_wavs/1089-134686-0001.wav \
@@ -323,36 +321,36 @@ jobs:
         run: |
           cd build
 
-          ./bin/test_decode_files \
+          ./build/bin/test_decode_files \
             ./icefall-aishell-pruned-transducer-stateless3-2022-06-20/exp/cpu_jit-epoch-29-avg-5-torch-1.6.0.pt \
             ./icefall-aishell-pruned-transducer-stateless3-2022-06-20/data/lang_char/tokens.txt \
             ./icefall-aishell-pruned-transducer-stateless3-2022-06-20/test_wavs/BAC009S0764W0121.wav
 
-          ./bin/test_decode_files \
+          ./build/bin/test_decode_files \
             ./icefall-aishell-pruned-transducer-stateless3-2022-06-20/exp/cpu_jit-epoch-29-avg-5-torch-1.6.0.pt \
             ./icefall-aishell-pruned-transducer-stateless3-2022-06-20/data/lang_char/tokens.txt \
             ./icefall-aishell-pruned-transducer-stateless3-2022-06-20/test_wavs/BAC009S0764W0121.wav \
             ./icefall-aishell-pruned-transducer-stateless3-2022-06-20/test_wavs/BAC009S0764W0122.wav \
             ./icefall-aishell-pruned-transducer-stateless3-2022-06-20/test_wavs/BAC009S0764W0123.wav
 
-          ./bin/test_decode_samples \
+          ./build/bin/test_decode_samples \
             ./icefall-aishell-pruned-transducer-stateless3-2022-06-20/exp/cpu_jit-epoch-29-avg-5-torch-1.6.0.pt \
             ./icefall-aishell-pruned-transducer-stateless3-2022-06-20/data/lang_char/tokens.txt \
             ./icefall-aishell-pruned-transducer-stateless3-2022-06-20/test_wavs/BAC009S0764W0121.wav
 
-          ./bin/test_decode_samples \
+          ./build/bin/test_decode_samples \
             ./icefall-aishell-pruned-transducer-stateless3-2022-06-20/exp/cpu_jit-epoch-29-avg-5-torch-1.6.0.pt \
             ./icefall-aishell-pruned-transducer-stateless3-2022-06-20/data/lang_char/tokens.txt \
             ./icefall-aishell-pruned-transducer-stateless3-2022-06-20/test_wavs/BAC009S0764W0121.wav \
             ./icefall-aishell-pruned-transducer-stateless3-2022-06-20/test_wavs/BAC009S0764W0122.wav \
             ./icefall-aishell-pruned-transducer-stateless3-2022-06-20/test_wavs/BAC009S0764W0123.wav
 
-          ./bin/test_decode_features \
+          ./build/bin/test_decode_features \
             ./icefall-aishell-pruned-transducer-stateless3-2022-06-20/exp/cpu_jit-epoch-29-avg-5-torch-1.6.0.pt \
             ./icefall-aishell-pruned-transducer-stateless3-2022-06-20/data/lang_char/tokens.txt \
             ./icefall-aishell-pruned-transducer-stateless3-2022-06-20/test_wavs/BAC009S0764W0121.wav
 
-          ./bin/test_decode_features \
+          ./build/bin/test_decode_features \
             ./icefall-aishell-pruned-transducer-stateless3-2022-06-20/exp/cpu_jit-epoch-29-avg-5-torch-1.6.0.pt \
             ./icefall-aishell-pruned-transducer-stateless3-2022-06-20/data/lang_char/tokens.txt \
             ./icefall-aishell-pruned-transducer-stateless3-2022-06-20/test_wavs/BAC009S0764W0121.wav \
