@@ -70,10 +70,11 @@ jobs:
           export PATH=$CONDA_PREFIX/lib/site-packages/sherpa/bin:$PATH
           export PATH=$CONDA_PREFIX/lib/site-packages/sherpa/lib:$PATH
           export PATH=$CONDA_PREFIX/lib/site-packages/torch/lib:$PATH
+          ls -lh $CONDA_PREFIX/lib/site-packages/sherpa/bin
+          $CONDA_PREFIX/lib/site-packages/sherpa/bin/sherpa-version.exe 
 
-          sherpa-version.exe
+          $CONDA_PREFIX/lib/site-packages/sherpa/bin/sherpa.exe --help
 
-          sherpa.exe --help
 
       - name: Download pretrained model and test-data
         shell: bash
