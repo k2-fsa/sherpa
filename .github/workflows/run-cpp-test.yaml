@@ -319,8 +319,6 @@ jobs:
       - name: Test C++ API (aishell)
         shell: bash
         run: |
-          cd build
-
           ./build/bin/test_decode_files \
             ./icefall-aishell-pruned-transducer-stateless3-2022-06-20/exp/cpu_jit-epoch-29-avg-5-torch-1.6.0.pt \
             ./icefall-aishell-pruned-transducer-stateless3-2022-06-20/data/lang_char/tokens.txt \
