@@ -44,6 +44,12 @@ jobs:
           python-version: ${{ matrix.python-version }}
           activate-environment: sherpa
 
+      - name: Display CONDA_PREFIX
+        shell: bash -l {0}
+        run: |
+          echo "CONDA_PREFIX: $CONDA_PREFIX"
+          ls -l  $CONDA_PREFIX
+
       - name: Install conda dependencies
         shell: bash -l {0}
         run: |
@@ -59,10 +65,11 @@ jobs:
 
       - name: Display sherpa version
         if: startsWith(matrix.os, 'windows')
+        shell: bash -l {0}
         run: |
-          Add-Content $env:GITHUB_PATH "C:\Miniconda\envs\sherpa\lib\site-packages\sherpa\bin"
-          Add-Content $env:GITHUB_PATH "C:\Miniconda\envs\sherpa\lib\site-packages\sherpa\lib"
-          Add-Content $env:GITHUB_PATH "C:\Miniconda\envs\sherpa\lib\site-packages\torch\lib"
+          export PATH=$CONDA_PREFIX/lib/site-packages/sherpa/bin:$PATH
+          export PATH=$CONDA_PREFIX/lib/site-packages/sherpa/lib:$PATH
+          export PATH=$CONDA_PREFIX/lib/site-packages/torch/lib:$PATH
 
           sherpa-version.exe
 
