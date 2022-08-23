@@ -32,7 +32,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest]
+        os: [ubuntu-latest, windows-latest]
         torch: ["1.12.0"]
         python-version: ["3.8"]
 
@@ -48,11 +48,17 @@ jobs:
         run: |
           conda install -c k2-fsa -c k2-fsa-sherpa -c kaldifeat -c kaldi_native_io -c pytorch k2 sherpa kaldifeat kaldi_native_io pytorch=${{ matrix.torch }} python=${{ matrix.python-version }}
 
-
       - name: Display sherpa version
         shell: bash -l {0}
         run: |
+          export PATH=$CONDA_PREFIX/lib/site-packages/sherpa/bin:$PATH
+          export PATH=$CONDA_PREFIX/lib/site-packages/sherpa/lib:$PATH
+          export PATH=$CONDA_PREFIX/lib/site-packages/torch/lib:$PATH
+
           sherpa-version
+
+          sherpa --help
+
 
       - name: Download pretrained model and test-data
         shell: bash
@@ -63,6 +69,10 @@ jobs:
       - name: Test decoding a single wave
         shell: bash -l {0}
         run: |
+          export PATH=$CONDA_PREFIX/lib/site-packages/sherpa/bin:$PATH
+          export PATH=$CONDA_PREFIX/lib/site-packages/sherpa/lib:$PATH
+          export PATH=$CONDA_PREFIX/lib/site-packages/torch/lib:$PATH
+
           echo "Test greedy search"
 
           sherpa \
@@ -83,6 +93,10 @@ jobs:
       - name: Test decoding multiple waves
         shell: bash -l {0}
         run: |
+          export PATH=$CONDA_PREFIX/lib/site-packages/sherpa/bin:$PATH
+          export PATH=$CONDA_PREFIX/lib/site-packages/sherpa/lib:$PATH
+          export PATH=$CONDA_PREFIX/lib/site-packages/torch/lib:$PATH
+
           echo "Test greedy search"
 
           sherpa \
