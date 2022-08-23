@@ -70,6 +70,7 @@ jobs:
           set path=C:\Miniconda\envs\sherpa\lib\site-packages\sherpa\bin;%path%
           set path=C:\Miniconda\envs\sherpa\lib\site-packages\sherpa\lib;%path%
           set path=C:\Miniconda\envs\sherpa\lib\site-packages\torch\lib;%path%
+          set path=C:\Miniconda\envs\sherpa\Library\bin;%path%
 
           sherpa-version
 
@@ -108,9 +109,7 @@ jobs:
       - name: Test decoding multiple waves
         shell: bash -l {0}
         run: |
-          export PATH=$CONDA_PREFIX/lib/site-packages/sherpa/bin:$PATH
-          export PATH=$CONDA_PREFIX/lib/site-packages/sherpa/lib:$PATH
-          export PATH=$CONDA_PREFIX/lib/site-packages/torch/lib:$PATH
+          export PATH=$CONDA_PREFIX/Library/bin:$PATH
 
           echo "Test greedy search"
 
