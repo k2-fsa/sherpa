@@ -27,6 +27,8 @@ endif()
 
 
 target_link_libraries(_sherpa PRIVATE sherpa_core)
+target_include_directories(_sherpa PRIVATE ${CMAKE_BINARY_DIR})
+
 if(UNIX AND NOT APPLE)
   target_link_libraries(_sherpa PRIVATE ${TORCH_DIR}/lib/libtorch_python.so)
   target_link_libraries(_sherpa PRIVATE ${PYTHON_LIBRARY})

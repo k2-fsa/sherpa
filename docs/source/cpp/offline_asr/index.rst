@@ -17,5 +17,6 @@ as modeling units, while the model from `WenetSpeech`_ uses Chinese characters.
    :maxdepth: 2
    :caption: Demo with pretrained models
 
-   ./gigaspeech.rst
-   ./wenetspeech.rst
+   api
+   gigaspeech
+   wenetspeech

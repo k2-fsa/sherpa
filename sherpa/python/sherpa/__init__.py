@@ -29,3 +29,5 @@ from .decode import (
 from .lexicon import Lexicon
 from .nbest import Nbest
 from .utils import add_beam_search_arguments
+
+from _sherpa import cxx_flags
