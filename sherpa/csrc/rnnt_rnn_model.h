@@ -30,7 +30,7 @@
 namespace sherpa {
 
 /** It wraps a torch script model, which is from
- * lstm_stateless_emformer_rnnt/model.py within icefall.
+ * lstm_transducer_stateless/model.py within icefall.
  */
 class RnntRnnModel : public RnntModel {
  public:
