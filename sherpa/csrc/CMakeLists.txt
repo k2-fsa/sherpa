@@ -5,6 +5,7 @@ set(sherpa_srcs
   hypothesis.cc
   log.cc
   offline_asr.cc
+  online_stream.cc
   parse_options.cc
   rnnt_beam_search.cc
   rnnt_conformer_model.cc
@@ -48,6 +49,7 @@ if(SHERPA_ENABLE_TESTS)
   set(sherpa_test_srcs
     test_hypothesis.cc
     test_log.cc
+    test_online_stream.cc
     test_parse_options.cc
   )
 
@@ -82,6 +84,9 @@ endif()
 
 add_executable(sherpa sherpa.cc)
 target_link_libraries(sherpa sherpa_core)
+
+add_executable(sherpa-online sherpa_online.cc)
+target_link_libraries(sherpa-online sherpa_core)
 
 if(NOT WIN32)
   execute_process(
