@@ -54,19 +54,9 @@ static void CheckStates(torch::IValue a, torch::IValue b) {
   }  // for (int32_t i = 0; i != num_layers; ++i)
 }
 
-int main() {
-  float sampling_rate = 16000;
-  int32_t feature_dim = 80;
-  int32_t max_feature_vectors = 10;
-
+static void TestStackUnstackStates(torch::jit::Module &model,
+                                   sherpa::OnlineStream &s) {
   torch::Device device(torch::kCPU);
-
-  sherpa::OnlineStream s(sampling_rate, feature_dim, max_feature_vectors);
-
-  std::string nn_model = "./cpu-conv-emformer-jit.pt";
-
-  torch::jit::Module model = torch::jit::load(nn_model, device);
-
   torch::jit::Module encoder = model.attr("encoder").toModule();
 
   // Tuple[List[List[torch.Tensor]], List[torch.Tensor]]
@@ -81,6 +71,21 @@ int main() {
   CheckStates(states0, states[0]);
   CheckStates(states1, states[1]);
   CheckStates(states2, states[2]);
+}
+
+int main() {
+  float sampling_rate = 16000;
+  int32_t feature_dim = 80;
+  int32_t max_feature_vectors = 10;
+
+  torch::Device device(torch::kCPU);
+
+  sherpa::OnlineStream s(sampling_rate, feature_dim, max_feature_vectors);
+
+  std::string nn_model = "./cpu-conv-emformer-jit.pt";
+
+  torch::jit::Module model = torch::jit::load(nn_model, device);
+  TestStackUnstackStates(model, s);
 
   return 0;
 }
