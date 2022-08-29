@@ -23,7 +23,6 @@
 #include "kaldifeat/csrc/feature-fbank.h"
 #include "kaldifeat/csrc/online-feature.h"
 #include "sherpa/csrc/log.h"
-#include "sherpa/csrc/online_stream.h"
 
 namespace sherpa {
 
@@ -189,9 +188,20 @@ class OnlineStream::OnlineStreamImpl {
     return ans;
   }
 
+  void SetNumProcessedFrames(int32_t n) { num_processed_frames_ = n; }
+  int32_t GetNumProcessedFrames() const { return num_processed_frames_; }
+  int32_t &GetNumProcessedFrames() { return num_processed_frames_; }
+
+  std::vector<int32_t> &GetHyps() { return hyps_; }
+
+  torch::Tensor &GetDecoderOut() { return decoder_out_; }
+
  private:
   std::unique_ptr<kaldifeat::OnlineFbank> fbank_;
   torch::IValue state_;
+  int32_t num_processed_frames_ = 0;
+  std::vector<int32_t> hyps_;
+  torch::Tensor decoder_out_;
 };
 
 OnlineStream::OnlineStream(float sampling_rate, int32_t feature_dim,
@@ -230,5 +240,21 @@ std::vector<torch::IValue> OnlineStream::UnStackStates(
     torch::IValue states) const {
   return impl_->UnStackStates(states);
 }
+
+void OnlineStream::SetNumProcessedFrames(int32_t n) {
+  impl_->SetNumProcessedFrames(n);
+}
+
+int32_t OnlineStream::GetNumProcessedFrames() const {
+  return impl_->GetNumProcessedFrames();
+}
+
+int32_t &OnlineStream::GetNumProcessedFrames() {
+  return impl_->GetNumProcessedFrames();
+}
+
+std::vector<int32_t> &OnlineStream::GetHyps() { return impl_->GetHyps(); }
+
+torch::Tensor &OnlineStream::GetDecoderOut() { return impl_->GetDecoderOut(); }
 
 }  // namespace sherpa

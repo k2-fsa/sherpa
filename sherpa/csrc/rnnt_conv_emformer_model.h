@@ -52,7 +52,16 @@ class RnntConvEmformerModel : public RnntModel {
       const torch::Tensor &features, const torch::Tensor &features_length,
       const torch::Tensor &num_processed_frames, State states);
 
+  std::tuple<torch::Tensor, torch::Tensor, torch::IValue>
+  StreamingForwardEncoder2(const torch::Tensor &features,
+                           const torch::Tensor &features_length,
+                           const torch::Tensor &num_processed_frames,
+                           torch::IValue states);
+
   State GetEncoderInitStates();
+
+  // TODO(fangjun): Refactor to keep only GetEncoderInitStates2()
+  torch::IValue GetEncoderInitStates2();
 
   /** Run the decoder network.
    *

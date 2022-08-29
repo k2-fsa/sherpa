@@ -109,6 +109,14 @@ class OnlineStream {
    */
   std::vector<torch::IValue> UnStackStates(torch::IValue states) const;
 
+  void SetNumProcessedFrames(int32_t n);
+  int32_t GetNumProcessedFrames() const;
+  int32_t &GetNumProcessedFrames();
+
+  // TODO(fangjun): Make it return a struct
+  std::vector<int32_t> &GetHyps();
+  torch::Tensor &GetDecoderOut();
+
  private:
   class OnlineStreamImpl;
   std::unique_ptr<OnlineStreamImpl> impl_;
