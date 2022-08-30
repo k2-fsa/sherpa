@@ -18,11 +18,83 @@
 #ifndef SHERPA_CSRC_ONLINE_ASR_H_
 #define SHERPA_CSRC_ONLINE_ASR_H_
 
+#include <memory>
+#include <string>
+
+#include "kaldifeat/csrc/feature-fbank.h"
+#include "sherpa/csrc/online_stream.h"
+#include "sherpa/csrc/parse_options.h"
+#include "sherpa/csrc/rnnt_conv_emformer_model.h"
+#include "sherpa/csrc/symbol_table.h"
+#include "torch/script.h"
+
 namespace sherpa {
+
+struct OnlineAsrOptions {
+  /// Path to torchscript model
+  std::string nn_model;
+
+  /// Path to tokens.txt.
+  /// Each line the tokens.txt consists of two columms separated by a space:
+  ///  - column 1: symbol
+  ///  - column 2: integer ID of the symbol
+  std::string tokens;
+
+  /// Decoding method to use.
+  /// Possible values are: greedy_search, modified_beam_search.
+  std::string decoding_method = "greedy_search";
+
+  /// Number of active paths in modified_beam_search.
+  /// Used only when decoding_method is modified_beam_search.
+  int32_t num_active_paths = 4;
+
+  // true to use GPU for computation. Always selects the first device.
+  // false to use CPU.
+  // Note: Only neural network computation and decoding are done on CPU.
+  // Feature extraction is performed on CPU.
+  bool use_gpu = false;
+
+  kaldifeat::FbankOptions fbank_opts;
+
+  void Register(ParseOptions *po);
+
+  // Check that option values are valid
+  void Validate() const;
+
+  // For debugging
+  std::string ToString() const;
+};
 
 class OnlineAsr {
  public:
+  explicit OnlineAsr(const OnlineAsrOptions &opts);
+  ~OnlineAsr() = default;
+
+  // Create a stream for decoding.
+  std::unique_ptr<OnlineStream> CreateStream();
+
+  /**
+   * Return true if the given stream has enough frames for decoding.
+   * Return false otherwise
+   */
+  bool IsReady(OnlineStream *s);
+
+  // Decode a single stream
+  // TODO(fangjun): Support decoding multiple streams in a batch
+  void DecodeStream(OnlineStream *s);
+
+  //
+  // void DecodeStream(std::vector<OnlineStream *> &streams);
+
+  // TODO(fangjun): Return a struct
+  std::string GetResults(OnlineStream *s) const;
+
  private:
+  OnlineAsrOptions opts_;
+  // TODO(fangjun): Change it to std::unique_ptr<RnntModel>
+  std::unique_ptr<RnntConvEmformerModel> model_;
+
+  SymbolTable sym_;
 };
 
 }  // namespace sherpa

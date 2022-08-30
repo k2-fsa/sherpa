@@ -109,12 +109,22 @@ class OnlineStream {
    */
   std::vector<torch::IValue> UnStackStates(torch::IValue states) const;
 
-  void SetNumProcessedFrames(int32_t n);
-  int32_t GetNumProcessedFrames() const;
+  // Return a reference to the number of processed frames so far.
+  // Initially, it is 0. It is always less than NumFramesReady().
+  //
+  // The returned reference is valid as long as this object is alive.
   int32_t &GetNumProcessedFrames();
 
   // TODO(fangjun): Make it return a struct
+  //
+  // Return a reference to the current recognized tokens.
+  // The first context_size tokens are blanks for greedy_search.
+  //
+  // The returned reference is valid as long as this object is alive.
   std::vector<int32_t> &GetHyps();
+
+  // Return a reference to the decoder output of the last chunk.
+
   torch::Tensor &GetDecoderOut();
 
  private:

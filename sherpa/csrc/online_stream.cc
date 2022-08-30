@@ -188,8 +188,6 @@ class OnlineStream::OnlineStreamImpl {
     return ans;
   }
 
-  void SetNumProcessedFrames(int32_t n) { num_processed_frames_ = n; }
-  int32_t GetNumProcessedFrames() const { return num_processed_frames_; }
   int32_t &GetNumProcessedFrames() { return num_processed_frames_; }
 
   std::vector<int32_t> &GetHyps() { return hyps_; }
@@ -239,14 +237,6 @@ torch::IValue OnlineStream::StackStates(
 std::vector<torch::IValue> OnlineStream::UnStackStates(
     torch::IValue states) const {
   return impl_->UnStackStates(states);
-}
-
-void OnlineStream::SetNumProcessedFrames(int32_t n) {
-  impl_->SetNumProcessedFrames(n);
-}
-
-int32_t OnlineStream::GetNumProcessedFrames() const {
-  return impl_->GetNumProcessedFrames();
 }
 
 int32_t &OnlineStream::GetNumProcessedFrames() {

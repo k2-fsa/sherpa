@@ -5,6 +5,7 @@ set(sherpa_srcs
   hypothesis.cc
   log.cc
   offline_asr.cc
+  online_asr.cc
   online_stream.cc
   parse_options.cc
   rnnt_beam_search.cc
