@@ -1,0 +1,99 @@
+# Copyright (c) 2021, NVIDIA CORPORATION.  All rights reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+name: "encoder"
+backend: "onnxruntime"
+default_model_filename: "encoder.onnx"
+
+max_batch_size: 512
+
+sequence_batching{
+    max_sequence_idle_microseconds: 5000000
+    oldest {
+      max_candidate_sequences: 1024
+      max_queue_delay_microseconds: 5000
+    }
+    control_input [
+    ]
+    state [
+    {
+      input_name: "attn_cache"
+      output_name: "next_attn_cache"
+      data_type: TYPE_FP32
+      dims: [ 12, 32, 512 ] # layers, left_context, d_model
+      initial_state: {
+       data_type: TYPE_FP32
+       dims: [12, 32, 512]
+       zero_data: true
+       name: "initial state"
+      }
+    },
+    {
+      input_name: "cnn_cache"
+      output_name: "next_cnn_cache"
+      data_type: TYPE_FP32
+      dims: [30, 12, 512] # cnn_module_kernel -1, encoder_layers, d_model
+      initial_state: {
+       data_type: TYPE_#DTYPE
+       dims: [30, 12, 512]
+       zero_data: true
+       name: "initial state"
+      }
+    },
+    {
+      input_name: "processed_lens"
+      output_name: "next_processed_lens"
+      data_type: TYPE_INT64
+      dims: [ 1 ]
+      initial_state: {
+       data_type: TYPE_INT64
+       dims: [ 1 ]
+       zero_data: true
+       name: "initial state"
+      }
+    }
+  ]
+}
+input [
+  {
+    name: "x"
+    data_type: TYPE_FP32
+    dims: [-1, 80] # TODO: decoding_window size
+  },
+  {
+    name: "x_lens"
+    data_type: TYPE_INT32
+    dims: [ 1 ]
+    reshape: { shape: [] }
+  }
+]
+output [
+  {
+    name: "encoder_out"
+    data_type: TYPE_#DTYPE
+    dims: [-1, 512] 
+  },
+  {
+    name: "encoder_out_lens"
+    data_type: TYPE_INT32
+    dims: [1]
+    reshape: { shape: [] }
+  }
+]
+instance_group [
+    {
+      count: 2
+      kind: KIND_GPU
+    }
+]
