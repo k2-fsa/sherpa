@@ -224,7 +224,8 @@ class TritonPythonModel:
             # if not start
             # check chunk ms size
 
-            wav = self.seq_feat[corrid].get_seg_wav() * 32768
+            # wav = self.seq_feat[corrid].get_seg_wav() * 32768
+            wav = self.seq_feat[corrid].get_seg_wav()
             if len(wav) < self.min_seg:
                 temp = torch.zeros(self.min_seg, dtype=torch.float32,
                                    device=self.device)
@@ -237,7 +238,7 @@ class TritonPythonModel:
         batch_size = len(batch_seqid)
         batch_speech = torch.zeros((batch_size, self.decoding_window,
                                     self.feature_size), dtype=self.dtype)
-        batch_speech_lens = torch.zeros((batch_size, 1), dtype=torch.int32)
+        batch_speech_lens = torch.zeros((batch_size, 1), dtype=torch.int64)
         i = 0
         for corrid, frames in zip(batch_seqid, features):
             self.seq_feat[corrid].add_frames(frames)
@@ -251,7 +252,7 @@ class TritonPythonModel:
             # out_tensor1 = pb_utils.Tensor.from_dlpack("speech_lengths",
             #                                            to_dlpack(speech_lengths))
             out_tensor0 = pb_utils.Tensor("speech", speech.numpy())
-            out_tensor1 = pb_utils.Tensor("speech_lengths", speech_lengths.numpy())
+            out_tensor1 = pb_utils.Tensor("speech_lengths", speech_lengths.numpy().astype(np.int64))
             output_tensors = [out_tensor0, out_tensor1]
             response = pb_utils.InferenceResponse(output_tensors=output_tensors)
             responses.append(response)

@@ -86,7 +86,7 @@ input [
   },
   {
     name: "encoder_out_lens"
-    data_type: TYPE_INT32
+    data_type: TYPE_INT64
     dims: [1]
     reshape: { shape: [ ] }
   }
@@ -100,8 +100,6 @@ output [
   }
 ]
 
-dynamic_batching {
-  }
 instance_group [
     {
       count: 2

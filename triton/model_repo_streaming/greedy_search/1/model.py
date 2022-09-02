@@ -66,8 +66,8 @@ class TritonPythonModel:
 
 
     def forward_joiner(self, cur_encoder_out, decoder_out):
-        in_joiner_tensor_0 = pb_utils.Tensor("encoder_out", cur_encoder_out)
-        in_joiner_tensor_1 = pb_utils.Tensor("decoder_out", np.expand_dims(decoder_out, axis=1))
+        in_joiner_tensor_0 = pb_utils.Tensor("encoder_out", cur_encoder_out.cpu().numpy())
+        in_joiner_tensor_1 = pb_utils.Tensor("decoder_out", decoder_out.cpu().numpy())
 
         inference_request = pb_utils.InferenceRequest(
             model_name='joiner',
@@ -88,7 +88,7 @@ class TritonPythonModel:
     def forward_decoder(self,hyps):
         decoder_input = [h[-self.context_size:] for h in hyps]
 
-        decoder_input = np.asarray(decoder_input,dtype=np.int32)
+        decoder_input = np.asarray(decoder_input,dtype=np.int64)
 
         in_decoder_input_tensor = pb_utils.Tensor("y", decoder_input)
 
@@ -106,7 +106,7 @@ class TritonPythonModel:
                                                             'decoder_out')
             decoder_out = torch.utils.dlpack.from_dlpack(decoder_out.to_dlpack()).cpu()
             assert len(decoder_out.shape)==3, decoder_out.shape
-            decoder_out.squeeze(1)
+            decoder_out = decoder_out.squeeze(1)
             return decoder_out
             
 
@@ -152,6 +152,7 @@ class TritonPythonModel:
 
             # TODO: directly use torch tensor from_dlpack(in_0.to_dlpack())
             batch_encoder_out_list.append(in_0.as_numpy())
+
             assert batch_encoder_out_list[-1].shape[0] == 1            
             encoder_max_len = max(encoder_max_len, batch_encoder_out_list[-1].shape[1])
 
@@ -161,7 +162,7 @@ class TritonPythonModel:
             assert encoder_max_len == cur_b_lens[0]
 
             # For streaming ASR, assert each request sent from client has batch size 1.
-            batch_idx += 1
+            
 
             in_start = pb_utils.get_input_tensor_by_name(request, "START")
             start = in_start.as_numpy()[0][0]
@@ -189,6 +190,8 @@ class TritonPythonModel:
                 batch_idx2_corrid[batch_idx] = corrid
                 hyps_list.append(hyp)
                 decoder_out_list.append(decoder_out)
+
+            batch_idx += 1
                       
         encoder_out_array = np.zeros((batch_idx, encoder_max_len, self.encoder_dim),
                                   dtype=self.data_type)
@@ -196,6 +199,7 @@ class TritonPythonModel:
 
 
         for i, t in enumerate(batch_encoder_out_list):
+            
             encoder_out_array[i, 0:t.shape[1]] = t
             encoder_out_lens_array[i] = batch_encoder_lens_list[i]
     
@@ -204,7 +208,11 @@ class TritonPythonModel:
 
         decoder_out = torch.cat(decoder_out_list, dim=0)
 
+    
+
         assert encoder_out.shape[0] == decoder_out.shape[0]
+
+        
 
         for t in range(encoder_out.shape[1]):
             cur_encoder_out = encoder_out[:,t]
@@ -226,7 +234,7 @@ class TritonPythonModel:
             hyp = hyps_list[i][self.context_size:]
             sent = self.sp.decode(hyp).split()
             sent = np.array(sent)
-            out_tensor_0 = pb_utils.Tensor("OUTPUT0", sent.astype(self.output0_dtype))
+            out_tensor_0 = pb_utils.Tensor("OUTPUT0", sent.astype(self.out0_dtype))
             inference_response = pb_utils.InferenceResponse(output_tensors=[out_tensor_0])
             responses.append(inference_response)
     

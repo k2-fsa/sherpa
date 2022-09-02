@@ -20,7 +20,7 @@ max_batch_size: 512
 input [
   {
     name: "y"
-    data_type: TYPE_INT32
+    data_type: TYPE_INT64
     dims: [2] # [context_size]
   }
 ]
