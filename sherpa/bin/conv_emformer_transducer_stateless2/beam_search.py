@@ -130,7 +130,7 @@ class FastBeamSearch:
 
         processed_lens = (num_processed_frames >> 2) + encoder_out_lens
         if self.decoding_method == "fast_beam_search_nbest":
-            next_hyp_list = fast_beam_search_nbest(
+            next_hyp_list, next_trailing_blank_frames = fast_beam_search_nbest(
                 model=model,
                 encoder_out=encoder_out,
                 processed_lens=processed_lens,
@@ -142,7 +142,10 @@ class FastBeamSearch:
                 temperature=self.beam_search_params["temperature"],
             )
         elif self.decoding_method == "fast_beam_search_nbest_LG":
-            next_hyp_list = fast_beam_search_nbest_LG(
+            (
+                next_hyp_list,
+                next_trailing_blank_frames,
+            ) = fast_beam_search_nbest_LG(
                 model=model,
                 encoder_out=encoder_out,
                 processed_lens=processed_lens,
@@ -154,7 +157,10 @@ class FastBeamSearch:
                 temperature=self.beam_search_params["temperature"],
             )
         elif self.decoding_method == "fast_beam_search":
-            next_hyp_list = fast_beam_search_one_best(
+            (
+                next_hyp_list,
+                next_trailing_blank_frames,
+            ) = fast_beam_search_one_best(
                 model=model,
                 encoder_out=encoder_out,
                 processed_lens=processed_lens,
@@ -170,6 +176,7 @@ class FastBeamSearch:
         for i, s in enumerate(stream_list):
             s.states = next_state_list[i]
             s.hyp = next_hyp_list[i]
+            s.num_trailing_blank_frames = next_trailing_blank_frames[i]
 
     def get_texts(self, stream: Stream) -> str:
         """

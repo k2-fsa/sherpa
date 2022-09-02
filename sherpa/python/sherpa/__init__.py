@@ -34,4 +34,8 @@ from .online_endpoint import (
     add_online_endpoint_arguments,
     endpoint_detected,
 )
-from .utils import add_beam_search_arguments
+from .utils import (
+    add_beam_search_arguments,
+    count_num_trailing_zeros,
+    get_texts_and_num_trailing_blanks,
+)
