@@ -522,6 +522,9 @@ std::vector<Hypotheses> StreamingModifiedBeamSearch(
         int32_t new_token = topk_token_indexes_acc[j];
         if (new_token != blank_id && new_token != unk_id) {
           new_hyp.ys.push_back(new_token);
+          new_hyp.num_trailing_blanks = 0;
+        } else {
+          new_hyp.num_trailing_blanks += 1;
         }
 
         // We already added log_prob of the path to log_probs before, so

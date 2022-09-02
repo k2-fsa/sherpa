@@ -35,6 +35,8 @@ struct Hypothesis {
   // The total score of ys in log space.
   double log_prob = 0;
 
+  int32_t num_trailing_blanks = 0;
+
   Hypothesis() = default;
   Hypothesis(const std::vector<int32_t> &ys, double log_prob)
       : ys(ys), log_prob(log_prob) {}
