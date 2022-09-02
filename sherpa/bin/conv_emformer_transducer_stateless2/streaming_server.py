@@ -25,6 +25,10 @@ Usage:
     ./streaming_server.py --help
 
     ./streaming_server.py
+
+Please refer to
+https://k2-fsa.github.io/sherpa/python/streaming_asr/conv_emformer/index.html
+for details.
 """
 
 import argparse
