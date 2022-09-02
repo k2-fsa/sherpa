@@ -43,13 +43,19 @@ import websockets
 from beam_search import FastBeamSearch, GreedySearch
 from stream import Stream
 
-from sherpa import RnntConvEmformerModel, add_beam_search_arguments
+from sherpa import (
+    OnlineEndpointConfig,
+    RnntConvEmformerModel,
+    add_beam_search_arguments,
+    add_online_endpoint_arguments,
+)
 
 
 def get_args():
     beam_search_parser = add_beam_search_arguments()
+    online_endpoint_parser = add_online_endpoint_arguments()
     parser = argparse.ArgumentParser(
-        parents=[beam_search_parser],
+        parents=[beam_search_parser, online_endpoint_parser],
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
 
@@ -175,6 +181,7 @@ def get_args():
     return (
         parser.parse_args(),
         beam_search_parser.parse_known_args()[0],
+        online_endpoint_parser.parse_known_args()[0],
     )
 
 
@@ -190,6 +197,7 @@ class StreamingServer(object):
         max_queue_size: int,
         max_active_connections: int,
         beam_search_params: dict,
+        online_endpoint_config: OnlineEndpointConfig,
     ):
         """
         Args:
@@ -214,6 +222,8 @@ class StreamingServer(object):
             equals to this limit, the server refuses to accept new connections.
           beam_search_params:
             Dictionary containing all the parameters for beam search.
+          online_endpoint_config:
+            Config for endpointing.
         """
         if torch.cuda.is_available():
             device = torch.device("cuda", 0)
@@ -236,6 +246,7 @@ class StreamingServer(object):
         self.sp.load(bpe_model_filename)
 
         self.context_size = self.model.context_size
+        self.subsampling_factor = self.model.subsampling_factor
         self.blank_id = self.model.blank_id
         self.vocab_size = self.model.vocab_size
         self.log_eps = math.log(1e-10)
@@ -266,6 +277,8 @@ class StreamingServer(object):
 
         self.beam_search.sp = self.sp
 
+        self.online_endpoint_config = online_endpoint_config
+
         self.nn_pool = ThreadPoolExecutor(
             max_workers=nn_pool_size,
             thread_name_prefix="nn",
@@ -289,6 +302,7 @@ class StreamingServer(object):
         logging.info("Warmup start")
         stream = Stream(
             context_size=self.context_size,
+            subsampling_factor=self.subsampling_factor,
             initial_states=self.initial_states,
         )
         self.beam_search.init_stream(stream)
@@ -426,6 +440,7 @@ class StreamingServer(object):
         stream = Stream(
             context_size=self.context_size,
             initial_states=self.initial_states,
+            subsampling_factor=self.subsampling_factor,
         )
 
         self.beam_search.init_stream(stream)
@@ -441,6 +456,9 @@ class StreamingServer(object):
 
             while len(stream.features) > self.chunk_length_pad:
                 await self.compute_and_decode(stream)
+                if stream.endpoint_detected(self.online_endpoint_config):
+                    logging.info("Endpoint detected!")
+
                 await socket.send(f"{self.beam_search.get_texts(stream)}")
 
         stream.input_finished()
@@ -491,8 +509,18 @@ class StreamingServer(object):
 
 @torch.no_grad()
 def main():
-    args, beam_search_parser = get_args()
+    args, beam_search_parser, online_endpoint_parser = get_args()
+
     beam_search_params = vars(beam_search_parser)
+    logging.info(beam_search_params)
+
+    online_endpoint_params = vars(online_endpoint_parser)
+    logging.info(online_endpoint_params)
+
+    online_endpoint_config = OnlineEndpointConfig.from_args(
+        online_endpoint_params
+    )
+
     logging.info(vars(args))
 
     port = args.port
@@ -515,6 +543,7 @@ def main():
         max_queue_size=max_queue_size,
         max_active_connections=max_active_connections,
         beam_search_params=beam_search_params,
+        online_endpoint_config=online_endpoint_config,
     )
     asyncio.run(server.run(port))
 

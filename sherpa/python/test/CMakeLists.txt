@@ -18,6 +18,7 @@ endfunction()
 # please sort the files in alphabetic order
 set(py_test_files
   test_hypothesis.py
+  test_online_endpoint.py
 )
 
 foreach(source IN LISTS py_test_files)
