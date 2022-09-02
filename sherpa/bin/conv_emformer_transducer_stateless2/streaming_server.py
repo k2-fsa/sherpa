@@ -30,6 +30,7 @@ Usage:
 import argparse
 import asyncio
 import http
+import json
 import logging
 import math
 import warnings
@@ -445,6 +446,9 @@ class StreamingServer(object):
 
         self.beam_search.init_stream(stream)
 
+        # If set, it means some endpointing rule is activated.
+        final = 0
+
         while True:
             samples = await self.recv_audio_samples(socket)
             if samples is None:
@@ -456,10 +460,19 @@ class StreamingServer(object):
 
             while len(stream.features) > self.chunk_length_pad:
                 await self.compute_and_decode(stream)
-                if stream.endpoint_detected(self.online_endpoint_config):
-                    logging.info("Endpoint detected!")
+                hyp = self.beam_search.get_texts(stream)
 
-                await socket.send(f"{self.beam_search.get_texts(stream)}")
+                if stream.endpoint_detected(self.online_endpoint_config):
+                    final = 1
+
+                message = {
+                    "text": hyp,
+                    "final": final,
+                }
+
+                await socket.send(json.dumps(message))
+                if final:
+                    return
 
         stream.input_finished()
         while len(stream.features) > self.chunk_length_pad:
@@ -471,9 +484,14 @@ class StreamingServer(object):
             await self.compute_and_decode(stream)
             stream.features = []
 
-        result = self.beam_search.get_texts(stream)
-        await socket.send(result)
-        await socket.send("Done")
+        hyp = self.beam_search.get_texts(stream)
+
+        message = {
+            "text": hyp,
+            "final": 1,  # end of connection, always set final to 1
+        }
+
+        await socket.send(json.dumps(message))
 
     async def recv_audio_samples(
         self,

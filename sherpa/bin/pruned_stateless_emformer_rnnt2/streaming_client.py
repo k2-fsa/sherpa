@@ -30,6 +30,7 @@ Usage:
 import argparse
 import asyncio
 import http
+import json
 import logging
 
 import torchaudio
@@ -68,17 +69,28 @@ def get_args():
     return parser.parse_args()
 
 
-async def receive_results(socket: websockets.WebSocketServerProtocol):
-    partial_result = ""
-    async for message in socket:
-        if message == "Done":
-            break
-        partial_result = message
-        last_20_words = partial_result.split()[-20:]
-        last_20_words = " ".join(last_20_words)
-        logging.info(f"Partial result (last 20 words): {last_20_words}")
+done = False
 
-    return partial_result
+
+async def receive_results(socket: websockets.WebSocketServerProtocol):
+    global done
+    text = ""
+    async for message in socket:
+        result = json.loads(message)
+
+        is_final = result["final"]
+        text = result["text"]
+
+        if is_final:
+            done = True
+            logging.info(text)
+            return text
+
+        last_10_words = text.split()[-10:]
+        last_10_words = " ".join(last_10_words)
+        logging.info(f"Partial result (last 10 words): {last_10_words}")
+
+    return text
 
 
 async def run(server_addr: str, server_port: int, test_wav: str):
@@ -95,7 +107,7 @@ async def run(server_addr: str, server_port: int, test_wav: str):
         frame_size = 4096
         sleep_time = frame_size / sample_rate  # in seconds
         start = 0
-        while start < wave.numel():
+        while not done and start < wave.numel():
             end = start + min(frame_size, wave.numel() - start)
             d = wave.numpy().data[start:end]
 
@@ -104,7 +116,8 @@ async def run(server_addr: str, server_port: int, test_wav: str):
 
             start += frame_size
 
-        await websocket.send(b"Done")
+        if not done:
+            await websocket.send(b"Done")
         decoding_results = await receive_task
         logging.info(f"{test_wav}\n{decoding_results}")
 
