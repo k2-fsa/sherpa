@@ -35,12 +35,16 @@ namespace sherpa {
 class RnntRnnModel : public RnntModel {
  public:
   /**
-   * @param filename Path name of the torch script model.
+   * @param encoder_filename Path name of the torch script encoder module.
+   * @param decoder_filename Path name of the torch script decoder module.
+   * @param joiner_filename Path name of the torch script joiner module.
    * @param device  The model will be moved to this device
    * @param optimize_for_inference true to invoke
    *                               torch::jit::optimize_for_inference().
    */
-  explicit RnntRnnModel(const std::string &filename,
+  explicit RnntRnnModel(const std::string &encoder_filename,
+                        const std::string &decoder_filename,
+                        const std::string &joiner_filename,
                         torch::Device device = torch::kCPU,
                         bool optimize_for_inference = false);
 
@@ -91,24 +95,26 @@ class RnntRnnModel : public RnntModel {
   int32_t VocabSize() const override { return vocab_size_; }
   int32_t ChunkLength() const { return chunk_length_; }
   int32_t PadLength() const { return pad_length_; }
+  int32_t SubsamplingFactor() const { return subsampling_factor_; }
 
  private:
   torch::jit::Module model_;
 
   // the following modules are just aliases to modules in model_
-  torch::jit::module encoder_;
-  torch::jit::module decoder_;
-  torch::jit::module joiner_;
-  torch::jit::module encoder_proj_;
-  torch::jit::module decoder_proj_;
+  torch::jit::Module encoder_;
+  torch::jit::Module decoder_;
+  torch::jit::Module joiner_;
+  torch::jit::Module encoder_proj_;
+  torch::jit::Module decoder_proj_;
 
-  torch::device device_;
+  torch::Device device_;
   int32_t blank_id_;
   int32_t vocab_size_;
   int32_t unk_id_;
   int32_t context_size_;
   int32_t chunk_length_;
   int32_t pad_length_;
+  int32_t subsampling_factor_;
 };
 
 }  // namespace sherpa

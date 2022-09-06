@@ -8,6 +8,7 @@ pybind11_add_module(_sherpa
   rnnt_conv_emformer_model.cc
   rnnt_emformer_model.cc
   rnnt_model.cc
+  rnnt_rnn_model.cc
   sherpa.cc
 )
 
