@@ -56,7 +56,7 @@ jobs:
       - name: Install PyTorch ${{ matrix.torch }}
         shell: bash
         run: |
-          python3 -m pip install -qq --upgrade pip
+          python3 -m pip install -qq --upgrade pip kaldi_native_io
           python3 -m pip install -qq wheel twine typing_extensions websockets sentencepiece>=0.1.96 soundfile
           python3 -m pip install -qq torch==${{ matrix.torch }}+cpu numpy -f https://download.pytorch.org/whl/torch_stable.html
 
@@ -66,10 +66,27 @@ jobs:
 
           python3 -m torch.utils.collect_env
 
+      - name: Cache kaldifeat
+        id: my-cache-2
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/tmp/kaldifeat
+          key: cache-tmp-${{ matrix.python-version }}-${{ matrix.os }}-${{ matrix.torch }}
+
+      - name: Install kaldifeat
+        if: steps.my-cache-2.outputs.cache-hit != 'true'
+        shell: bash
+        run: |
+          .github/scripts/install-kaldifeat.sh
 
       - name: Install sherpa
         shell: bash
         run: |
+          export KALDIFEAT_INSTALL_PREFIX=$HOME/tmp/kaldifeat/build
+          echo $KALDIFEAT_INSTALL_PREFIX
+          ls -lh $KALDIFEAT_INSTALL_PREFIX
+
           python3 setup.py install
 
       - name: Build doc

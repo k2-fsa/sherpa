@@ -62,7 +62,7 @@ jobs:
         shell: bash
         if: startsWith(matrix.os, 'ubuntu')
         run: |
-          python3 -m pip install --upgrade pip
+          python3 -m pip install --upgrade pip kaldi_native_io
           python3 -m pip install wheel twine typing_extensions websockets sentencepiece>=0.1.96
           python3 -m pip install torch==${{ matrix.torch }}+cpu numpy -f https://download.pytorch.org/whl/cpu/torch_stable.html
 
@@ -80,7 +80,7 @@ jobs:
         shell: bash
         if: startsWith(matrix.os, 'macos')
         run: |
-          python3 -m pip install --upgrade pip
+          python3 -m pip install --upgrade pip kaldi_native_io
           python3 -m pip install wheel twine typing_extensions websockets sentencepiece>=0.1.96
           python3 -m pip install torch==${{ matrix.torch }} torchaudio==${{ matrix.torchaudio }} numpy -f https://download.pytorch.org/whl/cpu/torch_stable.html
 
@@ -90,7 +90,7 @@ jobs:
 
 
       - name: Cache kaldifeat
-        id: my-cache
+        id: my-cache-2
         uses: actions/cache@v2
         with:
           path: |
@@ -98,7 +98,7 @@ jobs:
           key: cache-tmp-${{ matrix.python-version }}-${{ matrix.os }}-${{ matrix.torch }}
 
       - name: Install kaldifeat
-        if: steps.my-cache.outputs.cache-hit != 'true'
+        if: steps.my-cache-2.outputs.cache-hit != 'true'
         shell: bash
         run: |
           .github/scripts/install-kaldifeat.sh
@@ -106,6 +106,10 @@ jobs:
       - name: Install sherpa
         shell: bash
         run: |
+          export KALDIFEAT_INSTALL_PREFIX=$HOME/tmp/kaldifeat/build
+          echo $KALDIFEAT_INSTALL_PREFIX
+          ls -lh $KALDIFEAT_INSTALL_PREFIX
+
           python3 setup.py install
 
       - name: Download pretrained model and test-data
