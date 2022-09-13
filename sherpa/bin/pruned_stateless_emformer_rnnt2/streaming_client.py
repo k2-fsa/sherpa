@@ -89,7 +89,7 @@ async def receive_results(socket: websockets.WebSocketServerProtocol):
         last_10_words = " ".join(last_10_words)
         logging.info(
             f"Partial result of segment {segment} (last 10 words): "
-            "{last_10_words}"
+            f"{last_10_words}"
         )
 
     return ans
