@@ -18,7 +18,7 @@ to the client:
   message = {
       "segment": stream.segment,
       "text": recogntion results of this segment,
-      "final": 1,
+      "final": True,
   }
 
 where ``stream.segment`` is an integer and it is incremented whenever an endpoint

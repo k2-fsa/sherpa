@@ -493,9 +493,6 @@ class StreamingServer(object):
 
         self.beam_search.init_stream(stream)
 
-        # If set, it means some endpointing rule is activated.
-        final = 0
-
         while True:
             samples = await self.recv_audio_samples(socket)
             if samples is None:
@@ -509,21 +506,18 @@ class StreamingServer(object):
                 await self.compute_and_decode(stream)
                 hyp = self.beam_search.get_texts(stream)
 
-                if stream.endpoint_detected(self.online_endpoint_config):
-                    final = 1
+                segment = stream.segment
+                is_final = stream.endpoint_detected(self.online_endpoint_config)
+                if is_final:
                     self.beam_search.init_stream(stream)
-                else:
-                    final = 0
 
                 message = {
-                    "segment": stream.segment,
+                    "segment": segment,
                     "text": hyp,
-                    "final": final,
+                    "final": is_final,
                 }
 
                 await socket.send(json.dumps(message))
-                if final:
-                    stream.segment += 1
 
         stream.input_finished()
         while len(stream.features) > self.chunk_length:
@@ -540,7 +534,7 @@ class StreamingServer(object):
         message = {
             "segment": stream.segment,
             "text": hyp,
-            "final": 1,  # end of connection, always set final to 1
+            "final": True,  # end of connection, always set final to True
         }
 
         await socket.send(json.dumps(message))

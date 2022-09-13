@@ -81,7 +81,6 @@ async def receive_results(socket: websockets.WebSocketServerProtocol):
 
         if is_final:
             ans.append(dict(segment=segment, text=text))
-            logging.info(text)
             logging.info(f"Final result of segment {segment}: {text}")
             continue
 

@@ -241,5 +241,6 @@ class Stream(object):
         if detected:
             self.num_trailing_blank_frames = 0
             self.processed_frames = 0
+            self.segment += 1
 
         return detected
