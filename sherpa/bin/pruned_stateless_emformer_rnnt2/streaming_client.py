@@ -69,28 +69,30 @@ def get_args():
     return parser.parse_args()
 
 
-done = False
-
-
 async def receive_results(socket: websockets.WebSocketServerProtocol):
     global done
-    text = ""
+    ans = []
     async for message in socket:
         result = json.loads(message)
 
+        segment = result["segment"]
         is_final = result["final"]
         text = result["text"]
 
         if is_final:
-            done = True
+            ans.append(dict(segment=segment, text=text))
             logging.info(text)
-            return text
+            logging.info(f"Final result of segment {segment}: {text}")
+            continue
 
         last_10_words = text.split()[-10:]
         last_10_words = " ".join(last_10_words)
-        logging.info(f"Partial result (last 10 words): {last_10_words}")
+        logging.info(
+            f"Partial result of segment {segment} (last 10 words): "
+            "{last_10_words}"
+        )
 
-    return text
+    return ans
 
 
 async def run(server_addr: str, server_port: int, test_wav: str):
@@ -107,7 +109,7 @@ async def run(server_addr: str, server_port: int, test_wav: str):
         frame_size = 4096
         sleep_time = frame_size / sample_rate  # in seconds
         start = 0
-        while not done and start < wave.numel():
+        while start < wave.numel():
             end = start + min(frame_size, wave.numel() - start)
             d = wave.numpy().data[start:end]
 
@@ -116,10 +118,13 @@ async def run(server_addr: str, server_port: int, test_wav: str):
 
             start += frame_size
 
-        if not done:
-            await websocket.send(b"Done")
+        await websocket.send(b"Done")
         decoding_results = await receive_task
-        logging.info(f"{test_wav}\n{decoding_results}")
+        s = ""
+        for r in decoding_results:
+            s += f"segment: {r['segment']}\n"
+            s += f"text: {r['text']}\n"
+        logging.info(f"{test_wav}\n{s}")
 
 
 async def main():

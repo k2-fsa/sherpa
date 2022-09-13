@@ -468,15 +468,19 @@ class StreamingServer(object):
 
                 if stream.endpoint_detected(self.online_endpoint_config):
                     final = 1
+                    self.beam_search.init_stream(stream)
+                else:
+                    final = 0
 
                 message = {
+                    "segment": stream.segment,
                     "text": hyp,
                     "final": final,
                 }
 
                 await socket.send(json.dumps(message))
                 if final:
-                    return
+                    stream.segment += 1
 
         stream.input_finished()
         while len(stream.features) > self.chunk_length_pad:
@@ -491,6 +495,7 @@ class StreamingServer(object):
         hyp = self.beam_search.get_texts(stream)
 
         message = {
+            "segment": stream.segment,
             "text": hyp,
             "final": 1,  # end of connection, always set final to 1
         }
