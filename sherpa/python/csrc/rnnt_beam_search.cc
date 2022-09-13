@@ -17,6 +17,7 @@
  */
 #include "sherpa/python/csrc/rnnt_beam_search.h"
 
+#include <tuple>
 #include <utility>
 #include <vector>
 

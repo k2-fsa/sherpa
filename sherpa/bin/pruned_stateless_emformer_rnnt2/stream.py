@@ -146,6 +146,9 @@ class Stream(object):
         self.subsampling_factor = subsampling_factor
         self.log_eps = math.log(1e-10)
 
+        # whenever an endpoint is detected, it is incremented
+        self.segment = 0
+
     def accept_waveform(
         self,
         sampling_rate: float,
@@ -228,9 +231,15 @@ class Stream(object):
 
         num_frames_decoded = self.processed_frames * self.subsampling_factor
 
-        return sherpa.endpoint_detected(
+        detected = sherpa.endpoint_detected(
             config=config,
             num_frames_decoded=num_frames_decoded,
             trailing_silence_frames=trailing_silence_frames,
             frame_shift_in_seconds=frame_shift_in_seconds,
         )
+
+        if detected:
+            self.num_trailing_blank_frames = 0
+            self.processed_frames = 0
+
+        return detected

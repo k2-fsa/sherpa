@@ -113,9 +113,9 @@ class TestOnlineEndpoint(unittest.TestCase):
 
     def test_rule3(self):
         sys.argv = [
-            "--endpoint.rule2.must-contain-nonsilence=false",
-            "--endpoint.rule2.min-trailing-silence=0.0",
-            "--endpoint.rule2.min-utterance-length=13.0",
+            "--endpoint.rule3.must-contain-nonsilence=false",
+            "--endpoint.rule3.min-trailing-silence=0.0",
+            "--endpoint.rule3.min-utterance-length=13.0",
         ]
         online_endpoint_parser = sherpa.add_online_endpoint_arguments()
         parser = argparse.ArgumentParser(
