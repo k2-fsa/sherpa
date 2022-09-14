@@ -40,6 +40,10 @@ void PybindHypothesis(py::module &m) {  // NOLINT
         .def_property_readonly(
             "ys",
             [](const PyClass &self) -> std::vector<int32_t> { return self.ys; })
+        .def_property_readonly("num_trailing_blanks",
+                               [](const PyClass &self) -> int32_t {
+                                 return self.num_trailing_blanks;
+                               })
         .def("__str__",
              [](const PyClass &self) -> std::string { return self.ToString(); })
         .def("__repr__", [](const PyClass &self) -> std::string {

@@ -56,13 +56,16 @@ std::vector<std::vector<int32_t>> GreedySearch(
  * @param decoder_out A 2-D tensor of shape (N, C). It should be on the same
  *                    device as `model`.
  * @param hyps The decoded tokens. Note: It is modified in-place.
+ * @param num_trailing_blank_frames  Number of trailing blank frames. It is
+ *                                   updated in-place.
  *
  * @return Return the decoder output for the next chunk.
  */
-torch::Tensor StreamingGreedySearch(RnntModel &model,  // NOLINT
-                                    torch::Tensor encoder_out,
-                                    torch::Tensor decoder_out,
-                                    std::vector<std::vector<int32_t>> *hyps);
+torch::Tensor StreamingGreedySearch(
+    RnntModel &model,  // NOLINT
+    torch::Tensor encoder_out, torch::Tensor decoder_out,
+    std::vector<std::vector<int32_t>> *hyps,
+    std::vector<int32_t> *num_trailing_blank_frames);
 
 /** RNN-T modified beam search for offline recognition.
  *

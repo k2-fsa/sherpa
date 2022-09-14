@@ -30,6 +30,7 @@ Usage:
 import argparse
 import asyncio
 import http
+import json
 import logging
 
 import torchaudio
@@ -69,16 +70,28 @@ def get_args():
 
 
 async def receive_results(socket: websockets.WebSocketServerProtocol):
-    partial_result = ""
+    global done
+    ans = []
     async for message in socket:
-        if message == "Done":
-            break
-        partial_result = message
-        last_20_words = partial_result.split()[-20:]
-        last_20_words = " ".join(last_20_words)
-        logging.info(f"Partial result (last 20 words): {last_20_words}")
+        result = json.loads(message)
 
-    return partial_result
+        segment = result["segment"]
+        is_final = result["final"]
+        text = result["text"]
+
+        if is_final:
+            ans.append(dict(segment=segment, text=text))
+            logging.info(f"Final result of segment {segment}: {text}")
+            continue
+
+        last_10_words = text.split()[-10:]
+        last_10_words = " ".join(last_10_words)
+        logging.info(
+            f"Partial result of segment {segment} (last 10 words): "
+            f"{last_10_words}"
+        )
+
+    return ans
 
 
 async def run(server_addr: str, server_port: int, test_wav: str):
@@ -106,7 +119,11 @@ async def run(server_addr: str, server_port: int, test_wav: str):
 
         await websocket.send(b"Done")
         decoding_results = await receive_task
-        logging.info(f"{test_wav}\n{decoding_results}")
+        s = ""
+        for r in decoding_results:
+            s += f"segment: {r['segment']}\n"
+            s += f"text: {r['text']}\n"
+        logging.info(f"{test_wav}\n{s}")
 
 
 async def main():

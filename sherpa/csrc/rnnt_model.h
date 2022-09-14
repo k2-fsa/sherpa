@@ -42,6 +42,8 @@ class RnntModel {
   virtual int32_t ContextSize() const = 0;
   virtual int32_t VocabSize() const = 0;
 
+  int32_t SubsamplingFactor() const { return 4; }
+
   /** Run the decoder network.
    *
    * @param decoder_input  A 2-D tensor of shape (N, U).
