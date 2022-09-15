@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-#include "sherpa/csrc/online_stream.h"
+#include "sherpa/cpp_api/online_stream.h"
 
 #include <memory>
 #include <utility>

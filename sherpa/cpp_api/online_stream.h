@@ -15,17 +15,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#ifndef SHERPA_CSRC_ONLINE_STREAM_H_
-#define SHERPA_CSRC_ONLINE_STREAM_H_
+#ifndef SHERPA_CPP_API_ONLINE_STREAM_H_
+#define SHERPA_CPP_API_ONLINE_STREAM_H_
 
 #include <cstdint>
 #include <memory>
 #include <vector>
 
-#include "sherpa/csrc/hypothesis.h"
 #include "torch/script.h"
 
 namespace sherpa {
+
+class Hypotheses;
 
 class OnlineStream {
  public:
@@ -152,4 +153,4 @@ class OnlineStream {
 
 }  // namespace sherpa
 
-#endif  //  SHERPA_CSRC_ONLINE_STREAM_H_
+#endif  // SHERPA_CPP_API_ONLINE_STREAM_H_

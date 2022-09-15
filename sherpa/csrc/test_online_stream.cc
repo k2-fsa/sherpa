@@ -19,8 +19,8 @@
 #include <fstream>
 
 #include "gtest/gtest.h"
+#include "sherpa/cpp_api/online_stream.h"
 #include "sherpa/csrc/log.h"
-#include "sherpa/csrc/online_stream.h"
 
 namespace sherpa {
 

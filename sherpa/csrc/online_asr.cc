@@ -318,19 +318,19 @@ void OnlineAsr::ModifiedBeamSearch(OnlineStream **ss, int32_t n) {
   }
 }
 
-std::string OnlineAsr::GetResults(OnlineStream *s) const {
+std::string OnlineAsr::GetResult(OnlineStream *s) const {
   if (opts_.decoding_method == "greedy_search") {
-    return GetGreedySearchResults(s);
+    return GetGreedySearchResult(s);
   }
 
   if (opts_.decoding_method == "modified_beam_search") {
-    return GetModifiedBeamSearchResults(s);
+    return GetModifiedBeamSearchResult(s);
   }
 
   SHERPA_LOG(FATAL) << "Unsupported: " << opts_.decoding_method;
 }
 
-std::string OnlineAsr::GetGreedySearchResults(OnlineStream *s) const {
+std::string OnlineAsr::GetGreedySearchResult(OnlineStream *s) const {
   int32_t context_size = model_->ContextSize();
 
   const auto &hyps = s->GetHyps();
@@ -347,7 +347,7 @@ std::string OnlineAsr::GetGreedySearchResults(OnlineStream *s) const {
   return text;
 }
 
-std::string OnlineAsr::GetModifiedBeamSearchResults(OnlineStream *s) const {
+std::string OnlineAsr::GetModifiedBeamSearchResult(OnlineStream *s) const {
   int32_t context_size = model_->ContextSize();
   auto hyps = s->GetHypotheses().GetMostProbable(true).ys;
 

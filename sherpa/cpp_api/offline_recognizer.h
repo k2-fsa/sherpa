@@ -15,6 +15,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+/**
+Please refer to
+
+https://k2-fsa.github.io/sherpa/cpp/offline_asr/api.html
+
+and
+
+https://github.com/k2-fsa/sherpa-torch-cpp-makefile-example
+
+for usage.
+ */
 #ifndef SHERPA_CPP_API_OFFLINE_RECOGNIZER_H_
 #define SHERPA_CPP_API_OFFLINE_RECOGNIZER_H_
 
@@ -41,7 +53,7 @@ struct DecodingOptions {
 };
 
 struct OfflineRecognitionResult {
-  // RecognitionResult results.
+  // Recognition results.
   // For English, it consists of space separated words.
   // For Chinese, it consists of Chinese words without spaces.
   std::string text;

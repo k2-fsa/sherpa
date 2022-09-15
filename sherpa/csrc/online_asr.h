@@ -22,7 +22,7 @@
 #include <string>
 
 #include "kaldifeat/csrc/feature-fbank.h"
-#include "sherpa/csrc/online_stream.h"
+#include "sherpa/cpp_api/online_stream.h"
 #include "sherpa/csrc/parse_options.h"
 #include "sherpa/csrc/rnnt_conv_emformer_model.h"
 #include "sherpa/csrc/symbol_table.h"
@@ -69,6 +69,7 @@ class OnlineAsr {
  public:
   explicit OnlineAsr(const OnlineAsrOptions &opts);
   ~OnlineAsr() = default;
+  const OnlineAsrOptions &Opts() const { return opts_; }
 
   // Create a stream for decoding.
   std::unique_ptr<OnlineStream> CreateStream();
@@ -93,15 +94,15 @@ class OnlineAsr {
   void DecodeStreams(OnlineStream **ss, int32_t n);
 
   // TODO(fangjun): Return a struct
-  std::string GetResults(OnlineStream *s) const;
+  std::string GetResult(OnlineStream *s) const;
 
  private:
   void GreedySearch(OnlineStream **ss, int32_t n);
 
   void ModifiedBeamSearch(OnlineStream **ss, int32_t n);
 
-  std::string GetGreedySearchResults(OnlineStream *s) const;
-  std::string GetModifiedBeamSearchResults(OnlineStream *s) const;
+  std::string GetGreedySearchResult(OnlineStream *s) const;
+  std::string GetModifiedBeamSearchResult(OnlineStream *s) const;
 
  private:
   OnlineAsrOptions opts_;
