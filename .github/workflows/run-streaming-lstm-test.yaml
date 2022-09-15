@@ -34,7 +34,7 @@ jobs:
         torch: ["1.10.0"]
         torchaudio: ["0.10.0"]
         python-version: ["3.7", "3.8"]
-        decoding: ["greedy_search", "fast_beam_search", "fast_beam_search_nbest", "fast_beam_search_nbest_LG"]
+        decoding: ["greedy_search", "fast_beam_search", "fast_beam_search_nbest", "fast_beam_search_nbest_LG", "modified_beam_search"]
 
     steps:
       - uses: actions/checkout@v2
