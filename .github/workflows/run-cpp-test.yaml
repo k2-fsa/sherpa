@@ -20,8 +20,24 @@ on:
   push:
     branches:
       - master
+    paths:
+      - '.github/workflows/run-cpp-test.yaml'
+      - 'CMakeLists.txt'
+      - 'cmake/**'
+      - 'sherpa/csrc/*'
+      - 'sherpa/cpp_api/*'
   pull_request:
     types: [labeled]
+    paths:
+      - '.github/workflows/run-cpp-test.yaml'
+      - 'CMakeLists.txt'
+      - 'cmake/**'
+      - 'sherpa/csrc/*'
+      - 'sherpa/cpp_api/*'
+
+concurrency:
+  group: run-cpp-tests-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   run_cpp_tests:
