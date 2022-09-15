@@ -49,18 +49,20 @@ RnntRnnModel::RnntRnnModel(const std::string &encoder_filename,
   encoder_proj_ = joiner_.attr("encoder_proj").toModule();
   decoder_proj_ = joiner_.attr("decoder_proj").toModule();
 
-  blank_id_ = decoder_.attr("blank_id").toInt();
-  vocab_size_ = decoder_.attr("vocab_size").toInt();
+  vocab_size_ = joiner_.attr("output_linear")
+                    .toModule()
+                    .attr("weight")
+                    .toTensor()
+                    .size(0);
+  context_size_ =
+      decoder_.attr("conv").toModule().attr("weight").toTensor().size(2);
 
+  // hard code following attributes
+  blank_id_ = 0;
   unk_id_ = blank_id_;
-  if (decoder_.hasattr("unk_id")) {
-    unk_id_ = decoder_.attr("unk_id").toInt();
-  }
-
-  context_size_ = decoder_.attr("context_size").toInt();
   // Add 5 here since the subsampling is ((len - 3) // 2 - 1) // 2.
   pad_length_ = 5;
-  subsampling_factor_ = encoder_.attr("subsampling_factor").toInt();
+  subsampling_factor_ = 4;
 }
 
 std::tuple<torch::Tensor, torch::Tensor, RnntRnnModel::State>
@@ -101,7 +103,9 @@ RnntRnnModel::State RnntRnnModel::GetEncoderInitStates() {
 }
 
 torch::Tensor RnntRnnModel::ForwardDecoder(const torch::Tensor &decoder_input) {
-  return decoder_.run_method("forward", decoder_input, /*need_pad*/ false)
+  return decoder_
+      .run_method("forward", decoder_input,
+                  /*need_pad*/ torch::tensor({0}).to(torch::kBool))
       .toTensor();
 }
 
@@ -109,8 +113,7 @@ torch::Tensor RnntRnnModel::ForwardJoiner(
     const torch::Tensor &projected_encoder_out,
     const torch::Tensor &projected_decoder_out) {
   return joiner_
-      .run_method("forward", projected_encoder_out, projected_decoder_out,
-                  /*project_input*/ false)
+      .run_method("forward", projected_encoder_out, projected_decoder_out)
       .toTensor();
 }
 
