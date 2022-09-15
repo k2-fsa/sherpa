@@ -20,6 +20,7 @@
 
 #include <cstdint>
 #include <memory>
+#include <vector>
 
 #include "sherpa/csrc/hypothesis.h"
 #include "torch/script.h"

@@ -19,6 +19,8 @@
 #include "sherpa/csrc/online_stream.h"
 
 #include <memory>
+#include <utility>
+#include <vector>
 
 #include "kaldifeat/csrc/feature-fbank.h"
 #include "kaldifeat/csrc/online-feature.h"

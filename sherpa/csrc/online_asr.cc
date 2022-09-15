@@ -18,6 +18,9 @@
 
 #include "sherpa/csrc/online_asr.h"
 
+#include <utility>
+#include <vector>
+
 #include "sherpa/csrc/file_utils.h"
 #include "sherpa/csrc/log.h"
 #include "sherpa/csrc/parse_options.h"

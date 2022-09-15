@@ -21,6 +21,7 @@
 
 #include <memory>
 #include <string>
+#include <tuple>
 
 #include "sherpa/csrc/rnnt_conv_emformer_model.h"
 #include "sherpa/csrc/rnnt_model.h"
