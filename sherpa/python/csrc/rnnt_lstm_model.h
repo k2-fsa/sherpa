@@ -17,15 +17,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#ifndef SHERPA_PYTHON_CSRC_RNNT_RNN_MODEL_H_
-#define SHERPA_PYTHON_CSRC_RNNT_RNN_MODEL_H_
+#ifndef SHERPA_PYTHON_CSRC_RNNT_LSTM_MODEL_H_
+#define SHERPA_PYTHON_CSRC_RNNT_LSTM_MODEL_H_
 
 #include "sherpa/python/csrc/sherpa.h"
 
 namespace sherpa {
 
-void PybindRnntRNNModel(py::module &m);  // NOLINT
+void PybindRnntLstmModel(py::module &m);  // NOLINT
 
 }  // namespace sherpa
 
-#endif  // SHERPA_PYTHON_CSRC_RNNT_RNN_MODEL_H_
+#endif SHERPA_PYTHON_CSRC_RNNT_LSTM_MODEL_H_

@@ -18,20 +18,20 @@
  * limitations under the License.
  */
 
-#include "sherpa/python/csrc/rnnt_rnn_model.h"
+#include "sherpa/python/csrc/rnnt_lstm_model.h"
 
 #include <memory>
 #include <string>
 
+#include "sherpa/csrc/rnnt_lstm_model.h"
 #include "sherpa/csrc/rnnt_model.h"
-#include "sherpa/csrc/rnnt_rnn_model.h"
 #include "torch/torch.h"
 
 namespace sherpa {
 
-void PybindRnntRNNModel(py::module &m) {  // NOLINT
-  using PyClass = RnntRnnModel;
-  py::class_<PyClass, RnntModel>(m, "RnntRnnModel")
+void PybindRnntLstmModel(py::module &m) {  // NOLINT
+  using PyClass = RnntLstmModel;
+  py::class_<PyClass, RnntModel>(m, "RnntLstmModel")
       .def(py::init([](const std::string &encoder_filename,
                        const std::string &decoder_filename,
                        const std::string &joiner_filename,

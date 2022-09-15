@@ -14,7 +14,7 @@ from _sherpa import (
     RnntConformerModel,
     RnntConvEmformerModel,
     RnntEmformerModel,
-    RnntRnnModel,
+    RnntLstmModel,
     greedy_search,
     modified_beam_search,
     streaming_greedy_search,

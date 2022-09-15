@@ -32,7 +32,7 @@ namespace sherpa {
 /** It wraps a torch script model, which is from
  * lstm_transducer_stateless/model.py within icefall.
  */
-class RnntRnnModel : public RnntModel {
+class RnntLstmModel : public RnntModel {
  public:
   /**
    * @param encoder_filename Path name of the torch script encoder module.
@@ -42,13 +42,13 @@ class RnntRnnModel : public RnntModel {
    * @param optimize_for_inference true to invoke
    *                               torch::jit::optimize_for_inference().
    */
-  explicit RnntRnnModel(const std::string &encoder_filename,
-                        const std::string &decoder_filename,
-                        const std::string &joiner_filename,
-                        torch::Device device = torch::kCPU,
-                        bool optimize_for_inference = false);
+  explicit RnntLstmModel(const std::string &encoder_filename,
+                         const std::string &decoder_filename,
+                         const std::string &joiner_filename,
+                         torch::Device device = torch::kCPU,
+                         bool optimize_for_inference = false);
 
-  ~RnntRnnModel() override = default;
+  ~RnntLstmModel() override = default;
 
   using State = std::pair<torch::Tensor, torch::Tensor>;
 
@@ -71,22 +71,8 @@ class RnntRnnModel : public RnntModel {
    * @param decoder_out  A 2-D tensor of shape (N, C).
    * @return Return a tensor of shape (N, vocab_size)
    */
-  torch::Tensor ForwardJoiner(
-      const torch::Tensor &projected_encoder_out,
-      const torch::Tensor &projected_decoder_out) override;
-  /** Run the joiner.encoder_proj network.
-   *
-   * @param encoder_out  The output from the encoder, which is of shape (N,T,C).
-   * @return Return a tensor of shape (N, T, joiner_dim).
-   */
-  torch::Tensor ForwardEncoderProj(const torch::Tensor &encoder_out) override;
-
-  /** Run the joiner.decoder_proj network.
-   *
-   * @param decoder_out  The output from the encoder, which is of shape (N,T,C).
-   * @return Return a tensor of shape (N, T, joiner_dim).
-   */
-  torch::Tensor ForwardDecoderProj(const torch::Tensor &decoder_out) override;
+  torch::Tensor ForwardJoiner(const torch::Tensor &encoder_out,
+                              const torch::Tensor &decoder_out) override;
 
   torch::Device Device() const override { return device_; }
   int32_t BlankId() const override { return blank_id_; }

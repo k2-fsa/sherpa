@@ -16,18 +16,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#include "sherpa/csrc/rnnt_rnn_model.h"
+#include "sherpa/csrc/rnnt_lstm_model.h"
 
 #include <memory>
 #include <vector>
 
 namespace sherpa {
 
-RnntRnnModel::RnntRnnModel(const std::string &encoder_filename,
-                           const std::string &decoder_filename,
-                           const std::string &joiner_filename,
-                           torch::Device device /*=torch::kCPU*/,
-                           bool optimize_for_inference /*=false*/)
+RnntLstmModel::RnntLstmModel(const std::string &encoder_filename,
+                             const std::string &decoder_filename,
+                             const std::string &joiner_filename,
+                             torch::Device device /*=torch::kCPU*/,
+                             bool optimize_for_inference /*=false*/)
     : device_(device) {
   encoder_ = torch::jit::load(encoder_filename, device);
   encoder_.eval();
@@ -65,10 +65,10 @@ RnntRnnModel::RnntRnnModel(const std::string &encoder_filename,
   subsampling_factor_ = 4;
 }
 
-std::tuple<torch::Tensor, torch::Tensor, RnntRnnModel::State>
-RnntRnnModel::StreamingForwardEncoder(const torch::Tensor &features,
-                                      const torch::Tensor &features_length,
-                                      State states) {
+std::tuple<torch::Tensor, torch::Tensor, RnntLstmModel::State>
+RnntLstmModel::StreamingForwardEncoder(const torch::Tensor &features,
+                                       const torch::Tensor &features_length,
+                                       State states) {
   // It contains [torch.Tensor, torch.Tensor, Pair[torch.Tensor, torch.Tensor]
   // which are [encoder_out, encoder_out_len, states]
   //
@@ -91,7 +91,7 @@ RnntRnnModel::StreamingForwardEncoder(const torch::Tensor &features,
   return {encoder_out, encoder_out_length, next_states};
 }
 
-RnntRnnModel::State RnntRnnModel::GetEncoderInitStates() {
+RnntLstmModel::State RnntLstmModel::GetEncoderInitStates() {
   torch::IValue ivalue =
       encoder_.run_method("get_init_states", /*batch_size*/ 1, device_);
   auto tuple_ptr = ivalue.toTuple();
@@ -102,28 +102,17 @@ RnntRnnModel::State RnntRnnModel::GetEncoderInitStates() {
   return {hidden_states, cell_states};
 }
 
-torch::Tensor RnntRnnModel::ForwardDecoder(const torch::Tensor &decoder_input) {
+torch::Tensor RnntLstmModel::ForwardDecoder(
+    const torch::Tensor &decoder_input) {
   return decoder_
       .run_method("forward", decoder_input,
                   /*need_pad*/ torch::tensor({0}).to(torch::kBool))
       .toTensor();
 }
 
-torch::Tensor RnntRnnModel::ForwardJoiner(
-    const torch::Tensor &projected_encoder_out,
-    const torch::Tensor &projected_decoder_out) {
-  return joiner_
-      .run_method("forward", projected_encoder_out, projected_decoder_out)
-      .toTensor();
+torch::Tensor RnntLstmModel::ForwardJoiner(const torch::Tensor &encoder_out,
+                                           const torch::Tensor &decoder_out) {
+  return joiner_.run_method("forward", encoder_out, decoder_out).toTensor();
 }
 
-torch::Tensor RnntRnnModel::ForwardEncoderProj(
-    const torch::Tensor &encoder_out) {
-  return encoder_proj_.run_method("forward", encoder_out).toTensor();
-}
-
-torch::Tensor RnntRnnModel::ForwardDecoderProj(
-    const torch::Tensor &decoder_out) {
-  return decoder_proj_.run_method("forward", decoder_out).toTensor();
-}
 }  // namespace sherpa

@@ -40,10 +40,10 @@ import numpy as np
 import sentencepiece as spm
 import torch
 import websockets
-from beam_search import FastBeamSearch, GreedySearch
+from beam_search import FastBeamSearch, GreedySearch, ModifiedBeamSearch
 from stream import Stream
 
-from sherpa import RnntRnnModel, add_beam_search_arguments
+from sherpa import RnntLstmModel, add_beam_search_arguments
 
 
 def get_args():
@@ -226,7 +226,7 @@ class StreamingServer(object):
             device = torch.device("cpu")
         logging.info(f"Using device: {device}")
 
-        self.model = RnntRnnModel(
+        self.model = RnntLstmModel(
             nn_encoder_filename,
             nn_decoder_filename,
             nn_joiner_filename,
@@ -267,6 +267,8 @@ class StreamingServer(object):
                 beam_search_params,
                 device,
             )
+        elif decoding_method == "modified_beam_search":
+            self.beam_search = ModifiedBeamSearch(beam_search_params)
         else:
             raise ValueError(
                 f"Decoding method {decoding_method} is not supported."
@@ -514,6 +516,11 @@ def main():
     max_message_size = args.max_message_size
     max_queue_size = args.max_queue_size
     max_active_connections = args.max_active_connections
+
+    if beam_search_params["decoding_method"] == "modified_beam_search":
+        assert beam_search_params["num_active_paths"] >= 1, beam_search_params[
+            "num_active_paths"
+        ]
 
     server = StreamingServer(
         nn_encoder_filename=nn_encoder_filename,
