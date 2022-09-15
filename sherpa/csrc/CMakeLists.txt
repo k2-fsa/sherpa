@@ -97,8 +97,10 @@ if(NOT WIN32)
   )
   message(STATUS "PYTHON_SITE_PACKAGE_DIR: ${PYTHON_SITE_PACKAGE_DIR}")
   target_link_libraries(sherpa "-Wl,-rpath,${PYTHON_SITE_PACKAGE_DIR}/sherpa/lib")
-
   target_link_libraries(sherpa "-Wl,-rpath,${SHERPA_RPATH_ORIGIN}/../lib")
+
+  target_link_libraries(sherpa-online "-Wl,-rpath,${PYTHON_SITE_PACKAGE_DIR}/sherpa/lib")
+  target_link_libraries(sherpa-online "-Wl,-rpath,${SHERPA_RPATH_ORIGIN}/../lib")
 endif()
 
 
@@ -109,10 +111,11 @@ message(STATUS "Generated ${CMAKE_CURRENT_BINARY_DIR}/version.h")
 add_executable(sherpa-version version.cc)
 target_include_directories(sherpa-version PRIVATE ${CMAKE_BINARY_DIR})
 
-install(TARGETS sherpa_core
+install(TARGETS
+    sherpa_core kaldi_native_io_core
   DESTINATION lib
 )
 
-install(TARGETS sherpa sherpa-version
+install(TARGETS sherpa sherpa-online sherpa-version
   DESTINATION  bin
 )
