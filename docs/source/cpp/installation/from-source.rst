@@ -25,7 +25,7 @@ Install other dependencies
 
 .. code-block:: bash
 
-   pip install -U kaldifeat kaldi_native_io
+   pip install -U kaldifeat
 
 Install from source
 -------------------
@@ -104,4 +104,3 @@ To check that you have installed ``sherpa`` successfully, you can use:
 
 
       sherpa --help
-
