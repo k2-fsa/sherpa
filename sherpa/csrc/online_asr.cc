@@ -157,7 +157,7 @@ std::unique_ptr<OnlineStream> OnlineAsr::CreateStream() {
     SHERPA_LOG(FATAL) << "Unsupported: " << opts_.decoding_method;
   }
 
-  auto state = model_->GetEncoderInitStates2();
+  auto state = model_->GetEncoderInitStates();
   s->SetState(state);
 
   return s;
@@ -186,13 +186,15 @@ void OnlineAsr::GreedySearch(OnlineStream **ss, int32_t n) {
   auto device = model_->Device();
   int32_t chunk_length = model_->ChunkLength();  // e.g., 32
   int32_t pad_length = model_->PadLength();      // e.g., 19
+  int32_t chunk_length_pad = chunk_length + pad_length;
 
   std::vector<torch::Tensor> all_features(n);
   std::vector<torch::IValue> all_states(n);
   std::vector<int32_t> all_processed_frames(n);
   std::vector<std::vector<int32_t>> all_hyps(n);
   std::vector<torch::Tensor> all_decoder_out(n);
-  int32_t chunk_length_pad = chunk_length + pad_length;
+  std::vector<int32_t> all_num_trailing_blank_frames(n);
+
   for (int32_t i = 0; i != n; ++i) {
     OnlineStream *s = ss[i];
 
@@ -211,6 +213,7 @@ void OnlineAsr::GreedySearch(OnlineStream **ss, int32_t n) {
     all_processed_frames[i] = num_processed_frames;
     all_hyps[i] = s->GetHyps();
     all_decoder_out[i] = s->GetDecoderOut();
+    all_num_trailing_blank_frames[i] = s->GetNumTrailingBlankFrames();
   }
 
   auto batched_features = torch::stack(all_features, /*dim*/ 0);
@@ -229,15 +232,15 @@ void OnlineAsr::GreedySearch(OnlineStream **ss, int32_t n) {
   torch::IValue next_states;
 
   std::tie(encoder_out, encoder_out_lens, next_states) =
-      model_->StreamingForwardEncoder2(batched_features, features_length,
-                                       processed_frames, stacked_states);
+      model_->StreamingForwardEncoder(batched_features, features_length,
+                                      processed_frames, stacked_states);
 
   std::vector<torch::IValue> unstacked_states =
       ss[0]->UnStackStates(next_states);
 
   std::vector<torch::Tensor> next_decoder_out =
       StreamingGreedySearch(*model_, encoder_out, batched_decoder_out,
-                            &all_hyps)
+                            &all_hyps, &all_num_trailing_blank_frames)
           .split(1, /*dim*/ 0);
 
   for (int32_t i = 0; i != n; ++i) {
@@ -246,6 +249,7 @@ void OnlineAsr::GreedySearch(OnlineStream **ss, int32_t n) {
     s->GetDecoderOut() = std::move(next_decoder_out[i]);
     s->GetNumProcessedFrames() += chunk_length;
     s->SetState(std::move(unstacked_states[i]));
+    s->GetNumTrailingBlankFrames() = all_num_trailing_blank_frames[i];
   }
 }
 
@@ -293,8 +297,8 @@ void OnlineAsr::ModifiedBeamSearch(OnlineStream **ss, int32_t n) {
   torch::IValue next_states;
 
   std::tie(encoder_out, encoder_out_lens, next_states) =
-      model_->StreamingForwardEncoder2(batched_features, features_length,
-                                       processed_frames, stacked_states);
+      model_->StreamingForwardEncoder(batched_features, features_length,
+                                      processed_frames, stacked_states);
 
   std::vector<torch::IValue> unstacked_states =
       ss[0]->UnStackStates(next_states);

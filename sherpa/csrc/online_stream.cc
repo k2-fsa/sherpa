@@ -197,13 +197,16 @@ class OnlineStream::OnlineStreamImpl {
 
   Hypotheses &GetHypotheses() { return hypotheses_; }
 
+  int32_t &GetNumTrailingBlankFrames() { return num_trailing_blank_frames_; }
+
  private:
   std::unique_ptr<kaldifeat::OnlineFbank> fbank_;
   torch::IValue state_;
   std::vector<int32_t> hyps_;
   Hypotheses hypotheses_;
   torch::Tensor decoder_out_;
-  int32_t num_processed_frames_ = 0;
+  int32_t num_processed_frames_ = 0;       // before subsampling
+  int32_t num_trailing_blank_frames_ = 0;  // after subsampling
 };
 
 OnlineStream::OnlineStream(float sampling_rate, int32_t feature_dim,
@@ -252,5 +255,9 @@ std::vector<int32_t> &OnlineStream::GetHyps() { return impl_->GetHyps(); }
 torch::Tensor &OnlineStream::GetDecoderOut() { return impl_->GetDecoderOut(); }
 
 Hypotheses &OnlineStream::GetHypotheses() { return impl_->GetHypotheses(); }
+
+int32_t &OnlineStream::GetNumTrailingBlankFrames() {
+  impl_->GetNumTrailingBlankFrames();
+}
 
 }  // namespace sherpa

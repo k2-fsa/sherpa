@@ -137,6 +137,13 @@ class OnlineStream {
   // Its shape is [1, decoder_dim]
   torch::Tensor &GetDecoderOut();
 
+  // Used only for greedy search
+  //
+  // Get number of trailing blank frames decoded so far
+  //
+  // The returned reference is valid as long as this object is alive.
+  int32_t &GetNumTrailingBlankFrames();
+
  private:
   class OnlineStreamImpl;
   std::unique_ptr<OnlineStreamImpl> impl_;
