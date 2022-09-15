@@ -130,7 +130,7 @@ class FastBeamSearch:
 
         processed_lens = (num_processed_frames >> 2) + encoder_out_lens
         if self.decoding_method == "fast_beam_search_nbest":
-            next_hyp_list = fast_beam_search_nbest(
+            next_hyp_list, next_trailing_blank_frames = fast_beam_search_nbest(
                 model=model,
                 encoder_out=encoder_out,
                 processed_lens=processed_lens,
@@ -142,7 +142,10 @@ class FastBeamSearch:
                 temperature=self.beam_search_params["temperature"],
             )
         elif self.decoding_method == "fast_beam_search_nbest_LG":
-            next_hyp_list = fast_beam_search_nbest_LG(
+            (
+                next_hyp_list,
+                next_trailing_blank_frames,
+            ) = fast_beam_search_nbest_LG(
                 model=model,
                 encoder_out=encoder_out,
                 processed_lens=processed_lens,
@@ -154,7 +157,10 @@ class FastBeamSearch:
                 temperature=self.beam_search_params["temperature"],
             )
         elif self.decoding_method == "fast_beam_search":
-            next_hyp_list = fast_beam_search_one_best(
+            (
+                next_hyp_list,
+                next_trailing_blank_frames,
+            ) = fast_beam_search_one_best(
                 model=model,
                 encoder_out=encoder_out,
                 processed_lens=processed_lens,
@@ -170,6 +176,7 @@ class FastBeamSearch:
         for i, s in enumerate(stream_list):
             s.states = next_state_list[i]
             s.hyp = next_hyp_list[i]
+            s.num_trailing_blank_frames = next_trailing_blank_frames[i]
 
     def get_texts(self, stream: Stream) -> str:
         """
@@ -255,6 +262,7 @@ class GreedySearch:
         state_list, feature_list = [], []
         decoder_out_list, hyp_list = [], []
         processed_frames_list = []
+        num_trailing_blank_frames_list = []
 
         for s in stream_list:
             decoder_out_list.append(s.decoder_out)
@@ -267,6 +275,8 @@ class GreedySearch:
 
             b = torch.cat(f, dim=0)
             feature_list.append(b)
+
+            num_trailing_blank_frames_list.append(s.num_trailing_blank_frames)
 
         features = torch.stack(feature_list, dim=0).to(device)
         states = stack_states(state_list)
@@ -298,11 +308,16 @@ class GreedySearch:
         # Note: It does not return the next_encoder_out_len since
         # there are no paddings for streaming ASR. Each stream
         # has the same input number of frames, i.e., server.chunk_length.
-        next_decoder_out, next_hyp_list = streaming_greedy_search(
+        (
+            next_decoder_out,
+            next_hyp_list,
+            next_trailing_blank_frames,
+        ) = streaming_greedy_search(
             model=model,
             encoder_out=encoder_out,
             decoder_out=decoder_out,
             hyps=hyp_list,
+            num_trailing_blank_frames=num_trailing_blank_frames_list,
         )
 
         next_decoder_out_list = next_decoder_out.split(1)
@@ -312,6 +327,7 @@ class GreedySearch:
             s.states = next_state_list[i]
             s.decoder_out = next_decoder_out_list[i]
             s.hyp = next_hyp_list[i]
+            s.num_trailing_blank_frames = next_trailing_blank_frames[i]
 
     def get_texts(self, stream: Stream) -> str:
         """

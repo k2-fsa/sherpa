@@ -202,15 +202,22 @@ std::vector<std::vector<int32_t>> GreedySearch(
   return ans;
 }
 
-torch::Tensor StreamingGreedySearch(RnntModel &model,  // NOLINT
-                                    torch::Tensor encoder_out,
-                                    torch::Tensor decoder_out,
-                                    std::vector<std::vector<int32_t>> *hyps) {
+torch::Tensor StreamingGreedySearch(
+    RnntModel &model,  // NOLINT
+    torch::Tensor encoder_out, torch::Tensor decoder_out,
+    std::vector<std::vector<int32_t>> *hyps,
+    std::vector<int32_t> *num_trailing_blank_frames) {
   TORCH_CHECK(encoder_out.dim() == 3, encoder_out.dim(), " vs ", 3);
   TORCH_CHECK(decoder_out.dim() == 2, decoder_out.dim(), " vs ", 2);
 
   TORCH_CHECK(encoder_out.size(0) == decoder_out.size(0), encoder_out.size(0),
               " vs ", decoder_out.size(0));
+
+  TORCH_CHECK(encoder_out.size(0) == hyps->size(), encoder_out.size(0), " vs ",
+              hyps->size());
+
+  TORCH_CHECK(hyps->size() == num_trailing_blank_frames->size(), hyps->size(),
+              " vs ", num_trailing_blank_frames->size());
 
   auto device = model.Device();
   int32_t blank_id = model.BlankId();
@@ -239,6 +246,9 @@ torch::Tensor StreamingGreedySearch(RnntModel &model,  // NOLINT
       if (index != blank_id && index != unk_id) {
         emitted = true;
         (*hyps)[n].push_back(index);
+        (*num_trailing_blank_frames)[n] = 0;
+      } else {
+        (*num_trailing_blank_frames)[n] += 1;
       }
     }
 
@@ -512,6 +522,9 @@ std::vector<Hypotheses> StreamingModifiedBeamSearch(
         int32_t new_token = topk_token_indexes_acc[j];
         if (new_token != blank_id && new_token != unk_id) {
           new_hyp.ys.push_back(new_token);
+          new_hyp.num_trailing_blanks = 0;
+        } else {
+          new_hyp.num_trailing_blanks += 1;
         }
 
         // We already added log_prob of the path to log_probs before, so

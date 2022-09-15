@@ -10,6 +10,7 @@ and `ConvEmformer`_ `transducer`_ (i.e., ConvEmformer-T).
 .. toctree::
    :maxdepth: 3
 
+   endpointing
    emformer/index
    conv_emformer/index
    conformer/index
