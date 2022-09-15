@@ -455,3 +455,95 @@ jobs:
             ark,scp,t:results4-aishell.ark,results4-aishell.scp
 
           head results4-aishell.scp results4-aishell.ark
+
+      - name: Download pretrained model and test-data (streaming ASR with ConvEmformer2)
+        shell: bash
+        run: |
+          git lfs install
+          git clone https://huggingface.co/Zengwei/icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05
+
+      - name: Test decoding a single wave
+        shell: bash
+        run: |
+          echo "Test greedy search"
+
+          ./build/bin/sherpa-online \
+            --decoding-method=greedy_search \
+            --nn-model=./icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05/exp/cpu-jit-epoch-30-avg-10-torch-${{ matrix.torch }}.pt \
+            --tokens=./icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05/data/lang_bpe_500/tokens.txt \
+            ./icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05/test_wavs/1089-134686-0001.wav
+
+          echo "Test modified_beam_search"
+
+          ./build/bin/sherpa-online \
+            --decoding-method=modified_beam_search \
+            --nn-model=./icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05/exp/cpu-jit-epoch-30-avg-10-torch-${{ matrix.torch }}.pt \
+            --tokens=./icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05/data/lang_bpe_500/tokens.txt \
+            ./icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05/test_wavs/1089-134686-0001.wav
+
+      - name: Test decoding multiple waves
+        shell: bash
+        run: |
+          echo "Test greedy search"
+
+          ./build/bin/sherpa-online \
+            --decoding-method=greedy_search \
+            --nn-model=./icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05/exp/cpu-jit-epoch-30-avg-10-torch-${{ matrix.torch }}.pt \
+            --tokens=./icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05/data/lang_bpe_500/tokens.txt \
+            ./icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05/test_wavs/1089-134686-0001.wav \
+            ./icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05/test_wavs/1221-135766-0001.wav \
+            ./icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05/test_wavs/1221-135766-0002.wav
+
+          echo "Test modified_beam_search"
+
+          ./build/bin/sherpa-online \
+            --decoding-method=modified_beam_search \
+            --nn-model=./icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05/exp/cpu-jit-epoch-30-avg-10-torch-${{ matrix.torch }}.pt \
+            --tokens=./icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05/data/lang_bpe_500/tokens.txt \
+            ./icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05/test_wavs/1089-134686-0001.wav \
+            ./icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05/test_wavs/1221-135766-0001.wav \
+            ./icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05/test_wavs/1221-135766-0002.wav
+
+      - name: Test decoding wav.scp
+        shell: bash
+        run: |
+          .github/scripts/generate_wav_scp_streaming.sh
+
+          echo "Test greedy search"
+
+          ./build/bin/sherpa-online \
+            --decoding-method=greedy_search \
+            --nn-model=./icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05/exp/cpu-jit-epoch-30-avg-10-torch-${{ matrix.torch }}.pt \
+            --tokens=./icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05/data/lang_bpe_500/tokens.txt \
+            --use-wav-scp=true \
+            scp:wav_streaming.scp \
+            ark,scp,t:results-streaming.ark,results-streaming.scp
+
+          head results-streaming.scp results-streaming.ark
+
+          echo "Test modified_beam_search"
+
+          ./build/bin/sherpa-online \
+            --decoding-method=modified_beam_search \
+            --nn-model=./icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05/exp/cpu-jit-epoch-30-avg-10-torch-${{ matrix.torch }}.pt \
+            --tokens=./icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05/data/lang_bpe_500/tokens.txt \
+            --use-wav-scp=true \
+            scp:wav_streaming.scp \
+            ark,scp,t:results2-streaming.ark,results2-streaming.scp
+
+          head results2-streaming.scp results2-streaming.ark
+
+      - name: Test C++ API
+        shell: bash
+        run: |
+          ./build/bin/test_online_recognizer \
+            ./icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05/exp/cpu-jit-epoch-30-avg-10-torch-${{ matrix.torch }}.pt \
+            ./icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05/data/lang_bpe_500/tokens.txt \
+            ./icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05/test_wavs/1089-134686-0001.wav
+
+          ./build/bin/test_online_recognizer \
+            ./icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05/exp/cpu-jit-epoch-30-avg-10-torch-${{ matrix.torch }}.pt \
+            ./icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05/data/lang_bpe_500/tokens.txt \
+            ./icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05/test_wavs/1089-134686-0001.wav \
+            ./icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05/test_wavs/1221-135766-0001.wav \
+            ./icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05/test_wavs/1221-135766-0002.wav

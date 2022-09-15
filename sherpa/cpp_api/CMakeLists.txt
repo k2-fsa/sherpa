@@ -37,6 +37,12 @@ set(hdrs
   online_stream.h
 )
 
+file(COPY
+  ${hdrs}
+  DESTINATION
+    ${PROJECT_BINARY_DIR}/include/sherpa/cpp_api
+)
+
 install(FILES ${hdrs}
   DESTINATION include/sherpa/cpp_api
 )
