@@ -143,6 +143,7 @@ jobs:
 
           readelf -d lib/libsherpa_core.so
           readelf -d bin/sherpa
+          readelf -d bin/sherpa-online
 
       - name: Display dependencies
         if: startsWith(matrix.os, 'macos')
@@ -155,6 +156,9 @@ jobs:
 
           otool -L bin/sherpa
           otool -l bin/sherpa
+
+          otool -L bin/sherpa-online
+          otool -l bin/sherpa-online
 
       - name: Test sherpa
         shell: bash
