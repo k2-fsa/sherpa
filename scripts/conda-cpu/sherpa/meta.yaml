@@ -42,7 +42,6 @@ requirements:
     - python
     - pytorch={{ environ.get('SHERPA_TORCH_VERSION') }}
     - kaldifeat
-    - kaldi_native_io
     - k2
     - cpuonly
     - gcc_linux-64=7 # [linux]
@@ -51,7 +50,6 @@ requirements:
     - python
     - pytorch={{ environ.get('SHERPA_TORCH_VERSION') }}
     - kaldifeat
-    - kaldi_native_io
     - k2
 
 about:
