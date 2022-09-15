@@ -96,6 +96,14 @@ class OnlineAsr {
   std::string GetResults(OnlineStream *s) const;
 
  private:
+  void GreedySearch(OnlineStream **ss, int32_t n);
+
+  void ModifiedBeamSearch(OnlineStream **ss, int32_t n);
+
+  std::string GetGreedySearchResults(OnlineStream *s) const;
+  std::string GetModifiedBeamSearchResults(OnlineStream *s) const;
+
+ private:
   OnlineAsrOptions opts_;
   // TODO(fangjun): Change it to std::unique_ptr<RnntModel>
   std::unique_ptr<RnntConvEmformerModel> model_;

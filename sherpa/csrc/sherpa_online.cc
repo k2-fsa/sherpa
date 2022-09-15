@@ -51,6 +51,8 @@ int32_t main(int32_t argc, char *argv[]) {
 
   SHERPA_CHECK_GE(po.NumArgs(), 1);
 
+  SHERPA_LOG(INFO) << "decoding method: " << opts.decoding_method;
+
   sherpa::OnlineAsr online_asr(opts);
 
   float sampling_rate = opts.fbank_opts.frame_opts.samp_freq;

@@ -135,18 +135,27 @@ std::unique_ptr<OnlineStream> OnlineAsr::CreateStream() {
       opts_.fbank_opts.frame_opts.samp_freq, opts_.fbank_opts.mel_opts.num_bins,
       opts_.fbank_opts.frame_opts.max_feature_vectors);
 
-  auto device = model_->Device();
-  auto &hyps = s->GetHyps();
-  auto &decoder_out = s->GetDecoderOut();
-
   int32_t blank_id = model_->BlankId();
   int32_t context_size = model_->ContextSize();
-  hyps.resize(context_size, blank_id);
 
-  torch::Tensor decoder_input =
-      torch::tensor(hyps, torch::kLong).unsqueeze(0).to(device);
-  torch::Tensor initial_decoder_out = model_->ForwardDecoder(decoder_input);
-  decoder_out = model_->ForwardDecoderProj(initial_decoder_out.squeeze(1));
+  if (opts_.decoding_method == "greedy_search") {
+    auto device = model_->Device();
+    auto &hyps = s->GetHyps();
+    auto &decoder_out = s->GetDecoderOut();
+
+    hyps.resize(context_size, blank_id);
+
+    torch::Tensor decoder_input =
+        torch::tensor(hyps, torch::kLong).unsqueeze(0).to(device);
+    torch::Tensor initial_decoder_out = model_->ForwardDecoder(decoder_input);
+    decoder_out = model_->ForwardDecoderProj(initial_decoder_out.squeeze(1));
+  } else if (opts_.decoding_method == "modified_beam_search") {
+    std::vector<int32_t> blanks(context_size, blank_id);
+    Hypotheses blank_hyp({{blanks, 0}});
+    s->GetHypotheses() = std::move(blank_hyp);
+  } else {
+    SHERPA_LOG(FATAL) << "Unsupported: " << opts_.decoding_method;
+  }
 
   auto state = model_->GetEncoderInitStates2();
   s->SetState(state);
@@ -164,8 +173,16 @@ bool OnlineAsr::IsReady(OnlineStream *s) {
 void OnlineAsr::DecodeStreams(OnlineStream **ss, int32_t n) {
   SHERPA_CHECK_GT(n, 0);
 
-  SHERPA_CHECK_EQ(opts_.decoding_method, "greedy_search");
+  if (opts_.decoding_method == "greedy_search") {
+    GreedySearch(ss, n);
+  } else if (opts_.decoding_method == "modified_beam_search") {
+    ModifiedBeamSearch(ss, n);
+  } else {
+    SHERPA_LOG(FATAL) << "Unsupported: " << opts_.decoding_method;
+  }
+}
 
+void OnlineAsr::GreedySearch(OnlineStream **ss, int32_t n) {
   auto device = model_->Device();
   int32_t chunk_length = model_->ChunkLength();  // e.g., 32
   int32_t pad_length = model_->PadLength();      // e.g., 19
@@ -232,10 +249,101 @@ void OnlineAsr::DecodeStreams(OnlineStream **ss, int32_t n) {
   }
 }
 
+void OnlineAsr::ModifiedBeamSearch(OnlineStream **ss, int32_t n) {
+  auto device = model_->Device();
+  int32_t chunk_length = model_->ChunkLength();  // e.g., 32
+  int32_t pad_length = model_->PadLength();      // e.g., 19
+
+  std::vector<torch::Tensor> all_features(n);
+  std::vector<torch::IValue> all_states(n);
+  std::vector<int32_t> all_processed_frames(n);
+  std::vector<Hypotheses> all_hyps(n);
+  int32_t chunk_length_pad = chunk_length + pad_length;
+  for (int32_t i = 0; i != n; ++i) {
+    OnlineStream *s = ss[i];
+
+    SHERPA_CHECK(IsReady(s));
+    int32_t num_processed_frames = s->GetNumProcessedFrames();
+
+    std::vector<torch::Tensor> features_vec(chunk_length_pad);
+    for (int32_t k = 0; k != chunk_length_pad; ++k) {
+      features_vec[k] = s->GetFrame(num_processed_frames + k);
+    }
+
+    torch::Tensor features = torch::cat(features_vec, /*dim*/ 0);
+
+    all_features[i] = features;
+    all_states[i] = s->GetState();
+    all_processed_frames[i] = num_processed_frames;
+    all_hyps[i] = std::move(s->GetHypotheses());
+  }
+
+  auto batched_features = torch::stack(all_features, /*dim*/ 0);
+
+  batched_features = batched_features.to(device);
+  torch::Tensor features_length =
+      torch::full({n}, chunk_length_pad, torch::kLong).to(device);
+
+  torch::IValue stacked_states = ss[0]->StackStates(all_states);
+  torch::Tensor processed_frames =
+      torch::tensor(all_processed_frames, torch::kLong).to(device);
+
+  torch::Tensor encoder_out;
+  torch::Tensor encoder_out_lens;
+  torch::IValue next_states;
+
+  std::tie(encoder_out, encoder_out_lens, next_states) =
+      model_->StreamingForwardEncoder2(batched_features, features_length,
+                                       processed_frames, stacked_states);
+
+  std::vector<torch::IValue> unstacked_states =
+      ss[0]->UnStackStates(next_states);
+
+  all_hyps = StreamingModifiedBeamSearch(*model_,  // NOLINT
+                                         encoder_out, all_hyps,
+                                         opts_.num_active_paths);
+
+  for (int32_t i = 0; i != n; ++i) {
+    OnlineStream *s = ss[i];
+    s->GetHypotheses() = std::move(all_hyps[i]);
+    s->GetNumProcessedFrames() += chunk_length;
+    s->SetState(std::move(unstacked_states[i]));
+  }
+}
+
 std::string OnlineAsr::GetResults(OnlineStream *s) const {
+  if (opts_.decoding_method == "greedy_search") {
+    return GetGreedySearchResults(s);
+  }
+
+  if (opts_.decoding_method == "modified_beam_search") {
+    return GetModifiedBeamSearchResults(s);
+  }
+
+  SHERPA_LOG(FATAL) << "Unsupported: " << opts_.decoding_method;
+}
+
+std::string OnlineAsr::GetGreedySearchResults(OnlineStream *s) const {
   int32_t context_size = model_->ContextSize();
 
   const auto &hyps = s->GetHyps();
+  std::string text;
+
+  for (int32_t i = 0; i != hyps.size(); ++i) {
+    if (i < context_size) {
+      continue;
+    }
+
+    text += sym_[hyps[i]];
+  }
+
+  return text;
+}
+
+std::string OnlineAsr::GetModifiedBeamSearchResults(OnlineStream *s) const {
+  int32_t context_size = model_->ContextSize();
+  auto hyps = s->GetHypotheses().GetMostProbable(true).ys;
+
   std::string text;
 
   for (int32_t i = 0; i != hyps.size(); ++i) {

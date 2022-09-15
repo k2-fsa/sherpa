@@ -22,6 +22,7 @@
 
 #include "kaldifeat/csrc/feature-fbank.h"
 #include "kaldifeat/csrc/online-feature.h"
+#include "sherpa/csrc/hypothesis.h"
 #include "sherpa/csrc/log.h"
 
 namespace sherpa {
@@ -194,12 +195,15 @@ class OnlineStream::OnlineStreamImpl {
 
   torch::Tensor &GetDecoderOut() { return decoder_out_; }
 
+  Hypotheses &GetHypotheses() { return hypotheses_; }
+
  private:
   std::unique_ptr<kaldifeat::OnlineFbank> fbank_;
   torch::IValue state_;
-  int32_t num_processed_frames_ = 0;
   std::vector<int32_t> hyps_;
+  Hypotheses hypotheses_;
   torch::Tensor decoder_out_;
+  int32_t num_processed_frames_ = 0;
 };
 
 OnlineStream::OnlineStream(float sampling_rate, int32_t feature_dim,
@@ -246,5 +250,7 @@ int32_t &OnlineStream::GetNumProcessedFrames() {
 std::vector<int32_t> &OnlineStream::GetHyps() { return impl_->GetHyps(); }
 
 torch::Tensor &OnlineStream::GetDecoderOut() { return impl_->GetDecoderOut(); }
+
+Hypotheses &OnlineStream::GetHypotheses() { return impl_->GetHypotheses(); }
 
 }  // namespace sherpa

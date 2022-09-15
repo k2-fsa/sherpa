@@ -21,6 +21,7 @@
 #include <cstdint>
 #include <memory>
 
+#include "sherpa/csrc/hypothesis.h"
 #include "torch/script.h"
 
 namespace sherpa {
@@ -117,11 +118,20 @@ class OnlineStream {
 
   // TODO(fangjun): Make it return a struct
   //
+  // Used for greedy_search.
+  //
   // Return a reference to the current recognized tokens.
   // The first context_size tokens are blanks for greedy_search.
   //
   // The returned reference is valid as long as this object is alive.
   std::vector<int32_t> &GetHyps();
+
+  // Used for modified_beam_search.
+  //
+  // Get the hypotheses we have so far.
+  //
+  // The returned reference is valid as long as this object is alive.
+  Hypotheses &GetHypotheses();
 
   // Return a reference to the decoder output of the last chunk.
   // Its shape is [1, decoder_dim]
