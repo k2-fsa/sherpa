@@ -2,7 +2,6 @@
 
 import re
 import sys
-from distutils.util import get_platform
 from pathlib import Path
 
 import setuptools
