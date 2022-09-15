@@ -11,6 +11,7 @@ and `LSTM`_ `transducer`_ (i.e., LSTM-T).
 .. toctree::
    :maxdepth: 3
 
+   endpointing
    emformer/index
    conv_emformer/index
    conformer/index
