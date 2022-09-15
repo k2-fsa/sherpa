@@ -16,6 +16,18 @@
  * limitations under the License.
  */
 
+/**
+Please refer to
+
+https://k2-fsa.github.io/sherpa/cpp/offline_asr/api.html
+
+and
+
+https://github.com/k2-fsa/sherpa-torch-cpp-makefile-example
+
+for usage.
+ */
+
 #include "sherpa/cpp_api/offline_recognizer.h"
 
 #include <utility>
