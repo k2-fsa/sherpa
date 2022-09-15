@@ -17,6 +17,7 @@
  */
 #include "sherpa/python/csrc/rnnt_beam_search.h"
 
+#include <tuple>
 #include <utility>
 #include <vector>
 
@@ -67,6 +68,8 @@ Args:
     It should be on the same device as ``model``.
   hyps:
     The decoded tokens from the previous chunk.
+  num_trailing_blank_frames:
+    Number of trailing blank frames decoded so far.
 
 Returns:
   Return a tuple containing:
@@ -131,15 +134,17 @@ void PybindRnntBeamSearch(py::module &m) {  // NOLINT
   m.def(
       "streaming_greedy_search",
       [](RnntModel &model, torch::Tensor encoder_out, torch::Tensor decoder_out,
-         std::vector<std::vector<int32_t>> &hyps)
-          -> std::pair<torch::Tensor, std::vector<std::vector<int32_t>>> {
-        decoder_out =
-            StreamingGreedySearch(model, encoder_out, decoder_out, &hyps);
-        return {decoder_out, hyps};
+         std::vector<std::vector<int32_t>> &hyps,
+         std::vector<int32_t> &num_trailing_blank_frames)
+          -> std::tuple<torch::Tensor, std::vector<std::vector<int32_t>>,
+                        std::vector<int32_t>> {
+        decoder_out = StreamingGreedySearch(model, encoder_out, decoder_out,
+                                            &hyps, &num_trailing_blank_frames);
+        return {decoder_out, hyps, num_trailing_blank_frames};
       },
       py::arg("model"), py::arg("encoder_out"), py::arg("decoder_out"),
-      py::arg("hyps"), py::call_guard<py::gil_scoped_release>(),
-      kStreamingGreedySearchDoc);
+      py::arg("hyps"), py::arg("num_trailing_blank_frames"),
+      py::call_guard<py::gil_scoped_release>(), kStreamingGreedySearchDoc);
 
   m.def("modified_beam_search", &ModifiedBeamSearch, py::arg("model"),
         py::arg("encoder_out"), py::arg("encoder_out_length"),

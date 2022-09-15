@@ -15,6 +15,7 @@ from _sherpa import (
     RnntConvEmformerModel,
     RnntEmformerModel,
     RnntLstmModel,
+    cxx_flags,
     greedy_search,
     modified_beam_search,
     streaming_greedy_search,
@@ -29,6 +30,13 @@ from .decode import (
 )
 from .lexicon import Lexicon
 from .nbest import Nbest
-from .utils import add_beam_search_arguments
-
-from _sherpa import cxx_flags
+from .online_endpoint import (
+    OnlineEndpointConfig,
+    add_online_endpoint_arguments,
+    endpoint_detected,
+)
+from .utils import (
+    add_beam_search_arguments,
+    count_num_trailing_zeros,
+    get_texts_and_num_trailing_blanks,
+)
