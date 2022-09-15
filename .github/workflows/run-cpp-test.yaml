@@ -233,7 +233,7 @@ jobs:
         run: |
           echo "Test greedy search"
 
-          ./build/bin/sherpa \
+          time ./build/bin/sherpa \
             --decoding-method=greedy_search \
             --nn-model=./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/exp/cpu_jit-torch-${{ matrix.torch }}.pt \
             --tokens=./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/data/lang_bpe_500/tokens.txt \
@@ -241,7 +241,7 @@ jobs:
 
           echo "Test modified_beam_search"
 
-          ./build/bin/sherpa \
+          time ./build/bin/sherpa \
             --decoding-method=modified_beam_search \
             --num-active-paths=4 \
             --nn-model=./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/exp/cpu_jit-torch-${{ matrix.torch }}.pt \
@@ -253,7 +253,7 @@ jobs:
         run: |
           echo "Test greedy search"
 
-          ./build/bin/sherpa \
+          time ./build/bin/sherpa \
             --decoding-method=greedy_search \
             --nn-model=./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/exp/cpu_jit-torch-${{ matrix.torch }}.pt \
             --tokens=./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/data/lang_bpe_500/tokens.txt \
@@ -263,7 +263,7 @@ jobs:
 
           echo "Test modified_beam_search"
 
-          ./build/bin/sherpa \
+          time ./build/bin/sherpa \
             --decoding-method=modified_beam_search \
             --num-active-paths=4 \
             --nn-model=./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/exp/cpu_jit-torch-${{ matrix.torch }}.pt \
@@ -278,7 +278,8 @@ jobs:
           .github/scripts/generate_wav_scp.sh
 
           echo "Test greedy search"
-          ./build/bin/sherpa \
+
+          time ./build/bin/sherpa \
             --decoding-method=greedy_search \
             --nn-model=./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/exp/cpu_jit-torch-${{ matrix.torch }}.pt \
             --tokens=./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/data/lang_bpe_500/tokens.txt \
@@ -290,7 +291,7 @@ jobs:
 
           echo "Test modified_beam_search"
 
-          ./build/bin/sherpa \
+          time ./build/bin/sherpa \
             --decoding-method=modified_beam_search \
             --nn-model=./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/exp/cpu_jit-torch-${{ matrix.torch }}.pt \
             --tokens=./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/data/lang_bpe_500/tokens.txt \
@@ -308,7 +309,8 @@ jobs:
           .github/scripts/generate_feats_scp.py scp:wav.scp ark,scp:feats.ark,feats.scp
 
           echo "Test greedy search"
-          ./build/bin/sherpa \
+
+          time ./build/bin/sherpa \
             --decoding-method=greedy_search \
             --nn-model=./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/exp/cpu_jit-torch-${{ matrix.torch }}.pt \
             --tokens=./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/data/lang_bpe_500/tokens.txt \
@@ -320,7 +322,7 @@ jobs:
 
           echo "Test modified_beam_search"
 
-          ./build/bin/sherpa \
+          time ./build/bin/sherpa \
             --decoding-method=modified_beam_search \
             --nn-model=./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/exp/cpu_jit-torch-${{ matrix.torch }}.pt \
             --tokens=./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/data/lang_bpe_500/tokens.txt \
@@ -380,7 +382,7 @@ jobs:
         run: |
           echo "Test greedy search"
 
-          ./build/bin/sherpa \
+          time ./build/bin/sherpa \
             --decoding-method=greedy_search \
             --nn-model=./icefall-aishell-pruned-transducer-stateless3-2022-06-20/exp/cpu_jit-epoch-29-avg-5-torch-1.6.0.pt \
             --tokens=./icefall-aishell-pruned-transducer-stateless3-2022-06-20/data/lang_char/tokens.txt \
@@ -388,7 +390,7 @@ jobs:
 
           echo "Test modified_beam_search"
 
-          ./build/bin/sherpa \
+          time ./build/bin/sherpa \
             --decoding-method=modified_beam_search \
             --nn-model=./icefall-aishell-pruned-transducer-stateless3-2022-06-20/exp/cpu_jit-epoch-29-avg-5-torch-1.6.0.pt \
             --tokens=./icefall-aishell-pruned-transducer-stateless3-2022-06-20/data/lang_char/tokens.txt \
@@ -399,7 +401,7 @@ jobs:
         run: |
           echo "Test greedy search"
 
-          ./build/bin/sherpa \
+          time ./build/bin/sherpa \
             --decoding-method=greedy_search \
             --nn-model=./icefall-aishell-pruned-transducer-stateless3-2022-06-20/exp/cpu_jit-epoch-29-avg-5-torch-1.6.0.pt \
             --tokens=./icefall-aishell-pruned-transducer-stateless3-2022-06-20/data/lang_char/tokens.txt \
@@ -409,7 +411,7 @@ jobs:
 
           echo "Test modified_beam_search"
 
-          ./build/bin/sherpa \
+          time ./build/bin/sherpa \
             --decoding-method=modified_beam_search \
             --num-active-paths=4 \
             --nn-model=./icefall-aishell-pruned-transducer-stateless3-2022-06-20/exp/cpu_jit-epoch-29-avg-5-torch-1.6.0.pt \
@@ -425,7 +427,7 @@ jobs:
 
           echo "Test greedy search"
 
-          ./build/bin/sherpa \
+          time ./build/bin/sherpa \
             --decoding-method=greedy_search \
             --use-wav-scp=true \
             --nn-model=./icefall-aishell-pruned-transducer-stateless3-2022-06-20/exp/cpu_jit-epoch-29-avg-5-torch-1.6.0.pt \
@@ -437,7 +439,7 @@ jobs:
 
           echo "Test modified_beam_search"
 
-          ./build/bin/sherpa \
+          time ./build/bin/sherpa \
             --decoding-method=modified_beam_search \
             --use-wav-scp=true \
             --nn-model=./icefall-aishell-pruned-transducer-stateless3-2022-06-20/exp/cpu_jit-epoch-29-avg-5-torch-1.6.0.pt \
@@ -454,7 +456,9 @@ jobs:
 
           .github/scripts/generate_feats_scp.py scp:wav_aishell.scp ark,scp:feats_aishell.ark,feats_aishell.scp
 
-          ./build/bin/sherpa \
+          echo "Test greedy search"
+
+          time ./build/bin/sherpa \
             --decoding-method=greedy_search \
             --use-feats-scp=true \
             --nn-model=./icefall-aishell-pruned-transducer-stateless3-2022-06-20/exp/cpu_jit-epoch-29-avg-5-torch-1.6.0.pt \
@@ -466,7 +470,7 @@ jobs:
 
           echo "Test modified_beam_search"
 
-          ./build/bin/sherpa \
+          time ./build/bin/sherpa \
             --decoding-method=modified_beam_search \
             --use-feats-scp=true \
             --nn-model=./icefall-aishell-pruned-transducer-stateless3-2022-06-20/exp/cpu_jit-epoch-29-avg-5-torch-1.6.0.pt \
@@ -487,7 +491,7 @@ jobs:
         run: |
           echo "Test greedy search"
 
-          ./build/bin/sherpa-online \
+          time ./build/bin/sherpa-online \
             --decoding-method=greedy_search \
             --nn-model=./icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05/exp/cpu-jit-epoch-30-avg-10-torch-${{ matrix.torch }}.pt \
             --tokens=./icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05/data/lang_bpe_500/tokens.txt \
@@ -495,7 +499,7 @@ jobs:
 
           echo "Test modified_beam_search"
 
-          ./build/bin/sherpa-online \
+          time ./build/bin/sherpa-online \
             --decoding-method=modified_beam_search \
             --nn-model=./icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05/exp/cpu-jit-epoch-30-avg-10-torch-${{ matrix.torch }}.pt \
             --tokens=./icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05/data/lang_bpe_500/tokens.txt \
@@ -506,7 +510,7 @@ jobs:
         run: |
           echo "Test greedy search"
 
-          ./build/bin/sherpa-online \
+          time ./build/bin/sherpa-online \
             --decoding-method=greedy_search \
             --nn-model=./icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05/exp/cpu-jit-epoch-30-avg-10-torch-${{ matrix.torch }}.pt \
             --tokens=./icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05/data/lang_bpe_500/tokens.txt \
@@ -516,7 +520,7 @@ jobs:
 
           echo "Test modified_beam_search"
 
-          ./build/bin/sherpa-online \
+          time ./build/bin/sherpa-online \
             --decoding-method=modified_beam_search \
             --nn-model=./icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05/exp/cpu-jit-epoch-30-avg-10-torch-${{ matrix.torch }}.pt \
             --tokens=./icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05/data/lang_bpe_500/tokens.txt \
@@ -531,7 +535,7 @@ jobs:
 
           echo "Test greedy search"
 
-          ./build/bin/sherpa-online \
+          time ./build/bin/sherpa-online \
             --decoding-method=greedy_search \
             --nn-model=./icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05/exp/cpu-jit-epoch-30-avg-10-torch-${{ matrix.torch }}.pt \
             --tokens=./icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05/data/lang_bpe_500/tokens.txt \
@@ -543,7 +547,7 @@ jobs:
 
           echo "Test modified_beam_search"
 
-          ./build/bin/sherpa-online \
+          time ./build/bin/sherpa-online \
             --decoding-method=modified_beam_search \
             --nn-model=./icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05/exp/cpu-jit-epoch-30-avg-10-torch-${{ matrix.torch }}.pt \
             --tokens=./icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05/data/lang_bpe_500/tokens.txt \
@@ -553,7 +557,7 @@ jobs:
 
           head results2-streaming.scp results2-streaming.ark
 
-      - name: Test C++ API
+      - name: Test Streaming C++ API
         shell: bash
         run: |
           ./build/bin/test_online_recognizer \

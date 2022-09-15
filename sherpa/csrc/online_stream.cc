@@ -259,7 +259,7 @@ torch::Tensor &OnlineStream::GetDecoderOut() { return impl_->GetDecoderOut(); }
 Hypotheses &OnlineStream::GetHypotheses() { return impl_->GetHypotheses(); }
 
 int32_t &OnlineStream::GetNumTrailingBlankFrames() {
-  impl_->GetNumTrailingBlankFrames();
+  return impl_->GetNumTrailingBlankFrames();
 }
 
 }  // namespace sherpa

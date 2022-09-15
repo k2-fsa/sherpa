@@ -328,6 +328,7 @@ std::string OnlineAsr::GetResult(OnlineStream *s) const {
   }
 
   SHERPA_LOG(FATAL) << "Unsupported: " << opts_.decoding_method;
+  return "";  // To make the compiler happy
 }
 
 std::string OnlineAsr::GetGreedySearchResult(OnlineStream *s) const {
