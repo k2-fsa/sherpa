@@ -29,7 +29,7 @@ target_link_libraries(sherpa_core PUBLIC
   ${TORCH_LIBRARIES}
   ${K2_LIBRARIES}
   ${KALDIFEAT_LIBRARIES}
-  ${KALDI_NATIVE_IO_LIBRARIES}
+  kaldi_native_io_core
   )
 
 target_compile_definitions(sherpa_core PUBLIC SHERPA_TORCH_VERSION_MAJOR=${SHERPA_TORCH_VERSION_MAJOR})

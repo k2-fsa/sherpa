@@ -124,7 +124,7 @@ class OnlineStream {
   std::vector<int32_t> &GetHyps();
 
   // Return a reference to the decoder output of the last chunk.
-
+  // Its shape is [1, decoder_dim]
   torch::Tensor &GetDecoderOut();
 
  private:

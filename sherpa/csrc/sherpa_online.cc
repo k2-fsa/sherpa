@@ -49,31 +49,43 @@ int32_t main(int32_t argc, char *argv[]) {
 
   opts.Validate();
 
-  SHERPA_CHECK_EQ(po.NumArgs(), 1)
-      << "We support only decoding 1 wave right now";
-  std::string wave_filename = po.GetArg(1);
-  SHERPA_LOG(INFO) << "Decoding " << wave_filename;
-  float sampling_rate = opts.fbank_opts.frame_opts.samp_freq;
-
-  torch::Tensor wave = sherpa::ReadWave(wave_filename, sampling_rate).first;
+  SHERPA_CHECK_GE(po.NumArgs(), 1);
 
   sherpa::OnlineAsr online_asr(opts);
 
-  auto s = online_asr.CreateStream();
+  float sampling_rate = opts.fbank_opts.frame_opts.samp_freq;
 
-  int32_t num_samples = wave.numel();
-  int32_t k = 1600;  // feed this number of samples each time
-  for (int32_t c = 0; c < num_samples; c += k) {
-    int32_t start = c;
-    int32_t end = std::min(c + k, num_samples);
-    s->AcceptWaveform(sampling_rate, wave.slice(/*dim*/ 0, start, end));
-    if (online_asr.IsReady(s.get())) {
-      online_asr.DecodeStream(s.get());
-    }
+  std::vector<std::unique_ptr<sherpa::OnlineStream>> streams;
+  torch::Tensor tail_padding =
+      torch::zeros({static_cast<int32_t>(0.4 * sampling_rate)}, torch::kFloat);
+  for (int32_t i = 1; i <= po.NumArgs(); ++i) {
+    std::string wave_filename = po.GetArg(i);
+    torch::Tensor wave = sherpa::ReadWave(wave_filename, sampling_rate).first;
+    auto s = online_asr.CreateStream();
+    s->AcceptWaveform(sampling_rate, wave);
+    s->AcceptWaveform(sampling_rate, tail_padding);
+    s->InputFinished();
+    streams.push_back(std::move(s));
   }
 
-  s->InputFinished();
-  // TODO(fangjun): Handle the remaining frames
+  std::vector<sherpa::OnlineStream *> ready_streams;
+  while (true) {
+    ready_streams.clear();
+    for (auto &s : streams) {
+      if (online_asr.IsReady(s.get())) {
+        ready_streams.push_back(s.get());
+      }
+    }
+    if (ready_streams.empty()) {
+      break;
+    }
+    online_asr.DecodeStreams(ready_streams.data(), ready_streams.size());
+  }
 
-  std::cout << "results:\n" << online_asr.GetResults(s.get()) << "\n";
+  std::ostringstream os;
+  for (int32_t i = 1; i <= po.NumArgs(); ++i) {
+    os << "wave_filename: " << po.GetArg(i) << "\n";
+    os << "results: " << online_asr.GetResults(streams[i - 1].get()) << "\n\n";
+  }
+  std::cout << os.str();
 }

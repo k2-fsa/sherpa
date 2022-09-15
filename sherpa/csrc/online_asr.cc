@@ -161,63 +161,91 @@ bool OnlineAsr::IsReady(OnlineStream *s) {
   return s->NumFramesReady() - s->GetNumProcessedFrames() >= chunk_length_pad;
 }
 
-void OnlineAsr::DecodeStream(OnlineStream *s) {
+void OnlineAsr::DecodeStreams(OnlineStream **ss, int32_t n) {
+  SHERPA_CHECK_GT(n, 0);
+
   SHERPA_CHECK_EQ(opts_.decoding_method, "greedy_search");
+
   auto device = model_->Device();
-  int32_t chunk_length = model_->ChunkLength();  // 32
-  int32_t pad_length = model_->PadLength();      // 19
-                                                 //
+  int32_t chunk_length = model_->ChunkLength();  // e.g., 32
+  int32_t pad_length = model_->PadLength();      // e.g., 19
+
+  std::vector<torch::Tensor> all_features(n);
+  std::vector<torch::IValue> all_states(n);
+  std::vector<int32_t> all_processed_frames(n);
+  std::vector<std::vector<int32_t>> all_hyps(n);
+  std::vector<torch::Tensor> all_decoder_out(n);
   int32_t chunk_length_pad = chunk_length + pad_length;
-  int32_t &num_processed_frames = s->GetNumProcessedFrames();
+  for (int32_t i = 0; i != n; ++i) {
+    OnlineStream *s = ss[i];
 
-  SHERPA_CHECK(IsReady(s));
+    SHERPA_CHECK(IsReady(s));
+    int32_t num_processed_frames = s->GetNumProcessedFrames();
 
-  std::vector<torch::Tensor> features_vec(chunk_length_pad);
-  for (int32_t i = 0; i != chunk_length_pad; ++i) {
-    features_vec[i] = s->GetFrame(num_processed_frames + i);
+    std::vector<torch::Tensor> features_vec(chunk_length_pad);
+    for (int32_t k = 0; k != chunk_length_pad; ++k) {
+      features_vec[k] = s->GetFrame(num_processed_frames + k);
+    }
+
+    torch::Tensor features = torch::cat(features_vec, /*dim*/ 0);
+
+    all_features[i] = features;
+    all_states[i] = s->GetState();
+    all_processed_frames[i] = num_processed_frames;
+    all_hyps[i] = s->GetHyps();
+    all_decoder_out[i] = s->GetDecoderOut();
   }
 
-  torch::Tensor features = torch::cat(features_vec, /*dim*/ 0);
+  auto batched_features = torch::stack(all_features, /*dim*/ 0);
+  torch::Tensor batched_decoder_out = torch::cat(all_decoder_out, /*dim*/ 0);
 
-  features = features.unsqueeze(0);  // batch_size == 1 for now
-  features = features.to(device);
+  batched_features = batched_features.to(device);
   torch::Tensor features_length =
-      torch::tensor({chunk_length_pad}, torch::kLong).to(device);
+      torch::full({n}, chunk_length_pad, torch::kLong).to(device);
 
-  torch::IValue state = s->GetState();
-  torch::IValue stacked_states = s->StackStates({state});
+  torch::IValue stacked_states = ss[0]->StackStates(all_states);
   torch::Tensor processed_frames =
-      torch::tensor({num_processed_frames}, torch::kLong).to(device);
+      torch::tensor(all_processed_frames, torch::kLong).to(device);
 
   torch::Tensor encoder_out;
   torch::Tensor encoder_out_lens;
   torch::IValue next_states;
 
   std::tie(encoder_out, encoder_out_lens, next_states) =
-      model_->StreamingForwardEncoder2(features, features_length,
+      model_->StreamingForwardEncoder2(batched_features, features_length,
                                        processed_frames, stacked_states);
 
-  num_processed_frames += chunk_length;
+  std::vector<torch::IValue> unstacked_states =
+      ss[0]->UnStackStates(next_states);
 
-  s->SetState(s->UnStackStates(next_states)[0]);
+  std::vector<torch::Tensor> next_decoder_out =
+      StreamingGreedySearch(*model_, encoder_out, batched_decoder_out,
+                            &all_hyps)
+          .split(1, /*dim*/ 0);
 
-  std::vector<std::vector<int32_t>> hyps_list = {s->GetHyps()};
-  torch::Tensor &decoder_out = s->GetDecoderOut();
-  decoder_out =
-      StreamingGreedySearch(*model_, encoder_out, decoder_out, &hyps_list);
-  s->GetHyps() = hyps_list[0];
+  for (int32_t i = 0; i != n; ++i) {
+    OnlineStream *s = ss[i];
+    s->GetHyps() = std::move(all_hyps[i]);
+    s->GetDecoderOut() = std::move(next_decoder_out[i]);
+    s->GetNumProcessedFrames() += chunk_length;
+    s->SetState(std::move(unstacked_states[i]));
+  }
 }
 
 std::string OnlineAsr::GetResults(OnlineStream *s) const {
   int32_t context_size = model_->ContextSize();
 
-  auto &hyps = s->GetHyps();
+  const auto &hyps = s->GetHyps();
   std::string text;
 
   for (int32_t i = 0; i != hyps.size(); ++i) {
-    if (i < context_size) continue;
+    if (i < context_size) {
+      continue;
+    }
+
     text += sym_[hyps[i]];
   }
+
   return text;
 }
 

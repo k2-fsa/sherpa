@@ -79,12 +79,18 @@ class OnlineAsr {
    */
   bool IsReady(OnlineStream *s);
 
-  // Decode a single stream
-  // TODO(fangjun): Support decoding multiple streams in a batch
-  void DecodeStream(OnlineStream *s);
+  /** Decode a single stream. */
+  void DecodeStream(OnlineStream *s) {
+    OnlineStream *ss[1] = {s};
+    DecodeStreams(ss, 1);
+  }
 
-  //
-  // void DecodeStream(std::vector<OnlineStream *> &streams);
+  /** Decode multiple streams in parallel
+   *
+   * @param ss Pointer array containing streams to be decoded.
+   * @param n Number of streams in `ss`.
+   */
+  void DecodeStreams(OnlineStream **ss, int32_t n);
 
   // TODO(fangjun): Return a struct
   std::string GetResults(OnlineStream *s) const;
