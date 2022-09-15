@@ -42,9 +42,6 @@ int main() {
   os << "kaldifeat version used to build sherpa: " << sherpa::kKaldifeatVersion
      << "\n";
 
-  os << "kaldi_native_io version used to build sherpa: "
-     << sherpa::kKaldiNativeIOVersion << "\n";
-
   os << "cmake version: " << sherpa::kCMakeVersion << "\n";
   os << "compiler ID: " << sherpa::kCompilerID << "\n";
   os << "compiler: " << sherpa::kCompiler << "\n";
