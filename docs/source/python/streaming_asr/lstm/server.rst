@@ -56,7 +56,9 @@ The following shows you how to start the server with the above pretrained model.
       --max-batch-size 50 \
       --max-wait-ms 5 \
       --nn-pool-size 1 \
-      --nn-model-filename ./icefall-asr-librispeech-lstm-transducer-stateless-2022-08-18/exp/cpu-jit-epoch-30-avg-10-torch-1.10.0.pt \
+      --nn-encoder-filename ./icefall-asr-librispeech-lstm-transducer-stateless-2022-08-18/exp/encoder_jit_trace.pt \
+      --nn-decoder-filename ./icefall-asr-librispeech-lstm-transducer-stateless-2022-08-18/exp/decoder_jit_trace.pt \
+      --nn-joiner-filename ./icefall-asr-librispeech-lstm-transducer-stateless-2022-08-18/exp/joiner_jit_trace.pt \
       --bpe-model-filename ./icefall-asr-librispeech-lstm-transducer-stateless-2022-08-18/data/lang_bpe_500/bpe.model
 
 That's it!

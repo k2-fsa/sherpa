@@ -2,7 +2,7 @@ LSTM transducer based streaming ASR
 ===========================================
 
 This page describes how to use `sherpa`_ for streaming
-ASR with `LSTM`_ transducer models
+ASR with `LSTM` transducer models
 trained with `pruned stateless transdcuer <https://github.com/k2-fsa/icefall>`_.
 
 .. hint::
