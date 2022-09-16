@@ -21,8 +21,15 @@ name: Generate doc
 on:
   push:
     branches:
-    - master
-    - doc
+      - master
+      - doc
+    paths:
+      - '.github/workflows/build-doc.yaml'
+      - 'docs/*'
+
+concurrency:
+  group: build-doc-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build-doc:

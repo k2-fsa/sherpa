@@ -20,8 +20,26 @@ on:
   push:
     branches:
       - master
+    paths:
+      - '.github/workflows/run-wenetspeech-streaming-conformer-rnnt-test.yaml'
+      - 'CMakeLists.txt'
+      - 'cmake/**'
+      - 'sherpa/csrc/**'
+      - 'sherpa/bin/**'
+      - 'sherpa/python/**'
   pull_request:
     types: [labeled]
+    paths:
+      - '.github/workflows/run-wenetspeech-streaming-conformer-rnnt-test.yaml'
+      - 'CMakeLists.txt'
+      - 'cmake/**'
+      - 'sherpa/csrc/**'
+      - 'sherpa/bin/**'
+      - 'sherpa/python/**'
+
+concurrency:
+  group: run_wenetspeech_streaming_conformer_asr_tests-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   run_wenetspeech_streaming_conformer_asr_tests:

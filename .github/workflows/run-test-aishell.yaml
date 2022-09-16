@@ -20,8 +20,26 @@ on:
   push:
     branches:
       - master
+    paths:
+      - '.github/workflows/run-test-aishell.yaml'
+      - 'CMakeLists.txt'
+      - 'cmake/**'
+      - 'sherpa/csrc/**'
+      - 'sherpa/bin/**'
+      - 'sherpa/python/**'
   pull_request:
     types: [labeled]
+    paths:
+      - '.github/workflows/run-test-aishell.yaml'
+      - 'CMakeLists.txt'
+      - 'cmake/**'
+      - 'sherpa/csrc/**'
+      - 'sherpa/bin/**'
+      - 'sherpa/python/**'
+
+concurrency:
+  group: run_tests_aishell_offline_asr-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   run_tests_aishell_offline_asr:

@@ -20,8 +20,26 @@ on:
   push:
     branches:
       - master
+    paths:
+      - '.github/workflows/run-streaming-test-windows-cuda.yaml'
+      - 'CMakeLists.txt'
+      - 'cmake/**'
+      - 'sherpa/csrc/**'
+      - 'sherpa/bin/**'
+      - 'sherpa/python/**'
   pull_request:
     types: [labeled]
+    paths:
+      - '.github/workflows/run-streaming-test-windows-cuda.yaml'
+      - 'CMakeLists.txt'
+      - 'cmake/**'
+      - 'sherpa/csrc/**'
+      - 'sherpa/bin/**'
+      - 'sherpa/python/**'
+
+concurrency:
+  group: run_streaming_asr_tests_windows_cuda-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   run_streaming_asr_tests_windows_cuda:
