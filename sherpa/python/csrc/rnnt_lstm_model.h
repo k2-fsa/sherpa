@@ -28,4 +28,4 @@ void PybindRnntLstmModel(py::module &m);  // NOLINT
 
 }  // namespace sherpa
 
-#endif SHERPA_PYTHON_CSRC_RNNT_LSTM_MODEL_H_
+#endif  // SHERPA_PYTHON_CSRC_RNNT_LSTM_MODEL_H_

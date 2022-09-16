@@ -16,8 +16,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#ifndef SHERPA_CSRC_RNNT_RNN_MODEL_H_
-#define SHERPA_CSRC_RNNT_RNN_MODEL_H_
+#ifndef SHERPA_CSRC_RNNT_LSTM_MODEL_H_
+#define SHERPA_CSRC_RNNT_LSTM_MODEL_H_
 
 #include <string>
 #include <tuple>
@@ -103,4 +103,4 @@ class RnntLstmModel : public RnntModel {
 
 }  // namespace sherpa
 
-#endif  // SHERPA_CSRC_RNNT_RNN_MODEL_H_
+#endif  // SHERPA_CSRC_RNNT_LSTM_MODEL_H_
