@@ -2,6 +2,7 @@
 
 import os
 import platform
+import shutil
 import sys
 from pathlib import Path
 
@@ -56,6 +57,9 @@ class BuildExtension(build_ext):
         # build/lib.linux-x86_64-3.8
         os.makedirs(self.build_lib, exist_ok=True)
 
+        out_bin_dir = Path(self.build_lib).parent / "sherpa" / "bin"
+        install_dir = Path(self.build_lib).resolve() / "sherpa"
+
         sherpa_dir = Path(__file__).parent.parent.resolve()
 
         cmake_args = os.environ.get("SHERPA_CMAKE_ARGS", "")
@@ -66,7 +70,7 @@ class BuildExtension(build_ext):
             cmake_args = "-DCMAKE_BUILD_TYPE=Release"
 
         extra_cmake_args = " -DSHERPA_ENABLE_TESTS=OFF "
-        extra_cmake_args += f" -DCMAKE_INSTALL_PREFIX={Path(self.build_lib).resolve()}/sherpa "  # noqa
+        extra_cmake_args += f" -DCMAKE_INSTALL_PREFIX={install_dir} "  # noqa
 
         if "PYTHON_EXECUTABLE" not in cmake_args:
             print(f"Setting PYTHON_EXECUTABLE to {sys.executable}")
@@ -77,9 +81,6 @@ class BuildExtension(build_ext):
         if is_windows():
             build_cmd = f"""
          cmake {cmake_args} -B {self.build_temp} -S {sherpa_dir}
-         cmake --build {self.build_temp} --target sherpa --config Release -- -m
-  cmake --build {self.build_temp} --target sherpa-version --config Release -- -m
-         cmake --build {self.build_temp} --target _sherpa --config Release -- -m
          cmake --build {self.build_temp} --target install --config Release -- -m
             """
             print(f"build command is:\n{build_cmd}")
@@ -87,31 +88,13 @@ class BuildExtension(build_ext):
                 f"cmake {cmake_args} -B {self.build_temp} -S {sherpa_dir}"
             )
             if ret != 0:
-                raise Exception("Failed to build sherpa")
-
-            ret = os.system(
-                f"cmake --build {self.build_temp} --target sherpa --config release -- -m"  # noqa
-            )
-            if ret != 0:
-                raise Exception("failed to build sherpa")
-
-            ret = os.system(
-                f"cmake --build {self.build_temp} --target sherpa-version --config release -- -m"  # noqa
-            )
-            if ret != 0:
-                raise Exception("failed to build sherpa-version")
-
-            ret = os.system(
-                f"cmake --build {self.build_temp} --target _sherpa --config release -- -m"  # noqa
-            )
-            if ret != 0:
-                raise Exception("failed to build _sherpa")
+                raise Exception("Failed to configure sherpa")
 
             ret = os.system(
                 f"cmake --build {self.build_temp} --target install --config Release -- -m"  # noqa
             )
             if ret != 0:
-                raise Exception("Failed to install sherpa")
+                raise Exception("Failed to build and install sherpa")
         else:
             if make_args == "" and system_make_args == "":
                 print("for fast compilation, run:")
@@ -124,8 +107,7 @@ class BuildExtension(build_ext):
 
                 cmake {cmake_args} {sherpa_dir}
 
-
-                make {make_args} sherpa sherpa-version _sherpa install
+                make {make_args} install
             """
             print(f"build command is:\n{build_cmd}")
 
@@ -136,3 +118,9 @@ class BuildExtension(build_ext):
                     "You can ask for help by creating an issue on GitHub.\n"
                     "\nClick:\n\thttps://github.com/k2-fsa/sherpa/issues/new\n"  # noqa
                 )
+
+        suffix = ".exe" if is_windows() else ""
+        for f in ["sherpa", "sherpa-version"]:
+            src_file = install_dir / "bin" / (f + suffix)
+            print(f"Copying {src_file} to {out_bin_dir}/")
+            shutil.copy(f"{src_file}", f"{out_bin_dir}/")

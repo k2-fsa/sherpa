@@ -1,6 +1,6 @@
 package:
   name: sherpa
-  version: "0.7.1"
+  version: "0.8.1"
 
 source:
   path: "{{ environ.get('SHERPA_ROOT_DIR') }}"
@@ -42,7 +42,6 @@ requirements:
     - python
     - pytorch={{ environ.get('SHERPA_TORCH_VERSION') }}
     - kaldifeat
-    - kaldi_native_io
     - k2
     - cpuonly
     - gcc_linux-64=7 # [linux]
@@ -51,7 +50,6 @@ requirements:
     - python
     - pytorch={{ environ.get('SHERPA_TORCH_VERSION') }}
     - kaldifeat
-    - kaldi_native_io
     - k2
 
 about:

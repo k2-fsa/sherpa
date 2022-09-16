@@ -4,6 +4,17 @@ on:
   push:
     tags:
       - '*'
+    paths:
+      - '.github/workflows/publish_to_pypi.yaml'
+      - 'CMakeLists.txt'
+      - 'cmake/**'
+      - 'sherpa/csrc/**'
+      - 'sherpa/cpp_api/**'
+      - 'sherpa/python/**'
+
+concurrency:
+  group: pypi-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   pypi:
