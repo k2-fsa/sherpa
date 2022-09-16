@@ -2,7 +2,6 @@
 
 import re
 import sys
-from distutils.util import get_platform
 from pathlib import Path
 
 import setuptools
@@ -41,9 +40,7 @@ def get_package_version():
 
 
 def get_binaries_to_install():
-    plat_name = get_platform()  # e.g., linux-x86_64
-    plat_specifier = ".%s-%d.%d" % (plat_name, *sys.version_info[:2])
-    bin_dir = Path("build") / ("lib" + plat_specifier) / "sherpa" / "bin"
+    bin_dir = Path("build") / "sherpa" / "bin"
     bin_dir.mkdir(parents=True, exist_ok=True)
     exe = []
     for f in ["sherpa", "sherpa-version"]:

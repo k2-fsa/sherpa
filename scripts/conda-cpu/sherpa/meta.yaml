@@ -1,6 +1,6 @@
 package:
   name: sherpa
-  version: "0.7.1"
+  version: "0.8"
 
 source:
   path: "{{ environ.get('SHERPA_ROOT_DIR') }}"

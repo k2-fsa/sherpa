@@ -27,7 +27,7 @@ target_link_libraries(sherpa_core PUBLIC
   ${TORCH_LIBRARIES}
   ${K2_LIBRARIES}
   ${KALDIFEAT_LIBRARIES}
-  ${KALDI_NATIVE_IO_LIBRARIES}
+  kaldi_native_io_core
   )
 
 target_compile_definitions(sherpa_core PUBLIC SHERPA_TORCH_VERSION_MAJOR=${SHERPA_TORCH_VERSION_MAJOR})
@@ -103,7 +103,8 @@ message(STATUS "Generated ${CMAKE_CURRENT_BINARY_DIR}/version.h")
 add_executable(sherpa-version version.cc)
 target_include_directories(sherpa-version PRIVATE ${CMAKE_BINARY_DIR})
 
-install(TARGETS sherpa_core
+install(TARGETS
+    sherpa_core kaldi_native_io_core
   DESTINATION lib
 )
 
