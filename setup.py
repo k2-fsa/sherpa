@@ -1,12 +1,43 @@
 #!/usr/bin/env python3
 
+import os
 import re
 import sys
 from pathlib import Path
 
 import setuptools
 
-from cmake.cmake_extension import BuildExtension, bdist_wheel, cmake_extension
+from cmake.cmake_extension import (
+    BuildExtension,
+    bdist_wheel,
+    cmake_extension,
+    is_windows,
+)
+
+if "K2_INSTALL_PREFIX" not in os.environ:
+    try:
+        import k2  # noqa
+    except ImportError:
+        sys.exit(
+            """Please install k2 first. See
+https://k2-fsa.github.io/sherpa/python/installation/index.html
+for details."""
+        )
+
+    del k2
+
+if "KALDIFEAT_INSTALL_PREFIX" not in os.environ:
+    try:
+        import kaldifeat  # noqa
+    except ImportError:
+        sys.exit(
+            """Please install kaldifeat first. See
+https://k2-fsa.github.io/sherpa/python/installation/index.html
+for details."""
+        )
+
+    del kaldifeat
+
 
 if sys.version_info < (3,):
     # fmt: off
@@ -42,9 +73,10 @@ def get_package_version():
 def get_binaries_to_install():
     bin_dir = Path("build") / "sherpa" / "bin"
     bin_dir.mkdir(parents=True, exist_ok=True)
+    suffix = ".exe" if is_windows() else ""
     exe = []
     for f in ["sherpa", "sherpa-version"]:
-        t = bin_dir / f
+        t = bin_dir / (f + suffix)
         exe.append(str(t))
     return exe
 

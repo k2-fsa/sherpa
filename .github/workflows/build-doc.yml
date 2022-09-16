@@ -56,7 +56,7 @@ jobs:
       - name: Install PyTorch ${{ matrix.torch }}
         shell: bash
         run: |
-          python3 -m pip install -qq --upgrade pip kaldi_native_io
+          python3 -m pip install -qq --upgrade pip
           python3 -m pip install -qq wheel twine typing_extensions websockets sentencepiece>=0.1.96 soundfile
           python3 -m pip install -qq torch==${{ matrix.torch }}+cpu numpy -f https://download.pytorch.org/whl/torch_stable.html
 

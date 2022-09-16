@@ -51,7 +51,7 @@ jobs:
       - name: Install conda dependencies
         shell: bash -l {0}
         run: |
-          conda install -c k2-fsa -c k2-fsa-sherpa -c kaldifeat -c kaldi_native_io -c pytorch k2 sherpa kaldifeat kaldi_native_io pytorch=${{ matrix.torch }} python=${{ matrix.python-version }}
+          conda install -c k2-fsa -c k2-fsa-sherpa -c kaldifeat -c pytorch k2 sherpa kaldifeat pytorch=${{ matrix.torch }} python=${{ matrix.python-version }}
 
       - name: Display sherpa version
         if: startsWith(matrix.os, 'ubuntu')
