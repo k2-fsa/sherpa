@@ -90,8 +90,6 @@ class RnntLstmModel : public RnntModel {
   torch::jit::Module encoder_;
   torch::jit::Module decoder_;
   torch::jit::Module joiner_;
-  torch::jit::Module encoder_proj_;
-  torch::jit::Module decoder_proj_;
 
   torch::Device device_;
   int32_t blank_id_;

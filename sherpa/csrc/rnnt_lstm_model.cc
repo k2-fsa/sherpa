@@ -46,9 +46,6 @@ RnntLstmModel::RnntLstmModel(const std::string &encoder_filename,
   }
 #endif
 
-  encoder_proj_ = joiner_.attr("encoder_proj").toModule();
-  decoder_proj_ = joiner_.attr("decoder_proj").toModule();
-
   vocab_size_ = joiner_.attr("output_linear")
                     .toModule()
                     .attr("weight")
