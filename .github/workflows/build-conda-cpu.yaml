@@ -4,6 +4,18 @@ on:
   push:
     tags:
       - '*'
+    paths:
+      - '.github/workflows/build-conda-cpu.yaml'
+      - 'CMakeLists.txt'
+      - 'cmake/**'
+      - 'scripts/**'
+      - 'sherpa/csrc/**'
+      - 'sherpa/cpp_api/**'
+      - 'sherpa/python/**'
+
+concurrency:
+  group: build_conda_cpu-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   generate_build_matrix:

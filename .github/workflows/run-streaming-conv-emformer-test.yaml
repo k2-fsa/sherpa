@@ -20,8 +20,26 @@ on:
   push:
     branches:
       - master
+    paths:
+      - '.github/workflows/run-streaming-conv-emformer-test.yaml'
+      - 'CMakeLists.txt'
+      - 'cmake/**'
+      - 'sherpa/csrc/**'
+      - 'sherpa/bin/**'
+      - 'sherpa/python/**'
   pull_request:
     types: [labeled]
+    paths:
+      - '.github/workflows/run-streaming-conv-emformer-test.yaml'
+      - 'CMakeLists.txt'
+      - 'cmake/**'
+      - 'sherpa/csrc/**'
+      - 'sherpa/bin/**'
+      - 'sherpa/python/**'
+
+concurrency:
+  group: run_streaming_conv_emformer_asr_tests-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   run_streaming_conv_emformer_asr_tests:
