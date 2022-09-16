@@ -121,6 +121,6 @@ class BuildExtension(build_ext):
 
         suffix = ".exe" if is_windows() else ""
         for f in ["sherpa", "sherpa-version"]:
-            src_file = install_dir / "bin" / (f+suffix)
+            src_file = install_dir / "bin" / (f + suffix)
             print(f"Copying {src_file} to {out_bin_dir}/")
             shutil.copy(f"{src_file}", f"{out_bin_dir}/")
