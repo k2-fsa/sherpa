@@ -10,6 +10,7 @@ set(sherpa_srcs
   rnnt_conformer_model.cc
   rnnt_conv_emformer_model.cc
   rnnt_emformer_model.cc
+  rnnt_lstm_model.cc
   symbol_table.cc
 )
 
