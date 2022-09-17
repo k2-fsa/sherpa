@@ -24,7 +24,7 @@ on:
       - master
       - doc
     paths:
-      - '.github/workflows/build-doc.yaml'
+      - '.github/workflows/build-doc.yml'
       - 'docs/**'
 
 concurrency:

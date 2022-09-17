@@ -21,14 +21,14 @@ on:
     branches:
       - master
     paths:
-      - '.github/workflows/python_style_check.yaml'
+      - '.github/workflows/python_style_check.yml'
       - 'sherpa/python/**'
       - 'sherpa/bin/**'
   pull_request:
     branches:
       - master
     paths:
-      - '.github/workflows/python_style_check.yaml'
+      - '.github/workflows/python_style_check.yml'
       - 'sherpa/python/**'
       - 'sherpa/bin/**'
 

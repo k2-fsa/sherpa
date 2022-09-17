@@ -5,7 +5,7 @@ on:
     tags:
       - '*'
     paths:
-      - '.github/workflows/publish_to_pypi.yaml'
+      - '.github/workflows/publish_to_pypi.yml'
       - 'CMakeLists.txt'
       - 'cmake/**'
       - 'sherpa/csrc/**'
