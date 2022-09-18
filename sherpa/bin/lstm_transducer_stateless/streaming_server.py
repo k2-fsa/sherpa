@@ -41,6 +41,7 @@ import warnings
 from concurrent.futures import ThreadPoolExecutor
 from typing import Optional, Tuple
 
+import k2
 import numpy as np
 import sentencepiece as spm
 import torch
@@ -195,7 +196,8 @@ class StreamingServer(object):
         nn_encoder_filename: str,
         nn_decoder_filename: str,
         nn_joiner_filename: str,
-        bpe_model_filename: str,
+        bpe_model_filename: Optional[str],
+        token_filename: Optional[str],
         nn_pool_size: int,
         max_wait_ms: float,
         max_batch_size: int,
@@ -214,7 +216,11 @@ class StreamingServer(object):
           nn_joiner_filename:
             Path to the torchscript joiner.
           bpe_model_filename:
-            Path to the BPE model
+            Path to the BPE model. If it is None, you have to provide
+            `token_filename`.
+          token_filename:
+            Path to tokens.txt. If it is None, you have to provide
+            `bpe_model_filename`.
           nn_pool_size:
             Number of threads for the thread pool that is responsible for
             neural network computation and decoding.
@@ -256,8 +262,11 @@ class StreamingServer(object):
         # ((len - 3) // 2 - 1) // 2)
         self.chunk_length_pad = self.chunk_length + self.model.pad_length
 
-        self.sp = spm.SentencePieceProcessor()
-        self.sp.load(bpe_model_filename)
+        if bpe_model_filename:
+            self.sp = spm.SentencePieceProcessor()
+            self.sp.load(bpe_model_filename)
+        else:
+            self.token_table = k2.SymbolTable.from_file(token_filename)
 
         self.context_size = self.model.context_size
         self.blank_id = self.model.blank_id
@@ -290,7 +299,10 @@ class StreamingServer(object):
                 f"Decoding method {decoding_method} is not supported."
             )
 
-        self.beam_search.sp = self.sp
+        if hasattr(self, "sp"):
+            self.beam_search.sp = self.sp
+        else:
+            self.beam_search.token_table = self.token_table
 
         self.online_endpoint_config = online_endpoint_config
 
@@ -559,6 +571,7 @@ def main():
     nn_decoder_filename = args.nn_decoder_filename
     nn_joiner_filename = args.nn_joiner_filename
     bpe_model_filename = args.bpe_model_filename
+    token_filename = args.token_filename
     nn_pool_size = args.nn_pool_size
     max_batch_size = args.max_batch_size
     max_wait_ms = args.max_wait_ms
@@ -571,11 +584,29 @@ def main():
             "num_active_paths"
         ]
 
+    if bpe_model_filename:
+        assert token_filename is None, (
+            "You need to provide either --bpe-model-filename or "
+            "--token-filename parameter. But not both."
+        )
+
+    if token_filename:
+        assert bpe_model_filename is None, (
+            "You need to provide either --bpe-model-filename or "
+            "--token-filename parameter. But not both."
+        )
+
+    assert bpe_model_filename or token_filename, (
+        "You need to provide either --bpe-model-filename or "
+        "--token-filename parameter. But not both."
+    )
+
     server = StreamingServer(
         nn_encoder_filename=nn_encoder_filename,
         nn_decoder_filename=nn_decoder_filename,
         nn_joiner_filename=nn_joiner_filename,
         bpe_model_filename=bpe_model_filename,
+        token_filename=token_filename,
         nn_pool_size=nn_pool_size,
         max_batch_size=max_batch_size,
         max_wait_ms=max_wait_ms,

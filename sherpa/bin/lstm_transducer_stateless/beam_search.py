@@ -5,10 +5,10 @@ import torch
 from stream import Stream, stack_states, unstack_states
 
 from sherpa import (
+    VALID_FAST_BEAM_SEARCH_METHOD,
     Hypotheses,
     Hypothesis,
     Lexicon,
-    VALID_FAST_BEAM_SEARCH_METHOD,
     fast_beam_search_nbest,
     fast_beam_search_nbest_LG,
     fast_beam_search_one_best,
@@ -190,8 +190,13 @@ class FastBeamSearch:
         if self.decoding_method == "fast_beam_search_nbest_LG":
             result = [self.word_table[i] for i in stream.hyp]
             result = " ".join(result)
-        else:
+        elif hasattr(self, "sp"):
             result = self.sp.decode(stream.hyp)
+        else:
+            # TODO(fangjun): remove the BPE model
+            # For Chinese
+            result = [self.token_table[i] for i in stream.hyp]
+            result = "".join(result)
 
         return result
 
@@ -330,9 +335,14 @@ class GreedySearch:
           stream:
             Stream to be processed.
         """
-        return self.sp.decode(
-            stream.hyp[self.beam_search_params["context_size"] :]
-        )
+        hyp = stream.hyp[self.beam_search_params["context_size"] :]
+        if hasattr(self, "sp"):
+            result = self.sp.decode(hyp)
+        else:
+            result = [self.token_table[i] for i in hyp]
+            result = "".join(result)
+
+        return result
 
 
 class ModifiedBeamSearch:
@@ -412,9 +422,17 @@ class ModifiedBeamSearch:
         for i, s in enumerate(stream_list):
             s.states = next_state_list[i]
             s.hyps = next_hyps_list[i]
+            trailing_blanks = s.hyps.get_most_probable(True).num_trailing_blanks
+            s.num_trailing_blank_frames = trailing_blanks
 
     def get_texts(self, stream: Stream) -> str:
         hyp = stream.hyps.get_most_probable(True).ys[
             self.beam_search_params["context_size"] :
         ]
-        return self.sp.decode(hyp)
+        if hasattr(self, "sp"):
+            result = self.sp.decode(hyp)
+        else:
+            result = [self.token_table[i] for i in hyp]
+            result = "".join(result)
+
+        return result
