@@ -80,3 +80,32 @@ we say that an endpoint is detected.
         --endpoint.rule3.must-contain-nonsilence=false
         --endpoint.rule3.min-trailing-silence=0.0
         --endpoint.rule3.min-utterance-length=20.0
+
+Endpointing Demo (English)
+--------------------------
+
+The following video shows an endpointing demo using a pretrained model
+on the `LibriSpeech`_ dataset. You can find the usage in
+:ref:`lstm_server_english`.
+
+..  youtube:: 4XsTXt_9_SY
+   :width: 120%
+
+Endpointing Demo (Chinese)
+--------------------------
+
+The following two videos show endpointing demos using a pretrained model
+on the `WenetSpeech`_ dataset. You can find the usage in
+:ref:`lstm_server_chinese`.
+
+Short Demo
+^^^^^^^^^^
+
+..  youtube:: sRQPGMZFun4
+   :width: 120%
+
+Long Demo
+^^^^^^^^^
+
+..  youtube:: LJtPJmX5jpE
+   :width: 120%

@@ -52,7 +52,7 @@ The following shows you how to start the server with the above pretrained model.
     git clone https://huggingface.co/luomingshuang/icefall_asr_wenetspeech_pruned_transducer_stateless5_streaming
 
     ./sherpa/bin/streaming_pruned_transducer_statelessX/streaming_server.py \
-      --endpoint.rule3.min-utterance-length=1000.0 \
+      --endpoint.rule3.min-utterance-length 1000.0 \
       --port 6006 \
       --max-batch-size 50 \
       --max-wait-ms 5 \
