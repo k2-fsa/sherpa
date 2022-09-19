@@ -41,9 +41,10 @@ function initWebSocket() {
     } else {
       recognition_text.push(message.text);
     }
-    document.getElementById('results').value = getDisplayResult();
+    let text_area = document.getElementById('results');
+    text_area.value = getDisplayResult();
+    text_area.scrollTop = text_area.scrollHeight;  // auto scroll
     console.log('Received message: ', event.data);
-    console.log('Received message2: ', message);
   });
 }
 

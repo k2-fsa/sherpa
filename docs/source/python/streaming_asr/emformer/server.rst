@@ -52,7 +52,7 @@ The following shows you how to start the server with the above pretrained model.
     git clone https://huggingface.co/csukuangfj/icefall-asr-librispeech-pruned-stateless-emformer-rnnt2-2022-06-01
 
     ./sherpa/bin/pruned_stateless_emformer_rnnt2/streaming_server.py \
-      --endpoint.rule3.min-utterance-length=1000.0 \
+      --endpoint.rule3.min-utterance-length 1000.0 \
       --port 6007 \
       --max-batch-size 50 \
       --max-wait-ms 5 \
