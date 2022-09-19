@@ -35,7 +35,7 @@ class TestUtils(unittest.TestCase):
         assert sherpa.count_num_trailing_zeros([1, 0, 0]) == 2
         assert sherpa.count_num_trailing_zeros([0, 0, 0]) == 3
 
-    def test_get_texts_and_num_trailing_blanks_case1(self):
+    def test_fast_beam_search_results_case1(self):
         s1 = """
           0 1 0 0 0.0
           1 2 1 1 0.2
@@ -63,13 +63,10 @@ class TestUtils(unittest.TestCase):
         fsa3 = k2.Fsa.from_str(s3, acceptor=False)
 
         fsa = k2.Fsa.from_fsas([fsa1, fsa2, fsa3])
-        (
-            aux_labels,
-            num_trailing_blanks,
-        ) = sherpa.get_texts_and_num_trailing_blanks(fsa)
+        res = sherpa.get_fast_beam_search_results(fsa)
 
-        assert aux_labels == [[1, 5], [1], [1]]
-        assert num_trailing_blanks == [0, 2, 1]
+        assert res.hyps == [[1, 5], [1], [1]]
+        assert res.num_trailing_blanks == [0, 2, 1]
 
 
 if __name__ == "__main__":

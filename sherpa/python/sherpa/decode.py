@@ -13,6 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from dataclasses import dataclass
 from typing import List, Tuple
 
 import k2
@@ -20,7 +21,7 @@ import torch
 from _sherpa import RnntModel
 
 from .nbest import Nbest
-from .utils import get_texts_and_num_trailing_blanks
+from .utils import FastBeamSearchResults, get_fast_beam_search_results
 
 VALID_FAST_BEAM_SEARCH_METHOD = [
     "fast_beam_search_nbest_LG",
@@ -39,7 +40,7 @@ def fast_beam_search_nbest_LG(
     nbest_scale: float = 0.5,
     use_double_scores: bool = True,
     temperature: float = 1.0,
-) -> Tuple[List[List[int]], List[int]]:
+) -> FastBeamSearchResults:
     """It limits the maximum number of symbols per frame to 1.
 
     The process to get the results is:
@@ -80,9 +81,7 @@ def fast_beam_search_nbest_LG(
       temperature:
         Softmax temperature.
     Returns:
-      Return a tuple containing:
-       - the decoded result
-       - number of trailing blanks
+      Return the decoded result.
     """
 
     lattice = fast_beam_search(
@@ -146,8 +145,7 @@ def fast_beam_search_nbest_LG(
     best_hyp_indexes = ragged_tot_scores.argmax()
     best_path = k2.index_fsa(nbest.fsa, best_hyp_indexes)
 
-    hyps, num_trailing_blanks = get_texts_and_num_trailing_blanks(best_path)
-    return hyps, num_trailing_blanks
+    return get_fast_beam_search_results(best_path)
 
 
 def fast_beam_search_nbest(
@@ -160,7 +158,7 @@ def fast_beam_search_nbest(
     nbest_scale: float = 0.5,
     use_double_scores: bool = True,
     temperature: float = 1.0,
-) -> Tuple[List[List[int]], List[int]]:
+) -> FastBeamSearchResults:
     """It limits the maximum number of symbols per frame to 1.
 
     The process to get the results is:
@@ -201,9 +199,7 @@ def fast_beam_search_nbest(
       temperature:
         Softmax temperature.
     Returns:
-      Return a tuple containing:
-       - the decoded result
-       - number of trailing blanks
+      Return the decoded result.
     """
 
     lattice = fast_beam_search(
@@ -230,8 +226,7 @@ def fast_beam_search_nbest(
 
     best_path = k2.index_fsa(nbest.fsa, max_indexes)
 
-    hyps, num_trailing_blanks = get_texts_and_num_trailing_blanks(best_path)
-    return hyps, num_trailing_blanks
+    return get_fast_beam_search_results(best_path)
 
 
 def fast_beam_search_one_best(
@@ -241,7 +236,7 @@ def fast_beam_search_one_best(
     rnnt_decoding_config: k2.RnntDecodingConfig,
     rnnt_decoding_streams_list: List[k2.RnntDecodingStream],
     temperature: float = 1.0,
-) -> Tuple[List[List[int]], List[int]]:
+) -> FastBeamSearchResults:
     """It limits the maximum number of symbols per frame to 1.
 
     A lattice is first obtained using fast beam search, and then
@@ -269,9 +264,7 @@ def fast_beam_search_one_best(
       temperature:
         Softmax temperature.
     Returns:
-      Return a tuple containing:
-       - the decoded result
-       - number of trailing blanks
+      Return the decoded result.
     """
     lattice = fast_beam_search(
         model=model,
@@ -284,8 +277,7 @@ def fast_beam_search_one_best(
 
     best_path = one_best_decoding(lattice)
 
-    hyps, num_trailing_blanks = get_texts_and_num_trailing_blanks(best_path)
-    return hyps, num_trailing_blanks
+    return get_fast_beam_search_results(best_path)
 
 
 def fast_beam_search(

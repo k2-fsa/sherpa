@@ -1,8 +1,27 @@
 import argparse
+from dataclasses import dataclass
 from pathlib import Path
-from typing import List, Tuple, Union
+from typing import List, Tuple
 
 import k2
+
+
+@dataclass
+class FastBeamSearchResults:
+    # hyps[i] is the recognition results for the i-th utterance.
+    # It may contain either token IDs or word IDs depending on the actual
+    # decoding method.
+    hyps: List[List[int]]
+
+    # Number of trailing blank for each utterance in the batch
+    num_trailing_blanks: List[int]
+
+    # Decoded token IDs for each utterance in the batch
+    tokens: List[List[int]]
+
+    # timestamps[i][k] contains the frame number on which tokens[i][k]
+    # is decoded
+    timestamps: List[List[int]]
 
 
 def str2bool(v):
@@ -24,7 +43,7 @@ def str2bool(v):
         raise argparse.ArgumentTypeError("Boolean value expected.")
 
 
-def count_num_trailing_zeros(labels: List[int]):
+def count_num_trailing_zeros(labels: List[int]) -> int:
     """Return the number of trailing zeros in labels."""
     n = 0
     for v in reversed(labels):
@@ -35,9 +54,20 @@ def count_num_trailing_zeros(labels: List[int]):
     return n
 
 
-def get_texts_and_num_trailing_blanks(
+def get_tokens_and_timestamps(labels: List[int]) -> Tuple[List[int], List[int]]:
+    tokens = []
+    timestamps = []
+    for i, v in enumerate(labels):
+        if v != 0:
+            tokens.append(v)
+            timestamps.append(i)
+
+    return tokens, timestamps
+
+
+def get_fast_beam_search_results(
     best_paths: k2.Fsa,
-) -> Tuple[Union[List[List[int]], k2.RaggedTensor], List[int]]:
+) -> FastBeamSearchResults:
     """Extract the texts (as word IDs) from the best-path FSAs.
     Args:
       best_paths:
@@ -46,9 +76,7 @@ def get_texts_and_num_trailing_blanks(
         of k2.shortest_path (otherwise the returned values won't
         be meaningful).
     Returns:
-      Return a tuple containing
-        - a list of lists of int, containing the label sequences we decoded.
-        - number of trailing blank frames
+      Return the result
     """
     if isinstance(best_paths.aux_labels, k2.RaggedTensor):
         # remove 0's and -1's.
@@ -76,11 +104,21 @@ def get_texts_and_num_trailing_blanks(
     ).tolist()
 
     num_trailing_blanks = []
+    tokens = []
+    timestamps = []
     for labels in labels_list:
         # [:-1] to remove the last -1
         num_trailing_blanks.append(count_num_trailing_zeros(labels[:-1]))
+        token, time = get_tokens_and_timestamps(labels[:-1])
+        tokens.append(token)
+        timestamps.append(time)
 
-    return aux_labels.tolist(), num_trailing_blanks
+    return FastBeamSearchResults(
+        hyps=aux_labels.tolist(),
+        num_trailing_blanks=num_trailing_blanks,
+        tokens=tokens,
+        timestamps=timestamps,
+    )
 
 
 def add_beam_search_arguments():

@@ -39,5 +39,5 @@ from .timestamp import convert_timestamp
 from .utils import (
     add_beam_search_arguments,
     count_num_trailing_zeros,
-    get_texts_and_num_trailing_blanks,
+    get_fast_beam_search_results,
 )
