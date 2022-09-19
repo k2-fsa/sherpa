@@ -1,8 +1,8 @@
 <div align="center">
-<img src="./docs/source/installation/pic/os-brightgreen.svg">
-<img src="./docs/source/installation/pic/python_ge_3.7-blue.svg">
-<img src="./docs/source/installation/pic/pytorch_ge_1.6.0-blueviolet.svg">
-<img src="./docs/source/installation/pic/cuda_ge_10.1-orange.svg">
+<img src="./docs/source/python/installation/pic/os-brightgreen.svg">
+<img src="./docs/source/python/installation/pic/python_ge_3.7-blue.svg">
+<img src="./docs/source/python/installation/pic/pytorch_ge_1.6.0-blueviolet.svg">
+<img src="./docs/source/python/installation/pic/cuda_ge_10.1-orange.svg">
 </div>
 
 [![Documentation Status](https://github.com/k2-fsa/sherpa/actions/workflows/build-doc.yml/badge.svg)](https://k2-fsa.github.io/sherpa/)
@@ -12,7 +12,7 @@
 Try `sherpa` from within your browser without installing anything:
 <https://huggingface.co/spaces/k2-fsa/automatic-speech-recognition>
 
-See <https://k2-fsa.github.io/sherpa/huggingface/> for more details.
+See <https://k2-fsa.github.io/sherpa/python/huggingface/> for more details.
 
 ## Introduction
 
