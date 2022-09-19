@@ -66,15 +66,25 @@ Args:
     Output from the decoder network. Its shape is
    ``(batch_size, decoder_out_dim)`` and its dtype is ``torch::kFloat``.
     It should be on the same device as ``model``.
+  frame_offset:
+    Its shape is (N,). The i-th element contains the number of frames after
+    subsampling we have decoded so far for the i-th utterance.
   hyps:
     The decoded tokens from the previous chunk.
   num_trailing_blank_frames:
-    Number of trailing blank frames decoded so far.
+    Its shape is (N,). The i-th element contains the number of trailing blank
+    frames after subsampling for the i-th utterance. It is updated in-place.
+  timestamps:
+    Its shape is (N,). timestamps[i].size() == hyps[i].size() timestamps[i][k]
+    is the frame number after subsampling on which hyps[i][k] is decoded. It
+    is modified in-place.
 
 Returns:
   Return a tuple containing:
-    - The decoder output for the current chunk.
-    - The decoded tokens for the current chunk.
+    - The decoder output
+    - The decoded tokens
+    - Number of trailing blank frames
+    - Time stamps
 )doc";
 
 static constexpr const char *kModifiedBeamSearchDoc = R"doc(
@@ -135,15 +145,20 @@ void PybindRnntBeamSearch(py::module &m) {  // NOLINT
       "streaming_greedy_search",
       [](RnntModel &model, torch::Tensor encoder_out, torch::Tensor decoder_out,
          std::vector<std::vector<int32_t>> &hyps,
-         std::vector<int32_t> &num_trailing_blank_frames)
+         std::vector<int32_t> &num_trailing_blank_frames,
+         const std::vector<int32_t> &frame_offset,
+         std::vector<std::vector<int32_t>> &timestamps)
           -> std::tuple<torch::Tensor, std::vector<std::vector<int32_t>>,
-                        std::vector<int32_t>> {
-        decoder_out = StreamingGreedySearch(model, encoder_out, decoder_out,
-                                            &hyps, &num_trailing_blank_frames);
-        return {decoder_out, hyps, num_trailing_blank_frames};
+                        std::vector<int32_t>,
+                        std::vector<std::vector<int32_t>>> {
+        decoder_out = StreamingGreedySearch(
+            model, encoder_out, decoder_out, frame_offset, &hyps,
+            &num_trailing_blank_frames, &timestamps);
+        return {decoder_out, hyps, num_trailing_blank_frames, timestamps};
       },
       py::arg("model"), py::arg("encoder_out"), py::arg("decoder_out"),
       py::arg("hyps"), py::arg("num_trailing_blank_frames"),
+      py::arg("frame_offset"), py::arg("timestamps"),
       py::call_guard<py::gil_scoped_release>(), kStreamingGreedySearchDoc);
 
   m.def("modified_beam_search", &ModifiedBeamSearch, py::arg("model"),

@@ -19,6 +19,7 @@ endfunction()
 set(py_test_files
   test_hypothesis.py
   test_online_endpoint.py
+  test_timestamp.py
   test_utils.py
 )
 

@@ -35,6 +35,7 @@ from .online_endpoint import (
     add_online_endpoint_arguments,
     endpoint_detected,
 )
+from .timestamp import convert_timestamp
 from .utils import (
     add_beam_search_arguments,
     count_num_trailing_zeros,
