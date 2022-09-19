@@ -25,8 +25,6 @@ on:
       - 'CMakeLists.txt'
       - 'cmake/**'
       - 'sherpa/csrc/**'
-      - 'sherpa/bin/**'
-      - 'sherpa/python/**'
   pull_request:
     types: [labeled]
     paths:
@@ -34,8 +32,6 @@ on:
       - 'CMakeLists.txt'
       - 'cmake/**'
       - 'sherpa/csrc/**'
-      - 'sherpa/bin/**'
-      - 'sherpa/python/**'
 
 concurrency:
   group: run_tests_windows_cuda-${{ github.ref }}
