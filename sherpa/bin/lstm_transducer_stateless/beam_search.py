@@ -251,6 +251,10 @@ class GreedySearch:
             self.beam_search_params["blank_id"]
         ] * self.beam_search_params["context_size"]
 
+        # timestamps[i] is the frame number on which stream.hyp[i+context_size]
+        # is decoded
+        stream.timestamps = []  # containing frame numbers after subsampling
+
     @torch.no_grad()
     def process(
         self,
@@ -273,9 +277,13 @@ class GreedySearch:
         chunk_length = server.chunk_length
         batch_size = len(stream_list)
         chunk_length_pad = server.chunk_length_pad
-        state_list, feature_list = [], []
-        decoder_out_list, hyp_list = [], []
+        state_list = []
+        feature_list = []
+        decoder_out_list = []
+        hyp_list = []
         num_trailing_blank_frames_list = []
+        frame_offset_list = []
+        timestamps_list = []
 
         for s in stream_list:
             decoder_out_list.append(s.decoder_out)
@@ -289,6 +297,8 @@ class GreedySearch:
             feature_list.append(b)
 
             num_trailing_blank_frames_list.append(s.num_trailing_blank_frames)
+            frame_offset_list.append(s.segment_frame_offset)
+            timestamps_list.append(s.timestamps)
 
         features = torch.stack(feature_list, dim=0).to(device)
         states = stack_states(state_list)
@@ -318,12 +328,15 @@ class GreedySearch:
             next_decoder_out,
             next_hyp_list,
             next_trailing_blank_frames,
+            next_timestamps,
         ) = streaming_greedy_search(
             model=model,
             encoder_out=encoder_out,
             decoder_out=decoder_out,
             hyps=hyp_list,
             num_trailing_blank_frames=num_trailing_blank_frames_list,
+            frame_offset=frame_offset_list,
+            timestamps=timestamps_list,
         )
 
         next_decoder_out_list = next_decoder_out.split(1)
@@ -334,6 +347,9 @@ class GreedySearch:
             s.decoder_out = next_decoder_out_list[i]
             s.hyp = next_hyp_list[i]
             s.num_trailing_blank_frames = next_trailing_blank_frames[i]
+            s.timestamps = next_timestamps[i]
+            s.frame_offset += encoder_out.size(1)
+            s.segment_frame_offset += encoder_out.size(1)
 
     def get_texts(self, stream: Stream) -> str:
         """
@@ -348,6 +364,21 @@ class GreedySearch:
         else:
             result = [self.token_table[i] for i in hyp]
             result = "".join(result)
+
+        return result
+
+    def get_tokens(self, stream: Stream) -> str:
+        """
+        Return tokens after decoding
+        Args:
+          stream:
+            Stream to be processed.
+        """
+        hyp = stream.hyp[self.beam_search_params["context_size"] :]
+        if hasattr(self, "sp"):
+            result = [self.sp.id_to_piece(i) for i in hyp]
+        else:
+            result = [self.token_table[i] for i in hyp]
 
         return result
 

@@ -78,9 +78,18 @@ async def receive_results(socket: websockets.WebSocketServerProtocol):
         segment = result["segment"]
         is_final = result["final"]
         text = result["text"]
+        tokens = result["tokens"]
+        timestamps = result["timestamps"]
 
         if is_final:
-            ans.append(dict(segment=segment, text=text))
+            ans.append(
+                dict(
+                    segment=segment,
+                    text=text,
+                    tokens=tokens,
+                    timestamps=timestamps,
+                )
+            )
             logging.info(f"Final result of segment {segment}: {text}")
             continue
 
@@ -123,6 +132,13 @@ async def run(server_addr: str, server_port: int, test_wav: str):
         for r in decoding_results:
             s += f"segment: {r['segment']}\n"
             s += f"text: {r['text']}\n"
+
+            token_time = []
+            for token, time in zip(r["tokens"], r["timestamps"]):
+                token_time.append((token, time))
+
+            s += f"timestamps: {r['timestamps']}\n"
+            s += f"(token, time): {token_time}\n"
         logging.info(f"{test_wav}\n{s}")
 
 
