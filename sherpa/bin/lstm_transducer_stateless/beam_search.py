@@ -139,7 +139,7 @@ class FastBeamSearch:
 
         processed_lens = (num_processed_frames >> 2) + encoder_out_lens
         if self.decoding_method == "fast_beam_search_nbest":
-            next_hyp_list, next_trailing_blank_frames = fast_beam_search_nbest(
+            res = fast_beam_search_nbest(
                 model=model,
                 encoder_out=encoder_out,
                 processed_lens=processed_lens,
@@ -151,10 +151,7 @@ class FastBeamSearch:
                 temperature=self.beam_search_params["temperature"],
             )
         elif self.decoding_method == "fast_beam_search_nbest_LG":
-            (
-                next_hyp_list,
-                next_trailing_blank_frames,
-            ) = fast_beam_search_nbest_LG(
+            res = fast_beam_search_nbest_LG(
                 model=model,
                 encoder_out=encoder_out,
                 processed_lens=processed_lens,
@@ -166,10 +163,7 @@ class FastBeamSearch:
                 temperature=self.beam_search_params["temperature"],
             )
         elif self.decoding_method == "fast_beam_search":
-            (
-                next_hyp_list,
-                next_trailing_blank_frames,
-            ) = fast_beam_search_one_best(
+            res = fast_beam_search_one_best(
                 model=model,
                 encoder_out=encoder_out,
                 processed_lens=processed_lens,
@@ -184,8 +178,12 @@ class FastBeamSearch:
         next_state_list = unstack_states(next_states)
         for i, s in enumerate(stream_list):
             s.states = next_state_list[i]
-            s.hyp = next_hyp_list[i]
-            s.num_trailing_blank_frames = next_trailing_blank_frames[i]
+            s.hyp = res.hyps[i]
+            s.num_trailing_blank_frames = res.num_trailing_blanks[i]
+            s.frame_offset += encoder_out.size(1)
+            s.segment_frame_offset += encoder_out.size(1)
+            s.timestamps = res.timestamps[i]
+            s.tokens = res.tokens[i]
 
     def get_texts(self, stream: Stream) -> str:
         """
@@ -204,6 +202,22 @@ class FastBeamSearch:
             # For Chinese
             result = [self.token_table[i] for i in stream.hyp]
             result = "".join(result)
+
+        return result
+
+    def get_tokens(self, stream: Stream) -> str:
+        """
+        Return tokens after decoding
+        Args:
+          stream:
+            Stream to be processed.
+        """
+        tokens = stream.tokens
+
+        if hasattr(self, "sp"):
+            result = [self.sp.id_to_piece(i) for i in tokens]
+        else:
+            result = [self.token_table[i] for i in tokens]
 
         return result
 

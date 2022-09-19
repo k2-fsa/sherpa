@@ -75,6 +75,7 @@ async def receive_results(socket: websockets.WebSocketServerProtocol):
     async for message in socket:
         result = json.loads(message)
 
+        method = result["method"]
         segment = result["segment"]
         is_final = result["final"]
         text = result["text"]
@@ -84,6 +85,7 @@ async def receive_results(socket: websockets.WebSocketServerProtocol):
         if is_final:
             ans.append(
                 dict(
+                    method=method,
                     segment=segment,
                     text=text,
                     tokens=tokens,
@@ -130,6 +132,7 @@ async def run(server_addr: str, server_port: int, test_wav: str):
         decoding_results = await receive_task
         s = ""
         for r in decoding_results:
+            s += f"method: {r['method']}\n"
             s += f"segment: {r['segment']}\n"
             s += f"text: {r['text']}\n"
 

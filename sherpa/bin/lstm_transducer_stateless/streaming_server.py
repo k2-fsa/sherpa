@@ -299,6 +299,7 @@ class StreamingServer(object):
             raise ValueError(
                 f"Decoding method {decoding_method} is not supported."
             )
+        self.decoding_method = decoding_method
 
         if hasattr(self, "sp"):
             self.beam_search.sp = self.sp
@@ -500,6 +501,7 @@ class StreamingServer(object):
                     self.beam_search.init_stream(stream)
 
                 message = {
+                    "method": self.decoding_method,
                     "segment": segment,
                     "frame_offset": frame_offset,
                     "text": hyp,
@@ -529,6 +531,7 @@ class StreamingServer(object):
         )
 
         message = {
+            "method": self.decoding_method,
             "segment": stream.segment,
             "frame_offset": frame_offset,
             "text": hyp,
