@@ -25,7 +25,7 @@ on:
       - 'CMakeLists.txt'
       - 'cmake/**'
       - 'sherpa/csrc/**'
-      - 'sherpa/bin/**'
+      - 'sherpa/bin/conv_emformer_transducer_stateless2/**'
       - 'sherpa/python/**'
   pull_request:
     types: [labeled]
@@ -34,7 +34,7 @@ on:
       - 'CMakeLists.txt'
       - 'cmake/**'
       - 'sherpa/csrc/**'
-      - 'sherpa/bin/**'
+      - 'sherpa/bin/conv_emformer_transducer_stateless2/**'
       - 'sherpa/python/**'
 
 concurrency:
