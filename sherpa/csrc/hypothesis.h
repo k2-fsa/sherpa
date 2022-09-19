@@ -32,6 +32,10 @@ struct Hypothesis {
   // The predicted tokens so far. Newly predicated tokens are appended.
   std::vector<int32_t> ys;
 
+  // timestamps[i] contains the frame number after subsampling
+  // on which ys[i] is decoded.
+  std::vector<int32_t> timestamps;
+
   // The total score of ys in log space.
   double log_prob = 0;
 
