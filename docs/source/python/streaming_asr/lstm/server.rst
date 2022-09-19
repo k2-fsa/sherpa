@@ -36,6 +36,12 @@ pretrained model: `<https://huggingface.co/Zengwei/icefall-asr-librispeech-lstm-
 
 .. hint::
 
+   You can also try the following pretrained model:
+
+   `<https://huggingface.co/csukuangfj/icefall-asr-librispeech-lstm-transducer-stateless2-2022-09-03>`_
+
+.. hint::
+
    You can find pretrained models in ``RESULTS.md`` for all the recipes in
    `icefall <https://github.com/k2-fsa/icefall>`_.
 
@@ -52,6 +58,7 @@ The following shows you how to start the server with the above pretrained model.
     git clone https://huggingface.co/Zengwei/icefall-asr-librispeech-lstm-transducer-stateless-2022-08-18
 
     ./sherpa/bin/lstm_transducer_stateless/streaming_server.py \
+      --endpoint.rule3.min-utterance-length=1000.0 \
       --port 6007 \
       --max-batch-size 50 \
       --max-wait-ms 5 \
