@@ -14,29 +14,31 @@ from cmake.cmake_extension import (
     is_windows,
 )
 
-if "K2_INSTALL_PREFIX" not in os.environ:
-    try:
-        import k2  # noqa
-    except ImportError:
-        sys.exit(
-            """Please install k2 first. See
-https://k2-fsa.github.io/sherpa/python/installation/index.html
-for details."""
-        )
 
-    del k2
+if sys.argv[1] != "sdist":
+    if "K2_INSTALL_PREFIX" not in os.environ:
+        try:
+            import k2  # noqa
+        except ImportError:
+            sys.exit(
+                """Please install k2 first. See
+    https://k2-fsa.github.io/sherpa/python/installation/index.html
+    for details."""
+            )
 
-if "KALDIFEAT_INSTALL_PREFIX" not in os.environ:
-    try:
-        import kaldifeat  # noqa
-    except ImportError:
-        sys.exit(
-            """Please install kaldifeat first. See
-https://k2-fsa.github.io/sherpa/python/installation/index.html
-for details."""
-        )
+        del k2
 
-    del kaldifeat
+    if "KALDIFEAT_INSTALL_PREFIX" not in os.environ:
+        try:
+            import kaldifeat  # noqa
+        except ImportError:
+            sys.exit(
+                """Please install kaldifeat first. See
+    https://k2-fsa.github.io/sherpa/python/installation/index.html
+    for details."""
+            )
+
+        del kaldifeat
 
 
 if sys.version_info < (3,):
