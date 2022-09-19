@@ -1,5 +1,4 @@
-
-.. _lstm_server:
+.. _lstm_server_english:
 
 Server
 ======
@@ -23,10 +22,13 @@ Usage
 
 shows the usage message.
 
-You need two files to start the server:
+You need the following files to start the server:
 
-  1. The neural network model, which is a torchscript file.
-  2. The BPE model.
+  1. The neural network model
+  2. The BPE model ``bpe.model``.
+
+The neural network model has three parts, the encoder, the decoder, and
+the joiner, which are all exported using ``torch.jit.trace``.
 
 The above two files can be obtained after training your model
 with `<https://github.com/k2-fsa/icefall/tree/master/egs/librispeech/ASR/lstm_transducer_stateless>`_.
@@ -70,5 +72,5 @@ The following shows you how to start the server with the above pretrained model.
 
 That's it!
 
-Now you can start the :ref:`lstm_client`, record your voice in real-time,
+Now you can start the :ref:`lstm_client_english`, record your voice in real-time,
 and check the recognition results from the server.
