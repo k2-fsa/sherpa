@@ -421,6 +421,7 @@ class ModifiedBeamSearch:
         state_list = []
         hyps_list = []
         feature_list = []
+        frame_offset_list = []
         for s in stream_list:
             state_list.append(s.states)
             hyps_list.append(s.hyps)
@@ -431,6 +432,7 @@ class ModifiedBeamSearch:
 
             b = torch.cat(f, dim=0)
             feature_list.append(b)
+            frame_offset_list.append(s.segment_frame_offset)
 
         features = torch.stack(feature_list, dim=0).to(device)
         states = stack_states(state_list)
@@ -453,6 +455,7 @@ class ModifiedBeamSearch:
             model=model,
             encoder_out=encoder_out,
             hyps=hyps_list,
+            frame_offset=frame_offset_list,
             num_active_paths=self.beam_search_params["num_active_paths"],
         )
 
@@ -460,8 +463,14 @@ class ModifiedBeamSearch:
         for i, s in enumerate(stream_list):
             s.states = next_state_list[i]
             s.hyps = next_hyps_list[i]
-            trailing_blanks = s.hyps.get_most_probable(True).num_trailing_blanks
+
+            best_hyp = s.hyps.get_most_probable(True)
+
+            trailing_blanks = best_hyp.num_trailing_blanks
+            s.timestamps = best_hyp.timestamps
             s.num_trailing_blank_frames = trailing_blanks
+            s.frame_offset += encoder_out.size(1)
+            s.segment_frame_offset += encoder_out.size(1)
 
     def get_texts(self, stream: Stream) -> str:
         hyp = stream.hyps.get_most_probable(True).ys[
@@ -474,7 +483,6 @@ class ModifiedBeamSearch:
             result = "".join(result)
 
         return result
-
 
 class GreedySearchOffline:
     def __init__(self):
@@ -579,3 +587,20 @@ class ModifiedBeamSearchOffline:
             num_active_paths=self.beam_search_params["num_active_paths"],
         )
         return hyp_tokens
+
+    def get_tokens(self, stream: Stream) -> str:
+        """
+        Return tokens after decoding
+        Args:
+          stream:
+            Stream to be processed.
+        """
+        hyp = stream.hyps.get_most_probable(True).ys[
+            self.beam_search_params["context_size"] :
+        ]
+        if hasattr(self, "sp"):
+            result = [self.sp.id_to_piece(i) for i in hyp]
+        else:
+            result = [self.token_table[i] for i in hyp]
+
+        return result

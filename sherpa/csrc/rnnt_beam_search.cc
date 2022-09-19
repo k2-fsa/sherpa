@@ -433,6 +433,7 @@ std::vector<std::vector<int32_t>> ModifiedBeamSearch(
 std::vector<Hypotheses> StreamingModifiedBeamSearch(
     RnntModel &model,  // NOLINT
     torch::Tensor encoder_out, std::vector<Hypotheses> in_hyps,
+    const std::vector<int32_t> &frame_offset,
     int32_t num_active_paths /*= 4*/) {
   TORCH_CHECK(encoder_out.dim() == 3, encoder_out.dim(), " vs ", 3);
 
@@ -525,6 +526,7 @@ std::vector<Hypotheses> StreamingModifiedBeamSearch(
         int32_t new_token = topk_token_indexes_acc[j];
         if (new_token != blank_id && new_token != unk_id) {
           new_hyp.ys.push_back(new_token);
+          new_hyp.timestamps.push_back(t + frame_offset[k]);
           new_hyp.num_trailing_blanks = 0;
         } else {
           new_hyp.num_trailing_blanks += 1;

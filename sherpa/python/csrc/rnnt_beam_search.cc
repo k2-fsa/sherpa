@@ -127,6 +127,9 @@ Args:
     It should be on the same device as ``model``.
   hyps:
     Decoded results from the previous chunk.
+  frame_offset:
+    Its shape is (N,). The i-th element contains the number of frames after
+    subsampling we have decoded so far for the i-th utterance.
   num_active_paths
     Number of active paths for each utterance. Note: Due to merging paths with
     identical token sequences, the actual number of active path for each
@@ -168,7 +171,7 @@ void PybindRnntBeamSearch(py::module &m) {  // NOLINT
 
   m.def("streaming_modified_beam_search", &StreamingModifiedBeamSearch,
         py::arg("model"), py::arg("encoder_out"), py::arg("hyps"),
-        py::arg("num_active_paths") = 4,
+        py::arg("frame_offset"), py::arg("num_active_paths") = 4,
         py::call_guard<py::gil_scoped_release>(),
         kStreamingModifiedBeamSearchDoc);
 }
