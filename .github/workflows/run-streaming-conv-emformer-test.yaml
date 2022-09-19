@@ -20,8 +20,26 @@ on:
   push:
     branches:
       - master
+    paths:
+      - '.github/workflows/run-streaming-conv-emformer-test.yaml'
+      - 'CMakeLists.txt'
+      - 'cmake/**'
+      - 'sherpa/csrc/**'
+      - 'sherpa/bin/conv_emformer_transducer_stateless2/**'
+      - 'sherpa/python/**'
   pull_request:
     types: [labeled]
+    paths:
+      - '.github/workflows/run-streaming-conv-emformer-test.yaml'
+      - 'CMakeLists.txt'
+      - 'cmake/**'
+      - 'sherpa/csrc/**'
+      - 'sherpa/bin/conv_emformer_transducer_stateless2/**'
+      - 'sherpa/python/**'
+
+concurrency:
+  group: run_streaming_conv_emformer_asr_tests-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   run_streaming_conv_emformer_asr_tests:
@@ -62,7 +80,7 @@ jobs:
         shell: bash
         if: startsWith(matrix.os, 'ubuntu')
         run: |
-          python3 -m pip install --upgrade pip kaldi_native_io
+          python3 -m pip install --upgrade pip
           python3 -m pip install wheel twine typing_extensions websockets sentencepiece>=0.1.96
           python3 -m pip install torch==${{ matrix.torch }}+cpu numpy -f https://download.pytorch.org/whl/cpu/torch_stable.html
 
@@ -80,7 +98,7 @@ jobs:
         shell: bash
         if: startsWith(matrix.os, 'macos')
         run: |
-          python3 -m pip install --upgrade pip kaldi_native_io
+          python3 -m pip install --upgrade pip
           python3 -m pip install wheel twine typing_extensions websockets sentencepiece>=0.1.96
           python3 -m pip install torch==${{ matrix.torch }} torchaudio==${{ matrix.torchaudio }} numpy -f https://download.pytorch.org/whl/cpu/torch_stable.html
 

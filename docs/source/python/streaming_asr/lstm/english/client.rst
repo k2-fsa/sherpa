@@ -1,4 +1,4 @@
-.. _emformer_client:
+.. _lstm_client_english:
 
 Client
 ======
@@ -10,7 +10,7 @@ We provide a web client for this purpose.
 
 .. caution::
 
-   Please first start the :ref:`emformer_server` before you start the client.
+   Please first start the :ref:`lstm_server_english` before you start the client.
 
    Also, we have hard coded the server port to 6006. Please either pass
    ``--port 6006`` when starting the server or change the client
@@ -53,15 +53,3 @@ and speak! You should see the recognition results from the server.
    ``inspect`` in the popup menu, and then click ``console``. You will see
    some diagnostic message. This helps you to debug if you are unable to click
    the ``Record`` button.
-
-
-The following is a `YouTube video <https://www.youtube.com/watch?v=z7HgaZv5W0U>`_,
-demonstrating the results.
-
-.. note::
-
-   If you have no access to YouTube, please visit the following link from bilibili
-   `<https://www.bilibili.com/video/BV1BU4y197bs>`_
-
-..  youtube:: z7HgaZv5W0U
-   :width: 120%

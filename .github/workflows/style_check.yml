@@ -20,9 +20,21 @@ on:
   push:
     branches:
       - master
+    paths:
+      - '.github/workflows/style_check.yml'
+      - 'sherpa/bin/**'
+      - 'sherpa/python/**'
   pull_request:
     branches:
       - master
+    paths:
+      - '.github/workflows/style_check.yml'
+      - 'sherpa/bin/**'
+      - 'sherpa/python/**'
+
+concurrency:
+  group: style_check-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   style_check:
