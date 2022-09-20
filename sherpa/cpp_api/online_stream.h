@@ -68,6 +68,11 @@ class OnlineStream {
    */
   bool IsLastFrame(int32_t frame) const;
 
+  /** Returns true if endpoint actives.
+   *
+   */
+  bool IsEndpoint() const;
+
   /** InputFinished() tells the class you won't be providing any more waveform.
    *
    * It also affects the return value of IsLastFrame().

@@ -48,6 +48,9 @@ struct OnlineAsrOptions {
   /// Used only when decoding_method is modified_beam_search.
   int32_t num_active_paths = 4;
 
+  /// Number of frames for streaming decode.
+  int32_t decoding_frame_size = 4096;
+
   // true to use GPU for computation. Always selects the first device.
   // false to use CPU.
   // Note: Only neural network computation and decoding are done on CPU.

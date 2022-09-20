@@ -25,6 +25,7 @@
 #include "kaldifeat/csrc/feature-fbank.h"
 #include "kaldifeat/csrc/online-feature.h"
 #include "sherpa/csrc/hypothesis.h"
+#include "sherpa/csrc/endpoint.h"
 #include "sherpa/csrc/log.h"
 
 namespace sherpa {
@@ -42,6 +43,9 @@ class OnlineStream::OnlineStreamImpl {
     opts.mel_opts.num_bins = feature_dim;
 
     fbank_ = std::make_unique<kaldifeat::OnlineFbank>(opts);
+    EndpointConfig endpoint_config;
+    endpoint_ = std::make_unique<Endpoint>(endpoint_config);
+    frame_shift_ms_ = opts.frame_opts.frame_shift_ms;
   }
 
   void AcceptWaveform(float sampling_rate, torch::Tensor waveform) {
@@ -51,6 +55,10 @@ class OnlineStream::OnlineStreamImpl {
   int32_t NumFramesReady() const { return fbank_->NumFramesReady(); }
 
   bool IsLastFrame(int32_t frame) const { return fbank_->IsLastFrame(frame); }
+
+  bool IsEndpoint() const {
+      return endpoint_->IsEndpoint(num_processed_frames_, num_trailing_blank_frames_,  frame_shift_ms_ / 1000.0);
+  }
 
   void InputFinished() { fbank_->InputFinished(); }
 
@@ -203,12 +211,14 @@ class OnlineStream::OnlineStreamImpl {
 
  private:
   std::unique_ptr<kaldifeat::OnlineFbank> fbank_;
+  std::unique_ptr<Endpoint> endpoint_;
   torch::IValue state_;
   std::vector<int32_t> hyps_;
   Hypotheses hypotheses_;
   torch::Tensor decoder_out_;
   int32_t num_processed_frames_ = 0;       // before subsampling
   int32_t num_trailing_blank_frames_ = 0;  // after subsampling
+  int32_t frame_shift_ms_ = 10;  // after subsampling
 };
 
 OnlineStream::OnlineStream(float sampling_rate, int32_t feature_dim,
@@ -226,6 +236,10 @@ int32_t OnlineStream::NumFramesReady() const { return impl_->NumFramesReady(); }
 
 bool OnlineStream::IsLastFrame(int32_t frame) const {
   return impl_->IsLastFrame(frame);
+}
+
+bool OnlineStream::IsEndpoint() const {
+  return impl_->IsEndpoint();
 }
 
 void OnlineStream::InputFinished() { impl_->InputFinished(); }
