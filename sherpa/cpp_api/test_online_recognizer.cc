@@ -17,8 +17,9 @@
  */
 #include <iostream>
 
-#include "sherpa/cpp_api/offline_recognizer.h"
-#include "torch/all.h"
+#include "sherpa/cpp_api/online_recognizer.h"
+#include "sherpa/cpp_api/online_stream.h"
+#include "sherpa/csrc/fbank_features.h"
 
 int main(int argc, char *argv[]) {
   // see
@@ -43,26 +44,54 @@ int main(int argc, char *argv[]) {
 
   sherpa::DecodingOptions opts;
   opts.method = sherpa::kGreedySearch;
-  sherpa::OfflineRecognizer recognizer(nn_model, tokens, opts, use_gpu,
-                                       sample_rate);
+  sherpa::OnlineRecognizer recognizer(nn_model, tokens, opts, use_gpu,
+                                      sample_rate);
 
-  if (argc == 4) {
-    std::cout << "Decode single file\n";
-    auto result = recognizer.DecodeFile(argv[3]);
-    std::cout << argv[3] << "\n" << result.text << "\n";
-    return 0;
+  torch::Tensor tail_padding =
+      torch::zeros({static_cast<int32_t>(0.4 * sample_rate)}, torch::kFloat);
+
+  std::vector<std::unique_ptr<sherpa::OnlineStream>> streams;
+  for (int32_t i = 3; i < argc; ++i) {
+    auto s = recognizer.CreateStream();
+
+    std::string wave_filename = argv[i];
+    torch::Tensor wave = sherpa::ReadWave(wave_filename, sample_rate).first;
+    s->AcceptWaveform(sample_rate, wave);
+    s->AcceptWaveform(sample_rate, tail_padding);
+    s->InputFinished();
+
+    streams.push_back(std::move(s));
   }
 
-  std::cout << "Decode multiple files\n";
+  std::vector<sherpa::OnlineStream *> ready_streams;
 
-  std::vector<std::string> filenames;
-  for (int i = 3; i != argc; ++i) {
-    filenames.push_back(argv[i]);
+  while (true) {
+    ready_streams.clear();
+    for (auto &s : streams) {
+      if (recognizer.IsReady(s.get())) {
+        ready_streams.push_back(s.get());
+      }
+    }
+
+    if (ready_streams.empty()) {
+      break;
+    }
+
+    recognizer.DecodeStreams(ready_streams.data(), ready_streams.size());
   }
 
-  auto results = recognizer.DecodeFileBatch(filenames);
-  for (size_t i = 0; i != filenames.size(); ++i) {
-    std::cout << filenames[i] << "\n" << results[i].text << "\n\n";
+  std::vector<std::string> results;
+  for (auto &s : streams) {
+    results.push_back(recognizer.GetResult(s.get()));
   }
+
+  std::ostringstream os;
+  for (int32_t i = 0; i != results.size(); ++i) {
+    os << "filename: " << argv[3 + i] << "\n";
+    os << "result: " << results[i] << "\n\n";
+  }
+
+  std::cout << os.str();
+
   return 0;
 }

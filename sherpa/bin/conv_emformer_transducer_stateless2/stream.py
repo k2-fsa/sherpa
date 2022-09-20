@@ -87,10 +87,11 @@ def stack_states(
       state_list:
         Each element in state_list corresponding to the internal state
         of the emformer model for a single utterance.
-        ``states[i]`` is a tuple of 2 elements of i-th utterance.
-        ``states[i][0]`` is the attention caches of i-th utterance.
-        ``states[i][1]`` is the convolution caches of i-th utterance.
-        ``len(states[i][0])`` and ``len(states[i][1])`` both eqaul to number of layers.  # noqa
+        ``state_list[i]`` is a tuple of 2 elements of i-th utterance.
+        ``state_list[i][0]`` is the attention caches of i-th utterance.
+        ``state_list[i][1]`` is the convolution caches of i-th utterance.
+        ``len(state_list[i][0])`` and ``len(state_list[i][1])`` both equal to
+        number of layers.  # noqa
 
     Returns:
       A new state corresponding to a batch of utterances.

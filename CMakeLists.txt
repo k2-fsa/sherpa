@@ -116,6 +116,8 @@ message(STATUS "SHERPA_GIT_BRANCH: ${SHERPA_GIT_BRANCH}")
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/Modules)
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 
+set(CMAKE_CXX_FLAGS " ${CMAKE_CXX_FLAGS} -Wall -g ")
+
 include(pybind11)
 include(torch)
 include(k2)

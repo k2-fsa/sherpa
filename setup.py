@@ -77,7 +77,7 @@ def get_binaries_to_install():
     bin_dir.mkdir(parents=True, exist_ok=True)
     suffix = ".exe" if is_windows() else ""
     exe = []
-    for f in ["sherpa", "sherpa-version"]:
+    for f in ["sherpa", "sherpa-online", "sherpa-version"]:
         t = bin_dir / (f + suffix)
         exe.append(str(t))
     return exe

@@ -5,6 +5,8 @@ set(sherpa_srcs
   hypothesis.cc
   log.cc
   offline_asr.cc
+  online_asr.cc
+  online_stream.cc
   parse_options.cc
   rnnt_beam_search.cc
   rnnt_conformer_model.cc
@@ -49,6 +51,7 @@ if(SHERPA_ENABLE_TESTS)
   set(sherpa_test_srcs
     test_hypothesis.cc
     test_log.cc
+    test_online_stream.cc
     test_parse_options.cc
   )
 
@@ -84,6 +87,9 @@ endif()
 add_executable(sherpa sherpa.cc)
 target_link_libraries(sherpa sherpa_core)
 
+add_executable(sherpa-online sherpa_online.cc)
+target_link_libraries(sherpa-online sherpa_core)
+
 if(NOT WIN32)
   execute_process(
     COMMAND "${PYTHON_EXECUTABLE}" -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())"
@@ -92,8 +98,10 @@ if(NOT WIN32)
   )
   message(STATUS "PYTHON_SITE_PACKAGE_DIR: ${PYTHON_SITE_PACKAGE_DIR}")
   target_link_libraries(sherpa "-Wl,-rpath,${PYTHON_SITE_PACKAGE_DIR}/sherpa/lib")
-
   target_link_libraries(sherpa "-Wl,-rpath,${SHERPA_RPATH_ORIGIN}/../lib")
+
+  target_link_libraries(sherpa-online "-Wl,-rpath,${PYTHON_SITE_PACKAGE_DIR}/sherpa/lib")
+  target_link_libraries(sherpa-online "-Wl,-rpath,${SHERPA_RPATH_ORIGIN}/../lib")
 endif()
 
 
@@ -109,6 +117,6 @@ install(TARGETS
   DESTINATION lib
 )
 
-install(TARGETS sherpa sherpa-version
+install(TARGETS sherpa sherpa-online sherpa-version
   DESTINATION  bin
 )

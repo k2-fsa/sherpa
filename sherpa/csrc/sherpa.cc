@@ -26,6 +26,12 @@
 static constexpr const char *kUsageMessage = R"(
 Offline (non-streaming) automatic speech recognition with sherpa.
 
+See:
+
+  https://k2-fsa.github.io/sherpa/cpp/offline_asr/api.html
+
+for more details.
+
 Usage:
 (1) View help information.
 
