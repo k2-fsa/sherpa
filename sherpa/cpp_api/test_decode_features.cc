@@ -66,6 +66,16 @@ static torch::Tensor ReadWave(const std::string &filename,
 }
 
 int main(int argc, char *argv[]) {
+  // see
+  // https://pytorch.org/docs/stable/notes/cpu_threading_torchscript_inference.html
+  torch::set_num_threads(1);
+  torch::set_num_interop_threads(1);
+  torch::NoGradGuard no_grad;
+
+  torch::jit::getExecutorMode() = false;
+  torch::jit::getProfilingMode() = false;
+  torch::jit::setGraphExecutorOptimize(false);
+
   if (argc < 4) {
     std::cerr << "Usage: ./bin/test_decode_file /path/to/nn_model "
                  "/path/to/tokens.txt foo.wav [bar.wav [foobar.wav] ... ]\n";

@@ -20,8 +20,26 @@ on:
   push:
     branches:
       - master
+    paths:
+      - '.github/workflows/run-wenetspeech-streaming-conformer-rnnt-test.yaml'
+      - 'CMakeLists.txt'
+      - 'cmake/**'
+      - 'sherpa/csrc/**'
+      - 'sherpa/bin/streaming_pruned_transducer_statelessX/**'
+      - 'sherpa/python/**'
   pull_request:
     types: [labeled]
+    paths:
+      - '.github/workflows/run-wenetspeech-streaming-conformer-rnnt-test.yaml'
+      - 'CMakeLists.txt'
+      - 'cmake/**'
+      - 'sherpa/csrc/**'
+      - 'sherpa/bin/streaming_pruned_transducer_statelessX/**'
+      - 'sherpa/python/**'
+
+concurrency:
+  group: run_wenetspeech_streaming_conformer_asr_tests-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   run_wenetspeech_streaming_conformer_asr_tests:
@@ -61,7 +79,7 @@ jobs:
         shell: bash
         if: startsWith(matrix.os, 'ubuntu')
         run: |
-          python3 -m pip install --upgrade pip kaldi_native_io
+          python3 -m pip install --upgrade pip
           python3 -m pip install wheel twine typing_extensions websockets sentencepiece>=0.1.96
           python3 -m pip install torch==${{ matrix.torch }}+cpu numpy -f https://download.pytorch.org/whl/cpu/torch_stable.html
           pip install k2==1.16.dev20220621+cpu.torch${{ matrix.torch }} -f https://k2-fsa.org/nightly/index.html
@@ -77,7 +95,7 @@ jobs:
         shell: bash
         if: startsWith(matrix.os, 'macos')
         run: |
-          python3 -m pip install --upgrade pip kaldi_native_io
+          python3 -m pip install --upgrade pip
           python3 -m pip install wheel twine typing_extensions websockets sentencepiece>=0.1.96
           python3 -m pip install torch==${{ matrix.torch }} torchaudio==${{ matrix.torchaudio }} numpy -f https://download.pytorch.org/whl/cpu/torch_stable.html
           pip install k2==1.16.dev20220621+cpu.torch${{ matrix.torch }} -f https://k2-fsa.org/nightly/index.html

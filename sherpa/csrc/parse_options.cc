@@ -701,14 +701,14 @@ bool ParseOptions::ToBool(std::string str) const {
 }
 
 int32_t ParseOptions::ToInt(const std::string &str) const {
-  int32_t ret;
+  int32_t ret = 0;
   if (!ConvertStringToInteger(str, &ret))
     SHERPA_LOG(FATAL) << "Invalid integer option \"" << str << "\"";
   return ret;
 }
 
 uint32_t ParseOptions::ToUint(const std::string &str) const {
-  uint32_t ret;
+  uint32_t ret = 0;
   if (!ConvertStringToInteger(str, &ret))
     SHERPA_LOG(FATAL) << "Invalid integer option \"" << str << "\"";
   return ret;

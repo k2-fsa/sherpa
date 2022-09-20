@@ -119,7 +119,8 @@ class BuildExtension(build_ext):
                     "\nClick:\n\thttps://github.com/k2-fsa/sherpa/issues/new\n"  # noqa
                 )
 
-        for f in ["sherpa", "sherpa-version"]:
-            src_file = install_dir / "bin" / f
+        suffix = ".exe" if is_windows() else ""
+        for f in ["sherpa", "sherpa-online", "sherpa-version"]:
+            src_file = install_dir / "bin" / (f + suffix)
             print(f"Copying {src_file} to {out_bin_dir}/")
             shutil.copy(f"{src_file}", f"{out_bin_dir}/")

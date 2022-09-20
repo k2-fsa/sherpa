@@ -17,13 +17,11 @@ The command to install a CPU version of ``sherpa`` for Linux using ``conda`` is:
      -c k2-fsa \
      -c k2-fsa-sherpa \
      -c kaldifeat \
-     -c kaldi_native_io \
      -c pytorch \
      cpuonly \
      k2 \
      sherpa \
      kaldifeat \
-     kaldi_native_io \
      pytorch=1.12.0 \
      python=3.8
 
@@ -31,7 +29,7 @@ or the following command in one line:
 
 .. code-block:: bash
 
-   conda install -c k2-fsa -c k2-fsa-sherpa -c kaldifeat -c kaldi_native_io -c pytorch cpuonly k2 sherpa kaldifeat kaldi_native_io pytorch=1.12.0 python=3.8
+   conda install -c k2-fsa -c k2-fsa-sherpa -c kaldifeat -c pytorch cpuonly k2 sherpa kaldifeat pytorch=1.12.0 python=3.8
 
 .. note::
 

@@ -26,6 +26,7 @@
 #include "sherpa/python/csrc/rnnt_conformer_model.h"
 #include "sherpa/python/csrc/rnnt_conv_emformer_model.h"
 #include "sherpa/python/csrc/rnnt_emformer_model.h"
+#include "sherpa/python/csrc/rnnt_lstm_model.h"
 #include "sherpa/python/csrc/rnnt_model.h"
 
 namespace sherpa {
@@ -35,11 +36,12 @@ PYBIND11_MODULE(_sherpa, m) {
   m.attr("cxx_flags") = std::string(kCMakeCxxFlags);
 
   PybindHypothesis(m);
+  PybindRnntBeamSearch(m);
   PybindRnntModel(m);
   PybindRnntConformerModel(m);
   PybindRnntConvEmformerModel(m);
   PybindRnntEmformerModel(m);
-  PybindRnntBeamSearch(m);
+  PybindRnntLstmModel(m);
 }
 
 }  // namespace sherpa

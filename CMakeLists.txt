@@ -3,7 +3,7 @@ project(sherpa)
 
 # Remember to change
 # scripts/conda-cpu/sherpa/meta.yaml
-set(SHERPA_VERSION "0.8")
+set(SHERPA_VERSION "0.9.1")
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
@@ -115,6 +115,8 @@ message(STATUS "SHERPA_GIT_BRANCH: ${SHERPA_GIT_BRANCH}")
 
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/Modules)
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
+
+set(CMAKE_CXX_FLAGS " ${CMAKE_CXX_FLAGS} -Wall -g ")
 
 include(pybind11)
 include(torch)

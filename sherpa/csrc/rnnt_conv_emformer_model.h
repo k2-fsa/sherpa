@@ -45,14 +45,13 @@ class RnntConvEmformerModel : public RnntModel {
 
   ~RnntConvEmformerModel() override = default;
 
-  using State = std::pair<std::vector<std::vector<torch::Tensor>>,
-                          std::vector<torch::Tensor>>;
+  std::tuple<torch::Tensor, torch::Tensor, torch::IValue>
+  StreamingForwardEncoder(const torch::Tensor &features,
+                          const torch::Tensor &features_length,
+                          const torch::Tensor &num_processed_frames,
+                          torch::IValue states);
 
-  std::tuple<torch::Tensor, torch::Tensor, State> StreamingForwardEncoder(
-      const torch::Tensor &features, const torch::Tensor &features_length,
-      const torch::Tensor &num_processed_frames, State states);
-
-  State GetEncoderInitStates();
+  torch::IValue GetEncoderInitStates();
 
   /** Run the decoder network.
    *
@@ -92,6 +91,11 @@ class RnntConvEmformerModel : public RnntModel {
   int32_t ChunkLength() const { return chunk_length_; }
   int32_t RightContextLength() const { return right_context_length_; }
   int32_t PadLength() const { return pad_length_; }
+
+  using State = std::pair<std::vector<std::vector<torch::Tensor>>,
+                          std::vector<torch::Tensor>>;
+  torch::IValue StateToIValue(const State &s) const;
+  State StateFromIValue(torch::IValue ivalue) const;
 
  private:
   torch::jit::Module model_;
