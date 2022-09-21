@@ -79,7 +79,7 @@ Decode a single wave file
 .. hint::
 
    It supports decoding only wave files with a single channel and the sampling rate
-   shoudl be 16 kHz.
+   should be 16 kHz.
 
 .. code-block:: bash
 
