@@ -67,7 +67,7 @@ static std::vector<std::string> DecodeWaves(
     const std::vector<torch::Tensor> &samples) {
   using torch::indexing::Slice;
   float sample_rate = online_asr.Opts().fbank_opts.frame_opts.samp_freq;
-  int32_t frame_size = 4096;
+  int32_t frame_size = 409600;
   int32_t batch_size = samples.size();
   std::vector<int> streams_cur_read;
   streams_cur_read.resize(batch_size);
@@ -82,7 +82,7 @@ static std::vector<std::string> DecodeWaves(
      streams.push_back(online_asr.CreateStream());
   }
 
-  std::vector<sherpa::OnlineStream*> ready_streams;
+  std::vector<sherpa::OnlineStream *> ready_streams;
   std::vector<int32_t> ready_streams_id; // batch id for ready_stream
   while (true) {
       ready_streams.clear();
@@ -117,8 +117,9 @@ static std::vector<std::string> DecodeWaves(
 
       // update results and endpoint state
       for (int32_t j = 0; j != ready_streams.size(); ++j) {
+          results[ready_streams_id[j]] += online_asr.GetResult(ready_streams[j]);
           if (ready_streams[j]->IsEndpoint()) {
-              results[ready_streams_id[j]] += online_asr.GetResult(ready_streams[j]);
+              results[ready_streams_id[j]] += "\n";
               streams[ready_streams_id[j]] = online_asr.CreateStream();
           }
       }
