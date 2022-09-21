@@ -218,7 +218,7 @@ class OnlineStream::OnlineStreamImpl {
   torch::Tensor decoder_out_;
   int32_t num_processed_frames_ = 0;       // before subsampling
   int32_t num_trailing_blank_frames_ = 0;  // after subsampling
-  int32_t frame_shift_ms_ = 10;  // after subsampling
+  int32_t frame_shift_ms_ = 10;  // before subsampling
 };
 
 OnlineStream::OnlineStream(float sampling_rate, int32_t feature_dim,
