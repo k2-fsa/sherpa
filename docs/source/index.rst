@@ -36,3 +36,9 @@ for both streaming ASR and offline ASR (i.e., non-streaming ASR).
 
    ./cpp/installation/index
    ./cpp/offline_asr/index
+
+.. toctree::
+   :maxdepth: 2
+   :caption: ncnn
+
+   ./ncnn/index
