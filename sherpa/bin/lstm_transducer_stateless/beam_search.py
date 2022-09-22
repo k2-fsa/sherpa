@@ -1,20 +1,27 @@
+import math
 from typing import List
 
 import k2
 import torch
 from stream import Stream, stack_states, unstack_states
+from torch.nn.utils.rnn import pad_sequence
 
 from sherpa import (
     VALID_FAST_BEAM_SEARCH_METHOD,
     Hypotheses,
     Hypothesis,
     Lexicon,
+    RnntLstmModel,
     fast_beam_search_nbest,
     fast_beam_search_nbest_LG,
     fast_beam_search_one_best,
+    greedy_search,
+    modified_beam_search,
     streaming_greedy_search,
     streaming_modified_beam_search,
 )
+
+LOG_EPS = math.log(1e-10)
 
 
 class FastBeamSearch:
@@ -436,3 +443,108 @@ class ModifiedBeamSearch:
             result = "".join(result)
 
         return result
+
+
+class GreedySearchOffline:
+    def __init__(self):
+        pass
+
+    @torch.no_grad()
+    def process(
+        self,
+        model: "RnntLstmModel",
+        features: List[torch.Tensor],
+    ) -> List[List[int]]:
+        """
+        Args:
+          model:
+            RNN-T model decoder model
+
+          features:
+            A list of 2-D tensors. Each entry is of shape
+            (num_frames, feature_dim).
+        Returns:
+          Return a list-of-list containing the decoding token IDs.
+        """
+        features_length = torch.tensor(
+            [f.size(0) for f in features],
+            dtype=torch.int64,
+        )
+        features = pad_sequence(
+            features,
+            batch_first=True,
+            padding_value=LOG_EPS,
+        )
+
+        device = model.device
+        features = features.to(device)
+        features_length = features_length.to(device)
+
+        encoder_out, encoder_out_length, _ = model.encoder_streaming_forward(
+            features=features,
+            features_length=features_length,
+            states=model.get_encoder_init_states(features.size(0)),
+        )
+
+        hyp_tokens = greedy_search(
+            model=model,
+            encoder_out=encoder_out,
+            encoder_out_length=encoder_out_length.cpu(),
+        )
+
+        return hyp_tokens
+
+
+class ModifiedBeamSearchOffline:
+    def __init__(self, beam_search_params: dict):
+        """
+        Args:
+          beam_search_params:
+            Dictionary containing all the parameters for beam search.
+        """
+        self.beam_search_params = beam_search_params
+
+    @torch.no_grad()
+    def process(
+        self,
+        model: "RnntLstmModel",
+        features: List[torch.Tensor],
+    ) -> List[List[int]]:
+        """Run RNN-T model with the given features and use greedy search
+        to decode the output of the model.
+
+        Args:
+          model:
+            The RNN-T model.
+          features:
+            A list of 2-D tensors. Each entry is of shape
+            (num_frames, feature_dim).
+        Returns:
+          Return a list-of-list containing the decoding token IDs.
+        """
+        features_length = torch.tensor(
+            [f.size(0) for f in features],
+            dtype=torch.int64,
+        )
+        features = pad_sequence(
+            features,
+            batch_first=True,
+            padding_value=LOG_EPS,
+        )
+
+        device = model.device
+        features = features.to(device)
+        features_length = features_length.to(device)
+
+        encoder_out, encoder_out_length, _ = model.encoder(
+            features=features,
+            features_length=features_length,
+        )
+
+        hyp_tokens = modified_beam_search(
+            model=model,
+            encoder_out=encoder_out,
+            encoder_out_length=encoder_out_length.cpu(),
+            num_active_paths=self.beam_search_params["num_active_paths"],
+        )
+        return hyp_tokens

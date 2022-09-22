@@ -56,7 +56,7 @@ class RnntLstmModel : public RnntModel {
       const torch::Tensor &features, const torch::Tensor &features_length,
       State states);
 
-  State GetEncoderInitStates();
+  State GetEncoderInitStates(int32_t batch_size = 1);
 
   /** Run the decoder network.
    *
