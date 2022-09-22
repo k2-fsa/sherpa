@@ -90,7 +90,7 @@ static std::vector<std::string> DecodeWaves(
 	for (int32_t i = 0; i != batch_size; ++i) {
 	    int32_t cur_frame_size = ((samples[i].size(0) - streams_cur_read[i]) < frame_size) ? (samples[i].size(0) - streams_cur_read[i]) : frame_size;
 	    if (cur_frame_size > 0) {
-		torch::Tensor cur_frame = samples[i].index({Slice(streams_cur_read[i], cur_frame_size)});
+		torch::Tensor cur_frame = samples[i].index({Slice(streams_cur_read[i], streams_cur_read[i] + cur_frame_size)});
 		streams_cur_read[i] += cur_frame_size;
 		batch_samples_len += cur_frame_size;
 		streams[i]->AcceptWaveform(sample_rate, cur_frame);
@@ -115,11 +115,12 @@ static std::vector<std::string> DecodeWaves(
 	    if (ready_streams.empty()) { break; }
 	    online_asr.DecodeStreams(ready_streams.data(), ready_streams.size());
 
-	    // update results and endpoint state
+	    // update streaming decode results
 	    for (int32_t j = 0; j != ready_streams.size(); ++j) {
-		results[ready_streams_id[j]] = online_asr.GetResult(ready_streams[j]);
-		if (ready_streams[j]->IsEndpoint()) {
-		    results[ready_streams_id[j]] += "\n";
+		results[ready_streams_id[j]] += std::string("partial: ") + online_asr.GetResult(ready_streams[j]) + "\n";
+		if (ready_streams[j]->IsEndpoint() || streams_cur_read[ready_streams_id[j]] == samples[ready_streams_id[j]].size(0)) {
+		    results[ready_streams_id[j]] += std::string("final: ") + online_asr.GetResult(ready_streams[j]) + "\n";
+		    // should reset the decoding instance when endpoint active
 		    streams[ready_streams_id[j]] = online_asr.CreateStream();
 		}
 	    }
