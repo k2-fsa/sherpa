@@ -59,7 +59,7 @@ static int RecordCallback(const void *input_buffer, void * /*output_buffer*/,
 static void Handler(int sig) {
   stop = true;
   fprintf(stderr, "\nexiting...\n");
-};
+}
 
 int main(int argc, char *argv[]) {
   // see
