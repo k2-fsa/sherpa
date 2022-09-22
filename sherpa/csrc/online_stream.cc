@@ -19,6 +19,7 @@
 #include "sherpa/cpp_api/online_stream.h"
 
 #include <memory>
+#include <mutex>
 #include <utility>
 #include <vector>
 
@@ -45,16 +46,29 @@ class OnlineStream::OnlineStreamImpl {
   }
 
   void AcceptWaveform(float sampling_rate, torch::Tensor waveform) {
+    std::lock_guard<std::mutex> lock(feat_mutex_);
     fbank_->AcceptWaveform(sampling_rate, waveform);
   }
 
-  int32_t NumFramesReady() const { return fbank_->NumFramesReady(); }
+  int32_t NumFramesReady() const {
+    std::lock_guard<std::mutex> lock(feat_mutex_);
+    return fbank_->NumFramesReady();
+  }
 
-  bool IsLastFrame(int32_t frame) const { return fbank_->IsLastFrame(frame); }
+  bool IsLastFrame(int32_t frame) const {
+    std::lock_guard<std::mutex> lock(feat_mutex_);
+    return fbank_->IsLastFrame(frame);
+  }
 
-  void InputFinished() { fbank_->InputFinished(); }
+  void InputFinished() {
+    std::lock_guard<std::mutex> lock(feat_mutex_);
+    fbank_->InputFinished();
+  }
 
-  torch::Tensor GetFrame(int32_t frame) { return fbank_->GetFrame(frame); }
+  torch::Tensor GetFrame(int32_t frame) {
+    std::lock_guard<std::mutex> lock(feat_mutex_);
+    return fbank_->GetFrame(frame);
+  }
 
   torch::IValue GetState() const { return state_; }
 
@@ -203,6 +217,8 @@ class OnlineStream::OnlineStreamImpl {
 
  private:
   std::unique_ptr<kaldifeat::OnlineFbank> fbank_;
+  mutable std::mutex feat_mutex_;
+
   torch::IValue state_;
   std::vector<int32_t> hyps_;
   Hypotheses hypotheses_;

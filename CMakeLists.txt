@@ -38,6 +38,7 @@ set(CMAKE_CXX_STANDARD 14 CACHE STRING "The C++ version to be used.")
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 option(SHERPA_ENABLE_TESTS "Whether to build tests" ON)
+option(SHERPA_ENABLE_PORTAUDIO "Whether to build portaudio" ON)
 
 include(CheckIncludeFileCXX)
 check_include_file_cxx(cxxabi.h SHERPA_HAVE_CXXABI_H)
@@ -123,6 +124,9 @@ include(torch)
 include(k2)
 include(kaldifeat)
 include(kaldi_native_io)
+if(SHERPA_ENABLE_PORTAUDIO)
+  include(portaudio)
+endif()
 
 if(SHERPA_ENABLE_TESTS)
   enable_testing()
