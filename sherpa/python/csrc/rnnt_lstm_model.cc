@@ -51,7 +51,7 @@ void PybindRnntLstmModel(py::module &m) {  // NOLINT
            py::arg("features"), py::arg("features_length"), py::arg("states"),
            py::call_guard<py::gil_scoped_release>())
       .def("get_encoder_init_states", &PyClass::GetEncoderInitStates,
-           py::call_guard<py::gil_scoped_release>())
+           py::arg("batch_size") = 1, py::call_guard<py::gil_scoped_release>())
       .def_property_readonly("subsampling_factor", &PyClass::SubsamplingFactor)
       .def_property_readonly("pad_length", &PyClass::PadLength);
 }

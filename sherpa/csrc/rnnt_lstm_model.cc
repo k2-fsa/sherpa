@@ -88,16 +88,17 @@ RnntLstmModel::StreamingForwardEncoder(const torch::Tensor &features,
   return {encoder_out, encoder_out_length, next_states};
 }
 
-RnntLstmModel::State RnntLstmModel::GetEncoderInitStates() {
+RnntLstmModel::State RnntLstmModel::GetEncoderInitStates(
+    int32_t batch_size /*=1*/) {
   torch::IValue ivalue =
-      encoder_.run_method("get_init_states", /*batch_size*/ 1, device_);
+      encoder_.run_method("get_init_states", batch_size, device_);
   auto tuple_ptr = ivalue.toTuple();
 
   torch::Tensor hidden_states = tuple_ptr->elements()[0].toTensor();
   torch::Tensor cell_states = tuple_ptr->elements()[1].toTensor();
 
   return {hidden_states, cell_states};
-}
+}  // namespace sherpa
 
 torch::Tensor RnntLstmModel::ForwardDecoder(
     const torch::Tensor &decoder_input) {
