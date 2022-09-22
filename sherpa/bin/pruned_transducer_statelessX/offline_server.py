@@ -557,7 +557,10 @@ class OfflineServer:
                 result = self.sp.decode(hyp)
             else:
                 result = [self.token_table[i] for i in hyp]
-            await socket.send(result)
+            if result:
+                await socket.send(result)
+            else:
+                await socket.send("<EMPTY>")
 
 
 @torch.no_grad()
