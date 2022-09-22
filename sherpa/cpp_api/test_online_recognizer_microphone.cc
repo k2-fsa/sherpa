@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#include <iostream>
+#include <signal.h>
 
 #include "portaudio.h"  // NOLINT
 #include "sherpa/cpp_api/online_recognizer.h"
