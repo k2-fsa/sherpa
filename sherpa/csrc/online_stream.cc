@@ -19,7 +19,7 @@
 #include "sherpa/cpp_api/online_stream.h"
 
 #include <memory>
-#include <mutex>
+#include <mutex>  // NOLINT
 #include <utility>
 #include <vector>
 
