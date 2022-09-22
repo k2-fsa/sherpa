@@ -121,4 +121,6 @@ rst_epilog = """
 .. _WenetSpeech: https://github.com/wenet-e2e/WenetSpeech
 .. _GigaSpeech: https://github.com/SpeechColab/GigaSpeech
 .. _Kaldi: https://github.com/kaldi-asr/kaldi
+.. _ncnn: https://github.com/tencent/ncnn
+.. _sherpa-ncnn: https://github.com/k2-fsa/sherpa-ncnn
 """

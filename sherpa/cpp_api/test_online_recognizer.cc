@@ -33,7 +33,7 @@ int main(int argc, char *argv[]) {
   torch::jit::setGraphExecutorOptimize(false);
 
   if (argc < 4) {
-    std::cerr << "Usage: ./bin/test_decode_files /path/to/nn_model "
+    std::cerr << "Usage: ./bin/test_online_recognizer /path/to/nn_model "
                  "/path/to/tokens.txt foo.wav [bar.wav [foobar.wav] ... ]\n";
     exit(EXIT_FAILURE);
   }

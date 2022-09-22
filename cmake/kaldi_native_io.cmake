@@ -9,8 +9,8 @@ function(download_kaldi_native_io)
 
   include(FetchContent)
 
-  set(kaldi_native_io_URL  "https://github.com/csukuangfj/kaldi_native_io/archive/refs/tags/v1.14.tar.gz")
-  set(kaldi_native_io_HASH "SHA256=c7dc0a2cda061751a121094ad850f8575f3552d223747021aba0b3abd3827622")
+  set(kaldi_native_io_URL  "https://github.com/csukuangfj/kaldi_native_io/archive/refs/tags/v1.15.1.tar.gz")
+  set(kaldi_native_io_HASH "SHA256=97377e1d61e99d8fc1d6037a418d3037522dfa46337e06162e24b1d97f3d70a6")
 
   set(KALDI_NATIVE_IO_BUILD_TESTS OFF CACHE BOOL "" FORCE)
   set(KALDI_NATIVE_IO_BUILD_PYTHON OFF CACHE BOOL "" FORCE)
