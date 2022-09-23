@@ -25,8 +25,8 @@
 
 #include "kaldifeat/csrc/feature-fbank.h"
 #include "kaldifeat/csrc/online-feature.h"
-#include "sherpa/csrc/hypothesis.h"
 #include "sherpa/csrc/endpoint.h"
+#include "sherpa/csrc/hypothesis.h"
 #include "sherpa/csrc/log.h"
 
 namespace sherpa {

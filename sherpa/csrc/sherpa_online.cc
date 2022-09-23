@@ -53,7 +53,7 @@ Note: You can get pre-trained models for testing by visiting
     --nn-model=/path/to/cpu_jit.pt \
     --tokens=/path/to/tokens.txt \
     --use-gpu=false \
-    --use-wav-scp=false \
+    --use-wav-scp=true \
     scp:wav.scp \
     ark,scp,t:results.ark,results.scp
 )";
