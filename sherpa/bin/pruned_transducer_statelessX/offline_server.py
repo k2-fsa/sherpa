@@ -169,6 +169,14 @@ def get_args():
         """,
     )
 
+    parser.add_argument(
+        "--use-fp16",
+        type=bool,
+        default=False,
+        help="""Whether to use fp16 for model encoding.
+        """,
+    )
+
     return (
         parser.parse_args(),
         beam_search_parser.parse_known_args()[0],
@@ -190,6 +198,7 @@ class OfflineServer:
         max_queue_size: int,
         max_active_connections: int,
         beam_search_params: dict,
+        use_fp16: bool,
     ):
         """
         Args:
@@ -227,6 +236,8 @@ class OfflineServer:
             equals to this limit, the server refuses to accept new connections.
           beam_search_params:
             Dictionary containing all the parameters for beam search.
+          use_fp16:
+            Whether to use fp16 for model encoding.
         """
         self.feature_extractor = self._build_feature_extractor()
         self.nn_models = self._build_nn_model(nn_model_filename, num_device)
@@ -270,6 +281,7 @@ class OfflineServer:
             raise ValueError(
                 f"Decoding method {decoding_method} is not supported."
             )
+        self.use_fp16 = use_fp16
 
     def _build_feature_extractor(self) -> kaldifeat.OfflineFeature:
         """Build a fbank feature extractor for extracting features.
@@ -464,6 +476,7 @@ class OfflineServer:
                 self.beam_search.process,
                 model,
                 feature_list,
+                self.use_fp16,
             )
 
             for i, hyp in enumerate(hyp_tokens):
@@ -579,6 +592,7 @@ def main():
     max_message_size = args.max_message_size
     max_queue_size = args.max_queue_size
     max_active_connections = args.max_active_connections
+    use_fp16 = args.use_fp16
 
     decoding_method = beam_search_params["decoding_method"]
     assert decoding_method in (
@@ -621,6 +635,7 @@ def main():
         max_queue_size=max_queue_size,
         max_active_connections=max_active_connections,
         beam_search_params=beam_search_params,
+        use_fp16=use_fp16,
     )
     asyncio.run(offline_server.run(port))
 

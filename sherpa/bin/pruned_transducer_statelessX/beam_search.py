@@ -35,6 +35,7 @@ class GreedySearchOffline:
         self,
         model: "RnntConformerModel",
         features: List[torch.Tensor],
+        use_fp16: bool,
     ) -> List[List[int]]:
         """
         Args:
@@ -61,10 +62,19 @@ class GreedySearchOffline:
         features = features.to(device)
         features_length = features_length.to(device)
 
-        encoder_out, encoder_out_length = model.encoder(
-            features=features,
-            features_length=features_length,
-        )
+        if device.type == "cpu":
+            encoder_out, encoder_out_length = model.encoder(
+                features=features,
+                features_length=features_length,
+            )
+        elif device.type == "cuda":
+            with torch.cuda.amp.autocast(enabled=use_fp16):
+                encoder_out, encoder_out_length = model.encoder(
+                    features=features,
+                    features_length=features_length,
+                )
+        else:
+            raise NotImplementedError("Device not supported")
 
         hyp_tokens = greedy_search(
             model=model,
@@ -89,6 +99,7 @@ class ModifiedBeamSearchOffline:
         self,
         model: "RnntConformerModel",
         features: List[torch.Tensor],
+        use_fp16: bool,
     ) -> List[List[int]]:
         """Run RNN-T model with the given features and use greedy search
         to decode the output of the model.
@@ -116,10 +127,19 @@ class ModifiedBeamSearchOffline:
         features = features.to(device)
         features_length = features_length.to(device)
 
-        encoder_out, encoder_out_length = model.encoder(
-            features=features,
-            features_length=features_length,
-        )
+        if device.type == "cpu":
+            encoder_out, encoder_out_length = model.encoder(
+                features=features,
+                features_length=features_length,
+            )
+        elif device.type == "cuda":
+            with torch.cuda.amp.autocast(enabled=use_fp16):
+                encoder_out, encoder_out_length = model.encoder(
+                    features=features,
+                    features_length=features_length,
+                )
+        else:
+            raise NotImplementedError("Device not supported")
 
         hyp_tokens = modified_beam_search(
             model=model,
