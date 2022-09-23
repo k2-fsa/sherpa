@@ -34,7 +34,7 @@ struct EndpointRule {
   // to be >= this value.
   float min_utterance_length;
 
-  EndpointRule(const bool must_contain_nonsilence = true,
+  explicit EndpointRule(const bool must_contain_nonsilence = true,
       const float min_trailing_silence = 2.0,
       const float min_utterance_length = 0)
     : must_contain_nonsilence(must_contain_nonsilence),
@@ -62,8 +62,8 @@ class Endpoint {
   /// This function returns true if this set of endpointing rules thinks we
   /// should terminate decoding.
   bool IsEndpoint(const int num_frames_decoded,
-                  const int trailing_silence_frames,
-      const float frame_shift_in_seconds);
+      const int trailing_silence_frames,
+      const float frame_shift_in_seconds) const;
 
  private:
   EndpointConfig config_;

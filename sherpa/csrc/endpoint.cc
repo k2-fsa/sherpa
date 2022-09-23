@@ -40,7 +40,7 @@ static bool RuleActivated(const EndpointRule& rule,
 
 bool Endpoint::IsEndpoint(const int num_frames_decoded,
                   const int trailing_silence_frames,
-      const float frame_shift_in_seconds) {
+      const float frame_shift_in_seconds) const {
   float utterance_length = num_frames_decoded * frame_shift_in_seconds;
   float trailing_silence = trailing_silence_frames * frame_shift_in_seconds;
   if (RuleActivated(config_.rule1, "rule1", trailing_silence, utterance_length)
