@@ -92,7 +92,7 @@ ln -s ./icefall_librispeech_streaming_pruned_transducer_stateless3_giga_0.9_2022
 
 Now we have exported the pretrained ASR model, then we need to consider how to deploy the model on the server as an ASR service, to allow users to send audio requests and get recognition results. Actually, [Triton Inference Server](https://github.com/triton-inference-server/server) does the most of serving work for us, it handles requests/results sending and receiving, request scheduling, load balance, and inference execution.  In this part, we'll go through how to deploy the model on Triton.
 
-The model repositories are provided in `model_repo_offline` and `model_repo_streaming` directory, you can find directories standing for each of the components. And there is a `conformer_transducer` dir which ensembles all the components into a whole pipeline. Each of those component directories contain a config file `config.pbtxt` and a version directory containing the model file. However, the version directories of encoder and decoder are still empty since we have not put the exported models into them.  
+The model repositories are provided in `model_repo_offline` and `model_repo_streaming` directory, you can find directories standing for each of the components. And there is a `conformer_transducer` dir which ensembles all the components into a whole pipeline. Each of those component directories contains a config file `config.pbtxt` and a version directory containing the model file. However, the version directories of encoder and decoder are still empty since we have not put the exported models into them.  
 
 ### Quick Start
 
