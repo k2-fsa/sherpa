@@ -44,9 +44,9 @@ class OnlineStream::OnlineStreamImpl {
     opts.mel_opts.num_bins = feature_dim;
 
     fbank_ = std::make_unique<kaldifeat::OnlineFbank>(opts);
+    frame_shift_ms_ = opts.frame_opts.frame_shift_ms;
     EndpointConfig endpoint_config;
     endpoint_ = std::make_unique<Endpoint>(endpoint_config);
-    frame_shift_ms_ = opts.frame_opts.frame_shift_ms;
   }
 
   void AcceptWaveform(float sampling_rate, torch::Tensor waveform) {
@@ -65,7 +65,9 @@ class OnlineStream::OnlineStreamImpl {
   }
 
   bool IsEndpoint() const {
-      return endpoint_->IsEndpoint(num_processed_frames_, num_trailing_blank_frames_,  frame_shift_ms_ / 1000.0);
+    return endpoint_->IsEndpoint(num_processed_frames_,
+    num_trailing_blank_frames_,
+    frame_shift_ms_ / 1000.0);
   }
 
   void InputFinished() {

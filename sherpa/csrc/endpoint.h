@@ -15,8 +15,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#ifndef ENDPOINT_H_
-#define ENDPOINT_H_
+#ifndef SHERPA_CSRC_ENDPOINT_H_
+#define SHERPA_CSRC_ENDPOINT_H_
 
 #include <vector>
 
@@ -34,17 +34,18 @@ struct EndpointRule {
   // to be >= this value.
   float min_utterance_length;
 
-  EndpointRule(bool must_contain_nonsilence = true, float min_trailing_silence = 2.0,
-                  float min_utterance_length = 0)
-      : must_contain_nonsilence(must_contain_nonsilence),
-        min_trailing_silence(min_trailing_silence),
-        min_utterance_length(min_utterance_length) {}
+  EndpointRule(const bool must_contain_nonsilence = true,
+      const float min_trailing_silence = 2.0,
+      const float min_utterance_length = 0)
+    : must_contain_nonsilence(must_contain_nonsilence),
+    min_trailing_silence(min_trailing_silence),
+    min_utterance_length(min_utterance_length) {}
 };
 
 struct EndpointConfig {
-  // rule1 times out after 5 seconds of silence, even if we decoded nothing.
+  // rule1 times out after 3.0 seconds of silence, even if we decoded nothing.
   EndpointRule rule1;
-  // rule2 times out after 2.0 seconds of silence after decoding something,
+  // rule2 times out after 1.0 seconds of silence after decoding something,
   EndpointRule rule2;
   // rule3 times out after the utterance is 20 seconds long, regardless of
   // anything else.
@@ -61,7 +62,8 @@ class Endpoint {
   /// This function returns true if this set of endpointing rules thinks we
   /// should terminate decoding.
   bool IsEndpoint(const int num_frames_decoded,
-                  const int trailing_silence_frames, const float frame_shift_in_seconds);
+                  const int trailing_silence_frames,
+      const float frame_shift_in_seconds);
 
  private:
   EndpointConfig config_;
@@ -69,4 +71,4 @@ class Endpoint {
 
 }  // namespace sherpa
 
-#endif  // ENDPOINT_H_
+#endif  // SHERPA_CSRC_ENDPOINT_H_

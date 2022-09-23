@@ -16,6 +16,8 @@
  * limitations under the License.
  */
 
+#include <algorithm>
+
 #include "kaldi_native_io/csrc/kaldi-table.h"
 #include "kaldi_native_io/csrc/text-utils.h"
 #include "kaldi_native_io/csrc/wave-reader.h"
@@ -63,71 +65,77 @@ Note: You can get pre-trained models for testing by visiting
  * @return Return the decoded results.
  */
 static std::vector<std::string> DecodeWaves(
-	sherpa::OnlineAsr &online_asr,  // NOLINT
-	const std::vector<torch::Tensor> &samples) {
-    using torch::indexing::Slice;
-    float sample_rate = online_asr.Opts().fbank_opts.frame_opts.samp_freq;
-    int32_t frame_size = 4096;
-    int32_t batch_size = samples.size();
-    std::vector<int> streams_cur_read;
-    streams_cur_read.resize(batch_size);
-    std::vector<std::string> results;
-    results.resize(batch_size);
+  sherpa::OnlineAsr &online_asr,  // NOLINT
+  const std::vector<torch::Tensor> &samples) {
+  using torch::indexing::Slice;
+  float sample_rate = online_asr.Opts().fbank_opts.frame_opts.samp_freq;
+  int32_t frame_size = 4096;
+  int32_t batch_size = samples.size();
+  std::vector<int> streams_cur_read(batch_size);
+  std::vector<std::string> results(batch_size);
 
-    torch::Tensor tail_padding =
-	torch::zeros({static_cast<int32_t>(0.4 * sample_rate)}, torch::kFloat);
+  torch::Tensor tail_padding =
+    torch::zeros({static_cast<int32_t>(0.4 * sample_rate)}, torch::kFloat);
 
-    std::vector<std::unique_ptr<sherpa::OnlineStream>> streams;
+  std::vector<std::unique_ptr<sherpa::OnlineStream>> streams;
+  for (int32_t i = 0; i != batch_size; ++i) {
+    streams.push_back(online_asr.CreateStream());
+  }
+
+  std::vector<sherpa::OnlineStream *> ready_streams;
+  std::vector<int32_t> ready_streams_id;  // batch id for ready_stream
+  while (true) {
+    int32_t batch_samples_len = 0;  // total length of PCM data in current batch
+    // streaming input
     for (int32_t i = 0; i != batch_size; ++i) {
-	streams.push_back(online_asr.CreateStream());
+      int32_t cur_frame_size = std::min(frame_size,
+          static_cast<int32_t>(samples[i].size(0) - streams_cur_read[i]));
+      if (cur_frame_size > 0) {
+        torch::Tensor cur_frame = samples[i].index({Slice(streams_cur_read[i],
+        streams_cur_read[i] + cur_frame_size)});
+        streams_cur_read[i] += cur_frame_size;
+        batch_samples_len += cur_frame_size;
+        streams[i]->AcceptWaveform(sample_rate, cur_frame);
+        if (cur_frame_size < frame_size) {
+          streams[i]->AcceptWaveform(sample_rate, tail_padding);
+          streams[i]->InputFinished();
+          batch_samples_len += static_cast<int32_t>(0.4 * sample_rate);
+        }
+      }
     }
+    // should break if no input data in batch
+    if (batch_samples_len == 0) { break; }
 
-    std::vector<sherpa::OnlineStream *> ready_streams;
-    std::vector<int32_t> ready_streams_id; // batch id for ready_stream
+    // batch decode
     while (true) {
-	int32_t batch_samples_len = 0;
-	// streaming input
-	for (int32_t i = 0; i != batch_size; ++i) {
-	    int32_t cur_frame_size = ((samples[i].size(0) - streams_cur_read[i]) < frame_size) ? (samples[i].size(0) - streams_cur_read[i]) : frame_size;
-	    if (cur_frame_size > 0) {
-		torch::Tensor cur_frame = samples[i].index({Slice(streams_cur_read[i], streams_cur_read[i] + cur_frame_size)});
-		streams_cur_read[i] += cur_frame_size;
-		batch_samples_len += cur_frame_size;
-		streams[i]->AcceptWaveform(sample_rate, cur_frame);
-		if (cur_frame_size < frame_size) {
-		    streams[i]->AcceptWaveform(sample_rate, tail_padding);
-		    streams[i]->InputFinished();
-		    batch_samples_len += static_cast<int32_t>(0.4 * sample_rate);
-		}
-	    }
-	}
+      ready_streams.clear();
+      ready_streams_id.clear();
+      for (int32_t i = 0; i != batch_size; ++i) {
+        if (online_asr.IsReady(streams[i].get())) {
+          ready_streams.push_back(streams[i].get());
+          ready_streams_id.push_back(i);
+        }
+      }
+      if (ready_streams.empty()) { break; }
+      online_asr.DecodeStreams(ready_streams.data(), ready_streams.size());
 
-	// batch decode
-	while (true) {
-	    ready_streams.clear();
-	    ready_streams_id.clear();
-	    for (int32_t i = 0; i != batch_size; ++i) {
-		if (online_asr.IsReady(streams[i].get())) {
-		    ready_streams.push_back(streams[i].get());
-		    ready_streams_id.push_back(i);
-		}
-	    }
-	    if (ready_streams.empty()) { break; }
-	    online_asr.DecodeStreams(ready_streams.data(), ready_streams.size());
-
-	    // update streaming decode results
-	    for (int32_t j = 0; j != ready_streams.size(); ++j) {
-		results[ready_streams_id[j]] += std::string("partial: ") + online_asr.GetResult(ready_streams[j]) + "\n";
-		if (ready_streams[j]->IsEndpoint() || streams_cur_read[ready_streams_id[j]] == samples[ready_streams_id[j]].size(0)) {
-		    results[ready_streams_id[j]] += std::string("final: ") + online_asr.GetResult(ready_streams[j]) + "\n";
-		    // should reset the decoding instance when endpoint active
-		    streams[ready_streams_id[j]] = online_asr.CreateStream();
-		}
-	    }
-	}
-	if (batch_samples_len == 0) { break; } 
+      // update streaming decode results
+      for (int32_t j = 0; j != ready_streams.size(); ++j) {
+        results[ready_streams_id[j]] += std::string("partial: ") +
+          online_asr.GetResult(ready_streams[j]) + "\n";
+        if (ready_streams[j]->IsEndpoint() ||
+            (streams_cur_read[ready_streams_id[j]] ==
+            samples[ready_streams_id[j]].size(0))
+           ) {
+          results[ready_streams_id[j]] += std::string("final: ") +
+            online_asr.GetResult(ready_streams[j]) + "\n";
+          // should reset the decoding instance when endpoint active
+          streams[ready_streams_id[j]] = online_asr.CreateStream();
+        }
+      }
     }
-    return results;
+  }
+  return results;
 }
 
 int32_t main(int32_t argc, char *argv[]) {
