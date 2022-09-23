@@ -121,14 +121,12 @@ static std::vector<std::string> DecodeWaves(
 
       // update streaming decode results
       for (int32_t j = 0; j != ready_streams.size(); ++j) {
-        results[ready_streams_id[j]] += std::string("partial: ") +
-          online_asr.GetResult(ready_streams[j]) + "\n";
         if (ready_streams[j]->IsEndpoint() ||
             (streams_cur_read[ready_streams_id[j]] ==
             samples[ready_streams_id[j]].size(0))
            ) {
           results[ready_streams_id[j]] += std::string("final: ") +
-            online_asr.GetResult(ready_streams[j]) + "\n";
+            online_asr.GetResult(ready_streams[j]);
           // should reset the decoding instance when endpoint active
           streams[ready_streams_id[j]] = online_asr.CreateStream();
         }
