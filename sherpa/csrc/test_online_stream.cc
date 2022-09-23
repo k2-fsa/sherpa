@@ -20,6 +20,7 @@
 
 #include "gtest/gtest.h"
 #include "sherpa/cpp_api/online_stream.h"
+#include "sherpa/csrc/endpoint.h"
 #include "sherpa/csrc/log.h"
 
 namespace sherpa {
@@ -28,8 +29,10 @@ TEST(OnlineStream, Test) {
   float sampling_rate = 16000;
   int32_t feature_dim = 80;
   int32_t max_feature_vectors = 10;
+  EndpointConfig endpoint_config;
 
-  OnlineStream s(sampling_rate, feature_dim, max_feature_vectors);
+  OnlineStream s(endpoint_config,
+      sampling_rate, feature_dim, max_feature_vectors);
   EXPECT_EQ(s.NumFramesReady(), 0);
   auto a = torch::rand({400}, torch::kFloat);
   s.AcceptWaveform(sampling_rate, a);

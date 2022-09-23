@@ -135,6 +135,7 @@ OnlineAsr::OnlineAsr(const OnlineAsrOptions &opts)
 
 std::unique_ptr<OnlineStream> OnlineAsr::CreateStream() {
   auto s = std::make_unique<OnlineStream>(
+      opts_.endpoint_config,
       opts_.fbank_opts.frame_opts.samp_freq, opts_.fbank_opts.mel_opts.num_bins,
       opts_.fbank_opts.frame_opts.max_feature_vectors);
 

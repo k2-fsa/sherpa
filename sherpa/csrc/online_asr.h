@@ -26,6 +26,7 @@
 #include "sherpa/csrc/parse_options.h"
 #include "sherpa/csrc/rnnt_conv_emformer_model.h"
 #include "sherpa/csrc/symbol_table.h"
+#include "sherpa/csrc/endpoint.h"
 #include "torch/script.h"
 
 namespace sherpa {
@@ -55,6 +56,8 @@ struct OnlineAsrOptions {
   bool use_gpu = false;
 
   kaldifeat::FbankOptions fbank_opts;
+
+  EndpointConfig endpoint_config;
 
   void Register(ParseOptions *po);
 
