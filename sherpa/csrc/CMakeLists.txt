@@ -1,5 +1,6 @@
 # Please sort the filenames alphabetically
 set(sherpa_srcs
+  endpoint.cc
   fbank_features.cc
   file_utils.cc
   hypothesis.cc

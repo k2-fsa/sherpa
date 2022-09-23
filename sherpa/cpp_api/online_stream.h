@@ -27,6 +27,7 @@
 namespace sherpa {
 
 class Hypotheses;
+struct EndpointConfig;
 
 class OnlineStream {
  public:
@@ -40,7 +41,8 @@ class OnlineStream {
    *                            If it is set to -1, we keep all feature frames
    *                            computed so far.
    */
-  OnlineStream(float sampling_rate, int32_t feature_dim,
+  OnlineStream(const EndpointConfig & endpoint_config,
+               float sampling_rate, int32_t feature_dim,
                int32_t max_feature_vectors = -1);
   ~OnlineStream();
 
@@ -67,6 +69,11 @@ class OnlineStream {
    * Frame indices are zero-based, so the first frame is zero.
    */
   bool IsLastFrame(int32_t frame) const;
+
+  /** Returns true if endpoint actives.
+   *
+   */
+  bool IsEndpoint() const;
 
   /** InputFinished() tells the class you won't be providing any more waveform.
    *
