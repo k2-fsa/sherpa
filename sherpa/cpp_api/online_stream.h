@@ -41,7 +41,7 @@ class OnlineStream {
    *                            If it is set to -1, we keep all feature frames
    *                            computed so far.
    */
-  OnlineStream(const EndpointConfig endpoint_config,
+  OnlineStream(const EndpointConfig & endpoint_config,
                float sampling_rate, int32_t feature_dim,
                int32_t max_feature_vectors = -1);
   ~OnlineStream();

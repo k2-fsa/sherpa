@@ -33,7 +33,7 @@ namespace sherpa {
 
 class OnlineStream::OnlineStreamImpl {
  public:
-  OnlineStreamImpl(const EndpointConfig endpoint_config,
+  OnlineStreamImpl(const EndpointConfig & endpoint_config,
                    float sampling_rate, int32_t feature_dim,
                    int32_t max_feature_vectors) {
     kaldifeat::FbankOptions opts;
@@ -239,7 +239,7 @@ class OnlineStream::OnlineStreamImpl {
   int32_t frame_shift_ms_ = 10;  // before subsampling
 };
 
-OnlineStream::OnlineStream(const EndpointConfig endpoint_config,
+OnlineStream::OnlineStream(const EndpointConfig & endpoint_config,
                            float sampling_rate, int32_t feature_dim,
                            int32_t max_feature_vectors /*= -1*/)
     : impl_(std::make_unique<OnlineStreamImpl>(endpoint_config,
