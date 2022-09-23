@@ -69,7 +69,7 @@ parameters [
   },
   {
     key: "bpe_model",
-    value: { string_value: "/mnt/samsung-t7/yuekai/icefall/egs/librispeech/ASR/icefall_librispeech_streaming_pruned_transducer_stateless3_giga_0.9_20220625/data/lang_bpe_500/bpe.model"}
+    value: { string_value: "/workspace/icefall/egs/librispeech/ASR/icefall_librispeech_streaming_pruned_transducer_stateless3_giga_0.9_20220625/data/lang_bpe_500/bpe.model"}
   },
   {
    key: "FORCE_CPU_ONLY_INPUT_TENSORS", 

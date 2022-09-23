@@ -15,13 +15,15 @@
 # limitations under the License.
 #
 
-jit_model_dir=/ws/jit_model
-model_repo=/ws/model_repo
+jit_model_dir=/workspace/jit_model
+model_repo=/workspace/sherpa/triton/model_repo_offline
 
 cp $jit_model_dir/encoder_jit.pt $model_repo/encoder/1
 cp $jit_model_dir/decoder_jit.pt $model_repo/decoder/1
 cp $jit_model_dir/joiner_jit.pt $model_repo/joiner/1
-cp $jit_model_dir/bpe.model /ws
+cp $jit_model_dir/bpe.model /workspace/
 
 # Start server
 tritonserver --model-repository=$model_repo
+
+

@@ -23,7 +23,7 @@ parameters [
   },
   {
     key: "bpe_model",
-    value: { string_value: "/ws/bpe.model"}
+    value: { string_value: "/workspace/bpe.model"}
   },
   {
    key: "FORCE_CPU_ONLY_INPUT_TENSORS", 
