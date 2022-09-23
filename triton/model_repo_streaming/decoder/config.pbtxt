@@ -1,6 +1,4 @@
-#!/bin/bash
-#
-# Copyright (c) 2021, NVIDIA CORPORATION. All rights reserved.
+# Copyright (c) 2022, NVIDIA CORPORATION.  All rights reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,15 +11,34 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
 
-jit_model_dir=/ws/jit_model
-model_repo=/ws/model_repo
+name: "decoder"
+backend: "onnxruntime"
+default_model_filename: "decoder.onnx"
 
-cp $jit_model_dir/encoder_jit.pt $model_repo/encoder/1
-cp $jit_model_dir/decoder_jit.pt $model_repo/decoder/1
-cp $jit_model_dir/joiner_jit.pt $model_repo/joiner/1
-cp $jit_model_dir/bpe.model /ws
+max_batch_size: 512
+input [
+  {
+    name: "y"
+    data_type: TYPE_INT64
+    dims: [2] # [context_size]
+  }
+]
 
-# Start server
-tritonserver --model-repository=$model_repo
+output [
+  {
+    name: "decoder_out"
+    data_type: TYPE_FP32
+    dims: [1, 512] 
+  }
+]
+
+dynamic_batching {
+  }
+
+instance_group [
+    {
+      count: 1
+      kind: KIND_GPU
+    }
+]

@@ -1,4 +1,4 @@
-# Copyright (c) 2021, NVIDIA CORPORATION.  All rights reserved.
+# Copyright (c) 2022, NVIDIA CORPORATION.  All rights reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,54 +12,38 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-name: "greedy_search"
-backend: "python"
+name: "joiner"
+backend: "onnxruntime"
+default_model_filename: "joiner.onnx"
+
 max_batch_size: 512
-
-parameters [
-  {
-    key: "context_size",
-    value: { string_value: "2"}
-  },
-  {
-    key: "bpe_model",
-    value: { string_value: "/ws/bpe.model"}
-  },
-  {
-   key: "FORCE_CPU_ONLY_INPUT_TENSORS", 
-   value: {string_value:"yes"}
-  }
-]
-
-
 input [
   {
-    name: "encoder_out__0"
+    name: "encoder_out"
     data_type: TYPE_FP32
-    dims: [-1, 512] # [-1, encoder_out_dim]
+    dims: [512] 
   },
   {
-    name: "encoder_out_lens__1"
-    data_type: TYPE_INT32
-    dims: [1]
-    reshape: { shape: [ ] }
+    name: "decoder_out"
+    data_type: TYPE_FP32
+    dims: [512] 
   }
 ]
 
 output [
   {
-    name: "OUTPUT0"
-    data_type: TYPE_STRING
-    dims: [1]
+    name: "logit"
+    data_type: TYPE_FP32
+    dims: [500]  # vocab_size 
   }
 ]
 
 dynamic_batching {
-    preferred_batch_size: [ 16, 32 ]
   }
+
 instance_group [
     {
-      count: 2
-      kind: KIND_CPU
+      count: 1
+      kind: KIND_GPU
     }
-  ]
+]

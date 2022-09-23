@@ -19,7 +19,7 @@ import argparse
 import os
 import tritonclient.grpc as grpcclient
 from utils import write_error_stats
-from offline_client import SpeechClient
+from speech_client import *
 import numpy as np
 
 if __name__ == '__main__':
@@ -36,16 +36,17 @@ if __name__ == '__main__':
                         required=False,
                         default='localhost:8001',
                         help='Inference server URL. Default is '
-                        'localhost:8001.')
+                             'localhost:8001.')
     parser.add_argument('--model_name',
                         required=False,
                         default='conformer_transducer',
+                        choices=['conformer_transducer'],
                         help='the model to send request to')
     parser.add_argument('--wavscp',
                         type=str,
                         required=False,
                         default=None,
-                        help='audio_id \t absolute_wav_path')
+                        help='audio_id \t wav_path')
     parser.add_argument('--trans',
                         type=str,
                         required=False,
@@ -55,15 +56,47 @@ if __name__ == '__main__':
                         type=str,
                         required=False,
                         default=None,
-                        help='data dir will be append to audio file if given')
-    parser.add_argument(
-        '--audio_file',
-        type=str,
-        required=False,
-        default=None,
-        help='single wav file'
-    )
-    
+                        help='path prefix for wav_path in wavscp/audio_file')
+    parser.add_argument('--audio_file',
+                        type=str,
+                        required=False,
+                        default=None,
+                        help='single wav file path')
+    # below arguments are for streaming
+    # Please check onnx_config.yaml and train.yaml
+    parser.add_argument('--streaming',
+                        action="store_true",
+                        required=False)
+    parser.add_argument('--sample_rate',
+                        type=int,
+                        required=False,
+                        default=16000,
+                        help='sample rate used in training')
+    parser.add_argument('--frame_length_ms',
+                        type=int,
+                        required=False,
+                        default=25,
+                        help='frame length')
+    parser.add_argument('--frame_shift_ms',
+                        type=int,
+                        required=False,
+                        default=10,
+                        help='frame shift length')
+    parser.add_argument('--chunk_size',
+                        type=int,
+                        required=False,
+                        default=16,
+                        help='chunk size default is 16')
+    parser.add_argument('--context',
+                        type=int,
+                        required=False,
+                        default=97,
+                        help='subsampling context')
+    parser.add_argument('--subsampling',
+                        type=int,
+                        required=False,
+                        default=4,
+                        help='subsampling rate')
     parser.add_argument(
         '--errs_file',
         type=str,
@@ -95,19 +128,23 @@ if __name__ == '__main__':
             for line in f:
                 aid, text = line.strip().split('\t')
                 audio_data[aid]['text'] = text
-
         for key, value in audio_data.items():
             filenames.append(value['path'])
             transcripts.append(value['text'])
 
-    num_workers = multiprocessing.cpu_count() // 2
+    num_workers = 1
+
+    if FLAGS.streaming:
+        speech_client_cls = StreamingSpeechClient
+    else:
+        speech_client_cls = OfflineSpeechClient
 
     def single_job(client_files):
         with grpcclient.InferenceServerClient(url=FLAGS.url,
                                               verbose=FLAGS.verbose) as triton_client:
             protocol_client = grpcclient
-            speech_client = SpeechClient(triton_client, FLAGS.model_name,
-                                         protocol_client)
+            speech_client = speech_client_cls(triton_client, FLAGS.model_name,
+                                              protocol_client, FLAGS)
             idx, audio_files = client_files
             predictions = []
             for li in audio_files:
