@@ -198,7 +198,7 @@ class OfflineServer:
         max_queue_size: int,
         max_active_connections: int,
         beam_search_params: dict,
-        use_fp16: bool
+        use_fp16: bool,
     ):
         """
         Args:
