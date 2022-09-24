@@ -560,6 +560,9 @@ class OfflineServer:
             if result:
                 await socket.send(result)
             else:
+                # If result is an empty string, send something to the client.
+                # Otherwise, socket.send() is a no-op and the client will
+                # wait for a reply indefinitely.
                 await socket.send("<EMPTY>")
 
 

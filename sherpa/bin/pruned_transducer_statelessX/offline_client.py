@@ -95,6 +95,8 @@ async def run(server_addr: str, server_port: int, test_wavs: List[str]):
                 start = end
 
             decoding_results = await websocket.recv()
+            if decoding_results == "<EMPTY>":
+                decoding_results = ""
             logging.info(f"{test_wav}\n{decoding_results}")
         await websocket.send(b"Done")
 
