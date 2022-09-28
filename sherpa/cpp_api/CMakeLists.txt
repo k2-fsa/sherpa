@@ -26,6 +26,9 @@ set_target_properties(online_recognizer PROPERTIES OUTPUT_NAME "sherpa_online_re
 add_executable(test_online_recognizer test_online_recognizer.cc)
 target_link_libraries(test_online_recognizer online_recognizer)
 
+if (SHERPA_ENABLE_WEBSOCKET_SERVER)
+  add_subdirectory(websocket)
+endif()
 
 if(SHERPA_ENABLE_PORTAUDIO)
   add_executable(test_online_recognizer_microphone
