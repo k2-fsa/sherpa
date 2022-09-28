@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.8 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.14 FATAL_ERROR)
 project(sherpa)
 
 # Remember to change
@@ -39,6 +39,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 option(SHERPA_ENABLE_TESTS "Whether to build tests" ON)
 option(SHERPA_ENABLE_PORTAUDIO "Whether to build portaudio" ON)
+option(SHERPA_ENABLE_WEBSOCKET_SERVER "Whether to build Websocket Server" OFF)
 
 include(CheckIncludeFileCXX)
 check_include_file_cxx(cxxabi.h SHERPA_HAVE_CXXABI_H)
@@ -126,6 +127,9 @@ include(kaldifeat)
 include(kaldi_native_io)
 if(SHERPA_ENABLE_PORTAUDIO)
   include(portaudio)
+endif()
+if(SHERPA_ENABLE_WEBSOCKET_SERVER)
+  include(boost)
 endif()
 
 if(SHERPA_ENABLE_TESTS)
