@@ -39,7 +39,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 option(SHERPA_ENABLE_TESTS "Whether to build tests" ON)
 option(SHERPA_ENABLE_PORTAUDIO "Whether to build portaudio" ON)
-option(SHERPA_ENABLE_WEBSOCKET_SERVER "Whether to build Websocket Server" ON)
+option(SHERPA_ENABLE_WEBSOCKET_SERVER "Whether to build Websocket Server" OFF)
 
 include(CheckIncludeFileCXX)
 check_include_file_cxx(cxxabi.h SHERPA_HAVE_CXXABI_H)

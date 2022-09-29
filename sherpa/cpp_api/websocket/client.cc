@@ -15,6 +15,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+#include <string>
+#include <thread> // NOLINT
 
 #include "boost/asio/connect.hpp"
 #include "boost/asio/ip/tcp.hpp"
@@ -26,74 +28,70 @@
 #include "sherpa/csrc/log.h"
 #include "sherpa/csrc/parse_options.h"
 
-#include <string>
-#include <thread>
 
-namespace beast = boost::beast;
-namespace http = beast::http;
-namespace websocket = beast::websocket;
 namespace asio = boost::asio;
 using tcp = boost::asio::ip::tcp;
+namespace beast = boost::beast;
 namespace json = boost::json;
+namespace http = beast::http;
+namespace websocket = beast::websocket;
 
 class WebSocketClient {
-  public:
-    WebSocketClient(const std::string& hostname, int port)
-      : hostname_(hostname), port_(port) {
-        Connect();
-        t_.reset(new std::thread(&WebSocketClient::ReadLoopFunc, this));
-      }
-
-    void SendBinaryData(const void* data, size_t size) {
-      ws_.binary(true);
-      ws_.write(asio::buffer(data, size));
+ public:
+  WebSocketClient(const std::string& hostname, int port)
+    : hostname_(hostname), port_(port) {
+      Connect();
+      t_.reset(new std::thread(&WebSocketClient::ReadLoopFunc, this));
     }
 
-    void Close() { ws_.close(websocket::close_code::normal); }
+  void SendBinaryData(const void* data, size_t size) {
+    ws_.binary(true);
+    ws_.write(asio::buffer(data, size));
+  }
 
-    void ReadLoopFunc() {
-      try {
-        while (true) {
-          beast::flat_buffer buffer;
-          ws_.read(buffer);
-          std::string message = beast::buffers_to_string(buffer.data());
-          SHERPA_LOG(INFO) << message;
-          json::object obj = json::parse(message).as_object();
-          if (obj["status"] != "ok" || obj["type"] == "speech_end") {
-            break;
-          }
+  void ReadLoopFunc() {
+    try {
+      while (true) {
+        beast::flat_buffer buffer;
+        ws_.read(buffer);
+        std::string message = beast::buffers_to_string(buffer.data());
+        SHERPA_LOG(INFO) << message;
+        json::object obj = json::parse(message).as_object();
+        if (obj["status"] != "ok") {
+          break;
         }
-      } catch (beast::system_error const& se) {
-        // This indicates that the session was closed
-        if (se.code() != websocket::error::closed) {
-          SHERPA_LOG(ERROR) << se.code().message();
-        }
-      } catch (std::exception const& e) {
-        SHERPA_LOG(ERROR) << e.what();
       }
+    } catch (beast::system_error const& se) {
+      // This indicates that the session was closed
+      if (se.code() != websocket::error::closed) {
+        SHERPA_LOG(ERROR) << se.code().message();
+      }
+    } catch (std::exception const& e) {
+      SHERPA_LOG(ERROR) << e.what();
     }
+  }
 
-    void Join() { t_->join(); }
+  void Join() { t_->join(); }
 
-  private:
-    void Connect() {
-      tcp::resolver resolver{ioc_};
-      // Look up the domain name
-      auto const results = resolver.resolve(hostname_, std::to_string(port_));
-      // Make the connection on the IP address we get from a lookup
-      auto ep = asio::connect(ws_.next_layer(), results);
-      // Provide the value of the Host HTTP header during the WebSocket handshake.
-      // See https://tools.ietf.org/html/rfc7230#section-5.4
-      std::string host = hostname_ + ":" + std::to_string(ep.port());
-      // Perform the websocket handshake
-      ws_.handshake(host, "/");
-    }
+ private:
+  void Connect() {
+    tcp::resolver resolver{ioc_};
+    // Look up the domain name
+    auto const results = resolver.resolve(hostname_, std::to_string(port_));
+    // Make the connection on the IP address we get from a lookup
+    auto ep = asio::connect(ws_.next_layer(), results);
+    // Provide the value of the Host HTTP header during the WebSocket handshake.
+    // See https://tools.ietf.org/html/rfc7230#section-5.4
+    std::string host = hostname_ + ":" + std::to_string(ep.port());
+    // Perform the websocket handshake
+    ws_.handshake(host, "/");
+  }
 
-    std::string hostname_;
-    int port_;
-    asio::io_context ioc_;
-    websocket::stream<tcp::socket> ws_{ioc_};
-    std::unique_ptr<std::thread> t_{nullptr};
+  std::string hostname_;
+  int port_;
+  asio::io_context ioc_;
+  websocket::stream<tcp::socket> ws_{ioc_};
+  std::unique_ptr<std::thread> t_{nullptr};
 };
 
 static constexpr const char *kUsageMessage = R"(./bin/websocket-client --server-ip=127.0.0.1 --server-port=6006 --wav-path=test.wav)";
@@ -107,31 +105,33 @@ int main(int argc, char* argv[]) {
   po.Register("server-port", &port, "Server port to connect");
   po.Register("wav-path", &wav_path, "path of test wav");
   po.Read(argc, argv);
+  if (argc < 1) {
+    po.PrintUsage();
+    exit(EXIT_FAILURE);
+  }
 
   WebSocketClient client(ip, port);
 
   const int sample_rate = 16000;
-  torch::Tensor wave_data = sherpa::ReadWave(wav_path, sample_rate).first; 
-  // Only support 16K
+  torch::Tensor wave_data = sherpa::ReadWave(wav_path, sample_rate).first;
   const int num_samples = wave_data.size(0);
-  // Send data every 0.5 second
-  const float interval = 0.5;
+  // send 0.32 second audio every time
+  const float interval = 0.32;
   const int sample_interval = interval * sample_rate;
   for (int start = 0; start < num_samples; start += sample_interval) {
     int end = std::min(start + sample_interval, num_samples);
-    // Convert to short
     std::vector<int16_t> data;
     data.reserve(end - start);
     for (int j = start; j < end; j++) {
       data.push_back(static_cast<int16_t>(wave_data[j].item<float>() * 32768));
     }
-    // Send PCM data
+    // send PCM data with 16k1c16b format
     client.SendBinaryData(data.data(), data.size() * sizeof(int16_t));
     SHERPA_LOG(INFO) << "Send " << data.size() << " samples";
     std::this_thread::sleep_for(
-        std::chrono::milliseconds(static_cast<int>(interval * 500)));
+        std::chrono::milliseconds(static_cast<int>(interval * 1000 * 0.8)));
   }
-  client.Close();
+  SHERPA_LOG(INFO) << "No more data";
   client.Join();
   return 0;
 }

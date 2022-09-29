@@ -31,7 +31,7 @@ Usage:
     --nn-model=/path/to/cpu_jit.pt \
     --tokens=/path/to/tokens.txt \
     --use-gpu=false \
-    --port=6006
+    --server-port=6006
 )";
 
 int main(int argc, char *argv[]) {
@@ -51,8 +51,16 @@ int main(int argc, char *argv[]) {
   int port;
   po.Register("server-port", &port, "Server port to listen on");
   po.Read(argc, argv);
+  if (argc < 1) {
+    po.PrintUsage();
+    exit(EXIT_FAILURE);
+  }
   SHERPA_LOG(INFO) << "decoding method: " << opts.decoding_method;
   opts.Validate();
+  // trailing_silence is after sampling
+  opts.endpoint_config.rule1 = sherpa::EndpointRule(false, 0.8, 0);
+  opts.endpoint_config.rule2 = sherpa::EndpointRule(true, 0.6, 0);
+  opts.endpoint_config.rule3 = sherpa::EndpointRule(false, 0.0, 20);
 
   sherpa::WebSocketServer server(port, opts);
   SHERPA_LOG(INFO) << "Listening at port " << port;
