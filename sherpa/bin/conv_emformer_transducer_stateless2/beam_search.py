@@ -438,3 +438,15 @@ class ModifiedBeamSearch:
             s.hyps = next_hyps_list[i]
             trailing_blanks = s.hyps.get_most_probable(True).num_trailing_blanks
             s.num_trailing_blank_frames = trailing_blanks
+
+    def get_texts(self, stream: Stream) -> str:
+        hyp = stream.hyps.get_most_probable(True).ys[
+            self.beam_search_params["context_size"] :
+        ]
+        if hasattr(self, "sp"):
+            result = self.sp.decode(hyp)
+        else:
+            result = [self.token_table[i] for i in hyp]
+            result = "".join(result)
+
+        return result
