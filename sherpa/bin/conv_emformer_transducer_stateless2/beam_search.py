@@ -385,7 +385,7 @@ class ModifiedBeamSearch:
         num_trailing_blank_frames_list = []
 
         for s in stream_list:
-            hyp_list.append(s.hyp)
+            hyp_list.append(s.hyps)
             state_list.append(s.states)
             processed_frames_list.append(s.processed_frames)
             f = s.features[:chunk_length_pad]
