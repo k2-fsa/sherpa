@@ -19,10 +19,12 @@
 #define SHERPA_CPP_API_WEBSOCKET_SERVER_H_
 
 #include <iostream>
+#include <chrono>
 #include <memory>
 #include <string>
 #include <thread>
 #include <utility>
+#include <ratio>
 
 #include "boost/asio/connect.hpp"
 #include "boost/asio/ip/tcp.hpp"
@@ -42,12 +44,28 @@ namespace sherpa {
   namespace asio = boost::asio;
   namespace json = boost::json;
   using tcp = boost::asio::ip::tcp;
+  using namespace std::chrono;
 
   class ConnectionHandler {
     public:
       ConnectionHandler(tcp::socket&& socket,
           std::shared_ptr<sherpa::OnlineAsr> online_asr) : 
-        ws_(std::move(socket)), online_asr_(std::move(online_asr)) {}
+        ws_(std::move(socket)), online_asr_(std::move(online_asr)) {
+          last_time_ = std::chrono::system_clock::now();
+          detect_alive_.reset(new std::thread(&ConnectionHandler::DetectAlive, this));
+        }
+
+      void DetectAlive() {
+        const duration<int, std::ratio<1>> idle_timeout(idle_timeout_);  // second
+        while (continuous_decoding_) {
+          std::chrono::milliseconds timespan(10000);
+          std::this_thread::sleep_for(timespan);
+          if (std::chrono::system_clock::now() - last_time_ > idle_timeout) {
+            continuous_decoding_ = false;
+            SHERPA_LOG(INFO) << "idle_timeout=" << idle_timeout_ << " active and will close socket";
+          }
+        }
+      }
 
       void operator()() {
         try {
@@ -60,7 +78,6 @@ namespace sherpa {
             beast::flat_buffer buffer;
             ws_.read(buffer);
             if (buffer.size() == 0) {
-              // should close socket when no more data
               continuous_decoding_ = false;
             }
             int num_samples = buffer.size() / sizeof(int16_t);
@@ -88,6 +105,7 @@ namespace sherpa {
               ws_.text(true);
               ws_.write(asio::buffer(json::serialize(rv)));
             }
+            last_time_ = std::chrono::system_clock::now();
           }
         } catch (beast::system_error const& se) {
           SHERPA_LOG(INFO) << se.code().message();
@@ -104,6 +122,9 @@ namespace sherpa {
       websocket::stream<tcp::socket> ws_;
       std::shared_ptr<sherpa::OnlineAsr> online_asr_ = nullptr;
       bool continuous_decoding_ = true;
+      std::unique_ptr<std::thread> detect_alive_{nullptr};
+      system_clock::time_point last_time_;  // second
+      const uint64_t idle_timeout_ = 60; //
   };
 
   class WebSocketServer {
