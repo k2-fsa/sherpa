@@ -425,13 +425,12 @@ class ModifiedBeamSearch:
         batch_size = len(stream_list)
 
         state_list, feature_list, processed_frames_list = [], [], []
-        decoder_out_list, hyp_list = [], []
+        hyp_list = []
 
         num_trailing_blank_frames_list = []
 
         for s in stream_list:
-            decoder_out_list.append(s.decoder_out)
-            hyp_list.append(s.hyp)
+            hyp_list.append(s.hyps)
             state_list.append(s.states)
             processed_frames_list.append(s.processed_frames)
             f = s.features[:chunk_length]
@@ -441,7 +440,7 @@ class ModifiedBeamSearch:
 
             num_trailing_blank_frames_list.append(s.num_trailing_blank_frames)
 
-        features = torch.stack(feature_list, dim=0).to(self.device)
+        features = torch.stack(feature_list, dim=0).to(device)
 
         states = [
             torch.stack([x[0] for x in state_list], dim=2),
@@ -455,9 +454,7 @@ class ModifiedBeamSearch:
             dtype=torch.int64,
         )
 
-        processed_frames = torch.tensor(
-            processed_frames_list, device=self.device
-        )
+        processed_frames = torch.tensor(processed_frames_list, device=device)
 
         (
             encoder_out,
@@ -485,7 +482,8 @@ class ModifiedBeamSearch:
         ]
 
         for i, s in enumerate(stream_list):
-            s.states = next_state_list[i]
+            s.states = [next_state_list[0][i], next_state_list[1][i]]
+            s.processed_frames += encoder_out_lens[i]
             s.hyps = next_hyps_list[i]
             trailing_blanks = s.hyps.get_most_probable(True).num_trailing_blanks
             s.num_trailing_blank_frames = trailing_blanks

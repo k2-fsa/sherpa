@@ -45,7 +45,7 @@ import numpy as np
 import sentencepiece as spm
 import torch
 import websockets
-from beam_search import FastBeamSearch, GreedySearch
+from beam_search import FastBeamSearch, GreedySearch, ModifiedBeamSearch
 from stream import Stream
 
 from sherpa import (
@@ -275,6 +275,8 @@ class StreamingServer(object):
                 beam_search_params,
                 device,
             )
+        elif decoding_method == "modified_beam_search":
+            self.beam_search = ModifiedBeamSearch(beam_search_params)
         else:
             raise ValueError(
                 f"Decoding method {decoding_method} is not supported."
