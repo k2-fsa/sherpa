@@ -6,11 +6,14 @@ from stream import Stream, stack_states, unstack_states
 
 from sherpa import (
     VALID_FAST_BEAM_SEARCH_METHOD,
+    Hypotheses,
+    Hypothesis,
     Lexicon,
     fast_beam_search_nbest,
     fast_beam_search_nbest_LG,
     fast_beam_search_one_best,
     streaming_greedy_search,
+    streaming_modified_beam_search,
 )
 
 
@@ -339,3 +342,99 @@ class GreedySearch:
         return self.sp.decode(
             stream.hyp[self.beam_search_params["context_size"] :]
         )
+
+
+class ModifiedBeamSearch:
+    def __init__(self, beam_search_params: dict):
+        self.beam_search_params = beam_search_params
+
+    def init_stream(self, stream: Stream):
+        """
+        Attributes to add to each stream
+        """
+        hyp = [self.beam_search_params["blank_id"]] * self.beam_search_params[
+            "context_size"
+        ]
+        stream.hyps = Hypotheses([Hypothesis(ys=hyp, log_prob=0.0)])
+
+    @torch.no_grad()
+    def process(
+        self,
+        server: "StreamingServer",
+        stream_list: List[Stream],
+    ) -> None:
+        """Run the model on the given stream list and do search with greedy_search
+           method.
+        Args:
+          server:
+            An instance of `StreamingServer`.
+          stream_list:
+            A list of streams to be processed. It is changed in-place.
+            That is, the attribute `states` and `hyp` are
+            updated in-place.
+        """
+        model = server.model
+        device = model.device
+        # Note: chunk_length is in frames before subsampling
+        chunk_length = server.chunk_length
+        batch_size = len(stream_list)
+        chunk_length_pad = server.chunk_length_pad
+        state_list, feature_list = [], []
+        hyp_list = []
+        processed_frames_list = []
+        num_trailing_blank_frames_list = []
+
+        for s in stream_list:
+            hyp_list.append(s.hyp)
+            state_list.append(s.states)
+            processed_frames_list.append(s.processed_frames)
+            f = s.features[:chunk_length_pad]
+            s.features = s.features[chunk_length:]
+            s.processed_frames += chunk_length
+
+            b = torch.cat(f, dim=0)
+            feature_list.append(b)
+
+            num_trailing_blank_frames_list.append(s.num_trailing_blank_frames)
+
+        features = torch.stack(feature_list, dim=0).to(device)
+        states = stack_states(state_list)
+
+        features_length = torch.full(
+            (batch_size,),
+            fill_value=features.size(1),
+            device=device,
+            dtype=torch.int64,
+        )
+
+        num_processed_frames = torch.tensor(
+            processed_frames_list,
+            device=device,
+        )
+
+        (
+            encoder_out,
+            encoder_out_lens,
+            next_states,
+        ) = model.encoder_streaming_forward(
+            features=features,
+            features_length=features_length,
+            num_processed_frames=num_processed_frames,
+            states=states,
+        )
+
+        # Note: There are no paddings for streaming ASR. Each stream
+        # has the same input number of frames, i.e., server.chunk_length.
+        next_hyps_list = streaming_modified_beam_search(
+            model=model,
+            encoder_out=encoder_out,
+            hyps=hyp_list,
+            num_active_paths=self.beam_search_params["num_active_paths"],
+        )
+
+        next_state_list = unstack_states(next_states)
+        for i, s in enumerate(stream_list):
+            s.states = next_state_list[i]
+            s.hyps = next_hyps_list[i]
+            trailing_blanks = s.hyps.get_most_probable(True).num_trailing_blanks
+            s.num_trailing_blank_frames = trailing_blanks
