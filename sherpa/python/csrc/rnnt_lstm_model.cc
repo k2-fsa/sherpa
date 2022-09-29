@@ -22,6 +22,7 @@
 
 #include <memory>
 #include <string>
+#include <tuple>
 
 #include "sherpa/csrc/rnnt_lstm_model.h"
 #include "sherpa/csrc/rnnt_model.h"
@@ -47,11 +48,31 @@ void PybindRnntLstmModel(py::module &m) {  // NOLINT
            py::arg("encoder_filename"), py::arg("decoder_filename"),
            py::arg("joiner_filename"), py::arg("device") = py::str("cpu"),
            py::arg("optimize_for_inference") = false)
-      .def("encoder_streaming_forward", &PyClass::StreamingForwardEncoder,
-           py::arg("features"), py::arg("features_length"), py::arg("states"),
-           py::call_guard<py::gil_scoped_release>())
-      .def("get_encoder_init_states", &PyClass::GetEncoderInitStates,
-           py::arg("batch_size") = 1, py::call_guard<py::gil_scoped_release>())
+      .def(
+          "encoder_streaming_forward",
+          [](PyClass &self, const torch::Tensor &features,
+             const torch::Tensor &features_length, const PyClass::State &states)
+              -> std::tuple<torch::Tensor, torch::Tensor, PyClass::State> {
+            torch::Tensor encoder_out;
+            torch::Tensor encoder_out_lens;
+            torch::IValue next_states;
+
+            std::tie(encoder_out, encoder_out_lens, next_states) =
+                self.StreamingForwardEncoder(features, features_length,
+                                             self.StateToIValue(states));
+
+            return {encoder_out, encoder_out_lens,
+                    self.StateFromIValue(next_states)};
+          },
+          py::arg("features"), py::arg("features_length"), py::arg("states"),
+          py::call_guard<py::gil_scoped_release>())
+      .def(
+          "get_encoder_init_states",
+          [](PyClass &self, int32_t batch_size = 1) -> PyClass::State {
+            auto ivalue = self.GetEncoderInitStates(batch_size);
+            return self.StateFromIValue(ivalue);
+          },
+          py::arg("batch_size") = 1, py::call_guard<py::gil_scoped_release>())
       .def_property_readonly("subsampling_factor", &PyClass::SubsamplingFactor)
       .def_property_readonly("pad_length", &PyClass::PadLength);
 }

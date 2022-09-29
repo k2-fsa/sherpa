@@ -62,43 +62,48 @@ RnntLstmModel::RnntLstmModel(const std::string &encoder_filename,
   subsampling_factor_ = 4;
 }
 
-std::tuple<torch::Tensor, torch::Tensor, RnntLstmModel::State>
+std::tuple<torch::Tensor, torch::Tensor, torch::IValue>
 RnntLstmModel::StreamingForwardEncoder(const torch::Tensor &features,
                                        const torch::Tensor &features_length,
-                                       State states) {
+                                       torch::IValue states) {
   // It contains [torch.Tensor, torch.Tensor, Pair[torch.Tensor, torch.Tensor]
   // which are [encoder_out, encoder_out_len, states]
   //
   // We skip the second entry `encoder_out_len` since we assume the
   // feature input are of fixed chunk size and there are no paddings.
   // We can figure out `encoder_out_len` from `encoder_out`.
-  auto states_tuple = torch::ivalue::Tuple::create(states.first, states.second);
   torch::IValue ivalue =
-      encoder_.run_method("forward", features, features_length, states_tuple);
+      encoder_.run_method("forward", features, features_length, states);
   auto tuple_ptr = ivalue.toTuple();
   torch::Tensor encoder_out = tuple_ptr->elements()[0].toTensor();
 
   torch::Tensor encoder_out_length = tuple_ptr->elements()[1].toTensor();
 
-  auto tuple_ptr_states = tuple_ptr->elements()[2].toTuple();
-  torch::Tensor hidden_states = tuple_ptr_states->elements()[0].toTensor();
-  torch::Tensor cell_states = tuple_ptr_states->elements()[1].toTensor();
-  State next_states = {hidden_states, cell_states};
+  auto next_states = tuple_ptr->elements()[2];
 
   return {encoder_out, encoder_out_length, next_states};
 }
 
-RnntLstmModel::State RnntLstmModel::GetEncoderInitStates(
-    int32_t batch_size /*=1*/) {
-  torch::IValue ivalue =
-      encoder_.run_method("get_init_states", batch_size, device_);
+torch::IValue RnntLstmModel::StateToIValue(const State &s) const {
+  return torch::ivalue::Tuple::create(s.first, s.second);
+}
+
+RnntLstmModel::State RnntLstmModel::StateFromIValue(
+    torch::IValue ivalue) const {
+  // ivalue is a tuple containing two tensors
   auto tuple_ptr = ivalue.toTuple();
 
   torch::Tensor hidden_states = tuple_ptr->elements()[0].toTensor();
   torch::Tensor cell_states = tuple_ptr->elements()[1].toTensor();
 
   return {hidden_states, cell_states};
-}  // namespace sherpa
+}
+
+torch::IValue RnntLstmModel::GetEncoderInitStates(int32_t batch_size /*=1*/) {
+  torch::IValue ivalue =
+      encoder_.run_method("get_init_states", batch_size, device_);
+  return ivalue;
+}
 
 torch::Tensor RnntLstmModel::ForwardDecoder(
     const torch::Tensor &decoder_input) {

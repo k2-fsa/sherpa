@@ -52,11 +52,15 @@ class RnntLstmModel : public RnntModel {
 
   using State = std::pair<torch::Tensor, torch::Tensor>;
 
-  std::tuple<torch::Tensor, torch::Tensor, State> StreamingForwardEncoder(
-      const torch::Tensor &features, const torch::Tensor &features_length,
-      State states);
+  torch::IValue StateToIValue(const State &s) const;
+  State StateFromIValue(torch::IValue ivalue) const;
 
-  State GetEncoderInitStates(int32_t batch_size = 1);
+  std::tuple<torch::Tensor, torch::Tensor, torch::IValue>
+  StreamingForwardEncoder(const torch::Tensor &features,
+                          const torch::Tensor &features_length,
+                          torch::IValue states);
+
+  torch::IValue GetEncoderInitStates(int32_t batch_size = 1);
 
   /** Run the decoder network.
    *
