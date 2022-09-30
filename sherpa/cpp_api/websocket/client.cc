@@ -124,6 +124,7 @@ int main(int argc, char* argv[]) {
   // send 0.32 second audio every time
   const float interval = 0.32;
   const int sample_interval = interval * sample_rate;
+  size_t tot_send_samples = 0;
   for (int start = 0; start < num_samples; start += sample_interval) {
     int end = std::min(start + sample_interval, num_samples);
     std::vector<int16_t> data;
@@ -133,10 +134,12 @@ int main(int argc, char* argv[]) {
     }
     // send PCM data with 16k1c16b format
     client.Put(data.data(), data.size() * sizeof(int16_t));
-    SHERPA_LOG(INFO) << "Send " << data.size() << " samples";
+    tot_send_samples += data.size();
+    SHERPA_LOG(INFO) << "Cur Send " << data.size() << " samples"
+      << ", already Send " << tot_send_samples << " samples";
     std::this_thread::sleep_for(
         std::chrono::milliseconds(static_cast<int>(interval * 1000 * 0.8)));
   }
-  SHERPA_LOG(INFO) << "No more data by Client";
+  SHERPA_LOG(INFO) << "Client has no more data, should exist";
   return 0;
 }

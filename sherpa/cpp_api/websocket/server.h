@@ -51,7 +51,7 @@ class ConnectionHandler {
     ws_(std::move(socket)),
     online_asr_(std::move(online_asr)),
     alive_(true) {
-      last_time_ = std::chrono::system_clock::now();
+      last_active_time_ = std::chrono::system_clock::now();
       detect_alive_ = std::thread(
             &ConnectionHandler::DetectAlive, this);
       detect_alive_.detach();
@@ -62,11 +62,11 @@ class ConnectionHandler {
       std::chrono::milliseconds timespan(10000);
       std::this_thread::sleep_for(timespan);
       std::chrono::duration<double> elapsed_seconds
-        = std::chrono::system_clock::now() - last_time_;
+        = std::chrono::system_clock::now() - last_active_time_;
       if (elapsed_seconds.count() > idle_timeout_) {
         alive_ = false;
         SHERPA_LOG(INFO) << "idle_timeout=" << idle_timeout_
-          << " active and will close socket";
+          << " active, will close the socket.";
       }
     }
   }
@@ -74,10 +74,9 @@ class ConnectionHandler {
   void operator()() {
     try {
       ws_.accept();
-      auto recog_stream = online_asr_->CreateStream();
-
-      while (recog_stream && alive_) {
-        // audio_data PCM 16k1c16b format
+      auto decode_stream = online_asr_->CreateStream();
+      while (decode_stream && alive_) {
+        // get PCM data with 16k1c16b format
         beast::flat_buffer buffer;
         ws_.read(buffer);
         int num_samples = buffer.size() / sizeof(int16_t);
@@ -88,18 +87,18 @@ class ConnectionHandler {
             {num_samples},
             torch::kInt16).to(torch::kFloat) / 32768;
 
-        // decoding stream
-        recog_stream->AcceptWaveform(16000, wav_stream_tensor);
-        if (online_asr_->IsReady(recog_stream.get())) {
+        // decode stream
+        decode_stream->AcceptWaveform(16000, wav_stream_tensor);
+        if (online_asr_->IsReady(decode_stream.get())) {
           std::string transcript = online_asr_->GetResult(
-              recog_stream.get());
+              decode_stream.get());
           std::string endpoint_type = "endpoint_inactive";
 
-          online_asr_->DecodeStream(recog_stream.get());
-          // reset stream when Endpoint active
-          if (recog_stream->IsEndpoint()) {
+          online_asr_->DecodeStream(decode_stream.get());
+          if (decode_stream->IsEndpoint()) {
             endpoint_type = "endpoint_active";
-            recog_stream = online_asr_->CreateStream();
+            // reset stream when Endpoint active
+            decode_stream = online_asr_->CreateStream();
           }
           // update result
           json::value rv = {{"status", "ok"},
@@ -108,43 +107,44 @@ class ConnectionHandler {
           ws_.text(true);
           ws_.write(asio::buffer(json::serialize(rv)));
         }
-        last_time_ = std::chrono::system_clock::now();
+        last_active_time_ = std::chrono::system_clock::now();
       }
     } catch (const beast::system_error & se) {
       SHERPA_LOG(INFO) << se.code().message();
     } catch (const std::exception & e) {
       SHERPA_LOG(WARNING) << e.what();
-      ws_.close(websocket::close_code::normal);
     }
     alive_ = false;
+    ws_.close(websocket::close_code::normal);
   }
 
  private:
   websocket::stream<tcp::socket> ws_;
   std::shared_ptr<sherpa::OnlineAsr> online_asr_ = nullptr;
   std::thread detect_alive_;
-  std::chrono::system_clock::time_point last_time_;  // second
+  std::chrono::system_clock::time_point last_active_time_;
   // how long to keep socket from last active
-  const uint64_t idle_timeout_ = 300;
+  const uint64_t idle_timeout_ = 600;
   bool alive_ = true;
 };
 
 class WebSocketServer {
  public:
-  WebSocketServer(int port, const sherpa::OnlineAsrOptions opts)
-    : port_(port),
-    online_asr_(std::make_shared<sherpa::OnlineAsr>(opts)) {}
+  WebSocketServer(int port, const sherpa::OnlineAsrOptions opts) :
+    online_asr_(std::make_shared<sherpa::OnlineAsr>(opts)) {
+      StartServer(port);
+    }
 
-  void Start() {
+ private:
+  void StartServer(int port) {
     try {
       auto const address = asio::ip::make_address("0.0.0.0");
-      tcp::acceptor acceptor{ioc_, {address, static_cast<uint16_t>(port_)}};
+      tcp::acceptor acceptor{ioc_, {address, static_cast<uint16_t>(port)}};
       while (true) {
-        // This will receive the new connection
         tcp::socket socket{ioc_};
-        // Block until we get a connection
+        // Block until a new connection
         acceptor.accept(socket);
-        // Launch the session, transferring ownership of the socket
+        // Start a new thread to handle the new connection
         ConnectionHandler handler(std::move(socket), online_asr_);
         std::thread t(std::move(handler));
         t.detach();
@@ -154,9 +154,7 @@ class WebSocketServer {
     }
   }
 
- private:
-  int port_;
-  // The io_context is required for all I/O
+  // The io_context for all I/O
   asio::io_context ioc_{1};
   std::shared_ptr<sherpa::OnlineAsr> online_asr_ = nullptr;
 };

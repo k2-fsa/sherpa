@@ -61,13 +61,12 @@ int main(int argc, char *argv[]) {
   }
   SHERPA_LOG(INFO) << "decoding method: " << opts.decoding_method;
   opts.Validate();
-  // trailing_silence is after sampling
-  opts.endpoint_config.rule1 = sherpa::EndpointRule(false, 0.8, 0);
-  opts.endpoint_config.rule2 = sherpa::EndpointRule(true, 0.6, 0);
+  // tips : trailing_silence for EndpointConfig is after sampling
+  opts.endpoint_config.rule1 = sherpa::EndpointRule(false, 0.8, 0.0);
+  opts.endpoint_config.rule3 = sherpa::EndpointRule(true, 0.4, 2.0);
   opts.endpoint_config.rule3 = sherpa::EndpointRule(false, 0.0, 20);
 
+  SHERPA_LOG(INFO) << "ASR Server Listening at port " << port;
   sherpa::WebSocketServer server(port, opts);
-  SHERPA_LOG(INFO) << "Listening at port " << port;
-  server.Start();
   return 0;
 }
