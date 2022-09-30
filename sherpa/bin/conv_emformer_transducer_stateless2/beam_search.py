@@ -196,6 +196,22 @@ class FastBeamSearch:
 
         return result
 
+    def get_tokens(self, stream: Stream) -> str:
+        """
+        Return tokens after decoding
+        Args:
+          stream:
+            Stream to be processed.
+        """
+        tokens = stream.tokens
+
+        if hasattr(self, "sp"):
+            result = [self.sp.id_to_piece(i) for i in tokens]
+        else:
+            result = [self.token_table[i] for i in tokens]
+
+        return result
+
 
 class GreedySearch:
     def __init__(
@@ -342,6 +358,21 @@ class GreedySearch:
         return self.sp.decode(
             stream.hyp[self.beam_search_params["context_size"] :]
         )
+
+    def get_tokens(self, stream: Stream) -> str:
+        """
+        Return tokens after decoding
+        Args:
+          stream:
+            Stream to be processed.
+        """
+        hyp = stream.hyp[self.beam_search_params["context_size"] :]
+        if hasattr(self, "sp"):
+            result = [self.sp.id_to_piece(i) for i in hyp]
+        else:
+            result = [self.token_table[i] for i in hyp]
+
+        return result
 
 
 class ModifiedBeamSearch:

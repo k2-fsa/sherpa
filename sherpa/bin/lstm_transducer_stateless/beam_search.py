@@ -498,6 +498,7 @@ class ModifiedBeamSearch:
 
         return result
 
+
 class GreedySearchOffline:
     def __init__(self):
         pass
