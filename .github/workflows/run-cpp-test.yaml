@@ -125,7 +125,7 @@ jobs:
 
           mkdir build
           cd build
-          cmake -DCMAKE_BUILD_TYPE=$BUILD_TYPE ..
+          cmake -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DSHERPA_ENABLE_WEBSOCKET_SERVER=ON ..
           make -j2 VERBOSE=1
 
           ls -lh lib
