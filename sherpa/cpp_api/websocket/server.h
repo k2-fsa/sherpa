@@ -50,19 +50,19 @@ class ConnectionHandler {
       std::shared_ptr<sherpa::OnlineAsr> online_asr) :
     ws_(std::move(socket)), online_asr_(std::move(online_asr)) {
       last_time_ = std::chrono::system_clock::now();
-      detect_alive_.reset(new std::thread(
-            &ConnectionHandler::DetectAlive, this));
-      detect_alive_->detach();
+      detect_alive_ = std::thread(
+            &ConnectionHandler::DetectAlive, this);
+      detect_alive_.detach();
     }
 
   void DetectAlive() {
-    while (continuous_decoding_) {
+    while (keep_connection) {
       std::chrono::milliseconds timespan(10000);
       std::this_thread::sleep_for(timespan);
       std::chrono::duration<double> elapsed_seconds
         = std::chrono::system_clock::now() - last_time_;
       if (elapsed_seconds.count() > idle_timeout_) {
-        continuous_decoding_ = false;
+        keep_connection = false;
         SHERPA_LOG(INFO) << "idle_timeout=" << idle_timeout_
           << " active and will close socket";
       }
@@ -74,7 +74,7 @@ class ConnectionHandler {
       ws_.accept();
       auto recog_stream = online_asr_->CreateStream();
 
-      while (recog_stream && continuous_decoding_) {
+      while (recog_stream && keep_connection) {
         // audio_data PCM 16k1c16b format
         beast::flat_buffer buffer;
         ws_.read(buffer);
@@ -108,20 +108,20 @@ class ConnectionHandler {
         }
         last_time_ = std::chrono::system_clock::now();
       }
-    } catch (beast::system_error const& se) {
+    } catch (const beast::system_error & se) {
       SHERPA_LOG(INFO) << se.code().message();
-    } catch (std::exception const& e) {
+    } catch (const std::exception & e) {
       SHERPA_LOG(WARNING) << e.what();
       ws_.close(websocket::close_code::normal);
     }
-    continuous_decoding_ = false;
+    keep_connection = false;
   }
 
  private:
   websocket::stream<tcp::socket> ws_;
   std::shared_ptr<sherpa::OnlineAsr> online_asr_ = nullptr;
-  bool continuous_decoding_ = true;
-  std::unique_ptr<std::thread> detect_alive_{nullptr};
+  bool keep_connection = true;
+  std::thread detect_alive_;
   std::chrono::system_clock::time_point last_time_;  // second
   // how long to keep socket from last active
   const uint64_t idle_timeout_ = 300;

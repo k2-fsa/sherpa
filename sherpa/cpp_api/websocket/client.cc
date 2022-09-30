@@ -41,15 +41,15 @@ class WebSocketClient {
   WebSocketClient(const std::string& hostname, int port)
     : hostname_(hostname), port_(port) {
       Connect();
-      t_.reset(new std::thread(&WebSocketClient::ReadLoopFunc, this));
+      t_ = std::thread(&WebSocketClient::GetData, this);
     }
 
-  void SendBinaryData(const void* data, size_t size) {
+  void SendData(const void* data, size_t size) {
     ws_.binary(true);
     ws_.write(asio::buffer(data, size));
   }
 
-  void ReadLoopFunc() {
+  void GetData() {
     try {
       while (true) {
         beast::flat_buffer buffer;
@@ -61,17 +61,20 @@ class WebSocketClient {
           break;
         }
       }
-    } catch (beast::system_error const& se) {
+    } catch (const beast::system_error & se) {
       // This indicates that the session was closed
       if (se.code() != websocket::error::closed) {
         SHERPA_LOG(ERROR) << se.code().message();
       }
-    } catch (std::exception const& e) {
+    } catch (const std::exception & e) {
       SHERPA_LOG(ERROR) << e.what();
     }
   }
 
-  void Join() { t_->join(); }
+  ~WebSocketClient() {
+    t_.join();
+  }
+
 
  private:
   void Connect() {
@@ -91,7 +94,7 @@ class WebSocketClient {
   int port_;
   asio::io_context ioc_;
   websocket::stream<tcp::socket> ws_{ioc_};
-  std::unique_ptr<std::thread> t_{nullptr};
+  std::thread t_;
 };
 
 static constexpr const char *kUsageMessage = R"(./bin/websocket-client --server-ip=127.0.0.1 --server-port=6006 --wav-path=test.wav)";
@@ -126,12 +129,11 @@ int main(int argc, char* argv[]) {
       data.push_back(static_cast<int16_t>(wave_data[j].item<float>() * 32768));
     }
     // send PCM data with 16k1c16b format
-    client.SendBinaryData(data.data(), data.size() * sizeof(int16_t));
+    client.SendData(data.data(), data.size() * sizeof(int16_t));
     SHERPA_LOG(INFO) << "Send " << data.size() << " samples";
     std::this_thread::sleep_for(
         std::chrono::milliseconds(static_cast<int>(interval * 1000 * 0.8)));
   }
-  SHERPA_LOG(INFO) << "No more data";
-  client.Join();
+  SHERPA_LOG(INFO) << "No more data by Client";
   return 0;
 }
