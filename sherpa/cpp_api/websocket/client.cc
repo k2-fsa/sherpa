@@ -40,7 +40,7 @@ class WebSocketClient {
  public:
   WebSocketClient(const std::string& hostname, int port)
     : hostname_(hostname), port_(port), alive_(true) {
-      Connect();
+      Open();
       get_thread_ = std::thread(&WebSocketClient::Get, this);
     }
 
@@ -74,22 +74,23 @@ class WebSocketClient {
   ~WebSocketClient() {
     alive_ = false;
     get_thread_.join();
+    Close();
   }
 
-
  private:
-  void Connect() {
+  void Open() {
     tcp::resolver resolver{ioc_};
-    // Look up the domain name
+    // Make IP address get from a domain name lookup
     auto const results = resolver.resolve(hostname_, std::to_string(port_));
-    // Make the connection on the IP address we get from a lookup
     auto ep = asio::connect(ws_.next_layer(), results);
     // Provide the value of the Host HTTP header during the WebSocket handshake.
     // See https://tools.ietf.org/html/rfc7230#section-5.4
     std::string host = hostname_ + ":" + std::to_string(ep.port());
-    // Perform the websocket handshake
+    // Make WebSocket handshake
     ws_.handshake(host, "/");
   }
+
+  void Close() { ws_.close(websocket::close_code::normal);}
 
   std::string hostname_;
   int port_;
