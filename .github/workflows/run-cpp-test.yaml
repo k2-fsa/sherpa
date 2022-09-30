@@ -579,8 +579,11 @@ jobs:
             --decoding-method=modified_beam_search \
             --nn-model=./icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05/exp/cpu-jit-epoch-30-avg-10-torch-${{ matrix.torch }}.pt \
             --tokens=./icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05/data/lang_bpe_500/tokens.txt \
-            --server-port=6006
+            --server-port=6006 &
+
+          echo "Sleep 10 seconds to wait for the server startup"
+          sleep 10
 
           ./build/bin/websocket-client \
             --server-ip=127.0.0.1 --server-port=6006 \
-            --wav-path=./icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05/test_wavs/1089-134686-0001.wav
+            --wav-path=./icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05/test_wavs/1089-134686-0001.wav &
