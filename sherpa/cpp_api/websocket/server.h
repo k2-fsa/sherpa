@@ -113,9 +113,9 @@ class ConnectionHandler {
       SHERPA_LOG(INFO) << se.code().message();
     } catch (const std::exception & e) {
       SHERPA_LOG(WARNING) << e.what();
+      ws_.close(websocket::close_code::normal);
     }
     alive_ = false;
-    ws_.close(websocket::close_code::normal);
   }
 
  private:
