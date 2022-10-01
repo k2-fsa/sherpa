@@ -106,29 +106,6 @@ def get_args():
     )
 
     parser.add_argument(
-        "--decode-chunk-size",
-        type=int,
-        default=8,
-        help="The chunk size for decoding (in frames after subsampling)",
-    )
-
-    parser.add_argument(
-        "--decode-left-context",
-        type=int,
-        default=32,
-        help="""left context can be seen during decoding
-        (in frames after subsampling)""",
-    )
-
-    parser.add_argument(
-        "--decode-right-context",
-        type=int,
-        default=2,
-        help="""right context can be seen during decoding
-        (in frames after subsampling)""",
-    )
-
-    parser.add_argument(
         "--nn-pool-size",
         type=int,
         default=1,
@@ -240,8 +217,6 @@ class StreamingServer(object):
 
         # number of frames before subsampling
         self.chunk_length = self.model.chunk_length
-
-        self.right_context_length = self.model.right_context_length
 
         # We add 3 here since the subsampling method is using
         # ((len - 1) // 2 - 1) // 2)

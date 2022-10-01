@@ -78,6 +78,17 @@ class RnntModel {
   virtual torch::Tensor ForwardDecoderProj(const torch::Tensor &decoder_out) {
     return decoder_out;
   }
+
+  // for streaming models
+  virtual int32_t ChunkLength() const {
+    assert("don't call me" && false);
+    return 0;
+  }
+
+  virtual int32_t PadLength() const {
+    assert("don't call me" && false);
+    return 0;
+  }
 };
 
 }  // namespace sherpa

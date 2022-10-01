@@ -53,10 +53,10 @@ RnntConvEmformerModel::RnntConvEmformerModel(
 
   context_size_ = decoder_.attr("context_size").toInt();
   chunk_length_ = encoder_.attr("chunk_length").toInt();
-  right_context_length_ = encoder_.attr("right_context_length").toInt();
+  auto right_context_length = encoder_.attr("right_context_length").toInt();
   // Add 2 here since we will drop the first and last frame after subsampling;
   // Add 3 here since the subsampling is ((len - 1) // 2 - 1) // 2.
-  pad_length_ = right_context_length_ +
+  pad_length_ = right_context_length +
                 2 * encoder_.attr("subsampling_factor").toInt() + 3;
 }
 
@@ -106,8 +106,7 @@ RnntConvEmformerModel::StreamingForwardEncoder(
 }
 
 torch::IValue RnntConvEmformerModel::GetEncoderInitStates() {
-  torch::IValue ivalue = encoder_.run_method("init_states", device_);
-  return ivalue;
+  return encoder_.run_method("init_states", device_);
 }
 
 torch::Tensor RnntConvEmformerModel::ForwardDecoder(

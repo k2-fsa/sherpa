@@ -73,8 +73,6 @@ void PybindRnntConvEmformerModel(py::module &m) {  // NOLINT
           },
           py::call_guard<py::gil_scoped_release>())
       .def_property_readonly("chunk_length", &PyClass::ChunkLength)
-      .def_property_readonly("right_context_length",
-                             &PyClass::RightContextLength)
       .def_property_readonly("pad_length", &PyClass::PadLength);
 }
 

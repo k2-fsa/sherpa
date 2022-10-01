@@ -73,7 +73,6 @@ void PybindRnntLstmModel(py::module &m) {  // NOLINT
             return self.StateFromIValue(ivalue);
           },
           py::arg("batch_size") = 1, py::call_guard<py::gil_scoped_release>())
-      .def_property_readonly("subsampling_factor", &PyClass::SubsamplingFactor)
       .def_property_readonly("pad_length", &PyClass::PadLength);
 }
 

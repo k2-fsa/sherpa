@@ -59,7 +59,7 @@ RnntLstmModel::RnntLstmModel(const std::string &encoder_filename,
   unk_id_ = blank_id_;
   // Add 5 here since the subsampling is ((len - 3) // 2 - 1) // 2.
   pad_length_ = 5;
-  subsampling_factor_ = 4;
+  chunk_length_ = 4;
 }
 
 std::tuple<torch::Tensor, torch::Tensor, torch::IValue>
@@ -100,9 +100,7 @@ RnntLstmModel::State RnntLstmModel::StateFromIValue(
 }
 
 torch::IValue RnntLstmModel::GetEncoderInitStates(int32_t batch_size /*=1*/) {
-  torch::IValue ivalue =
-      encoder_.run_method("get_init_states", batch_size, device_);
-  return ivalue;
+  return encoder_.run_method("get_init_states", batch_size, device_);
 }
 
 torch::Tensor RnntLstmModel::ForwardDecoder(

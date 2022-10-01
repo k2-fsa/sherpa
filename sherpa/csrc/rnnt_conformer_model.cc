@@ -66,23 +66,26 @@ std::pair<torch::Tensor, torch::Tensor> RnntConformerModel::ForwardEncoder(
   return {encoder_out, encoder_out_length};
 }
 
-RnntConformerModel::State RnntConformerModel::GetEncoderInitStates(
-    int32_t left_context) {
-  torch::IValue ivalue =
-      encoder_.run_method("get_init_state", left_context, device_);
-  torch::List<torch::IValue> list = ivalue.toList();
-
-  RnntConformerModel::State states = {list.get(0).toTensor(),
-                                      list.get(1).toTensor()};
-  return states;
+torch::IValue RnntConformerModel::StateToIValue(const State &s) const {
+  return torch::IValue(s);
 }
 
-std::tuple<torch::Tensor, torch::Tensor, RnntConformerModel::State>
+RnntConformerModel::State RnntConformerModel::StateFromIValue(
+    torch::IValue ivalue) const {
+  torch::List<torch::IValue> list = ivalue.toList();
+
+  return {list.get(0).toTensor(), list.get(1).toTensor()};
+}
+
+torch::IValue RnntConformerModel::GetEncoderInitStates(int32_t left_context) {
+  return encoder_.run_method("get_init_state", left_context, device_);
+}
+
+std::tuple<torch::Tensor, torch::Tensor, torch::IValue>
 RnntConformerModel::StreamingForwardEncoder(
     const torch::Tensor &features, const torch::Tensor &features_length,
-    const RnntConformerModel::State &states,
-    const torch::Tensor &processed_frames, int32_t left_context,
-    int32_t right_context) {
+    torch::IValue states, const torch::Tensor &processed_frames,
+    int32_t left_context, int32_t right_context) {
   auto outputs =
       encoder_
           .run_method("streaming_forward", features, features_length, states,
@@ -91,10 +94,7 @@ RnntConformerModel::StreamingForwardEncoder(
   auto encoder_out = outputs->elements()[0].toTensor();
   auto encoder_out_length = outputs->elements()[1].toTensor();
 
-  torch::List<torch::IValue> list = outputs->elements()[2].toList();
-
-  RnntConformerModel::State next_states = {list.get(0).toTensor(),
-                                           list.get(1).toTensor()};
+  auto next_states = outputs->elements()[2];
 
   return {encoder_out, encoder_out_length, next_states};
 }
