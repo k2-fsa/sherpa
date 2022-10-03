@@ -245,8 +245,9 @@ void OnlineAsr::GreedySearch(OnlineStream **ss, int32_t n) {
       ss[0]->UnStackStates(next_states);
 
   std::vector<torch::Tensor> next_decoder_out =
-      StreamingGreedySearch(*model_, encoder_out, batched_decoder_out, frame_offset,
-                            &all_hyps, &all_num_trailing_blank_frames, &timestamps)
+      StreamingGreedySearch(*model_, encoder_out, batched_decoder_out,
+                            frame_offset, &all_hyps,
+                            &all_num_trailing_blank_frames, &timestamps)
           .split(1, /*dim*/ 0);
 
   for (int32_t i = 0; i != n; ++i) {
