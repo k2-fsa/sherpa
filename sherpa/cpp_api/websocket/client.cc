@@ -61,20 +61,18 @@ class WebSocketClient {
           alive_ = false;
         }
       }
+      Close();
     } catch (const beast::system_error & se) {
-      // This indicates that the session was closed
       if (se.code() != websocket::error::closed) {
-        SHERPA_LOG(ERROR) << se.code().message();
+        SHERPA_LOG(WARNING) << se.code().message();
       }
     } catch (const std::exception & e) {
-      SHERPA_LOG(ERROR) << e.what();
+      SHERPA_LOG(WARNING) << e.what();
     }
   }
 
   ~WebSocketClient() {
-    alive_ = false;
     get_thread_.join();
-    Close();
   }
 
  private:
@@ -90,14 +88,14 @@ class WebSocketClient {
     ws_.handshake(host, "/");
   }
 
-  void Close() { ws_.close(websocket::close_code::normal);}
+  void Close() { ws_.close(websocket::close_code::normal); }
 
   std::string hostname_;
   int port_;
   asio::io_context ioc_;
   websocket::stream<tcp::socket> ws_{ioc_};
   std::thread get_thread_;
-  bool alive_  = true;
+  bool alive_;
 };
 
 static constexpr const char *kUsageMessage = R"(./bin/websocket-client --server-ip=127.0.0.1 --server-port=6006 --wav-path=test.wav)";
@@ -119,6 +117,8 @@ int main(int argc, char* argv[]) {
   WebSocketClient client(ip, port);
 
   const int sample_rate = 16000;
+  torch::Tensor tail_padding =
+    torch::zeros({static_cast<int32_t>(0.32 * sample_rate)}, torch::kFloat);
   torch::Tensor wave_data = sherpa::ReadWave(wav_path, sample_rate).first;
   const int num_samples = wave_data.size(0);
   // send 0.32 second audio every time
@@ -132,14 +132,25 @@ int main(int argc, char* argv[]) {
     for (int j = start; j < end; j++) {
       data.push_back(static_cast<int16_t>(wave_data[j].item<float>() * 32768));
     }
+    if (end == num_samples) {
+      for (int j = 0; j < tail_padding.size(0); j++) {
+        data.push_back(static_cast<int16_t>(tail_padding[j].item<float>()));
+      }
+    }
     // send PCM data with 16k1c16b format
     client.Put(data.data(), data.size() * sizeof(int16_t));
+    // send a empty package to tell Server end when no more input
+    if (end == num_samples) {
+      std::vector<int16_t> fake_data;
+      client.Put(fake_data.data(), fake_data.size() * sizeof(int16_t));
+    }
     tot_send_samples += data.size();
     SHERPA_LOG(INFO) << "Cur Send " << data.size() << " samples"
-      << ", already Send " << tot_send_samples << " samples";
+      << ", tot already Send " << tot_send_samples << " samples";
     std::this_thread::sleep_for(
         std::chrono::milliseconds(static_cast<int>(interval * 1000 * 0.8)));
   }
-  SHERPA_LOG(INFO) << "Client has no more data, should exist";
+
+  SHERPA_LOG(INFO) << "Client has no more data, should exit";
   return 0;
 }
