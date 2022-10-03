@@ -28,7 +28,6 @@
 #include "sherpa/csrc/log.h"
 #include "sherpa/csrc/parse_options.h"
 
-
 namespace asio = boost::asio;
 using tcp = boost::asio::ip::tcp;
 namespace beast = boost::beast;
@@ -38,11 +37,11 @@ namespace websocket = beast::websocket;
 
 class WebSocketClient {
  public:
-  WebSocketClient(const std::string& hostname, int port)
-    : hostname_(hostname), port_(port), alive_(true) {
-      Open();
-      get_thread_ = std::thread(&WebSocketClient::Get, this);
-    }
+  WebSocketClient(const std::string& hostname, int32_t port)
+      : hostname_(hostname), port_(port), alive_(true) {
+    Open();
+    get_thread_ = std::thread(&WebSocketClient::Get, this);
+  }
 
   void Put(const void* data, size_t size) {
     ws_.binary(true);
@@ -62,11 +61,11 @@ class WebSocketClient {
         }
       }
       Close();
-    } catch (const beast::system_error & se) {
+    } catch (const beast::system_error &se) {
       if (se.code() != websocket::error::closed) {
         SHERPA_LOG(WARNING) << se.code().message();
       }
-    } catch (const std::exception & e) {
+    } catch (const std::exception &e) {
       SHERPA_LOG(WARNING) << e.what();
     }
   }
@@ -81,8 +80,6 @@ class WebSocketClient {
     // Make IP address get from a domain name lookup
     auto const results = resolver.resolve(hostname_, std::to_string(port_));
     auto ep = asio::connect(ws_.next_layer(), results);
-    // Provide the value of the Host HTTP header during the WebSocket handshake.
-    // See https://tools.ietf.org/html/rfc7230#section-5.4
     std::string host = hostname_ + ":" + std::to_string(ep.port());
     // Make WebSocket handshake
     ws_.handshake(host, "/");
@@ -91,7 +88,7 @@ class WebSocketClient {
   void Close() { ws_.close(websocket::close_code::normal); }
 
   std::string hostname_;
-  int port_;
+  int32_t port_;
   asio::io_context ioc_;
   websocket::stream<tcp::socket> ws_{ioc_};
   std::thread get_thread_;
@@ -103,7 +100,7 @@ static constexpr const char *kUsageMessage = R"(./bin/websocket-client --server-
 int main(int argc, char* argv[]) {
   sherpa::ParseOptions po(kUsageMessage);
   std::string ip;
-  int port;
+  int32_t port;
   std::string wav_path;
   po.Register("server-ip", &ip, "Server ip to connect");
   po.Register("server-port", &port, "Server port to connect");

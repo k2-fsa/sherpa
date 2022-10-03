@@ -15,12 +15,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#include <chrono> // NOLINT
+#include <chrono>  // NOLINT
 #include <iostream>
 #include <memory>
-#include <ratio> // NOLINT
+#include <ratio>  // NOLINT
 #include <string>
-#include <thread> // NOLINT
+#include <thread>  // NOLINT
 #include <utility>
 
 #include "boost/asio/connect.hpp"
@@ -34,6 +34,7 @@
 #include "sherpa/csrc/parse_options.h"
 
 namespace sherpa {
+
 namespace asio = boost::asio;
 using tcp = boost::asio::ip::tcp;
 namespace beast = boost::beast;
@@ -44,10 +45,9 @@ namespace websocket = beast::websocket;
 class ConnectionHandler {
  public:
   ConnectionHandler(tcp::socket&& socket,
-      std::shared_ptr<sherpa::OnlineAsr> online_asr) :
-    ws_(std::move(socket)),
-    alive_(true),
-    online_asr_(std::move(online_asr)) {}
+      std::shared_ptr<sherpa::OnlineAsr> online_asr)
+    : ws_(std::move(socket)), alive_(true),
+      online_asr_(std::move(online_asr)) {}
 
   void operator()() {
     try {
@@ -70,8 +70,7 @@ class ConnectionHandler {
         if (online_asr_->IsReady(decode_stream.get())) {
           online_asr_->DecodeStream(decode_stream.get());
 
-          std::string transcript = online_asr_->GetResult(
-              decode_stream.get());
+          std::string transcript = online_asr_->GetResult(decode_stream.get());
           std::string endpoint_type = "endpoint_inactive";
           if (decode_stream->IsEndpoint()) {
             endpoint_type = "endpoint_active";
@@ -94,9 +93,9 @@ class ConnectionHandler {
           alive_ = false;
         }
       }
-    } catch (const beast::system_error & se) {
+    } catch (const beast::system_error &se) {
       SHERPA_LOG(INFO) << se.code().message();
-    } catch (const std::exception & e) {
+    } catch (const std::exception &e) {
       SHERPA_LOG(WARNING) << e.what();
       ws_.close(websocket::close_code::normal);
     }
@@ -104,32 +103,32 @@ class ConnectionHandler {
 
  private:
   websocket::stream<tcp::socket> ws_;
-  bool alive_ = true;
-  std::shared_ptr<sherpa::OnlineAsr> online_asr_ = nullptr;
+  bool alive_;
+  std::shared_ptr<sherpa::OnlineAsr> online_asr_;
 };
 
 class WebSocketServer {
  public:
-  WebSocketServer(int port, const sherpa::OnlineAsrOptions opts) :
-    online_asr_(std::make_shared<sherpa::OnlineAsr>(opts)) {
-      StartServer(port);
-    }
+  WebSocketServer(int32_t port, const sherpa::OnlineAsrOptions opts)
+      : online_asr_(std::make_shared<sherpa::OnlineAsr>(opts)) {
+    StartServer(port);
+  }
 
  private:
   void StartServer(int port) {
     try {
-      auto const address = asio::ip::make_address("0.0.0.0");
+      const auto address = asio::ip::make_address("0.0.0.0");
       tcp::acceptor acceptor{ioc_, {address, static_cast<uint16_t>(port)}};
       while (true) {
         tcp::socket socket{ioc_};
-        // Block until a new connection
+        // Block until we get a new connection
         acceptor.accept(socket);
         // Start a new thread to handle the new connection
         ConnectionHandler handler(std::move(socket), online_asr_);
         std::thread t(std::move(handler));
         t.detach();
       }
-    } catch (const std::exception& e) {
+    } catch (const std::exception &e) {
       SHERPA_LOG(FATAL) << e.what();
     }
   }
@@ -173,7 +172,7 @@ int main(int argc, char *argv[]) {
   sherpa::ParseOptions po(kUsageMessage);
   sherpa::OnlineAsrOptions opts;
   opts.Register(&po);
-  int port;
+  int32_t port;
   po.Register("server-port", &port, "Server port to listen on");
   po.Read(argc, argv);
   if (argc < 1) {
