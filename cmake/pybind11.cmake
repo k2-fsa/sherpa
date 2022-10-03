@@ -15,7 +15,7 @@ function(download_pybind11)
 
   FetchContent_GetProperties(pybind11)
   if(NOT pybind11_POPULATED)
-    message(STATUS "Downloading pybind11")
+    message(STATUS "Downloading pybind11 ${pybind11_URL}")
     FetchContent_Populate(pybind11)
   endif()
   message(STATUS "pybind11 is downloaded to ${pybind11_SOURCE_DIR}")

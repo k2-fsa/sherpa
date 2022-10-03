@@ -41,7 +41,7 @@ function(download_portaudio)
 
   FetchContent_GetProperties(portaudio)
   if(NOT portaudio_POPULATED)
-    message(STATUS "Downloading portaudio")
+    message(STATUS "Downloading portaudio ${portaudio_URL}")
     FetchContent_Populate(portaudio)
   endif()
   message(STATUS "portaudio is downloaded to ${portaudio_SOURCE_DIR}")

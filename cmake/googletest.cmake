@@ -14,14 +14,6 @@
 # limitations under the License.
 
 function(download_googltest)
-  if(CMAKE_VERSION VERSION_LESS 3.11)
-    # FetchContent is available since 3.11,
-    # we've copied it to ${CMAKE_SOURCE_DIR}/cmake/Modules
-    # so that it can be used in lower CMake versions.
-    message(STATUS "Use FetchContent provided by k2")
-    list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/Modules)
-  endif()
-
   include(FetchContent)
 
   set(googletest_URL  "https://github.com/google/googletest/archive/release-1.10.0.tar.gz")
@@ -39,7 +31,7 @@ function(download_googltest)
 
   FetchContent_GetProperties(googletest)
   if(NOT googletest_POPULATED)
-    message(STATUS "Downloading googletest")
+    message(STATUS "Downloading googletest ${googletest_URL}")
     FetchContent_Populate(googletest)
   endif()
   message(STATUS "googletest is downloaded to ${googletest_SOURCE_DIR}")
