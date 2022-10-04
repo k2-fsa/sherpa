@@ -198,6 +198,8 @@ void OnlineAsr::GreedySearch(OnlineStream **ss, int32_t n) {
   std::vector<std::vector<int32_t>> all_hyps(n);
   std::vector<torch::Tensor> all_decoder_out(n);
   std::vector<int32_t> all_num_trailing_blank_frames(n);
+  std::vector<std::vector<int32_t>> timestamps(n);
+  std::vector<int32_t> frame_offset(n);
 
   for (int32_t i = 0; i != n; ++i) {
     OnlineStream *s = ss[i];
@@ -244,7 +246,8 @@ void OnlineAsr::GreedySearch(OnlineStream **ss, int32_t n) {
 
   std::vector<torch::Tensor> next_decoder_out =
       StreamingGreedySearch(*model_, encoder_out, batched_decoder_out,
-                            &all_hyps, &all_num_trailing_blank_frames)
+                            frame_offset, &all_hyps,
+                            &all_num_trailing_blank_frames, &timestamps)
           .split(1, /*dim*/ 0);
 
   for (int32_t i = 0; i != n; ++i) {
@@ -266,6 +269,8 @@ void OnlineAsr::ModifiedBeamSearch(OnlineStream **ss, int32_t n) {
   std::vector<torch::IValue> all_states(n);
   std::vector<int32_t> all_processed_frames(n);
   std::vector<Hypotheses> all_hyps(n);
+  std::vector<int32_t> frame_offset(n);
+
   int32_t chunk_length_pad = chunk_length + pad_length;
   for (int32_t i = 0; i != n; ++i) {
     OnlineStream *s = ss[i];
@@ -309,6 +314,7 @@ void OnlineAsr::ModifiedBeamSearch(OnlineStream **ss, int32_t n) {
 
   all_hyps = StreamingModifiedBeamSearch(*model_,  // NOLINT
                                          encoder_out, all_hyps,
+                                         frame_offset,
                                          opts_.num_active_paths);
 
   for (int32_t i = 0; i != n; ++i) {

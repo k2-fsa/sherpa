@@ -205,8 +205,10 @@ std::vector<std::vector<int32_t>> GreedySearch(
 torch::Tensor StreamingGreedySearch(
     RnntModel &model,  // NOLINT
     torch::Tensor encoder_out, torch::Tensor decoder_out,
+    const std::vector<int32_t> &frame_offset,
     std::vector<std::vector<int32_t>> *hyps,
-    std::vector<int32_t> *num_trailing_blank_frames) {
+    std::vector<int32_t> *num_trailing_blank_frames,
+    std::vector<std::vector<int32_t>> *timestamps) {
   TORCH_CHECK(encoder_out.dim() == 3, encoder_out.dim(), " vs ", 3);
   TORCH_CHECK(decoder_out.dim() == 2, decoder_out.dim(), " vs ", 2);
 
@@ -246,6 +248,7 @@ torch::Tensor StreamingGreedySearch(
       if (index != blank_id && index != unk_id) {
         emitted = true;
         (*hyps)[n].push_back(index);
+        (*timestamps)[n].push_back(t + frame_offset[n]);
         (*num_trailing_blank_frames)[n] = 0;
       } else {
         (*num_trailing_blank_frames)[n] += 1;
@@ -430,6 +433,7 @@ std::vector<std::vector<int32_t>> ModifiedBeamSearch(
 std::vector<Hypotheses> StreamingModifiedBeamSearch(
     RnntModel &model,  // NOLINT
     torch::Tensor encoder_out, std::vector<Hypotheses> in_hyps,
+    const std::vector<int32_t> &frame_offset,
     int32_t num_active_paths /*= 4*/) {
   TORCH_CHECK(encoder_out.dim() == 3, encoder_out.dim(), " vs ", 3);
 
@@ -522,6 +526,7 @@ std::vector<Hypotheses> StreamingModifiedBeamSearch(
         int32_t new_token = topk_token_indexes_acc[j];
         if (new_token != blank_id && new_token != unk_id) {
           new_hyp.ys.push_back(new_token);
+          new_hyp.timestamps.push_back(t + frame_offset[k]);
           new_hyp.num_trailing_blanks = 0;
         } else {
           new_hyp.num_trailing_blanks += 1;

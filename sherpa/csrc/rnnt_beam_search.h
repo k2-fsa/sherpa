@@ -55,17 +55,29 @@ std::vector<std::vector<int32_t>> GreedySearch(
  *                    device as `model`.
  * @param decoder_out A 2-D tensor of shape (N, C). It should be on the same
  *                    device as `model`.
+ * @param frame_offset Its shape is (N,). The i-th element contains the number
+ *                     of frames after subsampling we have decoded so far for
+ *                     the i-th utterance.
  * @param hyps The decoded tokens. Note: It is modified in-place.
- * @param num_trailing_blank_frames  Number of trailing blank frames. It is
- *                                   updated in-place.
+ * @param num_trailing_blank_frames  Its shape is (N,). The i-th element
+ *                                   contains the number of trailing blank
+ *                                   frames after subsampling for the i-th
+ *                                   utterance. It is updated in-place.
+ * @param timestamps Its shape is (N,). timestamps[i].size() == hyps[i].size()
+ *                   timestamps[i][k] is the frame number after subsampling
+ *                   on which hyps[i][k] is decoded. It is modified in-place.
  *
  * @return Return the decoder output for the next chunk.
  */
 torch::Tensor StreamingGreedySearch(
     RnntModel &model,  // NOLINT
     torch::Tensor encoder_out, torch::Tensor decoder_out,
+    const std::vector<int32_t> &frame_offset,
     std::vector<std::vector<int32_t>> *hyps,
-    std::vector<int32_t> *num_trailing_blank_frames);
+    std::vector<int32_t> *num_trailing_blank_frames,
+    std::vector<std::vector<int32_t>> *timestamps
+
+);
 
 /** RNN-T modified beam search for offline recognition.
  *
@@ -101,6 +113,9 @@ std::vector<std::vector<int32_t>> ModifiedBeamSearch(
  * @param encoder_out A 3-D tensor of shape (N, T, C). It should be on the same
  *                    device as `model`.
  * @param hyps The decoded results from the previous chunk.
+ * @param frame_offset Its shape is (N,). The i-th element contains the number
+ *                     of frames after subsampling we have decoded so far for
+ *                     the i-th utterance.
  * @param num_active_paths  Number of active paths for each utterance.
  *                          Note: Due to merging paths with identical token
  *                          sequences, the actual number of active paths for
@@ -111,7 +126,7 @@ std::vector<std::vector<int32_t>> ModifiedBeamSearch(
 std::vector<Hypotheses> StreamingModifiedBeamSearch(
     RnntModel &model,  // NOLINT
     torch::Tensor encoder_out, std::vector<Hypotheses> hyps,
-    int32_t num_active_paths = 4);
+    const std::vector<int32_t> &frame_offset, int32_t num_active_paths = 4);
 
 }  // namespace sherpa
 

@@ -75,6 +75,11 @@ class Stream(object):
 
         # whenever an endpoint is detected, it is incremented
         self.segment = 0
+        # Number of frames decoded so far (after subsampling)
+        self.frame_offset = 0  # never reset
+
+        # frame offset within the current segment after subsampling
+        self.segment_frame_offset = 0  # reset on endpointing
 
     def accept_waveform(
         self,

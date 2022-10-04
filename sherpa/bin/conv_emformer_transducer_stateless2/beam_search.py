@@ -133,7 +133,7 @@ class FastBeamSearch:
 
         processed_lens = (num_processed_frames >> 2) + encoder_out_lens
         if self.decoding_method == "fast_beam_search_nbest":
-            next_hyp_list, next_trailing_blank_frames = fast_beam_search_nbest(
+            res = fast_beam_search_nbest(
                 model=model,
                 encoder_out=encoder_out,
                 processed_lens=processed_lens,
@@ -145,10 +145,7 @@ class FastBeamSearch:
                 temperature=self.beam_search_params["temperature"],
             )
         elif self.decoding_method == "fast_beam_search_nbest_LG":
-            (
-                next_hyp_list,
-                next_trailing_blank_frames,
-            ) = fast_beam_search_nbest_LG(
+            res = fast_beam_search_nbest_LG(
                 model=model,
                 encoder_out=encoder_out,
                 processed_lens=processed_lens,
@@ -160,10 +157,7 @@ class FastBeamSearch:
                 temperature=self.beam_search_params["temperature"],
             )
         elif self.decoding_method == "fast_beam_search":
-            (
-                next_hyp_list,
-                next_trailing_blank_frames,
-            ) = fast_beam_search_one_best(
+            res = fast_beam_search_one_best(
                 model=model,
                 encoder_out=encoder_out,
                 processed_lens=processed_lens,
@@ -178,8 +172,13 @@ class FastBeamSearch:
         next_state_list = unstack_states(next_states)
         for i, s in enumerate(stream_list):
             s.states = next_state_list[i]
-            s.hyp = next_hyp_list[i]
-            s.num_trailing_blank_frames = next_trailing_blank_frames[i]
+            s.hyp = res.hyps[i]
+            s.num_trailing_blank_frames = res.num_trailing_blanks[i]
+
+            s.frame_offset += encoder_out.size(1)
+            s.segment_frame_offset += encoder_out.size(1)
+            s.timestamps = res.timestamps[i]
+            s.tokens = res.tokens[i]
 
     def get_texts(self, stream: Stream) -> str:
         """
@@ -193,6 +192,22 @@ class FastBeamSearch:
             result = " ".join(result)
         else:
             result = self.sp.decode(stream.hyp)
+
+        return result
+
+    def get_tokens(self, stream: Stream) -> str:
+        """
+        Return tokens after decoding
+        Args:
+          stream:
+            Stream to be processed.
+        """
+        tokens = stream.tokens
+
+        if hasattr(self, "sp"):
+            result = [self.sp.id_to_piece(i) for i in tokens]
+        else:
+            result = [self.token_table[i] for i in tokens]
 
         return result
 
@@ -239,6 +254,7 @@ class GreedySearch:
         stream.hyp = [
             self.beam_search_params["blank_id"]
         ] * self.beam_search_params["context_size"]
+        stream.timestamps = []  # containing frame numbers after subsampling
 
     @torch.no_grad()
     def process(
@@ -266,6 +282,7 @@ class GreedySearch:
         decoder_out_list, hyp_list = [], []
         processed_frames_list = []
         num_trailing_blank_frames_list = []
+        frame_offset_list, timestamps_list = [], []
 
         for s in stream_list:
             decoder_out_list.append(s.decoder_out)
@@ -280,6 +297,8 @@ class GreedySearch:
             feature_list.append(b)
 
             num_trailing_blank_frames_list.append(s.num_trailing_blank_frames)
+            frame_offset_list.append(s.segment_frame_offset)
+            timestamps_list.append(s.timestamps)
 
         features = torch.stack(feature_list, dim=0).to(device)
         states = stack_states(state_list)
@@ -315,12 +334,15 @@ class GreedySearch:
             next_decoder_out,
             next_hyp_list,
             next_trailing_blank_frames,
+            next_timestamps,
         ) = streaming_greedy_search(
             model=model,
             encoder_out=encoder_out,
             decoder_out=decoder_out,
             hyps=hyp_list,
             num_trailing_blank_frames=num_trailing_blank_frames_list,
+            frame_offset=frame_offset_list,
+            timestamps=timestamps_list,
         )
 
         next_decoder_out_list = next_decoder_out.split(1)
@@ -331,6 +353,9 @@ class GreedySearch:
             s.decoder_out = next_decoder_out_list[i]
             s.hyp = next_hyp_list[i]
             s.num_trailing_blank_frames = next_trailing_blank_frames[i]
+            s.timestamps = next_timestamps[i]
+            s.frame_offset += encoder_out.size(1)
+            s.segment_frame_offset += encoder_out.size(1)
 
     def get_texts(self, stream: Stream) -> str:
         """
@@ -342,6 +367,21 @@ class GreedySearch:
         return self.sp.decode(
             stream.hyp[self.beam_search_params["context_size"] :]
         )
+
+    def get_tokens(self, stream: Stream) -> str:
+        """
+        Return tokens after decoding
+        Args:
+          stream:
+            Stream to be processed.
+        """
+        hyp = stream.hyp[self.beam_search_params["context_size"] :]
+        if hasattr(self, "sp"):
+            result = [self.sp.id_to_piece(i) for i in hyp]
+        else:
+            result = [self.token_table[i] for i in hyp]
+
+        return result
 
 
 class ModifiedBeamSearch:
@@ -382,7 +422,7 @@ class ModifiedBeamSearch:
         state_list, feature_list = [], []
         hyp_list = []
         processed_frames_list = []
-        num_trailing_blank_frames_list = []
+        num_trailing_blank_frames_list, frame_offset_list = [], []
 
         for s in stream_list:
             hyp_list.append(s.hyps)
@@ -396,6 +436,7 @@ class ModifiedBeamSearch:
             feature_list.append(b)
 
             num_trailing_blank_frames_list.append(s.num_trailing_blank_frames)
+            frame_offset_list.append(s.segment_frame_offset)
 
         features = torch.stack(feature_list, dim=0).to(device)
         states = stack_states(state_list)
@@ -429,6 +470,7 @@ class ModifiedBeamSearch:
             model=model,
             encoder_out=encoder_out,
             hyps=hyp_list,
+            frame_offset=frame_offset_list,
             num_active_paths=self.beam_search_params["num_active_paths"],
         )
 
@@ -437,7 +479,13 @@ class ModifiedBeamSearch:
             s.states = next_state_list[i]
             s.hyps = next_hyps_list[i]
             trailing_blanks = s.hyps.get_most_probable(True).num_trailing_blanks
+            best_hyp = s.hyps.get_most_probable(True)
+
+            trailing_blanks = best_hyp.num_trailing_blanks
+            s.timestamps = best_hyp.timestamps
             s.num_trailing_blank_frames = trailing_blanks
+            s.frame_offset += encoder_out.size(1)
+            s.segment_frame_offset += encoder_out.size(1)
 
     def get_texts(self, stream: Stream) -> str:
         hyp = stream.hyps.get_most_probable(True).ys[
@@ -448,5 +496,22 @@ class ModifiedBeamSearch:
         else:
             result = [self.token_table[i] for i in hyp]
             result = "".join(result)
+
+        return result
+
+    def get_tokens(self, stream: Stream) -> str:
+        """
+        Return tokens after decoding
+        Args:
+          stream:
+            Stream to be processed.
+        """
+        hyp = stream.hyps.get_most_probable(True).ys[
+            self.beam_search_params["context_size"] :
+        ]
+        if hasattr(self, "sp"):
+            result = [self.sp.id_to_piece(i) for i in hyp]
+        else:
+            result = [self.token_table[i] for i in hyp]
 
         return result

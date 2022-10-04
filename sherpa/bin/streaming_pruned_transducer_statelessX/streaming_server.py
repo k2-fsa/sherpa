@@ -55,6 +55,7 @@ from sherpa import (
     RnntConformerModel,
     add_beam_search_arguments,
     add_online_endpoint_arguments,
+    convert_timestamp,
 )
 
 
@@ -319,6 +320,7 @@ class StreamingServer(object):
             raise ValueError(
                 f"Decoding method {decoding_method} is not supported."
             )
+        self.decoding_method = decoding_method
 
         if bpe_model_filename:
             self.beam_search.sp = spm.SentencePieceProcessor()
@@ -507,15 +509,27 @@ class StreamingServer(object):
             while len(stream.features) > self.chunk_length:
                 await self.compute_and_decode(stream)
                 hyp = self.beam_search.get_texts(stream)
+                tokens = self.beam_search.get_tokens(stream)
 
                 segment = stream.segment
+                timestamps = convert_timestamp(
+                    frames=stream.timestamps,
+                    subsampling_factor=stream.subsampling_factor,
+                )
+
+                frame_offset = stream.frame_offset * stream.subsampling_factor
+
                 is_final = stream.endpoint_detected(self.online_endpoint_config)
                 if is_final:
                     self.beam_search.init_stream(stream)
 
                 message = {
+                    "method": self.decoding_method,
                     "segment": segment,
+                    "frame_offset": frame_offset,
                     "text": hyp,
+                    "tokens": tokens,
+                    "timestamps": timestamps,
                     "final": is_final,
                 }
 
@@ -532,10 +546,20 @@ class StreamingServer(object):
             stream.features = []
 
         hyp = self.beam_search.get_texts(stream)
+        tokens = self.beam_search.get_tokens(stream)
+        frame_offset = stream.frame_offset * stream.subsampling_factor
+        timestamps = convert_timestamp(
+            frames=stream.timestamps,
+            subsampling_factor=stream.subsampling_factor,
+        )
 
         message = {
+            "method": self.decoding_method,
             "segment": stream.segment,
+            "frame_offset": frame_offset,
             "text": hyp,
+            "tokens": tokens,
+            "timestamps": timestamps,
             "final": True,  # end of connection, always set final to True
         }
 

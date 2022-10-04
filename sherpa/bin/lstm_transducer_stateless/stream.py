@@ -132,8 +132,14 @@ class Stream(object):
         self.subsampling_factor = subsampling_factor
         self.log_eps = math.log(1e-10)
 
-        # whenever an endpoint is detected, it is incremented
+        # increment on endpointing
         self.segment = 0
+
+        # Number of frames decoded so far (after subsampling)
+        self.frame_offset = 0  # never reset
+
+        # frame offset within the current segment after subsampling
+        self.segment_frame_offset = 0  # reset on endpointing
 
     def accept_waveform(
         self,
@@ -225,5 +231,6 @@ class Stream(object):
             self.num_trailing_blank_frames = 0
             self.processed_frames = 0
             self.segment += 1
+            self.segment_frame_offset = 0
 
         return detected
