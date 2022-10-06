@@ -54,6 +54,7 @@ from sherpa import (
     add_beam_search_arguments,
     add_online_endpoint_arguments,
     convert_timestamp,
+    setup_logger,
 )
 
 
@@ -621,6 +622,7 @@ torch::jit::setGraphExecutorOptimize(false);
 """
 
 if __name__ == "__main__":
-    formatter = "%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] %(message)s"  # noqa
-    logging.basicConfig(format=formatter, level=logging.INFO)
+    log_filename = "log/log-pruned-stateless-emformer-rnnt2"
+    setup_logger(log_filename)
+
     main()

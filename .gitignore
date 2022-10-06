@@ -7,3 +7,4 @@ torch_version.py
 *.ark
 *.scp
 *.onnx
+log/
