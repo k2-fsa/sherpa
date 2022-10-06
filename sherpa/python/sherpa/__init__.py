@@ -40,4 +40,5 @@ from .utils import (
     add_beam_search_arguments,
     count_num_trailing_zeros,
     get_fast_beam_search_results,
+    setup_logger,
 )

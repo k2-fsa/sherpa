@@ -41,7 +41,7 @@ import torch
 import websockets
 from beam_search import GreedySearchOffline, ModifiedBeamSearchOffline
 
-from sherpa import RnntConformerModel, add_beam_search_arguments
+from sherpa import RnntConformerModel, add_beam_search_arguments, setup_logger
 
 
 def get_args():
@@ -668,7 +668,8 @@ torch::jit::setGraphExecutorOptimize(false);
 
 if __name__ == "__main__":
     torch.manual_seed(20220519)
-    formatter = "%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] %(message)s"  # noqa
-    logging.basicConfig(format=formatter, level=logging.INFO)
+
+    log_filename = "log/log-pruned-transducer-statelessX"
+    setup_logger(log_filename)
 
     main()

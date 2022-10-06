@@ -1,9 +1,62 @@
 import argparse
+import logging
 from dataclasses import dataclass
+from datetime import datetime
 from pathlib import Path
 from typing import List, Tuple
+from typing import Union
 
 import k2
+
+Pathlike = Union[str, Path]
+
+
+def setup_logger(
+    log_filename: Pathlike,
+    log_level: str = "info",
+    use_console: bool = True,
+) -> None:
+    """Setup log level.
+
+    Args:
+      log_filename:
+        The filename to save the log.
+      log_level:
+        The log level to use, e.g., "debug", "info", "warning", "error",
+        "critical"
+      use_console:
+        True to also print logs to console.
+    """
+    now = datetime.now()
+    date_time = now.strftime("%Y-%m-%d-%H-%M-%S")
+    formatter = (
+        "%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] %(message)s"
+    )
+    log_filename = f"{log_filename}-{date_time}.txt"
+
+    Path(log_filename).parent.mkdir(parents=True, exist_ok=True)
+
+    level = logging.ERROR
+    if log_level == "debug":
+        level = logging.DEBUG
+    elif log_level == "info":
+        level = logging.INFO
+    elif log_level == "warning":
+        level = logging.WARNING
+    elif log_level == "critical":
+        level = logging.CRITICAL
+
+    logging.basicConfig(
+        filename=log_filename,
+        format=formatter,
+        level=level,
+        filemode="w",
+    )
+    if use_console:
+        console = logging.StreamHandler()
+        console.setLevel(level)
+        console.setFormatter(logging.Formatter(formatter))
+        logging.getLogger("").addHandler(console)
 
 
 @dataclass
