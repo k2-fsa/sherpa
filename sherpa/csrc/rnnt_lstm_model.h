@@ -83,9 +83,8 @@ class RnntLstmModel : public RnntModel {
   int32_t UnkId() const override { return unk_id_; }
   int32_t ContextSize() const override { return context_size_; }
   int32_t VocabSize() const override { return vocab_size_; }
-  int32_t ChunkLength() const { return chunk_length_; }
-  int32_t PadLength() const { return pad_length_; }
-  int32_t SubsamplingFactor() const { return subsampling_factor_; }
+  int32_t ChunkLength() const override { return chunk_length_; }
+  int32_t PadLength() const override { return pad_length_; }
 
  private:
   torch::jit::Module model_;
@@ -102,7 +101,6 @@ class RnntLstmModel : public RnntModel {
   int32_t context_size_;
   int32_t chunk_length_;
   int32_t pad_length_;
-  int32_t subsampling_factor_;
 };
 
 }  // namespace sherpa

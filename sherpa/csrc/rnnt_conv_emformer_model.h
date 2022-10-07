@@ -88,9 +88,8 @@ class RnntConvEmformerModel : public RnntModel {
   int32_t UnkId() const override { return unk_id_; }
   int32_t ContextSize() const override { return context_size_; }
   int32_t VocabSize() const override { return vocab_size_; }
-  int32_t ChunkLength() const { return chunk_length_; }
-  int32_t RightContextLength() const { return right_context_length_; }
-  int32_t PadLength() const { return pad_length_; }
+  int32_t ChunkLength() const override { return chunk_length_; }
+  int32_t PadLength() const override { return pad_length_; }
 
   using State = std::pair<std::vector<std::vector<torch::Tensor>>,
                           std::vector<torch::Tensor>>;
@@ -113,7 +112,6 @@ class RnntConvEmformerModel : public RnntModel {
   int32_t unk_id_;
   int32_t context_size_;
   int32_t chunk_length_;
-  int32_t right_context_length_;
   int32_t pad_length_;
 };
 

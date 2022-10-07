@@ -21,6 +21,7 @@
 
 #include <memory>
 #include <string>
+#include <tuple>
 
 #include "sherpa/csrc/rnnt_conformer_model.h"
 #include "sherpa/csrc/rnnt_model.h"
@@ -44,12 +45,34 @@ void PybindRnntConformerModel(py::module &m) {  // NOLINT
            py::arg("optimize_for_inference") = false)
       .def("encoder", &PyClass::ForwardEncoder, py::arg("features"),
            py::arg("features_length"), py::call_guard<py::gil_scoped_release>())
-      .def("encoder_streaming_forward", &PyClass::StreamingForwardEncoder,
-           py::arg("features"), py::arg("features_length"), py::arg("states"),
-           py::arg("processed_frames"), py::arg("left_context"),
-           py::arg("right_context"), py::call_guard<py::gil_scoped_release>())
-      .def("get_encoder_init_states", &PyClass::GetEncoderInitStates,
-           py::arg("left_context"), py::call_guard<py::gil_scoped_release>())
+      .def(
+          "encoder_streaming_forward",
+          [](PyClass &self, const torch::Tensor &features,
+             const torch::Tensor &features_length, const PyClass::State &states,
+             const torch::Tensor &processed_frames, int32_t left_context,
+             int32_t right_context)
+              -> std::tuple<torch::Tensor, torch::Tensor, PyClass::State> {
+            torch::Tensor encoder_out;
+            torch::Tensor encoder_out_lens;
+            torch::IValue next_states;
+
+            std::tie(encoder_out, encoder_out_lens, next_states) =
+                self.StreamingForwardEncoder(
+                    features, features_length, self.StateToIValue(states),
+                    processed_frames, left_context, right_context);
+            return {encoder_out, encoder_out_lens,
+                    self.StateFromIValue(next_states)};
+          },
+          py::arg("features"), py::arg("features_length"), py::arg("states"),
+          py::arg("processed_frames"), py::arg("left_context"),
+          py::arg("right_context"), py::call_guard<py::gil_scoped_release>())
+      .def(
+          "get_encoder_init_states",
+          [](PyClass &self, int32_t left_context) -> PyClass::State {
+            auto ivalue = self.GetEncoderInitStates(left_context);
+            return self.StateFromIValue(ivalue);
+          },
+          py::arg("left_context"), py::call_guard<py::gil_scoped_release>())
       .def_property_readonly("subsampling_factor", &PyClass::SubSamplingFactor);
 }
 

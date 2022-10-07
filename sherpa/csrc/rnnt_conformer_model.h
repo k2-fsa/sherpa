@@ -49,7 +49,10 @@ class RnntConformerModel : public RnntModel {
 
   using State = std::vector<torch::Tensor>;
 
-  State GetEncoderInitStates(int32_t left_context);
+  torch::IValue StateToIValue(const State &s) const;
+  State StateFromIValue(torch::IValue ivalue) const;
+
+  torch::IValue GetEncoderInitStates(int32_t left_context);
 
   torch::Device Device() const override { return device_; }
 
@@ -93,10 +96,12 @@ class RnntConformerModel : public RnntModel {
    *         - encoder_out_length, a 1-D tensor of shape (N,) containing the
    *           number of valid frames in `encoder_out`.
    */
-  std::tuple<torch::Tensor, torch::Tensor, State> StreamingForwardEncoder(
-      const torch::Tensor &features, const torch::Tensor &features_length,
-      const State &states, const torch::Tensor &processed_frames,
-      int32_t left_context, int32_t right_context);
+  std::tuple<torch::Tensor, torch::Tensor, torch::IValue>
+  StreamingForwardEncoder(const torch::Tensor &features,
+                          const torch::Tensor &features_length,
+                          torch::IValue states,
+                          const torch::Tensor &processed_frames,
+                          int32_t left_context, int32_t right_context);
 
   /** Run the decoder network.
    *
