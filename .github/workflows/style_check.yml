@@ -14,7 +14,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-name: style_check
+name: cpp_style_check
 
 on:
   push:
@@ -37,8 +37,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  style_check:
-    runs-on: ubuntu-18.04
+  cpp_style_check:
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         python-version: [3.8]
