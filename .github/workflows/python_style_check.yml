@@ -33,16 +33,16 @@ on:
       - 'sherpa/bin/**'
 
 concurrency:
-  group: style_check-${{ github.ref }}
+  group: python_style_check-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  style_check:
+  python_style_check:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-18.04, macos-10.15]
-        python-version: [3.7, 3.9]
+        os: [ubuntu-latest]
+        python-version: [3.8]
       fail-fast: false
 
     steps:

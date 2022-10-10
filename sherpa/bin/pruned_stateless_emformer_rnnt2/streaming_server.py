@@ -37,8 +37,10 @@ import http
 import json
 import logging
 import math
+import ssl
 import warnings
 from concurrent.futures import ThreadPoolExecutor
+from pathlib import Path
 from typing import Optional, Tuple
 
 import numpy as np
@@ -185,6 +187,16 @@ def get_args():
         """,
     )
 
+    parser.add_argument(
+        "--certificate",
+        type=str,
+        help="""Path to the X.509 certificate. You need it only if you want to
+        use a secure websocket connection, i.e., use wss:// instead of ws://.
+        You can use sherpa/bin/web/generate-certificate.py
+        to generate the certificate `cert.pem`.
+        """,
+    )
+
     return (
         parser.parse_args(),
         beam_search_parser.parse_known_args()[0],
@@ -205,6 +217,7 @@ class StreamingServer(object):
         max_active_connections: int,
         beam_search_params: dict,
         online_endpoint_config: OnlineEndpointConfig,
+        certificate: Optional[str] = None,
     ):
         """
         Args:
@@ -231,6 +244,10 @@ class StreamingServer(object):
             Dictionary containing all the parameters for beam search.
           online_endpoint_config:
             Config for endpointing.
+          certificate:
+            Optional. If not None, it will use secure websocket.
+            You can use ./sherpa/bin/web/generate-certificate.py to generate
+            it (the default generated filename is `cert.pem`).
         """
         if torch.cuda.is_available():
             device = torch.device("cuda", 0)
@@ -288,6 +305,8 @@ class StreamingServer(object):
         self.decoding_method = decoding_method
         self.beam_search.sp = self.sp
         self.online_endpoint_config = online_endpoint_config
+
+        self.certificate = certificate
 
         self.nn_pool = ThreadPoolExecutor(
             max_workers=nn_pool_size,
@@ -397,6 +416,14 @@ class StreamingServer(object):
         task = asyncio.create_task(self.stream_consumer_task())
         await self.warmup()
 
+        if self.certificate:
+            logging.info(f"Using certificate: {self.certificate}")
+            ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
+            ssl_context.load_cert_chain(self.certificate)
+        else:
+            ssl_context = None
+            logging.info("No certificate provided")
+
         async with websockets.serve(
             self.handle_connection,
             host="",
@@ -404,6 +431,7 @@ class StreamingServer(object):
             max_size=self.max_message_size,
             max_queue=self.max_queue_size,
             process_request=self.process_request,
+            ssl=ssl_context,
         ):
             await asyncio.Future()  # run forever
 
@@ -580,6 +608,9 @@ def main():
     max_message_size = args.max_message_size
     max_queue_size = args.max_queue_size
     max_active_connections = args.max_active_connections
+    certificate = args.certificate
+    if certificate and not Path(certificate).is_file():
+        raise ValueError(f"{certificate} does not exist")
 
     if beam_search_params["decoding_method"] == "modified_beam_search":
         assert beam_search_params["num_active_paths"] >= 1, beam_search_params[
@@ -597,6 +628,7 @@ def main():
         max_active_connections=max_active_connections,
         beam_search_params=beam_search_params,
         online_endpoint_config=online_endpoint_config,
+        certificate=certificate,
     )
     asyncio.run(server.run(port))
 
