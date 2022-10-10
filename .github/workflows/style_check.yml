@@ -33,7 +33,7 @@ on:
       - 'sherpa/python/**'
 
 concurrency:
-  group: style_check-${{ github.ref }}
+  group: cpp_style_check-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
