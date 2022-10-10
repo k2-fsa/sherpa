@@ -34,10 +34,10 @@ Start the https server
 ----------------------
 
 
-.. code-block::
+.. code-block:: bash
 
    cd sherpa/bin/web
-   ./start-https-server \
+   ./start-https-server.py \
      --server-address 0.0.0.0 \
      --server-port 6007 \
      --certificate cert.pem
@@ -58,7 +58,7 @@ will show you the following page:
 .. hint::
 
    You get the above message because you are using a self-signed certificate.
-   Also, you can use the one of the public IP address of your machine to
+   Also, you can also use one of the public IP addresses of your machine to
    replace ``0.0.0.0`` in `<https://0.0.0.0:6007>`_.
 
 After clicking the button ``Advanced``, you will see the following page:
@@ -102,7 +102,7 @@ Start the websocket server
    as a demo below. The steps should be similar for starting other
    streaming servers.
 
-.. code-block::
+.. code-block:: bash
 
     cd /path/to/sherpa
 
