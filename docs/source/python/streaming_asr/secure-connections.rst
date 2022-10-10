@@ -58,7 +58,7 @@ will show you the following page:
 .. hint::
 
    You get the above message because you are using a self-signed certificate.
-   Also, you can also use one of the public IP addresses of your machine to
+   Also, you can use one of the public IP addresses of your machine to
    replace ``0.0.0.0`` in `<https://0.0.0.0:6007>`_.
 
 After clicking the button ``Advanced``, you will see the following page:
