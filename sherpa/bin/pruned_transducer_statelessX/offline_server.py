@@ -29,8 +29,10 @@ import argparse
 import asyncio
 import http
 import logging
+import ssl
 import warnings
 from concurrent.futures import ThreadPoolExecutor
+from pathlib import Path
 from typing import List, Optional, Tuple
 
 import k2
@@ -170,6 +172,16 @@ def get_args():
     )
 
     parser.add_argument(
+        "--certificate",
+        type=str,
+        help="""Path to the X.509 certificate. You need it only if you want to
+        use a secure websocket connection, i.e., use wss:// instead of ws://.
+        You can use sherpa/bin/web/generate-certificate.py
+        to generate the certificate `cert.pem`.
+        """,
+    )
+
+    parser.add_argument(
         "--use-fp16",
         type=bool,
         default=False,
@@ -199,6 +211,7 @@ class OfflineServer:
         max_active_connections: int,
         beam_search_params: dict,
         use_fp16: bool,
+        certificate: Optional[str] = None,
     ):
         """
         Args:
@@ -260,6 +273,8 @@ class OfflineServer:
             self.sp.load(bpe_model_filename)
         else:
             self.token_table = k2.SymbolTable.from_file(token_filename)
+
+        self.certificate = certificate
 
         self.counter = 0
 
@@ -370,6 +385,14 @@ class OfflineServer:
         task = asyncio.create_task(self.feature_consumer_task())
         await self.warmup()
 
+        if self.certificate:
+            logging.info(f"Using certificate: {self.certificate}")
+            ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
+            ssl_context.load_cert_chain(self.certificate)
+        else:
+            ssl_context = None
+            logging.info("No certificate provided")
+
         # If you use multiple GPUs, you can create multiple
         # feature consumer tasks.
         #  asyncio.create_task(self.feature_consumer_task())
@@ -381,6 +404,7 @@ class OfflineServer:
             max_size=self.max_message_size,
             max_queue=self.max_queue_size,
             process_request=self.process_request,
+            ssl=ssl_context,
         ):
             await asyncio.Future()  # run forever
         await task
@@ -397,7 +421,7 @@ class OfflineServer:
         The message from the client is a **bytes** buffer.
 
         The first message can be either b"Done" meaning the client won't send
-        anything in the future or it can be a buffer containing 8 bytes
+        anything in the future or it can be a buffer containing 4 bytes
         in **little** endian format, specifying the number of bytes in the audio
         file, which will be sent by the client in the subsequent messages.
         Since there is a limit in the message size posed by the websocket
@@ -417,7 +441,7 @@ class OfflineServer:
         if header == b"Done":
             return None
 
-        assert len(header) == 8, "The first message should contain 8 bytes"
+        assert len(header) == 4, "The first message should contain 4 bytes"
 
         expected_num_bytes = int.from_bytes(header, "little", signed=True)
 
@@ -599,6 +623,9 @@ def main():
     max_queue_size = args.max_queue_size
     max_active_connections = args.max_active_connections
     use_fp16 = args.use_fp16
+    certificate = args.certificate
+    if certificate and not Path(certificate).is_file():
+        raise ValueError(f"{certificate} does not exist")
 
     decoding_method = beam_search_params["decoding_method"]
     assert decoding_method in (
@@ -642,6 +669,7 @@ def main():
         max_active_connections=max_active_connections,
         beam_search_params=beam_search_params,
         use_fp16=use_fp16,
+        certificate=certificate,
     )
     asyncio.run(offline_server.run(port))
 

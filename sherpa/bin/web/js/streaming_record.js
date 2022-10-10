@@ -18,19 +18,45 @@ function getDisplayResult() {
 }
 
 function initWebSocket() {
-  socket = new WebSocket('ws://localhost:6006/');
+  console.log('Creating websocket')
+  let protocol = 'ws://';
+  if (window.location.protocol == 'https:') {
+    protocol = 'wss://'
+  }
+  let server_ip = serverIpInput.value;
+  let server_port = serverPortInput.value;
+  console.log('protocol: ', protocol);
+  console.log('server_ip: ', server_ip);
+  console.log('server_port: ', server_port);
+
+  if (server_port == window.location.port) {
+    alert(
+        window.location.port + ' is for the http server.\n' +
+        'Please use the port for the websocket server.\n' +
+        'That is, use the port when you start the streaming_server.py');
+    return;
+  }
+
+
+  let uri = protocol + server_ip + ':' + server_port;
+  console.log('uri', uri);
+  socket = new WebSocket(uri);
+  // socket = new WebSocket('wss://localhost:6006/');
 
   // Connection opened
   socket.addEventListener('open', function(event) {
     console.log('connected');
-    document.getElementById('streaming_record').disabled = false;
+    recordBtn.disabled = false;
+    connectBtn.disabled = true;
+    connectBtn.innerHTML = 'Connected!';
   });
 
   // Connection closed
   socket.addEventListener('close', function(event) {
     console.log('disconnected');
-    document.getElementById('streaming_record').disabled = true;
-    initWebSocket();
+    recordBtn.disabled = true;
+    connectBtn.disabled = false;
+    connectBtn.innerHTML = 'Click me to connect!';
   });
 
   // Listen for messages
@@ -48,6 +74,19 @@ function initWebSocket() {
   });
 }
 
+window.onload = (event) => {
+  console.log('page is fully loaded');
+  console.log('protocol', window.location.protocol);
+  if (window.location.protocol == 'https:') {
+    document.getElementById('ws-protocol').textContent = 'wss://';
+  }
+  serverIpInput.value = window.location.hostname;
+};
+
+const serverIpInput = document.getElementById('server-ip');
+const serverPortInput = document.getElementById('server-port');
+
+const connectBtn = document.getElementById('connect');
 const recordBtn = document.getElementById('streaming_record');
 const stopBtn = document.getElementById('streaming_stop');
 const clearBtn = document.getElementById('clear');
@@ -72,6 +111,10 @@ let recordingLength = 0;  // number of samples so far
 clearBtn.onclick = function() {
   document.getElementById('results').value = '';
   recognition_text = [];
+};
+
+connectBtn.onclick = function() {
+  initWebSocket();
 };
 
 // copied/modified from https://mdn.github.io/web-dictaphone/

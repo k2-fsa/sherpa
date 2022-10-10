@@ -12,6 +12,7 @@ and `LSTM` `transducer`_ (i.e., LSTM-T).
    :maxdepth: 3
 
    endpointing
+   secure-connections
    emformer/index
    conv_emformer/index
    conformer/index

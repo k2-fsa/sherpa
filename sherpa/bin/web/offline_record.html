@@ -18,7 +18,7 @@
 </head>
 
 
-<body onload="initWebSocket()">
+<body>
   <div id="nav"></div>
   <script>
     $(function(){
@@ -28,6 +28,16 @@
 
   <h3>Recognition from offline recordings</h3>
   <div class="container">
+    <div class="input-group mb-1">
+      <div class="input-group-prepend">
+        <button class="btn btn-block btn-primary" type="button" id="connect">Click me to connect</button>
+      </div>
+      <span class="input-group-text" id="ws-protocol">ws://</span>
+      <input type="text" id="server-ip" class="form-control" placeholder="Sherpa server IP, e.g., localhost" aria-label="sherpa server IP">
+      <span class="input-group-text">:</span>
+      <input type="text" id="server-port" class="form-control" placeholder="Sherpa server port, e.g., 6006" aria-label="sherpa server port">
+    </div>
+
     <div class="row">
        <div class="col-12">
         <canvas id="canvas" height="60px" display="block" margin-bottom="0.5rem"></canvas>

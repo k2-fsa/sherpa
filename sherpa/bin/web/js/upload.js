@@ -8,20 +8,50 @@ https://developer.mozilla.org/en-US/docs/Web/API/WebSocket/send
 */
 
 var socket;
+
+const serverIpInput = document.getElementById('server-ip');
+const serverPortInput = document.getElementById('server-port');
+
+const connectBtn = document.getElementById('connect');
+const uploadBtn = document.getElementById('file');
+
 function initWebSocket() {
-  socket = new WebSocket('ws://localhost:6006/');
+  let protocol = 'ws://';
+  if (window.location.protocol == 'https:') {
+    protocol = 'wss://'
+  }
+  let server_ip = serverIpInput.value;
+  let server_port = serverPortInput.value;
+  console.log('protocol: ', protocol);
+  console.log('server_ip: ', server_ip);
+  console.log('server_port: ', server_port);
+
+  if (server_port == window.location.port) {
+    alert(
+        window.location.port + ' is for the http server.\n' +
+        'Please use the port for the websocket server.\n' +
+        'That is, use the port when you start the offline_server.py');
+    return;
+  }
+
+  let uri = protocol + server_ip + ':' + server_port;
+  console.log('uri', uri);
+  socket = new WebSocket(uri);
 
   // Connection opened
   socket.addEventListener('open', function(event) {
     console.log('connected');
-    document.getElementById('file').disabled = false;
+    uploadBtn.disabled = false;
+    connectBtn.disabled = true;
+    connectBtn.innerHTML = 'Connected!';
   });
 
   // Connection closed
   socket.addEventListener('close', function(event) {
     console.log('disconnected');
-    document.getElementById('file').disabled = true;
-    initWebSocket();
+    uploadBtn.disabled = true;
+    connectBtn.disabled = false;
+    connectBtn.innerHTML = 'Click me to connect!';
   });
 
   // Listen for messages
@@ -31,16 +61,28 @@ function initWebSocket() {
     if (event.data != 'Done') {
       document.getElementById('results').value = event.data;
     } else {
-      document.getElementById('file').disabled = true;
-      initWebSocket();
+      socket.close();
     }
   });
 }
 
+window.onload = (event) => {
+  console.log('page is fully loaded');
+  console.log('protocol', window.location.protocol);
+  if (window.location.protocol == 'https:') {
+    document.getElementById('ws-protocol').textContent = 'wss://';
+  }
+  serverIpInput.value = window.location.hostname;
+};
+
+connectBtn.onclick = function() {
+  initWebSocket();
+};
+
 function send_header(n) {
-  const header = new ArrayBuffer(8);
+  const header = new ArrayBuffer(4);
   new DataView(header).setInt32(0, n, true /* littleEndian */);
-  socket.send(new BigInt64Array(header, 0, 1));
+  socket.send(new Int32Array(header, 0, 1));
 }
 
 function onFileChange() {
