@@ -450,6 +450,8 @@ class StreamingServer(object):
         """
         try:
             await self.handle_connection_impl(socket)
+        except websockets.exceptions.ConnectionClosedError:
+            logging.info(f"{socket.remote_address} disconnected")
         finally:
             # Decrement so that it can accept new connections
             self.current_active_connections -= 1
