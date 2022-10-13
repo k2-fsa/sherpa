@@ -39,6 +39,9 @@ def _create_streaming_feature_extractor() -> OnlineFeature:
     opts.frame_opts.snip_edges = False
     opts.frame_opts.samp_freq = 16000
     opts.mel_opts.num_bins = 80
+
+    # 200 is more than enough for the streaming conformer model.
+    opts.frame_opts.max_feature_vectors = 200
     return OnlineFbank(opts)
 
 
