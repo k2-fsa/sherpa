@@ -123,4 +123,7 @@ rst_epilog = """
 .. _Kaldi: https://github.com/kaldi-asr/kaldi
 .. _ncnn: https://github.com/tencent/ncnn
 .. _sherpa-ncnn: https://github.com/k2-fsa/sherpa-ncnn
+.. _onnx: https://github.com/onnx/onnx
+.. _onnxruntime: https://github.com/microsoft/onnxruntime
+.. _sherpa-onnx: https://github.com/k2-fsa/sherpa-onnx
 """

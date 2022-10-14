@@ -43,3 +43,9 @@ for both streaming ASR and offline ASR (i.e., non-streaming ASR).
    :caption: ncnn
 
    ./ncnn/index
+
+.. toctree::
+   :maxdepth: 2
+   :caption: onnx
+
+   ./onnx/index
