@@ -1,6 +1,17 @@
 sherpa-onnx
 ===========
 
+.. hint::
+
+  A colab notebook is provided for you so that you can try `sherpa-onnx`_
+  in the browser.
+
+  |sherpa-onnx colab notebook|
+
+  .. |sherpa-onnx colab notebook| image:: https://colab.research.google.com/assets/colab-badge.svg
+     :target: https://colab.research.google.com/drive/1tmQbdlYeTl_klmtaGiUb7a7ZPz-AkBSH?usp=sharing
+
+
 We support using `onnx`_ with `onnxruntime`_ to replace `PyTorch`_ for neural
 network computation. The code is put in a separate repository `sherpa-onnx`_.
 
@@ -15,13 +26,13 @@ Please refer to
 `<https://k2-fsa.github.io/icefall/model-export/export-onnx.html>`_
 for how to export models to `onnx`_ format.
 
-In the following, we describe how to build ``sherpa-onnx`` on Linux, macOS,
+In the following, we describe how to build `sherpa-onnx`_ on Linux, macOS,
 and Windows. Also, we show how to use it for speech recognition with
 pretrained models.
 
 .. caution::
 
-   We only provide non-streaming conformer transducer support at present.
+   We only provide support for non-streaming conformer transducer at present.
    The work for streaming ASR is still on-going.
 
 Build sherpa-onnx for Linux and macOS
@@ -38,6 +49,11 @@ Build sherpa-onnx for Linux and macOS
 
 It will generate a binary ``sherpa-onnx`` inside ``./build/bin/``.
 
+.. note::
+
+   Please read below to see how to use the generated binary for speech
+   recognition with pretrained models.
+
 Build sherpa-onnx for Windows
 -----------------------------
 
@@ -51,6 +67,12 @@ Build sherpa-onnx for Windows
   cmake --build . --config Release
 
 It will generate a binary ``sherpa-onnx.exe`` inside ``./build/bin/Release/``.
+
+.. note::
+
+   Please read below to see how to use the generated binary for speech
+   recognition with pretrained models.
+
 
 Speech recognition with sherpa-onnx
 -----------------------------------
