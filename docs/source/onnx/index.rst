@@ -1,7 +1,7 @@
 sherpa-onnx
 ===========
 
-We support using `onnx`_ with `onnxruntime`_ to replace PyTorch for neural
+We support using `onnx`_ with `onnxruntime`_ to replace `PyTorch`_ for neural
 network computation. The code is put in a separate repository `sherpa-onnx`_.
 
 `sherpa-onnx`_ is self-contained and everything can be compiled from source.
@@ -21,7 +21,7 @@ pretrained models.
 
 .. caution::
 
-   We only provide non-streaming conformer transducer at present.
+   We only provide non-streaming conformer transducer support at present.
    The work for streaming ASR is still on-going.
 
 Build sherpa-onnx for Linux and macOS
@@ -36,7 +36,7 @@ Build sherpa-onnx for Linux and macOS
   cmake -DCMAKE_BUILD_TYPE=Release ..
   make -j6
 
-It will generate a binary ``sherpa-onnx`` inside ``./build/bin``.
+It will generate a binary ``sherpa-onnx`` inside ``./build/bin/``.
 
 Build sherpa-onnx for Windows
 -----------------------------
@@ -50,7 +50,7 @@ Build sherpa-onnx for Windows
   cmake -DCMAKE_BUILD_TYPE=Release ..
   cmake --build . --config Release
 
-It will generate a binary ``sherpa-onnx.exe`` inside ``./build/bin/Release``.
+It will generate a binary ``sherpa-onnx.exe`` inside ``./build/bin/Release/``.
 
 Speech recognition with sherpa-onnx
 -----------------------------------
@@ -65,7 +65,7 @@ English
 
 First, let us download the pretrained model:
 
-.. code-block::
+.. code-block:: bash
 
   cd /path/to/sherpa-onnx
 
