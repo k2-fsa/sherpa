@@ -1,0 +1,43 @@
+syntax="proto3";
+package sherpa;
+
+option cc_generic_services = true;
+
+service AsrService {
+  rpc Recognize(AsrRequest) returns (AsrResponse);
+}
+
+message AsrRequest {
+  bytes audio_data = 1;
+  enum Status {
+    stream_start = 0;
+    stream_continue = 1;
+    stream_end = 2;
+  }
+  Status status = 2;
+}
+
+message AsrResponse {
+  message Path {
+    string transcript = 1;
+    repeated Token token = 2;
+  }
+
+  message Token {
+    string token = 1;
+    int32 start = 2;
+    int32 end = 3;
+    float score = 4;
+  }
+
+  enum Status {
+    ok = 0;
+    failed = 1;
+    endpoint_active = 2;
+    endpoint_inactive = 3;
+    stream_end = 4;
+  }
+  Status status = 1;
+
+  repeated Path nbest = 2;
+}

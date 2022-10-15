@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.8 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.14 FATAL_ERROR)
 project(sherpa)
 
 # Remember to change
@@ -34,11 +34,13 @@ if(NOT CMAKE_BUILD_TYPE)
 endif()
 message(STATUS "CMAKE_BUILD_TYPE: ${CMAKE_BUILD_TYPE}")
 
-set(CMAKE_CXX_STANDARD 14 CACHE STRING "The C++ version to be used.")
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 option(SHERPA_ENABLE_TESTS "Whether to build tests" ON)
 option(SHERPA_ENABLE_PORTAUDIO "Whether to build portaudio" ON)
+option(SHERPA_ENABLE_BRPC "Whether to build brpc Server" OFF)
 
 include(CheckIncludeFileCXX)
 check_include_file_cxx(cxxabi.h SHERPA_HAVE_CXXABI_H)

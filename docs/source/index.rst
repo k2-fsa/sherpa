@@ -37,6 +37,7 @@ for both streaming ASR and offline ASR (i.e., non-streaming ASR).
    ./cpp/installation/index
    ./cpp/offline_asr/index
    ./cpp/online_asr/index
+   ./cpp/brpc/index
 
 .. toctree::
    :maxdepth: 2

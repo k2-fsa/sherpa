@@ -125,7 +125,7 @@ jobs:
 
           mkdir build
           cd build
-          cmake -DCMAKE_BUILD_TYPE=$BUILD_TYPE ..
+          cmake -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DSHERPA_ENABLE_WEBSOCKET_SERVER=ON ..
           make -j2 VERBOSE=1
 
           ls -lh lib
@@ -571,3 +571,22 @@ jobs:
             ./icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05/test_wavs/1089-134686-0001.wav \
             ./icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05/test_wavs/1221-135766-0001.wav \
             ./icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05/test_wavs/1221-135766-0002.wav
+
+      - name: Test C++ brpc Server
+        if: startsWith(matrix.os, 'ubuntu')
+        shell: bash
+        run: |
+          apt-get install -y git g++ make libssl-dev libgflags-dev libprotobuf-dev libprotoc-dev protobuf-compiler libleveldb-dev
+
+          ./build/bin/brpc-server \
+            --decoding-method=modified_beam_search \
+            --nn-model=./icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05/exp/cpu-jit-epoch-30-avg-10-torch-${{ matrix.torch }}.pt \
+            --tokens=./icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05/data/lang_bpe_500/tokens.txt \
+            --server-port=6006 &
+
+          echo "Sleep 10 seconds to wait for the server startup"
+          sleep 10
+
+          ./build/bin/brpc-client \
+            --server=127.0.0.1:6006 \
+            --wav-file=./icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05/test_wavs/1089-134686-0001.wav &

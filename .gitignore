@@ -1,10 +1,11 @@
-path.sh
 build
 dist
-__pycache__
-*.egg-info
+log/
+path.sh
+tags
 torch_version.py
 *.ark
-*.scp
+*.egg-info
 *.onnx
-log/
+*.scp
+__pycache__
