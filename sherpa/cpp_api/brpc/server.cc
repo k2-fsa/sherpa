@@ -57,6 +57,7 @@ class AsrDecoder final {
       const size_t max_batch_size = 4096,
       const int32_t wait_ms = 10)
     : alive_(true),
+    exit_(false),
     decoding_(false),
     wait_ms_(wait_ms),
     max_batch_size_(max_batch_size),
@@ -70,19 +71,24 @@ class AsrDecoder final {
     }
 
   ~AsrDecoder() {
-    decoder_.join();
+    while (!exit_) {
+      std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    }
   }
 
   int64_t acquire_stream() {
     int64_t stream_id = -1;
     if (stream_queue_.size() <= max_batch_size_) {
       std::shared_lock mlock(mutex_);
-      stream_id = rand() % max_batch_size_;  //NOLINT
-      if (stream_queue_.find(stream_id) == stream_queue_.end()) {
-        stream_queue_[stream_id] = online_asr_.CreateStream();
-        result_queue_[stream_id] = std::vector<char>(MAX_ASR_RESULT);
-        vad_state_queue_[stream_id] = input_start;
+      while (true) {
+        stream_id = rand() % max_batch_size_;  //NOLINT
+        if (stream_queue_.find(stream_id) == stream_queue_.end()) {
+          break;
+        }
       }
+      stream_queue_[stream_id] = online_asr_.CreateStream();
+      result_queue_[stream_id] = std::vector<char>(MAX_ASR_RESULT);
+      vad_state_queue_[stream_id] = input_start;
     } else {
       SHERPA_LOG(WARNING) << "stream_queue_.size() and max_batch_size_ = "
         << max_batch_size_ << ", can't create more stream";
@@ -192,6 +198,7 @@ class AsrDecoder final {
       }
       decoding_cond_.notify_all();
     }
+    exit_ = true;
   }
 
   void stop_decode() {
@@ -212,6 +219,7 @@ class AsrDecoder final {
   std::condition_variable_any decoding_cond_;
 
   bool alive_;
+  bool exit_;
   bool decoding_;
   const int32_t wait_ms_;
   std::thread decoder_;
@@ -220,7 +228,7 @@ class AsrDecoder final {
   const size_t max_batch_size_;
   sherpa::OnlineAsr online_asr_;
   std::unordered_map<int64_t,
-    std::unique_ptr<sherpa::OnlineStream>> stream_queue_;  //NOLINT
+    std::unique_ptr<sherpa::OnlineStream>> stream_queue_;
   std::unordered_map<int64_t, std::vector<char>> result_queue_;
   std::unordered_map<int64_t, int32_t> vad_state_queue_;
 };
@@ -276,7 +284,7 @@ class StreamingAsrService : public sherpa::AsrService {
         response->set_status(vad_state);
       }
       if (sherpa::AsrRequest::stream_end == request->status()) {
-        decoder_->stop_stream(remote_id_[remote_name]);
+        decoder_->release_stream(remote_id_[remote_name]);
       }
     } catch (std::exception const& e) {
       LOG(WARNING) << e.what();

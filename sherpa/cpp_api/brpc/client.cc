@@ -31,7 +31,7 @@ DEFINE_string(connection_type, "",
     "Connection type in [single, pooled, short]");
 DEFINE_string(server, "0.0.0.0:6006", "IP Address of server");
 DEFINE_string(load_balancer, "", "The algorithm for load balancing");
-DEFINE_int32(timeout_ms, 3000, "RPC timeout in milliseconds");
+DEFINE_int32(timeout_ms, 5000, "RPC timeout in milliseconds");
 DEFINE_int32(connect_timeout_ms, 3000,
     "RPC connect timeout in milliseconds");
 DEFINE_int32(max_retry, 3, "Max retries(not including the first RPC)");

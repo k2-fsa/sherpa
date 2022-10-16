@@ -117,6 +117,8 @@ jobs:
         env:
           BUILD_TYPE: ${{ matrix.build_type }}
         run: |
+          apt-get install -y git g++ make libssl-dev libgflags-dev libprotobuf-dev libprotoc-dev protobuf-compiler libleveldb-dev
+
           export KALDIFEAT_INSTALL_PREFIX=$HOME/tmp/kaldifeat/build
           echo $KALDIFEAT_INSTALL_PREFIX
           ls -lh $KALDIFEAT_INSTALL_PREFIX
@@ -125,7 +127,7 @@ jobs:
 
           mkdir build
           cd build
-          cmake -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DSHERPA_ENABLE_WEBSOCKET_SERVER=ON ..
+          cmake -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DSHERPA_ENABLE_BRPC=ON ..
           make -j2 VERBOSE=1
 
           ls -lh lib
@@ -576,8 +578,6 @@ jobs:
         if: startsWith(matrix.os, 'ubuntu')
         shell: bash
         run: |
-          apt-get install -y git g++ make libssl-dev libgflags-dev libprotobuf-dev libprotoc-dev protobuf-compiler libleveldb-dev
-
           ./build/bin/brpc-server \
             --decoding-method=modified_beam_search \
             --nn-model=./icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05/exp/cpu-jit-epoch-30-avg-10-torch-${{ matrix.torch }}.pt \
