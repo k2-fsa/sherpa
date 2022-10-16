@@ -32,7 +32,6 @@
 #include "brpc/stream.h"
 #include "butil/base64.h"
 #include "butil/logging.h"
-#include "gflags/gflags.h"
 
 using namespace std::chrono_literals;  //NOLINT
 
@@ -42,13 +41,14 @@ const float PADDING_LEN = 0.36;
 enum StreamState : int32_t {
   unknow_state = -1,
   input_start,
-  vad_start,
-  vad_continue,
-  vad_end,
-  vad_reset,
+  endpoint_inactive,
+  endpoint_active,
+  endpoint_reset,
   input_end,
-  input_reset
 };
+// set endpoint_reset state in two case:
+// 1) endpoint inactive and already fetch result
+// 2) no more input
 
 // AsrDecoder
 class AsrDecoder final {
@@ -125,9 +125,9 @@ class AsrDecoder final {
     if (stream_queue_.find(stream_id) != stream_queue_.end()) {
       {
         std::shared_lock mlock(mutex_);
-        if (vad_state_queue_[stream_id] == input_reset) {
+        if (vad_state_queue_[stream_id] == endpoint_reset) {
           stream_queue_[stream_id] = online_asr_.CreateStream();
-          vad_state_queue_[stream_id] = vad_reset;
+          vad_state_queue_[stream_id] = endpoint_inactive;
         }
         const int num_samples = len / sizeof(int16_t);
         char * pcm_data = const_cast<char *>(data);
@@ -140,10 +140,11 @@ class AsrDecoder final {
             wav_stream_tensor);
         if (end || vad_state_queue_[stream_id] == input_end) {
           stream_queue_[stream_id]->InputFinished();
-          vad_state_queue_[stream_id] = input_reset;
+          vad_state_queue_[stream_id] = endpoint_reset;
         }
       }
       batch_cond_.notify_one();
+      segment_stream(stream_id);
     }
   }
 
@@ -158,12 +159,9 @@ class AsrDecoder final {
       strncpy(result_queue_[stream_id].data(),
           result.c_str(),
           std::min(static_cast<int>(result.size()), MAX_ASR_RESULT));
-      if (stream_queue_[stream_id]->IsEndpoint()) {
-        vad_state_queue_[stream_id] = vad_end;
-        stream_queue_[stream_id] = online_asr_.CreateStream();
-        vad_state_queue_[stream_id] = vad_start;
-      } else {
-        vad_state_queue_[stream_id] = vad_continue;
+      mlock.unlock();
+      if (segment_stream(stream_id) == endpoint_inactive) {
+        vad_state_queue_[stream_id] = endpoint_reset;
       }
       return result_queue_[stream_id].data();
     }
@@ -172,6 +170,12 @@ class AsrDecoder final {
 
   int32_t segment_stream(const int64_t stream_id) {
     if (stream_queue_.find(stream_id) != stream_queue_.end()) {
+      std::shared_lock mlock(mutex_);
+      if (stream_queue_[stream_id]->IsEndpoint()) {
+        vad_state_queue_[stream_id] = endpoint_active;
+      } else {
+        vad_state_queue_[stream_id] = endpoint_inactive;
+      }
       return vad_state_queue_[stream_id];
     }
     return unknow_state;
@@ -270,7 +274,7 @@ class StreamingAsrService : public sherpa::AsrService {
       }
       const char * transcript = decoder_->fetch_stream(remote_id_[remote_name]);
       sherpa::AsrResponse_Status vad_state =
-        decoder_->segment_stream(remote_id_[remote_name]) == vad_continue ?
+        decoder_->segment_stream(remote_id_[remote_name]) == endpoint_inactive ?
         sherpa::AsrResponse::endpoint_inactive :
         sherpa::AsrResponse::endpoint_active;
       // update result

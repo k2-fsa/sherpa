@@ -22,20 +22,8 @@
 #include "brpc/stream.h"
 #include "bthread/bthread.h"
 #include "butil/logging.h"
-#include "gflags/gflags.h"
+#include "sherpa/csrc/parse_options.h"
 
-
-DEFINE_string(protocol, "baidu_std",
-    "Protocol type, defined in src/brpc/options.proto");
-DEFINE_string(connection_type, "",
-    "Connection type in [single, pooled, short]");
-DEFINE_string(server, "0.0.0.0:6006", "IP Address of server");
-DEFINE_string(load_balancer, "", "The algorithm for load balancing");
-DEFINE_int32(timeout_ms, 5000, "RPC timeout in milliseconds");
-DEFINE_int32(connect_timeout_ms, 3000,
-    "RPC connect timeout in milliseconds");
-DEFINE_int32(max_retry, 3, "Max retries(not including the first RPC)");
-DEFINE_string(wav_file, "", "Wav file to test");
 
 void HandleAsrResponse(
     brpc::Controller* cntl,
@@ -56,20 +44,62 @@ void HandleAsrResponse(
   }
 }
 
-int main(int argc, char* argv[]) {
-  GFLAGS_NS::ParseCommandLineFlags(&argc, &argv, true);
+static constexpr const char *kUsageMessage = R"(
+Online (streaming) automatic speech recognition RPC client with sherpa.
 
+Usage:
+(1) View help information.
+
+  ./bin/client-client --help
+
+(2) Run client
+
+  ./bin/brpc-client \
+    --server=0.0.0.0:6006 \
+    --wav-file=test.wav
+
+)";
+
+int main(int argc, char* argv[]) {
   // a Channel represents a communication line to a Server.
   brpc::Channel channel;
 
+  sherpa::ParseOptions po(kUsageMessage);
+  std::string protocol = "baidu_std";
+  std::string connection_type = "single";
+  std::string server = "0.0.0.0:6006";
+  std::string load_balancer = "";
+  int32_t connect_timeout_ms = 3000;
+  int32_t timeout_ms = 5000;
+  int32_t max_retry = 3;
+  std::string wav_file = "";
+  po.Register("protocol", &protocol,
+      "Protocol type, defined in src/brpc/options.proto");
+  po.Register("connection_type", &connection_type,
+      "Connection type in [single, pooled, short]");
+  po.Register("server", &server, "IP Address of server");
+  po.Register("load_balancer", &load_balancer,
+      "The algorithm for load balancing");
+  po.Register("timeout_ms", &timeout_ms, "RPC timeout in milliseconds");
+  po.Register("connect_timeout_ms", &connect_timeout_ms,
+      "RPC connect timeout in milliseconds");
+  po.Register("max_retry", &max_retry,
+      "Max retries(not including the first RPC)");
+  po.Register("wav_file", &wav_file, "Wav file to test");
+  po.Read(argc, argv);
+  if (argc <= 1) {
+    po.PrintUsage();
+    exit(EXIT_FAILURE);
+  }
+
   brpc::ChannelOptions options;
-  options.protocol = FLAGS_protocol;
-  options.connect_timeout_ms = FLAGS_connect_timeout_ms;
-  options.connection_type = FLAGS_connection_type;
-  options.timeout_ms = FLAGS_timeout_ms/*milliseconds*/;
-  options.max_retry = FLAGS_max_retry;
-  if (channel.Init(FLAGS_server.c_str(),
-        FLAGS_load_balancer.c_str(), &options) != 0) {
+  options.protocol = protocol;
+  options.connection_type = connection_type;
+  options.connect_timeout_ms = connect_timeout_ms;
+  options.timeout_ms = timeout_ms;
+  options.max_retry = max_retry;
+  if (channel.Init(server.c_str(),
+        load_balancer.c_str(), &options) != 0) {
     LOG(ERROR) << "Fail to initialize channel";
     return -1;
   }
@@ -83,7 +113,7 @@ int main(int argc, char* argv[]) {
   const float frame_time = 0.32;  // second
   size_t frame_size = sample_rate * frame_time * sizeof(int16_t);
   std::vector<char> pcm(frame_size);
-  FILE * fp = fopen(FLAGS_wav_file.c_str(), "rb");
+  FILE * fp = fopen(wav_file.c_str(), "rb");
   if (fp) {
     fseek(fp, 44, SEEK_SET);
   }
