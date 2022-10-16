@@ -66,6 +66,7 @@ class AsrDecoder final {
       decoder_ = std::thread(&AsrDecoder::batch_decode, this);
       decoder_.detach();
       srand(42);
+      warmup();
     }
 
   ~AsrDecoder() {
@@ -199,9 +200,9 @@ class AsrDecoder final {
   }
 
   void warmup() {
-    //auto s = online_asr_.CreateStream();
-    //s->AcceptWaveform(SAMPLE_RATE,
-    //    wav_stream_tensor);
+    auto s = online_asr_.CreateStream();
+    auto wav_tensor = torch::rand({32000}).to(torch::kFloat);
+    s->AcceptWaveform(SAMPLE_RATE, wav_tensor);
   }
 
  private:
