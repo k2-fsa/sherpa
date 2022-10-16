@@ -66,7 +66,7 @@ class OnlineStream::OnlineStreamImpl {
 
   bool IsEndpoint() const {
     return endpoint_->IsEndpoint(num_processed_frames_,
-    num_trailing_blank_frames_,
+    num_trailing_blank_frames_ * 4,//subsample factor is 4
     frame_shift_ms_ / 1000.0);
   }
 
@@ -235,7 +235,7 @@ class OnlineStream::OnlineStreamImpl {
   Hypotheses hypotheses_;
   torch::Tensor decoder_out_;
   int32_t num_processed_frames_ = 0;       // before subsampling
-  int32_t num_trailing_blank_frames_ = 0;  // before subsampling
+  int32_t num_trailing_blank_frames_ = 0;  // after subsampling
   int32_t frame_shift_ms_ = 10;  // before subsampling
 };
 

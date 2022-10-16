@@ -321,8 +321,7 @@ void OnlineAsr::ModifiedBeamSearch(OnlineStream **ss, int32_t n) {
     OnlineStream *s = ss[i];
     if (all_hyps[i].Size()) {
       s->GetNumTrailingBlankFrames() =
-        all_hyps[i].GetMostProbable(false).num_trailing_blanks * 4;
-      // subsample factor is 4
+        all_hyps[i].GetMostProbable(false).num_trailing_blanks;
     }
     s->GetHypotheses() = std::move(all_hyps[i]);
     s->GetNumProcessedFrames() += chunk_length;
