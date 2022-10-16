@@ -40,11 +40,14 @@ const int32_t MAX_ASR_RESULT = 512;
 const int32_t SAMPLE_RATE = 16000;
 const float PADDING_LEN = 0.36;
 enum StreamState : int32_t {
-  input_start = 0,
+  unknow_state = -1,
+  input_start,
   vad_start,
   vad_continue,
   vad_end,
-  input_end
+  vad_reset,
+  input_end,
+  input_reset
 };
 
 // AsrDecoder
@@ -77,7 +80,7 @@ class AsrDecoder final {
       if (stream_queue_.find(stream_id) == stream_queue_.end()) {
         stream_queue_[stream_id] = online_asr_.CreateStream();
         result_queue_[stream_id] = std::vector<char>(MAX_ASR_RESULT);
-        vad_state_queue_[stream_id] = vad_start;
+        vad_state_queue_[stream_id] = input_start;
       }
     } else {
       SHERPA_LOG(WARNING) << "stream_queue_.size() and max_batch_size_ = "
@@ -100,7 +103,7 @@ class AsrDecoder final {
       std::shared_lock mlock(mutex_);
       stream_queue_[stream_id] = online_asr_.CreateStream();
       result_queue_[stream_id] = std::vector<char>(MAX_ASR_RESULT);
-      vad_state_queue_[stream_id] = vad_start;
+      vad_state_queue_[stream_id] = input_start;
     }
   }
 
@@ -115,10 +118,9 @@ class AsrDecoder final {
     if (stream_queue_.find(stream_id) != stream_queue_.end()) {
       {
         std::shared_lock mlock(mutex_);
-        if (vad_state_queue_[stream_id] == vad_end
-            || vad_state_queue_[stream_id] == input_end) {
+        if (vad_state_queue_[stream_id] == input_reset) {
           stream_queue_[stream_id] = online_asr_.CreateStream();
-          vad_state_queue_[stream_id] = vad_start;
+          vad_state_queue_[stream_id] = vad_reset;
         }
         const int num_samples = len / sizeof(int16_t);
         char * pcm_data = const_cast<char *>(data);
@@ -129,9 +131,9 @@ class AsrDecoder final {
 
         stream_queue_[stream_id]->AcceptWaveform(SAMPLE_RATE,
             wav_stream_tensor);
-        if (end) {
+        if (end || vad_state_queue_[stream_id] == input_end) {
           stream_queue_[stream_id]->InputFinished();
-          vad_state_queue_[stream_id] = input_end;
+          vad_state_queue_[stream_id] = input_reset;
         }
       }
       batch_cond_.notify_one();
@@ -150,6 +152,7 @@ class AsrDecoder final {
           result.c_str(),
           std::min(static_cast<int>(result.size()), MAX_ASR_RESULT));
       if (stream_queue_[stream_id]->IsEndpoint()) {
+        vad_state_queue_[stream_id] = vad_end;
         stream_queue_[stream_id] = online_asr_.CreateStream();
         vad_state_queue_[stream_id] = vad_start;
       } else {
@@ -164,7 +167,7 @@ class AsrDecoder final {
     if (stream_queue_.find(stream_id) != stream_queue_.end()) {
       return vad_state_queue_[stream_id];
     }
-    return false;
+    return unknow_state;
   }
 
   void batch_decode() {
@@ -195,7 +198,11 @@ class AsrDecoder final {
     alive_ = false;
   }
 
-  void warmup() {}
+  void warmup() {
+    //auto s = online_asr_.CreateStream();
+    //s->AcceptWaveform(SAMPLE_RATE,
+    //    wav_stream_tensor);
+  }
 
  private:
   mutable std::shared_mutex mutex_;
