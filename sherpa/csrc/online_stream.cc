@@ -66,7 +66,7 @@ class OnlineStream::OnlineStreamImpl {
 
   bool IsEndpoint() const {
     return endpoint_->IsEndpoint(num_processed_frames_,
-    num_trailing_blank_frames_,
+    num_trailing_blank_frames_ * 4,//subsample factor is 4
     frame_shift_ms_ / 1000.0);
   }
 
