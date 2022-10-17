@@ -66,7 +66,7 @@ int main(int argc, char* argv[]) {
 
   sherpa::ParseOptions po(kUsageMessage);
   std::string protocol = "baidu_std";
-  std::string connection_type = "single";
+  std::string connection_type = "";
   std::string server = "0.0.0.0:6006";
   std::string load_balancer = "";
   int32_t connect_timeout_ms = 3000;
