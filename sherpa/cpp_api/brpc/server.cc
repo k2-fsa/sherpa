@@ -147,8 +147,10 @@ class AsrDecoder final {
       }
       mlock.unlock();
       batch_cond_.notify_one();
-      if (segment_stream(stream_id)) {
-        vad_state_queue_[stream_id] = endpoint_reset;
+      if (vad_state_queue_[stream_id] != endpoint_reset) {
+        if (segment_stream(stream_id)) {
+          vad_state_queue_[stream_id] = endpoint_active;
+        }
       }
     }
   }
@@ -168,7 +170,7 @@ class AsrDecoder final {
       }
       mlock.unlock();
       if (segment_stream(stream_id)) {
-        vad_state_queue_[stream_id] = endpoint_reset;
+        vad_state_queue_[stream_id] = endpoint_active;
       }
       return result_queue_[stream_id].data();
     }
