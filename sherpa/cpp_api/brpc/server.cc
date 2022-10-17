@@ -118,16 +118,22 @@ class AsrDecoder final {
   void stop_stream(const int64_t stream_id) {
     std::shared_lock mlock(mutex_);
     if (stream_queue_.find(stream_id) != stream_queue_.end()) {
+      // wait for last decoding done
+      std::this_thread::sleep_for(std::chrono::milliseconds(wait_ms_));
+      decoding_cond_.wait_for(mlock, wait_ms_ * 200 * 1ms,
+          [this, stream_id]() { return !online_asr_.IsReady(
+              stream_queue_[stream_id].get()) && !decoding_;});
       vad_state_queue_[stream_id] = input_end;
     }
   }
 
   void push_stream(const int64_t stream_id,
-      const char * data, const size_t len, bool end = false) {
+      const char * data, const size_t len) {
     std::shared_lock mlock(mutex_);
     if (stream_queue_.find(stream_id) != stream_queue_.end()) {
       {
-        if (vad_state_queue_[stream_id] == endpoint_reset) {
+        if (vad_state_queue_[stream_id] == endpoint_reset ||
+            vad_state_queue_[stream_id] == endpoint_active) {
           stream_queue_[stream_id] = online_asr_.CreateStream();
           vad_state_queue_[stream_id] = endpoint_inactive;
         }
@@ -140,18 +146,13 @@ class AsrDecoder final {
 
         stream_queue_[stream_id]->AcceptWaveform(SAMPLE_RATE,
             wav_stream_tensor);
-        if (end || vad_state_queue_[stream_id] == input_end) {
+        if (vad_state_queue_[stream_id] == input_end) {
           stream_queue_[stream_id]->InputFinished();
           vad_state_queue_[stream_id] = endpoint_reset;
         }
       }
       mlock.unlock();
       batch_cond_.notify_one();
-      if (vad_state_queue_[stream_id] != endpoint_reset) {
-        if (segment_stream(stream_id)) {
-          vad_state_queue_[stream_id] = endpoint_active;
-        }
-      }
     }
   }
 
@@ -169,8 +170,12 @@ class AsrDecoder final {
             std::min(static_cast<int>(result.size()), MAX_ASR_RESULT));
       }
       mlock.unlock();
-      if (segment_stream(stream_id)) {
-        vad_state_queue_[stream_id] = endpoint_active;
+      if (vad_state_queue_[stream_id] != endpoint_reset) {
+        if (segment_stream(stream_id)) {
+          vad_state_queue_[stream_id] = endpoint_active;
+        }
+      } else if (vad_state_queue_[stream_id] == input_end) {
+          vad_state_queue_[stream_id] = endpoint_reset;
       }
       return result_queue_[stream_id].data();
     }
@@ -259,12 +264,12 @@ class StreamingAsrService : public sherpa::AsrService {
       sherpa::AsrResponse* response,
       google::protobuf::Closure* done) {
     try {
+      std::unique_lock<std::mutex> mlock(mutex_);
       sherpa::AsrResponse_Status status = sherpa::AsrResponse::ok;
       brpc::ClosureGuard done_guard(done);
       brpc::Controller* cntl = static_cast<brpc::Controller*>(controller);
       std::string remote_name(endpoint2str(cntl->remote_side()).c_str());
       if (remote_id_.find(remote_name) == remote_id_.end()) {
-        std::unique_lock<std::mutex> mlock(mutex_);
         remote_id_[remote_name] = decoder_->acquire_stream();
       }
 
@@ -274,8 +279,9 @@ class StreamingAsrService : public sherpa::AsrService {
       decoder_->push_stream(remote_id_[remote_name],
           pcm_data, request->audio_data().length());
       if (sherpa::AsrRequest::stream_end == request->status()) {
+        decoder_->stop_stream(remote_id_[remote_name]);
         decoder_->push_stream(remote_id_[remote_name],
-            tail_padding_.data(), tail_padding_.size(), true);
+            tail_padding_.data(), tail_padding_.size());
       }
       const char * transcript = decoder_->fetch_stream(remote_id_[remote_name]);
       sherpa::AsrResponse_Status vad_state =

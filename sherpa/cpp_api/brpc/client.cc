@@ -118,6 +118,7 @@ int main(int argc, char* argv[]) {
     fseek(fp, 44, SEEK_SET);
   }
 
+  int32_t call_times = 0;
   while (fp &&
       (frame_size =
        fread(reinterpret_cast<char*>(pcm.data()), sizeof(char), frame_size, fp))
@@ -147,12 +148,15 @@ int main(int argc, char* argv[]) {
     stub.Recognize(cntl, &request, response, done);
     size_t sleep_us = frame_time * 1000000;
     if (frame_size == 0) {
-      sleep_us *= 10;
+      sleep_us *= 1;
     }
     bthread_usleep(sleep_us);
     if (frame_size == 0) {
-      break;
-    }
+      if (call_times-- == 0) {
+        // wait for fetch server result
+        break;
+      }
+    } else { call_times++; }
   }
   while (!brpc::IsAskedToQuit()) {}
 
