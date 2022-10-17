@@ -43,16 +43,16 @@ struct EndpointRule {
 };
 
 struct EndpointConfig {
-  // rule1 times out after 3.0 seconds of silence, even if we decoded nothing.
+  // rule1 times out after 2.2 seconds of silence, even if we decoded nothing.
   EndpointRule rule1;
-  // rule2 times out after 1.0 seconds of silence after decoding something,
+  // rule2 times out after 1.2 seconds of silence after decoding something.
   EndpointRule rule2;
   // rule3 times out after the utterance is 20 seconds long, regardless of
   // anything else.
   EndpointRule rule3;
 
   EndpointConfig()
-      : rule1(false, 5.0, 0), rule2(true, 2.0, 0), rule3(false, 0, 20) {}
+      : rule1(false, 2.2, 0), rule2(true, 1.2, 0), rule3(false, 0, 20) {}
 };
 
 class Endpoint {
