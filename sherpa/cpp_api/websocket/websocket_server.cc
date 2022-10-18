@@ -16,6 +16,8 @@
  * limitations under the License.
  */
 
+#include <fstream>
+#include <mutex>
 #include <set>
 #include <thread>
 
@@ -42,6 +44,8 @@ class Server {
         [this](connection_hdl hdl, server::message_ptr msg) {
           OnMessage(hdl, msg);
         });
+
+    server_.set_http_handler([this](connection_hdl hdl) { OnHttp(hdl); });
   }
 
   void Run(uint16_t port) {
@@ -53,24 +57,70 @@ class Server {
  private:
   void OnOpen(connection_hdl hdl) {
     auto c = server_.get_con_from_hdl(hdl);
-    std::cout << "Connected: " << c->get_remote_endpoint() << "\n";
+    std::cout << std::this_thread::get_id()
+              << " Connected: " << c->get_remote_endpoint() << "\n";
 
+    std::lock_guard<std::mutex> lock(conn_mutex_);
     connections_.insert(hdl);
   }
+
   void OnClose(connection_hdl hdl) {
     auto c = server_.get_con_from_hdl(hdl);
-    std::cout << "Disconnected: " << c->get_remote_endpoint() << "\n";
+    std::cout << std::this_thread::get_id()
+              << " Disconnected: " << c->get_remote_endpoint() << "\n";
+
+    std::lock_guard<std::mutex> lock(conn_mutex_);
     connections_.erase(hdl);
+  }
+
+  // TODO(fangjun): Write a separate class to process HTTP requests.
+  // Also, pre-load files into memory.
+  void OnHttp(connection_hdl hdl) {
+    auto con = server_.get_con_from_hdl(hdl);
+    std::cout << std::this_thread::get_id()
+              << " Http Connected: " << con->get_remote_endpoint() << "\n";
+
+    std::string filename = con->get_resource();
+    std::cout << std::this_thread::get_id() << " filename: " << filename
+              << "\n";
+
+    std::ostringstream os;
+    if (filename == "/") {
+      filename = "web/index.html";
+    } else {
+      os << "<!doctype html><html><head>"
+         << "<title>Speech recognition with next-gen Kaldi</title><body>"
+         << "<h1>Hello world 404</h1>"
+         << "</body></head></html>";
+
+      con->set_body(os.str());
+      con->set_status(websocketpp::http::status_code::not_found);
+      return;
+    }
+
+    std::ifstream file;
+    std::string response;
+    file.open(filename.c_str(), std::ios::in);
+    file.seekg(0, std::ios::end);
+    response.reserve(file.tellg());
+    file.seekg(0, std::ios::beg);
+    response.assign((std::istreambuf_iterator<char>(file)),
+                    std::istreambuf_iterator<char>());
+    con->set_body(std::move(response));
+    con->set_status(websocketpp::http::status_code::ok);
   }
 
   void OnMessage(connection_hdl hdl, server::message_ptr msg) {
     switch (msg->get_opcode()) {
       case websocketpp::frame::opcode::text:
         // process text
-        std::cout << "text: " << msg->get_payload() << "\n";
+        std::cout << std::this_thread::get_id()
+                  << " text: " << msg->get_payload() << "\n";
         break;
       case websocketpp::frame::opcode::binary:
         // process binary
+        std::cout << std::this_thread::get_id()
+                  << " binary: " << msg->get_payload() << "\n";
         break;
       default:
         // TODO:
@@ -82,7 +132,10 @@ class Server {
   asio::io_context &io_;
   server server_;
 
+  // TODO(fangjun): Change it to a map, where the key is connection_hdl
+  // and the value is OnlineStream
   std::set<connection_hdl, std::owner_less<connection_hdl>> connections_;
+  std::mutex conn_mutex_;
 };
 
 int main() {
@@ -92,11 +145,14 @@ int main() {
 
   Server srv(io);
   srv.Run(port);
-  std::cout << "Listening on: " << port << "\n";
+  std::cout << std::this_thread::get_id() << " Listening on: " << port << "\n";
 
   std::vector<std::thread> threads;
   for (int32_t i = 0; i != num_threads; ++i) {
-    threads.emplace_back([&io]() { io.run(); });
+    threads.emplace_back([&io]() {
+      std::cout << std::this_thread::get_id() << " thread started\n";
+      io.run();
+    });
   }
 
   io.run();
