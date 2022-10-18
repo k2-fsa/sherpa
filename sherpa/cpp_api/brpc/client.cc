@@ -25,32 +25,13 @@
 #include "sherpa/csrc/parse_options.h"
 
 
-void HandleAsrResponse(
-    brpc::Controller* cntl,
-    sherpa::AsrResponse* response) {
-  // std::unique_ptr makes sure cntl/response will be deleted before returning.
-  std::unique_ptr<brpc::Controller> cntl_guard(cntl);
-  std::unique_ptr<sherpa::AsrResponse> response_guard(response);
-
-  if (cntl->Failed()) {
-    LOG(WARNING) << "Fail to send AsrRequest, " << cntl->ErrorText();
-    return;
-  }
-  if (response->nbest_size()) {
-    LOG(INFO) << "Received response from " << cntl->remote_side()
-      << ": status=[" << response->status()
-      << "], transcript=[" << response->nbest(0).transcript()
-      << "], latency=[" << cntl->latency_us() << "us" << "]";
-  }
-}
-
 static constexpr const char *kUsageMessage = R"(
 Online (streaming) automatic speech recognition RPC client with sherpa.
 
 Usage:
 (1) View help information.
 
-  ./bin/client-client --help
+  ./bin/brpc-client --help
 
 (2) Run client
 
@@ -66,13 +47,13 @@ int main(int argc, char* argv[]) {
 
   sherpa::ParseOptions po(kUsageMessage);
   std::string protocol = "baidu_std";
-  std::string connection_type = "";
+  std::string connection_type;
   std::string server = "0.0.0.0:6006";
   std::string load_balancer = "";
   int32_t connect_timeout_ms = 3000;
   int32_t timeout_ms = 5000;
   int32_t max_retry = 3;
-  std::string wav_file = "";
+  std::string wav_file;
   po.Register("protocol", &protocol,
       "Protocol type, defined in src/brpc/options.proto");
   po.Register("connection_type", &connection_type,
@@ -118,21 +99,14 @@ int main(int argc, char* argv[]) {
     fseek(fp, 44, SEEK_SET);
   }
 
-  int32_t call_times = 0;
+  bool wait_end = true;
   while (fp &&
       (frame_size =
        fread(reinterpret_cast<char*>(pcm.data()), sizeof(char), frame_size, fp))
-      >= 0) {
-    // since we are sending asynchronous RPC (`done' is not NULL),
-    // these objects MUST remain valid until `done' is called.
-    // as a result, we allocate these objects on heap
-    sherpa::AsrResponse* response = new sherpa::AsrResponse();
-    brpc::Controller* cntl = new brpc::Controller();
-
-    // notice that you don't have to new request, which can be modified
-    // or destroyed just after stub.Recognize is called.
-    // send data
+      >= 0 && wait_end) {
+    brpc::Controller cntl;
     sherpa::AsrRequest request;
+    sherpa::AsrResponse response;
     request.set_audio_data(reinterpret_cast<const int16_t *>(pcm.data()),
         frame_size);
 
@@ -141,22 +115,19 @@ int main(int argc, char* argv[]) {
       status = sherpa::AsrRequest::stream_end;
     }
     request.set_status(status);
-
-    // in asynchronous RPC, we fetch the result inside the callback
-    google::protobuf::Closure* done = brpc::NewCallback(
-        &HandleAsrResponse, cntl, response);
-    stub.Recognize(cntl, &request, response, done);
-    size_t sleep_us = frame_time * 1000000;
-    if (frame_size == 0) {
-      sleep_us *= 1;
+    stub.Recognize(&cntl, &request, &response, NULL);
+    if (cntl.Failed()) {
+      LOG(WARNING) << "Fail to send AsrRequest, " << cntl.ErrorText();
+      break;
     }
-    bthread_usleep(sleep_us);
-    if (frame_size == 0) {
-      if (call_times-- == 0) {
-        // wait for fetch server result
-        break;
-      }
-    } else { call_times++; }
+    if (response.nbest_size()) {
+      LOG(INFO) << "Received response from " << cntl.remote_side()
+        << ": status=" << response.status()
+        << ", transcript=[" << response.nbest(0).transcript()
+        << "], latency=" << cntl.latency_us() << "us";
+      wait_end = !(response.status() == sherpa::AsrResponse::input_end);
+    }
+    bthread_usleep(frame_time * 1000000);
   }
   while (!brpc::IsAskedToQuit()) {}
 

@@ -11,7 +11,7 @@ This page describes how to use the C++ API of `sherpa`_ to deploy ASR brpc Serve
    `<https://github.com/k2-fsa/icefall/tree/master/egs/librispeech/ASR/conv_emformer_transducer_stateless2>`_
    at present.
 
-The following show how to build
+The following shows how to build
 
 .. code-block:: bash
 

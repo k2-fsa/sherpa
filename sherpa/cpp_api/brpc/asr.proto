@@ -32,10 +32,11 @@ message AsrResponse {
 
   enum Status {
     ok = 0;
-    failed = 1;
+    endpoint_inactive = 1;
     endpoint_active = 2;
-    endpoint_inactive = 3;
-    stream_end = 4;
+    endpoint_reset = 3;
+    input_end = 4;
+    failed = 5;
   }
   Status status = 1;
 

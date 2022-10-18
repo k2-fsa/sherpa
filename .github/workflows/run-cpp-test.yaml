@@ -589,4 +589,4 @@ jobs:
 
           ./build/bin/brpc-client \
             --server=127.0.0.1:6006 \
-            --wav-file=./icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05/test_wavs/1089-134686-0001.wav &
+            --wav-file=./icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05/test_wavs/1089-134686-0001.wav
