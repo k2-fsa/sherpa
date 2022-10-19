@@ -30,11 +30,25 @@
 using server = websocketpp::server<websocketpp::config::asio>;
 using connection_hdl = websocketpp::connection_hdl;
 
+struct ConnectionData {
+  int32_t expected_byte_size = 0;
+  int32_t cur = 0;
+  std::vector<int8_t> data;
+
+  void Clear() {
+    expected_byte_size = 0;
+    cur = 0;
+    data.clear();
+  }
+};
+
 class WebsocketServer {
  public:
-  WebsocketServer(asio::io_context &io,  // NOLINT
+  WebsocketServer(asio::io_context &io_conn,  // NOLINT
+                  asio::io_context &io_work,  // NOLINT
                   const std::string &doc_root, const std::string &log_file)
-      : io_(io),
+      : io_conn_(io_conn),
+        io_work_(io_work),
         http_server_(doc_root),
         log_(log_file, std::ios::app),
         tee_(std::cout, log_) {
@@ -46,7 +60,7 @@ class WebsocketServer {
     server_.get_alog().set_ostream(&tee_);
     server_.get_elog().set_ostream(&tee_);
 
-    server_.init_asio(&io_);
+    server_.init_asio(&io_conn_);
 
     server_.set_open_handler([this](connection_hdl hdl) { OnOpen(hdl); });
 
@@ -75,7 +89,11 @@ class WebsocketServer {
     server_.get_alog().write(websocketpp::log::alevel::app, os.str());
 
     std::lock_guard<std::mutex> lock(conn_mutex_);
-    connections_.insert(hdl);
+    auto it = connections_.find(hdl);
+    if (it == connections_.end()) {
+      // this is a new connection
+      connections_.emplace(hdl, ConnectionData{});
+    }
   }
 
   void OnClose(connection_hdl hdl) {
@@ -108,31 +126,95 @@ class WebsocketServer {
   }
 
   void OnMessage(connection_hdl hdl, server::message_ptr msg) {
+    auto c = server_.get_con_from_hdl(hdl);
+    websocketpp::lib::error_code ec;
+
+    std::lock_guard<std::mutex> lock(conn_mutex_);
+    auto it = connections_.find(hdl);
+    auto &connection_data = it->second;
+
+    std::ostringstream os;
     switch (msg->get_opcode()) {
-      case websocketpp::frame::opcode::text:
-        // process text
-        std::cout << std::this_thread::get_id()
-                  << " text: " << msg->get_payload() << "\n";
+      case websocketpp::frame::opcode::text: {
+        const auto &payload = msg->get_payload();
+        if (payload == "DONE") {
+          // The client will not send any more data. We can close the
+          // connection now.
+          Close(hdl, websocketpp::close::status::normal, "Done");
+        } else {
+          Close(hdl, websocketpp::close::status::normal,
+                std::string("Invalid payload: ") + payload);
+        }
         break;
-      case websocketpp::frame::opcode::binary:
-        // process binary
-        std::cout << std::this_thread::get_id()
-                  << " binary: " << msg->get_payload() << "\n";
+      }
+
+      case websocketpp::frame::opcode::binary: {
+        const std::string &payload = msg->get_payload();
+        const int8_t *p = reinterpret_cast<const int8_t *>(payload.data());
+        if (connection_data.expected_byte_size == 0) {
+          // the first packet (assume the current machine is little endian)
+          connection_data.expected_byte_size =
+              *reinterpret_cast<const int32_t *>(p);
+
+          connection_data.data.resize(connection_data.expected_byte_size);
+          std::copy(payload.begin() + 4, payload.end(),
+                    connection_data.data.data());
+          connection_data.cur = payload.size() - 4;
+        } else {
+          std::copy(payload.begin(), payload.end(),
+                    connection_data.data.data() + connection_data.cur);
+          connection_data.cur += payload.size();
+        }
+
+        if (connection_data.expected_byte_size == connection_data.cur) {
+          // TODO(fangjun): We probably need to make a copy of the data
+          std::cout << "send to io work\n";
+          asio::post(io_work_, [this, hdl, &connection_data]() {
+            Decode(hdl, connection_data);
+          });
+        }
         break;
+      }
       default:
-        // TODO(fangjun):
         break;
     }
+    server_.get_alog().write(websocketpp::log::alevel::app, os.str());
   }
 
  private:
-  asio::io_context &io_;
+  void Close(connection_hdl hdl, websocketpp::close::status::value code,
+             const std::string &reason) {
+    websocketpp::lib::error_code ec;
+    server_.close(hdl, code, reason, ec);
+    if (ec) {
+      std::ostringstream os;
+      os << "Failed to close"
+         << server_.get_con_from_hdl(hdl)->get_remote_endpoint() << "."
+         << "Reason was: " << reason << "\n";
+      server_.get_alog().write(websocketpp::log::alevel::app, os.str());
+    }
+  }
+
+  void Decode(connection_hdl hdl, ConnectionData &connection_data) {
+    // 1. do decode
+    // TODO(fangjun): Implement me
+
+    // 2. send the results
+    asio::post(io_conn_, [this, hdl]() {
+      server_.send(hdl, "ok", websocketpp::frame::opcode::text);
+    });
+    connection_data.Clear();  // prepare for the next send
+  }
+
+ private:
+  asio::io_context &io_conn_;
+  asio::io_context &io_work_;
   server server_;
   sherpa::HttpServer http_server_;
 
-  // TODO(fangjun): Change it to a map, where the key is connection_hdl
-  // and the value is OnlineStream
-  std::set<connection_hdl, std::owner_less<connection_hdl>> connections_;
+  std::map<connection_hdl, ConnectionData, std::owner_less<connection_hdl>>
+      connections_;
+
   std::mutex conn_mutex_;
 
   std::ofstream log_;
@@ -146,24 +228,46 @@ int main() {
   std::string log_file = "./log.txt";
 
   uint16_t port = 6006;
-  int32_t num_threads = 1;  // thread pool size
-  asio::io_context io;
 
-  WebsocketServer srv(io, doc_root, log_file);
+  // size of the thread pool for handling network connections
+  int32_t num_io_threads = 3;
+
+  // size of the thread pool for neural network computation and decoding
+  int32_t num_work_threads = 2;
+
+  asio::io_context io_conn;  // for network connections
+  asio::io_context io_work;  // for neural network and decoding
+
+  WebsocketServer srv(io_conn, io_work, doc_root, log_file);
   srv.Run(port);
   std::cout << std::this_thread::get_id() << " Listening on: " << port << "\n";
 
-  std::vector<std::thread> threads;
-  for (int32_t i = 0; i != num_threads; ++i) {
-    threads.emplace_back([&io]() {
-      std::cout << std::this_thread::get_id() << " thread started\n";
-      io.run();
+  // give some work to do for the io_work pool
+  auto work_guard = asio::make_work_guard(io_work);
+
+  std::vector<std::thread> io_threads;
+  for (int32_t i = 0; i < num_io_threads; ++i) {
+    io_threads.emplace_back([&io_conn]() {
+      std::cout << std::this_thread::get_id() << " io thread started\n";
+      io_conn.run();
     });
   }
 
-  io.run();
+  std::vector<std::thread> work_threads;
+  for (int32_t i = 0; i < num_work_threads; ++i) {
+    work_threads.emplace_back([&io_work]() {
+      std::cout << std::this_thread::get_id() << " work thread started\n";
+      io_work.run();
+    });
+  }
 
-  for (auto &t : threads) {
+  io_conn.run();
+
+  for (auto &t : io_threads) {
+    t.join();
+  }
+
+  for (auto &t : work_threads) {
     t.join();
   }
 
