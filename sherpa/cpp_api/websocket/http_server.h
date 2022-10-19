@@ -42,46 +42,36 @@ static std::string ReadFile(const std::string &filename) {
   return ans;
 }
 
-struct FileMetadata {
-  std::string filename;
-  std::string mime_type;
+static const char *kKnownFiles[] = {
+    // Please sort it alphabetically
+    "/css/bootstrap.min.css",
+    "/css/bootstrap.min.css.map",
+    "/index.html",
+    "/js/bootstrap.min.js",
+    "/js/bootstrap.min.js.map",
+    "/js/jquery-3.6.0.min.js",
+    "/js/offline_record.js",
+    "/js/offline_record.js",
+    "/js/popper.min.js",
+    "/js/popper.min.js.map",
+    "/js/streaming_record.js",
+    "/js/upload.js",
+    "/k2-logo.png",
+    "/nav-partial.html",
+    "/offline_record.html",
+    "/streaming_record.html",
+    "/upload.html",
 };
 
-struct FileContent {
-  std::string content;
-  std::string mime_type;
-  FileContent() = default;
-  FileContent(const std::string &filename, const std::string &mime_type)
-      : content(ReadFile(filename)), mime_type(mime_type) {}
-};
-
-static const FileMetadata kKnownFiles[] = {
-    // filename, content-type
-    {"/index.html", "text/html"},
-    {"/upload.html", "text/html"},
-    {"/streaming_record.html", "text/html"},
-    {"/offline_record.html", "text/html"},
-    {"/js/jquery-3.6.0.min.js", "application/javascript"},
-    {"/js/popper.min.js", "application/javascript"},
-    {"/js/popper.min.js.map", "text/plain"},
-    {"/js/bootstrap.min.js", "application/javascript"},
-    {"/js/offline_record.js", "application/javascript"},
-    {"/js/streaming_record.js", "application/javascript"},
-    {"/js/offline_record.js", "application/javascript"},
-    {"/js/upload.js", "application/javascript"},
-    {"/js/bootstrap.min.js.map", "text/plain"},
-    {"/css/bootstrap.min.css", "text/css"},
-    {"/css/bootstrap.min.css.map", "text/plain"},
-    {"/nav-partial.html", "text/html"},
-    {"/k2-logo.png", "image/png"},
-};
-
+/** A very simple http server.
+ *
+ * It serves only static files, e.g., html, js., css, etc.
+ */
 class HttpServer {
  public:
   explicit HttpServer(const std::string &root) {
-    for (const auto &f : kKnownFiles) {
-      auto name = root + f.filename;
-      content_.emplace(f.filename, FileContent(name, f.mime_type));
+    for (const auto filename : kKnownFiles) {
+      content_.emplace(filename, ReadFile(root + filename));
     }
 
     error_content_ = R"(
@@ -92,23 +82,32 @@ class HttpServer {
     )";
   }
 
-  bool ProcessRequest(const std::string &filename, std::string *content,
-                      std::string *mime_type) const {
+  /** Handle a request from the client.
+   *
+   * @param filename The filename the client is requesting.
+   * @param content  On return, it contains the content of the file if found.
+   *
+   * @return Return true if the given file is found; return false otherwise.
+   */
+  bool ProcessRequest(const std::string &filename, std::string *content) const {
     auto it = content_.find(filename);
     if (it == content_.end()) {
       return false;
     }
 
-    *content = it->second.content;
-    *mime_type = it->second.mime_type;
+    *content = it->second;
     return true;
   }
 
+  /** Return a string for 404. */
   const std::string &GetErrorContent() const { return error_content_; }
 
  private:
+  /**Return this string to the client for 404 page.*/
   std::string error_content_;
-  std::unordered_map<std::string, FileContent> content_;
+
+  /** Map filename to its content.*/
+  std::unordered_map<std::string, std::string> content_;
 };
 
 }  // namespace sherpa

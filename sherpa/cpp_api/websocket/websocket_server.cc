@@ -89,8 +89,6 @@ class WebsocketServer {
     connections_.erase(hdl);
   }
 
-  // TODO(fangjun): Write a separate class to process HTTP requests.
-  // Also, pre-load files into memory.
   void OnHttp(connection_hdl hdl) {
     auto con = server_.get_con_from_hdl(hdl);
 
@@ -98,8 +96,7 @@ class WebsocketServer {
     if (filename == "/") filename = "/index.html";
 
     std::string content;
-    std::string mime_type;
-    bool ret = http_server_.ProcessRequest(filename, &content, &mime_type);
+    bool ret = http_server_.ProcessRequest(filename, &content);
     if (ret) {
       con->set_body(std::move(content));
       con->set_status(websocketpp::http::status_code::ok);
