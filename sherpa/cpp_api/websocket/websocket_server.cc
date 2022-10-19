@@ -23,6 +23,7 @@
 
 #include "asio.hpp"
 #include "sherpa/cpp_api/websocket/http_server.h"
+#include "sherpa/cpp_api/websocket/tee_stream.h"
 #include "websocketpp/config/asio_no_tls.hpp"  // TODO(fangjun): support TLS
 #include "websocketpp/server.hpp"
 
@@ -32,10 +33,18 @@ using connection_hdl = websocketpp::connection_hdl;
 class WebsocketServer {
  public:
   WebsocketServer(asio::io_context &io,  // NOLINT
-                  const std::string &doc_root)
-      : io_(io), http_server_(doc_root) {
-    server_.set_access_channels(websocketpp::log::alevel::all);
-    server_.clear_access_channels(websocketpp::log::alevel::frame_payload);
+                  const std::string &doc_root, const std::string &log_file)
+      : io_(io),
+        http_server_(doc_root),
+        log_(log_file, std::ios::app),
+        tee_(std::cout, log_) {
+    server_.clear_access_channels(websocketpp::log::alevel::all);
+    server_.set_access_channels(websocketpp::log::alevel::connect);
+    server_.set_access_channels(websocketpp::log::alevel::disconnect);
+    server_.set_access_channels(websocketpp::log::alevel::app);
+
+    server_.get_alog().set_ostream(&tee_);
+    server_.get_elog().set_ostream(&tee_);
 
     server_.init_asio(&io_);
 
@@ -54,15 +63,16 @@ class WebsocketServer {
   void Run(uint16_t port) {
     server_.set_reuse_addr(true);
     server_.listen(asio::ip::tcp::v4(), port);
-    websocketpp::lib::error_code ec;
-    server_.start_accept(ec);
+    server_.start_accept();
   }
 
  private:
   void OnOpen(connection_hdl hdl) {
     auto c = server_.get_con_from_hdl(hdl);
-    std::cout << std::this_thread::get_id()
-              << " Connected: " << c->get_remote_endpoint() << "\n";
+    std::ostringstream os;
+    os << std::this_thread::get_id()
+       << " Connected: " << c->get_remote_endpoint() << "\n";
+    server_.get_alog().write(websocketpp::log::alevel::app, os.str());
 
     std::lock_guard<std::mutex> lock(conn_mutex_);
     connections_.insert(hdl);
@@ -70,8 +80,10 @@ class WebsocketServer {
 
   void OnClose(connection_hdl hdl) {
     auto c = server_.get_con_from_hdl(hdl);
-    std::cout << std::this_thread::get_id()
-              << " Disconnected: " << c->get_remote_endpoint() << "\n";
+    std::ostringstream os;
+    os << std::this_thread::get_id()
+       << " Disconnected: " << c->get_remote_endpoint() << "\n";
+    server_.get_alog().write(websocketpp::log::alevel::app, os.str());
 
     std::lock_guard<std::mutex> lock(conn_mutex_);
     connections_.erase(hdl);
@@ -81,14 +93,10 @@ class WebsocketServer {
   // Also, pre-load files into memory.
   void OnHttp(connection_hdl hdl) {
     auto con = server_.get_con_from_hdl(hdl);
-    std::cout << std::this_thread::get_id()
-              << " Http Connected: " << con->get_remote_endpoint() << "\n";
 
     std::string filename = con->get_resource();
     if (filename == "/") filename = "/index.html";
 
-    std::cout << std::this_thread::get_id() << " filename: " << filename
-              << "\n";
     std::string content;
     std::string mime_type;
     bool ret = http_server_.ProcessRequest(filename, &content, &mime_type);
@@ -96,7 +104,6 @@ class WebsocketServer {
       con->set_body(std::move(content));
       con->set_status(websocketpp::http::status_code::ok);
     } else {
-      std::cout << "Unknown filename: " << filename << "\n";
       content = http_server_.GetErrorContent();
       con->set_body(std::move(content));
       con->set_status(websocketpp::http::status_code::not_found);
@@ -130,15 +137,22 @@ class WebsocketServer {
   // and the value is OnlineStream
   std::set<connection_hdl, std::owner_less<connection_hdl>> connections_;
   std::mutex conn_mutex_;
+
+  std::ofstream log_;
+  sherpa::TeeStream tee_;
 };
 
 int main() {
-  std::string doc_root = "./web";
+  std::string doc_root = "./web";  // root for the http server
+
+  // the log file is appended
+  std::string log_file = "./log.txt";
+
   uint16_t port = 6006;
   int32_t num_threads = 1;  // thread pool size
   asio::io_context io;
 
-  WebsocketServer srv(io, doc_root);
+  WebsocketServer srv(io, doc_root, log_file);
   srv.Run(port);
   std::cout << std::this_thread::get_id() << " Listening on: " << port << "\n";
 
