@@ -17,20 +17,23 @@
  */
 
 #include <fstream>
-#include <mutex>
+#include <mutex>  // NOLINT
 #include <set>
-#include <thread>
+#include <thread>  // NOLINT
 
 #include "asio.hpp"
+#include "sherpa/cpp_api/websocket/http_server.h"
 #include "websocketpp/config/asio_no_tls.hpp"  // TODO(fangjun): support TLS
 #include "websocketpp/server.hpp"
 
 using server = websocketpp::server<websocketpp::config::asio>;
 using connection_hdl = websocketpp::connection_hdl;
 
-class Server {
+class WebsocketServer {
  public:
-  Server(asio::io_context &io) : io_(io) {
+  WebsocketServer(asio::io_context &io,  // NOLINT
+                  const std::string &doc_root)
+      : io_(io), http_server_(doc_root) {
     server_.set_access_channels(websocketpp::log::alevel::all);
     server_.clear_access_channels(websocketpp::log::alevel::frame_payload);
 
@@ -49,6 +52,7 @@ class Server {
   }
 
   void Run(uint16_t port) {
+    server_.set_reuse_addr(true);
     server_.listen(asio::ip::tcp::v4(), port);
     websocketpp::lib::error_code ec;
     server_.start_accept(ec);
@@ -81,33 +85,22 @@ class Server {
               << " Http Connected: " << con->get_remote_endpoint() << "\n";
 
     std::string filename = con->get_resource();
+    if (filename == "/") filename = "/index.html";
+
     std::cout << std::this_thread::get_id() << " filename: " << filename
               << "\n";
-
-    std::ostringstream os;
-    if (filename == "/") {
-      filename = "web/index.html";
+    std::string content;
+    std::string mime_type;
+    bool ret = http_server_.ProcessRequest(filename, &content, &mime_type);
+    if (ret) {
+      con->set_body(std::move(content));
+      con->set_status(websocketpp::http::status_code::ok);
     } else {
-      os << "<!doctype html><html><head>"
-         << "<title>Speech recognition with next-gen Kaldi</title><body>"
-         << "<h1>Hello world 404</h1>"
-         << "</body></head></html>";
-
-      con->set_body(os.str());
+      std::cout << "Unknown filename: " << filename << "\n";
+      content = http_server_.GetErrorContent();
+      con->set_body(std::move(content));
       con->set_status(websocketpp::http::status_code::not_found);
-      return;
     }
-
-    std::ifstream file;
-    std::string response;
-    file.open(filename.c_str(), std::ios::in);
-    file.seekg(0, std::ios::end);
-    response.reserve(file.tellg());
-    file.seekg(0, std::ios::beg);
-    response.assign((std::istreambuf_iterator<char>(file)),
-                    std::istreambuf_iterator<char>());
-    con->set_body(std::move(response));
-    con->set_status(websocketpp::http::status_code::ok);
   }
 
   void OnMessage(connection_hdl hdl, server::message_ptr msg) {
@@ -123,7 +116,7 @@ class Server {
                   << " binary: " << msg->get_payload() << "\n";
         break;
       default:
-        // TODO:
+        // TODO(fangjun):
         break;
     }
   }
@@ -131,6 +124,7 @@ class Server {
  private:
   asio::io_context &io_;
   server server_;
+  sherpa::HttpServer http_server_;
 
   // TODO(fangjun): Change it to a map, where the key is connection_hdl
   // and the value is OnlineStream
@@ -139,11 +133,12 @@ class Server {
 };
 
 int main() {
+  std::string doc_root = "./web";
   uint16_t port = 6006;
   int32_t num_threads = 1;  // thread pool size
   asio::io_context io;
 
-  Server srv(io);
+  WebsocketServer srv(io, doc_root);
   srv.Run(port);
   std::cout << std::this_thread::get_id() << " Listening on: " << port << "\n";
 
