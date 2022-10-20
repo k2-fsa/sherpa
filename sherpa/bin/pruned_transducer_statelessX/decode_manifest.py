@@ -116,7 +116,7 @@ async def send(
             start = 0
             while start < samples.size:
                 end = start + frame_size
-                await websocket.send(samples.data[start:end])
+                await websocket.send(samples.data[start:end].tobytes())
                 start = end
             decoding_results = await websocket.recv()
 
