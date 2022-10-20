@@ -22,8 +22,10 @@
 #include <thread>  // NOLINT
 
 #include "asio.hpp"
+#include "sherpa/cpp_api/offline_recognizer.h"
 #include "sherpa/cpp_api/websocket/http_server.h"
 #include "sherpa/cpp_api/websocket/tee_stream.h"
+#include "torch/all.h"
 #include "websocketpp/config/asio_no_tls.hpp"  // TODO(fangjun): support TLS
 #include "websocketpp/server.hpp"
 
@@ -41,16 +43,25 @@ struct ConnectionData {
     data.clear();
   }
 };
+struct WebsocketServerConfig {
+  std::string nn_model = "./cpu_jit.pt";
+  std::string tokens = "./tokens.txt";
+
+  std::string doc_root = "./web";  // root for the http server
+
+  // the log file is appended
+  std::string log_file = "./log.txt";
+};
 
 class WebsocketServer {
  public:
   WebsocketServer(asio::io_context &io_conn,  // NOLINT
                   asio::io_context &io_work,  // NOLINT
-                  const std::string &doc_root, const std::string &log_file)
+                  const WebsocketServerConfig &config)
       : io_conn_(io_conn),
         io_work_(io_work),
-        http_server_(doc_root),
-        log_(log_file, std::ios::app),
+        http_server_(config.doc_root),
+        log_(config.log_file, std::ios::app),
         tee_(std::cout, log_) {
     server_.clear_access_channels(websocketpp::log::alevel::all);
     server_.set_access_channels(websocketpp::log::alevel::connect);
@@ -72,6 +83,16 @@ class WebsocketServer {
         });
 
     server_.set_http_handler([this](connection_hdl hdl) { OnHttp(hdl); });
+
+    // init asr
+
+    sherpa::DecodingOptions opts;
+    opts.method = sherpa::kGreedySearch;
+    float sample_rate = 16000;
+    bool use_gpu = false;
+    std::cout << "init asr\n";
+    offline_recognizer_ = std::make_unique<sherpa::OfflineRecognizer>(
+        config.nn_model, config.tokens, opts, use_gpu, sample_rate);
   }
 
   void Run(uint16_t port) {
@@ -170,6 +191,7 @@ class WebsocketServer {
           // TODO(fangjun): We probably need to make a copy of the data
           std::cout << "send to io work\n";
           asio::post(io_work_, [this, hdl, &connection_data]() {
+            // TODO(fangjun): Post it to a queue
             Decode(hdl, connection_data);
           });
         }
@@ -196,13 +218,14 @@ class WebsocketServer {
   }
 
   void Decode(connection_hdl hdl, ConnectionData &connection_data) {
-    // 1. do decode
-    // TODO(fangjun): Implement me
+    auto result = offline_recognizer_->DecodeSamples(
+        reinterpret_cast<const float *>(connection_data.data.data()),
+        connection_data.expected_byte_size / sizeof(float));
 
-    // 2. send the results
-    asio::post(io_conn_, [this, hdl]() {
-      server_.send(hdl, "ok", websocketpp::frame::opcode::text);
+    asio::post(io_conn_, [this, hdl, text = result.text]() {
+      server_.send(hdl, text, websocketpp::frame::opcode::text);
     });
+
     connection_data.Clear();  // prepare for the next send
   }
 
@@ -219,13 +242,19 @@ class WebsocketServer {
 
   std::ofstream log_;
   sherpa::TeeStream tee_;
+  std::unique_ptr<sherpa::OfflineRecognizer> offline_recognizer_;
 };
 
 int main() {
-  std::string doc_root = "./web";  // root for the http server
+  torch::set_num_threads(1);
+  torch::set_num_interop_threads(1);
+  torch::NoGradGuard no_grad;
 
-  // the log file is appended
-  std::string log_file = "./log.txt";
+  torch::jit::getExecutorMode() = false;
+  torch::jit::getProfilingMode() = false;
+  torch::jit::setGraphExecutorOptimize(false);
+
+  WebsocketServerConfig config;
 
   uint16_t port = 6006;
 
@@ -238,7 +267,7 @@ int main() {
   asio::io_context io_conn;  // for network connections
   asio::io_context io_work;  // for neural network and decoding
 
-  WebsocketServer srv(io_conn, io_work, doc_root, log_file);
+  WebsocketServer srv(io_conn, io_work, config);
   srv.Run(port);
   std::cout << std::this_thread::get_id() << " Listening on: " << port << "\n";
 
