@@ -252,8 +252,6 @@ class WebsocketServer {
     lock_stream.unlock();
 
     std::ostringstream os;
-    os << "batch size: " << size << "\n";
-    server_.get_alog().write(websocketpp::log::alevel::app, os.str());
 
     std::vector<const float *> samples(size);
     std::vector<int32_t> samples_length(size);
@@ -273,12 +271,17 @@ class WebsocketServer {
     auto results = offline_recognizer_->DecodeSamplesBatch(
         samples.data(), samples_length.data(), size);
 
+    os << "batch size: " << size << "\n";
     for (int32_t i = 0; i != size; ++i) {
       connection_hdl hdl = handles[i];
+      os << results[i].text << "\n";
       asio::post(io_conn_, [this, hdl, text = results[i].text]() {
         server_.send(hdl, text, websocketpp::frame::opcode::text);
       });
     }
+
+    server_.get_alog().write(websocketpp::log::alevel::app, os.str());
+    std::cout << os.str() << "\n";
 
     lock_connection.lock();
     for (int32_t i = 0; i != size; ++i) {
