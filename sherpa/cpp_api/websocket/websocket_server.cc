@@ -60,7 +60,7 @@ struct WebsocketServerConfig {
   void Register(sherpa::ParseOptions *po) {
     po->Register("nn-model", &nn_model, "Path to the torchscript model");
     po->Register("tokens", &tokens, "Path to tokens.txt");
-    po->Register("--doc-root", &doc_root,
+    po->Register("doc-root", &doc_root,
                  "Path to the directory where "
                  "files like index.html for the HTTP server locate");
     po->Register("log-file", &log_file, "Path to the log file");
