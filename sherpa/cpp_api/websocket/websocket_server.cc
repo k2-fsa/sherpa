@@ -105,7 +105,7 @@ class WebsocketServer {
 
     sherpa::DecodingOptions opts;
     opts.method = sherpa::kGreedySearch;
-    std::cout << "init asr\n";
+    // opts.method = sherpa::kModifiedBeamSearch;
     offline_recognizer_ = std::make_unique<sherpa::OfflineRecognizer>(
         config.nn_model, config.tokens, opts, config.use_gpu,
         config.sample_rate);
@@ -129,7 +129,7 @@ class WebsocketServer {
     auto it = connections_.find(hdl);
     if (it == connections_.end()) {
       // this is a new connection
-      connections_.emplace(hdl, ConnectionData{});
+      connections_.emplace(hdl, std::make_shared<ConnectionData>());
     }
   }
 
@@ -170,7 +170,7 @@ class WebsocketServer {
     auto it = connections_.find(hdl);
     lock.unlock();
 
-    auto &connection_data = it->second;
+    auto connection_data = it->second;
 
     std::ostringstream os;
     switch (msg->get_opcode()) {
@@ -190,25 +190,29 @@ class WebsocketServer {
       case websocketpp::frame::opcode::binary: {
         const std::string &payload = msg->get_payload();
         const int8_t *p = reinterpret_cast<const int8_t *>(payload.data());
-        if (connection_data.expected_byte_size == 0) {
+        if (connection_data->expected_byte_size == 0) {
           // the first packet (assume the current machine is little endian)
-          connection_data.expected_byte_size =
+          connection_data->expected_byte_size =
               *reinterpret_cast<const int32_t *>(p);
+          // TODO(fangjun): Put a limit on expected_byte_size
 
-          connection_data.data.resize(connection_data.expected_byte_size);
+          connection_data->data.resize(connection_data->expected_byte_size);
           std::copy(payload.begin() + 4, payload.end(),
-                    connection_data.data.data());
-          connection_data.cur = payload.size() - 4;
+                    connection_data->data.data());
+          connection_data->cur = payload.size() - 4;
         } else {
           std::copy(payload.begin(), payload.end(),
-                    connection_data.data.data() + connection_data.cur);
-          connection_data.cur += payload.size();
+                    connection_data->data.data() + connection_data->cur);
+          connection_data->cur += payload.size();
         }
 
-        if (connection_data.expected_byte_size == connection_data.cur) {
+        if (connection_data->expected_byte_size == connection_data->cur) {
           {
             std::unique_lock<std::mutex> lock(streams_mutex_);
-            streams_.push_back(hdl);
+            auto d =
+                std::make_shared<ConnectionData>(std::move(*connection_data));
+            connection_data->Clear();
+            streams_.push_back({hdl, d});
           }
 
           asio::post(io_work_, [this]() { Decode(); });
@@ -242,31 +246,28 @@ class WebsocketServer {
     }
 
     int32_t size = std::min<int32_t>(streams_.size(), config_.max_batch_size);
+
     std::vector<connection_hdl> handles(size);
+    std::vector<std::shared_ptr<ConnectionData>> connection_data(size);
+    std::vector<const float *> samples(size);
+    std::vector<int32_t> samples_length(size);
+
     for (int32_t i = 0; i != size; ++i) {
-      connection_hdl hdl = streams_.front();
-      handles[i] = hdl;
+      auto &p = streams_.front();
+      handles[i] = p.first;
+      connection_data[i] = p.second;
       streams_.pop_front();
+
+      auto f = reinterpret_cast<const float *>(&connection_data[i]->data[0]);
+      int32_t num_samples =
+          connection_data[i]->expected_byte_size / sizeof(float);
+      samples[i] = f;
+      samples_length[i] = num_samples;
     }
 
     lock_stream.unlock();
 
     std::ostringstream os;
-
-    std::vector<const float *> samples(size);
-    std::vector<int32_t> samples_length(size);
-
-    std::unique_lock<std::mutex> lock_connection(conn_mutex_);
-    for (int32_t i = 0; i != size; ++i) {
-      std::cout << "take " << i << "\n";
-      const auto &connection_data = connections_.at(handles[i]);
-      auto f = reinterpret_cast<const float *>(
-          const_cast<int8_t *>(&connection_data.data[0]));
-      int32_t num_samples = connection_data.expected_byte_size / sizeof(float);
-      samples[i] = (f);
-      samples_length[i] = num_samples;
-    }
-    lock_connection.unlock();
 
     auto results = offline_recognizer_->DecodeSamplesBatch(
         samples.data(), samples_length.data(), size);
@@ -276,17 +277,15 @@ class WebsocketServer {
       connection_hdl hdl = handles[i];
       os << results[i].text << "\n";
       asio::post(io_conn_, [this, hdl, text = results[i].text]() {
-        server_.send(hdl, text, websocketpp::frame::opcode::text);
+        websocketpp::lib::error_code ec;
+        server_.send(hdl, text, websocketpp::frame::opcode::text, ec);
+        if (ec) {
+          server_.get_alog().write(websocketpp::log::alevel::app, ec.message());
+        }
       });
     }
 
     server_.get_alog().write(websocketpp::log::alevel::app, os.str());
-    std::cout << os.str() << "\n";
-
-    lock_connection.lock();
-    for (int32_t i = 0; i != size; ++i) {
-      connections_[handles[i]].Clear();
-    }
   }
 
  private:
@@ -295,7 +294,8 @@ class WebsocketServer {
   server server_;
   sherpa::HttpServer http_server_;
 
-  std::map<connection_hdl, ConnectionData, std::owner_less<connection_hdl>>
+  std::map<connection_hdl, std::shared_ptr<ConnectionData>,
+           std::owner_less<connection_hdl>>
       connections_;
 
   std::mutex conn_mutex_;
@@ -304,7 +304,8 @@ class WebsocketServer {
   sherpa::TeeStream tee_;
   std::unique_ptr<sherpa::OfflineRecognizer> offline_recognizer_;
 
-  std::deque<connection_hdl> streams_;
+  std::deque<std::pair<connection_hdl, std::shared_ptr<ConnectionData>>>
+      streams_;
   std::mutex streams_mutex_;
   WebsocketServerConfig config_;
 };
