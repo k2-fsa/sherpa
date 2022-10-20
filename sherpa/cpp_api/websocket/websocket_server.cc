@@ -25,6 +25,7 @@
 #include "sherpa/cpp_api/offline_recognizer.h"
 #include "sherpa/cpp_api/websocket/http_server.h"
 #include "sherpa/cpp_api/websocket/tee_stream.h"
+#include "sherpa/csrc/parse_options.h"
 #include "torch/all.h"
 #include "websocketpp/config/asio_no_tls.hpp"  // TODO(fangjun): support TLS
 #include "websocketpp/server.hpp"
@@ -51,6 +52,21 @@ struct WebsocketServerConfig {
 
   // the log file is appended
   std::string log_file = "./log.txt";
+
+  float sample_rate = 16000;
+  bool use_gpu = false;
+  int32_t max_batch_size = 10;
+
+  void Register(sherpa::ParseOptions *po) {
+    po->Register("nn-model", &nn_model, "Path to the torchscript model");
+    po->Register("tokens", &tokens, "Path to tokens.txt");
+    po->Register("--doc-root", &doc_root,
+                 "Path to the directory where "
+                 "files like index.html for the HTTP server locate");
+    po->Register("log-file", &log_file, "Path to the log file");
+    po->Register("use-gpu", &use_gpu, "True to use GPU for computation");
+    po->Register("max-batch-size", &max_batch_size, "max batch size");
+  }
 };
 
 class WebsocketServer {
@@ -62,7 +78,8 @@ class WebsocketServer {
         io_work_(io_work),
         http_server_(config.doc_root),
         log_(config.log_file, std::ios::app),
-        tee_(std::cout, log_) {
+        tee_(std::cout, log_),
+        config_(config) {
     server_.clear_access_channels(websocketpp::log::alevel::all);
     server_.set_access_channels(websocketpp::log::alevel::connect);
     server_.set_access_channels(websocketpp::log::alevel::disconnect);
@@ -88,11 +105,10 @@ class WebsocketServer {
 
     sherpa::DecodingOptions opts;
     opts.method = sherpa::kGreedySearch;
-    float sample_rate = 16000;
-    bool use_gpu = false;
     std::cout << "init asr\n";
     offline_recognizer_ = std::make_unique<sherpa::OfflineRecognizer>(
-        config.nn_model, config.tokens, opts, use_gpu, sample_rate);
+        config.nn_model, config.tokens, opts, config.use_gpu,
+        config.sample_rate);
   }
 
   void Run(uint16_t port) {
@@ -150,8 +166,10 @@ class WebsocketServer {
     auto c = server_.get_con_from_hdl(hdl);
     websocketpp::lib::error_code ec;
 
-    std::lock_guard<std::mutex> lock(conn_mutex_);
+    std::unique_lock<std::mutex> lock(conn_mutex_);
     auto it = connections_.find(hdl);
+    lock.unlock();
+
     auto &connection_data = it->second;
 
     std::ostringstream os;
@@ -188,12 +206,12 @@ class WebsocketServer {
         }
 
         if (connection_data.expected_byte_size == connection_data.cur) {
-          // TODO(fangjun): We probably need to make a copy of the data
-          std::cout << "send to io work\n";
-          asio::post(io_work_, [this, hdl, &connection_data]() {
-            // TODO(fangjun): Post it to a queue
-            Decode(hdl, connection_data);
-          });
+          {
+            std::unique_lock<std::mutex> lock(streams_mutex_);
+            streams_.push_back(hdl);
+          }
+
+          asio::post(io_work_, [this]() { Decode(); });
         }
         break;
       }
@@ -217,16 +235,55 @@ class WebsocketServer {
     }
   }
 
-  void Decode(connection_hdl hdl, ConnectionData &connection_data) {
-    auto result = offline_recognizer_->DecodeSamples(
-        reinterpret_cast<const float *>(connection_data.data.data()),
-        connection_data.expected_byte_size / sizeof(float));
+  void Decode() {
+    std::unique_lock<std::mutex> lock_stream(streams_mutex_);
+    if (streams_.empty()) {
+      return;
+    }
 
-    asio::post(io_conn_, [this, hdl, text = result.text]() {
-      server_.send(hdl, text, websocketpp::frame::opcode::text);
-    });
+    int32_t size = std::min<int32_t>(streams_.size(), config_.max_batch_size);
+    std::vector<connection_hdl> handles(size);
+    for (int32_t i = 0; i != size; ++i) {
+      connection_hdl hdl = streams_.front();
+      handles[i] = hdl;
+      streams_.pop_front();
+    }
 
-    connection_data.Clear();  // prepare for the next send
+    lock_stream.unlock();
+
+    std::ostringstream os;
+    os << "batch size: " << size << "\n";
+    server_.get_alog().write(websocketpp::log::alevel::app, os.str());
+
+    std::vector<const float *> samples(size);
+    std::vector<int32_t> samples_length(size);
+
+    std::unique_lock<std::mutex> lock_connection(conn_mutex_);
+    for (int32_t i = 0; i != size; ++i) {
+      std::cout << "take " << i << "\n";
+      const auto &connection_data = connections_.at(handles[i]);
+      auto f = reinterpret_cast<const float *>(
+          const_cast<int8_t *>(&connection_data.data[0]));
+      int32_t num_samples = connection_data.expected_byte_size / sizeof(float);
+      samples[i] = (f);
+      samples_length[i] = num_samples;
+    }
+    lock_connection.unlock();
+
+    auto results = offline_recognizer_->DecodeSamplesBatch(
+        samples.data(), samples_length.data(), size);
+
+    for (int32_t i = 0; i != size; ++i) {
+      connection_hdl hdl = handles[i];
+      asio::post(io_conn_, [this, hdl, text = results[i].text]() {
+        server_.send(hdl, text, websocketpp::frame::opcode::text);
+      });
+    }
+
+    lock_connection.lock();
+    for (int32_t i = 0; i != size; ++i) {
+      connections_[handles[i]].Clear();
+    }
   }
 
  private:
@@ -243,9 +300,24 @@ class WebsocketServer {
   std::ofstream log_;
   sherpa::TeeStream tee_;
   std::unique_ptr<sherpa::OfflineRecognizer> offline_recognizer_;
+
+  std::deque<connection_hdl> streams_;
+  std::mutex streams_mutex_;
+  WebsocketServerConfig config_;
 };
 
-int main() {
+static constexpr const char *kUsageMessage = R"(
+Automatic speech recognition with sherpa.
+
+Usage:
+
+./bin/websocketpp_server --help
+
+./bin/websocketpp_server \
+
+)";
+
+int32_t main(int32_t argc, char *argv[]) {
   torch::set_num_threads(1);
   torch::set_num_interop_threads(1);
   torch::NoGradGuard no_grad;
@@ -254,15 +326,30 @@ int main() {
   torch::jit::getProfilingMode() = false;
   torch::jit::setGraphExecutorOptimize(false);
 
+  sherpa::ParseOptions po(kUsageMessage);
+
   WebsocketServerConfig config;
 
-  uint16_t port = 6006;
+  int32_t port = 6006;
 
   // size of the thread pool for handling network connections
-  int32_t num_io_threads = 3;
+  int32_t num_io_threads = 1;
 
   // size of the thread pool for neural network computation and decoding
   int32_t num_work_threads = 2;
+
+  po.Register("num-io-threads", &num_io_threads,
+              "Number of threads to use for network connections.");
+
+  po.Register("num-work-threads", &num_work_threads,
+              "Number of threads to use for neural network "
+              "computation and decoding.");
+
+  po.Register("port", &port, "The port on which the server will listen.");
+
+  config.Register(&po);
+
+  po.Read(argc, argv);
 
   asio::io_context io_conn;  // for network connections
   asio::io_context io_work;  // for neural network and decoding
@@ -270,14 +357,18 @@ int main() {
   WebsocketServer srv(io_conn, io_work, config);
   srv.Run(port);
   std::cout << std::this_thread::get_id() << " Listening on: " << port << "\n";
+  std::cout << "Number of I/O threads: " << num_io_threads << "\n";
+  std::cout << "Number of work threads: " << num_work_threads << "\n";
 
   // give some work to do for the io_work pool
   auto work_guard = asio::make_work_guard(io_work);
 
   std::vector<std::thread> io_threads;
-  for (int32_t i = 0; i < num_io_threads; ++i) {
+
+  // decrement since the main thread is also used for network communications
+  for (int32_t i = 0; i < num_io_threads - 1; ++i) {
     io_threads.emplace_back([&io_conn]() {
-      std::cout << std::this_thread::get_id() << " io thread started\n";
+      std::cout << std::this_thread::get_id() << " I/O thread started\n";
       io_conn.run();
     });
   }

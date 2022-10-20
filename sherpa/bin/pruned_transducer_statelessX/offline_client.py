@@ -87,7 +87,7 @@ async def run(server_addr: str, server_port: int, test_wavs: List[str]):
             start = 0
             while start < wave.numel():
                 end = start + frame_size
-                d = wave.numpy().data[start:end]
+                d = wave.numpy().data[start:end].tobytes()
 
                 await websocket.send(d)
                 await asyncio.sleep(sleep_time)  # in seconds
