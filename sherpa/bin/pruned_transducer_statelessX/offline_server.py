@@ -266,8 +266,8 @@ class OfflineServer:
           use_fp16:
             Whether to use fp16 for model encoding.
           doc_root:
-            Path to the directory where files index.html for the HTTP server
-            locate.
+            Path to the directory where files like index.html for the HTTP
+            server locate.
           certificate:
             Optional. If not None, it will use secure websocket.
             You can use ./sherpa/bin/web/generate-certificate.py to generate
