@@ -37,6 +37,7 @@ import http
 import json
 import logging
 import math
+import socket
 import ssl
 import warnings
 from concurrent.futures import ThreadPoolExecutor
@@ -52,6 +53,7 @@ from beam_search import FastBeamSearch, GreedySearch, ModifiedBeamSearch
 from stream import Stream
 
 from sherpa import (
+    HttpServer,
     OnlineEndpointConfig,
     RnntLstmModel,
     add_beam_search_arguments,
@@ -197,6 +199,13 @@ def get_args():
         """,
     )
 
+    parser.add_argument(
+        "--doc-root",
+        type=str,
+        default="./sherpa/bin/web",
+        help="""Path to the web root""",
+    )
+
     return (
         parser.parse_args(),
         beam_search_parser.parse_known_args()[0],
@@ -220,6 +229,7 @@ class StreamingServer(object):
         max_active_connections: int,
         beam_search_params: dict,
         online_endpoint_config: OnlineEndpointConfig,
+        doc_root: str,
         certificate: Optional[str] = None,
     ):
         """
@@ -255,6 +265,9 @@ class StreamingServer(object):
             Dictionary containing all the parameters for beam search.
           online_endpoint_config:
             Config for endpointing.
+          doc_root:
+            Path to the directory where files index.html for the HTTP server
+            locate.
           certificate:
             Optional. If not None, it will use secure websocket.
             You can use ./sherpa/bin/web/generate-certificate.py to generate
@@ -326,6 +339,7 @@ class StreamingServer(object):
 
         self.online_endpoint_config = online_endpoint_config
         self.certificate = certificate
+        self.http_server = HttpServer(doc_root)
 
         self.nn_pool = ThreadPoolExecutor(
             max_workers=nn_pool_size,
@@ -417,9 +431,24 @@ class StreamingServer(object):
 
     async def process_request(
         self,
-        unused_path: str,
-        unused_request_headers: websockets.Headers,
+        path: str,
+        request_headers: websockets.Headers,
     ) -> Optional[Tuple[http.HTTPStatus, websockets.Headers, bytes]]:
+        if "sec-websocket-key" not in request_headers:
+            # This is a normal HTTP request
+            if path == "/":
+                path = "/index.html"
+            found, response, mime_type = self.http_server.process_request(path)
+            if isinstance(response, str):
+                response = response.encode("utf-8")
+
+            if not found:
+                status = http.HTTPStatus.NOT_FOUND
+            else:
+                status = http.HTTPStatus.OK
+            header = {"Content-Type": mime_type}
+            return status, header, response
+
         if self.current_active_connections < self.max_active_connections:
             self.current_active_connections += 1
             return None
@@ -452,6 +481,14 @@ class StreamingServer(object):
             process_request=self.process_request,
             ssl=ssl_context,
         ):
+            ip_list = ["0.0.0.0", "localhost", "127.0.0.1"]
+            ip_list.append(socket.gethostbyname(socket.gethostname()))
+            proto = "http://" if ssl_context is None else "https://"
+            s = "Please visit one of the following addresses:\n\n"
+            for p in ip_list:
+                s += "  " + proto + p + f":{port}" "\n"
+            logging.info(s)
+
             await asyncio.Future()  # run forever
 
         await task  # not reachable
@@ -633,8 +670,13 @@ def main():
     max_queue_size = args.max_queue_size
     max_active_connections = args.max_active_connections
     certificate = args.certificate
+    doc_root = args.doc_root
+
     if certificate and not Path(certificate).is_file():
         raise ValueError(f"{certificate} does not exist")
+
+    if not Path(doc_root).is_dir():
+        raise ValueError(f"Directory {doc_root} does not exist")
 
     if beam_search_params["decoding_method"] == "modified_beam_search":
         assert beam_search_params["num_active_paths"] >= 1, beam_search_params[
@@ -673,6 +715,7 @@ def main():
         beam_search_params=beam_search_params,
         online_endpoint_config=online_endpoint_config,
         certificate=certificate,
+        doc_root=doc_root,
     )
     asyncio.run(server.run(port))
 

@@ -498,6 +498,23 @@ class ModifiedBeamSearch:
 
         return result
 
+    def get_tokens(self, stream: Stream) -> str:
+        """
+        Return tokens after decoding
+        Args:
+          stream:
+            Stream to be processed.
+        """
+        hyp = stream.hyps.get_most_probable(True).ys[
+            self.beam_search_params["context_size"] :
+        ]
+        if hasattr(self, "sp"):
+            result = [self.sp.id_to_piece(i) for i in hyp]
+        else:
+            result = [self.token_table[i] for i in hyp]
+
+        return result
+
 
 class GreedySearchOffline:
     def __init__(self):
@@ -602,20 +619,3 @@ class ModifiedBeamSearchOffline:
             num_active_paths=self.beam_search_params["num_active_paths"],
         )
         return hyp_tokens
-
-    def get_tokens(self, stream: Stream) -> str:
-        """
-        Return tokens after decoding
-        Args:
-          stream:
-            Stream to be processed.
-        """
-        hyp = stream.hyps.get_most_probable(True).ys[
-            self.beam_search_params["context_size"] :
-        ]
-        if hasattr(self, "sp"):
-            result = [self.sp.id_to_piece(i) for i in hyp]
-        else:
-            result = [self.token_table[i] for i in hyp]
-
-        return result
