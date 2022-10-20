@@ -29,15 +29,6 @@ function initWebSocket() {
   console.log('server_ip: ', server_ip);
   console.log('server_port: ', server_port);
 
-  if (server_port == window.location.port) {
-    alert(
-        window.location.port + ' is for the http server.\n' +
-        'Please use the port for the websocket server.\n' +
-        'That is, use the port when you start the streaming_server.py');
-    return;
-  }
-
-
   let uri = protocol + server_ip + ':' + server_port;
   console.log('uri', uri);
   socket = new WebSocket(uri);
@@ -77,10 +68,12 @@ function initWebSocket() {
 window.onload = (event) => {
   console.log('page is fully loaded');
   console.log('protocol', window.location.protocol);
+  console.log('port', window.location.port);
   if (window.location.protocol == 'https:') {
     document.getElementById('ws-protocol').textContent = 'wss://';
   }
   serverIpInput.value = window.location.hostname;
+  serverPortInput.value = window.location.port;
 };
 
 const serverIpInput = document.getElementById('server-ip');
