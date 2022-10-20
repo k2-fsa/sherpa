@@ -28,6 +28,7 @@ from .decode import (
     fast_beam_search_nbest_LG,
     fast_beam_search_one_best,
 )
+from .http_server import HttpServer
 from .lexicon import Lexicon
 from .nbest import Nbest
 from .online_endpoint import (

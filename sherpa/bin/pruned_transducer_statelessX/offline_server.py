@@ -29,6 +29,7 @@ import argparse
 import asyncio
 import http
 import logging
+import socket
 import ssl
 import warnings
 from concurrent.futures import ThreadPoolExecutor
@@ -43,7 +44,12 @@ import torch
 import websockets
 from beam_search import GreedySearchOffline, ModifiedBeamSearchOffline
 
-from sherpa import RnntConformerModel, add_beam_search_arguments, setup_logger
+from sherpa import (
+    HttpServer,
+    RnntConformerModel,
+    add_beam_search_arguments,
+    setup_logger,
+)
 
 
 def get_args():
@@ -189,6 +195,13 @@ def get_args():
         """,
     )
 
+    parser.add_argument(
+        "--doc-root",
+        type=str,
+        default="./sherpa/bin/web",
+        help="""Path to the web root""",
+    )
+
     return (
         parser.parse_args(),
         beam_search_parser.parse_known_args()[0],
@@ -211,6 +224,7 @@ class OfflineServer:
         max_active_connections: int,
         beam_search_params: dict,
         use_fp16: bool,
+        doc_root: str,
         certificate: Optional[str] = None,
     ):
         """
@@ -251,6 +265,11 @@ class OfflineServer:
             Dictionary containing all the parameters for beam search.
           use_fp16:
             Whether to use fp16 for model encoding.
+          doc_root:
+            Path to the directory where files index.html for the HTTP server
+            locate.
+          certificate:
+            Optional. X.509 certificate for HTTPS and secure websocket.
         """
         self.feature_extractor = self._build_feature_extractor()
         self.nn_models = self._build_nn_model(nn_model_filename, num_device)
@@ -275,6 +294,7 @@ class OfflineServer:
             self.token_table = k2.SymbolTable.from_file(token_filename)
 
         self.certificate = certificate
+        self.http_server = HttpServer(doc_root)
 
         self.counter = 0
 
@@ -366,9 +386,24 @@ class OfflineServer:
 
     async def process_request(
         self,
-        unused_path: str,
-        unused_request_headers: websockets.Headers,
+        path: str,
+        request_headers: websockets.Headers,
     ) -> Optional[Tuple[http.HTTPStatus, websockets.Headers, bytes]]:
+        if "sec-websocket-key" not in request_headers:
+            # This is a normal HTTP request
+            if path == "/":
+                path = "/index.html"
+            found, response, mime_type = self.http_server.process_request(path)
+            if isinstance(response, str):
+                response = response.encode("utf-8")
+
+            if not found:
+                status = http.HTTPStatus.NOT_FOUND
+            else:
+                status = http.HTTPStatus.OK
+            header = {"Content-Type": mime_type}
+            return status, header, response
+
         if self.current_active_connections < self.max_active_connections:
             self.current_active_connections += 1
             return None
@@ -406,6 +441,14 @@ class OfflineServer:
             process_request=self.process_request,
             ssl=ssl_context,
         ):
+            ip_list = ["0.0.0.0", "localhost", "127.0.0.1"]
+            ip_list.append(socket.gethostbyname(socket.gethostname()))
+            proto = "http://" if ssl_context is None else "https://"
+            s = "Please visit one of the following addresses:\n\n"
+            for p in ip_list:
+                s += "  " + proto + p + f":{port}" "\n"
+            logging.info(s)
+
             await asyncio.Future()  # run forever
         await task
 
@@ -626,8 +669,13 @@ def main():
     max_active_connections = args.max_active_connections
     use_fp16 = args.use_fp16
     certificate = args.certificate
+    doc_root = args.doc_root
+
     if certificate and not Path(certificate).is_file():
         raise ValueError(f"{certificate} does not exist")
+
+    if not Path(doc_root).is_dir():
+        raise ValueError(f"Directory {doc_root} does not exist")
 
     decoding_method = beam_search_params["decoding_method"]
     assert decoding_method in (
@@ -672,6 +720,7 @@ def main():
         beam_search_params=beam_search_params,
         use_fp16=use_fp16,
         certificate=certificate,
+        doc_root=doc_root,
     )
     asyncio.run(offline_server.run(port))
 
