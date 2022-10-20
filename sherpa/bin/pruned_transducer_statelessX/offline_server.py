@@ -269,7 +269,9 @@ class OfflineServer:
             Path to the directory where files index.html for the HTTP server
             locate.
           certificate:
-            Optional. X.509 certificate for HTTPS and secure websocket.
+            Optional. If not None, it will use secure websocket.
+            You can use ./sherpa/bin/web/generate-certificate.py to generate
+            it (the default generated filename is `cert.pem`).
         """
         self.feature_extractor = self._build_feature_extractor()
         self.nn_models = self._build_nn_model(nn_model_filename, num_device)

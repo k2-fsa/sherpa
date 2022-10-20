@@ -74,6 +74,7 @@ class HttpServer:
             - a bool, True if the given file is found. False otherwise.
             - a str, the content of the file if found. Otherwise, it
               contains the content for the 404 page
+            - a str, the MIME type of the returned content
         """
         if f in self.content:
             return True, self.content[f][0], self.content[f][1]
