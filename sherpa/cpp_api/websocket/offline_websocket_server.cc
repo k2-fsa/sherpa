@@ -16,13 +16,11 @@
  * limitations under the License.
  */
 
-#include <fstream>
-#include <mutex>  // NOLINT
-#include <set>
+#include "sherpa/cpp_api/websocket/offline_websocket_server.h"
+
 #include <thread>  // NOLINT
 
 #include "asio.hpp"
-#include "sherpa/cpp_api/websocket/offline_websocket_server.h"
 #include "sherpa/csrc/parse_options.h"
 #include "torch/all.h"
 
@@ -87,8 +85,9 @@ int32_t main(int32_t argc, char *argv[]) {
   asio::io_context io_conn;  // for network connections
   asio::io_context io_work;  // for neural network and decoding
 
-  sherpa::OfflineWebsocketServer srv(io_conn, io_work, config, decoder_config);
-  srv.Run(port);
+  sherpa::OfflineWebsocketServer server(io_conn, io_work, config,
+                                        decoder_config);
+  server.Run(port);
 
   SHERPA_LOG(INFO) << "Listening on: " << port << "\n";
   SHERPA_LOG(INFO) << "Number of I/O threads: " << num_io_threads << "\n";
