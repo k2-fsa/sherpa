@@ -50,14 +50,12 @@ using teebuf = basic_teebuf<char>;
 
 class TeeStream : public std::ostream {
  public:
-  TeeStream(std::ostream &o1, std::ostream &o2);
+  TeeStream(std::ostream &o1, std::ostream &o2)
+      : std::ostream(&tbuf), tbuf(o1.rdbuf(), o2.rdbuf()) {}
 
  private:
   teebuf tbuf;
 };
-
-TeeStream::TeeStream(std::ostream &o1, std::ostream &o2)
-    : std::ostream(&tbuf), tbuf(o1.rdbuf(), o2.rdbuf()) {}
 
 }  // namespace sherpa
 
