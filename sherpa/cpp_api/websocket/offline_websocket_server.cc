@@ -16,11 +16,11 @@
  * limitations under the License.
  */
 
-#include "sherpa/cpp_api/websocket/offline_websocket_server.h"
-
 #include <thread>  // NOLINT
 
 #include "asio.hpp"
+#include "sherpa/cpp_api/websocket/offline_websocket_server_impl.h"
+#include "sherpa/csrc/log.h"
 #include "sherpa/csrc/parse_options.h"
 #include "torch/all.h"
 
@@ -34,12 +34,12 @@ Usage:
 ./bin/offline_websocketpp_server \
   --use-gpu=false \
   --port=6006 \
-  --num-io-threads=1 \
+  --num-io-threads=3 \
   --num-work-threads=5 \
-  --max-batch-size=5
+  --max-batch-size=5 \
   --nn-model=/path/to/cpu.jit \
   --tokens=/path/to/tokens.txt \
-  --decoding-method=greedy_search \
+  --decoding-method=greedy_search
 )";
 
 int32_t main(int32_t argc, char *argv[]) {
@@ -53,14 +53,14 @@ int32_t main(int32_t argc, char *argv[]) {
 
   sherpa::ParseOptions po(kUsageMessage);
 
-  sherpa::WebsocketServerConfig config;
-  sherpa::WebsocketDecoderConfig decoder_config;
+  sherpa::OfflineWebsocketServerConfig config;
+  sherpa::OfflineWebsocketDecoderConfig decoder_config;
 
   // the server will listen on this port, for both websocket and http
   int32_t port = 6006;
 
   // size of the thread pool for handling network connections
-  int32_t num_io_threads = 1;
+  int32_t num_io_threads = 3;
 
   // size of the thread pool for neural network computation and decoding
   int32_t num_work_threads = 5;

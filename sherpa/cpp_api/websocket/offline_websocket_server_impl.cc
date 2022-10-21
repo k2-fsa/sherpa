@@ -23,7 +23,7 @@
 
 namespace sherpa {
 
-void WebsocketDecoderConfig::Register(ParseOptions *po) {
+void OfflineWebsocketDecoderConfig::Register(ParseOptions *po) {
   po->Register("nn-model", &nn_model, "Path to the torchscript model");
 
   po->Register("tokens", &tokens, "Path to tokens.txt");
@@ -47,9 +47,15 @@ void WebsocketDecoderConfig::Register(ParseOptions *po) {
       "it will increase the memory usage if there are many active "
       "connections. We suggest that you use a small value for it for "
       "CPU decoding, e.g., 5, since it is pretty fast for CPU decoding");
+
+  po->Register(
+      "max-utterance-length", &max_utterance_length,
+      "Max utterance length in seconds. If we receive an utterance "
+      "longer than this value, we will reject the connection. "
+      "If you have enough memory, you can select a large value for it.");
 }
 
-void WebsocketDecoderConfig::Validate() const {
+void OfflineWebsocketDecoderConfig::Validate() const {
   if (nn_model.empty()) {
     SHERPA_LOG(FATAL) << "Please provide --nn-model";
   }
@@ -80,10 +86,12 @@ void WebsocketDecoderConfig::Validate() const {
   }
 
   SHERPA_CHECK_GT(max_batch_size, 0);
+
+  SHERPA_CHECK_GT(max_utterance_length, 0);
 }
 
 OfflineWebsocketDecoder::OfflineWebsocketDecoder(
-    const WebsocketDecoderConfig &config, OfflineWebsocketServer *server)
+    const OfflineWebsocketDecoderConfig &config, OfflineWebsocketServer *server)
     : config_(config), server_(server) {
   DecodingOptions opts;
 
@@ -157,7 +165,7 @@ void OfflineWebsocketDecoder::Decode() {
                });
   }
 }
-void WebsocketServerConfig::Register(ParseOptions *po) {
+void OfflineWebsocketServerConfig::Register(ParseOptions *po) {
   po->Register("doc-root", &doc_root,
                "Path to the directory where "
                "files like index.html for the HTTP server locate");
@@ -167,7 +175,7 @@ void WebsocketServerConfig::Register(ParseOptions *po) {
                "appended to this file");
 }
 
-void WebsocketServerConfig::Validate() const {
+void OfflineWebsocketServerConfig::Validate() const {
   if (doc_root.empty()) {
     SHERPA_LOG(FATAL) << "Please provide --doc-root";
   }
@@ -181,8 +189,8 @@ void WebsocketServerConfig::Validate() const {
 OfflineWebsocketServer::OfflineWebsocketServer(
     asio::io_context &io_conn,  // NOLINT
     asio::io_context &io_work,  // NOLINT
-    const WebsocketServerConfig &config,
-    const WebsocketDecoderConfig &decoder_config)
+    const OfflineWebsocketServerConfig &config,
+    const OfflineWebsocketDecoderConfig &decoder_config)
     : io_conn_(io_conn),
       io_work_(io_work),
       http_server_(config.doc_root),
@@ -204,6 +212,14 @@ OfflineWebsocketServer::OfflineWebsocketServer(
       [this](connection_hdl hdl, server::message_ptr msg) {
         OnMessage(hdl, msg);
       });
+
+  max_byte_size_ =
+      static_cast<int32_t>(decoder_config.max_utterance_length *
+                           decoder_config.sample_rate * sizeof(float));
+
+  SHERPA_LOG(INFO) << "max_utterance_length: "
+                   << decoder_config.max_utterance_length << " s,"
+                   << "max_byte_size_: " << max_byte_size_;
 }
 
 void OfflineWebsocketServer::SetupLog() {
@@ -282,7 +298,21 @@ void OfflineWebsocketServer::OnMessage(connection_hdl hdl,
         // the first packet (assume the current machine is little endian)
         connection_data->expected_byte_size =
             *reinterpret_cast<const int32_t *>(p);
-        // TODO(fangjun): Limit the length of the utterance to avoid OOM
+
+        if (connection_data->expected_byte_size > max_byte_size_) {
+          float num_samples =
+              connection_data->expected_byte_size / sizeof(float);
+          float duration = num_samples / decoder_.GetConfig().sample_rate;
+
+          std::ostringstream os;
+          os << "Max utterance length is configured to "
+             << decoder_.GetConfig().max_utterance_length
+             << " seconds, received length is " << duration << " seconds. "
+             << "Payload is too large!";
+          SHERPA_LOG(INFO) << os.str();
+          Close(hdl, websocketpp::close::status::message_too_big, os.str());
+          break;
+        }
 
         connection_data->data.resize(connection_data->expected_byte_size);
         std::copy(payload.begin() + 4, payload.end(),

@@ -52,7 +52,7 @@ struct ConnectionData {
 };
 using ConnectionDataPtr = std::shared_ptr<ConnectionData>;
 
-struct WebsocketDecoderConfig {
+struct OfflineWebsocketDecoderConfig {
   std::string nn_model = "./cpu_jit.pt";
   std::string tokens = "./tokens.txt";
 
@@ -69,7 +69,9 @@ struct WebsocketDecoderConfig {
   float sample_rate = 16000;
 
   bool use_gpu = false;
-  int32_t max_batch_size = 2;
+  int32_t max_batch_size = 5;
+
+  float max_utterance_length = 100;  // seconds
 
   void Register(ParseOptions *po);
   void Validate() const;
@@ -83,7 +85,7 @@ class OfflineWebsocketDecoder {
    * @param config Configuraion for the decoder.
    * @param server Borrowed from outside.
    */
-  OfflineWebsocketDecoder(const WebsocketDecoderConfig &config,
+  OfflineWebsocketDecoder(const OfflineWebsocketDecoderConfig &config,
                           OfflineWebsocketServer *server);
 
   /** Insert received data to the queue for decoding.
@@ -98,8 +100,10 @@ class OfflineWebsocketDecoder {
    */
   void Decode();
 
+  const OfflineWebsocketDecoderConfig &GetConfig() const { return config_; }
+
  private:
-  struct WebsocketDecoderConfig config_;
+  struct OfflineWebsocketDecoderConfig config_;
 
   /** When we have received all the data from the client, we put it into
    * this queue, the worker threads will get items from this queue for
@@ -116,7 +120,7 @@ class OfflineWebsocketDecoder {
   std::unique_ptr<OfflineRecognizer> offline_recognizer_;
 };
 
-struct WebsocketServerConfig {
+struct OfflineWebsocketServerConfig {
   std::string doc_root = "./web";  // root for the http server
   std::string log_file = "./log.txt";
 
@@ -128,8 +132,8 @@ class OfflineWebsocketServer {
  public:
   OfflineWebsocketServer(asio::io_context &io_conn,  // NOLINT
                          asio::io_context &io_work,  // NOLINT
-                         const WebsocketServerConfig &config,
-                         const WebsocketDecoderConfig &decoder_config);
+                         const OfflineWebsocketServerConfig &config,
+                         const OfflineWebsocketDecoderConfig &decoder_config);
 
   asio::io_context &GetConnectionContext() { return io_conn_; }
   server &GetServer() { return server_; }
@@ -199,12 +203,13 @@ class OfflineWebsocketServer {
       connections_;
   std::mutex mutex_;
 
-  WebsocketServerConfig config_;
+  OfflineWebsocketServerConfig config_;
 
   std::ofstream log_;
   sherpa::TeeStream tee_;
 
   OfflineWebsocketDecoder decoder_;
+  int32_t max_byte_size_;
 };
 
 }  // namespace sherpa
