@@ -68,3 +68,7 @@ install(
   TARGETS offline_recognizer online_recognizer
   DESTINATION lib
 )
+
+if(SHERPA_ENABLE_WEBSOCKET)
+  add_subdirectory(websocket)
+endif()

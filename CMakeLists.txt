@@ -38,7 +38,12 @@ set(CMAKE_CXX_STANDARD 14 CACHE STRING "The C++ version to be used.")
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 option(SHERPA_ENABLE_TESTS "Whether to build tests" ON)
-option(SHERPA_ENABLE_PORTAUDIO "Whether to build portaudio" ON)
+option(SHERPA_ENABLE_PORTAUDIO "Whether to build with portaudio" ON)
+option(SHERPA_ENABLE_WEBSOCKET "Whether to build with websocket" ON)
+
+message(STATUS "SHERPA_ENABLE_TESTS: ${SHERPA_ENABLE_TESTS}")
+message(STATUS "SHERPA_ENABLE_PORTAUDIO: ${SHERPA_ENABLE_PORTAUDIO}")
+message(STATUS "SHERPA_ENABLE_WEBSOCKET: ${SHERPA_ENABLE_WEBSOCKET}")
 
 include(CheckIncludeFileCXX)
 check_include_file_cxx(cxxabi.h SHERPA_HAVE_CXXABI_H)
@@ -126,6 +131,11 @@ include(kaldifeat)
 include(kaldi_native_io)
 if(SHERPA_ENABLE_PORTAUDIO)
   include(portaudio)
+endif()
+
+if(SHERPA_ENABLE_WEBSOCKET)
+  include(asio)
+  include(websocketpp)
 endif()
 
 if(SHERPA_ENABLE_TESTS)
