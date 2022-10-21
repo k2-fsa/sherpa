@@ -41,8 +41,12 @@ void WebsocketDecoderConfig::Register(ParseOptions *po) {
                "Caution: We currently assume there is only one GPU. You have "
                "to change the code to support multiple GPUs.");
 
-  po->Register("max-batch-size", &max_batch_size,
-               "Max batch size for decoding.");
+  po->Register(
+      "max-batch-size", &max_batch_size,
+      "Max batch size for decoding. If you are using CPU, increasing "
+      "it will increase the memory usage if there are many active "
+      "connections. We suggest that you use a small value for it for "
+      "CPU decoding, e.g., 5, since it is pretty fast for CPU decoding");
 }
 
 void WebsocketDecoderConfig::Validate() const {

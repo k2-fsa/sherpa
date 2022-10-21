@@ -27,14 +27,21 @@
 #include "torch/all.h"
 
 static constexpr const char *kUsageMessage = R"(
-Automatic speech recognition with sherpa.
+Automatic speech recognition with sherpa using websocket.
 
 Usage:
 
-./bin/websocketpp_server --help
+./bin/offline_websocketpp_server --help
 
-./bin/websocketpp_server \
-
+./bin/offline_websocketpp_server \
+  --use-gpu=false \
+  --port=6006 \
+  --num-io-threads=1 \
+  --num-work-threads=5 \
+  --max-batch-size=5
+  --nn-model=/path/to/cpu.jit \
+  --tokens=/path/to/tokens.txt \
+  --decoding-method=greedy_search \
 )";
 
 int32_t main(int32_t argc, char *argv[]) {
@@ -51,13 +58,14 @@ int32_t main(int32_t argc, char *argv[]) {
   sherpa::WebsocketServerConfig config;
   sherpa::WebsocketDecoderConfig decoder_config;
 
+  // the server will listen on this port, for both websocket and http
   int32_t port = 6006;
 
   // size of the thread pool for handling network connections
   int32_t num_io_threads = 1;
 
   // size of the thread pool for neural network computation and decoding
-  int32_t num_work_threads = 2;
+  int32_t num_work_threads = 5;
 
   po.Register("num-io-threads", &num_io_threads,
               "Number of threads to use for network connections.");
@@ -73,14 +81,18 @@ int32_t main(int32_t argc, char *argv[]) {
 
   po.Read(argc, argv);
 
+  config.Validate();
+  decoder_config.Validate();
+
   asio::io_context io_conn;  // for network connections
   asio::io_context io_work;  // for neural network and decoding
 
   sherpa::OfflineWebsocketServer srv(io_conn, io_work, config, decoder_config);
   srv.Run(port);
-  std::cout << std::this_thread::get_id() << " Listening on: " << port << "\n";
-  std::cout << "Number of I/O threads: " << num_io_threads << "\n";
-  std::cout << "Number of work threads: " << num_work_threads << "\n";
+
+  SHERPA_LOG(INFO) << "Listening on: " << port << "\n";
+  SHERPA_LOG(INFO) << "Number of I/O threads: " << num_io_threads << "\n";
+  SHERPA_LOG(INFO) << "Number of work threads: " << num_work_threads << "\n";
 
   // give some work to do for the io_work pool
   auto work_guard = asio::make_work_guard(io_work);
@@ -89,18 +101,12 @@ int32_t main(int32_t argc, char *argv[]) {
 
   // decrement since the main thread is also used for network communications
   for (int32_t i = 0; i < num_io_threads - 1; ++i) {
-    io_threads.emplace_back([&io_conn]() {
-      std::cout << std::this_thread::get_id() << " I/O thread started\n";
-      io_conn.run();
-    });
+    io_threads.emplace_back([&io_conn]() { io_conn.run(); });
   }
 
   std::vector<std::thread> work_threads;
   for (int32_t i = 0; i < num_work_threads; ++i) {
-    work_threads.emplace_back([&io_work]() {
-      std::cout << std::this_thread::get_id() << " work thread started\n";
-      io_work.run();
-    });
+    work_threads.emplace_back([&io_work]() { io_work.run(); });
   }
 
   io_conn.run();
