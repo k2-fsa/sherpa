@@ -16,8 +16,8 @@
  * limitations under the License.
  */
 
-#ifndef SHERPA_CPP_API_OFFLINE_WEBSOCKET_SERVER_H_
-#define SHERPA_CPP_API_OFFLINE_WEBSOCKET_SERVER_H_
+#ifndef SHERPA_CPP_API_OFFLINE_WEBSOCKET_SERVER_IMPL_H_
+#define SHERPA_CPP_API_OFFLINE_WEBSOCKET_SERVER_IMPL_H_
 
 #include <string>
 
@@ -209,4 +209,4 @@ class OfflineWebsocketServer {
 
 }  // namespace sherpa
 
-#endif  // SHERPA_CPP_API_OFFLINE_WEBSOCKET_SERVER_H_
+#endif  // SHERPA_CPP_API_OFFLINE_WEBSOCKET_SERVER_IMPL_H_
