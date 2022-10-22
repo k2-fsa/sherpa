@@ -63,7 +63,6 @@ jobs:
 
       - name: Install PyTorch ${{ matrix.torch }}
         shell: bash
-        if: startsWith(matrix.os, 'macos')
         run: |
           python3 -m pip install wheel twine typing_extensions
           python3 -m pip install torch==${{ matrix.torch }} torchaudio==${{ matrix.torchaudio }} numpy -f https://download.pytorch.org/whl/cpu/torch_stable.html
