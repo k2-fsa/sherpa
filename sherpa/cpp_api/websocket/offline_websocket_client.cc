@@ -39,8 +39,8 @@ Usage:
 ./bin/offline_websocket_client --help
 
 ./bin/offline_websocket_client \
-  --server-ip 127.0.0.1 \
-  --server-port 6006 \
+  --server-ip=127.0.0.1 \
+  --server-port=6006 \
   /path/to/foo.wav
 
 )";

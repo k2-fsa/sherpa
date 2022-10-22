@@ -144,18 +144,18 @@ jobs:
         shell: bash
         run: |
           ./build/bin/offline_websocket_client \
-            --server-ip 127.0.0.1 \
-            --server-port 6006 \
+            --server-ip=127.0.0.1 \
+            --server-port=6006 \
             ./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/test_wavs/1089-134686-0001.wav
 
           ./build/bin/offline_websocket_client \
-            --server-ip 127.0.0.1 \
-            --server-port 6006 \
+            --server-ip=127.0.0.1 \
+            --server-port=6006 \
             ./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/test_wavs/1221-135766-0001.wav \
 
           ./build/bin/offline_websocket_client \
-            --server-ip 127.0.0.1 \
-            --server-port 6006 \
+            --server-ip=127.0.0.1 \
+            --server-port=6006 \
             ./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/test_wavs/1221-135766-0002.wav
 
           cat ./log.txt
