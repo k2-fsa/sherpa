@@ -29,9 +29,9 @@ Automatic speech recognition with sherpa using websocket.
 
 Usage:
 
-./bin/offline_websocketpp_server --help
+./bin/offline_websocket_server --help
 
-./bin/offline_websocketpp_server \
+./bin/offline_websocket_server \
   --use-gpu=false \
   --port=6006 \
   --num-io-threads=3 \
@@ -39,7 +39,9 @@ Usage:
   --max-batch-size=5 \
   --nn-model=/path/to/cpu.jit \
   --tokens=/path/to/tokens.txt \
-  --decoding-method=greedy_search
+  --decoding-method=greedy_search \
+  --doc-root=../sherpa/bin/web \
+  --log-file=./log.txt
 )";
 
 int32_t main(int32_t argc, char *argv[]) {

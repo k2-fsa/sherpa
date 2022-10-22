@@ -130,7 +130,11 @@ async def send(
                 results.append((ref, hyp))
             else:
                 results.append(
-                    (c.supervisions[0].text.split(), decoding_results.split())
+                    (
+                        c.id,
+                        c.supervisions[0].text.split(),
+                        decoding_results.split(),
+                    )
                 )  # noqa
         await websocket.send(b"Done")
 

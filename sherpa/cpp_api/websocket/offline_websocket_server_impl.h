@@ -53,8 +53,8 @@ struct ConnectionData {
 using ConnectionDataPtr = std::shared_ptr<ConnectionData>;
 
 struct OfflineWebsocketDecoderConfig {
-  std::string nn_model = "./cpu_jit.pt";
-  std::string tokens = "./tokens.txt";
+  std::string nn_model;
+  std::string tokens;
 
   /// Decoding method to use.
   /// Possible values are: greedy_search, modified_beam_search.
@@ -121,7 +121,8 @@ class OfflineWebsocketDecoder {
 };
 
 struct OfflineWebsocketServerConfig {
-  std::string doc_root = "./web";  // root for the http server
+  // assume you run it inside the ./build directory.
+  std::string doc_root = "../sherpa/bin/web";  // root for the http server
   std::string log_file = "./log.txt";
 
   void Register(sherpa::ParseOptions *po);

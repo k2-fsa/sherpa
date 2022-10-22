@@ -99,6 +99,7 @@ OfflineWebsocketDecoder::OfflineWebsocketDecoder(
     opts.method = kGreedySearch;
   } else if (config.decoding_method == "modified_beam_search") {
     opts.method = kModifiedBeamSearch;
+    opts.num_active_paths = config.num_active_paths;
   } else {
     SHERPA_LOG(FATAL) << "Unsupported decoding method: "
                       << config.decoding_method;

@@ -36,7 +36,12 @@ Automatic speech recognition with sherpa using websocket.
 
 Usage:
 
-./bin/offline_websocketpp_client --help
+./bin/offline_websocket_client --help
+
+./bin/offline_websocket_client \
+  --server-ip 127.0.0.1 \
+  --server-port 6006 \
+  /path/to/foo.wav
 
 )";
 
