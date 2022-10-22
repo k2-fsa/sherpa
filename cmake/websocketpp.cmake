@@ -5,8 +5,9 @@ function(download_websocketpp)
 
   include(FetchContent)
 
-  set(websocketpp_URL  "https://github.com/zaphoyd/websocketpp/archive/refs/tags/0.8.2.tar.gz")
-  set(websocketpp_HASH "SHA256=6ce889d85ecdc2d8fa07408d6787e7352510750daa66b5ad44aacb47bea76755")
+  # The latest commit on the develop branch os as 2022-10-22
+  set(websocketpp_URL  "https://github.com/zaphoyd/websocketpp/archive/b9aeec6eaf3d5610503439b4fae3581d9aff08e8.zip")
+  set(websocketpp_HASH "SHA256=1385135ede8191a7fbef9ec8099e3c5a673d48df0c143958216cd1690567f583")
 
   FetchContent_Declare(websocketpp
     URL               ${websocketpp_URL}

@@ -48,7 +48,8 @@ struct OfflineAsrOptions {
 
   // true to use GPU for computation. Always selects the first device.
   // false to use CPU.
-  // Note: Only neural network computation and decoding are done on CPU.
+  // Note: If true, only neural network computation and decoding are
+  // done on GPU.
   // Feature extraction is performed on CPU.
   bool use_gpu = false;
 
