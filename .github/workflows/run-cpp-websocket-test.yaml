@@ -142,6 +142,7 @@ jobs:
 
       - name: Start the client
         shell: bash
+        run: |
           ./build/bin/offline_websocket_client \
             --server-ip 127.0.0.1 \
             --server-port 6006 \
