@@ -136,7 +136,7 @@ async def send(
                         decoding_results.split(),
                     )
                 )  # noqa
-        await websocket.send(b"Done")
+        await websocket.send("Done")
 
     return total_duration, results
 
