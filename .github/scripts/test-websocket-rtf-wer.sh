@@ -49,7 +49,7 @@ cmake \
   -DSHERPA_ENABLE_WEBSOCKET=ON \
   ..
 
-make -j2 VERBOSE=1 offline_websocket_server offline_websocket_client
+make -j4 offline_websocket_server offline_websocket_client
 
 ls -lh lib
 ls -lh bin
@@ -77,7 +77,7 @@ cat ./log.txt
 log "start the client"
 
 # We create 50 concurrent connections here
-time python3 ../../sherpa/bin/pruned_transducer_statelessX/decode_manifest.py \
+time python3 ./sherpa/bin/pruned_transducer_statelessX/decode_manifest.py \
   --server-addr 127.0.0.1 \
   --server-port 6006 \
   --manifest-filename ./test-clean.jsonl.gz \
