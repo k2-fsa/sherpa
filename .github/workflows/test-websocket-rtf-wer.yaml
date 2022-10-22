@@ -43,6 +43,15 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Get number of CPU cores
+        uses: SimenB/github-actions-cpu-cores@v1
+        id: cpu-cores
+
+      - name: Display number of CPU cores
+        shell: bash
+        run: |
+          echo "Number of CPU cores:  ${{ steps.cpu-cores.outputs.count }}"
+
       - name: Setup Python
         uses: actions/setup-python@v2
         with:
