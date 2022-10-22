@@ -133,7 +133,7 @@ jobs:
             --nn-model=./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/exp/cpu_jit-torch-${{ matrix.torch }}.pt \
             --tokens=./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/data/lang_bpe_500/tokens.txt \
             --decoding-method=greedy_search \
-            --doc-root=../sherpa/bin/web \
+            --doc-root=./sherpa/bin/web \
             --log-file=./log.txt &
 
           echo "Sleep 10 seconds to wait for the server startup"
