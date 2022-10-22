@@ -5,7 +5,7 @@ on:
     branches:
       - rtf
     paths:
-      - '.github/workflows/test-websocet-rtf-wer.yaml'
+      - '.github/workflows/test-websocket-rtf-wer.yaml'
       - '.github/scripts/test-websocket-rtf-wer.sh'
       - 'CMakeLists.txt'
       - 'cmake/**'
@@ -14,7 +14,7 @@ on:
   pull_request:
     types: [labeled]
     paths:
-      - '.github/workflows/test-websocet-rtf-wer.yaml'
+      - '.github/workflows/test-websocket-rtf-wer.yaml'
       - '.github/scripts/test-websocket-rtf-wer.sh'
       - 'CMakeLists.txt'
       - 'cmake/**'
@@ -60,7 +60,6 @@ jobs:
           python3 -m pip install torch==${{ matrix.torch }} torchaudio==${{ matrix.torchaudio }} numpy -f https://download.pytorch.org/whl/cpu/torch_stable.html
 
           python3 -m pip install k2==1.17.dev20220813+cpu.torch${{ matrix.torch }} -f https://k2-fsa.org/nightly/index.html
-          python3 -m pip install lhotse
 
           python3 -m torch.utils.collect_env
 

@@ -8,10 +8,22 @@ log() {
   echo -e "$(date '+%Y-%m-%d %H:%M:%S') (${fname}:${BASH_LINENO[0]}:${FUNCNAME[1]}) $*"
 }
 
-repo_url=https://huggingface.co/csukuangfj/icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13
-repo=$(basename $repo_url)
+log "Install lhotse"
+
+python3 -m pip install lhotse websockets
+
+log "Install icefall"
+git clone http://github.com/k2-fsa/icefall
+pushd icefall
+pip install -r ./requirements.txt
+popd
+
+export PYTHONPATH=$PWD/icefall:$PYTHONPATH
 
 log "Downloading pre-trained model from $repo_url"
+
+repo_url=https://huggingface.co/csukuangfj/icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13
+repo=$(basename $repo_url)
 
 GIT_LFS_SKIP_SMUDGE=1 git clone $repo_url
 pushd $repo
