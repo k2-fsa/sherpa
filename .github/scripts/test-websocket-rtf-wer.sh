@@ -12,6 +12,7 @@ log "Install lhotse"
 
 python3 -m pip install lhotse websockets
 
+export KALDIFST_MAKE_ARGS="-j4"
 log "Install icefall"
 git clone http://github.com/k2-fsa/icefall
 pushd icefall
@@ -78,7 +79,7 @@ log "start the sever"
   --max-batch-size=1 \
   --nn-model=./$repo/exp/cpu_jit.pt \
   --tokens=./$repo/data/lang_bpe_500/tokens.txt \
-  --decoding-method=greedy_search \
+  --decoding-method=$DECODING_METHOD \
   --doc-root=./sherpa/bin/web \
   --log-file=./log.txt &
 

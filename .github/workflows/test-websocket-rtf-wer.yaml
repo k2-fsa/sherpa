@@ -32,11 +32,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [macos-latest]
+        os: [macos-latest, ubuntu-latest]
         torch: ["1.10.0"]
         torchaudio: ["0.10.0"]
         python-version: ["3.8"]
-        build_type: ["Release"]
+        decoding_method: ["greedy_search", "modified_beam_search"]
 
     steps:
       - uses: actions/checkout@v2
@@ -79,6 +79,8 @@ jobs:
 
       - name: Run RTF test
         shell: bash
+        env:
+          DECODING_METHOD: ${{ matrix.decoding_method }}
         run: |
           export KALDIFEAT_INSTALL_PREFIX=$HOME/tmp/kaldifeat/build
           echo $KALDIFEAT_INSTALL_PREFIX
