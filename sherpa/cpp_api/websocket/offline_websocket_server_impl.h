@@ -171,8 +171,8 @@ class OfflineWebsocketServer {
   // (5) After receiving the decoded results from the server, if the client has
   //     another audio file to send, it repeats (2), (3), (4)
   // (6) If the client has no more audio files to decode, the client sends a
-  //     text message containing "DONE" to the server and closes the connection
-  // (7) The server receives a text message "DONE" and closes the connection
+  //     text message containing "Done" to the server and closes the connection
+  // (7) The server receives a text message "Done" and closes the connection
   //
   // Note:
   //  (a) All models in icefall are trained using audio samples at sampling
