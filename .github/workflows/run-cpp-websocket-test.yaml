@@ -24,7 +24,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  run_cpp_tests:
+  run_cpp_websocket_tests:
     if: github.event.label.name == 'ready' || github.event.label.name == 'websocket' || github.event_name == 'push'
     runs-on: ${{ matrix.os }}
     strategy:
