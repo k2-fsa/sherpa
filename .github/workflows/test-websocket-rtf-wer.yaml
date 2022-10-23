@@ -57,9 +57,23 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
+      - name: Display gcc version
+        if: startsWith(matrix.os, 'ubuntu')
+        shell: bash
+        run: |
+          gcc --version
+
       - name: Display clang version
+        if: startsWith(matrix.os, 'macos')
+        shell: bash
         run: |
           clang --version
+
+    - name: Install apt dependencies
+      if: startsWith(matrix.os, 'ubuntu')
+      run: |
+        sudo apt update
+        sudo apt install libsndfile1-dev libsndfile1
 
       - name: Install PyTorch ${{ matrix.torch }}
         shell: bash
