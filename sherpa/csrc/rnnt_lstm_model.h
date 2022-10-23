@@ -34,6 +34,7 @@ namespace sherpa {
  */
 class RnntLstmModel : public RnntModel {
  public:
+  RnntLstmModel() = default;  // for testing in ./test_stack_unstack_states.cc
   /**
    * @param encoder_filename Path name of the torch script encoder module.
    * @param decoder_filename Path name of the torch script decoder module.
@@ -60,7 +61,17 @@ class RnntLstmModel : public RnntModel {
                           const torch::Tensor &features_length,
                           torch::IValue states);
 
+  // The returned IValue is a tuple containing two tensors:
+  //  - hx: (num_layers, batch_size, proj_size)
+  //  - cx: (num_layers, batch_size, hidden_size)
+  //  See icefall/egs/librispeech/ASR/lstm_transducer_stateless2/lstm.py
+  //  for details
   torch::IValue GetEncoderInitStates(int32_t batch_size = 1);
+
+  torch::IValue StackStates(
+      const std::vector<torch::IValue> &states) const override;
+
+  std::vector<torch::IValue> UnStackStates(torch::IValue states) const override;
 
   /** Run the decoder network.
    *
@@ -94,7 +105,7 @@ class RnntLstmModel : public RnntModel {
   torch::jit::Module decoder_;
   torch::jit::Module joiner_;
 
-  torch::Device device_;
+  torch::Device device_{"cpu"};
   int32_t blank_id_;
   int32_t vocab_size_;
   int32_t unk_id_;

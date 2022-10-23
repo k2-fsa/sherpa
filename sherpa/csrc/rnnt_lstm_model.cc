@@ -103,6 +103,45 @@ torch::IValue RnntLstmModel::GetEncoderInitStates(int32_t batch_size /*=1*/) {
   return encoder_.run_method("get_init_states", batch_size, device_);
 }
 
+torch::IValue RnntLstmModel::StackStates(
+    const std::vector<torch::IValue> &states) const {
+  auto n = static_cast<int32_t>(states.size());
+
+  std::vector<torch::Tensor> hx;
+  std::vector<torch::Tensor> cx;
+
+  hx.reserve(n);
+  cx.reserve(n);
+  for (const auto &ivalue : states) {
+    auto s = StateFromIValue(ivalue);
+    hx.push_back(std::move(s.first));
+    cx.push_back(std::move(s.second));
+  }
+
+  auto cat_hx = torch::cat(hx, /*dim*/ 1);
+  auto cat_cx = torch::cat(cx, /*dim*/ 1);
+
+  return torch::ivalue::Tuple::create(cat_hx, cat_cx);
+}
+
+std::vector<torch::IValue> RnntLstmModel::UnStackStates(
+    torch::IValue ivalue) const {
+  auto states = StateFromIValue(ivalue);
+
+  std::vector<torch::Tensor> hx = states.first.unbind(/*dim*/ 1);
+  std::vector<torch::Tensor> cx = states.second.unbind(/*dim*/ 1);
+  auto n = static_cast<int32_t>(hx.size());
+
+  std::vector<torch::IValue> ans(n);
+  for (int32_t i = 0; i != n; ++i) {
+    auto h = hx[i].unsqueeze(/*dim*/ 1);
+    auto c = cx[i].unsqueeze(/*dim*/ 1);
+    ans[i] = torch::ivalue::Tuple::create(h, c);
+  }
+
+  return ans;
+}
+
 torch::Tensor RnntLstmModel::ForwardDecoder(
     const torch::Tensor &decoder_input) {
   return decoder_

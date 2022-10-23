@@ -54,6 +54,7 @@ if(SHERPA_ENABLE_TESTS)
     test_log.cc
     test_online_stream.cc
     test_parse_options.cc
+    test_stack_unstack_states.cc
   )
 
   function(sherpa_add_test source)
