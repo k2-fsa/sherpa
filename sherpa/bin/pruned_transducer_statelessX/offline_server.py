@@ -465,7 +465,7 @@ class OfflineServer:
 
         The message from the client is a **bytes** buffer.
 
-        The first message can be either b"Done" meaning the client won't send
+        The first message can be either "Done" meaning the client won't send
         anything in the future or it can be a buffer containing 4 bytes
         in **little** endian format, specifying the number of bytes in the audio
         file, which will be sent by the client in the subsequent messages.
@@ -483,7 +483,7 @@ class OfflineServer:
           return None indicating the end of utterance.
         """
         header = await socket.recv()
-        if header == b"Done":
+        if header == "Done":
             return None
 
         assert len(header) == 4, "The first message should contain 4 bytes"

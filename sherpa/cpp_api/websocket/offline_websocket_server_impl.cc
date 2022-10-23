@@ -276,7 +276,7 @@ void OfflineWebsocketServer::OnMessage(connection_hdl hdl,
 
   switch (msg->get_opcode()) {
     case websocketpp::frame::opcode::text:
-      if (payload == "DONE") {
+      if (payload == "Done") {
         // The client will not send any more data. We can close the
         // connection now.
         Close(hdl, websocketpp::close::status::normal, "Done");

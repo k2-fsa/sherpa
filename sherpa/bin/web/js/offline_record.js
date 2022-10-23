@@ -45,8 +45,10 @@ function initWebSocket() {
   // Listen for messages
   socket.addEventListener('message', function(event) {
     console.log('Received message: ', event.data);
-    document.getElementById('results').value = event.data;
-    if (event.data == 'Done') {
+
+    if (event.data != 'Done') {
+      document.getElementById('results').value = event.data;
+    } else {
       socket.close();
     }
   });
@@ -233,6 +235,8 @@ if (navigator.mediaDevices.getUserMedia) {
         }
       };
 
+      buf = buf.buffer
+
       let n = 1024 * 4;  // send this number of bytes per request.
       console.log('buf length, ' + buf.byteLength);
       send_header(buf.byteLength);
@@ -241,12 +245,7 @@ if (navigator.mediaDevices.getUserMedia) {
         socket.send(buf.slice(start, start + n));
       }
 
-      let done = new Int8Array(4);  // Done
-      done[0] = 68;                 //'D';
-      done[1] = 111;                //'o';
-      done[2] = 110;                //'n';
-      done[3] = 101;                //'e';
-      socket.send(done);
+      socket.send('Done');
       console.log('Sent Done');
     };
   };

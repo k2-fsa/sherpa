@@ -128,7 +128,7 @@ async def run(server_addr: str, server_port: int, test_wav: str):
 
             start += frame_size
 
-        await websocket.send(b"Done")
+        await websocket.send("Done")
         decoding_results = await receive_task
         s = ""
         for r in decoding_results:

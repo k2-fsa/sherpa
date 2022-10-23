@@ -185,12 +185,7 @@ if (navigator.mediaDevices.getUserMedia) {
     stopBtn.onclick = function() {
       console.log('recorder stopped');
 
-      let done = new Int8Array(4);  // Done
-      done[0] = 68;                 //'D';
-      done[1] = 111;                //'o';
-      done[2] = 110;                //'n';
-      done[3] = 101;                //'e';
-      socket.send(done);
+      socket.send('Done');
       console.log('Sent Done');
 
       socket.close();

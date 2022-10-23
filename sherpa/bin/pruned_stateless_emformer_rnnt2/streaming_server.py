@@ -597,7 +597,7 @@ class StreamingServer(object):
         """Receives a tensor from the client.
 
         Each message contains either a bytes buffer containing audio samples
-        in 16 kHz or contains b"Done" meaning the end of utterance.
+        in 16 kHz or contains "Done" meaning the end of utterance.
 
         Args:
           socket:
@@ -607,7 +607,7 @@ class StreamingServer(object):
           return None.
         """
         message = await socket.recv()
-        if message == b"Done":
+        if message == "Done":
             return None
 
         with warnings.catch_warnings():
