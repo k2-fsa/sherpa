@@ -16,10 +16,15 @@
  * limitations under the License.
  */
 
-#ifndef SHERPA_CPP_API_OFFLINE_WEBSOCKET_SERVER_IMPL_H_
-#define SHERPA_CPP_API_OFFLINE_WEBSOCKET_SERVER_IMPL_H_
+#ifndef SHERPA_CPP_API_WEBSOCKET_OFFLINE_WEBSOCKET_SERVER_IMPL_H_
+#define SHERPA_CPP_API_WEBSOCKET_OFFLINE_WEBSOCKET_SERVER_IMPL_H_
 
+#include <deque>
+#include <map>
+#include <memory>
 #include <string>
+#include <utility>
+#include <vector>
 
 #include "asio.hpp"
 #include "sherpa/cpp_api/offline_recognizer.h"
@@ -215,4 +220,4 @@ class OfflineWebsocketServer {
 
 }  // namespace sherpa
 
-#endif  // SHERPA_CPP_API_OFFLINE_WEBSOCKET_SERVER_IMPL_H_
+#endif  // SHERPA_CPP_API_WEBSOCKET_OFFLINE_WEBSOCKET_SERVER_IMPL_H_
