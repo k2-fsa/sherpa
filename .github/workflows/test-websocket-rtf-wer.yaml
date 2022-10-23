@@ -110,3 +110,9 @@ jobs:
 
           .github/scripts/test-websocket-rtf-wer.sh
           cat ./log.txt
+
+      - name: Upload decoding results
+        uses: actions/upload-artifact@v2
+        with:
+          name: os-${{ matrix.os }}-decoding-method-${{ matrix.decoding_method }}
+          path: ./*.txt
