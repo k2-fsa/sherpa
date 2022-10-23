@@ -89,12 +89,12 @@ static torch::Tensor ReadWave(const std::string &filename,
 
 static void OnMessage(client *c, const std::string &wave_filename,
                       connection_hdl hdl, message_ptr msg) {
-  websocketpp::lib::error_code ec;
-  c->send(hdl, "Done", websocketpp::frame::opcode::text, ec);
-
   SHERPA_LOG(INFO) << "Decoding results for \n"
                    << wave_filename << "\n"
                    << msg->get_payload();
+
+  websocketpp::lib::error_code ec;
+  c->send(hdl, "Done", websocketpp::frame::opcode::text, ec);
 
   if (ec) {
     std::cerr << "Failed to send DONE\n";
