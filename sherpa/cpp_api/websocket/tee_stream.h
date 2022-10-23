@@ -1,6 +1,5 @@
 // Code in this file is copied and modified from
 // https://wordaligned.org/articles/cpp-streambufs
-//
 
 #ifndef SHERPA_CPP_API_WEBSOCKET_TEE_STREAM_H_
 #define SHERPA_CPP_API_WEBSOCKET_TEE_STREAM_H_
