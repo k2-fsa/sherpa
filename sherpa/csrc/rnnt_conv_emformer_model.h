@@ -96,6 +96,11 @@ class RnntConvEmformerModel : public RnntModel {
   torch::IValue StateToIValue(const State &s) const;
   State StateFromIValue(torch::IValue ivalue) const;
 
+  torch::IValue StackStates(
+      const std::vector<torch::IValue> &states) const override;
+
+  std::vector<torch::IValue> UnStackStates(torch::IValue states) const override;
+
  private:
   torch::jit::Module model_;
 

@@ -135,8 +135,8 @@ OnlineAsr::OnlineAsr(const OnlineAsrOptions &opts)
 
 std::unique_ptr<OnlineStream> OnlineAsr::CreateStream() {
   auto s = std::make_unique<OnlineStream>(
-      opts_.endpoint_config,
-      opts_.fbank_opts.frame_opts.samp_freq, opts_.fbank_opts.mel_opts.num_bins,
+      opts_.endpoint_config, opts_.fbank_opts.frame_opts.samp_freq,
+      opts_.fbank_opts.mel_opts.num_bins,
       opts_.fbank_opts.frame_opts.max_feature_vectors);
 
   int32_t blank_id = model_->BlankId();
@@ -229,7 +229,7 @@ void OnlineAsr::GreedySearch(OnlineStream **ss, int32_t n) {
   torch::Tensor features_length =
       torch::full({n}, chunk_length_pad, torch::kLong).to(device);
 
-  torch::IValue stacked_states = ss[0]->StackStates(all_states);
+  torch::IValue stacked_states = model_->StackStates(all_states);
   torch::Tensor processed_frames =
       torch::tensor(all_processed_frames, torch::kLong).to(device);
 
@@ -242,7 +242,7 @@ void OnlineAsr::GreedySearch(OnlineStream **ss, int32_t n) {
                                       processed_frames, stacked_states);
 
   std::vector<torch::IValue> unstacked_states =
-      ss[0]->UnStackStates(next_states);
+      model_->UnStackStates(next_states);
 
   std::vector<torch::Tensor> next_decoder_out =
       StreamingGreedySearch(*model_, encoder_out, batched_decoder_out,
@@ -297,7 +297,7 @@ void OnlineAsr::ModifiedBeamSearch(OnlineStream **ss, int32_t n) {
   torch::Tensor features_length =
       torch::full({n}, chunk_length_pad, torch::kLong).to(device);
 
-  torch::IValue stacked_states = ss[0]->StackStates(all_states);
+  torch::IValue stacked_states = model_->StackStates(all_states);
   torch::Tensor processed_frames =
       torch::tensor(all_processed_frames, torch::kLong).to(device);
 
@@ -310,18 +310,17 @@ void OnlineAsr::ModifiedBeamSearch(OnlineStream **ss, int32_t n) {
                                       processed_frames, stacked_states);
 
   std::vector<torch::IValue> unstacked_states =
-      ss[0]->UnStackStates(next_states);
+      model_->UnStackStates(next_states);
 
   all_hyps = StreamingModifiedBeamSearch(*model_,  // NOLINT
-                                         encoder_out, all_hyps,
-                                         frame_offset,
+                                         encoder_out, all_hyps, frame_offset,
                                          opts_.num_active_paths);
 
   for (int32_t i = 0; i != n; ++i) {
     OnlineStream *s = ss[i];
     if (all_hyps[i].Size()) {
       s->GetNumTrailingBlankFrames() =
-        all_hyps[i].GetMostProbable(false).num_trailing_blanks;
+          all_hyps[i].GetMostProbable(false).num_trailing_blanks;
     }
     s->GetHypotheses() = std::move(all_hyps[i]);
     s->GetNumProcessedFrames() += chunk_length;
