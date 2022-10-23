@@ -56,6 +56,17 @@ Note: You can get pre-trained models for testing by visiting
     --use-wav-scp=true \
     scp:wav.scp \
     ark,scp,t:results.ark,results.scp
+
+(4) To use an LSTM model for recognition
+
+  ./bin/sherpa-online \
+    --encoder-model=/path/to/encoder_jit_trace.pt \
+    --decoder-model=/path/to/decoder_jit_trace.pt \
+    --joiner-model=/path/to/joiner_jit_trace.pt \
+    --tokens=/path/to/tokens.txt \
+    --use-gpu=false \
+    foo.wav \
+    bar.wav
 )";
 
 /** Decode a list of 1-d wave samples.
@@ -65,8 +76,8 @@ Note: You can get pre-trained models for testing by visiting
  * @return Return the decoded results.
  */
 static std::vector<std::string> DecodeWaves(
-  sherpa::OnlineAsr &online_asr,  // NOLINT
-  const std::vector<torch::Tensor> &samples) {
+    sherpa::OnlineAsr &online_asr,  // NOLINT
+    const std::vector<torch::Tensor> &samples) {
   using torch::indexing::Slice;
   float sample_rate = online_asr.Opts().fbank_opts.frame_opts.samp_freq;
   int32_t frame_size = 4096;
@@ -75,7 +86,7 @@ static std::vector<std::string> DecodeWaves(
   std::vector<std::string> results(batch_size);
 
   torch::Tensor tail_padding =
-    torch::zeros({static_cast<int32_t>(0.4 * sample_rate)}, torch::kFloat);
+      torch::zeros({static_cast<int32_t>(0.4 * sample_rate)}, torch::kFloat);
 
   std::vector<std::unique_ptr<sherpa::OnlineStream>> streams;
   for (int32_t i = 0; i != batch_size; ++i) {
@@ -88,11 +99,12 @@ static std::vector<std::string> DecodeWaves(
     int32_t batch_samples_len = 0;  // total length of PCM data in current batch
     // streaming input
     for (int32_t i = 0; i != batch_size; ++i) {
-      int32_t cur_frame_size = std::min(frame_size,
+      int32_t cur_frame_size = std::min(
+          frame_size,
           static_cast<int32_t>(samples[i].size(0) - streams_cur_read[i]));
       if (cur_frame_size > 0) {
-        torch::Tensor cur_frame = samples[i].index({Slice(streams_cur_read[i],
-        streams_cur_read[i] + cur_frame_size)});
+        torch::Tensor cur_frame = samples[i].index(
+            {Slice(streams_cur_read[i], streams_cur_read[i] + cur_frame_size)});
         streams_cur_read[i] += cur_frame_size;
         batch_samples_len += cur_frame_size;
         streams[i]->AcceptWaveform(sample_rate, cur_frame);
@@ -104,7 +116,9 @@ static std::vector<std::string> DecodeWaves(
       }
     }
     // should break if no input data in batch
-    if (batch_samples_len == 0) { break; }
+    if (batch_samples_len == 0) {
+      break;
+    }
 
     // batch decode
     while (true) {
@@ -116,17 +130,18 @@ static std::vector<std::string> DecodeWaves(
           ready_streams_id.push_back(i);
         }
       }
-      if (ready_streams.empty()) { break; }
+      if (ready_streams.empty()) {
+        break;
+      }
       online_asr.DecodeStreams(ready_streams.data(), ready_streams.size());
 
       // update streaming decode results
       for (int32_t j = 0; j != ready_streams.size(); ++j) {
         if (ready_streams[j]->IsEndpoint() ||
             (streams_cur_read[ready_streams_id[j]] ==
-            samples[ready_streams_id[j]].size(0))
-           ) {
-          results[ready_streams_id[j]] += std::string("final: ") +
-            online_asr.GetResult(ready_streams[j]);
+             samples[ready_streams_id[j]].size(0))) {
+          results[ready_streams_id[j]] +=
+              std::string("final: ") + online_asr.GetResult(ready_streams[j]);
           // should reset the decoding instance when endpoint active
           streams[ready_streams_id[j]] = online_asr.CreateStream();
         }

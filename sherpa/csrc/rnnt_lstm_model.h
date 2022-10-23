@@ -59,6 +59,7 @@ class RnntLstmModel : public RnntModel {
   std::tuple<torch::Tensor, torch::Tensor, torch::IValue>
   StreamingForwardEncoder(const torch::Tensor &features,
                           const torch::Tensor &features_length,
+                          const torch::Tensor &unused_num_processed_frames,
                           torch::IValue states);
 
   // The returned IValue is a tuple containing two tensors:
@@ -66,7 +67,7 @@ class RnntLstmModel : public RnntModel {
   //  - cx: (num_layers, batch_size, hidden_size)
   //  See icefall/egs/librispeech/ASR/lstm_transducer_stateless2/lstm.py
   //  for details
-  torch::IValue GetEncoderInitStates(int32_t batch_size = 1);
+  torch::IValue GetEncoderInitStates(int32_t batch_size = 1) override;
 
   torch::IValue StackStates(
       const std::vector<torch::IValue> &states) const override;

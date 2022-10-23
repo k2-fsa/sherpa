@@ -78,6 +78,36 @@ class OnlineRecognizer {
                    const DecodingOptions &decoding_opts = {},
                    bool use_gpu = false, float sample_rate = 16000);
 
+  /** Construct an instance of OnlineRecognizer.
+   *
+   * @param encoder_model  Path to the encoder model. We assume the model
+   *                       is one of lstm_transducer_statelessX from icefall.
+   *
+   * @param decoder_model  Path to the decoder model. We assume the model
+   *                       is one of lstm_transducer_statelessX from icefall.
+   *
+   * @param joiner_model  Path to the joiner model. We assume the model
+   *                       is one of lstm_transducer_statelessX from icefall.
+   *
+   * @param tokens    Path to the tokens.txt. Each line in this file has
+   *                  two columns separated by space(s). The first column is
+   *                  a symbol while the second column is the integer ID of
+   *                  the symbol. If you have a bpe.model, please convert it
+   *                  to tokens.txt first.
+   * @param decoding_opts   Decoding options for this recognizer.
+   * @param use_gpu         true to use GPU for neural network computation.
+   *                        false to use CPU. If true, we always select GPU 0.
+   *                        You can use the environment variable
+   *                        CUDA_VISIBLE_DEVICES to control which device should
+   *                        be mapped to GPU 0.
+   * @param sample_rate     The expected audio sample rate of the model.
+   */
+  OnlineRecognizer(const std::string &encoder_model,
+                   const std::string &decoder_model,
+                   const std::string &joiner_model, const std::string &tokens,
+                   const DecodingOptions &decoding_opts = {},
+                   bool use_gpu = false, float sample_rate = 16000);
+
   ~OnlineRecognizer();
 
   // Create a stream for decoding.

@@ -63,9 +63,10 @@ RnntLstmModel::RnntLstmModel(const std::string &encoder_filename,
 }
 
 std::tuple<torch::Tensor, torch::Tensor, torch::IValue>
-RnntLstmModel::StreamingForwardEncoder(const torch::Tensor &features,
-                                       const torch::Tensor &features_length,
-                                       torch::IValue states) {
+RnntLstmModel::StreamingForwardEncoder(
+    const torch::Tensor &features, const torch::Tensor &features_length,
+    const torch::Tensor & /*unused_num_processed_frames*/,
+    torch::IValue states) {
   // It contains [torch.Tensor, torch.Tensor, Pair[torch.Tensor, torch.Tensor]
   // which are [encoder_out, encoder_out_len, states]
   //

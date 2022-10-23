@@ -27,9 +27,33 @@ class OnlineRecognizer::OnlineRecognizerImpl {
  public:
   OnlineRecognizerImpl(const std::string &nn_model, const std::string &tokens,
                        const DecodingOptions &decoding_opts, bool use_gpu,
+                       float sample_rate)
+      : OnlineRecognizerImpl(nn_model, {}, {}, {}, tokens, decoding_opts,
+                             use_gpu, sample_rate) {}
+
+  OnlineRecognizerImpl(const std::string &encoder_model,
+                       const std::string &decoder_model,
+                       const std::string &joiner_model,
+                       const std::string &tokens,
+                       const DecodingOptions &decoding_opts, bool use_gpu,
+                       float sample_rate)
+      : OnlineRecognizerImpl({}, encoder_model, decoder_model, joiner_model,
+                             tokens, decoding_opts, use_gpu, sample_rate) {}
+
+  // TODO(fangjun): Pass the arguments via a struct
+  OnlineRecognizerImpl(const std::string &nn_model,
+                       const std::string &encoder_model,
+                       const std::string &decoder_model,
+                       const std::string &joiner_model,
+                       const std::string &tokens,
+                       const DecodingOptions &decoding_opts, bool use_gpu,
                        float sample_rate) {
     OnlineAsrOptions opts;
     opts.nn_model = nn_model;
+    opts.encoder_model = encoder_model;
+    opts.decoder_model = decoder_model;
+    opts.joiner_model = joiner_model;
+
     opts.tokens = tokens;
     opts.use_gpu = use_gpu;
 
@@ -45,6 +69,7 @@ class OnlineRecognizer::OnlineRecognizerImpl {
         SHERPA_LOG(FATAL) << "Unreachable code";
         break;
     }
+    opts.Validate();
 
     // options for bank
     opts.fbank_opts.frame_opts.dither = 0;
@@ -75,6 +100,15 @@ OnlineRecognizer::OnlineRecognizer(
     float sample_rate /*= 16000*/)
     : impl_(std::make_unique<OnlineRecognizerImpl>(
           nn_model, tokens, decoding_opts, use_gpu, sample_rate)) {}
+
+OnlineRecognizer::OnlineRecognizer(
+    const std::string &encoder_model, const std::string &decoder_model,
+    const std::string &joiner_model, const std::string &tokens,
+    const DecodingOptions &decoding_opts /*= {}*/, bool use_gpu /*= false*/,
+    float sample_rate /*= 16000*/)
+    : impl_(std::make_unique<OnlineRecognizerImpl>(
+          encoder_model, decoder_model, joiner_model, tokens, decoding_opts,
+          use_gpu, sample_rate)) {}
 
 OnlineRecognizer::~OnlineRecognizer() = default;
 

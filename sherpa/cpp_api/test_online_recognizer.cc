@@ -20,6 +20,7 @@
 #include "sherpa/cpp_api/online_recognizer.h"
 #include "sherpa/cpp_api/online_stream.h"
 #include "sherpa/csrc/fbank_features.h"
+#include "sherpa/csrc/parse_options.h"
 
 int main(int argc, char *argv[]) {
   // see
@@ -31,6 +32,14 @@ int main(int argc, char *argv[]) {
   torch::jit::getExecutorMode() = false;
   torch::jit::getProfilingMode() = false;
   torch::jit::setGraphExecutorOptimize(false);
+
+  // std::string nn_model;       // for RnntConvEmformerModel
+
+  std::string encoder_model;  // for RnntLstmModel
+  std::string decoder_model;
+  std::string joiner_model;
+
+  // std::string tokens;
 
   if (argc < 4) {
     std::cerr << "Usage: ./bin/test_online_recognizer /path/to/nn_model "

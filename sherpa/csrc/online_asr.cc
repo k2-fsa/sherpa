@@ -26,8 +26,15 @@
 #include "sherpa/csrc/parse_options.h"
 #include "sherpa/csrc/rnnt_beam_search.h"
 #include "sherpa/csrc/rnnt_conv_emformer_model.h"
+#include "sherpa/csrc/rnnt_lstm_model.h"
 
 namespace sherpa {
+
+static void AssertFileExists(const std::string &filename) {
+  if (!FileExists(filename)) {
+    SHERPA_LOG(FATAL) << filename << " does not exist!";
+  }
+}
 
 static void RegisterFrameExtractionOptions(
     ParseOptions *po, kaldifeat::FrameExtractionOptions *opts) {
@@ -55,7 +62,18 @@ static void RegisterMelBanksOptions(ParseOptions *po,
 }
 
 void OnlineAsrOptions::Register(ParseOptions *po) {
-  po->Register("nn-model", &nn_model, "Path to the torchscript model");
+  po->Register("nn-model", &nn_model,
+               "Path to the torchscript model. "
+               "It is for the following models: RnntConvEmformerModel.");
+
+  po->Register("encoder-model", &encoder_model,
+               "Path to the encoder model for RnntLstmModel.");
+
+  po->Register("decoder-model", &decoder_model,
+               "Path to the decoder model for RnntLstmModel.");
+
+  po->Register("joiner-model", &joiner_model,
+               "Path to the joiner model for RnntLstmModel.");
 
   po->Register("tokens", &tokens, "Path to tokens.txt.");
 
@@ -80,23 +98,24 @@ void OnlineAsrOptions::Register(ParseOptions *po) {
 }
 
 void OnlineAsrOptions::Validate() const {
-  if (nn_model.empty()) {
-    SHERPA_LOG(FATAL) << "Please provide --nn-model";
+  if (!nn_model.empty()) {
+    SHERPA_CHECK_EQ(encoder_model.empty(), true);
+    SHERPA_CHECK_EQ(decoder_model.empty(), true);
+    SHERPA_CHECK_EQ(joiner_model.empty(), true);
+
+    AssertFileExists(nn_model);
+  } else {
+    SHERPA_CHECK_EQ(encoder_model.empty(), false);
+    SHERPA_CHECK_EQ(decoder_model.empty(), false);
+    SHERPA_CHECK_EQ(joiner_model.empty(), false);
+
+    AssertFileExists(decoder_model);
+    AssertFileExists(decoder_model);
+    AssertFileExists(joiner_model);
   }
 
-  if (!FileExists(nn_model)) {
-    SHERPA_LOG(FATAL) << "\n--nn-model=" << nn_model << "\n"
-                      << nn_model << " does not exist!";
-  }
-
-  if (tokens.empty()) {
-    SHERPA_LOG(FATAL) << "Please provide --tokens";
-  }
-
-  if (!FileExists(tokens)) {
-    SHERPA_LOG(FATAL) << "\n--tokens=" << tokens << "\n"
-                      << tokens << " does not exist!";
-  }
+  SHERPA_CHECK_EQ(tokens.empty(), false) << "Please provide --tokens";
+  AssertFileExists(tokens);
 
   if (decoding_method != "greedy_search" &&
       decoding_method != "modified_beam_search") {
@@ -112,7 +131,15 @@ void OnlineAsrOptions::Validate() const {
 
 std::string OnlineAsrOptions::ToString() const {
   std::ostringstream os;
-  os << "--nn-model=" << nn_model << "\n";
+
+  if (!nn_model.empty()) {
+    os << "--nn-model=" << nn_model << "\n";
+  } else {
+    os << "--encoder-model=" << encoder_model << "\n";
+    os << "--decoder-model=" << decoder_model << "\n";
+    os << "--joiner-model=" << joiner_model << "\n";
+  }
+
   os << "--tokens=" << tokens << "\n";
 
   os << "--decoding-method=" << decoding_method << "\n";
@@ -127,11 +154,15 @@ std::string OnlineAsrOptions::ToString() const {
 }
 
 OnlineAsr::OnlineAsr(const OnlineAsrOptions &opts)
-    : opts_(opts),
-      model_(std::make_unique<RnntConvEmformerModel>(
-          opts.nn_model,
-          opts.use_gpu ? torch::Device("cuda:0") : torch::Device("cpu"))),
-      sym_(opts.tokens) {}
+    : opts_(opts), sym_(opts.tokens) {
+  torch::Device device(opts.use_gpu ? "cuda:0" : "cpu");
+  if (!opts.nn_model.empty()) {
+    model_ = std::make_unique<RnntConvEmformerModel>(opts.nn_model, device);
+  } else {
+    model_ = std::make_unique<RnntLstmModel>(
+        opts.encoder_model, opts.decoder_model, opts.joiner_model, device);
+  }
+}
 
 std::unique_ptr<OnlineStream> OnlineAsr::CreateStream() {
   auto s = std::make_unique<OnlineStream>(
@@ -188,8 +219,12 @@ void OnlineAsr::DecodeStreams(OnlineStream **ss, int32_t n) {
 
 void OnlineAsr::GreedySearch(OnlineStream **ss, int32_t n) {
   auto device = model_->Device();
-  int32_t chunk_length = model_->ChunkLength();  // e.g., 32
-  int32_t pad_length = model_->PadLength();      // e.g., 19
+  int32_t chunk_length =
+      model_->ChunkLength();  // e.g., 32 (conv-emformer), or 4 (lstm)
+                              //
+  int32_t pad_length =
+      model_->PadLength();  // e.g., 19 (conv-former), or 5 (lstm)
+
   int32_t chunk_length_pad = chunk_length + pad_length;
 
   std::vector<torch::Tensor> all_features(n);
