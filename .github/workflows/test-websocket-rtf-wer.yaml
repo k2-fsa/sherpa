@@ -69,11 +69,11 @@ jobs:
         run: |
           clang --version
 
-    - name: Install apt dependencies
-      if: startsWith(matrix.os, 'ubuntu')
-      run: |
-        sudo apt update
-        sudo apt install libsndfile1-dev libsndfile1
+      - name: Install apt dependencies
+        if: startsWith(matrix.os, 'ubuntu')
+        run: |
+          sudo apt update
+          sudo apt install libsndfile1-dev libsndfile1
 
       - name: Install PyTorch ${{ matrix.torch }}
         shell: bash
