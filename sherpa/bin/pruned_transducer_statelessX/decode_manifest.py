@@ -181,14 +181,17 @@ async def main():
 
     rtf = elapsed / total_duration
 
-    print(f"RTF: {rtf:.4f}")
-    print(
-        f"total_duration: {total_duration:.3f} seconds "
-        f"({total_duration/3600:.2f} hours)"
+    s = f"RTF: {rtf:.4f}\n"
+    s += f"total_duration: {total_duration:.3f} seconds\n"
+    s += f"({total_duration/3600:.2f} hours)\n"
+    s += (
+        f"processing time: {elapsed:.3f} seconds "
+        f"({elapsed/3600:.2f} hours)\n"
     )
-    print(
-        f"processing time: {elapsed:.3f} seconds " f"({elapsed/3600:.2f} hours)"
-    )  # noqa
+    print(s)
+
+    with open("rtf.txt", "w") as f:
+        f.write(s)
 
     name = Path(filename).stem.split(".")[0]
     store_transcripts(filename=f"recogs-{name}.txt", texts=results)
