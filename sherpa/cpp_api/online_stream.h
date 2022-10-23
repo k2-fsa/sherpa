@@ -41,9 +41,8 @@ class OnlineStream {
    *                            If it is set to -1, we keep all feature frames
    *                            computed so far.
    */
-  OnlineStream(const EndpointConfig & endpoint_config,
-               float sampling_rate, int32_t feature_dim,
-               int32_t max_feature_vectors = -1);
+  OnlineStream(const EndpointConfig &endpoint_config, float sampling_rate,
+               int32_t feature_dim, int32_t max_feature_vectors = -1);
   ~OnlineStream();
 
   /** This would be called from the application, when you get
@@ -102,22 +101,6 @@ class OnlineStream {
    * @param state The state to set.
    */
   void SetState(torch::IValue state);
-
-  /** @TODO(fangjun): Make it an abstract method
-   *
-   * @param states A list of encoder network states. states[i] is the state
-   *               for the i-th stream.
-   * @return A state for a batch of streams.
-   */
-  torch::IValue StackStates(const std::vector<torch::IValue> &states) const;
-
-  /** Inverse operation of StackStates.
-   *
-   * @param states  State of the encoder network for a batch of streams.
-   *
-   * @return A list of encoder network states.
-   */
-  std::vector<torch::IValue> UnStackStates(torch::IValue states) const;
 
   // Return a reference to the number of processed frames so far.
   // Initially, it is 0. It is always less than NumFramesReady().

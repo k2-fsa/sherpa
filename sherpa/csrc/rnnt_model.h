@@ -20,6 +20,7 @@
 
 #include <string>
 #include <utility>
+#include <vector>
 
 #include "torch/script.h"
 
@@ -79,15 +80,46 @@ class RnntModel {
     return decoder_out;
   }
 
+  // ------------------------------------------------------------
+  // The following methods are for streaming models
+  // ------------------------------------------------------------
+
   // for streaming models
   virtual int32_t ChunkLength() const {
     assert("don't call me" && false);
+    exit(-1);
     return 0;
   }
 
   virtual int32_t PadLength() const {
     assert("don't call me" && false);
+    exit(-1);
     return 0;
+  }
+
+  /**
+   *
+   * @param states A list of encoder network states. states[i] is the state
+   *               for the i-th stream.
+   * @return A state for a batch of streams.
+   */
+  virtual torch::IValue StackStates(
+      const std::vector<torch::IValue> &states) const {
+    assert("don't call me" && false);
+    exit(-1);
+    return {};
+  }
+
+  /** Inverse operation of StackStates.
+   *
+   * @param states  State of the encoder network for a batch of streams.
+   *
+   * @return A list of encoder network states.
+   */
+  virtual std::vector<torch::IValue> UnStackStates(torch::IValue states) const {
+    assert("don't call me" && false);
+    exit(-1);
+    return {};
   }
 };
 
