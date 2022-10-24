@@ -192,9 +192,6 @@ class OfflineWebsocketServer {
   //      a WAVE file, the header of the WAVE is not sent.
   void OnMessage(connection_hdl hdl, server::message_ptr msg);
 
-  // Send a message to the client
-  void Send(connection_hdl hdl, server::message_ptr msg);
-
   // Close a websocket connection with given code and reason
   void Close(connection_hdl hdl, websocketpp::close::status::value code,
              const std::string &reason);
