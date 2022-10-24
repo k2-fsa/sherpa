@@ -49,9 +49,9 @@ class RnntConvEmformerModel : public RnntModel {
   StreamingForwardEncoder(const torch::Tensor &features,
                           const torch::Tensor &features_length,
                           const torch::Tensor &num_processed_frames,
-                          torch::IValue states);
+                          torch::IValue states) override;
 
-  torch::IValue GetEncoderInitStates();
+  torch::IValue GetEncoderInitStates(int32_t batch_size = 1) override;
 
   /** Run the decoder network.
    *

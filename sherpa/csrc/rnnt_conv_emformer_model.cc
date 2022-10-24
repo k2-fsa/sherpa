@@ -235,7 +235,8 @@ RnntConvEmformerModel::StreamingForwardEncoder(
   return {encoder_out, encoder_out_length, next_states};
 }
 
-torch::IValue RnntConvEmformerModel::GetEncoderInitStates() {
+torch::IValue RnntConvEmformerModel::GetEncoderInitStates(
+    int32_t /*batch_size = 1*/) {
   return encoder_.run_method("init_states", device_);
 }
 

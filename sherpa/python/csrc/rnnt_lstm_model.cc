@@ -58,7 +58,7 @@ void PybindRnntLstmModel(py::module &m) {  // NOLINT
             torch::IValue next_states;
 
             std::tie(encoder_out, encoder_out_lens, next_states) =
-                self.StreamingForwardEncoder(features, features_length,
+                self.StreamingForwardEncoder(features, features_length, {},
                                              self.StateToIValue(states));
 
             return {encoder_out, encoder_out_lens,

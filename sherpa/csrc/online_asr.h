@@ -23,17 +23,24 @@
 
 #include "kaldifeat/csrc/feature-fbank.h"
 #include "sherpa/cpp_api/online_stream.h"
-#include "sherpa/csrc/parse_options.h"
-#include "sherpa/csrc/rnnt_conv_emformer_model.h"
-#include "sherpa/csrc/symbol_table.h"
 #include "sherpa/csrc/endpoint.h"
+#include "sherpa/csrc/parse_options.h"
+#include "sherpa/csrc/rnnt_model.h"
+#include "sherpa/csrc/symbol_table.h"
 #include "torch/script.h"
 
 namespace sherpa {
 
 struct OnlineAsrOptions {
-  /// Path to torchscript model
+  /// Path to torchscript model.
+  /// It is for the following models:
+  ///  - RnntConvEmformerModel
   std::string nn_model;
+
+  // The following three are for RnntLstmModel
+  std::string encoder_model;
+  std::string decoder_model;
+  std::string joiner_model;
 
   /// Path to tokens.txt.
   /// Each line the tokens.txt consists of two columms separated by a space:
@@ -110,7 +117,7 @@ class OnlineAsr {
  private:
   OnlineAsrOptions opts_;
   // TODO(fangjun): Change it to std::unique_ptr<RnntModel>
-  std::unique_ptr<RnntConvEmformerModel> model_;
+  std::unique_ptr<RnntModel> model_;
 
   SymbolTable sym_;
 };
