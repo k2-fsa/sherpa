@@ -142,7 +142,7 @@ for m in greedy_search modified_beam_search; do
     --decoding-method=greedy_search \
     --nn-model=$repo/exp/cpu_jit.pt \
     --tokens=$repo/data/lang_char/tokens.txt \
-    $repo/test_wavs/BAC009S0764W0121.wav
+    $repo/test_wavs/BAC009S0764W0121.wav \
     $repo/test_wavs/BAC009S0764W0122.wav \
     $repo/test_wavs/BAC009S0764W0123.wav
 done
@@ -218,7 +218,7 @@ log "Test decoding wav.scp (conv-emformer) "
 for m in greedy_search modified_beam_search; do
   time ./build/bin/sherpa-online \
     --decoding-method=greedy_search \
-    --nn-model=$repo/exp/cpu_jit.pt
+    --nn-model=$repo/exp/cpu_jit.pt \
     --tokens=$repo/data/lang_bpe_500/tokens.txt \
     --use-wav-scp=true \
     scp:wav_streaming.scp \
