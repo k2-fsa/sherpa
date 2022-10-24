@@ -19,6 +19,7 @@
 #define SHERPA_CSRC_RNNT_MODEL_H_
 
 #include <string>
+#include <tuple>
 #include <utility>
 #include <vector>
 
@@ -137,7 +138,7 @@ class RnntModel {
    *           - next_states  Encoder state for the next chunk.
    */
   /* clang-format off */
-  std::tuple<torch::Tensor, torch::Tensor,torch::IValue>
+  std::tuple<torch::Tensor, torch::Tensor, torch::IValue>
   virtual StreamingForwardEncoder(const torch::Tensor &features,
                                   const torch::Tensor &features_length,
                                   const torch::Tensor &num_processed_frames,
