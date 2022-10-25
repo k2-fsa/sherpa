@@ -63,6 +63,28 @@ struct OnlineWebsocketDecoderConfig {
   void Validate() const;
 };
 
+class OnlineWebsocketServer;
+
+class OnlineWebsocketDecoder {
+ public:
+  /**
+   *
+   * @param config
+   * @param server  Not owned
+   *
+   */
+  OnlineWebsocketDecoder(const OnlineWebsocketDecoderConfig &config,
+                         OnlineWebsocketServer *server);
+
+  OnlineRecognizer *GetRecognizer() { return recognizer_.get(); }
+  const OnlineWebsocketDecoderConfig &GetConfig() const { return config_; }
+
+ private:
+  std::unique_ptr<OnlineRecognizer> recognizer_;
+  OnlineWebsocketDecoderConfig config_;
+  OnlineWebsocketServer *server_;  // not owned
+};
+
 struct OnlineWebsocketServerConfig {
   // assume you run it inside the ./build directory.
   std::string doc_root = "../sherpa/bin/web";  // root for the http server
@@ -106,8 +128,7 @@ class OnlineWebsocketServer {
   std::ofstream log_;
   sherpa::TeeStream tee_;
 
-  OnlineWebsocketDecoderConfig decoder_config_;
-  std::unique_ptr<OnlineRecognizer> recognizer_;
+  OnlineWebsocketDecoder decoder_;
   std::map<connection_hdl, std::shared_ptr<OnlineStream>,
            std::owner_less<connection_hdl>>
       connections_;

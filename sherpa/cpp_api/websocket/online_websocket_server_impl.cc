@@ -59,20 +59,13 @@ void OnlineWebsocketDecoderConfig::Validate() const {
   if (nn_model.empty()) {
     SHERPA_LOG(FATAL) << "Please provide --nn-model";
   }
-
-  if (!FileExists(nn_model)) {
-    SHERPA_LOG(FATAL) << "\n--nn-model=" << nn_model << "\n"
-                      << nn_model << " does not exist!";
-  }
+  AssertFileExists(nn_model);
 
   if (tokens.empty()) {
     SHERPA_LOG(FATAL) << "Please provide --tokens";
   }
 
-  if (!FileExists(tokens)) {
-    SHERPA_LOG(FATAL) << "\n--tokens=" << tokens << "\n"
-                      << tokens << " does not exist!";
-  }
+  AssertFileExists(tokens);
 
   if (decoding_method != "greedy_search" &&
       decoding_method != "modified_beam_search") {
@@ -94,6 +87,20 @@ void OnlineWebsocketServerConfig::Register(sherpa::ParseOptions *po) {}
 
 void OnlineWebsocketServerConfig::Validate() const {}
 
+OnlineWebsocketDecoder::OnlineWebsocketDecoder(
+    const OnlineWebsocketDecoderConfig &config, OnlineWebsocketServer *server)
+    : config_(config), server_(server) {
+  sherpa::DecodingOptions opts;
+  if (config.decoding_method == "greedy_search") {
+    opts.method = kGreedySearch;
+  } else if (config.decoding_method == "modified_beam_search") {
+    opts.method = kModifiedBeamSearch;
+    opts.num_active_paths = config.num_active_paths;
+  }
+  recognizer_ = std::make_unique<OnlineRecognizer>(
+      config.nn_model, config.tokens, opts, config.use_gpu, config.sample_rate);
+}
+
 OnlineWebsocketServer::OnlineWebsocketServer(
     asio::io_context &io_conn, asio::io_context &io_work,
     const OnlineWebsocketServerConfig &config,
@@ -102,7 +109,7 @@ OnlineWebsocketServer::OnlineWebsocketServer(
       io_work_(io_work),
       log_(config.log_file, std::ios::app),
       tee_(std::cout, log_),
-      decoder_config_(decoder_config) {
+      decoder_(decoder_config, this) {
   SetupLog();
 
   server_.init_asio(&io_conn_);
@@ -117,17 +124,6 @@ OnlineWebsocketServer::OnlineWebsocketServer(
       [this](connection_hdl hdl, server::message_ptr msg) {
         OnMessage(hdl, msg);
       });
-
-  sherpa::DecodingOptions opts;
-  if (decoder_config.decoding_method == "greedy_search") {
-    opts.method = sherpa::kGreedySearch;
-  } else if (decoder_config.decoding_method == "modified_beam_search") {
-    opts.method = sherpa::kModifiedBeamSearch;
-    opts.num_active_paths = decoder_config.num_active_paths;
-  }
-  recognizer_ = std::make_unique<OnlineRecognizer>(
-      decoder_config.nn_model, decoder_config.tokens, opts,
-      decoder_config.use_gpu, decoder_config.sample_rate);
 }
 
 void OnlineWebsocketServer::Run(uint16_t port) {
@@ -151,7 +147,7 @@ void OnlineWebsocketServer::OnOpen(connection_hdl hdl) {
   SHERPA_LOG(INFO) << "New connection: "
                    << server_.get_con_from_hdl(hdl)->get_remote_endpoint();
 
-  connections_.emplace(hdl, recognizer_->CreateStream());
+  connections_.emplace(hdl, decoder_.GetRecognizer()->CreateStream());
 
   SHERPA_LOG(INFO) << "Number of active connections: " << connections_.size()
                    << "\n";
@@ -171,6 +167,8 @@ void OnlineWebsocketServer::OnMessage(connection_hdl hdl,
   lock.unlock();
   const std::string &payload = msg->get_payload();
 
+  auto recognizer = decoder_.GetRecognizer();
+
   switch (msg->get_opcode()) {
     case websocketpp::frame::opcode::text:
       if (payload == "Done") {
@@ -185,12 +183,12 @@ void OnlineWebsocketServer::OnMessage(connection_hdl hdl,
       SHERPA_LOG(INFO) << "num_samples: " << num_samples;
       torch::Tensor samples = torch::from_blob(const_cast<float *>(p),
                                                {num_samples}, torch::kFloat);
-      stream->AcceptWaveform(decoder_config_.sample_rate, samples);
-      while (recognizer_->IsReady(stream.get())) {
+      stream->AcceptWaveform(decoder_.GetConfig().sample_rate, samples);
+      while (recognizer->IsReady(stream.get())) {
         // TODO(fangjun): Send it to a queue for decoding
-        recognizer_->DecodeStream(stream.get());
+        recognizer->DecodeStream(stream.get());
       }
-      auto result = recognizer_->GetResult(stream.get());
+      auto result = recognizer->GetResult(stream.get());
 
       websocketpp::lib::error_code ec;
       server_.send(hdl, result, websocketpp::frame::opcode::text, ec);
