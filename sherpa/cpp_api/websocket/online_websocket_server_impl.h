@@ -68,10 +68,8 @@ class OnlineWebsocketServer;
 class OnlineWebsocketDecoder {
  public:
   /**
-   *
-   * @param config
-   * @param server  Not owned
-   *
+   * @param config  Configuration for the decoder.
+   * @param server  Not owned.
    */
   OnlineWebsocketDecoder(const OnlineWebsocketDecoderConfig &config,
                          OnlineWebsocketServer *server);
@@ -79,10 +77,20 @@ class OnlineWebsocketDecoder {
   OnlineRecognizer *GetRecognizer() { return recognizer_.get(); }
   const OnlineWebsocketDecoderConfig &GetConfig() const { return config_; }
 
+  void Push(connection_hdl hdl, std::shared_ptr<OnlineStream> s);
+
+  /** It is called by one of the worker thread.
+   */
+  void Decode();
+
  private:
   std::unique_ptr<OnlineRecognizer> recognizer_;
   OnlineWebsocketDecoderConfig config_;
   OnlineWebsocketServer *server_;  // not owned
+
+  std::mutex mutex_;
+  std::deque<std::pair<connection_hdl, std::shared_ptr<OnlineStream>>> streams_;
+  std::set<OnlineStream *> active_;
 };
 
 struct OnlineWebsocketServerConfig {
@@ -103,6 +111,12 @@ class OnlineWebsocketServer {
       const OnlineWebsocketDecoderConfig &decoder_config);
 
   void Run(uint16_t port);
+
+  asio::io_context &GetConnectionContext() { return io_conn_; }
+  asio::io_context &GetWorkContext() { return io_work_; }
+  server &GetServer() { return server_; }
+
+  void Send(connection_hdl hdl, const std::string &text);
 
  private:
   void SetupLog();

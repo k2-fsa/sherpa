@@ -30,12 +30,6 @@
 
 namespace sherpa {
 
-static void AssertFileExists(const std::string &filename) {
-  if (!FileExists(filename)) {
-    SHERPA_LOG(FATAL) << filename << " does not exist!";
-  }
-}
-
 static void RegisterFrameExtractionOptions(
     ParseOptions *po, kaldifeat::FrameExtractionOptions *opts) {
   po->Register("sample-frequency", &opts->samp_freq,

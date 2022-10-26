@@ -97,8 +97,57 @@ OnlineWebsocketDecoder::OnlineWebsocketDecoder(
     opts.method = kModifiedBeamSearch;
     opts.num_active_paths = config.num_active_paths;
   }
+
   recognizer_ = std::make_unique<OnlineRecognizer>(
       config.nn_model, config.tokens, opts, config.use_gpu, config.sample_rate);
+}
+
+void OnlineWebsocketDecoder::Push(connection_hdl hdl,
+                                  std::shared_ptr<OnlineStream> s) {
+  std::lock_guard<std::mutex> lock(mutex_);
+  if (active_.count(s.get()) > 0) {
+    return;
+  }
+
+  streams_.push_back({hdl, s});
+  active_.insert(s.get());
+}
+
+void OnlineWebsocketDecoder::Decode() {
+  std::unique_lock<std::mutex> lock(mutex_);
+  if (streams_.empty()) {
+    return;
+  }
+
+  auto pair = streams_.front();
+  streams_.pop_front();
+  lock.unlock();
+
+  auto hdl = pair.first;
+  auto s = pair.second;
+
+  recognizer_->DecodeStream(s.get());
+
+  auto result = recognizer_->GetResult(s.get());
+  asio::post(server_->GetConnectionContext(),
+             [this, hdl, text = result]() { server_->Send(hdl, text); });
+
+  if (recognizer_->IsReady(s.get())) {
+    lock.lock();
+    streams_.push_back({hdl, s});
+    lock.unlock();
+    asio::post(server_->GetWorkContext(), [this]() { this->Decode(); });
+
+  } else {
+    if (s->IsLastFrame(s->NumFramesReady() - 1)) {
+      lock.lock();
+      active_.erase(s.get());
+      lock.unlock();
+
+      asio::post(server_->GetConnectionContext(),
+                 [this, hdl, text = result]() { server_->Send(hdl, "Done"); });
+    }
+  }
 }
 
 OnlineWebsocketServer::OnlineWebsocketServer(
@@ -117,8 +166,6 @@ OnlineWebsocketServer::OnlineWebsocketServer(
   server_.set_open_handler([this](connection_hdl hdl) { OnOpen(hdl); });
 
   server_.set_close_handler([this](connection_hdl hdl) { OnClose(hdl); });
-
-  // server_.set_http_handler([this](connection_hdl hdl) { OnHttp(hdl); });
 
   server_.set_message_handler(
       [this](connection_hdl hdl, server::message_ptr msg) {
@@ -142,6 +189,14 @@ void OnlineWebsocketServer::SetupLog() {
   server_.get_elog().set_ostream(&tee_);
 }
 
+void OnlineWebsocketServer::Send(connection_hdl hdl, const std::string &text) {
+  websocketpp::lib::error_code ec;
+  server_.send(hdl, text, websocketpp::frame::opcode::text, ec);
+  if (ec) {
+    server_.get_alog().write(websocketpp::log::alevel::app, ec.message());
+  }
+}
+
 void OnlineWebsocketServer::OnOpen(connection_hdl hdl) {
   std::lock_guard<std::mutex> lock(mutex_);
   SHERPA_LOG(INFO) << "New connection: "
@@ -153,8 +208,8 @@ void OnlineWebsocketServer::OnOpen(connection_hdl hdl) {
                    << "\n";
 }
 void OnlineWebsocketServer::OnClose(connection_hdl hdl) {
-  // std::lock_guard<std::mutex> lock(mutex_);
-  // connections_.erase(hdl);
+  std::lock_guard<std::mutex> lock(mutex_);
+  connections_.erase(hdl);
 
   SHERPA_LOG(INFO) << "Number of active connections: " << connections_.size()
                    << "\n";
@@ -168,36 +223,33 @@ void OnlineWebsocketServer::OnMessage(connection_hdl hdl,
   const std::string &payload = msg->get_payload();
 
   auto recognizer = decoder_.GetRecognizer();
+  float sample_rate = decoder_.GetConfig().sample_rate;
 
   switch (msg->get_opcode()) {
     case websocketpp::frame::opcode::text:
       if (payload == "Done") {
-        SHERPA_LOG(INFO) << "received done\n";
-        // stream->InputFinished();
-        // TODO(fangjun): Send it to decode
+        torch::Tensor tail_padding = torch::zeros(
+            {static_cast<int32_t>(0.3 * sample_rate)}, torch::kFloat);
+        stream->AcceptWaveform(sample_rate, tail_padding);
+        stream->InputFinished();
+        if (recognizer->IsReady(stream.get())) {
+          decoder_.Push(hdl, stream);
+
+          asio::post(io_work_, [this]() { decoder_.Decode(); });
+        }
       }
       break;
     case websocketpp::frame::opcode::binary: {
       auto p = reinterpret_cast<const float *>(payload.data());
       int32_t num_samples = payload.size() / sizeof(float);
-      SHERPA_LOG(INFO) << "num_samples: " << num_samples;
       torch::Tensor samples = torch::from_blob(const_cast<float *>(p),
                                                {num_samples}, torch::kFloat);
       stream->AcceptWaveform(decoder_.GetConfig().sample_rate, samples);
-      while (recognizer->IsReady(stream.get())) {
-        // TODO(fangjun): Send it to a queue for decoding
-        recognizer->DecodeStream(stream.get());
+      if (recognizer->IsReady(stream.get())) {
+        decoder_.Push(hdl, stream);
+        asio::post(io_work_, [this]() { decoder_.Decode(); });
       }
-      auto result = recognizer->GetResult(stream.get());
 
-      websocketpp::lib::error_code ec;
-      server_.send(hdl, result, websocketpp::frame::opcode::text, ec);
-      if (ec) {
-        server_.get_alog().write(websocketpp::log::alevel::app, ec.message());
-      }
-      SHERPA_LOG(INFO) << "result:" << result;
-
-      SHERPA_LOG(INFO) << "done\n";
       break;
     }
     default:

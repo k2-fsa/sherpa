@@ -21,10 +21,18 @@
 #include <fstream>
 #include <string>
 
+#include "sherpa/csrc/log.h"
+
 namespace sherpa {
 
 bool FileExists(const std::string &filename) {
   return std::ifstream(filename).good();
+}
+
+void AssertFileExists(const std::string &filename) {
+  if (!FileExists(filename)) {
+    SHERPA_LOG(FATAL) << filename << " does not exist!";
+  }
 }
 
 }  // namespace sherpa

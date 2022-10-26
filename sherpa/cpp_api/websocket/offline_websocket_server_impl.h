@@ -108,7 +108,7 @@ class OfflineWebsocketDecoder {
   const OfflineWebsocketDecoderConfig &GetConfig() const { return config_; }
 
  private:
-  struct OfflineWebsocketDecoderConfig config_;
+  OfflineWebsocketDecoderConfig config_;
 
   /** When we have received all the data from the client, we put it into
    * this queue, the worker threads will get items from this queue for

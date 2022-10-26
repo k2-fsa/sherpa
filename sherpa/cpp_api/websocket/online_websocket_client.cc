@@ -89,9 +89,19 @@ static torch::Tensor ReadWave(const std::string &filename,
 
 static void OnMessage(client *c, const std::string &wave_filename,
                       connection_hdl hdl, message_ptr msg) {
-  SHERPA_LOG(INFO) << "Decoding results for \n"
-                   << wave_filename << "\n"
-                   << msg->get_payload();
+  const std::string &payload = msg->get_payload();
+  if (payload == "Done") {
+    websocketpp::lib::error_code ec;
+    c->close(hdl, websocketpp::close::status::normal, "I'm exiting now", ec);
+    if (ec) {
+      std::cerr << "Failed to close\n";
+      exit(EXIT_FAILURE);
+    }
+  } else {
+    SHERPA_LOG(INFO) << "Decoding results for \n"
+                     << wave_filename << "\n"
+                     << msg->get_payload();
+  }
 }
 
 static void OnOpen(client *c, const std::string &filename, connection_hdl hdl) {
@@ -100,8 +110,7 @@ static void OnOpen(client *c, const std::string &filename, connection_hdl hdl) {
   int32_t num_bytes = num_samples * sizeof(float);
 
   SHERPA_LOG(INFO) << "Decoding: " << filename;
-  SHERPA_LOG(INFO) << "num_samples: " << num_samples;
-  SHERPA_LOG(INFO) << "num_bytes: " << num_bytes;
+  SHERPA_LOG(INFO) << "duration: " << num_samples / 16000. << " s";
 
   websocketpp::lib::error_code ec;
   c->send(hdl, samples.data_ptr<float>(), num_bytes,
@@ -111,22 +120,11 @@ static void OnOpen(client *c, const std::string &filename, connection_hdl hdl) {
     exit(EXIT_FAILURE);
   }
 
-  return;
-
   ec.clear();
   c->send(hdl, "Done", websocketpp::frame::opcode::text, ec);
 
   if (ec) {
     std::cerr << "Failed to send Done\n";
-    exit(EXIT_FAILURE);
-  }
-
-  sleep(2);
-
-  ec.clear();
-  c->close(hdl, websocketpp::close::status::normal, "I'm exiting now", ec);
-  if (ec) {
-    std::cerr << "Failed to close\n";
     exit(EXIT_FAILURE);
   }
 }
