@@ -122,7 +122,6 @@ void OnlineWebsocketDecoder::Decode() {
     streams_.push_back({hdl, s});
     lock.unlock();
     asio::post(server_->GetWorkContext(), [this]() { this->Decode(); });
-
   } else {
     if (s->IsLastFrame(s->NumFramesReady() - 1)) {
       lock.lock();

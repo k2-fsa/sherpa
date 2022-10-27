@@ -47,3 +47,22 @@ target_link_libraries(online_websocket_client
 if(NOT WIN32)
   target_link_libraries(online_websocket_client -pthread)
 endif()
+
+if(SHERPA_ENABLE_PORTAUDIO)
+  add_executable(online_websocket_client_from_microphone
+    online_websocket_client_from_microphone.cc
+    microphone.cc
+  )
+
+  target_link_libraries(online_websocket_client_from_microphone sherpa_core)
+
+  if(BUILD_SHARED_LIBS)
+    target_link_libraries(online_websocket_client_from_microphone portaudio)
+  else()
+    target_link_libraries(online_websocket_client_from_microphone portaudio_static)
+  endif()
+
+  if(NOT WIN32)
+    target_link_libraries(online_websocket_client_from_microphone -pthread)
+  endif()
+endif()

@@ -19,11 +19,14 @@
 #ifndef SHERPA_CPP_API_WEBSOCKET_ONLINE_WEBSOCKET_SERVER_IMPL_H_
 #define SHERPA_CPP_API_WEBSOCKET_ONLINE_WEBSOCKET_SERVER_IMPL_H_
 
+#include <deque>
 #include <fstream>
 #include <map>
 #include <memory>
 #include <mutex>  // NOLINT
+#include <set>
 #include <string>
+#include <utility>
 
 #include "asio.hpp"
 #include "sherpa/cpp_api/online_recognizer.h"
@@ -119,7 +122,7 @@ class OnlineWebsocketServer {
   // (Not for HTTP)
   void OnOpen(connection_hdl hdl);
 
-  // Whena a websocket client is disconnected, it will invoke this method
+  // When a websocket client is disconnected, it will invoke this method
   void OnClose(connection_hdl hdl);
 
   void OnMessage(connection_hdl hdl, server::message_ptr msg);

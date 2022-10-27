@@ -22,7 +22,20 @@
 #include "torch/all.h"
 
 static constexpr const char *kUsageMessage = R"(
-TODO
+Automatic speech recognition with sherpa using websocket.
+
+Usage:
+
+./bin/online_websocket_server --help
+
+./bin/online_websocket_server \
+  --use-gpu=false \
+  --port=6006 \
+  --num-work-threads=5 \
+  --nn-model=/path/to/cpu.jit \
+  --tokens=/path/to/tokens.txt \
+  --decoding-method=greedy_search \
+  --log-file=./log.txt
 )";
 
 int32_t main(int32_t argc, char *argv[]) {
@@ -75,7 +88,7 @@ int32_t main(int32_t argc, char *argv[]) {
   server.Run(port);
 
   SHERPA_LOG(INFO) << "Listening on: " << port << "\n";
-  SHERPA_LOG(INFO) << "Number of I/O threads: " << num_io_threads << "\n";
+  // SHERPA_LOG(INFO) << "Number of I/O threads: " << num_io_threads << "\n";
   SHERPA_LOG(INFO) << "Number of work threads: " << num_work_threads << "\n";
 
   // give some work to do for the io_work pool
