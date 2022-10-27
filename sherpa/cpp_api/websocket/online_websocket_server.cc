@@ -43,13 +43,16 @@ int32_t main(int32_t argc, char *argv[]) {
   int32_t port = 6006;
 
   // size of the thread pool for handling network connections
-  int32_t num_io_threads = 3;
+  int32_t num_io_threads = 1;
 
   // size of the thread pool for neural network computation and decoding
   int32_t num_work_threads = 5;
 
-  po.Register("num-io-threads", &num_io_threads,
-              "Number of threads to use for network connections.");
+  // po.Register("num-io-threads", &num_io_threads,
+  //             "Number of threads to use for network connections.");
+  //
+  // TODO(fangjun): num_io_threads > 1 leads to segfault in OnlineFbank.
+  // I have not found out the reason for it.
 
   po.Register("num-work-threads", &num_work_threads,
               "Number of threads to use for neural network "
@@ -62,7 +65,7 @@ int32_t main(int32_t argc, char *argv[]) {
 
   po.Read(argc, argv);
 
-  config.Validate();
+  decoder_config.Validate();
 
   asio::io_context io_conn;  // for network connections
   asio::io_context io_work;  // for neural network and decoding

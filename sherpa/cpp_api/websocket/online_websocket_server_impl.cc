@@ -40,19 +40,6 @@ void OnlineWebsocketDecoderConfig::Register(ParseOptions *po) {
                "True to use GPU for computation."
                "Caution: We currently assume there is only one GPU. You have "
                "to change the code to support multiple GPUs.");
-
-  po->Register(
-      "max-batch-size", &max_batch_size,
-      "Max batch size for decoding. If you are using CPU, increasing "
-      "it will increase the memory usage if there are many active "
-      "connections. We suggest that you use a small value for it for "
-      "CPU decoding, e.g., 5, since it is pretty fast for CPU decoding");
-
-  po->Register(
-      "max-utterance-length", &max_utterance_length,
-      "Max utterance length in seconds. If we receive an utterance "
-      "longer than this value, we will reject the connection. "
-      "If you have enough memory, you can select a large value for it.");
 }
 
 void OnlineWebsocketDecoderConfig::Validate() const {
@@ -77,15 +64,13 @@ void OnlineWebsocketDecoderConfig::Validate() const {
   if (decoding_method == "modified_beam_search") {
     SHERPA_CHECK_GT(num_active_paths, 0);
   }
-
-  SHERPA_CHECK_GT(max_batch_size, 0);
-
-  SHERPA_CHECK_GT(max_utterance_length, 0);
 }
 
-void OnlineWebsocketServerConfig::Register(sherpa::ParseOptions *po) {}
-
-void OnlineWebsocketServerConfig::Validate() const {}
+void OnlineWebsocketServerConfig::Register(sherpa::ParseOptions *po) {
+  po->Register("log-file", &log_file,
+               "Path to the log file. Logs are "
+               "appended to this file");
+}
 
 OnlineWebsocketDecoder::OnlineWebsocketDecoder(
     const OnlineWebsocketDecoderConfig &config, OnlineWebsocketServer *server)
@@ -228,8 +213,10 @@ void OnlineWebsocketServer::OnMessage(connection_hdl hdl,
   switch (msg->get_opcode()) {
     case websocketpp::frame::opcode::text:
       if (payload == "Done") {
-        torch::Tensor tail_padding = torch::zeros(
-            {static_cast<int32_t>(0.3 * sample_rate)}, torch::kFloat);
+        torch::Tensor tail_padding =
+            torch::zeros({static_cast<int64_t>(0.3 * sample_rate)})
+                .to(torch::kFloat);
+
         stream->AcceptWaveform(sample_rate, tail_padding);
         stream->InputFinished();
         if (recognizer->IsReady(stream.get())) {

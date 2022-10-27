@@ -55,9 +55,6 @@ struct OnlineWebsocketDecoderConfig {
   float sample_rate = 16000;
 
   bool use_gpu = false;
-  int32_t max_batch_size = 5;
-
-  float max_utterance_length = 100;  // seconds
 
   void Register(ParseOptions *po);
   void Validate() const;
@@ -94,12 +91,9 @@ class OnlineWebsocketDecoder {
 };
 
 struct OnlineWebsocketServerConfig {
-  // assume you run it inside the ./build directory.
-  std::string doc_root = "../sherpa/bin/web";  // root for the http server
   std::string log_file = "./log.txt";
 
   void Register(sherpa::ParseOptions *po);
-  void Validate() const;
 };
 
 class OnlineWebsocketServer {
