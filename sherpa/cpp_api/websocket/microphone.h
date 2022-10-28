@@ -18,8 +18,14 @@
 #ifndef SHERPA_CPP_API_WEBSOCKET_MICROPHONE_H_
 #define SHERPA_CPP_API_WEBSOCKET_MICROPHONE_H_
 
+#include <stdio.h>
+
 #include "portaudio.h"  // NOLINT
 #include "torch/script.h"
+#include "websocketpp/client.hpp"
+#include "websocketpp/config/asio_no_tls_client.hpp"
+
+using client = websocketpp::client<websocketpp::config::asio_client>;
 
 namespace sherpa {
 
@@ -30,19 +36,40 @@ class Microphone {
   Microphone(const Microphone &) = delete;
   Microphone &operator=(const Microphone &) = delete;
 
-  /**
-   * @param callback  When there is data available, the passed callback is
-   *                  invoked.
+  /* Start the microphone.
+   *
+   * Once there is data available, it will invoke `Push`.
+   *
+   * @param c Responsible for sending the data.
+   * @param hdl  Handle to the connection to the server.
    */
-  void StartMicrophone(std::function<void(torch::Tensor)> callback);
+  void StartMicrophone(client *c, websocketpp::connection_hdl hdl) {
+    c_ = c;
+    hdl_ = hdl;
 
-  void InvokeCallback(torch::Tensor samples) { callback_(samples); }
+    t_ = std::thread([&]() { _StartMicrophone(); });
+  }
+
+  /** Invoked by the callback of the microphone.
+   *
+   * @param samples  1-D torch.float32 tensor containing samples
+   *                 in the range [-1, 1].
+   */
+  void Push(torch::Tensor samples);
 
  private:
+  void _StartMicrophone();
+
+ private:
+  torch::Tensor samples_;
   std::function<void(torch::Tensor)> callback_;
   PaStream *stream_ = nullptr;
 
   float sample_rate_ = 16000;
+
+  client *c_;
+  websocketpp::connection_hdl hdl_;
+  std::thread t_;
 };
 
 }  // namespace sherpa

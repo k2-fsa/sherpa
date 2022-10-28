@@ -36,11 +36,10 @@ static int RecordCallback(const void *input_buffer, void * /*output_buffer*/,
 
   auto samples =
       torch::from_blob(static_cast<float *>(const_cast<void *>(input_buffer)),
-                       {static_cast<int>(frames_per_buffer)}, torch::kFloat);
+                       {static_cast<int>(frames_per_buffer)}, torch::kFloat)
+          .clone();
 
-  mic->InvokeCallback(samples);
-
-  // return stop ? paComplete : paContinue;
+  mic->Push(samples);
   return paContinue;
 }
 
@@ -68,11 +67,13 @@ Microphone::~Microphone() {
     fprintf(stderr, "portaudio error: %s\n", Pa_GetErrorText(err));
     exit(EXIT_FAILURE);
   }
+
+  if (t_.joinable()) {
+    t_.join();
+  }
 }
 
-void Microphone::StartMicrophone(std::function<void(torch::Tensor)> callback) {
-  callback_ = std::move(callback);
-
+void Microphone::_StartMicrophone() {
   PaDeviceIndex num_devices = Pa_GetDeviceCount();
   fprintf(stderr, "num devices: %d\n", num_devices);
 
@@ -113,6 +114,29 @@ void Microphone::StartMicrophone(std::function<void(torch::Tensor)> callback) {
   if (err != paNoError) {
     fprintf(stderr, "portaudio error: %s\n", Pa_GetErrorText(err));
     exit(EXIT_FAILURE);
+  }
+}
+
+void Microphone::Push(torch::Tensor samples) {
+  if (!samples_.defined()) {
+    samples_ = samples;
+  } else {
+    samples_ = torch::cat({samples_, samples}, /*dim*/ 0);
+  }
+
+  // We buffer some samples to reduce the number of packets to send
+  if (samples_.numel() > 100) {
+    asio::post(c_->get_io_service(), [this, samples = std::move(samples_)]() {
+      int32_t num_samples = samples.numel();
+      int32_t num_bytes = num_samples * sizeof(float);
+      websocketpp::lib::error_code ec;
+      c_->send(hdl_, samples.data_ptr<float>(), num_bytes,
+               websocketpp::frame::opcode::binary, ec);
+      if (ec) {
+        std::cerr << "Failed to send audio samples\n";
+        exit(EXIT_FAILURE);
+      }
+    });
   }
 }
 
