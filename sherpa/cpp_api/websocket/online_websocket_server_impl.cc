@@ -123,11 +123,11 @@ void OnlineWebsocketDecoder::Decode() {
     lock.unlock();
     asio::post(server_->GetWorkContext(), [this]() { this->Decode(); });
   } else {
-    if (s->IsLastFrame(s->NumFramesReady() - 1)) {
-      lock.lock();
-      active_.erase(s.get());
-      lock.unlock();
+    lock.lock();
+    active_.erase(s.get());
+    lock.unlock();
 
+    if (s->IsLastFrame(s->NumFramesReady() - 1)) {
       asio::post(server_->GetConnectionContext(),
                  [this, hdl, text = result]() { server_->Send(hdl, "Done"); });
     }
