@@ -18,8 +18,14 @@
 #ifndef SHERPA_CPP_API_WEBSOCKET_MICROPHONE_H_
 #define SHERPA_CPP_API_WEBSOCKET_MICROPHONE_H_
 
+#include <stdio.h>
+
 #include "portaudio.h"  // NOLINT
 #include "torch/script.h"
+#include "websocketpp/client.hpp"
+#include "websocketpp/config/asio_no_tls_client.hpp"
+
+using client = websocketpp::client<websocketpp::config::asio_client>;
 
 namespace sherpa {
 
@@ -34,11 +40,23 @@ class Microphone {
    * @param callback  When there is data available, the passed callback is
    *                  invoked.
    */
-  void StartMicrophone(std::function<void(torch::Tensor)> callback);
+  // void StartMicrophone(std::function<void(torch::Tensor)> callback);
+  void _StartMicrophone();
+  void StartMicrophone(client *c, websocketpp::connection_hdl hdl) {
+    c_ = c;
+    hdl_ = hdl;
 
-  void InvokeCallback(torch::Tensor samples) { callback_(samples); }
+    t_ = std::thread([&]() { _StartMicrophone(); });
+  }
+
+  void Push(torch::Tensor samples);
+
+  client *c_;
+  websocketpp::connection_hdl hdl_;
+  std::thread t_;
 
  private:
+  torch::Tensor samples_;
   std::function<void(torch::Tensor)> callback_;
   PaStream *stream_ = nullptr;
 
