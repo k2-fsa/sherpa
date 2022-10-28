@@ -36,12 +36,13 @@ class Microphone {
   Microphone(const Microphone &) = delete;
   Microphone &operator=(const Microphone &) = delete;
 
-  /**
-   * @param callback  When there is data available, the passed callback is
-   *                  invoked.
+  /* Start the microphone.
+   *
+   * Once there is data available, it will invoke `Push`.
+   *
+   * @param c Responsible for sending the data.
+   * @param hdl  Handle to the connection to the server.
    */
-  // void StartMicrophone(std::function<void(torch::Tensor)> callback);
-  void _StartMicrophone();
   void StartMicrophone(client *c, websocketpp::connection_hdl hdl) {
     c_ = c;
     hdl_ = hdl;
@@ -49,11 +50,15 @@ class Microphone {
     t_ = std::thread([&]() { _StartMicrophone(); });
   }
 
+  /** Invoked by the callback of the microphone.
+   *
+   * @param samples  1-D torch.float32 tensor containing samples
+   *                 in the range [-1, 1].
+   */
   void Push(torch::Tensor samples);
 
-  client *c_;
-  websocketpp::connection_hdl hdl_;
-  std::thread t_;
+ private:
+  void _StartMicrophone();
 
  private:
   torch::Tensor samples_;
@@ -61,6 +66,10 @@ class Microphone {
   PaStream *stream_ = nullptr;
 
   float sample_rate_ = 16000;
+
+  client *c_;
+  websocketpp::connection_hdl hdl_;
+  std::thread t_;
 };
 
 }  // namespace sherpa

@@ -43,6 +43,7 @@ Usage:
 )";
 
 static void OnMessage(client *c, connection_hdl hdl, message_ptr msg) {
+  static std::string last;
   const std::string &payload = msg->get_payload();
   if (payload == "Done") {
     websocketpp::lib::error_code ec;
@@ -51,26 +52,12 @@ static void OnMessage(client *c, connection_hdl hdl, message_ptr msg) {
       std::cerr << "Failed to close\n";
       exit(EXIT_FAILURE);
     }
-  } else {
-    SHERPA_LOG(INFO) << msg->get_payload();
+  } else if (payload.size() != last.size() || payload != last) {
+    SHERPA_LOG(INFO) << payload;
+    last = payload;
   }
 }
 
-// static void Send(client *c, connection_hdl hdl, torch::Tensor samples) {
-//   int32_t num_samples = samples.numel();
-//   int32_t num_bytes = num_samples * sizeof(float);
-//
-//   asio::post(c->get_io_service(), [&]() {
-//     websocketpp::lib::error_code ec;
-//     c->send(hdl, samples.data_ptr<float>(), num_bytes,
-//             websocketpp::frame::opcode::binary, ec);
-//     if (ec) {
-//       std::cerr << "Failed to send audio samples";
-//       exit(EXIT_FAILURE);
-//     }
-//   });
-// }
-//
 int32_t main(int32_t argc, char *argv[]) {
   std::string server_ip = "127.0.0.1";
   int32_t server_port = 6006;
@@ -122,13 +109,9 @@ int32_t main(int32_t argc, char *argv[]) {
               << " because: " << ec.message() << "\n";
     exit(EXIT_FAILURE);
   }
-  // std::thread t([&]() { io.run(); });
-
   c.connect(con);
 
   c.run();  // will exit when the above connection is closed
-  // io.run();
-  // t.join();
 
   SHERPA_LOG(INFO) << "Done!";
   return 0;
