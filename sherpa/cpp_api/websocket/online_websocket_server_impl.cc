@@ -230,6 +230,11 @@ void OnlineWebsocketServer::OnMessage(connection_hdl hdl,
       int32_t num_samples = payload.size() / sizeof(float);
       torch::Tensor samples = torch::from_blob(const_cast<float *>(p),
                                                {num_samples}, torch::kFloat);
+      // Caution(fangjun): We have to make a copy here since the tensor
+      // is referenced inside the fbank computer.
+      // Otherwise, it will cause segfault for the next invocation
+      // of AcceptWaveform since payload is freed after this function returns
+      samples = samples.clone();
       stream->AcceptWaveform(decoder_.GetConfig().sample_rate, samples);
       if (recognizer->IsReady(stream.get())) {
         decoder_.Push(hdl, stream);
