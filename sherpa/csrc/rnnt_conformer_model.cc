@@ -55,6 +55,8 @@ RnntConformerModel::RnntConformerModel(const std::string &filename,
 
 std::pair<torch::Tensor, torch::Tensor> RnntConformerModel::ForwardEncoder(
     const torch::Tensor &features, const torch::Tensor &features_length) {
+  torch::NoGradGuard no_grad;
+
   auto outputs = model_.attr("encoder")
                      .toModule()
                      .run_method("forward", features, features_length)
@@ -78,6 +80,7 @@ RnntConformerModel::State RnntConformerModel::StateFromIValue(
 }
 
 torch::IValue RnntConformerModel::GetEncoderInitStates(int32_t left_context) {
+  torch::NoGradGuard no_grad;
   return encoder_.run_method("get_init_state", left_context, device_);
 }
 
@@ -86,6 +89,7 @@ RnntConformerModel::StreamingForwardEncoder(
     const torch::Tensor &features, const torch::Tensor &features_length,
     torch::IValue states, const torch::Tensor &processed_frames,
     int32_t left_context, int32_t right_context) {
+  torch::NoGradGuard no_grad;
   auto outputs =
       encoder_
           .run_method("streaming_forward", features, features_length, states,
@@ -101,6 +105,7 @@ RnntConformerModel::StreamingForwardEncoder(
 
 torch::Tensor RnntConformerModel::ForwardDecoder(
     const torch::Tensor &decoder_input) {
+  torch::NoGradGuard no_grad;
   return decoder_.run_method("forward", decoder_input, /*need_pad*/ false)
       .toTensor();
 }
@@ -108,6 +113,7 @@ torch::Tensor RnntConformerModel::ForwardDecoder(
 torch::Tensor RnntConformerModel::ForwardJoiner(
     const torch::Tensor &projected_encoder_out,
     const torch::Tensor &projected_decoder_out) {
+  torch::NoGradGuard no_grad;
   return joiner_
       .run_method("forward", projected_encoder_out, projected_decoder_out,
                   /*project_input*/ false)
@@ -116,11 +122,13 @@ torch::Tensor RnntConformerModel::ForwardJoiner(
 
 torch::Tensor RnntConformerModel::ForwardEncoderProj(
     const torch::Tensor &encoder_out) {
+  torch::NoGradGuard no_grad;
   return encoder_proj_.run_method("forward", encoder_out).toTensor();
 }
 
 torch::Tensor RnntConformerModel::ForwardDecoderProj(
     const torch::Tensor &decoder_out) {
+  torch::NoGradGuard no_grad;
   return decoder_proj_.run_method("forward", decoder_out).toTensor();
 }
 

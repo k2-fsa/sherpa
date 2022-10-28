@@ -116,17 +116,20 @@ OfflineRecognizer::~OfflineRecognizer() = default;
 
 std::vector<OfflineRecognitionResult> OfflineRecognizer::DecodeFileBatch(
     const std::vector<std::string> &filenames) {
+  torch::NoGradGuard no_grad;
   return impl_->DecodeFileBatch(filenames);
 }
 
 std::vector<OfflineRecognitionResult> OfflineRecognizer::DecodeSamplesBatch(
     const float **samples, const int32_t *samples_length, int32_t n) {
+  torch::NoGradGuard no_grad;
   return impl_->DecodeSamplesBatch(samples, samples_length, n);
 }
 
 std::vector<OfflineRecognitionResult> OfflineRecognizer::DecodeFeaturesBatch(
     const float *features, const int32_t *features_length, int32_t N, int32_t T,
     int32_t C) {
+  torch::NoGradGuard no_grad;
   return impl_->DecodeFeaturesBatch(features, features_length, N, T, C);
 }
 

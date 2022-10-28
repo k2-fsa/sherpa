@@ -132,6 +132,7 @@ OfflineAsr::OfflineAsr(const OfflineAsrOptions &opts)
 
 std::vector<OfflineAsrResult> OfflineAsr::DecodeWaves(
     const std::vector<std::string> &filenames, float expected_sample_rate) {
+  torch::NoGradGuard no_grad;
   std::vector<torch::Tensor> waves;
   for (const auto &f : filenames) {
     waves.push_back(ReadWave(f, expected_sample_rate).first);
@@ -142,12 +143,14 @@ std::vector<OfflineAsrResult> OfflineAsr::DecodeWaves(
 
 std::vector<OfflineAsrResult> OfflineAsr::DecodeWaves(
     const std::vector<torch::Tensor> &waves) {
+  torch::NoGradGuard no_grad;
   std::vector<torch::Tensor> features = ComputeFeatures(fbank_, waves);
   return DecodeFeatures(features);
 }
 
 std::vector<OfflineAsrResult> OfflineAsr::DecodeFeatures(
     const std::vector<torch::Tensor> &features) {
+  torch::NoGradGuard no_grad;
   torch::Tensor padded_features = torch::nn::utils::rnn::pad_sequence(
       features, /*batch_first*/ true,
       /*padding_value*/ -23.025850929940457f);
@@ -164,6 +167,7 @@ std::vector<OfflineAsrResult> OfflineAsr::DecodeFeatures(
 
 std::vector<OfflineAsrResult> OfflineAsr::DecodeFeatures(
     torch::Tensor features, torch::Tensor features_length) {
+  torch::NoGradGuard no_grad;
   auto device = model_.Device();
   features = features.to(device);
   features_length = features_length.to(device).to(torch::kLong);

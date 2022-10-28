@@ -225,6 +225,7 @@ std::tuple<torch::Tensor, torch::Tensor, torch::IValue>
 RnntConvEmformerModel::StreamingForwardEncoder(
     const torch::Tensor &features, const torch::Tensor &features_length,
     const torch::Tensor &num_processed_frames, torch::IValue states) {
+  torch::NoGradGuard no_grad;
   torch::IValue ivalue = encoder_.run_method("infer", features, features_length,
                                              num_processed_frames, states);
   auto tuple_ptr = ivalue.toTuple();
@@ -237,11 +238,13 @@ RnntConvEmformerModel::StreamingForwardEncoder(
 
 torch::IValue RnntConvEmformerModel::GetEncoderInitStates(
     int32_t /*batch_size = 1*/) {
+  torch::NoGradGuard no_grad;
   return encoder_.run_method("init_states", device_);
 }
 
 torch::Tensor RnntConvEmformerModel::ForwardDecoder(
     const torch::Tensor &decoder_input) {
+  torch::NoGradGuard no_grad;
   return decoder_.run_method("forward", decoder_input, /*need_pad*/ false)
       .toTensor();
 }
@@ -249,6 +252,7 @@ torch::Tensor RnntConvEmformerModel::ForwardDecoder(
 torch::Tensor RnntConvEmformerModel::ForwardJoiner(
     const torch::Tensor &projected_encoder_out,
     const torch::Tensor &projected_decoder_out) {
+  torch::NoGradGuard no_grad;
   return joiner_
       .run_method("forward", projected_encoder_out, projected_decoder_out,
                   /*project_input*/ false)
@@ -257,11 +261,13 @@ torch::Tensor RnntConvEmformerModel::ForwardJoiner(
 
 torch::Tensor RnntConvEmformerModel::ForwardEncoderProj(
     const torch::Tensor &encoder_out) {
+  torch::NoGradGuard no_grad;
   return encoder_proj_.run_method("forward", encoder_out).toTensor();
 }
 
 torch::Tensor RnntConvEmformerModel::ForwardDecoderProj(
     const torch::Tensor &decoder_out) {
+  torch::NoGradGuard no_grad;
   return decoder_proj_.run_method("forward", decoder_out).toTensor();
 }
 }  // namespace sherpa

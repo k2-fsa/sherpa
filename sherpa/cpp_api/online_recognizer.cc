@@ -113,12 +113,14 @@ OnlineRecognizer::OnlineRecognizer(
 OnlineRecognizer::~OnlineRecognizer() = default;
 
 std::unique_ptr<OnlineStream> OnlineRecognizer::CreateStream() {
+  torch::NoGradGuard no_grad;
   return impl_->CreateStream();
 }
 
 bool OnlineRecognizer::IsReady(OnlineStream *s) { return impl_->IsReady(s); }
 
 void OnlineRecognizer::DecodeStreams(OnlineStream **ss, int32_t n) {
+  torch::NoGradGuard no_grad;
   impl_->DecodeStreams(ss, n);
 }
 
