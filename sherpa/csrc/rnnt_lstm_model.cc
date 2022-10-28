@@ -67,6 +67,7 @@ RnntLstmModel::StreamingForwardEncoder(
     const torch::Tensor &features, const torch::Tensor &features_length,
     const torch::Tensor & /*unused_num_processed_frames*/,
     torch::IValue states) {
+  torch::NoGradGuard no_grad;
   // It contains [torch.Tensor, torch.Tensor, Pair[torch.Tensor, torch.Tensor]
   // which are [encoder_out, encoder_out_len, states]
   //
@@ -101,6 +102,7 @@ RnntLstmModel::State RnntLstmModel::StateFromIValue(
 }
 
 torch::IValue RnntLstmModel::GetEncoderInitStates(int32_t batch_size /*=1*/) {
+  torch::NoGradGuard no_grad;
   return encoder_.run_method("get_init_states", batch_size, device_);
 }
 
@@ -145,6 +147,7 @@ std::vector<torch::IValue> RnntLstmModel::UnStackStates(
 
 torch::Tensor RnntLstmModel::ForwardDecoder(
     const torch::Tensor &decoder_input) {
+  torch::NoGradGuard no_grad;
   return decoder_
       .run_method("forward", decoder_input,
                   /*need_pad*/ torch::tensor({0}).to(torch::kBool))
@@ -153,6 +156,7 @@ torch::Tensor RnntLstmModel::ForwardDecoder(
 
 torch::Tensor RnntLstmModel::ForwardJoiner(const torch::Tensor &encoder_out,
                                            const torch::Tensor &decoder_out) {
+  torch::NoGradGuard no_grad;
   return joiner_.run_method("forward", encoder_out, decoder_out).toTensor();
 }
 

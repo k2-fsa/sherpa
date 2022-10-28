@@ -57,6 +57,7 @@ std::tuple<torch::Tensor, torch::Tensor, RnntEmformerModel::State>
 RnntEmformerModel::StreamingForwardEncoder(
     const torch::Tensor &features, const torch::Tensor &features_length,
     torch::optional<State> states /*= torch::nullopt*/) {
+  torch::NoGradGuard no_grad;
   // It contains [torch.Tensor, torch.Tensor, List[List[torch.Tensor]]
   // which are [encoder_out, encoder_out_len, states]
   //
@@ -98,12 +99,14 @@ RnntEmformerModel::State RnntEmformerModel::GetEncoderInitStates() {
 
 torch::Tensor RnntEmformerModel::ForwardDecoder(
     const torch::Tensor &decoder_input) {
+  torch::NoGradGuard no_grad;
   return decoder_.run_method("forward", decoder_input, /*need_pad*/ false)
       .toTensor();
 }
 
 torch::Tensor RnntEmformerModel::ForwardJoiner(
     const torch::Tensor &encoder_out, const torch::Tensor &decoder_out) {
+  torch::NoGradGuard no_grad;
   return joiner_.run_method("forward", encoder_out, decoder_out).toTensor();
 }
 

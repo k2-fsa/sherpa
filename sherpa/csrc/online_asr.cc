@@ -30,12 +30,6 @@
 
 namespace sherpa {
 
-static void AssertFileExists(const std::string &filename) {
-  if (!FileExists(filename)) {
-    SHERPA_LOG(FATAL) << filename << " does not exist!";
-  }
-}
-
 static void RegisterFrameExtractionOptions(
     ParseOptions *po, kaldifeat::FrameExtractionOptions *opts) {
   po->Register("sample-frequency", &opts->samp_freq,
@@ -165,6 +159,7 @@ OnlineAsr::OnlineAsr(const OnlineAsrOptions &opts)
 }
 
 std::unique_ptr<OnlineStream> OnlineAsr::CreateStream() {
+  torch::NoGradGuard no_grad;
   auto s = std::make_unique<OnlineStream>(
       opts_.endpoint_config, opts_.fbank_opts.frame_opts.samp_freq,
       opts_.fbank_opts.mel_opts.num_bins,
@@ -206,6 +201,7 @@ bool OnlineAsr::IsReady(OnlineStream *s) {
 }
 
 void OnlineAsr::DecodeStreams(OnlineStream **ss, int32_t n) {
+  torch::NoGradGuard no_grad;
   SHERPA_CHECK_GT(n, 0);
 
   if (opts_.decoding_method == "greedy_search") {
@@ -218,6 +214,7 @@ void OnlineAsr::DecodeStreams(OnlineStream **ss, int32_t n) {
 }
 
 void OnlineAsr::GreedySearch(OnlineStream **ss, int32_t n) {
+  torch::NoGradGuard no_grad;
   auto device = model_->Device();
   int32_t chunk_length =
       model_->ChunkLength();  // e.g., 32 (conv-emformer), or 4 (lstm)
@@ -296,6 +293,7 @@ void OnlineAsr::GreedySearch(OnlineStream **ss, int32_t n) {
 }
 
 void OnlineAsr::ModifiedBeamSearch(OnlineStream **ss, int32_t n) {
+  torch::NoGradGuard no_grad;
   auto device = model_->Device();
   int32_t chunk_length = model_->ChunkLength();  // e.g., 32
   int32_t pad_length = model_->PadLength();      // e.g., 19

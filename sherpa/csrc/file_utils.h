@@ -31,6 +31,12 @@ namespace sherpa {
  */
 bool FileExists(const std::string &filename);
 
+/** Abort if the file does not exist.
+ *
+ * @param filename The file to check.
+ */
+void AssertFileExists(const std::string &filename);
+
 }  // namespace sherpa
 
 #endif  // SHERPA_CSRC_FILE_UTILS_H_

@@ -108,7 +108,7 @@ class OfflineWebsocketDecoder {
   const OfflineWebsocketDecoderConfig &GetConfig() const { return config_; }
 
  private:
-  struct OfflineWebsocketDecoderConfig config_;
+  OfflineWebsocketDecoderConfig config_;
 
   /** When we have received all the data from the client, we put it into
    * this queue, the worker threads will get items from this queue for
@@ -191,9 +191,6 @@ class OfflineWebsocketServer {
   //  (e) Only audio samples are sent. For instance, if we want to decode
   //      a WAVE file, the header of the WAVE is not sent.
   void OnMessage(connection_hdl hdl, server::message_ptr msg);
-
-  // Send a message to the client
-  void Send(connection_hdl hdl, server::message_ptr msg);
 
   // Close a websocket connection with given code and reason
   void Close(connection_hdl hdl, websocketpp::close::status::value code,
