@@ -3,7 +3,7 @@ name: Test RTF and WER of C++ websocket
 on:
   push:
     branches:
-      - rtf
+      - master
     paths:
       - '.github/workflows/test-websocket-rtf-wer.yaml'
       - '.github/scripts/test-websocket-rtf-wer.sh'
@@ -32,11 +32,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [macos-latest, ubuntu-latest]
+        os: [ubuntu-latest]
         torch: ["1.10.0"]
         torchaudio: ["0.10.0"]
         python-version: ["3.8"]
         decoding_method: ["greedy_search", "modified_beam_search"]
+        num_connections: [50, 100, 200]
 
     steps:
       - uses: actions/checkout@v2
@@ -103,6 +104,7 @@ jobs:
         shell: bash
         env:
           DECODING_METHOD: ${{ matrix.decoding_method }}
+          NUM_CONNECTIONS: ${{ matrix.num_connections }}
         run: |
           export KALDIFEAT_INSTALL_PREFIX=$HOME/tmp/kaldifeat/build
           echo $KALDIFEAT_INSTALL_PREFIX
