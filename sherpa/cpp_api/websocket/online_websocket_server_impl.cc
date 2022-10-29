@@ -129,7 +129,7 @@ void OnlineWebsocketDecoder::Decode() {
 
     if (s->IsLastFrame(s->NumFramesReady() - 1)) {
       asio::post(server_->GetConnectionContext(),
-                 [this, hdl, text = result]() { server_->Send(hdl, "Done"); });
+                 [this, hdl]() { server_->Send(hdl, "Done"); });
     }
   }
 }
