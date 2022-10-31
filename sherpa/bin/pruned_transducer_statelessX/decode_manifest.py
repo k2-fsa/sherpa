@@ -194,6 +194,7 @@ async def main():
         f.write(s)
 
     name = Path(filename).stem.split(".")[0]
+    results = sorted(results)
     store_transcripts(filename=f"recogs-{name}.txt", texts=results)
 
     with open(f"errs-{name}.txt", "w") as f:
