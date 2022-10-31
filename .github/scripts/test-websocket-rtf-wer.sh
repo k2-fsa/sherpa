@@ -74,9 +74,9 @@ log "start the sever"
 ./build/bin/offline_websocket_server \
   --use-gpu=false \
   --port=6006 \
-  --num-io-threads=1 \
+  --num-io-threads=2 \
   --num-work-threads=2 \
-  --max-batch-size=1 \
+  --max-batch-size=5 \
   --nn-model=./$repo/exp/cpu_jit.pt \
   --tokens=./$repo/data/lang_bpe_500/tokens.txt \
   --decoding-method=$DECODING_METHOD \
@@ -94,4 +94,4 @@ time python3 ./sherpa/bin/pruned_transducer_statelessX/decode_manifest.py \
   --server-addr 127.0.0.1 \
   --server-port 6006 \
   --manifest-filename ./test-clean.jsonl.gz \
-  --num-tasks 50
+  --num-tasks $NUM_CONNECTIONS
