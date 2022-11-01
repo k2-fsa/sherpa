@@ -137,7 +137,7 @@ int main(int argc, char *argv[]) {
 
   std::vector<std::string> results;
   for (auto &s : streams) {
-    results.push_back(recognizer->GetResult(s.get()));
+    results.push_back(recognizer->GetResult(s.get()).text);
   }
 
   std::ostringstream os;

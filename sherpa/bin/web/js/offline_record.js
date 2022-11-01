@@ -46,11 +46,10 @@ function initWebSocket() {
   socket.addEventListener('message', function(event) {
     console.log('Received message: ', event.data);
 
-    if (event.data != 'Done') {
-      document.getElementById('results').value = event.data;
-    } else {
-      socket.close();
-    }
+    document.getElementById('results').value = event.data;
+    socket.send('Done');
+    console.log('Sent Done');
+    socket.close();
   });
 }
 
@@ -244,9 +243,6 @@ if (navigator.mediaDevices.getUserMedia) {
       for (let start = 0; start < buf.byteLength; start += n) {
         socket.send(buf.slice(start, start + n));
       }
-
-      socket.send('Done');
-      console.log('Sent Done');
     };
   };
 

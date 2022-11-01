@@ -67,9 +67,24 @@ void OnlineWebsocketDecoderConfig::Validate() const {
 }
 
 void OnlineWebsocketServerConfig::Register(sherpa::ParseOptions *po) {
+  po->Register("doc-root", &doc_root,
+               "Path to the directory where "
+               "files like index.html for the HTTP server locate. youcan ");
+
   po->Register("log-file", &log_file,
                "Path to the log file. Logs are "
                "appended to this file");
+}
+
+void OnlineWebsocketServerConfig::Validate() const {
+  if (doc_root.empty()) {
+    SHERPA_LOG(FATAL) << "Please provide --doc-root, e.g., sherpa/bin/web";
+  }
+
+  if (!FileExists(doc_root + "/index.html")) {
+    SHERPA_LOG(FATAL) << "\n--doc-root=" << doc_root << "\n"
+                      << doc_root << "/index.html does not exist!";
+  }
 }
 
 OnlineWebsocketDecoder::OnlineWebsocketDecoder(
@@ -115,7 +130,9 @@ void OnlineWebsocketDecoder::Decode() {
 
   auto result = recognizer_->GetResult(s.get());
   asio::post(server_->GetConnectionContext(),
-             [this, hdl, text = result]() { server_->Send(hdl, text); });
+             [this, hdl, json = result.AsJsonString()]() {
+               server_->Send(hdl, json);
+             });
 
   if (recognizer_->IsReady(s.get())) {
     lock.lock();
@@ -140,6 +157,7 @@ OnlineWebsocketServer::OnlineWebsocketServer(
     const OnlineWebsocketDecoderConfig &decoder_config)
     : io_conn_(io_conn),
       io_work_(io_work),
+      http_server_(config.doc_root),
       log_(config.log_file, std::ios::app),
       tee_(std::cout, log_),
       decoder_(decoder_config, this) {
@@ -150,6 +168,8 @@ OnlineWebsocketServer::OnlineWebsocketServer(
   server_.set_open_handler([this](connection_hdl hdl) { OnOpen(hdl); });
 
   server_.set_close_handler([this](connection_hdl hdl) { OnClose(hdl); });
+
+  server_.set_http_handler([this](connection_hdl hdl) { OnHttp(hdl); });
 
   server_.set_message_handler(
       [this](connection_hdl hdl, server::message_ptr msg) {
@@ -197,6 +217,38 @@ void OnlineWebsocketServer::OnClose(connection_hdl hdl) {
 
   SHERPA_LOG(INFO) << "Number of active connections: " << connections_.size()
                    << "\n";
+}
+
+void OnlineWebsocketServer::OnHttp(connection_hdl hdl) {
+  auto con = server_.get_con_from_hdl(hdl);
+
+  std::string filename = con->get_resource();
+  if (filename == "/") filename = "/index.html";
+
+  std::string content;
+  bool found = false;
+
+  if (filename != "/upload.html" && filename != "/offline_record.html") {
+    found = http_server_.ProcessRequest(filename, &content);
+  } else {
+    content = R"(
+<!doctype html><html><head>
+<title>Speech recognition with next-gen Kaldi</title><body>
+<h2>Only /streaming_record.html is available for the online server.<h2>
+<br/>
+<br/>
+Go back to <a href="/streaming_record.html">/streaming_record.html</a>
+</body></head></html>
+    )";
+  }
+
+  if (found) {
+    con->set_status(websocketpp::http::status_code::ok);
+  } else {
+    con->set_status(websocketpp::http::status_code::not_found);
+  }
+
+  con->set_body(std::move(content));
 }
 
 void OnlineWebsocketServer::OnMessage(connection_hdl hdl,

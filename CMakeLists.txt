@@ -125,6 +125,7 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 set(CMAKE_CXX_FLAGS " ${CMAKE_CXX_FLAGS} -Wall -g ")
 
 include(pybind11)
+include(json)
 include(torch)
 include(k2)
 include(kaldifeat)

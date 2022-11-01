@@ -86,12 +86,14 @@ class HttpServer {
    *
    * @param filename The filename the client is requesting.
    * @param content  On return, it contains the content of the file if found.
+   *                 Otherwise, it contains the 404 page.
    *
    * @return Return true if the given file is found; return false otherwise.
    */
   bool ProcessRequest(const std::string &filename, std::string *content) const {
     auto it = content_.find(filename);
     if (it == content_.end()) {
+      *content = error_content_;
       return false;
     }
 
