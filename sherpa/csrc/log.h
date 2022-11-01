@@ -52,12 +52,21 @@ enum class LogLevel {
 //  SHERPA_LOG(TRACE) << "some message";
 //  SHERPA_LOG(DEBUG) << "some message";
 //
+#ifndef _MSC_VER
 constexpr LogLevel TRACE = LogLevel::kTrace;
 constexpr LogLevel DEBUG = LogLevel::kDebug;
 constexpr LogLevel INFO = LogLevel::kInfo;
 constexpr LogLevel WARNING = LogLevel::kWarning;
 constexpr LogLevel ERROR = LogLevel::kError;
 constexpr LogLevel FATAL = LogLevel::kFatal;
+#else
+#define TRACE LogLevel::kTrace
+#define DEBUG LogLevel::kDebug
+#define INFO LogLevel::kInfo
+#define WARNING LogLevel::kWarning
+#define ERROR LogLevel::kError
+#define FATAL LogLevel::kFatal
+#endif
 
 std::string GetStackTrace();
 
@@ -255,7 +264,7 @@ class Logger {
 
 class Voidifier {
  public:
-  void operator&(const Logger &) const {}
+  void operator&(const Logger &)const {}
 };
 
 }  // namespace sherpa
