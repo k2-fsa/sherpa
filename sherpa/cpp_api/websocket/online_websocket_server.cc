@@ -75,6 +75,7 @@ int32_t main(int32_t argc, char *argv[]) {
 
   po.Read(argc, argv);
 
+  config.Validate();
   decoder_config.Validate();
 
   asio::io_context io_conn;  // for network connections
