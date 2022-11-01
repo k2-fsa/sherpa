@@ -1,4 +1,6 @@
 add_definitions(-DASIO_STANDALONE)
+add_definitions(-D_WEBSOCKETPP_CPP11_STL_)
+
 add_executable(offline_websocket_server
   offline_websocket_server.cc
   offline_websocket_server_impl.cc

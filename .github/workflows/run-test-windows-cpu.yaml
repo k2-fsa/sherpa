@@ -25,6 +25,7 @@ on:
       - 'CMakeLists.txt'
       - 'cmake/**'
       - 'sherpa/csrc/**'
+      - 'sherpa/cpp_api/**'
       - 'sherpa/bin/pruned_transducer_statelessX/**'
       - 'sherpa/python/**'
   pull_request:
@@ -34,6 +35,7 @@ on:
       - 'CMakeLists.txt'
       - 'cmake/**'
       - 'sherpa/csrc/**'
+      - 'sherpa/cpp_api/**'
       - 'sherpa/bin/pruned_transducer_statelessX/**'
       - 'sherpa/python/**'
 
@@ -43,7 +45,7 @@ concurrency:
 
 jobs:
   run_tests_windows_cpu:
-    if: github.event.label.name == 'ready' || github.event_name == 'push'
+    if: github.event.label.name == 'ready' || github.event.label.name == 'windows' || github.event_name == 'push'
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
