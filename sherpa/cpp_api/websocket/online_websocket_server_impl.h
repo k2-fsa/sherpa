@@ -31,6 +31,7 @@
 #include "asio.hpp"
 #include "sherpa/cpp_api/online_recognizer.h"
 #include "sherpa/cpp_api/online_stream.h"
+#include "sherpa/cpp_api/websocket/http_server.h"
 #include "sherpa/cpp_api/websocket/tee_stream.h"
 #include "sherpa/csrc/parse_options.h"
 #include "websocketpp/config/asio_no_tls.hpp"  // TODO(fangjun): support TLS
@@ -94,9 +95,12 @@ class OnlineWebsocketDecoder {
 };
 
 struct OnlineWebsocketServerConfig {
+  // assume you run it inside the ./build directory.
+  std::string doc_root = "../sherpa/bin/web";  // root for the http server
   std::string log_file = "./log.txt";
 
   void Register(sherpa::ParseOptions *po);
+  void Validate() const;
 };
 
 class OnlineWebsocketServer {
@@ -125,6 +129,9 @@ class OnlineWebsocketServer {
   // When a websocket client is disconnected, it will invoke this method
   void OnClose(connection_hdl hdl);
 
+  // When a HTTP client is connected, it will invoke this method
+  void OnHttp(connection_hdl hdl);
+
   void OnMessage(connection_hdl hdl, server::message_ptr msg);
 
   // Close a websocket connection with given code and reason
@@ -134,6 +141,7 @@ class OnlineWebsocketServer {
  private:
   asio::io_context &io_conn_;
   asio::io_context &io_work_;
+  HttpServer http_server_;
   server server_;
 
   std::ofstream log_;

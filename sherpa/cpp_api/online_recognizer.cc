@@ -18,10 +18,23 @@
 
 #include "sherpa/cpp_api/online_recognizer.h"
 
+#include "nlohmann/json.hpp"
 #include "sherpa/csrc/log.h"
 #include "sherpa/csrc/online_asr.h"
 
 namespace sherpa {
+
+std::string OnlineRecognitionResult::AsJsonString() const {
+  using json = nlohmann::json;
+  json j;
+  j["text"] = text;
+
+  // TODO(fangjun): The key in the json object should be kept
+  // in sync with sherpa/bin/pruned_transducer_statelessX/streaming_server.py
+  j["segment"] = 0;  // TODO(fangjun): Support endpointing
+  j["final"] = false;
+  return j.dump();
+}
 
 class OnlineRecognizer::OnlineRecognizerImpl {
  public:
@@ -124,8 +137,10 @@ void OnlineRecognizer::DecodeStreams(OnlineStream **ss, int32_t n) {
   impl_->DecodeStreams(ss, n);
 }
 
-std::string OnlineRecognizer::GetResult(OnlineStream *s) const {
-  return impl_->GetResult(s);
+OnlineRecognitionResult OnlineRecognizer::GetResult(OnlineStream *s) const {
+  OnlineRecognitionResult ans;
+  ans.text = impl_->GetResult(s);
+  return ans;
 }
 
 }  // namespace sherpa

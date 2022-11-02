@@ -183,7 +183,7 @@ void OfflineWebsocketServerConfig::Register(ParseOptions *po) {
 
 void OfflineWebsocketServerConfig::Validate() const {
   if (doc_root.empty()) {
-    SHERPA_LOG(FATAL) << "Please provide --doc-root";
+    SHERPA_LOG(FATAL) << "Please provide --doc-root, e.g., sherpa/bin/web";
   }
 
   if (!FileExists(doc_root + "/index.html")) {
@@ -261,15 +261,29 @@ void OfflineWebsocketServer::OnHttp(connection_hdl hdl) {
   if (filename == "/") filename = "/index.html";
 
   std::string content;
-  bool found = http_server_.ProcessRequest(filename, &content);
+  bool found = false;
+  if (filename != "/streaming_record.html") {
+    found = http_server_.ProcessRequest(filename, &content);
+  } else {
+    content = R"(
+<!doctype html><html><head>
+<title>Speech recognition with next-gen Kaldi</title><body>
+<h2>/streaming_record.html is not available for the offline server"</h2>;
+<br/>
+<br/>
+Go back to <a href="/upload.html">/upload.html</a> or
+<a href="/offline_record.html">/offline_record.html</a>
+</body></head></html>
+    )";
+  }
+
   if (found) {
-    con->set_body(std::move(content));
     con->set_status(websocketpp::http::status_code::ok);
   } else {
-    content = http_server_.GetErrorContent();
-    con->set_body(std::move(content));
     con->set_status(websocketpp::http::status_code::not_found);
   }
+
+  con->set_body(std::move(content));
 }
 
 void OfflineWebsocketServer::OnMessage(connection_hdl hdl,

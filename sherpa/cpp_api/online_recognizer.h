@@ -53,6 +53,14 @@ struct DecodingOptions {
   int32_t num_active_paths = 4;
 };
 
+struct OnlineRecognitionResult {
+  // Recognition results.
+  // For English, it consists of space separated words.
+  // For Chinese, it consists of Chinese words without spaces.
+  std::string text;
+  std::string AsJsonString() const;
+};
+
 class OnlineRecognizer {
  public:
   /** Construct an instance of OnlineRecognizer.
@@ -132,7 +140,7 @@ class OnlineRecognizer {
    */
   void DecodeStreams(OnlineStream **ss, int32_t n);
 
-  std::string GetResult(OnlineStream *s) const;
+  OnlineRecognitionResult GetResult(OnlineStream *s) const;
 
  private:
   class OnlineRecognizerImpl;

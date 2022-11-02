@@ -142,7 +142,7 @@ int main(int argc, char *argv[]) {
   while (!stop) {
     if (recognizer.IsReady(s.get())) {
       recognizer.DecodeStream(s.get());
-      auto result = recognizer.GetResult(s.get());
+      auto result = recognizer.GetResult(s.get()).text;
       if (result.size() != result_len) {
         result_len = result.size();
         fprintf(stderr, "%s\n", result.c_str());

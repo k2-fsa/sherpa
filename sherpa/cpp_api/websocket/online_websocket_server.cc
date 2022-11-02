@@ -75,6 +75,7 @@ int32_t main(int32_t argc, char *argv[]) {
 
   po.Read(argc, argv);
 
+  config.Validate();
   decoder_config.Validate();
 
   asio::io_context io_conn;  // for network connections
@@ -102,6 +103,27 @@ int32_t main(int32_t argc, char *argv[]) {
   for (int32_t i = 0; i < num_work_threads; ++i) {
     work_threads.emplace_back([&io_work]() { io_work.run(); });
   }
+
+  // Print a message telling users how to access the HTTP service
+  std::ostringstream os;
+  os << "\nPlease access the HTTP server using the following address: \n\n";
+  os << "http://localhost:" << port << "\n";
+#if 0
+  // TODO(fangjun): Enable it for HTTPS
+  os << "http://127.0.0.1:" << port << "\n";
+  asio::ip::tcp::resolver resolver(io_conn);
+  auto iter = resolver.resolve(asio::ip::host_name(), "");
+  asio::ip::tcp::resolver::iterator end;
+  for (; iter != end; ++iter) {
+    asio::ip::tcp::endpoint ep = *iter;
+    asio::error_code ec;
+    os << "http://" << ep.address().to_string(ec) << ":" << port << "\n";
+    if (ec) {
+      std::cout << "Error message: " << ec << "\n";
+    }
+  }
+#endif
+  SHERPA_LOG(INFO) << os.str();
 
   io_conn.run();
 
