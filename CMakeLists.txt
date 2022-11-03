@@ -93,6 +93,10 @@ string(REGEX REPLACE "^\"+|\"+$" "" SHERPA_OS "${SHERPA_OS}")
 message(STATUS "SHERPA_OS: ${SHERPA_OS}")
 message(STATUS "CMake version: ${CMAKE_VERSION}")
 
+if(WIN32)
+  add_definitions(-DNOMINMAX) # Otherwise, std::max() and std::min() won't work
+endif()
+
 find_package(Git REQUIRED)
 execute_process(COMMAND
   "${GIT_EXECUTABLE}" describe --always --abbrev=40
@@ -122,7 +126,10 @@ message(STATUS "SHERPA_GIT_BRANCH: ${SHERPA_GIT_BRANCH}")
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/Modules)
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 
-set(CMAKE_CXX_FLAGS " ${CMAKE_CXX_FLAGS} -Wall -g ")
+set(CMAKE_CXX_FLAGS " ${CMAKE_CXX_FLAGS} -Wall ")
+if(NOT WIN32)
+  set(CMAKE_CXX_FLAGS " ${CMAKE_CXX_FLAGS} -g ")
+endif()
 
 include(pybind11)
 include(json)

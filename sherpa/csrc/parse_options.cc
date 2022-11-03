@@ -27,6 +27,7 @@
 #include <ctype.h>
 
 #include <algorithm>
+#include <cctype>
 #include <cstring>
 #include <fstream>
 #include <iomanip>
