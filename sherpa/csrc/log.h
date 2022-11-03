@@ -51,22 +51,37 @@ enum class LogLevel {
 //
 //  SHERPA_LOG(TRACE) << "some message";
 //  SHERPA_LOG(DEBUG) << "some message";
-//
+
+#ifdef TRACE
+#undef TRACE
+#endif
+
+#ifdef DEBUG
+#undef DEBUG
+#endif
+
+#ifdef INFO
+#undef INFO
+#endif
+
+#ifdef WARNING
+#undef WARNING
+#endif
+
+#ifdef ERROR
+#undef ERROR
+#endif
+
+#ifdef FATAL
+#undef FATAL
+#endif
+
 constexpr LogLevel TRACE = LogLevel::kTrace;
 constexpr LogLevel DEBUG = LogLevel::kDebug;
 constexpr LogLevel INFO = LogLevel::kInfo;
 constexpr LogLevel WARNING = LogLevel::kWarning;
 constexpr LogLevel ERROR = LogLevel::kError;
 constexpr LogLevel FATAL = LogLevel::kFatal;
-// #ifndef _MSC_VER
-#if 0
-#define TRACE LogLevel::kTrace
-#define DEBUG LogLevel::kDebug
-#define INFO LogLevel::kInfo
-#define WARNING LogLevel::kWarning
-#define ERROR LogLevel::kError
-#define FATAL LogLevel::kFatal
-#endif
 
 std::string GetStackTrace();
 
