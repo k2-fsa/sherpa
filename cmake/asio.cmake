@@ -1,8 +1,4 @@
 function(download_asio)
-  if(CMAKE_VERSION VERSION_LESS 3.11)
-    list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/Modules)
-  endif()
-
   include(FetchContent)
 
   set(asio_URL  "https://github.com/chriskohlhoff/asio/archive/refs/tags/asio-1-24-0.tar.gz")

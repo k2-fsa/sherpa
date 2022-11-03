@@ -1,8 +1,4 @@
 function(download_json)
-  if(CMAKE_VERSION VERSION_LESS 3.11)
-    list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/Modules)
-  endif()
-
   include(FetchContent)
 
   set(json_URL  "https://github.com/nlohmann/json/archive/refs/tags/v3.11.2.tar.gz")

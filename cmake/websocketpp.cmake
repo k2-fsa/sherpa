@@ -1,8 +1,4 @@
 function(download_websocketpp)
-  if(CMAKE_VERSION VERSION_LESS 3.11)
-    list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/Modules)
-  endif()
-
   include(FetchContent)
 
   # The latest commit on the develop branch os as 2022-10-22
