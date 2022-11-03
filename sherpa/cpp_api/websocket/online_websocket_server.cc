@@ -18,9 +18,8 @@
 
 #include "asio.hpp"
 #include "sherpa/cpp_api/websocket/online_websocket_server_impl.h"
-#include "torch/all.h"
-//
 #include "sherpa/csrc/log.h"
+#include "torch/all.h"
 
 static constexpr const char *kUsageMessage = R"(
 Automatic speech recognition with sherpa using websocket.
