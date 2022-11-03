@@ -34,13 +34,13 @@ parameters [
 
 input [
   {
-    name: "encoder_out__0"
-    data_type: TYPE_FP32
+    name: "encoder_out"
+    data_type: TYPE_FP16
     dims: [-1, 512] # [-1, encoder_out_dim]
   },
   {
-    name: "encoder_out_lens__1"
-    data_type: TYPE_INT32
+    name: "encoder_out_lens"
+    data_type: TYPE_INT64
     dims: [1]
     reshape: { shape: [ ] }
   }
@@ -55,7 +55,6 @@ output [
 ]
 
 dynamic_batching {
-    preferred_batch_size: [ 16, 32 ]
   }
 instance_group [
     {

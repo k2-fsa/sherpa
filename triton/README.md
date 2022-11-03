@@ -84,7 +84,8 @@ ln -s ./icefall_librispeech_streaming_pruned_transducer_stateless3_giga_0.9_2022
     --avg 1 \
     --streaming-model 1 \
     --causal-convolution 1 \
-    --onnx 1
+    --onnx 1 \
+    --fp16
 ```
 
 
@@ -100,7 +101,7 @@ Now start server:
 
 ```bash
 # Inside the docker container
-bash /workspace/scripts/start_streaming(offline)_server.sh
+bash /workspace/scripts/start_streaming(offline)_server(_jit).sh
 ```
 
 If you meet any issues during the process, please file an issue.
@@ -116,7 +117,7 @@ If you have multiple GPUs on the server machine, you can specify which GPUs will
 For example, if you just want to use GPU 1, 2, 3 for deployment, then use the following options to start the server:
 
 ```bash
-docker run --gpus '"device=1,2,3"' -v $PWD/model_repo:/ws/model_repo -v <jit_model_dir>:/ws/jit_model/ --name sherpa_server --net host --shm-size=1g --ulimit memlock=-1 -p 8000:8000 -p 8001:8001 -p 8002:8002 --ulimit stack=67108864 -it sherpa_triton_server:latest
+docker run --gpus '"device=1,2,3"' -v $PWD/model_repo:/ws/model_repo_offline_jit -v <jit_model_dir>:/ws/jit_model/ --name sherpa_server --net host --shm-size=1g --ulimit memlock=-1 -p 8000:8000 -p 8001:8001 -p 8002:8002 --ulimit stack=67108864 -it sherpa_triton_server:latest
 ```
 
 #### Set the number of model instances per GPU
@@ -246,7 +247,7 @@ Similarly, for streaming ASR test:
 cd /ws/client
 python3 generate_perf_input.py --audio_file=test_wavs/1089-134686-0001.wav --streaming
 
-perf_analyzer -m conformer_transducer -b 1 -a -p 20000 --concurrency-range 100:200:50 -i gRPC --input-data=offline_input.json  -u localhost:8001 --streaming
+perf_analyzer -m conformer_transducer -b 1 -a -p 20000 --concurrency-range 100:200:50 -i gRPC --input-data=online_input.json  -u localhost:8001 --streaming
 ```
 
 Where:

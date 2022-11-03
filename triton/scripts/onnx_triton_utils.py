@@ -1,6 +1,7 @@
 import argparse
 import logging
 import os
+from typing import Optional, Tuple
 
 import sentencepiece as spm
 import torch
@@ -21,7 +22,7 @@ from icefall.utils import (
     setup_logger,
     str2bool,
 )
-from icefall.utils import is_jit_tracing
+from icefall.utils import is_jit_tracing, make_pad_mask
 
 class StreamingEncoder(torch.nn.Module):
     """
@@ -170,6 +171,145 @@ class StreamingEncoder(torch.nn.Module):
             states[1].transpose(0, 2),
             processed_lens,
         )
+
+class OfflineEncoder(torch.nn.Module):
+    """
+    Args:
+        num_features (int): Number of input features
+        subsampling_factor (int): subsampling factor of encoder (the convolution layers before transformers)
+        d_model (int): attention dimension, also the output dimension
+        nhead (int): number of head
+        dim_feedforward (int): feedforward dimention
+        num_encoder_layers (int): number of encoder layers
+        dropout (float): dropout rate
+        layer_dropout (float): layer-dropout rate.
+        cnn_module_kernel (int): Kernel size of convolution module
+        vgg_frontend (bool): whether to use vgg frontend.
+        dynamic_chunk_training (bool): whether to use dynamic chunk training, if
+            you want to train a streaming model, this is expected to be True.
+            When setting True, it will use a masking strategy to make the attention
+            see only limited left and right context.
+        short_chunk_threshold (float): a threshold to determinize the chunk size
+            to be used in masking training, if the randomly generated chunk size
+            is greater than ``max_len * short_chunk_threshold`` (max_len is the
+            max sequence length of current batch) then it will use
+            full context in training (i.e. with chunk size equals to max_len).
+            This will be used only when dynamic_chunk_training is True.
+        short_chunk_size (int): see docs above, if the randomly generated chunk
+            size equals to or less than ``max_len * short_chunk_threshold``, the
+            chunk size will be sampled uniformly from 1 to short_chunk_size.
+            This also will be used only when dynamic_chunk_training is True.
+        num_left_chunks (int): the left context (in chunks) attention can see, the
+            chunk size is decided by short_chunk_threshold and short_chunk_size.
+            A minus value means seeing full left context.
+            This also will be used only when dynamic_chunk_training is True.
+        causal (bool): Whether to use causal convolution in conformer encoder
+            layer. This MUST be True when using dynamic_chunk_training.
+    """
+
+    def __init__(
+        self,
+        model
+    ) -> None:
+        super().__init__()
+
+        self.num_features = model.num_features
+        self.subsampling_factor = model.subsampling_factor
+        if self.subsampling_factor != 4:
+            raise NotImplementedError("Support only 'subsampling_factor=4'.")
+
+        # self.encoder_embed converts the input of shape (N, T, num_features)
+        # to the shape (N, T//subsampling_factor, d_model).
+        # That is, it does two things simultaneously:
+        #   (1) subsampling: T -> T//subsampling_factor
+        #   (2) embedding: num_features -> d_model
+        self.encoder_embed = model.encoder_embed
+
+        self.encoder_layers = model.encoder_layers
+        self.d_model = model.d_model
+        self.cnn_module_kernel = model.cnn_module_kernel
+        self.causal = model.causal
+        self.dynamic_chunk_training = model.dynamic_chunk_training
+        self.short_chunk_threshold = model.short_chunk_threshold
+        self.short_chunk_size = model.short_chunk_size
+        self.num_left_chunks = model.num_left_chunks
+
+        self.encoder_pos = model.encoder_pos
+        self.encoder = model.encoder
+       
+
+    def forward(
+        self, x: torch.Tensor, x_lens: torch.Tensor
+    ) -> Tuple[torch.Tensor, torch.Tensor]:
+        """
+        Args:
+          x:
+            The input tensor. Its shape is (batch_size, seq_len, feature_dim).
+          x_lens:
+            A tensor of shape (batch_size,) containing the number of frames in
+            `x` before padding.
+          warmup:
+            A floating point value that gradually increases from 0 throughout
+            training; when it is >= 1.0 we are "fully warmed up".  It is used
+            to turn modules on sequentially.
+        Returns:
+          Return a tuple containing 2 tensors:
+            - embeddings: its shape is (batch_size, output_seq_len, d_model)
+            - lengths, a tensor of shape (batch_size,) containing the number
+              of frames in `embeddings` before padding.
+        """
+        warmup = 1.0
+        x = self.encoder_embed(x)
+        x, pos_emb = self.encoder_pos(x)
+        x = x.permute(1, 0, 2)  # (N, T, C) -> (T, N, C)
+
+        # Caution: We assume the subsampling factor is 4!
+
+        #  lengths = ((x_lens - 1) // 2 - 1) // 2 # issue an warning
+        #
+        # Note: rounding_mode in torch.div() is available only in torch >= 1.8.0
+        lengths = (((x_lens - 1) >> 1) - 1) >> 1
+
+        if not is_jit_tracing():
+            assert x.size(0) == lengths.max().item()
+
+        src_key_padding_mask = make_pad_mask(lengths)
+
+        if self.dynamic_chunk_training:
+            assert (
+                self.causal
+            ), "Causal convolution is required for streaming conformer."
+            max_len = x.size(0)
+            chunk_size = torch.randint(1, max_len, (1,)).item()
+            if chunk_size > (max_len * self.short_chunk_threshold):
+                chunk_size = max_len
+            else:
+                chunk_size = chunk_size % self.short_chunk_size + 1
+
+            mask = ~subsequent_chunk_mask(
+                size=x.size(0),
+                chunk_size=chunk_size,
+                num_left_chunks=self.num_left_chunks,
+                device=x.device,
+            )
+            x = self.encoder(
+                x,
+                pos_emb,
+                mask=mask,
+                src_key_padding_mask=src_key_padding_mask,
+                warmup=warmup,
+            )  # (T, N, C)
+        else:
+            x = self.encoder(
+                x,
+                pos_emb,
+                mask=None,
+                src_key_padding_mask=src_key_padding_mask,
+                warmup=warmup,
+            )  # (T, N, C)
+
+        x = x.permute(1, 0, 2)  # (T, N, C) ->(N, T, C)
+        return x, lengths
 
 class Decoder(nn.Module):
     """This class modifies the stateless decoder from the following paper:

@@ -30,10 +30,10 @@ sequence_batching{
     {
       input_name: "attn_cache"
       output_name: "next_attn_cache"
-      data_type: TYPE_FP32
+      data_type: TYPE_FP16
       dims: [ 64, 12, 512 ] #  left_context, layers,d_model
       initial_state: {
-       data_type: TYPE_FP32
+       data_type: TYPE_FP16
        dims: [64, 12, 512]
        zero_data: true
        name: "initial state"
@@ -42,10 +42,10 @@ sequence_batching{
     {
       input_name: "cnn_cache"
       output_name: "next_cnn_cache"
-      data_type: TYPE_FP32
+      data_type: TYPE_FP16
       dims: [30, 12, 512] # cnn_module_kernel -1, encoder_layers, d_model
       initial_state: {
-       data_type: TYPE_FP32
+       data_type: TYPE_FP16
        dims: [30, 12, 512]
        zero_data: true
        name: "initial state"
@@ -68,7 +68,7 @@ sequence_batching{
 input [
   {
     name: "x"
-    data_type: TYPE_FP32
+    data_type: TYPE_FP16
     dims: [-1, 80] # TODO: decoding_window size
   },
   {
@@ -81,7 +81,7 @@ input [
 output [
   {
     name: "encoder_out"
-    data_type: TYPE_FP32
+    data_type: TYPE_FP16
     dims: [-1, 512] 
   },
   {

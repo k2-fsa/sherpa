@@ -13,28 +13,27 @@
 # limitations under the License.
 
 name: "decoder"
-backend: "pytorch"
-default_model_filename: "decoder_jit.pt"
+backend: "onnxruntime"
+default_model_filename: "decoder.onnx"
 
 max_batch_size: 512
 input [
   {
-    name: "decoder_input__0"
-    data_type: TYPE_INT32
+    name: "y"
+    data_type: TYPE_INT64
     dims: [2] # [context_size]
   }
 ]
 
 output [
   {
-    name: "decoder_output__0"
-    data_type: TYPE_FP32
+    name: "decoder_out"
+    data_type: TYPE_FP16
     dims: [1, 512] # [context_size, decoder_dim]
   }
 ]
 
 dynamic_batching {
-    preferred_batch_size: [ 16, 32 ]
   }
 
 instance_group [
@@ -43,16 +42,3 @@ instance_group [
       kind: KIND_GPU
     }
 ]
-
-parameters: {
-key: "INFERENCE_MODE"
-    value: {
-    string_value:"true"
-    }
-}
-parameters: {
-key: "DISABLE_OPTIMIZED_EXECUTION"
-    value: {
-    string_value:"true"
-    }
-}

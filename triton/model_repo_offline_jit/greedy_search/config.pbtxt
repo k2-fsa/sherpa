@@ -12,61 +12,54 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-name: "feature_extractor"
+name: "greedy_search"
 backend: "python"
 max_batch_size: 512
 
 parameters [
   {
-    key: "num_mel_bins",
-    value: { string_value: "80"}
+    key: "context_size",
+    value: { string_value: "2"}
   },
   {
-    key: "frame_shift_in_ms"
-    value: { string_value: "10"}
+    key: "bpe_model",
+    value: { string_value: "/workspace/bpe.model"}
   },
   {
-    key: "frame_length_in_ms"
-    value: { string_value: "25"}
-  },
-  {
-    key: "sample_rate"
-    value: { string_value: "16000"}
+   key: "FORCE_CPU_ONLY_INPUT_TENSORS", 
+   value: {string_value:"yes"}
   }
-
 ]
+
 
 input [
   {
-    name: "wav"
+    name: "encoder_out__0"
     data_type: TYPE_FP32
-    dims: [-1]
+    dims: [-1, 512] # [-1, encoder_out_dim]
   },
   {
-    name: "wav_lens"
+    name: "encoder_out_lens__1"
     data_type: TYPE_INT32
     dims: [1]
+    reshape: { shape: [ ] }
   }
 ]
 
 output [
   {
-    name: "speech"
-    data_type: TYPE_FP16
-    dims: [-1, 80]  # 80
-  },
-  {
-    name: "speech_lengths"
-    data_type: TYPE_INT64
+    name: "OUTPUT0"
+    data_type: TYPE_STRING
     dims: [1]
   }
 ]
 
 dynamic_batching {
+    preferred_batch_size: [ 16, 32 ]
   }
 instance_group [
     {
-      count: 1
-      kind: KIND_GPU
+      count: 2
+      kind: KIND_CPU
     }
-]
+  ]

@@ -6,8 +6,11 @@ LABEL maintainer="NVIDIA"
 LABEL repository="tritonserver"
 
 RUN pip3 install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu116
-RUN apt-get update  && apt-get -y install python3-dev && apt-get install -y cmake
-
+RUN apt-get update  && apt-get -y install python3-dev && apt-get install -y cmake && apt-get install -y libsndfile1
+RUN pip3 install soundfile
+RUN pip3 install grpcio-tools 
+RUN pip3 install tritonclient
+RUN pip3 install kaldialign
 RUN pip3 install -v kaldifeat
 RUN pip3 install sentencepiece
 RUN pip3 install pyyaml

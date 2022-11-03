@@ -33,14 +33,27 @@ mv onnx_triton_utils.py <your_icefall_path>/pruned_transducer_stateless3/
     --avg 1 \
     --streaming-model 1\
     --causal-convolution 1 \
-    --onnx 1
+    --onnx 1 \
+    --fp16
 
-It will generate the following three files in the given `exp_dir`.
+(2) Export to ONNX format with offline ASR model
+./pruned_transducer_stateless3/export_onnx.py \
+    --exp-dir ./icefall_librispeech_streaming_pruned_transducer_stateless3_giga_0.9_20220625/exp \
+    --bpe-model ./icefall_librispeech_streaming_pruned_transducer_stateless3_giga_0.9_20220625/data/lang_bpe_500/bpe.model \
+    --epoch 999 \
+    --avg 1 \
+    --onnx 1 \
+    --fp16
+
+It will generate the following six files in the given `exp_dir`.
 TODO: Check `onnx_check.py` for how to use them.
 
     - encoder.onnx
     - decoder.onnx
     - joiner.onnx
+    - encoder_fp16.onnx
+    - decoder_fp16.onnx
+    - joiner_fp16.onnx
 
 Note: If you don't want to train a model from scratch, we have
 provided one for you. You can get it at
@@ -65,7 +78,7 @@ import sentencepiece as spm
 import torch
 import torch.nn as nn
 
-from onnx_triton_utils import StreamingEncoder, get_transducer_model
+from onnx_triton_utils import StreamingEncoder, OfflineEncoder, get_transducer_model
 from scaling_converter import convert_scaled_to_non_scaled
 from train import add_model_arguments, get_params
 
@@ -156,6 +169,10 @@ def get_parser():
         are streaming model, this should be True.
         """,
     )
+
+    parser.add_argument('--fp16',
+                        action='store_true',
+                        help='whether to export fp16 model, default false')
 
     add_model_arguments(parser)
 
@@ -291,6 +308,62 @@ def export_encoder_model_onnx_streaming(
 
     logging.info(f"Saved to {encoder_filename}")
 
+
+def export_encoder_model_onnx_triton(
+    encoder_model: nn.Module,
+    encoder_filename: str,
+    opset_version: int = 11,
+) -> None:
+    """Export the given encoder model to ONNX format.
+    The exported model has two inputs:
+
+        - x, a tensor of shape (N, T, C); dtype is torch.float32
+        - x_lens, a tensor of shape (N,); dtype is torch.int64
+
+    and it has two outputs:
+
+        - encoder_out, a tensor of shape (N, T, C)
+        - encoder_out_lens, a tensor of shape (N,)
+
+    Note: The warmup argument is fixed to 1.
+
+    Args:
+      encoder_model:
+        The input encoder model
+      encoder_filename:
+        The filename to save the exported ONNX model.
+      opset_version:
+        The opset version to use.
+    """
+    encoder_model = OfflineEncoder(encoder_model)
+    encoder_model.eval()
+    x = torch.zeros(1, 51, 80, dtype=torch.float32)
+    x_lens = torch.tensor([51], dtype=torch.int64) #TODO FIX int32
+
+    torch.onnx.export(
+        encoder_model,
+        (x, x_lens),
+        encoder_filename,
+        verbose=False,
+        opset_version=opset_version,
+        input_names=[
+            "speech",
+            "speech_lengths",
+        ],
+        output_names=[
+            "encoder_out",
+            "encoder_out_lens",
+        ],
+        dynamic_axes={
+            "speech": {0: "B", 1: "T"},
+            "speech_lengths": {0: "B"},
+            "encoder_out": {0: "B", 1: "T"},
+            "encoder_out_lens": {0: "B"},
+        },
+    )
+
+    logging.info(f"Saved to {encoder_filename}")
+
 def export_decoder_model_onnx_triton(
     decoder_model: nn.Module,
     decoder_filename: str,
@@ -408,7 +481,7 @@ def main():
     logging.info(params)
 
     logging.info("About to create model")
-    if params.onnx and params.streaming_model:
+    if params.onnx:
         model = get_transducer_model(params, enable_giga=False)
     else:
         raise NotImplementedError
@@ -456,32 +529,63 @@ def main():
         opset_version = 11
         logging.info("Exporting to onnx format")
         encoder_filename = params.exp_dir / "encoder.onnx"
-        if not params.streaming_model:
-            raise NotImplementedError
-        else:
+        if params.streaming_model:
             export_encoder_model_onnx_streaming(
+                model.encoder, encoder_filename, opset_version=opset_version
+            )
+        else:
+            export_encoder_model_onnx_triton(
                 model.encoder, encoder_filename, opset_version=opset_version
             )
 
         decoder_filename = params.exp_dir / "decoder.onnx"
-        if not params.streaming_model:
-            raise NotImplementedError
-        else:
-             export_decoder_model_onnx_triton(
-                model.decoder,
-                decoder_filename,
-                opset_version=opset_version,
-            )           
+        # if not params.streaming_model:
+        #     raise NotImplementedError
+        # else:
+        #      export_decoder_model_onnx_triton(
+        #         model.decoder,
+        #         decoder_filename,
+        #         opset_version=opset_version,
+        #     )   
+
+        export_decoder_model_onnx_triton(
+        model.decoder,
+        decoder_filename,
+        opset_version=opset_version,
+        )           
 
         joiner_filename = params.exp_dir / "joiner.onnx"
-        if not params.streaming_model:
-            raise NotImplementedError
-        else:
-            export_joiner_model_onnx_triton(
-                model.joiner,
-                joiner_filename,
-                opset_version=opset_version,
-            )
+        export_joiner_model_onnx_triton(
+            model.joiner,
+            joiner_filename,
+            opset_version=opset_version,
+        )
+        # if not params.streaming_model:
+        #     raise NotImplementedError
+        # else:
+        #     export_joiner_model_onnx_triton(
+        #         model.joiner,
+        #         joiner_filename,
+        #         opset_version=opset_version,
+        #     )
+        if params.fp16:
+            try:
+                import onnxmltools
+                from onnxmltools.utils.float16_converter import convert_float_to_float16
+            except ImportError:
+                print('Please install onnxmltools!')
+                import sys
+                sys.exit(1)
+            def export_onnx_fp16(onnx_fp32_path, onnx_fp16_path):
+                onnx_fp32_model = onnxmltools.utils.load_model(onnx_fp32_path)
+                onnx_fp16_model = convert_float_to_float16(onnx_fp32_model)
+                onnxmltools.utils.save_model(onnx_fp16_model, onnx_fp16_path)
+            encoder_fp16_filename = params.exp_dir / "encoder_fp16.onnx"
+            export_onnx_fp16(encoder_filename, encoder_fp16_filename)
+            decoder_fp16_filename = params.exp_dir / "decoder_fp16.onnx"
+            export_onnx_fp16(decoder_filename, decoder_fp16_filename)
+            joiner_fp16_filename = params.exp_dir / "joiner_fp16.onnx"
+            export_onnx_fp16(joiner_filename, joiner_fp16_filename)
     else:
         logging.info("Not using onnx")
         # Save it using a format so that it can be loaded
