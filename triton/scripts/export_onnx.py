@@ -325,8 +325,6 @@ def export_encoder_model_onnx_triton(
         - encoder_out, a tensor of shape (N, T, C)
         - encoder_out_lens, a tensor of shape (N,)
 
-    Note: The warmup argument is fixed to 1.
-
     Args:
       encoder_model:
         The input encoder model
@@ -539,14 +537,6 @@ def main():
             )
 
         decoder_filename = params.exp_dir / "decoder.onnx"
-        # if not params.streaming_model:
-        #     raise NotImplementedError
-        # else:
-        #      export_decoder_model_onnx_triton(
-        #         model.decoder,
-        #         decoder_filename,
-        #         opset_version=opset_version,
-        #     )   
 
         export_decoder_model_onnx_triton(
         model.decoder,
@@ -560,14 +550,7 @@ def main():
             joiner_filename,
             opset_version=opset_version,
         )
-        # if not params.streaming_model:
-        #     raise NotImplementedError
-        # else:
-        #     export_joiner_model_onnx_triton(
-        #         model.joiner,
-        #         joiner_filename,
-        #         opset_version=opset_version,
-        #     )
+
         if params.fp16:
             try:
                 import onnxmltools

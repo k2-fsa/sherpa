@@ -175,36 +175,7 @@ class StreamingEncoder(torch.nn.Module):
 class OfflineEncoder(torch.nn.Module):
     """
     Args:
-        num_features (int): Number of input features
-        subsampling_factor (int): subsampling factor of encoder (the convolution layers before transformers)
-        d_model (int): attention dimension, also the output dimension
-        nhead (int): number of head
-        dim_feedforward (int): feedforward dimention
-        num_encoder_layers (int): number of encoder layers
-        dropout (float): dropout rate
-        layer_dropout (float): layer-dropout rate.
-        cnn_module_kernel (int): Kernel size of convolution module
-        vgg_frontend (bool): whether to use vgg frontend.
-        dynamic_chunk_training (bool): whether to use dynamic chunk training, if
-            you want to train a streaming model, this is expected to be True.
-            When setting True, it will use a masking strategy to make the attention
-            see only limited left and right context.
-        short_chunk_threshold (float): a threshold to determinize the chunk size
-            to be used in masking training, if the randomly generated chunk size
-            is greater than ``max_len * short_chunk_threshold`` (max_len is the
-            max sequence length of current batch) then it will use
-            full context in training (i.e. with chunk size equals to max_len).
-            This will be used only when dynamic_chunk_training is True.
-        short_chunk_size (int): see docs above, if the randomly generated chunk
-            size equals to or less than ``max_len * short_chunk_threshold``, the
-            chunk size will be sampled uniformly from 1 to short_chunk_size.
-            This also will be used only when dynamic_chunk_training is True.
-        num_left_chunks (int): the left context (in chunks) attention can see, the
-            chunk size is decided by short_chunk_threshold and short_chunk_size.
-            A minus value means seeing full left context.
-            This also will be used only when dynamic_chunk_training is True.
-        causal (bool): Whether to use causal convolution in conformer encoder
-            layer. This MUST be True when using dynamic_chunk_training.
+        model: Conformer Encoder
     """
 
     def __init__(
@@ -248,16 +219,14 @@ class OfflineEncoder(torch.nn.Module):
           x_lens:
             A tensor of shape (batch_size,) containing the number of frames in
             `x` before padding.
-          warmup:
-            A floating point value that gradually increases from 0 throughout
-            training; when it is >= 1.0 we are "fully warmed up".  It is used
-            to turn modules on sequentially.
         Returns:
           Return a tuple containing 2 tensors:
             - embeddings: its shape is (batch_size, output_seq_len, d_model)
             - lengths, a tensor of shape (batch_size,) containing the number
               of frames in `embeddings` before padding.
         """
+
+        # Note warmup is fixed to 1.0.
         warmup = 1.0
         x = self.encoder_embed(x)
         x, pos_emb = self.encoder_pos(x)
