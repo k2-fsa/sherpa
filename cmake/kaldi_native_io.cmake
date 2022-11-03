@@ -9,8 +9,8 @@ function(download_kaldi_native_io)
 
   include(FetchContent)
 
-  set(kaldi_native_io_URL  "https://github.com/csukuangfj/kaldi_native_io/archive/refs/tags/v1.15.1.tar.gz")
-  set(kaldi_native_io_HASH "SHA256=97377e1d61e99d8fc1d6037a418d3037522dfa46337e06162e24b1d97f3d70a6")
+  set(kaldi_native_io_URL  "https://github.com/csukuangfj/kaldi_native_io/archive/refs/tags/v1.17.2.tar.gz")
+  set(kaldi_native_io_HASH "SHA256=f916f2d3cd4c155b22cb64aa0d5e4f533b3ba2a40a77137c46506cfa7a00ec12")
 
   set(KALDI_NATIVE_IO_BUILD_TESTS OFF CACHE BOOL "" FORCE)
   set(KALDI_NATIVE_IO_BUILD_PYTHON OFF CACHE BOOL "" FORCE)
@@ -22,7 +22,7 @@ function(download_kaldi_native_io)
 
   FetchContent_GetProperties(kaldi_native_io)
   if(NOT kaldi_native_io_POPULATED)
-    message(STATUS "Downloading kaldi_native_io${kaldi_native_io_URL}")
+    message(STATUS "Downloading kaldi_native_io ${kaldi_native_io_URL}")
     FetchContent_Populate(kaldi_native_io)
   endif()
   message(STATUS "kaldi_native_io is downloaded to ${kaldi_native_io_SOURCE_DIR}")
