@@ -14,7 +14,6 @@ from cmake.cmake_extension import (
     is_windows,
 )
 
-
 if sys.argv[1] != "sdist":
     if "K2_INSTALL_PREFIX" not in os.environ:
         try:
@@ -76,8 +75,12 @@ def get_binaries_to_install():
     bin_dir = Path("build") / "sherpa" / "bin"
     bin_dir.mkdir(parents=True, exist_ok=True)
     suffix = ".exe" if is_windows() else ""
+    binaries = ["sherpa", "sherpa-online", "sherpa-version"]
+    binaries += ["offline_websocket_client", "offline_websocket_server"]
+    binaries += ["online_websocket_client", "online_websocket_server"]
+    binaries += ["online_websocket_client_from_microphone"]
     exe = []
-    for f in ["sherpa", "sherpa-online", "sherpa-version"]:
+    for f in binaries:
         t = bin_dir / (f + suffix)
         exe.append(str(t))
     return exe
