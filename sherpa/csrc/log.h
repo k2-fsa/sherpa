@@ -52,14 +52,14 @@ enum class LogLevel {
 //  SHERPA_LOG(TRACE) << "some message";
 //  SHERPA_LOG(DEBUG) << "some message";
 //
-#ifndef _MSC_VER
 constexpr LogLevel TRACE = LogLevel::kTrace;
 constexpr LogLevel DEBUG = LogLevel::kDebug;
 constexpr LogLevel INFO = LogLevel::kInfo;
 constexpr LogLevel WARNING = LogLevel::kWarning;
 constexpr LogLevel ERROR = LogLevel::kError;
 constexpr LogLevel FATAL = LogLevel::kFatal;
-#else
+// #ifndef _MSC_VER
+#if 0
 #define TRACE LogLevel::kTrace
 #define DEBUG LogLevel::kDebug
 #define INFO LogLevel::kInfo
