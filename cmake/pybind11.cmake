@@ -1,8 +1,4 @@
 function(download_pybind11)
-  if(CMAKE_VERSION VERSION_LESS 3.11)
-    list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/Modules)
-  endif()
-
   include(FetchContent)
 
   set(pybind11_URL  "https://github.com/pybind/pybind11/archive/v2.9.2.tar.gz")
