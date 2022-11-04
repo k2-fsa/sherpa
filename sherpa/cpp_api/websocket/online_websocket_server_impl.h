@@ -60,6 +60,21 @@ struct OnlineWebsocketDecoderConfig {
 
   bool use_gpu = false;
 
+  // For RnntConformerModel, i.e., for models from
+  // pruned_transducer_statelessX in icefall
+  // In number of frames after subsampling
+  int32_t left_context = -1;
+
+  // For RnntConformerModel, i.e., for models from
+  // pruned_transducer_statelessX in icefall
+  // In number of frames after subsampling
+  int32_t right_context = -1;
+
+  // For RnntConformerModel, i.e., for models from
+  // pruned_transducer_statelessX in icefall
+  // In number of frames after subsampling
+  int32_t chunk_size = -1;
+
   void Register(ParseOptions *po);
   void Validate() const;
 };
