@@ -96,6 +96,43 @@ RnntConformerModel::State RnntConformerModel::StateFromIValue(
   return {list.get(0).toTensor(), list.get(1).toTensor()};
 }
 
+torch::IValue RnntConformerModel::StackStates(
+    const std::vector<torch::IValue> &states) const {
+  int32_t batch_size = states.size();
+  std::vector<torch::Tensor> attn;
+  std::vector<torch::Tensor> conv;
+  attn.reserve(batch_size);
+  conv.reserve(batch_size);
+
+  for (const auto &s : states) {
+    torch::List<torch::IValue> list = s.toList();
+    attn.push_back(list.get(0).toTensor());
+    conv.push_back(list.get(1).toTensor());
+  }
+  torch::Tensor stacked_attn = torch::stack(attn, /*dim*/ 2);
+  torch::Tensor stacked_conv = torch::stack(conv, /*dim*/ 2);
+
+  return torch::List<torch::Tensor>({stacked_attn, stacked_conv});
+}
+
+std::vector<torch::IValue> RnntConformerModel::UnStackStates(
+    torch::IValue ivalue) const {
+  State states = StateFromIValue(ivalue);
+  int32_t batch_size = states[0].size(2);
+  std::vector<torch::IValue> ans;
+  ans.reserve(batch_size);
+
+  auto stacked_attn = torch::unbind(states[0], /*dim*/ 2);
+  auto stacked_conv = torch::unbind(states[1], /*dim*/ 2);
+  for (int32_t i = 0; i != batch_size; ++i) {
+    auto attn = stacked_attn[i];
+    auto conv = stacked_conv[i];
+    ans.push_back(StateToIValue({attn, conv}));
+  }
+
+  return ans;
+}
+
 torch::IValue RnntConformerModel::GetEncoderInitStates(int32_t /*unused=1*/) {
   torch::NoGradGuard no_grad;
   return encoder_.run_method("get_init_state", left_context_, device_);

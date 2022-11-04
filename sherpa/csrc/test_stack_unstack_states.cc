@@ -17,6 +17,7 @@
  */
 
 #include "gtest/gtest.h"
+#include "sherpa/csrc/rnnt_conformer_model.h"
 #include "sherpa/csrc/rnnt_lstm_model.h"
 
 namespace sherpa {
@@ -81,6 +82,76 @@ TEST(RnntLstmModel, StackUnstackStates) {
     state = model.StateFromIValue(unstacked[2]);
     EXPECT_TRUE(torch::allclose(state.first, hx2));
     EXPECT_TRUE(torch::allclose(state.second, cx2));
+  }
+}
+
+TEST(RnntConformerModel, StackUnstackStates) {
+  RnntConformerModel model;
+  int32_t num_layers = 12;
+  int32_t left_context = 32;
+  int32_t encoder_dim = 512;
+  int32_t cnn_module_kernel = 31;
+
+  torch::Tensor attn0 =
+      torch::rand({num_layers, left_context, encoder_dim}, torch::kFloat);
+  torch::Tensor conv0 = torch::rand(
+      {num_layers, cnn_module_kernel - 1, encoder_dim}, torch::kFloat);
+
+  torch::Tensor attn1 =
+      torch::rand({num_layers, left_context, encoder_dim}, torch::kFloat);
+  torch::Tensor conv1 = torch::rand(
+      {num_layers, cnn_module_kernel - 1, encoder_dim}, torch::kFloat);
+
+  torch::Tensor attn2 =
+      torch::rand({num_layers, left_context, encoder_dim}, torch::kFloat);
+  torch::Tensor conv2 = torch::rand(
+      {num_layers, cnn_module_kernel - 1, encoder_dim}, torch::kFloat);
+
+  torch::IValue s0 = model.StateToIValue({attn0, conv0});
+  torch::IValue s1 = model.StateToIValue({attn1, conv1});
+  torch::IValue s2 = model.StateToIValue({attn2, conv2});
+
+  {
+    // Test batch size 1
+    auto stacked = model.StackStates({s0});
+    auto unstacked = model.UnStackStates(stacked);
+    EXPECT_EQ(unstacked.size(), 1);
+    auto state = model.StateFromIValue(unstacked[0]);
+    EXPECT_TRUE(torch::allclose(state[0], attn0));
+    EXPECT_TRUE(torch::allclose(state[1], conv0));
+  }
+
+  {
+    // Test batch size 2
+    auto stacked = model.StackStates({s0, s1});
+    auto unstacked = model.UnStackStates(stacked);
+    EXPECT_EQ(unstacked.size(), 2);
+
+    auto state = model.StateFromIValue(unstacked[0]);
+    EXPECT_TRUE(torch::allclose(state[0], attn0));
+    EXPECT_TRUE(torch::allclose(state[1], conv0));
+
+    state = model.StateFromIValue(unstacked[1]);
+    EXPECT_TRUE(torch::allclose(state[0], attn1));
+    EXPECT_TRUE(torch::allclose(state[1], conv1));
+  }
+
+  {
+    // Test batch size 3
+    auto stacked = model.StackStates({s0, s1, s2});
+    auto unstacked = model.UnStackStates(stacked);
+    EXPECT_EQ(unstacked.size(), 3);
+    auto state = model.StateFromIValue(unstacked[0]);
+    EXPECT_TRUE(torch::allclose(state[0], attn0));
+    EXPECT_TRUE(torch::allclose(state[1], conv0));
+
+    state = model.StateFromIValue(unstacked[1]);
+    EXPECT_TRUE(torch::allclose(state[0], attn1));
+    EXPECT_TRUE(torch::allclose(state[1], conv1));
+
+    state = model.StateFromIValue(unstacked[2]);
+    EXPECT_TRUE(torch::allclose(state[0], attn2));
+    EXPECT_TRUE(torch::allclose(state[1], conv2));
   }
 }
 
