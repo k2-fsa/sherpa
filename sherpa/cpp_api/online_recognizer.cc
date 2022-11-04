@@ -69,6 +69,9 @@ class OnlineRecognizer::OnlineRecognizerImpl {
 
     opts.tokens = tokens;
     opts.use_gpu = use_gpu;
+    opts.left_context = decoding_opts.left_context;
+    opts.right_context = decoding_opts.right_context;
+    opts.chunk_size = decoding_opts.chunk_size;
 
     switch (decoding_opts.method) {
       case kGreedySearch:

@@ -40,6 +40,21 @@ void OnlineWebsocketDecoderConfig::Register(ParseOptions *po) {
                "True to use GPU for computation."
                "Caution: We currently assume there is only one GPU. You have "
                "to change the code to support multiple GPUs.");
+
+  po->Register("decode-left-context", &left_context,
+               "Used only for streaming Conformer, i.e, models from "
+               "pruned_transducer_statelessX in icefall. "
+               "Number of frames after subsampling during decoding.");
+
+  po->Register("decode-right-context", &right_context,
+               "Used only for streaming Conformer, i.e, models from "
+               "pruned_transducer_statelessX in icefall. "
+               "Number of frames after subsampling during decoding.");
+
+  po->Register("decode-chunk-size", &chunk_size,
+               "Used only for streaming Conformer, i.e, models from "
+               "pruned_transducer_statelessX in icefall. "
+               "Number of frames after subsampling during decoding.");
 }
 
 void OnlineWebsocketDecoderConfig::Validate() const {
@@ -97,6 +112,10 @@ OnlineWebsocketDecoder::OnlineWebsocketDecoder(
     opts.method = kModifiedBeamSearch;
     opts.num_active_paths = config.num_active_paths;
   }
+  // TODO(fangjun): Expose OnlineAsrOptions directly to users.
+  opts.left_context = config.left_context;
+  opts.right_context = config.right_context;
+  opts.chunk_size = config.chunk_size;
 
   recognizer_ = std::make_unique<OnlineRecognizer>(
       config.nn_model, config.tokens, opts, config.use_gpu, config.sample_rate);

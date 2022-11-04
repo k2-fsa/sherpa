@@ -25,6 +25,7 @@
 #include "sherpa/csrc/log.h"
 #include "sherpa/csrc/parse_options.h"
 #include "sherpa/csrc/rnnt_beam_search.h"
+#include "sherpa/csrc/rnnt_conformer_model.h"
 #include "sherpa/csrc/rnnt_conv_emformer_model.h"
 #include "sherpa/csrc/rnnt_lstm_model.h"
 
@@ -83,6 +84,21 @@ void OnlineAsrOptions::Register(ParseOptions *po) {
                "true to use GPU for computation. false to use CPU.\n"
                "If true, it uses the first device. You can use the environment "
                "variable CUDA_VISIBLE_DEVICES to select which device to use.");
+
+  po->Register("decode-left-context", &left_context,
+               "Used only for streaming Conformer, i.e, models from "
+               "pruned_transducer_statelessX in icefall. "
+               "Number of frames after subsampling during decoding.");
+
+  po->Register("decode-right-context", &right_context,
+               "Used only for streaming Conformer, i.e, models from "
+               "pruned_transducer_statelessX in icefall. "
+               "Number of frames after subsampling during decoding.");
+
+  po->Register("decode-chunk-size", &chunk_size,
+               "Used only for streaming Conformer, i.e, models from "
+               "pruned_transducer_statelessX in icefall. "
+               "Number of frames after subsampling during decoding.");
 
   fbank_opts.frame_opts.dither = 0;
   RegisterFrameExtractionOptions(po, &fbank_opts.frame_opts);
@@ -151,7 +167,21 @@ OnlineAsr::OnlineAsr(const OnlineAsrOptions &opts)
     : opts_(opts), sym_(opts.tokens) {
   torch::Device device(opts.use_gpu ? "cuda:0" : "cpu");
   if (!opts.nn_model.empty()) {
-    model_ = std::make_unique<RnntConvEmformerModel>(opts.nn_model, device);
+    torch::jit::Module m = torch::jit::load(opts.nn_model, device);
+    auto encoder = m.attr("encoder").toModule();
+    if (encoder.hasattr("chunk_length")) {
+      model_ = std::make_unique<RnntConvEmformerModel>(opts.nn_model, device);
+    } else {
+      int32_t left_context = opts.left_context;
+      int32_t right_context = opts.right_context;
+      int32_t chunk_size = opts.chunk_size;
+      SHERPA_CHECK_GT(left_context, 0);
+      SHERPA_CHECK_GT(right_context, 0);
+      SHERPA_CHECK_GT(chunk_size, 0);
+
+      model_ = std::make_unique<RnntConformerModel>(
+          opts.nn_model, left_context, right_context, chunk_size, device);
+    }
   } else {
     model_ = std::make_unique<RnntLstmModel>(
         opts.encoder_model, opts.decoder_model, opts.joiner_model, device);

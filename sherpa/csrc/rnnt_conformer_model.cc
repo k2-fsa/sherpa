@@ -141,7 +141,7 @@ torch::IValue RnntConformerModel::GetEncoderInitStates(int32_t /*unused=1*/) {
 std::tuple<torch::Tensor, torch::Tensor, torch::IValue>
 RnntConformerModel::StreamingForwardEncoder(
     const torch::Tensor &features, const torch::Tensor &features_length,
-    torch::IValue states, const torch::Tensor &processed_frames) {
+    const torch::Tensor &processed_frames, torch::IValue states) {
   torch::NoGradGuard no_grad;
   auto outputs =
       encoder_
