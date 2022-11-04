@@ -100,8 +100,7 @@ def _create_streaming_feature_extractor() -> OnlineFeature:
     opts.frame_opts.samp_freq = 16000
     opts.mel_opts.num_bins = 80
 
-    # 100 is more than enough for the LSTM model.
-    opts.frame_opts.max_feature_vectors = 100
+    opts.frame_opts.max_feature_vectors = -1
     return OnlineFbank(opts)
 
 
