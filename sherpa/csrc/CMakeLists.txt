@@ -115,7 +115,7 @@ add_executable(sherpa-version version.cc)
 target_include_directories(sherpa-version PRIVATE ${CMAKE_BINARY_DIR})
 
 install(TARGETS
-    sherpa_core kaldi_native_io_core
+    sherpa_core
   DESTINATION lib
 )
 

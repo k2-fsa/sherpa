@@ -26,6 +26,10 @@ function(download_kaldi_native_io)
     PUBLIC
       ${kaldi_native_io_SOURCE_DIR}/
   )
+
+  set_target_properties(kaldi_native_io_core PROPERTIES OUTPUT_NAME "sherpa_kaldi_native_io_core")
+
+  install(TARGETS kaldi_native_io_core DESTINATION lib)
 endfunction()
 
 download_kaldi_native_io()

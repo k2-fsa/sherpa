@@ -1,4 +1,5 @@
 # Copyright (c)  2021-2022  Xiaomi Corporation (author: Fangjun Kuang)
+# flake8: noqa
 
 import os
 import platform
@@ -107,7 +108,7 @@ class BuildExtension(build_ext):
 
                 cmake {cmake_args} {sherpa_dir}
 
-                make {make_args} install
+                make {make_args} install/strip
             """
             print(f"build command is:\n{build_cmd}")
 
@@ -120,7 +121,12 @@ class BuildExtension(build_ext):
                 )
 
         suffix = ".exe" if is_windows() else ""
-        for f in ["sherpa", "sherpa-online", "sherpa-version"]:
+        # Remember to also change setup.py
+        binaries = ["sherpa", "sherpa-online", "sherpa-version"]
+        binaries += ["offline_websocket_client", "offline_websocket_server"]
+        binaries += ["online_websocket_client", "online_websocket_server"]
+        binaries += ["online_websocket_client_from_microphone"]
+        for f in binaries:
             src_file = install_dir / "bin" / (f + suffix)
             print(f"Copying {src_file} to {out_bin_dir}/")
             shutil.copy(f"{src_file}", f"{out_bin_dir}/")
