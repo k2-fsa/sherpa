@@ -82,7 +82,7 @@ class BuildExtension(build_ext):
         if is_windows():
             build_cmd = f"""
          cmake {cmake_args} -B {self.build_temp} -S {sherpa_dir}
-         cmake --build {self.build_temp} --target install/strip --config Release -- -m
+         cmake --build {self.build_temp} --target install --config Release -- -m
             """
             print(f"build command is:\n{build_cmd}")
             ret = os.system(
@@ -92,7 +92,7 @@ class BuildExtension(build_ext):
                 raise Exception("Failed to configure sherpa")
 
             ret = os.system(
-                f"cmake --build {self.build_temp} --target install/strip --config Release -- -m"  # noqa
+                f"cmake --build {self.build_temp} --target install --config Release -- -m"  # noqa
             )
             if ret != 0:
                 raise Exception("Failed to build and install sherpa")
