@@ -353,9 +353,12 @@ class OfflineServer:
         Returns:
           Return a list of torch script models.
         """
+        # left_context and right_context are used only in streaming mode.
         if num_device < 1:
             model = RnntConformerModel(
                 filename=nn_model_filename,
+                left_context=0,
+                right_context=0,
                 device="cpu",
                 optimize_for_inference=False,
             )
@@ -366,6 +369,8 @@ class OfflineServer:
             device = torch.device("cuda", i)
             model = RnntConformerModel(
                 filename=nn_model_filename,
+                left_context=0,
+                right_context=0,
                 device=device,
                 optimize_for_inference=False,
             )

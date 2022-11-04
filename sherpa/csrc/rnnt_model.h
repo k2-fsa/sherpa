@@ -44,7 +44,7 @@ class RnntModel {
   virtual int32_t ContextSize() const = 0;
   virtual int32_t VocabSize() const = 0;
 
-  int32_t SubsamplingFactor() const { return 4; }
+  virtual int32_t SubsamplingFactor() const { return 4; }
 
   /** Run the decoder network.
    *

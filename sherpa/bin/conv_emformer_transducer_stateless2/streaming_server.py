@@ -250,8 +250,6 @@ class StreamingServer(object):
         # number of frames before subsampling
         self.chunk_length = self.model.chunk_length
 
-        # We add 3 here since the subsampling method is using
-        # ((len - 1) // 2 - 1) // 2)
         self.chunk_length_pad = self.chunk_length + self.model.pad_length
 
         self.sp = spm.SentencePieceProcessor()
@@ -454,7 +452,7 @@ class StreamingServer(object):
         socket: websockets.WebSocketServerProtocol,
     ):
         """Receive audio samples from the client, process it, and send
-        deocoding result back to the client.
+        decoding result back to the client.
 
         Args:
           socket:

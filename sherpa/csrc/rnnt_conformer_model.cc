@@ -22,9 +22,14 @@
 namespace sherpa {
 
 RnntConformerModel::RnntConformerModel(const std::string &filename,
+                                       int32_t left_context,
+                                       int32_t right_context,
+                                       int32_t decode_chunk_size,
                                        torch::Device device /*=torch::kCPU*/,
                                        bool optimize_for_inference /*=false*/)
-    : device_(device) {
+    : device_(device),
+      left_context_(left_context),
+      right_context_(right_context) {
   model_ = torch::jit::load(filename, device);
   model_.eval();
 #if SHERPA_TORCH_VERSION_MAJOR > 1 || \
@@ -51,6 +56,18 @@ RnntConformerModel::RnntConformerModel(const std::string &filename,
   }
 
   context_size_ = decoder_.attr("context_size").toInt();
+
+  // We add 3 here since the subsampling method is using
+  // ((len - 1) // 2 - 1) // 2)
+  // We plus 2 here because we will cut off one frame on each side
+  // of encoder_embed output (in conformer.py) to avoid a training
+  // and decoding mismatch by seeing padding values.
+  // Note: chunk_length is in frames before subsampling.
+  //
+  // (decode_chunk_size + 2 + right_context_) * subsampling_factor_ + 3;
+
+  chunk_length_ = decode_chunk_size * subsampling_factor_;
+  pad_length_ = (2 + right_context_) * subsampling_factor_ + 3;
 }
 
 std::pair<torch::Tensor, torch::Tensor> RnntConformerModel::ForwardEncoder(
@@ -79,21 +96,20 @@ RnntConformerModel::State RnntConformerModel::StateFromIValue(
   return {list.get(0).toTensor(), list.get(1).toTensor()};
 }
 
-torch::IValue RnntConformerModel::GetEncoderInitStates(int32_t left_context) {
+torch::IValue RnntConformerModel::GetEncoderInitStates(int32_t /*unused=1*/) {
   torch::NoGradGuard no_grad;
-  return encoder_.run_method("get_init_state", left_context, device_);
+  return encoder_.run_method("get_init_state", left_context_, device_);
 }
 
 std::tuple<torch::Tensor, torch::Tensor, torch::IValue>
 RnntConformerModel::StreamingForwardEncoder(
     const torch::Tensor &features, const torch::Tensor &features_length,
-    torch::IValue states, const torch::Tensor &processed_frames,
-    int32_t left_context, int32_t right_context) {
+    torch::IValue states, const torch::Tensor &processed_frames) {
   torch::NoGradGuard no_grad;
   auto outputs =
       encoder_
           .run_method("streaming_forward", features, features_length, states,
-                      processed_frames, left_context, right_context)
+                      processed_frames, left_context_, right_context_)
           .toTuple();
   auto encoder_out = outputs->elements()[0].toTensor();
   auto encoder_out_length = outputs->elements()[1].toTensor();

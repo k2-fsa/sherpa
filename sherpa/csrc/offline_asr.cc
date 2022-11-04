@@ -125,7 +125,9 @@ std::string OfflineAsrOptions::ToString() const {
 
 OfflineAsr::OfflineAsr(const OfflineAsrOptions &opts)
     : opts_(opts),
-      model_(opts.nn_model,
+      // We set left_context and right_context to 0 since they are not
+      // used in non-streaming mode
+      model_(opts.nn_model, 0, 0, 0,
              opts.use_gpu ? torch::Device("cuda:0") : torch::Device("cpu")),
       sym_(opts.tokens),
       fbank_(opts.fbank_opts) {}
