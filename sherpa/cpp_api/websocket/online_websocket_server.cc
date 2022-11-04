@@ -73,7 +73,18 @@ int32_t main(int32_t argc, char *argv[]) {
   config.Register(&po);
   decoder_config.Register(&po);
 
+  if (argc == 1) {
+    po.PrintUsage();
+    exit(EXIT_FAILURE);
+  }
+
   po.Read(argc, argv);
+
+  if (po.NumArgs() != 0) {
+    SHERPA_LOG(ERROR) << "Unrecognized positional arguments!";
+    po.PrintUsage();
+    exit(EXIT_FAILURE);
+  }
 
   config.Validate();
   decoder_config.Validate();

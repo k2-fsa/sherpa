@@ -25,6 +25,14 @@ function(download_portaudio)
   message(STATUS "portaudio's binary dir is ${portaudio_BINARY_DIR}")
 
   add_subdirectory(${portaudio_SOURCE_DIR} ${portaudio_BINARY_DIR} EXCLUDE_FROM_ALL)
+
+  if(BUILD_SHARED_LIBS)
+    set_target_properties(portaudio PROPERTIES OUTPUT_NAME "sherpa_portaudio")
+    install(TARGETS portaudio DESTINATION lib)
+  else()
+    set_target_properties(portaudio_static PROPERTIES OUTPUT_NAME "sherpa_portaudio_static")
+    install(TARGETS portaudio_static DESTINATION lib)
+  endif()
 endfunction()
 
 download_portaudio()

@@ -75,6 +75,7 @@ def get_binaries_to_install():
     bin_dir = Path("build") / "sherpa" / "bin"
     bin_dir.mkdir(parents=True, exist_ok=True)
     suffix = ".exe" if is_windows() else ""
+    # Remember to also change cmake/cmake_extension.py
     binaries = ["sherpa", "sherpa-online", "sherpa-version"]
     binaries += ["offline_websocket_client", "offline_websocket_server"]
     binaries += ["online_websocket_client", "online_websocket_server"]
