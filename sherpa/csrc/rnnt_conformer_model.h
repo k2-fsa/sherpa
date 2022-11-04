@@ -87,15 +87,11 @@ class RnntConformerModel : public RnntModel {
    * @param features  A 3-D tensor of shape (N, T, C).
    * @param features_length A 1-D tensor of shape (N,) containing the number of
    *                       valid frames in `features`.
+   * @param processed_frames How many frames have processed until now.
    * @param states A list of tensors containing the decode caches of previous
    *              frames. It is almost transparent to users, initially this
    *              comes from the return value of `GetEncoderInitStates`, then it
    *              will be updated after finishing each chunk.
-   * @param processed_lengths How many frames have processed until now.
-   * @param left_context How many previous frames can be seen for current
-   *                     chunk.
-   * @param right_context How many future frames can be seen for current
-   *                      chunk.
    * @return Return a pair containing two tensors:
    *         - encoder_out, a 3-D tensor of shape (N, T, C)
    *         - encoder_out_length, a 1-D tensor of shape (N,) containing the
@@ -104,8 +100,8 @@ class RnntConformerModel : public RnntModel {
   std::tuple<torch::Tensor, torch::Tensor, torch::IValue>
   StreamingForwardEncoder(const torch::Tensor &features,
                           const torch::Tensor &features_length,
-                          torch::IValue states,
-                          const torch::Tensor &processed_frames);
+                          const torch::Tensor &processed_frames,
+                          torch::IValue states) override;
 
   /** Run the decoder network.
    *
