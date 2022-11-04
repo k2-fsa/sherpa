@@ -35,6 +35,8 @@ namespace sherpa {
  */
 class RnntConformerModel : public RnntModel {
  public:
+  // for testing in ./test_stack_unstack_states.cc
+  RnntConformerModel() = default;
   /**
    * @param filename Path name of the torch script model.
    * @param device  The model will be moved to this device
@@ -48,10 +50,21 @@ class RnntConformerModel : public RnntModel {
 
   ~RnntConformerModel() override = default;
 
+  // A vector contains two tensors:
+  //   - a 3-d tensor: (num_encoder_layers, left_context, encoder_dim)
+  //   - a 3-d tensor: (num_encoder_layers, cnn_module_kernel - 1, encoder_dim)
   using State = std::vector<torch::Tensor>;
 
   torch::IValue StateToIValue(const State &s) const;
   State StateFromIValue(torch::IValue ivalue) const;
+
+  // The returned IValue contains two tensors:
+  //  - a 4-d tensor: (num_encoder_layers, left_context, N, encoder_dim)
+  //  - a 4-d tensor: (num_encoder_layers, cnn_module_kernel - 1,N, encoder_dim)
+  torch::IValue StackStates(
+      const std::vector<torch::IValue> &states) const override;
+
+  std::vector<torch::IValue> UnStackStates(torch::IValue states) const override;
 
   torch::IValue GetEncoderInitStates(int32_t unused = 1) override;
 
@@ -146,7 +159,7 @@ class RnntConformerModel : public RnntModel {
 
   int32_t subsampling_factor_ = 4;
 
-  torch::Device device_;
+  torch::Device device_{"cpu"};
   int32_t blank_id_;
   int32_t unk_id_;
   int32_t context_size_;

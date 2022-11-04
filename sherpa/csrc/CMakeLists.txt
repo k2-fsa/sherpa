@@ -1,5 +1,6 @@
 # Please sort the filenames alphabetically
 set(sherpa_srcs
+  ctc_conformer_model.cc
   endpoint.cc
   fbank_features.cc
   file_utils.cc

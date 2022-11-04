@@ -359,6 +359,7 @@ class OfflineServer:
                 filename=nn_model_filename,
                 left_context=0,
                 right_context=0,
+                decode_chunk_size=0,
                 device="cpu",
                 optimize_for_inference=False,
             )
