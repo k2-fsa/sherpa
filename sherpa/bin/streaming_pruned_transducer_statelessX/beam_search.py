@@ -84,15 +84,8 @@ class FastBeamSearch:
             updated in-place.
         """
         model = server.model
-        # Note: chunk_length is in frames before subsampling
         chunk_length = server.chunk_length
-        subsampling_factor = server.subsampling_factor
-        # Note: chunk_size, left_context and right_context are in frames
-        # after subsampling
-        chunk_size = server.decode_chunk_size
-        left_context = server.decode_left_context
-        right_context = server.decode_right_context
-
+        chunk_length_pad = server.chunk_length_pad
         batch_size = len(stream_list)
 
         state_list = []
@@ -105,8 +98,8 @@ class FastBeamSearch:
             rnnt_decoding_streams_list.append(s.rnnt_decoding_stream)
             state_list.append(s.states)
             processed_frames_list.append(s.processed_frames)
-            f = s.features[:chunk_length]
-            s.features = s.features[chunk_size * subsampling_factor :]
+            f = s.features[:chunk_length_pad]
+            s.features = s.features[chunk_length:]
             b = torch.cat(f, dim=0)
             feature_list.append(b)
 
@@ -137,8 +130,6 @@ class FastBeamSearch:
             features_length=features_length,
             states=states,
             processed_frames=processed_frames,
-            left_context=left_context,
-            right_context=right_context,
         )
 
         processed_lens = processed_frames + encoder_out_lens
@@ -291,14 +282,8 @@ class GreedySearch:
         """
         model = server.model
         device = model.device
-        # Note: chunk_length is in frames before subsampling
         chunk_length = server.chunk_length
-        subsampling_factor = server.subsampling_factor
-        # Note: chunk_size, left_context and right_context are in frames
-        # after subsampling
-        chunk_size = server.decode_chunk_size
-        left_context = server.decode_left_context
-        right_context = server.decode_right_context
+        chunk_length_pad = server.chunk_length_pad
 
         batch_size = len(stream_list)
 
@@ -313,8 +298,8 @@ class GreedySearch:
             hyp_list.append(s.hyp)
             state_list.append(s.states)
             processed_frames_list.append(s.processed_frames)
-            f = s.features[:chunk_length]
-            s.features = s.features[chunk_size * subsampling_factor :]
+            f = s.features[:chunk_length_pad]
+            s.features = s.features[chunk_length:]
             b = torch.cat(f, dim=0)
             feature_list.append(b)
 
@@ -349,8 +334,6 @@ class GreedySearch:
             features_length=features_length,
             states=states,
             processed_frames=processed_frames,
-            left_context=left_context,
-            right_context=right_context,
         )
 
         # Note: It does not return the next_encoder_out_len since
@@ -454,14 +437,8 @@ class ModifiedBeamSearch:
         """
         model = server.model
         device = model.device
-        # Note: chunk_length is in frames before subsampling
         chunk_length = server.chunk_length
-        subsampling_factor = server.subsampling_factor
-        # Note: chunk_size, left_context and right_context are in frames
-        # after subsampling
-        chunk_size = server.decode_chunk_size
-        left_context = server.decode_left_context
-        right_context = server.decode_right_context
+        chunk_length_pad = server.chunk_length_pad
 
         batch_size = len(stream_list)
 
@@ -475,8 +452,8 @@ class ModifiedBeamSearch:
             hyp_list.append(s.hyps)
             state_list.append(s.states)
             processed_frames_list.append(s.processed_frames)
-            f = s.features[:chunk_length]
-            s.features = s.features[chunk_size * subsampling_factor :]
+            f = s.features[:chunk_length_pad]
+            s.features = s.features[chunk_length:]
             b = torch.cat(f, dim=0)
             feature_list.append(b)
 
@@ -508,8 +485,6 @@ class ModifiedBeamSearch:
             features_length=features_length,
             states=states,
             processed_frames=processed_frames,
-            left_context=left_context,
-            right_context=right_context,
         )
 
         next_hyps_list = streaming_modified_beam_search(

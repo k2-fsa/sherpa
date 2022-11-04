@@ -41,7 +41,8 @@ class RnntConformerModel : public RnntModel {
    * @param optimize_for_inference true to invoke
    *                               torch::jit::optimize_for_inference().
    */
-  explicit RnntConformerModel(const std::string &filename,
+  explicit RnntConformerModel(const std::string &filename, int32_t left_context,
+                              int32_t right_context, int32_t decode_chunk_size,
                               torch::Device device = torch::kCPU,
                               bool optimize_for_inference = false);
 
@@ -52,7 +53,7 @@ class RnntConformerModel : public RnntModel {
   torch::IValue StateToIValue(const State &s) const;
   State StateFromIValue(torch::IValue ivalue) const;
 
-  torch::IValue GetEncoderInitStates(int32_t left_context);
+  torch::IValue GetEncoderInitStates(int32_t unused = 1) override;
 
   torch::Device Device() const override { return device_; }
 
@@ -60,9 +61,13 @@ class RnntConformerModel : public RnntModel {
   int32_t UnkId() const override { return unk_id_; }
   int32_t ContextSize() const override { return context_size_; }
   int32_t VocabSize() const override { return vocab_size_; }
+
   // Hard code the subsampling_factor to 4 here since the subsampling
   // method uses ((len - 1) // 2 - 1) // 2)
-  int32_t SubSamplingFactor() const { return 4; }
+  int32_t SubsamplingFactor() const override { return subsampling_factor_; }
+
+  int32_t ChunkLength() const override { return chunk_length_; }
+  int32_t PadLength() const override { return pad_length_; }
 
   /** Run the encoder network.
    *
@@ -100,8 +105,7 @@ class RnntConformerModel : public RnntModel {
   StreamingForwardEncoder(const torch::Tensor &features,
                           const torch::Tensor &features_length,
                           torch::IValue states,
-                          const torch::Tensor &processed_frames,
-                          int32_t left_context, int32_t right_context);
+                          const torch::Tensor &processed_frames);
 
   /** Run the decoder network.
    *
@@ -144,11 +148,22 @@ class RnntConformerModel : public RnntModel {
   torch::jit::Module encoder_proj_;
   torch::jit::Module decoder_proj_;
 
+  int32_t subsampling_factor_ = 4;
+
   torch::Device device_;
   int32_t blank_id_;
   int32_t unk_id_;
   int32_t context_size_;
   int32_t vocab_size_;
+
+  int32_t left_context_;   // after subsampling. Used only in streaming mode
+  int32_t right_context_;  // after subsampling. Used only in streaming mode
+
+  // before subsampling. Used only in streaming mode
+  int32_t chunk_length_;
+
+  // before subsampling, used only in streaming mode
+  int32_t pad_length_;
 };
 
 }  // namespace sherpa
