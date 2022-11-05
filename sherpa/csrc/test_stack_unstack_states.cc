@@ -18,6 +18,7 @@
 
 #include "gtest/gtest.h"
 #include "sherpa/csrc/rnnt_conformer_model.h"
+#include "sherpa/csrc/rnnt_emformer_model.h"
 #include "sherpa/csrc/rnnt_lstm_model.h"
 
 namespace sherpa {
@@ -152,6 +153,61 @@ TEST(RnntConformerModel, StackUnstackStates) {
     state = model.StateFromIValue(unstacked[2]);
     EXPECT_TRUE(torch::allclose(state[0], attn2));
     EXPECT_TRUE(torch::allclose(state[1], conv2));
+  }
+}
+
+TEST(RnntEmformer, StackUnstackStates) {
+  RnntEmformerModel model;
+  int32_t num_layers = 12;
+  int32_t memory_size = 2;
+  int32_t input_dim = 10;
+  int32_t left_context = 20;
+  for (int32_t batch_size = 1; batch_size != 3; ++batch_size) {
+    auto memory = torch::unbind(
+        torch::rand({memory_size, batch_size, input_dim}, torch::kFloat), 1);
+
+    auto key = torch::unbind(
+        torch::rand({memory_size, batch_size, input_dim}, torch::kFloat), 1);
+
+    auto value = torch::unbind(
+        torch::rand({memory_size, batch_size, input_dim}, torch::kFloat), 1);
+
+    auto past = torch::unbind(torch::rand({1, batch_size}, torch::kFloat), 1);
+
+    std::vector<std::vector<std::vector<torch::Tensor>>> buf(batch_size);
+    for (int32_t b = 0; b != batch_size; ++b) {
+      auto &s = buf[b];
+      s.resize(num_layers);
+      for (int32_t layer = 0; layer != num_layers; ++layer) {
+        auto &layer_states = s[layer];
+        layer_states.push_back(memory[b]);
+        layer_states.push_back(key[b]);
+        layer_states.push_back(value[b]);
+        layer_states.push_back(past[b]);
+      }
+    }
+
+    std::vector<torch::IValue> states;
+    for (const auto &s : buf) {
+      states.push_back(model.StateToIValue(s));
+    }
+
+    auto stacked_states = model.StackStates(states);
+    auto unstacked_states = model.UnStackStates(stacked_states);
+    for (int32_t b = 0; b != batch_size; ++b) {
+      auto target = model.StateFromIValue(unstacked_states[b]);
+      // Check that s is identical to buf[b]
+      const auto &ground_truth = buf[b];
+      ASSERT_EQ(target.size(), ground_truth.size());
+      for (int32_t layer = 0; layer != num_layers; ++layer) {
+        const auto &t = target[layer];
+        const auto &g = ground_truth[layer];
+        ASSERT_EQ(t.size(), g.size());
+        for (size_t i = 0; i != t.size(); ++i) {
+          EXPECT_TRUE(torch::allclose(t[i], g[i]));
+        }
+      }
+    }
   }
 }
 

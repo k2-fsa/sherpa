@@ -122,11 +122,11 @@ std::vector<torch::IValue> RnntConformerModel::UnStackStates(
   std::vector<torch::IValue> ans;
   ans.reserve(batch_size);
 
-  auto stacked_attn = torch::unbind(states[0], /*dim*/ 2);
-  auto stacked_conv = torch::unbind(states[1], /*dim*/ 2);
+  auto unstacked_attn = torch::unbind(states[0], /*dim*/ 2);
+  auto unstacked_conv = torch::unbind(states[1], /*dim*/ 2);
   for (int32_t i = 0; i != batch_size; ++i) {
-    auto attn = stacked_attn[i];
-    auto conv = stacked_conv[i];
+    auto attn = unstacked_attn[i];
+    auto conv = unstacked_conv[i];
     ans.push_back(StateToIValue({attn, conv}));
   }
 
