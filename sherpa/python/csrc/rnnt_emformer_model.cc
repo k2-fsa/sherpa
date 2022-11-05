@@ -42,12 +42,33 @@ void PybindRnntEmformerModel(py::module &m) {  // NOLINT
            }),
            py::arg("filename"), py::arg("device") = py::str("cpu"),
            py::arg("optimize_for_inference") = false)
-      .def("encoder_streaming_forward", &PyClass::StreamingForwardEncoder,
-           py::arg("features"), py::arg("features_length"),
-           py::arg("states") = py::none(),
-           py::call_guard<py::gil_scoped_release>())
-      .def("get_encoder_init_states", &PyClass::GetEncoderInitStates,
-           py::call_guard<py::gil_scoped_release>())
+      .def(
+          "encoder_streaming_forward",
+          [](PyClass &self, const torch::Tensor &features,
+             const torch::Tensor &features_length,
+             const PyClass::State &states = {})
+              -> std::tuple<torch::Tensor, torch::Tensor, PyClass::State> {
+            torch::Tensor encoder_out;
+            torch::Tensor encoder_out_lens;
+            torch::IValue next_states;
+
+            std::tie(encoder_out, encoder_out_lens, next_states) =
+                self.StreamingForwardEncoder(features, features_length, {},
+                                             self.StateToIValue(states));
+
+            return {encoder_out, encoder_out_lens,
+                    self.StateFromIValue(next_states)};
+          },
+          py::arg("features"), py::arg("features_length"),
+          py::arg("states") = py::none(),
+          py::call_guard<py::gil_scoped_release>())
+      .def(
+          "get_encoder_init_states",
+          [](PyClass &self) -> PyClass::State {
+            auto ivalue = self.GetEncoderInitStates();
+            return self.StateFromIValue(ivalue);
+          },
+          py::call_guard<py::gil_scoped_release>())
       .def_property_readonly("segment_length", &PyClass::SegmentLength)
       .def_property_readonly("vocab_size", &PyClass::VocabSize)
       .def_property_readonly("right_context_length",

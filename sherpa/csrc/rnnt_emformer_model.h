@@ -33,6 +33,8 @@ namespace sherpa {
  */
 class RnntEmformerModel : public RnntModel {
  public:
+  // for testing in ./test_stack_unstack_states.cc
+  RnntEmformerModel() = default;
   /**
    * @param filename Path name of the torch script model.
    * @param device  The model will be moved to this device
@@ -45,13 +47,20 @@ class RnntEmformerModel : public RnntModel {
 
   ~RnntEmformerModel() override = default;
 
+  // state[i] contains state for the i-th layer.
+  // state[i][k] is either a 3-d tensor of shape (T, N, C) or
+  // a 2-d tensor of shape (C, N)
   using State = std::vector<std::vector<torch::Tensor>>;
 
-  std::tuple<torch::Tensor, torch::Tensor, State> StreamingForwardEncoder(
-      const torch::Tensor &features, const torch::Tensor &features_length,
-      torch::optional<State> states = torch::nullopt);
+  torch::IValue GetEncoderInitStates(int32_t unused = 1) override;
+  torch::IValue StateToIValue(const State &s) const;
+  State StateFromIValue(torch::IValue ivalue) const;
 
-  State GetEncoderInitStates();
+  std::tuple<torch::Tensor, torch::Tensor, torch::IValue>
+  StreamingForwardEncoder(const torch::Tensor &features,
+                          const torch::Tensor &features_length,
+                          const torch::Tensor &unused_num_processed_frames,
+                          torch::IValue states) override;
 
   /** Run the decoder network.
    *

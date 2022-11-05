@@ -39,7 +39,7 @@ CtcConformerModel::CtcConformerModel(const std::string &filename,
 
 torch::IValue CtcConformerModel::Forward(
     const std::vector<torch::IValue> &input) {
-  return model_(input);
+  return model_.forward(input);
 }
 
 torch::Tensor CtcConformerModel::GetLogSoftmaxOut(

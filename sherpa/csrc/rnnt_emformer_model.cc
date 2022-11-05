@@ -53,48 +53,46 @@ RnntEmformerModel::RnntEmformerModel(const std::string &filename,
   right_context_length_ = encoder_.attr("right_context_length").toInt();
 }
 
-std::tuple<torch::Tensor, torch::Tensor, RnntEmformerModel::State>
+std::tuple<torch::Tensor, torch::Tensor, torch::IValue>
 RnntEmformerModel::StreamingForwardEncoder(
     const torch::Tensor &features, const torch::Tensor &features_length,
-    torch::optional<State> states /*= torch::nullopt*/) {
+    const torch::Tensor & /*num_processed_frames*/, torch::IValue states) {
   torch::NoGradGuard no_grad;
-  // It contains [torch.Tensor, torch.Tensor, List[List[torch.Tensor]]
-  // which are [encoder_out, encoder_out_len, states]
-  //
-  // We skip the second entry `encoder_out_len` since we assume the
-  // feature input are of fixed chunk size and there are no paddings.
-  // We can figure out `encoder_out_len` from `encoder_out`.
   torch::IValue ivalue = encoder_.run_method("streaming_forward", features,
                                              features_length, states);
   auto tuple_ptr = ivalue.toTuple();
   torch::Tensor encoder_out = tuple_ptr->elements()[0].toTensor();
   torch::Tensor encoder_out_length = tuple_ptr->elements()[1].toTensor();
-
-  torch::List<torch::IValue> list = tuple_ptr->elements()[2].toList();
-  int32_t num_layers = list.size();
-
-  std::vector<std::vector<torch::Tensor>> next_states;
-  next_states.reserve(num_layers);
-
-  for (int32_t i = 0; i != num_layers; ++i) {
-    next_states.emplace_back(
-        c10::impl::toTypedList<torch::Tensor>(list.get(i).toList()).vec());
-  }
+  torch::IValue next_states = tuple_ptr->elements()[2];
 
   return {encoder_out, encoder_out_length, next_states};
 }
 
-RnntEmformerModel::State RnntEmformerModel::GetEncoderInitStates() {
-  torch::IValue ivalue = encoder_.run_method("get_init_state", device_);
+torch::IValue RnntEmformerModel::GetEncoderInitStates(int32_t /*unused=1*/) {
+  return encoder_.run_method("get_init_state", device_);
+}
+
+torch::IValue RnntEmformerModel::StateToIValue(const State &states) const {
+  torch::List<torch::List<torch::Tensor>> ans;
+  ans.reserve(states.size());
+  for (const auto &s : states) {
+    ans.push_back(torch::List<torch::Tensor>{s});
+  }
+  return ans;
+}
+
+RnntEmformerModel::State RnntEmformerModel::StateFromIValue(
+    torch::IValue ivalue) const {
   torch::List<torch::IValue> list = ivalue.toList();
+
   int32_t num_layers = list.size();
-  State states;
-  states.reserve(num_layers);
+  State ans;
+  ans.reserve(num_layers);
   for (int32_t i = 0; i != num_layers; ++i) {
-    states.emplace_back(
+    ans.push_back(
         c10::impl::toTypedList<torch::Tensor>(list.get(i).toList()).vec());
   }
-  return states;
+  return ans;
 }
 
 torch::Tensor RnntEmformerModel::ForwardDecoder(
