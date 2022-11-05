@@ -56,6 +56,11 @@ class RnntEmformerModel : public RnntModel {
   torch::IValue StateToIValue(const State &s) const;
   State StateFromIValue(torch::IValue ivalue) const;
 
+  torch::IValue StackStates(
+      const std::vector<torch::IValue> &states) const override;
+
+  std::vector<torch::IValue> UnStackStates(torch::IValue states) const override;
+
   std::tuple<torch::Tensor, torch::Tensor, torch::IValue>
   StreamingForwardEncoder(const torch::Tensor &features,
                           const torch::Tensor &features_length,
@@ -94,7 +99,7 @@ class RnntEmformerModel : public RnntModel {
   torch::jit::Module decoder_;
   torch::jit::Module joiner_;
 
-  torch::Device device_;
+  torch::Device device_{"cpu"};
   int32_t blank_id_;
   int32_t unk_id_;
   int32_t vocab_size_;
