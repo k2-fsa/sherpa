@@ -1,5 +1,8 @@
 # Please sort the filenames alphabetically
 set(sherpa_srcs
+  offline-conformer-transducer-model.cc
+
+  # TODO(fangjun): Refactor the following files
   ctc_conformer_model.cc
   endpoint.cc
   fbank_features.cc
