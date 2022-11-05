@@ -83,13 +83,16 @@ class RnntEmformerModel : public RnntModel {
   torch::Tensor ForwardJoiner(const torch::Tensor &encoder_out,
                               const torch::Tensor &decoder_out) override;
 
+  // Hard code the subsampling_factor to 4 here since the subsampling
+  // method uses ((len - 1) // 2 - 1) // 2)
+  int32_t SubsamplingFactor() const override { return subsampling_factor_; }
   torch::Device Device() const override { return device_; }
   int32_t BlankId() const override { return blank_id_; }
   int32_t UnkId() const override { return unk_id_; }
   int32_t ContextSize() const override { return context_size_; }
   int32_t VocabSize() const override { return vocab_size_; }
-  int32_t SegmentLength() const { return segment_length_; }
-  int32_t RightContextLength() const { return right_context_length_; }
+  int32_t ChunkLength() const override { return chunk_length_; }
+  int32_t PadLength() const override { return pad_length_; }
 
  private:
   torch::jit::Module model_;
@@ -104,8 +107,9 @@ class RnntEmformerModel : public RnntModel {
   int32_t unk_id_;
   int32_t vocab_size_;
   int32_t context_size_;
-  int32_t segment_length_;
-  int32_t right_context_length_;
+  int32_t chunk_length_;
+  int32_t pad_length_;
+  int32_t subsampling_factor_ = 4;
 };
 
 }  // namespace sherpa

@@ -86,8 +86,8 @@ class FastBeamSearch:
         model = server.model
         device = model.device
         # Note: chunk_length is in frames before subsampling
-        chunk_length = server.chunk_length
-        segment_length = server.segment_length
+        chunk_length = server.model.chunk_length
+        chunk_length_pad = server.chunk_length_pad
         batch_size = len(stream_list)
 
         state_list, feature_list = [], []
@@ -99,8 +99,8 @@ class FastBeamSearch:
 
             state_list.append(s.states)
             processed_frames_list.append(s.processed_frames)
-            f = s.features[:chunk_length]
-            s.features = s.features[segment_length:]
+            f = s.features[:chunk_length_pad]
+            s.features = s.features[chunk_length:]
             b = torch.cat(f, dim=0)
             feature_list.append(b)
 
@@ -271,9 +271,9 @@ class GreedySearch:
         model = server.model
         device = model.device
         # Note: chunk_length is in frames before subsampling
-        chunk_length = server.chunk_length
+        chunk_length = server.model.chunk_length
+        chunk_length_pad = server.chunk_length_pad
         batch_size = len(stream_list)
-        segment_length = server.segment_length
 
         state_list, feature_list = [], []
         decoder_out_list, hyp_list = [], []
@@ -287,8 +287,8 @@ class GreedySearch:
 
             state_list.append(s.states)
 
-            f = s.features[:chunk_length]
-            s.features = s.features[segment_length:]
+            f = s.features[:chunk_length_pad]
+            s.features = s.features[chunk_length:]
             b = torch.cat(f, dim=0)
             feature_list.append(b)
 
@@ -405,8 +405,8 @@ class ModifiedBeamSearch:
         model = server.model
         device = model.device
 
-        segment_length = server.segment_length
-        chunk_length = server.chunk_length
+        chunk_length = server.model.chunk_length
+        chunk_length_pad = server.chunk_length_pad
 
         batch_size = len(stream_list)
 
@@ -419,8 +419,8 @@ class ModifiedBeamSearch:
             state_list.append(s.states)
             hyps_list.append(s.hyps)
 
-            f = s.features[:chunk_length]
-            s.features = s.features[segment_length:]
+            f = s.features[:chunk_length_pad]
+            s.features = s.features[chunk_length:]
 
             b = torch.cat(f, dim=0)
             feature_list.append(b)
