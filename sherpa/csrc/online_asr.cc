@@ -27,6 +27,7 @@
 #include "sherpa/csrc/rnnt_beam_search.h"
 #include "sherpa/csrc/rnnt_conformer_model.h"
 #include "sherpa/csrc/rnnt_conv_emformer_model.h"
+#include "sherpa/csrc/rnnt_emformer_model.h"
 #include "sherpa/csrc/rnnt_lstm_model.h"
 
 namespace sherpa {
@@ -168,9 +169,14 @@ OnlineAsr::OnlineAsr(const OnlineAsrOptions &opts)
   torch::Device device(opts.use_gpu ? "cuda:0" : "cpu");
   if (!opts.nn_model.empty()) {
     torch::jit::Module m = torch::jit::load(opts.nn_model, device);
+
     auto encoder = m.attr("encoder").toModule();
+    // TODO(fangjun): We should embed some unique ID into each model
+    // from icefall.
     if (encoder.hasattr("chunk_length")) {
       model_ = std::make_unique<RnntConvEmformerModel>(opts.nn_model, device);
+    } else if (encoder.hasattr("segment_length")) {
+      model_ = std::make_unique<RnntEmformerModel>(opts.nn_model, device);
     } else {
       int32_t left_context = opts.left_context;
       int32_t right_context = opts.right_context;
@@ -410,7 +416,7 @@ std::string OnlineAsr::GetGreedySearchResult(OnlineStream *s) const {
   const auto &hyps = s->GetHyps();
   std::string text;
 
-  for (int32_t i = 0; i != hyps.size(); ++i) {
+  for (int32_t i = 0; i != static_cast<int32_t>(hyps.size()); ++i) {
     if (i < context_size) {
       continue;
     }
@@ -427,7 +433,7 @@ std::string OnlineAsr::GetModifiedBeamSearchResult(OnlineStream *s) const {
 
   std::string text;
 
-  for (int32_t i = 0; i != hyps.size(); ++i) {
+  for (int32_t i = 0; i != static_cast<int32_t>(hyps.size()); ++i) {
     if (i < context_size) {
       continue;
     }

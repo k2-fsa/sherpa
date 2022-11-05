@@ -49,7 +49,7 @@ import sentencepiece as spm
 import torch
 import websockets
 from beam_search import FastBeamSearch, GreedySearch, ModifiedBeamSearch
-from stream import Stream, unstack_states
+from stream import Stream
 
 from sherpa import (
     HttpServer,
@@ -109,29 +109,6 @@ def get_args():
         from icefall
         Note: You don't need to provide it if you provide `--bpe-model`
         """,
-    )
-
-    parser.add_argument(
-        "--decode-chunk-size",
-        type=int,
-        default=8,
-        help="The chunk size for decoding (in frames after subsampling)",
-    )
-
-    parser.add_argument(
-        "--decode-left-context",
-        type=int,
-        default=32,
-        help="""left context can be seen during decoding
-        (in frames after subsampling)""",
-    )
-
-    parser.add_argument(
-        "--decode-right-context",
-        type=int,
-        default=2,
-        help="""right context can be seen during decoding
-        (in frames after subsampling)""",
     )
 
     parser.add_argument(
@@ -270,14 +247,7 @@ class StreamingServer(object):
 
         self.model = RnntEmformerModel(nn_model_filename, device=device)
 
-        # number of frames before subsampling
-        self.segment_length = self.model.segment_length
-
-        self.right_context_length = self.model.right_context_length
-
-        # We add 3 here since the subsampling method is using
-        # ((len - 1) // 2 - 1) // 2)
-        self.chunk_length = self.segment_length + 3 + self.right_context_length
+        self.chunk_length_pad = self.model.chunk_length + self.model.pad_length
 
         self.sp = spm.SentencePieceProcessor()
         self.sp.load(bpe_model_filename)
@@ -289,7 +259,7 @@ class StreamingServer(object):
         self.log_eps = math.log(1e-10)
 
         initial_states = self.model.get_encoder_init_states()
-        self.initial_states = unstack_states(initial_states)[0]
+        self.initial_states = initial_states
 
         # Add these params after loading the Emformer model
         beam_search_params["vocab_size"] = self.vocab_size
@@ -353,7 +323,7 @@ class StreamingServer(object):
         samples = torch.rand(16000 * 1, dtype=torch.float32)  # 1 second
         stream.accept_waveform(sampling_rate=16000, waveform=samples)
 
-        while len(stream.features) > self.chunk_length:
+        while len(stream.features) > self.chunk_length_pad:
             await self.compute_and_decode(stream)
 
         logging.info("Warmup done")
@@ -372,7 +342,7 @@ class StreamingServer(object):
                 while len(batch) < self.max_batch_size:
                     item = self.stream_queue.get_nowait()
 
-                    assert len(item[0].features) >= self.chunk_length, len(
+                    assert len(item[0].features) >= self.chunk_length_pad, len(
                         item[0].features
                     )
 
@@ -530,7 +500,7 @@ class StreamingServer(object):
             # of the received audio samples is always 16000.
             stream.accept_waveform(sampling_rate=16000, waveform=samples)
 
-            while len(stream.features) > self.chunk_length:
+            while len(stream.features) > self.chunk_length_pad:
                 await self.compute_and_decode(stream)
                 hyp = self.beam_search.get_texts(stream)
                 tokens = self.beam_search.get_tokens(stream)
@@ -561,11 +531,11 @@ class StreamingServer(object):
                 await socket.send(json.dumps(message))
 
         stream.input_finished()
-        while len(stream.features) > self.chunk_length:
+        while len(stream.features) > self.chunk_length_pad:
             await self.compute_and_decode(stream)
 
         if len(stream.features) > 0:
-            n = self.chunk_length - len(stream.features)
+            n = self.chunk_length_pad - len(stream.features)
             stream.add_tail_paddings(n)
             await self.compute_and_decode(stream)
             stream.features = []

@@ -49,8 +49,9 @@ RnntEmformerModel::RnntEmformerModel(const std::string &filename,
   }
 
   context_size_ = decoder_.attr("context_size").toInt();
-  segment_length_ = encoder_.attr("segment_length").toInt();
-  right_context_length_ = encoder_.attr("right_context_length").toInt();
+  chunk_length_ = encoder_.attr("segment_length").toInt();
+  int32_t right_context_length = encoder_.attr("right_context_length").toInt();
+  pad_length_ = right_context_length + subsampling_factor_ - 1;
 }
 
 std::tuple<torch::Tensor, torch::Tensor, torch::IValue>
@@ -69,7 +70,10 @@ RnntEmformerModel::StreamingForwardEncoder(
 }
 
 torch::IValue RnntEmformerModel::GetEncoderInitStates(int32_t /*unused=1*/) {
-  return encoder_.run_method("get_init_state", device_);
+  torch::IValue ivalue = encoder_.run_method("get_init_state", device_);
+  // Remove batch dimension.
+  // Note: This is for backward compatibility
+  return UnStackStates(ivalue)[0];
 }
 
 torch::IValue RnntEmformerModel::StateToIValue(const State &states) const {

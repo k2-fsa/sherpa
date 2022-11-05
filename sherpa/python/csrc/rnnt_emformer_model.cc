@@ -70,10 +70,8 @@ void PybindRnntEmformerModel(py::module &m) {  // NOLINT
             return self.StateFromIValue(ivalue);
           },
           py::call_guard<py::gil_scoped_release>())
-      .def_property_readonly("segment_length", &PyClass::SegmentLength)
-      .def_property_readonly("vocab_size", &PyClass::VocabSize)
-      .def_property_readonly("right_context_length",
-                             &PyClass::RightContextLength);
+      .def_property_readonly("chunk_length", &PyClass::ChunkLength)
+      .def_property_readonly("pad_length", &PyClass::PadLength);
 }
 
 }  // namespace sherpa
