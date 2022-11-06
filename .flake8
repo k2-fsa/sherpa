@@ -15,4 +15,5 @@ exclude =
   ./scripts,
   ./triton,
   ./sherpa/python/sherpa/__init__.py,
+  ./sherpa/csrc/test-data/test-offline-conformer-transducer-model.py,
   ./sherpa/python/sherpa/decode.py,

@@ -6,6 +6,15 @@ add_library(online_recognizer online_recognizer.cc)
 target_link_libraries(online_recognizer sherpa_core)
 set_target_properties(online_recognizer PROPERTIES OUTPUT_NAME "sherpa_online_recognizer")
 
+set(sherpa_cpp_api_srcs
+  feature-config.cc
+)
+add_library(sherpa-cpp-api ${sherpa_cpp_api_srcs})
+target_link_libraries(sherpa-cpp-api sherpa_core)
+
+add_executable(test-feature-config test-feature-config.cc)
+target_link_libraries(test-feature-config sherpa-cpp-api)
+
 
 file(MAKE_DIRECTORY
   ${PROJECT_BINARY_DIR}/include/sherpa/cpp_api

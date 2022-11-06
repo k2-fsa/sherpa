@@ -1,27 +1,11 @@
-/**
- * Copyright 2009-2011  Karel Vesely;  Microsoft Corporation;
- *                      Saarland University (Author: Arnab Ghoshal);
- * Copyright 2012-2013  Frantisek Skala;  Arnab Ghoshal
- *
- * See LICENSE for clarification regarding multiple authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
+// sherpa/cpp_api/feature-config.h
+//
+// Copyright (c)  2022  Xiaomi Corporation
+//
 // This file is copied and modified from kaldi/src/util/parse-options.h
 
-#ifndef SHERPA_CSRC_PARSE_OPTIONS_H_
-#define SHERPA_CSRC_PARSE_OPTIONS_H_
+#ifndef SHERPA_CPP_API_PARSE_OPTIONS_H_
+#define SHERPA_CPP_API_PARSE_OPTIONS_H_
 
 #include <sstream>
 #include <string>
@@ -265,4 +249,4 @@ void ReadConfigsFromFile(const std::string &conf, C1 *c1, C2 *c2) {
 
 }  // namespace sherpa
 
-#endif  // SHERPA_CSRC_PARSE_OPTIONS_H_
+#endif  // SHERPA_CPP_API_PARSE_OPTIONS_H_
