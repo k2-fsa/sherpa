@@ -17,39 +17,23 @@ pushd $repo
 git lfs pull --include "exp/cpu_jit.pt"
 popd
 
-log "Test C++ APIs test_decode_files, test_decode_samples, and test_decode_features"
+log "Test sherpa-offline-recognizer"
 
-for exe in test_decode_files test_decode_samples test_decode_features; do
-  time ./build/bin/$exe \
-    $repo/exp/cpu_jit.pt \
-    $repo/data/lang_bpe_500/tokens.txt \
-    $repo/test_wavs/1089-134686-0001.wav
-
-  time ./build/bin/$exe \
-    $repo/exp/cpu_jit.pt \
-    $repo/data/lang_bpe_500/tokens.txt \
-    $repo/test_wavs/1089-134686-0001.wav \
-    $repo/test_wavs/1221-135766-0001.wav
-
-  time ./build/bin/$exe \
-    $repo/exp/cpu_jit.pt \
-    $repo/data/lang_bpe_500/tokens.txt \
-    $repo/test_wavs/1089-134686-0001.wav \
-    $repo/test_wavs/1221-135766-0001.wav \
-    $repo/test_wavs/1221-135766-0002.wav
-done
-
-log "Test ./bin/sherpa"
 for m in greedy_search modified_beam_search; do
-  time ./build/bin/sherpa \
+  time ./build/bin/sherpa-offline-recognizer \
     --decoding-method=$m \
     --nn-model=$repo/exp/cpu_jit.pt \
     --tokens=$repo/data/lang_bpe_500/tokens.txt \
     $repo/test_wavs/1089-134686-0001.wav
-done
 
-for m in greedy_search modified_beam_search; do
-  time ./build/bin/sherpa \
+  time ./build/bin/sherpa-offline-recognizer \
+    --decoding-method=$m \
+    --nn-model=$repo/exp/cpu_jit.pt \
+    --tokens=$repo/data/lang_bpe_500/tokens.txt \
+    $repo/test_wavs/1089-134686-0001.wav \
+    $repo/test_wavs/1221-135766-0001.wav
+
+  time ./build/bin/sherpa-offline-recognizer \
     --decoding-method=$m \
     --nn-model=$repo/exp/cpu_jit.pt \
     --tokens=$repo/data/lang_bpe_500/tokens.txt \
@@ -63,7 +47,7 @@ log "Test decoding wav.scp"
 .github/scripts/generate_wav_scp.sh
 
 for m in greedy_search modified_beam_search; do
-  time ./build/bin/sherpa \
+  time ./build/bin/sherpa-offline-recognizer \
     --decoding-method=$m \
     --nn-model=$repo/exp/cpu_jit.pt \
     --tokens=$repo/data/lang_bpe_500/tokens.txt \
@@ -81,7 +65,7 @@ export PYTHONPATH=$HOME/tmp/kaldifeat/build/lib:$HOME/tmp/kaldifeat/kaldifeat/py
 .github/scripts/generate_feats_scp.py scp:wav.scp ark,scp:feats.ark,feats.scp
 
 for m in greedy_search modified_beam_search; do
-  time ./build/bin/sherpa \
+  time ./build/bin/sherpa-offline-recognizer \
     --decoding-method=$m \
     --nn-model=$repo/exp/cpu_jit.pt \
     --tokens=$repo/data/lang_bpe_500/tokens.txt \
@@ -105,40 +89,16 @@ cd exp
 ln -sv cpu_jit-epoch-29-avg-5-torch-1.6.0.pt cpu_jit.pt
 popd
 
-log "Test C++ APIs test_decode_files and test_decode_features (aishell)"
-
-for exe in test_decode_files test_decode_samples test_decode_features; do
-  time ./build/bin/$exe \
-    $repo/exp/cpu_jit.pt \
-    $repo/data/lang_char/tokens.txt \
-    $repo/test_wavs/BAC009S0764W0121.wav
-
-  time ./build/bin/$exe \
-    $repo/exp/cpu_jit.pt \
-    $repo/data/lang_char/tokens.txt \
-    $repo/test_wavs/BAC009S0764W0121.wav \
-    $repo/test_wavs/BAC009S0764W0122.wav
-
-  time ./build/bin/$exe \
-    $repo/exp/cpu_jit.pt \
-    $repo/data/lang_char/tokens.txt \
-    $repo/test_wavs/BAC009S0764W0121.wav \
-    $repo/test_wavs/BAC009S0764W0122.wav \
-    $repo/test_wavs/BAC009S0764W0123.wav
-done
-
-log "Test ./bin/sherpa (aishell)"
+log "Test ./bin/sherpa-offline-recognizer (aishell)"
 
 for m in greedy_search modified_beam_search; do
-  time ./build/bin/sherpa \
+  time ./build/bin/sherpa-offline-recognizer \
     --decoding-method=greedy_search \
     --nn-model=$repo/exp/cpu_jit.pt \
     --tokens=$repo/data/lang_char/tokens.txt \
     $repo/test_wavs/BAC009S0764W0121.wav
-done
 
-for m in greedy_search modified_beam_search; do
-  time ./build/bin/sherpa \
+  time ./build/bin/sherpa-offline-recognizer \
     --decoding-method=greedy_search \
     --nn-model=$repo/exp/cpu_jit.pt \
     --tokens=$repo/data/lang_char/tokens.txt \
@@ -152,7 +112,7 @@ log "Test decoding wav.scp (aishell)"
 .github/scripts/generate_wav_scp_aishell.sh
 
 for m in greedy_search modified_beam_search; do
-  time ./build/bin/sherpa \
+  time ./build/bin/sherpa-offline-recognizer \
     --decoding-method=$m \
     --nn-model=$repo/exp/cpu_jit.pt \
     --tokens=$repo/data/lang_char/tokens.txt \
@@ -168,7 +128,7 @@ log "Test decoding feats.scp (aishell)"
 .github/scripts/generate_feats_scp.py scp:wav_aishell.scp ark,scp:feats_aishell.ark,feats_aishell.scp
 
 for m in greedy_search modified_beam_search; do
-  time ./build/bin/sherpa \
+  time ./build/bin/sherpa-offline-recognizer \
     --decoding-method=$m \
     --nn-model=$repo/exp/cpu_jit.pt \
     --tokens=$repo/data/lang_char/tokens.txt \
