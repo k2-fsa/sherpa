@@ -23,8 +23,6 @@ namespace sherpa {
  */
 class OfflineConformerTransducerModel : public OfflineTransducerModel {
  public:
-  ~OfflineConformerTransducerModel() override = default;
-
   explicit OfflineConformerTransducerModel(const std::string &filename,
                                            torch::Device device = torch::kCPU);
 

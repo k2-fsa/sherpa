@@ -13,6 +13,11 @@ if(NOT WIN32)
   target_link_libraries(offline-recognizer "-Wl,-rpath,${SHERPA_RPATH_ORIGIN}/../lib")
 endif()
 
+install(
+  TARGETS offline-recognizer
+  DESTINATION bin
+)
+
 add_executable(test_online_recognizer test_online_recognizer.cc)
 target_link_libraries(test_online_recognizer online_recognizer)
 

@@ -122,7 +122,8 @@ class BuildExtension(build_ext):
 
         suffix = ".exe" if is_windows() else ""
         # Remember to also change setup.py
-        binaries = ["sherpa", "sherpa-online", "sherpa-version"]
+        binaries = ["sherpa-offline-recognizer"]
+        binaries += ["sherpa-online", "sherpa-version"]
         binaries += ["offline_websocket_client", "offline_websocket_server"]
         binaries += ["online_websocket_client", "online_websocket_server"]
         binaries += ["online_websocket_client_from_microphone"]
