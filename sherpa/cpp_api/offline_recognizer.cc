@@ -21,7 +21,7 @@
 #include <utility>
 
 #include "sherpa/csrc/log.h"
-#include "sherpa/csrc/offline_asr.h"
+#include "sherpa/csrc/offline-asr.h"
 #include "torch/script.h"
 
 namespace sherpa {
