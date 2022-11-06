@@ -1,4 +1,4 @@
-// sherpa/cpp_api/feature-config.h
+// sherpa/cpp_api/test-feature-config.h
 //
 // Copyright (c)  2022  Xiaomi Corporation
 
