@@ -85,7 +85,7 @@ OfflineTransducerModifiedBeamSearchDecoder::Decode(
                                                   /*batch_first*/ true,
                                                   /*enforce_sorted*/ false);
 
-  auto projected_encoder_out = packed_seq.data();
+  auto packed_encoder_out = packed_seq.data();
 
   int32_t blank_id = 0;
   int32_t context_size = model_->ContextSize();
@@ -101,14 +101,14 @@ OfflineTransducerModifiedBeamSearchDecoder::Decode(
 
   using torch::indexing::Slice;
   auto batch_sizes_acc = packed_seq.batch_sizes().accessor<int64_t, 1>();
-  int32_t num_batches = packed_seq.batch_sizes().numel();
+  int32_t max_T = packed_seq.batch_sizes().numel();
   int32_t offset = 0;
 
-  for (int32_t i = 0; i != num_batches; ++i) {
-    int32_t cur_batch_size = batch_sizes_acc[i];
+  for (int32_t t = 0; t != max_T; ++t) {
+    int32_t cur_batch_size = batch_sizes_acc[t];
     int32_t start = offset;
     int32_t end = start + cur_batch_size;
-    auto cur_encoder_out = projected_encoder_out.index({Slice(start, end)});
+    auto cur_encoder_out = packed_encoder_out.index({Slice(start, end)});
     offset = end;
 
     cur_encoder_out = cur_encoder_out.unsqueeze(1).unsqueeze(1);
@@ -194,6 +194,7 @@ OfflineTransducerModifiedBeamSearchDecoder::Decode(
         int32_t new_token = topk_token_indexes_acc[j];
         if (new_token != blank_id) {
           new_hyp.ys.push_back(new_token);
+          new_hyp.timestamps.push_back(t);
         }
 
         // We already added log_prob of the path to log_probs before, so
@@ -214,10 +215,11 @@ OfflineTransducerModifiedBeamSearchDecoder::Decode(
 
   std::vector<OfflineTransducerDecoderResult> ans(batch_size);
   for (int32_t i = 0; i != batch_size; ++i) {
-    Hypothesis hyp = cur[unsorted_indices_accessor[i]].GetMostProbable(true);
+    int32_t k = unsorted_indices_accessor[i];
+    Hypothesis hyp = cur[k].GetMostProbable(true);
     torch::ArrayRef<int32_t> arr(hyp.ys);
     ans[i].tokens = arr.slice(context_size).vec();
-    // TODO(fangjun): add timestamps
+    ans[i].timestamps = std::move(hyp.timestamps);
   }
 
   return ans;

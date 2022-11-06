@@ -82,6 +82,16 @@ If you use `feats.scp` from Kaldi with models from icefall, you won't get
 expected results.
 )";
 
+static std::ostream &operator<<(std::ostream &os,
+                                const std::vector<int32_t> &v) {
+  std::string sep = "";
+  for (auto i : v) {
+    os << sep << i;
+    sep = " ";
+  }
+  return os;
+}
+
 int main(int argc, char *argv[]) {
   // see
   // https://pytorch.org/docs/stable/notes/cpu_threading_torchscript_inference.html
@@ -299,8 +309,10 @@ int main(int argc, char *argv[]) {
     s->AcceptWaveFile(po.GetArg(1));
     recognizer.DecodeStream(s.get());
 
-    SHERPA_LOG(INFO) << "\nfilename: " << po.GetArg(1)
-                     << "\nresult: " << s->GetResult().text;
+    const auto &r = s->GetResult();
+    std::cerr << "\nfilename: " << po.GetArg(1) << "\ntext: " << r.text
+              << "\ntoken IDs: " << r.tokens
+              << "\ntimestamps (after subsampling): " << r.timestamps << "\n";
   } else {
     std::vector<std::unique_ptr<sherpa::OfflineStream>> ss;
     std::vector<sherpa::OfflineStream *> p_ss;
