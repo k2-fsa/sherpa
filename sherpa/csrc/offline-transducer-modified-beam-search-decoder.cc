@@ -4,6 +4,10 @@
 
 #include "sherpa/csrc/offline-transducer-modified-beam-search-decoder.h"
 
+#include <algorithm>
+#include <deque>
+#include <utility>
+
 #include "k2/torch_api.h"
 #include "sherpa/csrc/hypothesis.h"
 
