@@ -1,5 +1,6 @@
-add_executable(test-decode-files test_decode_files.cc)
-target_link_libraries(test-decode-files sherpa-cpp-api)
+add_executable(offline-recognizer offline-recognizer.cc)
+target_link_libraries(offline-recognizer sherpa-cpp-api)
+set_target_properties(offline-recognizer PROPERTIES OUTPUT_NAME "sherpa-offline-recognizer")
 
 add_executable(test_online_recognizer test_online_recognizer.cc)
 target_link_libraries(test_online_recognizer online_recognizer)
