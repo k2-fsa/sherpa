@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-#include "sherpa/cpp_api/offline_recognizer.h"
+#include "sherpa/cpp_api/offline-recognizer.h"
 
 #include <utility>
 

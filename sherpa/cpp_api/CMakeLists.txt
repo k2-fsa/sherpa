@@ -1,4 +1,4 @@
-add_library(offline_recognizer offline_recognizer.cc)
+add_library(offline_recognizer offline-recognizer.cc)
 target_link_libraries(offline_recognizer sherpa_core)
 set_target_properties(offline_recognizer PROPERTIES OUTPUT_NAME "sherpa_offline_recognizer")
 
@@ -24,7 +24,7 @@ file(MAKE_DIRECTORY
 )
 
 set(hdrs
-  offline_recognizer.h
+  offline-recognizer.h
   online_recognizer.h
   online_stream.h
 )

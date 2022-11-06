@@ -27,7 +27,7 @@
 #include <vector>
 
 #include "asio.hpp"
-#include "sherpa/cpp_api/offline_recognizer.h"
+#include "sherpa/cpp_api/offline-recognizer.h"
 #include "sherpa/cpp_api/parse-options.h"
 #include "sherpa/cpp_api/websocket/http_server.h"
 #include "sherpa/cpp_api/websocket/tee_stream.h"

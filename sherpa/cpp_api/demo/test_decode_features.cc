@@ -19,7 +19,7 @@
 
 #include "kaldi_native_io/csrc/kaldi-io.h"
 #include "kaldi_native_io/csrc/wave-reader.h"
-#include "sherpa/cpp_api/offline_recognizer.h"
+#include "sherpa/cpp_api/offline-recognizer.h"
 #include "sherpa/csrc/fbank_features.h"
 #include "torch/script.h"
 

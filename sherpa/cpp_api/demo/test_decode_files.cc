@@ -17,7 +17,7 @@
  */
 #include <iostream>
 
-#include "sherpa/cpp_api/offline_recognizer.h"
+#include "sherpa/cpp_api/offline-recognizer.h"
 #include "torch/all.h"
 
 int main(int argc, char *argv[]) {
