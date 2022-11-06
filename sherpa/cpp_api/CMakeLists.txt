@@ -49,7 +49,7 @@ install(
   DESTINATION lib
 )
 
-add_subdirectory(demo)
+add_subdirectory(bin)
 
 if(SHERPA_ENABLE_WEBSOCKET)
   add_subdirectory(websocket)
