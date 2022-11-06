@@ -9,6 +9,7 @@ set_target_properties(online_recognizer PROPERTIES OUTPUT_NAME "sherpa_online_re
 set(sherpa_cpp_api_srcs
   feature-config.cc
   offline-stream.cc
+  offline-recognizer.cc
 )
 add_library(sherpa-cpp-api ${sherpa_cpp_api_srcs})
 target_link_libraries(sherpa-cpp-api sherpa_core)

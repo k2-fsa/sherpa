@@ -18,7 +18,38 @@
 #include <iostream>
 
 #include "sherpa/cpp_api/offline-recognizer.h"
+#include "sherpa/cpp_api/parse-options.h"
 #include "torch/all.h"
+
+static constexpr const char *kUsageMessage = R"(
+Decode wave file(s) using offline recognizer from sherpa.
+
+Usage:
+
+./bin/test-decode-files --help
+
+./bin/test-decode-files \
+  --use-gpu=false \
+  --nn-model=/path/to/cpu.jit \
+  --tokens=/path/to/tokens.txt \
+  --decoding-method=greedy_search \
+  /path/to/foo.wav \
+  /path/to/bar.wav \
+  /path/to/foobar.wav
+)";
+
+static std::ostream &operator<<(std::ostream &os,
+                                const std::vector<int32_t> &v) {
+  std::string sep = "";
+  os << "[";
+  for (auto i : v) {
+    os << sep << i;
+    sep = " ";
+  }
+  os << "]";
+
+  return os;
+}
 
 int main(int argc, char *argv[]) {
   // see
@@ -31,38 +62,40 @@ int main(int argc, char *argv[]) {
   torch::jit::getProfilingMode() = false;
   torch::jit::setGraphExecutorOptimize(false);
 
-  if (argc < 4) {
-    std::cerr << "Usage: ./bin/test_decode_files /path/to/nn_model "
-                 "/path/to/tokens.txt foo.wav [bar.wav [foobar.wav] ... ]\n";
+  sherpa::ParseOptions po(kUsageMessage);
+  sherpa::OfflineRecognizerConfig config;
+  config.Register(&po);
+
+  po.Read(argc, argv);
+
+  if (po.NumArgs() == 0) {
+    po.PrintUsage();
     exit(EXIT_FAILURE);
   }
-  std::string nn_model = argv[1];
-  std::string tokens = argv[2];
-  float sample_rate = 16000;
-  bool use_gpu = false;
 
-  sherpa::DecodingOptions opts;
-  opts.method = sherpa::kGreedySearch;
-  sherpa::OfflineRecognizer recognizer(nn_model, tokens, opts, use_gpu,
-                                       sample_rate);
+  config.Validate();
 
-  if (argc == 4) {
-    std::cout << "Decode single file\n";
-    auto result = recognizer.DecodeFile(argv[3]);
-    std::cout << argv[3] << "\n" << result.text << "\n";
-    return 0;
+  sherpa::OfflineRecognizer recognizer(config);
+
+  std::vector<std::unique_ptr<sherpa::OfflineStream>> ss;
+  std::vector<sherpa::OfflineStream *> p;
+  for (int i = 1; i <= po.NumArgs(); ++i) {
+    ss.push_back(recognizer.CreateStream());
+    p.push_back(ss.back().get());
+    ss.back()->AcceptWaveFile(po.GetArg(i));
   }
 
-  std::cout << "Decode multiple files\n";
+  recognizer.DecodeStreams(p.data(), po.NumArgs());
 
-  std::vector<std::string> filenames;
-  for (int i = 3; i != argc; ++i) {
-    filenames.push_back(argv[i]);
-  }
+  std::ostringstream os;
 
-  auto results = recognizer.DecodeFileBatch(filenames);
-  for (size_t i = 0; i != filenames.size(); ++i) {
-    std::cout << filenames[i] << "\n" << results[i].text << "\n\n";
+  for (int32_t i = 1; i <= po.NumArgs(); ++i) {
+    const auto &r = ss[i - 1]->GetResult();
+    os << "filename: " << po.GetArg(1) << "\n";
+    os << "text: " << r.text << "\n";
+    os << "token IDs: " << r.tokens << "\n";
+    os << "timestamps (after subsampling): " << r.timestamps << "\n";
   }
+  std::cout << os.str() << "\n";
   return 0;
 }

@@ -33,13 +33,19 @@ class OfflineStream {
  public:
   ~OfflineStream();
 
+  /** Create a stream.
+   *
+   * @param fbank Not owned by this class.
+   */
+  explicit OfflineStream(kaldifeat::Fbank *fbank);
+
   /** Create a stream from a WAVE file.
    *
    * @param wave_file Path to the WAVE file. Its sample frequency should
    *                  match the one from the feature extractor. Only
    *                  WAVEs with a single channel are supported.
    */
-  OfflineStream(kaldifeat::Fbank *fbank_, const std::string &wave_file);
+  void AcceptWaveFile(const std::string &wave_file);
 
   /** Create a stream from audio samples.
    *
@@ -50,7 +56,7 @@ class OfflineStream {
    *                to [-1, 1] before passing to this function.
    * @param n  Number of audio samples.
    */
-  OfflineStream(kaldifeat::Fbank *fbank_, const float *samples, int32_t n);
+  void AcceptSamples(const float *samples, int32_t n);
 
   /** Create a stream from features.
    *
@@ -60,7 +66,8 @@ class OfflineStream {
    * @param num_frames Number of feature frames.
    * @param num_channels It should match the one from the feature extractor.
    */
-  OfflineStream(const float *feature, int32_t num_frames, int32_t num_channels);
+  void AcceptFeatures(const float *feature, int32_t num_frames,
+                      int32_t num_channels);
 
   /** Get the features of this stream.
    *

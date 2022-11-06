@@ -20,117 +20,169 @@
 
 #include <utility>
 
+#include "sherpa/csrc/file_utils.h"
 #include "sherpa/csrc/log.h"
 #include "sherpa/csrc/offline-asr.h"
+#include "sherpa/csrc/offline-conformer-transducer-model.h"
+#include "sherpa/csrc/offline-transducer-greedy-search.h"
+#include "sherpa/csrc/offline-transducer-model.h"
 #include "torch/script.h"
 
 namespace sherpa {
 
+void OfflineRecognizerConfig::Register(ParseOptions *po) {
+  feat_config.Register(po);
+
+  po->Register("nn-model", &nn_model, "Path to the torchscript model");
+
+  po->Register("tokens", &tokens, "Path to tokens.txt.");
+
+  po->Register("use-gpu", &use_gpu,
+               "true to use GPU for computation. false to use CPU.\n"
+               "If true, it uses the first device. You can use the environment "
+               "variable CUDA_VISIBLE_DEVICES to select which device to use.");
+
+  po->Register("decoding-method", &decoding_method,
+               "Decoding method to use. Possible values are: greedy_search, "
+               "modified_beam_search");
+
+  po->Register("num-active-paths", &num_active_paths,
+               "Number of active paths for modified_beam_search. "
+               "Used only when --decoding-method is modified_beam_search");
+}
+
+void OfflineRecognizerConfig::Validate() const {
+  if (nn_model.empty()) {
+    SHERPA_LOG(FATAL) << "Please provide --nn-model";
+  }
+  AssertFileExists(nn_model);
+
+  if (tokens.empty()) {
+    SHERPA_LOG(FATAL) << "Please provide --tokens";
+  }
+  AssertFileExists(tokens);
+
+  if (decoding_method != "greedy_search" &&
+      decoding_method != "modified_beam_search") {
+    SHERPA_LOG(FATAL)
+        << "Unsupported decoding method: " << decoding_method
+        << ". Supported values are: greedy_search, modified_beam_search";
+  }
+
+  if (decoding_method == "modified_beam_search") {
+    SHERPA_CHECK_GT(num_active_paths, 0);
+  }
+}
+
+std::string OfflineRecognizerConfig::ToString() const {
+  std::ostringstream os;
+  os << feat_config.ToString() << "\n";
+  os << "--nn-model=" << nn_model << "\n";
+  os << "--tokens=" << tokens << "\n";
+  os << "--use-gpu=" << std::boolalpha << use_gpu << "\n";
+  os << "--decoding-method=" << decoding_method << "\n";
+  os << "--num-active-paths=" << num_active_paths << "\n";
+  return os.str();
+}
+
+std::ostream &operator<<(std::ostream &os,
+                         const OfflineRecognizerConfig &config) {
+  os << config.ToString();
+  return os;
+}
+
+OfflineRecognitionResult Convert(OfflineTransducerGreedySearchResults src,
+                                 const SymbolTable &sym) {
+  OfflineRecognitionResult r;
+  std::string text;
+  for (auto i : src.tokens) {
+    text.append(sym[i]);
+  }
+  r.text = std::move(text);
+  r.tokens = std::move(src.tokens);
+  r.timestamps = std::move(src.timestamps);
+
+  return r;
+}
+
 class OfflineRecognizer::OfflineRecognizerImpl {
  public:
-  OfflineRecognizerImpl(const std::string &nn_model, const std::string &tokens,
-                        const DecodingOptions &decoding_opts, bool use_gpu,
-                        float sample_rate) {
-    OfflineAsrOptions opts;
-    opts.nn_model = nn_model;
-    opts.tokens = tokens;
-    opts.use_gpu = use_gpu;
+  explicit OfflineRecognizerImpl(const OfflineRecognizerConfig &config)
+      : symbol_table_(config.tokens),
+        fbank_(config.feat_config.fbank_opts),
+        device_(torch::kCPU) {
+    if (config.use_gpu) {
+      device_ = torch::Device("cuda:0");
+    }
+    model_ = std::make_unique<OfflineConformerTransducerModel>(config.nn_model,
+                                                               device_);
 
-    switch (decoding_opts.method) {
-      case kGreedySearch:
-        opts.decoding_method = "greedy_search";
-        break;
-      case kModifiedBeamSearch:
-        opts.decoding_method = "modified_beam_search";
-        opts.num_active_paths = decoding_opts.num_active_paths;
-        break;
-      default:
-        SHERPA_LOG(FATAL) << "Unreachable code";
-        break;
+    if (config.decoding_method == "greedy_search") {
+      greedy_search_ =
+          std::make_unique<OfflineTransducerGreedySearch>(model_.get());
+    } else {
+      TORCH_CHECK(false,
+                  "Unsupported decoding method: ", config.decoding_method);
+    }
+  }
+
+  std::unique_ptr<OfflineStream> CreateStream() {
+    return std::make_unique<OfflineStream>(&fbank_);
+  }
+
+  void DecodeStreams(OfflineStream **ss, int32_t n) {
+    torch::NoGradGuard no_grad;
+
+    std::vector<torch::Tensor> features_vec(n);
+    std::vector<int64_t> features_length_vec(n);
+    for (int32_t i = 0; i != n; ++i) {
+      const auto &f = ss[i]->GetFeatures();
+      features_vec[i] = f;
+      features_length_vec[i] = f.size(0);
     }
 
-    // options for bank
-    opts.fbank_opts.frame_opts.dither = 0;
-    opts.fbank_opts.frame_opts.samp_freq = sample_rate;
-    opts.fbank_opts.mel_opts.num_bins = 80;
+    auto features = torch::nn::utils::rnn::pad_sequence(
+                        features_vec, /*batch_first*/ true,
+                        /*padding_value*/ -23.025850929940457f)
+                        .to(device_);
 
-    asr_ = std::make_unique<OfflineAsr>(opts);
-    expected_sample_rate_ = sample_rate;
-  }
+    auto features_length = torch::tensor(features_length_vec).to(device_);
 
-  std::vector<OfflineRecognitionResult> DecodeFileBatch(
-      const std::vector<std::string> &filenames) {
-    std::vector<OfflineAsrResult> res =
-        asr_->DecodeWaves(filenames, expected_sample_rate_);
-    return ToOfflineRecognitionResult(res);
-  }
+    torch::Tensor encoder_out;
+    torch::Tensor encoder_out_length;
 
-  std::vector<OfflineRecognitionResult> DecodeSamplesBatch(
-      const float **samples, const int32_t *samples_length, int32_t n) {
-    std::vector<torch::Tensor> tensors(n);
-    for (int i = 0; i != n; ++i) {
-      auto t = torch::from_blob(const_cast<float *>(samples[i]),
-                                {samples_length[i]}, torch::kFloat);
-      tensors[i] = std::move(t);
+    std::tie(encoder_out, encoder_out_length) =
+        model_->RunEncoder(features, features_length);
+    encoder_out_length = encoder_out_length.cpu();
+
+    if (greedy_search_) {
+      auto results = greedy_search_->Decode(encoder_out, encoder_out_length);
+      for (int32_t i = 0; i != n; ++i) {
+        ss[i]->SetResult(Convert(results[i], symbol_table_));
+      }
+      return;
     }
-    auto res = asr_->DecodeWaves(tensors);
-    return ToOfflineRecognitionResult(res);
-  }
-
-  std::vector<OfflineRecognitionResult> DecodeFeaturesBatch(
-      const float *features, const int32_t *features_length, int32_t N,
-      int32_t T, int32_t C) {
-    torch::Tensor tensor = torch::from_blob(const_cast<float *>(features),
-                                            {N, T, C}, torch::kFloat);
-    torch::Tensor length = torch::from_blob(
-        const_cast<int32_t *>(features_length), {N}, torch::kInt);
-
-    auto res = asr_->DecodeFeatures(tensor, length);
-    return ToOfflineRecognitionResult(res);
   }
 
  private:
-  std::vector<OfflineRecognitionResult> ToOfflineRecognitionResult(
-      const std::vector<OfflineAsrResult> &res) const {
-    std::vector<OfflineRecognitionResult> ans(res.size());
-    for (size_t i = 0; i != res.size(); ++i) {
-      ans[i].text = std::move(res[i].text);
-      ans[i].tokens = std::move(res[i].tokens);
-      ans[i].timestamps = std::move(res[i].timestamps);
-    }
-    return ans;
-  }
-
-  std::unique_ptr<OfflineAsr> asr_;
-  float expected_sample_rate_;
+  SymbolTable symbol_table_;
+  std::unique_ptr<OfflineTransducerModel> model_;
+  std::unique_ptr<OfflineTransducerGreedySearch> greedy_search_;
+  kaldifeat::Fbank fbank_;
+  torch::Device device_;
 };
-
-OfflineRecognizer::OfflineRecognizer(
-    const std::string &nn_model, const std::string &tokens,
-    const DecodingOptions &decoding_opts /*= {}*/, bool use_gpu /*=false*/,
-    float sample_rate /*= 16000*/)
-    : impl_(std::make_unique<OfflineRecognizerImpl>(
-          nn_model, tokens, decoding_opts, use_gpu, sample_rate)) {}
 
 OfflineRecognizer::~OfflineRecognizer() = default;
 
-std::vector<OfflineRecognitionResult> OfflineRecognizer::DecodeFileBatch(
-    const std::vector<std::string> &filenames) {
-  torch::NoGradGuard no_grad;
-  return impl_->DecodeFileBatch(filenames);
+OfflineRecognizer::OfflineRecognizer(const OfflineRecognizerConfig &config)
+    : impl_(std::make_unique<OfflineRecognizerImpl>(config)) {}
+
+std::unique_ptr<OfflineStream> OfflineRecognizer::CreateStream() {
+  return impl_->CreateStream();
 }
 
-std::vector<OfflineRecognitionResult> OfflineRecognizer::DecodeSamplesBatch(
-    const float **samples, const int32_t *samples_length, int32_t n) {
-  torch::NoGradGuard no_grad;
-  return impl_->DecodeSamplesBatch(samples, samples_length, n);
-}
-
-std::vector<OfflineRecognitionResult> OfflineRecognizer::DecodeFeaturesBatch(
-    const float *features, const int32_t *features_length, int32_t N, int32_t T,
-    int32_t C) {
-  torch::NoGradGuard no_grad;
-  return impl_->DecodeFeaturesBatch(features, features_length, N, T, C);
+void OfflineRecognizer::DecodeStreams(OfflineStream **ss, int32_t n) {
+  impl_->DecodeStreams(ss, n);
 }
 
 }  // namespace sherpa

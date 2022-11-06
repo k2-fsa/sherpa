@@ -12,21 +12,23 @@ namespace sherpa {
 
 class OfflineStream::OfflineStreamImpl {
  public:
-  OfflineStreamImpl(kaldifeat::Fbank *fbank, const std::string &wave_file) {
+  explicit OfflineStreamImpl(kaldifeat::Fbank *fbank) : fbank_(fbank) {}
+
+  void AcceptWaveFile(const std::string &wave_file) {
     torch::Tensor samples =
-        ReadWave(wave_file, fbank->GetFrameOptions().samp_freq).first;
-    features_ = ComputeFeatures(*fbank, {samples})[0];
+        ReadWave(wave_file, fbank_->GetFrameOptions().samp_freq).first;
+    features_ = ComputeFeatures(*fbank_, {samples})[0];
   }
 
-  OfflineStreamImpl(kaldifeat::Fbank *fbank, const float *samples, int32_t n) {
+  void AcceptSamples(const float *samples, int32_t n) {
     torch::Tensor tensor =
         torch::from_blob(const_cast<float *>(samples), {n}, torch::kFloat);
-    features_ = ComputeFeatures(*fbank, {tensor})[0];
+    features_ = ComputeFeatures(*fbank_, {tensor})[0];
   }
 
-  OfflineStreamImpl(const float *feature, int32_t num_frames,
-                    int32_t num_channels) {
-    features_ = torch::from_blob(const_cast<float *>(feature),
+  void AcceptFeatures(const float *features, int32_t num_frames,
+                      int32_t num_channels) {
+    features_ = torch::from_blob(const_cast<float *>(features),
                                  {num_frames, num_channels}, torch::kFloat)
                     .clone();
   }
@@ -40,22 +42,26 @@ class OfflineStream::OfflineStreamImpl {
  private:
   torch::Tensor features_;
   OfflineRecognitionResult result_;
+  kaldifeat::Fbank *fbank_;  // not owned
 };
 
 OfflineStream::~OfflineStream() = default;
 
-OfflineStream::OfflineStream(kaldifeat::Fbank *fbank,
-                             const std::string &wave_file)
-    : impl_(std::make_unique<OfflineStreamImpl>(fbank, wave_file)) {}
+OfflineStream::OfflineStream(kaldifeat::Fbank *fbank)
+    : impl_(std::make_unique<OfflineStreamImpl>(fbank)) {}
 
-OfflineStream::OfflineStream(kaldifeat::Fbank *fbank, const float *samples,
-                             int32_t n)
-    : impl_(std::make_unique<OfflineStreamImpl>(fbank, samples, n)) {}
+void OfflineStream::AcceptWaveFile(const std::string &filename) {
+  impl_->AcceptWaveFile(filename);
+}
 
-OfflineStream::OfflineStream(const float *feature, int32_t num_frames,
-                             int32_t num_channels)
-    : impl_(std::make_unique<OfflineStreamImpl>(feature, num_frames,
-                                                num_channels)) {}
+void OfflineStream::AcceptSamples(const float *samples, int32_t n) {
+  impl_->AcceptSamples(samples, n);
+}
+
+void OfflineStream::AcceptFeatures(const float *features, int32_t num_frames,
+                                   int32_t num_channels) {
+  impl_->AcceptFeatures(features, num_frames, num_channels);
+}
 
 const torch::Tensor &OfflineStream::GetFeatures() const {
   return impl_->GetFeatures();
