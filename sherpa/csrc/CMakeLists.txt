@@ -9,7 +9,7 @@ set(sherpa_srcs
   file_utils.cc
   hypothesis.cc
   log.cc
-  offline_asr.cc
+  offline-asr.cc
   online_asr.cc
   online_stream.cc
   parse_options.cc

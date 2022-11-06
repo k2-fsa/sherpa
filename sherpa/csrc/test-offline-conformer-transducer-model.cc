@@ -41,7 +41,8 @@ int main(int argc, char *argv[]) {
     return -1;
   }
 
-  sherpa::OfflineConformerTransducerModel model(nn_model);
+  auto model =
+      std::make_unique<sherpa::OfflineConformerTransducerModel>(nn_model);
 
   torch::Dict<torch::IValue, torch::IValue> dict = ivalue.toGenericDict();
 
@@ -59,22 +60,23 @@ int main(int argc, char *argv[]) {
   torch::Tensor encoder_out2;
   torch::Tensor encoder_out2_length;
   std::tie(encoder_out2, encoder_out2_length) =
-      model.RunEncoder(features, features_length);
+      model->RunEncoder(features, features_length);
 
   AssertAllClose(encoder_out, encoder_out2);
   AssertAllClose(encoder_out_length, encoder_out2_length);
 
-  torch::Tensor decoder_out2 = model.RunDecoder(decoder_input);
+  torch::Tensor decoder_out2 = model->RunDecoder(decoder_input);
   AssertAllClose(decoder_out, decoder_out2);
 
   // see https://pytorch.org/cppdocs/notes/tensor_indexing.html
-  using namespace torch::indexing;
+  using namespace torch::indexing;  // NOLINT
 
-  torch::Tensor joiner_out2 = model.RunJoiner(
+  torch::Tensor joiner_out2 = model->RunJoiner(
       encoder_out2.index({Slice(), Slice(0, 1), Slice()}).unsqueeze(1),
       decoder_out2.unsqueeze(1));
 
   AssertAllClose(joiner_out, joiner_out2);
+  fprintf(stderr, "%s Passed!\n", __FILE__);
 
   return 0;
 }
