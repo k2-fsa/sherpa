@@ -58,22 +58,8 @@ struct ConnectionData {
 using ConnectionDataPtr = std::shared_ptr<ConnectionData>;
 
 struct OfflineWebsocketDecoderConfig {
-  std::string nn_model;
-  std::string tokens;
+  OfflineRecognizerConfig recognizer_config;
 
-  /// Decoding method to use.
-  /// Possible values are: greedy_search, modified_beam_search.
-  std::string decoding_method = "greedy_search";
-
-  /// Number of active paths in modified_beam_search.
-  /// Used only when decoding_method is modified_beam_search.
-  int32_t num_active_paths = 4;
-
-  // All models from icefall are trained using audio data of
-  // sample rate 16 kHz
-  float sample_rate = 16000;
-
-  bool use_gpu = false;
   int32_t max_batch_size = 5;
 
   float max_utterance_length = 100;  // seconds
@@ -122,7 +108,7 @@ class OfflineWebsocketDecoder {
   std::deque<std::pair<connection_hdl, ConnectionDataPtr>> streams_;
 
   OfflineWebsocketServer *server_;  // Not owned
-  std::unique_ptr<OfflineRecognizer> offline_recognizer_;
+  OfflineRecognizer recognizer_;
 };
 
 struct OfflineWebsocketServerConfig {

@@ -10,7 +10,6 @@ set(sherpa_srcs
   file_utils.cc
   hypothesis.cc
   log.cc
-  offline-asr.cc
   online_asr.cc
   online_stream.cc
   parse_options.cc
@@ -93,9 +92,6 @@ if(SHERPA_ENABLE_TESTS)
   endforeach()
 endif()
 
-add_executable(sherpa sherpa.cc)
-target_link_libraries(sherpa sherpa_core)
-
 add_executable(sherpa-online sherpa_online.cc)
 target_link_libraries(sherpa-online sherpa_core)
 
@@ -106,9 +102,6 @@ if(NOT WIN32)
     OUTPUT_VARIABLE PYTHON_SITE_PACKAGE_DIR
   )
   message(STATUS "PYTHON_SITE_PACKAGE_DIR: ${PYTHON_SITE_PACKAGE_DIR}")
-  target_link_libraries(sherpa "-Wl,-rpath,${PYTHON_SITE_PACKAGE_DIR}/sherpa/lib")
-  target_link_libraries(sherpa "-Wl,-rpath,${SHERPA_RPATH_ORIGIN}/../lib")
-
   target_link_libraries(sherpa-online "-Wl,-rpath,${PYTHON_SITE_PACKAGE_DIR}/sherpa/lib")
   target_link_libraries(sherpa-online "-Wl,-rpath,${SHERPA_RPATH_ORIGIN}/../lib")
 endif()
@@ -126,6 +119,6 @@ install(TARGETS
   DESTINATION lib
 )
 
-install(TARGETS sherpa sherpa-online sherpa-version
+install(TARGETS sherpa-online sherpa-version
   DESTINATION  bin
 )

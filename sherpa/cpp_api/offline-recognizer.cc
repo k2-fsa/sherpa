@@ -8,10 +8,10 @@
 
 #include "sherpa/csrc/file_utils.h"
 #include "sherpa/csrc/log.h"
-#include "sherpa/csrc/offline-asr.h"
 #include "sherpa/csrc/offline-conformer-transducer-model.h"
 #include "sherpa/csrc/offline-transducer-greedy-search.h"
 #include "sherpa/csrc/offline-transducer-model.h"
+#include "sherpa/csrc/symbol_table.h"
 #include "torch/script.h"
 
 namespace sherpa {

@@ -29,22 +29,7 @@
 namespace sherpa {
 
 void OfflineWebsocketDecoderConfig::Register(ParseOptions *po) {
-  po->Register("nn-model", &nn_model, "Path to the torchscript model");
-
-  po->Register("tokens", &tokens, "Path to tokens.txt");
-
-  po->Register("decoding-method", &decoding_method,
-               "Decoding method to use. Possible values are: greedy_search, "
-               "modified_beam_search");
-
-  po->Register("num-active-paths", &num_active_paths,
-               "Number of active paths for modified_beam_search. "
-               "Used only when --decoding-method is modified_beam_search");
-
-  po->Register("use-gpu", &use_gpu,
-               "True to use GPU for computation."
-               "Caution: We currently assume there is only one GPU. You have "
-               "to change the code to support multiple GPUs.");
+  recognizer_config.Register(po);
 
   po->Register(
       "max-batch-size", &max_batch_size,
@@ -61,34 +46,7 @@ void OfflineWebsocketDecoderConfig::Register(ParseOptions *po) {
 }
 
 void OfflineWebsocketDecoderConfig::Validate() const {
-  if (nn_model.empty()) {
-    SHERPA_LOG(FATAL) << "Please provide --nn-model";
-  }
-
-  if (!FileExists(nn_model)) {
-    SHERPA_LOG(FATAL) << "\n--nn-model=" << nn_model << "\n"
-                      << nn_model << " does not exist!";
-  }
-
-  if (tokens.empty()) {
-    SHERPA_LOG(FATAL) << "Please provide --tokens";
-  }
-
-  if (!FileExists(tokens)) {
-    SHERPA_LOG(FATAL) << "\n--tokens=" << tokens << "\n"
-                      << tokens << " does not exist!";
-  }
-
-  if (decoding_method != "greedy_search" &&
-      decoding_method != "modified_beam_search") {
-    SHERPA_LOG(FATAL)
-        << "Unsupported decoding method: " << decoding_method
-        << ". Supported values are: greedy_search, modified_beam_search";
-  }
-
-  if (decoding_method == "modified_beam_search") {
-    SHERPA_CHECK_GT(num_active_paths, 0);
-  }
+  recognizer_config.Validate();
 
   SHERPA_CHECK_GT(max_batch_size, 0);
 
@@ -97,22 +55,7 @@ void OfflineWebsocketDecoderConfig::Validate() const {
 
 OfflineWebsocketDecoder::OfflineWebsocketDecoder(
     const OfflineWebsocketDecoderConfig &config, OfflineWebsocketServer *server)
-    : config_(config), server_(server) {
-  DecodingOptions opts;
-
-  if (config.decoding_method == "greedy_search") {
-    opts.method = kGreedySearch;
-  } else if (config.decoding_method == "modified_beam_search") {
-    opts.method = kModifiedBeamSearch;
-    opts.num_active_paths = config.num_active_paths;
-  } else {
-    SHERPA_LOG(FATAL) << "Unsupported decoding method: "
-                      << config.decoding_method;
-  }
-
-  offline_recognizer_ = std::make_unique<OfflineRecognizer>(
-      config.nn_model, config.tokens, opts, config.use_gpu, config.sample_rate);
-}
+    : config_(config), server_(server), recognizer_(config.recognizer_config) {}
 
 void OfflineWebsocketDecoder::Push(connection_hdl hdl, ConnectionDataPtr d) {
   std::lock_guard<std::mutex> lock(mutex_);
@@ -139,6 +82,8 @@ void OfflineWebsocketDecoder::Decode() {
 
   std::vector<const float *> samples(size);
   std::vector<int32_t> samples_length(size);
+  std::vector<std::unique_ptr<OfflineStream>> ss(size);
+  std::vector<OfflineStream *> p_ss(size);
 
   for (int32_t i = 0; i != size; ++i) {
     auto &p = streams_.front();
@@ -146,21 +91,25 @@ void OfflineWebsocketDecoder::Decode() {
     connection_data[i] = p.second;
     streams_.pop_front();
 
-    samples[i] = reinterpret_cast<const float *>(&connection_data[i]->data[0]);
+    auto samples =
+        reinterpret_cast<const float *>(&connection_data[i]->data[0]);
+    auto num_samples = connection_data[i]->expected_byte_size / sizeof(float);
+    auto s = recognizer_.CreateStream();
+    s->AcceptSamples(samples, num_samples);
 
-    samples_length[i] = connection_data[i]->expected_byte_size / sizeof(float);
+    ss[i] = std::move(s);
+    p_ss[i] = ss.back().get();
   }
 
   lock.unlock();
 
-  // Note: DecodeSamplesBatch is thread-safe
-  auto results = offline_recognizer_->DecodeSamplesBatch(
-      samples.data(), samples_length.data(), size);
+  // Note: DecodeStreams is thread-safe
+  recognizer_.DecodeStreams(p_ss.data(), size);
 
   for (int32_t i = 0; i != size; ++i) {
     connection_hdl hdl = handles[i];
     asio::post(server_->GetConnectionContext(),
-               [this, hdl, text = results[i].text]() {
+               [this, hdl, text = ss[i]->GetResult().text]() {
                  websocketpp::lib::error_code ec;
                  server_->GetServer().send(
                      hdl, text, websocketpp::frame::opcode::text, ec);
@@ -219,9 +168,11 @@ OfflineWebsocketServer::OfflineWebsocketServer(
         OnMessage(hdl, msg);
       });
 
+  auto sample_rate = decoder_config.recognizer_config.feat_config.fbank_opts
+                         .frame_opts.samp_freq;
+
   max_byte_size_ =
-      static_cast<int32_t>(decoder_config.max_utterance_length *
-                           decoder_config.sample_rate * sizeof(float));
+      decoder_config.max_utterance_length * sample_rate * sizeof(float);
 
   SHERPA_LOG(INFO) << "max_utterance_length: "
                    << decoder_config.max_utterance_length << " s,"
@@ -322,7 +273,12 @@ void OfflineWebsocketServer::OnMessage(connection_hdl hdl,
         if (connection_data->expected_byte_size > max_byte_size_) {
           float num_samples =
               connection_data->expected_byte_size / sizeof(float);
-          float duration = num_samples / decoder_.GetConfig().sample_rate;
+
+          auto sample_rate = decoder_.GetConfig()
+                                 .recognizer_config.feat_config.fbank_opts
+                                 .frame_opts.samp_freq;
+
+          float duration = num_samples / sample_rate;
 
           std::ostringstream os;
           os << "Max utterance length is configured to "

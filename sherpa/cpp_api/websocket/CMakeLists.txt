@@ -6,7 +6,7 @@ add_executable(offline_websocket_server
   offline_websocket_server_impl.cc
 )
 target_link_libraries(offline_websocket_server
-  offline_recognizer
+  sherpa-cpp-api
 )
 if(NOT WIN32)
   target_link_libraries(offline_websocket_server -pthread)
