@@ -54,6 +54,8 @@ endif()
 
 if(SHERPA_ENABLE_TESTS)
   set(sherpa_test_srcs
+    test-offline-conformer-transducer-model.cc
+
     test_hypothesis.cc
     test_log.cc
     test_online_stream.cc
