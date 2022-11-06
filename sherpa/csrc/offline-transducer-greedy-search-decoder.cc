@@ -2,7 +2,7 @@
 //
 // Copyright (c)  2022  Xiaomi Corporation
 
-#include "sherpa/csrc/offline-transducer-greedy-search.h"
+#include "sherpa/csrc/offline-transducer-greedy-search-decoder.h"
 
 #include <algorithm>
 #include <utility>
@@ -20,7 +20,7 @@ namespace sherpa {
  * @param decoder_input A 2-D tensor of shape (batch_size, context_size).
  */
 static void BuildDecoderInput(
-    const std::vector<OfflineTransducerGreedySearchResults> &r,
+    const std::vector<OfflineTransducerDecoderResult> &r,
     torch::Tensor *decoder_input) {
   int32_t batch_size = decoder_input->size(0);
   int32_t context_size = decoder_input->size(1);
@@ -33,9 +33,9 @@ static void BuildDecoderInput(
   }
 }
 
-std::vector<OfflineTransducerGreedySearchResults>
-OfflineTransducerGreedySearch::Decode(torch::Tensor encoder_out,
-                                      torch::Tensor encoder_out_length) {
+std::vector<OfflineTransducerDecoderResult>
+OfflineTransducerGreedySearchDecoder::Decode(torch::Tensor encoder_out,
+                                             torch::Tensor encoder_out_length) {
   torch::NoGradGuard no_grad;
 
   TORCH_CHECK(encoder_out.dim() == 3, "encoder_out.dim() is ",
@@ -64,7 +64,7 @@ OfflineTransducerGreedySearch::Decode(torch::Tensor encoder_out,
 
   int32_t N = encoder_out_length.size(0);
 
-  std::vector<OfflineTransducerGreedySearchResults> results(N);
+  std::vector<OfflineTransducerDecoderResult> results(N);
 
   std::vector<int32_t> padding(context_size, blank_id);
   for (auto &r : results) {
@@ -126,7 +126,7 @@ OfflineTransducerGreedySearch::Decode(torch::Tensor encoder_out,
   auto unsorted_indices = packed_seq.unsorted_indices().cpu();
   auto unsorted_indices_accessor = unsorted_indices.accessor<int64_t, 1>();
 
-  std::vector<OfflineTransducerGreedySearchResults> ans(N);
+  std::vector<OfflineTransducerDecoderResult> ans(N);
 
   for (int32_t i = 0; i != N; ++i) {
     int32_t k = unsorted_indices_accessor[i];

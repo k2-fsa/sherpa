@@ -1,16 +1,16 @@
-// sherpa/csrc/offline-transducer-greedy-search.h
+// sherpa/csrc/offline-transducer-decoder.h
 //
 // Copyright (c)  2022  Xiaomi Corporation
-#ifndef SHERPA_CSRC_OFFLINE_TRANSDUCER_GREEDY_SEARCH_H_
-#define SHERPA_CSRC_OFFLINE_TRANSDUCER_GREEDY_SEARCH_H_
+#ifndef SHERPA_CSRC_OFFLINE_TRANSDUCER_DECODER_H_
+#define SHERPA_CSRC_OFFLINE_TRANSDUCER_DECODER_H_
 
 #include <vector>
 
-#include "sherpa/csrc/offline-transducer-model.h"
+#include "torch/script.h"
 
 namespace sherpa {
 
-struct OfflineTransducerGreedySearchResults {
+struct OfflineTransducerDecoderResult {
   /// The decoded token IDs
   std::vector<int32_t> tokens;
 
@@ -18,10 +18,9 @@ struct OfflineTransducerGreedySearchResults {
   std::vector<int32_t> timestamps;
 };
 
-class OfflineTransducerGreedySearch {
+class OfflineTransducerDecoder {
  public:
-  explicit OfflineTransducerGreedySearch(OfflineTransducerModel *model)
-      : model_(model) {}
+  virtual ~OfflineTransducerDecoder() = default;
 
   /** Run greedy search given the output from the encoder model.
    *
@@ -31,13 +30,10 @@ class OfflineTransducerGreedySearch {
    *
    * @return Return a vector of size `N` containing the decoded results.
    */
-  std::vector<OfflineTransducerGreedySearchResults> Decode(
-      torch::Tensor encoder_out, torch::Tensor encoder_out_length);
-
- private:
-  OfflineTransducerModel *model_;  // Not owned
+  virtual std::vector<OfflineTransducerDecoderResult> Decode(
+      torch::Tensor encoder_out, torch::Tensor encoder_out_length) = 0;
 };
 
 }  // namespace sherpa
 
-#endif  // SHERPA_CSRC_OFFLINE_TRANSDUCER_GREEDY_SEARCH_H_
+#endif  // SHERPA_CSRC_OFFLINE_TRANSDUCER_DECODER_H_

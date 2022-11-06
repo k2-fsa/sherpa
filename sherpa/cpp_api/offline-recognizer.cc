@@ -9,8 +9,10 @@
 #include "sherpa/csrc/file_utils.h"
 #include "sherpa/csrc/log.h"
 #include "sherpa/csrc/offline-conformer-transducer-model.h"
-#include "sherpa/csrc/offline-transducer-greedy-search.h"
+#include "sherpa/csrc/offline-transducer-decoder.h"
+#include "sherpa/csrc/offline-transducer-greedy-search-decoder.h"
 #include "sherpa/csrc/offline-transducer-model.h"
+#include "sherpa/csrc/offline-transducer-modified-beam-search-decoder.h"
 #include "sherpa/csrc/symbol_table.h"
 #include "torch/script.h"
 
@@ -77,7 +79,7 @@ std::ostream &operator<<(std::ostream &os,
   return os;
 }
 
-OfflineRecognitionResult Convert(OfflineTransducerGreedySearchResults src,
+OfflineRecognitionResult Convert(OfflineTransducerDecoderResult src,
                                  const SymbolTable &sym) {
   OfflineRecognitionResult r;
   std::string text;
@@ -104,8 +106,11 @@ class OfflineRecognizer::OfflineRecognizerImpl {
                                                                device_);
 
     if (config.decoding_method == "greedy_search") {
-      greedy_search_ =
-          std::make_unique<OfflineTransducerGreedySearch>(model_.get());
+      decoder_ =
+          std::make_unique<OfflineTransducerGreedySearchDecoder>(model_.get());
+    } else if (config.decoding_method == "modified_beam_search") {
+      decoder_ = std::make_unique<OfflineTransducerModifiedBeamSearchDecoder>(
+          model_.get(), config.num_active_paths);
     } else {
       TORCH_CHECK(false,
                   "Unsupported decoding method: ", config.decoding_method);
@@ -141,20 +146,16 @@ class OfflineRecognizer::OfflineRecognizerImpl {
         model_->RunEncoder(features, features_length);
     encoder_out_length = encoder_out_length.cpu();
 
-    if (greedy_search_) {
-      auto results = greedy_search_->Decode(encoder_out, encoder_out_length);
-      for (int32_t i = 0; i != n; ++i) {
-        ss[i]->SetResult(Convert(results[i], symbol_table_));
-      }
-      return;
+    auto results = decoder_->Decode(encoder_out, encoder_out_length);
+    for (int32_t i = 0; i != n; ++i) {
+      ss[i]->SetResult(Convert(results[i], symbol_table_));
     }
-    // for other decoding methods
   }
 
  private:
   SymbolTable symbol_table_;
   std::unique_ptr<OfflineTransducerModel> model_;
-  std::unique_ptr<OfflineTransducerGreedySearch> greedy_search_;
+  std::unique_ptr<OfflineTransducerDecoder> decoder_;
   kaldifeat::Fbank fbank_;
   torch::Device device_;
 };
