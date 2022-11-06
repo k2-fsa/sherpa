@@ -19,9 +19,9 @@
 #include <thread>  // NOLINT
 
 #include "asio.hpp"
+#include "sherpa/cpp_api/parse-options.h"
 #include "sherpa/cpp_api/websocket/offline_websocket_server_impl.h"
 #include "sherpa/csrc/log.h"
-#include "sherpa/csrc/parse_options.h"
 #include "torch/all.h"
 
 static constexpr const char *kUsageMessage = R"(

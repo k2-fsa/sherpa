@@ -17,9 +17,9 @@
  */
 #include <string>
 
+#include "sherpa/cpp_api/parse-options.h"
 #include "sherpa/cpp_api/websocket/microphone.h"
 #include "sherpa/csrc/log.h"
-#include "sherpa/csrc/parse_options.h"
 #include "torch/script.h"
 #include "websocketpp/client.hpp"
 #include "websocketpp/config/asio_no_tls_client.hpp"

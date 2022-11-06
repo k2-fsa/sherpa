@@ -21,9 +21,9 @@
 #include <utility>
 #include <vector>
 
+#include "sherpa/cpp_api/parse-options.h"
 #include "sherpa/csrc/file_utils.h"
 #include "sherpa/csrc/log.h"
-#include "sherpa/csrc/parse_options.h"
 #include "sherpa/csrc/rnnt_beam_search.h"
 #include "sherpa/csrc/rnnt_conformer_model.h"
 #include "sherpa/csrc/rnnt_conv_emformer_model.h"

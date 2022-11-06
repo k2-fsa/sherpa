@@ -19,7 +19,7 @@
 #include <fstream>
 
 #include "gtest/gtest.h"
-#include "sherpa/csrc/parse_options.h"
+#include "sherpa/cpp_api/parse-options.h"
 
 namespace sherpa {
 

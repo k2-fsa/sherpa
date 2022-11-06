@@ -22,10 +22,10 @@
 #include "kaldi_native_io/csrc/text-utils.h"
 #include "kaldi_native_io/csrc/wave-reader.h"
 #include "sherpa/cpp_api/online_stream.h"
+#include "sherpa/cpp_api/parse-options.h"
 #include "sherpa/csrc/fbank_features.h"
 #include "sherpa/csrc/log.h"
 #include "sherpa/csrc/online_asr.h"
-#include "sherpa/csrc/parse_options.h"
 
 static constexpr const char *kUsageMessage = R"(
 Online (streaming) automatic speech recognition with sherpa.

@@ -8,8 +8,7 @@ set_target_properties(online_recognizer PROPERTIES OUTPUT_NAME "sherpa_online_re
 
 
 file(MAKE_DIRECTORY
-  DESTINATION
-    ${PROJECT_BINARY_DIR}/include/sherpa/cpp_api
+  ${PROJECT_BINARY_DIR}/include/sherpa/cpp_api
 )
 
 set(hdrs

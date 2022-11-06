@@ -22,8 +22,6 @@
 
 // This file is copied and modified from kaldi/src/util/parse-options.cu
 
-#include "sherpa/csrc/parse_options.h"
-
 #include <ctype.h>
 
 #include <algorithm>
@@ -35,6 +33,7 @@
 #include <type_traits>
 #include <unordered_map>
 
+#include "sherpa/cpp_api/parse-options.h"
 #include "sherpa/csrc/log.h"
 
 #ifdef _MSC_VER

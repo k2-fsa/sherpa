@@ -22,7 +22,7 @@
 #include <vector>
 
 #include "kaldifeat/csrc/feature-fbank.h"
-#include "sherpa/csrc/parse_options.h"
+#include "sherpa/cpp_api/parse-options.h"
 #include "sherpa/csrc/rnnt_conformer_model.h"
 #include "sherpa/csrc/symbol_table.h"
 

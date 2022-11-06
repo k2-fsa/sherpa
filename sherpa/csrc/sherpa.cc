@@ -18,9 +18,9 @@
 #include "kaldi_native_io/csrc/kaldi-table.h"
 #include "kaldi_native_io/csrc/text-utils.h"
 #include "kaldi_native_io/csrc/wave-reader.h"
+#include "sherpa/cpp_api/parse-options.h"
 #include "sherpa/csrc/log.h"
 #include "sherpa/csrc/offline-asr.h"
-#include "sherpa/csrc/parse_options.h"
 #include "torch/script.h"
 
 static constexpr const char *kUsageMessage = R"(
