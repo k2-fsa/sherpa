@@ -47,7 +47,8 @@ class OfflineSpeechClient(object):
                                             inputs,
                                             request_id=str(sequence_id),
                                             outputs=outputs)
-        result = response.as_numpy("TRANSCRIPTS")[0].decode("utf-8")
+        result = response.as_numpy("TRANSCRIPTS")[0]
+        result = b' '.join(result).decode('utf-8')
         return [result]
 
 
@@ -121,6 +122,7 @@ class StreamingSpeechClient(object):
                                                 sequence_start=idx == 0,
                                                 sequence_end=end)
             idx += 1
-            result = response.as_numpy("TRANSCRIPTS")[0].decode("utf-8")
+            result = response.as_numpy("TRANSCRIPTS")
+            result = b' '.join(result).decode('utf-8')
             print("Get response from {}th chunk: {}".format(idx, result))
         return [result]

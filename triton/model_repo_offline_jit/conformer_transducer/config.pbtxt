@@ -51,11 +51,11 @@ ensemble_scheduling {
       value: "WAV_LENS"
     }
     output_map {
-      key: "speech"
+      key: "speech__0"
       value: "SPEECH"
     }
     output_map {
-      key: "speech_lengths"
+      key: "speech_lengths__1"
       value: "SPEECH_LENGTHS"
     }
    },
@@ -63,32 +63,32 @@ ensemble_scheduling {
     model_name: "encoder"
     model_version: -1
     input_map {
-      key: "speech"
+      key: "speech__0"
       value: "SPEECH"
     }
     input_map {
-      key: "speech_lengths"
+      key: "speech_lengths__1"
       value: "SPEECH_LENGTHS"
     }
     output_map {
-      key: "encoder_out"
-      value: "encoder_out"
+      key: "encoder_out__0"
+      value: "encoder_out__0"
     }
     output_map {
-      key: "encoder_out_lens"
-      value: "encoder_out_lens"
+      key: "encoder_out_lens__1"
+      value: "encoder_out_lens__1"
     }
   },
   {
       model_name: "greedy_search"
       model_version: -1
       input_map {
-          key: "encoder_out"
-          value: "encoder_out"
+          key: "encoder_out__0"
+          value: "encoder_out__0"
       }
       input_map {
-          key: "encoder_out_lens"
-          value: "encoder_out_lens"
+          key: "encoder_out_lens__1"
+          value: "encoder_out_lens__1"
       }
       output_map {
           key: "OUTPUT0"

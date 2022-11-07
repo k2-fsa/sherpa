@@ -14,16 +14,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-
-jit_model_dir=/workspace/jit_model
-model_repo=/workspace/sherpa/triton/model_repo_offline
-
-cp $jit_model_dir/encoder_jit.pt $model_repo/encoder/1
-cp $jit_model_dir/decoder_jit.pt $model_repo/decoder/1
-cp $jit_model_dir/joiner_jit.pt $model_repo/joiner/1
-cp $jit_model_dir/bpe.model /workspace/
-
+onnx_dir=/workspace/icefall/egs/librispeech/ASR/icefall-asr-librispeech-pruned-transducer-stateless3-2022-04-29/exp
+model_repo_dir=/workspace/sherpa/triton/model_repo_offline
+cp $onnx_dir/encoder_fp16.onnx $model_repo_dir/encoder/1/encoder.onnx
+cp $onnx_dir/decoder_fp16.onnx $model_repo_dir/decoder/1/decoder.onnx
+cp $onnx_dir/joiner_fp16.onnx $model_repo_dir/joiner/1/joiner.onnx
+cp $onnx_dir/../data/lang_bpe_500/bpe.model /workspace/
 # Start server
-tritonserver --model-repository=$model_repo
-
+tritonserver --model-repository=$model_repo_dir --pinned-memory-pool-byte-size=512000000 --cuda-memory-pool-byte-size=0:1024000000
 

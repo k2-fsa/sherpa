@@ -12,61 +12,58 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-name: "feature_extractor"
-backend: "python"
+name: "encoder"
+backend: "pytorch"
+default_model_filename: "encoder_jit.pt"
+
 max_batch_size: 512
-
-parameters [
-  {
-    key: "num_mel_bins",
-    value: { string_value: "80"}
-  },
-  {
-    key: "frame_shift_in_ms"
-    value: { string_value: "10"}
-  },
-  {
-    key: "frame_length_in_ms"
-    value: { string_value: "25"}
-  },
-  {
-    key: "sample_rate"
-    value: { string_value: "16000"}
-  }
-
-]
-
 input [
   {
-    name: "wav"
+    name: "speech__0"
     data_type: TYPE_FP32
-    dims: [-1]
+    dims: [-1, 80] # 80
   },
   {
-    name: "wav_lens"
+    name: "speech_lengths__1"
     data_type: TYPE_INT32
     dims: [1]
+    reshape: { shape: [ ] }
   }
 ]
-
 output [
   {
-    name: "speech"
-    data_type: TYPE_FP16
-    dims: [-1, 80]  # 80
+    name: "encoder_out__0"
+    data_type: TYPE_FP32
+    dims: [-1, 512] # [-1, encoder_dim]
   },
   {
-    name: "speech_lengths"
-    data_type: TYPE_INT64
+    name: "encoder_out_lens__1"
+    data_type: TYPE_INT32
     dims: [1]
+    reshape: { shape: [ ] }
   }
 ]
 
 dynamic_batching {
+    preferred_batch_size: [ 16, 32 ]
   }
+
 instance_group [
     {
       count: 1
       kind: KIND_GPU
     }
 ]
+
+parameters: {
+key: "INFERENCE_MODE"
+    value: {
+    string_value:"true"
+    }
+}
+parameters: {
+key: "DISABLE_OPTIMIZED_EXECUTION"
+    value: {
+    string_value:"true"
+    }
+}

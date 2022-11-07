@@ -93,7 +93,7 @@ input [
 output [
   {
     name: "speech"
-    data_type: TYPE_FP32 # FP32
+    data_type: TYPE_FP16
     dims: [91, 80] # (decode_chunk_size + 2 + decode_right_context) * subsampling_factor + 3
   },
   {

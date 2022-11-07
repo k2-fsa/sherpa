@@ -40,7 +40,7 @@ class TritonPythonModel:
         # Get INPUT configuration
 
         encoder_config = pb_utils.get_input_config_by_name(
-            model_config, "encoder_out")
+            model_config, "encoder_out__0")
         self.data_type = pb_utils.triton_string_to_numpy(
             encoder_config['data_type'])
 
@@ -88,10 +88,11 @@ class TritonPythonModel:
         batchsize_lists = []
         total_seqs = 0
         encoder_max_len = 0
+
         for request in requests:
             # Perform inference on the request and append it to responses list...
-            in_0 = pb_utils.get_input_tensor_by_name(request, "encoder_out")
-            in_1 = pb_utils.get_input_tensor_by_name(request, "encoder_out_lens")
+            in_0 = pb_utils.get_input_tensor_by_name(request, "encoder_out__0")
+            in_1 = pb_utils.get_input_tensor_by_name(request, "encoder_out_lens__1")
             batch_encoder_out_list.append(in_0.as_numpy())
             encoder_max_len = max(encoder_max_len, batch_encoder_out_list[-1].shape[1])
             cur_b_lens = in_1.as_numpy()
@@ -103,7 +104,7 @@ class TritonPythonModel:
       
         encoder_out_array = np.zeros((total_seqs, encoder_max_len, self.encoder_dim),
                                   dtype=self.data_type)
-        encoder_out_lens_array = np.zeros(total_seqs, dtype=np.int64)
+        encoder_out_lens_array = np.zeros(total_seqs, dtype=np.int32)
         st = 0
         for b in batchsize_lists:
             t = batch_encoder_out_list.pop(0)
@@ -124,12 +125,12 @@ class TritonPythonModel:
         pack_batch_size_list = packed_encoder_out.batch_sizes.tolist()
                 
         hyps = [[self.blank_id] * self.context_size for _ in range(total_seqs)]
-        decoder_input = np.asarray(hyps,dtype=np.int64)
-        in_decoder_input_tensor = pb_utils.Tensor("y", decoder_input)
+        decoder_input = np.asarray(hyps,dtype=np.int32)
+        in_decoder_input_tensor = pb_utils.Tensor("decoder_input__0", decoder_input)
 
         inference_request = pb_utils.InferenceRequest(
             model_name='decoder',
-            requested_output_names=['decoder_out'],
+            requested_output_names=['decoder_output__0'],
             inputs=[in_decoder_input_tensor])
 
         inference_response = inference_request.exec()
@@ -138,7 +139,7 @@ class TritonPythonModel:
         else:
             # Extract the output tensors from the inference response.
             decoder_out = pb_utils.get_output_tensor_by_name(inference_response,
-                                                            'decoder_out')
+                                                            'decoder_output__0')
             decoder_out = torch.utils.dlpack.from_dlpack(decoder_out.to_dlpack()).cpu().numpy()
             #decoder_out = decoder_out.as_numpy()
 
@@ -149,19 +150,19 @@ class TritonPythonModel:
             start = offset
             end = offset + batch_size
             current_encoder_out = packed_encoder_out.data[start:end]
-            current_encoder_out = current_encoder_out.cpu().numpy()
-            # current_encoder_out's shape: (batch_size, encoder_out_dim)
+            current_encoder_out = current_encoder_out.unsqueeze(1).unsqueeze(1).cpu().numpy()
+            # current_encoder_out's shape: (batch_size, 1, 1, encoder_out_dim)
  
             offset = end
-        
+
             decoder_out = decoder_out[:batch_size]
            
-            in_joiner_tensor_0 = pb_utils.Tensor("encoder_out", current_encoder_out)
-            in_joiner_tensor_1 = pb_utils.Tensor("decoder_out", np.squeeze(decoder_out, axis=1))
+            in_joiner_tensor_0 = pb_utils.Tensor("encoder_out__0", current_encoder_out)
+            in_joiner_tensor_1 = pb_utils.Tensor("decoder_out__1", np.expand_dims(decoder_out, axis=1))
 
             inference_request = pb_utils.InferenceRequest(
                 model_name='joiner',
-                requested_output_names=['logit'],
+                requested_output_names=['logit__0'],
                 inputs=[in_joiner_tensor_0, in_joiner_tensor_1])
             inference_response = inference_request.exec()
             if inference_response.has_error():
@@ -169,12 +170,12 @@ class TritonPythonModel:
             else:
                 # Extract the output tensors from the inference response.
                 logits = pb_utils.get_output_tensor_by_name(inference_response,
-                                                                'logit')
+                                                                'logit__0')
                 logits = torch.utils.dlpack.from_dlpack(logits.to_dlpack()).cpu().numpy()
                 
                 #logits = logits.as_numpy()
             logits = torch.from_numpy(logits)
-            #logits = logits.squeeze(1).squeeze(1)  # (batch_size, vocab_size)
+            logits = logits.squeeze(1).squeeze(1)  # (batch_size, vocab_size)
             
             assert logits.ndim == 2, logits.shape
             y = logits.argmax(dim=1).tolist()
@@ -188,13 +189,13 @@ class TritonPythonModel:
                 # update decoder output
                 decoder_input = [h[-self.context_size:] for h in hyps[:batch_size]]
 
-                decoder_input = np.asarray(decoder_input,dtype=np.int64)
+                decoder_input = np.asarray(decoder_input,dtype=np.int32)
 
-                in_decoder_input_tensor = pb_utils.Tensor("y", decoder_input)
+                in_decoder_input_tensor = pb_utils.Tensor("decoder_input__0", decoder_input)
 
                 inference_request = pb_utils.InferenceRequest(
                     model_name='decoder',
-                    requested_output_names=['decoder_out'],
+                    requested_output_names=['decoder_output__0'],
                     inputs=[in_decoder_input_tensor])
 
                 inference_response = inference_request.exec()
@@ -203,7 +204,7 @@ class TritonPythonModel:
                 else:
                     # Extract the output tensors from the inference response.
                     decoder_out = pb_utils.get_output_tensor_by_name(inference_response,
-                                                                    'decoder_out')
+                                                                    'decoder_output__0')
                     decoder_out = torch.utils.dlpack.from_dlpack(decoder_out.to_dlpack()).cpu().numpy()
                     #decoder_out = decoder_out.as_numpy()
 

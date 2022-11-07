@@ -61,7 +61,7 @@ class TritonPythonModel:
 
         # Get OUTPUT0 configuration
         output0_config = pb_utils.get_output_config_by_name(
-            model_config, "speech")
+            model_config, "speech__0")
         # Convert Triton types to numpy types
         output0_dtype = pb_utils.triton_string_to_numpy(
             output0_config['data_type'])
@@ -72,7 +72,7 @@ class TritonPythonModel:
 
         # Get OUTPUT1 configuration
         output1_config = pb_utils.get_output_config_by_name(
-            model_config, "speech_lengths")
+            model_config, "speech_lengths__1")
         # Convert Triton types to numpy types
         self.output1_dtype = pb_utils.triton_string_to_numpy(
             output1_config['data_type'])
@@ -139,15 +139,15 @@ class TritonPythonModel:
             expect_feat_len = _kaldifeat.num_frames(l, self.opts.frame_opts)
             speech = torch.zeros((b, expect_feat_len, self.feature_size),
                                  dtype=self.output0_dtype, device=self.device)
-            speech_lengths = torch.zeros((b, 1), dtype=torch.int64, device=self.device)
+            speech_lengths = torch.zeros((b, 1), dtype=torch.int32, device=self.device)
             for i in range(b):
                 f = features.pop(0)
                 f_l = f.shape[0]
                 speech[i, 0: f_l, :] = f.to(self.output0_dtype)
                 speech_lengths[i][0] = f_l
 
-            out0 = pb_utils.Tensor.from_dlpack("speech", to_dlpack(speech))
-            out1 = pb_utils.Tensor.from_dlpack("speech_lengths",
+            out0 = pb_utils.Tensor.from_dlpack("speech__0", to_dlpack(speech))
+            out1 = pb_utils.Tensor.from_dlpack("speech_lengths__1",
                                                to_dlpack(speech_lengths))
             inference_response = pb_utils.InferenceResponse(output_tensors=[out0, out1])
             responses.append(inference_response)
