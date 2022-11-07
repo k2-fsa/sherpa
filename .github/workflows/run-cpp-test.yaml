@@ -125,7 +125,7 @@ jobs:
 
           ldd lib/libsherpa_core.so
 
-          ldd bin/sherpa
+          ldd bin/sherpa-offline-recognizer
 
           readelf -d lib/libsherpa_core.so
           readelf -d bin/sherpa-offline-recognizer

@@ -4,6 +4,8 @@ set(sherpa_srcs
   offline-transducer-greedy-search-decoder.cc
   offline-transducer-modified-beam-search-decoder.cc
 
+  online-conv-emformer-transducer-model.cc
+
   # TODO(fangjun): Refactor the following files
   ctc_conformer_model.cc
   endpoint.cc
@@ -56,6 +58,7 @@ endif()
 if(SHERPA_ENABLE_TESTS)
   set(sherpa_test_srcs
     test-offline-conformer-transducer-model.cc
+    test-online-conv-emformer-transducer-model.cc
 
     test_hypothesis.cc
     test_log.cc

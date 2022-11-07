@@ -57,7 +57,7 @@ class OnlineTransducerModel {
    *           - encoder_out_lens, a tensor of shape (N,)
    *           - next_states  Encoder state for the next chunk.
    */
-  std::tuple<torch::Tensor, torch::Tensor, torch::IValue> virtual RunEncoder(
+  virtual std::tuple<torch::Tensor, torch::Tensor, torch::IValue> RunEncoder(
       const torch::Tensor &features, const torch::Tensor &features_length,
       const torch::Tensor &num_processed_frames, torch::IValue states) = 0;
 
@@ -96,7 +96,7 @@ class OnlineTransducerModel {
   /** If we are using a stateless decoder and if it contains a
    *  Conv1D, this function returns the kernel size of the convolution layer.
    */
-  virtual int32_t ContextSize() const { return 0; }
+  virtual int32_t ContextSize() const = 0;
 
   /** We send this number of feature frames to the encoder at a time. */
   virtual int32_t ChunkSize() const = 0;
@@ -111,6 +111,8 @@ class OnlineTransducerModel {
    * frames 6~11.
    * In the third call of RunEncoder, we use frames 12~19; and then we discard
    * frames 12~16.
+   *
+   * Note: ChunkSize() - ChunkShift() == right context size
    */
   virtual int32_t ChunkShift() const = 0;
 };

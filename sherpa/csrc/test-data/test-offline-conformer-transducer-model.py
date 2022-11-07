@@ -11,7 +11,7 @@ cd /path/to/sherpa
 
 GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13
 cd icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13
-git lfs pull --include "exp/cpu_jit.pt
+git lfs pull --include "exp/cpu_jit.pt"
 cd ..
 
 mkdir build

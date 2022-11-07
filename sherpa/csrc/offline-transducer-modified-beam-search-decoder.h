@@ -14,8 +14,8 @@ namespace sherpa {
 class OfflineTransducerModifiedBeamSearchDecoder
     : public OfflineTransducerDecoder {
  public:
-  explicit OfflineTransducerModifiedBeamSearchDecoder(
-      OfflineTransducerModel *model, int32_t num_active_paths)
+  OfflineTransducerModifiedBeamSearchDecoder(OfflineTransducerModel *model,
+                                             int32_t num_active_paths)
       : model_(model), num_active_paths_(num_active_paths) {}
 
   /** Run greedy search given the output from the encoder model.
