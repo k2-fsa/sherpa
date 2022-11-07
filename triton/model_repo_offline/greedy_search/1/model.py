@@ -149,7 +149,6 @@ class TritonPythonModel:
             start = offset
             end = offset + batch_size
             current_encoder_out = packed_encoder_out.data[start:end]
-            #current_encoder_out = current_encoder_out.unsqueeze(1).unsqueeze(1).cpu().numpy()
             current_encoder_out = current_encoder_out.cpu().numpy()
             # current_encoder_out's shape: (batch_size, encoder_out_dim)
  
@@ -158,7 +157,6 @@ class TritonPythonModel:
             decoder_out = decoder_out[:batch_size]
            
             in_joiner_tensor_0 = pb_utils.Tensor("encoder_out", current_encoder_out)
-            #in_joiner_tensor_1 = pb_utils.Tensor("decoder_out", np.expand_dims(decoder_out, axis=1))
             in_joiner_tensor_1 = pb_utils.Tensor("decoder_out", np.squeeze(decoder_out, axis=1))
 
             inference_request = pb_utils.InferenceRequest(
