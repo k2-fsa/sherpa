@@ -7,6 +7,7 @@
 
 #include <vector>
 
+#include "sherpa/csrc/hypothesis.h"
 #include "torch/script.h"
 
 namespace sherpa {
@@ -16,13 +17,16 @@ struct OnlineTransducerDecoderResult {
   int32_t frame_offset = 0;
 
   /// number of trailing blank frames decoded so far
-  int32_t num_trailing_blank_frames = 0;
+  int32_t num_trailing_blanks = 0;
 
   /// The decoded token IDs so far
   std::vector<int32_t> tokens;
 
   /// timestamps[i] contains the output frame index where tokens[i] is decoded.
   std::vector<int32_t> timestamps;
+
+  // used only for modified_beam_search
+  Hypotheses hyps;
 };
 
 class OnlineTransducerDecoder {

@@ -135,7 +135,7 @@ torch::IValue OnlineConvEmformerTransducerModel::StackStates(
   for (int32_t l = 0; l != num_layers; ++l) {
     auto &attn_caches_l = attn_caches[l];
     auto &stacked_attn_caches_l = stacked_attn_caches[l];
-    for (int32_t i = 0; i != attn_caches_l.size(); ++i) {
+    for (int32_t i = 0; i != static_cast<int32_t>(attn_caches_l.size()); ++i) {
       stacked_attn_caches_l.push_back(
           torch::stack(attn_caches_l[i], /*dim*/ 1));
     }

@@ -27,6 +27,7 @@
 #include "sherpa/csrc/online-transducer-decoder.h"
 #include "sherpa/csrc/online-transducer-greedy-search-decoder.h"
 #include "sherpa/csrc/online-transducer-model.h"
+#include "sherpa/csrc/online-transducer-modified-beam-search-decoder.h"
 #include "sherpa/csrc/symbol_table.h"
 
 namespace sherpa {
@@ -112,8 +113,16 @@ class OnlineRecognizer::OnlineRecognizerImpl {
     model_ = std::make_unique<OnlineConvEmformerTransducerModel>(
         config.nn_model, device_);
 
-    decoder_ =
-        std::make_unique<OnlineTransducerGreedySearchDecoder>(model_.get());
+    if (config.decoding_method == "greedy_search") {
+      decoder_ =
+          std::make_unique<OnlineTransducerGreedySearchDecoder>(model_.get());
+    } else if (config.decoding_method == "modified_beam_search") {
+      decoder_ = std::make_unique<OnlineTransducerModifiedBeamSearchDecoder>(
+          model_.get(), config.num_active_paths);
+    } else {
+      TORCH_CHECK(false,
+                  "Unsupported decoding method: ", config.decoding_method);
+    }
   }
 
   std::unique_ptr<OnlineStream> CreateStream() {

@@ -1,15 +1,12 @@
-// sherpa/csrc/offline-transducer-modified-beam-search-decoder.cc
+// sherpa/csrc/online-transducer-modified-beam-search-decoder.cc
 //
 // Copyright (c)  2022  Xiaomi Corporation
-
-#include "sherpa/csrc/offline-transducer-modified-beam-search-decoder.h"
+#include "sherpa/csrc/online-transducer-modified-beam-search-decoder.h"
 
 #include <algorithm>
-#include <deque>
 #include <utility>
 
 #include "k2/torch_api.h"
-#include "sherpa/csrc/hypothesis.h"
 
 namespace sherpa {
 
@@ -64,67 +61,59 @@ static k2::RaggedShapePtr GetHypsShape(const std::vector<Hypotheses> &hyps) {
   return k2::RaggedShape2(row_splits, torch::Tensor(), row_splits_acc[num_utt]);
 }
 
-std::vector<OfflineTransducerDecoderResult>
-OfflineTransducerModifiedBeamSearchDecoder::Decode(
-    torch::Tensor encoder_out, torch::Tensor encoder_out_length) {
-  TORCH_CHECK(encoder_out.dim() == 3, "encoder_out.dim() is ",
-              encoder_out.dim(), "Expected value is 3");
-  TORCH_CHECK(encoder_out.scalar_type() == torch::kFloat,
-              "encoder_out.scalar_type() is ", encoder_out.scalar_type());
-
-  TORCH_CHECK(encoder_out_length.dim() == 1, "encoder_out_length.dim() is",
-              encoder_out_length.dim());
-  TORCH_CHECK(encoder_out_length.scalar_type() == torch::kLong,
-              "encoder_out_length.scalar_type() is ",
-              encoder_out_length.scalar_type());
-
-  TORCH_CHECK(encoder_out_length.device().is_cpu());
-
-  torch::Device device = model_->Device();
-  encoder_out = encoder_out.to(device);
-
-  torch::nn::utils::rnn::PackedSequence packed_seq =
-      torch::nn::utils::rnn::pack_padded_sequence(encoder_out,
-                                                  encoder_out_length,
-                                                  /*batch_first*/ true,
-                                                  /*enforce_sorted*/ false);
-
-  auto packed_encoder_out = packed_seq.data();
-
-  int32_t blank_id = 0;
+OnlineTransducerDecoderResult
+OnlineTransducerModifiedBeamSearchDecoder::GetEmptyResult() {
   int32_t context_size = model_->ContextSize();
-
-  int32_t batch_size = encoder_out_length.size(0);
-
+  int32_t blank_id = 0;  // always 0
+                         //
   std::vector<int32_t> blanks(context_size, blank_id);
   Hypotheses blank_hyp({{blanks, 0}});
 
-  std::deque<Hypotheses> finalized;
-  std::vector<Hypotheses> cur(batch_size, blank_hyp);
+  OnlineTransducerDecoderResult r;
+  r.hyps = std::move(blank_hyp);
+
+  return r;
+}
+
+void OnlineTransducerModifiedBeamSearchDecoder::StripLeadingBlanks(
+    OnlineTransducerDecoderResult *r) {
+  int32_t context_size = model_->ContextSize();
+  auto hyp = r->hyps.GetMostProbable(true);
+
+  auto start = hyp.ys.begin() + context_size;
+  auto end = hyp.ys.end();
+
+  r->tokens = std::vector<int32_t>(start, end);
+  r->timestamps = std::move(hyp.timestamps);
+  r->num_trailing_blanks = hyp.num_trailing_blanks;
+}
+
+void OnlineTransducerModifiedBeamSearchDecoder::Decode(
+    torch::Tensor encoder_out,
+    std::vector<OnlineTransducerDecoderResult> *results) {
+  TORCH_CHECK(encoder_out.dim() == 3, encoder_out.dim(), " vs ", 3);
+
+  TORCH_CHECK(encoder_out.size(0) == static_cast<int32_t>(results->size()),
+              encoder_out.size(0), " vs ", results->size());
+
+  auto device = model_->Device();
+  int32_t blank_id = 0;  // always 0
+  int32_t context_size = model_->ContextSize();
+
+  int32_t N = encoder_out.size(0);
+  int32_t T = encoder_out.size(1);
+
+  std::vector<Hypotheses> cur;
+  cur.reserve(N);
+  for (auto &r : *results) {
+    cur.push_back(std::move(r.hyps));
+  }
+
   std::vector<Hypothesis> prev;
 
-  using torch::indexing::Slice;
-  auto batch_sizes_acc = packed_seq.batch_sizes().accessor<int64_t, 1>();
-  int32_t max_T = packed_seq.batch_sizes().numel();
-  int32_t offset = 0;
-
-  for (int32_t t = 0; t != max_T; ++t) {
-    int32_t cur_batch_size = batch_sizes_acc[t];
-    int32_t start = offset;
-    int32_t end = start + cur_batch_size;
-    auto cur_encoder_out = packed_encoder_out.index({Slice(start, end)});
-    offset = end;
-
-    cur_encoder_out = cur_encoder_out.unsqueeze(1).unsqueeze(1);
-    // Now cur_encoder_out's shape is (cur_batch_size, 1, 1, joiner_dim)
-
-    if (cur_batch_size < static_cast<int32_t>(cur.size())) {
-      for (int32_t k = static_cast<int32_t>(cur.size()) - 1;
-           k >= cur_batch_size; --k) {
-        finalized.push_front(std::move(cur[k]));
-      }
-      cur.erase(cur.begin() + cur_batch_size, cur.end());
-    }
+  for (int32_t t = 0; t != T; ++t) {
+    auto cur_encoder_out = encoder_out.index({torch::indexing::Slice(), t});
+    // cur_encoder_out has shape (N, joiner_dim)
 
     // Due to merging paths with identical token sequences,
     // not all utterances have "num_active_paths" paths.
@@ -139,30 +128,25 @@ OfflineTransducerModifiedBeamSearchDecoder::Decode(
       }
     }
     cur.clear();
-    cur.reserve(cur_batch_size);
+    cur.reserve(N);
 
     auto ys_log_probs = torch::empty({num_hyps, 1}, torch::kFloat);
 
     auto ys_log_probs_acc = ys_log_probs.accessor<float, 2>();
-    for (int32_t k = 0; k != static_cast<int32_t>(prev.size()); ++k) {
+    for (int32_t k = 0; k != num_hyps; ++k) {
       ys_log_probs_acc[k][0] = prev[k].log_prob;
     }
 
     auto decoder_input = BuildDecoderInput(prev, context_size).to(device);
-
-    auto decoder_out = model_->RunDecoder(decoder_input);
-    // decoder_out is of shape (num_hyps, 1, joiner_dim)
+    auto decoder_out = model_->RunDecoder(decoder_input).squeeze(1);
+    // decoder_out is of shape (num_hyps, joiner_dim)
 
     auto index = k2::RowIds(hyps_shape, 1).to(torch::kLong).to(device);
-
     cur_encoder_out = cur_encoder_out.index_select(/*dim*/ 0, /*index*/ index);
-    // cur_encoder_out is of shape (num_hyps, 1, 1, joiner_dim)
+    // cur_encoder_out is of shape (num_hyps, joiner_dim)
 
-    auto logits = model_->RunJoiner(cur_encoder_out, decoder_out.unsqueeze(1));
-
-    // logits' shape is (num_hyps, 1, 1, vocab_size)
-    logits = logits.squeeze(1).squeeze(1);
-    // now logits' shape is (num_hyps, vocab_size)
+    auto logits = model_->RunJoiner(cur_encoder_out, decoder_out);
+    // logits has shape (num_hyps, vocab_size)
 
     auto log_probs = logits.log_softmax(-1).cpu();
 
@@ -173,7 +157,9 @@ OfflineTransducerModifiedBeamSearchDecoder::Decode(
     auto row_splits = k2::RowSplits(hyps_shape, 1);
     auto row_splits_acc = row_splits.accessor<int32_t, 1>();
 
-    for (int32_t k = 0; k != cur_batch_size; ++k) {
+    for (int32_t k = 0; k != N; ++k) {
+      int32_t frame_offset = (*results)[k].frame_offset;
+
       int32_t start = row_splits_acc[k];
       int32_t end = row_splits_acc[k + 1];
 
@@ -198,7 +184,10 @@ OfflineTransducerModifiedBeamSearchDecoder::Decode(
         int32_t new_token = topk_token_indexes_acc[j];
         if (new_token != blank_id) {
           new_hyp.ys.push_back(new_token);
-          new_hyp.timestamps.push_back(t);
+          new_hyp.timestamps.push_back(t + frame_offset);
+          new_hyp.num_trailing_blanks = 0;
+        } else {
+          new_hyp.num_trailing_blanks += 1;
         }
 
         // We already added log_prob of the path to log_probs before, so
@@ -207,26 +196,12 @@ OfflineTransducerModifiedBeamSearchDecoder::Decode(
         hyps.Add(std::move(new_hyp));
       }
       cur.push_back(std::move(hyps));
-    }
+    }  // for (int32_t k = 0; k != N; ++k)
+  }    // for (int32_t t = 0; t != T; ++t)
+
+  for (int32_t i = 0; i != N; ++i) {
+    (*results)[i].hyps = std::move(cur[i]);
   }
-
-  for (auto &h : finalized) {
-    cur.push_back(std::move(h));
-  }
-
-  auto unsorted_indices = packed_seq.unsorted_indices().cpu();
-  auto unsorted_indices_accessor = unsorted_indices.accessor<int64_t, 1>();
-
-  std::vector<OfflineTransducerDecoderResult> ans(batch_size);
-  for (int32_t i = 0; i != batch_size; ++i) {
-    int32_t k = unsorted_indices_accessor[i];
-    Hypothesis hyp = cur[k].GetMostProbable(true);
-    torch::ArrayRef<int32_t> arr(hyp.ys);
-    ans[i].tokens = arr.slice(context_size).vec();
-    ans[i].timestamps = std::move(hyp.timestamps);
-  }
-
-  return ans;
 }
 
 }  // namespace sherpa

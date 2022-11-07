@@ -6,6 +6,7 @@ set(sherpa_srcs
 
   online-conv-emformer-transducer-model.cc
   online-transducer-greedy-search-decoder.cc
+  online-transducer-modified-beam-search-decoder.cc
 
   # TODO(fangjun): Refactor the following files
   ctc_conformer_model.cc

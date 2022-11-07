@@ -84,9 +84,9 @@ void OnlineTransducerGreedySearchDecoder::Decode(
 
         r.tokens.push_back(index);
         r.timestamps.push_back(t + r.frame_offset);
-        r.num_trailing_blank_frames = 0;
+        r.num_trailing_blanks = 0;
       } else {
-        ++r.num_trailing_blank_frames;
+        ++r.num_trailing_blanks;
       }
     }
 
