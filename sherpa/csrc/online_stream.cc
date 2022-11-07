@@ -28,24 +28,14 @@
 #include "sherpa/csrc/endpoint.h"
 #include "sherpa/csrc/hypothesis.h"
 #include "sherpa/csrc/log.h"
+#include "sherpa/csrc/online-transducer-decoder.h"
 
 namespace sherpa {
 
 class OnlineStream::OnlineStreamImpl {
  public:
-  OnlineStreamImpl(const EndpointConfig &endpoint_config, float sampling_rate,
-                   int32_t feature_dim, int32_t max_feature_vectors) {
-    kaldifeat::FbankOptions opts;
-
-    opts.frame_opts.samp_freq = sampling_rate;
-    opts.frame_opts.dither = 0;
-    opts.frame_opts.snip_edges = false;
-    opts.frame_opts.max_feature_vectors = max_feature_vectors;
-    opts.mel_opts.num_bins = feature_dim;
-
+  explicit OnlineStreamImpl(const kaldifeat::FbankOptions &opts) {
     fbank_ = std::make_unique<kaldifeat::OnlineFbank>(opts);
-    frame_shift_ms_ = opts.frame_opts.frame_shift_ms;
-    endpoint_ = std::make_unique<Endpoint>(endpoint_config);
   }
 
   void AcceptWaveform(float sampling_rate, torch::Tensor waveform) {
@@ -63,13 +53,6 @@ class OnlineStream::OnlineStreamImpl {
     return fbank_->IsLastFrame(frame);
   }
 
-  bool IsEndpoint() const {
-    return endpoint_->IsEndpoint(
-        num_processed_frames_,
-        num_trailing_blank_frames_ * 4,  // subsample factor is 4
-        frame_shift_ms_ / 1000.0);
-  }
-
   void InputFinished() {
     std::lock_guard<std::mutex> lock(feat_mutex_);
     fbank_->InputFinished();
@@ -84,6 +67,10 @@ class OnlineStream::OnlineStreamImpl {
 
   void SetState(torch::IValue state) { state_ = std::move(state); }
 
+  void SetResult(const OnlineTransducerDecoderResult &r) { r_ = r; }
+
+  const OnlineTransducerDecoderResult &GetResult() const { return r_; }
+
   int32_t &GetNumProcessedFrames() { return num_processed_frames_; }
 
   std::vector<int32_t> &GetHyps() { return hyps_; }
@@ -96,7 +83,6 @@ class OnlineStream::OnlineStreamImpl {
 
  private:
   std::unique_ptr<kaldifeat::OnlineFbank> fbank_;
-  std::unique_ptr<Endpoint> endpoint_;
   mutable std::mutex feat_mutex_;
 
   torch::IValue state_;
@@ -105,14 +91,12 @@ class OnlineStream::OnlineStreamImpl {
   torch::Tensor decoder_out_;
   int32_t num_processed_frames_ = 0;       // before subsampling
   int32_t num_trailing_blank_frames_ = 0;  // after subsampling
-  int32_t frame_shift_ms_ = 10;            // before subsampling
+  // int32_t frame_shift_ms_ = 10;            // before subsampling
+  OnlineTransducerDecoderResult r_;
 };
 
-OnlineStream::OnlineStream(const EndpointConfig &endpoint_config,
-                           float sampling_rate, int32_t feature_dim,
-                           int32_t max_feature_vectors /*= -1*/)
-    : impl_(std::make_unique<OnlineStreamImpl>(
-          endpoint_config, sampling_rate, feature_dim, max_feature_vectors)) {}
+OnlineStream::OnlineStream(const kaldifeat::FbankOptions &opts)
+    : impl_(std::make_unique<OnlineStreamImpl>(opts)) {}
 
 OnlineStream::~OnlineStream() = default;
 
@@ -125,8 +109,6 @@ int32_t OnlineStream::NumFramesReady() const { return impl_->NumFramesReady(); }
 bool OnlineStream::IsLastFrame(int32_t frame) const {
   return impl_->IsLastFrame(frame);
 }
-
-bool OnlineStream::IsEndpoint() const { return impl_->IsEndpoint(); }
 
 void OnlineStream::InputFinished() { impl_->InputFinished(); }
 
@@ -150,6 +132,14 @@ Hypotheses &OnlineStream::GetHypotheses() { return impl_->GetHypotheses(); }
 
 int32_t &OnlineStream::GetNumTrailingBlankFrames() {
   return impl_->GetNumTrailingBlankFrames();
+}
+
+void OnlineStream::SetResult(const OnlineTransducerDecoderResult &r) {
+  impl_->SetResult(r);
+}
+
+const OnlineTransducerDecoderResult &OnlineStream::GetResult() const {
+  return impl_->GetResult();
 }
 
 }  // namespace sherpa

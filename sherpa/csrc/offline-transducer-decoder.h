@@ -22,7 +22,7 @@ class OfflineTransducerDecoder {
  public:
   virtual ~OfflineTransducerDecoder() = default;
 
-  /** Run greedy search given the output from the encoder model.
+  /** Run transducer beam search given the output from the encoder model.
    *
    * @param encoder_out A 3-D tensor of shape (N, T, joiner_dim)
    * @param encoder_out_length A 1-D tensor of shape (N,) containing number

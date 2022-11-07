@@ -4,6 +4,11 @@
 
 #include "sherpa/csrc/online-conv-emformer-transducer-model.h"
 
+#include <string>
+#include <tuple>
+#include <utility>
+#include <vector>
+
 namespace sherpa {
 
 OnlineConvEmformerTransducerModel::OnlineConvEmformerTransducerModel(

@@ -1,135 +1,68 @@
-/**
- * Copyright      2022  Xiaomi Corporation (authors: Fangjun Kuang)
- *
- * See LICENSE for clarification regarding multiple authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+// sherpa/cpp_api/online-recognizer.h
+//
+// Copyright (c)  2022  Xiaomi Corporation
 
-/**
-Online ASR APIs for sherpa.
-
-Note: It supports only models from
-https://github.com/k2-fsa/icefall/tree/master/egs/librispeech/ASR/conv_emformer_transducer_stateless2
-at present.
-
-You can find a pre-trained model in the following address:
-
-https://huggingface.co/Zengwei/icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05
- */
 #ifndef SHERPA_CPP_API_ONLINE_RECOGNIZER_H_
 #define SHERPA_CPP_API_ONLINE_RECOGNIZER_H_
 
 #include <memory>
 #include <string>
+#include <vector>
+
+#include "sherpa/cpp_api/feature-config.h"
+#include "sherpa/cpp_api/online_stream.h"
+
+// TODO(fangjun): Move endpoint.h to sherpa/cpp_api/
+#include "sherpa/csrc/endpoint.h"
 
 namespace sherpa {
 
-class OnlineStream;
+struct OnlineRecognizerConfig {
+  /// Config for the feature extractor
+  FeatureConfig feat_config;
 
-enum class DecodingMethod {
-  kGreedySearch = 0,
-  kModifiedBeamSearch = 1,
-};
+  EndpointConfig endpoint_config;
 
-constexpr auto kGreedySearch = DecodingMethod::kGreedySearch;
-constexpr auto kModifiedBeamSearch = DecodingMethod::kModifiedBeamSearch;
+  /// Path to the torchscript model
+  std::string nn_model;
 
-struct DecodingOptions {
-  DecodingMethod method = kGreedySearch;
-  // kGreedySearch has no options
+  /// Path to tokens.txt
+  std::string tokens;
 
-  // Options for kModifiedBeamSearch
+  // The following three are for RnntLstmModel
+  std::string encoder_model;
+  std::string decoder_model;
+  std::string joiner_model;
+
+  /// true to use GPU for neural network computation and decoding.
+  /// false to use CPU.
+  /// You can use CUDA_VISIBLE_DEVICES to control which device to use.
+  /// We always use GPU 0 in the code. This also implies it supports only
+  /// 1 GPU at present.
+  /// Note: You have to use a CUDA version of PyTorch in order to use
+  /// GPU for computation
+  bool use_gpu = false;
+
+  std::string decoding_method = "greedy_search";
+
+  /// used only for modified_beam_search
   int32_t num_active_paths = 4;
 
-  // For RnntConformerModel, i.e., for models from
-  // pruned_transducer_statelessX in icefall
-  // In number of frames after subsampling
-  int32_t left_context = -1;
+  void Register(ParseOptions *po);
 
-  // For RnntConformerModel, i.e., for models from
-  // pruned_transducer_statelessX in icefall
-  // In number of frames after subsampling
-  int32_t right_context = -1;
+  void Validate() const;
 
-  // For RnntConformerModel, i.e., for models from
-  // pruned_transducer_statelessX in icefall
-  // In number of frames after subsampling
-  int32_t chunk_size = -1;
-};
-
-struct OnlineRecognitionResult {
-  // Recognition results.
-  // For English, it consists of space separated words.
-  // For Chinese, it consists of Chinese words without spaces.
-  std::string text;
-  std::string AsJsonString() const;
+  /** A string representation for debugging purpose. */
+  std::string ToString() const;
 };
 
 class OnlineRecognizer {
  public:
   /** Construct an instance of OnlineRecognizer.
    *
-   * @param nn_model  Path to the torchscript model. We assume the model
-   *                  is one of conv_emformer_transducer_stateless2 from
-   *                  icefall.
-   *
-   * @param tokens    Path to the tokens.txt. Each line in this file has
-   *                  two columns separated by space(s). The first column is
-   *                  a symbol while the second column is the integer ID of
-   *                  the symbol. If you have a bpe.model, please convert it
-   *                  to tokens.txt first.
-   * @param decoding_opts   Decoding options for this recognizer.
-   * @param use_gpu         true to use GPU for neural network computation.
-   *                        false to use CPU. If true, we always select GPU 0.
-   *                        You can use the environment variable
-   *                        CUDA_VISIBLE_DEVICES to control which device should
-   *                        be mapped to GPU 0.
-   * @param sample_rate     The expected audio sample rate of the model.
+   * @param config Configuration for the recognizer.
    */
-  OnlineRecognizer(const std::string &nn_model, const std::string &tokens,
-                   const DecodingOptions &decoding_opts = {},
-                   bool use_gpu = false, float sample_rate = 16000);
-
-  /** Construct an instance of OnlineRecognizer.
-   *
-   * @param encoder_model  Path to the encoder model. We assume the model
-   *                       is one of lstm_transducer_statelessX from icefall.
-   *
-   * @param decoder_model  Path to the decoder model. We assume the model
-   *                       is one of lstm_transducer_statelessX from icefall.
-   *
-   * @param joiner_model  Path to the joiner model. We assume the model
-   *                       is one of lstm_transducer_statelessX from icefall.
-   *
-   * @param tokens    Path to the tokens.txt. Each line in this file has
-   *                  two columns separated by space(s). The first column is
-   *                  a symbol while the second column is the integer ID of
-   *                  the symbol. If you have a bpe.model, please convert it
-   *                  to tokens.txt first.
-   * @param decoding_opts   Decoding options for this recognizer.
-   * @param use_gpu         true to use GPU for neural network computation.
-   *                        false to use CPU. If true, we always select GPU 0.
-   *                        You can use the environment variable
-   *                        CUDA_VISIBLE_DEVICES to control which device should
-   *                        be mapped to GPU 0.
-   * @param sample_rate     The expected audio sample rate of the model.
-   */
-  OnlineRecognizer(const std::string &encoder_model,
-                   const std::string &decoder_model,
-                   const std::string &joiner_model, const std::string &tokens,
-                   const DecodingOptions &decoding_opts = {},
-                   bool use_gpu = false, float sample_rate = 16000);
+  explicit OnlineRecognizer(const OnlineRecognizerConfig &config);
 
   ~OnlineRecognizer();
 

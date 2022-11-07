@@ -5,6 +5,7 @@ set(sherpa_srcs
   offline-transducer-modified-beam-search-decoder.cc
 
   online-conv-emformer-transducer-model.cc
+  online-transducer-greedy-search-decoder.cc
 
   # TODO(fangjun): Refactor the following files
   ctc_conformer_model.cc
@@ -13,7 +14,7 @@ set(sherpa_srcs
   file_utils.cc
   hypothesis.cc
   log.cc
-  online_asr.cc
+  # online_asr.cc
   online_stream.cc
   parse_options.cc
   rnnt_beam_search.cc
@@ -96,21 +97,6 @@ if(SHERPA_ENABLE_TESTS)
   endforeach()
 endif()
 
-add_executable(sherpa-online sherpa_online.cc)
-target_link_libraries(sherpa-online sherpa_core)
-
-if(NOT WIN32)
-  execute_process(
-    COMMAND "${PYTHON_EXECUTABLE}" -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())"
-    OUTPUT_STRIP_TRAILING_WHITESPACE
-    OUTPUT_VARIABLE PYTHON_SITE_PACKAGE_DIR
-  )
-  message(STATUS "PYTHON_SITE_PACKAGE_DIR: ${PYTHON_SITE_PACKAGE_DIR}")
-  target_link_libraries(sherpa-online "-Wl,-rpath,${PYTHON_SITE_PACKAGE_DIR}/sherpa/lib")
-  target_link_libraries(sherpa-online "-Wl,-rpath,${SHERPA_RPATH_ORIGIN}/../lib")
-endif()
-
-
 configure_file(version.h.in ${CMAKE_CURRENT_BINARY_DIR}/version.h @ONLY)
 message(STATUS "Generated ${CMAKE_CURRENT_BINARY_DIR}/version.h")
 # sherpa-version does not have any dependencies. Its purpose is to help us debug
@@ -123,6 +109,6 @@ install(TARGETS
   DESTINATION lib
 )
 
-install(TARGETS sherpa-online sherpa-version
+install(TARGETS sherpa-version
   DESTINATION  bin
 )

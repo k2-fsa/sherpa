@@ -2,6 +2,9 @@ add_executable(offline-recognizer offline-recognizer.cc)
 target_link_libraries(offline-recognizer sherpa-cpp-api)
 set_target_properties(offline-recognizer PROPERTIES OUTPUT_NAME "sherpa-offline-recognizer")
 
+add_executable(sherpa-online sherpa_online.cc)
+target_link_libraries(sherpa-online sherpa-cpp-api)
+
 if(NOT WIN32)
   execute_process(
     COMMAND "${PYTHON_EXECUTABLE}" -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())"
@@ -11,10 +14,13 @@ if(NOT WIN32)
   message(STATUS "PYTHON_SITE_PACKAGE_DIR: ${PYTHON_SITE_PACKAGE_DIR}")
   target_link_libraries(offline-recognizer "-Wl,-rpath,${PYTHON_SITE_PACKAGE_DIR}/sherpa/lib")
   target_link_libraries(offline-recognizer "-Wl,-rpath,${SHERPA_RPATH_ORIGIN}/../lib")
+
+  target_link_libraries(sherpa-online "-Wl,-rpath,${PYTHON_SITE_PACKAGE_DIR}/sherpa/lib")
+  target_link_libraries(sherpa-online "-Wl,-rpath,${SHERPA_RPATH_ORIGIN}/../lib")
 endif()
 
 install(
-  TARGETS offline-recognizer
+  TARGETS offline-recognizer sherpa-online
   DESTINATION bin
 )
 

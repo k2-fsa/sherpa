@@ -79,8 +79,8 @@ std::ostream &operator<<(std::ostream &os,
   return os;
 }
 
-OfflineRecognitionResult Convert(OfflineTransducerDecoderResult src,
-                                 const SymbolTable &sym) {
+static OfflineRecognitionResult Convert(OfflineTransducerDecoderResult src,
+                                        const SymbolTable &sym) {
   OfflineRecognitionResult r;
   std::string text;
   for (auto i : src.tokens) {

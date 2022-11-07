@@ -20,29 +20,59 @@
 
 #include <cstdint>
 #include <memory>
+#include <string>
 #include <vector>
 
+#include "kaldifeat/csrc/feature-fbank.h"
 #include "torch/script.h"
 
 namespace sherpa {
 
+struct OnlineRecognitionResult {
+  /// Recognition results.
+  /// For English, it consists of space separated words.
+  /// For Chinese, it consists of Chinese words without spaces.
+  std::string text;
+
+  /// Decoded results at the token level.
+  /// For instance, for BPE-based models it consists of a list of BPE tokens.
+  std::vector<int32_t> tokens;
+
+  /// timestamps.size() == tokens.size()
+  /// timestamps[i] records the frame number on which tokens[i] is decoded.
+  /// Frame numbers are counted after model subsampling.
+  std::vector<int32_t> timestamps;  // not implemented at present
+
+  /// ID of this segment
+  int32_t segment;
+
+  /// Starting frame of this segment.
+  int32_t start_frame;
+
+  /// True if this is the last segment.
+  bool is_final;
+
+  /** Return a json string.
+   *
+   * The returned string contains:
+   *   {
+   *     "text": "The recognition result",
+   *     "tokens": [x, x, x],
+   *     "timestamps": [x, x, x],
+   *     "segment": x,
+   *     "start_frame": x,
+   *     "is_final": true|false
+   *   }
+   */
+  std::string AsJsonString() const;
+};
+
 class Hypotheses;
-struct EndpointConfig;
+struct OnlineTransducerDecoderResult;
 
 class OnlineStream {
  public:
-  /**
-   * @param sampling_rate The sampling rate for the feature extractor.
-   *                      It should match the one used to train the model.
-   * @param feature_dim  The feature dimension. It should match the one
-   *                     used to train the model.
-   * @param max_feature_vectors Number of feature frames to keep in the
-   *                            recycling vector.
-   *                            If it is set to -1, we keep all feature frames
-   *                            computed so far.
-   */
-  OnlineStream(const EndpointConfig &endpoint_config, float sampling_rate,
-               int32_t feature_dim, int32_t max_feature_vectors = -1);
+  explicit OnlineStream(const kaldifeat::FbankOptions &opts);
   ~OnlineStream();
 
   /** This would be called from the application, when you get
@@ -68,11 +98,6 @@ class OnlineStream {
    * Frame indices are zero-based, so the first frame is zero.
    */
   bool IsLastFrame(int32_t frame) const;
-
-  /** Returns true if endpoint actives.
-   *
-   */
-  bool IsEndpoint() const;
 
   /** InputFinished() tells the class you won't be providing any more waveform.
    *
@@ -107,6 +132,9 @@ class OnlineStream {
   //
   // The returned reference is valid as long as this object is alive.
   int32_t &GetNumProcessedFrames();
+
+  void SetResult(const OnlineTransducerDecoderResult &r);
+  const OnlineTransducerDecoderResult &GetResult() const;
 
   // TODO(fangjun): Make it return a struct
   //
