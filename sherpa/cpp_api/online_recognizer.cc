@@ -24,6 +24,7 @@
 #include "sherpa/csrc/file_utils.h"
 #include "sherpa/csrc/log.h"
 #include "sherpa/csrc/online-conv-emformer-transducer-model.h"
+#include "sherpa/csrc/online-emformer-transducer-model.h"
 #include "sherpa/csrc/online-transducer-decoder.h"
 #include "sherpa/csrc/online-transducer-greedy-search-decoder.h"
 #include "sherpa/csrc/online-transducer-model.h"
@@ -110,8 +111,26 @@ class OnlineRecognizer::OnlineRecognizerImpl {
       device_ = torch::Device("cuda:0");
     }
 
-    model_ = std::make_unique<OnlineConvEmformerTransducerModel>(
-        config.nn_model, device_);
+    torch::jit::Module m = torch::jit::load(config.nn_model, torch::kCPU);
+    auto encoder = m.attr("encoder").toModule();
+
+    // TODO(fangjun): We should embed some unique ID into each model
+    // from icefall.
+    if (encoder.hasattr("chunk_length")) {
+      std::cerr << "conv emformer\n";
+      model_ = std::make_unique<OnlineConvEmformerTransducerModel>(
+          config.nn_model, device_);
+    } else if (encoder.hasattr("segment_length")) {
+      std::cerr << "emformer\n";
+      model_ = std::make_unique<OnlineEmformerTransducerModel>(config.nn_model,
+                                                               device_);
+    } else {
+      std::string s =
+          "Support only the following models from icefall:\n"
+          "conv_emformer_transducer_stateless2\n"
+          "pruned_stateless_emformer_rnnt2\n";
+      TORCH_CHECK(false, s);
+    }
 
     if (config.decoding_method == "greedy_search") {
       decoder_ =
