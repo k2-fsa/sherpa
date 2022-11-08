@@ -49,21 +49,21 @@ if(NOT WIN32)
 endif()
 
 if(SHERPA_ENABLE_PORTAUDIO)
-  add_executable(sherpa-online-weboscket-client-microphone
+  add_executable(sherpa-online-websocket-client-microphone
     online-websocket-client-from-microphone.cc
     microphone.cc
   )
 
-  target_link_libraries(sherpa-online-weboscket-client-microphone sherpa_core)
+  target_link_libraries(sherpa-online-websocket-client-microphone sherpa_core)
 
   if(BUILD_SHARED_LIBS)
-    target_link_libraries(sherpa-online-weboscket-client-microphone portaudio)
+    target_link_libraries(sherpa-online-websocket-client-microphone portaudio)
   else()
-    target_link_libraries(sherpa-online-weboscket-client-microphone portaudio_static)
+    target_link_libraries(sherpa-online-websocket-client-microphone portaudio_static)
   endif()
 
   if(NOT WIN32)
-    target_link_libraries(sherpa-online-weboscket-client-microphone -pthread)
+    target_link_libraries(sherpa-online-websocket-client-microphone -pthread)
   endif()
 endif()
 
@@ -74,7 +74,7 @@ set(bins
   sherpa-online-websocket-client
 )
 if(SHERPA_ENABLE_PORTAUDIO)
-  list(APPEND bins sherpa-online-weboscket-client-microphone)
+  list(APPEND bins sherpa-online-websocket-client-microphone)
 endif()
 
 foreach(exe IN LISTS bins)

@@ -17,7 +17,7 @@ file(MAKE_DIRECTORY
   ${PROJECT_BINARY_DIR}/include/sherpa/cpp_api
 )
 
-file(GLOB_RECURSE hdrs *.h)
+file(GLOB hdrs *.h)
 
 file(COPY
   ${hdrs}

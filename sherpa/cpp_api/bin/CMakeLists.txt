@@ -1,6 +1,6 @@
-add_executable(sherpa offline-recognizer.cc)
-target_link_libraries(sherpa sherpa_cpp_api)
-set_target_properties(sherpa PROPERTIES OUTPUT_NAME "sherpa-offline-recognizer")
+add_executable(sherpa-offline offline-recognizer.cc)
+target_link_libraries(sherpa-offline sherpa_cpp_api)
+set_target_properties(sherpa-offline PROPERTIES OUTPUT_NAME "sherpa-offline-recognizer")
 
 add_executable(sherpa-online online-recognizer.cc)
 target_link_libraries(sherpa-online sherpa_cpp_api)
@@ -22,8 +22,8 @@ if(NOT WIN32)
     OUTPUT_VARIABLE PYTHON_SITE_PACKAGE_DIR
   )
   message(STATUS "PYTHON_SITE_PACKAGE_DIR: ${PYTHON_SITE_PACKAGE_DIR}")
-  target_link_libraries(sherpa "-Wl,-rpath,${PYTHON_SITE_PACKAGE_DIR}/sherpa/lib")
-  target_link_libraries(sherpa "-Wl,-rpath,${SHERPA_RPATH_ORIGIN}/../lib")
+  target_link_libraries(sherpa-offline "-Wl,-rpath,${PYTHON_SITE_PACKAGE_DIR}/sherpa/lib")
+  target_link_libraries(sherpa-offline "-Wl,-rpath,${SHERPA_RPATH_ORIGIN}/../lib")
 
   target_link_libraries(sherpa-online "-Wl,-rpath,${PYTHON_SITE_PACKAGE_DIR}/sherpa/lib")
   target_link_libraries(sherpa-online "-Wl,-rpath,${SHERPA_RPATH_ORIGIN}/../lib")
@@ -35,7 +35,7 @@ if(NOT WIN32)
 endif()
 
 install(
-  TARGETS sherpa sherpa-online sherpa-online-microphone
+  TARGETS sherpa-offline sherpa-online sherpa-online-microphone
   DESTINATION bin
 )
 
