@@ -43,37 +43,7 @@ using connection_hdl = websocketpp::connection_hdl;
 namespace sherpa {
 
 struct OnlineWebsocketDecoderConfig {
-  std::string nn_model;
-  std::string tokens;
-
-  /// Decoding method to use.
-  /// Possible values are: greedy_search, modified_beam_search.
-  std::string decoding_method = "greedy_search";
-
-  /// Number of active paths in modified_beam_search.
-  /// Used only when decoding_method is modified_beam_search.
-  int32_t num_active_paths = 4;
-
-  // All models from icefall are trained using audio data of
-  // sample rate 16 kHz
-  float sample_rate = 16000;
-
-  bool use_gpu = false;
-
-  // For RnntConformerModel, i.e., for models from
-  // pruned_transducer_statelessX in icefall
-  // In number of frames after subsampling
-  int32_t left_context = -1;
-
-  // For RnntConformerModel, i.e., for models from
-  // pruned_transducer_statelessX in icefall
-  // In number of frames after subsampling
-  int32_t right_context = -1;
-
-  // For RnntConformerModel, i.e., for models from
-  // pruned_transducer_statelessX in icefall
-  // In number of frames after subsampling
-  int32_t chunk_size = -1;
+  OnlineRecognizerConfig recognizer_config;
 
   void Register(ParseOptions *po);
   void Validate() const;
@@ -84,11 +54,9 @@ class OnlineWebsocketServer;
 class OnlineWebsocketDecoder {
  public:
   /**
-   * @param config  Configuration for the decoder.
    * @param server  Not owned.
    */
-  OnlineWebsocketDecoder(const OnlineWebsocketDecoderConfig &config,
-                         OnlineWebsocketServer *server);
+  explicit OnlineWebsocketDecoder(OnlineWebsocketServer *server);
 
   OnlineRecognizer *GetRecognizer() { return recognizer_.get(); }
   const OnlineWebsocketDecoderConfig &GetConfig() const { return config_; }
@@ -100,9 +68,9 @@ class OnlineWebsocketDecoder {
   void Decode();
 
  private:
+  OnlineWebsocketServer *server_;  // not owned
   std::unique_ptr<OnlineRecognizer> recognizer_;
   OnlineWebsocketDecoderConfig config_;
-  OnlineWebsocketServer *server_;  // not owned
 
   std::mutex mutex_;
   std::deque<std::pair<connection_hdl, std::shared_ptr<OnlineStream>>> streams_;
@@ -110,6 +78,8 @@ class OnlineWebsocketDecoder {
 };
 
 struct OnlineWebsocketServerConfig {
+  OnlineWebsocketDecoderConfig decoder_config;
+
   // assume you run it inside the ./build directory.
   std::string doc_root = "../sherpa/bin/web";  // root for the http server
   std::string log_file = "./log.txt";
@@ -120,14 +90,13 @@ struct OnlineWebsocketServerConfig {
 
 class OnlineWebsocketServer {
  public:
-  explicit OnlineWebsocketServer(
-      asio::io_context &io_conn,  // NOLINT
-      asio::io_context &io_work,  // NOLINT
-      const OnlineWebsocketServerConfig &config,
-      const OnlineWebsocketDecoderConfig &decoder_config);
+  explicit OnlineWebsocketServer(asio::io_context &io_conn,  // NOLINT
+                                 asio::io_context &io_work,  // NOLINT
+                                 const OnlineWebsocketServerConfig &config);
 
   void Run(uint16_t port);
 
+  const OnlineWebsocketServerConfig &GetConfig() const { return config_; }
   asio::io_context &GetConnectionContext() { return io_conn_; }
   asio::io_context &GetWorkContext() { return io_work_; }
   server &GetServer() { return server_; }
@@ -154,6 +123,7 @@ class OnlineWebsocketServer {
              const std::string &reason);
 
  private:
+  OnlineWebsocketServerConfig config_;
   asio::io_context &io_conn_;
   asio::io_context &io_work_;
   HttpServer http_server_;

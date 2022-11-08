@@ -50,7 +50,6 @@ int32_t main(int32_t argc, char *argv[]) {
   sherpa::ParseOptions po(kUsageMessage);
 
   sherpa::OnlineWebsocketServerConfig config;
-  sherpa::OnlineWebsocketDecoderConfig decoder_config;
 
   // the server will listen on this port, for both websocket and http
   int32_t port = 6006;
@@ -71,7 +70,6 @@ int32_t main(int32_t argc, char *argv[]) {
   po.Register("port", &port, "The port on which the server will listen.");
 
   config.Register(&po);
-  decoder_config.Register(&po);
 
   if (argc == 1) {
     po.PrintUsage();
@@ -87,13 +85,11 @@ int32_t main(int32_t argc, char *argv[]) {
   }
 
   config.Validate();
-  decoder_config.Validate();
 
   asio::io_context io_conn;  // for network connections
   asio::io_context io_work;  // for neural network and decoding
 
-  sherpa::OnlineWebsocketServer server(io_conn, io_work, config,
-                                       decoder_config);
+  sherpa::OnlineWebsocketServer server(io_conn, io_work, config);
   server.Run(port);
 
   SHERPA_LOG(INFO) << "Listening on: " << port << "\n";

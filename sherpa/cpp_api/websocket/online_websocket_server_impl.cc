@@ -24,67 +24,18 @@
 namespace sherpa {
 
 void OnlineWebsocketDecoderConfig::Register(ParseOptions *po) {
-  po->Register("nn-model", &nn_model, "Path to the torchscript model");
-
-  po->Register("tokens", &tokens, "Path to tokens.txt");
-
-  po->Register("decoding-method", &decoding_method,
-               "Decoding method to use. Possible values are: greedy_search, "
-               "modified_beam_search");
-
-  po->Register("num-active-paths", &num_active_paths,
-               "Number of active paths for modified_beam_search. "
-               "Used only when --decoding-method is modified_beam_search");
-
-  po->Register("use-gpu", &use_gpu,
-               "True to use GPU for computation."
-               "Caution: We currently assume there is only one GPU. You have "
-               "to change the code to support multiple GPUs.");
-
-  po->Register("decode-left-context", &left_context,
-               "Used only for streaming Conformer, i.e, models from "
-               "pruned_transducer_statelessX in icefall. "
-               "Number of frames after subsampling during decoding.");
-
-  po->Register("decode-right-context", &right_context,
-               "Used only for streaming Conformer, i.e, models from "
-               "pruned_transducer_statelessX in icefall. "
-               "Number of frames after subsampling during decoding.");
-
-  po->Register("decode-chunk-size", &chunk_size,
-               "Used only for streaming Conformer, i.e, models from "
-               "pruned_transducer_statelessX in icefall. "
-               "Number of frames after subsampling during decoding.");
+  recognizer_config.Register(po);
 }
 
 void OnlineWebsocketDecoderConfig::Validate() const {
-  if (nn_model.empty()) {
-    SHERPA_LOG(FATAL) << "Please provide --nn-model";
-  }
-  AssertFileExists(nn_model);
-
-  if (tokens.empty()) {
-    SHERPA_LOG(FATAL) << "Please provide --tokens";
-  }
-
-  AssertFileExists(tokens);
-
-  if (decoding_method != "greedy_search" &&
-      decoding_method != "modified_beam_search") {
-    SHERPA_LOG(FATAL)
-        << "Unsupported decoding method: " << decoding_method
-        << ". Supported values are: greedy_search, modified_beam_search";
-  }
-
-  if (decoding_method == "modified_beam_search") {
-    SHERPA_CHECK_GT(num_active_paths, 0);
-  }
+  recognizer_config.Validate();
 }
 
 void OnlineWebsocketServerConfig::Register(sherpa::ParseOptions *po) {
+  decoder_config.Register(po);
   po->Register("doc-root", &doc_root,
                "Path to the directory where "
-               "files like index.html for the HTTP server locate. youcan ");
+               "files like index.html for the HTTP server locate.");
 
   po->Register("log-file", &log_file,
                "Path to the log file. Logs are "
@@ -92,33 +43,22 @@ void OnlineWebsocketServerConfig::Register(sherpa::ParseOptions *po) {
 }
 
 void OnlineWebsocketServerConfig::Validate() const {
+  decoder_config.Validate();
+
   if (doc_root.empty()) {
     SHERPA_LOG(FATAL) << "Please provide --doc-root, e.g., sherpa/bin/web";
   }
 
   if (!FileExists(doc_root + "/index.html")) {
     SHERPA_LOG(FATAL) << "\n--doc-root=" << doc_root << "\n"
-                      << doc_root << "/index.html does not exist!";
+                      << doc_root << "/index.html does not exist!\n"
+                      << "Make sure that you use sherpa/bin/web/ as --doc-root";
   }
 }
 
-OnlineWebsocketDecoder::OnlineWebsocketDecoder(
-    const OnlineWebsocketDecoderConfig &config, OnlineWebsocketServer *server)
-    : config_(config), server_(server) {
-  sherpa::DecodingOptions opts;
-  if (config.decoding_method == "greedy_search") {
-    opts.method = kGreedySearch;
-  } else if (config.decoding_method == "modified_beam_search") {
-    opts.method = kModifiedBeamSearch;
-    opts.num_active_paths = config.num_active_paths;
-  }
-  // TODO(fangjun): Expose OnlineAsrOptions directly to users.
-  opts.left_context = config.left_context;
-  opts.right_context = config.right_context;
-  opts.chunk_size = config.chunk_size;
-
-  recognizer_ = std::make_unique<OnlineRecognizer>(
-      config.nn_model, config.tokens, opts, config.use_gpu, config.sample_rate);
+OnlineWebsocketDecoder::OnlineWebsocketDecoder(OnlineWebsocketServer *server)
+    : server_(server), config_(server->GetConfig().decoder_config) {
+  recognizer_ = std::make_unique<OnlineRecognizer>(config_.recognizer_config);
 }
 
 void OnlineWebsocketDecoder::Push(connection_hdl hdl,
@@ -172,14 +112,14 @@ void OnlineWebsocketDecoder::Decode() {
 
 OnlineWebsocketServer::OnlineWebsocketServer(
     asio::io_context &io_conn, asio::io_context &io_work,
-    const OnlineWebsocketServerConfig &config,
-    const OnlineWebsocketDecoderConfig &decoder_config)
-    : io_conn_(io_conn),
+    const OnlineWebsocketServerConfig &config)
+    : config_(config),
+      io_conn_(io_conn),
       io_work_(io_work),
       http_server_(config.doc_root),
       log_(config.log_file, std::ios::app),
       tee_(std::cout, log_),
-      decoder_(decoder_config, this) {
+      decoder_(this) {
   SetupLog();
 
   server_.init_asio(&io_conn_);
@@ -278,7 +218,9 @@ void OnlineWebsocketServer::OnMessage(connection_hdl hdl,
   const std::string &payload = msg->get_payload();
 
   auto recognizer = decoder_.GetRecognizer();
-  float sample_rate = decoder_.GetConfig().sample_rate;
+  float sample_rate =
+      decoder_.GetConfig()
+          .recognizer_config.feat_config.fbank_opts.frame_opts.samp_freq;
 
   switch (msg->get_opcode()) {
     case websocketpp::frame::opcode::text:
@@ -306,7 +248,7 @@ void OnlineWebsocketServer::OnMessage(connection_hdl hdl,
       // Otherwise, it will cause segfault for the next invocation
       // of AcceptWaveform since payload is freed after this function returns
       samples = samples.clone();
-      stream->AcceptWaveform(decoder_.GetConfig().sample_rate, samples);
+      stream->AcceptWaveform(sample_rate, samples);
       if (recognizer->IsReady(stream.get())) {
         decoder_.Push(hdl, stream);
         asio::post(io_work_, [this]() { decoder_.Decode(); });

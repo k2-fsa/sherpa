@@ -1,35 +1,35 @@
 add_definitions(-DASIO_STANDALONE)
 add_definitions(-D_WEBSOCKETPP_CPP11_STL_)
 
-add_executable(offline_websocket_server
+add_executable(sherpa-offline-websocket-server
   offline_websocket_server.cc
   offline_websocket_server_impl.cc
 )
-target_link_libraries(offline_websocket_server
-  sherpa-cpp-api
+target_link_libraries(sherpa-offline-websocket-server
+  sherpa_cpp_api
 )
 if(NOT WIN32)
-  target_link_libraries(offline_websocket_server -pthread)
+  target_link_libraries(sherpa-offline-websocket-server -pthread)
 endif()
 
-add_executable(offline_websocket_client
+add_executable(sherpa-offline-websocket-client
   offline_websocket_client.cc
 )
 
-target_link_libraries(offline_websocket_client
+target_link_libraries(sherpa-offline-websocket-client
   sherpa_core
   kaldi_native_io_core
 )
 
 if(NOT WIN32)
-  target_link_libraries(offline_websocket_client -pthread)
+  target_link_libraries(sherpa-offline-websocket-client -pthread)
 endif()
 
 add_executable(online_websocket_server
   online_websocket_server.cc
   online_websocket_server_impl.cc
 )
-target_link_libraries(online_websocket_server sherpa-cpp-api)
+target_link_libraries(online_websocket_server sherpa_cpp_api)
 
 if(NOT WIN32)
   target_link_libraries(online_websocket_server -pthread)
@@ -47,7 +47,6 @@ target_link_libraries(online_websocket_client
 if(NOT WIN32)
   target_link_libraries(online_websocket_client -pthread)
 endif()
-
 
 if(SHERPA_ENABLE_PORTAUDIO)
   add_executable(online_websocket_client_from_microphone
@@ -69,8 +68,8 @@ if(SHERPA_ENABLE_PORTAUDIO)
 endif()
 
 set(bins
-  offline_websocket_server
-  offline_websocket_client
+  sherpa-offline-websocket-server
+  sherpa-offline-websocket-client
   online_websocket_server
   online_websocket_client
 )
