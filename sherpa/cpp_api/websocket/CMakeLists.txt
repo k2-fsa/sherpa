@@ -13,7 +13,7 @@ if(NOT WIN32)
 endif()
 
 add_executable(sherpa-offline-websocket-client
-  offline_websocket_client.cc
+  offline-websocket-client.cc
 )
 
 target_link_libraries(sherpa-offline-websocket-client
