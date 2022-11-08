@@ -41,6 +41,16 @@ make install # or make install/strip
 export PATH=$HOME/software/sherpa/bin:$PATH
 ```
 
+or
+
+```bash
+git clone https://github.com/k2-fsa/sherpa
+cd sherpa
+
+python3 setup.py bdist_wheel
+pip install ./dist/k2_sherpa-*.whl
+```
+
 See **documentation** at <https://k2-fsa.github.io/sherpa/> for more usages.
 
 [k2]: http://github.com/k2-fsa/k2

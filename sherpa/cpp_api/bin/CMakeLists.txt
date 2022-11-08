@@ -1,6 +1,5 @@
 add_executable(sherpa-offline offline-recognizer.cc)
 target_link_libraries(sherpa-offline sherpa_cpp_api)
-set_target_properties(sherpa-offline PROPERTIES OUTPUT_NAME "sherpa-offline-recognizer")
 
 add_executable(sherpa-online online-recognizer.cc)
 target_link_libraries(sherpa-online sherpa_cpp_api)
