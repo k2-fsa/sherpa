@@ -47,7 +47,7 @@ log "Test decoding wav.scp"
 .github/scripts/generate_wav_scp.sh
 
 for m in greedy_search modified_beam_search; do
-  time ./build/bin/sherpa-offline-recognizer \
+  time ./build/bin/sherpa-offline \
     --decoding-method=$m \
     --nn-model=$repo/exp/cpu_jit.pt \
     --tokens=$repo/data/lang_bpe_500/tokens.txt \
