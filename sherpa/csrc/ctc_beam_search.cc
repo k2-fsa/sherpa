@@ -26,20 +26,16 @@
 
 namespace sherpa {
 
-Fsa GetLattice(torch::Tensor log_softmax_out,
-               torch::Tensor log_softmax_out_lens, Fsa decoding_graph,
-               float search_beam, float output_beam,
-               int32_t min_activate_states, int32_t max_activate_states,
-               int32_t subsampling_factor) {
+std::vector<std::vector<int32_t>> OneBestDecoding(
+    torch::Tensor log_softmax_out, torch::Tensor log_softmax_out_lens,
+    Fsa decoding_graph, float search_beam, float output_beam,
+    int32_t min_activate_states, int32_t max_activate_states,
+    int32_t subsampling_factor) {
   k2::FsaClassPtr ptr = k2::GetLattice(log_softmax_out, log_softmax_out_lens,
                                        decoding_graph.fsa_ptr, search_beam,
                                        output_beam, min_activate_states,
                                        max_activate_states, subsampling_factor);
-  return Fsa(ptr);
-}
-
-std::vector<std::vector<int32_t>> BestPath(const Fsa &lattice) {
-  return k2::BestPath(lattice.fsa_ptr);
+  return k2::BestPath(ptr);
 }
 
 }  // namespace sherpa

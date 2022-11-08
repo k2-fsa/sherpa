@@ -21,6 +21,8 @@
 #include <string>
 
 #include "sherpa/csrc/version.h"
+#include "sherpa/python/csrc/ctc_model.h"
+#include "sherpa/python/csrc/fsa.h"
 #include "sherpa/python/csrc/hypothesis.h"
 #include "sherpa/python/csrc/rnnt_beam_search.h"
 #include "sherpa/python/csrc/rnnt_conformer_model.h"
@@ -35,6 +37,8 @@ PYBIND11_MODULE(_sherpa, m) {
   m.doc() = "pybind11 binding of sherpa";
   m.attr("cxx_flags") = std::string(kCMakeCxxFlags);
 
+  PybindCtcModel(m);
+  PybindFsa(m);
   PybindHypothesis(m);
   PybindRnntBeamSearch(m);
   PybindRnntModel(m);

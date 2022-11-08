@@ -2,6 +2,8 @@ add_definitions(-DTORCH_API_INCLUDE_EXTENSION_H)
 
 # Please sort files alphabetically
 pybind11_add_module(_sherpa
+  ctc_model.cc
+  fsa.cc
   hypothesis.cc
   rnnt_beam_search.cc
   rnnt_conformer_model.cc

@@ -31,7 +31,8 @@ struct Fsa {
   /* Construct Fsa from a given graph path. The graph was saved in python by
    * `torch.save(fsa.as_dict(), filename)`.
    */
-  explicit Fsa(std::string &filename, torch::Device map_location = torch::kCPU);
+  explicit Fsa(const std::string &filename,
+               torch::Device map_location = torch::kCPU);
 
   /* Construct Fsa from an FsaClassPtr. FsaClassPtr is exported by k2.
    */
@@ -40,7 +41,8 @@ struct Fsa {
   /* Load an Fsa from given path. The graph was saved in python by
    * `torch.save(fsa.as_dict(), filename)`.
    */
-  void Load(std::string &filename, torch::Device map_location = torch::kCPU);
+  void Load(const std::string &filename,
+            torch::Device map_location = torch::kCPU);
 };
 
 Fsa GetCtcTopo(int32_t max_token, bool modified = false,

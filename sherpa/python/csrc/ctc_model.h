@@ -15,22 +15,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+#ifndef SHERPA_PYTHON_CSRC_CTC_MODEL_H_
+#define SHERPA_PYTHON_CSRC_CTC_MODEL_H_
 
-#include "sherpa/csrc/fsa.h"
+#include "sherpa/python/csrc/sherpa.h"
 
 namespace sherpa {
 
-Fsa::Fsa(const std::string &filename, torch::Device map_location) {
-  fsa_ptr = k2::LoadFsaClass(filename, map_location);
-}
-
-void Fsa::Load(const std::string &filename, torch::Device map_location) {
-  fsa_ptr = k2::LoadFsaClass(filename, map_location);
-}
-
-Fsa GetCtcTopo(int32_t max_token, bool modified, torch::Device map_location) {
-  auto fsa_ptr = k2::GetCtcTopo(max_token, modified, map_location);
-  return Fsa(fsa_ptr);
-}
+void PybindCtcModel(py::module &m);  // NOLINT
 
 }  // namespace sherpa
+
+#endif  // SHERPA_PYTHON_CSRC_CTC_MODEL_H_
