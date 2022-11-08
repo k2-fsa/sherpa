@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-#include "sherpa/csrc/symbol_table.h"
+#include "sherpa/csrc/symbol-table.h"
 
 #include <fstream>
 #include <sstream>

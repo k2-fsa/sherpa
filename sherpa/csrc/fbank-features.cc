@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-#include "sherpa/csrc/fbank_features.h"
+#include "sherpa/csrc/fbank-features.h"
 
 #include "kaldi_native_io/csrc/kaldi-io.h"
 #include "kaldi_native_io/csrc/wave-reader.h"

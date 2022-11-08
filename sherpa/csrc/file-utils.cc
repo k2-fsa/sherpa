@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-#include "sherpa/csrc/file_utils.h"
+#include "sherpa/csrc/file-utils.h"
 
 #include <fstream>
 #include <string>

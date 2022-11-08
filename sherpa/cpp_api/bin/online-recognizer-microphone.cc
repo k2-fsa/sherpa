@@ -20,7 +20,7 @@
 #include "portaudio.h"  // NOLINT
 #include "sherpa/cpp_api/online-recognizer.h"
 #include "sherpa/cpp_api/online-stream.h"
-#include "sherpa/csrc/fbank_features.h"
+#include "sherpa/csrc/fbank-features.h"
 
 class Microphone {
  public:

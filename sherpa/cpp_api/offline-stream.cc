@@ -6,7 +6,7 @@
 #include <memory>
 #include <string>
 
-#include "sherpa/csrc/fbank_features.h"
+#include "sherpa/csrc/fbank-features.h"
 
 namespace sherpa {
 

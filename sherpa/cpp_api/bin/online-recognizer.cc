@@ -22,7 +22,7 @@
 
 #include "sherpa/cpp_api/online-stream.h"
 #include "sherpa/cpp_api/parse-options.h"
-#include "sherpa/csrc/fbank_features.h"
+#include "sherpa/csrc/fbank-features.h"
 #include "sherpa/csrc/log.h"
 
 static constexpr const char *kUsageMessage = R"(

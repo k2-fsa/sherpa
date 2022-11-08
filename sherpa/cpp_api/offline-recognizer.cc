@@ -6,14 +6,14 @@
 
 #include <utility>
 
-#include "sherpa/csrc/file_utils.h"
+#include "sherpa/csrc/file-utils.h"
 #include "sherpa/csrc/log.h"
 #include "sherpa/csrc/offline-conformer-transducer-model.h"
 #include "sherpa/csrc/offline-transducer-decoder.h"
 #include "sherpa/csrc/offline-transducer-greedy-search-decoder.h"
 #include "sherpa/csrc/offline-transducer-model.h"
 #include "sherpa/csrc/offline-transducer-modified-beam-search-decoder.h"
-#include "sherpa/csrc/symbol_table.h"
+#include "sherpa/csrc/symbol-table.h"
 #include "torch/script.h"
 
 namespace sherpa {

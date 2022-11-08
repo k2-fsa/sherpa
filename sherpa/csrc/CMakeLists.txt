@@ -14,19 +14,20 @@ set(sherpa_srcs
   # TODO(fangjun): Refactor the following files
   ctc_conformer_model.cc
   endpoint.cc
-  fbank_features.cc
-  file_utils.cc
+  fbank-features.cc
+  file-utils.cc
   hypothesis.cc
   log.cc
-  # online_asr.cc
+  symbol-table.cc
   online-stream.cc
-  parse_options.cc
+  parse-options.cc
+
+  # TODO(fangjun): Remove the following files
   rnnt_beam_search.cc
   rnnt_conformer_model.cc
   rnnt_conv_emformer_model.cc
   rnnt_emformer_model.cc
   rnnt_lstm_model.cc
-  symbol_table.cc
 )
 
 add_library(sherpa_core ${sherpa_srcs})

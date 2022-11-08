@@ -23,7 +23,7 @@
 #include <utility>
 #include <vector>
 
-#include "sherpa/csrc/file_utils.h"
+#include "sherpa/csrc/file-utils.h"
 #include "sherpa/csrc/log.h"
 
 namespace sherpa {

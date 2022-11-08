@@ -21,7 +21,7 @@
 #include <utility>
 
 #include "nlohmann/json.hpp"
-#include "sherpa/csrc/file_utils.h"
+#include "sherpa/csrc/file-utils.h"
 #include "sherpa/csrc/log.h"
 #include "sherpa/csrc/online-conformer-transducer-model.h"
 #include "sherpa/csrc/online-conv-emformer-transducer-model.h"
@@ -31,7 +31,7 @@
 #include "sherpa/csrc/online-transducer-greedy-search-decoder.h"
 #include "sherpa/csrc/online-transducer-model.h"
 #include "sherpa/csrc/online-transducer-modified-beam-search-decoder.h"
-#include "sherpa/csrc/symbol_table.h"
+#include "sherpa/csrc/symbol-table.h"
 
 namespace sherpa {
 
