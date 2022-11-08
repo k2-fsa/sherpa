@@ -16,8 +16,6 @@
  * limitations under the License.
  */
 
-#include "sherpa/cpp_api/online_stream.h"
-
 #include <memory>
 #include <mutex>  // NOLINT
 #include <utility>
@@ -25,6 +23,7 @@
 
 #include "kaldifeat/csrc/feature-fbank.h"
 #include "kaldifeat/csrc/online-feature.h"
+#include "sherpa/cpp_api/online-stream.h"
 #include "sherpa/csrc/endpoint.h"
 #include "sherpa/csrc/hypothesis.h"
 #include "sherpa/csrc/log.h"

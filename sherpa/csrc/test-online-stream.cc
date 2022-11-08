@@ -20,7 +20,7 @@
 
 #include "gtest/gtest.h"
 #include "sherpa/cpp_api/feature-config.h"
-#include "sherpa/cpp_api/online_stream.h"
+#include "sherpa/cpp_api/online-stream.h"
 #include "sherpa/csrc/log.h"
 
 namespace sherpa {

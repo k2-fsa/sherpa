@@ -19,7 +19,7 @@ set(sherpa_srcs
   hypothesis.cc
   log.cc
   # online_asr.cc
-  online_stream.cc
+  online-stream.cc
   parse_options.cc
   rnnt_beam_search.cc
   rnnt_conformer_model.cc
@@ -65,11 +65,11 @@ if(SHERPA_ENABLE_TESTS)
     test-offline-conformer-transducer-model.cc
     test-online-conv-emformer-transducer-model.cc
 
-    test_hypothesis.cc
-    test_log.cc
-    test_online_stream.cc
-    test_parse_options.cc
-    test_stack_unstack_states.cc
+    test-hypothesis.cc
+    test-log.cc
+    test-online-stream.cc
+    test-parse-options.cc
+    test-stack-unstack-states.cc
   )
 
   function(sherpa_add_test source)

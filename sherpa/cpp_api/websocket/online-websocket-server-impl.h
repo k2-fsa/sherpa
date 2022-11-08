@@ -29,8 +29,8 @@
 #include <utility>
 
 #include "asio.hpp"
-#include "sherpa/cpp_api/online_recognizer.h"
-#include "sherpa/cpp_api/online_stream.h"
+#include "sherpa/cpp_api/online-recognizer.h"
+#include "sherpa/cpp_api/online-stream.h"
 #include "sherpa/cpp_api/parse-options.h"
 #include "sherpa/cpp_api/websocket/http-server.h"
 #include "sherpa/cpp_api/websocket/tee-stream.h"

@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-#include "sherpa/cpp_api/online_recognizer.h"
+#include "sherpa/cpp_api/online-recognizer.h"
 
 #include <utility>
 

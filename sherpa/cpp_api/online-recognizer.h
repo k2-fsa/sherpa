@@ -10,7 +10,7 @@
 #include <vector>
 
 #include "sherpa/cpp_api/feature-config.h"
-#include "sherpa/cpp_api/online_stream.h"
+#include "sherpa/cpp_api/online-stream.h"
 
 // TODO(fangjun): Move endpoint.h to sherpa/cpp_api/
 #include "sherpa/csrc/endpoint.h"

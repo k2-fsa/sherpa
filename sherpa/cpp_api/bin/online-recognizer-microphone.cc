@@ -18,8 +18,8 @@
 #include <signal.h>
 
 #include "portaudio.h"  // NOLINT
-#include "sherpa/cpp_api/online_recognizer.h"
-#include "sherpa/cpp_api/online_stream.h"
+#include "sherpa/cpp_api/online-recognizer.h"
+#include "sherpa/cpp_api/online-stream.h"
 #include "sherpa/csrc/fbank_features.h"
 
 class Microphone {

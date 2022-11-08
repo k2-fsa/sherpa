@@ -16,10 +16,11 @@
  * limitations under the License.
  */
 
+#include "sherpa/cpp_api/online-recognizer.h"
+
 #include <algorithm>
 
-#include "sherpa/cpp_api/online_recognizer.h"
-#include "sherpa/cpp_api/online_stream.h"
+#include "sherpa/cpp_api/online-stream.h"
 #include "sherpa/cpp_api/parse-options.h"
 #include "sherpa/csrc/fbank_features.h"
 #include "sherpa/csrc/log.h"
