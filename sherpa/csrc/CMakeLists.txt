@@ -63,8 +63,8 @@ endif()
 
 if(SHERPA_ENABLE_TESTS)
   set(sherpa_test_srcs
-    test-offline-conformer-transducer-model.cc
-    test-online-conv-emformer-transducer-model.cc
+    # test-offline-conformer-transducer-model.cc
+    # test-online-conv-emformer-transducer-model.cc
 
     test-hypothesis.cc
     test-log.cc

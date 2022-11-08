@@ -98,7 +98,7 @@ void OfflineWebsocketDecoder::Decode() {
     s->AcceptSamples(samples, num_samples);
 
     ss[i] = std::move(s);
-    p_ss[i] = ss.back().get();
+    p_ss[i] = ss[i].get();
   }
 
   lock.unlock();
