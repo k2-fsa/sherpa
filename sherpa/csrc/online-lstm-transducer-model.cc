@@ -4,6 +4,11 @@
 
 #include "sherpa/csrc/online-lstm-transducer-model.h"
 
+#include <string>
+#include <tuple>
+#include <utility>
+#include <vector>
+
 namespace sherpa {
 
 OnlineLstmTransducerModel::OnlineLstmTransducerModel(

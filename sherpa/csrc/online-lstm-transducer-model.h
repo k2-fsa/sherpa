@@ -3,6 +3,11 @@
 // Copyright (c)  2022  Xiaomi Corporation
 #ifndef SHERPA_CSRC_ONLINE_LSTM_TRANSDUCER_MODEL_H_
 #define SHERPA_CSRC_ONLINE_LSTM_TRANSDUCER_MODEL_H_
+#include <string>
+#include <tuple>
+#include <utility>
+#include <vector>
+
 #include "sherpa/csrc/online-transducer-model.h"
 
 namespace sherpa {
