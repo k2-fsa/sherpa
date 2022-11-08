@@ -49,6 +49,9 @@ cd sherpa
 
 python3 setup.py bdist_wheel
 pip install ./dist/k2_sherpa-*.whl
+
+# Please don't use `python3 setup.py install`.
+# Otherwise, you won't have access to pre-compiled binaries
 ```
 
 See **documentation** at <https://k2-fsa.github.io/sherpa/> for more usages.
