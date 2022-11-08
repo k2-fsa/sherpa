@@ -75,9 +75,7 @@ torch::Tensor StreamingGreedySearch(
     const std::vector<int32_t> &frame_offset,
     std::vector<std::vector<int32_t>> *hyps,
     std::vector<int32_t> *num_trailing_blank_frames,
-    std::vector<std::vector<int32_t>> *timestamps
-
-);
+    std::vector<std::vector<int32_t>> *timestamps);
 
 /** RNN-T modified beam search for offline recognition.
  *

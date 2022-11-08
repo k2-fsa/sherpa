@@ -37,9 +37,37 @@ CtcConformerModel::CtcConformerModel(const std::string &filename,
 #endif
 }
 
+torch::IValue CtcConformerModel::ForwardOutToIValue(
+    const CtcConformerModel::ForwardOut &fo) const {
+  return torch::IValue(fo);
+}
+
+CtcConformerModel::ForwardOut CtcConformerModel::ForwardOutFromIValue(
+    torch::IValue ivalue) const {
+  torch::List<torch::IValue> list = ivalue.toList();
+
+  return {list.get(0).toTensor(), list.get(1).toTensor(),
+          list.get(2).toTensor()};
+}
+
 torch::IValue CtcConformerModel::Forward(
     const std::vector<torch::IValue> &input) {
-  return model_.forward(input);
+  TORCH_CHECK(input.size() == 2,
+              "Forward input has two elements, given : ", input.size());
+
+  auto features = input[0].toTensor();
+  auto feature_lengths = input[1].toTensor();
+
+  int32_t num_waves = features.size(0);
+
+  torch::Dict<std::string, torch::Tensor> sup;
+  sup.insert("sequence_idx", torch::arange(num_waves, torch::kInt));
+  sup.insert("start_frame", torch::zeros({num_waves}, torch::kInt));
+  sup.insert("num_frames", feature_lengths.to(torch::kInt).to(torch::kCPU));
+
+  torch::IValue supervisions(sup);
+
+  return model_.run_method("forward", features, supervisions);
 }
 
 torch::Tensor CtcConformerModel::GetLogSoftmaxOut(
@@ -49,7 +77,8 @@ torch::Tensor CtcConformerModel::GetLogSoftmaxOut(
 
 torch::Tensor CtcConformerModel::GetLogSoftmaxOutLength(
     torch::IValue forward_out) const {
-  return forward_out.toTuple()->elements()[1].toTensor();
+  auto encoder_mask = ~forward_out.toTuple()->elements()[2].toTensor();
+  return encoder_mask.sum(1).to(torch::kInt);
 }
 
 }  // namespace sherpa

@@ -43,6 +43,15 @@ class CtcConformerModel : public CtcModel {
                              torch::Device device = torch::kCPU,
                              bool optimize_for_inference = false);
 
+  // ForwardOut contains three elements, nnet_output, memory,
+  // memory_key_padding_mask
+  // See
+  // https://github.com/k2-fsa/icefall/blob/master/egs/librispeech/ASR/conformer_ctc/transformer.py#L162
+  using ForwardOut = std::vector<torch::Tensor>;
+
+  torch::IValue ForwardOutToIValue(const ForwardOut &fo) const;
+  ForwardOut ForwardOutFromIValue(torch::IValue ivalue) const;
+
   torch::Device Device() const override { return device_; }
 
   /** Run the forward method of the model.

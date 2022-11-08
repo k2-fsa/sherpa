@@ -1,9 +1,11 @@
 # Please sort the filenames alphabetically
 set(sherpa_srcs
+  ctc_beam_search.cc
   ctc_conformer_model.cc
   endpoint.cc
   fbank_features.cc
   file_utils.cc
+  fsa.cc
   hypothesis.cc
   log.cc
   offline_asr.cc
