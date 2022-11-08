@@ -29,7 +29,7 @@
 #include "asio.hpp"
 #include "sherpa/cpp_api/offline-recognizer.h"
 #include "sherpa/cpp_api/parse-options.h"
-#include "sherpa/cpp_api/websocket/http_server.h"
+#include "sherpa/cpp_api/websocket/http-server.h"
 #include "sherpa/cpp_api/websocket/tee_stream.h"
 #include "websocketpp/config/asio_no_tls.hpp"  // TODO(fangjun): support TLS
 #include "websocketpp/server.hpp"
