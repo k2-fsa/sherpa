@@ -2,8 +2,8 @@ add_definitions(-DASIO_STANDALONE)
 add_definitions(-D_WEBSOCKETPP_CPP11_STL_)
 
 add_executable(sherpa-offline-websocket-server
-  offline_websocket_server.cc
-  offline_websocket_server_impl.cc
+  offline-websocket-server.cc
+  offline-websocket-server-impl.cc
 )
 target_link_libraries(sherpa-offline-websocket-server
   sherpa_cpp_api
@@ -26,8 +26,8 @@ if(NOT WIN32)
 endif()
 
 add_executable(sherpa-online-websocket-server
-  online_websocket_server.cc
-  online_websocket_server_impl.cc
+  online-websocket-server.cc
+  online-websocket-server-impl.cc
 )
 target_link_libraries(sherpa-online-websocket-server sherpa_cpp_api)
 
@@ -36,7 +36,7 @@ if(NOT WIN32)
 endif()
 
 add_executable(sherpa-online-websocket-client
-  online_websocket_client.cc
+  online-websocket-client.cc
 )
 
 target_link_libraries(sherpa-online-websocket-client
@@ -50,7 +50,7 @@ endif()
 
 if(SHERPA_ENABLE_PORTAUDIO)
   add_executable(sherpa-online-weboscket-client-microphone
-    online_websocket_client_from_microphone.cc
+    online-websocket-client-from-microphone.cc
     microphone.cc
   )
 

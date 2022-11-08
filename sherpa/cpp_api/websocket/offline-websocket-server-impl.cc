@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-#include "sherpa/cpp_api/websocket/offline_websocket_server_impl.h"
+#include "sherpa/cpp_api/websocket/offline-websocket-server-impl.h"
 
 #include <algorithm>
 #include <memory>

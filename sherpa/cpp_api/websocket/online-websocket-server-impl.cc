@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-#include "sherpa/cpp_api/websocket/online_websocket_server_impl.h"
+#include "sherpa/cpp_api/websocket/online-websocket-server-impl.h"
 
 #include "sherpa/csrc/file_utils.h"
 #include "sherpa/csrc/log.h"
