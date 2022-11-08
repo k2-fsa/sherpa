@@ -1,9 +1,19 @@
-add_executable(offline-recognizer offline-recognizer.cc)
-target_link_libraries(offline-recognizer sherpa_cpp_api)
-set_target_properties(offline-recognizer PROPERTIES OUTPUT_NAME "sherpa-offline-recognizer")
+add_executable(sherpa offline-recognizer.cc)
+target_link_libraries(sherpa sherpa_cpp_api)
+set_target_properties(sherpa PROPERTIES OUTPUT_NAME "sherpa-offline-recognizer")
 
-add_executable(sherpa-online sherpa_online.cc)
+add_executable(sherpa-online online-recognizer.cc)
 target_link_libraries(sherpa-online sherpa_cpp_api)
+
+if(SHERPA_ENABLE_PORTAUDIO)
+  add_executable(sherpa-online-microphone online-recognizer-microphone.cc)
+  target_link_libraries(sherpa-online-microphone sherpa_cpp_api)
+  if(BUILD_SHARED_LIBS)
+    target_link_libraries(sherpa-online-microphone portaudio)
+  else()
+    target_link_libraries(sherpa-online-microphone portaudio_static)
+  endif()
+endif()
 
 if(NOT WIN32)
   execute_process(
@@ -12,26 +22,26 @@ if(NOT WIN32)
     OUTPUT_VARIABLE PYTHON_SITE_PACKAGE_DIR
   )
   message(STATUS "PYTHON_SITE_PACKAGE_DIR: ${PYTHON_SITE_PACKAGE_DIR}")
-  target_link_libraries(offline-recognizer "-Wl,-rpath,${PYTHON_SITE_PACKAGE_DIR}/sherpa/lib")
-  target_link_libraries(offline-recognizer "-Wl,-rpath,${SHERPA_RPATH_ORIGIN}/../lib")
+  target_link_libraries(sherpa "-Wl,-rpath,${PYTHON_SITE_PACKAGE_DIR}/sherpa/lib")
+  target_link_libraries(sherpa "-Wl,-rpath,${SHERPA_RPATH_ORIGIN}/../lib")
 
   target_link_libraries(sherpa-online "-Wl,-rpath,${PYTHON_SITE_PACKAGE_DIR}/sherpa/lib")
   target_link_libraries(sherpa-online "-Wl,-rpath,${SHERPA_RPATH_ORIGIN}/../lib")
+
+  if(SHERPA_ENABLE_PORTAUDIO)
+    target_link_libraries(sherpa-online-microphone "-Wl,-rpath,${PYTHON_SITE_PACKAGE_DIR}/sherpa/lib")
+    target_link_libraries(sherpa-online-microphone "-Wl,-rpath,${SHERPA_RPATH_ORIGIN}/../lib")
+  endif()
 endif()
 
 install(
-  TARGETS offline-recognizer sherpa-online
+  TARGETS sherpa sherpa-online sherpa-online-microphone
   DESTINATION bin
 )
 
 if(SHERPA_ENABLE_PORTAUDIO)
-  add_executable(test_online_recognizer_microphone
-    test_online_recognizer_microphone.cc
+  install(
+    TARGETS sherpa-online-microphone
+    DESTINATION bin
   )
-  target_link_libraries(test_online_recognizer_microphone sherpa_cpp_api)
-  if(BUILD_SHARED_LIBS)
-    target_link_libraries(test_online_recognizer_microphone portaudio)
-  else()
-    target_link_libraries(test_online_recognizer_microphone portaudio_static)
-  endif()
 endif()

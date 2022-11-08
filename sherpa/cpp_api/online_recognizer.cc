@@ -100,7 +100,9 @@ void OnlineRecognizerConfig::Validate() const {
 
     AssertFileExists(nn_model);
   } else {
-    SHERPA_CHECK_EQ(encoder_model.empty(), false);
+    SHERPA_CHECK_EQ(encoder_model.empty(), false)
+        << "If you don't provide --nn-model, please provide --encoder_model "
+           "instead";
     SHERPA_CHECK_EQ(decoder_model.empty(), false);
     SHERPA_CHECK_EQ(joiner_model.empty(), false);
 
