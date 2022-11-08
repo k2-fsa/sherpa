@@ -26,6 +26,7 @@
 #include "sherpa/csrc/online-conformer-transducer-model.h"
 #include "sherpa/csrc/online-conv-emformer-transducer-model.h"
 #include "sherpa/csrc/online-emformer-transducer-model.h"
+#include "sherpa/csrc/online-lstm-transducer-model.h"
 #include "sherpa/csrc/online-transducer-decoder.h"
 #include "sherpa/csrc/online-transducer-greedy-search-decoder.h"
 #include "sherpa/csrc/online-transducer-model.h"
@@ -50,6 +51,15 @@ void OnlineRecognizerConfig::Register(ParseOptions *po) {
   feat_config.Register(po);
 
   po->Register("nn-model", &nn_model, "Path to the torchscript model");
+
+  po->Register("encoder-model", &encoder_model,
+               "Path to the encoder model for OnlineLstmTransducerModel.");
+
+  po->Register("decoder-model", &decoder_model,
+               "Path to the decoder model for OnlineLstmTransducerModel.");
+
+  po->Register("joiner-model", &joiner_model,
+               "Path to the joiner model for OnlineLstmTransducerModel.");
 
   po->Register("tokens", &tokens, "Path to tokens.txt.");
 
@@ -83,10 +93,21 @@ void OnlineRecognizerConfig::Register(ParseOptions *po) {
 }
 
 void OnlineRecognizerConfig::Validate() const {
-  if (nn_model.empty()) {
-    SHERPA_LOG(FATAL) << "Please provide --nn-model";
+  if (!nn_model.empty()) {
+    SHERPA_CHECK_EQ(encoder_model.empty(), true);
+    SHERPA_CHECK_EQ(decoder_model.empty(), true);
+    SHERPA_CHECK_EQ(joiner_model.empty(), true);
+
+    AssertFileExists(nn_model);
+  } else {
+    SHERPA_CHECK_EQ(encoder_model.empty(), false);
+    SHERPA_CHECK_EQ(decoder_model.empty(), false);
+    SHERPA_CHECK_EQ(joiner_model.empty(), false);
+
+    AssertFileExists(decoder_model);
+    AssertFileExists(decoder_model);
+    AssertFileExists(joiner_model);
   }
-  AssertFileExists(nn_model);
 
   if (tokens.empty()) {
     SHERPA_LOG(FATAL) << "Please provide --tokens";
@@ -127,37 +148,44 @@ class OnlineRecognizer::OnlineRecognizerImpl {
       device_ = torch::Device("cuda:0");
     }
 
-    torch::jit::Module m = torch::jit::load(config.nn_model, torch::kCPU);
-    auto encoder = m.attr("encoder").toModule();
-    std::string class_name = encoder.type()->name()->name();
-
-    if (class_name == "Emformer") {
-      if (encoder.find_method("infer")) {
-        // Emformer from torchaudio
-        model_ = std::make_unique<OnlineEmformerTransducerModel>(
-            config.nn_model, device_);
-      } else {
-        // ConvEmformer from icefall
-        model_ = std::make_unique<OnlineConvEmformerTransducerModel>(
-            config.nn_model, device_);
-      }
-    } else if (class_name == "Conformer") {
-      int32_t left_context = config.left_context;
-      int32_t right_context = config.right_context;
-      int32_t chunk_size = config.chunk_size;
-      SHERPA_CHECK_GT(left_context, 0);
-      SHERPA_CHECK_GT(right_context, 0);
-      SHERPA_CHECK_GT(chunk_size, 0);
-
-      model_ = std::make_unique<OnlineConformerTransducerModel>(
-          config.nn_model, left_context, right_context, chunk_size, device_);
+    if (config.nn_model.empty()) {
+      // For OnlineLstmTransducerModel
+      model_ = std::make_unique<OnlineLstmTransducerModel>(
+          config.encoder_model, config.decoder_model, config.joiner_model,
+          device_);
     } else {
-      std::string s =
-          "Support only the following models from icefall:\n"
-          "conv_emformer_transducer_stateless2\n"
-          "pruned_stateless_emformer_rnnt2\n"
-          "pruned_transducer_stateless{2,3,4,5}\n";
-      TORCH_CHECK(false, s);
+      torch::jit::Module m = torch::jit::load(config.nn_model, torch::kCPU);
+      auto encoder = m.attr("encoder").toModule();
+      std::string class_name = encoder.type()->name()->name();
+
+      if (class_name == "Emformer") {
+        if (encoder.find_method("infer")) {
+          // Emformer from torchaudio
+          model_ = std::make_unique<OnlineEmformerTransducerModel>(
+              config.nn_model, device_);
+        } else {
+          // ConvEmformer from icefall
+          model_ = std::make_unique<OnlineConvEmformerTransducerModel>(
+              config.nn_model, device_);
+        }
+      } else if (class_name == "Conformer") {
+        int32_t left_context = config.left_context;
+        int32_t right_context = config.right_context;
+        int32_t chunk_size = config.chunk_size;
+        SHERPA_CHECK_GT(left_context, 0);
+        SHERPA_CHECK_GT(right_context, 0);
+        SHERPA_CHECK_GT(chunk_size, 0);
+
+        model_ = std::make_unique<OnlineConformerTransducerModel>(
+            config.nn_model, left_context, right_context, chunk_size, device_);
+      } else {
+        std::string s =
+            "Support only the following models from icefall:\n"
+            "conv_emformer_transducer_stateless2\n"
+            "pruned_stateless_emformer_rnnt2\n"
+            "pruned_transducer_stateless{2,3,4,5}\n";
+        TORCH_CHECK(false, s);
+      }
     }
 
     if (config.decoding_method == "greedy_search") {
