@@ -62,6 +62,9 @@ static void Handler(int sig) {
 }
 
 int main(int argc, char *argv[]) {
+  signal(SIGINT, Handler);
+  Microphone mic;
+
   // see
   // https://pytorch.org/docs/stable/notes/cpu_threading_torchscript_inference.html
   torch::set_num_threads(1);
@@ -72,26 +75,28 @@ int main(int argc, char *argv[]) {
   torch::jit::getProfilingMode() = false;
   torch::jit::setGraphExecutorOptimize(false);
 
-  if (argc != 3) {
-    const char *msg =
-        "Usage: ./bin/test_online_recognizer_microphone /path/to/nn_model "
-        "/path/to/tokens.txt \n";
-    fprintf(stderr, "%s\n", msg);
+  // sherpa::ParseOptions po(kUsageMessage);
+  sherpa::ParseOptions po("");
+  sherpa::OnlineRecognizerConfig config;
+  config.Register(&po);
+
+  po.Read(argc, argv);
+  if (argc == 0 || po.NumArgs() != 0) {
+    po.PrintUsage();
     exit(EXIT_FAILURE);
   }
 
-  signal(SIGINT, Handler);
-  Microphone mic;
+  config.Validate();
 
-  std::string nn_model = argv[1];
-  std::string tokens = argv[2];
   float sample_rate = 16000;
-  bool use_gpu = false;
+  if (config.feat_config.fbank_opts.frame_opts.samp_freq != sample_rate) {
+    std::cerr
+        << "The model was trained using training data with sample rate 16000. "
+        << "We don't support resample yet\n";
+    exit(EXIT_FAILURE);
+  }
 
-  sherpa::DecodingOptions opts;
-  opts.method = sherpa::kGreedySearch;
-  sherpa::OnlineRecognizer recognizer(nn_model, tokens, opts, use_gpu,
-                                      sample_rate);
+  sherpa::OnlineRecognizer recognizer(config);
 
   auto s = recognizer.CreateStream();
 

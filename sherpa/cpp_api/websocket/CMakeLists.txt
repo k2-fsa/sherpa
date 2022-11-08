@@ -29,9 +29,7 @@ add_executable(online_websocket_server
   online_websocket_server.cc
   online_websocket_server_impl.cc
 )
-target_link_libraries(online_websocket_server
-  online_recognizer
-)
+target_link_libraries(online_websocket_server sherpa-cpp-api)
 
 if(NOT WIN32)
   target_link_libraries(online_websocket_server -pthread)

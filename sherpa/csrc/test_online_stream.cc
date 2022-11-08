@@ -19,8 +19,8 @@
 #include <fstream>
 
 #include "gtest/gtest.h"
+#include "sherpa/cpp_api/feature-config.h"
 #include "sherpa/cpp_api/online_stream.h"
-#include "sherpa/csrc/endpoint.h"
 #include "sherpa/csrc/log.h"
 
 namespace sherpa {
@@ -29,12 +29,12 @@ TEST(OnlineStream, Test) {
   float sampling_rate = 16000;
   int32_t feature_dim = 80;
   int32_t max_feature_vectors = 10;
-  EndpointConfig endpoint_config;
+  FeatureConfig feat_config;
+  feat_config.fbank_opts.mel_opts.num_bins = feature_dim;
 
-  OnlineStream s(endpoint_config,
-      sampling_rate, feature_dim, max_feature_vectors);
+  OnlineStream s(feat_config.fbank_opts);
   EXPECT_EQ(s.NumFramesReady(), 0);
-  auto a = torch::rand({400}, torch::kFloat);
+  auto a = torch::rand({500}, torch::kFloat);
   s.AcceptWaveform(sampling_rate, a);
 
   EXPECT_EQ(s.NumFramesReady(), 1);
@@ -46,9 +46,8 @@ TEST(OnlineStream, Test) {
   EXPECT_FALSE(s.IsLastFrame(0));
   s.InputFinished();
 
-  EXPECT_EQ(s.NumFramesReady(), 3);
-  EXPECT_FALSE(s.IsLastFrame(1));
-  EXPECT_TRUE(s.IsLastFrame(2));
+  EXPECT_EQ(s.NumFramesReady(), 1);
+  EXPECT_TRUE(s.IsLastFrame(0));
 }
 
 }  // namespace sherpa
