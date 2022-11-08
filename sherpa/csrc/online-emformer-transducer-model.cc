@@ -3,6 +3,12 @@
 // Copyright (c)  2022  Xiaomi Corporation
 
 #include "sherpa/csrc/online-emformer-transducer-model.h"
+
+#include <string>
+#include <tuple>
+#include <utility>
+#include <vector>
+
 namespace sherpa {
 
 OnlineEmformerTransducerModel::OnlineEmformerTransducerModel(

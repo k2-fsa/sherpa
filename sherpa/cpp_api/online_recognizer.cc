@@ -23,6 +23,7 @@
 #include "nlohmann/json.hpp"
 #include "sherpa/csrc/file_utils.h"
 #include "sherpa/csrc/log.h"
+#include "sherpa/csrc/online-conformer-transducer-model.h"
 #include "sherpa/csrc/online-conv-emformer-transducer-model.h"
 #include "sherpa/csrc/online-emformer-transducer-model.h"
 #include "sherpa/csrc/online-transducer-decoder.h"
@@ -64,6 +65,21 @@ void OnlineRecognizerConfig::Register(ParseOptions *po) {
   po->Register("num-active-paths", &num_active_paths,
                "Number of active paths for modified_beam_search. "
                "Used only when --decoding-method is modified_beam_search");
+
+  po->Register("decode-left-context", &left_context,
+               "Used only for streaming Conformer, i.e, models from "
+               "pruned_transducer_statelessX in icefall. "
+               "Number of frames after subsampling during decoding.");
+
+  po->Register("decode-right-context", &right_context,
+               "Used only for streaming Conformer, i.e, models from "
+               "pruned_transducer_statelessX in icefall. "
+               "Number of frames after subsampling during decoding.");
+
+  po->Register("decode-chunk-size", &chunk_size,
+               "Used only for streaming Conformer, i.e, models from "
+               "pruned_transducer_statelessX in icefall. "
+               "Number of frames after subsampling during decoding.");
 }
 
 void OnlineRecognizerConfig::Validate() const {
@@ -113,22 +129,34 @@ class OnlineRecognizer::OnlineRecognizerImpl {
 
     torch::jit::Module m = torch::jit::load(config.nn_model, torch::kCPU);
     auto encoder = m.attr("encoder").toModule();
+    std::string class_name = encoder.type()->name()->name();
 
-    // TODO(fangjun): We should embed some unique ID into each model
-    // from icefall.
-    if (encoder.hasattr("chunk_length")) {
-      std::cerr << "conv emformer\n";
-      model_ = std::make_unique<OnlineConvEmformerTransducerModel>(
-          config.nn_model, device_);
-    } else if (encoder.hasattr("segment_length")) {
-      std::cerr << "emformer\n";
-      model_ = std::make_unique<OnlineEmformerTransducerModel>(config.nn_model,
-                                                               device_);
+    if (class_name == "Emformer") {
+      if (encoder.find_method("infer")) {
+        // Emformer from torchaudio
+        model_ = std::make_unique<OnlineEmformerTransducerModel>(
+            config.nn_model, device_);
+      } else {
+        // ConvEmformer from icefall
+        model_ = std::make_unique<OnlineConvEmformerTransducerModel>(
+            config.nn_model, device_);
+      }
+    } else if (class_name == "Conformer") {
+      int32_t left_context = config.left_context;
+      int32_t right_context = config.right_context;
+      int32_t chunk_size = config.chunk_size;
+      SHERPA_CHECK_GT(left_context, 0);
+      SHERPA_CHECK_GT(right_context, 0);
+      SHERPA_CHECK_GT(chunk_size, 0);
+
+      model_ = std::make_unique<OnlineConformerTransducerModel>(
+          config.nn_model, left_context, right_context, chunk_size, device_);
     } else {
       std::string s =
           "Support only the following models from icefall:\n"
           "conv_emformer_transducer_stateless2\n"
-          "pruned_stateless_emformer_rnnt2\n";
+          "pruned_stateless_emformer_rnnt2\n"
+          "pruned_transducer_stateless{2,3,4,5}\n";
       TORCH_CHECK(false, s);
     }
 

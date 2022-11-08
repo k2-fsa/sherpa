@@ -48,6 +48,21 @@ struct OnlineRecognizerConfig {
   /// used only for modified_beam_search
   int32_t num_active_paths = 4;
 
+  // For OnlineConformerTransducerModel, i.e., for models from
+  // pruned_transducer_stateless{2,3,4,5} in icefall
+  // In number of frames after subsampling
+  int32_t left_context = 32;
+
+  // For OnlineConformerTransducerModel, i.e., for models from
+  // pruned_transducer_stateless{2,3,4,5} in icefall
+  // In number of frames after subsampling
+  int32_t right_context = 2;
+
+  // For OnlineConformerTransducerModel, i.e., for models from
+  // pruned_transducer_stateless{2,3,4,5} in icefall
+  // In number of frames after subsampling
+  int32_t chunk_size = 8;
+
   void Register(ParseOptions *po);
 
   void Validate() const;
