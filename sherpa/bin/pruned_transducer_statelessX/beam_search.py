@@ -35,7 +35,7 @@ class GreedySearchOffline:
         self,
         model: "RnntConformerModel",
         features: List[torch.Tensor],
-        use_fp16: bool=False,
+        use_fp16: bool = False,
     ) -> List[List[int]]:
         """
         Args:
@@ -99,7 +99,7 @@ class ModifiedBeamSearchOffline:
         self,
         model: "RnntConformerModel",
         features: List[torch.Tensor],
-        use_fp16: bool=False,
+        use_fp16: bool = False,
     ) -> List[List[int]]:
         """Run RNN-T model with the given features and use greedy search
         to decode the output of the model.
