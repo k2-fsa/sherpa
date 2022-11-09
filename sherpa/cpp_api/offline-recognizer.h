@@ -49,6 +49,8 @@ struct OfflineRecognizerConfig {
 std::ostream &operator<<(std::ostream &os,
                          const OfflineRecognizerConfig &config);
 
+class OfflineRecognizerImpl;
+
 class OfflineRecognizer {
  public:
   ~OfflineRecognizer();
@@ -82,7 +84,6 @@ class OfflineRecognizer {
   OfflineRecognitionResult GetResult(OfflineStream *s) const;
 
  private:
-  class OfflineRecognizerImpl;
   std::unique_ptr<OfflineRecognizerImpl> impl_;
 };
 
