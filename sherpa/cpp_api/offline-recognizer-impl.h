@@ -5,6 +5,8 @@
 #ifndef SHERPA_CPP_API_OFFLINE_RECOGNIZER_IMPL_H_
 #define SHERPA_CPP_API_OFFLINE_RECOGNIZER_IMPL_H_
 
+#include <memory>
+
 #include "sherpa/cpp_api/offline-recognizer.h"
 
 namespace sherpa {
