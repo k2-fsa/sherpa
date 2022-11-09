@@ -1,54 +1,23 @@
-add_library(offline_recognizer offline_recognizer.cc)
-target_link_libraries(offline_recognizer sherpa_core)
-set_target_properties(offline_recognizer PROPERTIES OUTPUT_NAME "sherpa_offline_recognizer")
-
-add_executable(test_decode_files test_decode_files.cc)
-target_link_libraries(test_decode_files offline_recognizer)
-
-
-# We use kaldi_native_io to read *.wav files, so we link to ${KALDI_NATIVE_IO_LIBRARIES} below
-add_executable(test_decode_samples test_decode_samples.cc)
-target_link_libraries(test_decode_samples offline_recognizer ${KALDI_NATIVE_IO_LIBRARIES})
-
-# We use kaldi_native_io to read *.wav files, so we link to ${KALDI_NATIVE_IO_LIBRARIES} below
-# Also, we use kaldifeat to compute fbank features, so we link to ${KALDIFEAT_LIBRARIES} below
-add_executable(test_decode_features test_decode_features.cc)
-target_link_libraries(test_decode_features
-  offline_recognizer
-  ${KALDI_NATIVE_IO_LIBRARIES}
-  ${KALDIFEAT_LIBRARIES}
+set(sherpa_cpp_api_srcs
+  feature-config.cc
+  offline-stream.cc
+  offline-recognizer.cc
+  online-recognizer.cc
 )
+add_library(sherpa_cpp_api ${sherpa_cpp_api_srcs})
+target_link_libraries(sherpa_cpp_api sherpa_core)
 
-add_library(online_recognizer online_recognizer.cc)
-target_link_libraries(online_recognizer sherpa_core)
-set_target_properties(online_recognizer PROPERTIES OUTPUT_NAME "sherpa_online_recognizer")
+add_executable(test-feature-config test-feature-config.cc)
+target_link_libraries(test-feature-config sherpa_cpp_api)
 
-add_executable(test_online_recognizer test_online_recognizer.cc)
-target_link_libraries(test_online_recognizer online_recognizer)
-
-
-if(SHERPA_ENABLE_PORTAUDIO)
-  add_executable(test_online_recognizer_microphone
-    test_online_recognizer_microphone.cc
-    )
-  target_link_libraries(test_online_recognizer_microphone online_recognizer)
-  if(BUILD_SHARED_LIBS)
-    target_link_libraries(test_online_recognizer_microphone portaudio)
-  else()
-    target_link_libraries(test_online_recognizer_microphone portaudio_static)
-  endif()
-endif()
+add_executable(test-offline-stream test-offline-stream.cc)
+target_link_libraries(test-offline-stream sherpa_cpp_api)
 
 file(MAKE_DIRECTORY
-  DESTINATION
-    ${PROJECT_BINARY_DIR}/include/sherpa/cpp_api
+  ${PROJECT_BINARY_DIR}/include/sherpa/cpp_api
 )
 
-set(hdrs
-  offline_recognizer.h
-  online_recognizer.h
-  online_stream.h
-)
+file(GLOB hdrs *.h)
 
 file(COPY
   ${hdrs}
@@ -65,9 +34,11 @@ install(FILES ${hdrs}
 )
 
 install(
-  TARGETS offline_recognizer online_recognizer
+  TARGETS sherpa_cpp_api
   DESTINATION lib
 )
+
+add_subdirectory(bin)
 
 if(SHERPA_ENABLE_WEBSOCKET)
   add_subdirectory(websocket)

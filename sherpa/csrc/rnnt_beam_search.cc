@@ -215,8 +215,8 @@ torch::Tensor StreamingGreedySearch(
   TORCH_CHECK(encoder_out.size(0) == decoder_out.size(0), encoder_out.size(0),
               " vs ", decoder_out.size(0));
 
-  TORCH_CHECK(encoder_out.size(0) == hyps->size(), encoder_out.size(0), " vs ",
-              hyps->size());
+  TORCH_CHECK(encoder_out.size(0) == static_cast<int32_t>(hyps->size()),
+              encoder_out.size(0), " vs ", hyps->size());
 
   TORCH_CHECK(hyps->size() == num_trailing_blank_frames->size(), hyps->size(),
               " vs ", num_trailing_blank_frames->size());
@@ -320,7 +320,7 @@ std::vector<std::vector<int32_t>> ModifiedBeamSearch(
     cur_encoder_out = cur_encoder_out.unsqueeze(1).unsqueeze(1);
     // Now cur_encoder_out's shape is (cur_batch_size, 1, 1, joiner_dim)
 
-    if (cur_batch_size < cur.size()) {
+    if (cur_batch_size < static_cast<int32_t>(cur.size())) {
       for (int32_t k = static_cast<int32_t>(cur.size()) - 1;
            k >= cur_batch_size; --k) {
         finalized.push_front(std::move(cur[k]));
@@ -346,7 +346,7 @@ std::vector<std::vector<int32_t>> ModifiedBeamSearch(
     auto ys_log_probs = torch::empty({num_hyps, 1}, torch::kFloat);
 
     auto ys_log_probs_acc = ys_log_probs.accessor<float, 2>();
-    for (int32_t k = 0; k != prev.size(); ++k) {
+    for (int32_t k = 0; k != static_cast<int32_t>(prev.size()); ++k) {
       ys_log_probs_acc[k][0] = prev[k].log_prob;
     }
 

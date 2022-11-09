@@ -62,7 +62,7 @@ cmake \
   -DSHERPA_ENABLE_WEBSOCKET=ON \
   ..
 
-make -j4 offline_websocket_server offline_websocket_client
+make -j4 sherpa-offline-websocket-server sherpa-offline-websocket-client
 
 ls -lh lib
 ls -lh bin
@@ -71,7 +71,7 @@ cd ..
 
 log "start the sever"
 
-./build/bin/offline_websocket_server \
+./build/bin/sherpa-offline-websocket-server \
   --use-gpu=false \
   --port=6006 \
   --num-io-threads=2 \

@@ -125,10 +125,10 @@ jobs:
 
           ldd lib/libsherpa_core.so
 
-          ldd bin/sherpa
+          ldd bin/sherpa-offline
 
           readelf -d lib/libsherpa_core.so
-          readelf -d bin/sherpa
+          readelf -d bin/sherpa-offline
           readelf -d bin/sherpa-online
 
       - name: Display dependencies
@@ -140,8 +140,8 @@ jobs:
           otool -L lib/libsherpa_core.dylib
           otool -l lib/libsherpa_core.dylib
 
-          otool -L bin/sherpa
-          otool -l bin/sherpa
+          otool -L bin/sherpa-offline
+          otool -l bin/sherpa-offline
 
           otool -L bin/sherpa-online
           otool -l bin/sherpa-online
@@ -151,11 +151,11 @@ jobs:
         run: |
           cd build
           # test_log
-          SHERPA_LOG_LEVEL=TRACE ./bin/test_log
-          SHERPA_LOG_LEVEL=DEBUG ./bin/test_log
-          SHERPA_LOG_LEVEL=INFO ./bin/test_log
-          SHERPA_LOG_LEVEL=WARNING ./bin/test_log
-          SHERPA_LOG_LEVEL=ERROR ./bin/test_log
+          SHERPA_LOG_LEVEL=TRACE ./bin/test-log
+          SHERPA_LOG_LEVEL=DEBUG ./bin/test-log
+          SHERPA_LOG_LEVEL=INFO ./bin/test-log
+          SHERPA_LOG_LEVEL=WARNING ./bin/test-log
+          SHERPA_LOG_LEVEL=ERROR ./bin/test-log
 
           ctest --verbose --output-on-failure -E py # exclude Python tests
 
@@ -166,8 +166,7 @@ jobs:
 
           ./bin/sherpa-version
 
-          ./bin/sherpa --help
-
+          ./bin/sherpa-offline --help
 
       - name: Run tests
         shell: bash
