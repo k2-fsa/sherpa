@@ -4,7 +4,10 @@
 
 #include "sherpa/csrc/offline-ctc-one-best-decoder.h"
 
+#include <utility>
+
 #include "sherpa/csrc/log.h"
+
 namespace sherpa {
 
 OfflineCtcOneBestDecoder::OfflineCtcOneBestDecoder(

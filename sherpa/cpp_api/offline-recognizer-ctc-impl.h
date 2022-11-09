@@ -5,12 +5,18 @@
 #ifndef SHERPA_CPP_API_OFFLINE_RECOGNIZER_CTC_IMPL_H_
 #define SHERPA_CPP_API_OFFLINE_RECOGNIZER_CTC_IMPL_H_
 
+#include <memory>
+#include <string>
+#include <utility>
+#include <vector>
+
 #include "sherpa/cpp_api/feature-config.h"
 #include "sherpa/cpp_api/offline-recognizer-impl.h"
 #include "sherpa/csrc/offline-conformer-ctc-model.h"
 #include "sherpa/csrc/offline-ctc-decoder.h"
 #include "sherpa/csrc/offline-ctc-model.h"
 #include "sherpa/csrc/offline-ctc-one-best-decoder.h"
+#include "sherpa/csrc/offline-wav2vec2-ctc-model.h"
 #include "sherpa/csrc/offline-wenet-conformer-ctc-model.h"
 #include "sherpa/csrc/symbol-table.h"
 
@@ -54,6 +60,13 @@ class OfflineRecognizerCtcImpl : public OfflineRecognizerImpl {
       // https://github.com/k2-fsa/icefall/blob/master/egs/librispeech/ASR/conformer_ctc/conformer.py#L27
       model_ =
           std::make_unique<OfflineConformerCtcModel>(config.nn_model, device_);
+    } else if (class_name == "Wav2Vec2Model") {
+      // This one is from torchaudio
+      // https://github.com/pytorch/audio/blob/main/torchaudio/models/wav2vec2/model.py#L11
+      model_ =
+          std::make_unique<OfflineWav2Vec2CtcModel>(config.nn_model, device_);
+      return_waveform_ = true;
+      symbol_table_.Replace(symbol_table_["|"], " ", "|");
     } else {
       std::string s =
           "Support only the models from icefall, wenet and torchaudio\n"
@@ -72,7 +85,8 @@ class OfflineRecognizerCtcImpl : public OfflineRecognizerImpl {
   }
 
   std::unique_ptr<OfflineStream> CreateStream() override {
-    return std::make_unique<OfflineStream>(&fbank_, normalize_samples_);
+    return std::make_unique<OfflineStream>(&fbank_, return_waveform_,
+                                           normalize_samples_);
   }
 
   void DecodeStreams(OfflineStream **ss, int32_t n) override {
@@ -111,7 +125,8 @@ class OfflineRecognizerCtcImpl : public OfflineRecognizerImpl {
   std::unique_ptr<OfflineCtcDecoder> decoder_;
   kaldifeat::Fbank fbank_;
   torch::Device device_;
-  bool normalize_samples_;
+  bool normalize_samples_ = true;
+  bool return_waveform_ = false;
 };
 
 }  // namespace sherpa

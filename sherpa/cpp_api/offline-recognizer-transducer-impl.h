@@ -5,6 +5,11 @@
 #ifndef SHERPA_CPP_API_OFFLINE_RECOGNIZER_TRANSDUCER_IMPL_H_
 #define SHERPA_CPP_API_OFFLINE_RECOGNIZER_TRANSDUCER_IMPL_H_
 
+#include <memory>
+#include <string>
+#include <utility>
+#include <vector>
+
 #include "sherpa/cpp_api/feature-config.h"
 #include "sherpa/cpp_api/offline-recognizer-impl.h"
 #include "sherpa/csrc/offline-conformer-transducer-model.h"

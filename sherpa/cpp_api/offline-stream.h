@@ -37,8 +37,9 @@ class OfflineStream {
    *
    * @param fbank Not owned by this class.
    * @param normalize_samples true to normalize samples to the range [-1, 1]
+   * @param return_waveform true to use raw waveforms
    */
-  explicit OfflineStream(kaldifeat::Fbank *fbank,
+  explicit OfflineStream(kaldifeat::Fbank *fbank, bool return_waveform = false,
                          bool normalize_samples = true);
 
   /** Create a stream from a WAVE file.

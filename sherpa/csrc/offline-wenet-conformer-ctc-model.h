@@ -20,8 +20,6 @@ class OfflineWenetConformerCtcModel : public OfflineCtcModel {
   /**
    * @param filename Path name of the torch script model.
    * @param device  The model will be moved to this device
-   * @param optimize_for_inference true to invoke
-   *                               torch::jit::optimize_for_inference().
    */
   explicit OfflineWenetConformerCtcModel(const std::string &filename,
                                          torch::Device device = torch::kCPU);

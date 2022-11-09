@@ -76,4 +76,12 @@ std::ostream &operator<<(std::ostream &os, const SymbolTable &symbol_table) {
   return os << symbol_table.ToString();
 }
 
+void SymbolTable::Replace(int32_t id, const std::string &new_sym,
+                          const std::string &old_sym) {
+  sym2id_.erase(old_sym);
+
+  id2sym_.at(id) = new_sym;
+  sym2id_[new_sym] = id;
+}
+
 }  // namespace sherpa

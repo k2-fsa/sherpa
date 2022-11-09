@@ -1,8 +1,8 @@
-// sherpa/csrc/offline-conformer-ctc-model.cc
+// sherpa/csrc/offline-wav2vec2-ctc-model.cc
 //
 // Copyright (c)  2022  Xiaomi Corporation
-#ifndef SHERPA_CSRC_OFFLINE_CONFORMER_CTC_MODEL_H_
-#define SHERPA_CSRC_OFFLINE_CONFORMER_CTC_MODEL_H_
+#ifndef SHERPA_CSRC_OFFLINE_WAV2VEC2_CTC_MODEL_H_
+#define SHERPA_CSRC_OFFLINE_WAV2VEC2_CTC_MODEL_H_
 
 #include <string>
 #include <vector>
@@ -13,28 +13,28 @@ namespace sherpa {
 /** This class models the Conformer model from icefall.
  *
  * See
- * https://github.com/k2-fsa/icefall/blob/master/egs/librispeech/ASR/conformer_ctc/train.py#L668
+ * https://github.com/pytorch/audio/blob/main/torchaudio/models/wav2vec2/model.py#L11
  */
-class OfflineConformerCtcModel : public OfflineCtcModel {
+class OfflineWav2Vec2CtcModel : public OfflineCtcModel {
  public:
   /**
    * @param filename Path name of the torch script model.
    * @param device  The model will be moved to this device
    */
-  explicit OfflineConformerCtcModel(const std::string &filename,
-                                    torch::Device device = torch::kCPU);
+  explicit OfflineWav2Vec2CtcModel(const std::string &filename,
+                                   torch::Device device = torch::kCPU);
 
   torch::Device Device() const override { return device_; }
 
-  int32_t SubsamplingFactor() const override { return 4; }
+  int32_t SubsamplingFactor() const override { return 1; }
 
   /** Run the forward method of the model.
    * See
-   * https://github.com/k2-fsa/icefall/blob/master/egs/librispeech/ASR/conformer_ctc/transformer.py#L162
+   * https://github.com/pytorch/audio/blob/main/torchaudio/models/wav2vec2/model.py#L90
    * for its documentation in Python.
    */
-  torch::IValue Forward(torch::Tensor features,
-                        torch::Tensor features_length) override;
+  torch::IValue Forward(torch::Tensor waveforms,
+                        torch::Tensor lengths) override;
 
   torch::Tensor GetLogSoftmaxOut(torch::IValue forward_out) const override;
 
@@ -48,4 +48,4 @@ class OfflineConformerCtcModel : public OfflineCtcModel {
 
 }  // namespace sherpa
 
-#endif  // SHERPA_CSRC_OFFLINE_CONFORMER_CTC_MODEL_H_
+#endif  // SHERPA_CSRC_OFFLINE_WAV2VEC2_CTC_MODEL_H_

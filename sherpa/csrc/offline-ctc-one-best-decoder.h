@@ -4,6 +4,8 @@
 #ifndef SHERPA_CSRC_OFFLINE_CTC_ONE_BEST_DECODER_H_
 #define SHERPA_CSRC_OFFLINE_CTC_ONE_BEST_DECODER_H_
 
+#include <vector>
+
 #include "k2/torch_api.h"
 #include "sherpa/cpp_api/offline-recognizer.h"
 #include "sherpa/csrc/offline-ctc-decoder.h"
