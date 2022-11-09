@@ -7,6 +7,7 @@
 #include <utility>
 
 #include "sherpa/cpp_api/feature-config.h"
+#include "sherpa/cpp_api/offline-recognizer-ctc-impl.h"
 #include "sherpa/cpp_api/offline-recognizer-impl.h"
 #include "sherpa/cpp_api/offline-recognizer-transducer-impl.h"
 #include "sherpa/csrc/file-utils.h"
@@ -15,7 +16,67 @@
 
 namespace sherpa {
 
+void OfflineCtcDecoderConfig::Register(ParseOptions *po) {
+  po->Register("vocab-size", &vocab_size,
+               "Used only for decoding with a CTC topology. "
+               "It is the output dimension of the model");
+
+  po->Register("modified", &modified,
+               "Used only for decoding with a CTC topology. "
+               "true to use a modified CTC topology; useful when "
+               "vocab_size is large, e.g., > 1000. "
+               "false to use a standard CTC topology.");
+
+  po->Register("hlg-filename", &hlg_filename,
+               "Used only for decoding with an HLG graph. ");
+
+  po->Register("search-beam", &search_beam,
+               "Used only for CTC decoding. "
+               "Decoding beam, e.g. 20.  Smaller is faster, larger is "
+               "more exact (less pruning). This is the default value; "
+               "it may be modified by `min_active_states` and "
+               "`max_active_states`. ");
+
+  po->Register("output-beam", &output_beam,
+               "Used only for CTC decoding. "
+               "Beam to prune output, similar to lattice-beam in Kaldi. "
+               "Relative to best path of output. ");
+
+  po->Register("min-active-states", &min_active_states,
+               "Minimum number of FSA states that are allowed to "
+               "be active on any given frame for any given "
+               "intersection/composition task. This is advisory, "
+               "in that it will try not to have fewer than this "
+               "number active. Set it to zero if there is no "
+               "constraint. ");
+
+  po->Register(
+      "max-active-states", &max_active_states,
+      "max_activate_states  Maximum number of FSA states that are allowed to "
+      "be active on any given frame for any given "
+      "intersection/composition task. This is advisory, "
+      "in that it will try not to exceed that but may "
+      "not always succeed. You can use a very large "
+      "number if no constraint is needed. ");
+}
+
+void OfflineCtcDecoderConfig::Validate() const {
+  if (vocab_size > 0) {
+    SHERPA_CHECK(hlg_filename.empty())
+        << "Please either provide vocab_size or hlg_filename, but not both";
+  } else {
+    SHERPA_CHECK_EQ(hlg_filename.empty(), false);
+    AssertFileExists(hlg_filename);
+  }
+
+  SHERPA_CHECK_GT(search_beam, 0);
+  SHERPA_CHECK_GT(output_beam, 0);
+  SHERPA_CHECK_GE(min_active_states, 0);
+  SHERPA_CHECK_GE(max_active_states, 0);
+}
+
 void OfflineRecognizerConfig::Register(ParseOptions *po) {
+  ctc_decoder_config.Register(po);
   feat_config.Register(po);
 
   po->Register("nn-model", &nn_model, "Path to the torchscript model");
@@ -37,6 +98,11 @@ void OfflineRecognizerConfig::Register(ParseOptions *po) {
 }
 
 void OfflineRecognizerConfig::Validate() const {
+  if (ctc_decoder_config.vocab_size > 0 ||
+      !ctc_decoder_config.hlg_filename.empty()) {
+    ctc_decoder_config.Validate();
+  }
+
   if (nn_model.empty()) {
     SHERPA_LOG(FATAL) << "Please provide --nn-model";
   }
@@ -78,8 +144,19 @@ std::ostream &operator<<(std::ostream &os,
 
 OfflineRecognizer::~OfflineRecognizer() = default;
 
-OfflineRecognizer::OfflineRecognizer(const OfflineRecognizerConfig &config)
-    : impl_(std::make_unique<OfflineRecognizerTransducerImpl>(config)) {}
+OfflineRecognizer::OfflineRecognizer(const OfflineRecognizerConfig &config) {
+  if (!config.nn_model.empty()) {
+    torch::jit::Module m = torch::jit::load(config.nn_model, torch::kCPU);
+    if (!m.hasattr("joiner")) {
+      // CTC models does not have a joint network
+      impl_ = std::make_unique<OfflineRecognizerCtcImpl>(config);
+      return;
+    }
+  }
+
+  // default to transducer
+  impl_ = std::make_unique<OfflineRecognizerTransducerImpl>(config);
+}
 
 std::unique_ptr<OfflineStream> OfflineRecognizer::CreateStream() {
   return impl_->CreateStream();

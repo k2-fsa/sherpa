@@ -1,8 +1,8 @@
-// sherpa/csrc/ctc-model.cc
+// sherpa/csrc/offline-ctc-model.cc
 //
 // Copyright (c)  2022  Xiaomi Corporation
-#ifndef SHERPA_CSRC_CTC_MODEL_H_
-#define SHERPA_CSRC_CTC_MODEL_H_
+#ifndef SHERPA_CSRC_OFFLINE_CTC_MODEL_H_
+#define SHERPA_CSRC_OFFLINE_CTC_MODEL_H_
 
 #include <vector>
 
@@ -10,18 +10,23 @@
 
 namespace sherpa {
 
-class CtcModel {
+class OfflineCtcModel {
  public:
-  virtual ~CtcModel() = default;
+  virtual ~OfflineCtcModel() = default;
 
   // Subsampling factor of the model
-  virtual int32_t SubsamplingFactor() const { return 4; }
+  virtual int32_t SubsamplingFactor() const = 0;
 
   // Return the underlying device where computation would happen
   virtual torch::Device Device() const = 0;
 
-  // Run the model with a given input.
-  virtual torch::IValue Forward(const std::vector<torch::IValue> &input) = 0;
+  /** Run the model with a given input.
+   *
+   * @param features  A 3-D tensor of shape (N, T, C).
+   * @param features_length A 1-D tensor of shape (N,).
+   */
+  virtual torch::IValue Forward(torch::Tensor features,
+                                torch::Tensor features_length) = 0;
 
   // Get the log softmax output of the network from the output of Forward
   // method.
@@ -36,4 +41,4 @@ class CtcModel {
 
 }  // namespace sherpa
 
-#endif  // SHERPA_CSRC_CTC_MODEL_H_
+#endif  // SHERPA_CSRC_OFFLINE_CTC_MODEL_H_
