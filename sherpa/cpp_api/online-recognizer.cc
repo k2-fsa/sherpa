@@ -163,11 +163,11 @@ class OnlineRecognizer::OnlineRecognizerImpl {
       if (class_name == "Emformer") {
         if (encoder.find_method("infer")) {
           // Emformer from torchaudio
-          model_ = std::make_unique<OnlineEmformerTransducerModel>(
+          model_ = std::make_unique<OnlineConvEmformerTransducerModel>(
               config.nn_model, device_);
         } else {
           // ConvEmformer from icefall
-          model_ = std::make_unique<OnlineConvEmformerTransducerModel>(
+          model_ = std::make_unique<OnlineEmformerTransducerModel>(
               config.nn_model, device_);
         }
       } else if (class_name == "Conformer") {
