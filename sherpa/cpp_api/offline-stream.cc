@@ -12,17 +12,26 @@ namespace sherpa {
 
 class OfflineStream::OfflineStreamImpl {
  public:
-  explicit OfflineStreamImpl(kaldifeat::Fbank *fbank) : fbank_(fbank) {}
+  OfflineStreamImpl(kaldifeat::Fbank *fbank, bool normalize_samples)
+      : fbank_(fbank), normalize_samples_(normalize_samples) {}
 
   void AcceptWaveFile(const std::string &wave_file) {
     torch::Tensor samples =
         ReadWave(wave_file, fbank_->GetFrameOptions().samp_freq).first;
+    if (!normalize_samples_) {
+      samples.mul_(32768);
+    }
     features_ = ComputeFeatures(*fbank_, {samples})[0];
   }
 
   void AcceptSamples(const float *samples, int32_t n) {
     torch::Tensor tensor =
         torch::from_blob(const_cast<float *>(samples), {n}, torch::kFloat);
+
+    if (!normalize_samples_) {
+      tensor.mul_(32768);
+    }
+
     features_ = ComputeFeatures(*fbank_, {tensor})[0];
   }
 
@@ -43,12 +52,14 @@ class OfflineStream::OfflineStreamImpl {
   torch::Tensor features_;
   OfflineRecognitionResult result_;
   kaldifeat::Fbank *fbank_;  // not owned
+  bool normalize_samples_;
 };
 
 OfflineStream::~OfflineStream() = default;
 
-OfflineStream::OfflineStream(kaldifeat::Fbank *fbank)
-    : impl_(std::make_unique<OfflineStreamImpl>(fbank)) {}
+OfflineStream::OfflineStream(kaldifeat::Fbank *fbank,
+                             bool normalize_samples /*= true*/)
+    : impl_(std::make_unique<OfflineStreamImpl>(fbank, normalize_samples)) {}
 
 void OfflineStream::AcceptWaveFile(const std::string &filename) {
   impl_->AcceptWaveFile(filename);

@@ -148,7 +148,7 @@ OfflineRecognizer::OfflineRecognizer(const OfflineRecognizerConfig &config) {
   if (!config.nn_model.empty()) {
     torch::jit::Module m = torch::jit::load(config.nn_model, torch::kCPU);
     if (!m.hasattr("joiner")) {
-      // CTC models does not have a joint network
+      // CTC models do not have a joint network
       impl_ = std::make_unique<OfflineRecognizerCtcImpl>(config);
       return;
     }

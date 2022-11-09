@@ -4,6 +4,7 @@ set(sherpa_srcs
   offline-transducer-greedy-search-decoder.cc
   offline-transducer-modified-beam-search-decoder.cc
   offline-conformer-ctc-model.cc
+  offline-wenet-conformer-ctc-model.cc
   offline-ctc-one-best-decoder.cc
 
   online-conv-emformer-transducer-model.cc

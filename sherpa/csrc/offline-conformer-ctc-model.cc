@@ -18,6 +18,7 @@ OfflineConformerCtcModel::OfflineConformerCtcModel(
 torch::IValue OfflineConformerCtcModel::Forward(torch::Tensor features,
                                                 torch::Tensor features_length) {
   torch::NoGradGuard no_grad;
+
   int32_t batch_size = features.size(0);
 
   torch::Dict<std::string, torch::Tensor> sup;
@@ -37,6 +38,8 @@ torch::Tensor OfflineConformerCtcModel::GetLogSoftmaxOut(
 
 torch::Tensor OfflineConformerCtcModel::GetLogSoftmaxOutLength(
     torch::IValue forward_out) const {
+  torch::NoGradGuard no_grad;
+
   auto mask = forward_out.toTuple()->elements()[2].toTensor();
   return (~mask).sum(1);
 }

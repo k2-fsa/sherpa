@@ -36,7 +36,8 @@ class OfflineRecognizerTransducerImpl : public OfflineRecognizerImpl {
       const OfflineRecognizerConfig &config)
       : symbol_table_(config.tokens),
         fbank_(config.feat_config.fbank_opts),
-        device_(torch::kCPU) {
+        device_(torch::kCPU),
+        normalize_samples_(config.feat_config.normalize_samples) {
     if (config.use_gpu) {
       device_ = torch::Device("cuda:0");
     }
@@ -56,7 +57,7 @@ class OfflineRecognizerTransducerImpl : public OfflineRecognizerImpl {
   }
 
   std::unique_ptr<OfflineStream> CreateStream() override {
-    return std::make_unique<OfflineStream>(&fbank_);
+    return std::make_unique<OfflineStream>(&fbank_, normalize_samples_);
   }
 
   void DecodeStreams(OfflineStream **ss, int32_t n) override {
@@ -96,6 +97,7 @@ class OfflineRecognizerTransducerImpl : public OfflineRecognizerImpl {
   std::unique_ptr<OfflineTransducerDecoder> decoder_;
   kaldifeat::Fbank fbank_;
   torch::Device device_;
+  bool normalize_samples_;
 };
 
 }  // namespace sherpa

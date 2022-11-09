@@ -25,6 +25,8 @@ std::vector<OfflineCtcDecoderResult> OfflineCtcOneBestDecoder::Decode(
     int32_t subsampling_factor /*= 1*/) {
   SHERPA_CHECK_EQ(log_prob.size(2), config_.vocab_size);
 
+  torch::NoGradGuard no_grad;
+
   auto lattice = k2::GetLattice(log_prob, log_prob_len.cpu(), decoding_graph_,
                                 config_.search_beam, config_.output_beam,
                                 config_.min_active_states,
