@@ -13,20 +13,22 @@ namespace sherpa {
 OfflineCtcOneBestDecoder::OfflineCtcOneBestDecoder(
     const OfflineCtcDecoderConfig config, torch::Device device)
     : config_(config) {
-  if (config.hlg_filename.empty()) {
+  if (config.hlg.empty()) {
     // Use CTC topo since no HLG is provided
 
     decoding_graph_ =
         k2::GetCtcTopo(config.vocab_size - 1, config.modified, device);
   } else {
-    SHERPA_LOG(FATAL) << "Not implemented yet";
+    decoding_graph_ = k2::LoadFsaClass(config.hlg, device);
   }
 }
 
 std::vector<OfflineCtcDecoderResult> OfflineCtcOneBestDecoder::Decode(
     torch::Tensor log_prob, torch::Tensor log_prob_len,
     int32_t subsampling_factor /*= 1*/) {
-  SHERPA_CHECK_EQ(log_prob.size(2), config_.vocab_size);
+  if (config_.vocab_size > 0) {
+    SHERPA_CHECK_EQ(log_prob.size(2), config_.vocab_size);
+  }
 
   torch::NoGradGuard no_grad;
 

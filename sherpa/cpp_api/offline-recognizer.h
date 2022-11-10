@@ -24,7 +24,7 @@ struct OfflineCtcDecoderConfig {
   bool modified = true;
 
   // Used only for HLG decoding
-  std::string hlg_filename;
+  std::string hlg;
 
   float search_beam = 20;
   float output_beam = 8;

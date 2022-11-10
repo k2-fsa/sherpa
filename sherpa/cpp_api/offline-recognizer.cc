@@ -27,8 +27,7 @@ void OfflineCtcDecoderConfig::Register(ParseOptions *po) {
                "vocab_size is large, e.g., > 1000. "
                "false to use a standard CTC topology.");
 
-  po->Register("hlg-filename", &hlg_filename,
-               "Used only for decoding with an HLG graph. ");
+  po->Register("hlg", &hlg, "Used only for decoding with an HLG graph. ");
 
   po->Register("search-beam", &search_beam,
                "Used only for CTC decoding. "
@@ -62,11 +61,11 @@ void OfflineCtcDecoderConfig::Register(ParseOptions *po) {
 
 void OfflineCtcDecoderConfig::Validate() const {
   if (vocab_size > 0) {
-    SHERPA_CHECK(hlg_filename.empty())
-        << "Please either provide vocab_size or hlg_filename, but not both";
+    SHERPA_CHECK(hlg.empty())
+        << "Please either provide vocab_size or hlg, but not both";
   } else {
-    SHERPA_CHECK_EQ(hlg_filename.empty(), false);
-    AssertFileExists(hlg_filename);
+    SHERPA_CHECK_EQ(hlg.empty(), false);
+    AssertFileExists(hlg);
   }
 
   SHERPA_CHECK_GT(search_beam, 0);
@@ -98,8 +97,7 @@ void OfflineRecognizerConfig::Register(ParseOptions *po) {
 }
 
 void OfflineRecognizerConfig::Validate() const {
-  if (ctc_decoder_config.vocab_size > 0 ||
-      !ctc_decoder_config.hlg_filename.empty()) {
+  if (ctc_decoder_config.vocab_size > 0 || !ctc_decoder_config.hlg.empty()) {
     ctc_decoder_config.Validate();
   }
 

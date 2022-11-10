@@ -23,11 +23,16 @@
 namespace sherpa {
 
 static OfflineRecognitionResult Convert(OfflineCtcDecoderResult src,
-                                        const SymbolTable &sym) {
+                                        const SymbolTable &sym,
+                                        bool insert_space = false) {
   OfflineRecognitionResult r;
   std::string text;
   for (auto i : src.tokens) {
     text.append(sym[i]);
+
+    if (insert_space) {
+      text.append(" ");
+    }
   }
   r.text = std::move(text);
   r.tokens = std::move(src.tokens);
@@ -85,6 +90,10 @@ class OfflineRecognizerCtcImpl : public OfflineRecognizerImpl {
 
     decoder_ = std::make_unique<OfflineCtcOneBestDecoder>(
         config.ctc_decoder_config, device_);
+
+    // If we provide HLG, the decoder will return word IDs, we need
+    // to insert a space between each word.
+    insert_space_ = !config.ctc_decoder_config.hlg.empty();
   }
 
   std::unique_ptr<OfflineStream> CreateStream() override {
@@ -122,7 +131,7 @@ class OfflineRecognizerCtcImpl : public OfflineRecognizerImpl {
     auto results =
         decoder_->Decode(log_prob, log_prob_len, model_->SubsamplingFactor());
     for (int32_t i = 0; i != n; ++i) {
-      ss[i]->SetResult(Convert(results[i], symbol_table_));
+      ss[i]->SetResult(Convert(results[i], symbol_table_, insert_space_));
     }
   }
 
@@ -134,6 +143,7 @@ class OfflineRecognizerCtcImpl : public OfflineRecognizerImpl {
   torch::Device device_;
   bool normalize_samples_ = true;
   bool return_waveform_ = false;
+  bool insert_space_ = false;
 };
 
 }  // namespace sherpa
