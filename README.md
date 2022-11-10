@@ -17,7 +17,11 @@ See <https://k2-fsa.github.io/sherpa/python/huggingface/> for more details.
 # sherpa
 
 `sherpa` is an open-source speech-to-text (i.e., speech recognition) framework,
-focusing on end-to-end (E2E) models such as transducer and CTC.
+focusing **exclusively** on end-to-end (E2E) models, namely transducer- and
+CTC-based models.
+
+**Note**: There is no plan to support attention-based encoder-decoder (AED)
+models.
 
 ## Installation
 
