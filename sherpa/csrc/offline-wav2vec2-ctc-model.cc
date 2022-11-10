@@ -15,8 +15,6 @@ OfflineWav2Vec2CtcModel::OfflineWav2Vec2CtcModel(
 torch::IValue OfflineWav2Vec2CtcModel::Forward(torch::Tensor waveforms,
                                                torch::Tensor lengths) {
   torch::NoGradGuard no_grad;
-  std::cerr << "waveforms: " << waveforms.sizes() << "\n";
-  std::cerr << "lengths: " << lengths;
 
   return model_.run_method("forward", waveforms.to(device_),
                            lengths.to(device_));

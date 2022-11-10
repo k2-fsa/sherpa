@@ -69,12 +69,15 @@ class OfflineRecognizerCtcImpl : public OfflineRecognizerImpl {
       symbol_table_.Replace(symbol_table_["|"], " ", "|");
     } else {
       std::string s =
-          "Support only the models from icefall, wenet and torchaudio\n"
+          "Support only models from icefall, wenet and torchaudio\n"
           "https://github.com/k2-fsa/icefall/blob/master/egs/librispeech/ASR/"
           "conformer_ctc/conformer.py#L27"
           "\n"
           "https://github.com/wenet-e2e/wenet/blob/main/wenet/transformer/"
           "asr_model.py#L42"
+          "\n"
+          "https://github.com/pytorch/audio/blob/main/torchaudio/models/"
+          "wav2vec2/model.py#L11"
           "\n";
 
       TORCH_CHECK(false, s);
@@ -100,17 +103,21 @@ class OfflineRecognizerCtcImpl : public OfflineRecognizerImpl {
       features_length_vec[i] = f.size(0);
     }
 
+    // If return_waveform is false, features_vec contains 2-D tensors of shape
+    // (num_frames, feature_dim). In this case, we should use the padding value
+    // -23.
+    //
+    // If return_waveform is true, features_vec contains 1-D tensors of shape
+    // (num_samples,). In this case, we use 0 as the padding value.
     auto features = torch::nn::utils::rnn::pad_sequence(
         features_vec, /*batch_first*/ true,
-        /*padding_value*/ -23.025850929940457f);
+        /*padding_value*/ return_waveform_ ? 0 : -23.025850929940457f);
 
     auto features_length = torch::tensor(features_length_vec);
 
     torch::IValue ivalue = model_->Forward(features, features_length);
     torch::Tensor log_prob = model_->GetLogSoftmaxOut(ivalue);
     torch::Tensor log_prob_len = model_->GetLogSoftmaxOutLength(ivalue);
-    std::cerr << "log_prob.sizes() " << log_prob.sizes() << "\n";
-    std::cerr << "log_prob_len " << log_prob_len << "\n";
 
     auto results =
         decoder_->Decode(log_prob, log_prob_len, model_->SubsamplingFactor());
