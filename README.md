@@ -40,9 +40,15 @@ cmake \
   -DCMAKE_BUILD_TYPE=Release \
   -DCMAKE_INSTALL_PREFIX=$HOME/software/sherpa
   ..
-make install # or make install/strip
+make -j6 install/strip
+
+# If you don't want to strip the binaries and libraries, you can
+# use "make -j6 install"
 
 export PATH=$HOME/software/sherpa/bin:$PATH
+
+# To uninstall sherpa, use
+#  rm -rf $HOME/software/sherpa
 ```
 
 or
@@ -56,7 +62,29 @@ pip install ./dist/k2_sherpa-*.whl
 
 # Please don't use `python3 setup.py install`.
 # Otherwise, you won't have access to pre-compiled binaries
+
+# To uninstall sherpa, use
+#  pip uninstall k2-sherpa
 ```
+
+To check that you have installed `sherpa` successfully, you can run
+the following binaries:
+
+```bash
+sherpa-version
+
+sherpa-offline --help
+sherpa-online --help
+
+sherpa-offline-websocket-server --help
+sherpa-offline-websocket-client --help
+
+sherpa-online-websocket-server --help
+sherpa-online-websocket-client --help
+sherpa-online-websocket-client-microphone --help
+```
+
+## Usages
 
 See **documentation** at <https://k2-fsa.github.io/sherpa/> for more usages.
 
