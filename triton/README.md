@@ -101,7 +101,11 @@ Now start server:
 
 ```bash
 # Inside the docker container
+# If you want to use greedy search decoding
 bash /workspace/scripts/start_streaming(offline)_server(_jit).sh
+
+# Or if you want to use fast beam search decoding
+bash /workspace/scripts/start_streaming(offline)_server_fast_beam.sh
 ```
 
 If you meet any issues during the process, please file an issue.
