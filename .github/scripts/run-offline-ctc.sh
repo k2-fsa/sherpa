@@ -101,7 +101,7 @@ popd
 
 log "Decoding with H"
 
-./bin/sherpa-offline \
+./build/bin/sherpa-offline \
   --vocab-size=29 \
   --nn-model=$repo/wav2vec2_asr_base_10m.pt \
   --tokens=$repo/tokens.txt \
@@ -112,7 +112,7 @@ log "Decoding with H"
 
 log "Decoding with H (voxpopuli_asr_base_10k_de)"
 
-./bin/sherpa-offline \
+./build/bin/sherpa-offline \
   --vocab-size=29 \
   --nn-model=$repo/voxpopuli_asr_base_10k_de.pt \
   --tokens=$repo/tokens-de.txt \
