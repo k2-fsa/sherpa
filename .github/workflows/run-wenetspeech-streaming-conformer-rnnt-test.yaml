@@ -121,8 +121,10 @@ jobs:
       - name: Download pretrained model and test-data
         shell: bash
         run: |
-          git lfs install
-          git clone https://huggingface.co/luomingshuang/icefall_asr_wenetspeech_pruned_transducer_stateless5_streaming
+          GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/luomingshuang/icefall_asr_wenetspeech_pruned_transducer_stateless5_streaming
+          cd icefall_asr_wenetspeech_pruned_transducer_stateless5_streaming
+          git lfs pull --include "exp/cpu_jit_epoch_5_avg_1_torch.1.7.1.pt"
+
       - name: Start server
         shell: bash
         run: |
@@ -134,7 +136,7 @@ jobs:
             --max-batch-size 50 \
             --max-wait-ms 5 \
             --nn-pool-size 1 \
-            --nn-model-filename ./icefall_asr_wenetspeech_pruned_transducer_stateless5_streaming/exp/cpu_jit_epoch_5_avg_1_torch.${{ matrix.torch }}.pt \
+            --nn-model-filename ./icefall_asr_wenetspeech_pruned_transducer_stateless5_streaming/exp/cpu_jit_epoch_5_avg_1_torch.1.7.1.pt \
             --decoding-method ${{ matrix.decoding }} \
             --lang-dir ./icefall_asr_wenetspeech_pruned_transducer_stateless5_streaming/data/lang_char/ \
             --token-filename ./icefall_asr_wenetspeech_pruned_transducer_stateless5_streaming/data/lang_char/tokens.txt &

@@ -105,7 +105,7 @@ jobs:
           mkdir build
           cd build
           cmake -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DSHERPA_ENABLE_WEBSOCKET=ON ..
-          make -j2 VERBOSE=1 offline_websocket_server offline_websocket_client
+          make -j2 VERBOSE=1 sherpa-offline-websocket-server sherpa-offline-websocket-client
 
           ls -lh lib
           ls -lh bin
@@ -119,7 +119,7 @@ jobs:
       - name: Start the server
         shell: bash
         run: |
-          ./build/bin/offline_websocket_server \
+          ./build/bin/sherpa-offline-websocket-server \
             --use-gpu=false \
             --port=6006 \
             --num-io-threads=1 \
@@ -138,17 +138,17 @@ jobs:
       - name: Start the client
         shell: bash
         run: |
-          ./build/bin/offline_websocket_client \
+          ./build/bin/sherpa-offline-websocket-client \
             --server-ip=127.0.0.1 \
             --server-port=6006 \
             ./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/test_wavs/1089-134686-0001.wav
 
-          ./build/bin/offline_websocket_client \
+          ./build/bin/sherpa-offline-websocket-client \
             --server-ip=127.0.0.1 \
             --server-port=6006 \
             ./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/test_wavs/1221-135766-0001.wav \
 
-          ./build/bin/offline_websocket_client \
+          ./build/bin/sherpa-offline-websocket-client \
             --server-ip=127.0.0.1 \
             --server-port=6006 \
             ./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/test_wavs/1221-135766-0002.wav
