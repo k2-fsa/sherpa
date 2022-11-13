@@ -12,18 +12,41 @@ namespace sherpa {
 
 class OfflineStream::OfflineStreamImpl {
  public:
-  explicit OfflineStreamImpl(kaldifeat::Fbank *fbank) : fbank_(fbank) {}
+  OfflineStreamImpl(kaldifeat::Fbank *fbank, bool return_waveform,
+                    bool normalize_samples)
+      : fbank_(fbank),
+        return_waveform_(return_waveform),
+        normalize_samples_(normalize_samples) {}
 
   void AcceptWaveFile(const std::string &wave_file) {
     torch::Tensor samples =
         ReadWave(wave_file, fbank_->GetFrameOptions().samp_freq).first;
-    features_ = ComputeFeatures(*fbank_, {samples})[0];
+    if (!normalize_samples_) {
+      samples.mul_(32767);
+    }
+
+    if (return_waveform_) {
+      // We return audio samples directly, e.g., for Wav2Vec2.0
+      features_ = samples;
+    } else {
+      features_ = ComputeFeatures(*fbank_, {samples})[0];
+    }
   }
 
   void AcceptSamples(const float *samples, int32_t n) {
     torch::Tensor tensor =
         torch::from_blob(const_cast<float *>(samples), {n}, torch::kFloat);
-    features_ = ComputeFeatures(*fbank_, {tensor})[0];
+
+    if (!normalize_samples_) {
+      tensor.mul_(32767);
+    }
+
+    if (return_waveform_) {
+      features_ = tensor.clone();
+    } else {
+      // We return audio samples directly, e.g., for Wav2Vec2.0
+      features_ = ComputeFeatures(*fbank_, {tensor})[0];
+    }
   }
 
   void AcceptFeatures(const float *features, int32_t num_frames,
@@ -42,13 +65,18 @@ class OfflineStream::OfflineStreamImpl {
  private:
   torch::Tensor features_;
   OfflineRecognitionResult result_;
-  kaldifeat::Fbank *fbank_;  // not owned
+  kaldifeat::Fbank *fbank_ = nullptr;  // not owned
+  bool return_waveform_ = false;
+  bool normalize_samples_ = true;
 };
 
 OfflineStream::~OfflineStream() = default;
 
-OfflineStream::OfflineStream(kaldifeat::Fbank *fbank)
-    : impl_(std::make_unique<OfflineStreamImpl>(fbank)) {}
+OfflineStream::OfflineStream(kaldifeat::Fbank *fbank,
+                             bool return_waveform /*= false*/,
+                             bool normalize_samples /*= true*/)
+    : impl_(std::make_unique<OfflineStreamImpl>(fbank, return_waveform,
+                                                normalize_samples)) {}
 
 void OfflineStream::AcceptWaveFile(const std::string &filename) {
   impl_->AcceptWaveFile(filename);

@@ -70,7 +70,7 @@ void OnlineRecognizerConfig::Register(ParseOptions *po) {
 
   po->Register("decoding-method", &decoding_method,
                "Decoding method to use. Possible values are: greedy_search, "
-               "modified_beam_search");
+               "modified_beam_search. Used only for transducer.");
 
   po->Register("num-active-paths", &num_active_paths,
                "Number of active paths for modified_beam_search. "

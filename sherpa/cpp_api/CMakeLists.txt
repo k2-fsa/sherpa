@@ -17,7 +17,14 @@ file(MAKE_DIRECTORY
   ${PROJECT_BINARY_DIR}/include/sherpa/cpp_api
 )
 
-file(GLOB hdrs *.h)
+set(hdrs
+  feature-config.h
+  offline-recognizer.h
+  offline-stream.h
+  online-recognizer.h
+  online-stream.h
+  parse-options.h
+)
 
 file(COPY
   ${hdrs}

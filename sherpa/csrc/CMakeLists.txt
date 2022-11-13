@@ -3,6 +3,10 @@ set(sherpa_srcs
   offline-conformer-transducer-model.cc
   offline-transducer-greedy-search-decoder.cc
   offline-transducer-modified-beam-search-decoder.cc
+  offline-conformer-ctc-model.cc
+  offline-wenet-conformer-ctc-model.cc
+  offline-ctc-one-best-decoder.cc
+  offline-wav2vec2-ctc-model.cc
 
   online-conv-emformer-transducer-model.cc
   online-transducer-greedy-search-decoder.cc
@@ -12,7 +16,6 @@ set(sherpa_srcs
   online-lstm-transducer-model.cc
 
   # TODO(fangjun): Refactor the following files
-  ctc_conformer_model.cc
   endpoint.cc
   fbank-features.cc
   file-utils.cc

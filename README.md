@@ -17,7 +17,11 @@ See <https://k2-fsa.github.io/sherpa/python/huggingface/> for more details.
 # sherpa
 
 `sherpa` is an open-source speech-to-text (i.e., speech recognition) framework,
-focusing on end-to-end (E2E) models such as transducer and CTC.
+focusing **exclusively** on end-to-end (E2E) models, namely transducer- and
+CTC-based models.
+
+**Note**: There is no plan to support attention-based encoder-decoder (AED)
+models.
 
 ## Installation
 
@@ -36,9 +40,15 @@ cmake \
   -DCMAKE_BUILD_TYPE=Release \
   -DCMAKE_INSTALL_PREFIX=$HOME/software/sherpa
   ..
-make install # or make install/strip
+make -j6 install/strip
+
+# If you don't want to strip the binaries and libraries, you can
+# use "make -j6 install"
 
 export PATH=$HOME/software/sherpa/bin:$PATH
+
+# To uninstall sherpa, use
+#  rm -rf $HOME/software/sherpa
 ```
 
 or
@@ -52,7 +62,29 @@ pip install ./dist/k2_sherpa-*.whl
 
 # Please don't use `python3 setup.py install`.
 # Otherwise, you won't have access to pre-compiled binaries
+
+# To uninstall sherpa, use
+#  pip uninstall k2-sherpa
 ```
+
+To check that you have installed `sherpa` successfully, you can run
+the following binaries:
+
+```bash
+sherpa-version
+
+sherpa-offline --help
+sherpa-online --help
+
+sherpa-offline-websocket-server --help
+sherpa-offline-websocket-client --help
+
+sherpa-online-websocket-server --help
+sherpa-online-websocket-client --help
+sherpa-online-websocket-client-microphone --help
+```
+
+## Usages
 
 See **documentation** at <https://k2-fsa.github.io/sherpa/> for more usages.
 

@@ -39,6 +39,11 @@ void FeatureConfig::Register(ParseOptions *po) {
 
   fbank_opts.mel_opts.num_bins = 80;
   RegisterMelBanksOptions(po, &fbank_opts.mel_opts);
+
+  po->Register("normalize-samples", &normalize_samples,
+               "true to use samples in the range [-1, 1]. "
+               "false to use samples in the range [-32768, 32767]. "
+               "Note: kaldi uses un-normalized samples.");
 }
 
 std::string FeatureConfig::ToString() const { return fbank_opts.ToString(); }

@@ -6,19 +6,68 @@
 
 #include <utility>
 
+#include "sherpa/cpp_api/feature-config.h"
+#include "sherpa/cpp_api/offline-recognizer-ctc-impl.h"
+#include "sherpa/cpp_api/offline-recognizer-impl.h"
+#include "sherpa/cpp_api/offline-recognizer-transducer-impl.h"
 #include "sherpa/csrc/file-utils.h"
 #include "sherpa/csrc/log.h"
-#include "sherpa/csrc/offline-conformer-transducer-model.h"
-#include "sherpa/csrc/offline-transducer-decoder.h"
-#include "sherpa/csrc/offline-transducer-greedy-search-decoder.h"
-#include "sherpa/csrc/offline-transducer-model.h"
-#include "sherpa/csrc/offline-transducer-modified-beam-search-decoder.h"
-#include "sherpa/csrc/symbol-table.h"
 #include "torch/script.h"
 
 namespace sherpa {
 
+void OfflineCtcDecoderConfig::Register(ParseOptions *po) {
+  po->Register("modified", &modified,
+               "Used only for decoding with a CTC topology. "
+               "true to use a modified CTC topology; useful when "
+               "vocab_size is large, e.g., > 1000. "
+               "false to use a standard CTC topology.");
+
+  po->Register("hlg", &hlg, "Used only for decoding with an HLG graph. ");
+
+  po->Register("search-beam", &search_beam,
+               "Used only for CTC decoding. "
+               "Decoding beam, e.g. 20.  Smaller is faster, larger is "
+               "more exact (less pruning). This is the default value; "
+               "it may be modified by `min_active_states` and "
+               "`max_active_states`. ");
+
+  po->Register("output-beam", &output_beam,
+               "Used only for CTC decoding. "
+               "Beam to prune output, similar to lattice-beam in Kaldi. "
+               "Relative to best path of output. ");
+
+  po->Register("min-active-states", &min_active_states,
+               "Minimum number of FSA states that are allowed to "
+               "be active on any given frame for any given "
+               "intersection/composition task. This is advisory, "
+               "in that it will try not to have fewer than this "
+               "number active. Set it to zero if there is no "
+               "constraint. ");
+
+  po->Register(
+      "max-active-states", &max_active_states,
+      "max_activate_states  Maximum number of FSA states that are allowed to "
+      "be active on any given frame for any given "
+      "intersection/composition task. This is advisory, "
+      "in that it will try not to exceed that but may "
+      "not always succeed. You can use a very large "
+      "number if no constraint is needed. ");
+}
+
+void OfflineCtcDecoderConfig::Validate() const {
+  if (!hlg.empty()) {
+    AssertFileExists(hlg);
+  }
+
+  SHERPA_CHECK_GT(search_beam, 0);
+  SHERPA_CHECK_GT(output_beam, 0);
+  SHERPA_CHECK_GE(min_active_states, 0);
+  SHERPA_CHECK_GE(max_active_states, 0);
+}
+
 void OfflineRecognizerConfig::Register(ParseOptions *po) {
+  ctc_decoder_config.Register(po);
   feat_config.Register(po);
 
   po->Register("nn-model", &nn_model, "Path to the torchscript model");
@@ -50,6 +99,8 @@ void OfflineRecognizerConfig::Validate() const {
   }
   AssertFileExists(tokens);
 
+  // TODO(fangjun): The following checks about decoding_method are
+  // used only for transducer models. We should skip it for CTC models
   if (decoding_method != "greedy_search" &&
       decoding_method != "modified_beam_search") {
     SHERPA_LOG(FATAL)
@@ -63,6 +114,7 @@ void OfflineRecognizerConfig::Validate() const {
 }
 
 std::string OfflineRecognizerConfig::ToString() const {
+  // TODO(fangjun): Also print ctc_decoder_config
   std::ostringstream os;
   os << feat_config.ToString() << "\n";
   os << "--nn-model=" << nn_model << "\n";
@@ -79,91 +131,21 @@ std::ostream &operator<<(std::ostream &os,
   return os;
 }
 
-static OfflineRecognitionResult Convert(OfflineTransducerDecoderResult src,
-                                        const SymbolTable &sym) {
-  OfflineRecognitionResult r;
-  std::string text;
-  for (auto i : src.tokens) {
-    text.append(sym[i]);
-  }
-  r.text = std::move(text);
-  r.tokens = std::move(src.tokens);
-  r.timestamps = std::move(src.timestamps);
-
-  return r;
-}
-
-class OfflineRecognizer::OfflineRecognizerImpl {
- public:
-  explicit OfflineRecognizerImpl(const OfflineRecognizerConfig &config)
-      : symbol_table_(config.tokens),
-        fbank_(config.feat_config.fbank_opts),
-        device_(torch::kCPU) {
-    if (config.use_gpu) {
-      device_ = torch::Device("cuda:0");
-    }
-    model_ = std::make_unique<OfflineConformerTransducerModel>(config.nn_model,
-                                                               device_);
-
-    if (config.decoding_method == "greedy_search") {
-      decoder_ =
-          std::make_unique<OfflineTransducerGreedySearchDecoder>(model_.get());
-    } else if (config.decoding_method == "modified_beam_search") {
-      decoder_ = std::make_unique<OfflineTransducerModifiedBeamSearchDecoder>(
-          model_.get(), config.num_active_paths);
-    } else {
-      TORCH_CHECK(false,
-                  "Unsupported decoding method: ", config.decoding_method);
-    }
-  }
-
-  std::unique_ptr<OfflineStream> CreateStream() {
-    return std::make_unique<OfflineStream>(&fbank_);
-  }
-
-  void DecodeStreams(OfflineStream **ss, int32_t n) {
-    torch::NoGradGuard no_grad;
-
-    std::vector<torch::Tensor> features_vec(n);
-    std::vector<int64_t> features_length_vec(n);
-    for (int32_t i = 0; i != n; ++i) {
-      const auto &f = ss[i]->GetFeatures();
-      features_vec[i] = f;
-      features_length_vec[i] = f.size(0);
-    }
-
-    auto features = torch::nn::utils::rnn::pad_sequence(
-                        features_vec, /*batch_first*/ true,
-                        /*padding_value*/ -23.025850929940457f)
-                        .to(device_);
-
-    auto features_length = torch::tensor(features_length_vec).to(device_);
-
-    torch::Tensor encoder_out;
-    torch::Tensor encoder_out_length;
-
-    std::tie(encoder_out, encoder_out_length) =
-        model_->RunEncoder(features, features_length);
-    encoder_out_length = encoder_out_length.cpu();
-
-    auto results = decoder_->Decode(encoder_out, encoder_out_length);
-    for (int32_t i = 0; i != n; ++i) {
-      ss[i]->SetResult(Convert(results[i], symbol_table_));
-    }
-  }
-
- private:
-  SymbolTable symbol_table_;
-  std::unique_ptr<OfflineTransducerModel> model_;
-  std::unique_ptr<OfflineTransducerDecoder> decoder_;
-  kaldifeat::Fbank fbank_;
-  torch::Device device_;
-};
-
 OfflineRecognizer::~OfflineRecognizer() = default;
 
-OfflineRecognizer::OfflineRecognizer(const OfflineRecognizerConfig &config)
-    : impl_(std::make_unique<OfflineRecognizerImpl>(config)) {}
+OfflineRecognizer::OfflineRecognizer(const OfflineRecognizerConfig &config) {
+  if (!config.nn_model.empty()) {
+    torch::jit::Module m = torch::jit::load(config.nn_model, torch::kCPU);
+    if (!m.hasattr("joiner")) {
+      // CTC models do not have a joint network
+      impl_ = std::make_unique<OfflineRecognizerCtcImpl>(config);
+      return;
+    }
+  }
+
+  // default to transducer
+  impl_ = std::make_unique<OfflineRecognizerTransducerImpl>(config);
+}
 
 std::unique_ptr<OfflineStream> OfflineRecognizer::CreateStream() {
   return impl_->CreateStream();

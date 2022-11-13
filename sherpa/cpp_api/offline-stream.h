@@ -36,8 +36,14 @@ class OfflineStream {
   /** Create a stream.
    *
    * @param fbank Not owned by this class.
+   * @param normalize_samples If false, we will multiply the input samples by
+   *                          32767.
+   * @param return_waveform true to use raw waveforms; in this case, no feature
+   *                        extraction is performed, the raw waveforms are
+   *                        returned directly when calling `GetFeatures()`.
    */
-  explicit OfflineStream(kaldifeat::Fbank *fbank);
+  explicit OfflineStream(kaldifeat::Fbank *fbank, bool return_waveform = false,
+                         bool normalize_samples = true);
 
   /** Create a stream from a WAVE file.
    *
@@ -50,10 +56,11 @@ class OfflineStream {
   /** Create a stream from audio samples.
    *
    * @param fbank_
-   * @param samples Pointer to the audio samples. Whether it should be
-   *                normalized depends on how the model is trained.
-   *                For models from icefall, it should be normalized
-   *                to [-1, 1] before passing to this function.
+   * @param samples Pointer to the audio samples. It should be normalized
+   *                to the range [-1, 1]. If you model expects unnormalized
+   *                audio samples, please use `normalize_samples=false` when
+   *                invoking the constructor but you still need to pass
+   *                normalized samples `AcceptSamples()`.
    * @param n  Number of audio samples.
    */
   void AcceptSamples(const float *samples, int32_t n);
@@ -71,7 +78,9 @@ class OfflineStream {
 
   /** Get the features of this stream.
    *
-   * @return Return a 2-D tensor of shape (num_frames, num_channels).
+   * @return If return_waveform is false, it returns a 2-D tensor of shape
+   *         (num_frames, num_channels). Otherwise, it returns a 1-D tensor
+   *         of shape (num_samples,).
    */
   const torch::Tensor &GetFeatures() const;
 

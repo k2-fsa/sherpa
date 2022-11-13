@@ -30,13 +30,10 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-latest]
-        torch: ["1.10.0", "1.6.0"]
-        python-version: ["3.7", "3.8", "3.9"]
+        os: [ubuntu-latest]
+        torch: ["1.10.0"]
+        python-version: ["3.8"]
         build_type: ["Release", "Debug"]
-        exclude:
-          - torch: "1.6.0"
-            python-version: "3.9"
 
     steps:
       - uses: actions/checkout@v2
@@ -65,7 +62,7 @@ jobs:
           python3 -m pip install wheel twine typing_extensions
           python3 -m pip install torch==${{ matrix.torch }} numpy -f https://download.pytorch.org/whl/cpu/torch_stable.html
 
-          python3 -m pip install k2==1.17.dev20220813+cpu.torch${{ matrix.torch }} -f https://k2-fsa.org/nightly/index.html
+          python3 -m pip install k2==1.22.dev20221112+cpu.torch${{ matrix.torch }} -f https://k2-fsa.org/nightly/index.html
 
           python3 -m torch.utils.collect_env
 
@@ -76,7 +73,7 @@ jobs:
           python3 -m pip install wheel twine typing_extensions
           python3 -m pip install torch==${{ matrix.torch }} numpy -f https://download.pytorch.org/whl/cpu/torch_stable.html
 
-          python3 -m pip install k2==1.17.dev20220813+cpu.torch${{ matrix.torch }} -f https://k2-fsa.org/nightly/index.html
+          python3 -m pip install k2==1.22.dev20221112+cpu.torch${{ matrix.torch }} -f https://k2-fsa.org/nightly/index.html
 
           python3 -m torch.utils.collect_env
 
@@ -108,7 +105,7 @@ jobs:
           mkdir build
           cd build
           cmake -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DSHERPA_ENABLE_WEBSOCKET=ON ..
-          make -j2 VERBOSE=1 offline_websocket_server offline_websocket_client
+          make -j2 VERBOSE=1 sherpa-offline-websocket-server sherpa-offline-websocket-client
 
           ls -lh lib
           ls -lh bin
@@ -122,7 +119,7 @@ jobs:
       - name: Start the server
         shell: bash
         run: |
-          ./build/bin/offline_websocket_server \
+          ./build/bin/sherpa-offline-websocket-server \
             --use-gpu=false \
             --port=6006 \
             --num-io-threads=1 \
@@ -141,17 +138,17 @@ jobs:
       - name: Start the client
         shell: bash
         run: |
-          ./build/bin/offline_websocket_client \
+          ./build/bin/sherpa-offline-websocket-client \
             --server-ip=127.0.0.1 \
             --server-port=6006 \
             ./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/test_wavs/1089-134686-0001.wav
 
-          ./build/bin/offline_websocket_client \
+          ./build/bin/sherpa-offline-websocket-client \
             --server-ip=127.0.0.1 \
             --server-port=6006 \
             ./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/test_wavs/1221-135766-0001.wav \
 
-          ./build/bin/offline_websocket_client \
+          ./build/bin/sherpa-offline-websocket-client \
             --server-ip=127.0.0.1 \
             --server-port=6006 \
             ./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/test_wavs/1221-135766-0002.wav

@@ -48,16 +48,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-latest]
-        torch: ["1.10.0", "1.6.0"]
-        torchaudio: ["0.10.0", "0.6.0"]
-        python-version: ["3.7", "3.8"]
+        os: [ubuntu-latest]
+        torch: ["1.10.0"]
+        torchaudio: ["0.10.0"]
+        python-version: ["3.8"]
         decoding: ["greedy_search", "modified_beam_search", "fast_beam_search", "fast_beam_search_nbest", "fast_beam_search_nbest_LG"]
-        exclude:
-          - torch: "1.10.0"
-            torchaudio: "0.6.0"
-          - torch: "1.6.0"
-            torchaudio: "0.10.0"
 
     steps:
       - uses: actions/checkout@v2
@@ -84,7 +79,7 @@ jobs:
           python3 -m pip install wheel twine typing_extensions websockets sentencepiece>=0.1.96
           python3 -m pip install torch==${{ matrix.torch }}+cpu numpy -f https://download.pytorch.org/whl/cpu/torch_stable.html
 
-          pip install k2==1.16.dev20220621+cpu.torch${{ matrix.torch }} -f https://k2-fsa.org/nightly/index.html
+          python3 -m pip install k2==1.22.dev20221112+cpu.torch${{ matrix.torch }} -f https://k2-fsa.org/nightly/index.html
 
           python3 -m torch.utils.collect_env
 
@@ -103,7 +98,7 @@ jobs:
           python3 -m pip install wheel twine typing_extensions websockets sentencepiece>=0.1.96
           python3 -m pip install torch==${{ matrix.torch }} torchaudio==${{ matrix.torchaudio }} numpy -f https://download.pytorch.org/whl/cpu/torch_stable.html
 
-          pip install k2==1.16.dev20220621+cpu.torch${{ matrix.torch }} -f https://k2-fsa.org/nightly/index.html
+          python3 -m pip install k2==1.22.dev20221112+cpu.torch${{ matrix.torch }} -f https://k2-fsa.org/nightly/index.html
 
           python3 -m torch.utils.collect_env
 

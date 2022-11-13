@@ -44,6 +44,10 @@ class SymbolTable {
   /// Return the ID corresponding to the given symbol.
   int32_t operator[](const std::string &sym) const;
 
+  // self[id] = sym
+  void Replace(int32_t id, const std::string &new_sym,
+               const std::string &old_sym);
+
   /// Return true if there is a symbol with the given ID.
   bool contains(int32_t id) const;
 

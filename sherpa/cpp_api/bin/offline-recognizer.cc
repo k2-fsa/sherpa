@@ -139,8 +139,6 @@ int main(int argc, char *argv[]) {
       << "The model was trained using training data with sample rate 16000. "
       << "We don't support resample yet";
 
-  SHERPA_LOG(INFO) << "\n" << config.ToString();
-
   sherpa::OfflineRecognizer recognizer(config);
 
   if (use_wav_scp) {

@@ -14,6 +14,10 @@ namespace sherpa {
 struct FeatureConfig {
   kaldifeat::FbankOptions fbank_opts;
 
+  // true to use samples in the range [-1, 1]
+  // false to use samples in the range [-32768, 32767]
+  bool normalize_samples = true;
+
   void Register(ParseOptions *po);
 
   /** A string representation for debugging purpose. */

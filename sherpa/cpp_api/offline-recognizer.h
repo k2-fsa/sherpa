@@ -14,7 +14,28 @@
 
 namespace sherpa {
 
+struct OfflineCtcDecoderConfig {
+  // Used only for decoding with a CTC topology
+  // true to use a modified CTC topology.
+  // false to use a standard CTC topology.
+  bool modified = true;
+
+  // Used only for HLG decoding
+  std::string hlg;
+
+  float search_beam = 20;
+  float output_beam = 8;
+  int32_t min_active_states = 30;
+  int32_t max_active_states = 10000;
+
+  void Register(ParseOptions *po);
+  void Validate() const;
+};
+
 struct OfflineRecognizerConfig {
+  /// Used only for CTC decoding.
+  OfflineCtcDecoderConfig ctc_decoder_config;
+
   /// Config for the feature extractor
   FeatureConfig feat_config;
 
@@ -49,6 +70,8 @@ struct OfflineRecognizerConfig {
 std::ostream &operator<<(std::ostream &os,
                          const OfflineRecognizerConfig &config);
 
+class OfflineRecognizerImpl;
+
 class OfflineRecognizer {
  public:
   ~OfflineRecognizer();
@@ -82,7 +105,6 @@ class OfflineRecognizer {
   OfflineRecognitionResult GetResult(OfflineStream *s) const;
 
  private:
-  class OfflineRecognizerImpl;
   std::unique_ptr<OfflineRecognizerImpl> impl_;
 };
 
