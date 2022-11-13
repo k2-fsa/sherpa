@@ -78,6 +78,7 @@ def get_binaries_to_install():
     # Remember to also change cmake/cmake_extension.py
     binaries = ["sherpa-offline"]
     binaries += ["sherpa-online", "sherpa-version"]
+    binaries += ["sherpa-online-microphone"]
     binaries += ["sherpa-offline-websocket-server"]
     binaries += ["sherpa-offline-websocket-client"]
     binaries += ["sherpa-online-websocket-server"]

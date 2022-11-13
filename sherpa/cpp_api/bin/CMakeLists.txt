@@ -34,7 +34,7 @@ if(NOT WIN32)
 endif()
 
 install(
-  TARGETS sherpa-offline sherpa-online sherpa-online-microphone
+  TARGETS sherpa-offline sherpa-online
   DESTINATION bin
 )
 
