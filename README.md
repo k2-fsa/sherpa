@@ -75,6 +75,7 @@ sherpa-version
 
 sherpa-offline --help
 sherpa-online --help
+sherpa-online-microphone --help
 
 sherpa-offline-websocket-server --help
 sherpa-offline-websocket-client --help
