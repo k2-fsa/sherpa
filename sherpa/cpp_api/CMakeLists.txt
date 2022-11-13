@@ -7,11 +7,13 @@ set(sherpa_cpp_api_srcs
 add_library(sherpa_cpp_api ${sherpa_cpp_api_srcs})
 target_link_libraries(sherpa_cpp_api sherpa_core)
 
-add_executable(test-feature-config test-feature-config.cc)
-target_link_libraries(test-feature-config sherpa_cpp_api)
+if(SHERPA_ENABLE_TESTS)
+  add_executable(test-feature-config test-feature-config.cc)
+  target_link_libraries(test-feature-config sherpa_cpp_api)
 
-add_executable(test-offline-stream test-offline-stream.cc)
-target_link_libraries(test-offline-stream sherpa_cpp_api)
+  add_executable(test-offline-stream test-offline-stream.cc)
+  target_link_libraries(test-offline-stream sherpa_cpp_api)
+endif()
 
 file(MAKE_DIRECTORY
   ${PROJECT_BINARY_DIR}/include/sherpa/cpp_api

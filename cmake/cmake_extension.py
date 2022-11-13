@@ -124,6 +124,7 @@ class BuildExtension(build_ext):
         # Remember to also change setup.py
         binaries = ["sherpa-offline"]
         binaries += ["sherpa-online", "sherpa-version"]
+        binaries += ["sherpa-online-microphone"]
         binaries += ["sherpa-offline-websocket-server"]
         binaries += ["sherpa-offline-websocket-client"]
         binaries += ["sherpa-online-websocket-server"]

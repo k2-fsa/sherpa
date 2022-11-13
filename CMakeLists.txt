@@ -37,7 +37,7 @@ message(STATUS "CMAKE_BUILD_TYPE: ${CMAKE_BUILD_TYPE}")
 set(CMAKE_CXX_STANDARD 14 CACHE STRING "The C++ version to be used.")
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-option(SHERPA_ENABLE_TESTS "Whether to build tests" ON)
+option(SHERPA_ENABLE_TESTS "Whether to build tests" OFF)
 option(SHERPA_ENABLE_PORTAUDIO "Whether to build with portaudio" ON)
 option(SHERPA_ENABLE_WEBSOCKET "Whether to build with websocket" ON)
 
