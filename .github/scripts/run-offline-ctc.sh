@@ -86,6 +86,36 @@ rm -rf $repo
 log "End of testing ${repo_url}"
 log "=========================================================================="
 
+
+repo_url=https://huggingface.co/csukuangfj/wenet-chinese-model
+log "Start testing ${repo_url}"
+repo=$(basename $repo_url)
+log "Download pretrained model and test-data from $repo_url"
+
+GIT_LFS_SKIP_SMUDGE=1 git clone $repo_url
+pushd $repo
+git lfs pull --include "final.zip"
+popd
+
+log "Decoding with H"
+
+./build/bin/sherpa-offline \
+  --normalize-samples=false \
+  --modified=true \
+  --nn-model=$repo/final.zip \
+  --tokens=$repo/units.txt \
+  --use-gpu=false \
+  $repo/test_wavs/BAC009S0764W0121.wav \
+  $repo/test_wavs/BAC009S0764W0122.wav \
+  $repo/test_wavs/BAC009S0764W0123.wav \
+  $repo/test_wavs/DEV_T0000000000.wav \
+  $repo/test_wavs/DEV_T0000000001.wav \
+  $repo/test_wavs/DEV_T0000000002.wav
+
+rm -rf $repo
+log "End of testing ${repo_url}"
+log "=========================================================================="
+
 repo_url=https://huggingface.co/csukuangfj/wav2vec2.0-torchaudio
 log "Start testing ${repo_url}"
 repo=$(basename $repo_url)
