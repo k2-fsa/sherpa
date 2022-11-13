@@ -219,7 +219,7 @@ log "Decoding with HLG"
 
 ./build/bin/sherpa-offline \
   --nn-model=$repo/exp/cpu_jit.pt \
-  --hlg=./data/lang_char/HLG.pt \
+  --hlg=$repo/data/lang_char/HLG.pt \
   --tokens=$repo/data/lang_char/words.txt \
   --use-gpu=false \
   $repo/test_waves/BAC009S0764W0121.wav \
