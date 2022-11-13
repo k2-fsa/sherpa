@@ -39,7 +39,8 @@ concurrency:
 
 jobs:
   run_tests_windows_cuda:
-    if: github.event.label.name == 'ready' || github.event_name == 'push'
+    # if: github.event.label.name == 'ready' || github.event_name == 'push'
+    if: false
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
