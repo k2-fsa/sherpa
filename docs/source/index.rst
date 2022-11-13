@@ -35,6 +35,7 @@ for both streaming ASR and offline ASR (i.e., non-streaming ASR).
    :caption: For C++ users
 
    ./cpp/installation/index
+   ./cpp/pretrained_models/index
    ./cpp/offline_asr/index
    ./cpp/online_asr/index
 
