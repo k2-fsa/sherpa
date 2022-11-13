@@ -115,7 +115,7 @@ jobs:
 
           mkdir build
           cd build
-          cmake -DCMAKE_BUILD_TYPE=$BUILD_TYPE ..
+          cmake -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DSHERPA_ENABLE_TESTS=ON ..
           make -j4 VERBOSE=1
 
           ls -lh lib
