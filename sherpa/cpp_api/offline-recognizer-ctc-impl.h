@@ -12,6 +12,7 @@
 
 #include "sherpa/cpp_api/feature-config.h"
 #include "sherpa/cpp_api/offline-recognizer-impl.h"
+#include "sherpa/csrc/log.h"
 #include "sherpa/csrc/offline-conformer-ctc-model.h"
 #include "sherpa/csrc/offline-ctc-decoder.h"
 #include "sherpa/csrc/offline-ctc-model.h"
@@ -48,6 +49,8 @@ class OfflineRecognizerCtcImpl : public OfflineRecognizerImpl {
         fbank_(config.feat_config.fbank_opts),
         device_(torch::kCPU),
         normalize_samples_(config.feat_config.normalize_samples) {
+    config.ctc_decoder_config.Validate();
+
     if (config.use_gpu) {
       device_ = torch::Device("cuda:0");
     }
@@ -88,8 +91,10 @@ class OfflineRecognizerCtcImpl : public OfflineRecognizerImpl {
       TORCH_CHECK(false, s);
     }
 
+    WarmUp();
+
     decoder_ = std::make_unique<OfflineCtcOneBestDecoder>(
-        config.ctc_decoder_config, device_);
+        config.ctc_decoder_config, device_, model_->VocabSize());
 
     // If we provide HLG, the decoder will return word IDs, we need
     // to insert a space between each word.
@@ -133,6 +138,21 @@ class OfflineRecognizerCtcImpl : public OfflineRecognizerImpl {
     for (int32_t i = 0; i != n; ++i) {
       ss[i]->SetResult(Convert(results[i], symbol_table_, insert_space_));
     }
+  }
+
+ private:
+  void WarmUp() {
+    SHERPA_LOG(INFO) << "WarmUp begins";
+    auto s = CreateStream();
+    float sample_rate = fbank_.GetFrameOptions().samp_freq;
+    std::vector<float> samples(2 * sample_rate, 0);
+    s->AcceptSamples(samples.data(), samples.size());
+    auto features = s->GetFeatures();
+    auto features_length = torch::tensor({features.size(0)});
+    features = features.unsqueeze(0);
+
+    model_->WarmUp(features, features_length);
+    SHERPA_LOG(INFO) << "WarmUp ended";
   }
 
  private:

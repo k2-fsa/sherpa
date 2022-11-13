@@ -18,7 +18,7 @@ class OfflineCtcOneBestDecoder : public OfflineCtcDecoder {
    * @param vocab_size Output dimension of the model.
    */
   OfflineCtcOneBestDecoder(const OfflineCtcDecoderConfig config,
-                           torch::Device device);
+                           torch::Device device, int32_t vocab_size);
 
   std::vector<OfflineCtcDecoderResult> Decode(
       torch::Tensor log_prob, torch::Tensor log_prob_len,
@@ -27,6 +27,7 @@ class OfflineCtcOneBestDecoder : public OfflineCtcDecoder {
  private:
   OfflineCtcDecoderConfig config_;
   k2::FsaClassPtr decoding_graph_;
+  int32_t vocab_size_;
 };
 
 }  // namespace sherpa

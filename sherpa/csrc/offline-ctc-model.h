@@ -17,6 +17,10 @@ class OfflineCtcModel {
   // Subsampling factor of the model
   virtual int32_t SubsamplingFactor() const = 0;
 
+  // Number of modeling unit. Should be equal to
+  // GetLogSoftmaxOut().size(-1)
+  int32_t VocabSize() const { return vocab_size_; }
+
   // Return the underlying device where computation would happen
   virtual torch::Device Device() const = 0;
 
@@ -37,6 +41,16 @@ class OfflineCtcModel {
   // The returned tensor has shape (N,)
   virtual torch::Tensor GetLogSoftmaxOutLength(
       torch::IValue forward_out) const = 0;
+
+  // Send some fake data to the model for computation
+  void WarmUp(torch::Tensor features, torch::Tensor features_length) {
+    auto ivalue = Forward(features, features_length);
+    auto log_prob = GetLogSoftmaxOut(ivalue);
+    vocab_size_ = log_prob.size(-1);
+  }
+
+ private:
+  int32_t vocab_size_ = -1;
 };
 
 }  // namespace sherpa

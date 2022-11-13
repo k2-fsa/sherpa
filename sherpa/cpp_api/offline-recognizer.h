@@ -16,9 +16,6 @@ namespace sherpa {
 
 struct OfflineCtcDecoderConfig {
   // Used only for decoding with a CTC topology
-  int32_t vocab_size = -1;
-
-  // Used only for decoding with a CTC topology
   // true to use a modified CTC topology.
   // false to use a standard CTC topology.
   bool modified = true;

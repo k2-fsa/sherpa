@@ -27,7 +27,6 @@ popd
 log "Decoding with H"
 
 ./build/bin/sherpa-offline \
-  --vocab-size=500 \
   --nn-model=$repo/exp/cpu_jit.pt \
   --tokens=$repo/data/lang_bpe_500/tokens.txt \
   --use-gpu=false \
@@ -74,7 +73,6 @@ popd
 log "Decoding with H"
 
 ./build/bin/sherpa-offline \
-  --vocab-size=4999 \
   --normalize-samples=false \
   --modified=true \
   --nn-model=$repo/final.zip \
@@ -102,7 +100,6 @@ popd
 log "Decoding with H"
 
 ./build/bin/sherpa-offline \
-  --vocab-size=29 \
   --nn-model=$repo/wav2vec2_asr_base_10m.pt \
   --tokens=$repo/tokens.txt \
   --use-gpu=false \
@@ -113,7 +110,6 @@ log "Decoding with H"
 log "Decoding with H (voxpopuli_asr_base_10k_de)"
 
 ./build/bin/sherpa-offline \
-  --vocab-size=29 \
   --nn-model=$repo/voxpopuli_asr_base_10k_de.pt \
   --tokens=$repo/tokens-de.txt \
   --use-gpu=false \

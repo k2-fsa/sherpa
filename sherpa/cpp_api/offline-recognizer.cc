@@ -17,10 +17,6 @@
 namespace sherpa {
 
 void OfflineCtcDecoderConfig::Register(ParseOptions *po) {
-  po->Register("vocab-size", &vocab_size,
-               "Used only for decoding with a CTC topology. "
-               "It is the output dimension of the model");
-
   po->Register("modified", &modified,
                "Used only for decoding with a CTC topology. "
                "true to use a modified CTC topology; useful when "
@@ -60,11 +56,7 @@ void OfflineCtcDecoderConfig::Register(ParseOptions *po) {
 }
 
 void OfflineCtcDecoderConfig::Validate() const {
-  if (vocab_size > 0) {
-    SHERPA_CHECK(hlg.empty())
-        << "Please either provide vocab_size or hlg, but not both";
-  } else {
-    SHERPA_CHECK_EQ(hlg.empty(), false);
+  if (!hlg.empty()) {
     AssertFileExists(hlg);
   }
 
@@ -97,10 +89,6 @@ void OfflineRecognizerConfig::Register(ParseOptions *po) {
 }
 
 void OfflineRecognizerConfig::Validate() const {
-  if (ctc_decoder_config.vocab_size > 0 || !ctc_decoder_config.hlg.empty()) {
-    ctc_decoder_config.Validate();
-  }
-
   if (nn_model.empty()) {
     SHERPA_LOG(FATAL) << "Please provide --nn-model";
   }
@@ -111,6 +99,8 @@ void OfflineRecognizerConfig::Validate() const {
   }
   AssertFileExists(tokens);
 
+  // TODO(fangjun): The following checks about decoding_method are
+  // used only for transducer models. We should skip it for CTC models
   if (decoding_method != "greedy_search" &&
       decoding_method != "modified_beam_search") {
     SHERPA_LOG(FATAL)
@@ -124,6 +114,7 @@ void OfflineRecognizerConfig::Validate() const {
 }
 
 std::string OfflineRecognizerConfig::ToString() const {
+  // TODO(fangjun): Also print ctc_decoder_config
   std::ostringstream os;
   os << feat_config.ToString() << "\n";
   os << "--nn-model=" << nn_model << "\n";
