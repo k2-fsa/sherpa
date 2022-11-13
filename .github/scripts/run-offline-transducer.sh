@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# This file test ALL known offline transducer models
+
 set -ex
 
 log() {
@@ -65,9 +67,7 @@ for m in greedy_search modified_beam_search; do
 done
 
 rm -rf $repo
-
 log "End of testing ${repo_url}"
-
 log "=========================================================================="
 
 
@@ -122,7 +122,31 @@ for m in greedy_search modified_beam_search; do
 done
 
 rm -rf $repo
-
 log "End of testing ${repo_url}"
+log "=========================================================================="
 
+repo_url=https://huggingface.co/csukuangfj/icefall-asr-librispeech-pruned-transducer-stateless7-2022-11-11
+log "Start testing ${repo_url}"
+repo=$(basename $repo_url)
+log "Download pretrained model and test-data from $repo_url"
+
+GIT_LFS_SKIP_SMUDGE=1 git clone $repo_url
+pushd $repo
+git lfs pull --include "exp/cpu_jit-torch-1.10.0.pt"
+cd exp
+ln -s cpu_jit-torch-1.10.0.pt cpu_jit.pt
+popd
+
+for m in greedy_search modified_beam_search; do
+  time ./build/bin/sherpa-offline \
+    --decoding-method=$m \
+    --nn-model=$repo/exp/cpu_jit.pt \
+    --tokens=$repo/data/lang_bpe_500/tokens.txt \
+    $repo/test_wavs/1089-134686-0001.wav \
+    $repo/test_wavs/1221-135766-0001.wav \
+    $repo/test_wavs/1221-135766-0002.wav
+done
+
+rm -rf $repo
+log "End of testing ${repo_url}"
 log "=========================================================================="

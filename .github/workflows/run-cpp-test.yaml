@@ -22,7 +22,9 @@ on:
       - master
     paths:
       - '.github/workflows/run-cpp-test.yaml'
-      - '.github/scripts/run-cpp-test.sh'
+      - '.github/scripts/run-offline-transducer.sh'
+      - '.github/scripts/run-online-transducer.sh'
+      - '.github/scripts/run-offline-ctc.sh'
       - 'CMakeLists.txt'
       - 'cmake/**'
       - 'sherpa/csrc/**'
@@ -31,7 +33,9 @@ on:
     types: [labeled]
     paths:
       - '.github/workflows/run-cpp-test.yaml'
-      - '.github/scripts/run-cpp-test.sh'
+      - '.github/scripts/run-offline-transducer.sh'
+      - '.github/scripts/run-online-transducer.sh'
+      - '.github/scripts/run-offline-ctc.sh'
       - 'CMakeLists.txt'
       - 'cmake/**'
       - 'sherpa/csrc/**'
@@ -48,7 +52,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-latest]
+        os: [ubuntu-latest]
         torch: ["1.10.0"]
         python-version: ["3.8"]
         build_type: ["Release", "Debug"]
