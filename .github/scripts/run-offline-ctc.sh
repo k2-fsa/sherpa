@@ -116,6 +116,10 @@ log "Decoding with H (voxpopuli_asr_base_10k_de)"
   $repo/test_wavs/20120315-0900-PLENARY-14-de_20120315.wav \
   $repo/test_wavs/20170517-0900-PLENARY-16-de_20170517.wav
 
+rm -rf $repo
+log "End of testing ${repo_url}"
+log "=========================================================================="
+
 repo_url=https://huggingface.co/wgb14/icefall-asr-gigaspeech-conformer-ctc
 log "Start testing ${repo_url}"
 repo=$(basename $repo_url)
