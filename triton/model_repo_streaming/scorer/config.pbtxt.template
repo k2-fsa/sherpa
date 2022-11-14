@@ -12,9 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-name: "greedy_search"
+name: "scorer"
 backend: "python"
-max_batch_size: 512
+max_batch_size: MAX_BATCH
 
 sequence_batching{
     max_sequence_idle_microseconds: 5000000
@@ -65,11 +65,11 @@ sequence_batching{
 parameters [
   {
     key: "context_size",
-    value: { string_value: "2"}
+    value: { string_value: "DECODER_CONTEXT_SIZE"}
   },
   {
-    key: "bpe_model",
-    value: { string_value: "/workspace/icefall/egs/librispeech/ASR/icefall_librispeech_streaming_pruned_transducer_stateless3_giga_0.9_20220625/data/lang_bpe_500/bpe.model"}
+    key: "tokenizer_file",
+    value: { string_value: "TOKENIZER_FILE"}
   },
   {
    key: "FORCE_CPU_ONLY_INPUT_TENSORS", 
@@ -82,7 +82,7 @@ input [
   {
     name: "encoder_out"
     data_type: TYPE_FP16
-    dims: [-1, 512] # [-1, encoder_out_dim]
+    dims: [-1, ENCODER_DIM]
   },
   {
     name: "encoder_out_lens"
@@ -102,7 +102,7 @@ output [
 
 instance_group [
     {
-      count: 2
+      count: SCORER_INSTANCE_NUM
       kind: KIND_CPU
     }
   ]

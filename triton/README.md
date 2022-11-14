@@ -85,6 +85,8 @@ ln -s ./icefall_librispeech_streaming_pruned_transducer_stateless3_giga_0.9_2022
     --streaming-model 1 \
     --causal-convolution 1 \
     --onnx 1 \
+    --left-context 64 \
+    --right-context 4 \
     --fp16
 ```
 
@@ -113,6 +115,15 @@ If you meet any issues during the process, please file an issue.
 ### Advanced
 
 Here we introduce some advanced configuration/options for deploying the ASR server.
+
+#### Deploy onnx with arbitrary pruned_transducer_stateless_X(2,3,4,5) model for Chinese or English recipes 
+```bash
+# e.g. pretrained_model_dir=/workspace/icefall/egs/wenetspeech/ASR/icefall_asr_wenetspeech_pruned_transducer_stateless5_streaming
+
+# Modify model hyper parameters according to $pretrained_model_dir/exp/onnx_export.log
+# Then,
+bash scripts/build.sh
+```
 
 #### Specify which GPUs for deployment
 

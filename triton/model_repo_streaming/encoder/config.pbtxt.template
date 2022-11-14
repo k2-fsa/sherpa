@@ -16,7 +16,7 @@ name: "encoder"
 backend: "onnxruntime"
 default_model_filename: "encoder.onnx"
 
-max_batch_size: 512
+max_batch_size: MAX_BATCH
 
 sequence_batching{
     max_sequence_idle_microseconds: 5000000
@@ -31,10 +31,10 @@ sequence_batching{
       input_name: "attn_cache"
       output_name: "next_attn_cache"
       data_type: TYPE_FP16
-      dims: [ 32, 24, 384 ]
+      dims: [ ENCODER_LEFT_CONTEXT, ENCODER_LAYERS, ENCODER_DIM ]
       initial_state: {
        data_type: TYPE_FP16
-       dims: [ 32, 24, 384 ]
+       dims: [ ENCODER_LEFT_CONTEXT, ENCODER_LAYERS, ENCODER_DIM ]
        zero_data: true
        name: "initial state"
       }
@@ -43,10 +43,10 @@ sequence_batching{
       input_name: "cnn_cache"
       output_name: "next_cnn_cache"
       data_type: TYPE_FP16
-      dims: [ 30, 24, 384 ]
+      dims: [ CNN_MODULE_KERNEL_MINUS_ONE, ENCODER_LAYERS, ENCODER_DIM ]
       initial_state: {
        data_type: TYPE_FP16
-       dims: [30, 24, 384]
+       dims: [CNN_MODULE_KERNEL_MINUS_ONE, ENCODER_LAYERS, ENCODER_DIM]
        zero_data: true
        name: "initial state"
       }
@@ -82,7 +82,7 @@ output [
   {
     name: "encoder_out"
     data_type: TYPE_FP16
-    dims: [-1, 384]
+    dims: [-1, ENCODER_DIM]
   },
   {
     name: "encoder_out_lens"
@@ -93,7 +93,7 @@ output [
 ]
 instance_group [
     {
-      count: 2
+      count: ENCODER_INSTANCE_NUM
       kind: KIND_GPU
     }
 ]

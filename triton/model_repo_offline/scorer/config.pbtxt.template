@@ -1,4 +1,4 @@
-# Copyright (c) 2022, NVIDIA CORPORATION.  All rights reserved.
+# Copyright (c) 2021, NVIDIA CORPORATION.  All rights reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,46 +12,31 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-name: "fast_beam_search"
+name: "scorer"
 backend: "python"
-max_batch_size: 512
+max_batch_size: MAX_BATCH
 
 parameters [
   {
     key: "context_size",
-    value: { string_value: "2"}
+    value: { string_value: "DECODER_CONTEXT_SIZE"}
   },
   {
-    key: "bpe_model",
-    value: { string_value: "/workspace/icefall/models/data/lang_bpe_500/bpe.model"}
-  },
-  {
-    key: "beam",
-    value: { string_value: "4"}
-  },
-  {
-    key: "max_contexts",
-    value: { string_value: "4"}
-  },
-  {
-    key: "max_states",
-    value: { string_value: "32"}
-  },
-  {
-    key: "temperature",
-    value: { string_value: "1.0"}
+    key: "tokenizer_file",
+    value: { string_value: "TOKENIZER_FILE"} 
   },
   {
    key: "FORCE_CPU_ONLY_INPUT_TENSORS", 
-   value: {string_value:"yes"}
+   value: {string_value:"no"}
   }
 ]
+
 
 input [
   {
     name: "encoder_out"
     data_type: TYPE_FP16
-    dims: [-1, 512] # [-1, encoder_out_dim]
+    dims: [-1, ENCODER_DIM] 
   },
   {
     name: "encoder_out_lens"
@@ -60,6 +45,7 @@ input [
     reshape: { shape: [ ] }
   }
 ]
+
 output [
   {
     name: "OUTPUT0"
@@ -67,11 +53,12 @@ output [
     dims: [1]
   }
 ]
+
 dynamic_batching {
   }
 instance_group [
     {
-      count: 2
+      count: SCORER_INSTANCE_NUM
       kind: KIND_CPU
     }
   ]

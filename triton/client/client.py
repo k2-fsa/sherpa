@@ -39,8 +39,8 @@ if __name__ == '__main__':
                              'localhost:8001.')
     parser.add_argument('--model_name',
                         required=False,
-                        default='conformer_transducer',
-                        choices=['conformer_transducer'],
+                        default='transducer',
+                        choices=['transducer'],
                         help='the model to send request to')
     parser.add_argument('--wavscp',
                         type=str,

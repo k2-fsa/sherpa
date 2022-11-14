@@ -12,31 +12,29 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-name: "greedy_search"
-backend: "python"
-max_batch_size: 512
+name: "encoder"
+backend: "onnxruntime"
+default_model_filename: "encoder.onnx"
 
-parameters [
+max_batch_size: MAX_BATCH
+input [
   {
-    key: "context_size",
-    value: { string_value: "2"}
+    name: "speech"
+    data_type: TYPE_FP16
+    dims: [-1, 80]
   },
   {
-    key: "bpe_model",
-    value: { string_value: "/workspace/bpe.model"}
-  },
-  {
-   key: "FORCE_CPU_ONLY_INPUT_TENSORS", 
-   value: {string_value:"yes"}
+    name: "speech_lengths"
+    data_type: TYPE_INT64
+    dims: [1]
+    reshape: { shape: [ ] }
   }
 ]
-
-
-input [
+output [
   {
     name: "encoder_out"
     data_type: TYPE_FP16
-    dims: [-1, 512] # [-1, encoder_out_dim]
+    dims: [-1, ENCODER_DIM]
   },
   {
     name: "encoder_out_lens"
@@ -46,19 +44,12 @@ input [
   }
 ]
 
-output [
-  {
-    name: "OUTPUT0"
-    data_type: TYPE_STRING
-    dims: [1]
-  }
-]
-
 dynamic_batching {
   }
+
 instance_group [
     {
-      count: 2
-      kind: KIND_CPU
+      count: ENCODER_INSTANCE_NUM
+      kind: KIND_GPU
     }
-  ]
+]

@@ -1,10 +1,15 @@
+# -*- coding: utf-8 -*- 
 import triton_python_backend_utils as pb_utils
 import numpy as np
 
 import json
 
 import torch
+from torch.utils.dlpack import from_dlpack, to_dlpack
 import sentencepiece as spm
+from icefall.lexicon import Lexicon
+
+import time
 
 class TritonPythonModel:
     """Your Python model must use the same class name. Every Python model
@@ -37,12 +42,23 @@ class TritonPythonModel:
         self.out0_dtype = pb_utils.triton_string_to_numpy(
             output0_config['data_type'])
 
-        # Get INPUT configuration
+        model_instance_kind = args['model_instance_kind']
+        model_instance_device_id = args['model_instance_device_id']
+        if model_instance_kind == 'GPU':
+            self.device = f'cuda:{model_instance_device_id}'
+        else:
+            self.device= 'cpu'
 
+        # Get INPUT configuration
         encoder_config = pb_utils.get_input_config_by_name(
             model_config, "encoder_out")
         self.data_type = pb_utils.triton_string_to_numpy(
             encoder_config['data_type'])
+        if self.data_type == np.float32:
+            self.torch_dtype = torch.float32
+        else:
+            assert self.data_type == np.float16
+            self.torch_dtype = torch.float16
 
         self.encoder_dim = encoder_config['dims'][-1]
         
@@ -53,12 +69,20 @@ class TritonPythonModel:
         for key,value in parameters.items():
             parameters[key] = value["string_value"]
         self.context_size = int(parameters['context_size'])
-        sp = spm.SentencePieceProcessor()
-        sp.load(parameters['bpe_model'])
-        self.blank_id = sp.piece_to_id("<blk>")
-        self.unk_id = sp.piece_to_id("<unk>")
-        self.vocab_size = sp.get_piece_size()
-        self.sp = sp
+        if 'bpe' in parameters['tokenizer_file']:
+            sp = spm.SentencePieceProcessor()
+            sp.load(parameters['tokenizer_file'])
+            self.blank_id = sp.piece_to_id("<blk>")
+            self.unk_id = sp.piece_to_id("<unk>")
+            self.vocab_size = sp.get_piece_size()
+            self.tokenizer = sp
+        else:
+            assert 'char' in parameters['tokenizer_file']
+            lexicon = Lexicon(parameters['tokenizer_file'])
+            self.unk_id = lexicon.token_table["<unk>"]
+            self.blank_id = lexicon.token_table["<blk>"]
+            self.vocab_size = max(lexicon.tokens) + 1
+            self.tokenizer = lexicon
 
     def execute(self, requests):
         """`execute` must be implemented in every Python model. `execute`
@@ -88,39 +112,38 @@ class TritonPythonModel:
         batchsize_lists = []
         total_seqs = 0
         encoder_max_len = 0
+        time_start = time.perf_counter()
         for request in requests:
             # Perform inference on the request and append it to responses list...
             in_0 = pb_utils.get_input_tensor_by_name(request, "encoder_out")
             in_1 = pb_utils.get_input_tensor_by_name(request, "encoder_out_lens")
-            batch_encoder_out_list.append(in_0.as_numpy())
+            assert not in_0.is_cpu()
+            batch_encoder_out_list.append(from_dlpack(in_0.to_dlpack()))
             encoder_max_len = max(encoder_max_len, batch_encoder_out_list[-1].shape[1])
-            cur_b_lens = in_1.as_numpy()
+            cur_b_lens = from_dlpack(in_1.to_dlpack())
             batch_encoder_lens_list.append(cur_b_lens)
             cur_batchsize = cur_b_lens.shape[0]
             batchsize_lists.append(cur_batchsize)
             total_seqs += cur_batchsize
 
-      
-        encoder_out_array = np.zeros((total_seqs, encoder_max_len, self.encoder_dim),
-                                  dtype=self.data_type)
-        encoder_out_lens_array = np.zeros(total_seqs, dtype=np.int64)
+        encoder_out = torch.zeros((total_seqs, encoder_max_len, self.encoder_dim),
+                                  dtype=self.torch_dtype, device=self.device)
+        encoder_out_lens = torch.zeros(total_seqs, dtype=torch.int64)
         st = 0
+    
         for b in batchsize_lists:
             t = batch_encoder_out_list.pop(0)
-            encoder_out_array[st:st + b, 0:t.shape[1]] = t
-            encoder_out_lens_array[st:st + b] = batch_encoder_lens_list.pop(0)
+            encoder_out[st:st + b, 0:t.shape[1]] = t
+            encoder_out_lens[st:st + b] = batch_encoder_lens_list.pop(0)
             st += b
-
-        encoder_out = torch.from_numpy(encoder_out_array)
-
-        encoder_out_lens = torch.from_numpy(encoder_out_lens_array)
-
+    
         packed_encoder_out = torch.nn.utils.rnn.pack_padded_sequence(
             input=encoder_out,
             lengths=encoder_out_lens.cpu(),
             batch_first=True,
             enforce_sorted=False
         )
+
         pack_batch_size_list = packed_encoder_out.batch_sizes.tolist()
                 
         hyps = [[self.blank_id] * self.context_size for _ in range(total_seqs)]
@@ -139,25 +162,22 @@ class TritonPythonModel:
             # Extract the output tensors from the inference response.
             decoder_out = pb_utils.get_output_tensor_by_name(inference_response,
                                                             'decoder_out')
-            decoder_out = torch.utils.dlpack.from_dlpack(decoder_out.to_dlpack()).cpu().numpy()
-            #decoder_out = decoder_out.as_numpy()
+            decoder_out = from_dlpack(decoder_out.to_dlpack())
 
         offset = 0
-        
         for batch_size in pack_batch_size_list:
+            time_once_start = time.perf_counter()
           
             start = offset
             end = offset + batch_size
             current_encoder_out = packed_encoder_out.data[start:end]
-            current_encoder_out = current_encoder_out.cpu().numpy()
-            # current_encoder_out's shape: (batch_size, encoder_out_dim)
- 
+
             offset = end
         
             decoder_out = decoder_out[:batch_size]
            
-            in_joiner_tensor_0 = pb_utils.Tensor("encoder_out", current_encoder_out)
-            in_joiner_tensor_1 = pb_utils.Tensor("decoder_out", np.squeeze(decoder_out, axis=1))
+            in_joiner_tensor_0 = pb_utils.Tensor.from_dlpack("encoder_out", to_dlpack(current_encoder_out))
+            in_joiner_tensor_1 = pb_utils.Tensor.from_dlpack("decoder_out", to_dlpack(decoder_out.squeeze(1)))
 
             inference_request = pb_utils.InferenceRequest(
                 model_name='joiner',
@@ -170,12 +190,8 @@ class TritonPythonModel:
                 # Extract the output tensors from the inference response.
                 logits = pb_utils.get_output_tensor_by_name(inference_response,
                                                                 'logit')
-                logits = torch.utils.dlpack.from_dlpack(logits.to_dlpack()).cpu().numpy()
-                
-                #logits = logits.as_numpy()
-            logits = torch.from_numpy(logits)
-            #logits = logits.squeeze(1).squeeze(1)  # (batch_size, vocab_size)
-            
+                logits = from_dlpack(logits.to_dlpack())
+               
             assert logits.ndim == 2, logits.shape
             y = logits.argmax(dim=1).tolist()
             
@@ -204,19 +220,24 @@ class TritonPythonModel:
                     # Extract the output tensors from the inference response.
                     decoder_out = pb_utils.get_output_tensor_by_name(inference_response,
                                                                     'decoder_out')
-                    decoder_out = torch.utils.dlpack.from_dlpack(decoder_out.to_dlpack()).cpu().numpy()
-                    #decoder_out = decoder_out.as_numpy()
+                    decoder_out = from_dlpack(decoder_out.to_dlpack())
+            time_once_end = time.perf_counter()
+         
 
+     
         sorted_ans = [h[self.context_size:] for h in hyps]
         ans = []
         unsorted_indices = packed_encoder_out.unsorted_indices.tolist()
         for i in range(total_seqs):
             ans.append(sorted_ans[unsorted_indices[i]])
-
+        
         results = []
-        for hyp in self.sp.decode(ans):
-            results.append(hyp.split())
-    
+        if hasattr(self.tokenizer, 'token_table'):
+            for i in range(len(ans)):
+                results.append([self.tokenizer.token_table[idx] for idx in ans[i]])
+        else:
+            for hyp in self.tokenizer.decode(ans):
+                results.append(hyp.split())
         st = 0
         responses = []
         for b in batchsize_lists:

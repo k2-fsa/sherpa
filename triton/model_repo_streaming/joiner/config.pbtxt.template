@@ -12,24 +12,29 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-name: "decoder"
+name: "joiner"
 backend: "onnxruntime"
-default_model_filename: "decoder.onnx"
+default_model_filename: "joiner.onnx"
 
-max_batch_size: 512
+max_batch_size: MAX_BATCH
 input [
   {
-    name: "y"
-    data_type: TYPE_INT64
-    dims: [2]
+    name: "encoder_out"
+    data_type: TYPE_FP16
+    dims: [ENCODER_DIM]
+  },
+  {
+    name: "decoder_out"
+    data_type: TYPE_FP16
+    dims: [DECODER_DIM] 
   }
 ]
 
 output [
   {
-    name: "decoder_out"
+    name: "logit"
     data_type: TYPE_FP16
-    dims: [1, 512] 
+    dims: [VOCAB_SIZE]
   }
 ]
 
@@ -38,7 +43,7 @@ dynamic_batching {
 
 instance_group [
     {
-      count: 1
+      count: JOINER_INSTANCE_NUM
       kind: KIND_GPU
     }
 ]

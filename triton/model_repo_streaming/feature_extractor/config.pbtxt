@@ -30,8 +30,8 @@ parameters [
     value: { string_value: "16000" }
   },
   {
-    key: "chunk_size_s",
-    value: { string_value: "0.64" }
+    key: "decode_chunk_size",
+    value: { string_value: "16" }
   }
 ]
 sequence_batching{
@@ -94,7 +94,7 @@ output [
   {
     name: "speech"
     data_type: TYPE_FP16
-    dims: [91, 80] # (decode_chunk_size + 2 + decode_right_context) * subsampling_factor + 3
+    dims: [83, 80]
   },
   {
     name: "speech_lengths"

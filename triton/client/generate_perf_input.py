@@ -85,8 +85,8 @@ if __name__ == "__main__":
                         type=int, required=False, default=16,
                         help='chunk size default is 16')
     parser.add_argument('--context',
-                        type=int, required=False, default=7,
-                        help='conformer context default is 7')
+                        type=int, required=False, default=34,
+                        help='extra context frames for first chunk')
     parser.add_argument('--subsampling',
                         type=int, required=False, default=4,
                         help='subsampling rate default is 4')

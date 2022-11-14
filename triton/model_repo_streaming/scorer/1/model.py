@@ -5,6 +5,7 @@ import json
 
 import torch
 import sentencepiece as spm
+from icefall.lexicon import Lexicon
 
 class TritonPythonModel:
     """Your Python model must use the same class name. Every Python model
@@ -57,12 +58,20 @@ class TritonPythonModel:
         for key,value in parameters.items():
             parameters[key] = value["string_value"]
         self.context_size = int(parameters['context_size'])
-        sp = spm.SentencePieceProcessor()
-        sp.load(parameters['bpe_model'])
-        self.blank_id = sp.piece_to_id("<blk>")
-        self.unk_id = sp.piece_to_id("<unk>")
-        self.vocab_size = sp.get_piece_size()
-        self.sp = sp
+        if 'bpe' in parameters['tokenizer_file']:
+            sp = spm.SentencePieceProcessor()
+            sp.load(parameters['tokenizer_file'])
+            self.blank_id = sp.piece_to_id("<blk>")
+            self.unk_id = sp.piece_to_id("<unk>")
+            self.vocab_size = sp.get_piece_size()
+            self.tokenizer = sp
+        else:
+            assert 'char' in parameters['tokenizer_file']
+            lexicon = Lexicon(parameters['tokenizer_file'])
+            self.unk_id = lexicon.token_table["<unk>"]
+            self.blank_id = lexicon.token_table["<blk>"]
+            self.vocab_size = max(lexicon.tokens) + 1
+            self.tokenizer = lexicon
 
 
     def forward_joiner(self, cur_encoder_out, decoder_out):
@@ -133,7 +142,6 @@ class TritonPythonModel:
         # as they will be overridden in subsequent inference requests. You can
         # make a copy of the underlying NumPy array and store it if it is
         # required.
-
         batch_encoder_out_list, batch_encoder_lens_list = [], []    
         batch_idx = 0
         encoder_max_len = 0
@@ -158,8 +166,6 @@ class TritonPythonModel:
 
             cur_b_lens = in_1.as_numpy()
             batch_encoder_lens_list.append(cur_b_lens)
-
-            assert encoder_max_len == cur_b_lens[0]
 
             # For streaming ASR, assert each request sent from client has batch size 1.
             
@@ -232,7 +238,11 @@ class TritonPythonModel:
         responses = []
         for i in range(len(hyps_list)):
             hyp = hyps_list[i][self.context_size:]
-            sent = self.sp.decode(hyp).split()
+            if hasattr(self.tokenizer, 'token_table'):
+                sent = [self.tokenizer.token_table[idx] for idx in hyp]
+            else:
+                sent = self.tokenizer.decode(hyp).split()          
+            #sent = self.sp.decode(hyp).split()
             sent = np.array(sent)
             out_tensor_0 = pb_utils.Tensor("OUTPUT0", sent.astype(self.out0_dtype))
             inference_response = pb_utils.InferenceResponse(output_tensors=[out_tensor_0])

@@ -43,7 +43,7 @@ class Feat(object):
 
     def add_wavs(self, wav: torch.tensor):
         if len(self.wav) == 0 and len(wav) < self.first_chunk_sz:
-            raise Exception("Invalid first chunk size", len(wav))
+            raise Exception("Invalid first chunk size", len(wav), self.first_chunk_sz)
         wav = wav.to(self.device)
         self.wav = torch.cat([self.wav, wav], axis=0)
 
@@ -157,7 +157,7 @@ class TritonPythonModel:
             "frame_length_ms": 25,
             "frame_shift_ms": 10,
             "sample_rate": 16000,
-            "chunk_size_s": 0.64}
+            "decode_chunk_size": 0.64}
         # get parameter configurations
         for li in model_params.items():
             key, value = li
@@ -166,9 +166,11 @@ class TritonPythonModel:
                 continue
             key_type = type(model_p[key])
             if key_type == type(None):
-                model_p[key] = true_value
+                model_p[key] = true_value 
             else:
                 model_p[key] = key_type(true_value)
+        # convert frames after 4x subsampling into seconds
+        model_p["chunk_size_s"] = model_p["decode_chunk_size"] * 4 * 10 /1000
         return model_p
 
     def execute(self, requests):
