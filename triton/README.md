@@ -57,8 +57,8 @@ Offline Model Export:
 git clone https://huggingface.co/csukuangfj/icefall-asr-librispeech-pruned-transducer-stateless3-2022-04-29
 
 # export them to three jit models: encoder_jit.pt, decoder_jit.pt, joiner_jit.pt
-cp $SHERPA/triton/scripts/conformer_triton.py $ICEFALL_DIR/egs/librispeech/ASR/pruned_stateless_transducer3/
-cp $SHERPA/triton/scripts/export_jit.py $ICEFALL_DIR/egs/librispeech/ASR/pruned_stateless_transducer3/
+cp $SHERPA_SRC/triton/scripts/conformer_triton.py $ICEFALL_DIR/egs/librispeech/ASR/pruned_stateless_transducer3/
+cp $SHERPA_SRC/triton/scripts/export_jit.py $ICEFALL_DIR/egs/librispeech/ASR/pruned_stateless_transducer3/
 
 cd $ICEFALL_DIR/egs/librispeech/ASR/pruned_stateless_transducer3
 python3 export_jit.py --pretrained-model <pretrained_model_path> --output-dir <jit_model_dir> --bpe-model <bpe_model_path>
@@ -69,7 +69,7 @@ cp <bpe_model_path> <jit_model_dir>
 
 Streaming Model Export:
 ```bash
-cp $SHERPA/triton/scripts/*onnx*.py $ICEFALL_DIR/egs/wenetspeech/ASR/pruned_stateless_transducer5/
+cp $SHERPA_SRC/triton/scripts/*onnx*.py $ICEFALL_DIR/egs/wenetspeech/ASR/pruned_stateless_transducer5/
 
 cd $ICEFALL_DIR/egs/wenetspeech/ASR/
 
