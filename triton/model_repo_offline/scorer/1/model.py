@@ -9,8 +9,6 @@ from torch.utils.dlpack import from_dlpack, to_dlpack
 import sentencepiece as spm
 from icefall.lexicon import Lexicon
 
-import time
-
 class TritonPythonModel:
     """Your Python model must use the same class name. Every Python model
     that is created must have "TritonPythonModel" as the class name.
@@ -112,7 +110,7 @@ class TritonPythonModel:
         batchsize_lists = []
         total_seqs = 0
         encoder_max_len = 0
-        time_start = time.perf_counter()
+
         for request in requests:
             # Perform inference on the request and append it to responses list...
             in_0 = pb_utils.get_input_tensor_by_name(request, "encoder_out")
@@ -166,8 +164,6 @@ class TritonPythonModel:
 
         offset = 0
         for batch_size in pack_batch_size_list:
-            time_once_start = time.perf_counter()
-          
             start = offset
             end = offset + batch_size
             current_encoder_out = packed_encoder_out.data[start:end]
@@ -221,16 +217,12 @@ class TritonPythonModel:
                     decoder_out = pb_utils.get_output_tensor_by_name(inference_response,
                                                                     'decoder_out')
                     decoder_out = from_dlpack(decoder_out.to_dlpack())
-            time_once_end = time.perf_counter()
-         
 
-     
         sorted_ans = [h[self.context_size:] for h in hyps]
         ans = []
         unsorted_indices = packed_encoder_out.unsorted_indices.tolist()
         for i in range(total_seqs):
             ans.append(sorted_ans[unsorted_indices[i]])
-        
         results = []
         if hasattr(self.tokenizer, 'token_table'):
             for i in range(len(ans)):

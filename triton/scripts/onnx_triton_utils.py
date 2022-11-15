@@ -238,8 +238,6 @@ class OfflineEncoder(torch.nn.Module):
         #
         # Note: rounding_mode in torch.div() is available only in torch >= 1.8.0
         lengths = (((x_lens - 1) >> 1) - 1) >> 1
-        assert max(lengths) < 10000, f"{lengths}, {x_lens}"
-        assert min(lengths) > 0,  f"{lengths}, {x_lens}"
 
         if not is_jit_tracing():
             assert x.size(0) == lengths.max().item()

@@ -166,7 +166,7 @@ class TritonPythonModel:
                 continue
             key_type = type(model_p[key])
             if key_type == type(None):
-                model_p[key] = true_value 
+                model_p[key] = true_value
             else:
                 model_p[key] = key_type(true_value)
         # convert frames after 4x subsampling into seconds

@@ -69,17 +69,17 @@ cp <bpe_model_path> <jit_model_dir>
 
 Streaming Model Export:
 ```bash
-cp $SHERPA/triton/scripts/*onnx*.py $ICEFALL_DIR/egs/librispeech/ASR/pruned_stateless_transducer3/
+cp $SHERPA/triton/scripts/*onnx*.py $ICEFALL_DIR/egs/wenetspeech/ASR/pruned_stateless_transducer5/
 
-cd $ICEFALL_DIR/egs/librispeech/ASR/
+cd $ICEFALL_DIR/egs/wenetspeech/ASR/
 
-git clone https://huggingface.co/pkufool/icefall_librispeech_streaming_pruned_transducer_stateless3_giga_0.9_20220625
+git clone https://huggingface.co/luomingshuang/icefall_asr_wenetspeech_pruned_transducer_stateless5_streaming
 
-ln -s ./icefall_librispeech_streaming_pruned_transducer_stateless3_giga_0.9_20220625/exp/pretrained* ./icefall_librispeech_streaming_pruned_transducer_stateless3_giga_0.9_20220625/exp/epoch-999.pt 
+ln -s ./icefall_asr_wenetspeech_pruned_transducer_stateless5_streaming/exp/pretrained_epoch_7* ./icefall_asr_wenetspeech_pruned_transducer_stateless5_streaming/exp/epoch-999.pt 
 
-./pruned_transducer_stateless3/export_onnx.py \
-    --exp-dir ./icefall_librispeech_streaming_pruned_transducer_stateless3_giga_0.9_20220625/exp \
-    --bpe-model ./icefall_librispeech_streaming_pruned_transducer_stateless3_giga_0.9_20220625/data/lang_bpe_500/bpe.model \
+./pruned_transducer_stateless5/export_onnx.py \
+    --exp-dir ./icefall_asr_wenetspeech_pruned_transducer_stateless5_streaming/exp \
+    --tokenizer-file ./icefall_asr_wenetspeech_pruned_transducer_stateless5_streaming/data/lang_char \
     --epoch 999 \
     --avg 1 \
     --streaming-model 1 \
@@ -89,7 +89,6 @@ ln -s ./icefall_librispeech_streaming_pruned_transducer_stateless3_giga_0.9_2022
     --right-context 4 \
     --fp16
 ```
-
 
 ## Deploy on Triton Inference Server
 
@@ -118,7 +117,25 @@ Here we introduce some advanced configuration/options for deploying the ASR serv
 
 #### Deploy onnx with arbitrary pruned_transducer_stateless_X(2,3,4,5) model for Chinese or English recipes 
 ```bash
-# e.g. pretrained_model_dir=/workspace/icefall/egs/wenetspeech/ASR/icefall_asr_wenetspeech_pruned_transducer_stateless5_streaming
+cd $ICEFALL_DIR/egs/librispeech/ASR/
+
+git clone https://huggingface.co/pkufool/icefall_librispeech_streaming_pruned_transducer_stateless3_giga_0.9_20220625
+
+ln -s ./icefall_librispeech_streaming_pruned_transducer_stateless3_giga_0.9_20220625/exp/pretrained* ./icefall_librispeech_streaming_pruned_transducer_stateless3_giga_0.9_20220625/exp/epoch-999.pt 
+
+./pruned_transducer_stateless3/export_onnx.py \
+    --exp-dir ./icefall_librispeech_streaming_pruned_transducer_stateless3_giga_0.9_20220625/exp \
+    --tokenizer-file ./icefall_librispeech_streaming_pruned_transducer_stateless3_giga_0.9_20220625/data/lang_bpe_500/bpe.model \
+    --epoch 999 \
+    --avg 1 \
+    --streaming-model 1 \
+    --causal-convolution 1 \
+    --onnx 1 \
+    --left-context 64 \
+    --right-context 4 \
+    --fp16
+
+# e.g. pretrained_model_dir=/workspace/icefall/egs/wenetspeech/ASR/icefall_librispeech_streaming_pruned_transducer_stateless3_giga_0.9_20220625
 
 # Modify model hyper parameters according to $pretrained_model_dir/exp/onnx_export.log
 # Then,

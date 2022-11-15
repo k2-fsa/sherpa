@@ -213,12 +213,7 @@ class TritonPythonModel:
         encoder_out_lens = torch.from_numpy(encoder_out_lens_array)
 
         decoder_out = torch.cat(decoder_out_list, dim=0)
-
-    
-
         assert encoder_out.shape[0] == decoder_out.shape[0]
-
-        
 
         for t in range(encoder_out.shape[1]):
             cur_encoder_out = encoder_out[:,t]
@@ -241,8 +236,7 @@ class TritonPythonModel:
             if hasattr(self.tokenizer, 'token_table'):
                 sent = [self.tokenizer.token_table[idx] for idx in hyp]
             else:
-                sent = self.tokenizer.decode(hyp).split()          
-            #sent = self.sp.decode(hyp).split()
+                sent = self.tokenizer.decode(hyp).split()
             sent = np.array(sent)
             out_tensor_0 = pb_utils.Tensor("OUTPUT0", sent.astype(self.out0_dtype))
             inference_response = pb_utils.InferenceResponse(output_tensors=[out_tensor_0])
