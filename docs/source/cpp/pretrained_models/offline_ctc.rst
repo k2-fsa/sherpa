@@ -14,6 +14,8 @@ This sections lists models trained using `icefall`_.
 English
 ^^^^^^^
 
+icefall-asr-gigaspeech-conformer-ctc
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: bash
 
@@ -47,6 +49,9 @@ English
     ./test_wavs/1089-134686-0001.wav \
     ./test_wavs/1221-135766-0001.wav \
     ./test_wavs/1221-135766-0002.wav
+
+icefall-asr-librispeech-conformer-ctc-jit-bpe-500-2021-11-09
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: bash
 
@@ -94,6 +99,9 @@ English
 Chinese
 ^^^^^^^
 
+icefall_asr_aishell_conformer_ctc
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 .. code-block:: bash
 
   GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/pkufool/icefall_asr_aishell_conformer_ctc
@@ -126,6 +134,9 @@ This section lists models from `wenet`_.
 English
 ^^^^^^^
 
+wenet-english-model
+~~~~~~~~~~~~~~~~~~~
+
 .. code-block:: bash
 
    GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/wenet-english-model
@@ -144,6 +155,9 @@ English
 
 Chinese
 ^^^^^^^
+
+wenet-chinese-model
+~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: bash
 
@@ -168,6 +182,9 @@ torchaudio
 
 This section lists models from `torchaudio`_.
 
+wav2vec2_asr_base
+~~~~~~~~~~~~~~~~~
+
 English
 ^^^^^^^
 
@@ -191,6 +208,9 @@ English
 
 German
 ^^^^^^
+
+voxpopuli_asr_base
+~~~~~~~~~~~~~~~~~~
 
 .. code-block:: bash
 
