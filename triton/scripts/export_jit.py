@@ -21,7 +21,7 @@
 """
 Usage:
 ./pruned_transducer_stateless3/export_jit.py \
-  --pretrained-model ./pruned_transducer_stateless3/exp \
+  --pretrained-model ./pruned_transducer_stateless3/exp/pretrained-epoch-x-avg-x.pt \
   --output-dir ./pruned_transducer_stateless3/exp \
   --bpe-model ./bpe.model
 

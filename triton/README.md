@@ -54,7 +54,9 @@ In this section, we would take jit export as an example for offline ASR and use 
 
 Offline Model Export:
 ```bash
-git clone https://huggingface.co/csukuangfj/icefall-asr-librispeech-pruned-transducer-stateless3-2022-04-29
+GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/icefall-asr-librispeech-pruned-transducer-stateless3-2022-04-29
+cd icefall-asr-librispeech-pruned-transducer-stateless3-2022-04-29
+git lfs pull --include "exp/pretrained-epoch-25-avg-7.pt"
 
 # export them to three jit models: encoder_jit.pt, decoder_jit.pt, joiner_jit.pt
 cp $SHERPA_SRC/triton/scripts/conformer_triton.py $ICEFALL_DIR/egs/librispeech/ASR/pruned_stateless_transducer3/
@@ -73,9 +75,11 @@ cp $SHERPA_SRC/triton/scripts/*onnx*.py $ICEFALL_DIR/egs/wenetspeech/ASR/pruned_
 
 cd $ICEFALL_DIR/egs/wenetspeech/ASR/
 
-git clone https://huggingface.co/luomingshuang/icefall_asr_wenetspeech_pruned_transducer_stateless5_streaming
+GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/luomingshuang/icefall_asr_wenetspeech_pruned_transducer_stateless5_streaming
+cd /icefall_asr_wenetspeech_pruned_transducer_stateless5_streaming
+git lfs pull --include "exp/pretrained_epoch_7_avg_1.pt"
 
-ln -s ./icefall_asr_wenetspeech_pruned_transducer_stateless5_streaming/exp/pretrained_epoch_7* ./icefall_asr_wenetspeech_pruned_transducer_stateless5_streaming/exp/epoch-999.pt 
+ln -s ./icefall_asr_wenetspeech_pruned_transducer_stateless5_streaming/exp/pretrained_epoch_7_avg_1.pt ./icefall_asr_wenetspeech_pruned_transducer_stateless5_streaming/exp/epoch-999.pt 
 
 ./pruned_transducer_stateless5/export_onnx.py \
     --exp-dir ./icefall_asr_wenetspeech_pruned_transducer_stateless5_streaming/exp \
@@ -119,9 +123,11 @@ Here we introduce some advanced configuration/options for deploying the ASR serv
 ```bash
 cd $ICEFALL_DIR/egs/librispeech/ASR/
 
-git clone https://huggingface.co/pkufool/icefall_librispeech_streaming_pruned_transducer_stateless3_giga_0.9_20220625
+GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/pkufool/icefall_librispeech_streaming_pruned_transducer_stateless3_giga_0.9_20220625
+cd icefall_librispeech_streaming_pruned_transducer_stateless3_giga_0.9_20220625
+git lfs pull --include "exp/pretrained-epoch-25-avg-12.pt"
 
-ln -s ./icefall_librispeech_streaming_pruned_transducer_stateless3_giga_0.9_20220625/exp/pretrained* ./icefall_librispeech_streaming_pruned_transducer_stateless3_giga_0.9_20220625/exp/epoch-999.pt 
+ln -s ./icefall_librispeech_streaming_pruned_transducer_stateless3_giga_0.9_20220625/exp/pretrained-epoch-25-avg-12.pt ./icefall_librispeech_streaming_pruned_transducer_stateless3_giga_0.9_20220625/exp/epoch-999.pt 
 
 ./pruned_transducer_stateless3/export_onnx.py \
     --exp-dir ./icefall_librispeech_streaming_pruned_transducer_stateless3_giga_0.9_20220625/exp \
