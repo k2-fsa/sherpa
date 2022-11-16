@@ -66,6 +66,11 @@ pip install ./dist/k2_sherpa-*.whl
 # To uninstall sherpa, use
 #  pip uninstall k2-sherpa
 ```
+Using Docker
+```bash
+docker build . -f Dockerfile -t sherpa_server:latest
+docker run --rm --gpus all --name sherpa_server --net host -it sherpa_server:latest
+```
 
 To check that you have installed `sherpa` successfully, you can run
 the following binaries:
