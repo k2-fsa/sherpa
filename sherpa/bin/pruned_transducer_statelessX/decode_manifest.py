@@ -127,7 +127,7 @@ async def send(
                 hyp = decoding_results.split()
                 ref = list("".join(ref))
                 hyp = list("".join(hyp))
-                results.append((ref, hyp))
+                results.append((c.id, ref, hyp))
             else:
                 results.append(
                     (
