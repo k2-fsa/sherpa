@@ -1,20 +1,6 @@
-/**
- * Copyright      2022  Xiaomi Corporation (authors: Fangjun Kuang)
- *
- * See LICENSE for clarification regarding multiple authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+// sherpa/cpp_api/websocket/offline-websocket-server-impl.cc
+//
+// Copyright (c)  2022  Xiaomi Corporation
 
 #include "sherpa/cpp_api/websocket/offline-websocket-server-impl.h"
 
@@ -302,6 +288,12 @@ void OfflineWebsocketServer::OnMessage(connection_hdl hdl,
 
       if (connection_data->expected_byte_size == connection_data->cur) {
         auto d = std::make_shared<ConnectionData>(std::move(*connection_data));
+        // Clear it so that we can handle the next audio file from the client.
+        // The client can send multiple audio files for recognition without
+        // the need to create another connection.
+        connection_data->expected_byte_size = 0;
+        connection_data->cur = 0;
+
         decoder_.Push(hdl, d);
 
         connection_data->Clear();
