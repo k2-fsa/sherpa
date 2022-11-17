@@ -148,7 +148,6 @@ class Client {
       SHERPA_LOG(ERROR) << "Failed to close because " << ec.message();
       exit(EXIT_FAILURE);
     }
-    sleep(1);
   }
 
   void SendMessage(connection_hdl hdl) {
