@@ -92,8 +92,9 @@ static torch::Tensor ReadWave(const std::string &filename,
 
 class Client {
  public:
-  Client(asio::io_context &io, const std::string &ip, int16_t port,
-         const std::string &wave_filename, int32_t num_seconds_per_message)
+  Client(asio::io_context &io,  // NOLINT
+         const std::string &ip, int16_t port, const std::string &wave_filename,
+         int32_t num_seconds_per_message)
       : io_(io),
         uri_(/*secure*/ false, ip, port, /*resource*/ "/"),
         samples_(ReadWave(wave_filename, kSampleRate)),
