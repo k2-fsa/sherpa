@@ -103,6 +103,8 @@ class OnlineWebsocketServer {
 
   void Send(connection_hdl hdl, const std::string &text);
 
+  bool Contains(connection_hdl hdl) const;
+
  private:
   void SetupLog();
 
@@ -137,7 +139,7 @@ class OnlineWebsocketServer {
            std::owner_less<connection_hdl>>
       connections_;
 
-  std::mutex mutex_;
+  mutable std::mutex mutex_;
 };
 
 }  // namespace sherpa
