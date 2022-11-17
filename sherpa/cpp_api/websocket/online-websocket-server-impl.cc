@@ -93,7 +93,8 @@ void OnlineWebsocketDecoder::Decode() {
                server_->Send(hdl, json);
              });
 
-  if (recognizer_->IsReady(s.get())) {
+  if (server_->Contains(hdl) && recognizer_->IsReady(s.get())) {
+    // If the connection is still alive and the stream is ready
     lock.lock();
     streams_.push_back({hdl, s});
     lock.unlock();
@@ -154,6 +155,10 @@ void OnlineWebsocketServer::SetupLog() {
 
 void OnlineWebsocketServer::Send(connection_hdl hdl, const std::string &text) {
   websocketpp::lib::error_code ec;
+  if (!Contains(hdl)) {
+    return;
+  }
+
   server_.send(hdl, text, websocketpp::frame::opcode::text, ec);
   if (ec) {
     server_.get_alog().write(websocketpp::log::alevel::app, ec.message());
@@ -176,6 +181,11 @@ void OnlineWebsocketServer::OnClose(connection_hdl hdl) {
 
   SHERPA_LOG(INFO) << "Number of active connections: " << connections_.size()
                    << "\n";
+}
+
+bool OnlineWebsocketServer::Contains(connection_hdl hdl) const {
+  std::lock_guard<std::mutex> lock(mutex_);
+  return connections_.count(hdl);
 }
 
 void OnlineWebsocketServer::OnHttp(connection_hdl hdl) {
@@ -249,6 +259,7 @@ void OnlineWebsocketServer::OnMessage(connection_hdl hdl,
       // of AcceptWaveform since payload is freed after this function returns
       samples = samples.clone();
       stream->AcceptWaveform(sample_rate, samples);
+
       if (recognizer->IsReady(stream.get())) {
         decoder_.Push(hdl, stream);
         asio::post(io_work_, [this]() { decoder_.Decode(); });

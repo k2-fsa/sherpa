@@ -44,13 +44,13 @@ struct OnlineRecognitionResult {
   std::vector<int32_t> timestamps;  // not implemented at present
 
   /// ID of this segment
-  int32_t segment;
+  int32_t segment = 0;
 
   /// Starting frame of this segment.
-  int32_t start_frame;
+  int32_t start_frame = 0;
 
   /// True if this is the last segment.
-  bool is_final;
+  bool is_final = false;
 
   /** Return a json string.
    *
