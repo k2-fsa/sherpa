@@ -1,20 +1,6 @@
-/**
- * Copyright      2022  Xiaomi Corporation (authors: Fangjun Kuang)
- *
- * See LICENSE for clarification regarding multiple authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+// sherpa/cpp_api/websocket/offline-websocket-client.cc
+//
+// Copyright (c)  2022  Xiaomi Corporation
 #include <string>
 
 #include "kaldi_native_io/csrc/kaldi-io.h"
@@ -36,14 +22,16 @@ Automatic speech recognition with sherpa using websocket.
 
 Usage:
 
-./bin/offline_websocket_client --help
+./bin/sherpa-offline-websocket-client --help
 
-./bin/offline_websocket_client \
+./bin/sherpa-offline-websocket-client \
   --server-ip=127.0.0.1 \
   --server-port=6006 \
   /path/to/foo.wav
-
 )";
+
+// Sample rate of the input wave. No resampling is made.
+static constexpr int32_t kSampleRate = 16000;
 
 /** Read wave samples from a file.
  *
@@ -87,67 +75,153 @@ static torch::Tensor ReadWave(const std::string &filename,
   return tensor / 32768;
 }
 
-static void OnMessage(client *c, const std::string &wave_filename,
-                      connection_hdl hdl, message_ptr msg) {
-  SHERPA_LOG(INFO) << "Decoding results for \n"
-                   << wave_filename << "\n"
-                   << msg->get_payload();
+class Client {
+ public:
+  Client(asio::io_context &io,  // NOLINT
+         const std::string &ip, int16_t port, const std::string &wave_filename,
+         int32_t num_seconds_per_message)
+      : io_(io),
+        uri_(/*secure*/ false, ip, port, /*resource*/ "/"),
+        samples_(ReadWave(wave_filename, kSampleRate)),
+        samples_per_message_(num_seconds_per_message * kSampleRate) {
+    c_.clear_access_channels(websocketpp::log::alevel::all);
+    c_.set_access_channels(websocketpp::log::alevel::connect);
+    c_.set_access_channels(websocketpp::log::alevel::disconnect);
 
-  websocketpp::lib::error_code ec;
-  c->send(hdl, "Done", websocketpp::frame::opcode::text, ec);
+    c_.init_asio(&io_);
 
-  if (ec) {
-    std::cerr << "Failed to send DONE\n";
-    exit(EXIT_FAILURE);
+    c_.set_open_handler([this](connection_hdl hdl) { OnOpen(hdl); });
+
+    c_.set_close_handler(
+        [this](connection_hdl /*hdl*/) { SHERPA_LOG(INFO) << "Disconnected"; });
+
+    c_.set_message_handler(
+        [this](connection_hdl hdl, message_ptr msg) { OnMessage(hdl, msg); });
+
+    Run();
   }
 
-  ec.clear();
-  c->close(hdl, websocketpp::close::status::normal, "I'm exiting now", ec);
-  if (ec) {
-    std::cerr << "Failed to close\n";
-    exit(EXIT_FAILURE);
-  }
-}
+ private:
+  void Run() {
+    websocketpp::lib::error_code ec;
+    client::connection_ptr con = c_.get_connection(uri_.str(), ec);
+    if (ec) {
+      SHERPA_LOG(ERROR) << "Could not create connection to " << uri_.str()
+                        << " because: " << ec.message() << "\n";
+      exit(EXIT_FAILURE);
+    }
 
-static void OnOpen(client *c, const std::string &filename, connection_hdl hdl) {
-  auto samples = ReadWave(filename, 16000);
-  int32_t num_samples = samples.numel();
-  int32_t num_bytes = num_samples * sizeof(float);
-
-  SHERPA_LOG(INFO) << "Decoding: " << filename;
-
-  websocketpp::lib::error_code ec;
-  c->send(hdl, &num_bytes, sizeof(int32_t), websocketpp::frame::opcode::binary,
-          ec);
-  if (ec) {
-    std::cerr << "Failed to send number of bytes";
-    exit(EXIT_FAILURE);
+    c_.connect(con);
   }
 
-  ec.clear();
-  c->send(hdl, samples.data_ptr<float>(), num_bytes,
-          websocketpp::frame::opcode::binary, ec);
-  if (ec) {
-    std::cerr << "Failed to send audio samples";
-    exit(EXIT_FAILURE);
+  void OnOpen(connection_hdl hdl) {
+    int32_t num_samples = samples_.numel();
+    int32_t num_bytes = num_samples * sizeof(float);
+
+    SHERPA_LOG(INFO) << "Sending " << num_bytes << " bytes\n";
+    websocketpp::lib::error_code ec;
+    c_.send(hdl, &num_bytes, sizeof(int32_t),
+            websocketpp::frame::opcode::binary, ec);
+    if (ec) {
+      SHERPA_LOG(ERROR) << "Failed to send number of bytes because: "
+                        << ec.message();
+      exit(EXIT_FAILURE);
+    }
+
+    asio::post(io_, [this, hdl]() { this->SendMessage(hdl); });
   }
-}
+
+  void OnMessage(connection_hdl hdl, message_ptr msg) {
+    SHERPA_LOG(INFO) << "Decoding results:\n" << msg->get_payload();
+
+    websocketpp::lib::error_code ec;
+    c_.send(hdl, "Done", websocketpp::frame::opcode::text, ec);
+
+    if (ec) {
+      SHERPA_LOG(ERROR) << "Failed to send Done because " << ec.message();
+      exit(EXIT_FAILURE);
+    }
+
+    ec.clear();
+    c_.close(hdl, websocketpp::close::status::normal, "I'm exiting now", ec);
+    if (ec) {
+      SHERPA_LOG(ERROR) << "Failed to close because " << ec.message();
+      exit(EXIT_FAILURE);
+    }
+    sleep(1);
+  }
+
+  void SendMessage(connection_hdl hdl) {
+    SHERPA_LOG(INFO) << "sending messages\n";
+    int32_t num_samples = samples_.numel();
+    int32_t num_messages = num_samples / samples_per_message_;
+
+    websocketpp::lib::error_code ec;
+
+    if (num_sent_messages_ < num_messages) {
+      SHERPA_LOG(INFO) << "Sending " << num_sent_messages_ << "/"
+                       << num_messages << "\n";
+      c_.send(hdl,
+              samples_.data_ptr<float>() +
+                  num_sent_messages_ * samples_per_message_,
+              samples_per_message_ * sizeof(float),
+              websocketpp::frame::opcode::binary, ec);
+
+      if (ec) {
+        SHERPA_LOG(INFO) << "Failed to send audio samples because "
+                         << ec.message();
+        exit(EXIT_FAILURE);
+      }
+      ec.clear();
+
+      ++num_sent_messages_;
+    }
+
+    if (num_sent_messages_ == num_messages) {
+      int32_t remaining_samples = num_samples % samples_per_message_;
+      if (remaining_samples) {
+        c_.send(hdl,
+                samples_.data_ptr<float>() +
+                    num_sent_messages_ * samples_per_message_,
+                remaining_samples * sizeof(float),
+                websocketpp::frame::opcode::binary, ec);
+
+        if (ec) {
+          SHERPA_LOG(INFO) << "Failed to send audio samples because "
+                           << ec.message();
+          exit(EXIT_FAILURE);
+        }
+      }
+    } else {
+      asio::post(io_, [this, hdl]() { this->SendMessage(hdl); });
+    }
+  }
+
+ private:
+  client c_;
+  asio::io_context &io_;
+  websocketpp::uri uri_;
+  torch::Tensor samples_;
+
+  int32_t samples_per_message_;
+  int32_t num_sent_messages_ = 0;
+};
 
 int32_t main(int32_t argc, char *argv[]) {
   std::string server_ip = "127.0.0.1";
   int32_t server_port = 6006;
+  int32_t num_seconds_per_message = 10;
 
   sherpa::ParseOptions po(kUsageMessage);
 
   po.Register("server-ip", &server_ip, "IP address of the websocket server");
   po.Register("server-port", &server_port, "Port of the websocket server");
-
-  if (argc == 1) {
-    po.PrintUsage();
-    exit(EXIT_FAILURE);
-  }
+  po.Register("num-seconds-per-message", &num_seconds_per_message,
+              "The number of samples per message equals to "
+              "num_seconds_per_message*sample_rate");
 
   po.Read(argc, argv);
+  SHERPA_CHECK_GT(num_seconds_per_message, 0);
 
   if (!websocketpp::uri_helper::ipv4_literal(server_ip.begin(),
                                              server_ip.end())) {
@@ -165,38 +239,12 @@ int32_t main(int32_t argc, char *argv[]) {
 
   std::string wave_filename = po.GetArg(1);
 
-  bool secure = false;
-  std::string resource = "/";
-  websocketpp::uri uri(secure, server_ip, server_port, resource);
+  asio::io_context io_conn;  // for network connections
 
-  client c;
+  Client c(io_conn, server_ip, server_port, wave_filename,
+           num_seconds_per_message);
 
-  c.clear_access_channels(websocketpp::log::alevel::all);
-  c.set_access_channels(websocketpp::log::alevel::connect);
-  c.set_access_channels(websocketpp::log::alevel::disconnect);
-
-  c.init_asio();
-
-  c.set_open_handler([&c, &wave_filename](connection_hdl hdl) {
-    OnOpen(&c, wave_filename, hdl);
-  });
-
-  c.set_message_handler(
-      [&c, &wave_filename](connection_hdl hdl, message_ptr msg) {
-        OnMessage(&c, wave_filename, hdl, msg);
-      });
-
-  websocketpp::lib::error_code ec;
-  client::connection_ptr con = c.get_connection(uri.str(), ec);
-  if (ec) {
-    std::cerr << "Could not create connection to " << uri.str()
-              << " because: " << ec.message() << "\n";
-    exit(EXIT_FAILURE);
-  }
-
-  c.connect(con);
-
-  c.run();  // will exit when the above connection is closed
+  io_conn.run();  // will exit when the above connection is closed
 
   SHERPA_LOG(INFO) << "Done!";
   return 0;
