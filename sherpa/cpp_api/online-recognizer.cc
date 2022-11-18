@@ -276,9 +276,10 @@ class OnlineRecognizer::OnlineRecognizerImpl {
 
     for (int32_t i = 0; i != n; ++i) {
       OnlineStream *s = ss[i];
+      all_results[i].num_processed_frames += chunk_shift;
       s->SetResult(all_results[i]);
       s->SetState(std::move(unstacked_states[i]));
-      s->GetNumProcessedFrames() += chunk_shift;
+      s->GetNumProcessedFrames() += chunk_shift;  // TODO(fangjun): Remove it
     }
   }
 
