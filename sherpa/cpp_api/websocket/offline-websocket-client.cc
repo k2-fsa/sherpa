@@ -79,7 +79,7 @@ class Client {
  public:
   Client(asio::io_context &io,  // NOLINT
          const std::string &ip, int16_t port, const std::string &wave_filename,
-         int32_t num_seconds_per_message)
+         float num_seconds_per_message)
       : io_(io),
         uri_(/*secure*/ false, ip, port, /*resource*/ "/"),
         samples_(ReadWave(wave_filename, kSampleRate)),
@@ -151,7 +151,6 @@ class Client {
   }
 
   void SendMessage(connection_hdl hdl) {
-    SHERPA_LOG(INFO) << "sending messages\n";
     int32_t num_samples = samples_.numel();
     int32_t num_messages = num_samples / samples_per_message_;
 
@@ -209,7 +208,7 @@ class Client {
 int32_t main(int32_t argc, char *argv[]) {
   std::string server_ip = "127.0.0.1";
   int32_t server_port = 6006;
-  int32_t num_seconds_per_message = 10;
+  float num_seconds_per_message = 10;
 
   sherpa::ParseOptions po(kUsageMessage);
 
@@ -221,6 +220,11 @@ int32_t main(int32_t argc, char *argv[]) {
 
   po.Read(argc, argv);
   SHERPA_CHECK_GT(num_seconds_per_message, 0);
+
+  SHERPA_CHECK_GT(static_cast<int32_t>(num_seconds_per_message * kSampleRate),
+                  0)
+      << "num_seconds_per_message: " << num_seconds_per_message
+      << ", kSampleRate: " << kSampleRate;
 
   if (!websocketpp::uri_helper::ipv4_literal(server_ip.begin(),
                                              server_ip.end())) {
