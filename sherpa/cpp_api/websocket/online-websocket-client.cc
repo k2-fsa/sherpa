@@ -178,12 +178,11 @@ class Client {
           exit(EXIT_FAILURE);
         }
         ec.clear();
-
-        c_.send(hdl, "Done", websocketpp::frame::opcode::text, ec);
-        if (ec) {
-          SHERPA_LOG(INFO) << "Failed to send Done because " << ec.message();
-          exit(EXIT_FAILURE);
-        }
+      }
+      c_.send(hdl, "Done", websocketpp::frame::opcode::text, ec);
+      if (ec) {
+	SHERPA_LOG(INFO) << "Failed to send Done because " << ec.message();
+	exit(EXIT_FAILURE);
       }
     } else {
       asio::post(io_, [this, hdl, start_time]() { this->SendMessage(hdl,start_time); });
