@@ -30,9 +30,6 @@ Usage:
   /path/to/foo.wav
 )";
 
-// Sample rate of the input wave. No resampling is made.
-static constexpr int32_t kSampleRate = 8000;
-
 /** Read wave samples from a file.
  *
  * If the file has multiple channels, only the first channel is returned.
@@ -79,11 +76,11 @@ class Client {
  public:
   Client(asio::io_context &io,  // NOLINT
          const std::string &ip, int16_t port, const std::string &wave_filename,
-         float seconds_per_message)
+         float seconds_per_message, int32_t SampleRate)
       : io_(io),
         uri_(/*secure*/ false, ip, port, /*resource*/ "/"),
-        samples_(ReadWave(wave_filename, kSampleRate)),
-        samples_per_message_(seconds_per_message * kSampleRate),
+        samples_(ReadWave(wave_filename, SampleRate)),
+        samples_per_message_(seconds_per_message * SampleRate),
 	seconds_per_message_(seconds_per_message) {
     c_.clear_access_channels(websocketpp::log::alevel::all);
     c_.set_access_channels(websocketpp::log::alevel::connect);
@@ -204,21 +201,25 @@ int32_t main(int32_t argc, char *argv[]) {
   std::string server_ip = "127.0.0.1";
   int32_t server_port = 6006;
   float seconds_per_message = 10;
+// Sample rate of the input wave. No resampling is made.
+  int32_t SampleRate = 16000;
+
 
   sherpa::ParseOptions po(kUsageMessage);
 
   po.Register("server-ip", &server_ip, "IP address of the websocket server");
   po.Register("server-port", &server_port, "Port of the websocket server");
+  po.Register("samplerate", &SampleRate, "RampleRate of the recorded audio (expecting wav, no resampling is done)");
   po.Register("num-seconds-per-message", &seconds_per_message,
               "The number of samples per message equals to "
               "seconds_per_message*sample_rate");
 
   po.Read(argc, argv);
   SHERPA_CHECK_GT(seconds_per_message, 0);
-  SHERPA_CHECK_GT(static_cast<int32_t>(seconds_per_message * kSampleRate),
+  SHERPA_CHECK_GT(static_cast<int32_t>(seconds_per_message * SampleRate),
                   0)
       << "seconds_per_message: " << seconds_per_message
-      << ", kSampleRate: " << kSampleRate;
+      << ", SampleRate: " << SampleRate;
 
   if (!websocketpp::uri_helper::ipv4_literal(server_ip.begin(),
                                              server_ip.end())) {
@@ -239,7 +240,7 @@ int32_t main(int32_t argc, char *argv[]) {
   asio::io_context io_conn;  // for network connections
 
   Client c(io_conn, server_ip, server_port, wave_filename,
-           seconds_per_message);
+           seconds_per_message,SampleRate);
 
   io_conn.run();  // will exit when the above connection is closed
 
