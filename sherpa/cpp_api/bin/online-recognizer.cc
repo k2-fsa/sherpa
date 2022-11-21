@@ -20,6 +20,9 @@
 
 #include <algorithm>
 
+#include "kaldi_native_io/csrc/kaldi-table.h"
+#include "kaldi_native_io/csrc/text-utils.h"
+#include "kaldi_native_io/csrc/wave-reader.h"
 #include "sherpa/cpp_api/online-stream.h"
 #include "sherpa/cpp_api/parse-options.h"
 #include "sherpa/csrc/fbank-features.h"
@@ -55,6 +58,16 @@ Note: You can get pre-trained models for testing by visiting
     --use-gpu=false \
     foo.wav \
     bar.wav
+
+(4) To decode wav.scp
+
+  ./bin/sherpa-online \
+    --nn-model=/path/to/cpu_jit.pt \
+    --tokens=/path/to/tokens.txt \
+    --use-gpu=false \
+    --use-wav-scp=true \
+    scp:wav.scp \
+    ark,scp,t:result.ark,result.scp
 )";
 
 int32_t main(int32_t argc, char *argv[]) {
@@ -70,8 +83,19 @@ int32_t main(int32_t argc, char *argv[]) {
 
   // All models in icefall use training data with sample rate 16000
   float expected_sample_rate = 16000;
+  bool use_wav_scp = false;  // true to use wav.scp as input
+
+  // Number of seconds for tail padding
+  float padding_seconds = 0.8;
 
   sherpa::ParseOptions po(kUsageMessage);
+
+  po.Register("use-wav-scp", &use_wav_scp,
+              "If true, user should provide two arguments: "
+              "scp:wav.scp ark,scp,t:results.ark,results.scp");
+
+  po.Register("padding-seconds", &padding_seconds,
+              "Number of seconds for tail padding.");
 
   sherpa::OnlineRecognizerConfig config;
   config.Register(&po);
@@ -91,52 +115,117 @@ int32_t main(int32_t argc, char *argv[]) {
 
   SHERPA_CHECK_GE(po.NumArgs(), 1);
 
+  SHERPA_CHECK_GE(padding_seconds, 0);
+
   SHERPA_LOG(INFO) << "decoding method: " << config.decoding_method;
 
-  sherpa::OnlineRecognizer recognizer(config);
-  int32_t num_waves = po.NumArgs();
-  std::vector<std::unique_ptr<sherpa::OnlineStream>> ss;
-  std::vector<sherpa::OnlineStream *> p_ss;
-
   torch::Tensor tail_padding = torch::zeros(
-      {static_cast<int32_t>(0.4 * expected_sample_rate)}, torch::kFloat);
+      {static_cast<int32_t>(padding_seconds * expected_sample_rate)},
+      torch::kFloat);
 
-  for (int32_t i = 1; i <= po.NumArgs(); ++i) {
-    auto s = recognizer.CreateStream();
+  sherpa::OnlineRecognizer recognizer(config);
+  if (use_wav_scp) {
+    SHERPA_CHECK_EQ(po.NumArgs(), 2)
+        << "Please use something like:\n"
+        << "scp:wav.scp ark,scp,t:results.scp,results.ark\n"
+        << "if you provide --use-wav-scp=true";
 
-    torch::Tensor wave =
-        sherpa::ReadWave(po.GetArg(i), expected_sample_rate).first;
+    if (kaldiio::ClassifyRspecifier(po.GetArg(1), nullptr, nullptr) ==
+        kaldiio::kNoRspecifier) {
+      SHERPA_LOG(FATAL) << "Please provide an rspecifier. Current value is: "
+                        << po.GetArg(1);
+    }
 
-    s->AcceptWaveform(expected_sample_rate, wave);
+    if (kaldiio::ClassifyWspecifier(po.GetArg(2), nullptr, nullptr, nullptr) ==
+        kaldiio::kNoWspecifier) {
+      SHERPA_LOG(FATAL) << "Please provide a wspecifier. Current value is: "
+                        << po.GetArg(2);
+    }
 
-    s->AcceptWaveform(expected_sample_rate, tail_padding);
-    s->InputFinished();
-    ss.push_back(std::move(s));
-    p_ss.push_back(ss.back().get());
-  }
+    kaldiio::TableWriter<kaldiio::TokenVectorHolder> writer(po.GetArg(2));
 
-  std::vector<sherpa::OnlineStream *> ready_streams;
-  for (;;) {
-    ready_streams.clear();
-    for (auto s : p_ss) {
-      if (recognizer.IsReady(s)) {
-        ready_streams.push_back(s);
+    kaldiio::SequentialTableReader<kaldiio::WaveHolder> wav_reader(
+        po.GetArg(1));
+
+    int32_t num_decoded = 0;
+    for (; !wav_reader.Done(); wav_reader.Next()) {
+      std::string key = wav_reader.Key();
+      SHERPA_LOG(INFO) << "\n" << num_decoded++ << ": decoding " << key;
+      auto &wave_data = wav_reader.Value();
+      if (wave_data.SampFreq() != expected_sample_rate) {
+        SHERPA_LOG(FATAL) << wav_reader.Key()
+                          << "is expected to have sample rate "
+                          << expected_sample_rate << ". Given "
+                          << wave_data.SampFreq();
       }
+      auto &d = wave_data.Data();
+      if (d.NumRows() > 1) {
+        SHERPA_LOG(WARNING)
+            << "Only the first channel from " << wav_reader.Key() << " is used";
+      }
+
+      auto tensor = torch::from_blob(const_cast<float *>(d.RowData(0)),
+                                     {d.NumCols()}, torch::kFloat) /
+                    32768;
+      auto s = recognizer.CreateStream();
+      s->AcceptWaveform(expected_sample_rate, tensor);
+      s->AcceptWaveform(expected_sample_rate, tail_padding);
+      s->InputFinished();
+
+      while (recognizer.IsReady(s.get())) {
+        recognizer.DecodeStream(s.get());
+      }
+      auto result = recognizer.GetResult(s.get());
+
+      SHERPA_LOG(INFO) << "\nresult: " << result.text;
+
+      std::vector<std::string> words;
+      kaldiio::SplitStringToVector(result.text, " ", true, &words);
+      writer.Write(key, words);
     }
 
-    if (ready_streams.empty()) {
-      break;
+  } else {
+    int32_t num_waves = po.NumArgs();
+    std::vector<std::unique_ptr<sherpa::OnlineStream>> ss;
+    std::vector<sherpa::OnlineStream *> p_ss;
+
+    for (int32_t i = 1; i <= po.NumArgs(); ++i) {
+      auto s = recognizer.CreateStream();
+
+      torch::Tensor wave =
+          sherpa::ReadWave(po.GetArg(i), expected_sample_rate).first;
+
+      s->AcceptWaveform(expected_sample_rate, wave);
+
+      s->AcceptWaveform(expected_sample_rate, tail_padding);
+      s->InputFinished();
+      ss.push_back(std::move(s));
+      p_ss.push_back(ss.back().get());
     }
-    recognizer.DecodeStreams(ready_streams.data(), ready_streams.size());
-  }
 
-  std::ostringstream os;
-  for (int32_t i = 1; i <= po.NumArgs(); ++i) {
-    os << po.GetArg(i) << "\n";
-    os << recognizer.GetResult(p_ss[i - 1]).text << "\n\n";
-  }
+    std::vector<sherpa::OnlineStream *> ready_streams;
+    for (;;) {
+      ready_streams.clear();
+      for (auto s : p_ss) {
+        if (recognizer.IsReady(s)) {
+          ready_streams.push_back(s);
+        }
+      }
 
-  std::cerr << os.str();
+      if (ready_streams.empty()) {
+        break;
+      }
+      recognizer.DecodeStreams(ready_streams.data(), ready_streams.size());
+    }
+
+    std::ostringstream os;
+    for (int32_t i = 1; i <= po.NumArgs(); ++i) {
+      os << po.GetArg(i) << "\n";
+      os << recognizer.GetResult(p_ss[i - 1]).text << "\n\n";
+    }
+
+    std::cerr << os.str();
+  }
 
   return 0;
 }
