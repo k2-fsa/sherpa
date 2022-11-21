@@ -2,7 +2,7 @@
 //
 // Copyright (c)  2022  Xiaomi Corporation
 #include <string>
-
+#include <chrono>
 #include "kaldi_native_io/csrc/kaldi-io.h"
 #include "kaldi_native_io/csrc/wave-reader.h"
 #include "sherpa/cpp_api/parse-options.h"
@@ -31,7 +31,7 @@ Usage:
 )";
 
 // Sample rate of the input wave. No resampling is made.
-static constexpr int32_t kSampleRate = 16000;
+static constexpr int32_t kSampleRate = 8000;
 
 /** Read wave samples from a file.
  *
@@ -79,11 +79,12 @@ class Client {
  public:
   Client(asio::io_context &io,  // NOLINT
          const std::string &ip, int16_t port, const std::string &wave_filename,
-         float num_seconds_per_message)
+         float seconds_per_message)
       : io_(io),
         uri_(/*secure*/ false, ip, port, /*resource*/ "/"),
         samples_(ReadWave(wave_filename, kSampleRate)),
-        samples_per_message_(num_seconds_per_message * kSampleRate) {
+        samples_per_message_(seconds_per_message * kSampleRate),
+	seconds_per_message_(seconds_per_message) {
     c_.clear_access_channels(websocketpp::log::alevel::all);
     c_.set_access_channels(websocketpp::log::alevel::connect);
     c_.set_access_channels(websocketpp::log::alevel::disconnect);
@@ -115,7 +116,8 @@ class Client {
   }
 
   void OnOpen(connection_hdl hdl) {
-    asio::post(io_, [this, hdl]() { this->SendMessage(hdl); });
+    auto start_time = std::chrono::steady_clock::now();
+    asio::post(io_, [this, hdl, start_time]() { this->SendMessage(hdl,start_time); });
   }
 
   void OnMessage(connection_hdl hdl, message_ptr msg) {
@@ -132,15 +134,19 @@ class Client {
     }
   }
 
-  void SendMessage(connection_hdl hdl) {
+  void SendMessage(connection_hdl hdl, std::chrono::time_point<std::chrono::steady_clock> start_time) {
     int32_t num_samples = samples_.numel();
     int32_t num_messages = num_samples / samples_per_message_;
 
     websocketpp::lib::error_code ec;
-
+    auto time = std::chrono::steady_clock::now();
+    int elapsed_time_ms = std::chrono::duration_cast<std::chrono::milliseconds>(time-start_time).count();
+    if (elapsed_time_ms < int(seconds_per_message_*num_sent_messages_*1000)) {
+      std::this_thread::sleep_for(std::chrono::milliseconds(int(seconds_per_message_*num_sent_messages_*1000-elapsed_time_ms)));
+    }
     if (num_sent_messages_ < num_messages) {
-      SHERPA_LOG(INFO) << "Sending " << num_sent_messages_ << "/"
-                       << num_messages << "\n";
+      // SHERPA_LOG(DEBUG) << "Sending " << num_sent_messages_ << "/"
+      //                  << num_messages << "\n";
       c_.send(hdl,
               samples_.data_ptr<float>() +
                   num_sent_messages_ * samples_per_message_,
@@ -180,7 +186,7 @@ class Client {
         }
       }
     } else {
-      asio::post(io_, [this, hdl]() { this->SendMessage(hdl); });
+      asio::post(io_, [this, hdl, start_time]() { this->SendMessage(hdl,start_time); });
     }
   }
 
@@ -192,26 +198,27 @@ class Client {
 
   int32_t samples_per_message_;
   int32_t num_sent_messages_ = 0;
+  float seconds_per_message_;
 };
 
 int32_t main(int32_t argc, char *argv[]) {
   std::string server_ip = "127.0.0.1";
   int32_t server_port = 6006;
-  float num_seconds_per_message = 10;
+  float seconds_per_message = 10;
 
   sherpa::ParseOptions po(kUsageMessage);
 
   po.Register("server-ip", &server_ip, "IP address of the websocket server");
   po.Register("server-port", &server_port, "Port of the websocket server");
-  po.Register("num-seconds-per-message", &num_seconds_per_message,
+  po.Register("num-seconds-per-message", &seconds_per_message,
               "The number of samples per message equals to "
-              "num_seconds_per_message*sample_rate");
+              "seconds_per_message*sample_rate");
 
   po.Read(argc, argv);
-  SHERPA_CHECK_GT(num_seconds_per_message, 0);
-  SHERPA_CHECK_GT(static_cast<int32_t>(num_seconds_per_message * kSampleRate),
+  SHERPA_CHECK_GT(seconds_per_message, 0);
+  SHERPA_CHECK_GT(static_cast<int32_t>(seconds_per_message * kSampleRate),
                   0)
-      << "num_seconds_per_message: " << num_seconds_per_message
+      << "seconds_per_message: " << seconds_per_message
       << ", kSampleRate: " << kSampleRate;
 
   if (!websocketpp::uri_helper::ipv4_literal(server_ip.begin(),
@@ -233,7 +240,7 @@ int32_t main(int32_t argc, char *argv[]) {
   asio::io_context io_conn;  // for network connections
 
   Client c(io_conn, server_ip, server_port, wave_filename,
-           num_seconds_per_message);
+           seconds_per_message);
 
   io_conn.run();  // will exit when the above connection is closed
 
