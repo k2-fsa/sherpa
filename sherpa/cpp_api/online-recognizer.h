@@ -51,17 +51,17 @@ struct OnlineRecognizerConfig {
   // For OnlineConformerTransducerModel, i.e., for models from
   // pruned_transducer_stateless{2,3,4,5} in icefall
   // In number of frames after subsampling
-  int32_t left_context = 32;
+  int32_t left_context = 64;
 
   // For OnlineConformerTransducerModel, i.e., for models from
   // pruned_transducer_stateless{2,3,4,5} in icefall
   // In number of frames after subsampling
-  int32_t right_context = 2;
+  int32_t right_context = 0;
 
   // For OnlineConformerTransducerModel, i.e., for models from
   // pruned_transducer_stateless{2,3,4,5} in icefall
   // In number of frames after subsampling
-  int32_t chunk_size = 8;
+  int32_t chunk_size = 16;
 
   void Register(ParseOptions *po);
 

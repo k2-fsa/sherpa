@@ -175,7 +175,7 @@ class OnlineRecognizer::OnlineRecognizerImpl {
         int32_t right_context = config.right_context;
         int32_t chunk_size = config.chunk_size;
         SHERPA_CHECK_GT(left_context, 0);
-        SHERPA_CHECK_GT(right_context, 0);
+        SHERPA_CHECK_GE(right_context, 0);
         SHERPA_CHECK_GT(chunk_size, 0);
 
         model_ = std::make_unique<OnlineConformerTransducerModel>(
