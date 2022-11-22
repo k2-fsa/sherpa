@@ -25,10 +25,18 @@ namespace sherpa {
 
 void OnlineWebsocketDecoderConfig::Register(ParseOptions *po) {
   recognizer_config.Register(po);
+
+  po->Register("loop-interval-ms", &loop_interval_ms,
+               "It determines how often the decoder loop runs. ");
+
+  po->Register("max-batch-size", &max_batch_size,
+               "Max batch size for recognition.");
 }
 
 void OnlineWebsocketDecoderConfig::Validate() const {
   recognizer_config.Validate();
+  SHERPA_CHECK_GT(loop_interval_ms, 0);
+  SHERPA_CHECK_GT(max_batch_size, 0);
 }
 
 void OnlineWebsocketServerConfig::Register(sherpa::ParseOptions *po) {
@@ -57,62 +65,163 @@ void OnlineWebsocketServerConfig::Validate() const {
 }
 
 OnlineWebsocketDecoder::OnlineWebsocketDecoder(OnlineWebsocketServer *server)
-    : server_(server), config_(server->GetConfig().decoder_config) {
+    : server_(server),
+      config_(server->GetConfig().decoder_config),
+      timer_(server->GetWorkContext()) {
   recognizer_ = std::make_unique<OnlineRecognizer>(config_.recognizer_config);
 }
 
-void OnlineWebsocketDecoder::Push(connection_hdl hdl,
-                                  std::shared_ptr<OnlineStream> s) {
+std::shared_ptr<Connection> OnlineWebsocketDecoder::GetOrCreateConnection(
+    connection_hdl hdl) {
   std::lock_guard<std::mutex> lock(mutex_);
-  if (active_.count(s.get()) > 0) {
-    return;
+  auto it = connections_.find(hdl);
+  if (it != connections_.end()) {
+    return it->second;
+  } else {
+    // create a new connection
+    std::shared_ptr<OnlineStream> s = recognizer_->CreateStream();
+    auto c = std::make_shared<Connection>(hdl, s);
+    connections_.insert({hdl, c});
+    return c;
+  }
+}
+
+void OnlineWebsocketDecoder::AcceptWaveform(std::shared_ptr<Connection> c,
+                                            torch::Tensor samples) {
+  float sample_rate =
+      config_.recognizer_config.feat_config.fbank_opts.frame_opts.samp_freq;
+  c->s->AcceptWaveform(sample_rate, samples);
+}
+
+void OnlineWebsocketDecoder::InputFinished(std::shared_ptr<Connection> c) {
+  float sample_rate =
+      config_.recognizer_config.feat_config.fbank_opts.frame_opts.samp_freq;
+
+  // TODO(fangjun): Change the amount of paddings to be configurable
+  torch::Tensor tail_padding =
+      torch::zeros({static_cast<int64_t>(0.3 * sample_rate)}).to(torch::kFloat);
+
+  AcceptWaveform(c, tail_padding);
+
+  c->s->InputFinished();
+}
+
+void OnlineWebsocketDecoder::Run() {
+  timer_.expires_after(std::chrono::milliseconds(config_.loop_interval_ms));
+
+  timer_.async_wait(
+      [this](const asio::error_code &ec) { ProcessConnections(ec); });
+}
+
+void OnlineWebsocketDecoder::ProcessConnections(const asio::error_code &ec) {
+  if (ec) {
+    SHERPA_LOG(FATAL) << "The decoder loop is aborted!";
   }
 
-  streams_.push_back({hdl, s});
-  active_.insert(s.get());
+  std::lock_guard<std::mutex> lock(mutex_);
+  std::vector<connection_hdl> to_remove;
+  for (auto &p : connections_) {
+    auto hdl = p.first;
+    auto c = p.second;
+
+    // The order of `if` below matters!
+    if (!server_->Contains(hdl)) {
+      // If the connection is disconnected, we stop processing it
+      to_remove.push_back(hdl);
+      continue;
+    }
+
+    if (!recognizer_->IsReady(c->s.get()) &&
+        c->s->IsLastFrame(c->s->NumFramesReady() - 1)) {
+      auto result = recognizer_->GetResult(c->s.get());
+      result.is_final = true;
+
+      asio::post(server_->GetConnectionContext(),
+                 [this, hdl = hdl, json = result.AsJsonString()]() {
+                   server_->Send(hdl, json);
+                 });
+      to_remove.push_back(hdl);
+      continue;
+    }
+
+    if (active_.count(hdl)) {
+      // Another thread is decoding this stream, so skip it
+      continue;
+    }
+
+    if (!recognizer_->IsReady(c->s.get())) {
+      // this stream has not enough frames to decode, so skip it
+      continue;
+    }
+
+    // TODO(fangun): If the connection is timed out, we need to also
+    // add it to `to_remove`
+
+    // this stream has enough frames and is currently not processed by any
+    // threads, so put it into the ready queue
+    ready_connections_.push_back(c);
+
+    // In `Decode()`, it will remove hdl from `active_`
+    active_.insert(c->hdl);
+  }
+
+  for (auto hdl : to_remove) {
+    connections_.erase(hdl);
+  }
+
+  if (!ready_connections_.empty()) {
+    asio::post(server_->GetWorkContext(), [this]() { Decode(); });
+  }
+
+  // Schedule another call
+  timer_.expires_after(std::chrono::milliseconds(config_.loop_interval_ms));
+
+  timer_.async_wait(
+      [this](const asio::error_code &ec) { ProcessConnections(ec); });
 }
 
 void OnlineWebsocketDecoder::Decode() {
   std::unique_lock<std::mutex> lock(mutex_);
-  if (streams_.empty()) {
+  if (ready_connections_.empty()) {
+    // There are no connections that are ready for decoding,
+    // so we return directly
     return;
   }
 
-  auto pair = streams_.front();
-  streams_.pop_front();
-  lock.unlock();
+  std::vector<std::shared_ptr<Connection>> c_vec;
+  std::vector<OnlineStream *> s_vec;
+  while (!ready_connections_.empty() &&
+         static_cast<int32_t>(s_vec.size()) <= config_.max_batch_size) {
+    auto c = ready_connections_.front();
+    ready_connections_.pop_front();
 
-  auto hdl = pair.first;
-  auto s = pair.second;
-
-  recognizer_->DecodeStream(s.get());
-
-  auto result = recognizer_->GetResult(s.get());
-  if (!recognizer_->IsReady(s.get()) &&
-      s->IsLastFrame(s->NumFramesReady() - 1)) {
-    result.is_final = true;
+    c_vec.push_back(c);
+    s_vec.push_back(c->s.get());
   }
 
-  asio::post(server_->GetConnectionContext(),
-             [this, hdl, json = result.AsJsonString()]() {
-               server_->Send(hdl, json);
-             });
+  if (!ready_connections_.empty()) {
+    // there are too many ready connections but this thread can only handle
+    // max_batch_size connections at a time, so we schedule another call
+    // to Decode() and let other threads to process the ready connections
+    asio::post(server_->GetWorkContext(), [this]() { Decode(); });
+  }
 
-  if (server_->Contains(hdl) && recognizer_->IsReady(s.get())) {
-    // If the connection is still alive and the stream is ready
-    lock.lock();
-    streams_.push_back({hdl, s});
-    lock.unlock();
-    asio::post(server_->GetWorkContext(), [this]() { this->Decode(); });
-  } else {
-    lock.lock();
-    active_.erase(s.get());
-    lock.unlock();
+  lock.unlock();
+  recognizer_->DecodeStreams(s_vec.data(), s_vec.size());
+  lock.lock();
 
-    if (s->IsLastFrame(s->NumFramesReady() - 1)) {
-      asio::post(server_->GetConnectionContext(),
-                 [this, hdl]() { server_->Send(hdl, "Done"); });
+  for (auto c : c_vec) {
+    auto result = recognizer_->GetResult(c->s.get());
+    if (!recognizer_->IsReady(c->s.get()) &&
+        c->s->IsLastFrame(c->s->NumFramesReady() - 1)) {
+      result.is_final = true;
     }
+
+    asio::post(server_->GetConnectionContext(),
+               [this, hdl = c->hdl, json = result.AsJsonString()]() {
+                 server_->Send(hdl, json);
+               });
+    active_.erase(c->hdl);
   }
 }
 
@@ -146,12 +255,13 @@ void OnlineWebsocketServer::Run(uint16_t port) {
   server_.set_reuse_addr(true);
   server_.listen(asio::ip::tcp::v4(), port);
   server_.start_accept();
+  decoder_.Run();
 }
 
 void OnlineWebsocketServer::SetupLog() {
   server_.clear_access_channels(websocketpp::log::alevel::all);
-  server_.set_access_channels(websocketpp::log::alevel::connect);
-  server_.set_access_channels(websocketpp::log::alevel::disconnect);
+  // server_.set_access_channels(websocketpp::log::alevel::connect);
+  // server_.set_access_channels(websocketpp::log::alevel::disconnect);
 
   // So that it also prints to std::cout and std::cerr
   server_.get_alog().set_ostream(&tee_);
@@ -172,14 +282,15 @@ void OnlineWebsocketServer::Send(connection_hdl hdl, const std::string &text) {
 
 void OnlineWebsocketServer::OnOpen(connection_hdl hdl) {
   std::lock_guard<std::mutex> lock(mutex_);
-  SHERPA_LOG(INFO) << "New connection: "
-                   << server_.get_con_from_hdl(hdl)->get_remote_endpoint();
+  connections_.insert(hdl);
 
-  connections_.emplace(hdl, decoder_.GetRecognizer()->CreateStream());
-
-  SHERPA_LOG(INFO) << "Number of active connections: " << connections_.size()
-                   << "\n";
+  std::ostringstream os;
+  os << "New connection: "
+     << server_.get_con_from_hdl(hdl)->get_remote_endpoint() << ". "
+     << "Number of active connections: " << connections_.size() << ".\n";
+  SHERPA_LOG(INFO) << os.str();
 }
+
 void OnlineWebsocketServer::OnClose(connection_hdl hdl) {
   std::lock_guard<std::mutex> lock(mutex_);
   connections_.erase(hdl);
@@ -227,30 +338,14 @@ Go back to <a href="/streaming_record.html">/streaming_record.html</a>
 
 void OnlineWebsocketServer::OnMessage(connection_hdl hdl,
                                       server::message_ptr msg) {
-  std::unique_lock<std::mutex> lock(mutex_);
-  auto stream = connections_.find(hdl)->second;
-  lock.unlock();
-  const std::string &payload = msg->get_payload();
+  auto c = decoder_.GetOrCreateConnection(hdl);
 
-  auto recognizer = decoder_.GetRecognizer();
-  float sample_rate =
-      decoder_.GetConfig()
-          .recognizer_config.feat_config.fbank_opts.frame_opts.samp_freq;
+  const std::string &payload = msg->get_payload();
 
   switch (msg->get_opcode()) {
     case websocketpp::frame::opcode::text:
       if (payload == "Done") {
-        torch::Tensor tail_padding =
-            torch::zeros({static_cast<int64_t>(0.3 * sample_rate)})
-                .to(torch::kFloat);
-
-        stream->AcceptWaveform(sample_rate, tail_padding);
-        stream->InputFinished();
-        if (recognizer->IsReady(stream.get())) {
-          decoder_.Push(hdl, stream);
-
-          asio::post(io_work_, [this]() { decoder_.Decode(); });
-        }
+        decoder_.InputFinished(c);
       }
       break;
     case websocketpp::frame::opcode::binary: {
@@ -263,13 +358,7 @@ void OnlineWebsocketServer::OnMessage(connection_hdl hdl,
       // Otherwise, it will cause segfault for the next invocation
       // of AcceptWaveform since payload is freed after this function returns
       samples = samples.clone();
-      stream->AcceptWaveform(sample_rate, samples);
-
-      if (recognizer->IsReady(stream.get())) {
-        decoder_.Push(hdl, stream);
-        asio::post(io_work_, [this]() { decoder_.Decode(); });
-      }
-
+      decoder_.AcceptWaveform(c, samples);
       break;
     }
     default:

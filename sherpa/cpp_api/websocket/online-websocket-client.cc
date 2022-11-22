@@ -1,16 +1,20 @@
 // sherpa/cpp_api/websocket/online-websocket-client.cc
 //
 // Copyright (c)  2022  Xiaomi Corporation
-#include <string>
 #include <chrono>
+#include <string>
+
 #include "kaldi_native_io/csrc/kaldi-io.h"
 #include "kaldi_native_io/csrc/wave-reader.h"
+#include "nlohmann/json.hpp"
 #include "sherpa/cpp_api/parse-options.h"
 #include "sherpa/csrc/log.h"
 #include "torch/script.h"
 #include "websocketpp/client.hpp"
 #include "websocketpp/config/asio_no_tls_client.hpp"
 #include "websocketpp/uri.hpp"
+
+using json = nlohmann::json;
 
 using client = websocketpp::client<websocketpp::config::asio_client>;
 
@@ -81,7 +85,7 @@ class Client {
         uri_(/*secure*/ false, ip, port, /*resource*/ "/"),
         samples_(ReadWave(wave_filename, SampleRate)),
         samples_per_message_(seconds_per_message * SampleRate),
-	seconds_per_message_(seconds_per_message) {
+        seconds_per_message_(seconds_per_message) {
     c_.clear_access_channels(websocketpp::log::alevel::all);
     c_.set_access_channels(websocketpp::log::alevel::connect);
     c_.set_access_channels(websocketpp::log::alevel::disconnect);
@@ -114,32 +118,41 @@ class Client {
 
   void OnOpen(connection_hdl hdl) {
     auto start_time = std::chrono::steady_clock::now();
-    asio::post(io_, [this, hdl, start_time]() { this->SendMessage(hdl,start_time); });
+    asio::post(
+        io_, [this, hdl, start_time]() { this->SendMessage(hdl, start_time); });
   }
 
   void OnMessage(connection_hdl hdl, message_ptr msg) {
     const std::string &payload = msg->get_payload();
-    if (payload == "Done") {
+    auto result = json::parse(payload);
+
+    SHERPA_LOG(INFO) << "Decoding results:\n" << result["text"];
+
+    if (result["final"]) {
       websocketpp::lib::error_code ec;
       c_.close(hdl, websocketpp::close::status::normal, "I'm exiting now", ec);
       if (ec) {
         SHERPA_LOG(INFO) << "Failed to close because " << ec.message();
         exit(EXIT_FAILURE);
       }
-    } else {
-      SHERPA_LOG(INFO) << "Decoding results:\n" << payload;
     }
   }
 
-  void SendMessage(connection_hdl hdl, std::chrono::time_point<std::chrono::steady_clock> start_time) {
+  void SendMessage(
+      connection_hdl hdl,
+      std::chrono::time_point<std::chrono::steady_clock> start_time) {
     int32_t num_samples = samples_.numel();
     int32_t num_messages = num_samples / samples_per_message_;
 
     websocketpp::lib::error_code ec;
     auto time = std::chrono::steady_clock::now();
-    int elapsed_time_ms = std::chrono::duration_cast<std::chrono::milliseconds>(time-start_time).count();
-    if (elapsed_time_ms < int(seconds_per_message_*num_sent_messages_*1000)) {
-      std::this_thread::sleep_for(std::chrono::milliseconds(int(seconds_per_message_*num_sent_messages_*1000-elapsed_time_ms)));
+    int elapsed_time_ms =
+        std::chrono::duration_cast<std::chrono::milliseconds>(time - start_time)
+            .count();
+    if (elapsed_time_ms <
+        int(seconds_per_message_ * num_sent_messages_ * 1000)) {
+      std::this_thread::sleep_for(std::chrono::milliseconds(int(
+          seconds_per_message_ * num_sent_messages_ * 1000 - elapsed_time_ms)));
     }
     if (num_sent_messages_ < num_messages) {
       // SHERPA_LOG(DEBUG) << "Sending " << num_sent_messages_ << "/"
@@ -178,11 +191,13 @@ class Client {
       }
       c_.send(hdl, "Done", websocketpp::frame::opcode::text, ec);
       if (ec) {
-	SHERPA_LOG(INFO) << "Failed to send Done because " << ec.message();
-	exit(EXIT_FAILURE);
+        SHERPA_LOG(INFO) << "Failed to send Done because " << ec.message();
+        exit(EXIT_FAILURE);
       }
     } else {
-      asio::post(io_, [this, hdl, start_time]() { this->SendMessage(hdl,start_time); });
+      asio::post(io_, [this, hdl, start_time]() {
+        this->SendMessage(hdl, start_time);
+      });
     }
   }
 
@@ -201,23 +216,23 @@ int32_t main(int32_t argc, char *argv[]) {
   std::string server_ip = "127.0.0.1";
   int32_t server_port = 6006;
   float seconds_per_message = 10;
-// Sample rate of the input wave. No resampling is made.
+  // Sample rate of the input wave. No resampling is made.
   int32_t SampleRate = 16000;
-
 
   sherpa::ParseOptions po(kUsageMessage);
 
   po.Register("server-ip", &server_ip, "IP address of the websocket server");
   po.Register("server-port", &server_port, "Port of the websocket server");
-  po.Register("samplerate", &SampleRate, "RampleRate of the recorded audio (expecting wav, no resampling is done)");
+  po.Register("samplerate", &SampleRate,
+              "RampleRate of the recorded audio (expecting wav, no resampling "
+              "is done)");
   po.Register("num-seconds-per-message", &seconds_per_message,
               "The number of samples per message equals to "
               "seconds_per_message*sample_rate");
 
   po.Read(argc, argv);
   SHERPA_CHECK_GT(seconds_per_message, 0);
-  SHERPA_CHECK_GT(static_cast<int32_t>(seconds_per_message * SampleRate),
-                  0)
+  SHERPA_CHECK_GT(static_cast<int32_t>(seconds_per_message * SampleRate), 0)
       << "seconds_per_message: " << seconds_per_message
       << ", SampleRate: " << SampleRate;
 
@@ -239,8 +254,8 @@ int32_t main(int32_t argc, char *argv[]) {
 
   asio::io_context io_conn;  // for network connections
 
-  Client c(io_conn, server_ip, server_port, wave_filename,
-           seconds_per_message,SampleRate);
+  Client c(io_conn, server_ip, server_port, wave_filename, seconds_per_message,
+           SampleRate);
 
   io_conn.run();  // will exit when the above connection is closed
 
