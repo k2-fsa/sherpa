@@ -88,6 +88,11 @@ void OnlineWebsocketDecoder::Decode() {
   recognizer_->DecodeStream(s.get());
 
   auto result = recognizer_->GetResult(s.get());
+  if (!recognizer_->IsReady(s.get()) &&
+      s->IsLastFrame(s->NumFramesReady() - 1)) {
+    result.is_final = true;
+  }
+
   asio::post(server_->GetConnectionContext(),
              [this, hdl, json = result.AsJsonString()]() {
                server_->Send(hdl, json);
