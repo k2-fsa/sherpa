@@ -1,20 +1,6 @@
-/**
- * Copyright      2022  Xiaomi Corporation (authors: Fangjun Kuang)
- *
- * See LICENSE for clarification regarding multiple authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+// sherpa/cpp_api/websocket/online-websocket-server-impl.h
+//
+// Copyright (c)  2022  Xiaomi Corporation
 
 #ifndef SHERPA_CPP_API_WEBSOCKET_ONLINE_WEBSOCKET_SERVER_IMPL_H_
 #define SHERPA_CPP_API_WEBSOCKET_ONLINE_WEBSOCKET_SERVER_IMPL_H_
@@ -26,6 +12,7 @@
 #include <mutex>  // NOLINT
 #include <set>
 #include <string>
+#include <unordered_set>
 #include <utility>
 
 #include "asio.hpp"
@@ -36,14 +23,41 @@
 #include "sherpa/cpp_api/websocket/tee-stream.h"
 #include "websocketpp/config/asio_no_tls.hpp"  // TODO(fangjun): support TLS
 #include "websocketpp/server.hpp"
-
 using server = websocketpp::server<websocketpp::config::asio>;
 using connection_hdl = websocketpp::connection_hdl;
 
 namespace sherpa {
 
+struct Connection {
+  // handle to the connection. We can use it to send messages to the client
+  connection_hdl hdl;
+  std::shared_ptr<OnlineStream> s;
+
+  // The last time we received a message from the client
+  // TODO(fangjun): Use it to disconnect from a client if it is inactive
+  // for a specified time.
+  std::chrono::steady_clock::time_point last_active;
+
+  std::mutex mutex;  // protect sampels
+
+  // Audio samples received from the client.
+  //
+  // The I/O threads receive audio samples into this queue
+  // and invoke work threads to compute features
+  std::deque<torch::Tensor> samples;
+
+  Connection() = default;
+  Connection(connection_hdl hdl, std::shared_ptr<OnlineStream> s)
+      : hdl(hdl), s(s), last_active(std::chrono::steady_clock::now()) {}
+};
+
 struct OnlineWebsocketDecoderConfig {
   OnlineRecognizerConfig recognizer_config;
+
+  // It determines how often the decoder loop runs.
+  int32_t loop_interval_ms = 10;
+
+  int32_t max_batch_size = 5;
 
   void Register(ParseOptions *po);
   void Validate() const;
@@ -58,10 +72,18 @@ class OnlineWebsocketDecoder {
    */
   explicit OnlineWebsocketDecoder(OnlineWebsocketServer *server);
 
-  OnlineRecognizer *GetRecognizer() { return recognizer_.get(); }
-  const OnlineWebsocketDecoderConfig &GetConfig() const { return config_; }
+  std::shared_ptr<Connection> GetOrCreateConnection(connection_hdl hdl);
 
-  void Push(connection_hdl hdl, std::shared_ptr<OnlineStream> s);
+  // Compute features for a stream given audio samples
+  void AcceptWaveform(std::shared_ptr<Connection> c);
+
+  // signal that there will be no more audio samples for a stream
+  void InputFinished(std::shared_ptr<Connection> c);
+
+  void Run();
+
+ private:
+  void ProcessConnections(const asio::error_code &ec);
 
   /** It is called by one of the worker thread.
    */
@@ -71,10 +93,22 @@ class OnlineWebsocketDecoder {
   OnlineWebsocketServer *server_;  // not owned
   std::unique_ptr<OnlineRecognizer> recognizer_;
   OnlineWebsocketDecoderConfig config_;
+  asio::steady_timer timer_;
 
+  // It protects `connections_`, `ready_connections_`, and `active_`
   std::mutex mutex_;
-  std::deque<std::pair<connection_hdl, std::shared_ptr<OnlineStream>>> streams_;
-  std::set<OnlineStream *> active_;
+
+  std::map<connection_hdl, std::shared_ptr<Connection>,
+           std::owner_less<connection_hdl>>
+      connections_;
+
+  // Whenever a connection has enough feature frames for decoding, we put
+  // it in this queue
+  std::deque<std::shared_ptr<Connection>> ready_connections_;
+
+  // If we are decoding a stream, we put it in the active_ set so that
+  // only one thread can decode a stream at a time.
+  std::set<connection_hdl, std::owner_less<connection_hdl>> active_;
 };
 
 struct OnlineWebsocketServerConfig {
@@ -135,11 +169,10 @@ class OnlineWebsocketServer {
   sherpa::TeeStream tee_;
 
   OnlineWebsocketDecoder decoder_;
-  std::map<connection_hdl, std::shared_ptr<OnlineStream>,
-           std::owner_less<connection_hdl>>
-      connections_;
 
   mutable std::mutex mutex_;
+
+  std::set<connection_hdl, std::owner_less<connection_hdl>> connections_;
 };
 
 }  // namespace sherpa
