@@ -21,15 +21,14 @@ popd
 
 export PYTHONPATH=$PWD/icefall:$PYTHONPATH
 
-log "Downloading pre-trained model from $repo_url"
-
 repo_url=https://huggingface.co/pkufool/icefall_librispeech_streaming_pruned_transducer_stateless5_20220729
 repo=$(basename $repo_url)
+
+log "Downloading pre-trained model from $repo_url"
 
 GIT_LFS_SKIP_SMUDGE=1 git clone $repo_url
 pushd $repo
 
-git lfs pull --include "exp/cpu_jit.pt"
 git lfs pull --include "exp/cpu_jit-epoch-25-avg-5.pt"
 cd exp
 ln -s cpu_jit-epoch-25-avg-5.pt cpu_jit.pt
