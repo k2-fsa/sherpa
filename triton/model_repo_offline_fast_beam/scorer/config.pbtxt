@@ -12,55 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-name: "fast_beam_search"
+name: "scorer"
 backend: "python"
 max_batch_size: 512
-
-sequence_batching{
-    max_sequence_idle_microseconds: 5000000
-    oldest {
-      max_candidate_sequences: 1024
-    }
-    control_input [
-        {
-            name: "START",
-            control [
-                {
-                    kind: CONTROL_SEQUENCE_START
-                    fp32_false_true: [0, 1]
-                }
-            ]
-        },
-        {
-            name: "READY"
-            control [
-                {
-                    kind: CONTROL_SEQUENCE_READY
-                    fp32_false_true: [0, 1]
-                }
-            ]
-        },
-        {
-            name: "CORRID",
-            control [
-                {
-                    kind: CONTROL_SEQUENCE_CORRID
-                    data_type: TYPE_UINT64
-                }
-            ]
-        },
-        {
-            name: "END",
-            control [
-                {
-                    kind: CONTROL_SEQUENCE_END
-                    fp32_false_true: [0, 1]
-                }
-            ]
-        }
-    ]
-}
-
 
 parameters [
   {
@@ -69,7 +23,7 @@ parameters [
   },
   {
     key: "bpe_model",
-    value: { string_value: "/workspace/icefall/egs/librispeech/ASR/icefall_librispeech_streaming_pruned_transducer_stateless3_giga_0.9_20220625/data/lang_bpe_500/bpe.model"}
+    value: { string_value: "/workspace/icefall/models/data/lang_bpe_500/bpe.model"}
   },
   {
     key: "beam",
@@ -93,11 +47,10 @@ parameters [
   }
 ]
 
-
 input [
   {
     name: "encoder_out"
-    data_type: TYPE_FP32
+    data_type: TYPE_FP16
     dims: [-1, 512] # [-1, encoder_out_dim]
   },
   {
@@ -107,7 +60,6 @@ input [
     reshape: { shape: [ ] }
   }
 ]
-
 output [
   {
     name: "OUTPUT0"
@@ -115,7 +67,8 @@ output [
     dims: [1]
   }
 ]
-
+dynamic_batching {
+  }
 instance_group [
     {
       count: 2

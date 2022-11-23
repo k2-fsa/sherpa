@@ -28,18 +28,44 @@ mv export_onnx.py <your_icefall_path>/pruned_transducer_stateless3/
 mv onnx_triton_utils.py <your_icefall_path>/pruned_transducer_stateless3/
 ./pruned_transducer_stateless3/export_onnx.py \
     --exp-dir ./icefall_librispeech_streaming_pruned_transducer_stateless3_giga_0.9_20220625/exp \
-    --bpe-model ./icefall_librispeech_streaming_pruned_transducer_stateless3_giga_0.9_20220625/data/lang_bpe_500/bpe.model \
+    --tokenizer-file ./icefall_librispeech_streaming_pruned_transducer_stateless3_giga_0.9_20220625/data/lang_bpe_500/bpe.model \
     --epoch 999 \
     --avg 1 \
     --streaming-model 1\
     --causal-convolution 1 \
     --onnx 1 \
+    --left-context 64 \
+    --right-context 4 \
     --fp16
 
 (2) Export to ONNX format with offline ASR model
 ./pruned_transducer_stateless3/export_onnx.py \
     --exp-dir ./icefall_librispeech_streaming_pruned_transducer_stateless3_giga_0.9_20220625/exp \
-    --bpe-model ./icefall_librispeech_streaming_pruned_transducer_stateless3_giga_0.9_20220625/data/lang_bpe_500/bpe.model \
+    --tokenizer-file ./icefall_librispeech_streaming_pruned_transducer_stateless3_giga_0.9_20220625/data/lang_bpe_500/bpe.model \
+    --epoch 999 \
+    --avg 1 \
+    --onnx 1 \
+    --fp16
+
+(3) Export to ONNX format with streaming Chinese ASR model
+pretrained_model_dir=./icefall_asr_wenetspeech_pruned_transducer_stateless5_streaming
+./pruned_transducer_stateless5/export_onnx.py \
+    --exp-dir ${pretrained_model_dir}/exp \
+    --tokenizer-file ${pretrained_model_dir}/data/lang_char \
+    --epoch 999 \
+    --avg 1 \
+    --streaming-model 1\
+    --causal-convolution 1 \
+    --onnx 1 \
+    --left-context 64 \
+    --right-context 4 \
+    --fp16
+
+(4) Export to ONNX format with offline Chinese ASR model
+pretrained_model_dir=./icefall_asr_wenetspeech_pruned_transducer_stateless5_offline
+./pruned_transducer_stateless5/export_onnx.py \
+    --exp-dir ${pretrained_model_dir}/exp \
+    --tokenizer-file ${pretrained_model_dir}/data/lang_char \
     --epoch 999 \
     --avg 1 \
     --onnx 1 \
@@ -66,6 +92,11 @@ with the following commands:
     git lfs install
     git clone https://huggingface.co/pkufool/icefall_librispeech_streaming_pruned_transducer_stateless3_giga_0.9_20220625
     # You will find the pre-trained model in icefall_librispeech_streaming_pruned_transducer_stateless3_giga_0.9_20220625/exp
+
+For Chinese WenetSpeech pretrained model:
+
+git lfs install
+git clone https://huggingface.co/luomingshuang/icefall_asr_wenetspeech_pruned_transducer_stateless5_offline
 """
 
 import argparse
@@ -88,6 +119,7 @@ from icefall.checkpoint import (
     load_checkpoint,
 )
 from icefall.utils import str2bool
+from icefall.lexicon import Lexicon
 
 def get_parser():
     parser = argparse.ArgumentParser(
@@ -132,10 +164,10 @@ def get_parser():
     )
 
     parser.add_argument(
-        "--bpe-model",
+        "--tokenizer-file",
         type=str,
         default="data/lang_bpe_500/bpe.model",
-        help="Path to the BPE model",
+        help="Path to the BPE model or char dict file",
     )
 
     parser.add_argument(
@@ -159,6 +191,20 @@ def get_parser():
         default=2,
         help="The context size in the decoder. 1 means bigram; "
         "2 means tri-gram",
+    )
+
+    parser.add_argument(
+        "--left-context",
+        type=int,
+        default=64,
+        help="The left context for streaming encoder",
+    )
+
+    parser.add_argument(
+        "--right-context",
+        type=int,
+        default=4,
+        help="The right context for streaming encoder",
     )
 
     parser.add_argument(
@@ -224,17 +270,17 @@ def export_encoder_model_onnx_streaming(
         encoder_model, left_context, right_context, chunk_size, warmup
     )
     encoder_model.eval()
-    x = torch.zeros(1, 51, 80, dtype=torch.float32)
-    x_lens = torch.tensor([51], dtype=torch.int64) #TODO FIX int32
+    x = torch.zeros(2, 51, 80, dtype=torch.float32)
+    x_lens = torch.tensor([51,42], dtype=torch.int64) #TODO FIX int32
     states = [
         torch.zeros(
-            1,
+            2,
             encoder_model.left_context,
             encoder_model.encoder_layers,
             encoder_model.d_model,
         ),
         torch.zeros(
-            1,
+            2,
             encoder_model.cnn_module_kernel - 1,
             encoder_model.encoder_layers,
             encoder_model.d_model,
@@ -243,7 +289,7 @@ def export_encoder_model_onnx_streaming(
 
     attn_cache, cnn_cache = states[0], states[1]
 
-    processed_lens = torch.tensor([0], dtype=torch.int64)
+    processed_lens = torch.tensor([0,0], dtype=torch.int64)
 
     processed_lens = processed_lens.unsqueeze(-1)
 
@@ -265,8 +311,8 @@ def export_encoder_model_onnx_streaming(
         verbose=False,
         opset_version=opset_version,
         input_names=[
-            "x",
-            "x_lens",
+            "speech",
+            "speech_lengths",
             "attn_cache",
             "cnn_cache",
             "processed_lens",
@@ -279,8 +325,8 @@ def export_encoder_model_onnx_streaming(
             "next_processed_lens",
         ],
         dynamic_axes={
-            "x": {0: "B", 1: "T"},
-            "x_lens": {0: "B"},
+            "speech": {0: "B", 1: "T"},
+            "speech_lengths": {0: "B"},
             "attn_cache": {0: "B"},
             "cnn_cache": {0: "B"},
             "processed_lens": {0: "B"},
@@ -299,8 +345,8 @@ def export_encoder_model_onnx_streaming(
     providers = ["CUDAExecutionProvider"]
     ort_session = onnxruntime.InferenceSession(str(encoder_filename),
                                                providers=providers)
-    ort_inputs = {'x': to_numpy(x),
-                  'x_lens': to_numpy(x_lens),
+    ort_inputs = {'speech': to_numpy(x),
+                  'speech_lengths': to_numpy(x_lens),
                   'attn_cache': to_numpy(attn_cache),
                   'cnn_cache': to_numpy(cnn_cache),
                   'processed_lens': to_numpy(processed_lens)}
@@ -466,12 +512,20 @@ def main():
 
     logging.info(f"device: {device}")
 
-    sp = spm.SentencePieceProcessor()
-    sp.load(params.bpe_model)
+    if 'bpe' in params.tokenizer_file:
+        sp = spm.SentencePieceProcessor()
+        sp.load(params.tokenizer_file)
 
-    # <blk> is defined in local/train_bpe_model.py
-    params.blank_id = sp.piece_to_id("<blk>")
-    params.vocab_size = sp.get_piece_size()
+        # <blk> is defined in local/train_bpe_model.py
+        params.blank_id = sp.piece_to_id("<blk>")
+        params.vocab_size = sp.get_piece_size()
+    else:
+        assert 'char' in params.tokenizer_file
+        lexicon = Lexicon(params.tokenizer_file)
+
+        params.blank_id = lexicon.token_table["<blk>"]
+        params.vocab_size = max(lexicon.tokens) + 1
+
 
     if params.streaming_model:
         assert params.causal_convolution
@@ -480,7 +534,7 @@ def main():
 
     logging.info("About to create model")
     if params.onnx:
-        model = get_transducer_model(params, enable_giga=False)
+        model = get_transducer_model(params)
     else:
         raise NotImplementedError
 
@@ -529,7 +583,11 @@ def main():
         encoder_filename = params.exp_dir / "encoder.onnx"
         if params.streaming_model:
             export_encoder_model_onnx_streaming(
-                model.encoder, encoder_filename, opset_version=opset_version
+                model.encoder,
+                encoder_filename,
+                opset_version=opset_version,
+                left_context=params.left_context,
+                right_context=params.right_context,
             )
         else:
             export_encoder_model_onnx_triton(
@@ -550,6 +608,19 @@ def main():
             joiner_filename,
             opset_version=opset_version,
         )
+
+        cnn_module_kernel = model.encoder.cnn_module_kernel
+        export_log_filename = params.exp_dir / "onnx_export.log"
+        with open(export_log_filename, 'w') as log_f:
+            log_f.write(f"ENCODER_LEFT_CONTEXT: {params.left_context}\n")
+            log_f.write(f"ENCODER_RIGHT_CONTEXT: {params.right_context}\n")
+            log_f.write(f"ENCODER_DIM: {params.encoder_dim}\n")
+            log_f.write(f"DECODER_DIM: {params.decoder_dim}\n")
+            log_f.write(f"VOCAB_SIZE: {params.vocab_size}\n")
+            log_f.write(f"DECODER_CONTEXT_SIZE: {params.context_size}\n")
+            log_f.write(f"CNN_MODULE_KERNEL: {cnn_module_kernel}\n")
+            log_f.write(f"ENCODER_LAYERS: {params.num_encoder_layers}\n")
+            log_f.write(f"All params:{params}")
 
         if params.fp16:
             try:

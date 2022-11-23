@@ -126,7 +126,16 @@ class StreamingEncoder(torch.nn.Module):
             2  # we will cut off 1 frame on each side of encoder_embed output
         )
 
-        src_key_padding_mask = make_pad_mask(lengths)
+        embed = self.encoder_embed(x)
+
+        # cut off 1 frame on each size of embed as they see the padding
+        # value which causes a training and decoding mismatch.
+        embed = embed[:, 1:-1, :]
+
+        embed, pos_enc = self.encoder_pos(embed, self.left_context)
+        embed = embed.permute(1, 0, 2)  # (B, T, F) -> (T, B, F)
+
+        src_key_padding_mask = make_pad_mask(lengths, embed.size(0))
 
         processed_mask = torch.arange(
             self.left_context, device=x.device
@@ -137,15 +146,6 @@ class StreamingEncoder(torch.nn.Module):
         src_key_padding_mask = torch.cat(
             [processed_mask, src_key_padding_mask], dim=1
         )
-
-        embed = self.encoder_embed(x)
-
-        # cut off 1 frame on each size of embed as they see the padding
-        # value which causes a training and decoding mismatch.
-        embed = embed[:, 1:-1, :]
-
-        embed, pos_enc = self.encoder_pos(embed, self.left_context)
-        embed = embed.permute(1, 0, 2)  # (B, T, F) -> (T, B, F)
 
         x, states = self.encoder.chunk_forward(
             embed,
@@ -161,8 +161,8 @@ class StreamingEncoder(torch.nn.Module):
             lengths -= self.right_context
 
         x = x.permute(1, 0, 2)  # (T, N, C) ->(N, T, C)
-        assert len(processed_lens.shape) == 2, processed_lens.shape
-        processed_lens = processed_lens + lengths
+        processed_lens = processed_lens + lengths.unsqueeze(-1)
+        assert processed_lens.shape[1] == 1, processed_lens.shape
 
         return (
             x,
@@ -242,7 +242,7 @@ class OfflineEncoder(torch.nn.Module):
         if not is_jit_tracing():
             assert x.size(0) == lengths.max().item()
 
-        src_key_padding_mask = make_pad_mask(lengths)
+        src_key_padding_mask = make_pad_mask(lengths, x.size(0))
 
         if self.dynamic_chunk_training:
             assert (
@@ -442,27 +442,15 @@ def get_joiner_model(params: AttributeDict) -> nn.Module:
 
 def get_transducer_model(
     params: AttributeDict,
-    enable_giga: bool = True,
 ) -> nn.Module:
     encoder = get_encoder_model(params)
     decoder = get_decoder_model(params)
     joiner = get_joiner_model(params)
 
-    if enable_giga:
-        logging.info("Use giga")
-        decoder_giga = get_decoder_model(params)
-        joiner_giga = get_joiner_model(params)
-    else:
-        logging.info("Disable giga")
-        decoder_giga = None
-        joiner_giga = None
-
     model = Transducer(
         encoder=encoder,
         decoder=decoder,
         joiner=joiner,
-        decoder_giga=decoder_giga,
-        joiner_giga=joiner_giga,
         encoder_dim=params.encoder_dim,
         decoder_dim=params.decoder_dim,
         joiner_dim=params.joiner_dim,

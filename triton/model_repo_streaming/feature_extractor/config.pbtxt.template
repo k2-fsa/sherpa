@@ -1,4 +1,4 @@
-# Copyright (c) 2021, NVIDIA CORPORATION.  All rights reserved.
+# Copyright (c) 2022, NVIDIA CORPORATION.  All rights reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,14 +12,32 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-name: "greedy_search"
+name: "feature_extractor"
 backend: "python"
-max_batch_size: 512
+max_batch_size: MAX_BATCH
 
+parameters [
+  {
+    key: "frame_length_ms",
+    value: { string_value: "25" }
+  },
+  {
+    key: "frame_shift_ms"
+    value: { string_value: "10" }
+  },
+  {
+    key: "sample_rate"
+    value: { string_value: "16000" }
+  },
+  {
+    key: "decode_chunk_size",
+    value: { string_value: "DECODE_CHUNK_SIZE" }
+  }
+]
 sequence_batching{
     max_sequence_idle_microseconds: 5000000
     oldest {
-      max_candidate_sequences: 1024
+      max_candidate_sequences: 512
     }
     control_input [
         {
@@ -60,49 +78,33 @@ sequence_batching{
         }
     ]
 }
-
-
-parameters [
-  {
-    key: "context_size",
-    value: { string_value: "2"}
-  },
-  {
-    key: "bpe_model",
-    value: { string_value: "/workspace/icefall/egs/librispeech/ASR/icefall_librispeech_streaming_pruned_transducer_stateless3_giga_0.9_20220625/data/lang_bpe_500/bpe.model"}
-  },
-  {
-   key: "FORCE_CPU_ONLY_INPUT_TENSORS", 
-   value: {string_value:"yes"}
-  }
-]
-
-
 input [
   {
-    name: "encoder_out"
-    data_type: TYPE_FP16
-    dims: [-1, 512] # [-1, encoder_out_dim]
+    name: "wav"
+    data_type: TYPE_FP32
+    dims: [-1]
   },
   {
-    name: "encoder_out_lens"
-    data_type: TYPE_INT64
+    name: "wav_lens"
+    data_type: TYPE_INT32
     dims: [1]
-    reshape: { shape: [ ] }
   }
 ]
-
 output [
   {
-    name: "OUTPUT0"
-    data_type: TYPE_STRING
+    name: "speech"
+    data_type: TYPE_FP16
+    dims: [DECODE_WINDOW_SIZE, 80]
+  },
+  {
+    name: "speech_lengths"
+    data_type: TYPE_INT64
     dims: [1]
   }
 ]
-
 instance_group [
     {
-      count: 2
-      kind: KIND_CPU
+      count: FEATURE_EXTRACTOR_INSTANCE_NUM
+      kind: KIND_GPU
     }
-  ]
+]
