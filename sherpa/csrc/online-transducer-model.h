@@ -115,6 +115,42 @@ class OnlineTransducerModel {
    * Note: ChunkSize() - ChunkShift() == right context size
    */
   virtual int32_t ChunkShift() const = 0;
+
+  int32_t VocabSize() const { return vocab_size_; }
+
+  void WarmUp(torch::Tensor features, torch::Tensor features_length) {
+    torch::IValue states = GetEncoderInitStates();
+    states = StackStates({states});
+    torch::Tensor num_processed_frames = torch::zeros_like(features_length);
+
+    torch::Tensor encoder_out;
+    torch::Tensor encoder_out_length;
+    torch::IValue next_states;
+
+    std::tie(encoder_out, encoder_out_length, next_states) =
+        RunEncoder(features, features_length, num_processed_frames, states);
+    // encoder_out.shape: (N, T, joiner_dim)
+    //
+    auto cur_encoder_out = encoder_out.index({torch::indexing::Slice(), 0});
+    // cur_encoder_out.shape (N, joiner_dim)
+
+    torch::Tensor decoder_input =
+        torch::zeros({features_length.size(0), ContextSize()}, torch::kLong)
+            .to(Device())
+            .squeeze(1);
+    // decoder_input.shape (N, context_size)
+
+    auto decoder_out = RunDecoder(decoder_input).squeeze(1);
+    // decoder_out.shape (N, joiner_dim)
+
+    auto logits = RunJoiner(cur_encoder_out, decoder_out);
+    // logits.shape (N, vocab_size)
+
+    vocab_size_ = logits.size(-1);
+  }
+
+ private:
+  int32_t vocab_size_ = -1;
 };
 
 }  // namespace sherpa

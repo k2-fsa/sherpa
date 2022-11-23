@@ -10,12 +10,11 @@
 namespace sherpa {
 
 OnlineTransducerFastBeamSearchDecoder::OnlineTransducerFastBeamSearchDecoder(
-    OnlineTransducerModel *model, const FastBeamSearchConfig &config,
-    int32_t vocab_size)
-    : model_(model), config_(config), vocab_size_(vocab_size) {
+    OnlineTransducerModel *model, const FastBeamSearchConfig &config)
+    : model_(model), config_(config), vocab_size_(model->VocabSize()) {
   if (config.lg.empty()) {
     // Use a trivial graph
-    decoding_graph_ = k2::GetTrivialGraph(vocab_size - 1, model_->Device());
+    decoding_graph_ = k2::GetTrivialGraph(vocab_size_ - 1, model_->Device());
   } else {
     decoding_graph_ = k2::LoadFsaClass(config.lg, model_->Device());
     k2::ScaleTensorAttribute(decoding_graph_, config.ngram_lm_scale, "scores");
@@ -59,7 +58,7 @@ void OnlineTransducerFastBeamSearchDecoder::Decode(
   }
 
   torch::Tensor num_processed_frames =
-      torch::tensor(num_processed_frames_vec, torch::kInt).to(device);
+      torch::tensor(num_processed_frames_vec, torch::kInt);
 
   k2::RnntStreamsPtr streams =
       k2::CreateRnntStreams(stream_vec, vocab_size_, context_size, config_.beam,

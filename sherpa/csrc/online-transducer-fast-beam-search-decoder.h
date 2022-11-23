@@ -32,11 +32,9 @@ class OnlineTransducerFastBeamSearchDecoder : public OnlineTransducerDecoder {
  public:
   /**
    * @param config
-   * @param vocab_size Used only when config.lg is empty.
    */
   OnlineTransducerFastBeamSearchDecoder(OnlineTransducerModel *model,
-                                        const FastBeamSearchConfig &config,
-                                        int32_t vocab_size);
+                                        const FastBeamSearchConfig &config);
 
   /* Return an empty result. */
   OnlineTransducerDecoderResult GetEmptyResult() override;

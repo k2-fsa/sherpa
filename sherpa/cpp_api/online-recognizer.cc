@@ -194,6 +194,8 @@ class OnlineRecognizer::OnlineRecognizerImpl {
       }
     }
 
+    WarmUp();
+
     if (config.decoding_method == "greedy_search") {
       decoder_ =
           std::make_unique<OnlineTransducerGreedySearchDecoder>(model_.get());
@@ -202,8 +204,7 @@ class OnlineRecognizer::OnlineRecognizerImpl {
           model_.get(), config.num_active_paths);
     } else if (config.decoding_method == "fast_beam_search") {
       decoder_ = std::make_unique<OnlineTransducerFastBeamSearchDecoder>(
-          // TODO: get vocab szie from somewhere
-          model_.get(), FastBeamSearchConfig(), 500);
+          model_.get(), FastBeamSearchConfig());
     } else {
       TORCH_CHECK(false,
                   "Unsupported decoding method: ", config.decoding_method);
@@ -295,6 +296,34 @@ class OnlineRecognizer::OnlineRecognizerImpl {
     auto r = s->GetResult();  // we use a copy here as we will change it below
     decoder_->StripLeadingBlanks(&r);
     return Convert(r, symbol_table_);
+  }
+
+ private:
+  void WarmUp() {
+    SHERPA_LOG(INFO) << "WarmUp begins";
+    torch::Tensor features =
+        torch::rand({1, model_->ChunkSize(),
+                     config_.feat_config.fbank_opts.mel_opts.num_bins},
+                    device_);
+    torch::Tensor features_length =
+        torch::full({features.size(0)}, model_->ChunkSize(), torch::kLong)
+            .to(device_);
+    model_->WarmUp(features, features_length);
+
+#if 0
+    // We don't use the following code since we want to set `model_->vocab_size`
+    auto s = CreateStream();
+    float sample_rate = config_.feat_config.fbank_opts.frame_opts.samp_freq;
+    torch::tensor samples({2 * static_cast<int32_t>(sample_rate)},
+                          torch::kFloat);
+
+    s->AcceptWaveform(sample_rate, samples);
+    s->InputFinished();
+    OnlineStream ss[1] = {s.get()};
+    DecodeStreams(ss, 1);
+#endif
+
+    SHERPA_LOG(INFO) << "WarmUp ended";
   }
 
  private:
