@@ -4,6 +4,8 @@
 
 #include "sherpa/cpp_api/websocket/online-websocket-server-impl.h"
 
+#include <vector>
+
 #include "sherpa/csrc/file-utils.h"
 #include "sherpa/csrc/log.h"
 
@@ -187,7 +189,7 @@ void OnlineWebsocketDecoder::Decode() {
   std::vector<std::shared_ptr<Connection>> c_vec;
   std::vector<OnlineStream *> s_vec;
   while (!ready_connections_.empty() &&
-         static_cast<int32_t>(s_vec.size()) <= config_.max_batch_size) {
+         static_cast<int32_t>(s_vec.size()) < config_.max_batch_size) {
     auto c = ready_connections_.front();
     ready_connections_.pop_front();
 

@@ -1,7 +1,7 @@
 // sherpa/cpp_api/websocket/online-websocket-client.cc
 //
 // Copyright (c)  2022  Xiaomi Corporation
-#include <chrono>
+#include <chrono>  // NOLINT
 #include <string>
 
 #include "kaldi_native_io/csrc/kaldi-io.h"
@@ -150,7 +150,7 @@ class Client {
         std::chrono::duration_cast<std::chrono::milliseconds>(time - start_time)
             .count();
     if (elapsed_time_ms <
-        int(seconds_per_message_ * num_sent_messages_ * 1000)) {
+        static_cast<int>(seconds_per_message_ * num_sent_messages_ * 1000)) {
       std::this_thread::sleep_for(std::chrono::milliseconds(int(
           seconds_per_message_ * num_sent_messages_ * 1000 - elapsed_time_ms)));
     }
