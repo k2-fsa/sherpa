@@ -14,6 +14,7 @@ set(sherpa_srcs
   online-emformer-transducer-model.cc
   online-conformer-transducer-model.cc
   online-lstm-transducer-model.cc
+  online-transducer-fast-beam-search-decoder.cc
 
   # TODO(fangjun): Refactor the following files
   endpoint.cc

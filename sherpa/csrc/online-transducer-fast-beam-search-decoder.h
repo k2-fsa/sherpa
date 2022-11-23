@@ -9,7 +9,7 @@
 #include "sherpa/csrc/online-transducer-decoder.h"
 #include "sherpa/csrc/online-transducer-model.h"
 
-namespace sherap {
+namespace sherpa {
 
 struct FastBeamSearchConfig {
   // If not empty, it is the filename of LG.pt
@@ -33,13 +33,10 @@ class OnlineTransducerFastBeamSearchDecoder : public OnlineTransducerDecoder {
   /**
    * @param config
    * @param vocab_size Used only when config.lg is empty.
-   * @param context_size  Context size of the transducer stateless decoder..
    */
   OnlineTransducerFastBeamSearchDecoder(OnlineTransducerModel *model,
                                         const FastBeamSearchConfig &config,
-                                        int32_t vocab_size,
-                                        int32_t context_size,
-                                        torch::Device device);
+                                        int32_t vocab_size);
 
   /* Return an empty result. */
   OnlineTransducerDecoderResult GetEmptyResult() override;
@@ -57,6 +54,6 @@ class OnlineTransducerFastBeamSearchDecoder : public OnlineTransducerDecoder {
   int32_t vocab_size_;
 };
 
-}  // namespace sherap
+}  // namespace sherpa
 
 #endif  // SHERPA_CSRC_ONLINE_TRANSDUCER_FAST_BEAM_SEARCH_DECODER_H_

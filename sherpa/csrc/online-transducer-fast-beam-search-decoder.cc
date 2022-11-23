@@ -2,21 +2,23 @@
 //
 // Copyright (c)  2022  Xiaomi Corporation
 
+#include "sherpa/csrc/online-transducer-fast-beam-search-decoder.h"
+
 #include "k2/torch_api.h"
 #include "sherpa/csrc/online-transducer-decoder.h"
 
-namespace sherap {
+namespace sherpa {
 
 OnlineTransducerFastBeamSearchDecoder::OnlineTransducerFastBeamSearchDecoder(
-    OnlineTransducerModel model, const FastBeamSearchConfig &config,
-    int32_t vocab_size, torch::Device device)
+    OnlineTransducerModel *model, const FastBeamSearchConfig &config,
+    int32_t vocab_size)
     : model_(model), config_(config), vocab_size_(vocab_size) {
   if (config.lg.empty()) {
     // Use a trivial graph
-    decoding_graph_ = k2::GetTrivialGraph(vocab_size - 1, device);
+    decoding_graph_ = k2::GetTrivialGraph(vocab_size - 1, model_->Device());
   } else {
-    decoding_graph_ = k2::LoadFsaClass(config.lg, device);
-    // TODO(fangjun): Scale decoding_graph_.scores with config.ngram_lm_scale
+    decoding_graph_ = k2::LoadFsaClass(config.lg, model_->Device());
+    k2::ScaleTensorAttribute(decoding_graph_, config.ngram_lm_scale, "scores");
   }
 }
 
@@ -49,11 +51,11 @@ void OnlineTransducerFastBeamSearchDecoder::Decode(
   stream_vec.reserve(results->size());
   num_processed_frames_vec.reserve(results->size());
 
-  for (auto *r : results) {
-    stream_vec.push_back(r->rnnt_stream);
+  for (auto &r : *results) {
+    stream_vec.push_back(r.rnnt_stream);
 
     // number of frames before subsampling
-    num_processed_frames_vec.push_back(r->num_processed_frames);
+    num_processed_frames_vec.push_back(r.num_processed_frames);
   }
 
   torch::Tensor num_processed_frames =
@@ -93,12 +95,16 @@ void OnlineTransducerFastBeamSearchDecoder::Decode(
   // TODO(fangjun): This assumes the subsampling factor is 4
   num_processed_frames = (num_processed_frames / 4).to(torch::kInt) + T;
 
+  std::vector<int32_t> processed_frames_vec(
+      num_processed_frames.data_ptr<int32_t>(),
+      num_processed_frames.data_ptr<int32_t>() + num_processed_frames.numel());
+
   auto lattice =
-      k2::FormatOutput(streams, num_processed_frames, config_.allow_partial);
+      k2::FormatOutput(streams, processed_frames_vec, config_.allow_partial);
   std::vector<std::vector<int32_t>> tokens = k2::BestPath(lattice);
   for (int32_t i = 0; i != N; ++i) {
     (*results)[i].tokens = std::move(tokens[i]);
   }
 }
 
-}  // namespace sherap
+}  // namespace sherpa

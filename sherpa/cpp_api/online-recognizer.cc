@@ -28,6 +28,7 @@
 #include "sherpa/csrc/online-emformer-transducer-model.h"
 #include "sherpa/csrc/online-lstm-transducer-model.h"
 #include "sherpa/csrc/online-transducer-decoder.h"
+#include "sherpa/csrc/online-transducer-fast-beam-search-decoder.h"
 #include "sherpa/csrc/online-transducer-greedy-search-decoder.h"
 #include "sherpa/csrc/online-transducer-model.h"
 #include "sherpa/csrc/online-transducer-modified-beam-search-decoder.h"
@@ -70,7 +71,8 @@ void OnlineRecognizerConfig::Register(ParseOptions *po) {
 
   po->Register("decoding-method", &decoding_method,
                "Decoding method to use. Possible values are: greedy_search, "
-               "modified_beam_search. Used only for transducer.");
+               "modified_beam_search, and fast_beam_search. "
+               "Used only for transducer.");
 
   po->Register("num-active-paths", &num_active_paths,
                "Number of active paths for modified_beam_search. "
@@ -117,10 +119,12 @@ void OnlineRecognizerConfig::Validate() const {
   AssertFileExists(tokens);
 
   if (decoding_method != "greedy_search" &&
-      decoding_method != "modified_beam_search") {
+      decoding_method != "modified_beam_search" &&
+      decoding_method != "fast_beam_search") {
     SHERPA_LOG(FATAL)
         << "Unsupported decoding method: " << decoding_method
-        << ". Supported values are: greedy_search, modified_beam_search";
+        << ". Supported values are: greedy_search, modified_beam_search, "
+        << "fast_beam_search.";
   }
 
   if (decoding_method == "modified_beam_search") {
@@ -196,6 +200,10 @@ class OnlineRecognizer::OnlineRecognizerImpl {
     } else if (config.decoding_method == "modified_beam_search") {
       decoder_ = std::make_unique<OnlineTransducerModifiedBeamSearchDecoder>(
           model_.get(), config.num_active_paths);
+    } else if (config.decoding_method == "fast_beam_search") {
+      decoder_ = std::make_unique<OnlineTransducerFastBeamSearchDecoder>(
+          // TODO: get vocab szie from somewhere
+          model_.get(), FastBeamSearchConfig(), 500);
     } else {
       TORCH_CHECK(false,
                   "Unsupported decoding method: ", config.decoding_method);
