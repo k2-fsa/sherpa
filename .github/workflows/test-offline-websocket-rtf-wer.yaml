@@ -1,0 +1,120 @@
+name: Test RTF and WER of C++ offline websocket server
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - '.github/workflows/test-offline-websocket-rtf-wer.yaml'
+      - '.github/scripts/test-offline-websocket-rtf-wer.sh'
+      - 'CMakeLists.txt'
+      - 'cmake/**'
+      - 'sherpa/csrc/**'
+      - 'sherpa/cpp_api/**'
+  pull_request:
+    types: [labeled]
+    paths:
+      - '.github/workflows/test-offline-websocket-rtf-wer.yaml'
+      - '.github/scripts/test-offline-websocket-rtf-wer.sh'
+      - 'CMakeLists.txt'
+      - 'cmake/**'
+      - 'sherpa/csrc/**'
+      - 'sherpa/cpp_api/**'
+
+concurrency:
+  group: test_rtf_and_wer_cpp_offline_websocket_server-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test_rtf_and_wer_cpp_offline_websocket_server:
+    if: github.event.label.name == 'rtf' || github.event_name == 'push'
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        torch: ["1.10.0"]
+        torchaudio: ["0.10.0"]
+        python-version: ["3.8"]
+        decoding_method: ["greedy_search", "modified_beam_search"]
+        num_connections: [50, 100, 200]
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Get number of CPU cores
+        uses: SimenB/github-actions-cpu-cores@v1
+        id: cpu-cores
+
+      - name: Display number of CPU cores
+        shell: bash
+        run: |
+          echo "Number of CPU cores:  ${{ steps.cpu-cores.outputs.count }}"
+
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Display gcc version
+        if: startsWith(matrix.os, 'ubuntu')
+        shell: bash
+        run: |
+          gcc --version
+
+      - name: Display clang version
+        if: startsWith(matrix.os, 'macos')
+        shell: bash
+        run: |
+          clang --version
+
+      - name: Install apt dependencies
+        if: startsWith(matrix.os, 'ubuntu')
+        run: |
+          sudo apt update
+          sudo apt install libsndfile1-dev libsndfile1
+
+      - name: Install PyTorch ${{ matrix.torch }}
+        shell: bash
+        run: |
+          python3 -m pip install wheel twine typing_extensions
+          python3 -m pip install torch==${{ matrix.torch }} torchaudio==${{ matrix.torchaudio }} numpy -f https://download.pytorch.org/whl/cpu/torch_stable.html
+
+          python3 -m pip install k2==1.22.dev20221112+cpu.torch${{ matrix.torch }} -f https://k2-fsa.org/nightly/index.html
+
+          python3 -m torch.utils.collect_env
+
+      - name: Cache kaldifeat
+        id: my-cache-2
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/tmp/kaldifeat
+          key: cache-tmp-${{ matrix.python-version }}-${{ matrix.os }}-${{ matrix.torch }}
+
+      - name: Install kaldifeat
+        if: steps.my-cache-2.outputs.cache-hit != 'true'
+        shell: bash
+        run: |
+          .github/scripts/install-kaldifeat.sh
+
+      - name: Run RTF test
+        shell: bash
+        env:
+          DECODING_METHOD: ${{ matrix.decoding_method }}
+          NUM_CONNECTIONS: ${{ matrix.num_connections }}
+        run: |
+          export KALDIFEAT_INSTALL_PREFIX=$HOME/tmp/kaldifeat/build
+          echo $KALDIFEAT_INSTALL_PREFIX
+          ls -lh $KALDIFEAT_INSTALL_PREFIX
+
+          .github/scripts/test-offline-websocket-rtf-wer.sh
+          cat ./log.txt
+
+      - name: Upload decoding results
+        uses: actions/upload-artifact@v2
+        with:
+          name: os-${{ matrix.os }}-decoding-method-${{ matrix.decoding_method }}
+          path: ./*.txt
