@@ -1,20 +1,6 @@
-/**
- * Copyright      2022  Xiaomi Corporation (authors: Fangjun Kuang)
- *
- * See LICENSE for clarification regarding multiple authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+// sherpa/cpp_api/websocket/online-websocket-server-impl.cc
+//
+// Copyright (c)  2022  Xiaomi Corporation
 
 #include "sherpa/cpp_api/websocket/online-websocket-server-impl.h"
 
@@ -86,22 +72,32 @@ std::shared_ptr<Connection> OnlineWebsocketDecoder::GetOrCreateConnection(
   }
 }
 
-void OnlineWebsocketDecoder::AcceptWaveform(std::shared_ptr<Connection> c,
-                                            torch::Tensor samples) {
+void OnlineWebsocketDecoder::AcceptWaveform(std::shared_ptr<Connection> c) {
+  std::lock_guard<std::mutex> lock(c->mutex);
   float sample_rate =
       config_.recognizer_config.feat_config.fbank_opts.frame_opts.samp_freq;
-  c->s->AcceptWaveform(sample_rate, samples);
+  while (!c->samples.empty()) {
+    c->s->AcceptWaveform(sample_rate, c->samples.front());
+    c->samples.pop_front();
+  }
 }
 
 void OnlineWebsocketDecoder::InputFinished(std::shared_ptr<Connection> c) {
+  std::lock_guard<std::mutex> lock(c->mutex);
+
   float sample_rate =
       config_.recognizer_config.feat_config.fbank_opts.frame_opts.samp_freq;
 
+  while (!c->samples.empty()) {
+    c->s->AcceptWaveform(sample_rate, c->samples.front());
+    c->samples.pop_front();
+  }
+
   // TODO(fangjun): Change the amount of paddings to be configurable
   torch::Tensor tail_padding =
-      torch::zeros({static_cast<int64_t>(0.3 * sample_rate)}).to(torch::kFloat);
+      torch::zeros({static_cast<int64_t>(0.8 * sample_rate)}).to(torch::kFloat);
 
-  AcceptWaveform(c, tail_padding);
+  c->s->AcceptWaveform(sample_rate, tail_padding);
 
   c->s->InputFinished();
 }
@@ -345,7 +341,7 @@ void OnlineWebsocketServer::OnMessage(connection_hdl hdl,
   switch (msg->get_opcode()) {
     case websocketpp::frame::opcode::text:
       if (payload == "Done") {
-        decoder_.InputFinished(c);
+        asio::post(io_work_, [this, c]() { decoder_.InputFinished(c); });
       }
       break;
     case websocketpp::frame::opcode::binary: {
@@ -358,7 +354,9 @@ void OnlineWebsocketServer::OnMessage(connection_hdl hdl,
       // Otherwise, it will cause segfault for the next invocation
       // of AcceptWaveform since payload is freed after this function returns
       samples = samples.clone();
-      decoder_.AcceptWaveform(c, samples);
+      c->samples.push_back(samples);
+
+      asio::post(io_work_, [this, c]() { decoder_.AcceptWaveform(c); });
       break;
     }
     default:

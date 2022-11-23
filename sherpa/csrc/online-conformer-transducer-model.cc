@@ -39,7 +39,7 @@ OnlineConformerTransducerModel::OnlineConformerTransducerModel(
       (2 + right_context) * subsampling_factor + (subsampling_factor - 1);
   chunk_shift_ = decode_chunk_size * subsampling_factor;
   chunk_size_ = chunk_shift_ + pad_length;
-  // Note: Differeces from the conv-emformer:
+  // Note: Differences from the conv-emformer:
   //  right_context in streaming conformer is specified by users during
   //  decoding and it is a value before subsampling.
 }

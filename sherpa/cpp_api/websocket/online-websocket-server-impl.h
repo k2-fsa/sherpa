@@ -1,20 +1,6 @@
-/**
- * Copyright      2022  Xiaomi Corporation (authors: Fangjun Kuang)
- *
- * See LICENSE for clarification regarding multiple authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+// sherpa/cpp_api/websocket/online-websocket-server-impl.h
+//
+// Copyright (c)  2022  Xiaomi Corporation
 
 #ifndef SHERPA_CPP_API_WEBSOCKET_ONLINE_WEBSOCKET_SERVER_IMPL_H_
 #define SHERPA_CPP_API_WEBSOCKET_ONLINE_WEBSOCKET_SERVER_IMPL_H_
@@ -48,7 +34,17 @@ struct Connection {
   std::shared_ptr<OnlineStream> s;
 
   // The last time we received a message from the client
+  // TODO(fangjun): Use it to disconnect from a client if it is inactive
+  // for a specified time.
   std::chrono::steady_clock::time_point last_active;
+
+  std::mutex mutex;  // protect sampels
+
+  // Audio samples received from the client.
+  //
+  // The I/O threads receive audio samples into this queue
+  // and invoke work threads to compute features
+  std::deque<torch::Tensor> samples;
 
   Connection() = default;
   Connection(connection_hdl hdl, std::shared_ptr<OnlineStream> s)
@@ -79,7 +75,7 @@ class OnlineWebsocketDecoder {
   std::shared_ptr<Connection> GetOrCreateConnection(connection_hdl hdl);
 
   // Compute features for a stream given audio samples
-  void AcceptWaveform(std::shared_ptr<Connection> c, torch::Tensor samples);
+  void AcceptWaveform(std::shared_ptr<Connection> c);
 
   // signal that there will be no more audio samples for a stream
   void InputFinished(std::shared_ptr<Connection> c);
