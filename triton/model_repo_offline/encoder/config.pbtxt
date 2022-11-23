@@ -21,7 +21,7 @@ input [
   {
     name: "speech"
     data_type: TYPE_FP16
-    dims: [-1, 80] # 80
+    dims: [-1, 80]
   },
   {
     name: "speech_lengths"
@@ -34,7 +34,7 @@ output [
   {
     name: "encoder_out"
     data_type: TYPE_FP16
-    dims: [-1, 512] # [-1, encoder_dim]
+    dims: [-1, 384]
   },
   {
     name: "encoder_out_lens"
@@ -49,7 +49,7 @@ dynamic_batching {
 
 instance_group [
     {
-      count: 1
+      count: 2
       kind: KIND_GPU
     }
 ]

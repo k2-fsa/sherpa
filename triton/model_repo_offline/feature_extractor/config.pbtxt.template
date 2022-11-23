@@ -12,33 +12,61 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-name: "decoder"
-backend: "onnxruntime"
-default_model_filename: "decoder.onnx"
+name: "feature_extractor"
+backend: "python"
+max_batch_size: MAX_BATCH
 
-max_batch_size: 512
+parameters [
+  {
+    key: "num_mel_bins",
+    value: { string_value: "80"}
+  },
+  {
+    key: "frame_shift_in_ms"
+    value: { string_value: "10"}
+  },
+  {
+    key: "frame_length_in_ms"
+    value: { string_value: "25"}
+  },
+  {
+    key: "sample_rate"
+    value: { string_value: "16000"}
+  }
+
+]
+
 input [
   {
-    name: "y"
-    data_type: TYPE_INT64
-    dims: [2]
+    name: "wav"
+    data_type: TYPE_FP32
+    dims: [-1]
+  },
+  {
+    name: "wav_lens"
+    data_type: TYPE_INT32
+    dims: [1]
   }
 ]
 
 output [
   {
-    name: "decoder_out"
+    name: "speech"
     data_type: TYPE_FP16
-    dims: [1, 512] 
+    dims: [-1, 80]
+  },
+  {
+    name: "speech_lengths"
+    data_type: TYPE_INT64
+    dims: [1]
   }
 ]
 
 dynamic_batching {
   }
-
 instance_group [
     {
-      count: 1
+      count: FEATURE_EXTRACTOR_INSTANCE_NUM
       kind: KIND_GPU
     }
 ]

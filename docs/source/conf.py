@@ -129,4 +129,8 @@ rst_epilog = """
 .. _onnxruntime: https://github.com/microsoft/onnxruntime
 .. _sherpa-onnx: https://github.com/k2-fsa/sherpa-onnx
 .. _torchaudio: https://github.com/pytorch/audio
+.. _Docker: https://www.docker.com
+.. _Triton: https://github.com/triton-inference-server
+.. _Triton-server: https://github.com/triton-inference-server/server
+.. _Triton-client: https://github.com/triton-inference-server/client
 """

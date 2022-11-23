@@ -21,7 +21,7 @@ input [
   {
     name: "encoder_out"
     data_type: TYPE_FP16
-    dims: [512] 
+    dims: [384]
   },
   {
     name: "decoder_out"
@@ -34,7 +34,7 @@ output [
   {
     name: "logit"
     data_type: TYPE_FP16
-    dims: [500] 
+    dims: [5537]
   }
 ]
 

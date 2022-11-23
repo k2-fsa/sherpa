@@ -12,9 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-name: "conformer_transducer"
+name: "transducer"
 platform: "ensemble"
-max_batch_size: 512 #MAX_BATCH
+max_batch_size: MAX_BATCH
 
 input [
   {
@@ -80,7 +80,7 @@ ensemble_scheduling {
     }
   },
   {
-      model_name: "greedy_search"
+      model_name: "scorer"
       model_version: -1
       input_map {
           key: "encoder_out"

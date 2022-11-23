@@ -16,12 +16,12 @@ name: "decoder"
 backend: "onnxruntime"
 default_model_filename: "decoder.onnx"
 
-max_batch_size: 512
+max_batch_size: MAX_BATCH
 input [
   {
     name: "y"
     data_type: TYPE_INT64
-    dims: [2]
+    dims: [DECODER_CONTEXT_SIZE]
   }
 ]
 
@@ -29,7 +29,7 @@ output [
   {
     name: "decoder_out"
     data_type: TYPE_FP16
-    dims: [1, 512] 
+    dims: [1, DECODER_DIM] 
   }
 ]
 
@@ -38,7 +38,7 @@ dynamic_batching {
 
 instance_group [
     {
-      count: 1
+      count: DECODER_INSTANCE_NUM
       kind: KIND_GPU
     }
 ]

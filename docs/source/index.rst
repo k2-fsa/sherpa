@@ -50,3 +50,14 @@ for both streaming ASR and offline ASR (i.e., non-streaming ASR).
    :caption: onnx
 
    ./onnx/index
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Triton
+
+   ./triton/overview
+   ./triton/installation/index
+   ./triton/server/index
+   ./triton/client/index
+   ./triton/perf/index
+

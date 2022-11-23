@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-onnx_dir=/workspace/icefall/egs/librispeech/ASR/icefall_librispeech_streaming_pruned_transducer_stateless3_giga_0.9_20220625/exp
+onnx_dir=/workspace/icefall/egs/wenetspeech/ASR/icefall_asr_wenetspeech_pruned_transducer_stateless5_streaming/exp
 model_repo_dir=/workspace/sherpa/triton/model_repo_streaming_fast_beam
 cp $onnx_dir/encoder_fp16.onnx $model_repo_dir/encoder/1/encoder.onnx
 cp $onnx_dir/decoder_fp16.onnx $model_repo_dir/decoder/1/decoder.onnx

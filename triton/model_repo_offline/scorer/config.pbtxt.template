@@ -12,22 +12,22 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-name: "greedy_search"
+name: "scorer"
 backend: "python"
-max_batch_size: 512
+max_batch_size: MAX_BATCH
 
 parameters [
   {
     key: "context_size",
-    value: { string_value: "2"}
+    value: { string_value: "DECODER_CONTEXT_SIZE"}
   },
   {
-    key: "bpe_model",
-    value: { string_value: "/workspace/bpe.model"}
+    key: "tokenizer_file",
+    value: { string_value: "TOKENIZER_FILE"} 
   },
   {
    key: "FORCE_CPU_ONLY_INPUT_TENSORS", 
-   value: {string_value:"yes"}
+   value: {string_value:"no"}
   }
 ]
 
@@ -36,7 +36,7 @@ input [
   {
     name: "encoder_out"
     data_type: TYPE_FP16
-    dims: [-1, 512] # [-1, encoder_out_dim]
+    dims: [-1, ENCODER_DIM] 
   },
   {
     name: "encoder_out_lens"
@@ -58,7 +58,7 @@ dynamic_batching {
   }
 instance_group [
     {
-      count: 2
+      count: SCORER_INSTANCE_NUM
       kind: KIND_CPU
     }
   ]
