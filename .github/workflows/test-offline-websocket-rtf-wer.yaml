@@ -1,12 +1,12 @@
-name: Test RTF and WER of C++ websocket
+name: Test RTF and WER of C++ offline websocket server
 
 on:
   push:
     branches:
       - master
     paths:
-      - '.github/workflows/test-websocket-rtf-wer.yaml'
-      - '.github/scripts/test-websocket-rtf-wer.sh'
+      - '.github/workflows/test-offline-websocket-rtf-wer.yaml'
+      - '.github/scripts/test-offline-websocket-rtf-wer.sh'
       - 'CMakeLists.txt'
       - 'cmake/**'
       - 'sherpa/csrc/**'
@@ -14,19 +14,19 @@ on:
   pull_request:
     types: [labeled]
     paths:
-      - '.github/workflows/test-websocket-rtf-wer.yaml'
-      - '.github/scripts/test-websocket-rtf-wer.sh'
+      - '.github/workflows/test-offline-websocket-rtf-wer.yaml'
+      - '.github/scripts/test-offline-websocket-rtf-wer.sh'
       - 'CMakeLists.txt'
       - 'cmake/**'
       - 'sherpa/csrc/**'
       - 'sherpa/cpp_api/**'
 
 concurrency:
-  group: test_rtf_and_wer_websocket-${{ github.ref }}
+  group: test_rtf_and_wer_cpp_offline_websocket_server-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  test_rtf_and_wer_websocket:
+  test_rtf_and_wer_cpp_offline_websocket_server:
     if: github.event.label.name == 'rtf' || github.event_name == 'push'
     runs-on: ${{ matrix.os }}
     strategy:
@@ -110,7 +110,7 @@ jobs:
           echo $KALDIFEAT_INSTALL_PREFIX
           ls -lh $KALDIFEAT_INSTALL_PREFIX
 
-          .github/scripts/test-websocket-rtf-wer.sh
+          .github/scripts/test-offline-websocket-rtf-wer.sh
           cat ./log.txt
 
       - name: Upload decoding results
