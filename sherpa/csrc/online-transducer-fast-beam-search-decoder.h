@@ -6,7 +6,7 @@
 
 #include <vector>
 
-#include "sherpa/cpp_api/online-recognizer.h"
+#include "sherpa/cpp_api/fast-beam-search-config.h"
 #include "sherpa/csrc/online-transducer-decoder.h"
 #include "sherpa/csrc/online-transducer-model.h"
 

@@ -1,20 +1,6 @@
-/**
- * Copyright      2022  Xiaomi Corporation (authors: Fangjun Kuang)
- *
- * See LICENSE for clarification regarding multiple authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+// sherpa/cpp_api/online-recognizer.cc
+//
+// Copyright (c)  2022  Xiaomi Corporation
 
 #include "sherpa/cpp_api/online-recognizer.h"
 
@@ -46,27 +32,6 @@ std::string OnlineRecognitionResult::AsJsonString() const {
   j["segment"] = segment;  // TODO(fangjun): Support endpointing
   j["final"] = is_final;
   return j.dump();
-}
-
-// TODO(fangjun): Add a prefix for it
-void FastBeamSearchConfig::Register(ParseOptions *po) {
-  po->Register("lg", &lg,
-               "Path to LG.pt. Used only for fast_beam_search "
-               "in transducer decoding");
-
-  po->Register("ngram-lm-scale", &ngram_lm_scale,
-               "Scale the scores from LG.pt. Used only for fast_beam_search "
-               "in transducer decoding");
-
-  po->Register("beam", &beam, "Beam used in fast_beam_search");
-}
-
-void FastBeamSearchConfig::Validate() const {
-  if (!lg.empty()) {
-    AssertFileExists(lg);
-  }
-  SHERPA_CHECK_GE(ngram_lm_scale, 0);
-  SHERPA_CHECK_GT(beam, 0);
 }
 
 void OnlineRecognizerConfig::Register(ParseOptions *po) {

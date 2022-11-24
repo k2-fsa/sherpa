@@ -1,7 +1,8 @@
 set(sherpa_cpp_api_srcs
+  fast-beam-search-config.cc
   feature-config.cc
-  offline-stream.cc
   offline-recognizer.cc
+  offline-stream.cc
   online-recognizer.cc
 )
 add_library(sherpa_cpp_api ${sherpa_cpp_api_srcs})
