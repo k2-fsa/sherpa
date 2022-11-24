@@ -65,6 +65,8 @@ class OfflineTransducerModel {
    */
   virtual int32_t ContextSize() const = 0;
 
+  int32_t VocabSize() const { return vocab_size_; }
+
   void WarmUp(torch::Tensor features, torch::Tensor features_length) {
     torch::Tensor encoder_out;
     torch::Tensor encoder_out_length;

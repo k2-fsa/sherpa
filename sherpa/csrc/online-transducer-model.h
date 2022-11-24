@@ -136,8 +136,7 @@ class OnlineTransducerModel {
 
     torch::Tensor decoder_input =
         torch::zeros({features_length.size(0), ContextSize()}, torch::kLong)
-            .to(Device())
-            .squeeze(1);
+            .to(Device());
     // decoder_input.shape (N, context_size)
 
     auto decoder_out = RunDecoder(decoder_input).squeeze(1);

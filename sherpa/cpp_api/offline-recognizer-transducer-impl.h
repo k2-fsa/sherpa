@@ -14,6 +14,7 @@
 #include "sherpa/cpp_api/offline-recognizer-impl.h"
 #include "sherpa/csrc/offline-conformer-transducer-model.h"
 #include "sherpa/csrc/offline-transducer-decoder.h"
+#include "sherpa/csrc/offline-transducer-fast-beam-search-decoder.h"
 #include "sherpa/csrc/offline-transducer-greedy-search-decoder.h"
 #include "sherpa/csrc/offline-transducer-model.h"
 #include "sherpa/csrc/offline-transducer-modified-beam-search-decoder.h"
@@ -22,11 +23,16 @@
 namespace sherpa {
 
 static OfflineRecognitionResult Convert(OfflineTransducerDecoderResult src,
-                                        const SymbolTable &sym) {
+                                        const SymbolTable &sym,
+                                        bool insert_space) {
   OfflineRecognitionResult r;
   std::string text;
   for (auto i : src.tokens) {
     text.append(sym[i]);
+
+    if (insert_space) {
+      text.append(" ");
+    }
   }
   r.text = std::move(text);
   r.tokens = std::move(src.tokens);
@@ -57,6 +63,13 @@ class OfflineRecognizerTransducerImpl : public OfflineRecognizerImpl {
     } else if (config.decoding_method == "modified_beam_search") {
       decoder_ = std::make_unique<OfflineTransducerModifiedBeamSearchDecoder>(
           model_.get(), config.num_active_paths);
+    } else if (config.decoding_method == "fast_beam_search") {
+      config.fast_beam_search_config.Validate();
+
+      insert_space_ = !config.fast_beam_search_config.lg.empty();
+
+      decoder_ = std::make_unique<OfflineTransducerFastBeamSearchDecoder>(
+          model_.get(), config.fast_beam_search_config);
     } else {
       TORCH_CHECK(false,
                   "Unsupported decoding method: ", config.decoding_method);
@@ -96,7 +109,7 @@ class OfflineRecognizerTransducerImpl : public OfflineRecognizerImpl {
 
     auto results = decoder_->Decode(encoder_out, encoder_out_length);
     for (int32_t i = 0; i != n; ++i) {
-      ss[i]->SetResult(Convert(results[i], symbol_table_));
+      ss[i]->SetResult(Convert(results[i], symbol_table_, insert_space_));
     }
   }
 
@@ -122,6 +135,8 @@ class OfflineRecognizerTransducerImpl : public OfflineRecognizerImpl {
   kaldifeat::Fbank fbank_;
   torch::Device device_;
   bool normalize_samples_;
+  // if it is a word table, we set insert_space_ to true
+  bool insert_space_ = false;
 };
 
 }  // namespace sherpa

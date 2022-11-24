@@ -6,6 +6,7 @@
 
 #include <vector>
 
+#include "k2/torch_api.h"
 #include "sherpa/cpp_api/fast-beam-search-config.h"
 #include "sherpa/csrc/online-transducer-decoder.h"
 #include "sherpa/csrc/online-transducer-model.h"

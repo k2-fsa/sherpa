@@ -69,6 +69,7 @@ void OfflineCtcDecoderConfig::Validate() const {
 void OfflineRecognizerConfig::Register(ParseOptions *po) {
   ctc_decoder_config.Register(po);
   feat_config.Register(po);
+  fast_beam_search_config.Register(po);
 
   po->Register("nn-model", &nn_model, "Path to the torchscript model");
 
@@ -81,7 +82,7 @@ void OfflineRecognizerConfig::Register(ParseOptions *po) {
 
   po->Register("decoding-method", &decoding_method,
                "Decoding method to use. Possible values are: greedy_search, "
-               "modified_beam_search");
+               "modified_beam_search, and fast_beam_search");
 
   po->Register("num-active-paths", &num_active_paths,
                "Number of active paths for modified_beam_search. "
@@ -102,12 +103,15 @@ void OfflineRecognizerConfig::Validate() const {
   // TODO(fangjun): The following checks about decoding_method are
   // used only for transducer models. We should skip it for CTC models
   if (decoding_method != "greedy_search" &&
-      decoding_method != "modified_beam_search") {
+      decoding_method != "modified_beam_search" &&
+      decoding_method != "fast_beam_search") {
     SHERPA_LOG(FATAL)
         << "Unsupported decoding method: " << decoding_method
-        << ". Supported values are: greedy_search, modified_beam_search";
+        << ". Supported values are: greedy_search, modified_beam_search, "
+        << "and fast_beam_search.";
   }
 
+  // TODO(fangjun): Create a class ModifiedBeamSearchConfig
   if (decoding_method == "modified_beam_search") {
     SHERPA_CHECK_GT(num_active_paths, 0);
   }

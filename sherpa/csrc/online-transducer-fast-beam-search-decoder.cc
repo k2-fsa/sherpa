@@ -29,8 +29,8 @@ OnlineTransducerFastBeamSearchDecoder::GetEmptyResult() {
 }
 
 void OnlineTransducerFastBeamSearchDecoder::StripLeadingBlanks(
-    OnlineTransducerDecoderResult *r) {
-  // TODO(fangjun): Implement it
+    OnlineTransducerDecoderResult * /*r*/) {
+  // Don't need to do anything
 }
 
 void OnlineTransducerFastBeamSearchDecoder::Decode(
