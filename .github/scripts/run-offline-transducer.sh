@@ -20,9 +20,10 @@ log "Download pretrained model and test-data from $repo_url"
 GIT_LFS_SKIP_SMUDGE=1 git clone $repo_url
 pushd $repo
 git lfs pull --include "exp/cpu_jit.pt"
+git lfs pull --include "data/lang_bpe_500/LG.pt"
 popd
 
-for m in greedy_search modified_beam_search; do
+for m in greedy_search modified_beam_search fast_beam_search; do
   time ./build/bin/sherpa-offline \
     --decoding-method=$m \
     --nn-model=$repo/exp/cpu_jit.pt \
@@ -32,11 +33,21 @@ for m in greedy_search modified_beam_search; do
     $repo/test_wavs/1221-135766-0002.wav
 done
 
+# For fast_beam_search with LG
+time ./build/bin/sherpa-offline \
+  --decoding-method=fast_beam_search \
+  --nn-model=$repo/exp/cpu_jit.pt \
+  --lg=$repo/data/lang_bpe_500/LG.pt \
+  --tokens=$repo/data/lang_bpe_500/words.txt \
+  $repo/test_wavs/1089-134686-0001.wav \
+  $repo/test_wavs/1221-135766-0001.wav \
+  $repo/test_wavs/1221-135766-0002.wav
+
 log "Test decoding wav.scp"
 
 .github/scripts/generate_wav_scp.sh
 
-for m in greedy_search modified_beam_search; do
+for m in greedy_search modified_beam_search fast_beam_search; do
   time ./build/bin/sherpa-offline \
     --decoding-method=$m \
     --nn-model=$repo/exp/cpu_jit.pt \
@@ -54,7 +65,7 @@ export PYTHONPATH=$HOME/tmp/kaldifeat/build/lib:$HOME/tmp/kaldifeat/kaldifeat/py
 
 .github/scripts/generate_feats_scp.py scp:wav.scp ark,scp:feats.ark,feats.scp
 
-for m in greedy_search modified_beam_search; do
+for m in greedy_search modified_beam_search fast_beam_search; do
   time ./build/bin/sherpa-offline \
     --decoding-method=$m \
     --nn-model=$repo/exp/cpu_jit.pt \
@@ -79,13 +90,14 @@ log "Download pretrained model and test-data (aishell) from $repo_url"
 GIT_LFS_SKIP_SMUDGE=1 git clone $repo_url
 pushd $repo
 git lfs pull --include "exp/cpu_jit-epoch-29-avg-5-torch-1.6.0.pt"
+git lfs pull --include "data/lang_char/LG.pt"
 cd exp
 ln -sv cpu_jit-epoch-29-avg-5-torch-1.6.0.pt cpu_jit.pt
 popd
 
-for m in greedy_search modified_beam_search; do
+for m in greedy_search modified_beam_search fast_beam_search; do
   time ./build/bin/sherpa-offline \
-    --decoding-method=greedy_search \
+    --decoding-method=$m \
     --nn-model=$repo/exp/cpu_jit.pt \
     --tokens=$repo/data/lang_char/tokens.txt \
     $repo/test_wavs/BAC009S0764W0121.wav \
@@ -93,9 +105,18 @@ for m in greedy_search modified_beam_search; do
     $repo/test_wavs/BAC009S0764W0123.wav
 done
 
+./build/bin/sherpa-offline \
+  --decoding-method=fast_beam_search \
+  --nn-model=$repo/exp/cpu_jit.pt \
+  --lg=$repo/data/lang_char/LG.pt \
+  --tokens=$repo/data/lang_char/words.txt \
+  $repo/test_wavs/BAC009S0764W0121.wav \
+  $repo/test_wavs/BAC009S0764W0122.wav \
+  $repo/test_wavs/BAC009S0764W0123.wav
+
 .github/scripts/generate_wav_scp_aishell.sh
 
-for m in greedy_search modified_beam_search; do
+for m in greedy_search modified_beam_search fast_beam_search; do
   time ./build/bin/sherpa-offline \
     --decoding-method=$m \
     --nn-model=$repo/exp/cpu_jit.pt \
@@ -109,7 +130,7 @@ done
 
 .github/scripts/generate_feats_scp.py scp:wav_aishell.scp ark,scp:feats_aishell.ark,feats_aishell.scp
 
-for m in greedy_search modified_beam_search; do
+for m in greedy_search modified_beam_search fast_beam_search; do
   time ./build/bin/sherpa-offline \
     --decoding-method=$m \
     --nn-model=$repo/exp/cpu_jit.pt \
@@ -133,11 +154,12 @@ log "Download pretrained model and test-data from $repo_url"
 GIT_LFS_SKIP_SMUDGE=1 git clone $repo_url
 pushd $repo
 git lfs pull --include "exp/cpu_jit-torch-1.10.0.pt"
+git lfs pull --include "data/lang_bpe_500/LG.pt"
 cd exp
 ln -s cpu_jit-torch-1.10.0.pt cpu_jit.pt
 popd
 
-for m in greedy_search modified_beam_search; do
+for m in greedy_search modified_beam_search fast_beam_search; do
   time ./build/bin/sherpa-offline \
     --decoding-method=$m \
     --nn-model=$repo/exp/cpu_jit.pt \
@@ -146,6 +168,15 @@ for m in greedy_search modified_beam_search; do
     $repo/test_wavs/1221-135766-0001.wav \
     $repo/test_wavs/1221-135766-0002.wav
 done
+
+./build/bin/sherpa-offline \
+  --decoding-method=fast_beam_search \
+  --nn-model=$repo/exp/cpu_jit.pt \
+  --lg=$repo/data/lang_bpe_500/LG.pt \
+  --tokens=$repo/data/lang_bpe_500/words.txt \
+  $repo/test_wavs/1089-134686-0001.wav \
+  $repo/test_wavs/1221-135766-0001.wav \
+  $repo/test_wavs/1221-135766-0002.wav
 
 rm -rf $repo
 log "End of testing ${repo_url}"
@@ -160,9 +191,10 @@ log "Download pretrained model and test-data from $repo_url"
 GIT_LFS_SKIP_SMUDGE=1 git clone $repo_url
 pushd $repo
 git lfs pull --include "exp/cpu_jit.pt"
+git lfs pull --include "data/lang_bpe_500/LG.pt"
 popd
 
-for m in greedy_search modified_beam_search; do
+for m in greedy_search modified_beam_search fast_beam_search; do
   time ./build/bin/sherpa-offline \
     --decoding-method=$m \
     --nn-model=$repo/exp/cpu_jit.pt \
@@ -171,6 +203,15 @@ for m in greedy_search modified_beam_search; do
     $repo/test_wavs/1221-135766-0001.wav \
     $repo/test_wavs/1221-135766-0002.wav
 done
+
+./build/bin/sherpa-offline \
+  --decoding-method=fast_beam_search \
+  --nn-model=$repo/exp/cpu_jit.pt \
+  --lg=$repo/data/lang_bpe_500/LG.pt \
+  --tokens=$repo/data/lang_bpe_500/words.txt \
+  $repo/test_wavs/1089-134686-0001.wav \
+  $repo/test_wavs/1221-135766-0001.wav \
+  $repo/test_wavs/1221-135766-0002.wav
 
 rm -rf $repo
 log "End of testing ${repo_url}"
@@ -199,7 +240,7 @@ popd
 
 ./scripts/bpe_model_to_tokens.py $repo/data/lang_bpe_500/bpe.model > $repo/data/lang_bpe_500/tokens.txt
 
-for m in greedy_search modified_beam_search; do
+for m in greedy_search modified_beam_search fast_beam_search; do
   time ./build/bin/sherpa-offline \
     --decoding-method=$m \
     --nn-model=$repo/exp/cpu_jit.pt \
@@ -222,11 +263,12 @@ log "Download pretrained model and test-data from $repo_url"
 GIT_LFS_SKIP_SMUDGE=1 git clone $repo_url
 pushd $repo
 git lfs pull --include "exp/cpu_jit_epoch_10_avg_2_torch_1.7.1.pt"
+git lfs pull --include "data/lang_char/LG.pt"
 cd exp
 ln -s cpu_jit_epoch_10_avg_2_torch_1.7.1.pt cpu_jit.pt
 popd
 
-for m in greedy_search modified_beam_search; do
+for m in greedy_search modified_beam_search fast_beam_search; do
   time ./build/bin/sherpa-offline \
     --decoding-method=$m \
     --nn-model=$repo/exp/cpu_jit.pt \
@@ -235,6 +277,15 @@ for m in greedy_search modified_beam_search; do
     $repo/test_wavs/DEV_T0000000001.wav \
     $repo/test_wavs/DEV_T0000000002.wav
 done
+
+./build/bin/sherpa-offline \
+  --decoding-method=$m \
+  --nn-model=$repo/exp/cpu_jit.pt \
+  --lg=$repo/data/lang_char/LG.pt \
+  --tokens=$repo/data/lang_char/words.txt \
+  $repo/test_wavs/DEV_T0000000000.wav \
+  $repo/test_wavs/DEV_T0000000001.wav \
+  $repo/test_wavs/DEV_T0000000002.wav
 
 rm -rf $repo
 log "End of testing ${repo_url}"
