@@ -79,17 +79,19 @@ class OfflineTransducerModel {
     auto cur_encoder_out = encoder_out.index({torch::indexing::Slice(), 0});
     // cur_encoder_out.shape (N, joiner_dim)
 
+    cur_encoder_out = cur_encoder_out.unsqueeze(1).unsqueeze(1);
+    // cur_encoder_out.shape (N, 1, 1, joiner_dim)
+
     torch::Tensor decoder_input =
         torch::zeros({features_length.size(0), ContextSize()}, torch::kLong)
-            .to(Device())
-            .squeeze(1);
+            .to(Device());
     // decoder_input.shape (N, context_size)
 
-    auto decoder_out = RunDecoder(decoder_input).squeeze(1);
-    // decoder_out.shape (N, joiner_dim)
+    auto decoder_out = RunDecoder(decoder_input).unsqueeze(1);
+    // decoder_out.shape (N, 1, 1, joiner_dim)
 
     auto logits = RunJoiner(cur_encoder_out, decoder_out);
-    // logits.shape (N, vocab_size)
+    // logits.shape (N, 1, 1, vocab_size)
 
     vocab_size_ = logits.size(-1);
   }
