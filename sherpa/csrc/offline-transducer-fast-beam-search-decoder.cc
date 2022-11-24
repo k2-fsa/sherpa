@@ -3,6 +3,8 @@
 // Copyright (c)  2022  Xiaomi Corporation
 #include "sherpa/csrc/offline-transducer-fast-beam-search-decoder.h"
 
+#include <utility>
+
 #include "k2/torch_api.h"
 
 namespace sherpa {

@@ -4,6 +4,8 @@
 #ifndef SHERPA_CPP_API_FAST_BEAM_SEARCH_CONFIG_H_
 #define SHERPA_CPP_API_FAST_BEAM_SEARCH_CONFIG_H_
 
+#include <string>
+
 #include "sherpa/cpp_api/parse-options.h"
 
 namespace sherpa {
@@ -19,7 +21,7 @@ struct FastBeamSearchConfig {
 
   // A floating point value to calculate the cutoff score during beam
   // search (i.e., `cutoff = max-score - beam`), which is the same as the
-  //`beam` in Kaldi.
+  // `beam` in Kaldi.
   float beam = 20.0;
   int32_t max_states = 64;
   int32_t max_contexts = 8;

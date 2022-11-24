@@ -4,6 +4,8 @@
 
 #include "sherpa/csrc/online-transducer-fast-beam-search-decoder.h"
 
+#include <utility>
+
 #include "k2/torch_api.h"
 #include "sherpa/csrc/online-transducer-decoder.h"
 
