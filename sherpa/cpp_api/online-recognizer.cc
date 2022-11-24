@@ -48,8 +48,30 @@ std::string OnlineRecognitionResult::AsJsonString() const {
   return j.dump();
 }
 
+// TODO(fangjun): Add a prefix for it
+void FastBeamSearchConfig::Register(ParseOptions *po) {
+  po->Register("lg", &lg,
+               "Path to LG.pt. Used only for fast_beam_search "
+               "in transducer decoding");
+
+  po->Register("ngram-lm-scale", &ngram_lm_scale,
+               "Scale the scores from LG.pt. Used only for fast_beam_search "
+               "in transducer decoding");
+
+  po->Register("beam", &beam, "Beam used in fast_beam_search");
+}
+
+void FastBeamSearchConfig::Validate() const {
+  if (!lg.empty()) {
+    AssertFileExists(lg);
+  }
+  SHERPA_CHECK_GE(ngram_lm_scale, 0);
+  SHERPA_CHECK_GT(beam, 0);
+}
+
 void OnlineRecognizerConfig::Register(ParseOptions *po) {
   feat_config.Register(po);
+  fast_beam_search_config.Register(po);
 
   po->Register("nn-model", &nn_model, "Path to the torchscript model");
 
@@ -133,11 +155,16 @@ void OnlineRecognizerConfig::Validate() const {
 }
 
 static OnlineRecognitionResult Convert(OnlineTransducerDecoderResult src,
-                                       const SymbolTable &sym) {
+                                       const SymbolTable &sym,
+                                       bool insert_space) {
   OnlineRecognitionResult r;
   std::string text;
   for (auto i : src.tokens) {
     text.append(sym[i]);
+
+    if (insert_space) {
+      text.append(" ");
+    }
   }
   r.text = std::move(text);
   r.tokens = std::move(src.tokens);
@@ -203,8 +230,12 @@ class OnlineRecognizer::OnlineRecognizerImpl {
       decoder_ = std::make_unique<OnlineTransducerModifiedBeamSearchDecoder>(
           model_.get(), config.num_active_paths);
     } else if (config.decoding_method == "fast_beam_search") {
+      config.fast_beam_search_config.Validate();
+
+      insert_space_ = !config.fast_beam_search_config.lg.empty();
+
       decoder_ = std::make_unique<OnlineTransducerFastBeamSearchDecoder>(
-          model_.get(), FastBeamSearchConfig());
+          model_.get(), config.fast_beam_search_config);
     } else {
       TORCH_CHECK(false,
                   "Unsupported decoding method: ", config.decoding_method);
@@ -295,7 +326,7 @@ class OnlineRecognizer::OnlineRecognizerImpl {
   OnlineRecognitionResult GetResult(OnlineStream *s) const {
     auto r = s->GetResult();  // we use a copy here as we will change it below
     decoder_->StripLeadingBlanks(&r);
-    return Convert(r, symbol_table_);
+    return Convert(r, symbol_table_, insert_space_);
   }
 
  private:
@@ -332,6 +363,8 @@ class OnlineRecognizer::OnlineRecognizerImpl {
   std::unique_ptr<OnlineTransducerModel> model_;
   std::unique_ptr<OnlineTransducerDecoder> decoder_;
   SymbolTable symbol_table_;
+  // if it is a word table, we set insert_space_ to true
+  bool insert_space_ = false;
 };
 
 OnlineRecognizer::OnlineRecognizer(const OnlineRecognizerConfig &config)

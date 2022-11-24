@@ -17,11 +17,35 @@
 
 namespace sherpa {
 
+// For transducer decoding with a graph
+struct FastBeamSearchConfig {
+  // If not empty, it is the filename of LG.pt
+  // If empty, we use a trivial graph in decoding.
+  std::string lg;
+
+  // If lg is not empty, lg.scores is scaled by this value
+  float ngram_lm_scale = 0.01;
+
+  // A floating point value to calculate the cutoff score during beam
+  // search (i.e., `cutoff = max-score - beam`), which is the same as the
+  //`beam` in Kaldi.
+  float beam = 20.0;
+  int32_t max_states = 64;
+  int32_t max_contexts = 8;
+  bool allow_partial = false;
+
+  void Register(ParseOptions *po);
+
+  void Validate() const;
+};
+
 struct OnlineRecognizerConfig {
   /// Config for the feature extractor
   FeatureConfig feat_config;
 
   EndpointConfig endpoint_config;
+
+  FastBeamSearchConfig fast_beam_search_config;
 
   /// Path to the torchscript model
   std::string nn_model;
