@@ -163,6 +163,7 @@ class OfflineRecognizerCtcImpl : public OfflineRecognizerImpl {
   torch::Device device_;
   bool normalize_samples_ = true;
   bool return_waveform_ = false;
+  // if it is a word table, we set insert_space_ to true
   bool insert_space_ = false;
 };
 

@@ -7,6 +7,7 @@
 
 #include <vector>
 
+#include "k2/torch_api.h"
 #include "sherpa/csrc/hypothesis.h"
 #include "torch/script.h"
 
@@ -27,6 +28,11 @@ struct OnlineTransducerDecoderResult {
 
   // used only for modified_beam_search
   Hypotheses hyps;
+
+  k2::RnntStreamPtr rnnt_stream;  // used only for fast_beam_search
+
+  // Before subsampling. Used only for fast_beam_search
+  int32_t num_processed_frames = 0;
 };
 
 class OnlineTransducerDecoder {

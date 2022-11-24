@@ -79,7 +79,7 @@ jobs:
           python3 -m pip install wheel twine typing_extensions websockets sentencepiece>=0.1.96
           python3 -m pip install torch==${{ matrix.torch }}+cpu numpy -f https://download.pytorch.org/whl/cpu/torch_stable.html
 
-          python3 -m pip install k2==1.22.dev20221112+cpu.torch${{ matrix.torch }} -f https://k2-fsa.org/nightly/index.html
+          python3 -m pip install k2==1.23.1.dev20221124+cpu.torch${{ matrix.torch }} -f https://k2-fsa.org/nightly/index.html
 
           if [[ ${{ matrix.torchaudio }} == "0.10.0" ]]; then
             pip install torchaudio==${{ matrix.torchaudio }}+cpu -f https://download.pytorch.org/whl/cpu/torch_stable.html
@@ -98,7 +98,7 @@ jobs:
           python3 -m pip install wheel twine typing_extensions websockets sentencepiece>=0.1.96
           python3 -m pip install torch==${{ matrix.torch }} torchaudio==${{ matrix.torchaudio }} numpy -f https://download.pytorch.org/whl/cpu/torch_stable.html
 
-          python3 -m pip install k2==1.22.dev20221112+cpu.torch${{ matrix.torch }} -f https://k2-fsa.org/nightly/index.html
+          python3 -m pip install k2==1.23.1.dev20221124+cpu.torch${{ matrix.torch }} -f https://k2-fsa.org/nightly/index.html
 
           python3 -m torch.utils.collect_env
 

@@ -9,6 +9,7 @@
 #include <string>
 #include <vector>
 
+#include "sherpa/cpp_api/fast-beam-search-config.h"
 #include "sherpa/cpp_api/feature-config.h"
 #include "sherpa/cpp_api/online-stream.h"
 
@@ -22,6 +23,8 @@ struct OnlineRecognizerConfig {
   FeatureConfig feat_config;
 
   EndpointConfig endpoint_config;
+
+  FastBeamSearchConfig fast_beam_search_config;
 
   /// Path to the torchscript model
   std::string nn_model;

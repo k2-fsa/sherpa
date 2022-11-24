@@ -1,20 +1,6 @@
-/**
- * Copyright      2022  Xiaomi Corporation (authors: Fangjun Kuang)
- *
- * See LICENSE for clarification regarding multiple authors
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+// sherpa/cpp_api/online-recognizer.cc
+//
+// Copyright (c)  2022  Xiaomi Corporation
 
 #include "sherpa/cpp_api/online-recognizer.h"
 
@@ -28,6 +14,7 @@
 #include "sherpa/csrc/online-emformer-transducer-model.h"
 #include "sherpa/csrc/online-lstm-transducer-model.h"
 #include "sherpa/csrc/online-transducer-decoder.h"
+#include "sherpa/csrc/online-transducer-fast-beam-search-decoder.h"
 #include "sherpa/csrc/online-transducer-greedy-search-decoder.h"
 #include "sherpa/csrc/online-transducer-model.h"
 #include "sherpa/csrc/online-transducer-modified-beam-search-decoder.h"
@@ -49,6 +36,7 @@ std::string OnlineRecognitionResult::AsJsonString() const {
 
 void OnlineRecognizerConfig::Register(ParseOptions *po) {
   feat_config.Register(po);
+  fast_beam_search_config.Register(po);
 
   po->Register("nn-model", &nn_model, "Path to the torchscript model");
 
@@ -70,7 +58,8 @@ void OnlineRecognizerConfig::Register(ParseOptions *po) {
 
   po->Register("decoding-method", &decoding_method,
                "Decoding method to use. Possible values are: greedy_search, "
-               "modified_beam_search. Used only for transducer.");
+               "modified_beam_search, and fast_beam_search. "
+               "Used only for transducer.");
 
   po->Register("num-active-paths", &num_active_paths,
                "Number of active paths for modified_beam_search. "
@@ -117,10 +106,12 @@ void OnlineRecognizerConfig::Validate() const {
   AssertFileExists(tokens);
 
   if (decoding_method != "greedy_search" &&
-      decoding_method != "modified_beam_search") {
+      decoding_method != "modified_beam_search" &&
+      decoding_method != "fast_beam_search") {
     SHERPA_LOG(FATAL)
         << "Unsupported decoding method: " << decoding_method
-        << ". Supported values are: greedy_search, modified_beam_search";
+        << ". Supported values are: greedy_search, modified_beam_search, "
+        << "fast_beam_search.";
   }
 
   if (decoding_method == "modified_beam_search") {
@@ -129,11 +120,16 @@ void OnlineRecognizerConfig::Validate() const {
 }
 
 static OnlineRecognitionResult Convert(OnlineTransducerDecoderResult src,
-                                       const SymbolTable &sym) {
+                                       const SymbolTable &sym,
+                                       bool insert_space) {
   OnlineRecognitionResult r;
   std::string text;
   for (auto i : src.tokens) {
     text.append(sym[i]);
+
+    if (insert_space) {
+      text.append(" ");
+    }
   }
   r.text = std::move(text);
   r.tokens = std::move(src.tokens);
@@ -190,12 +186,21 @@ class OnlineRecognizer::OnlineRecognizerImpl {
       }
     }
 
+    WarmUp();
+
     if (config.decoding_method == "greedy_search") {
       decoder_ =
           std::make_unique<OnlineTransducerGreedySearchDecoder>(model_.get());
     } else if (config.decoding_method == "modified_beam_search") {
       decoder_ = std::make_unique<OnlineTransducerModifiedBeamSearchDecoder>(
           model_.get(), config.num_active_paths);
+    } else if (config.decoding_method == "fast_beam_search") {
+      config.fast_beam_search_config.Validate();
+
+      insert_space_ = !config.fast_beam_search_config.lg.empty();
+
+      decoder_ = std::make_unique<OnlineTransducerFastBeamSearchDecoder>(
+          model_.get(), config.fast_beam_search_config);
     } else {
       TORCH_CHECK(false,
                   "Unsupported decoding method: ", config.decoding_method);
@@ -276,16 +281,45 @@ class OnlineRecognizer::OnlineRecognizerImpl {
 
     for (int32_t i = 0; i != n; ++i) {
       OnlineStream *s = ss[i];
+      all_results[i].num_processed_frames += chunk_shift;
       s->SetResult(all_results[i]);
       s->SetState(std::move(unstacked_states[i]));
-      s->GetNumProcessedFrames() += chunk_shift;
+      s->GetNumProcessedFrames() += chunk_shift;  // TODO(fangjun): Remove it
     }
   }
 
   OnlineRecognitionResult GetResult(OnlineStream *s) const {
     auto r = s->GetResult();  // we use a copy here as we will change it below
     decoder_->StripLeadingBlanks(&r);
-    return Convert(r, symbol_table_);
+    return Convert(r, symbol_table_, insert_space_);
+  }
+
+ private:
+  void WarmUp() {
+    SHERPA_LOG(INFO) << "WarmUp begins";
+    torch::Tensor features =
+        torch::rand({1, model_->ChunkSize(),
+                     config_.feat_config.fbank_opts.mel_opts.num_bins},
+                    device_);
+    torch::Tensor features_length =
+        torch::full({features.size(0)}, model_->ChunkSize(), torch::kLong)
+            .to(device_);
+    model_->WarmUp(features, features_length);
+
+#if 0
+    // We don't use the following code since we want to set `model_->vocab_size`
+    auto s = CreateStream();
+    float sample_rate = config_.feat_config.fbank_opts.frame_opts.samp_freq;
+    torch::tensor samples({2 * static_cast<int32_t>(sample_rate)},
+                          torch::kFloat);
+
+    s->AcceptWaveform(sample_rate, samples);
+    s->InputFinished();
+    OnlineStream ss[1] = {s.get()};
+    DecodeStreams(ss, 1);
+#endif
+
+    SHERPA_LOG(INFO) << "WarmUp ended";
   }
 
  private:
@@ -294,6 +328,8 @@ class OnlineRecognizer::OnlineRecognizerImpl {
   std::unique_ptr<OnlineTransducerModel> model_;
   std::unique_ptr<OnlineTransducerDecoder> decoder_;
   SymbolTable symbol_table_;
+  // if it is a word table, we set insert_space_ to true
+  bool insert_space_ = false;
 };
 
 OnlineRecognizer::OnlineRecognizer(const OnlineRecognizerConfig &config)

@@ -7,6 +7,7 @@ set(sherpa_srcs
   offline-wenet-conformer-ctc-model.cc
   offline-ctc-one-best-decoder.cc
   offline-wav2vec2-ctc-model.cc
+  offline-transducer-fast-beam-search-decoder.cc
 
   online-conv-emformer-transducer-model.cc
   online-transducer-greedy-search-decoder.cc
@@ -14,6 +15,7 @@ set(sherpa_srcs
   online-emformer-transducer-model.cc
   online-conformer-transducer-model.cc
   online-lstm-transducer-model.cc
+  online-transducer-fast-beam-search-decoder.cc
 
   # TODO(fangjun): Refactor the following files
   endpoint.cc
