@@ -49,6 +49,8 @@ class OfflineRecognizerTransducerImpl : public OfflineRecognizerImpl {
     model_ = std::make_unique<OfflineConformerTransducerModel>(config.nn_model,
                                                                device_);
 
+    WarmUp();
+
     if (config.decoding_method == "greedy_search") {
       decoder_ =
           std::make_unique<OfflineTransducerGreedySearchDecoder>(model_.get());
@@ -96,6 +98,21 @@ class OfflineRecognizerTransducerImpl : public OfflineRecognizerImpl {
     for (int32_t i = 0; i != n; ++i) {
       ss[i]->SetResult(Convert(results[i], symbol_table_));
     }
+  }
+
+ private:
+  void WarmUp() {
+    SHERPA_LOG(INFO) << "WarmUp begins";
+    auto s = CreateStream();
+    float sample_rate = fbank_.GetFrameOptions().samp_freq;
+    std::vector<float> samples(2 * sample_rate, 0);
+    s->AcceptSamples(samples.data(), samples.size());
+    auto features = s->GetFeatures();
+    auto features_length = torch::tensor({features.size(0)});
+    features = features.unsqueeze(0);
+
+    model_->WarmUp(features, features_length);
+    SHERPA_LOG(INFO) << "WarmUp ended";
   }
 
  private:
