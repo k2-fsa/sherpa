@@ -48,8 +48,8 @@ OfflineTransducerFastBeamSearchDecoder::Decode(
     contexts = contexts.to(torch::kLong);
     // contexts.shape: (num_hyps, context_size)
 
-    auto decoder_out = model_->RunDecoder(contexts).squeeze(1);
-    // decoder_out.shape: (num_hyps, joiner_dim)
+    auto decoder_out = model_->RunDecoder(contexts).unsqueeze(1);
+    // decoder_out.shape: (num_hyps, 1, 1, joiner_dim)
 
     auto cur_encoder_out = encoder_out.index({torch::indexing::Slice(), t});
     // cur_encoder_out has shape (N, joiner_dim)
@@ -58,7 +58,13 @@ OfflineTransducerFastBeamSearchDecoder::Decode(
     cur_encoder_out = cur_encoder_out.index_select(/*dim*/ 0, /*index*/ index);
     // cur_encoder_out has shape (num_hyps, joiner_dim)
 
+    cur_encoder_out = cur_encoder_out.unsqueeze(1).unsqueeze(1);
+    // cur_encoder_out.shape (num_hyps, 1, 1, joiner_dim)
+
     auto logits = model_->RunJoiner(cur_encoder_out, decoder_out);
+    // logits.shape: (num_hyps, 1, 1, vocab_size)
+
+    logits = logits.squeeze(1).squeeze(1);
     // logits.shape: (num_hyps, vocab_size)
 
     auto log_probs = logits.log_softmax(-1);
