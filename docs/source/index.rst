@@ -36,8 +36,6 @@ for both streaming ASR and offline ASR (i.e., non-streaming ASR).
 
    ./cpp/installation/index
    ./cpp/pretrained_models/index
-   ./cpp/offline_asr/index
-   ./cpp/online_asr/index
 
 .. toctree::
    :maxdepth: 2
@@ -60,4 +58,3 @@ for both streaming ASR and offline ASR (i.e., non-streaming ASR).
    ./triton/server/index
    ./triton/client/index
    ./triton/perf/index
-
