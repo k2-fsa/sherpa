@@ -29,3 +29,4 @@ This page lists all available pre-trained models that you can download.
 
    offline_ctc
    offline_transducer
+   online_transducer

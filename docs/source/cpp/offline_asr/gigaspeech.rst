@@ -4,7 +4,7 @@ Pretrained model with GigaSpeech
 .. hint::
 
   We assume you have installed ``sherpa`` by following
-  :ref:`cpp_fronted_installation` before you start this section.
+  :ref:`cpp_installation` before you start this section.
 
 Download the pretrained model
 -----------------------------

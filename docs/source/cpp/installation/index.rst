@@ -1,4 +1,4 @@
-.. _cpp_fronted_installation:
+.. _cpp_installation:
 
 Installation
 ============

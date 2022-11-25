@@ -93,3 +93,117 @@ time ./build/bin/sherpa-online \
 rm -rf $repo
 log "End of testing ${repo_url}"
 log "=========================================================================="
+
+repo_url=https://huggingface.co/csukuangfj/icefall-asr-librispeech-pruned-stateless-emformer-rnnt2-2022-06-01
+log "Start testing ${repo_url}"
+repo=$(basename $repo_url)
+log "Download pretrained model and test-data from $repo_url"
+
+GIT_LFS_SKIP_SMUDGE=1 git clone $repo_url
+pushd $repo
+git lfs pull --include "exp/cpu_jit-epoch-39-avg-6-use-averaged-model-1.pt"
+git lfs pull --include "data/lang_bpe_500/LG.pt"
+cd exp
+ln -sv cpu_jit-epoch-39-avg-6-use-averaged-model-1.pt cpu_jit.pt
+popd
+
+for m in greedy_search modified_beam_search fast_beam_search; do
+  time ./build/bin/sherpa-online \
+    --decoding-method=$m \
+    --nn-model=$repo/exp/cpu_jit.pt \
+    --tokens=$repo/data/lang_bpe_500/tokens.txt \
+    $repo/test_wavs/1089-134686-0001.wav \
+    $repo/test_wavs/1221-135766-0001.wav \
+    $repo/test_wavs/1221-135766-0002.wav
+done
+
+# For fast_beam_search with LG
+
+time ./build/bin/sherpa-online \
+  --decoding-method=fast_beam_search \
+  --nn-model=$repo/exp/cpu_jit.pt \
+  --lg=$repo/data/lang_bpe_500/LG.pt \
+  --tokens=$repo/data/lang_bpe_500/tokens.txt \
+  $repo/test_wavs/1089-134686-0001.wav \
+  $repo/test_wavs/1221-135766-0001.wav \
+  $repo/test_wavs/1221-135766-0002.wav
+
+rm -rf $repo
+log "End of testing ${repo_url}"
+log "=========================================================================="
+
+repo_url=https://huggingface.co/pkufool/icefall_librispeech_streaming_pruned_transducer_stateless4_20220625
+log "Start testing ${repo_url}"
+repo=$(basename $repo_url)
+log "Download pretrained model and test-data from $repo_url"
+
+GIT_LFS_SKIP_SMUDGE=1 git clone $repo_url
+pushd $repo
+git lfs pull --include "exp/cpu_jit-epoch-25-avg-3.pt"
+git lfs pull --include "data/lang_bpe_500/LG.pt"
+cd exp
+ln -sv cpu_jit-epoch-25-avg-3.pt cpu_jit.pt
+popd
+
+for m in greedy_search modified_beam_search fast_beam_search; do
+  time ./build/bin/sherpa-online \
+    --decoding-method=$m \
+    --nn-model=$repo/exp/cpu_jit.pt \
+    --tokens=$repo/data/lang_bpe_500/tokens.txt \
+    $repo/test_waves/1089-134686-0001.wav \
+    $repo/test_waves/1221-135766-0001.wav \
+    $repo/test_waves/1221-135766-0002.wav
+done
+
+# For fast_beam_search with LG
+
+time ./build/bin/sherpa-online \
+  --decoding-method=fast_beam_search \
+  --nn-model=$repo/exp/cpu_jit.pt \
+  --lg=$repo/data/lang_bpe_500/LG.pt \
+  --tokens=$repo/data/lang_bpe_500/tokens.txt \
+  $repo/test_waves/1089-134686-0001.wav \
+  $repo/test_waves/1221-135766-0001.wav \
+  $repo/test_waves/1221-135766-0002.wav
+
+rm -rf $repo
+log "End of testing ${repo_url}"
+log "=========================================================================="
+
+repo_url=https://huggingface.co/luomingshuang/icefall_asr_wenetspeech_pruned_transducer_stateless5_streaming
+log "Start testing ${repo_url}"
+repo=$(basename $repo_url)
+log "Download pretrained model and test-data from $repo_url"
+
+GIT_LFS_SKIP_SMUDGE=1 git clone $repo_url
+pushd $repo
+git lfs pull --include "exp/cpu_jit_epoch_7_avg_1_torch.1.7.1.pt"
+git lfs pull --include "data/lang_char/LG.pt"
+cd exp
+ln -sv cpu_jit_epoch_7_avg_1_torch.1.7.1.pt cpu_jit.pt
+popd
+
+for m in greedy_search modified_beam_search fast_beam_search; do
+  time ./build/bin/sherpa-online \
+    --decoding-method=$m \
+    --nn-model=$repo/exp/cpu_jit.pt \
+    --tokens=$repo/data/lang_char/tokens.txt \
+    $repo/test_wavs/DEV_T0000000000.wav \
+    $repo/test_wavs/DEV_T0000000001.wav \
+    $repo/test_wavs/DEV_T0000000002.wav
+done
+
+# For fast_beam_search with LG
+
+time ./build/bin/sherpa-online \
+  --decoding-method=fast_beam_search \
+  --nn-model=$repo/exp/cpu_jit.pt \
+  --lg=$repo/data/lang_char/LG.pt \
+  --tokens=$repo/data/lang_char/tokens.txt \
+  $repo/test_wavs/DEV_T0000000000.wav \
+  $repo/test_wavs/DEV_T0000000001.wav \
+  $repo/test_wavs/DEV_T0000000002.wav
+
+rm -rf $repo
+log "End of testing ${repo_url}"
+log "=========================================================================="
