@@ -37,8 +37,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-18.04]
-        torch: ["1.7.1"]
+        os: [ubuntu-latest]
+        torch: ["1.10.0"]
         python-version: [3.8]
     steps:
       # refer to https://github.com/actions/checkout
