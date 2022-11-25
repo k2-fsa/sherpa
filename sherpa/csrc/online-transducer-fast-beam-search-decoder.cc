@@ -30,11 +30,6 @@ OnlineTransducerFastBeamSearchDecoder::GetEmptyResult() {
   return r;
 }
 
-void OnlineTransducerFastBeamSearchDecoder::StripLeadingBlanks(
-    OnlineTransducerDecoderResult * /*r*/) {
-  // Don't need to do anything
-}
-
 void OnlineTransducerFastBeamSearchDecoder::Decode(
     torch::Tensor encoder_out,
     std::vector<OnlineTransducerDecoderResult> *results) {
@@ -90,7 +85,8 @@ void OnlineTransducerFastBeamSearchDecoder::Decode(
 
     auto log_probs = logits.log_softmax(-1);
     k2::AdvanceRnntStreams(streams, log_probs);
-  }
+  }  // for (int32_t t = 0; t != T; ++t)
+
   k2::TerminateAndFlushRnntStreams(streams);
 
   // TODO(fangjun): This assumes the subsampling factor is 4
@@ -102,11 +98,39 @@ void OnlineTransducerFastBeamSearchDecoder::Decode(
 
   auto lattice =
       k2::FormatOutput(streams, processed_frames_vec, config_.allow_partial);
-  // TODO(fangjun): Also return timestamps from k2::BestPath
-  std::vector<std::vector<int32_t>> tokens = k2::BestPath(lattice);
-  for (int32_t i = 0; i != N; ++i) {
-    (*results)[i].tokens = std::move(tokens[i]);
+
+  lattice = k2::ShortestPath(lattice);
+
+  // Get tokens and timestamps from the lattice
+  auto labels = k2::GetTensorAttr(lattice, "labels").cpu().contiguous();
+  auto acc = labels.accessor<int32_t, 1>();
+
+  for (auto &r : *results) {
+    r.tokens.clear();
+    r.timestamps.clear();
   }
+  OnlineTransducerDecoderResult *p = results->data();
+
+  for (int32_t i = 0, t = 0; i != labels.numel(); ++i) {
+    int32_t token = acc[i];
+
+    if (token == -1) {
+      // end of this utterance.
+      t = 0;
+      ++p;
+
+      continue;
+    }
+
+    if (token == 0) {
+      ++t;
+      continue;
+    }
+
+    p->tokens.push_back(token);
+    p->timestamps.push_back(t);
+    ++t;
+  }  // for (int32_t i = 0, t = 0; i != labels.numel(); ++i)
 }
 
 }  // namespace sherpa

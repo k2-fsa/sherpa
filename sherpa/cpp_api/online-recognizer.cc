@@ -135,7 +135,6 @@ void OnlineRecognizerConfig::Validate() const {
 
 static OnlineRecognitionResult Convert(const OnlineTransducerDecoderResult &src,
                                        const SymbolTable &sym_table,
-                                       bool insert_space,
                                        int32_t frame_shift_ms,
                                        int32_t subsampling_factor) {
   OnlineRecognitionResult r;
@@ -146,10 +145,6 @@ static OnlineRecognitionResult Convert(const OnlineTransducerDecoderResult &src,
   for (auto i : src.tokens) {
     auto sym = sym_table[i];
     text.append(sym);
-
-    if (insert_space) {
-      text.append(" ");
-    }
 
     r.tokens.push_back(sym);
   }
@@ -222,8 +217,6 @@ class OnlineRecognizer::OnlineRecognizerImpl {
           model_.get(), config.num_active_paths);
     } else if (config.decoding_method == "fast_beam_search") {
       config.fast_beam_search_config.Validate();
-
-      insert_space_ = !config.fast_beam_search_config.lg.empty();
 
       decoder_ = std::make_unique<OnlineTransducerFastBeamSearchDecoder>(
           model_.get(), config.fast_beam_search_config);
@@ -317,7 +310,7 @@ class OnlineRecognizer::OnlineRecognizerImpl {
   OnlineRecognitionResult GetResult(OnlineStream *s) {
     auto r = s->GetResult();  // we use a copy here as we will change it below
     decoder_->StripLeadingBlanks(&r);
-    auto ans = Convert(r, symbol_table_, insert_space_,
+    auto ans = Convert(r, symbol_table_,
                        config_.feat_config.fbank_opts.frame_opts.frame_shift_ms,
                        model_->SubsamplingFactor());
 
@@ -362,8 +355,6 @@ class OnlineRecognizer::OnlineRecognizerImpl {
   std::unique_ptr<OnlineTransducerModel> model_;
   std::unique_ptr<OnlineTransducerDecoder> decoder_;
   SymbolTable symbol_table_;
-  // if it is a word table, we set insert_space_ to true
-  bool insert_space_ = false;
 };
 
 OnlineRecognizer::OnlineRecognizer(const OnlineRecognizerConfig &config)

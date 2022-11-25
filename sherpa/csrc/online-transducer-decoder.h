@@ -48,7 +48,7 @@ class OnlineTransducerDecoder {
   virtual OnlineTransducerDecoderResult GetEmptyResult() = 0;
 
   /** Strip blanks added by `GetEmptyResult()`. */
-  virtual void StripLeadingBlanks(OnlineTransducerDecoderResult *r) = 0;
+  virtual void StripLeadingBlanks(OnlineTransducerDecoderResult * /*r*/) {}
 
   /** Run transducer beam search given the output from the encoder model.
    *
