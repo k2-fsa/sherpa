@@ -32,7 +32,7 @@ std::string OnlineRecognitionResult::AsJsonString() const {
   os << "[";
   std::string sep = "";
   for (auto t : timestamps) {
-    os << std::fixed << std::setprecision(2) << t << sep;
+    os << sep << std::fixed << std::setprecision(2) << t;
     sep = ",";
   }
   os << "]";
