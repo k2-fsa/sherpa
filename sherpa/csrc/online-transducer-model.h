@@ -118,6 +118,8 @@ class OnlineTransducerModel {
 
   int32_t VocabSize() const { return vocab_size_; }
 
+  int32_t SubsamplingFactor() const { return 4; }
+
   void WarmUp(torch::Tensor features, torch::Tensor features_length) {
     torch::IValue states = GetEncoderInitStates();
     states = StackStates({states});

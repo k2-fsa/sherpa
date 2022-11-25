@@ -42,8 +42,23 @@ Usage:
     --nn-model=/path/to/cpu_jit.pt \
     --tokens=/path/to/tokens.txt \
     --use-gpu=false \
+    --decoding-method=greedy_search
     foo.wav \
     bar.wav
+
+To use fast_beam_search with an LG, use
+
+  ./bin/sherpa-online \
+    --decoding-method=fast_beam_search \
+    --nn-model=/path/to/cpu_jit.pt \
+    --tokens=/path/to/words.txt \
+    --lg=/path/to/LG.pt \
+    --use-gpu=false \
+    foo.wav \
+    bar.wav
+
+(Caution: It uses words.txt, instead of tokens.txt, when using
+fast_beam_search with LG)
 
 Note: You can get pre-trained models for testing by visiting
  - English: https://huggingface.co/Zengwei/icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05
@@ -221,7 +236,9 @@ int32_t main(int32_t argc, char *argv[]) {
     std::ostringstream os;
     for (int32_t i = 1; i <= po.NumArgs(); ++i) {
       os << po.GetArg(i) << "\n";
-      os << recognizer.GetResult(p_ss[i - 1]).text << "\n\n";
+      auto r = recognizer.GetResult(p_ss[i - 1]);
+      os << r.text << "\n";
+      os << r.AsJsonString() << "\n\n";
     }
 
     std::cerr << os.str();
