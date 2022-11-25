@@ -95,6 +95,11 @@ void OnlineTransducerGreedySearchDecoder::Decode(
       decoder_out = model_->RunDecoder(decoder_input.to(device)).squeeze(1);
       // decoder_out has shape (N, joiner_dim)
     }
+  }  // for (int32_t t = 0; t != T; ++t)
+
+  // Update frame_offset
+  for (auto &r : *results) {
+    r.frame_offset += T;
   }
 }
 

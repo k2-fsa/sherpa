@@ -129,19 +129,6 @@ void OnlineWebsocketDecoder::ProcessConnections(const asio::error_code &ec) {
       continue;
     }
 
-    if (!recognizer_->IsReady(c->s.get()) &&
-        c->s->IsLastFrame(c->s->NumFramesReady() - 1)) {
-      auto result = recognizer_->GetResult(c->s.get());
-      result.is_final = true;
-
-      asio::post(server_->GetConnectionContext(),
-                 [this, hdl = hdl, json = result.AsJsonString()]() {
-                   server_->Send(hdl, json);
-                 });
-      to_remove.push_back(hdl);
-      continue;
-    }
-
     if (active_.count(hdl)) {
       // Another thread is decoding this stream, so skip it
       continue;
@@ -210,10 +197,6 @@ void OnlineWebsocketDecoder::Decode() {
 
   for (auto c : c_vec) {
     auto result = recognizer_->GetResult(c->s.get());
-    if (!recognizer_->IsReady(c->s.get()) &&
-        c->s->IsLastFrame(c->s->NumFramesReady() - 1)) {
-      result.is_final = true;
-    }
 
     asio::post(server_->GetConnectionContext(),
                [this, hdl = c->hdl, json = result.AsJsonString()]() {

@@ -26,6 +26,20 @@ std::string OnlineRecognitionResult::AsJsonString() const {
   using json = nlohmann::json;
   json j;
   j["text"] = text;
+  j["tokens"] = tokens;
+
+  std::ostringstream os;
+  os << "[";
+  std::string sep = "";
+  for (auto t : timestamps) {
+    os << sep << std::fixed << std::setprecision(2) << t;
+    sep = ",";
+  }
+  os << "]";
+
+  // NOTE: We don't use j["timestamps"] = timestamps;
+  // because we need to control the number of decimal points to keep
+  j["timestamps"] = os.str();
 
   // TODO(fangjun): The key in the json object should be kept
   // in sync with sherpa/bin/pruned_transducer_statelessX/streaming_server.py
@@ -119,21 +133,28 @@ void OnlineRecognizerConfig::Validate() const {
   }
 }
 
-static OnlineRecognitionResult Convert(OnlineTransducerDecoderResult src,
-                                       const SymbolTable &sym,
-                                       bool insert_space) {
+static OnlineRecognitionResult Convert(const OnlineTransducerDecoderResult &src,
+                                       const SymbolTable &sym_table,
+                                       int32_t frame_shift_ms,
+                                       int32_t subsampling_factor) {
   OnlineRecognitionResult r;
+  r.tokens.reserve(src.tokens.size());
+  r.timestamps.reserve(src.timestamps.size());
+
   std::string text;
   for (auto i : src.tokens) {
-    text.append(sym[i]);
+    auto sym = sym_table[i];
+    text.append(sym);
 
-    if (insert_space) {
-      text.append(" ");
-    }
+    r.tokens.push_back(sym);
   }
   r.text = std::move(text);
-  r.tokens = std::move(src.tokens);
-  r.timestamps = std::move(src.timestamps);
+
+  float frame_shift_s = frame_shift_ms / 1000. * subsampling_factor;
+  for (auto t : src.timestamps) {
+    float time = frame_shift_s * t;
+    r.timestamps.push_back(time);
+  }
 
   return r;
 }
@@ -196,8 +217,6 @@ class OnlineRecognizer::OnlineRecognizerImpl {
           model_.get(), config.num_active_paths);
     } else if (config.decoding_method == "fast_beam_search") {
       config.fast_beam_search_config.Validate();
-
-      insert_space_ = !config.fast_beam_search_config.lg.empty();
 
       decoder_ = std::make_unique<OnlineTransducerFastBeamSearchDecoder>(
           model_.get(), config.fast_beam_search_config);
@@ -288,10 +307,18 @@ class OnlineRecognizer::OnlineRecognizerImpl {
     }
   }
 
-  OnlineRecognitionResult GetResult(OnlineStream *s) const {
+  OnlineRecognitionResult GetResult(OnlineStream *s) {
     auto r = s->GetResult();  // we use a copy here as we will change it below
     decoder_->StripLeadingBlanks(&r);
-    return Convert(r, symbol_table_, insert_space_);
+    auto ans = Convert(r, symbol_table_,
+                       config_.feat_config.fbank_opts.frame_opts.frame_shift_ms,
+                       model_->SubsamplingFactor());
+
+    if (!IsReady(s) && s->IsLastFrame(s->NumFramesReady() - 1)) {
+      ans.is_final = true;
+    }
+
+    return ans;
   }
 
  private:
@@ -328,8 +355,6 @@ class OnlineRecognizer::OnlineRecognizerImpl {
   std::unique_ptr<OnlineTransducerModel> model_;
   std::unique_ptr<OnlineTransducerDecoder> decoder_;
   SymbolTable symbol_table_;
-  // if it is a word table, we set insert_space_ to true
-  bool insert_space_ = false;
 };
 
 OnlineRecognizer::OnlineRecognizer(const OnlineRecognizerConfig &config)
@@ -348,7 +373,7 @@ void OnlineRecognizer::DecodeStreams(OnlineStream **ss, int32_t n) {
   impl_->DecodeStreams(ss, n);
 }
 
-OnlineRecognitionResult OnlineRecognizer::GetResult(OnlineStream *s) const {
+OnlineRecognitionResult OnlineRecognizer::GetResult(OnlineStream *s) {
   return impl_->GetResult(s);
 }
 

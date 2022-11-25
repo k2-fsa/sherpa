@@ -106,7 +106,7 @@ class OnlineRecognizer {
    */
   void DecodeStreams(OnlineStream **ss, int32_t n);
 
-  OnlineRecognitionResult GetResult(OnlineStream *s) const;
+  OnlineRecognitionResult GetResult(OnlineStream *s);
 
  private:
   class OnlineRecognizerImpl;

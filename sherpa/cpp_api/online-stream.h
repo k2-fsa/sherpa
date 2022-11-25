@@ -22,12 +22,11 @@ struct OnlineRecognitionResult {
 
   /// Decoded results at the token level.
   /// For instance, for BPE-based models it consists of a list of BPE tokens.
-  std::vector<int32_t> tokens;
+  std::vector<std::string> tokens;
 
   /// timestamps.size() == tokens.size()
-  /// timestamps[i] records the frame number on which tokens[i] is decoded.
-  /// Frame numbers are counted after model subsampling.
-  std::vector<int32_t> timestamps;  // not implemented at present
+  /// timestamps[i] records the time in seconds when tokens[i] is decoded.
+  std::vector<float> timestamps;
 
   /// ID of this segment
   int32_t segment = 0;

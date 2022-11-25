@@ -42,6 +42,18 @@ Usage:
     --nn-model=/path/to/cpu_jit.pt \
     --tokens=/path/to/tokens.txt \
     --use-gpu=false \
+    --decoding-method=greedy_search
+    foo.wav \
+    bar.wav
+
+To use fast_beam_search with an LG, use
+
+  ./bin/sherpa-online \
+    --decoding-method=fast_beam_search \
+    --nn-model=/path/to/cpu_jit.pt \
+    --tokens=/path/to/tokens.txt \
+    --lg=/path/to/LG.pt \
+    --use-gpu=false \
     foo.wav \
     bar.wav
 
@@ -221,7 +233,9 @@ int32_t main(int32_t argc, char *argv[]) {
     std::ostringstream os;
     for (int32_t i = 1; i <= po.NumArgs(); ++i) {
       os << po.GetArg(i) << "\n";
-      os << recognizer.GetResult(p_ss[i - 1]).text << "\n\n";
+      auto r = recognizer.GetResult(p_ss[i - 1]);
+      os << r.text << "\n";
+      os << r.AsJsonString() << "\n\n";
     }
 
     std::cerr << os.str();

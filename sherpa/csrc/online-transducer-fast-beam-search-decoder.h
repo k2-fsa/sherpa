@@ -24,8 +24,6 @@ class OnlineTransducerFastBeamSearchDecoder : public OnlineTransducerDecoder {
   /* Return an empty result. */
   OnlineTransducerDecoderResult GetEmptyResult() override;
 
-  void StripLeadingBlanks(OnlineTransducerDecoderResult *r) override;
-
   void Decode(torch::Tensor encoder_out,
               std::vector<OnlineTransducerDecoderResult> *result) override;
 
