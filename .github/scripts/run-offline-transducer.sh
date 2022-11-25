@@ -290,3 +290,54 @@ done
 rm -rf $repo
 log "End of testing ${repo_url}"
 log "=========================================================================="
+
+repo_url=https://huggingface.co/luomingshuang/icefall_asr_aidatatang-200zh_pruned_transducer_stateless2
+log "Start testing ${repo_url}"
+repo=$(basename $repo_url)
+log "Download pretrained model and test-data (aishell) from $repo_url"
+
+GIT_LFS_SKIP_SMUDGE=1 git clone $repo_url
+pushd $repo
+git lfs pull --include "exp/cpu_jit_torch.1.7.1.pt"
+cd exp
+ln -sv cpu_jit_torch.1.7.1.pt cpu_jit.pt
+popd
+
+for m in greedy_search modified_beam_search fast_beam_search; do
+  time ./build/bin/sherpa-offline \
+    --decoding-method=$m \
+    --nn-model=$repo/exp/cpu_jit.pt \
+    --tokens=$repo/data/lang_char/tokens.txt \
+    $repo/test_wavs/T0055G0036S0002.wav \
+    $repo/test_wavs/T0055G0036S0003.wav \
+    $repo/test_wavs/T0055G0036S0004.wav
+done
+
+rm -rf $repo
+log "End of testing ${repo_url}"
+log "=========================================================================="
+
+repo_url=https://huggingface.co/luomingshuang/icefall_asr_tal-csasr_pruned_transducer_stateless5
+log "Start testing ${repo_url}"
+repo=$(basename $repo_url)
+log "Download pretrained model and test-data from $repo_url"
+
+GIT_LFS_SKIP_SMUDGE=1 git clone $repo_url
+pushd $repo
+git lfs pull --include "exp/cpu_jit.pt"
+popd
+
+for m in greedy_search modified_beam_search fast_beam_search; do
+  time ./build/bin/sherpa-offline \
+    --decoding-method=$m \
+    --nn-model=$repo/exp/cpu_jit.pt \
+    --tokens=$repo/data/lang_char/tokens.txt \
+    $repo/test_wavs/210_36476_210_8341_1_1533271973_7057520_132.wav \
+    $repo/test_wavs/210_36476_210_8341_1_1533271973_7057520_138.wav \
+    $repo/test_wavs/210_36476_210_8341_1_1533271973_7057520_145.wav \
+    $repo/test_wavs/210_36476_210_8341_1_1533271973_7057520_148.wav
+done
+
+rm -rf $repo
+log "End of testing ${repo_url}"
+log "=========================================================================="
