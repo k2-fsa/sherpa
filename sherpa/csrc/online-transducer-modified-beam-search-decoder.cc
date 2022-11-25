@@ -201,6 +201,7 @@ void OnlineTransducerModifiedBeamSearchDecoder::Decode(
 
   for (int32_t i = 0; i != N; ++i) {
     (*results)[i].hyps = std::move(cur[i]);
+    (*results)[i].frame_offset += T;
   }
 }
 
