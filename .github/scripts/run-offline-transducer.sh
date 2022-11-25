@@ -294,7 +294,7 @@ log "=========================================================================="
 repo_url=https://huggingface.co/luomingshuang/icefall_asr_aidatatang-200zh_pruned_transducer_stateless2
 log "Start testing ${repo_url}"
 repo=$(basename $repo_url)
-log "Download pretrained model and test-data (aishell) from $repo_url"
+log "Download pretrained model and test-data from $repo_url"
 
 GIT_LFS_SKIP_SMUDGE=1 git clone $repo_url
 pushd $repo
