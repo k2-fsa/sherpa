@@ -51,14 +51,11 @@ To use fast_beam_search with an LG, use
   ./bin/sherpa-online \
     --decoding-method=fast_beam_search \
     --nn-model=/path/to/cpu_jit.pt \
-    --tokens=/path/to/words.txt \
+    --tokens=/path/to/tokens.txt \
     --lg=/path/to/LG.pt \
     --use-gpu=false \
     foo.wav \
     bar.wav
-
-(Caution: It uses words.txt, instead of tokens.txt, when using
-fast_beam_search with LG)
 
 Note: You can get pre-trained models for testing by visiting
  - English: https://huggingface.co/Zengwei/icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05

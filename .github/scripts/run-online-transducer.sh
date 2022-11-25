@@ -39,7 +39,7 @@ time ./build/bin/sherpa-online \
   --decoding-method=fast_beam_search \
   --nn-model=$repo/exp/cpu_jit.pt \
   --lg=$repo/data/lang_bpe_500/LG.pt \
-  --tokens=$repo/data/lang_bpe_500/words.txt \
+  --tokens=$repo/data/lang_bpe_500/tokens.txt \
   $repo/test_wavs/1089-134686-0001.wav \
   $repo/test_wavs/1221-135766-0001.wav \
   $repo/test_wavs/1221-135766-0002.wav
@@ -85,7 +85,7 @@ time ./build/bin/sherpa-online \
   --decoder-model=$repo/exp/decoder_jit_trace.pt \
   --joiner-model=$repo/exp/joiner_jit_trace.pt \
   --lg=$repo/data/lang_bpe_500/LG.pt \
-  --tokens=$repo/data/lang_bpe_500/words.txt \
+  --tokens=$repo/data/lang_bpe_500/tokens.txt \
   $repo/test_wavs/1089-134686-0001.wav \
   $repo/test_wavs/1221-135766-0001.wav \
   $repo/test_wavs/1221-135766-0002.wav
