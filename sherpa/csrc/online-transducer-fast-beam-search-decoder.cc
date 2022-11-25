@@ -102,6 +102,7 @@ void OnlineTransducerFastBeamSearchDecoder::Decode(
 
   auto lattice =
       k2::FormatOutput(streams, processed_frames_vec, config_.allow_partial);
+  // TODO(fangjun): Also return timestamps from k2::BestPath
   std::vector<std::vector<int32_t>> tokens = k2::BestPath(lattice);
   for (int32_t i = 0; i != N; ++i) {
     (*results)[i].tokens = std::move(tokens[i]);
