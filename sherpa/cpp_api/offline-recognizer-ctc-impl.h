@@ -36,7 +36,7 @@ static OfflineRecognitionResult Convert(const OfflineCtcDecoderResult &src,
     auto sym = sym_table[i];
     text.append(sym);
 
-    r.tokens.push_back(sym);
+    r.tokens.push_back(std::move(sym));
   }
   r.text = std::move(text);
 
