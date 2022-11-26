@@ -27,37 +27,23 @@
 static constexpr const char *kUsageMessage = R"(
 Offline (non-streaming) automatic speech recognition with sherpa.
 
-See:
-
-  https://k2-fsa.github.io/sherpa/cpp/offline_asr/api.html
-
-for more details.
-
 Usage:
 (1) View help information.
 
-  ./bin/sherpa-offline-recognizer --help
+  ./bin/sherpa-offline --help
 
 (2) Use a pretrained model for recognition
 
-  ./bin/sherpa-offline-recognizer \
+  ./bin/sherpa-offline \
     --nn-model=/path/to/cpu_jit.pt \
     --tokens=/path/to/tokens.txt \
     --use-gpu=false \
     foo.wav \
     bar.wav
 
-Note: You can get pre-trained models for testing by visiting
- - Chinese: https://huggingface.co/luomingshuang/icefall_asr_wenetspeech_pruned_transducer_stateless2/tree/main/exp
- - English: https://huggingface.co/wgb14/icefall-asr-gigaspeech-pruned-transducer-stateless2/tree/main/exp
-
-Hint: In case you only have `data/lang_bpe_500/bpe.model`, you can use
-`./scripts/bpe_model_to_tokens.py /path/to/bpe.model > tokens.txt` to generate
-`tokens.txt` from `bpe.model`.
-
 (3) Decode wav.scp
 
-  ./bin/sherpa-offline-recognizer \
+  ./bin/sherpa-offline \
     --nn-model=/path/to/cpu_jit.pt \
     --tokens=/path/to/tokens.txt \
     --use-gpu=false \
@@ -67,7 +53,7 @@ Hint: In case you only have `data/lang_bpe_500/bpe.model`, you can use
 
 (4) Decode feats.scp
 
-  ./bin/sherpa-offline-recognizer \
+  ./bin/sherpa-offline \
     --nn-model=/path/to/cpu_jit.pt \
     --tokens=/path/to/tokens.txt \
     --use-gpu=false \
@@ -80,17 +66,14 @@ the range [-1, 1), to compute features,
 while Kaldi uses samples in the range [-32768, 32767] to compute features.
 If you use `feats.scp` from Kaldi with models from icefall, you won't get
 expected results.
-)";
 
-static std::ostream &operator<<(std::ostream &os,
-                                const std::vector<int32_t> &v) {
-  std::string sep = "";
-  for (auto i : v) {
-    os << sep << i;
-    sep = " ";
-  }
-  return os;
-}
+See:
+
+  https://k2-fsa.github.io/sherpa/cpp/pretrained_models/offline_transducer.html
+  https://k2-fsa.github.io/sherpa/cpp/pretrained_models/offline_ctc.html
+
+for more details.
+)";
 
 int main(int argc, char *argv[]) {
   // see
@@ -323,8 +306,10 @@ int main(int argc, char *argv[]) {
     recognizer.DecodeStreams(p_ss.data(), p_ss.size());
     std::ostringstream os;
     for (int32_t i = 0; i < po.NumArgs(); ++i) {
+      const auto &r = ss[i]->GetResult();
       os << "filename: " << po.GetArg(i + 1) << "\n"
-         << "result: " << ss[i]->GetResult().text << "\n\n";
+         << "result: " << r.text << "\n"
+         << r.AsJsonString() << "\n\n";
     }
 
     SHERPA_LOG(INFO) << "\n" << os.str();

@@ -38,7 +38,7 @@ time ./build/bin/sherpa-offline \
   --decoding-method=fast_beam_search \
   --nn-model=$repo/exp/cpu_jit.pt \
   --lg=$repo/data/lang_bpe_500/LG.pt \
-  --tokens=$repo/data/lang_bpe_500/words.txt \
+  --tokens=$repo/data/lang_bpe_500/tokens.txt \
   $repo/test_wavs/1089-134686-0001.wav \
   $repo/test_wavs/1221-135766-0001.wav \
   $repo/test_wavs/1221-135766-0002.wav
@@ -109,7 +109,7 @@ done
   --decoding-method=fast_beam_search \
   --nn-model=$repo/exp/cpu_jit.pt \
   --lg=$repo/data/lang_char/LG.pt \
-  --tokens=$repo/data/lang_char/words.txt \
+  --tokens=$repo/data/lang_char/tokens.txt \
   $repo/test_wavs/BAC009S0764W0121.wav \
   $repo/test_wavs/BAC009S0764W0122.wav \
   $repo/test_wavs/BAC009S0764W0123.wav
@@ -173,7 +173,7 @@ done
   --decoding-method=fast_beam_search \
   --nn-model=$repo/exp/cpu_jit.pt \
   --lg=$repo/data/lang_bpe_500/LG.pt \
-  --tokens=$repo/data/lang_bpe_500/words.txt \
+  --tokens=$repo/data/lang_bpe_500/tokens.txt \
   $repo/test_wavs/1089-134686-0001.wav \
   $repo/test_wavs/1221-135766-0001.wav \
   $repo/test_wavs/1221-135766-0002.wav
@@ -208,7 +208,7 @@ done
   --decoding-method=fast_beam_search \
   --nn-model=$repo/exp/cpu_jit.pt \
   --lg=$repo/data/lang_bpe_500/LG.pt \
-  --tokens=$repo/data/lang_bpe_500/words.txt \
+  --tokens=$repo/data/lang_bpe_500/tokens.txt \
   $repo/test_wavs/1089-134686-0001.wav \
   $repo/test_wavs/1221-135766-0001.wav \
   $repo/test_wavs/1221-135766-0002.wav
@@ -282,7 +282,7 @@ done
   --decoding-method=$m \
   --nn-model=$repo/exp/cpu_jit.pt \
   --lg=$repo/data/lang_char/LG.pt \
-  --tokens=$repo/data/lang_char/words.txt \
+  --tokens=$repo/data/lang_char/tokens.txt \
   $repo/test_wavs/DEV_T0000000000.wav \
   $repo/test_wavs/DEV_T0000000001.wav \
   $repo/test_wavs/DEV_T0000000002.wav

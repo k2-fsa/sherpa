@@ -23,21 +23,28 @@
 
 namespace sherpa {
 
-static OfflineRecognitionResult Convert(OfflineCtcDecoderResult src,
-                                        const SymbolTable &sym,
-                                        bool insert_space = false) {
+static OfflineRecognitionResult Convert(const OfflineCtcDecoderResult &src,
+                                        const SymbolTable &sym_table,
+                                        int32_t frame_shift_ms,
+                                        int32_t subsampling_factor) {
   OfflineRecognitionResult r;
+  r.tokens.reserve(src.tokens.size());
+  r.timestamps.reserve(src.timestamps.size());
+
   std::string text;
   for (auto i : src.tokens) {
-    text.append(sym[i]);
+    auto sym = sym_table[i];
+    text.append(sym);
 
-    if (insert_space) {
-      text.append(" ");
-    }
+    r.tokens.push_back(std::move(sym));
   }
   r.text = std::move(text);
-  r.tokens = std::move(src.tokens);
-  r.timestamps = std::move(src.timestamps);
+
+  float frame_shift_s = frame_shift_ms / 1000. * subsampling_factor;
+  for (auto t : src.timestamps) {
+    float time = frame_shift_s * t;
+    r.timestamps.push_back(time);
+  }
 
   return r;
 }
@@ -45,10 +52,10 @@ static OfflineRecognitionResult Convert(OfflineCtcDecoderResult src,
 class OfflineRecognizerCtcImpl : public OfflineRecognizerImpl {
  public:
   explicit OfflineRecognizerCtcImpl(const OfflineRecognizerConfig &config)
-      : symbol_table_(config.tokens),
+      : config_(config),
+        symbol_table_(config.tokens),
         fbank_(config.feat_config.fbank_opts),
-        device_(torch::kCPU),
-        normalize_samples_(config.feat_config.normalize_samples) {
+        device_(torch::kCPU) {
     config.ctc_decoder_config.Validate();
 
     if (config.use_gpu) {
@@ -75,6 +82,10 @@ class OfflineRecognizerCtcImpl : public OfflineRecognizerImpl {
           std::make_unique<OfflineWav2Vec2CtcModel>(config.nn_model, device_);
       return_waveform_ = true;
       symbol_table_.Replace(symbol_table_["|"], " ", "|");
+      // See Section 4.2 of
+      // https://arxiv.org/pdf/2006.11477.pdf
+      config_.feat_config.fbank_opts.frame_opts.frame_shift_ms = 20;
+      SHERPA_LOG(WARNING) << "Set frame_shift_ms to 20 for wav2vec 2.0";
     } else {
       std::string s =
           "Support only models from icefall, wenet and torchaudio\n"
@@ -95,15 +106,11 @@ class OfflineRecognizerCtcImpl : public OfflineRecognizerImpl {
 
     decoder_ = std::make_unique<OfflineCtcOneBestDecoder>(
         config.ctc_decoder_config, device_, model_->VocabSize());
-
-    // If we provide HLG, the decoder will return word IDs, we need
-    // to insert a space between each word.
-    insert_space_ = !config.ctc_decoder_config.hlg.empty();
   }
 
   std::unique_ptr<OfflineStream> CreateStream() override {
-    return std::make_unique<OfflineStream>(&fbank_, return_waveform_,
-                                           normalize_samples_);
+    return std::make_unique<OfflineStream>(
+        &fbank_, return_waveform_, config_.feat_config.normalize_samples);
   }
 
   void DecodeStreams(OfflineStream **ss, int32_t n) override {
@@ -136,7 +143,10 @@ class OfflineRecognizerCtcImpl : public OfflineRecognizerImpl {
     auto results =
         decoder_->Decode(log_prob, log_prob_len, model_->SubsamplingFactor());
     for (int32_t i = 0; i != n; ++i) {
-      ss[i]->SetResult(Convert(results[i], symbol_table_, insert_space_));
+      ss[i]->SetResult(
+          Convert(results[i], symbol_table_,
+                  config_.feat_config.fbank_opts.frame_opts.frame_shift_ms,
+                  model_->SubsamplingFactor()));
     }
   }
 
@@ -156,15 +166,13 @@ class OfflineRecognizerCtcImpl : public OfflineRecognizerImpl {
   }
 
  private:
+  OfflineRecognizerConfig config_;
   SymbolTable symbol_table_;
   std::unique_ptr<OfflineCtcModel> model_;
   std::unique_ptr<OfflineCtcDecoder> decoder_;
   kaldifeat::Fbank fbank_;
   torch::Device device_;
-  bool normalize_samples_ = true;
   bool return_waveform_ = false;
-  // if it is a word table, we set insert_space_ to true
-  bool insert_space_ = false;
 };
 
 }  // namespace sherpa

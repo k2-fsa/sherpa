@@ -24,7 +24,6 @@ icefall-asr-gigaspeech-conformer-ctc
   cd icefall-asr-gigaspeech-conformer-ctc
   git lfs pull --include "exp/cpu_jit.pt"
   git lfs pull --include "data/lang_bpe_500/HLG.pt"
-  git lfs pull --include "data/lang_bpe_500/words.txt"
   git lfs pull --include "data/lang_bpe_500/tokens.txt"
   mkdir test_wavs
   cd test_wavs
@@ -45,7 +44,7 @@ icefall-asr-gigaspeech-conformer-ctc
   sherpa-offline \
     --nn-model=./exp/cpu_jit.pt \
     --hlg=./data/lang_bpe_500/HLG.pt \
-    --tokens=./data/lang_bpe_500/words.txt \
+    --tokens=./data/lang_bpe_500/tokens.txt \
     ./test_wavs/1089-134686-0001.wav \
     ./test_wavs/1221-135766-0001.wav \
     ./test_wavs/1221-135766-0002.wav
@@ -60,7 +59,6 @@ icefall-asr-librispeech-conformer-ctc-jit-bpe-500-2021-11-09
 
   git lfs pull --include "exp/cpu_jit.pt"
   git lfs pull --include "data/lang_bpe_500/tokens.txt"
-  git lfs pull --include "data/lang_bpe_500/words.txt"
   git lfs pull --include "data/lang_bpe_500/HLG.pt"
   git lfs pull --include "data/lang_bpe_500/HLG_modified.pt"
 
@@ -76,7 +74,7 @@ icefall-asr-librispeech-conformer-ctc-jit-bpe-500-2021-11-09
   # Decode with HLG
   sherpa-offline \
     --nn-model=./exp/cpu_jit.pt \
-    --tokens=./data/lang_bpe_500/words.txt \
+    --tokens=./data/lang_bpe_500/tokens.txt \
     --hlg=./data/lang_bpe_500/HLG.pt \
     --use-gpu=false \
     ./test_wavs/1089-134686-0001.wav \
@@ -86,7 +84,7 @@ icefall-asr-librispeech-conformer-ctc-jit-bpe-500-2021-11-09
   # Decode with HLG (modified)
   sherpa-offline \
     --nn-model=./exp/cpu_jit.pt \
-    --tokens=./data/lang_bpe_500/words.txt \
+    --tokens=./data/lang_bpe_500/tokens.txt \
     --hlg=./data/lang_bpe_500/HLG_modified.pt \
     --use-gpu=false \
     ./test_wavs/1089-134686-0001.wav \
@@ -120,7 +118,7 @@ icefall_asr_aishell_conformer_ctc
   # Decode with an HLG graph
   sherpa-offline \
     --nn-model=./exp/cpu_jit.pt \
-    --tokens=./data/lang_char/words.txt \
+    --tokens=./data/lang_char/tokens.txt \
     --hlg=./data/lang_char/HLG.pt \
     ./test_waves/BAC009S0764W0121.wav \
     ./test_waves/BAC009S0764W0122.wav \

@@ -64,6 +64,7 @@ class OfflineTransducerModel {
    *  Conv1D, this function returns the kernel size of the convolution layer.
    */
   virtual int32_t ContextSize() const = 0;
+  virtual int32_t SubsamplingFactor() const { return 4; }
 
   int32_t VocabSize() const { return vocab_size_; }
 

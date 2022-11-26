@@ -6,9 +6,32 @@
 #include <memory>
 #include <string>
 
+#include "nlohmann/json.hpp"
 #include "sherpa/csrc/fbank-features.h"
 
 namespace sherpa {
+
+std::string OfflineRecognitionResult::AsJsonString() const {
+  using json = nlohmann::json;
+  json j;
+  j["text"] = text;
+  j["tokens"] = tokens;
+
+  std::ostringstream os;
+  os << "[";
+  std::string sep = "";
+  for (auto t : timestamps) {
+    os << sep << std::fixed << std::setprecision(2) << t;
+    sep = ",";
+  }
+  os << "]";
+
+  // NOTE: We don't use j["timestamps"] = timestamps;
+  // because we need to control the number of decimal points to keep
+  j["timestamps"] = os.str();
+
+  return j.dump();
+}
 
 class OfflineStream::OfflineStreamImpl {
  public:

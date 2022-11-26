@@ -83,13 +83,36 @@ OfflineTransducerFastBeamSearchDecoder::Decode(
   auto lattice =
       k2::FormatOutput(streams, processed_frames_vec, config_.allow_partial);
 
-  std::vector<std::vector<int32_t>> tokens = k2::BestPath(lattice);
+  lattice = k2::ShortestPath(lattice);
 
   std::vector<OfflineTransducerDecoderResult> results(batch_size);
 
-  for (int32_t i = 0; i != batch_size; ++i) {
-    results[i].tokens = std::move(tokens[i]);
-  }
+  // Get tokens and timestamps from the lattice
+  auto labels = k2::GetTensorAttr(lattice, "labels").cpu().contiguous();
+  auto acc = labels.accessor<int32_t, 1>();
+
+  OfflineTransducerDecoderResult *p = results.data();
+
+  for (int32_t i = 0, t = 0; i != labels.numel(); ++i) {
+    int32_t token = acc[i];
+
+    if (token == -1) {
+      // end of this utterance.
+      t = 0;
+      ++p;
+
+      continue;
+    }
+
+    if (token == 0) {
+      ++t;
+      continue;
+    }
+
+    p->tokens.push_back(token);
+    p->timestamps.push_back(t);
+    ++t;
+  }  // for (int32_t i = 0, t = 0; i != labels.numel(); ++i)
 
   return results;
 }

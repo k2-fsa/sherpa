@@ -42,7 +42,7 @@ icefall-asr-librispeech-pruned-transducer-stateless8-2022-11-14
     --decoding-method=fast_beam_search \
     --nn-model=./exp/cpu_jit.pt \
     --lg=./data/lang_bpe_500/LG.pt \
-    --tokens=./data/lang_bpe_500/words.txt \
+    --tokens=./data/lang_bpe_500/tokens.txt \
     ./test_wavs/1089-134686-0001.wav \
     ./test_wavs/1221-135766-0001.wav \
     ./test_wavs/1221-135766-0002.wav
@@ -78,7 +78,7 @@ icefall-asr-librispeech-pruned-transducer-stateless7-2022-11-11
     --decoding-method=fast_beam_search \
     --nn-model=./exp/cpu_jit.pt \
     --lg=./data/lang_bpe_500/LG.pt \
-    --tokens=./data/lang_bpe_500/words.txt \
+    --tokens=./data/lang_bpe_500/tokens.txt \
     ./test_wavs/1089-134686-0001.wav \
     ./test_wavs/1221-135766-0001.wav \
     ./test_wavs/1221-135766-0002.wav
@@ -111,7 +111,7 @@ icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13
     --decoding-method=fast_beam_search \
     --nn-model=./exp/cpu_jit.pt \
     --lg=./data/lang_bpe_500/LG.pt \
-    --tokens=./data/lang_bpe_500/words.txt \
+    --tokens=./data/lang_bpe_500/tokens.txt \
     ./test_wavs/1089-134686-0001.wav \
     ./test_wavs/1221-135766-0001.wav \
     ./test_wavs/1221-135766-0002.wav
@@ -190,7 +190,7 @@ icefall_asr_wenetspeech_pruned_transducer_stateless2
     --decoding-method=$m \
     --nn-model=./exp/cpu_jit.pt \
     --lg=./data/lang_char/LG.pt \
-    --tokens=./data/lang_char/words.txt \
+    --tokens=./data/lang_char/tokens.txt \
     ./test_wavs/DEV_T0000000000.wav \
     ./test_wavs/DEV_T0000000001.wav \
     ./test_wavs/DEV_T0000000002.wav
