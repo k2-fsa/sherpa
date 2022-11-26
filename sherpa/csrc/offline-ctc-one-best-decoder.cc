@@ -38,14 +38,42 @@ std::vector<OfflineCtcDecoderResult> OfflineCtcOneBestDecoder::Decode(
                                 config_.min_active_states,
                                 config_.max_active_states, subsampling_factor);
 
-  std::vector<std::vector<int32_t>> tokens = k2::BestPath(lattice);
-  std::vector<OfflineCtcDecoderResult> ans(tokens.size());
-  for (int32_t i = 0; i != static_cast<int32_t>(tokens.size()); ++i) {
-    ans[i].tokens = std::move(tokens[i]);
-    // TODO(fangjun): Set timestamps
-  }
+  lattice = k2::ShortestPath(lattice);
+  std::vector<OfflineCtcDecoderResult> results(log_prob.size(0));
 
-  return ans;
+  // Get tokens and timestamps from the lattice
+  auto labels = k2::GetTensorAttr(lattice, "labels").cpu().contiguous();
+  auto acc = labels.accessor<int32_t, 1>();
+
+  OfflineCtcDecoderResult *p = results.data();
+
+  for (int32_t i = 0, t = 0; i != labels.numel(); ++i) {
+    int32_t token = acc[i];
+
+    if (token == -1) {
+      // end of this utterance.
+      t = 0;
+      ++p;
+
+      continue;
+    }
+
+    if (token == 0) {
+      ++t;
+      continue;
+    }
+    if (t != 0 && !p->tokens.empty() && token == p->tokens.back()) {
+      // This is a repeat, skip it.
+      ++t;
+      continue;
+    }
+
+    p->tokens.push_back(token);
+    p->timestamps.push_back(t);
+    ++t;
+  }  // for (int32_t i = 0, t = 0; i != labels.numel(); ++i)
+
+  return results;
 }
 
 }  // namespace sherpa

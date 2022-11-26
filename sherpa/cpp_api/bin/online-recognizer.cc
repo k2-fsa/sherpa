@@ -57,9 +57,6 @@ To use fast_beam_search with an LG, use
     foo.wav \
     bar.wav
 
-Note: You can get pre-trained models for testing by visiting
- - English: https://huggingface.co/Zengwei/icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05
-
 (3) To use an LSTM model for recognition
 
   ./bin/sherpa-online \
@@ -80,6 +77,10 @@ Note: You can get pre-trained models for testing by visiting
     --use-wav-scp=true \
     scp:wav.scp \
     ark,scp,t:result.ark,result.scp
+
+See
+https://k2-fsa.github.io/sherpa/cpp/pretrained_models/online_transducer.html
+for more details.
 )";
 
 int32_t main(int32_t argc, char *argv[]) {

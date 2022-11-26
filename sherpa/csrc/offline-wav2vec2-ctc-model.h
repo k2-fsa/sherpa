@@ -26,7 +26,11 @@ class OfflineWav2Vec2CtcModel : public OfflineCtcModel {
 
   torch::Device Device() const override { return device_; }
 
-  int32_t SubsamplingFactor() const override { return 1; }
+  int32_t SubsamplingFactor() const override {
+    // See Section 4.2 of
+    // https://arxiv.org/pdf/2006.11477.pdf
+    return 1;
+  }
 
   /** Run the forward method of the model.
    * See

@@ -21,12 +21,25 @@ struct OfflineRecognitionResult {
 
   // Decoded results at the token level.
   // For instance, for BPE-based models it consists of a list of BPE tokens.
-  std::vector<int32_t> tokens;
+  std::vector<std::string> tokens;
 
-  // timestamps.size() == tokens.size()
-  // timestamps[i] records the frame number on which tokens[i] is decoded.
-  // Frame numbers are counted after model subsampling.
-  std::vector<int32_t> timestamps;  // not implemented at present
+  /// timestamps.size() == tokens.size()
+  /// timestamps[i] records the time in seconds when tokens[i] is decoded.
+  std::vector<float> timestamps;
+
+  /** Return a json string.
+   *
+   * The returned string contains:
+   *   {
+   *     "text": "The recognition result",
+   *     "tokens": [x, x, x],
+   *     "timestamps": [x, x, x],
+   *     "segment": x,
+   *     "start_frame": x,
+   *     "is_final": true|false
+   *   }
+   */
+  std::string AsJsonString() const;
 };
 
 class OfflineStream {

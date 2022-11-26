@@ -22,21 +22,27 @@
 
 namespace sherpa {
 
-static OfflineRecognitionResult Convert(OfflineTransducerDecoderResult src,
-                                        const SymbolTable &sym,
-                                        bool insert_space) {
+static OfflineRecognitionResult Convert(
+    const OfflineTransducerDecoderResult &src, const SymbolTable &sym_table,
+    int32_t frame_shift_ms, int32_t subsampling_factor) {
   OfflineRecognitionResult r;
+  r.tokens.reserve(src.tokens.size());
+  r.timestamps.reserve(src.timestamps.size());
+
   std::string text;
   for (auto i : src.tokens) {
-    text.append(sym[i]);
+    auto sym = sym_table[i];
+    text.append(sym);
 
-    if (insert_space) {
-      text.append(" ");
-    }
+    r.tokens.push_back(sym);
   }
   r.text = std::move(text);
-  r.tokens = std::move(src.tokens);
-  r.timestamps = std::move(src.timestamps);
+
+  float frame_shift_s = frame_shift_ms / 1000. * subsampling_factor;
+  for (auto t : src.timestamps) {
+    float time = frame_shift_s * t;
+    r.timestamps.push_back(time);
+  }
 
   return r;
 }
@@ -45,10 +51,10 @@ class OfflineRecognizerTransducerImpl : public OfflineRecognizerImpl {
  public:
   explicit OfflineRecognizerTransducerImpl(
       const OfflineRecognizerConfig &config)
-      : symbol_table_(config.tokens),
+      : config_(config),
+        symbol_table_(config.tokens),
         fbank_(config.feat_config.fbank_opts),
-        device_(torch::kCPU),
-        normalize_samples_(config.feat_config.normalize_samples) {
+        device_(torch::kCPU) {
     if (config.use_gpu) {
       device_ = torch::Device("cuda:0");
     }
@@ -66,8 +72,6 @@ class OfflineRecognizerTransducerImpl : public OfflineRecognizerImpl {
     } else if (config.decoding_method == "fast_beam_search") {
       config.fast_beam_search_config.Validate();
 
-      insert_space_ = !config.fast_beam_search_config.lg.empty();
-
       decoder_ = std::make_unique<OfflineTransducerFastBeamSearchDecoder>(
           model_.get(), config.fast_beam_search_config);
     } else {
@@ -78,8 +82,8 @@ class OfflineRecognizerTransducerImpl : public OfflineRecognizerImpl {
 
   std::unique_ptr<OfflineStream> CreateStream() override {
     bool return_waveform = false;
-    return std::make_unique<OfflineStream>(&fbank_, return_waveform,
-                                           normalize_samples_);
+    return std::make_unique<OfflineStream>(
+        &fbank_, return_waveform, config_.feat_config.normalize_samples);
   }
 
   void DecodeStreams(OfflineStream **ss, int32_t n) override {
@@ -109,7 +113,12 @@ class OfflineRecognizerTransducerImpl : public OfflineRecognizerImpl {
 
     auto results = decoder_->Decode(encoder_out, encoder_out_length);
     for (int32_t i = 0; i != n; ++i) {
-      ss[i]->SetResult(Convert(results[i], symbol_table_, insert_space_));
+      auto ans =
+          Convert(results[i], symbol_table_,
+                  config_.feat_config.fbank_opts.frame_opts.frame_shift_ms,
+                  model_->SubsamplingFactor());
+
+      ss[i]->SetResult(ans);
     }
   }
 
@@ -129,14 +138,12 @@ class OfflineRecognizerTransducerImpl : public OfflineRecognizerImpl {
   }
 
  private:
+  OfflineRecognizerConfig config_;
   SymbolTable symbol_table_;
   std::unique_ptr<OfflineTransducerModel> model_;
   std::unique_ptr<OfflineTransducerDecoder> decoder_;
   kaldifeat::Fbank fbank_;
   torch::Device device_;
-  bool normalize_samples_;
-  // if it is a word table, we set insert_space_ to true
-  bool insert_space_ = false;
 };
 
 }  // namespace sherpa
