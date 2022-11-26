@@ -19,7 +19,6 @@ GIT_LFS_SKIP_SMUDGE=1 git clone $repo_url
 pushd $repo
 git lfs pull --include "exp/cpu_jit.pt"
 git lfs pull --include "data/lang_bpe_500/tokens.txt"
-git lfs pull --include "data/lang_bpe_500/words.txt"
 git lfs pull --include "data/lang_bpe_500/HLG.pt"
 git lfs pull --include "data/lang_bpe_500/HLG_modified.pt"
 popd
@@ -38,7 +37,7 @@ log "Decoding with HLG"
 
 ./build/bin/sherpa-offline \
   --nn-model=$repo/exp/cpu_jit.pt \
-  --tokens=$repo/data/lang_bpe_500/words.txt \
+  --tokens=$repo/data/lang_bpe_500/tokens.txt \
   --hlg=$repo/data/lang_bpe_500/HLG.pt \
   --use-gpu=false \
   $repo/test_wavs/1089-134686-0001.wav \
@@ -49,7 +48,7 @@ log "Decoding with HLG (modified H)"
 
 ./build/bin/sherpa-offline \
   --nn-model=$repo/exp/cpu_jit.pt \
-  --tokens=$repo/data/lang_bpe_500/words.txt \
+  --tokens=$repo/data/lang_bpe_500/tokens.txt \
   --hlg=$repo/data/lang_bpe_500/HLG_modified.pt \
   --use-gpu=false \
   $repo/test_wavs/1089-134686-0001.wav \
@@ -159,7 +158,6 @@ GIT_LFS_SKIP_SMUDGE=1 git clone $repo_url
 pushd $repo
 git lfs pull --include "exp/cpu_jit.pt"
 git lfs pull --include "data/lang_bpe_500/HLG.pt"
-git lfs pull --include "data/lang_bpe_500/words.txt"
 git lfs pull --include "data/lang_bpe_500/tokens.txt"
 
 mkdir test_wavs
@@ -184,7 +182,7 @@ log "Decoding with HLG"
 
 ./build/bin/sherpa-offline \
   --nn-model=$repo/exp/cpu_jit.pt \
-  --tokens=$repo/data/lang_bpe_500/words.txt \
+  --tokens=$repo/data/lang_bpe_500/tokens.txt \
   --hlg=$repo/data/lang_bpe_500/HLG.pt \
   --use-gpu=false \
   $repo/test_wavs/1089-134686-0001.wav \
@@ -220,7 +218,7 @@ log "Decoding with HLG"
 ./build/bin/sherpa-offline \
   --nn-model=$repo/exp/cpu_jit.pt \
   --hlg=$repo/data/lang_char/HLG.pt \
-  --tokens=$repo/data/lang_char/words.txt \
+  --tokens=$repo/data/lang_char/tokens.txt \
   --use-gpu=false \
   $repo/test_waves/BAC009S0764W0121.wav \
   $repo/test_waves/BAC009S0764W0122.wav \
