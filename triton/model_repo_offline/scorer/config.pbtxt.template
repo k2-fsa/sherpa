@@ -32,7 +32,7 @@ parameters [
   {
     key: "decoding_method",
     value: { string_value: "greedy_search"}
-  },
+  }
 ]
 
 
