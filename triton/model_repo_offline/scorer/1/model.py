@@ -9,6 +9,8 @@ from torch.utils.dlpack import from_dlpack, to_dlpack
 import sentencepiece as spm
 from icefall.lexicon import Lexicon
 
+from search import greedy_search
+
 class TritonPythonModel:
     """Your Python model must use the same class name. Every Python model
     that is created must have "TritonPythonModel" as the class name.
@@ -61,12 +63,13 @@ class TritonPythonModel:
         self.encoder_dim = encoder_config['dims'][-1]
         
         
-        self.init_sentence_piece(self.model_config['parameters'])
+        self.init_parameters(self.model_config['parameters'])
 
-    def init_sentence_piece(self, parameters):
+    def init_parameters(self, parameters):
         for key,value in parameters.items():
             parameters[key] = value["string_value"]
         self.context_size = int(parameters['context_size'])
+        self.decoding_method = parameters['decoding_method']
         if 'bpe' in parameters['tokenizer_file']:
             sp = spm.SentencePieceProcessor()
             sp.load(parameters['tokenizer_file'])
@@ -135,94 +138,11 @@ class TritonPythonModel:
             encoder_out_lens[st:st + b] = batch_encoder_lens_list.pop(0)
             st += b
     
-        packed_encoder_out = torch.nn.utils.rnn.pack_padded_sequence(
-            input=encoder_out,
-            lengths=encoder_out_lens.cpu(),
-            batch_first=True,
-            enforce_sorted=False
-        )
-
-        pack_batch_size_list = packed_encoder_out.batch_sizes.tolist()
-                
-        hyps = [[self.blank_id] * self.context_size for _ in range(total_seqs)]
-        decoder_input = np.asarray(hyps,dtype=np.int64)
-        in_decoder_input_tensor = pb_utils.Tensor("y", decoder_input)
-
-        inference_request = pb_utils.InferenceRequest(
-            model_name='decoder',
-            requested_output_names=['decoder_out'],
-            inputs=[in_decoder_input_tensor])
-
-        inference_response = inference_request.exec()
-        if inference_response.has_error():
-            raise pb_utils.TritonModelException(inference_response.error().message())
+        if self.decoding_method == 'greedy_search':
+            ans = greedy_search(encoder_out, encoder_out_lens, self.context_size, self.unk_id, self.blank_id)
         else:
-            # Extract the output tensors from the inference response.
-            decoder_out = pb_utils.get_output_tensor_by_name(inference_response,
-                                                            'decoder_out')
-            decoder_out = from_dlpack(decoder_out.to_dlpack())
+            raise NotImplementedError
 
-        offset = 0
-        for batch_size in pack_batch_size_list:
-            start = offset
-            end = offset + batch_size
-            current_encoder_out = packed_encoder_out.data[start:end]
-
-            offset = end
-        
-            decoder_out = decoder_out[:batch_size]
-           
-            in_joiner_tensor_0 = pb_utils.Tensor.from_dlpack("encoder_out", to_dlpack(current_encoder_out))
-            in_joiner_tensor_1 = pb_utils.Tensor.from_dlpack("decoder_out", to_dlpack(decoder_out.squeeze(1)))
-
-            inference_request = pb_utils.InferenceRequest(
-                model_name='joiner',
-                requested_output_names=['logit'],
-                inputs=[in_joiner_tensor_0, in_joiner_tensor_1])
-            inference_response = inference_request.exec()
-            if inference_response.has_error():
-                raise pb_utils.TritonModelException(inference_response.error().message())
-            else:
-                # Extract the output tensors from the inference response.
-                logits = pb_utils.get_output_tensor_by_name(inference_response,
-                                                                'logit')
-                logits = from_dlpack(logits.to_dlpack())
-               
-            assert logits.ndim == 2, logits.shape
-            y = logits.argmax(dim=1).tolist()
-            
-            emitted = False
-            for i, v in enumerate(y):
-                if v not in (self.blank_id, self.unk_id):
-                    hyps[i].append(v)
-                    emitted = True
-            if emitted:
-                # update decoder output
-                decoder_input = [h[-self.context_size:] for h in hyps[:batch_size]]
-
-                decoder_input = np.asarray(decoder_input,dtype=np.int64)
-
-                in_decoder_input_tensor = pb_utils.Tensor("y", decoder_input)
-
-                inference_request = pb_utils.InferenceRequest(
-                    model_name='decoder',
-                    requested_output_names=['decoder_out'],
-                    inputs=[in_decoder_input_tensor])
-
-                inference_response = inference_request.exec()
-                if inference_response.has_error():
-                    raise pb_utils.TritonModelException(inference_response.error().message())
-                else:
-                    # Extract the output tensors from the inference response.
-                    decoder_out = pb_utils.get_output_tensor_by_name(inference_response,
-                                                                    'decoder_out')
-                    decoder_out = from_dlpack(decoder_out.to_dlpack())
-
-        sorted_ans = [h[self.context_size:] for h in hyps]
-        ans = []
-        unsorted_indices = packed_encoder_out.unsorted_indices.tolist()
-        for i in range(total_seqs):
-            ans.append(sorted_ans[unsorted_indices[i]])
         results = []
         if hasattr(self.tokenizer, 'token_table'):
             for i in range(len(ans)):
