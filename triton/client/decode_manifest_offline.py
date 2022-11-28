@@ -31,11 +31,13 @@ from functools import partial
 import asyncio
 import time
 from pathlib import Path
+import types
 
 import numpy as np
 from icefall.utils import store_transcripts, write_error_stats
 from lhotse import CutSet, load_manifest
 
+import tritonclient
 import tritonclient.grpc.aio as grpcclient
 from tritonclient.utils import np_to_triton_dtype, InferenceServerException
 
@@ -103,8 +105,8 @@ def get_args():
 async def send(
     cuts: CutSet,
     name: str,
-    triton_client: None,
-    protocol_client: None,
+    triton_client: tritonclient.grpc.aio.InferenceServerClient,
+    protocol_client: types.ModuleType,
     log_interval: int,
     compute_cer: bool,
     model_name: str,
@@ -119,8 +121,8 @@ async def send(
         waveform = c.load_audio().reshape(-1).astype(np.float32)
         sample_rate = 16000
 
-        # padding to nearset 5 seconds
-        samples = np.zeros((1, 11 * sample_rate*(int(len(waveform)/sample_rate // 11) +1)),dtype=np.float32)
+        # padding to nearset 10 seconds
+        samples = np.zeros((1, 10 * sample_rate*(int(len(waveform)/sample_rate // 10) +1)),dtype=np.float32)
         samples[0,:len(waveform)] = waveform
 
         lengths = np.array([[len(waveform)]], dtype=np.int32)
