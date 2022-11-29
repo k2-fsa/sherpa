@@ -9,12 +9,12 @@
 #include <string>
 #include <vector>
 
+#include "sherpa/cpp_api/endpoint.h"
 #include "sherpa/cpp_api/fast-beam-search-config.h"
 #include "sherpa/cpp_api/feature-config.h"
 #include "sherpa/cpp_api/online-stream.h"
 
 // TODO(fangjun): Move endpoint.h to sherpa/cpp_api/
-#include "sherpa/csrc/endpoint.h"
 
 namespace sherpa {
 
@@ -46,6 +46,8 @@ struct OnlineRecognizerConfig {
   /// GPU for computation
   bool use_gpu = false;
 
+  bool use_endpoint = false;
+
   std::string decoding_method = "greedy_search";
 
   /// used only for modified_beam_search
@@ -70,6 +72,8 @@ struct OnlineRecognizerConfig {
 
   void Validate() const;
 
+  void SetEndpoint(bool enable);
+
   /** A string representation for debugging purpose. */
   std::string ToString() const;
 };
@@ -92,6 +96,14 @@ class OnlineRecognizer {
    * Return false otherwise
    */
   bool IsReady(OnlineStream *s);
+
+  /**
+   * Return true if VAD activity
+   * Return false otherwise
+   */
+  bool IsEndpoint(const int num_frames_decoded,
+      const int trailing_silence_frames,
+      const float frame_shift_in_seconds);
 
   /** Decode a single stream. */
   void DecodeStream(OnlineStream *s) {

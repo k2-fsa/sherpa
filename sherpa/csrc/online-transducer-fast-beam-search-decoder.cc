@@ -108,6 +108,7 @@ void OnlineTransducerFastBeamSearchDecoder::Decode(
   for (auto &r : *results) {
     r.tokens.clear();
     r.timestamps.clear();
+    r.num_trailing_blanks = 0;
   }
   OnlineTransducerDecoderResult *p = results->data();
 
@@ -124,6 +125,7 @@ void OnlineTransducerFastBeamSearchDecoder::Decode(
 
     if (token == 0) {
       ++t;
+      ++p->num_trailing_blanks;
       continue;
     }
 

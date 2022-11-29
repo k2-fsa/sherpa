@@ -48,8 +48,13 @@ std::string OnlineRecognitionResult::AsJsonString() const {
   return j.dump();
 }
 
+void OnlineRecognizerConfig::SetEndpoint(bool enable) {
+  use_endpoint = enable;
+}
+
 void OnlineRecognizerConfig::Register(ParseOptions *po) {
   feat_config.Register(po);
+  endpoint_config.Register(po);
   fast_beam_search_config.Register(po);
 
   po->Register("nn-model", &nn_model, "Path to the torchscript model");
@@ -162,7 +167,8 @@ static OnlineRecognitionResult Convert(const OnlineTransducerDecoderResult &src,
 class OnlineRecognizer::OnlineRecognizerImpl {
  public:
   explicit OnlineRecognizerImpl(const OnlineRecognizerConfig &config)
-      : config_(config), symbol_table_(config.tokens) {
+      : config_(config), symbol_table_(config.tokens),
+      endpoint_(std::make_unique<Endpoint>(config.endpoint_config)) {
     if (config.use_gpu) {
       device_ = torch::Device("cuda:0");
     }
@@ -317,8 +323,29 @@ class OnlineRecognizer::OnlineRecognizerImpl {
     if (!IsReady(s) && s->IsLastFrame(s->NumFramesReady() - 1)) {
       ans.is_final = true;
     }
+    ans.segment = s->GetWavSegment();
+    ans.start_frame = s->GetStartFrame();
+    s->GetNumTrailingBlankFrames() = r.num_trailing_blanks;
 
+    if (config_.use_endpoint && IsEndpoint(s->GetNumProcessedFrames()
+          - s->GetStartFrame(),
+          s->GetNumTrailingBlankFrames() * 4,
+          s->GetFrameShift() / 1000.0)) {
+      auto r = decoder_->GetEmptyResult();
+      s->SetResult(r);
+      s->GetWavSegment() += 1;
+      s->GetStartFrame() += s->GetNumProcessedFrames();
+      s->GetNumTrailingBlankFrames() = 0;
+    }
     return ans;
+  }
+
+  bool IsEndpoint(const int num_frames_decoded,
+      const int trailing_silence_frames,
+      const float frame_shift_in_seconds) const {
+    return endpoint_->IsEndpoint(num_frames_decoded,
+                                 trailing_silence_frames,
+                                 frame_shift_in_seconds);
   }
 
  private:
@@ -355,6 +382,7 @@ class OnlineRecognizer::OnlineRecognizerImpl {
   std::unique_ptr<OnlineTransducerModel> model_;
   std::unique_ptr<OnlineTransducerDecoder> decoder_;
   SymbolTable symbol_table_;
+  std::unique_ptr<Endpoint> endpoint_;
 };
 
 OnlineRecognizer::OnlineRecognizer(const OnlineRecognizerConfig &config)

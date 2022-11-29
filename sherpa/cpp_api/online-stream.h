@@ -149,6 +149,12 @@ class OnlineStream {
   // The returned reference is valid as long as this object is alive.
   int32_t &GetNumTrailingBlankFrames();
 
+  const int32_t GetFrameShift();
+
+  int32_t & GetWavSegment();
+
+  int32_t & GetStartFrame();
+
  private:
   class OnlineStreamImpl;
   std::unique_ptr<OnlineStreamImpl> impl_;
