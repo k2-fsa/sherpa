@@ -46,7 +46,7 @@ class ParseOptions;
 
 struct EndpointConfig {
   // For default setting,
-  // rule1 times out after 2.2 seconds of silence, even if we decoded nothing.
+  // rule1 times out after 2.4 seconds of silence, even if we decoded nothing.
   // rule2 times out after 1.2 seconds of silence after decoding something.
   // rule3 times out after the utterance is 20 seconds long, regardless of
   // anything else.
@@ -57,7 +57,7 @@ struct EndpointConfig {
   void Register(ParseOptions *po);
 
   EndpointConfig()
-      : rule1(false, 2.2, 0), rule2(true, 1.2, 0), rule3(false, 0, 20) {}
+      : rule1(false, 2.4, 0), rule2(true, 1.2, 0), rule3(false, 0, 20) {}
 };
 
 class Endpoint {

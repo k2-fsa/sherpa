@@ -334,7 +334,7 @@ class OnlineRecognizer::OnlineRecognizerImpl {
       auto r = decoder_->GetEmptyResult();
       s->SetResult(r);
       s->GetWavSegment() += 1;
-      s->GetStartFrame() += s->GetNumProcessedFrames();
+      s->GetStartFrame() = s->GetNumProcessedFrames();
       s->GetNumTrailingBlankFrames() = 0;
     }
     return ans;

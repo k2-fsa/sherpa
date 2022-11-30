@@ -40,7 +40,7 @@ static bool RuleActivated(const EndpointRule& rule,
 }
 
 static void RegisterEndpointRule(
-    ParseOptions *po, EndpointRule *rule, const std::string rule_name) {
+    ParseOptions *po, EndpointRule *rule, const std::string & rule_name) {
   po->Register(rule_name + "-must-contain-nonsilence",
                &rule->must_contain_nonsilence,
                "If True, for this endpointing " + rule_name
