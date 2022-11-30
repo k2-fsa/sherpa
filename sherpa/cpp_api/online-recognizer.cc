@@ -340,7 +340,7 @@ class OnlineRecognizer::OnlineRecognizerImpl {
   bool IsEndpoint(OnlineStream * s) const {
     return endpoint_->IsEndpoint(s->GetNumProcessedFrames()
                                  - s->GetStartFrame(),
-                                 s->GetNumTrailingBlankFrames() * 4,
+                                 s->GetNumTrailingBlankFrames() * model_->SubsamplingFactor(),
                                  s->GetFrameShift() / 1000.0);
   }
 
