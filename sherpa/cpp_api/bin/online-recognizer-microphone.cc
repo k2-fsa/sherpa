@@ -79,7 +79,6 @@ int main(int argc, char *argv[]) {
   sherpa::ParseOptions po("");
   sherpa::OnlineRecognizerConfig config;
   config.Register(&po);
-  config.SetEndpoint(true);
 
   po.Read(argc, argv);
   if (argc == 0 || po.NumArgs() != 0) {

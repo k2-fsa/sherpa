@@ -70,8 +70,6 @@ struct OnlineRecognizerConfig {
 
   void Validate() const;
 
-  void SetEndpoint(bool enable);
-
   /** A string representation for debugging purpose. */
   std::string ToString() const;
 };

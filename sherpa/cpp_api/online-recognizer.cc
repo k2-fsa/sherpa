@@ -48,10 +48,6 @@ std::string OnlineRecognitionResult::AsJsonString() const {
   return j.dump();
 }
 
-void OnlineRecognizerConfig::SetEndpoint(bool enable) {
-  use_endpoint = enable;
-}
-
 void OnlineRecognizerConfig::Register(ParseOptions *po) {
   feat_config.Register(po);
   endpoint_config.Register(po);
@@ -74,6 +70,10 @@ void OnlineRecognizerConfig::Register(ParseOptions *po) {
                "true to use GPU for computation. false to use CPU.\n"
                "If true, it uses the first device. You can use the environment "
                "variable CUDA_VISIBLE_DEVICES to select which device to use.");
+
+  po->Register("use-endpoint", &use_endpoint,
+               "true to enable Endpoint, fasle to disable Endpoint, "
+               "default is false.\n");
 
   po->Register("decoding-method", &decoding_method,
                "Decoding method to use. Possible values are: greedy_search, "
