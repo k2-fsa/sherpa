@@ -327,10 +327,7 @@ class OnlineRecognizer::OnlineRecognizerImpl {
     ans.start_frame = s->GetStartFrame();
     s->GetNumTrailingBlankFrames() = r.num_trailing_blanks;
 
-    if (config_.use_endpoint && IsEndpoint(s->GetNumProcessedFrames()
-          - s->GetStartFrame(),
-          s->GetNumTrailingBlankFrames() * 4,
-          s->GetFrameShift() / 1000.0)) {
+    if (config_.use_endpoint && IsEndpoint(s)) {
       auto r = decoder_->GetEmptyResult();
       s->SetResult(r);
       s->GetWavSegment() += 1;
@@ -340,12 +337,11 @@ class OnlineRecognizer::OnlineRecognizerImpl {
     return ans;
   }
 
-  bool IsEndpoint(const int num_frames_decoded,
-      const int trailing_silence_frames,
-      const float frame_shift_in_seconds) const {
-    return endpoint_->IsEndpoint(num_frames_decoded,
-                                 trailing_silence_frames,
-                                 frame_shift_in_seconds);
+  bool IsEndpoint(OnlineStream * s) const {
+    return endpoint_->IsEndpoint(s->GetNumProcessedFrames()
+                                 - s->GetStartFrame(),
+                                 s->GetNumTrailingBlankFrames() * 4,
+                                 s->GetFrameShift() / 1000.0);
   }
 
  private:

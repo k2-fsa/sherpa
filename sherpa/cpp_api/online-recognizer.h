@@ -97,9 +97,7 @@ class OnlineRecognizer {
    * Return true if VAD activity
    * Return false otherwise
    */
-  bool IsEndpoint(const int num_frames_decoded,
-      const int trailing_silence_frames,
-      const float frame_shift_in_seconds);
+  bool IsEndpoint(OnlineStream *s);
 
   /** Decode a single stream. */
   void DecodeStream(OnlineStream *s) {

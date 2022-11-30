@@ -150,7 +150,7 @@ class OnlineStream {
   int32_t &GetNumTrailingBlankFrames();
 
   // Get feature frameshift(ms)
-  const int32_t GetFrameShift();
+  int32_t GetFrameShift() const;
 
   // Return ID of this segment in Stream
   int32_t & GetWavSegment();

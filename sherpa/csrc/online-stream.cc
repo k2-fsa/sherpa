@@ -144,7 +144,7 @@ int32_t &OnlineStream::GetNumTrailingBlankFrames() {
   return impl_->GetNumTrailingBlankFrames();
 }
 
-const int32_t OnlineStream::GetFrameShift() {
+int32_t OnlineStream::GetFrameShift() const {
   return impl_->GetFrameShift();
 }
 
