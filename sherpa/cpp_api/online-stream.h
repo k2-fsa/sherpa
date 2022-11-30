@@ -149,9 +149,6 @@ class OnlineStream {
   // The returned reference is valid as long as this object is alive.
   int32_t &GetNumTrailingBlankFrames();
 
-  // Get feature frameshift(ms)
-  int32_t GetFrameShift() const;
-
   // Return ID of this segment in Stream
   int32_t & GetWavSegment();
 

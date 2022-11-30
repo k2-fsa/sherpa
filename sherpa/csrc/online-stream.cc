@@ -80,8 +80,6 @@ class OnlineStream::OnlineStreamImpl {
 
   int32_t &GetNumTrailingBlankFrames() { return num_trailing_blank_frames_; }
 
-  const int32_t GetFrameShift() { return frame_shift_ms_; }
-
   int32_t &GetWavSegment() { return segment_; }
 
   int32_t &GetStartFrame() { return start_frame_; }
@@ -96,7 +94,6 @@ class OnlineStream::OnlineStreamImpl {
   torch::Tensor decoder_out_;
   int32_t num_processed_frames_ = 0;       // before subsampling
   int32_t num_trailing_blank_frames_ = 0;  // after subsampling
-  int32_t frame_shift_ms_ = 10;            // before subsampling
   /// ID of this segment
   int32_t segment_ = 0;
 
@@ -142,10 +139,6 @@ Hypotheses &OnlineStream::GetHypotheses() { return impl_->GetHypotheses(); }
 
 int32_t &OnlineStream::GetNumTrailingBlankFrames() {
   return impl_->GetNumTrailingBlankFrames();
-}
-
-int32_t OnlineStream::GetFrameShift() const {
-  return impl_->GetFrameShift();
 }
 
 int32_t &OnlineStream::GetWavSegment() {

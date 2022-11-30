@@ -339,9 +339,9 @@ class OnlineRecognizer::OnlineRecognizerImpl {
 
   bool IsEndpoint(OnlineStream * s) const {
     return endpoint_->IsEndpoint(s->GetNumProcessedFrames()
-                                 - s->GetStartFrame(),
-                                 s->GetNumTrailingBlankFrames() * model_->SubsamplingFactor(),
-                                 s->GetFrameShift() / 1000.0);
+        - s->GetStartFrame(),
+        s->GetNumTrailingBlankFrames() * model_->SubsamplingFactor(),
+        config_.feat_config.fbank_opts.frame_opts.frame_shift_ms / 1000.0);
   }
 
  private:
@@ -391,6 +391,10 @@ std::unique_ptr<OnlineStream> OnlineRecognizer::CreateStream() {
 }
 
 bool OnlineRecognizer::IsReady(OnlineStream *s) { return impl_->IsReady(s); }
+
+bool OnlineRecognizer::IsEndpoint(OnlineStream *s) {
+  return impl_->IsEndpoint(s);
+}
 
 void OnlineRecognizer::DecodeStreams(OnlineStream **ss, int32_t n) {
   torch::NoGradGuard no_grad;
