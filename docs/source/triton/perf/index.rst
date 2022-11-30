@@ -39,8 +39,14 @@ Test Throughput using Perf Analyzer
   perf_analyzer -m transducer -b 1 -a -p 20000 --concurrency-range 100:200:50 -i gRPC --input-data=online_input.json  -u localhost:8001 --streaming
 
 
-.. literalinclude:: ./log/offline_perf.txt
-   :caption: You could save the below results with a ``-f log.txt`` option.
+You could save the below results with a ``-f log.txt`` option.
+
++--------------+--------------------+--------------+---------------------------+---------------+-----------------------+-----------------------+------------------------+--------------+--------------+--------------+--------------+--------------+
+| Concurrency  | Inferences/Second  | Client Send  | Network+Server Send/Recv  | Server Queue  | Server Compute Input  | Server Compute Infer  | Server Compute Output  | Client Recv  | p50 latency  | p90 latency  | p95 latency  | p99 latency  |
++==============+====================+==============+===========================+===============+=======================+=======================+========================+==============+==============+==============+==============+==============+
+| 300          | 226.24             | 109          | 230434                    | 1             | 9314                  | 1068792               | 14512                  | 1            | 1254206      | 1616224      | 1958246      | 3551406      |
++--------------+--------------------+--------------+---------------------------+---------------+-----------------------+-----------------------+------------------------+--------------+--------------+--------------+--------------+--------------+
+
 
 .. note::
 

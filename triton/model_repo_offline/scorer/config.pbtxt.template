@@ -28,6 +28,10 @@ parameters [
   {
    key: "FORCE_CPU_ONLY_INPUT_TENSORS", 
    value: {string_value:"no"}
+  },
+  {
+    key: "decoding_method",
+    value: { string_value: "greedy_search"}
   }
 ]
 

@@ -22,3 +22,28 @@ You can also test a bunch of audios together with the client. Just specify the p
 set the path of test set directory with ``--data_dir`` option, and set the path of ground-truth transcript file with ``--trans`` option, 
 the client will infer all the audios in test set and calculate the WER upon the test set.
 
+Decode manifests
+------------------
+You could also decode a whole dataset to benchmark metrics e.g. RTF, WER.
+
+.. caution::
+  Decode manifests using streaming ASR would be supported in the future.
+
+.. code-block:: bash
+
+    cd sherpa/triton/client
+
+    # For aishell manifests:
+    git clone https://huggingface.co/csukuangfj/aishell-test-dev-manifests
+    sudo mkdir -p /root/fangjun/open-source/icefall-aishell/egs/aishell/ASR/download/aishell
+    tar xf ./aishell-test-dev-manifests/data_aishell.tar.gz -C /root/fangjun/open-source/icefall-aishell/egs/aishell/ASR/download/aishell/
+    # dev set: ./aishell-test-dev-manifests/data/fbank/aishell_cuts_test.jsonl.gz 
+    # test set: ./aishell-test-dev-manifests/data/fbank/aishell_cuts_test.jsonl.gz 
+
+    python3 decode_manifest_offline.py \
+       --server-addr localhost \
+       --num-tasks 300 \
+       --log-interval 20 \
+       --model-name transducer \
+       --manifest-filename ./aishell-test-dev-manifests/data/fbank/aishell_cuts_test.jsonl.gz \
+       --compute-cer
