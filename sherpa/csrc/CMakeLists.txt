@@ -18,7 +18,6 @@ set(sherpa_srcs
   online-transducer-fast-beam-search-decoder.cc
 
   # TODO(fangjun): Refactor the following files
-  endpoint.cc
   fbank-features.cc
   file-utils.cc
   hypothesis.cc

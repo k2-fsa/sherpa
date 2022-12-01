@@ -50,6 +50,7 @@ std::string OnlineRecognitionResult::AsJsonString() const {
 
 void OnlineRecognizerConfig::Register(ParseOptions *po) {
   feat_config.Register(po);
+  endpoint_config.Register(po);
   fast_beam_search_config.Register(po);
 
   po->Register("nn-model", &nn_model, "Path to the torchscript model");
@@ -69,6 +70,10 @@ void OnlineRecognizerConfig::Register(ParseOptions *po) {
                "true to use GPU for computation. false to use CPU.\n"
                "If true, it uses the first device. You can use the environment "
                "variable CUDA_VISIBLE_DEVICES to select which device to use.");
+
+  po->Register("use-endpoint", &use_endpoint,
+               "true to enable Endpoint, fasle to disable Endpoint, "
+               "default is false.\n");
 
   po->Register("decoding-method", &decoding_method,
                "Decoding method to use. Possible values are: greedy_search, "
@@ -162,7 +167,8 @@ static OnlineRecognitionResult Convert(const OnlineTransducerDecoderResult &src,
 class OnlineRecognizer::OnlineRecognizerImpl {
  public:
   explicit OnlineRecognizerImpl(const OnlineRecognizerConfig &config)
-      : config_(config), symbol_table_(config.tokens) {
+      : config_(config), symbol_table_(config.tokens),
+      endpoint_(std::make_unique<Endpoint>(config.endpoint_config)) {
     if (config.use_gpu) {
       device_ = torch::Device("cuda:0");
     }
@@ -317,8 +323,25 @@ class OnlineRecognizer::OnlineRecognizerImpl {
     if (!IsReady(s) && s->IsLastFrame(s->NumFramesReady() - 1)) {
       ans.is_final = true;
     }
+    ans.segment = s->GetWavSegment();
+    ans.start_frame = s->GetStartFrame();
+    s->GetNumTrailingBlankFrames() = r.num_trailing_blanks;
 
+    if (config_.use_endpoint && IsEndpoint(s)) {
+      auto r = decoder_->GetEmptyResult();
+      s->SetResult(r);
+      s->GetWavSegment() += 1;
+      s->GetStartFrame() = s->GetNumProcessedFrames();
+      s->GetNumTrailingBlankFrames() = 0;
+    }
     return ans;
+  }
+
+  bool IsEndpoint(OnlineStream * s) const {
+    return endpoint_->IsEndpoint(s->GetNumProcessedFrames()
+        - s->GetStartFrame(),
+        s->GetNumTrailingBlankFrames() * model_->SubsamplingFactor(),
+        config_.feat_config.fbank_opts.frame_opts.frame_shift_ms / 1000.0);
   }
 
  private:
@@ -355,6 +378,7 @@ class OnlineRecognizer::OnlineRecognizerImpl {
   std::unique_ptr<OnlineTransducerModel> model_;
   std::unique_ptr<OnlineTransducerDecoder> decoder_;
   SymbolTable symbol_table_;
+  std::unique_ptr<Endpoint> endpoint_;
 };
 
 OnlineRecognizer::OnlineRecognizer(const OnlineRecognizerConfig &config)
@@ -367,6 +391,10 @@ std::unique_ptr<OnlineStream> OnlineRecognizer::CreateStream() {
 }
 
 bool OnlineRecognizer::IsReady(OnlineStream *s) { return impl_->IsReady(s); }
+
+bool OnlineRecognizer::IsEndpoint(OnlineStream *s) {
+  return impl_->IsEndpoint(s);
+}
 
 void OnlineRecognizer::DecodeStreams(OnlineStream **ss, int32_t n) {
   torch::NoGradGuard no_grad;

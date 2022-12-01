@@ -1,4 +1,5 @@
 set(sherpa_cpp_api_srcs
+  endpoint.cc
   fast-beam-search-config.cc
   feature-config.cc
   offline-recognizer.cc

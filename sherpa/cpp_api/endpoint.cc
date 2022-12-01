@@ -17,7 +17,8 @@
  */
 #include <string>
 
-#include "sherpa/csrc/endpoint.h"
+#include "sherpa/cpp_api/endpoint.h"
+#include "sherpa/cpp_api/parse-options.h"
 #include "sherpa/csrc/log.h"
 
 namespace sherpa {
@@ -36,6 +37,32 @@ static bool RuleActivated(const EndpointRule& rule,
     << trailing_silence << ',' << utterance_length;
   }
   return ans;
+}
+
+static void RegisterEndpointRule(
+    ParseOptions *po, EndpointRule *rule, const std::string & rule_name) {
+  po->Register(rule_name + "-must-contain-nonsilence",
+               &rule->must_contain_nonsilence,
+               "If True, for this endpointing " + rule_name
+               + " to apply there must"
+               "be nonsilence in the best-path traceback."
+               "For decoding, a non-blank token is considered as non-silence");
+  po->Register(rule_name + "-min-trailing-silence",
+               &rule->min_trailing_silence,
+               "This endpointing " + rule_name
+               + " requires duration of trailing silence"
+               "(in seconds) to be >= this value.");
+  po->Register(rule_name + "-min-utterance-length",
+               &rule->min_utterance_length,
+               "This endpointing " + rule_name
+               + " requires utterance-length (in seconds)"
+               "to be >= this value.");
+}
+
+void EndpointConfig::Register(ParseOptions *po) {
+  RegisterEndpointRule(po, &rule1, "rule1");
+  RegisterEndpointRule(po, &rule2, "rule2");
+  RegisterEndpointRule(po, &rule3, "rule3");
 }
 
 bool Endpoint::IsEndpoint(const int num_frames_decoded,

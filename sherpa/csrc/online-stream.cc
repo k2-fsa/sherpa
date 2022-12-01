@@ -23,8 +23,8 @@
 
 #include "kaldifeat/csrc/feature-fbank.h"
 #include "kaldifeat/csrc/online-feature.h"
+#include "sherpa/cpp_api/endpoint.h"
 #include "sherpa/cpp_api/online-stream.h"
-#include "sherpa/csrc/endpoint.h"
 #include "sherpa/csrc/hypothesis.h"
 #include "sherpa/csrc/log.h"
 #include "sherpa/csrc/online-transducer-decoder.h"
@@ -80,6 +80,10 @@ class OnlineStream::OnlineStreamImpl {
 
   int32_t &GetNumTrailingBlankFrames() { return num_trailing_blank_frames_; }
 
+  int32_t &GetWavSegment() { return segment_; }
+
+  int32_t &GetStartFrame() { return start_frame_; }
+
  private:
   std::unique_ptr<kaldifeat::OnlineFbank> fbank_;
   mutable std::mutex feat_mutex_;
@@ -90,7 +94,11 @@ class OnlineStream::OnlineStreamImpl {
   torch::Tensor decoder_out_;
   int32_t num_processed_frames_ = 0;       // before subsampling
   int32_t num_trailing_blank_frames_ = 0;  // after subsampling
-  // int32_t frame_shift_ms_ = 10;            // before subsampling
+  /// ID of this segment
+  int32_t segment_ = 0;
+
+  /// Starting frame of this segment.
+  int32_t start_frame_ = 0;
   OnlineTransducerDecoderResult r_;
 };
 
@@ -131,6 +139,14 @@ Hypotheses &OnlineStream::GetHypotheses() { return impl_->GetHypotheses(); }
 
 int32_t &OnlineStream::GetNumTrailingBlankFrames() {
   return impl_->GetNumTrailingBlankFrames();
+}
+
+int32_t &OnlineStream::GetWavSegment() {
+  return impl_->GetWavSegment();
+}
+
+int32_t &OnlineStream::GetStartFrame() {
+  return impl_->GetStartFrame();
 }
 
 void OnlineStream::SetResult(const OnlineTransducerDecoderResult &r) {

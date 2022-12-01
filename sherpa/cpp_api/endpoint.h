@@ -15,8 +15,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#ifndef SHERPA_CSRC_ENDPOINT_H_
-#define SHERPA_CSRC_ENDPOINT_H_
+#ifndef SHERPA_CPP_API_ENDPOINT_H_
+#define SHERPA_CPP_API_ENDPOINT_H_
 
 #include <vector>
 
@@ -25,7 +25,7 @@ namespace sherpa {
 struct EndpointRule {
   // If True, for this endpointing rule to apply there must
   // be nonsilence in the best-path traceback.
-  // For RNN-T decoding, a non-blank token is considered as non-silence
+  // For decoding, a non-blank token is considered as non-silence
   bool must_contain_nonsilence;
   // This endpointing rule requires duration of trailing silence
   // (in seconds) to be >= this value.
@@ -42,17 +42,22 @@ struct EndpointRule {
     min_utterance_length(min_utterance_length) {}
 };
 
+class ParseOptions;
+
 struct EndpointConfig {
-  // rule1 times out after 2.2 seconds of silence, even if we decoded nothing.
-  EndpointRule rule1;
+  // For default setting,
+  // rule1 times out after 2.4 seconds of silence, even if we decoded nothing.
   // rule2 times out after 1.2 seconds of silence after decoding something.
-  EndpointRule rule2;
   // rule3 times out after the utterance is 20 seconds long, regardless of
   // anything else.
+  EndpointRule rule1;
+  EndpointRule rule2;
   EndpointRule rule3;
 
+  void Register(ParseOptions *po);
+
   EndpointConfig()
-      : rule1(false, 2.2, 0), rule2(true, 1.2, 0), rule3(false, 0, 20) {}
+      : rule1(false, 2.4, 0), rule2(true, 1.2, 0), rule3(false, 0, 20) {}
 };
 
 class Endpoint {
@@ -71,4 +76,4 @@ class Endpoint {
 
 }  // namespace sherpa
 
-#endif  // SHERPA_CSRC_ENDPOINT_H_
+#endif  // SHERPA_CPP_API_ENDPOINT_H_

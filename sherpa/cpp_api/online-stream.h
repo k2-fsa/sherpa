@@ -149,6 +149,12 @@ class OnlineStream {
   // The returned reference is valid as long as this object is alive.
   int32_t &GetNumTrailingBlankFrames();
 
+  // Return ID of this segment in Stream
+  int32_t & GetWavSegment();
+
+  // Return Starting frame of this segment.
+  int32_t & GetStartFrame();
+
  private:
   class OnlineStreamImpl;
   std::unique_ptr<OnlineStreamImpl> impl_;
