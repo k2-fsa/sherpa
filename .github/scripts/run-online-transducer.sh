@@ -135,6 +135,17 @@ time ./build/bin/sherpa-online \
   $repo/test_wavs/1221-135766-0001.wav \
   $repo/test_wavs/1221-135766-0002.wav
 
+# For Endpoint testing
+for m in greedy_search modified_beam_search fast_beam_search; do
+  time ./build/bin/sherpa-online \
+    --decoding-method=$m \
+    --nn-model=$repo/exp/cpu_jit.pt \
+    --tokens=$repo/data/lang_bpe_500/tokens.txt \
+    --use-endpoint=true \
+    $long_audio_repo/10-minutes.wav
+done
+
+rm -rf $long_audio_repo
 rm -rf $repo
 log "End of testing ${repo_url}"
 log "=========================================================================="
@@ -214,14 +225,4 @@ time ./build/bin/sherpa-online \
 log "End of testing ${repo_url}"
 log "=========================================================================="
 
-# For Endpoint
-for m in greedy_search modified_beam_search fast_beam_search; do
-  time ./build/bin/sherpa-online \
-    --decoding-method=$m \
-    --nn-model=$repo/exp/cpu_jit.pt \
-    --tokens=$repo/data/lang_char/tokens.txt \
-    --use-endpoint=true \
-    $long_audio_repo/10-minutes.wav
-done
-rm -rf $long_audio_repo
 rm -rf $repo
