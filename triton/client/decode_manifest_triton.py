@@ -26,7 +26,7 @@ Usage:
 # For streaming icefall server
 ./decode_manifest_triton.py \
     --streaming \
-    --compute-cer \
+    --compute-cer
 
 # For offline wenet server
 ./decode_manifest_triton.py \
