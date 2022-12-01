@@ -211,7 +211,6 @@ time ./build/bin/sherpa-online \
   $repo/test_wavs/DEV_T0000000001.wav \
   $repo/test_wavs/DEV_T0000000002.wav
 
-rm -rf $repo
 log "End of testing ${repo_url}"
 log "=========================================================================="
 
@@ -224,3 +223,5 @@ for m in greedy_search modified_beam_search fast_beam_search; do
     --use-endpoint=true \
     $long_audio_repo/10-minutes.wav
 done
+rm -rf $long_audio_repo
+rm -rf $repo
