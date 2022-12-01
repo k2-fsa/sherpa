@@ -222,7 +222,7 @@ time ./build/bin/sherpa-online \
   $repo/test_wavs/DEV_T0000000001.wav \
   $repo/test_wavs/DEV_T0000000002.wav
 
+rm -rf $repo
 log "End of testing ${repo_url}"
 log "=========================================================================="
 
-rm -rf $repo
