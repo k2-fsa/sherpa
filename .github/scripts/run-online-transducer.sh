@@ -9,14 +9,6 @@ log() {
 }
 
 log "=========================================================================="
-repo_url=https://huggingface.co/csukuangfj/sherpa-long-audio-test-data
-long_audio_repo=$(basename $repo_url)
-log "Download long wav from $repo_url"
-GIT_LFS_SKIP_SMUDGE=1 git clone $repo_url
-pushd $long_audio_repo
-git lfs pull --include "10-minutes.wav"
-popd
-
 repo_url=https://huggingface.co/Zengwei/icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05
 log "Start testing ${repo_url}"
 repo=$(basename $repo_url)
@@ -135,6 +127,15 @@ time ./build/bin/sherpa-online \
   $repo/test_wavs/1221-135766-0001.wav \
   $repo/test_wavs/1221-135766-0002.wav
 
+pushd $repo/test_wavs
+sox 1089-134686-0001.wav 1.wav pad 5 5
+sox 1221-135766-0001.wav 2.wav pad 5 5
+sox 1221-135766-0002.wav 3.wav pad 5 5
+sox 1.wav 2.wav 3.wav all-in-one.wav
+soxi *.wav
+ls -lh *.wav
+popd
+
 # For Endpoint testing
 for m in greedy_search modified_beam_search fast_beam_search; do
   time ./build/bin/sherpa-online \
@@ -142,10 +143,9 @@ for m in greedy_search modified_beam_search fast_beam_search; do
     --nn-model=$repo/exp/cpu_jit.pt \
     --tokens=$repo/data/lang_bpe_500/tokens.txt \
     --use-endpoint=true \
-    $long_audio_repo/10-minutes.wav
+    $repo/test_wavs/all-in-one.wav
 done
 
-rm -rf $long_audio_repo
 rm -rf $repo
 log "End of testing ${repo_url}"
 log "=========================================================================="
@@ -225,4 +225,3 @@ time ./build/bin/sherpa-online \
 rm -rf $repo
 log "End of testing ${repo_url}"
 log "=========================================================================="
-

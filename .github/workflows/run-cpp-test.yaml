@@ -62,6 +62,11 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: ccache
+        uses: hendrikmuhs/ccache-action@v1.1
+        with:
+          key: ${{ matrix.os }}-${{ matrix.torch }}-${{ matrix.python-version }}-${{ matrix.build_type }}
+
       - name: Setup Python
         uses: actions/setup-python@v2
         with:
@@ -80,6 +85,11 @@ jobs:
       - name: Install PyTorch ${{ matrix.torch }}
         shell: bash
         run: |
+          sudo apt-get -qq install git-lfs tree sox
+          sox --version
+
+          sudo apt-get install -y libsnappy-dev libzzip-dev zlib1g-dev libboost-all-dev
+
           python3 -m pip install --upgrade pip kaldi_native_io sentencepiece>=0.1.96
           python3 -m pip install wheel twine typing_extensions
           python3 -m pip install torch==${{ matrix.torch }} numpy -f https://download.pytorch.org/whl/cpu/torch_stable.html
@@ -115,7 +125,13 @@ jobs:
 
           mkdir build
           cd build
-          cmake -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DSHERPA_ENABLE_TESTS=ON ..
+
+          cmake \
+            -DCMAKE_C_COMPILER_LAUNCHER=ccache \
+            -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
+            -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
+            -DSHERPA_ENABLE_TESTS=ON ..
+
           make -j4 VERBOSE=1
 
           ls -lh lib
@@ -172,15 +188,15 @@ jobs:
 
           ./bin/sherpa-offline --help
 
-      - name: Run offline transducer
-        shell: bash
-        run: |
-          .github/scripts/run-offline-transducer.sh
-
       - name: Run online transducer
         shell: bash
         run: |
           .github/scripts/run-online-transducer.sh
+
+      - name: Run offline transducer
+        shell: bash
+        run: |
+          .github/scripts/run-offline-transducer.sh
 
       - name: Run offline CTC
         shell: bash
