@@ -218,7 +218,6 @@ log "End of testing ${repo_url}"
 log "=========================================================================="
 
 repo_url=https://huggingface.co/WeijiZhuang/icefall-asr-librispeech-pruned-transducer-stateless8-2022-12-02
-
 log "Start testing ${repo_url}"
 repo=$(basename $repo_url)
 log "Download pretrained model and test-data from $repo_url"
@@ -242,7 +241,7 @@ for m in greedy_search modified_beam_search fast_beam_search; do
     $repo/test_wavs/1221-135766-0002.wav
 done
 
-./build/bin/sherpa-offline \
+time ./build/bin/sherpa-offline \
   --decoding-method=fast_beam_search \
   --nn-model=$repo/exp/cpu_jit.pt \
   --lg=$repo/data/lang_bpe_500/LG.pt \
