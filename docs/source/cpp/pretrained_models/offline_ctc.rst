@@ -124,6 +124,37 @@ icefall_asr_aishell_conformer_ctc
     ./test_waves/BAC009S0764W0122.wav \
     ./test_waves/BAC009S0764W0123.wav
 
+Arabic
+^^^^^^
+
+icefall-asr-mgb2-conformer_ctc-2022-27-06
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/AmirHussein/icefall-asr-mgb2-conformer_ctc-2022-27-06
+  cd icefall-asr-mgb2-conformer_ctc-2022-27-06
+  git lfs pull --include "exp/cpu_jit.pt"
+  git lfs pull --include "data/lang_bpe_5000/HLG.pt"
+  git lfs pull --include "data/lang_bpe_5000/tokens.txt"
+
+  # Decode with an H graph
+  sherpa-offline \
+    --nn-model=./exp/cpu_jit.pt \
+    --tokens=./data/lang_bpe_5000/tokens.txt \
+    ./test_wavs/94D37D38-B203-4FC0-9F3A-538F5C174920_spk-0001_seg-0053813:0054281.wav \
+    ./test_wavs/94D37D38-B203-4FC0-9F3A-538F5C174920_spk-0001_seg-0051454:0052244.wav \
+    ./test_wavs/94D37D38-B203-4FC0-9F3A-538F5C174920_spk-0001_seg-0052244:0053004.wav
+
+  # Decode with an HLG graph
+  sherpa-offline \
+    --nn-model=./exp/cpu_jit.pt \
+    --tokens=./data/lang_bpe_5000/tokens.txt \
+    --hlg=./data/lang_bpe_5000/HLG.pt \
+    ./test_wavs/94D37D38-B203-4FC0-9F3A-538F5C174920_spk-0001_seg-0053813:0054281.wav \
+    ./test_wavs/94D37D38-B203-4FC0-9F3A-538F5C174920_spk-0001_seg-0051454:0052244.wav \
+    ./test_wavs/94D37D38-B203-4FC0-9F3A-538F5C174920_spk-0001_seg-0052244:0053004.wav
+
 wenet
 -----
 
