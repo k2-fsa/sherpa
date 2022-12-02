@@ -217,6 +217,44 @@ rm -rf $repo
 log "End of testing ${repo_url}"
 log "=========================================================================="
 
+repo_url=https://huggingface.co/WeijiZhuang/icefall-asr-librispeech-pruned-transducer-stateless8-2022-12-02
+
+log "Start testing ${repo_url}"
+repo=$(basename $repo_url)
+log "Download pretrained model and test-data from $repo_url"
+
+GIT_LFS_SKIP_SMUDGE=1 git clone $repo_url
+pushd $repo
+git lfs pull --include "exp/cpu_jit-torch-1.10.pt"
+git lfs pull --include "data/lang_bpe_500/LG.pt"
+cd exp
+rm cpu_jit.pt
+ln -sv cpu_jit-torch-1.10.pt cpu_jit.pt
+popd
+
+for m in greedy_search modified_beam_search fast_beam_search; do
+  time ./build/bin/sherpa-offline \
+    --decoding-method=$m \
+    --nn-model=$repo/exp/cpu_jit.pt \
+    --tokens=$repo/data/lang_bpe_500/tokens.txt \
+    $repo/test_wavs/1089-134686-0001.wav \
+    $repo/test_wavs/1221-135766-0001.wav \
+    $repo/test_wavs/1221-135766-0002.wav
+done
+
+./build/bin/sherpa-offline \
+  --decoding-method=fast_beam_search \
+  --nn-model=$repo/exp/cpu_jit.pt \
+  --lg=$repo/data/lang_bpe_500/LG.pt \
+  --tokens=$repo/data/lang_bpe_500/tokens.txt \
+  $repo/test_wavs/1089-134686-0001.wav \
+  $repo/test_wavs/1221-135766-0001.wav \
+  $repo/test_wavs/1221-135766-0002.wav
+
+rm -rf $repo
+log "End of testing ${repo_url}"
+log "=========================================================================="
+
 repo_url=https://huggingface.co/wgb14/icefall-asr-gigaspeech-pruned-transducer-stateless2
 
 log "Start testing ${repo_url}"
@@ -337,6 +375,79 @@ for m in greedy_search modified_beam_search fast_beam_search; do
     $repo/test_wavs/210_36476_210_8341_1_1533271973_7057520_145.wav \
     $repo/test_wavs/210_36476_210_8341_1_1533271973_7057520_148.wav
 done
+
+rm -rf $repo
+log "End of testing ${repo_url}"
+log "=========================================================================="
+
+repo_url=https://huggingface.co/syzym/icefall-asr-xbmu-amdo31-pruned-transducer-stateless7-2022-12-02
+log "Start testing ${repo_url}"
+repo=$(basename $repo_url)
+log "Download pretrained model and test-data from $repo_url"
+
+GIT_LFS_SKIP_SMUDGE=1 git clone $repo_url
+pushd $repo
+git lfs pull --include "exp/cpu_jit.pt"
+git lfs pull --include "data/lang_bpe_500/LG.pt"
+popd
+
+for m in greedy_search modified_beam_search fast_beam_search; do
+  time ./build/bin/sherpa-offline \
+    --decoding-method=$m \
+    --nn-model=$repo/exp/cpu_jit.pt \
+    --tokens=$repo/data/lang_bpe_500/tokens.txt \
+    $repo/test_wavs/a_0_cacm-A70_31116.wav \
+    $repo/test_wavs/a_0_cacm-A70_31117.wav \
+    $repo/test_wavs/a_0_cacm-A70_31118.wav
+done
+
+# For fast_beam_search with LG
+time ./build/bin/sherpa-offline \
+  --decoding-method=fast_beam_search \
+  --nn-model=$repo/exp/cpu_jit.pt \
+  --lg=$repo/data/lang_bpe_500/LG.pt \
+  --tokens=$repo/data/lang_bpe_500/tokens.txt \
+  $repo/test_wavs/a_0_cacm-A70_31116.wav \
+  $repo/test_wavs/a_0_cacm-A70_31117.wav \
+  $repo/test_wavs/a_0_cacm-A70_31118.wav
+
+rm -rf $repo
+log "End of testing ${repo_url}"
+log "=========================================================================="
+
+repo_url=https://huggingface.co/syzym/icefall-asr-xbmu-amdo31-pruned-transducer-stateless5-2022-11-29
+log "Start testing ${repo_url}"
+repo=$(basename $repo_url)
+log "Download pretrained model and test-data from $repo_url"
+
+GIT_LFS_SKIP_SMUDGE=1 git clone $repo_url
+pushd $repo
+git lfs pull --include "data/lang_bpe_500/LG.pt"
+git lfs pull --include "exp/cpu_jit-epoch-28-avg-23-torch-1.10.0.pt"
+
+cd exp
+rm cpu_jit.pt
+ln -sv cpu_jit-epoch-28-avg-23-torch-1.10.0.pt cpu_jit.pt
+popd
+
+for m in greedy_search modified_beam_search fast_beam_search; do
+  time ./build/bin/sherpa-offline \
+    --decoding-method=$m \
+    --nn-model=$repo/exp/cpu_jit.pt \
+    --tokens=$repo/data/lang_bpe_500/tokens.txt \
+    $repo/test_wavs/a_0_cacm-A70_31116.wav \
+    $repo/test_wavs/a_0_cacm-A70_31117.wav \
+    $repo/test_wavs/a_0_cacm-A70_31118.wav
+done
+
+time ./build/bin/sherpa-offline \
+  --decoding-method=fast_beam_search \
+  --nn-model=$repo/exp/cpu_jit.pt \
+  --lg=$repo/data/lang_bpe_500/LG.pt \
+  --tokens=$repo/data/lang_bpe_500/tokens.txt \
+  $repo/test_wavs/a_0_cacm-A70_31116.wav \
+  $repo/test_wavs/a_0_cacm-A70_31117.wav \
+  $repo/test_wavs/a_0_cacm-A70_31118.wav
 
 rm -rf $repo
 log "End of testing ${repo_url}"

@@ -6,6 +6,12 @@ Offline transducer models
    We use the binary ``sherpa-offline`` below for demonstration.
    You can replace ``sherpa-offline`` with ``sherpa-offline-websocket-server``.
 
+.. hint::
+
+   Please visit `<https://huggingface.co/spaces/k2-fsa/automatic-speech-recognition>`_
+   to try the pre-trained models in your browser. You don't need to install
+   anything.
+
 icefall
 -------
 
@@ -13,6 +19,44 @@ This sections lists models trained using `icefall`_.
 
 English
 ^^^^^^^
+
+icefall-asr-librispeech-pruned-transducer-stateless8-2022-12-02
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+  # This model is trained using GigaSpeech + LibriSpeech with zipformer
+  #
+  # See https://github.com/k2-fsa/icefall/pull/728
+  #
+  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/WeijiZhuang/icefall-asr-librispeech-pruned-transducer-stateless8-2022-12-02
+  cd icefall-asr-librispeech-pruned-transducer-stateless8-2022-12-02
+  git lfs pull --include "exp/cpu_jit-torch-1.10.pt"
+  git lfs pull --include "data/lang_bpe_500/LG.pt"
+
+  cd exp
+  rm cpu_jit.pt
+  ln -sv cpu_jit-torch-1.10.pt cpu_jit.pt
+  cd ..
+
+  for m in greedy_search modified_beam_search fast_beam_search; do
+    sherpa-offline \
+      --decoding-method=$m \
+      --nn-model=./exp/cpu_jit.pt \
+      --tokens=./data/lang_bpe_500/tokens.txt \
+      ./test_wavs/1089-134686-0001.wav \
+      ./test_wavs/1221-135766-0001.wav \
+      ./test_wavs/1221-135766-0002.wav
+  done
+
+  sherpa-offline \
+    --decoding-method=fast_beam_search \
+    --nn-model=./exp/cpu_jit.pt \
+    --lg=./data/lang_bpe_500/LG.pt \
+    --tokens=./data/lang_bpe_500/tokens.txt \
+    ./test_wavs/1089-134686-0001.wav \
+    ./test_wavs/1221-135766-0001.wav \
+    ./test_wavs/1221-135766-0002.wav
 
 icefall-asr-librispeech-pruned-transducer-stateless8-2022-11-14
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -250,3 +294,77 @@ icefall_asr_tal-csasr_pruned_transducer_stateless5
       ./test_wavs/210_36476_210_8341_1_1533271973_7057520_145.wav \
       ./test_wavs/210_36476_210_8341_1_1533271973_7057520_148.wav
   done
+
+Tibetan
+^^^^^^^
+
+icefall-asr-xbmu-amdo31-pruned-transducer-stateless7-2022-12-02
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+  # This model is trained using the XBMU-AMDO31 corpus
+  #
+  # See https://github.com/k2-fsa/icefall/pull/706
+  #
+  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/syzym/icefall-asr-xbmu-amdo31-pruned-transducer-stateless7-2022-12-02
+  cd icefall-asr-xbmu-amdo31-pruned-transducer-stateless7-2022-12-02
+  git lfs pull --include "exp/cpu_jit.pt"
+  git lfs pull --include "data/lang_bpe_500/LG.pt"
+
+  for m in greedy_search modified_beam_search fast_beam_search; do
+    sherpa-offline \
+      --decoding-method=$m \
+      --nn-model=./exp/cpu_jit.pt \
+      --tokens=./data/lang_bpe_500/tokens.txt \
+      ./test_wavs/a_0_cacm-A70_31116.wav \
+      ./test_wavs/a_0_cacm-A70_31117.wav \
+      ./test_wavs/a_0_cacm-A70_31118.wav
+  done
+
+  sherpa-offline \
+    --decoding-method=fast_beam_search \
+    --nn-model=./exp/cpu_jit.pt \
+    --lg=./data/lang_bpe_500/LG.pt \
+    --tokens=./data/lang_bpe_500/tokens.txt \
+    ./test_wavs/a_0_cacm-A70_31116.wav \
+    ./test_wavs/a_0_cacm-A70_31117.wav \
+    ./test_wavs/a_0_cacm-A70_31118.wav
+
+icefall-asr-xbmu-amdo31-pruned-transducer-stateless5-2022-11-29
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+  # This model is trained using the XBMU-AMDO31 corpus
+  #
+  # See https://github.com/k2-fsa/icefall/pull/706
+  #
+  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/syzym/icefall-asr-xbmu-amdo31-pruned-transducer-stateless5-2022-11-29
+  cd icefall-asr-xbmu-amdo31-pruned-transducer-stateless5-2022-11-29
+  git lfs pull --include "data/lang_bpe_500/LG.pt"
+  git lfs pull --include "exp/cpu_jit-epoch-28-avg-23-torch-1.10.0.pt"
+
+  cd exp
+  rm cpu_jit.pt
+  ln -sv cpu_jit-epoch-28-avg-23-torch-1.10.0.pt cpu_jit.pt
+  cd ..
+
+  for m in greedy_search modified_beam_search fast_beam_search; do
+    sherpa-offline \
+      --decoding-method=$m \
+      --nn-model=./exp/cpu_jit.pt \
+      --tokens=./data/lang_bpe_500/tokens.txt \
+      ./test_wavs/a_0_cacm-A70_31116.wav \
+      ./test_wavs/a_0_cacm-A70_31117.wav \
+      ./test_wavs/a_0_cacm-A70_31118.wav
+  done
+
+  sherpa-offline \
+    --decoding-method=fast_beam_search \
+    --nn-model=./exp/cpu_jit.pt \
+    --lg=./data/lang_bpe_500/LG.pt \
+    --tokens=./data/lang_bpe_500/tokens.txt \
+    ./test_wavs/a_0_cacm-A70_31116.wav \
+    ./test_wavs/a_0_cacm-A70_31117.wav \
+    ./test_wavs/a_0_cacm-A70_31118.wav
