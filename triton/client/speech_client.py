@@ -12,10 +12,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from tritonclient.utils import np_to_triton_dtype
-import numpy as np
 import math
+
+import numpy as np
 import soundfile as sf
+from tritonclient.utils import np_to_triton_dtype
+
 
 class OfflineSpeechClient(object):
     def __init__(self, triton_client, model_name, protocol_client, args):
@@ -59,16 +61,16 @@ class StreamingSpeechClient(object):
         self.model_name = model_name
         chunk_size = args.chunk_size
         subsampling = args.subsampling
-        context = args.context
+        encoder_right_context = args.encoder_right_context
         frame_shift_ms = args.frame_shift_ms
         frame_length_ms = args.frame_length_ms
-        # for the first chunk
+        # For the first chunk,
         # we need additional frames to generate
-        # the exact first chunk length frames
-        # since the subsampling will look ahead several frames
-        first_chunk_length = (chunk_size - 1) * subsampling + context
+        # the exact first chunk length frames.
+        # decode_window_length: input sequence length of streaming encoder 
+        decode_window_length = (chunk_size + 2 + encoder_right_context) * subsampling + 3
         add_frames = math.ceil((frame_length_ms - frame_shift_ms) / frame_shift_ms)
-        first_chunk_ms = (first_chunk_length + add_frames) * frame_shift_ms
+        first_chunk_ms = (decode_window_length + add_frames) * frame_shift_ms
         other_chunk_ms = chunk_size * subsampling * frame_shift_ms
         self.first_chunk_in_secs = first_chunk_ms / 1000
         self.other_chunk_in_secs = other_chunk_ms / 1000

@@ -52,21 +52,21 @@ Usage:
 """
 
 import argparse
-import sys
-from functools import partial
 import asyncio
-import time
-from pathlib import Path
-import types
 import math
+import sys
+import time
+import types
+from functools import partial
+from pathlib import Path
 
 import numpy as np
-from icefall.utils import store_transcripts, write_error_stats
-from lhotse import CutSet, load_manifest
-
 import tritonclient
 import tritonclient.grpc.aio as grpcclient
-from tritonclient.utils import np_to_triton_dtype, InferenceServerException
+from lhotse import CutSet, load_manifest
+from tritonclient.utils import InferenceServerException, np_to_triton_dtype
+
+from icefall.utils import store_transcripts, write_error_stats
 
 DEFAULT_MANIFEST_FILENAME = "/mnt/samsung-t7/yuekai/aishell-test-dev-manifests/data/fbank/aishell_cuts_test.jsonl.gz"  # noqa
 
@@ -143,8 +143,14 @@ def get_args():
     parser.add_argument('--context',
                         type=int,
                         required=False,
-                        default=97,
-                        help='subsampling context')
+                        default=-1,
+                        help='subsampling context for wenet')
+
+    parser.add_argument('--encoder_right_context',
+                        type=int,
+                        required=False,
+                        default=2,
+                        help='encoder right context')
 
     parser.add_argument('--subsampling',
                         type=int,
@@ -341,8 +347,15 @@ async def main():
         frame_shift_ms=10
         frame_length_ms=25
         add_frames = math.ceil((frame_length_ms - frame_shift_ms) / frame_shift_ms)
-        first_chunk_length = (args.chunk_size - 1) * args.subsampling + args.context
-        first_chunk_ms = (first_chunk_length + add_frames) * frame_shift_ms
+        # decode_window_length: input sequence length of streaming encoder 
+        if args.context > 0:
+            # decode window length calculation for wenet
+            decode_window_length = (args.chunk_size - 1) * args.subsampling + args.context
+        else:
+            # decode window length calculation for icefall
+            decode_window_length = (args.chunk_size + 2 + args.encoder_right_context) * args.subsampling + 3
+        
+        first_chunk_ms = (decode_window_length + add_frames) * frame_shift_ms
 
     start_time = time.time()
     for i in range(num_tasks):

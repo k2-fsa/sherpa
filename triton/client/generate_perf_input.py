@@ -1,9 +1,11 @@
-import os
-import json
-import soundfile as sf
-import numpy as np
 import argparse
+import json
 import math
+import os
+
+import numpy as np
+import soundfile as sf
+
 
 def generate_offline_input(args):
     wav_file = args.audio_file

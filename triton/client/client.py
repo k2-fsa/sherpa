@@ -12,15 +12,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+import argparse
 import multiprocessing
+import os
 from multiprocessing import Pool
 
-import argparse
-import os
-import tritonclient.grpc as grpcclient
-from utils import write_error_stats
-from speech_client import *
 import numpy as np
+import tritonclient.grpc as grpcclient
+
+from speech_client import *
+from utils import write_error_stats
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -87,11 +88,11 @@ if __name__ == '__main__':
                         required=False,
                         default=16,
                         help='chunk size default is 16')
-    parser.add_argument('--context',
+    parser.add_argument('--encoder_right_context',
                         type=int,
                         required=False,
-                        default=97,
-                        help='subsampling context')
+                        default=2,
+                        help='encoder right context')
     parser.add_argument('--subsampling',
                         type=int,
                         required=False,
