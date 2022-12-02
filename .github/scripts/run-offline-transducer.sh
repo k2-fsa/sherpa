@@ -422,6 +422,7 @@ log "Download pretrained model and test-data from $repo_url"
 GIT_LFS_SKIP_SMUDGE=1 git clone $repo_url
 pushd $repo
 git lfs pull --include "data/lang_bpe_500/LG.pt"
+git lfs pull --include "data/lang_bpe_500/tokens.txt"
 git lfs pull --include "exp/cpu_jit-epoch-28-avg-23-torch-1.10.0.pt"
 
 git lfs pull --include "test_wavs/a_0_cacm-A70_31116.wav"
