@@ -143,7 +143,7 @@ for m in greedy_search modified_beam_search fast_beam_search; do
     --nn-model=$repo/exp/cpu_jit.pt \
     --tokens=$repo/data/lang_bpe_500/tokens.txt \
     --use-endpoint=true \
-    $repo/test_wavs/all-ine-one.wav
+    $repo/test_wavs/all-in-one.wav
 done
 
 rm -rf $repo
