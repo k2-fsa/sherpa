@@ -128,10 +128,12 @@ time ./build/bin/sherpa-online \
   $repo/test_wavs/1221-135766-0002.wav
 
 pushd $repo/test_wavs
-sox 1089-134686-0001.wav 1.wav pad 10 10
-sox 1221-135766-0001.wav 2.wav pad 10 10
-sox 1221-135766-0002.wav 3.wav pad 10 10
-sox -m 1.wav 2.wav 3.wav all-in-one.wav
+sox 1089-134686-0001.wav 1.wav pad 5 5
+sox 1221-135766-0001.wav 2.wav pad 5 5
+sox 1221-135766-0002.wav 3.wav pad 5 5
+sox 1.wav 2.wav 3.wav all-in-one.wav
+soxi *.wav
+ls -lh *.wav
 popd
 
 # For Endpoint testing
