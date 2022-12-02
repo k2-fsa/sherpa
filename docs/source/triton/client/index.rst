@@ -27,7 +27,7 @@ Decode manifests
 You could also decode a whole dataset to benchmark metrics e.g. RTF, WER.
 
 .. caution::
-  Decode manifests using streaming ASR would be supported in the future.
+  Decode manifests in simulation streaming mode would be supported in the future.
 
 .. code-block:: bash
 
@@ -40,7 +40,7 @@ You could also decode a whole dataset to benchmark metrics e.g. RTF, WER.
     # dev set: ./aishell-test-dev-manifests/data/fbank/aishell_cuts_test.jsonl.gz 
     # test set: ./aishell-test-dev-manifests/data/fbank/aishell_cuts_test.jsonl.gz 
 
-    python3 decode_manifest_offline.py \
+    python3 decode_manifest_triton.py \
        --server-addr localhost \
        --num-tasks 300 \
        --log-interval 20 \

@@ -17,7 +17,7 @@
 
 import logging
 from collections import defaultdict
-from typing import Dict,  List, TextIO, Tuple
+from typing import Dict, List, TextIO, Tuple
 
 import kaldialign
 
