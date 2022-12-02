@@ -20,8 +20,23 @@ Two kinds of end-to-end (E2E) models are supported by `sherpa`_:
    If you have a CTC model and want it to be supported in `sherpa`, please
    create an issue at `<https://github.com/k2-fsa/sherpa/issues>`_.
 
+.. hint::
+
+   You can try the pre-trained models in your browser without installing
+   anything. See `<https://huggingface.co/spaces/k2-fsa/automatic-speech-recognition>`_.
+
+
 This page lists all available pre-trained models that you can download.
 
+.. hint::
+
+   We provide pre-trained models for the following languages:
+
+    - Arabic
+    - Chinese
+    - English
+    - German
+    - Tibetan
 
 .. toctree::
    :maxdepth: 2

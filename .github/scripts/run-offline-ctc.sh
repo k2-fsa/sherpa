@@ -227,3 +227,40 @@ log "Decoding with HLG"
 rm -rf $repo
 log "End of testing ${repo_url}"
 log "=========================================================================="
+
+repo_url=https://huggingface.co/AmirHussein/icefall-asr-mgb2-conformer_ctc-2022-27-06
+log "Start testing ${repo_url}"
+repo=$(basename $repo_url)
+log "Download pretrained model and test-data from $repo_url"
+
+GIT_LFS_SKIP_SMUDGE=1 git clone $repo_url
+pushd $repo
+git lfs pull --include "exp/cpu_jit.pt"
+git lfs pull --include "data/lang_bpe_5000/HLG.pt"
+git lfs pull --include "data/lang_bpe_5000/tokens.txt"
+popd
+
+log "Decoding with H"
+
+./build/bin/sherpa-offline \
+  --nn-model=$repo/exp/cpu_jit.pt \
+  --tokens=$repo/data/lang_bpe_5000/tokens.txt \
+  --use-gpu=false \
+  $repo/test_wavs/94D37D38-B203-4FC0-9F3A-538F5C174920_spk-0001_seg-0053813:0054281.wav \
+  $repo/test_wavs/94D37D38-B203-4FC0-9F3A-538F5C174920_spk-0001_seg-0051454:0052244.wav \
+  $repo/test_wavs/94D37D38-B203-4FC0-9F3A-538F5C174920_spk-0001_seg-0052244:0053004.wav
+
+log "Decoding with HLG"
+
+./build/bin/sherpa-offline \
+  --nn-model=$repo/exp/cpu_jit.pt \
+  --hlg=$repo/data/lang_bpe_5000/HLG.pt \
+  --tokens=$repo/data/lang_bpe_5000/tokens.txt \
+  --use-gpu=false \
+  $repo/test_wavs/94D37D38-B203-4FC0-9F3A-538F5C174920_spk-0001_seg-0053813:0054281.wav \
+  $repo/test_wavs/94D37D38-B203-4FC0-9F3A-538F5C174920_spk-0001_seg-0051454:0052244.wav \
+  $repo/test_wavs/94D37D38-B203-4FC0-9F3A-538F5C174920_spk-0001_seg-0052244:0053004.wav
+
+rm -rf $repo
+log "End of testing ${repo_url}"
+log "=========================================================================="
