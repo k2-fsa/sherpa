@@ -207,6 +207,8 @@ int32_t main(int32_t argc, char *argv[]) {
 
       int32_t chunk = 0.2 * expected_sample_rate;
       int32_t num_samples = wave.numel();
+
+      std::string last;
       for (int32_t start = 0; start < num_samples;) {
         int32_t end = std::min(start + chunk, num_samples);
         torch::Tensor samples =
@@ -217,7 +219,13 @@ int32_t main(int32_t argc, char *argv[]) {
 
         while (recognizer.IsReady(s.get())) {
           recognizer.DecodeStream(s.get());
-          std::cout << recognizer.GetResult(s.get()).AsJsonString() << "\n";
+        }
+
+        auto r = recognizer.GetResult(s.get());
+
+        if (!r.text.empty() && r.text != last) {
+          last = r.text;
+          std::cout << r.AsJsonString() << "\n";
         }
       }
 
@@ -225,7 +233,12 @@ int32_t main(int32_t argc, char *argv[]) {
       s->InputFinished();
       while (recognizer.IsReady(s.get())) {
         recognizer.DecodeStream(s.get());
-        std::cout << recognizer.GetResult(s.get()).AsJsonString() << "\n";
+      }
+      auto r = recognizer.GetResult(s.get());
+
+      if (!r.text.empty() && r.text != last) {
+        last = r.text;
+        std::cout << r.AsJsonString() << ", size: " << r.text.size() << "\n";
       }
     } else {
       // For multiple waves, we don't use simulate streaming since
