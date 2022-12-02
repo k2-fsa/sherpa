@@ -40,6 +40,11 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: ccache
+        uses: hendrikmuhs/ccache-action@v1.1
+        with:
+          key: ${{ matrix.os }}-${{ matrix.torch }}-${{ matrix.python-version }}-${{ matrix.build_type }}
+
       - name: Setup Python
         uses: actions/setup-python@v2
         with:
@@ -104,7 +109,14 @@ jobs:
 
           mkdir build
           cd build
-          cmake -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DSHERPA_ENABLE_WEBSOCKET=ON ..
+
+          cmake \
+            -DCMAKE_C_COMPILER_LAUNCHER=ccache \
+            -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
+            -DCMAKE_BUILD_TYPE=$BUILD_TYPE \
+            -DSHERPA_ENABLE_TESTS=ON \
+            -DSHERPA_ENABLE_WEBSOCKET=ON ..
+
           make -j2 VERBOSE=1 sherpa-offline-websocket-server sherpa-offline-websocket-client
 
           ls -lh lib
