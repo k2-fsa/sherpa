@@ -188,17 +188,17 @@ jobs:
 
           ./bin/sherpa-offline --help
 
-      # - name: Run offline transducer
-      #   shell: bash
-      #   run: |
-      #     .github/scripts/run-offline-transducer.sh
-      #
-      # - name: Run online transducer
-      #   shell: bash
-      #   run: |
-      #     .github/scripts/run-online-transducer.sh
-      #
-      # - name: Run offline CTC
-      #   shell: bash
-      #   run: |
-      #     .github/scripts/run-offline-ctc.sh
+      - name: Run online transducer
+        shell: bash
+        run: |
+          .github/scripts/run-online-transducer.sh
+
+      - name: Run offline transducer
+        shell: bash
+        run: |
+          .github/scripts/run-offline-transducer.sh
+
+      - name: Run offline CTC
+        shell: bash
+        run: |
+          .github/scripts/run-offline-ctc.sh
