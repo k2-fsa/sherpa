@@ -167,8 +167,9 @@ static OnlineRecognitionResult Convert(const OnlineTransducerDecoderResult &src,
 class OnlineRecognizer::OnlineRecognizerImpl {
  public:
   explicit OnlineRecognizerImpl(const OnlineRecognizerConfig &config)
-      : config_(config), symbol_table_(config.tokens),
-      endpoint_(std::make_unique<Endpoint>(config.endpoint_config)) {
+      : config_(config),
+        symbol_table_(config.tokens),
+        endpoint_(std::make_unique<Endpoint>(config.endpoint_config)) {
     if (config.use_gpu) {
       device_ = torch::Device("cuda:0");
     }
@@ -337,9 +338,9 @@ class OnlineRecognizer::OnlineRecognizerImpl {
     return ans;
   }
 
-  bool IsEndpoint(OnlineStream * s) const {
-    return endpoint_->IsEndpoint(s->GetNumProcessedFrames()
-        - s->GetStartFrame(),
+  bool IsEndpoint(OnlineStream *s) const {
+    return endpoint_->IsEndpoint(
+        s->GetNumProcessedFrames() - s->GetStartFrame(),
         s->GetNumTrailingBlankFrames() * model_->SubsamplingFactor(),
         config_.feat_config.fbank_opts.frame_opts.frame_shift_ms / 1000.0);
   }

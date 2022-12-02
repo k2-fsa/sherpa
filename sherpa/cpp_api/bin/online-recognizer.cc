@@ -196,50 +196,84 @@ int32_t main(int32_t argc, char *argv[]) {
       kaldiio::SplitStringToVector(result.text, " ", true, &words);
       writer.Write(key, words);
     }
-
   } else {
     int32_t num_waves = po.NumArgs();
-    std::vector<std::unique_ptr<sherpa::OnlineStream>> ss;
-    std::vector<sherpa::OnlineStream *> p_ss;
+    if (num_waves == 1) {
+      // simulate streaming
+      torch::Tensor wave =
+          sherpa::ReadWave(po.GetArg(1), expected_sample_rate).first;
 
-    for (int32_t i = 1; i <= po.NumArgs(); ++i) {
       auto s = recognizer.CreateStream();
 
-      torch::Tensor wave =
-          sherpa::ReadWave(po.GetArg(i), expected_sample_rate).first;
+      int32_t chunk = 0.2 * expected_sample_rate;
+      int32_t num_samples = wave.numel();
+      for (int32_t start = 0; start < num_samples;) {
+        int32_t end = std::min(start + chunk, num_samples);
+        torch::Tensor samples =
+            wave.index({torch::indexing::Slice(start, end)});
+        start = end;
 
-      s->AcceptWaveform(expected_sample_rate, wave);
+        s->AcceptWaveform(expected_sample_rate, samples);
 
-      s->AcceptWaveform(expected_sample_rate, tail_padding);
-      s->InputFinished();
-      ss.push_back(std::move(s));
-      p_ss.push_back(ss.back().get());
-    }
-
-    std::vector<sherpa::OnlineStream *> ready_streams;
-    for (;;) {
-      ready_streams.clear();
-      for (auto s : p_ss) {
-        if (recognizer.IsReady(s)) {
-          ready_streams.push_back(s);
+        while (recognizer.IsReady(s.get())) {
+          recognizer.DecodeStream(s.get());
+          std::cout << recognizer.GetResult(s.get()).AsJsonString() << "\n";
         }
       }
 
-      if (ready_streams.empty()) {
-        break;
+      s->AcceptWaveform(expected_sample_rate, tail_padding);
+      s->InputFinished();
+      while (recognizer.IsReady(s.get())) {
+        recognizer.DecodeStream(s.get());
+        std::cout << recognizer.GetResult(s.get()).AsJsonString() << "\n";
       }
-      recognizer.DecodeStreams(ready_streams.data(), ready_streams.size());
-    }
+    } else {
+      // For multiple waves, we don't use simulate streaming since
+      // it would complicate the code. Please use
+      // sherpa-online-websocket-server and
+      // sherpa-online-websocket-client and for that.
+      std::vector<std::unique_ptr<sherpa::OnlineStream>> ss;
+      std::vector<sherpa::OnlineStream *> p_ss;
 
-    std::ostringstream os;
-    for (int32_t i = 1; i <= po.NumArgs(); ++i) {
-      os << po.GetArg(i) << "\n";
-      auto r = recognizer.GetResult(p_ss[i - 1]);
-      os << r.text << "\n";
-      os << r.AsJsonString() << "\n\n";
-    }
+      for (int32_t i = 1; i <= po.NumArgs(); ++i) {
+        auto s = recognizer.CreateStream();
 
-    std::cerr << os.str();
+        torch::Tensor wave =
+            sherpa::ReadWave(po.GetArg(i), expected_sample_rate).first;
+
+        s->AcceptWaveform(expected_sample_rate, wave);
+
+        s->AcceptWaveform(expected_sample_rate, tail_padding);
+        s->InputFinished();
+        ss.push_back(std::move(s));
+        p_ss.push_back(ss.back().get());
+      }
+
+      std::vector<sherpa::OnlineStream *> ready_streams;
+      for (;;) {
+        ready_streams.clear();
+        for (auto s : p_ss) {
+          if (recognizer.IsReady(s)) {
+            ready_streams.push_back(s);
+          }
+        }
+
+        if (ready_streams.empty()) {
+          break;
+        }
+        recognizer.DecodeStreams(ready_streams.data(), ready_streams.size());
+      }
+
+      std::ostringstream os;
+      for (int32_t i = 1; i <= po.NumArgs(); ++i) {
+        os << po.GetArg(i) << "\n";
+        auto r = recognizer.GetResult(p_ss[i - 1]);
+        os << r.text << "\n";
+        os << r.AsJsonString() << "\n\n";
+      }
+
+      std::cerr << os.str();
+    }
   }
 
   return 0;
