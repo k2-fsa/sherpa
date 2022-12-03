@@ -6,6 +6,7 @@
 
 #include <memory>
 #include <string>
+#include <vector>
 
 #include "sherpa/python/csrc/offline-recognizer.h"
 
@@ -186,6 +187,19 @@ static void PybindOfflineRecognizerConfig(py::module &m) {  // NOLINT
 void PybindOfflineRecognizer(py::module &m) {  // NOLINT
   PybindOfflineCtcDecoderConfig(m);
   PybindOfflineRecognizerConfig(m);
+
+  using PyClass = OfflineRecognizer;
+  py::class_<PyClass>(m, "OfflineRecognizer")
+      .def(py::init<const OfflineRecognizerConfig &>(), py::arg("config"))
+      .def("create_stream", &PyClass::CreateStream)
+      .def("decode_stream", &PyClass::DecodeStream, py::arg("s"))
+      .def(
+          "decode_streams",
+          [](PyClass &self, std::vector<OfflineStream *> &ss) {
+            self.DecodeStreams(ss.data(), ss.size());
+          },
+          py::arg("ss"))
+      .def("get_result", &PyClass::GetResult);
 }
 
 }  // namespace sherpa
