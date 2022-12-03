@@ -11,10 +11,11 @@ pybind11_add_module(_sherpa
   rnnt_lstm_model.cc
   sherpa.cc
   #
+  fast-beam-search-config.cc
+  feature-config.cc
   offline-ctc-model.cc
   offline-recognizer.cc
-  feature-config.cc
-  fast-beam-search-config.cc
+  offline-stream.cc
 )
 
 if(APPLE)

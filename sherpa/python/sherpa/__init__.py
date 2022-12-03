@@ -16,6 +16,7 @@ from _sherpa import (
     Hypothesis,
     OfflineCtcDecoderConfig,
     OfflineRecognizerConfig,
+    OfflineStream,
     RnntConformerModel,
     RnntConvEmformerModel,
     RnntEmformerModel,
