@@ -60,7 +60,9 @@ void PybindOfflineStream(py::module &m) {  // NOLINT
             samples = samples.contiguous().cpu();
             self.AcceptSamples(samples.data_ptr<float>(), samples.numel());
           },
-          py::arg("samples"), kOfflineStreamAcceptSamplesTensorDoc);
+          py::arg("samples"), kOfflineStreamAcceptSamplesTensorDoc)
+
+      .def_property_readonly("result", &PyClass::GetResult);
 }
 
 }  // namespace sherpa

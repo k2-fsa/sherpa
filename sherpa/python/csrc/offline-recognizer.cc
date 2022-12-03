@@ -198,8 +198,7 @@ void PybindOfflineRecognizer(py::module &m) {  // NOLINT
           [](PyClass &self, std::vector<OfflineStream *> &ss) {
             self.DecodeStreams(ss.data(), ss.size());
           },
-          py::arg("ss"))
-      .def("get_result", &PyClass::GetResult);
+          py::arg("ss"));
 }
 
 }  // namespace sherpa

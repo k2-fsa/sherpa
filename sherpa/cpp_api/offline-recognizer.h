@@ -101,13 +101,6 @@ class OfflineRecognizer {
    */
   void DecodeStreams(OfflineStream **ss, int32_t n);
 
-  /** Get the recognition result of the given stream.
-   *
-   * @param s The stream to get the result.
-   * @return Return the recognition result for `s`.
-   */
-  OfflineRecognitionResult GetResult(OfflineStream *s) const;
-
  private:
   std::unique_ptr<OfflineRecognizerImpl> impl_;
 };
