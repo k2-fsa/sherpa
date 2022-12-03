@@ -21,6 +21,8 @@ set(py_test_files
   test_online_endpoint.py
   test_timestamp.py
   test_utils.py
+  #
+  test_offline_ctc_decoder_config.py
 )
 
 foreach(source IN LISTS py_test_files)

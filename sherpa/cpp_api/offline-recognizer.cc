@@ -35,7 +35,7 @@ void OfflineCtcDecoderConfig::Register(ParseOptions *po) {
   po->Register("output-beam", &output_beam,
                "Used only for CTC decoding. "
                "Beam to prune output, similar to lattice-beam in Kaldi. "
-               "Relative to best path of output. ");
+               "Relative to the best path of output. ");
 
   po->Register("min-active-states", &min_active_states,
                "Minimum number of FSA states that are allowed to "

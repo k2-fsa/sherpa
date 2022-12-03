@@ -10,6 +10,9 @@ pybind11_add_module(_sherpa
   rnnt_model.cc
   rnnt_lstm_model.cc
   sherpa.cc
+  #
+  offline-ctc-model.cc
+  offline-recognizer.cc
 )
 
 if(APPLE)
