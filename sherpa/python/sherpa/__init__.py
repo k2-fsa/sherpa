@@ -10,6 +10,7 @@ if torch.__version__.split("+")[0] != sherpa_torch_version.split("+")[0]:
     )
 
 from _sherpa import (
+    FastBeamSearchConfig,
     FeatureConfig,
     Hypotheses,
     Hypothesis,

@@ -14,6 +14,7 @@ pybind11_add_module(_sherpa
   offline-ctc-model.cc
   offline-recognizer.cc
   feature-config.cc
+  fast-beam-search-config.cc
 )
 
 if(APPLE)

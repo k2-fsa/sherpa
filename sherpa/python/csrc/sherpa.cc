@@ -29,6 +29,7 @@
 #include "sherpa/python/csrc/rnnt_lstm_model.h"
 #include "sherpa/python/csrc/rnnt_model.h"
 //
+#include "sherpa/python/csrc/fast-beam-search-config.h"
 #include "sherpa/python/csrc/feature-config.h"
 #include "sherpa/python/csrc/offline-ctc-model.h"
 #include "sherpa/python/csrc/offline-recognizer.h"
@@ -49,6 +50,7 @@ PYBIND11_MODULE(_sherpa, m) {
   //
   //
   PybindFeatureConfig(m);
+  PybindFastBeamSearch(m);
   PybindOfflineCtcModel(m);
   PybindOfflineRecognizer(m);
 }
