@@ -12,7 +12,7 @@
 namespace sherpa {
 
 static constexpr const char *kOfflineCtcDecoderConfigInitDoc = R"doc(
-Constructor for Offline CTC decoder configuration.
+Constructor for offline CTC decoder configuration.
 
 Args:
   modified:
@@ -46,6 +46,63 @@ Args:
     a very large number if no constraint is needed.
 )doc";
 
+static constexpr const char *kOfflineRecognizerConfigInitDoc = R"doc(
+Constructor for the offline recognizer configuration.
+
+Args:
+  nn_model:
+    Path to the torchscript model. We support the following types of models:
+
+      (1) CTC. Models from the following frameworks are supported:
+
+        - icefall. It supports models from the ``conformer_ctc`` recipe.
+        - wenet. It supports all models trained using CTC from wenet. We discard
+                 the transformer decoder branch and only use the transformer
+                 encoder for CTC decoding.
+        - torchaudio. We support wav2vec 2.0 models from torchaudio.
+
+      (2) Transducer. Models from the following frameworks are supported.
+
+        - icefall. It supports models from the ``pruend_transducer_statelessX``
+                   recipe.
+
+      Please visit the following links for pre-trained CTC and transducer models:
+
+        - `<https://k2-fsa.github.io/sherpa/cpp/pretrained_models/offline_ctc.html>`_
+        - `<https://k2-fsa.github.io/sherpa/cpp/pretrained_models/offline_transducer.html>`_
+  tokens:
+    Path to ``tokens.txt``. Note: Different frameworks use different names
+    for this file. Basically, it is a text file, where each row contains two
+    columns separated by space(s). The first column is a symbol and the second
+    column is the corresponding integer ID of the symbol. The text file has
+    as many rows as the vocabulary size of the model.
+  use_gpu:
+    ``False`` to use CPU for neural network computation and decoding.
+    ``True`` to use GPU for neural network computation and decoding.
+
+    .. note::
+
+       If ``use_gpu`` is ``True``, we always use ``GPU 0``. You can use
+       the environment variable ``CUDA_VISIBLE_DEVICES`` to control which
+       GPU is mapped to ``GPU 0``.
+  num_active_paths:
+    Used only for modified_beam_search in transducer decoding. It is ignored
+    if the passed ``nn_model`` is a CTC model.
+  ctc_decoder_config:
+    Used only when the passed ``nn_model`` is a CTC model. It is ignored if
+    the passed ``nn_model`` is a transducer model.
+  feat_config:
+    It contains the configuration for offline fbank extractor.
+  fast_beam_search_config:
+    Used only for fast_beam_search in transducer decoding. It is ignored if
+    the passed ``nn_model`` is a CTC model. Also, if the decoding_method is
+    not ``fast_beam_search``, it is ignored.
+  decoding_method:
+    Used only when the passed ``nn_model`` is a transducer model.
+    Valid values are: ``greedy_search``, ``modified_beam_search``, and
+    ``fast_beam_search``.
+)doc";
+
 static void PybindOfflineCtcDecoderConfig(py::module &m) {  // NOLINT
   using PyClass = OfflineCtcDecoderConfig;
   py::class_<PyClass>(m, "OfflineCtcDecoderConfig")
@@ -77,21 +134,58 @@ static void PybindOfflineCtcDecoderConfig(py::module &m) {  // NOLINT
       .def_readwrite("output_beam", &PyClass::output_beam)
       .def_readwrite("min_active_states", &PyClass::min_active_states)
       .def_readwrite("max_active_states", &PyClass::max_active_states)
-      .def("__str__", [](const PyClass &self) -> std::string {
-        std::ostringstream os;
-        os << "OfflineCtcDecoderConfig(";
-        os << "modified=" << (self.modified ? "True" : "False") << ", ";
-        os << "hlg=" << '\"' << self.hlg << '\"' << ", ";
-        os << "search_beam=" << self.search_beam << ", ";
-        os << "output_beam=" << self.output_beam << ", ";
-        os << "min_active_states=" << self.min_active_states << ", ";
-        os << "max_active_states=" << self.max_active_states << ")";
-        return os.str();
-      });
+      .def("__str__",
+           [](const PyClass &self) -> std::string { return self.ToString(); })
+      .def("validate", &PyClass::Validate);
+}
+
+static void PybindOfflineRecognizerConfig(py::module &m) {  // NOLINT
+  using PyClass = OfflineRecognizerConfig;
+  py::class_<PyClass>(m, "OfflineRecognizerConfig")
+      .def(py::init([](const std::string &nn_model, const std::string &tokens,
+                       bool use_gpu = false, int32_t num_active_paths = 4,
+                       const OfflineCtcDecoderConfig &ctc_decoder_config = {},
+                       const FeatureConfig &feat_config = {},
+                       const FastBeamSearchConfig &fast_beam_search_config = {},
+                       const std::string &decoding_method = "greedy_search")
+                        -> std::unique_ptr<OfflineRecognizerConfig> {
+             auto config = std::make_unique<OfflineRecognizerConfig>();
+
+             config->ctc_decoder_config = ctc_decoder_config;
+             config->feat_config = feat_config;
+             config->fast_beam_search_config = fast_beam_search_config;
+             config->nn_model = nn_model;
+             config->tokens = tokens;
+             config->use_gpu = use_gpu;
+             config->decoding_method = decoding_method;
+             config->num_active_paths = num_active_paths;
+
+             return config;
+           }),
+           py::arg("nn_model"), py::arg("tokens"), py::arg("use_gpu") = false,
+           py::arg("num_active_paths") = 4,
+           py::arg("ctc_decoder_config") = OfflineCtcDecoderConfig(),
+           py::arg("feat_config") = FeatureConfig(),
+           py::arg("fast_beam_search_config") = FastBeamSearchConfig(),
+           py::arg("decoding_method") = "greedy_search",
+           kOfflineRecognizerConfigInitDoc)
+      .def("__str__",
+           [](const PyClass &self) -> std::string { return self.ToString(); })
+      .def_readwrite("ctc_decoder_config", &PyClass::ctc_decoder_config)
+      .def_readwrite("feat_config", &PyClass::feat_config)
+      .def_readwrite("fast_beam_search_config",
+                     &PyClass::fast_beam_search_config)
+      .def_readwrite("nn_model", &PyClass::nn_model)
+      .def_readwrite("tokens", &PyClass::tokens)
+      .def_readwrite("use_gpu", &PyClass::use_gpu)
+      .def_readwrite("decoding_method", &PyClass::decoding_method)
+      .def_readwrite("num_active_paths", &PyClass::num_active_paths)
+      .def("validate", &PyClass::Validate);
 }
 
 void PybindOfflineRecognizer(py::module &m) {  // NOLINT
   PybindOfflineCtcDecoderConfig(m);
+  PybindOfflineRecognizerConfig(m);
 }
 
 }  // namespace sherpa

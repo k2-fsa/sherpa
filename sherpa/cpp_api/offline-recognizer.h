@@ -31,6 +31,7 @@ struct OfflineCtcDecoderConfig {
 
   void Register(ParseOptions *po);
   void Validate() const;
+  std::string ToString() const;
 };
 
 struct OfflineRecognizerConfig {
