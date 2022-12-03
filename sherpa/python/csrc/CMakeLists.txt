@@ -13,6 +13,7 @@ pybind11_add_module(_sherpa
   #
   offline-ctc-model.cc
   offline-recognizer.cc
+  feature-config.cc
 )
 
 if(APPLE)
@@ -31,6 +32,7 @@ endif()
 
 
 target_link_libraries(_sherpa PRIVATE sherpa_core)
+target_link_libraries(_sherpa PRIVATE sherpa_cpp_api)
 target_include_directories(_sherpa PRIVATE ${CMAKE_BINARY_DIR})
 
 if(UNIX AND NOT APPLE)

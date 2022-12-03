@@ -46,7 +46,13 @@ void FeatureConfig::Register(ParseOptions *po) {
                "Note: kaldi uses un-normalized samples.");
 }
 
-std::string FeatureConfig::ToString() const { return fbank_opts.ToString(); }
+std::string FeatureConfig::ToString() const {
+  std::ostringstream os;
+  os << "FeatureConfig(";
+  os << "fbank_opts=" << fbank_opts.ToString() << ", ";
+  os << "normalize_samples=" << (normalize_samples ? "True" : "False") << ")";
+  return os.str();
+}
 
 std::ostream &operator<<(std::ostream &os, const FeatureConfig &config) {
   os << config.ToString();

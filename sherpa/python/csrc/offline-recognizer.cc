@@ -4,6 +4,9 @@
 
 #include "sherpa/cpp_api/offline-recognizer.h"
 
+#include <memory>
+#include <string>
+
 #include "sherpa/python/csrc/offline-recognizer.h"
 
 namespace sherpa {

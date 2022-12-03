@@ -1,3 +1,4 @@
+import kaldifeat
 import torch
 
 from .torch_version import sherpa_torch_version
@@ -9,6 +10,7 @@ if torch.__version__.split("+")[0] != sherpa_torch_version.split("+")[0]:
     )
 
 from _sherpa import (
+    FeatureConfig,
     Hypotheses,
     Hypothesis,
     OfflineCtcDecoderConfig,

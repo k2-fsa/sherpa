@@ -4,6 +4,8 @@
 
 #include "sherpa/python/csrc/offline-ctc-model.h"
 
+#include <utility>
+
 #include "sherpa/csrc/offline-ctc-model.h"
 
 namespace sherpa {
@@ -50,7 +52,7 @@ Returns:
       of frames in ``log_probs``
 )doc";
 
-void PybindOfflineCtcModel(py::module &m) {
+void PybindOfflineCtcModel(py::module &m) {  // NOLINT
   using PyClass = OfflineCtcModel;
   py::class_<PyClass>(m, "OfflineCtcModel")
       // properties
