@@ -98,7 +98,9 @@ jobs:
           echo "Build type: $BUILD_TYPE"
           export SHERPA_CMAKE_ARGS="-DCMAKE_C_COMPILER_LAUNCHER=ccache -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DSHERPA_ENABLE_TESTS=ON"
 
-          python3 setup.py install
+          python3 setup.py bdist_wheel
+          ls -lh dist
+          pip install ./dist/*.whl
 
       - name: Display sherpa version
         shell: bash
