@@ -11,6 +11,7 @@ on:
       - 'cmake/**'
       - 'sherpa/csrc/**'
       - 'sherpa/cpp_api/**'
+      - 'sherpa/python/**'
   pull_request:
     types: [labeled]
     paths:
@@ -20,6 +21,7 @@ on:
       - 'cmake/**'
       - 'sherpa/csrc/**'
       - 'sherpa/cpp_api/**'
+      - 'sherpa/python/**'
 
 concurrency:
   group: run_python_tests-${{ github.ref }}
