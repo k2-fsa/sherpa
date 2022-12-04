@@ -1,0 +1,114 @@
+name: Run Python tests
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - '.github/workflows/run-python-test.yaml'
+      - '.github/scripts/run-python-test.sh'
+      - 'CMakeLists.txt'
+      - 'cmake/**'
+      - 'sherpa/csrc/**'
+      - 'sherpa/cpp_api/**'
+  pull_request:
+    types: [labeled]
+    paths:
+      - '.github/workflows/run-python-test.yaml'
+      - '.github/scripts/run-python-test.sh'
+      - 'CMakeLists.txt'
+      - 'cmake/**'
+      - 'sherpa/csrc/**'
+      - 'sherpa/cpp_api/**'
+
+concurrency:
+  group: run_python_tests-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  run_python_tests:
+    if: github.event.label.name == 'ready' || github.event.label.name == 'python' || github.event_name == 'push'
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        torch: ["1.10.0"]
+        python-version: ["3.8"]
+        build_type: ["Release"]
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: ccache
+        uses: hendrikmuhs/ccache-action@v1.1
+        with:
+          key: ${{ matrix.os }}-${{ matrix.torch }}-${{ matrix.python-version }}-${{ matrix.build_type }}
+
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Display gcc version
+        run: |
+          gcc --version
+
+      - name: Install PyTorch ${{ matrix.torch }}
+        shell: bash
+        run: |
+          sudo apt-get -qq install git-lfs tree sox
+          sox --version
+
+          sudo apt-get install -y libsnappy-dev libzzip-dev zlib1g-dev libboost-all-dev
+
+          python3 -m pip install --upgrade pip kaldi_native_io sentencepiece>=0.1.96
+          python3 -m pip install wheel twine typing_extensions pytest
+          python3 -m pip install torch==${{ matrix.torch }} numpy -f https://download.pytorch.org/whl/cpu/torch_stable.html
+
+          python3 -m pip install k2==1.23.2.dev20221125+cpu.torch${{ matrix.torch }} -f https://k2-fsa.org/nightly/index.html
+
+          python3 -m torch.utils.collect_env
+
+      - name: Cache kaldifeat
+        id: my-cache-2
+        uses: actions/cache@v2
+        with:
+          path: |
+            ~/tmp/kaldifeat
+          key: cache-tmp-${{ matrix.python-version }}-${{ matrix.os }}-${{ matrix.torch }}-kaldifeat-v1.22
+
+      - name: Install kaldifeat
+        if: steps.my-cache-2.outputs.cache-hit != 'true'
+        shell: bash
+        run: |
+          .github/scripts/install-kaldifeat.sh
+
+      - name: Build sherpa 
+        shell: bash
+        env:
+          BUILD_TYPE: ${{ matrix.build_type }}
+        run: |
+          export KALDIFEAT_INSTALL_PREFIX=$HOME/tmp/kaldifeat/build
+          echo $KALDIFEAT_INSTALL_PREFIX
+          ls -lh $KALDIFEAT_INSTALL_PREFIX
+
+          echo "Build type: $BUILD_TYPE"
+          export SHERPA_CMAKE_ARGS="-DCMAKE_C_COMPILER_LAUNCHER=ccache -DCMAKE_CXX_COMPILER_LAUNCHER=ccache -DCMAKE_BUILD_TYPE=$BUILD_TYPE -DSHERPA_ENABLE_TESTS=ON"
+
+          python3 setup.py install
+
+      - name: Display sherpa version
+        shell: bash
+        run: |
+          sherpa-version
+
+      - name: Run Python tests
+        shell: bash
+        run: |
+          export PYTHONPATH=$HOME/tmp/kaldifeat/kaldifeat/python:$PYTHONPATH
+          export PYTHONPATH=$HOME/tmp/kaldifeat/build/lib:$PYTHONPATH
+
+          .github/scripts/run-python-test.sh

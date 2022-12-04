@@ -13,7 +13,6 @@ class TestOfflineRecognizerConfig(unittest.TestCase):
         config = sherpa.OfflineRecognizerConfig(nn_model="a.pt", tokens="b.txt")
         print()
         print(config)
-        print(help(config))
 
 
 if __name__ == "__main__":
