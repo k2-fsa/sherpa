@@ -35,7 +35,7 @@ void OfflineCtcDecoderConfig::Register(ParseOptions *po) {
   po->Register("output-beam", &output_beam,
                "Used only for CTC decoding. "
                "Beam to prune output, similar to lattice-beam in Kaldi. "
-               "Relative to best path of output. ");
+               "Relative to the best path of output. ");
 
   po->Register("min-active-states", &min_active_states,
                "Minimum number of FSA states that are allowed to "
@@ -64,6 +64,20 @@ void OfflineCtcDecoderConfig::Validate() const {
   SHERPA_CHECK_GT(output_beam, 0);
   SHERPA_CHECK_GE(min_active_states, 0);
   SHERPA_CHECK_GE(max_active_states, 0);
+}
+
+std::string OfflineCtcDecoderConfig::ToString() const {
+  std::ostringstream os;
+
+  os << "OfflineCtcDecoderConfig(";
+  os << "modified=" << (modified ? "True" : "False") << ", ";
+  os << "hlg=" << '\"' << hlg << '\"' << ", ";
+  os << "search_beam=" << search_beam << ", ";
+  os << "output_beam=" << output_beam << ", ";
+  os << "min_active_states=" << min_active_states << ", ";
+  os << "max_active_states=" << max_active_states << ")";
+
+  return os.str();
 }
 
 void OfflineRecognizerConfig::Register(ParseOptions *po) {
@@ -118,14 +132,17 @@ void OfflineRecognizerConfig::Validate() const {
 }
 
 std::string OfflineRecognizerConfig::ToString() const {
-  // TODO(fangjun): Also print ctc_decoder_config
   std::ostringstream os;
-  os << feat_config.ToString() << "\n";
-  os << "--nn-model=" << nn_model << "\n";
-  os << "--tokens=" << tokens << "\n";
-  os << "--use-gpu=" << std::boolalpha << use_gpu << "\n";
-  os << "--decoding-method=" << decoding_method << "\n";
-  os << "--num-active-paths=" << num_active_paths << "\n";
+
+  os << "OfflineRecognizerConfig(";
+  os << "ctc_decoder_config=" << ctc_decoder_config.ToString() << ", ";
+  os << "feat_config=" << feat_config.ToString() << ", ";
+  os << "nn_model=\"" << nn_model << "\", ";
+  os << "tokens=\"" << tokens << "\", ";
+  os << "use_gpu=" << (use_gpu ? "True" : "False") << ", ";
+  os << "decoding_method=\"" << decoding_method << "\", ";
+  os << "num_active_paths=" << num_active_paths << ")";
+
   return os.str();
 }
 

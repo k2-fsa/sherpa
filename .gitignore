@@ -8,3 +8,9 @@ torch_version.py
 *.scp
 *.onnx
 log/
+icefall-*
+icefall_
+recogs-*
+errs-*
+rtf-*
+*.wav

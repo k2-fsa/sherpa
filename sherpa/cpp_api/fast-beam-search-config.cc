@@ -29,4 +29,18 @@ void FastBeamSearchConfig::Validate() const {
   SHERPA_CHECK_GT(beam, 0);
 }
 
+std::string FastBeamSearchConfig::ToString() const {
+  std::ostringstream os;
+
+  os << "FastBeamSearchConfig(";
+  os << "lg=\"" << lg << "\", ";
+  os << "ngram_lm_scale=" << ngram_lm_scale << ", ";
+  os << "beam=" << beam << ", ";
+  os << "max_states=" << max_states << ", ";
+  os << "max_contexts=" << max_contexts << ", ";
+  os << "allow_partial=" << (allow_partial ? "True" : "False") << ")";
+
+  return os.str();
+}
+
 }  // namespace sherpa

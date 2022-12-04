@@ -30,6 +30,7 @@ struct FastBeamSearchConfig {
   void Register(ParseOptions *po);
 
   void Validate() const;
+  std::string ToString() const;
 };
 
 }  // namespace sherpa
