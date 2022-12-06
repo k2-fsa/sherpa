@@ -27,7 +27,7 @@ if(NOT WIN32)
   if(NOT DEFINED ENV{VIRTUAL_ENV})
     message(STATUS "Outside a virtual environment")
     execute_process(
-      COMMAND "${PYTHON_EXECUTABLE}" -c "import site; ';'.join(site.getsitepackages())"
+      COMMAND "${PYTHON_EXECUTABLE}" -c "import site; print(';'.join(site.getsitepackages()))"
       OUTPUT_STRIP_TRAILING_WHITESPACE
       OUTPUT_VARIABLE path_list
     )
