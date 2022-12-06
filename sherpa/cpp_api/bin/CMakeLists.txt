@@ -14,33 +14,43 @@ if(SHERPA_ENABLE_PORTAUDIO)
   endif()
 endif()
 
-if(NOT WIN32)
-  execute_process(
-    COMMAND "${PYTHON_EXECUTABLE}" -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())"
-    OUTPUT_STRIP_TRAILING_WHITESPACE
-    OUTPUT_VARIABLE PYTHON_SITE_PACKAGE_DIR
-  )
-  message(STATUS "PYTHON_SITE_PACKAGE_DIR: ${PYTHON_SITE_PACKAGE_DIR}")
-  target_link_libraries(sherpa-offline "-Wl,-rpath,${PYTHON_SITE_PACKAGE_DIR}/sherpa/lib")
-  target_link_libraries(sherpa-offline "-Wl,-rpath,${SHERPA_RPATH_ORIGIN}/../lib")
-
-  target_link_libraries(sherpa-online "-Wl,-rpath,${PYTHON_SITE_PACKAGE_DIR}/sherpa/lib")
-  target_link_libraries(sherpa-online "-Wl,-rpath,${SHERPA_RPATH_ORIGIN}/../lib")
-
-  if(SHERPA_ENABLE_PORTAUDIO)
-    target_link_libraries(sherpa-online-microphone "-Wl,-rpath,${PYTHON_SITE_PACKAGE_DIR}/sherpa/lib")
-    target_link_libraries(sherpa-online-microphone "-Wl,-rpath,${SHERPA_RPATH_ORIGIN}/../lib")
-  endif()
-endif()
-
-install(
-  TARGETS sherpa-offline sherpa-online
-  DESTINATION bin
+set(exe_list
+  sherpa-offline
+  sherpa-online
 )
 
 if(SHERPA_ENABLE_PORTAUDIO)
-  install(
-    TARGETS sherpa-online-microphone
-    DESTINATION bin
-  )
+  list(APPEND exe_list sherpa-online-microphone)
 endif()
+
+if(NOT WIN32)
+  if(NOT DEFINED ENV{VIRTUAL_ENV})
+    message(STATUS "Outside a virtual environment")
+    execute_process(
+      COMMAND "${PYTHON_EXECUTABLE}" -c "import site; print(';'.join(site.getsitepackages()))"
+      OUTPUT_STRIP_TRAILING_WHITESPACE
+      OUTPUT_VARIABLE path_list
+    )
+  else()
+    message(STATUS "Inside a virtual environment")
+    execute_process(
+      COMMAND "${PYTHON_EXECUTABLE}" -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())"
+      OUTPUT_STRIP_TRAILING_WHITESPACE
+      OUTPUT_VARIABLE PYTHON_SITE_PACKAGE_DIR
+    )
+    set(path_list ${PYTHON_SITE_PACKAGE_DIR})
+  endif()
+
+  message(STATUS "path list: ${path_list}")
+  foreach(p IN LISTS path_list)
+    foreach(exe IN LISTS exe_list)
+      target_link_libraries(${exe} "-Wl,-rpath,${p}/sherpa/lib")
+      target_link_libraries(${exe} "-Wl,-rpath,${p}/../lib")
+    endforeach()
+  endforeach()
+endif()
+
+install(
+  TARGETS ${exe_list}
+  DESTINATION bin
+)
