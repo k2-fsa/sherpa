@@ -32,7 +32,7 @@ if(NOT WIN32)
       OUTPUT_VARIABLE path_list
     )
   else()
-    message(STATUS "Inside of a virtual environment")
+    message(STATUS "Inside a virtual environment")
     execute_process(
       COMMAND "${PYTHON_EXECUTABLE}" -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())"
       OUTPUT_STRIP_TRAILING_WHITESPACE
