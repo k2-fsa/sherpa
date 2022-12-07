@@ -170,7 +170,6 @@ class OfflineRecognizerCtcImpl : public OfflineRecognizerImpl {
     features = features.to(device_);
     features_length = features_length.to(device_);
 
-    AutoCast autocast(config_.use_amp, config_.use_gpu);
     model_->WarmUp(features, features_length);
     SHERPA_LOG(INFO) << "WarmUp ended";
   }
