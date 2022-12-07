@@ -94,6 +94,10 @@ void OfflineRecognizerConfig::Register(ParseOptions *po) {
                "If true, it uses the first device. You can use the environment "
                "variable CUDA_VISIBLE_DEVICES to select which device to use.");
 
+  po->Register("use-amp", &use_amp,
+               "true to use automatic-mixed-precision (amp) in neural network "
+               "computation.");
+
   po->Register("decoding-method", &decoding_method,
                "Decoding method to use. Possible values are: greedy_search, "
                "modified_beam_search, and fast_beam_search");

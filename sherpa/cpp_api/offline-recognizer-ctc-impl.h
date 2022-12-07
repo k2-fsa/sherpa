@@ -10,6 +10,7 @@
 #include <utility>
 #include <vector>
 
+#include "sherpa/cpp_api/autocast.h"
 #include "sherpa/cpp_api/feature-config.h"
 #include "sherpa/cpp_api/offline-recognizer-impl.h"
 #include "sherpa/csrc/log.h"
@@ -136,7 +137,12 @@ class OfflineRecognizerCtcImpl : public OfflineRecognizerImpl {
 
     auto features_length = torch::tensor(features_length_vec);
 
-    torch::IValue ivalue = model_->Forward(features, features_length);
+    torch::IValue ivalue;
+    {
+      AutoCast autocast(config_.use_amp, config_.use_gpu);
+      ivalue = model_->Forward(features, features_length);
+    }
+
     torch::Tensor log_prob = model_->GetLogSoftmaxOut(ivalue);
     torch::Tensor log_prob_len = model_->GetLogSoftmaxOutLength(ivalue);
 
@@ -161,6 +167,10 @@ class OfflineRecognizerCtcImpl : public OfflineRecognizerImpl {
     auto features_length = torch::tensor({features.size(0)});
     features = features.unsqueeze(0);
 
+    features = features.unsqueeze(0).to(device_);
+    features_length = features_length.to(device_);
+
+    AutoCast autocast(config_.use_amp, config_.use_gpu);
     model_->WarmUp(features, features_length);
     SHERPA_LOG(INFO) << "WarmUp ended";
   }

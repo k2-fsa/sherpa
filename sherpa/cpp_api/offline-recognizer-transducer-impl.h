@@ -10,6 +10,7 @@
 #include <utility>
 #include <vector>
 
+#include "sherpa/cpp_api/autocast.h"
 #include "sherpa/cpp_api/feature-config.h"
 #include "sherpa/cpp_api/offline-recognizer-impl.h"
 #include "sherpa/csrc/offline-conformer-transducer-model.h"
@@ -107,8 +108,12 @@ class OfflineRecognizerTransducerImpl : public OfflineRecognizerImpl {
     torch::Tensor encoder_out;
     torch::Tensor encoder_out_length;
 
-    std::tie(encoder_out, encoder_out_length) =
-        model_->RunEncoder(features, features_length);
+    {
+      // Note: We only use AMP for running the encoder.
+      AutoCast autocast(config_.use_amp, config_.use_gpu);
+      std::tie(encoder_out, encoder_out_length) =
+          model_->RunEncoder(features, features_length);
+    }
     encoder_out_length = encoder_out_length.cpu();
 
     auto results = decoder_->Decode(encoder_out, encoder_out_length);
@@ -131,8 +136,11 @@ class OfflineRecognizerTransducerImpl : public OfflineRecognizerImpl {
     s->AcceptSamples(samples.data(), samples.size());
     auto features = s->GetFeatures();
     auto features_length = torch::tensor({features.size(0)});
-    features = features.unsqueeze(0);
 
+    features = features.unsqueeze(0).to(device_);
+    features_length = features_length.to(device_);
+
+    AutoCast autocast(config_.use_amp, config_.use_gpu);
     model_->WarmUp(features, features_length);
     SHERPA_LOG(INFO) << "WarmUp ended";
   }
