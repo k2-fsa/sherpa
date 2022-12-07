@@ -161,6 +161,9 @@ class OfflineRecognizerCtcImpl : public OfflineRecognizerImpl {
     auto features_length = torch::tensor({features.size(0)});
     features = features.unsqueeze(0);
 
+    features = features.to(device_);
+    features_length = features_length.to(device_);
+
     model_->WarmUp(features, features_length);
     SHERPA_LOG(INFO) << "WarmUp ended";
   }
