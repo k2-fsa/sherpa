@@ -143,7 +143,7 @@ class OfflineRecognizerCtcImpl : public OfflineRecognizerImpl {
       ivalue = model_->Forward(features, features_length);
     }
 
-    torch::Tensor log_prob = model_->GetLogSoftmaxOut(ivalue);
+    torch::Tensor log_prob = model_->GetLogSoftmaxOut(ivalue).to(torch::kFloat);
     torch::Tensor log_prob_len = model_->GetLogSoftmaxOutLength(ivalue);
 
     auto results =
@@ -167,7 +167,7 @@ class OfflineRecognizerCtcImpl : public OfflineRecognizerImpl {
     auto features_length = torch::tensor({features.size(0)});
     features = features.unsqueeze(0);
 
-    features = features.unsqueeze(0).to(device_);
+    features = features.to(device_);
     features_length = features_length.to(device_);
 
     AutoCast autocast(config_.use_amp, config_.use_gpu);

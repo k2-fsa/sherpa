@@ -114,6 +114,7 @@ class OfflineRecognizerTransducerImpl : public OfflineRecognizerImpl {
       std::tie(encoder_out, encoder_out_length) =
           model_->RunEncoder(features, features_length);
     }
+    encoder_out = encoder_out.to(torch::kFloat);
     encoder_out_length = encoder_out_length.cpu();
 
     auto results = decoder_->Decode(encoder_out, encoder_out_length);
@@ -140,7 +141,6 @@ class OfflineRecognizerTransducerImpl : public OfflineRecognizerImpl {
     features = features.unsqueeze(0).to(device_);
     features_length = features_length.to(device_);
 
-    AutoCast autocast(config_.use_amp, config_.use_gpu);
     model_->WarmUp(features, features_length);
     SHERPA_LOG(INFO) << "WarmUp ended";
   }
