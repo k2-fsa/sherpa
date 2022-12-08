@@ -38,6 +38,19 @@ This page lists all available pre-trained models that you can download.
     - German
     - Tibetan
 
+
+.. hint::
+   
+   We provide a colab notebook
+   |Sherpa offline recognition python api colab notebook|
+   for you to try offline recognition step by step.
+
+   It shows how to install sherpa and use it as offline recognizer,
+   which supports the models from icefall, the wenet framework and torchaudio.
+
+.. |Sherpa offline recognition python api colab notebook| image:: https://colab.research.google.com/assets/colab-badge.svg
+   :target: https://colab.research.google.com/drive/1RdU06GcytTpI-r8vkQ7NkI0ugytnwJVB?usp=sharing
+
 .. toctree::
    :maxdepth: 2
    :caption: Pretrained models
