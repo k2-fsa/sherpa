@@ -308,12 +308,6 @@ class StreamingServer(object):
 
         self.chunk_length_pad = self.chunk_length + self.model.pad_length
 
-        if bpe_model_filename:
-            self.sp = spm.SentencePieceProcessor()
-            self.sp.load(bpe_model_filename)
-        else:
-            self.token_table = k2.SymbolTable.from_file(token_filename)
-
         self.context_size = self.model.context_size
         self.subsampling_factor = self.model.subsampling_factor
         self.blank_id = self.model.blank_id

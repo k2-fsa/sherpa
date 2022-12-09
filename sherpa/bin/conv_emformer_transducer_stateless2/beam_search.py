@@ -190,8 +190,11 @@ class FastBeamSearch:
         if self.decoding_method == "fast_beam_search_nbest_LG":
             result = [self.word_table[i] for i in stream.hyp]
             result = " ".join(result)
-        else:
+        elif hasattr(self, "sp"):
             result = self.sp.decode(stream.hyp)
+        else:
+            result = [self.token_table[i] for i in stream.hyp]
+            result = "".join(result).replace("▁", " ")
 
         return result
 
@@ -364,9 +367,18 @@ class GreedySearch:
           stream:
             Stream to be processed.
         """
-        return self.sp.decode(
-            stream.hyp[self.beam_search_params["context_size"] :]
-        )
+        if hasattr(self, "sp"):
+            result = self.sp.decode(
+                stream.hyp[self.beam_search_params["context_size"] :]
+            )  # noqa
+        else:
+            result = [
+                self.token_table[i]
+                for i in stream.hyp[self.beam_search_params["context_size"] :]
+            ]  # noqa
+            result = "".join(result).replace("▁", " ")
+
+        return result
 
     def get_tokens(self, stream: Stream) -> str:
         """
