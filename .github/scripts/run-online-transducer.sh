@@ -225,3 +225,36 @@ time ./build/bin/sherpa-online \
 rm -rf $repo
 log "End of testing ${repo_url}"
 log "=========================================================================="
+
+repo_url=https://huggingface.co/ptrnull/icefall-asr-conv-emformer-transducer-stateless2-zh
+log "Start testing ${repo_url}"
+repo=$(basename $repo_url)
+GIT_LFS_SKIP_SMUDGE=1 git clone $repo_url
+pushd $repo
+git lfs pull --include "exp/cpu_jit-epoch-11-avg-1.pt"
+cd exp
+ln -sv cpu_jit-epoch-11-avg-1.pt cpu_jit.pt
+cd ..
+
+mkdir test_wavs
+cd test_wavs
+wget https://huggingface.co/spaces/k2-fsa/automatic-speech-recognition/resolve/main/test_wavs/tal_csasr/0.wav
+wget https://huggingface.co/spaces/k2-fsa/automatic-speech-recognition/resolve/main/test_wavs/tal_csasr/210_36476_210_8341_1_1533271973_7057520_132.wav
+wget https://huggingface.co/spaces/k2-fsa/automatic-speech-recognition/resolve/main/test_wavs/tal_csasr/210_36476_210_8341_1_1533271973_7057520_138.wav
+wget https://huggingface.co/spaces/k2-fsa/automatic-speech-recognition/resolve/main/test_wavs/tal_csasr/210_36476_210_8341_1_1533271973_7057520_145.wav
+popd
+
+for m in greedy_search modified_beam_search fast_beam_search; do
+  time ./build/bin/sherpa-online \
+    --decoding-method=$m \
+    --nn-model=$repo/exp/cpu_jit.pt \
+    --tokens=$repo/data/lang_char_bpe/tokens.txt \
+    $repo/test_wavs/0.wav \
+    $repo/test_wavs/210_36476_210_8341_1_1533271973_7057520_132.wav \
+    $repo/test_wavs/210_36476_210_8341_1_1533271973_7057520_138.wav \
+    $repo/test_wavs/210_36476_210_8341_1_1533271973_7057520_145.wav
+done
+
+rm -rf $repo
+log "End of testing ${repo_url}"
+log "=========================================================================="
