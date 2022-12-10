@@ -18,6 +18,7 @@
 #ifndef SHERPA_CPP_API_ENDPOINT_H_
 #define SHERPA_CPP_API_ENDPOINT_H_
 
+#include <string>
 #include <vector>
 
 namespace sherpa {
@@ -26,20 +27,15 @@ struct EndpointRule {
   // If True, for this endpointing rule to apply there must
   // be nonsilence in the best-path traceback.
   // For decoding, a non-blank token is considered as non-silence
-  bool must_contain_nonsilence;
+  bool must_contain_nonsilence = true;
   // This endpointing rule requires duration of trailing silence
   // (in seconds) to be >= this value.
-  float min_trailing_silence;
+  float min_trailing_silence = 2.0;
   // This endpointing rule requires utterance-length (in seconds)
   // to be >= this value.
-  float min_utterance_length;
+  float min_utterance_length = 0.0f;
 
-  explicit EndpointRule(const bool must_contain_nonsilence = true,
-                        const float min_trailing_silence = 2.0,
-                        const float min_utterance_length = 0)
-      : must_contain_nonsilence(must_contain_nonsilence),
-        min_trailing_silence(min_trailing_silence),
-        min_utterance_length(min_utterance_length) {}
+  std::string ToString() const;
 };
 
 class ParseOptions;
@@ -57,7 +53,7 @@ struct EndpointConfig {
   void Register(ParseOptions *po);
 
   EndpointConfig()
-      : rule1(false, 2.4, 0), rule2(true, 1.2, 0), rule3(false, 0, 20) {}
+      : rule1{false, 2.4, 0}, rule2{true, 1.2, 0}, rule3{false, 0, 20} {}
 };
 
 class Endpoint {
@@ -66,9 +62,8 @@ class Endpoint {
 
   /// This function returns true if this set of endpointing rules thinks we
   /// should terminate decoding.
-  bool IsEndpoint(const int num_frames_decoded,
-                  const int trailing_silence_frames,
-                  const float frame_shift_in_seconds) const;
+  bool IsEndpoint(int num_frames_decoded, int trailing_silence_frames,
+                  float frame_shift_in_seconds) const;
 
  private:
   EndpointConfig config_;

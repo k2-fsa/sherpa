@@ -25,9 +25,8 @@
 namespace sherpa {
 
 static bool RuleActivated(const EndpointRule &rule,
-                          const std::string &rule_name,
-                          const float trailing_silence,
-                          const float utterance_length) {
+                          const std::string &rule_name, float trailing_silence,
+                          float utterance_length) {
   bool contain_nonsilence = utterance_length > trailing_silence;
   bool ans = (contain_nonsilence || !rule.must_contain_nonsilence) &&
              trailing_silence >= rule.min_trailing_silence &&
@@ -45,17 +44,28 @@ static void RegisterEndpointRule(ParseOptions *po, EndpointRule *rule,
   po->Register(
       rule_name + "-must-contain-nonsilence", &rule->must_contain_nonsilence,
       "If True, for this endpointing " + rule_name +
-          " to apply there must"
-          "be nonsilence in the best-path traceback."
+          " to apply there must be nonsilence in the best-path traceback. "
           "For decoding, a non-blank token is considered as non-silence");
   po->Register(rule_name + "-min-trailing-silence", &rule->min_trailing_silence,
                "This endpointing " + rule_name +
-                   " requires duration of trailing silence"
-                   "(in seconds) to be >= this value.");
+                   " requires duration of trailing silence in seconds) to "
+                   "be >= this value.");
   po->Register(rule_name + "-min-utterance-length", &rule->min_utterance_length,
                "This endpointing " + rule_name +
-                   " requires utterance-length (in seconds)"
-                   "to be >= this value.");
+                   " requires utterance-length (in seconds) to be >= this "
+                   "value.");
+}
+
+std::string EndpointRule::ToString() const {
+  std::ostringstream os;
+
+  os << "EndpointRule(";
+  os << "must_contain_nonsilence="
+     << (must_contain_nonsilence ? "True" : "False") << ", ";
+  os << "min_trailing_silence=" << min_trailing_silence << ", ";
+  os << "min_utterance_length=" << min_utterance_length << ")";
+
+  return os.str();
 }
 
 void EndpointConfig::Register(ParseOptions *po) {
@@ -64,9 +74,8 @@ void EndpointConfig::Register(ParseOptions *po) {
   RegisterEndpointRule(po, &rule3, "rule3");
 }
 
-bool Endpoint::IsEndpoint(const int num_frames_decoded,
-                          const int trailing_silence_frames,
-                          const float frame_shift_in_seconds) const {
+bool Endpoint::IsEndpoint(int num_frames_decoded, int trailing_silence_frames,
+                          float frame_shift_in_seconds) const {
   float utterance_length = num_frames_decoded * frame_shift_in_seconds;
   float trailing_silence = trailing_silence_frames * frame_shift_in_seconds;
   if (RuleActivated(config_.rule1, "rule1", trailing_silence,

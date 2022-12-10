@@ -22,6 +22,7 @@ set(py_test_files
   test_timestamp.py
   test_utils.py
   #
+  test_endpoint_rule.py
   test_fast_beam_search_config.py
   test_feature_config.py
   test_offline_ctc_decoder_config.py

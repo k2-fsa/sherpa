@@ -16,6 +16,7 @@ pybind11_add_module(_sherpa
   offline-ctc-model.cc
   offline-recognizer.cc
   offline-stream.cc
+  endpoint.cc
 )
 
 if(APPLE)
