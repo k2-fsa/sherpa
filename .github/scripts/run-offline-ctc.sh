@@ -276,7 +276,7 @@ pushd $repo
 git lfs pull --include "exp/cpu_jit.pt"
 
 git lfs pull --include "data/lang_bpe/HLG.pt"
-git lfs pull --include "data/lang_bpe/tokens.pt"
+git lfs pull --include "data/lang_bpe/tokens.txt"
 
 git lfs pull --include "test_wavs/DanBarber_2010-219.wav"
 git lfs pull --include "test_wavs/DanielKahneman_2010-157.wav"
