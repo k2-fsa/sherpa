@@ -456,3 +456,27 @@ time ./build/bin/sherpa-offline \
 rm -rf $repo
 log "End of testing ${repo_url}"
 log "=========================================================================="
+
+repo_url=https://huggingface.co/desh2608/icefall-asr-alimeeting-pruned-transducer-stateless7
+log "Start testing ${repo_url}"
+repo=$(basename $repo_url)
+log "Download pretrained model and test-data from $repo_url"
+
+GIT_LFS_SKIP_SMUDGE=1 git clone $repo_url
+pushd $repo
+git lfs pull --include "exp/cpu_jit.pt"
+popd
+
+for m in greedy_search modified_beam_search fast_beam_search; do
+  time ./build/bin/sherpa-offline \
+    --decoding-method=$m \
+    --nn-model=$repo/exp/cpu_jit.pt \
+    --tokens=$repo/data/lang_char/tokens.txt \
+    $repo/test_wavs/R8003_M8001-8004-165.wav \
+    $repo/test_wavs/R8008_M8013-8049-74.wav \
+    $repo/test_wavs/R8009_M8020_N_SPK8026-8026-209.wav
+done
+
+rm -rf $repo
+log "End of testing ${repo_url}"
+log "=========================================================================="

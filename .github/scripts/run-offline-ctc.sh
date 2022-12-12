@@ -264,3 +264,71 @@ log "Decoding with HLG"
 rm -rf $repo
 log "End of testing ${repo_url}"
 log "=========================================================================="
+
+repo_url=https://huggingface.co/videodanchik/icefall-asr-tedlium3-conformer-ctc2
+log "Start testing ${repo_url}"
+repo=$(basename $repo_url)
+log "Download pretrained model and test-data from $repo_url"
+
+GIT_LFS_SKIP_SMUDGE=1 git clone $repo_url
+pushd $repo
+
+git lfs pull --include "exp/cpu_jit.pt"
+
+git lfs pull --include "data/lang_bpe/HLG.pt"
+git lfs pull --include "data/lang_bpe/tokens.pt"
+
+git lfs pull --include "test_wavs/DanBarber_2010-219.wav"
+git lfs pull --include "test_wavs/DanielKahneman_2010-157.wav"
+git lfs pull --include "test_wavs/RobertGupta_2010U-15.wav"
+
+popd
+
+log "Decoding with H"
+./build/bin/sherpa-offline \
+ --nn-model=$repo/exp/cpu_jit.pt \
+ --tokens=$repo/data/lang_bpe/tokens.txt \
+ $repo/test_wavs/DanBarber_2010-219.wav \
+ $repo/test_wavs/DanielKahneman_2010-157.wav \
+ $repo/test_wavs/RobertGupta_2010U-15.wav
+
+log "Decoding with HLG"
+./build/bin/sherpa-offline \
+ --nn-model=$repo/exp/cpu_jit.pt \
+ --hlg=$repo/data/lang_bpe/HLG.pt \
+ --tokens=$repo/data/lang_bpe/tokens.txt \
+ $repo/test_wavs/DanBarber_2010-219.wav \
+ $repo/test_wavs/DanielKahneman_2010-157.wav \
+ $repo/test_wavs/RobertGupta_2010U-15.wav
+
+rm -rf $repo
+log "End of testing ${repo_url}"
+log "=========================================================================="
+
+repo_url=https://huggingface.co/pkufool/icefall_asr_librispeech_conformer_ctc
+log "Start testing ${repo_url}"
+repo=$(basename $repo_url)
+log "Download pretrained model and test-data from $repo_url"
+
+GIT_LFS_SKIP_SMUDGE=1 git clone $repo_url
+pushd $repo
+git lfs pull --include "exp/cpu_jit.pt"
+git lfs pull --include "data/lang_bpe/HLG.pt"
+popd
+
+log "Decoding with H"
+./build/bin/sherpa-offline \
+ --nn-model=$repo/exp/cpu_jit.pt \
+ --tokens=$repo/data/lang_bpe/tokens.txt \
+ $repo/test_wavs/1089-134686-0001.wav \
+ $repo/test_wavs/1221-135766-0001.wav \
+ $repo/test_wavs/1221-135766-0002.wav
+
+log "Decoding with HLG"
+./build/bin/sherpa-offline \
+ --nn-model=$repo/exp/cpu_jit.pt \
+ --hlg=$repo/data/lang_bpe/HLG.pt \
+ --tokens=$repo/data/lang_bpe/tokens.txt \
+ $repo/test_wavs/1089-134686-0001.wav \
+ $repo/test_wavs/1221-135766-0001.wav \
+ $repo/test_wavs/1221-135766-0002.wav
