@@ -91,7 +91,76 @@ icefall-asr-librispeech-conformer-ctc-jit-bpe-500-2021-11-09
     ./test_wavs/1221-135766-0001.wav \
     ./test_wavs/1221-135766-0002.wav
 
-.. - `<https://huggingface.co/pkufool/icefall_asr_librispeech_conformer_ctc>`_
+icefall-asr-tedlium3-conformer-ctc2
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+   # This model is trained using Tedlium3
+   #
+   # See https://github.com/k2-fsa/icefall/pull/696
+   #
+
+   GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/videodanchik/icefall-asr-tedlium3-conformer-ctc2
+   cd icefall-asr-tedlium3-conformer-ctc2
+   git lfs pull --include "exp/cpu_jit.pt"
+
+   git lfs pull --include "data/lang_bpe/HLG.pt"
+   git lfs pull --include "data/lang_bpe/tokens.pt"
+
+   git lfs pull --include "test_wavs/DanBarber_2010-219.wav"
+   git lfs pull --include "test_wavs/DanielKahneman_2010-157.wav"
+   git lfs pull --include "test_wavs/RobertGupta_2010U-15.wav"
+
+   # Decode with H
+   sherpa-offline \
+     --nn-model=./exp/cpu_jit.pt \
+     --tokens=./data/lang_bpe/tokens.txt \
+     ./test_wavs/DanBarber_2010-219.wav \
+     ./test_wavs/DanielKahneman_2010-157.wav \
+     ./test_wavs/RobertGupta_2010U-15.wav
+
+   # Decode with HLG
+   sherpa-offline \
+     --nn-model=./exp/cpu_jit.pt \
+     --hlg=./data/lang_bpe/HLG.pt \
+     --tokens=./data/lang_bpe/tokens.txt \
+     ./test_wavs/DanBarber_2010-219.wav \
+     ./test_wavs/DanielKahneman_2010-157.wav \
+     ./test_wavs/RobertGupta_2010U-15.wav
+
+icefall_asr_librispeech_conformer_ctc
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+   # This model is trained using LibriSpeech
+   #
+   # See https://github.com/k2-fsa/icefall/pull/13
+   #
+
+   GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/pkufool/icefall_asr_librispeech_conformer_ctc
+   cd icefall_asr_librispeech_conformer_ctc
+
+   git lfs pull --include "exp/cpu_jit.pt"
+   git lfs pull --include "data/lang_bpe/HLG.pt"
+
+   # Decode with H
+   sherpa-offline \
+     --nn-model=./exp/cpu_jit.pt \
+     --tokens=./data/lang_bpe/tokens.txt \
+     ./test_wavs/1089-134686-0001.wav \
+     ./test_wavs/1221-135766-0001.wav \
+     ./test_wavs/1221-135766-0002.wav
+
+   # Decode with HLG
+   sherpa-offline \
+     --nn-model=./exp/cpu_jit.pt \
+     --hlg=./data/lang_bpe/HLG.pt \
+     --tokens=./data/lang_bpe/tokens.txt \
+     ./test_wavs/1089-134686-0001.wav \
+     ./test_wavs/1221-135766-0001.wav \
+     ./test_wavs/1221-135766-0002.wav
+
 .. - `<https://huggingface.co/WayneWiser/icefall-asr-librispeech-conformer-ctc2-jit-bpe-500-2022-07-21>`_
 
 Chinese

@@ -266,6 +266,30 @@ icefall_asr_aidatatang-200zh_pruned_transducer_stateless2
       ./test_wavs/T0055G0036S0004.wav
   done
 
+icefall-asr-alimeeting-pruned-transducer-stateless7
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+  # This models is trained using alimeeting (https://www.openslr.org/119/)
+  #
+  # See https://github.com/k2-fsa/icefall/pull/751
+  #
+  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/desh2608/icefall-asr-alimeeting-pruned-transducer-stateless7
+  cd icefall-asr-alimeeting-pruned-transducer-stateless7
+
+  git lfs pull --include "exp/cpu_jit.pt"
+
+  for m in greedy_search modified_beam_search fast_beam_search; do
+    sherpa-offline \
+      --decoding-method=$m \
+      --nn-model=./exp/cpu_jit.pt \
+      --tokens=./data/lang_char/tokens.txt \
+      ./test_wavs/R8003_M8001-8004-165.wav \
+      ./test_wavs/R8008_M8013-8049-74.wav \
+      ./test_wavs/R8009_M8020_N_SPK8026-8026-209.wav
+  done
+
 Chinese + English
 ^^^^^^^^^^^^^^^^^
 
