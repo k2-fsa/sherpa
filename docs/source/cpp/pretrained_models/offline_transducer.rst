@@ -285,9 +285,9 @@ icefall-asr-alimeeting-pruned-transducer-stateless7
       --decoding-method=$m \
       --nn-model=./exp/cpu_jit.pt \
       --tokens=./data/lang_char/tokens.txt \
-      ./test_wavs/R8003_M8001-8004-165.wav \
-      ./test_wavs/R8008_M8013-8049-74.wav \
-      ./test_wavs/R8009_M8020_N_SPK8026-8026-209.wav
+      ./test_wavs/165.wav \
+      ./test_wavs/74.wav \
+      ./test_wavs/209.wav
   done
 
 Chinese + English

@@ -472,9 +472,9 @@ for m in greedy_search modified_beam_search fast_beam_search; do
     --decoding-method=$m \
     --nn-model=$repo/exp/cpu_jit.pt \
     --tokens=$repo/data/lang_char/tokens.txt \
-    $repo/test_wavs/R8003_M8001-8004-165.wav \
-    $repo/test_wavs/R8008_M8013-8049-74.wav \
-    $repo/test_wavs/R8009_M8020_N_SPK8026-8026-209.wav
+    $repo/test_wavs/165.wav \
+    $repo/test_wavs/74.wav \
+    $repo/test_wavs/209.wav
 done
 
 rm -rf $repo

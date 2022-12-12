@@ -332,3 +332,7 @@ log "Decoding with HLG"
  $repo/test_wavs/1089-134686-0001.wav \
  $repo/test_wavs/1221-135766-0001.wav \
  $repo/test_wavs/1221-135766-0002.wav
+
+rm -rf $repo
+log "End of testing ${repo_url}"
+log "=========================================================================="
