@@ -76,6 +76,15 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(repo-common repo-core repo-backend)
 
+
+#
+# CUDA
+#
+if(${TRITON_ENABLE_GPU})
+  find_package(CUDAToolkit REQUIRED)
+endif()
+
+
 #
 # The backend must be built into a shared library. Use an ldscript to
 # hide all symbols except for the TRITONBACKEND API.
@@ -85,17 +94,41 @@ configure_file(src/libtriton_scorer.ldscript libtriton_scorer.ldscript COPYONLY)
 add_library(
   triton-transudcer-scorer-backend SHARED
   src/scorer.cc
+  src/scorer_utils.h
+  src/bls.h
+  src/bls.cc
+  src/bls_utils.h
+  src/bls_utils.cc
+  src/symbol-table.cc
+  src/symbol-table.h
 )
 
 add_library(
   TransducerScorerBackend::triton-transducer-scorer-backend ALIAS triton-transudcer-scorer-backend
 )
 
+list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
+include(torch)
+message(STATUS "    torch include path: ${TORCH_INCLUDE_DIRS}")
+message(STATUS "    torch lib path : ${TORCH_LIBRARIES} ")
+
 target_include_directories(
   triton-transudcer-scorer-backend
   PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/src
+    ${Python3_INCLUDE_DIRS}
 )
+
+# target_include_directories(
+#   triton-transudcer-scorer-backend
+#   PRIVATE ${TRITON_PYTORCH_INCLUDE_PATHS}
+# )
+
+# why we don't need to include them?
+# target_include_directories(
+#   triton-transudcer-scorer-backend
+#   PRIVATE ${TORCH_INCLUDE_DIRS}
+# )
 
 target_compile_features(triton-transudcer-scorer-backend PRIVATE cxx_std_11)
 target_compile_options(
@@ -105,6 +138,35 @@ target_compile_options(
   $<$<CXX_COMPILER_ID:MSVC>:/Wall /D_WIN32_WINNT=0x0A00 /EHsc>
 )
 
+if(${TRITON_ENABLE_GPU})
+  target_compile_definitions(
+    triton-transudcer-scorer-backend
+    PRIVATE TRITON_ENABLE_GPU=1
+  )
+endif() # TRITON_ENABLE_GPU
+
+set(TRITON_PYTORCH_LDFLAGS "")
+
+set (TRITON_PYTORCH_LIBS "-ltorch")
+
+FOREACH(p ${TRITON_PYTORCH_LIB_PATHS})
+  set(TRITON_PYTORCH_LDFLAGS ${TRITON_PYTORCH_LDFLAGS} "-L${p}")
+ENDFOREACH(p)
+
+
+
+
+# target_link_libraries(
+#   triton-transudcer-scorer-backend
+#   PRIVATE
+#     triton-core-serverapi   # from repo-core
+#     triton-core-backendapi  # from repo-core
+#     triton-core-serverstub  # from repo-core
+#     triton-backend-utils    # from repo-backend
+#     ${TRITON_PYTORCH_LDFLAGS}
+#     ${TRITON_PYTORCH_LIBS}
+# )
+
 target_link_libraries(
   triton-transudcer-scorer-backend
   PRIVATE
@@ -112,7 +174,16 @@ target_link_libraries(
     triton-core-backendapi  # from repo-core
     triton-core-serverstub  # from repo-core
     triton-backend-utils    # from repo-backend
+    ${TORCH_LIBRARIES}
 )
+
+if(${TRITON_ENABLE_GPU})
+  target_link_libraries(
+    triton-transudcer-scorer-backend
+    PRIVATE
+      CUDA::cudart
+  )
+endif() # TRITON_ENABLE_GPU
 
 if(WIN32)
   set_target_properties(
@@ -144,6 +215,35 @@ install(
   LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/backends/scorer
   RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/backends/scorer
 )
+
+FOREACH(plib ${PT_LIBS})
+ set(PT_LIB_PATHS ${PT_LIB_PATHS} "${TRITON_PYTORCH_LIB_PATHS}/${plib}")
+ENDFOREACH(plib)
+
+# install(
+# FILES
+#   ${PT_LIB_PATHS}
+# DESTINATION ${CMAKE_INSTALL_PREFIX}/backends/scorer
+# )
+
+# install(
+# FILES
+#   ${TORCH_LIBRARIES}
+# DESTINATION ${CMAKE_INSTALL_PREFIX}/backends/scorer
+# )
+
+# FOREACH(plib ${PT_LIBS})
+# install(
+#   CODE
+#     "EXECUTE_PROCESS(
+#       COMMAND patchelf --set-rpath \$ORIGIN ${plib}
+#       RESULT_VARIABLE PATCHELF_STATUS
+#       WORKING_DIRECTORY ${CMAKE_INSTALL_PREFIX}/backends/scorer)
+#     if(PATCHELF_STATUS AND NOT PATCHELF_STATUS EQUAL 0)
+#       message(FATAL_ERROR \"FAILED: to run patchelf\")
+#     endif()"
+# )
+# ENDFOREACH(plib)
 
 install(
   EXPORT

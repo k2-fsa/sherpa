@@ -1,4 +1,4 @@
 #!/usr/bin/bash
 
-mkdir build && cd build && cmake -DCMAKE_INSTALL_PREFIX:PATH=`pwd`/install ..
+mkdir -p build && cd build && cmake -DCMAKE_INSTALL_PREFIX:PATH=`pwd`/install ..
 make install
