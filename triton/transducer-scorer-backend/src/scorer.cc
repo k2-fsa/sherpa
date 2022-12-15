@@ -102,7 +102,7 @@ class ModelState : public BackendModel {
 
   // Obtain the parameters parsed from the model configuration
   const ModelParams* Parameters() { return &model_params_; }
-  const sherpa::SymbolTable* SymbolTable() {return &symbol_table_; }
+  const sherpa::SymbolTable* getSymbolTable() {return &symbol_table_; }
 
  private:
   ModelState(TRITONBACKEND_Model* triton_model);
@@ -125,8 +125,7 @@ ModelState::ModelState(TRITONBACKEND_Model* triton_model)
   // Validate that the model's configuration matches what is supported
   // by this backend.
   THROW_IF_BACKEND_MODEL_ERROR(ValidateModelConfig());
-  // symbol_table_(&(model_params_.tokenizer_file));
-  symbol_table_(model_params_.tokenizer_file);
+  symbol_table_ = sherpa::SymbolTable(model_params_.tokenizer_file);
 
 }
 
@@ -353,8 +352,8 @@ void
 ModelInstanceState::ProcessRequests(
     TRITONBACKEND_Request** requests, const uint32_t request_count)
 {
-  uint64_t exec_start_ns = 0;
-  SET_TIMESTAMP(exec_start_ns);
+  //uint64_t exec_start_ns = 0;
+  //SET_TIMESTAMP(exec_start_ns);
 
   const ModelParams* model_params = model_state_->Parameters();
 
@@ -508,7 +507,7 @@ ModelInstanceState::ProcessRequests(
   }
 
   std::vector<std::string> ans_str;
-  const sherpa::SymbolTable * symbol_table = model_state_->SymbolTable();
+  const sherpa::SymbolTable * symbol_table = model_state_->getSymbolTable();
   for(auto &utt:ans){
     ans_str.push_back(Convert(utt, symbol_table));
   }
@@ -589,7 +588,7 @@ ModelInstanceState::ProcessRequests(
     if (response != nullptr) {
       TRITONBACKEND_Output* response_output;
       RESPOND_AND_SET_NULL_IF_ERROR(
-        response, TRITONBACKEND_ResponseOutput(
+        &response, TRITONBACKEND_ResponseOutput(
                       response, &response_output, "OUTPUT0", TRITONSERVER_TYPE_BYTES,
                       &output_shape[0], dims_count));
       SetOutputBuffer(ans_str[i], response, response_output);
@@ -1110,8 +1109,8 @@ TRITONBACKEND_ModelInstanceExecute(
   // requests. These values are reported below before returning from
   // the function.
 
-  uint64_t exec_start_ns = 0;
-  SET_TIMESTAMP(exec_start_ns);
+  //uint64_t exec_start_ns = 0;
+  //SET_TIMESTAMP(exec_start_ns);
 
   // Triton will not call this function simultaneously for the same
   // 'instance'. But since this backend could be used by multiple

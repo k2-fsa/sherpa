@@ -26,7 +26,7 @@
 
 #include "bls_utils.h"
 
-namespace triton { namespace backend { namespace bls {
+namespace triton { namespace backend { namespace scorer {
 
 TRITONSERVER_Error*
 CPUAllocator(

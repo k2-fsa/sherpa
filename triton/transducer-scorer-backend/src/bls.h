@@ -64,7 +64,6 @@ class BLSExecutor {
 
   // Constructs the final response.
   torch::Tensor ConstructFinalResponse(
-      TRITONBACKEND_Response** response,
       std::vector<std::future<TRITONSERVER_InferenceResponse*>> futures);
 
  private:

@@ -26,7 +26,7 @@
 
 #include "bls.h"
 
-namespace triton { namespace backend { namespace bls {
+namespace triton { namespace backend { namespace scorer {
 
 BLSExecutor::BLSExecutor(TRITONSERVER_Server* server)
     : server_(server), model_executor_(server)
@@ -72,14 +72,14 @@ BLSExecutor::PrepareInferenceInput(
   // Then, add the two input tensors and append the input data to the new
   // request.
   uint32_t input_count;
-  intput_count = input_tensors.size();
+  input_count = input_tensors.size();
   // RETURN_IF_ERROR(TRITONBACKEND_RequestInputCount(bls_request, &input_count));
 
-  TRITONBACKEND_Input* input;
+  //TRITONBACKEND_Input* input;
   const char* name;
   TRITONSERVER_DataType datatype = TRITONSERVER_TYPE_FP16;
-  const int64_t* shape;
-  uint32_t dims_count;
+  //const int64_t* shape;
+  //uint32_t dims_count;
   // size_t data_byte_size;
   TRITONSERVER_MemoryType data_memory_type = TRITONSERVER_MEMORY_GPU;
   int64_t data_memory_id = 2;
@@ -87,9 +87,15 @@ BLSExecutor::PrepareInferenceInput(
 
   for (size_t count = 0; count < input_count; count++) {
     name = input_names[count];
-    std::vector<int64_t> input_shapes = input_tensors[count].sizes();
+    std::vector<int64_t> input_shapes;
+    auto shape = input_tensors[count].sizes();
+    for (auto itr = shape.begin(); itr != shape.end(); itr++) {
+        input_shapes.push_back(*itr);
+      }
+    uint32_t dims_count = (uint32_t) input_shapes.size();
+    // std::vector<int64_t> input_shapes = input_tensors[count].sizes();
     const char* data_buffer = reinterpret_cast<const char *>(input_tensors[count].data_ptr());
-    size_t data_byte_size = input_tensors[count].numel() * torch::elementSize(torch::typeMetaToScalarType(input_tensors[count].dtype()))
+    size_t data_byte_size = input_tensors[count].numel() * torch::elementSize(torch::typeMetaToScalarType(input_tensors[count].dtype()));
     
 
     // RETURN_IF_ERROR(TRITONBACKEND_InputProperties(
@@ -100,7 +106,8 @@ BLSExecutor::PrepareInferenceInput(
     //     &data_byte_size, &data_memory_type, &data_memory_id));
 
     RETURN_IF_ERROR(TRITONSERVER_InferenceRequestAddInput(
-        irequest, name, datatype, &input_shapes[0], input_shapes.size()));
+        irequest, name, datatype, &input_shapes[0], dims_count));
+
     RETURN_IF_ERROR(TRITONSERVER_InferenceRequestAppendInputData(
         irequest, name, &data_buffer[0], data_byte_size, data_memory_type,
         data_memory_id));
@@ -156,15 +163,15 @@ BLSExecutor::Execute(
       //       "' is using the decoupled. This BLS Backend doesn't support models "
       //       "using the decoupled transaction policy.");
       }
-    //}
-  }
+
+  //}
   catch (const BLSBackendException& bls_exception) {
     LOG_MESSAGE(TRITONSERVER_LOG_ERROR, bls_exception.what());
-    RESPOND_AND_SET_NULL_IF_ERROR(
-        response,
-        TRITONSERVER_ErrorNew(
-            TRITONSERVER_ERROR_INTERNAL, "Failed to send inference requests"));
-    return;
+    // RESPOND_AND_SET_NULL_IF_ERROR(
+    //     response,
+    //     TRITONSERVER_ErrorNew(
+    //         TRITONSERVER_ERROR_INTERNAL, "Failed to send inference requests"));
+    // return;
   }
 
   // Prepare std::future for each model. Since this BLS backend
@@ -195,16 +202,18 @@ BLSExecutor::Execute(
     LOG_IF_ERROR(
         TRITONSERVER_InferenceRequestDelete(irequest),
         "Failed to delete inference request.");
-    RESPOND_AND_SET_NULL_IF_ERROR(
-        response,
-        TRITONSERVER_ErrorNew(
-            TRITONSERVER_ERROR_INTERNAL, "Failed to send inference requests"));
-    return;
+    // RESPOND_AND_SET_NULL_IF_ERROR(
+    //     response,
+    //     TRITONSERVER_ErrorNew(
+    //         TRITONSERVER_ERROR_INTERNAL, "Failed to send inference requests"));
+    // return;
   }
 
   // If both internal requests are sent successfully, retrieve the output from
   // each request and construct the final response.
-  ConstructFinalResponse(response, std::move(futures));
+  torch::Tensor r = ConstructFinalResponse(std::move(futures));
+  return r;
+  
 }
 
 torch::Tensor
@@ -223,8 +232,10 @@ BLSExecutor::ConstructFinalResponse(
   TRITONSERVER_MemoryType output_memory_type;
   int64_t output_memory_id;
   const void* output_base;
+  //void *output_base;
   void* userp;
-  for (size_t icount = 0; icount < 1; icount++) {
+  //for (size_t icount = 0; icount < 1; icount++) {
+  size_t icount = 0;
     // Retrieve the corresponding TRITONSERVER_InferenceResponse object from
     // 'futures'. The InferResponseComplete function sets the std::promise
     // so that this thread will block until the response is returned.
@@ -241,7 +252,7 @@ BLSExecutor::ConstructFinalResponse(
             TRITONSERVER_InferenceResponseDelete(completed_responses[icount]),
             "Failed to delete inference response.");
       }
-      return;
+      // return;
     }
     // Retrieve outputs from 'completed_responses'.
     // Extract OUTPUT0 from the 'addsub_python' and OUTPUT1 from the
@@ -294,7 +305,9 @@ BLSExecutor::ConstructFinalResponse(
     
     std::vector<int64_t> batchn_shape(output_shape, output_shape + dims_count);
     torch::Tensor output_tensor = torch::from_blob(
-    const_cast<char*>(output_base), batchn_shape, updated_options);
+    const_cast<void *>(output_base), batchn_shape, updated_options);
+    // torch::Tensor output_tensor = torch::from_blob(
+    // const_cast<char*>(output_base), batchn_shape, updated_options);
     // Fill the BLS output buffer with output data returned by internal
     // requests.
     // memcpy(output_buffer, output_base, output_byte_size);
@@ -303,7 +316,7 @@ BLSExecutor::ConstructFinalResponse(
         TRITONSERVER_InferenceResponseDelete(completed_responses[icount]),
         "Failed to delete inference response.");
     return output_tensor;
-  }
+  //}
 }
 
-}}  // namespace triton::backend::bls
+}} } // namespace triton::backend::bls
