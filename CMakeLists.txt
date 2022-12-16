@@ -133,6 +133,10 @@ endif()
 
 include(pybind11)
 include(json)
+# to prevent cmake from trying to link with system installed mkl since we not directly use it
+# mkl libraries should be linked with pytorch already
+# ref: https://github.com/pytorch/pytorch/blob/master/cmake/public/mkl.cmake
+set(CMAKE_DISABLE_FIND_PACKAGE_MKL TRUE)
 include(torch)
 include(k2)
 include(kaldifeat)
