@@ -1,7 +1,7 @@
 Installation
 ============
 
-In this section, we describe how to install `sherpa-ncnn`_ on the following
+In this section, we describe how to install `sherpa-ncnn`_ for the following
 platforms:
 
 .. toctree::
