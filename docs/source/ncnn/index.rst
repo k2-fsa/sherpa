@@ -11,6 +11,13 @@ sherpa-ncnn
   .. |sherpa-ncnn colab notebook| image:: https://colab.research.google.com/assets/colab-badge.svg
      :target: https://colab.research.google.com/drive/1zdNAdWgV5rh1hLbLDqvLjxTa5tjU7cPa?usp=sharing
 
+.. toctree::
+   :maxdepth: 2
+
+   ./install/index
+   ./android/index
+   ./pretrained_models/index
+
 We support using `ncnn`_ to replace PyTorch for neural network computation.
 The code is put in a separate repository `sherpa-ncnn`_
 

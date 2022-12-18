@@ -133,6 +133,7 @@ icefall_asr_librispeech_conformer_ctc
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: bash
+
    # This model is trained using LibriSpeech
    #
    # See https://github.com/k2-fsa/icefall/pull/13
