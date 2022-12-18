@@ -16,7 +16,7 @@ The first step is to install a toolchain for cross-compiling.
 
 Visit `<https://developer.arm.com/tools-and-software/open-source-software/developer-tools/gnu-toolchain/gnu-a/downloads/8-3-2019-03>`_ to download the toolchain:
 
-We will going to download ``gcc-arm-8.3-2019.03-x86_64-arm-linux-gnueabihf.tar.xz``,
+We are going to download ``gcc-arm-8.3-2019.03-x86_64-arm-linux-gnueabihf.tar.xz``,
 which has been uploaded to `<https://huggingface.co/csukuangfj/sherpa-ncnn-toolchains>`_.
 
 Assume you want to install it in the folder ``$HOME/software``:

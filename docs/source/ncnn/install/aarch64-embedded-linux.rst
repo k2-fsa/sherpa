@@ -17,7 +17,7 @@ The first step is to install a toolchain for cross-compiling.
 Visit `<https://releases.linaro.org/components/toolchain/binaries/latest-7/aarch64-linux-gnu/>`_
 to download the toolchain.
 
-We will going to download ``gcc-linaro-7.5.0-2019.12-x86_64_aarch64-linux-gnu.tar.xz``,
+We are going to download ``gcc-linaro-7.5.0-2019.12-x86_64_aarch64-linux-gnu.tar.xz``,
 which has been uploaded to `<https://huggingface.co/csukuangfj/sherpa-ncnn-toolchains>`_.
 
 Assume you want to install it in the folder ``$HOME/software``:
