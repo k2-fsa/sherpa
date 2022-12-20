@@ -115,3 +115,8 @@ Speak and it will show you the recognition result in real-time.
           CHCP 65001
 
    in your commandline.
+
+csukuangfj/sherpa-ncnn-conv-emformer-transducer-2022-12-08 (Chinese)
+--------------------------------------------------------------------
+
+This model is trained using `WenetSpeech`_
