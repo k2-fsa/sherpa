@@ -28,51 +28,78 @@
 
 namespace triton { namespace backend { namespace scorer {
 
-TRITONSERVER_Error*
-CPUAllocator(
-    TRITONSERVER_ResponseAllocator* allocator, const char* tensor_name,
-    size_t byte_size, TRITONSERVER_MemoryType preferred_memory_type,
-    int64_t preferred_memory_type_id, void* userp, void** buffer,
-    void** buffer_userp, TRITONSERVER_MemoryType* actual_memory_type,
-    int64_t* actual_memory_type_id)
-{
-  // For simplicity, this backend example always uses CPU memory regardless of
-  // the preferred memory type. You can make the actual memory type and id that
-  // we allocate be the same as preferred memory type. You can also provide a
-  // customized allocator to support different preferred_memory_type, and reuse
-  // memory buffer when possible.
-  *actual_memory_type = TRITONSERVER_MEMORY_CPU;
+TRITONSERVER_Error *ResponseAlloc(TRITONSERVER_ResponseAllocator *allocator,
+                                  const char *tensor_name, size_t byte_size,
+                                  TRITONSERVER_MemoryType preferred_memory_type,
+                                  int64_t preferred_memory_type_id, void *userp,
+                                  void **buffer, void **buffer_userp,
+                                  TRITONSERVER_MemoryType *actual_memory_type,
+                                  int64_t *actual_memory_type_id) {
+
+  auto allocate_start_time = std::chrono::system_clock::now();
+
+  // Initially attempt to make the actual memory type and id that we allocate be
+  // the same as preferred memory type
+  *actual_memory_type = preferred_memory_type;
   *actual_memory_type_id = preferred_memory_type_id;
 
-  // If 'byte_size' is zero just return 'buffer' == nullptr, we don't
-  // need to do any other book-keeping.
+  // If 'byte_size' is zero just return 'buffer' == nullptr, we don't need to do
+  // any other book-keeping.
   if (byte_size == 0) {
     *buffer = nullptr;
     *buffer_userp = nullptr;
-    LOG_MESSAGE(
-        TRITONSERVER_LOG_VERBOSE, ("allocated " + std::to_string(byte_size) +
-                                   " bytes for result tensor " + tensor_name)
-                                      .c_str());
   } else {
-    void* allocated_ptr = nullptr;
-    *actual_memory_type = TRITONSERVER_MEMORY_CPU;
-    allocated_ptr = malloc(byte_size);
+    void *allocated_ptr = nullptr;
 
-    // Pass the tensor name with buffer_userp so we can show it when
-    // releasing the buffer.
+    switch (*actual_memory_type) {
+
+    case TRITONSERVER_MEMORY_CPU_PINNED: {
+      auto err =
+          cudaHostAlloc(&allocated_ptr, byte_size, cudaHostAllocPortable);
+      if (err != cudaSuccess) {
+        return TRITONSERVER_ErrorNew(
+            TRITONSERVER_ERROR_INTERNAL,
+            std::string("cudaHostAlloc failed: " +
+                        std::string(cudaGetErrorString(err)))
+                .c_str());
+      }
+
+      break;
+    }
+    case TRITONSERVER_MEMORY_GPU: {
+      auto err = cudaMalloc(&allocated_ptr, byte_size);
+      if (err != cudaSuccess) {
+        return TRITONSERVER_ErrorNew(
+            TRITONSERVER_ERROR_INTERNAL,
+            std::string("cudaMalloc failed: " +
+                        std::string(cudaGetErrorString(err)))
+                .c_str());
+      }
+
+      break;
+    }
+    // Use CPU memory if the requested memory type is unknown (default case).
+    case TRITONSERVER_MEMORY_CPU:
+    default: {
+      *actual_memory_type = TRITONSERVER_MEMORY_CPU;
+      allocated_ptr = malloc(byte_size);
+      break;
+    }
+    }
+
+    // Pass the tensor name with buffer_userp so we can show it when releasing
+    // the buffer.
     if (allocated_ptr != nullptr) {
       *buffer = allocated_ptr;
       *buffer_userp = new std::string(tensor_name);
-      LOG_MESSAGE(
-          TRITONSERVER_LOG_VERBOSE,
-          ("allocated " + std::to_string(byte_size) + " bytes in " +
-           TRITONSERVER_MemoryTypeString(*actual_memory_type) +
-           " for result tensor " + tensor_name)
-              .c_str());
     }
   }
 
-  return nullptr;  // Success
+  auto allocate_end_time = std::chrono::system_clock::now();
+  std::chrono::duration<double> allocate_dur_seconds =
+      allocate_end_time - allocate_start_time;
+
+  return nullptr; // Success
 }
 
 TRITONSERVER_Error*
@@ -156,8 +183,10 @@ ModelExecutor::ModelExecutor(TRITONSERVER_Server* server) : server_(server)
   // inference. We can reuse this response allocator object for any
   // number of inference requests.
   allocator_ = nullptr;
+  // THROW_IF_TRITON_ERROR(TRITONSERVER_ResponseAllocatorNew(
+  //     &allocator_, CPUAllocator, ResponseRelease, nullptr /* start_fn */));
   THROW_IF_TRITON_ERROR(TRITONSERVER_ResponseAllocatorNew(
-      &allocator_, CPUAllocator, ResponseRelease, nullptr /* start_fn */));
+      &allocator_, ResponseAlloc, ResponseRelease, nullptr /* start_fn */));
 }
 
 TRITONSERVER_Error*
@@ -183,4 +212,4 @@ ModelExecutor::AsyncExecute(
   return nullptr;  // success
 }
 
-}}}  // namespace triton::backend::bls
+}}}  // namespace triton::backend::scorer

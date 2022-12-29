@@ -21,8 +21,6 @@
 #include <fstream>
 #include <sstream>
 
-// #include "sherpa/csrc/log.h"
-
 namespace sherpa {
 
 SymbolTable::SymbolTable(const std::string &filename) {
@@ -39,14 +37,10 @@ SymbolTable::SymbolTable(const std::string &filename) {
       }
     }
 
-    //SHERPA_CHECK(!sym.empty());
-    //SHERPA_CHECK_EQ(sym2id_.count(sym), 0) << "Duplicated symbol: " << sym;
-    //SHERPA_CHECK_EQ(id2sym_.count(id), 0) << "Duplicated ID: " << id;
-
     sym2id_.insert({sym, id});
     id2sym_.insert({id, sym});
   }
-  //SHERPA_CHECK(is.eof());
+
 }
 
 std::string SymbolTable::ToString() const {

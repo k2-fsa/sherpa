@@ -3,8 +3,22 @@
 
 #include "torch/script.h"
 #include <triton/core/tritonserver.h>
+#include "symbol-table.h"
 
 using triton::common::TritonJson;
+
+namespace triton { namespace backend { namespace scorer {
+
+static std::string Convert(
+    const std::vector<int32_t> &src, const sherpa::SymbolTable * sym_table) {
+
+  std::string text;
+  for (auto i : src) {
+    auto sym = (*sym_table)[i];
+    text.append(sym);
+  }
+  return text;
+}
 
 static void BuildDecoderInput(
     const std::vector<std::vector<int32_t>> &r,
@@ -20,6 +34,48 @@ static void BuildDecoderInput(
   }
 }
 
+std::pair<bool, torch::ScalarType>
+ConvertDataTypeToTorchType(const TRITONSERVER_DataType dtype)
+{
+  torch::ScalarType type = torch::kInt;
+  switch (dtype) {
+    case TRITONSERVER_TYPE_BOOL:
+      type = torch::kBool;
+      break;
+    case TRITONSERVER_TYPE_UINT8:
+      type = torch::kByte;
+      break;
+    case TRITONSERVER_TYPE_INT8:
+      type = torch::kChar;
+      break;
+    case TRITONSERVER_TYPE_INT16:
+      type = torch::kShort;
+      break;
+    case TRITONSERVER_TYPE_INT32:
+      type = torch::kInt;
+      break;
+    case TRITONSERVER_TYPE_INT64:
+      type = torch::kLong;
+      break;
+    case TRITONSERVER_TYPE_FP16:
+      type = torch::kHalf;
+      break;
+    case TRITONSERVER_TYPE_FP32:
+      type = torch::kFloat;
+      break;
+    case TRITONSERVER_TYPE_FP64:
+      type = torch::kDouble;
+      break;
+    case TRITONSERVER_TYPE_UINT16:
+    case TRITONSERVER_TYPE_UINT32:
+    case TRITONSERVER_TYPE_UINT64:
+    case TRITONSERVER_TYPE_BYTES:
+    default:
+      return std::make_pair(false, type);
+  }
+
+  return std::make_pair(true, type);
+}
 
 TRITONSERVER_Error* ReadParameter(TritonJson::Value& params,
                                   const std::string& key, std::string* param) {
@@ -47,3 +103,4 @@ TRITONSERVER_Error* ReadParameter(TritonJson::Value& params,
   return nullptr;  // success
 }
 
+}}}

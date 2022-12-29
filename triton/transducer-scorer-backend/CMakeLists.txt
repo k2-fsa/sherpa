@@ -1,4 +1,4 @@
-# Copyright 2021, NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+# Copyright 2022, NVIDIA CORPORATION & AFFILIATES. All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions
@@ -24,7 +24,7 @@
 # (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 # OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-cmake_minimum_required(VERSION 3.17)
+cmake_minimum_required(VERSION 3.17...3.22 FATAL_ERROR)
 
 project(transducerscorerbackend LANGUAGES C CXX)
 
@@ -34,18 +34,15 @@ project(transducerscorerbackend LANGUAGES C CXX)
 # Must include options required for this project as well as any
 # projects included in this one by FetchContent.
 #
-# GPU support is disabled by default because recommended backend
-# doesn't use GPUs.
-#
 option(TRITON_ENABLE_GPU "Enable GPU support in backend" ON)
 option(TRITON_ENABLE_STATS "Include statistics collections in backend" ON)
 
-set(TRITON_COMMON_REPO_TAG "main" CACHE STRING "Tag for triton-inference-server/common repo")
-set(TRITON_CORE_REPO_TAG "main" CACHE STRING "Tag for triton-inference-server/core repo")
-set(TRITON_BACKEND_REPO_TAG "main" CACHE STRING "Tag for triton-inference-server/backend repo")
+set(TRITON_COMMON_REPO_TAG "r22.11" CACHE STRING "Tag for triton-inference-server/common repo")
+set(TRITON_CORE_REPO_TAG "r22.11" CACHE STRING "Tag for triton-inference-server/core repo")
+set(TRITON_BACKEND_REPO_TAG "r22.11" CACHE STRING "Tag for triton-inference-server/backend repo")
 
 if(NOT CMAKE_BUILD_TYPE)
-  set(CMAKE_BUILD_TYPE Release)
+	set(CMAKE_BUILD_TYPE Release)
 endif()
 
 #
@@ -84,7 +81,7 @@ if(${TRITON_ENABLE_GPU})
   find_package(CUDAToolkit REQUIRED)
 endif()
 
-
+find_package(Python3 REQUIRED COMPONENTS Development)
 #
 # The backend must be built into a shared library. Use an ldscript to
 # hide all symbols except for the TRITONBACKEND API.
@@ -108,7 +105,7 @@ add_library(
 )
 
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
-include(torch)
+find_package(Torch REQUIRED)
 message(STATUS "    torch include path: ${TORCH_INCLUDE_DIRS}")
 message(STATUS "    torch lib path : ${TORCH_LIBRARIES} ")
 
@@ -119,16 +116,10 @@ target_include_directories(
     ${Python3_INCLUDE_DIRS}
 )
 
-# target_include_directories(
-#   triton-transudcer-scorer-backend
-#   PRIVATE ${TRITON_PYTORCH_INCLUDE_PATHS}
-# )
-
-# why we don't need to include them?
-# target_include_directories(
-#   triton-transudcer-scorer-backend
-#   PRIVATE ${TORCH_INCLUDE_DIRS}
-# )
+target_include_directories(
+  triton-transudcer-scorer-backend
+  PRIVATE ${TORCH_INCLUDE_DIRS}
+)
 
 target_compile_features(triton-transudcer-scorer-backend PRIVATE cxx_std_11)
 target_compile_options(
@@ -144,28 +135,6 @@ if(${TRITON_ENABLE_GPU})
     PRIVATE TRITON_ENABLE_GPU=1
   )
 endif() # TRITON_ENABLE_GPU
-
-set(TRITON_PYTORCH_LDFLAGS "")
-
-set (TRITON_PYTORCH_LIBS "-ltorch")
-
-FOREACH(p ${TRITON_PYTORCH_LIB_PATHS})
-  set(TRITON_PYTORCH_LDFLAGS ${TRITON_PYTORCH_LDFLAGS} "-L${p}")
-ENDFOREACH(p)
-
-
-
-
-# target_link_libraries(
-#   triton-transudcer-scorer-backend
-#   PRIVATE
-#     triton-core-serverapi   # from repo-core
-#     triton-core-backendapi  # from repo-core
-#     triton-core-serverstub  # from repo-core
-#     triton-backend-utils    # from repo-backend
-#     ${TRITON_PYTORCH_LDFLAGS}
-#     ${TRITON_PYTORCH_LIBS}
-# )
 
 target_link_libraries(
   triton-transudcer-scorer-backend
@@ -185,21 +154,15 @@ if(${TRITON_ENABLE_GPU})
   )
 endif() # TRITON_ENABLE_GPU
 
-if(WIN32)
-  set_target_properties(
-    triton-transudcer-scorer-backend PROPERTIES
-    POSITION_INDEPENDENT_CODE ON
-    OUTPUT_NAME triton_scorer
-  )
-else()
-  set_target_properties(
-    triton-transudcer-scorer-backend PROPERTIES
-    POSITION_INDEPENDENT_CODE ON
-    OUTPUT_NAME triton_scorer
-    LINK_DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/libtriton_scorer.ldscript
-    LINK_FLAGS "-Wl,--version-script libtriton_scorer.ldscript"
-  )
-endif()
+
+set_target_properties(
+  triton-transudcer-scorer-backend PROPERTIES
+  POSITION_INDEPENDENT_CODE ON
+  OUTPUT_NAME triton_scorer
+  LINK_DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/libtriton_scorer.ldscript
+  LINK_FLAGS "-Wl,--version-script libtriton_scorer.ldscript"
+)
+
 
 #
 # Install
@@ -215,35 +178,6 @@ install(
   LIBRARY DESTINATION ${CMAKE_INSTALL_PREFIX}/backends/scorer
   RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX}/backends/scorer
 )
-
-FOREACH(plib ${PT_LIBS})
- set(PT_LIB_PATHS ${PT_LIB_PATHS} "${TRITON_PYTORCH_LIB_PATHS}/${plib}")
-ENDFOREACH(plib)
-
-# install(
-# FILES
-#   ${PT_LIB_PATHS}
-# DESTINATION ${CMAKE_INSTALL_PREFIX}/backends/scorer
-# )
-
-# install(
-# FILES
-#   ${TORCH_LIBRARIES}
-# DESTINATION ${CMAKE_INSTALL_PREFIX}/backends/scorer
-# )
-
-# FOREACH(plib ${PT_LIBS})
-# install(
-#   CODE
-#     "EXECUTE_PROCESS(
-#       COMMAND patchelf --set-rpath \$ORIGIN ${plib}
-#       RESULT_VARIABLE PATCHELF_STATUS
-#       WORKING_DIRECTORY ${CMAKE_INSTALL_PREFIX}/backends/scorer)
-#     if(PATCHELF_STATUS AND NOT PATCHELF_STATUS EQUAL 0)
-#       message(FATAL_ERROR \"FAILED: to run patchelf\")
-#     endif()"
-# )
-# ENDFOREACH(plib)
 
 install(
   EXPORT

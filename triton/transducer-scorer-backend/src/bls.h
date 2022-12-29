@@ -75,4 +75,4 @@ class BLSExecutor {
   ModelExecutor model_executor_;
 };
 
-}}}  // namespace triton::backend::bls
+}}}  // namespace triton::backend::scorer

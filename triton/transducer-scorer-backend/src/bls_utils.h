@@ -53,8 +53,7 @@ struct BLSBackendException : std::exception {
   std::string message_;
 };
 
-// Performs the allocations of output tensors.
-TRITONSERVER_Error* CPUAllocator(
+TRITONSERVER_Error* ResponseAlloc(
     TRITONSERVER_ResponseAllocator* allocator, const char* tensor_name,
     size_t byte_size, TRITONSERVER_MemoryType preferred_memory_type,
     int64_t preferred_memory_type_id, void* userp, void** buffer,
@@ -95,4 +94,4 @@ class ModelExecutor {
   TRITONSERVER_ResponseAllocator* allocator_;
 };
 
-}}}  // namespace triton::backend::bls
+}}}  // namespace triton::backend::scorer
