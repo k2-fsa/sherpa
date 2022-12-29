@@ -3,6 +3,7 @@
 // Copyright (c)  2022  Xiaomi Corporation
 #include <chrono>  // NOLINT
 #include <string>
+#include <fstream>
 
 #include "kaldi_native_io/csrc/kaldi-io.h"
 #include "kaldi_native_io/csrc/wave-reader.h"
@@ -15,7 +16,6 @@
 #include "websocketpp/uri.hpp"
 
 using json = nlohmann::json;
-
 using client = websocketpp::client<websocketpp::config::asio_client>;
 
 using message_ptr = client::message_ptr;
@@ -56,7 +56,7 @@ static torch::Tensor ReadWave(const std::string &filename,
     std::cerr << "Failed to read " << filename;
     exit(EXIT_FAILURE);
   }
-
+  std::cout << filename;
   auto &wave_data = wh.Value();
   if (wave_data.SampFreq() != expected_sample_rate) {
     std::cerr << filename << "is expected to have sample rate "
@@ -80,23 +80,25 @@ class Client {
  public:
   Client(asio::io_context &io,  // NOLINT
          const std::string &ip, int16_t port, const std::string &wave_filename,
-         float seconds_per_message, int32_t SampleRate)
+         float seconds_per_message, int32_t SampleRate, std::string ctm_filename, bool do_ctm)
       : io_(io),
         uri_(/*secure*/ false, ip, port, /*resource*/ "/"),
         samples_(ReadWave(wave_filename, SampleRate)),
         samples_per_message_(seconds_per_message * SampleRate),
-        seconds_per_message_(seconds_per_message) {
+        seconds_per_message_(seconds_per_message),
+	ctm_filename_(ctm_filename), do_ctm_(do_ctm){
     c_.clear_access_channels(websocketpp::log::alevel::all);
-    c_.set_access_channels(websocketpp::log::alevel::connect);
-    c_.set_access_channels(websocketpp::log::alevel::disconnect);
-
+    //    c_.set_access_channels(websocketpp::log::alevel::connect);
+    //    c_.set_access_channels(websocketpp::log::alevel::disconnect);
+    of_ = std::ofstream(ctm_filename);
+    of_ << std::fixed << std::setprecision(2) ;
+    std::string base_filename = wave_filename.substr(wave_filename.find_last_of("/\\") + 1);
+    wave_filename_ = base_filename.substr(0, base_filename.find_last_of('.'));
+    
     c_.init_asio(&io_);
-
     c_.set_open_handler([this](connection_hdl hdl) { OnOpen(hdl); });
-
     c_.set_close_handler(
         [this](connection_hdl /*hdl*/) { SHERPA_LOG(INFO) << "Disconnected"; });
-
     c_.set_message_handler(
         [this](connection_hdl hdl, message_ptr msg) { OnMessage(hdl, msg); });
 
@@ -116,6 +118,47 @@ class Client {
     c_.connect(con);
   }
 
+  void DumpCtm(nlohmann::json result_) {
+    int i=0;
+    std::vector<std::string> tokens = result_["tokens"].get<std::vector<std::string>>();
+    int length = tokens.size();
+    if (length<1) { return; }
+    std::string res = result_.dump();
+    std::vector<float> timestamps = result_["timestamps"].get<std::vector<float>>();
+    //    SHERPA_LOG(INFO) << "CTM Dumping " << result_["text"] ;
+    if (tokens[0].at(0) != ' ') {
+      SHERPA_LOG(WARNING) << "First word is not a new word " << tokens[0];
+    }
+    
+    std::string word = tokens[0];
+    float start = timestamps[0];
+    float duration = 0.01;
+    if (length>2) {
+      duration = timestamps[1] - timestamps[0];
+    }
+    int word_start_index = i;
+    while (i<length) {
+      //      SHERPA_LOG(INFO) <<i<<" "<<length<< tokens[i];
+      while (i+1 < length && tokens[i+1].at(0) != ' ') {
+	word += tokens[i+1];
+	if (length > i+2) {
+	  duration = timestamps[i+2] - timestamps[word_start_index];
+	}
+	i++;
+      }
+      of_ << wave_filename_ << " 0 " << start << " " << duration << " " << word << std::endl;
+      if (i >= length-1) { break; }
+      i++;
+      word_start_index=i;
+      word = tokens[i];
+      start = timestamps[i];
+      duration = 0.01;
+	if (length>i+1) {
+	  duration = timestamps[i+1] - timestamps[word_start_index];
+	}
+    }
+  }
+ 
   void OnOpen(connection_hdl hdl) {
     auto start_time = std::chrono::steady_clock::now();
     asio::post(
@@ -124,11 +167,22 @@ class Client {
 
   void OnMessage(connection_hdl hdl, message_ptr msg) {
     const std::string &payload = msg->get_payload();
-    auto result = json::parse(payload);
-
-    SHERPA_LOG(INFO) << "Decoding results:\n" << result["text"];
-
-    if (result["final"]) {
+    auto result_ = json::parse(payload);
+    //    std::string res = result_.dump();
+    SHERPA_LOG(INFO) << "Decoding results:" << result_["text"];
+    if (result_["segment"]>segment_id_) {
+      segment_id_ = result_["segment"];
+      std::cout << text_;
+      if (do_ctm_) {
+	DumpCtm(result_);
+      }
+    }
+    text_=result_["text"];
+    if (result_["final"]) {
+      std::cout << result_["text"] << std::endl;
+      if (do_ctm_) {
+	DumpCtm(result_);
+      }
       websocketpp::lib::error_code ec;
       c_.close(hdl, websocketpp::close::status::normal, "I'm exiting now", ec);
       if (ec) {
@@ -153,6 +207,9 @@ class Client {
         static_cast<int>(seconds_per_message_ * num_sent_messages_ * 1000)) {
       std::this_thread::sleep_for(std::chrono::milliseconds(int(
           seconds_per_message_ * num_sent_messages_ * 1000 - elapsed_time_ms)));
+    }
+    if (num_sent_messages_ < 1) {
+      SHERPA_LOG(INFO) << "Starting to send audio";
     }
     if (num_sent_messages_ < num_messages) {
       // SHERPA_LOG(DEBUG) << "Sending " << num_sent_messages_ << "/"
@@ -190,6 +247,7 @@ class Client {
         ec.clear();
       }
       c_.send(hdl, "Done", websocketpp::frame::opcode::text, ec);
+      SHERPA_LOG(INFO) << "Sent Done Signal";
       if (ec) {
         SHERPA_LOG(INFO) << "Failed to send Done because " << ec.message();
         exit(EXIT_FAILURE);
@@ -210,6 +268,12 @@ class Client {
   int32_t samples_per_message_;
   int32_t num_sent_messages_ = 0;
   float seconds_per_message_;
+  int32_t segment_id_ = 0;
+  std::string text_;
+  std::string wave_filename_;
+  std::string ctm_filename_;
+  std::ofstream of_;
+  bool do_ctm_;
 };
 
 int32_t main(int32_t argc, char *argv[]) {
@@ -218,6 +282,7 @@ int32_t main(int32_t argc, char *argv[]) {
   float seconds_per_message = 10;
   // Sample rate of the input wave. No resampling is made.
   int32_t SampleRate = 16000;
+  std::string ctm_filename="";
 
   sherpa::ParseOptions po(kUsageMessage);
 
@@ -229,6 +294,7 @@ int32_t main(int32_t argc, char *argv[]) {
   po.Register("num-seconds-per-message", &seconds_per_message,
               "The number of samples per message equals to "
               "seconds_per_message*sample_rate");
+  po.Register("ctm-filename", &ctm_filename, "Name of the CTM output file");
 
   po.Read(argc, argv);
   SHERPA_CHECK_GT(seconds_per_message, 0);
@@ -253,9 +319,10 @@ int32_t main(int32_t argc, char *argv[]) {
   std::string wave_filename = po.GetArg(1);
 
   asio::io_context io_conn;  // for network connections
-
+  bool do_ctm=false;
+  if (ctm_filename.length() > 0) { do_ctm=true; }
   Client c(io_conn, server_ip, server_port, wave_filename, seconds_per_message,
-           SampleRate);
+           SampleRate, ctm_filename, do_ctm);
 
   io_conn.run();  // will exit when the above connection is closed
 

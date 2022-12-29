@@ -28,18 +28,18 @@ std::string OnlineRecognitionResult::AsJsonString() const {
   j["text"] = text;
   j["tokens"] = tokens;
 
-  std::ostringstream os;
-  os << "[";
-  std::string sep = "";
-  for (auto t : timestamps) {
-    os << sep << std::fixed << std::setprecision(2) << t;
-    sep = ",";
-  }
-  os << "]";
+  // std::ostringstream os;
+  // os << "[";
+  // std::string sep = "";
+  // for (auto t : timestamps) {
+  //   os << sep << std::fixed << std::setprecision(2) << t;
+  //   sep = ",";
+  // }
+  // os << "]";
 
   // NOTE: We don't use j["timestamps"] = timestamps;
   // because we need to control the number of decimal points to keep
-  j["timestamps"] = os.str();
+  j["timestamps"] = timestamps; // os.str();
 
   // TODO(fangjun): The key in the json object should be kept
   // in sync with sherpa/bin/pruned_transducer_statelessX/streaming_server.py
