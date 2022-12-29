@@ -138,6 +138,28 @@ void OnlineRecognizerConfig::Validate() const {
   }
 }
 
+std::string OnlineRecognizerConfig::ToString() const {
+  std::ostringstream os;
+  os << "OnlineRecognizerConfig(";
+  os << "feat_config=" << feat_config.ToString() << ", ";
+  os << "endpoint_config=" << endpoint_config.ToString() << ", ";
+  os << "fast_beam_search_config=" << fast_beam_search_config.ToString()
+     << ", ";
+  os << "nn_model=\"" << nn_model << "\", ";
+  os << "tokens=\"" << tokens << "\", ";
+  os << "encoder_model=\"" << encoder_model << "\", ";
+  os << "decoder_model=\"" << decoder_model << "\", ";
+  os << "joiner_model=\"" << joiner_model << "\", ";
+  os << "use_gpu=" << (use_gpu ? "True" : "False") << "\", ";
+  os << "use_endpoint=" << (use_endpoint ? "True" : "False") << "\", ";
+  os << "decoding_method=\"" << decoding_method << "\", ";
+  os << "num_active_paths=" << num_active_paths << ", ";
+  os << "left_context=" << left_context << ", ";
+  os << "right_context=" << right_context << ", ";
+  os << "chunk_size=" << chunk_size << ")";
+  return os.str();
+}
+
 static OnlineRecognitionResult Convert(const OnlineTransducerDecoderResult &src,
                                        const SymbolTable &sym_table,
                                        int32_t frame_shift_ms,
