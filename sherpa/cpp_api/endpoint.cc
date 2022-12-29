@@ -74,6 +74,17 @@ void EndpointConfig::Register(ParseOptions *po) {
   RegisterEndpointRule(po, &rule3, "rule3");
 }
 
+std::string EndpointConfig::ToString() const {
+  std::ostringstream os;
+
+  os << "EndpointConfig(";
+  os << "rule1=" << rule1.ToString() << ", ";
+  os << "rule2=" << rule2.ToString() << ", ";
+  os << "rule3=" << rule3.ToString() << ")";
+
+  return os.str();
+}
+
 bool Endpoint::IsEndpoint(int num_frames_decoded, int trailing_silence_frames,
                           float frame_shift_in_seconds) const {
   float utterance_length = num_frames_decoded * frame_shift_in_seconds;

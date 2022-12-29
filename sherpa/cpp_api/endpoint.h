@@ -35,6 +35,13 @@ struct EndpointRule {
   // to be >= this value.
   float min_utterance_length = 0.0f;
 
+  EndpointRule() = default;
+  EndpointRule(bool must_contain_nonsilence, float min_trailing_silence,
+               float min_utterance_length)
+      : must_contain_nonsilence(must_contain_nonsilence),
+        min_trailing_silence(min_trailing_silence),
+        min_utterance_length(min_utterance_length) {}
+
   std::string ToString() const;
 };
 
@@ -54,6 +61,8 @@ struct EndpointConfig {
 
   EndpointConfig()
       : rule1{false, 2.4, 0}, rule2{true, 1.2, 0}, rule3{false, 0, 20} {}
+
+  std::string ToString() const;
 };
 
 class Endpoint {

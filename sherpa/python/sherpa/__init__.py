@@ -10,6 +10,7 @@ if torch.__version__.split("+")[0] != sherpa_torch_version.split("+")[0]:
     )
 
 from _sherpa import (
+    EndpointConfig,
     EndpointRule,
     FastBeamSearchConfig,
     FeatureConfig,
@@ -18,6 +19,7 @@ from _sherpa import (
     OfflineCtcDecoderConfig,
     OfflineRecognizer,
     OfflineRecognizerConfig,
+    OnlineRecognizerConfig,
     OfflineStream,
     RnntConformerModel,
     RnntConvEmformerModel,
