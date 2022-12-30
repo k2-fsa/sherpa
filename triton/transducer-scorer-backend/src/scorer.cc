@@ -241,9 +241,7 @@ void
 ModelInstanceState::ProcessRequests(
     TRITONBACKEND_Request** requests, const uint32_t request_count)
 {
-  //uint64_t exec_start_ns = 0;
-  //SET_TIMESTAMP(exec_start_ns);
-
+  
   const int max_batch_size = model_state_ -> MaxBatchSize();
 
   NVTX_RANGE(nvtx_, "ProcessRequests " + Name());
