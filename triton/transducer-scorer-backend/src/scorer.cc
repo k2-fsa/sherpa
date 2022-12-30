@@ -8,6 +8,7 @@
 #include "triton/backend/backend_model.h"
 #include "triton/backend/backend_model_instance.h"
 #include "triton/backend/backend_output_responder.h"
+#include "triton/common/nvtx.h"
 #include "triton/core/tritonbackend.h"
 
 #include "bls.h"
@@ -153,6 +154,20 @@ class ModelInstanceState : public BackendModelInstance {
   {
   #ifdef TRITON_ENABLE_GPU
      device_ = torch::Device(torch::kCUDA, DeviceId());
+    // Need to set the CUDA context so that the context that events are
+    // created on match with contexts that events are recorded with.
+    THROW_IF_BACKEND_INSTANCE_ERROR(ConvertCUDAStatusToTritonError(
+        cudaSetDevice(DeviceId()), TRITONSERVER_ERROR_INTERNAL,
+        "Failed to set the device"));
+    THROW_IF_BACKEND_INSTANCE_ERROR(ConvertCUDAStatusToTritonError(
+        cudaEventCreate(&compute_input_start_event_),
+        TRITONSERVER_ERROR_INTERNAL, "Failed to create cuda event"));
+    THROW_IF_BACKEND_INSTANCE_ERROR(ConvertCUDAStatusToTritonError(
+        cudaEventCreate(&compute_infer_start_event_),
+        TRITONSERVER_ERROR_INTERNAL, "Failed to create cuda event"));
+    THROW_IF_BACKEND_INSTANCE_ERROR(ConvertCUDAStatusToTritonError(
+        cudaEventCreate(&compute_output_start_event_),
+        TRITONSERVER_ERROR_INTERNAL, "Failed to create cuda event"));
   #endif
     //TODO: FIX this hard code
     input_index_map_["encoder_out"] = 0;
@@ -166,11 +181,11 @@ class ModelInstanceState : public BackendModelInstance {
       BackendInputCollector* collector, std::vector<const char*>* input_names,
       std::vector<torch::jit::IValue>* input_tensors,
       std::vector<BackendMemory*>* input_memories, bool* cuda_copy);
-
   void SetOutputBuffer(const std::string& out_bytes,
                        TRITONBACKEND_Response* response,
                        TRITONBACKEND_Output* response_output);
-  
+  TRITONSERVER_Error* RecordBackendTimestamp(
+      uint64_t* timestamp, void* cuda_event);  
   std::vector<std::vector<int32_t>> Search(
       std::vector<torch::jit::IValue>* input_tensors
       );
@@ -180,6 +195,10 @@ class ModelInstanceState : public BackendModelInstance {
   BLSExecutor bls_executor_;
   torch::Device device_;
   std::unordered_map<std::string, int> input_index_map_;
+
+  cudaEvent_t compute_input_start_event_;
+  cudaEvent_t compute_infer_start_event_;
+  cudaEvent_t compute_output_start_event_;
   
 };
 
@@ -201,6 +220,23 @@ ModelInstanceState::Create(
   return nullptr;  // success
 }
 
+TRITONSERVER_Error*
+ModelInstanceState::RecordBackendTimestamp(
+    uint64_t* timestamp, void* cuda_event)
+{
+  if (Kind() == TRITONSERVER_INSTANCEGROUPKIND_GPU) {
+#ifdef TRITON_ENABLE_GPU
+    cudaEvent_t* lcuda_event = reinterpret_cast<cudaEvent_t*>(cuda_event);
+    RETURN_IF_ERROR(ConvertCUDAStatusToTritonError(
+        cudaEventRecord(*lcuda_event, stream_), TRITONSERVER_ERROR_INTERNAL,
+        "Failed to record the event."));
+#endif
+  } else {
+    SET_TIMESTAMP(*timestamp);
+  }
+  return nullptr;
+}
+
 void
 ModelInstanceState::ProcessRequests(
     TRITONBACKEND_Request** requests, const uint32_t request_count)
@@ -209,6 +245,11 @@ ModelInstanceState::ProcessRequests(
   //SET_TIMESTAMP(exec_start_ns);
 
   const int max_batch_size = model_state_ -> MaxBatchSize();
+
+  NVTX_RANGE(nvtx_, "ProcessRequests " + Name());
+  
+  uint64_t exec_start_ns = 0;
+  SET_TIMESTAMP(exec_start_ns);
   
   // For each request collect the total batch size for this inference
   // execution. The batch-size, number of inputs, and size of each
@@ -308,15 +349,15 @@ ModelInstanceState::ProcessRequests(
   std::vector<BackendMemory*> input_memories;
   bool cuda_copy = false;
   std::unique_ptr<BackendInputCollector> collector;
-//   if (Kind() == TRITONSERVER_INSTANCEGROUPKIND_GPU) {
-// #ifdef TRITON_ENABLE_GPU
-//     RESPOND_ALL_AND_SET_TRUE_IF_ERROR(
-//         responses, request_count, all_response_failed,
-//         ConvertCUDAStatusToTritonError(
-//             cudaEventRecord(compute_input_start_event_, stream_),
-//             TRITONSERVER_ERROR_INTERNAL, "Failed to record the event."));
-// #endif
-//   }
+  if (Kind() == TRITONSERVER_INSTANCEGROUPKIND_GPU) {
+#ifdef TRITON_ENABLE_GPU
+    RESPOND_ALL_AND_SET_TRUE_IF_ERROR(
+        responses, request_count, all_response_failed,
+        ConvertCUDAStatusToTritonError(
+            cudaEventRecord(compute_input_start_event_, stream_),
+            TRITONSERVER_ERROR_INTERNAL, "Failed to record the event."));
+#endif
+  }
 
   if (!all_response_failed) {
     collector.reset(new BackendInputCollector(
@@ -339,12 +380,12 @@ ModelInstanceState::ProcessRequests(
   }
 #endif
 
-  // uint64_t compute_start_ns = 0;
-  // RESPOND_ALL_AND_SET_TRUE_IF_ERROR(
-  //     responses, request_count, all_response_failed,
-  //     RecordBackendTimestamp(
-  //         &compute_start_ns,
-  //         reinterpret_cast<void*>(&compute_infer_start_event_)));
+  uint64_t compute_start_ns = 0;
+  RESPOND_ALL_AND_SET_TRUE_IF_ERROR(
+      responses, request_count, all_response_failed,
+      RecordBackendTimestamp(
+          &compute_start_ns,
+          reinterpret_cast<void*>(&compute_infer_start_event_)));
 
   // Run...
   std::vector<std::vector<int32_t>> ans;
@@ -359,6 +400,13 @@ ModelInstanceState::ProcessRequests(
   for(auto &utt:ans){
     ans_str.push_back(Convert(utt, symbol_table));
   }
+
+  uint64_t compute_end_ns = 0;
+  RESPOND_ALL_AND_SET_TRUE_IF_ERROR(
+      responses, request_count, all_response_failed,
+      RecordBackendTimestamp(
+          &compute_end_ns,
+          reinterpret_cast<void*>(&compute_output_start_event_)));
 
   std::vector<int64_t> output_shape {1,1};
   int dims_count = 2;
@@ -380,27 +428,65 @@ ModelInstanceState::ProcessRequests(
     i++;
   }
 
-  // // Report statistics for each request.
-  // for (uint32_t r = 0; r < request_count; ++r) {
-  //   auto& request = requests[r];
-  //   LOG_IF_ERROR(
-  //       TRITONBACKEND_ModelInstanceReportStatistics(
-  //           TritonModelInstance(), request,
-  //           (responses[r] != nullptr) /* success */, exec_start_ns,
-  //           compute_start_ns, compute_end_ns, exec_end_ns),
-  //       "failed reporting request statistics");
+  uint64_t exec_end_ns = 0;
+  SET_TIMESTAMP(exec_end_ns);
 
-  //   LOG_IF_ERROR(
-  //       TRITONBACKEND_RequestRelease(request, TRITONSERVER_REQUEST_RELEASE_ALL),
-  //       "failed releasing request");
-  // }
+#ifdef TRITON_ENABLE_GPU
+  // We have to always synchronize the stream. This is to make sure that
+  // the events on the cuda stream are synchronized. Otherwise, the events
+  // are only guaranteed to be synchronized if the model provides the output
+  // on GPU.
+  cudaStreamSynchronize(stream_);
+#endif
 
-  // // Report the entire batch statistics.
-  // LOG_IF_ERROR(
-  //     TRITONBACKEND_ModelInstanceReportBatchStatistics(
-  //         TritonModelInstance(), 1 /*total_batch_size*/, exec_start_ns,
-  //         compute_start_ns, compute_end_ns, exec_end_ns),
-  //     "failed reporting batch request statistics");
+  if (Kind() == TRITONSERVER_INSTANCEGROUPKIND_GPU) {
+#ifdef TRITON_ENABLE_GPU
+    // [FIXME] in the case of cudaEventElapsedTime failure, should handle
+    // stats reporting more gracefully as the durations are inaccurate
+    float compute_input_duration = 0;
+    float compute_infer_duration = 0;
+    LOG_IF_ERROR(
+        ConvertCUDAStatusToTritonError(
+            cudaEventElapsedTime(
+                &compute_input_duration, compute_input_start_event_,
+                compute_infer_start_event_),
+            TRITONSERVER_ERROR_INTERNAL, "Failed to capture elapsed time"),
+        "Failed to capture elapsed time");
+
+    LOG_IF_ERROR(
+        ConvertCUDAStatusToTritonError(
+            cudaEventElapsedTime(
+                &compute_infer_duration, compute_infer_start_event_,
+                compute_output_start_event_),
+            TRITONSERVER_ERROR_INTERNAL, "Failed to capture elapsed time"),
+        "Failed to capture elapsed time");
+
+    compute_start_ns = exec_start_ns + (compute_input_duration * 1e6);
+    compute_end_ns = compute_start_ns + (compute_infer_duration * 1e6);
+#endif
+  }
+
+  // Report statistics for each request.
+  for (uint32_t r = 0; r < request_count; ++r) {
+    auto& request = requests[r];
+    LOG_IF_ERROR(
+        TRITONBACKEND_ModelInstanceReportStatistics(
+            TritonModelInstance(), request,
+            (responses[r] != nullptr) /* success */, exec_start_ns,
+            compute_start_ns, compute_end_ns, exec_end_ns),
+        "failed reporting request statistics");
+
+    LOG_IF_ERROR(
+        TRITONBACKEND_RequestRelease(request, TRITONSERVER_REQUEST_RELEASE_ALL),
+        "failed releasing request");
+  }
+
+  // Report the entire batch statistics.
+  LOG_IF_ERROR(
+      TRITONBACKEND_ModelInstanceReportBatchStatistics(
+          TritonModelInstance(), total_batch_size, exec_start_ns,
+          compute_start_ns, compute_end_ns, exec_end_ns),
+      "failed reporting batch request statistics");
 
   LOG_MESSAGE(
       TRITONSERVER_LOG_VERBOSE,
@@ -435,6 +521,7 @@ ModelInstanceState::Search(
     std::vector<torch::jit::IValue>* input_tensors
     )
 {
+  NVTX_RANGE(nvtx_, "greedy search " + Name());
   torch::Tensor encoder_out, encoder_out_length;
   encoder_out = (*input_tensors)[0].toTensor();
   encoder_out_length = (*input_tensors)[1].toTensor();
@@ -691,12 +778,26 @@ extern "C" {
 TRITONSERVER_Error*
 TRITONBACKEND_ModelInstanceInitialize(TRITONBACKEND_ModelInstance* instance)
 {
+  const char* cname;
+  RETURN_IF_ERROR(TRITONBACKEND_ModelInstanceName(instance, &cname));
+  std::string name(cname);
+
   // Get the model state associated with this instance's model.
   TRITONBACKEND_Model* model;
   RETURN_IF_ERROR(TRITONBACKEND_ModelInstanceModel(instance, &model));
 
   int32_t device_id;
   RETURN_IF_ERROR(TRITONBACKEND_ModelInstanceDeviceId(instance, &device_id));
+
+  TRITONSERVER_InstanceGroupKind kind;
+  RETURN_IF_ERROR(TRITONBACKEND_ModelInstanceKind(instance, &kind));
+
+  LOG_MESSAGE(
+      TRITONSERVER_LOG_INFO,
+      (std::string("TRITONBACKEND_ModelInstanceInitialize: ") + name + " (" +
+       TRITONSERVER_InstanceGroupKindString(kind) + " device " +
+       std::to_string(device_id) + ")")
+          .c_str());
 
   void* vmodelstate;
   RETURN_IF_ERROR(TRITONBACKEND_ModelState(model, &vmodelstate));
