@@ -1,6 +1,10 @@
 Installation
 ============
 
+.. hint::
+
+  Please refer to :ref:`sherpa-ncnn-python-api` for its usage with Python.
+
 In this section, we describe how to install `sherpa-ncnn`_ for the following
 platforms:
 

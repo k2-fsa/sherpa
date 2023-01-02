@@ -27,6 +27,7 @@ Also, we show how to use it for speech recognition with pre-trained models.
 .. toctree::
    :maxdepth: 2
 
+   ./python/index
    ./install/index
    ./android/index
    ./pretrained_models/index
