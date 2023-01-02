@@ -1,6 +1,8 @@
 Conv-Emformer-transducer-based Models
 =====================================
 
+.. _sherpa-ncnn-mixed-english-chinese-conv-emformer-model:
+
 csukuangfj/sherpa-ncnn-conv-emformer-transducer-2022-12-06 (Chinese + English)
 ------------------------------------------------------------------------------
 
