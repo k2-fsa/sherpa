@@ -4,6 +4,7 @@
 #include "sherpa/python/csrc/endpoint.h"
 
 #include <memory>
+#include <string>
 
 #include "sherpa/cpp_api/endpoint.h"
 

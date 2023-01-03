@@ -10,7 +10,7 @@
 
 namespace sherpa {
 
-static void PybindOnlineRecognitionResult(py::module &m) {
+static void PybindOnlineRecognitionResult(py::module &m) {  // NOLINT
   using PyClass = OnlineRecognitionResult;
   py::class_<PyClass>(m, "OnlineRecognitionResult")
       .def_property_readonly("text",
@@ -29,7 +29,7 @@ static void PybindOnlineRecognitionResult(py::module &m) {
       .def("as_json_string", &PyClass::AsJsonString);
 }
 
-void PybindOnlineStream(py::module &m) {
+void PybindOnlineStream(py::module &m) {  // NOLINT
   PybindOnlineRecognitionResult(m);
   using PyClass = OnlineStream;
   py::class_<PyClass>(m, "OnlineStream")

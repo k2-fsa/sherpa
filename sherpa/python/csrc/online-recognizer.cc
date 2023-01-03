@@ -3,11 +3,15 @@
 // Copyright (c)  2022  Xiaomi Corporation
 #include "sherpa/cpp_api/online-recognizer.h"
 
+#include <memory>
+#include <string>
+#include <vector>
+
 #include "sherpa/python/csrc/online-recognizer.h"
 
 namespace sherpa {
 
-static void PybindOnlineRecognizerConfig(py::module &m) {
+static void PybindOnlineRecognizerConfig(py::module &m) {  // NOLINT
   using PyClass = OnlineRecognizerConfig;
   py::class_<PyClass>(m, "OnlineRecognizerConfig")
       .def(py::init([](const std::string &nn_model, const std::string &tokens,
@@ -73,7 +77,7 @@ static void PybindOnlineRecognizerConfig(py::module &m) {
            [](const PyClass &self) -> std::string { return self.ToString(); });
 }
 
-void PybindOnlineRecognizer(py::module &m) {
+void PybindOnlineRecognizer(py::module &m) {  // NOLINT
   PybindOnlineRecognizerConfig(m);
   using PyClass = OnlineRecognizer;
   py::class_<PyClass>(m, "OnlineRecognizer")
