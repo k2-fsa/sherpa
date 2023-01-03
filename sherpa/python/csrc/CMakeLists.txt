@@ -8,7 +8,14 @@ pybind11_add_module(_sherpa
   rnnt_conv_emformer_model.cc
   rnnt_emformer_model.cc
   rnnt_model.cc
+  rnnt_lstm_model.cc
   sherpa.cc
+  #
+  fast-beam-search-config.cc
+  feature-config.cc
+  offline-ctc-model.cc
+  offline-recognizer.cc
+  offline-stream.cc
 )
 
 if(APPLE)
@@ -27,6 +34,7 @@ endif()
 
 
 target_link_libraries(_sherpa PRIVATE sherpa_core)
+target_link_libraries(_sherpa PRIVATE sherpa_cpp_api)
 target_include_directories(_sherpa PRIVATE ${CMAKE_BINARY_DIR})
 
 if(UNIX AND NOT APPLE)

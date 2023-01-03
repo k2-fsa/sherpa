@@ -1,6 +1,6 @@
-# Inference Serving Practice for Transducer Non-streaming ASR based on Icefall <!-- omit in toc -->
+# Inference Serving Best Practice for Transducer ASR based on Icefall <!-- omit in toc -->
 
-In this tutorial, we'll go through how to run a non-streaming (offline) ASR Transducer model trained by [Icefall](https://github.com/k2-fsa/icefall/tree/master/egs/librispeech/ASR/pruned_transducer_stateless3) **on GPUs**, and deploy it as service with NVIDIA [Triton Inference Server](https://github.com/triton-inference-server/server).
+In this tutorial, we'll go through how to run  non-streaming (offline) and streaming ASR Transducer models trained by [Icefall](https://github.com/k2-fsa/icefall/tree/master/egs/librispeech/ASR/pruned_transducer_stateless3) **on GPUs**, and deploy it as service with NVIDIA [Triton Inference Server](https://github.com/triton-inference-server/server).
 ## Table of Contents <!-- omit in toc -->
 
 - [Preparation](#preparation)
@@ -23,40 +23,44 @@ In this tutorial, we'll go through how to run a non-streaming (offline) ASR Tran
 
 ## Preparation
 
-First of all, we need to get environment, models, codes, and data ready.
+First of all, we need to get environment, models ready.
 
 ### Prepare Environment
 
 Clone the repository:
 
 ```bash
-# Clond Icefall repo
-git clone https://github.com/k2-fsa/icefall.git
-cd icefall
-export ICEFALL_DIR=$PWD
-
-# Clone k2 sherpa repo
+# Clone Sherpa repo
 git clone https://github.com/k2-fsa/sherpa.git
 cd sherpa
 export SHERPA_SRC=$PWD
-
 ```
+We highly recommend you to use docker containers to save your life.
 
-Next, install dependencies (you need to install [Conda](https://docs.conda.io/en/latest/miniconda.html) before going ahead):
-
+Build the server docker image:
 ```
-TODO
+# It may take a lot of time since we build k2 from source.
+docker build . -f Dockerfile/Dockerfile.server -t sherpa_triton_server:latest --network host
 ```
-
-### Prepare Models
-
+Start the docker container:
+```bash
+docker run --gpus all -v $SHERPA_SRC:/workspace/sherpa --name sherpa_server --net host --shm-size=1g --ulimit memlock=-1 -p 8000:8000 -p 8001:8001 -p 8002:8002 --ulimit stack=67108864 -it sherpa_triton_server:latest
 ```
-# Download pretrained models
-git clone https://huggingface.co/csukuangfj/icefall-asr-librispeech-pruned-transducer-stateless3-2022-04-29
+Now, you should enter into the container successfully.
+
+# Prepare pretrained models
+
+In this section, we would take jit export as an example for offline ASR and use onnx export as an example for streaming ASR.
+
+Offline Model Export:
+```bash
+GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/icefall-asr-librispeech-pruned-transducer-stateless3-2022-04-29
+cd icefall-asr-librispeech-pruned-transducer-stateless3-2022-04-29
+git lfs pull --include "exp/pretrained-epoch-25-avg-7.pt"
 
 # export them to three jit models: encoder_jit.pt, decoder_jit.pt, joiner_jit.pt
-cp $SHERPA/triton/scripts/conformer_triton.py $ICEFALL_DIR/egs/librispeech/ASR/pruned_stateless_transducer3/
-cp $SHERPA/triton/scripts/export_jit.py $ICEFALL_DIR/egs/librispeech/ASR/pruned_stateless_transducer3/
+cp $SHERPA_SRC/triton/scripts/conformer_triton.py $ICEFALL_DIR/egs/librispeech/ASR/pruned_stateless_transducer3/
+cp $SHERPA_SRC/triton/scripts/export_jit.py $ICEFALL_DIR/egs/librispeech/ASR/pruned_stateless_transducer3/
 
 cd $ICEFALL_DIR/egs/librispeech/ASR/pruned_stateless_transducer3
 python3 export_jit.py --pretrained-model <pretrained_model_path> --output-dir <jit_model_dir> --bpe-model <bpe_model_path>
@@ -65,33 +69,48 @@ python3 export_jit.py --pretrained-model <pretrained_model_path> --output-dir <j
 cp <bpe_model_path> <jit_model_dir>
 ```
 
+Streaming Model Export:
+```bash
+cp $SHERPA_SRC/triton/scripts/*onnx*.py $ICEFALL_DIR/egs/wenetspeech/ASR/pruned_stateless_transducer5/
+
+cd $ICEFALL_DIR/egs/wenetspeech/ASR/
+
+GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/luomingshuang/icefall_asr_wenetspeech_pruned_transducer_stateless5_streaming
+cd /icefall_asr_wenetspeech_pruned_transducer_stateless5_streaming
+git lfs pull --include "exp/pretrained_epoch_7_avg_1.pt"
+
+ln -s ./icefall_asr_wenetspeech_pruned_transducer_stateless5_streaming/exp/pretrained_epoch_7_avg_1.pt ./icefall_asr_wenetspeech_pruned_transducer_stateless5_streaming/exp/epoch-999.pt 
+
+./pruned_transducer_stateless5/export_onnx.py \
+    --exp-dir ./icefall_asr_wenetspeech_pruned_transducer_stateless5_streaming/exp \
+    --tokenizer-file ./icefall_asr_wenetspeech_pruned_transducer_stateless5_streaming/data/lang_char \
+    --epoch 999 \
+    --avg 1 \
+    --streaming-model 1 \
+    --causal-convolution 1 \
+    --onnx 1 \
+    --left-context 64 \
+    --right-context 4 \
+    --fp16
+```
 
 ## Deploy on Triton Inference Server
 
-Now we have exported pretrained non-streaming ASR model, then we need to consider how to deploy the model on the server as non-streaming ASR service, to allow users to send audio requests and get recognition results. Actually, [Triton Inference Server](https://github.com/triton-inference-server/server) does the most of serving work for us, it handles requests/results sending and receiving, request scheduling, load balance, and inference execution.  In this part, we'll go through how to deploy the model on Triton.
+Now we have exported the pretrained ASR model, then we need to consider how to deploy the model on the server as an ASR service, to allow users to send audio requests and get recognition results. Actually, [Triton Inference Server](https://github.com/triton-inference-server/server) does the most of serving work for us, it handles requests/results sending and receiving, request scheduling, load balance, and inference execution.  In this part, we'll go through how to deploy the model on Triton.
 
-Build the server docker image:
-```
-docker build . -f Dockerfile/Dockerfile.server -t sherpa_triton_server:latest --network host
-```
-
-Build the client docker image:
-```
-docker build . -f Dockerfile/Dockerfile.client -t sherpa_triton_client:latest --network host
-```
-
-The model repository is provided in `model_repo` directory, you can find directories standing for each of the components. And there is a `conformer_transducer` dir which ensemble all the components into a whole pipeline. Each of those component directory contains a config file `config.pbtxt` and a version directory containing the model file. However, the version directories of encoder and decoder are still empty since we have not put the exported models into them.  
+The model repositories are provided in `model_repo_offline` and `model_repo_streaming` directory, you can find directories standing for each of the components. And there is a `conformer_transducer` dir which ensembles all the components into a whole pipeline. Each of those component directories contains a config file `config.pbtxt` and a version directory containing the model file. However, the version directories of encoder and decoder are still empty since we have not put the exported models into them.  
 
 ### Quick Start
 
 Now start server:
 
 ```bash
-# Start the docker container
-docker run --gpus all -v $PWD/model_repo:/ws/model_repo -v <jit_model_dir>:/ws/jit_model/ --name sherpa_server --net host --shm-size=1g --ulimit memlock=-1 -p 8000:8000 -p 8001:8001 -p 8002:8002 --ulimit stack=67108864 -it sherpa_triton_server:latest
-
 # Inside the docker container
-bash /workspace/scripts/start_server.sh
+# If you want to use greedy search decoding
+bash /workspace/scripts/start_streaming(offline)_server(_jit).sh
+
+# Or if you want to use fast beam search decoding
+bash /workspace/scripts/start_streaming(offline)_server_fast_beam.sh
 ```
 
 If you meet any issues during the process, please file an issue.
@@ -100,6 +119,35 @@ If you meet any issues during the process, please file an issue.
 
 Here we introduce some advanced configuration/options for deploying the ASR server.
 
+#### Deploy onnx with arbitrary pruned_transducer_stateless_X(2,3,4,5) model for Chinese or English recipes 
+```bash
+cd $ICEFALL_DIR/egs/librispeech/ASR/
+
+GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/pkufool/icefall_librispeech_streaming_pruned_transducer_stateless3_giga_0.9_20220625
+cd icefall_librispeech_streaming_pruned_transducer_stateless3_giga_0.9_20220625
+git lfs pull --include "exp/pretrained-epoch-25-avg-12.pt"
+
+ln -s ./icefall_librispeech_streaming_pruned_transducer_stateless3_giga_0.9_20220625/exp/pretrained-epoch-25-avg-12.pt ./icefall_librispeech_streaming_pruned_transducer_stateless3_giga_0.9_20220625/exp/epoch-999.pt 
+
+./pruned_transducer_stateless3/export_onnx.py \
+    --exp-dir ./icefall_librispeech_streaming_pruned_transducer_stateless3_giga_0.9_20220625/exp \
+    --tokenizer-file ./icefall_librispeech_streaming_pruned_transducer_stateless3_giga_0.9_20220625/data/lang_bpe_500/bpe.model \
+    --epoch 999 \
+    --avg 1 \
+    --streaming-model 1 \
+    --causal-convolution 1 \
+    --onnx 1 \
+    --left-context 64 \
+    --right-context 4 \
+    --fp16
+
+# e.g. pretrained_model_dir=/workspace/icefall/egs/wenetspeech/ASR/icefall_librispeech_streaming_pruned_transducer_stateless3_giga_0.9_20220625
+
+# Modify model hyper parameters according to $pretrained_model_dir/exp/onnx_export.log
+# Then,
+bash scripts/build.sh
+```
+
 #### Specify which GPUs for deployment
 
 If you have multiple GPUs on the server machine, you can specify which GPUs will be used for deploying ASR service. To do so, just change the `-e CUDA_VISIBLE_DEVICES=` option or just use to specify which GPU to make visible in the container when starting server container. 
@@ -107,7 +155,7 @@ If you have multiple GPUs on the server machine, you can specify which GPUs will
 For example, if you just want to use GPU 1, 2, 3 for deployment, then use the following options to start the server:
 
 ```bash
-docker run --gpus '"device=1,2,3"' -v $PWD/model_repo:/ws/model_repo -v <jit_model_dir>:/ws/jit_model/ --name sherpa_server --net host --shm-size=1g --ulimit memlock=-1 -p 8000:8000 -p 8001:8001 -p 8002:8002 --ulimit stack=67108864 -it sherpa_triton_server:latest
+docker run --gpus '"device=1,2,3"' -v $PWD/model_repo:/ws/model_repo_offline_jit -v <jit_model_dir>:/ws/jit_model/ --name sherpa_server --net host --shm-size=1g --ulimit memlock=-1 -p 8000:8000 -p 8001:8001 -p 8002:8002 --ulimit stack=67108864 -it sherpa_triton_server:latest
 ```
 
 #### Set the number of model instances per GPU
@@ -183,8 +231,14 @@ The `max_queue_delay_microseconds` property setting changes the dynamic batcher 
 
 In this section, we will show how to send requests to our deployed non-streaming ASR service, and receive the recognition results. Also, we can use client to test the accuracy of the ASR service on a test dataset. In addition, we can use [perf_analyzer](https://github.com/triton-inference-server/server/blob/main/docs/perf_analyzer.md) provided by Triton to test the performance of the service. 
 
+
+
 ### Quick Start
 
+Build the client docker image:
+```
+docker build . -f Dockerfile/Dockerfile.client -t sherpa_triton_client:latest --network host
+```
 We do it in the built client container, now let's start the container.
 
 ```bash
@@ -195,8 +249,11 @@ cd /ws/client
 In the docker container, run the client script to do ASR inference.
 
 ```bash
-# Test one audio
+# Test one audio using offline ASR
 python3 client.py --audio_file=./test_wavs/1089-134686-0001.wav --url=localhost:8001
+
+# Test one audio using streaming ASR
+python3 client.py --audio_file=./test_wavs/1089-134686-0001.wav --url=localhost:8001 --streaming
 ```
 
 The above command sends a single audio `1089-134686-0001.wav` to the server and get the result. `--url` option specifies the IP and port of the server, in our example, we set the server and client on the same machine, therefore IP is `localhost`, and we use port `8001` since it is the default port for gRPC in Triton. But if your client is not on the same machine as the server, you should change this option.
@@ -206,25 +263,29 @@ You can also test a bunch of audios together with the client. Just specify the p
 ```bash
 # Test a bunch of audios
 python3 client.py --wavscp=./test_wavs/wav.scp --data_dir=./test_wavs/ --trans=./test_wavs/trans.txt
+
+python3 client.py --wavscp=./test_wavs/wav.scp --data_dir=./test_wavs/ --trans=./test_wavs/trans.txt --streaming
 ```
 
 ### Performance Test
 
-We use [perf_analyzer](https://github.com/triton-inference-server/server/blob/main/docs/perf_analyzer.md) to test the performance of non-streaming ASR service. Before this, we need to generate the test input data.
+We use [perf_analyzer](https://github.com/triton-inference-server/server/blob/main/docs/perf_analyzer.md) to test the performance of ASR service. Before this, we need to generate the test input data.
 
 Still in the container client, run:
 
 ```bash
 cd /ws/client
-python3 generate_perf_input.py test_wavs/1089-134686-0001.wav <input.json>
+python3 generate_perf_input.py --audio_file=test_wavs/1089-134686-0001.wav
+
+perf_analyzer -m conformer_transducer -b 1 -a -p 20000 --concurrency-range 100:200:50 -i gRPC --input-data=offline_input.json  -u localhost:8001
 ```
-
-The first argument is the path of audio file used for testing, and the second argument is the output json file loaded by perf_analyzer.
-
-Then in client docker container, we can simply run the testing:
+Similarly, for streaming ASR test:
 
 ```bash
-perf_analyzer -m conformer_transducer -b 1 -a -p 20000 --concurrency-range 100:200:50 -i gRPC --input-data=<input.json>  -u localhost:8001
+cd /ws/client
+python3 generate_perf_input.py --audio_file=test_wavs/1089-134686-0001.wav --streaming
+
+perf_analyzer -m conformer_transducer -b 1 -a -p 20000 --concurrency-range 100:200:50 -i gRPC --input-data=online_input.json  -u localhost:8001 --streaming
 ```
 
 Where:

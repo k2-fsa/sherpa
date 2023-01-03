@@ -35,4 +35,26 @@ for both streaming ASR and offline ASR (i.e., non-streaming ASR).
    :caption: For C++ users
 
    ./cpp/installation/index
-   ./cpp/offline_asr/index
+   ./cpp/pretrained_models/index
+
+.. toctree::
+   :maxdepth: 2
+   :caption: ncnn
+
+   ./ncnn/index
+
+.. toctree::
+   :maxdepth: 2
+   :caption: onnx
+
+   ./onnx/index
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Triton
+
+   ./triton/overview
+   ./triton/installation/index
+   ./triton/server/index
+   ./triton/client/index
+   ./triton/perf/index

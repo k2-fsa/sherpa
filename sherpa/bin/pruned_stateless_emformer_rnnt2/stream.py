@@ -20,6 +20,8 @@ from typing import List
 import torch
 from kaldifeat import FbankOptions, OnlineFbank, OnlineFeature
 
+import sherpa
+
 
 def unstack_states(
     states: List[List[torch.Tensor]],
@@ -110,6 +112,8 @@ def _create_streaming_feature_extractor() -> OnlineFeature:
     opts.frame_opts.snip_edges = False
     opts.frame_opts.samp_freq = 16000
     opts.mel_opts.num_bins = 80
+
+    opts.frame_opts.max_feature_vectors = -1
     return OnlineFbank(opts)
 
 
@@ -117,12 +121,15 @@ class Stream(object):
     def __init__(
         self,
         context_size: int,
+        subsampling_factor: int,
         initial_states: List[List[torch.Tensor]],
     ) -> None:
         """
         Args:
           context_size:
             Context size of the RNN-T decoder model.
+          subsampling_factor:
+            Subsampling factor of the RNN-T encoder model.
           initial_states:
             The initial states of the Emformer model. Note that the state
             does not contain the batch dimension.
@@ -131,12 +138,24 @@ class Stream(object):
         # It contains a list of 2-D tensors representing the feature frames.
         # Each entry is of shape (1, feature_dim)
         self.features: List[torch.Tensor] = []
-        self.num_fetched_frames = 0
+        self.num_fetched_frames = 0  # before subsampling
+
+        self.num_trailing_blank_frames = 0  # after subsampling
 
         self.states = initial_states
-        self.processed_frames = 0
+        self.processed_frames = 0  # after subsampling
         self.context_size = context_size
+        self.subsampling_factor = subsampling_factor
         self.log_eps = math.log(1e-10)
+
+        # whenever an endpoint is detected, it is incremented
+        self.segment = 0
+
+        # Number of frames decoded so far (after subsampling)
+        self.frame_offset = 0  # never reset
+
+        # frame offset within the current segment after subsampling
+        self.segment_frame_offset = 0  # reset on endpointing
 
     def accept_waveform(
         self,
@@ -198,3 +217,38 @@ class Stream(object):
         )
 
         self.features += [tail_padding] * n
+
+    def endpoint_detected(
+        self,
+        config: sherpa.OnlineEndpointConfig,
+    ) -> bool:
+        """
+        Args:
+          config:
+            Config for endpointing.
+        Returns:
+          Return True if endpoint is detected; return False otherwise.
+        """
+        frame_shift_in_seconds = (
+            self.feature_extractor.opts.frame_opts.frame_shift_ms / 1000
+        )
+
+        trailing_silence_frames = (
+            self.num_trailing_blank_frames * self.subsampling_factor
+        )
+
+        num_frames_decoded = self.processed_frames * self.subsampling_factor
+
+        detected = sherpa.endpoint_detected(
+            config=config,
+            num_frames_decoded=num_frames_decoded,
+            trailing_silence_frames=trailing_silence_frames,
+            frame_shift_in_seconds=frame_shift_in_seconds,
+        )
+
+        if detected:
+            self.num_trailing_blank_frames = 0
+            self.processed_frames = 0
+            self.segment += 1
+
+        return detected

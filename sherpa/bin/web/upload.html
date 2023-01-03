@@ -18,7 +18,7 @@
 </head>
 
 
-<body onload="initWebSocket()">
+<body>
   <div id="nav"></div>
   <script>
     $(function(){
@@ -27,6 +27,16 @@
   </script>
 
   <h3>Recognition from a selected file</h3>
+  <div class="input-group mb-1">
+    <div class="input-group-prepend">
+      <button class="btn btn-block btn-primary" type="button" id="connect">Click me to connect</button>
+    </div>
+    <span class="input-group-text" id="ws-protocol">ws://</span>
+    <input type="text" id="server-ip" class="form-control" placeholder="Sherpa server IP, e.g., localhost" aria-label="sherpa server IP">
+    <span class="input-group-text">:</span>
+    <input type="text" id="server-port" class="form-control" placeholder="Sherpa server port, e.g., 6006" aria-label="sherpa server port">
+  </div>
+
   <form>
     <div class="mb-3">
       <label for="file" class="form-label">Select file</label>

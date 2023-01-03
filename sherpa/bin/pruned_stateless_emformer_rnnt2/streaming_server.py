@@ -25,15 +25,23 @@ Usage:
     ./streaming_server.py --help
 
     ./streaming_server.py
+
+Please refer to
+https://k2-fsa.github.io/sherpa/python/streaming_asr/emformer/index.html
+for details
 """
 
 import argparse
 import asyncio
 import http
+import json
 import logging
 import math
+import socket
+import ssl
 import warnings
 from concurrent.futures import ThreadPoolExecutor
+from pathlib import Path
 from typing import Optional, Tuple
 
 import numpy as np
@@ -41,15 +49,24 @@ import sentencepiece as spm
 import torch
 import websockets
 from beam_search import FastBeamSearch, GreedySearch, ModifiedBeamSearch
-from stream import Stream, unstack_states
+from stream import Stream
 
-from sherpa import RnntEmformerModel, add_beam_search_arguments
+from sherpa import (
+    HttpServer,
+    OnlineEndpointConfig,
+    RnntEmformerModel,
+    add_beam_search_arguments,
+    add_online_endpoint_arguments,
+    convert_timestamp,
+    setup_logger,
+)
 
 
 def get_args():
     beam_search_parser = add_beam_search_arguments()
+    online_endpoint_parser = add_online_endpoint_arguments()
     parser = argparse.ArgumentParser(
-        parents=[beam_search_parser],
+        parents=[beam_search_parser, online_endpoint_parser],
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
 
@@ -92,29 +109,6 @@ def get_args():
         from icefall
         Note: You don't need to provide it if you provide `--bpe-model`
         """,
-    )
-
-    parser.add_argument(
-        "--decode-chunk-size",
-        type=int,
-        default=8,
-        help="The chunk size for decoding (in frames after subsampling)",
-    )
-
-    parser.add_argument(
-        "--decode-left-context",
-        type=int,
-        default=32,
-        help="""left context can be seen during decoding
-        (in frames after subsampling)""",
-    )
-
-    parser.add_argument(
-        "--decode-right-context",
-        type=int,
-        default=2,
-        help="""right context can be seen during decoding
-        (in frames after subsampling)""",
     )
 
     parser.add_argument(
@@ -172,9 +166,27 @@ def get_args():
         """,
     )
 
+    parser.add_argument(
+        "--certificate",
+        type=str,
+        help="""Path to the X.509 certificate. You need it only if you want to
+        use a secure websocket connection, i.e., use wss:// instead of ws://.
+        You can use sherpa/bin/web/generate-certificate.py
+        to generate the certificate `cert.pem`.
+        """,
+    )
+
+    parser.add_argument(
+        "--doc-root",
+        type=str,
+        default="./sherpa/bin/web",
+        help="""Path to the web root""",
+    )
+
     return (
         parser.parse_args(),
         beam_search_parser.parse_known_args()[0],
+        online_endpoint_parser.parse_known_args()[0],
     )
 
 
@@ -190,6 +202,9 @@ class StreamingServer(object):
         max_queue_size: int,
         max_active_connections: int,
         beam_search_params: dict,
+        online_endpoint_config: OnlineEndpointConfig,
+        doc_root: str,
+        certificate: Optional[str] = None,
     ):
         """
         Args:
@@ -214,6 +229,15 @@ class StreamingServer(object):
             equals to this limit, the server refuses to accept new connections.
           beam_search_params:
             Dictionary containing all the parameters for beam search.
+          online_endpoint_config:
+            Config for endpointing.
+          doc_root:
+            Path to the directory where files like index.html for the HTTP
+            server locate.
+          certificate:
+            Optional. If not None, it will use secure websocket.
+            You can use ./sherpa/bin/web/generate-certificate.py to generate
+            it (the default generated filename is `cert.pem`).
         """
         if torch.cuda.is_available():
             device = torch.device("cuda", 0)
@@ -223,25 +247,19 @@ class StreamingServer(object):
 
         self.model = RnntEmformerModel(nn_model_filename, device=device)
 
-        # number of frames before subsampling
-        self.segment_length = self.model.segment_length
-
-        self.right_context_length = self.model.right_context_length
-
-        # We add 3 here since the subsampling method is using
-        # ((len - 1) // 2 - 1) // 2)
-        self.chunk_length = self.segment_length + 3 + self.right_context_length
+        self.chunk_length_pad = self.model.chunk_length + self.model.pad_length
 
         self.sp = spm.SentencePieceProcessor()
         self.sp.load(bpe_model_filename)
 
         self.context_size = self.model.context_size
+        self.subsampling_factor = self.model.subsampling_factor
         self.blank_id = self.model.blank_id
         self.vocab_size = self.model.vocab_size
         self.log_eps = math.log(1e-10)
 
         initial_states = self.model.get_encoder_init_states()
-        self.initial_states = unstack_states(initial_states)[0]
+        self.initial_states = initial_states
 
         # Add these params after loading the Emformer model
         beam_search_params["vocab_size"] = self.vocab_size
@@ -267,7 +285,12 @@ class StreamingServer(object):
                 f"Decoding method {decoding_method} is not supported."
             )
 
+        self.decoding_method = decoding_method
         self.beam_search.sp = self.sp
+        self.online_endpoint_config = online_endpoint_config
+
+        self.certificate = certificate
+        self.http_server = HttpServer(doc_root)
 
         self.nn_pool = ThreadPoolExecutor(
             max_workers=nn_pool_size,
@@ -292,6 +315,7 @@ class StreamingServer(object):
         logging.info("Warmup start")
         stream = Stream(
             context_size=self.context_size,
+            subsampling_factor=self.subsampling_factor,
             initial_states=self.initial_states,
         )
         self.beam_search.init_stream(stream)
@@ -299,7 +323,7 @@ class StreamingServer(object):
         samples = torch.rand(16000 * 1, dtype=torch.float32)  # 1 second
         stream.accept_waveform(sampling_rate=16000, waveform=samples)
 
-        while len(stream.features) > self.chunk_length:
+        while len(stream.features) > self.chunk_length_pad:
             await self.compute_and_decode(stream)
 
         logging.info("Warmup done")
@@ -318,7 +342,7 @@ class StreamingServer(object):
                 while len(batch) < self.max_batch_size:
                     item = self.stream_queue.get_nowait()
 
-                    assert len(item[0].features) >= self.chunk_length, len(
+                    assert len(item[0].features) >= self.chunk_length_pad, len(
                         item[0].features
                     )
 
@@ -358,9 +382,24 @@ class StreamingServer(object):
 
     async def process_request(
         self,
-        unused_path: str,
-        unused_request_headers: websockets.Headers,
+        path: str,
+        request_headers: websockets.Headers,
     ) -> Optional[Tuple[http.HTTPStatus, websockets.Headers, bytes]]:
+        if "sec-websocket-key" not in request_headers:
+            # This is a normal HTTP request
+            if path == "/":
+                path = "/index.html"
+            found, response, mime_type = self.http_server.process_request(path)
+            if isinstance(response, str):
+                response = response.encode("utf-8")
+
+            if not found:
+                status = http.HTTPStatus.NOT_FOUND
+            else:
+                status = http.HTTPStatus.OK
+            header = {"Content-Type": mime_type}
+            return status, header, response
+
         if self.current_active_connections < self.max_active_connections:
             self.current_active_connections += 1
             return None
@@ -376,6 +415,14 @@ class StreamingServer(object):
         task = asyncio.create_task(self.stream_consumer_task())
         await self.warmup()
 
+        if self.certificate:
+            logging.info(f"Using certificate: {self.certificate}")
+            ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
+            ssl_context.load_cert_chain(self.certificate)
+        else:
+            ssl_context = None
+            logging.info("No certificate provided")
+
         async with websockets.serve(
             self.handle_connection,
             host="",
@@ -383,7 +430,16 @@ class StreamingServer(object):
             max_size=self.max_message_size,
             max_queue=self.max_queue_size,
             process_request=self.process_request,
+            ssl=ssl_context,
         ):
+            ip_list = ["0.0.0.0", "localhost", "127.0.0.1"]
+            ip_list.append(socket.gethostbyname(socket.gethostname()))
+            proto = "http://" if ssl_context is None else "https://"
+            s = "Please visit one of the following addresses:\n\n"
+            for p in ip_list:
+                s += "  " + proto + p + f":{port}" "\n"
+            logging.info(s)
+
             await asyncio.Future()  # run forever
 
         await task  # not reachable
@@ -401,6 +457,8 @@ class StreamingServer(object):
         """
         try:
             await self.handle_connection_impl(socket)
+        except websockets.exceptions.ConnectionClosedError:
+            logging.info(f"{socket.remote_address} disconnected")
         finally:
             # Decrement so that it can accept new connections
             self.current_active_connections -= 1
@@ -427,14 +485,11 @@ class StreamingServer(object):
         )
         stream = Stream(
             context_size=self.context_size,
+            subsampling_factor=self.subsampling_factor,
             initial_states=self.initial_states,
         )
 
         self.beam_search.init_stream(stream)
-
-        async def send_results():
-            result = self.beam_search.get_texts(stream)
-            await socket.send(f"{result}")
 
         while True:
             samples = await self.recv_audio_samples(socket)
@@ -445,22 +500,65 @@ class StreamingServer(object):
             # of the received audio samples is always 16000.
             stream.accept_waveform(sampling_rate=16000, waveform=samples)
 
-            while len(stream.features) > self.chunk_length:
+            while len(stream.features) > self.chunk_length_pad:
                 await self.compute_and_decode(stream)
-                await send_results()
+                hyp = self.beam_search.get_texts(stream)
+                tokens = self.beam_search.get_tokens(stream)
+
+                segment = stream.segment
+                timestamps = convert_timestamp(
+                    frames=stream.timestamps,
+                    subsampling_factor=stream.subsampling_factor,
+                )
+
+                frame_offset = stream.frame_offset * stream.subsampling_factor
+
+                is_final = stream.endpoint_detected(self.online_endpoint_config)
+
+                if is_final:
+                    self.beam_search.init_stream(stream)
+
+                message = {
+                    "method": self.decoding_method,
+                    "segment": segment,
+                    "frame_offset": frame_offset,
+                    "text": hyp,
+                    "tokens": tokens,
+                    "timestamps": timestamps,
+                    "final": is_final,
+                }
+
+                await socket.send(json.dumps(message))
 
         stream.input_finished()
-        while len(stream.features) > self.chunk_length:
+        while len(stream.features) > self.chunk_length_pad:
             await self.compute_and_decode(stream)
 
         if len(stream.features) > 0:
-            n = self.chunk_length - len(stream.features)
+            n = self.chunk_length_pad - len(stream.features)
             stream.add_tail_paddings(n)
             await self.compute_and_decode(stream)
             stream.features = []
 
-        await send_results()
-        await socket.send("Done")
+        hyp = self.beam_search.get_texts(stream)
+        tokens = self.beam_search.get_tokens(stream)
+        frame_offset = stream.frame_offset * stream.subsampling_factor
+        timestamps = convert_timestamp(
+            frames=stream.timestamps,
+            subsampling_factor=stream.subsampling_factor,
+        )
+
+        message = {
+            "method": self.decoding_method,
+            "segment": stream.segment,
+            "frame_offset": frame_offset,
+            "text": hyp,
+            "tokens": tokens,
+            "timestamps": timestamps,
+            "final": True,  # end of connection, always set final to True
+        }
+
+        await socket.send(json.dumps(message))
 
     async def recv_audio_samples(
         self,
@@ -469,7 +567,7 @@ class StreamingServer(object):
         """Receives a tensor from the client.
 
         Each message contains either a bytes buffer containing audio samples
-        in 16 kHz or contains b"Done" meaning the end of utterance.
+        in 16 kHz or contains "Done" meaning the end of utterance.
 
         Args:
           socket:
@@ -479,7 +577,7 @@ class StreamingServer(object):
           return None.
         """
         message = await socket.recv()
-        if message == b"Done":
+        if message == "Done":
             return None
 
         with warnings.catch_warnings():
@@ -496,8 +594,18 @@ class StreamingServer(object):
 
 @torch.no_grad()
 def main():
-    args, beam_search_parser = get_args()
+    args, beam_search_parser, online_endpoint_parser = get_args()
+
     beam_search_params = vars(beam_search_parser)
+    logging.info(beam_search_params)
+
+    online_endpoint_params = vars(online_endpoint_parser)
+    logging.info(online_endpoint_params)
+
+    online_endpoint_config = OnlineEndpointConfig.from_args(
+        online_endpoint_params
+    )
+
     logging.info(vars(args))
 
     port = args.port
@@ -509,6 +617,14 @@ def main():
     max_message_size = args.max_message_size
     max_queue_size = args.max_queue_size
     max_active_connections = args.max_active_connections
+    certificate = args.certificate
+    doc_root = args.doc_root
+
+    if certificate and not Path(certificate).is_file():
+        raise ValueError(f"{certificate} does not exist")
+
+    if not Path(doc_root).is_dir():
+        raise ValueError(f"Directory {doc_root} does not exist")
 
     if beam_search_params["decoding_method"] == "modified_beam_search":
         assert beam_search_params["num_active_paths"] >= 1, beam_search_params[
@@ -525,6 +641,9 @@ def main():
         max_queue_size=max_queue_size,
         max_active_connections=max_active_connections,
         beam_search_params=beam_search_params,
+        online_endpoint_config=online_endpoint_config,
+        certificate=certificate,
+        doc_root=doc_root,
     )
     asyncio.run(server.run(port))
 
@@ -550,6 +669,7 @@ torch::jit::setGraphExecutorOptimize(false);
 """
 
 if __name__ == "__main__":
-    formatter = "%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] %(message)s"  # noqa
-    logging.basicConfig(format=formatter, level=logging.INFO)
+    log_filename = "log/log-pruned-stateless-emformer-rnnt2"
+    setup_logger(log_filename)
+
     main()

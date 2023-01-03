@@ -119,6 +119,18 @@ rst_epilog = """
 .. _PyTorch: https://pytorch.org/
 .. _Huggingface: https://huggingface.co
 .. _WenetSpeech: https://github.com/wenet-e2e/WenetSpeech
+.. _wenet: https://github.com/k2-fsa/sherpa
 .. _GigaSpeech: https://github.com/SpeechColab/GigaSpeech
 .. _Kaldi: https://github.com/kaldi-asr/kaldi
+.. _kaldifeat: https://csukuangfj.github.io/kaldifeat/installation.html
+.. _ncnn: https://github.com/tencent/ncnn
+.. _sherpa-ncnn: https://github.com/k2-fsa/sherpa-ncnn
+.. _onnx: https://github.com/onnx/onnx
+.. _onnxruntime: https://github.com/microsoft/onnxruntime
+.. _sherpa-onnx: https://github.com/k2-fsa/sherpa-onnx
+.. _torchaudio: https://github.com/pytorch/audio
+.. _Docker: https://www.docker.com
+.. _Triton: https://github.com/triton-inference-server
+.. _Triton-server: https://github.com/triton-inference-server/server
+.. _Triton-client: https://github.com/triton-inference-server/client
 """

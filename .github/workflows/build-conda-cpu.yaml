@@ -4,6 +4,18 @@ on:
   push:
     tags:
       - '*'
+    paths:
+      - '.github/workflows/build-conda-cpu.yaml'
+      - 'CMakeLists.txt'
+      - 'cmake/**'
+      - 'scripts/**'
+      - 'sherpa/csrc/**'
+      - 'sherpa/cpp_api/**'
+      - 'sherpa/python/**'
+
+concurrency:
+  group: build_conda_cpu-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   generate_build_matrix:
@@ -48,7 +60,7 @@ jobs:
         run: |
           conda install -y -q anaconda-client
           conda install -y -q conda-build
-          conda install -y -q -c k2-fsa -c kaldifeat -c kaldi_native_io -c pytorch k2 kaldifeat kaldi_native_io pytorch=${{ matrix.torch }} cpuonly
+          conda install -y -q -c k2-fsa -c kaldifeat -c pytorch k2 kaldifeat pytorch=${{ matrix.torch }} cpuonly
 
       - name: Display MKL
         if: startsWith(matrix.os, 'macos') || startsWith(matrix.os, 'ubuntu')

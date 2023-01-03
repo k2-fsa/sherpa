@@ -1,27 +1,35 @@
-if(DEFINED ENV{KALDI_NATIVE_IO_INSTALL_PREFIX})
-  message(STATUS "Using environment variable KALDI_NATIVE_IO_INSTALL_PREFIX: $ENV{KALDI_NATIVE_IO_INSTALL_PREFIX}")
-  set(KALDI_NATIVE_IO_CMAKE_PREFIX_PATH $ENV{KALDI_NATIVE_IO_INSTALL_PREFIX})
-else()
-  # PYTHON_EXECUTABLE is set by cmake/pybind11.cmake
-  message(STATUS "Python executable: ${PYTHON_EXECUTABLE}")
+function(download_kaldi_native_io)
+  include(FetchContent)
 
-  execute_process(
-    COMMAND "${PYTHON_EXECUTABLE}" -c "import kaldi_native_io; print(kaldi_native_io.cmake_prefix_path)"
-    OUTPUT_STRIP_TRAILING_WHITESPACE
-    OUTPUT_VARIABLE KALDI_NATIVE_IO_CMAKE_PREFIX_PATH
+  set(kaldi_native_io_URL  "https://github.com/csukuangfj/kaldi_native_io/archive/refs/tags/v1.17.2.tar.gz")
+  set(kaldi_native_io_HASH "SHA256=f916f2d3cd4c155b22cb64aa0d5e4f533b3ba2a40a77137c46506cfa7a00ec12")
+
+  set(KALDI_NATIVE_IO_BUILD_TESTS OFF CACHE BOOL "" FORCE)
+  set(KALDI_NATIVE_IO_BUILD_PYTHON OFF CACHE BOOL "" FORCE)
+
+  FetchContent_Declare(kaldi_native_io
+    URL               ${kaldi_native_io_URL}
+    URL_HASH          ${kaldi_native_io_HASH}
   )
-endif()
 
-message(STATUS "KALDI_NATIVE_IO_CMAKE_PREFIX_PATH: ${KALDI_NATIVE_IO_CMAKE_PREFIX_PATH}")
-list(APPEND CMAKE_PREFIX_PATH "${KALDI_NATIVE_IO_CMAKE_PREFIX_PATH}")
+  FetchContent_GetProperties(kaldi_native_io)
+  if(NOT kaldi_native_io_POPULATED)
+    message(STATUS "Downloading kaldi_native_io ${kaldi_native_io_URL}")
+    FetchContent_Populate(kaldi_native_io)
+  endif()
+  message(STATUS "kaldi_native_io is downloaded to ${kaldi_native_io_SOURCE_DIR}")
+  message(STATUS "kaldi_native_io's binary dir is ${kaldi_native_io_BINARY_DIR}")
 
-find_package(kaldi_native_io REQUIRED)
+  add_subdirectory(${kaldi_native_io_SOURCE_DIR} ${kaldi_native_io_BINARY_DIR} EXCLUDE_FROM_ALL)
 
-message(STATUS "KALDI_NATIVE_IO_FOUND: ${KALDI_NATIVE_IO_FOUND}")
-message(STATUS "KALDI_NATIVE_IO_VERSION: ${KALDI_NATIVE_IO_VERSION}")
-message(STATUS "KALDI_NATIVE_IO_INCLUDE_DIRS: ${KALDI_NATIVE_IO_INCLUDE_DIRS}")
-message(STATUS "KALDI_NATIVE_IO_CXX_FLAGS: ${KALDI_NATIVE_IO_CXX_FLAGS}")
-message(STATUS "KALDI_NATIVE_IO_LIBRARIES: ${KALDI_NATIVE_IO_LIBRARIES}")
+  target_include_directories(kaldi_native_io_core
+    PUBLIC
+      ${kaldi_native_io_SOURCE_DIR}/
+  )
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${KALDI_NATIVE_IO_CXX_FLAGS}")
-message(STATUS "CMAKE_CXX_FLAGS: ${CMAKE_CXX_FLAGS}")
+  set_target_properties(kaldi_native_io_core PROPERTIES OUTPUT_NAME "sherpa_kaldi_native_io_core")
+
+  install(TARGETS kaldi_native_io_core DESTINATION lib)
+endfunction()
+
+download_kaldi_native_io()

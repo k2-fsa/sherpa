@@ -1,9 +1,9 @@
-cmake_minimum_required(VERSION 3.8 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.13 FATAL_ERROR)
 project(sherpa)
 
 # Remember to change
 # scripts/conda-cpu/sherpa/meta.yaml
-set(SHERPA_VERSION "0.7.1")
+set(SHERPA_VERSION "1.1")
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
@@ -37,7 +37,13 @@ message(STATUS "CMAKE_BUILD_TYPE: ${CMAKE_BUILD_TYPE}")
 set(CMAKE_CXX_STANDARD 14 CACHE STRING "The C++ version to be used.")
 set(CMAKE_CXX_EXTENSIONS OFF)
 
-option(SHERPA_ENABLE_TESTS "Whether to build tests" ON)
+option(SHERPA_ENABLE_TESTS "Whether to build tests" OFF)
+option(SHERPA_ENABLE_PORTAUDIO "Whether to build with portaudio" ON)
+option(SHERPA_ENABLE_WEBSOCKET "Whether to build with websocket" ON)
+
+message(STATUS "SHERPA_ENABLE_TESTS: ${SHERPA_ENABLE_TESTS}")
+message(STATUS "SHERPA_ENABLE_PORTAUDIO: ${SHERPA_ENABLE_PORTAUDIO}")
+message(STATUS "SHERPA_ENABLE_WEBSOCKET: ${SHERPA_ENABLE_WEBSOCKET}")
 
 include(CheckIncludeFileCXX)
 check_include_file_cxx(cxxabi.h SHERPA_HAVE_CXXABI_H)
@@ -87,6 +93,10 @@ string(REGEX REPLACE "^\"+|\"+$" "" SHERPA_OS "${SHERPA_OS}")
 message(STATUS "SHERPA_OS: ${SHERPA_OS}")
 message(STATUS "CMake version: ${CMAKE_VERSION}")
 
+if(WIN32)
+  add_definitions(-DNOMINMAX) # Otherwise, std::max() and std::min() won't work
+endif()
+
 find_package(Git REQUIRED)
 execute_process(COMMAND
   "${GIT_EXECUTABLE}" describe --always --abbrev=40
@@ -116,11 +126,29 @@ message(STATUS "SHERPA_GIT_BRANCH: ${SHERPA_GIT_BRANCH}")
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/Modules)
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake)
 
+set(CMAKE_CXX_FLAGS " ${CMAKE_CXX_FLAGS} -Wall ")
+if(NOT WIN32)
+  set(CMAKE_CXX_FLAGS " ${CMAKE_CXX_FLAGS} -g ")
+endif()
+
 include(pybind11)
+include(json)
+# to prevent cmake from trying to link with system installed mkl since we not directly use it
+# mkl libraries should be linked with pytorch already
+# ref: https://github.com/pytorch/pytorch/blob/master/cmake/public/mkl.cmake
+set(CMAKE_DISABLE_FIND_PACKAGE_MKL TRUE)
 include(torch)
 include(k2)
 include(kaldifeat)
 include(kaldi_native_io)
+if(SHERPA_ENABLE_PORTAUDIO)
+  include(portaudio)
+endif()
+
+if(SHERPA_ENABLE_WEBSOCKET)
+  include(asio)
+  include(websocketpp)
+endif()
 
 if(SHERPA_ENABLE_TESTS)
   enable_testing()

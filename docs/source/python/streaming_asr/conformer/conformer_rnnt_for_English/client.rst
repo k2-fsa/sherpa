@@ -14,7 +14,7 @@ We provide a web client for this purpose.
 
    Also, we have hard coded the server port to 6006. Please either pass
    ``--port 6006`` when starting the server or change the client
-   `<https://github.com/k2-fsa/sherpa/blob/master/sherpa/bin/web/js/streaming_record.js#L7>`_
+   `<https://github.com/k2-fsa/sherpa/blob/master/sherpa/bin/web/js/streaming_record.js#L21>`_
    to use whaterver the port the server is using.
 
 Usage

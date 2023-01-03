@@ -80,14 +80,14 @@ async def run(server_addr: str, server_port: int, test_wavs: List[str]):
 
             wave = wave.squeeze(0)
             num_bytes = wave.numel() * wave.element_size()
-            await websocket.send((num_bytes).to_bytes(8, "little", signed=True))
+            await websocket.send((num_bytes).to_bytes(4, "little", signed=True))
 
             frame_size = (2 ** 20) // 4  # max payload is 1MB
             sleep_time = 0.25
             start = 0
             while start < wave.numel():
                 end = start + frame_size
-                d = wave.numpy().data[start:end]
+                d = wave.numpy().data[start:end].tobytes()
 
                 await websocket.send(d)
                 await asyncio.sleep(sleep_time)  # in seconds
@@ -95,8 +95,10 @@ async def run(server_addr: str, server_port: int, test_wavs: List[str]):
                 start = end
 
             decoding_results = await websocket.recv()
+            if decoding_results == "<EMPTY>":
+                decoding_results = ""
             logging.info(f"{test_wav}\n{decoding_results}")
-        await websocket.send(b"Done")
+        await websocket.send("Done")
 
 
 async def main():

@@ -20,8 +20,26 @@ on:
   push:
     branches:
       - master
+    paths:
+      - '.github/workflows/run-streaming-test.yaml'
+      - 'CMakeLists.txt'
+      - 'cmake/**'
+      - 'sherpa/csrc/**'
+      - 'sherpa/bin/pruned_stateless_emformer_rnnt2/**'
+      - 'sherpa/python/**'
   pull_request:
     types: [labeled]
+    paths:
+      - '.github/workflows/run-streaming-test.yaml'
+      - 'CMakeLists.txt'
+      - 'cmake/**'
+      - 'sherpa/csrc/**'
+      - 'sherpa/bin/pruned_stateless_emformer_rnnt2/**'
+      - 'sherpa/python/**'
+
+concurrency:
+  group: run_streaming_asr_tests-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   run_streaming_asr_tests:
@@ -30,16 +48,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-latest]
-        torch: ["1.10.0", "1.6.0"]
-        torchaudio: ["0.10.0", "0.6.0"]
-        python-version: ["3.7", "3.8"]
+        os: [ubuntu-latest]
+        torch: ["1.10.0"]
+        torchaudio: ["0.10.0"]
+        python-version: ["3.8"]
         decoding: ["greedy_search", "modified_beam_search", "fast_beam_search", "fast_beam_search_nbest", "fast_beam_search_nbest_LG"]
-        exclude:
-          - torch: "1.10.0"
-            torchaudio: "0.6.0"
-          - torch: "1.6.0"
-            torchaudio: "0.10.0"
 
     steps:
       - uses: actions/checkout@v2
@@ -62,11 +75,11 @@ jobs:
         shell: bash
         if: startsWith(matrix.os, 'ubuntu')
         run: |
-          python3 -m pip install --upgrade pip kaldi_native_io
+          python3 -m pip install --upgrade pip
           python3 -m pip install wheel twine typing_extensions websockets sentencepiece>=0.1.96
           python3 -m pip install torch==${{ matrix.torch }}+cpu numpy -f https://download.pytorch.org/whl/cpu/torch_stable.html
 
-          pip install k2==1.16.dev20220621+cpu.torch${{ matrix.torch }} -f https://k2-fsa.org/nightly/index.html
+          python3 -m pip install k2==1.23.2.dev20221125+cpu.torch${{ matrix.torch }} -f https://k2-fsa.org/nightly/index.html
 
           python3 -m torch.utils.collect_env
 
@@ -81,11 +94,11 @@ jobs:
         shell: bash
         if: startsWith(matrix.os, 'macos')
         run: |
-          python3 -m pip install --upgrade pip kaldi_native_io
+          python3 -m pip install --upgrade pip
           python3 -m pip install wheel twine typing_extensions websockets sentencepiece>=0.1.96
           python3 -m pip install torch==${{ matrix.torch }} torchaudio==${{ matrix.torchaudio }} numpy -f https://download.pytorch.org/whl/cpu/torch_stable.html
 
-          pip install k2==1.16.dev20220621+cpu.torch${{ matrix.torch }} -f https://k2-fsa.org/nightly/index.html
+          python3 -m pip install k2==1.23.2.dev20221125+cpu.torch${{ matrix.torch }} -f https://k2-fsa.org/nightly/index.html
 
           python3 -m torch.utils.collect_env
 

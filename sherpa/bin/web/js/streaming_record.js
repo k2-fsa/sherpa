@@ -3,29 +3,83 @@
 // and https://gist.github.com/meziantou/edb7217fddfbb70e899e
 
 var socket;
+var recognition_text = [];
+
+function getDisplayResult() {
+  let i = 0;
+  let ans = '';
+  for (let s in recognition_text) {
+    if (recognition_text[s] == '') continue;
+
+    ans += '' + i + ': ' + recognition_text[s] + '\n';
+    i += 1;
+  }
+  return ans;
+}
+
 function initWebSocket() {
-  socket = new WebSocket('ws://localhost:6006/');
+  console.log('Creating websocket')
+  let protocol = 'ws://';
+  if (window.location.protocol == 'https:') {
+    protocol = 'wss://'
+  }
+  let server_ip = serverIpInput.value;
+  let server_port = serverPortInput.value;
+  console.log('protocol: ', protocol);
+  console.log('server_ip: ', server_ip);
+  console.log('server_port: ', server_port);
+
+  let uri = protocol + server_ip + ':' + server_port;
+  console.log('uri', uri);
+  socket = new WebSocket(uri);
+  // socket = new WebSocket('wss://localhost:6006/');
 
   // Connection opened
   socket.addEventListener('open', function(event) {
     console.log('connected');
-    document.getElementById('streaming_record').disabled = false;
+    recordBtn.disabled = false;
+    connectBtn.disabled = true;
+    connectBtn.innerHTML = 'Connected!';
   });
 
   // Connection closed
   socket.addEventListener('close', function(event) {
     console.log('disconnected');
-    document.getElementById('streaming_record').disabled = true;
-    initWebSocket();
+    recordBtn.disabled = true;
+    connectBtn.disabled = false;
+    connectBtn.innerHTML = 'Click me to connect!';
   });
 
   // Listen for messages
   socket.addEventListener('message', function(event) {
-    document.getElementById('results').value = event.data;
+    let message = JSON.parse(event.data);
+    if (message.segment in recognition_text) {
+      recognition_text[message.segment] = message.text;
+    } else {
+      recognition_text.push(message.text);
+    }
+    let text_area = document.getElementById('results');
+    text_area.value = getDisplayResult();
+    text_area.scrollTop = text_area.scrollHeight;  // auto scroll
     console.log('Received message: ', event.data);
   });
 }
 
+window.onload = (event) => {
+  console.log('page is fully loaded');
+  console.log('protocol', window.location.protocol);
+  console.log('port', window.location.port);
+  if (window.location.protocol == 'https:') {
+    document.getElementById('ws-protocol').textContent = 'wss://';
+  }
+  serverIpInput.value = window.location.hostname;
+  serverPortInput.value = window.location.port;
+};
+
+const serverIpInput = document.getElementById('server-ip');
+const serverPortInput = document.getElementById('server-port');
+
+const connectBtn = document.getElementById('connect');
 const recordBtn = document.getElementById('streaming_record');
 const stopBtn = document.getElementById('streaming_stop');
 const clearBtn = document.getElementById('clear');
@@ -49,6 +103,11 @@ let recordingLength = 0;  // number of samples so far
 
 clearBtn.onclick = function() {
   document.getElementById('results').value = '';
+  recognition_text = [];
+};
+
+connectBtn.onclick = function() {
+  initWebSocket();
 };
 
 // copied/modified from https://mdn.github.io/web-dictaphone/
@@ -126,12 +185,7 @@ if (navigator.mediaDevices.getUserMedia) {
     stopBtn.onclick = function() {
       console.log('recorder stopped');
 
-      let done = new Int8Array(4);  // Done
-      done[0] = 68;                 //'D';
-      done[1] = 111;                //'o';
-      done[2] = 110;                //'n';
-      done[3] = 101;                //'e';
-      socket.send(done);
+      socket.send('Done');
       console.log('Sent Done');
 
       socket.close();

@@ -1,13 +1,44 @@
 #!/usr/bin/env python3
 
+import os
 import re
 import sys
-from distutils.util import get_platform
 from pathlib import Path
 
 import setuptools
 
-from cmake.cmake_extension import BuildExtension, bdist_wheel, cmake_extension
+from cmake.cmake_extension import (
+    BuildExtension,
+    bdist_wheel,
+    cmake_extension,
+    is_windows,
+)
+
+if sys.argv[1] != "sdist":
+    if "K2_INSTALL_PREFIX" not in os.environ:
+        try:
+            import k2  # noqa
+        except ImportError:
+            sys.exit(
+                """Please install k2 first. See
+    https://k2-fsa.github.io/sherpa/python/installation/index.html
+    for details."""
+            )
+
+        del k2
+
+    if "KALDIFEAT_INSTALL_PREFIX" not in os.environ:
+        try:
+            import kaldifeat  # noqa
+        except ImportError:
+            sys.exit(
+                """Please install kaldifeat first. See
+    https://k2-fsa.github.io/sherpa/python/installation/index.html
+    for details."""
+            )
+
+        del kaldifeat
+
 
 if sys.version_info < (3,):
     # fmt: off
@@ -41,13 +72,21 @@ def get_package_version():
 
 
 def get_binaries_to_install():
-    plat_name = get_platform()  # e.g., linux-x86_64
-    plat_specifier = ".%s-%d.%d" % (plat_name, *sys.version_info[:2])
-    bin_dir = Path("build") / ("lib" + plat_specifier) / "sherpa" / "bin"
+    bin_dir = Path("build") / "sherpa" / "bin"
     bin_dir.mkdir(parents=True, exist_ok=True)
+    suffix = ".exe" if is_windows() else ""
+    # Remember to also change cmake/cmake_extension.py
+    binaries = ["sherpa-offline"]
+    binaries += ["sherpa-online", "sherpa-version"]
+    binaries += ["sherpa-online-microphone"]
+    binaries += ["sherpa-offline-websocket-server"]
+    binaries += ["sherpa-offline-websocket-client"]
+    binaries += ["sherpa-online-websocket-server"]
+    binaries += ["sherpa-online-websocket-client"]
+    binaries += ["sherpa-online-websocket-client-microphone"]
     exe = []
-    for f in ["sherpa", "sherpa-version"]:
-        t = bin_dir / f
+    for f in binaries:
+        t = bin_dir / (f + suffix)
         exe.append(str(t))
     return exe
 

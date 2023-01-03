@@ -110,13 +110,13 @@ async def send(
             samples = c.load_audio().reshape(-1).astype(np.float32)
             num_bytes = samples.nbytes
 
-            await websocket.send((num_bytes).to_bytes(8, "little", signed=True))
+            await websocket.send((num_bytes).to_bytes(4, "little", signed=True))
 
             frame_size = (2 ** 20) // 4  # max payload is 1MB
             start = 0
             while start < samples.size:
                 end = start + frame_size
-                await websocket.send(samples.data[start:end])
+                await websocket.send(samples.data[start:end].tobytes())
                 start = end
             decoding_results = await websocket.recv()
 
@@ -127,12 +127,16 @@ async def send(
                 hyp = decoding_results.split()
                 ref = list("".join(ref))
                 hyp = list("".join(hyp))
-                results.append((ref, hyp))
+                results.append((c.id, ref, hyp))
             else:
                 results.append(
-                    (c.supervisions[0].text.split(), decoding_results.split())
+                    (
+                        c.id,
+                        c.supervisions[0].text.split(),
+                        decoding_results.split(),
+                    )
                 )  # noqa
-        await websocket.send(b"Done")
+        await websocket.send("Done")
 
     return total_duration, results
 
@@ -177,16 +181,20 @@ async def main():
 
     rtf = elapsed / total_duration
 
-    print(f"RTF: {rtf:.4f}")
-    print(
-        f"total_duration: {total_duration:.3f} seconds "
-        f"({total_duration/3600:.2f} hours)"
+    s = f"RTF: {rtf:.4f}\n"
+    s += f"total_duration: {total_duration:.3f} seconds\n"
+    s += f"({total_duration/3600:.2f} hours)\n"
+    s += (
+        f"processing time: {elapsed:.3f} seconds "
+        f"({elapsed/3600:.2f} hours)\n"
     )
-    print(
-        f"processing time: {elapsed:.3f} seconds " f"({elapsed/3600:.2f} hours)"
-    )  # noqa
+    print(s)
+
+    with open("rtf.txt", "w") as f:
+        f.write(s)
 
     name = Path(filename).stem.split(".")[0]
+    results = sorted(results)
     store_transcripts(filename=f"recogs-{name}.txt", texts=results)
 
     with open(f"errs-{name}.txt", "w") as f:

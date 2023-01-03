@@ -8,39 +8,75 @@ https://developer.mozilla.org/en-US/docs/Web/API/WebSocket/send
 */
 
 var socket;
+
+const serverIpInput = document.getElementById('server-ip');
+const serverPortInput = document.getElementById('server-port');
+
+const connectBtn = document.getElementById('connect');
+const uploadBtn = document.getElementById('file');
+
 function initWebSocket() {
-  socket = new WebSocket('ws://localhost:6006/');
+  let protocol = 'ws://';
+  if (window.location.protocol == 'https:') {
+    protocol = 'wss://'
+  }
+  let server_ip = serverIpInput.value;
+  let server_port = serverPortInput.value;
+  console.log('protocol: ', protocol);
+  console.log('server_ip: ', server_ip);
+  console.log('server_port: ', server_port);
+
+
+  let uri = protocol + server_ip + ':' + server_port;
+  console.log('uri', uri);
+  socket = new WebSocket(uri);
 
   // Connection opened
   socket.addEventListener('open', function(event) {
     console.log('connected');
-    document.getElementById('file').disabled = false;
+    uploadBtn.disabled = false;
+    connectBtn.disabled = true;
+    connectBtn.innerHTML = 'Connected!';
   });
 
   // Connection closed
   socket.addEventListener('close', function(event) {
     console.log('disconnected');
-    document.getElementById('file').disabled = true;
-    initWebSocket();
+    uploadBtn.disabled = true;
+    connectBtn.disabled = false;
+    connectBtn.innerHTML = 'Click me to connect!';
   });
 
   // Listen for messages
   socket.addEventListener('message', function(event) {
     console.log('Received message: ', event.data);
 
-    if (event.data != 'Done') {
-      document.getElementById('results').value = event.data;
-    } else {
-      document.getElementById('file').disabled = true;
-      initWebSocket();
-    }
+    document.getElementById('results').value = event.data;
+    socket.send('Done');
+    console.log('Sent Done');
+    socket.close();
   });
 }
 
+window.onload = (event) => {
+  console.log('page is fully loaded');
+  console.log('protocol', window.location.protocol);
+  console.log('port', window.location.port);
+  if (window.location.protocol == 'https:') {
+    document.getElementById('ws-protocol').textContent = 'wss://';
+  }
+  serverIpInput.value = window.location.hostname;
+  serverPortInput.value = window.location.port;
+};
+
+connectBtn.onclick = function() {
+  initWebSocket();
+};
+
 function send_header(n) {
-  const header = new ArrayBuffer(8);
+  const header = new ArrayBuffer(4);
   new DataView(header).setInt32(0, n, true /* littleEndian */);
-  socket.send(new BigInt64Array(header, 0, 1));
+  socket.send(new Int32Array(header, 0, 1));
 }
 
 function onFileChange() {
@@ -61,7 +97,7 @@ function onFileChange() {
 
   let reader = new FileReader();
   reader.onload = function() {
-    console.log('reading!');
+    console.log('reading file!');
     let view = new Int16Array(reader.result);
     // we assume the input file is a wav file.
     // TODO: add some checks here.
@@ -88,13 +124,6 @@ function onFileChange() {
     for (let start = 0; start < buf.byteLength; start += n) {
       socket.send(buf.slice(start, start + n));
     }
-
-    let done = new Int8Array(4);  // Done
-    done[0] = 68;                 //'D';
-    done[1] = 111;                //'o';
-    done[2] = 110;                //'n';
-    done[3] = 101;                //'e';
-    socket.send(done);
   };
 
   reader.readAsArrayBuffer(file);

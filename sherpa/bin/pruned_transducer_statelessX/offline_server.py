@@ -29,8 +29,11 @@ import argparse
 import asyncio
 import http
 import logging
+import socket
+import ssl
 import warnings
 from concurrent.futures import ThreadPoolExecutor
+from pathlib import Path
 from typing import List, Optional, Tuple
 
 import k2
@@ -41,7 +44,12 @@ import torch
 import websockets
 from beam_search import GreedySearchOffline, ModifiedBeamSearchOffline
 
-from sherpa import RnntConformerModel, add_beam_search_arguments
+from sherpa import (
+    HttpServer,
+    RnntConformerModel,
+    add_beam_search_arguments,
+    setup_logger,
+)
 
 
 def get_args():
@@ -169,6 +177,31 @@ def get_args():
         """,
     )
 
+    parser.add_argument(
+        "--certificate",
+        type=str,
+        help="""Path to the X.509 certificate. You need it only if you want to
+        use a secure websocket connection, i.e., use wss:// instead of ws://.
+        You can use sherpa/bin/web/generate-certificate.py
+        to generate the certificate `cert.pem`.
+        """,
+    )
+
+    parser.add_argument(
+        "--use-fp16",
+        type=bool,
+        default=False,
+        help="""Whether to use fp16 for model encoding.
+        """,
+    )
+
+    parser.add_argument(
+        "--doc-root",
+        type=str,
+        default="./sherpa/bin/web",
+        help="""Path to the web root""",
+    )
+
     return (
         parser.parse_args(),
         beam_search_parser.parse_known_args()[0],
@@ -190,6 +223,9 @@ class OfflineServer:
         max_queue_size: int,
         max_active_connections: int,
         beam_search_params: dict,
+        use_fp16: bool,
+        doc_root: str,
+        certificate: Optional[str] = None,
     ):
         """
         Args:
@@ -227,6 +263,15 @@ class OfflineServer:
             equals to this limit, the server refuses to accept new connections.
           beam_search_params:
             Dictionary containing all the parameters for beam search.
+          use_fp16:
+            Whether to use fp16 for model encoding.
+          doc_root:
+            Path to the directory where files like index.html for the HTTP
+            server locate.
+          certificate:
+            Optional. If not None, it will use secure websocket.
+            You can use ./sherpa/bin/web/generate-certificate.py to generate
+            it (the default generated filename is `cert.pem`).
         """
         self.feature_extractor = self._build_feature_extractor()
         self.nn_models = self._build_nn_model(nn_model_filename, num_device)
@@ -250,6 +295,9 @@ class OfflineServer:
         else:
             self.token_table = k2.SymbolTable.from_file(token_filename)
 
+        self.certificate = certificate
+        self.http_server = HttpServer(doc_root)
+
         self.counter = 0
 
         self.max_wait_ms = max_wait_ms
@@ -270,6 +318,7 @@ class OfflineServer:
             raise ValueError(
                 f"Decoding method {decoding_method} is not supported."
             )
+        self.use_fp16 = use_fp16
 
     def _build_feature_extractor(self) -> kaldifeat.OfflineFeature:
         """Build a fbank feature extractor for extracting features.
@@ -304,9 +353,13 @@ class OfflineServer:
         Returns:
           Return a list of torch script models.
         """
+        # left_context and right_context are used only in streaming mode.
         if num_device < 1:
             model = RnntConformerModel(
                 filename=nn_model_filename,
+                left_context=0,
+                right_context=0,
+                decode_chunk_size=0,
                 device="cpu",
                 optimize_for_inference=False,
             )
@@ -317,6 +370,9 @@ class OfflineServer:
             device = torch.device("cuda", i)
             model = RnntConformerModel(
                 filename=nn_model_filename,
+                left_context=0,
+                right_context=0,
+                decode_chunk_size=0,
                 device=device,
                 optimize_for_inference=False,
             )
@@ -339,9 +395,24 @@ class OfflineServer:
 
     async def process_request(
         self,
-        unused_path: str,
-        unused_request_headers: websockets.Headers,
+        path: str,
+        request_headers: websockets.Headers,
     ) -> Optional[Tuple[http.HTTPStatus, websockets.Headers, bytes]]:
+        if "sec-websocket-key" not in request_headers:
+            # This is a normal HTTP request
+            if path == "/":
+                path = "/index.html"
+            found, response, mime_type = self.http_server.process_request(path)
+            if isinstance(response, str):
+                response = response.encode("utf-8")
+
+            if not found:
+                status = http.HTTPStatus.NOT_FOUND
+            else:
+                status = http.HTTPStatus.OK
+            header = {"Content-Type": mime_type}
+            return status, header, response
+
         if self.current_active_connections < self.max_active_connections:
             self.current_active_connections += 1
             return None
@@ -358,6 +429,14 @@ class OfflineServer:
         task = asyncio.create_task(self.feature_consumer_task())
         await self.warmup()
 
+        if self.certificate:
+            logging.info(f"Using certificate: {self.certificate}")
+            ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
+            ssl_context.load_cert_chain(self.certificate)
+        else:
+            ssl_context = None
+            logging.info("No certificate provided")
+
         # If you use multiple GPUs, you can create multiple
         # feature consumer tasks.
         #  asyncio.create_task(self.feature_consumer_task())
@@ -369,7 +448,16 @@ class OfflineServer:
             max_size=self.max_message_size,
             max_queue=self.max_queue_size,
             process_request=self.process_request,
+            ssl=ssl_context,
         ):
+            ip_list = ["0.0.0.0", "localhost", "127.0.0.1"]
+            ip_list.append(socket.gethostbyname(socket.gethostname()))
+            proto = "http://" if ssl_context is None else "https://"
+            s = "Please visit one of the following addresses:\n\n"
+            for p in ip_list:
+                s += "  " + proto + p + f":{port}" "\n"
+            logging.info(s)
+
             await asyncio.Future()  # run forever
         await task
 
@@ -384,8 +472,8 @@ class OfflineServer:
 
         The message from the client is a **bytes** buffer.
 
-        The first message can be either b"Done" meaning the client won't send
-        anything in the future or it can be a buffer containing 8 bytes
+        The first message can be either "Done" meaning the client won't send
+        anything in the future or it can be a buffer containing 4 bytes
         in **little** endian format, specifying the number of bytes in the audio
         file, which will be sent by the client in the subsequent messages.
         Since there is a limit in the message size posed by the websocket
@@ -402,10 +490,10 @@ class OfflineServer:
           return None indicating the end of utterance.
         """
         header = await socket.recv()
-        if header == b"Done":
+        if header == "Done":
             return None
 
-        assert len(header) == 8, "The first message should contain 8 bytes"
+        assert len(header) == 4, "The first message should contain 4 bytes"
 
         expected_num_bytes = int.from_bytes(header, "little", signed=True)
 
@@ -464,6 +552,7 @@ class OfflineServer:
                 self.beam_search.process,
                 model,
                 feature_list,
+                self.use_fp16,
             )
 
             for i, hyp in enumerate(hyp_tokens):
@@ -522,6 +611,8 @@ class OfflineServer:
         """
         try:
             await self.handle_connection_impl(socket)
+        except websockets.exceptions.ConnectionClosedError:
+            logging.info(f"{socket.remote_address} disconnected")
         finally:
             # Decrement so that it can accept new connections
             self.current_active_connections -= 1
@@ -557,7 +648,13 @@ class OfflineServer:
                 result = self.sp.decode(hyp)
             else:
                 result = [self.token_table[i] for i in hyp]
-            await socket.send(result)
+            if result:
+                await socket.send(result)
+            else:
+                # If result is an empty string, send something to the client.
+                # Otherwise, socket.send() is a no-op and the client will
+                # wait for a reply indefinitely.
+                await socket.send("<EMPTY>")
 
 
 @torch.no_grad()
@@ -579,6 +676,15 @@ def main():
     max_message_size = args.max_message_size
     max_queue_size = args.max_queue_size
     max_active_connections = args.max_active_connections
+    use_fp16 = args.use_fp16
+    certificate = args.certificate
+    doc_root = args.doc_root
+
+    if certificate and not Path(certificate).is_file():
+        raise ValueError(f"{certificate} does not exist")
+
+    if not Path(doc_root).is_dir():
+        raise ValueError(f"Directory {doc_root} does not exist")
 
     decoding_method = beam_search_params["decoding_method"]
     assert decoding_method in (
@@ -621,6 +727,9 @@ def main():
         max_queue_size=max_queue_size,
         max_active_connections=max_active_connections,
         beam_search_params=beam_search_params,
+        use_fp16=use_fp16,
+        certificate=certificate,
+        doc_root=doc_root,
     )
     asyncio.run(offline_server.run(port))
 
@@ -647,7 +756,8 @@ torch::jit::setGraphExecutorOptimize(false);
 
 if __name__ == "__main__":
     torch.manual_seed(20220519)
-    formatter = "%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] %(message)s"  # noqa
-    logging.basicConfig(format=formatter, level=logging.INFO)
+
+    log_filename = "log/log-pruned-transducer-statelessX"
+    setup_logger(log_filename)
 
     main()

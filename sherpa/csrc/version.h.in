@@ -60,9 +60,6 @@ static constexpr const char *kK2WithCuda = "@K2_WITH_CUDA@";
 
 static constexpr const char *kKaldifeatVersion = "@KALDIFEAT_VERSION@";
 
-static constexpr const char *kKaldiNativeIOVersion =
-    "@KALDI_NATIVE_IO_VERSION@";
-
 // e.g., 3.18.0
 static constexpr const char *kCMakeVersion = "@CMAKE_VERSION@";
 

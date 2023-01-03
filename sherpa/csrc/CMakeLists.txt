@@ -1,16 +1,37 @@
 # Please sort the filenames alphabetically
 set(sherpa_srcs
-  fbank_features.cc
-  file_utils.cc
+  offline-conformer-transducer-model.cc
+  offline-transducer-greedy-search-decoder.cc
+  offline-transducer-modified-beam-search-decoder.cc
+  offline-conformer-ctc-model.cc
+  offline-wenet-conformer-ctc-model.cc
+  offline-ctc-one-best-decoder.cc
+  offline-wav2vec2-ctc-model.cc
+  offline-transducer-fast-beam-search-decoder.cc
+
+  online-conv-emformer-transducer-model.cc
+  online-transducer-greedy-search-decoder.cc
+  online-transducer-modified-beam-search-decoder.cc
+  online-emformer-transducer-model.cc
+  online-conformer-transducer-model.cc
+  online-lstm-transducer-model.cc
+  online-transducer-fast-beam-search-decoder.cc
+
+  # TODO(fangjun): Refactor the following files
+  fbank-features.cc
+  file-utils.cc
   hypothesis.cc
   log.cc
-  offline_asr.cc
-  parse_options.cc
+  symbol-table.cc
+  online-stream.cc
+  parse-options.cc
+
+  # TODO(fangjun): Remove the following files
   rnnt_beam_search.cc
   rnnt_conformer_model.cc
   rnnt_conv_emformer_model.cc
   rnnt_emformer_model.cc
-  symbol_table.cc
+  rnnt_lstm_model.cc
 )
 
 add_library(sherpa_core ${sherpa_srcs})
@@ -27,7 +48,7 @@ target_link_libraries(sherpa_core PUBLIC
   ${TORCH_LIBRARIES}
   ${K2_LIBRARIES}
   ${KALDIFEAT_LIBRARIES}
-  ${KALDI_NATIVE_IO_LIBRARIES}
+  kaldi_native_io_core
   )
 
 target_compile_definitions(sherpa_core PUBLIC SHERPA_TORCH_VERSION_MAJOR=${SHERPA_TORCH_VERSION_MAJOR})
@@ -46,9 +67,14 @@ endif()
 
 if(SHERPA_ENABLE_TESTS)
   set(sherpa_test_srcs
-    test_hypothesis.cc
-    test_log.cc
-    test_parse_options.cc
+    # test-offline-conformer-transducer-model.cc
+    # test-online-conv-emformer-transducer-model.cc
+
+    test-hypothesis.cc
+    test-log.cc
+    test-online-stream.cc
+    test-parse-options.cc
+    test-stack-unstack-states.cc
   )
 
   function(sherpa_add_test source)
@@ -80,22 +106,6 @@ if(SHERPA_ENABLE_TESTS)
   endforeach()
 endif()
 
-add_executable(sherpa sherpa.cc)
-target_link_libraries(sherpa sherpa_core)
-
-if(NOT WIN32)
-  execute_process(
-    COMMAND "${PYTHON_EXECUTABLE}" -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())"
-    OUTPUT_STRIP_TRAILING_WHITESPACE
-    OUTPUT_VARIABLE PYTHON_SITE_PACKAGE_DIR
-  )
-  message(STATUS "PYTHON_SITE_PACKAGE_DIR: ${PYTHON_SITE_PACKAGE_DIR}")
-  target_link_libraries(sherpa "-Wl,-rpath,${PYTHON_SITE_PACKAGE_DIR}/sherpa/lib")
-
-  target_link_libraries(sherpa "-Wl,-rpath,${SHERPA_RPATH_ORIGIN}/../lib")
-endif()
-
-
 configure_file(version.h.in ${CMAKE_CURRENT_BINARY_DIR}/version.h @ONLY)
 message(STATUS "Generated ${CMAKE_CURRENT_BINARY_DIR}/version.h")
 # sherpa-version does not have any dependencies. Its purpose is to help us debug
@@ -103,10 +113,11 @@ message(STATUS "Generated ${CMAKE_CURRENT_BINARY_DIR}/version.h")
 add_executable(sherpa-version version.cc)
 target_include_directories(sherpa-version PRIVATE ${CMAKE_BINARY_DIR})
 
-install(TARGETS sherpa_core
+install(TARGETS
+    sherpa_core
   DESTINATION lib
 )
 
-install(TARGETS sherpa sherpa-version
+install(TARGETS sherpa-version
   DESTINATION  bin
 )

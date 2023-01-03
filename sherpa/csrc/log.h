@@ -51,7 +51,31 @@ enum class LogLevel {
 //
 //  SHERPA_LOG(TRACE) << "some message";
 //  SHERPA_LOG(DEBUG) << "some message";
-//
+
+#ifdef TRACE
+#undef TRACE
+#endif
+
+#ifdef DEBUG
+#undef DEBUG
+#endif
+
+#ifdef INFO
+#undef INFO
+#endif
+
+#ifdef WARNING
+#undef WARNING
+#endif
+
+#ifdef ERROR
+#undef ERROR
+#endif
+
+#ifdef FATAL
+#undef FATAL
+#endif
+
 constexpr LogLevel TRACE = LogLevel::kTrace;
 constexpr LogLevel DEBUG = LogLevel::kDebug;
 constexpr LogLevel INFO = LogLevel::kInfo;
@@ -121,9 +145,8 @@ class Logger {
  public:
   Logger(const char *filename, const char *func_name, uint32_t line_num,
          LogLevel level)
-      : filename_(filename),
-        func_name_(func_name),
-        line_num_(line_num),
+      :
+
         level_(level) {
     cur_level_ = GetCurrentLogLevel();
     switch (level) {
@@ -244,15 +267,12 @@ class Logger {
   }
 
   // specialization to fix compile error: `stringstream << nullptr` is ambiguous
-  const Logger &operator<<(const std::nullptr_t &null) const {
+  const Logger &operator<<(const std::nullptr_t & /*null*/) const {
     if (cur_level_ <= level_) *this << "(null)";
     return *this;
   }
 
  private:
-  const char *filename_;
-  const char *func_name_;
-  uint32_t line_num_;
   LogLevel level_;
   LogLevel cur_level_;
 };

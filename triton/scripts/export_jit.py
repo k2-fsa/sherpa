@@ -21,7 +21,7 @@
 """
 Usage:
 ./pruned_transducer_stateless3/export_jit.py \
-  --pretrained-model ./pruned_transducer_stateless3/exp \
+  --pretrained-model ./pruned_transducer_stateless3/exp/pretrained-epoch-x-avg-x.pt \
   --output-dir ./pruned_transducer_stateless3/exp \
   --bpe-model ./bpe.model
 
@@ -40,6 +40,7 @@ from torch import nn
 
 import torch.nn.functional as F
 from scaling import ScaledConv1d, ScaledEmbedding, ScaledLinear
+from scaling_converter import convert_scaled_to_non_scaled
 
 from conformer_triton import Conformer
 
@@ -386,6 +387,10 @@ def main():
     assert len(miss_keys) == 0
     miss_keys,_ = joiner.load_state_dict(checkpoint["model"], strict=False)
     assert len(miss_keys) == 0
+
+    convert_scaled_to_non_scaled(encoder, inplace=True)
+    convert_scaled_to_non_scaled(decoder, inplace=True)
+    convert_scaled_to_non_scaled(joiner, inplace=True)
 
     encoder.cuda()
     encoder.eval()

@@ -1,3 +1,4 @@
+import kaldifeat
 import torch
 
 from .torch_version import sherpa_torch_version
@@ -9,11 +10,19 @@ if torch.__version__.split("+")[0] != sherpa_torch_version.split("+")[0]:
     )
 
 from _sherpa import (
+    FastBeamSearchConfig,
+    FeatureConfig,
     Hypotheses,
     Hypothesis,
+    OfflineCtcDecoderConfig,
+    OfflineRecognizer,
+    OfflineRecognizerConfig,
+    OfflineStream,
     RnntConformerModel,
     RnntConvEmformerModel,
     RnntEmformerModel,
+    RnntLstmModel,
+    cxx_flags,
     greedy_search,
     modified_beam_search,
     streaming_greedy_search,
@@ -26,8 +35,18 @@ from .decode import (
     fast_beam_search_nbest_LG,
     fast_beam_search_one_best,
 )
+from .http_server import HttpServer
 from .lexicon import Lexicon
 from .nbest import Nbest
-from .utils import add_beam_search_arguments
-
-from _sherpa import cxx_flags
+from .online_endpoint import (
+    OnlineEndpointConfig,
+    add_online_endpoint_arguments,
+    endpoint_detected,
+)
+from .timestamp import convert_timestamp
+from .utils import (
+    add_beam_search_arguments,
+    count_num_trailing_zeros,
+    get_fast_beam_search_results,
+    setup_logger,
+)

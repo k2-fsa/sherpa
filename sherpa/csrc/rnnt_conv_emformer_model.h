@@ -45,14 +45,13 @@ class RnntConvEmformerModel : public RnntModel {
 
   ~RnntConvEmformerModel() override = default;
 
-  using State = std::pair<std::vector<std::vector<torch::Tensor>>,
-                          std::vector<torch::Tensor>>;
+  std::tuple<torch::Tensor, torch::Tensor, torch::IValue>
+  StreamingForwardEncoder(const torch::Tensor &features,
+                          const torch::Tensor &features_length,
+                          const torch::Tensor &num_processed_frames,
+                          torch::IValue states) override;
 
-  std::tuple<torch::Tensor, torch::Tensor, State> StreamingForwardEncoder(
-      const torch::Tensor &features, const torch::Tensor &features_length,
-      const torch::Tensor &num_processed_frames, State states);
-
-  State GetEncoderInitStates();
+  torch::IValue GetEncoderInitStates(int32_t batch_size = 1) override;
 
   /** Run the decoder network.
    *
@@ -89,9 +88,18 @@ class RnntConvEmformerModel : public RnntModel {
   int32_t UnkId() const override { return unk_id_; }
   int32_t ContextSize() const override { return context_size_; }
   int32_t VocabSize() const override { return vocab_size_; }
-  int32_t ChunkLength() const { return chunk_length_; }
-  int32_t RightContextLength() const { return right_context_length_; }
-  int32_t PadLength() const { return pad_length_; }
+  int32_t ChunkLength() const override { return chunk_length_; }
+  int32_t PadLength() const override { return pad_length_; }
+
+  using State = std::pair<std::vector<std::vector<torch::Tensor>>,
+                          std::vector<torch::Tensor>>;
+  torch::IValue StateToIValue(const State &s) const;
+  State StateFromIValue(torch::IValue ivalue) const;
+
+  torch::IValue StackStates(
+      const std::vector<torch::IValue> &states) const override;
+
+  std::vector<torch::IValue> UnStackStates(torch::IValue states) const override;
 
  private:
   torch::jit::Module model_;
@@ -109,7 +117,6 @@ class RnntConvEmformerModel : public RnntModel {
   int32_t unk_id_;
   int32_t context_size_;
   int32_t chunk_length_;
-  int32_t right_context_length_;
   int32_t pad_length_;
 };
 
