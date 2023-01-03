@@ -36,6 +36,7 @@
 #include "sherpa/python/csrc/offline-recognizer.h"
 #include "sherpa/python/csrc/offline-stream.h"
 #include "sherpa/python/csrc/online-recognizer.h"
+#include "sherpa/python/csrc/online-stream.h"
 
 namespace sherpa {
 
@@ -58,6 +59,7 @@ PYBIND11_MODULE(_sherpa, m) {
   PybindOfflineStream(m);
   PybindOfflineRecognizer(m);
   PybindEndpoint(m);
+  PybindOnlineStream(m);
   PybindOnlineRecognizer(m);
 }
 
