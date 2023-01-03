@@ -118,20 +118,20 @@ class Client {
     c_.connect(con);
   }
 
-  void DumpCtm(nlohmann::json result_) {
+  float DumpCtm(nlohmann::json result, float start_time) {
     int i=0;
-    std::vector<std::string> tokens = result_["tokens"].get<std::vector<std::string>>();
+    std::vector<std::string> tokens = result["tokens"].get<std::vector<std::string>>();
     int length = tokens.size();
-    if (length<1) { return; }
-    std::string res = result_.dump();
-    std::vector<float> timestamps = result_["timestamps"].get<std::vector<float>>();
-    //    SHERPA_LOG(INFO) << "CTM Dumping " << result_["text"] ;
+    if (length<1) { return start_time; }
+    std::string res = result.dump();
+    std::vector<float> timestamps = result["timestamps"].get<std::vector<float>>();
+    //    SHERPA_LOG(INFO) << "CTM Dumping " << result["text"] ;
     if (tokens[0].at(0) != ' ') {
       SHERPA_LOG(WARNING) << "First word is not a new word " << tokens[0];
     }
     
     std::string word = tokens[0];
-    float start = timestamps[0];
+    float start = timestamps[0]+start_time;
     float duration = 0.01;
     if (length>2) {
       duration = timestamps[1] - timestamps[0];
@@ -151,12 +151,13 @@ class Client {
       i++;
       word_start_index=i;
       word = tokens[i];
-      start = timestamps[i];
+      start = timestamps[i]+start_time;
       duration = 0.01;
 	if (length>i+1) {
 	  duration = timestamps[i+1] - timestamps[word_start_index];
 	}
     }
+    return start+duration;
   }
  
   void OnOpen(connection_hdl hdl) {
@@ -167,21 +168,22 @@ class Client {
 
   void OnMessage(connection_hdl hdl, message_ptr msg) {
     const std::string &payload = msg->get_payload();
-    auto result_ = json::parse(payload);
-    //    std::string res = result_.dump();
-    SHERPA_LOG(INFO) << "Decoding results:" << result_["text"];
-    if (result_["segment"]>segment_id_) {
-      segment_id_ = result_["segment"];
+    auto result = json::parse(payload);
+    //    std::string res = result.dump();
+    SHERPA_LOG(INFO) << "Decoding results:" << result["text"];
+    if (result["segment"]>segment_id_) {
+      segment_id_ = result["segment"];
       std::cout << text_;
       if (ctm_filename_.length()>0) {
-	DumpCtm(result_);
+	start_time_ = DumpCtm(old_result_,start_time_);
       }
     }
-    text_=result_["text"];
-    if (result_["final"]) {
-      std::cout << result_["text"] << std::endl;
+    text_=result["text"];
+    old_result_=result;
+    if (result["final"]) {
+      std::cout << result["text"] << std::endl;
       if (ctm_filename_.length()>0) {
-	DumpCtm(result_);
+	start_time_ = DumpCtm(result, start_time_);
       }
       websocketpp::lib::error_code ec;
       c_.close(hdl, websocketpp::close::status::normal, "I'm exiting now", ec);
@@ -264,7 +266,8 @@ class Client {
   asio::io_context &io_;
   websocketpp::uri uri_;
   torch::Tensor samples_;
-
+  float start_time_ = 0;
+  nlohmann::json old_result_;
   int32_t samples_per_message_;
   int32_t num_sent_messages_ = 0;
   float seconds_per_message_;
