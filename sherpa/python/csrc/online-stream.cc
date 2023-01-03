@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "sherpa/python/csrc/online-stream.h"
+#include "torch/torch.h"
 
 namespace sherpa {
 
@@ -35,8 +36,8 @@ void PybindOnlineStream(py::module &m) {
       .def("accept_waveform", &PyClass::AcceptWaveform,
            py::arg("sampling_rate"), py::arg("waveform"),
            py::call_guard<py::gil_scoped_release>())
-      .def_property_readonly("input_finished", &PyClass::InputFinished,
-                             py::call_guard<py::gil_scoped_release>());
+      .def("input_finished", &PyClass::InputFinished,
+           py::call_guard<py::gil_scoped_release>());
 }
 
 }  // namespace sherpa

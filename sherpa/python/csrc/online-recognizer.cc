@@ -73,6 +73,22 @@ static void PybindOnlineRecognizerConfig(py::module &m) {
            [](const PyClass &self) -> std::string { return self.ToString(); });
 }
 
-void PybindOnlineRecognizer(py::module &m) { PybindOnlineRecognizerConfig(m); }
+void PybindOnlineRecognizer(py::module &m) {
+  PybindOnlineRecognizerConfig(m);
+  using PyClass = OnlineRecognizer;
+  py::class_<PyClass>(m, "OnlineRecognizer")
+      .def(py::init<const OnlineRecognizerConfig &>(), py::arg("config"))
+      .def("create_stream", &PyClass::CreateStream)
+      .def("is_ready", &PyClass::IsReady, py::arg("s"))
+      .def("is_endpoint", &PyClass::IsEndpoint, py::arg("s"))
+      .def("decode_stream", &PyClass::DecodeStream, py::arg("s"))
+      .def(
+          "decode_streams",
+          [](PyClass &self, std::vector<OnlineStream *> &ss) {
+            self.DecodeStreams(ss.data(), ss.size());
+          },
+          py::arg("ss"))
+      .def("get_result", &PyClass::GetResult, py::arg("s"));
+}
 
 }  // namespace sherpa

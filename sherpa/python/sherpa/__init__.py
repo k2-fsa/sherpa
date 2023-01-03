@@ -21,6 +21,7 @@ from _sherpa import (
     OfflineRecognizerConfig,
     OfflineStream,
     OnlineRecognitionResult,
+    OnlineRecognizer,
     OnlineRecognizerConfig,
     OnlineStream,
     RnntConformerModel,
