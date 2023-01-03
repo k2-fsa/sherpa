@@ -4,6 +4,14 @@ function(download_googltest)
   set(googletest_URL  "https://github.com/google/googletest/archive/release-1.10.0.tar.gz")
   set(googletest_HASH "SHA256=9dc9157a9a1551ec7a7e43daea9a694a0bb5fb8bec81235d8a1e6ef64c716dcb")
 
+  # If you don't have access to the Internet, please download it to your
+  # local drive and modify the following line according to your needs.
+  if(EXISTS "/star-fj/fangjun/download/github/googletest-release-1.10.0.tar.gz")
+    set(googletest_URL  "file:///star-fj/fangjun/download/github/googletest-release-1.10.0.tar.gz")
+  elseif(EXISTS "/tmp/googletest-release-1.10.0.tar.gz")
+    set(googletest_URL  "file:///tmp/googletest-release-1.10.0.tar.gz")
+  endif()
+
   set(BUILD_GMOCK ON CACHE BOOL "" FORCE)
   set(INSTALL_GTEST OFF CACHE BOOL "" FORCE)
   set(gtest_disable_pthreads ON CACHE BOOL "" FORCE)
