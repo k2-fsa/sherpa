@@ -42,74 +42,31 @@
 #include <string>
 #include <type_traits>
 
-template<std::size_t V, std::size_t C = 0,
-         typename std::enable_if<(V < 10), int>::type = 0>
-constexpr std::size_t log10ish() {
-    return C;
-}
-
-template<std::size_t V, std::size_t C = 0,
-         typename std::enable_if<(V >= 10), int>::type = 0>
-constexpr std::size_t log10ish() {
-    return log10ish<V / 10, C + 1>();
-}
-
-// A class to support using different precisions, chrono clocks and formats
-template<class Precision = std::chrono::seconds,
-         class Clock = std::chrono::system_clock>
 class log_watch {
 public:
-    // some convenience typedefs and "decimal_width" for sub second precisions
-    using precision_type = Precision;
-    using ratio_type = typename precision_type::period;
-    using clock_type = Clock;
-    static constexpr auto decimal_width = log10ish<ratio_type{}.den>();
-    static_assert(ratio_type{}.num <= ratio_type{}.den,
-                  "Only second or sub second precision supported");
-    static_assert(ratio_type{}.num == 1, "Unsupported precision parameter");
-    // default format: "%Y-%m-%dT%H:%M:%S"
+    static constexpr auto decimal_width = 3;
     log_watch(const std::string& format = "%FT%T") : m_format(format) {}
-
-    template<class P, class C>
-    friend std::ostream& operator<<(std::ostream&, const log_watch<P, C>&);
-
+    friend std::ostream& operator<<(std::ostream&, const log_watch&);
 private:
     std::string m_format;
 };
 
-template<class Precision, class Clock>
-std::ostream& operator<<(std::ostream& os, const log_watch<Precision, Clock>& lw) {
-    // get current system clock
-    auto time_point = Clock::now();
-
-    // extract std::time_t from time_point
-    std::time_t t = Clock::to_time_t(time_point);
-
-    // output the part supported by std::tm
+std::ostream& operator<<(std::ostream& os, const log_watch& lw) {
+    auto time_point = std::chrono::system_clock::now();
+    std::time_t t = std::chrono::system_clock::to_time_t(time_point);
     os << std::put_time(std::localtime(&t), lw.m_format.c_str());
-
-    // only involve chrono duration calc for displaying sub second precisions
-    if(lw.decimal_width) { // if constexpr( ... in C++17
-        // get duration since epoch
-        auto dur = time_point.time_since_epoch();
-
-        // extract the sub second part from the duration since epoch
-        auto ss =
-            std::chrono::duration_cast<Precision>(dur) % std::chrono::seconds{1};
-
-        // output the sub second part
-        os << std::setfill('0') << std::setw(lw.decimal_width) << ss.count();
-    }
-
+    auto dur = time_point.time_since_epoch();
+    auto ss = std::chrono::duration_cast<std::chrono::milliseconds>(dur) % std::chrono::seconds{1};
+    os << std::setfill('0') << std::setw(lw.decimal_width) << ss.count();
     return os;
 }
 
 namespace sherpa {
 
 std::string GetDateTimeStr() {
-  log_watch<std::chrono::milliseconds> ms("%F %T.");
+  log_watch ms("%F %T.");
   std::ostringstream os;
-  os << ms;  // yyyy-mm-dd hh:mm:ss
+  os << ms;  // yyyy-mm-dd hh:mm:ss.sss
   return os.str();
 }
 

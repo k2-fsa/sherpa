@@ -80,13 +80,13 @@ class Client {
  public:
   Client(asio::io_context &io,  // NOLINT
          const std::string &ip, int16_t port, const std::string &wave_filename,
-         float seconds_per_message, int32_t SampleRate, std::string ctm_filename, bool do_ctm)
+         float seconds_per_message, int32_t SampleRate, std::string ctm_filename)
       : io_(io),
         uri_(/*secure*/ false, ip, port, /*resource*/ "/"),
         samples_(ReadWave(wave_filename, SampleRate)),
         samples_per_message_(seconds_per_message * SampleRate),
         seconds_per_message_(seconds_per_message),
-	ctm_filename_(ctm_filename), do_ctm_(do_ctm){
+	ctm_filename_(ctm_filename){
     c_.clear_access_channels(websocketpp::log::alevel::all);
     //    c_.set_access_channels(websocketpp::log::alevel::connect);
     //    c_.set_access_channels(websocketpp::log::alevel::disconnect);
@@ -173,14 +173,14 @@ class Client {
     if (result_["segment"]>segment_id_) {
       segment_id_ = result_["segment"];
       std::cout << text_;
-      if (do_ctm_) {
+      if (ctm_filename_.length()>0) {
 	DumpCtm(result_);
       }
     }
     text_=result_["text"];
     if (result_["final"]) {
       std::cout << result_["text"] << std::endl;
-      if (do_ctm_) {
+      if (ctm_filename_.length()>0) {
 	DumpCtm(result_);
       }
       websocketpp::lib::error_code ec;
@@ -273,7 +273,6 @@ class Client {
   std::string wave_filename_;
   std::string ctm_filename_;
   std::ofstream of_;
-  bool do_ctm_;
 };
 
 int32_t main(int32_t argc, char *argv[]) {
@@ -319,10 +318,8 @@ int32_t main(int32_t argc, char *argv[]) {
   std::string wave_filename = po.GetArg(1);
 
   asio::io_context io_conn;  // for network connections
-  bool do_ctm=false;
-  if (ctm_filename.length() > 0) { do_ctm=true; }
   Client c(io_conn, server_ip, server_port, wave_filename, seconds_per_message,
-           SampleRate, ctm_filename, do_ctm);
+           SampleRate, ctm_filename);
 
   io_conn.run();  // will exit when the above connection is closed
 
