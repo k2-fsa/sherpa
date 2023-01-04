@@ -209,8 +209,8 @@ class Client {
             .count();
     if (elapsed_time_ms <
         static_cast<int>(seconds_per_message_ * num_sent_messages_ * 1000)) {
-      // std::this_thread::sleep_for(std::chrono::milliseconds(int(
-      //     seconds_per_message_ * num_sent_messages_ * 1000 - elapsed_time_ms)));
+      std::this_thread::sleep_for(std::chrono::milliseconds(int(
+          seconds_per_message_ * num_sent_messages_ * 1000 - elapsed_time_ms)));
     }
     if (num_sent_messages_ < 1) {
       SHERPA_LOG(INFO) << "Starting to send audio";
