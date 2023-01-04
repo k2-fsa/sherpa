@@ -146,7 +146,9 @@ class Client {
 	}
 	i++;
       }
-      of_ << wave_filename_ << " 0 " << start << " " << duration << " " << word << std::endl;
+      if(word.compare(" ") != 0) {
+	of_ << wave_filename_ << " 0 " << start << " " << duration << " " << word << std::endl;
+      }
       if (i >= length-1) { break; }
       i++;
       word_start_index=i;
@@ -207,8 +209,8 @@ class Client {
             .count();
     if (elapsed_time_ms <
         static_cast<int>(seconds_per_message_ * num_sent_messages_ * 1000)) {
-      std::this_thread::sleep_for(std::chrono::milliseconds(int(
-          seconds_per_message_ * num_sent_messages_ * 1000 - elapsed_time_ms)));
+      // std::this_thread::sleep_for(std::chrono::milliseconds(int(
+      //     seconds_per_message_ * num_sent_messages_ * 1000 - elapsed_time_ms)));
     }
     if (num_sent_messages_ < 1) {
       SHERPA_LOG(INFO) << "Starting to send audio";
