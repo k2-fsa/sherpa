@@ -7,6 +7,7 @@
 #include <vector>
 
 #include "sherpa/python/csrc/offline-stream.h"
+#include "torch/torch.h"
 
 namespace sherpa {
 
@@ -47,21 +48,23 @@ void PybindOfflineStream(py::module &m) {  // NOLINT
   PybindOfflineRecognitionResult(m);
   using PyClass = OfflineStream;
   py::class_<PyClass>(m, "OfflineStream")
-      .def("accept_wave_file", &PyClass::AcceptWaveFile, py::arg("filename"))
+      .def("accept_wave_file", &PyClass::AcceptWaveFile,
+           py::call_guard<py::gil_scoped_release>(), py::arg("filename"))
       .def(
           "accept_samples",
           [](PyClass &self, const std::vector<float> &samples) {
             self.AcceptSamples(samples.data(), samples.size());
           },
-          py::arg("samples"), kOfflineStreamAcceptSamplesVectorDoc)
+          py::arg("samples"), py::call_guard<py::gil_scoped_release>(),
+          kOfflineStreamAcceptSamplesVectorDoc)
       .def(
           "accept_samples",
           [](PyClass &self, torch::Tensor samples) {
             samples = samples.contiguous().cpu();
             self.AcceptSamples(samples.data_ptr<float>(), samples.numel());
           },
-          py::arg("samples"), kOfflineStreamAcceptSamplesTensorDoc)
-
+          py::arg("samples"), py::call_guard<py::gil_scoped_release>(),
+          kOfflineStreamAcceptSamplesTensorDoc)
       .def_property_readonly("result", &PyClass::GetResult);
 }
 

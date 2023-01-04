@@ -55,4 +55,5 @@ from .utils import (
     count_num_trailing_zeros,
     get_fast_beam_search_results,
     setup_logger,
+    str2bool,
 )
