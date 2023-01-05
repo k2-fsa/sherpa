@@ -12,7 +12,11 @@ Please refer to
 https://k2-fsa.github.io/sherpa/cpp/pretrained_models/offline_transducer.html#
 for pre-trained models to download.
 
-We use the zipformer pre-trained model below to demonstrate how to use
+See
+https://k2-fsa.github.io/sherpa/python/offline_asr/standalone/transducer.html
+for detailed usages and also you can find a colab notebook there.
+
+We use the Zipformer pre-trained model below to demonstrate how to use
 this file:
 
 (1) Download pre-trained models
