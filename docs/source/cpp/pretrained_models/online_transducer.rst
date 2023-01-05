@@ -226,3 +226,38 @@ icefall_asr_wenetspeech_pruned_transducer_stateless5_streaming
     ./test_wavs/DEV_T0000000000.wav \
     ./test_wavs/DEV_T0000000001.wav \
     ./test_wavs/DEV_T0000000002.wav
+
+Chinese + English (all-in-one)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+icefall-asr-conv-emformer-transducer-stateless2-zh
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+  # This model supports both Chinese and English
+  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/ptrnull/icefall-asr-conv-emformer-transducer-stateless2-zh
+  cd icefall-asr-conv-emformer-transducer-stateless2-zh
+  git lfs pull --include "exp/cpu_jit-epoch-11-avg-1.pt"
+  cd exp
+  ln -sv cpu_jit-epoch-11-avg-1.pt cpu_jit.pt
+  cd ..
+
+  mkdir test_wavs
+  cd test_wavs
+  wget https://huggingface.co/spaces/k2-fsa/automatic-speech-recognition/resolve/main/test_wavs/tal_csasr/0.wav
+  wget https://huggingface.co/spaces/k2-fsa/automatic-speech-recognition/resolve/main/test_wavs/tal_csasr/210_36476_210_8341_1_1533271973_7057520_132.wav
+  wget https://huggingface.co/spaces/k2-fsa/automatic-speech-recognition/resolve/main/test_wavs/tal_csasr/210_36476_210_8341_1_1533271973_7057520_138.wav
+  wget https://huggingface.co/spaces/k2-fsa/automatic-speech-recognition/resolve/main/test_wavs/tal_csasr/210_36476_210_8341_1_1533271973_7057520_145.wav
+  cd ..
+
+  for m in greedy_search modified_beam_search fast_beam_search; do
+    sherpa-online \
+      --decoding-method=$m \
+      --nn-model=./exp/cpu_jit.pt \
+      --tokens=./data/lang_char_bpe/tokens.txt \
+      ./test_wavs/0.wav \
+      ./test_wavs/210_36476_210_8341_1_1533271973_7057520_132.wav \
+      ./test_wavs/210_36476_210_8341_1_1533271973_7057520_138.wav \
+      ./test_wavs/210_36476_210_8341_1_1533271973_7057520_145.wav
+  done

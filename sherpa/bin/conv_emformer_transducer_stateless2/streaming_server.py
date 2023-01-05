@@ -44,6 +44,7 @@ from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from typing import Optional, Tuple
 
+import k2
 import numpy as np
 import sentencepiece as spm
 import torch
@@ -194,7 +195,8 @@ class StreamingServer(object):
     def __init__(
         self,
         nn_model_filename: str,
-        bpe_model_filename: str,
+        bpe_model_filename: Optional[str],
+        token_filename: Optional[str],
         nn_pool_size: int,
         max_wait_ms: float,
         max_batch_size: int,
@@ -211,7 +213,11 @@ class StreamingServer(object):
           nn_model_filename:
             Path to the torchscript model
           bpe_model_filename:
-            Path to the BPE model
+            Path to the BPE model. If it is None, you have to provide
+            `token_filename`.
+          token_filename:
+            Path to tokens.txt. If it is None, you have to provide
+            `bpe_model_filename`.
           nn_pool_size:
             Number of threads for the thread pool that is responsible for
             neural network computation and decoding.
@@ -252,9 +258,6 @@ class StreamingServer(object):
 
         self.chunk_length_pad = self.chunk_length + self.model.pad_length
 
-        self.sp = spm.SentencePieceProcessor()
-        self.sp.load(bpe_model_filename)
-
         self.context_size = self.model.context_size
         self.subsampling_factor = self.model.subsampling_factor
         self.blank_id = self.model.blank_id
@@ -288,7 +291,13 @@ class StreamingServer(object):
                 f"Decoding method {decoding_method} is not supported."
             )
 
-        self.beam_search.sp = self.sp
+        if bpe_model_filename:
+            self.beam_search.sp = spm.SentencePieceProcessor()
+            self.beam_search.sp.load(bpe_model_filename)
+        else:
+            self.beam_search.token_table = k2.SymbolTable.from_file(
+                token_filename
+            )
 
         self.online_endpoint_config = online_endpoint_config
 
@@ -614,6 +623,7 @@ def main():
     port = args.port
     nn_model_filename = args.nn_model_filename
     bpe_model_filename = args.bpe_model_filename
+    token_filename = args.token_filename
     nn_pool_size = args.nn_pool_size
     max_batch_size = args.max_batch_size
     max_wait_ms = args.max_wait_ms
@@ -632,6 +642,7 @@ def main():
     server = StreamingServer(
         nn_model_filename=nn_model_filename,
         bpe_model_filename=bpe_model_filename,
+        token_filename=token_filename,
         nn_pool_size=nn_pool_size,
         max_batch_size=max_batch_size,
         max_wait_ms=max_wait_ms,

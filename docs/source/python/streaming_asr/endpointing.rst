@@ -109,3 +109,9 @@ Long Demo
 
 ..  youtube:: LJtPJmX5jpE
    :width: 120%
+
+Endpointing Demo (Arabic)
+-------------------------
+
+..  youtube:: t2SlrzgMd_k
+   :width: 120%

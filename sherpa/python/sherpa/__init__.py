@@ -10,6 +10,8 @@ if torch.__version__.split("+")[0] != sherpa_torch_version.split("+")[0]:
     )
 
 from _sherpa import (
+    EndpointConfig,
+    EndpointRule,
     FastBeamSearchConfig,
     FeatureConfig,
     Hypotheses,
@@ -18,6 +20,10 @@ from _sherpa import (
     OfflineRecognizer,
     OfflineRecognizerConfig,
     OfflineStream,
+    OnlineRecognitionResult,
+    OnlineRecognizer,
+    OnlineRecognizerConfig,
+    OnlineStream,
     RnntConformerModel,
     RnntConvEmformerModel,
     RnntEmformerModel,
@@ -49,4 +55,5 @@ from .utils import (
     count_num_trailing_zeros,
     get_fast_beam_search_results,
     setup_logger,
+    str2bool,
 )
