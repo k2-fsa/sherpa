@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
+# noqa
 #
 # Copyright (c)  2023  Xiaomi Corporation
 
 """
-A standalone script for offline (i.e., non-streaming) ASR recognition.
+A standalone script for offline (i.e., non-streaming) speech recognition.
 
-This file decodes files without starting a server and a client.
+This file decodes files without the need to start a server and a client.
 
 Please refer to
 https://k2-fsa.github.io/sherpa/cpp/pretrained_models/offline_transducer.html#
@@ -68,6 +69,8 @@ cd /path/to/sherpa
   ./icefall-asr-librispeech-pruned-transducer-stateless8-2022-12-02/test_wavs/1221-135766-0002.wav
 
 (5) fast_beam_search (with LG)
+
+cd /path/to/sherpa
 
 ./sherpa/bin/offline_transducer_asr.py \
   --nn-model ./icefall-asr-librispeech-pruned-transducer-stateless8-2022-12-02/exp/cpu_jit-torch-1.10.pt \
