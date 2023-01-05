@@ -11,7 +11,7 @@
 namespace sherpa {
 
 OfflineCtcOneBestDecoder::OfflineCtcOneBestDecoder(
-    const OfflineCtcDecoderConfig config, torch::Device device,
+    const OfflineCtcDecoderConfig &config, torch::Device device,
     int32_t vocab_size)
     : config_(config), vocab_size_(vocab_size) {
   if (config.hlg.empty()) {
@@ -21,6 +21,8 @@ OfflineCtcOneBestDecoder::OfflineCtcOneBestDecoder(
     decoding_graph_ = k2::GetCtcTopo(vocab_size - 1, config.modified, device);
   } else {
     decoding_graph_ = k2::LoadFsaClass(config.hlg, device);
+
+    k2::ScaleTensorAttribute(decoding_graph_, config.lm_scale, "scores");
   }
 }
 

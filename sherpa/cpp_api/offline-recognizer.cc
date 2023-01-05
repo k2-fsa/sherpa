@@ -25,6 +25,10 @@ void OfflineCtcDecoderConfig::Register(ParseOptions *po) {
 
   po->Register("hlg", &hlg, "Used only for decoding with an HLG graph. ");
 
+  po->Register("lm-scale", &lm_scale,
+               "Used only for decoding with an HLG graph. "
+               "It specifies the scale for HLG.scores");
+
   po->Register("search-beam", &search_beam,
                "Used only for CTC decoding. "
                "Decoding beam, e.g. 20.  Smaller is faster, larger is "
@@ -72,6 +76,7 @@ std::string OfflineCtcDecoderConfig::ToString() const {
   os << "OfflineCtcDecoderConfig(";
   os << "modified=" << (modified ? "True" : "False") << ", ";
   os << "hlg=" << '\"' << hlg << '\"' << ", ";
+  os << "lm_scale=" << lm_scale << ", ";
   os << "search_beam=" << search_beam << ", ";
   os << "output_beam=" << output_beam << ", ";
   os << "min_active_states=" << min_active_states << ", ";
