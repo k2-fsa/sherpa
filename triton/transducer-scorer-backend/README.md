@@ -1,6 +1,10 @@
 ### Custom backend for scorer module
 
-Currently, only support transducer greedy search method for model_repo_offline
+This module implements a custom triton backend for scorer module in model_repo_offline.
+(Currently, only greedy search method is supported.) 
+
+
+Comparing with default python scorer backend, this c++ custom backend has better performance but less flexibility.
 
 ```
 # In server docker container,
