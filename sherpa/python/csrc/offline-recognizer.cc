@@ -191,14 +191,16 @@ void PybindOfflineRecognizer(py::module &m) {  // NOLINT
   using PyClass = OfflineRecognizer;
   py::class_<PyClass>(m, "OfflineRecognizer")
       .def(py::init<const OfflineRecognizerConfig &>(), py::arg("config"))
-      .def("create_stream", &PyClass::CreateStream)
-      .def("decode_stream", &PyClass::DecodeStream, py::arg("s"))
+      .def("create_stream", &PyClass::CreateStream,
+           py::call_guard<py::gil_scoped_release>())
+      .def("decode_stream", &PyClass::DecodeStream, py::arg("s"),
+           py::call_guard<py::gil_scoped_release>())
       .def(
           "decode_streams",
           [](PyClass &self, std::vector<OfflineStream *> &ss) {
             self.DecodeStreams(ss.data(), ss.size());
           },
-          py::arg("ss"));
+          py::arg("ss"), py::call_guard<py::gil_scoped_release>());
 }
 
 }  // namespace sherpa
