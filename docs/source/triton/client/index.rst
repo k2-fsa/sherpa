@@ -34,6 +34,7 @@ You could also decode a whole dataset to benchmark metrics e.g. RTF, WER.
     cd sherpa/triton/client
 
     # For aishell manifests:
+    git lfs install
     git clone https://huggingface.co/csukuangfj/aishell-test-dev-manifests
     sudo mkdir -p /root/fangjun/open-source/icefall-aishell/egs/aishell/ASR/download/aishell
     tar xf ./aishell-test-dev-manifests/data_aishell.tar.gz -C /root/fangjun/open-source/icefall-aishell/egs/aishell/ASR/download/aishell/
