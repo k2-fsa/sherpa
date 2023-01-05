@@ -113,6 +113,7 @@ rst_epilog = """
 .. _aishell: https://www.openslr.org/33
 .. _sherpa: https://github.com/k2-fsa/sherpa
 .. _transducer: https://arxiv.org/pdf/1211.3711.pdf
+.. _CTC: https://www.cs.toronto.edu/~graves/icml_2006.pdf
 .. _asyncio: https://docs.python.org/3/library/asyncio.html
 .. _k2: https://github.com/k2-fsa/k2
 .. _icefall: https://github.com/k2-fsa/icefall
@@ -133,4 +134,5 @@ rst_epilog = """
 .. _Triton: https://github.com/triton-inference-server
 .. _Triton-server: https://github.com/triton-inference-server/server
 .. _Triton-client: https://github.com/triton-inference-server/client
+.. _WebSocket: https://en.wikipedia.org/wiki/WebSocket
 """
