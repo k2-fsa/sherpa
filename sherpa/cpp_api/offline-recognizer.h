@@ -23,6 +23,7 @@ struct OfflineCtcDecoderConfig {
 
   // Used only for HLG decoding
   std::string hlg;
+  float lm_scale = 1.0;
 
   float search_beam = 20;
   float output_beam = 8;
