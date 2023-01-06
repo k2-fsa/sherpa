@@ -22,6 +22,73 @@
 #include "sherpa/cpp_api/online-stream.h"
 #include "sherpa/csrc/fbank-features.h"
 
+static constexpr const char *kUsageMessage = R"(
+Online (streaming) automatic speech recognition with sherpa.
+
+Usage:
+(1) View help information.
+
+  ./bin/sherpa-online-microphone --help
+
+(2) Use a pretrained model for recognition
+
+  ./bin/sherpa-online-microphone \
+    --nn-model=/path/to/cpu_jit.pt \
+    --tokens=/path/to/tokens.txt \
+    --use-gpu=false \
+    --decoding-method=greedy_search
+    foo.wav \
+    bar.wav
+
+To use fast_beam_search with an LG, use
+
+  ./bin/sherpa-online-microphone \
+    --decoding-method=fast_beam_search \
+    --nn-model=/path/to/cpu_jit.pt \
+    --tokens=/path/to/tokens.txt \
+    --lg=/path/to/LG.pt \
+    --use-gpu=false \
+    foo.wav \
+    bar.wav
+
+(3) To use an LSTM model for recognition
+
+  ./bin/sherpa-online-microphone \
+    --encoder-model=/path/to/encoder_jit_trace.pt \
+    --decoder-model=/path/to/decoder_jit_trace.pt \
+    --joiner-model=/path/to/joiner_jit_trace.pt \
+    --tokens=/path/to/tokens.txt \
+    --use-gpu=false \
+    foo.wav \
+    bar.wav
+
+(4) To use a streaming Zipformer model for recognition
+
+  ./bin/sherpa-online-microphone \
+    --encoder-model=/path/to/encoder_jit_trace.pt \
+    --decoder-model=/path/to/decoder_jit_trace.pt \
+    --joiner-model=/path/to/joiner_jit_trace.pt \
+    --tokens=/path/to/tokens.txt \
+    --use-gpu=false \
+    --decode-chunk-size=32 \
+    foo.wav \
+    bar.wav
+
+(5) To decode wav.scp
+
+  ./bin/sherpa-online-microphone \
+    --nn-model=/path/to/cpu_jit.pt \
+    --tokens=/path/to/tokens.txt \
+    --use-gpu=false \
+    --use-wav-scp=true \
+    scp:wav.scp \
+    ark,scp,t:result.ark,result.scp
+
+See
+https://k2-fsa.github.io/sherpa/cpp/pretrained_models/online_transducer.html
+for more details.
+)";
+
 class Microphone {
  public:
   Microphone() {
@@ -75,8 +142,7 @@ int main(int argc, char *argv[]) {
   torch::jit::getProfilingMode() = false;
   torch::jit::setGraphExecutorOptimize(false);
 
-  // sherpa::ParseOptions po(kUsageMessage);
-  sherpa::ParseOptions po("");
+  sherpa::ParseOptions po(kUsageMessage);
   sherpa::OnlineRecognizerConfig config;
   config.Register(&po);
 
