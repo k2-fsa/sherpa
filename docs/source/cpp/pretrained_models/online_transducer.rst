@@ -20,6 +20,49 @@ This sections lists models trained using `icefall`_.
 English
 ^^^^^^^
 
+icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+  # This model is trained using LibriSpeech with streaming zipformer transducer
+  #
+  # See https://github.com/k2-fsa/icefall/pull/787
+  #
+  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/Zengwei/icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29
+  cd icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29
+
+  git lfs pull --include "exp/encoder_jit_trace.pt"
+  git lfs pull --include "exp/decoder_jit_trace.pt"
+  git lfs pull --include "exp/joiner_jit_trace.pt"
+  git lfs pull --include "data/lang_bpe_500/LG.pt"
+
+  for m in greedy_search modified_beam_search fast_beam_search; do
+    sherpa-online \
+      --decoding-method=$m \
+      --encoder-model=./exp/encoder_jit_trace.pt \
+      --decoder-model=./exp/decoder_jit_trace.pt \
+      --joiner-model=./exp/joiner_jit_trace.pt \
+      --tokens=./data/lang_bpe_500/tokens.txt \
+      --decode-chunk-size=32 \
+      ./test_wavs/1089-134686-0001.wav \
+      ./test_wavs/1221-135766-0001.wav \
+      ./test_wavs/1221-135766-0002.wav
+  done
+
+  # For fast_beam_search with LG
+  sherpa-online \
+    --decoding-method=fast_beam_search \
+    --encoder-model=./exp/encoder_jit_trace.pt \
+    --decoder-model=./exp/decoder_jit_trace.pt \
+    --joiner-model=./exp/joiner_jit_trace.pt \
+    --lg=./data/lang_bpe_500/LG.pt \
+    --tokens=./data/lang_bpe_500/tokens.txt \
+    --decode-chunk-size=32 \
+    ./test_wavs/1089-134686-0001.wav \
+    ./test_wavs/1221-135766-0001.wav \
+    ./test_wavs/1221-135766-0002.wav
+
 icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
