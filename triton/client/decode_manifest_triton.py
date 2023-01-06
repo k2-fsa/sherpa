@@ -28,6 +28,11 @@ Usage:
     --streaming \
     --compute-cer
 
+# For simulate streaming mode icefall server
+./decode_manifest_triton.py \
+    --simulate-streaming \
+    --compute-cer
+
 # For offline wenet server
 ./decode_manifest_triton.py \
     --server-addr localhost \ 
@@ -131,6 +136,15 @@ def get_args():
         action="store_true",
         default=False,
         help="""True for streaming ASR.
+        """,
+    )
+
+    parser.add_argument(
+        "--simulate-streaming",
+        action="store_true",
+        default=False,
+        help="""True for strictly simulate streaming ASR.
+        Threads will sleep to simulate the real speaking scene.
         """,
     )
 
@@ -239,9 +253,11 @@ async def send_streaming(
     first_chunk_in_secs: float,
     other_chunk_in_secs: float,
     task_index: int,
+    simulate_mode: bool = False,
 ):
     total_duration = 0.0
     results = []
+    latency_data = []
 
     for i, c in enumerate(cuts):
         if i % log_interval == 0:
@@ -263,9 +279,15 @@ async def send_streaming(
             j += len(wav_segs[-1])
 
         sequence_id = task_index + 10086
-
+    
         for idx, seg in enumerate(wav_segs):
             chunk_len = len(seg)
+            time_flag = time.time() + chunk_len / sample_rate
+
+            if simulate_mode:
+                await asyncio.sleep(chunk_len / sample_rate)
+
+            chunk_start = time.time()
             if idx == 0:
                 chunk_samples = int(first_chunk_in_secs * sample_rate)
                 expect_input = np.zeros((1, chunk_samples), dtype=np.float32)
@@ -298,13 +320,16 @@ async def send_streaming(
                                                 sequence_start=idx == 0,
                                                 sequence_end=end)
             idx += 1
-            if end:
-                decoding_results = response.as_numpy("TRANSCRIPTS")
-                if type(decoding_results) == np.ndarray:
-                    decoding_results = b' '.join(decoding_results).decode('utf-8')
-                else:
-                    # For wenet
-                    decoding_results = response.as_numpy("TRANSCRIPTS")[0].decode("utf-8")
+
+
+            decoding_results = response.as_numpy("TRANSCRIPTS")
+            if type(decoding_results) == np.ndarray:
+                decoding_results = b' '.join(decoding_results).decode('utf-8')
+            else:
+                # For wenet
+                decoding_results = response.as_numpy("TRANSCRIPTS")[0].decode("utf-8")
+            chunk_end = time.time() - chunk_start
+            latency_data.append((chunk_end, chunk_len/sample_rate))
 
         total_duration += c.duration
 
@@ -323,7 +348,7 @@ async def send_streaming(
                     )
                 )  # noqa
 
-    return total_duration, results
+    return total_duration, results, latency_data
 
 
 async def main():
@@ -343,7 +368,7 @@ async def main():
     triton_client = grpcclient.InferenceServerClient(url=url, verbose=False)
     protocol_client = grpcclient
     
-    if args.streaming:
+    if args.streaming or args.simulate_streaming:
         frame_shift_ms=10
         frame_length_ms=25
         add_frames = math.ceil((frame_length_ms - frame_shift_ms) / frame_shift_ms)
@@ -360,6 +385,7 @@ async def main():
     start_time = time.time()
     for i in range(num_tasks):
         if args.streaming:
+            assert not args.simulate_streaming
             task = asyncio.create_task(
                 send_streaming(
                     cuts=cuts_list[i],
@@ -372,6 +398,22 @@ async def main():
                     first_chunk_in_secs=first_chunk_ms/1000,
                     other_chunk_in_secs=args.chunk_size * args.subsampling * frame_shift_ms/1000,
                     task_index=i,
+                )
+            )
+        elif args.simulate_streaming:
+            task = asyncio.create_task(
+                send_streaming(
+                    cuts=cuts_list[i],
+                    name=f"task-{i}",
+                    triton_client=triton_client,
+                    protocol_client=protocol_client,
+                    log_interval=log_interval,
+                    compute_cer=compute_cer,
+                    model_name=args.model_name,
+                    first_chunk_in_secs=first_chunk_ms/1000,
+                    other_chunk_in_secs=args.chunk_size * args.subsampling * frame_shift_ms/1000,
+                    task_index=i,
+                    simulate_mode=True,
                 )
             )
         else: 
@@ -395,9 +437,12 @@ async def main():
 
     results = []
     total_duration = 0.0
+    latency_data = []
     for ans in ans_list:
         total_duration += ans[0]
         results += ans[1]
+        if args.streaming or args.simulate_streaming:
+            latency_data += ans[2]
 
     rtf = elapsed / total_duration
 
@@ -408,6 +453,17 @@ async def main():
         f"processing time: {elapsed:.3f} seconds "
         f"({elapsed/3600:.2f} hours)\n"
     )
+    
+    if args.streaming or args.simulate_streaming:
+        latency_list = [chunk_end for (chunk_end, chunk_duration) in latency_data]
+        latency_ms = sum(latency_list) / float(len(latency_list)) * 1000.0
+        latency_variance = np.var(latency_list, dtype=np.float64) * 1000.0
+        s += f"latency_variance: {latency_variance:.2f}\n"
+        s += f"latency_50_percentile: {np.percentile(latency_list, 50) * 1000.0:.2f}\n"
+        s += f"latency_90_percentile: {np.percentile(latency_list, 90) * 1000.0:.2f}\n"
+        s += f"latency_99_percentile: {np.percentile(latency_list, 99) * 1000.0:.2f}\n"
+        s += f"average_latency_ms: {latency_ms:.2f}\n"
+
     print(s)
 
     with open("rtf.txt", "w") as f:
