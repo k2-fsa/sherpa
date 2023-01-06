@@ -205,7 +205,6 @@ class OnlineRecognizer::OnlineRecognizerImpl {
       device_ = torch::Device("cuda:0");
     }
 
-    bool is_supported = false;
     if (config.nn_model.empty()) {
       torch::jit::Module encoder =
           torch::jit::load(config.encoder_model, torch::kCPU);
@@ -216,17 +215,17 @@ class OnlineRecognizer::OnlineRecognizerImpl {
         model_ = std::make_unique<OnlineLstmTransducerModel>(
             config.encoder_model, config.decoder_model, config.joiner_model,
             device_);
-        is_supported = true;
       } else if (class_name == "Zipformer") {
         // For OnlineZipformerTransducerModel
         int32_t chunk_size = config.chunk_size;
         // It is used after feature embedding, that does (T-7)//2
+        // Currently we used a fixed chunk size in the exported streaming
+        // zipformer. We will support using a given chunk size.
         int32_t model_chunk_size = encoder.attr("decode_chunk_size").toInt();
         SHERPA_CHECK_EQ(chunk_size / 2, model_chunk_size);
         model_ = std::make_unique<OnlineZipformerTransducerModel>(
             config_.encoder_model, config.decoder_model, config.joiner_model,
             chunk_size, device_);
-        is_supported = true;
       }
     } else {
       torch::jit::Module m = torch::jit::load(config.nn_model, torch::kCPU);
@@ -238,12 +237,10 @@ class OnlineRecognizer::OnlineRecognizerImpl {
           // Emformer from torchaudio
           model_ = std::make_unique<OnlineConvEmformerTransducerModel>(
               config.nn_model, device_);
-          is_supported = true;
         } else {
           // ConvEmformer from icefall
           model_ = std::make_unique<OnlineEmformerTransducerModel>(
               config.nn_model, device_);
-          is_supported = true;
         }
       } else if (class_name == "Conformer") {
         int32_t left_context = config.left_context;
@@ -255,10 +252,9 @@ class OnlineRecognizer::OnlineRecognizerImpl {
 
         model_ = std::make_unique<OnlineConformerTransducerModel>(
             config.nn_model, left_context, right_context, chunk_size, device_);
-        is_supported = true;
       }
     }
-    if (!is_supported) {
+    if (!model_) {
       std::string s =
           "Support only the following models from icefall:\n"
           "conv_emformer_transducer_stateless2\n"
