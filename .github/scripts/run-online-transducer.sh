@@ -21,6 +21,7 @@ git lfs pull --include "exp/encoder_jit_trace.pt"
 git lfs pull --include "exp/decoder_jit_trace.pt"
 git lfs pull --include "exp/joiner_jit_trace.pt"
 git lfs pull --include "data/lang_bpe_500/LG.pt"
+popd
 
 for m in greedy_search modified_beam_search fast_beam_search; do
   time ./build/bin/sherpa-online \
