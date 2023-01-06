@@ -28,11 +28,13 @@ class OnlineZipformerTransducerModel : public OnlineTransducerModel {
    * @param filename Path to the torchscript model. See
    *                 https://github.com/k2-fsa/icefall/blob/master/egs/librispeech/ASR/pruned_transducer_stateless7_streaming/jit_trace_export.py
    *                 for how to export a model.
+   * @param decode_chunk_size  Number of frames before subsampling
    * @param device  Move the model to this device on loading.
    */
   explicit OnlineZipformerTransducerModel(const std::string &encoder_filename,
                                           const std::string &decoder_filename,
                                           const std::string &joiner_filename,
+                                          int32_t decode_chunk_size,
                                           torch::Device device = torch::kCPU);
 
   torch::IValue StackStates(

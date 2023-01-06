@@ -4,6 +4,7 @@
 
 #include "sherpa/csrc/online-zipformer-transducer-model.h"
 
+#include <iostream>
 #include <string>
 #include <tuple>
 #include <utility>
@@ -13,7 +14,8 @@ namespace sherpa {
 
 OnlineZipformerTransducerModel::OnlineZipformerTransducerModel(
     const std::string &encoder_filename, const std::string &decoder_filename,
-    const std::string &joiner_filename, torch::Device device /*=torch::kCPU*/)
+    const std::string &joiner_filename, int32_t decode_chunk_size,
+    torch::Device device /*=torch::kCPU*/)
     : device_(device) {
   encoder_ = torch::jit::load(encoder_filename, device);
   encoder_.eval();
@@ -29,8 +31,7 @@ OnlineZipformerTransducerModel::OnlineZipformerTransducerModel(
 
   // Use 7 here since the subsampling is ((len - 7) // 2 + 1) // 2.
   int32_t pad_length = 7;
-
-  chunk_shift_ = 32;
+  chunk_shift_ = decode_chunk_size;
   chunk_size_ = chunk_shift_ + pad_length;
 }
 
@@ -62,37 +63,37 @@ torch::IValue OnlineZipformerTransducerModel::StackStates(
 
   for (int32_t i = 0; i != num_encoders; ++i) {
     // cached_len: (num_layers, batch_size)
-    stacked_states[i] = torch::stack(mod_states[i], /*dim*/ 1);
+    stacked_states[i] = torch::cat(mod_states[i], /*dim*/ 1);
   }
 
   for (int32_t i = num_encoders; i != 2 * num_encoders; ++i) {
     // cached_avg: (num_layers, batch_size, D)
-    stacked_states[i] = torch::stack(mod_states[i], /*dim*/ 1);
+    stacked_states[i] = torch::cat(mod_states[i], /*dim*/ 1);
   }
 
   for (int32_t i = 2 * num_encoders; i != 3 * num_encoders; ++i) {
     // cached_key: (num_layers, left_context_size, batch_size, D)
-    stacked_states[i] = torch::stack(mod_states[i], /*dim*/ 2);
+    stacked_states[i] = torch::cat(mod_states[i], /*dim*/ 2);
   }
 
   for (int32_t i = 3 * num_encoders; i != 4 * num_encoders; ++i) {
     // cached_val: (num_layers, left_context_size, batch_size, D)
-    stacked_states[i] = torch::stack(mod_states[i], /*dim*/ 2);
+    stacked_states[i] = torch::cat(mod_states[i], /*dim*/ 2);
   }
 
   for (int32_t i = 4 * num_encoders; i != 5 * num_encoders; ++i) {
     // cached_val2: (num_layers, left_context_size, batch_size, D)
-    stacked_states[i] = torch::stack(mod_states[i], /*dim*/ 2);
+    stacked_states[i] = torch::cat(mod_states[i], /*dim*/ 2);
   }
 
   for (int32_t i = 5 * num_encoders; i != 6 * num_encoders; ++i) {
     // cached_conv1: (num_layers, batch_size, D, kernel-1)
-    stacked_states[i] = torch::stack(mod_states[i], /*dim*/ 1);
+    stacked_states[i] = torch::cat(mod_states[i], /*dim*/ 1);
   }
 
   for (int32_t i = 6 * num_encoders; i != 7 * num_encoders; ++i) {
     // cached_conv2: (num_layers, batch_size, D, kernel-1)
-    stacked_states[i] = torch::stack(mod_states[i], /*dim*/ 1);
+    stacked_states[i] = torch::cat(mod_states[i], /*dim*/ 1);
   }
 
   return stacked_states;
@@ -120,60 +121,64 @@ std::vector<torch::IValue> OnlineZipformerTransducerModel::UnStackStates(
 
   for (int32_t i = 0; i != num_encoders; ++i) {
     // cached_len: (num_layers, batch_size)
-    std::vector<torch::Tensor> cached_len = torch::unbind(states[i], /*dim*/ 1);
+    std::vector<torch::Tensor> cached_len =
+        torch::chunk(states[i], /*chunks*/ batch_size, /*dim*/ 1);
     for (int32_t n = 0; n != batch_size; ++n) {
-      unstacked_states[n].push_back(cached_len[i]);
+      unstacked_states[n].push_back(cached_len[n]);
     }
   }
 
   for (int32_t i = num_encoders; i != 2 * num_encoders; ++i) {
     // cached_avg: (num_layers, batch_size, D)
-    std::vector<torch::Tensor> cached_avg = torch::unbind(states[i], /*dim*/ 1);
+    std::vector<torch::Tensor> cached_avg =
+        torch::chunk(states[i], /*chunks*/ batch_size, /*dim*/ 1);
     for (int32_t n = 0; n != batch_size; ++n) {
-      unstacked_states[n].push_back(cached_avg[i]);
+      unstacked_states[n].push_back(cached_avg[n]);
     }
   }
 
   for (int32_t i = 2 * num_encoders; i != 3 * num_encoders; ++i) {
     // cached_key: (num_layers, left_context_size, batch_size, D)
-    std::vector<torch::Tensor> cached_key = torch::unbind(states[i], /*dim*/ 2);
+    std::vector<torch::Tensor> cached_key =
+        torch::chunk(states[i], /*chunks*/ batch_size, /*dim*/ 2);
     for (int32_t n = 0; n != batch_size; ++n) {
-      unstacked_states[n].push_back(cached_key[i]);
+      unstacked_states[n].push_back(cached_key[n]);
     }
   }
 
   for (int32_t i = 3 * num_encoders; i != 4 * num_encoders; ++i) {
     // cached_val: (num_layers, left_context_size, batch_size, D)
-    std::vector<torch::Tensor> cached_val = torch::unbind(states[i], /*dim*/ 2);
+    std::vector<torch::Tensor> cached_val =
+        torch::chunk(states[i], /*chunks*/ batch_size, /*dim*/ 2);
     for (int32_t n = 0; n != batch_size; ++n) {
-      unstacked_states[n].push_back(cached_val[i]);
+      unstacked_states[n].push_back(cached_val[n]);
     }
   }
 
   for (int32_t i = 4 * num_encoders; i != 5 * num_encoders; ++i) {
     // cached_val2: (num_layers, left_context_size, batch_size, D)
     std::vector<torch::Tensor> cached_val2 =
-        torch::unbind(states[i], /*dim*/ 2);
+        torch::chunk(states[i], /*chunks*/ batch_size, /*dim*/ 2);
     for (int32_t n = 0; n != batch_size; ++n) {
-      unstacked_states[n].push_back(cached_val2[i]);
+      unstacked_states[n].push_back(cached_val2[n]);
     }
   }
 
   for (int32_t i = 5 * num_encoders; i != 6 * num_encoders; ++i) {
     // cached_conv1: (num_layers, batch_size, D, kernel-1)
     std::vector<torch::Tensor> cached_conv1 =
-        torch::unbind(states[i], /*dim*/ 1);
+        torch::chunk(states[i], /*chunks*/ batch_size, /*dim*/ 1);
     for (int32_t n = 0; n != batch_size; ++n) {
-      unstacked_states[n].push_back(cached_conv1[i]);
+      unstacked_states[n].push_back(cached_conv1[n]);
     }
   }
 
   for (int32_t i = 6 * num_encoders; i != 7 * num_encoders; ++i) {
     // cached_conv2: (num_layers, batch_size, D, kernel-1)
     std::vector<torch::Tensor> cached_conv2 =
-        torch::unbind(states[i], /*dim*/ 1);
+        torch::chunk(states[i], /*chunks*/ batch_size, /*dim*/ 1);
     for (int32_t n = 0; n != batch_size; ++n) {
-      unstacked_states[n].push_back(cached_conv2[i]);
+      unstacked_states[n].push_back(cached_conv2[n]);
     }
   }
 
@@ -190,7 +195,7 @@ std::vector<torch::IValue> OnlineZipformerTransducerModel::UnStackStates(
 torch::IValue OnlineZipformerTransducerModel::GetEncoderInitStates(
     int32_t batch_size /*=1*/) {
   torch::NoGradGuard no_grad;
-  return encoder_.run_method("get_init_states", device_);
+  return encoder_.run_method("get_init_state", device_);
 }
 
 std::tuple<torch::Tensor, torch::Tensor, torch::IValue>
@@ -205,6 +210,8 @@ OnlineZipformerTransducerModel::RunEncoder(
   // We skip the second entry `encoder_out_len` since we assume the
   // feature input is of fixed chunk size and there are no paddings.
   // We can figure out `encoder_out_len` from `encoder_out`.
+  torch::List<torch::Tensor> s_list =
+      c10::impl::toTypedList<torch::Tensor>(states.toList());
   torch::IValue ivalue =
       encoder_.run_method("forward", features, features_length, states);
   auto tuple_ptr = ivalue.toTuple();
