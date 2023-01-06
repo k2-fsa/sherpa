@@ -113,7 +113,7 @@ std::vector<torch::IValue> OnlineZipformerTransducerModel::UnStackStates(
   }
 
   int32_t num_encoders = num_elements / 7;
-  int32_t batch_size = static_cast<const torch::Tensor &>(states[0]).size(1);
+  int32_t batch_size = states[0].size(1);
 
   // unstacked_states.size() == batch_size
   // unstacked_states[n].size() == num_elements
