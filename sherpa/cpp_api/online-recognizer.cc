@@ -4,6 +4,8 @@
 
 #include "sherpa/cpp_api/online-recognizer.h"
 
+#include <locale>
+#include <memory>
 #include <utility>
 
 #include "nlohmann/json.hpp"
@@ -18,6 +20,7 @@
 #include "sherpa/csrc/online-transducer-greedy-search-decoder.h"
 #include "sherpa/csrc/online-transducer-model.h"
 #include "sherpa/csrc/online-transducer-modified-beam-search-decoder.h"
+#include "sherpa/csrc/online-zipformer-transducer-model.h"
 #include "sherpa/csrc/symbol-table.h"
 
 namespace sherpa {
@@ -86,18 +89,24 @@ void OnlineRecognizerConfig::Register(ParseOptions *po) {
 
   po->Register("decode-left-context", &left_context,
                "Used only for streaming Conformer, i.e, models from "
-               "pruned_transducer_statelessX in icefall. "
-               "Number of frames after subsampling during decoding.");
+               "pruned_transducer_statelessX, "
+               "and streaming Zipformer, i.e, models from "
+               "pruned_transducer_stateless7_streaming in icefall."
+               "Number of frames before subsampling during decoding.");
 
   po->Register("decode-right-context", &right_context,
                "Used only for streaming Conformer, i.e, models from "
-               "pruned_transducer_statelessX in icefall. "
-               "Number of frames after subsampling during decoding.");
+               "pruned_transducer_statelessX, "
+               "and streaming Zipformer, i.e, models from "
+               "pruned_transducer_stateless7_streaming in icefall."
+               "Number of frames before subsampling during decoding.");
 
   po->Register("decode-chunk-size", &chunk_size,
                "Used only for streaming Conformer, i.e, models from "
-               "pruned_transducer_statelessX in icefall. "
-               "Number of frames after subsampling during decoding.");
+               "pruned_transducer_statelessX, "
+               "and streaming Zipformer, i.e, models from "
+               "pruned_transducer_stateless7_streaming in icefall."
+               "Number of frames before subsampling during decoding.");
 }
 
 void OnlineRecognizerConfig::Validate() const {
@@ -196,11 +205,29 @@ class OnlineRecognizer::OnlineRecognizerImpl {
       device_ = torch::Device("cuda:0");
     }
 
+    bool is_supported = false;
     if (config.nn_model.empty()) {
-      // For OnlineLstmTransducerModel
-      model_ = std::make_unique<OnlineLstmTransducerModel>(
-          config.encoder_model, config.decoder_model, config.joiner_model,
-          device_);
+      torch::jit::Module encoder =
+          torch::jit::load(config.encoder_model, torch::kCPU);
+      std::string class_name = encoder.type()->name()->name();
+
+      if (class_name == "RNN") {
+        // For OnlineLstmTransducerModel
+        model_ = std::make_unique<OnlineLstmTransducerModel>(
+            config.encoder_model, config.decoder_model, config.joiner_model,
+            device_);
+        is_supported = true;
+      } else if (class_name == "Zipformer") {
+        // For OnlineZipformerTransducerModel
+        int32_t chunk_size = config.chunk_size;
+        // It is used after feature embedding, that does (T-7)//2
+        int32_t model_chunk_size = encoder.attr("decode_chunk_size").toInt();
+        SHERPA_CHECK_EQ(chunk_size / 2, model_chunk_size);
+        model_ = std::make_unique<OnlineZipformerTransducerModel>(
+            config_.encoder_model, config.decoder_model, config.joiner_model,
+            chunk_size, device_);
+        is_supported = true;
+      }
     } else {
       torch::jit::Module m = torch::jit::load(config.nn_model, torch::kCPU);
       auto encoder = m.attr("encoder").toModule();
@@ -211,10 +238,12 @@ class OnlineRecognizer::OnlineRecognizerImpl {
           // Emformer from torchaudio
           model_ = std::make_unique<OnlineConvEmformerTransducerModel>(
               config.nn_model, device_);
+          is_supported = true;
         } else {
           // ConvEmformer from icefall
           model_ = std::make_unique<OnlineEmformerTransducerModel>(
               config.nn_model, device_);
+          is_supported = true;
         }
       } else if (class_name == "Conformer") {
         int32_t left_context = config.left_context;
@@ -226,14 +255,18 @@ class OnlineRecognizer::OnlineRecognizerImpl {
 
         model_ = std::make_unique<OnlineConformerTransducerModel>(
             config.nn_model, left_context, right_context, chunk_size, device_);
-      } else {
-        std::string s =
-            "Support only the following models from icefall:\n"
-            "conv_emformer_transducer_stateless2\n"
-            "pruned_stateless_emformer_rnnt2\n"
-            "pruned_transducer_stateless{2,3,4,5}\n";
-        TORCH_CHECK(false, s);
+        is_supported = true;
       }
+    }
+    if (!is_supported) {
+      std::string s =
+          "Support only the following models from icefall:\n"
+          "conv_emformer_transducer_stateless2\n"
+          "lstm_transducer_stateless2\n"
+          "pruned_stateless_emformer_rnnt2\n"
+          "pruned_transducer_stateless{2,3,4,5}\n"
+          "pruned_transducer_stateless7_streaming\n";
+      TORCH_CHECK(false, s);
     }
 
     WarmUp();
