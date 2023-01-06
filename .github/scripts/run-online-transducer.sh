@@ -280,7 +280,6 @@ cd exp
 ln -sv cpu_jit-epoch-11-avg-1.pt cpu_jit.pt
 cd ..
 
-mkdir test_wavs
 cd test_wavs
 wget https://huggingface.co/spaces/k2-fsa/automatic-speech-recognition/resolve/main/test_wavs/tal_csasr/0.wav
 wget https://huggingface.co/spaces/k2-fsa/automatic-speech-recognition/resolve/main/test_wavs/tal_csasr/210_36476_210_8341_1_1533271973_7057520_132.wav
