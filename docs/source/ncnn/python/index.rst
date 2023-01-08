@@ -164,8 +164,8 @@ Please refer to :ref:`sherpa-ncnn-pre-trained-models` for more models.
 
 **Note that**:
 
-  - It reads ``20 ms`` of audio samples at a time. You can choose a larger
-    value, e.g., ``100 ms``.
+  - It reads ``100 ms`` of audio samples at a time. You can choose a larger
+    value, e.g., ``200 ms``.
   - No queue or callback is used. Instead, we use a blocking read here.
   - The ``samples`` array is reshaped to a ``1-D`` array
 
