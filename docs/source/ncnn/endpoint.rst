@@ -84,6 +84,25 @@ first segment reaches a given value, which is ``20`` seconds in this case.
   If you want to deactive this rule, please provide a very large value
   for ``rule3_min_utterance_length`` or ``rule3.min_utterance_length``.
 
+Demo
+----
+
+Multilingual (Chinese + English)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The following video demonstrates using the Python API of `sherpa-ncnn`_
+for real-time speech recogntinion with endpointing.
+
+.. raw:: html
+
+  <iframe src="//player.bilibili.com/player.html?bvid=BV1eK411y788&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" width="800" height="600"> </iframe>
+
+
+.. hint::
+
+  The code is available at
+
+  `<https://github.com/k2-fsa/sherpa-ncnn/blob/master/python-api-examples/speech-recognition-from-microphone-with-endpoint-detection.py>`_
 
 FAQs
 ----
