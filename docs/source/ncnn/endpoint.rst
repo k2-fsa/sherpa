@@ -15,7 +15,7 @@ Rule 1
 
 In ``Rule 1``, we count the duration of trailing silence. If it is larger than
 a user specified value, ``Rule 1`` is activated. The following is an example,
-which uses ``2.4 seconds`` as a threshold.
+which uses ``2.4 seconds`` as the threshold.
 
   .. figure:: ./pic/rule1.png
      :alt: Rule 1 for endpoint detection
@@ -34,7 +34,7 @@ In both cases, ``Rule 1`` is activated.
 .. hint::
 
   In the Python API, you can specify ``rule1_min_trailing_silence`` while
-  contructing an instance of ``sherpa_ncnn.Recognizer``.
+  constructing an instance of ``sherpa_ncnn.Recognizer``.
 
   In the C++ API, you can specify ``rule1.min_trailing_silence`` when creating
   ``EndpointConfig``.
@@ -55,7 +55,7 @@ larger than the user specified value ``1.2`` seconds.
 .. hint::
 
   In the Python API, you can specify ``rule2_min_trailing_silence`` while
-  contructing an instance of ``sherpa_ncnn.Recognizer``.
+  constructing an instance of ``sherpa_ncnn.Recognizer``.
 
   In the C++ API, you can specify ``rule2.min_trailing_silence`` when creating
   ``EndpointConfig``.
@@ -74,7 +74,7 @@ first segment reaches a given value, which is ``20`` seconds in this case.
 .. hint::
 
   In the Python API, you can specify ``rule3_min_utterance_length`` while
-  contructing an instance of ``sherpa_ncnn.Recognizer``.
+  constructing an instance of ``sherpa_ncnn.Recognizer``.
 
   In the C++ API, you can specify ``rule3.min_utterance_length`` when creating
   ``EndpointConfig``.
