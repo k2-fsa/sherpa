@@ -221,6 +221,18 @@ The following is a YouTube video for demonstration.
 
     <iframe src="//player.bilibili.com/player.html?bvid=BV1K44y197Fg&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" width="800" height="600"> </iframe>
 
+
+.. note::
+
+  `<https://github.com/k2-fsa/sherpa-ncnn/blob/master/python-api-examples/speech-recognition-from-microphone-with-endpoint-detection.py>`_ supports endpoint detection.
+
+  Please see the following video for its usage:
+
+  .. raw:: html
+
+    <iframe src="//player.bilibili.com/player.html?bvid=BV1eK411y788&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" width="800" height="600"> </iframe>
+
+
 Recognize a file
 ----------------
 
