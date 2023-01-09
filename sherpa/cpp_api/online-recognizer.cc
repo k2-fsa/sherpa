@@ -347,7 +347,7 @@ class OnlineRecognizer::OnlineRecognizerImpl {
       ans.is_final = true;
     }
     ans.segment = s->GetWavSegment();
-    float frame_shift_s = config_.feat_config.fbank_opts.frame_opts.frame_shift_ms / 1000. * model_->SubsamplingFactor();
+    float frame_shift_s = config_.feat_config.fbank_opts.frame_opts.frame_shift_ms / 1000.;
     ans.start_time = s->GetStartFrame()*frame_shift_s;
     s->GetNumTrailingBlankFrames() = r.num_trailing_blanks;
 
