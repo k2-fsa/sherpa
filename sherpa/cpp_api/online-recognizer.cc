@@ -26,6 +26,7 @@ std::string OnlineRecognitionResult::AsJsonString() const {
   using json = nlohmann::json;
   json j;
   j["text"] = text;
+  j["start_time"] = start_time;
   j["tokens"] = tokens;
 
   // std::ostringstream os;
@@ -182,7 +183,6 @@ static OnlineRecognitionResult Convert(const OnlineTransducerDecoderResult &src,
     float time = frame_shift_s * t;
     r.timestamps.push_back(time);
   }
-
   return r;
 }
 
@@ -347,7 +347,8 @@ class OnlineRecognizer::OnlineRecognizerImpl {
       ans.is_final = true;
     }
     ans.segment = s->GetWavSegment();
-    ans.start_frame = s->GetStartFrame();
+    float frame_shift_s = config_.feat_config.fbank_opts.frame_opts.frame_shift_ms / 1000. * model_->SubsamplingFactor();
+    ans.start_time = s->GetStartFrame()*frame_shift_s;
     s->GetNumTrailingBlankFrames() = r.num_trailing_blanks;
 
     if (config_.use_endpoint && IsEndpoint(s)) {

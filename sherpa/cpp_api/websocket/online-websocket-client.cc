@@ -118,12 +118,12 @@ class Client {
     c_.connect(con);
   }
 
-  float DumpCtm(nlohmann::json result, float start_time) {
+  void DumpCtm(nlohmann::json result) {
     int i=0;
     std::vector<std::string> tokens = result["tokens"].get<std::vector<std::string>>();
     int length = tokens.size();
-    if (length<1) { return start_time; }
-    std::string res = result.dump();
+    if (length<1) { return; }
+    //    std::string res = result.dump();
     std::vector<float> timestamps = result["timestamps"].get<std::vector<float>>();
     //    SHERPA_LOG(INFO) << "CTM Dumping " << result["text"] ;
     if (tokens[0].at(0) != ' ') {
@@ -131,6 +131,7 @@ class Client {
     }
     
     std::string word = tokens[0];
+    float start_time = result["start_time"];
     float start = timestamps[0]+start_time;
     float duration = 0.01;
     if (length>2) {
@@ -159,7 +160,6 @@ class Client {
 	  duration = timestamps[i+1] - timestamps[word_start_index];
 	}
     }
-    return start+duration;
   }
  
   void OnOpen(connection_hdl hdl) {
@@ -172,20 +172,20 @@ class Client {
     const std::string &payload = msg->get_payload();
     auto result = json::parse(payload);
     //    std::string res = result.dump();
-    SHERPA_LOG(INFO) << "Decoding results:" << result["text"];
+    SHERPA_LOG(INFO) << "Decoding results:" << result["text"].get<std::string>();
     if (result["segment"]>segment_id_) {
       segment_id_ = result["segment"];
       std::cout << text_;
       if (ctm_filename_.length()>0) {
-	start_time_ = DumpCtm(old_result_,start_time_);
+	DumpCtm(old_result_);
       }
     }
-    text_=result["text"];
+    text_=result["text"].get<std::string>();
     old_result_=result;
     if (result["final"]) {
-      std::cout << result["text"] << std::endl;
+      std::cout << result["text"].get<std::string>() << std::endl;
       if (ctm_filename_.length()>0) {
-	start_time_ = DumpCtm(result, start_time_);
+	DumpCtm(result);
       }
       websocketpp::lib::error_code ec;
       c_.close(hdl, websocketpp::close::status::normal, "I'm exiting now", ec);
@@ -268,7 +268,6 @@ class Client {
   asio::io_context &io_;
   websocketpp::uri uri_;
   torch::Tensor samples_;
-  float start_time_ = 0;
   nlohmann::json old_result_;
   int32_t samples_per_message_;
   int32_t num_sent_messages_ = 0;
