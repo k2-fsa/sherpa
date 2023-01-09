@@ -123,9 +123,7 @@ class Client {
     std::vector<std::string> tokens = result["tokens"].get<std::vector<std::string>>();
     int length = tokens.size();
     if (length<1) { return; }
-    //    std::string res = result.dump();
     std::vector<float> timestamps = result["timestamps"].get<std::vector<float>>();
-    //    SHERPA_LOG(INFO) << "CTM Dumping " << result["text"] ;
     if (tokens[0].at(0) != ' ') {
       SHERPA_LOG(WARNING) << "First word is not a new word " << tokens[0];
     }
@@ -171,8 +169,8 @@ class Client {
   void OnMessage(connection_hdl hdl, message_ptr msg) {
     const std::string &payload = msg->get_payload();
     auto result = json::parse(payload);
-    //    std::string res = result.dump();
-    SHERPA_LOG(INFO) << "Decoding results:" << result["text"].get<std::string>();
+    std::string res = result.dump();
+    SHERPA_LOG(INFO) << res;
     if (result["segment"]>segment_id_) {
       segment_id_ = result["segment"];
       std::cout << text_;
