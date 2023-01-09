@@ -64,7 +64,7 @@ The outputs are shown below. The CPU used for decoding is RV1126 (Quad core ARM 
 
 .. note::
 
-   The default option use 4 threads and ``greedy_search`` for decoding.
+   The default option uses 4 threads and ``greedy_search`` for decoding.
 
 .. note::
 
