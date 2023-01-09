@@ -1,6 +1,117 @@
 Conv-Emformer-transducer-based Models
 =====================================
 
+marcoyang/sherpa-ncnn-conv-emformer-transducer-small-2023-01-09 (English)
+--------------------------------------------------------------------
+
+.. hint::
+
+This model is a small version of `conv-emformer-transducer <https://github.com/k2-fsa/icefall/tree/master/egs/librispeech/ASR/conv_emformer_transducer_stateless2>` 
+trained in ``icefall``. It only has 8.8 million parameters and can be deployed on embedded device 
+for real-time speech recognition. You can find the models in ``fp32`` and ``int8`` model
+here `<https://huggingface.co/marcoyang/sherpa-ncnn-conv-emformer-transducer-small-2023-01-09>`_.
+
+This model is trained using `LibriSpeech <https://www.openslr.org/12/>`_ and it support only English.
+
+In the following, we show you how to download it and use it with `sherpa-ncnn <https://github.com/k2-fsa/sherpa-ncnn>`_
+
+Please use the following commands to download it.
+
+
+.. code-block::bash
+   cd /path/to/sherpa-ncnn
+
+   git lfs install
+   git clone https://huggingface.co/marcoyang/sherpa-ncnn-conv-emformer-transducer-small-2023-01-09
+
+   cd sherpa-ncnn-conv-emformer-transducer-small-2023-01-09
+   GIT_LFS_SKIP_SMUDGE=1
+
+Please check that the file size of the pre-trained models is correct (see the
+screen shot below):
+
+.. figure:: ./pic/2023-01-09-filesize.png
+   :alt: File size for sherpa-ncnn-conv-emformer-transducer-small-2023-01-09
+   :width: 800
+
+Decode a single wave file with ./build/bin/sherpa-ncnn
+::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+.. hint::
+
+   It supports decoding only wave files with a single channel and the sampling rate
+   should be 16 kHz.
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-ncnn
+
+  ./build/bin/sherpa-ncnn \
+    ./sherpa-ncnn-conv-emformer-transducer-small-2023-01-09/tokens.txt \
+    ./sherpa-ncnn-conv-emformer-transducer-small-2023-01-09/encoder_jit_trace-pnnx.ncnn.param \
+    ./sherpa-ncnn-conv-emformer-transducer-small-2023-01-09/encoder_jit_trace-pnnx.ncnn.bin \
+    ./sherpa-ncnn-conv-emformer-transducer-small-2023-01-09/decoder_jit_trace-pnnx.ncnn.param \
+    ./sherpa-ncnn-conv-emformer-transducer-small-2023-01-09/decoder_jit_trace-pnnx.ncnn.bin \
+    ./sherpa-ncnn-conv-emformer-transducer-small-2023-01-09/joiner_jit_trace-pnnx.ncnn.param \
+    ./sherpa-ncnn-conv-emformer-transducer-small-2023-01-09/joiner_jit_trace-pnnx.ncnn.bin \
+    ./sherpa-ncnn-conv-emformer-transducer-small-2023-01-09/test_wavs/1089-134686-0001.wav \
+
+The outputs are shown below:
+
+.. figure:: ./pic/2023-01-09-fp32-decoding.png
+   :alt: Decoding time and decoding result of float32 model
+   :width: 800
+
+.. note::
+   The default option use 4 threads and ``greedy_search`` for decoding.
+
+.. note::
+
+   Please use ``./build/bin/Release/sherpa-ncnn.exe`` for Windows.
+
+.. caution::
+
+   If you use Windows and get encoding issues, please run:
+
+      .. code-block:: bash
+
+          CHCP 65001
+
+   in your commandline.
+
+Decode a single wave file with ./build/bin/sherpa-ncnn (with int8 quantization)
+::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+.. note::
+   We also support int8 quantization to compresss the model and speed up inference.
+   Currently, only encoder and joiner are quantized.
+
+To decode the int8-quantized model, use the following command:
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-ncnn
+
+  ./build/bin/sherpa-ncnn \
+    ./sherpa-ncnn-conv-emformer-transducer-small-2023-01-09/tokens.txt \
+    ./sherpa-ncnn-conv-emformer-transducer-small-2023-01-09/encoder_jit_trace-pnnx.ncnn.int8.param \
+    ./sherpa-ncnn-conv-emformer-transducer-small-2023-01-09/encoder_jit_trace-pnnx.ncnn.int8.bin \
+    ./sherpa-ncnn-conv-emformer-transducer-small-2023-01-09/decoder_jit_trace-pnnx.ncnn.param \
+    ./sherpa-ncnn-conv-emformer-transducer-small-2023-01-09/decoder_jit_trace-pnnx.ncnn.bin \
+    ./sherpa-ncnn-conv-emformer-transducer-small-2023-01-09/joiner_jit_trace-pnnx.ncnn.int8.param \
+    ./sherpa-ncnn-conv-emformer-transducer-small-2023-01-09/joiner_jit_trace-pnnx.ncnn.int8.bin \
+    ./sherpa-ncnn-conv-emformer-transducer-small-2023-01-09/test_wavs/1089-134686-0001.wav \
+
+The outputs are shown below:
+
+.. figure:: ./pic/2023-01-09-int8-decoding.png
+   :alt: Decoding time and decoding result of int8 model
+   :width: 800
+
+Compared to the original model in ``float32`` format, 
+the decoding speed is significantly improved (3.26s -> 2.44s).
+
+
 .. _sherpa-ncnn-mixed-english-chinese-conv-emformer-model:
 
 csukuangfj/sherpa-ncnn-conv-emformer-transducer-2022-12-06 (Chinese + English)
