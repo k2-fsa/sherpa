@@ -22,11 +22,10 @@ Please use the following commands to download it.
 
    cd /path/to/sherpa-ncnn
 
-   git lfs install
-   git clone https://huggingface.co/marcoyang/sherpa-ncnn-conv-emformer-transducer-small-2023-01-09
+   GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/marcoyang/sherpa-ncnn-conv-emformer-transducer-small-2023-01-09
 
    cd sherpa-ncnn-conv-emformer-transducer-small-2023-01-09
-   GIT_LFS_SKIP_SMUDGE=1
+   git lfs pull --include "*.bin"
 
 Please check that the file size of the pre-trained models is correct (see the
 screen shot below):
@@ -85,7 +84,7 @@ Decode a single wave file with ./build/bin/sherpa-ncnn (with int8 quantization)
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 .. note::
-   
+
    We also support int8 quantization to compresss the model and speed up inference.
    Currently, only encoder and joiner are quantized.
 
