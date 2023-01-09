@@ -3,6 +3,10 @@
 Python API
 ==========
 
+.. hint::
+
+  It works for ``Python >= 3.6`` on Linux, macOS, and Windows.
+
 In this section, we describe
 
   1. How to install the Python package `sherpa-ncnn`_
@@ -20,23 +24,34 @@ Method 1
 
 .. code-block:: bash
 
-  git clone https://github.com/k2-fsa/sherpa-ncnn
-  cd sherpa-ncnn
-  python3 setup.py install
+  pip install sherpa-ncnn
+
+If you use ``Method 1``, it will install pre-compiled libraries.
+The ``disadvantage`` is that it may ``not be optimized`` for your platform,
+while the ``advantage`` is that you don't need to install ``cmake`` or a
+C++ compiler.
+
+For the following methods, you have to first install:
+
+- ``cmake``, which can be installed using ``pip instal cmake``
+- A C++ compiler, e.g., GCC on Linux and macOS, Visual Studio on Windows
 
 Method 2
 ^^^^^^^^
 
 .. code-block:: bash
 
-  pip install git+https://github.com/k2-fsa/sherpa-ncnn
+  git clone https://github.com/k2-fsa/sherpa-ncnn
+  cd sherpa-ncnn
+  python3 setup.py install
 
 Method 3
 ^^^^^^^^
 
 .. code-block:: bash
 
-  pip install sherpa-ncnn
+  pip install git+https://github.com/k2-fsa/sherpa-ncnn
+
 
 Method 4 (For developers)
 ^^^^^^^^^^^^^^^^^^^^^^^^^
