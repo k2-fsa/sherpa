@@ -4,21 +4,23 @@ Conv-Emformer-transducer-based Models
 marcoyang/sherpa-ncnn-conv-emformer-transducer-small-2023-01-09 (English)
 -------------------------------------------------------------------------
 
-.. hint::
+This model is a small version of `conv-emformer-transducer <https://github.com/k2-fsa/icefall/tree/master/egs/librispeech/ASR/conv_emformer_transducer_stateless2>`_
+trained in `icefall`_.
 
-This model is a small version of `conv-emformer-transducer <https://github.com/k2-fsa/icefall/tree/master/egs/librispeech/ASR/conv_emformer_transducer_stateless2>_` 
-trained in `icefall`_. It only has 8.8 million parameters and can be deployed on **embedded device** 
-for real-time speech recognition. You can find the models in ``fp32`` and ``int8`` format
-here `<https://huggingface.co/marcoyang/sherpa-ncnn-conv-emformer-transducer-small-2023-01-09>`_.
+It only has ``8.8 million parameters`` and can be deployed on ``embedded devices``
+for real-time speech recognition. You can find the models in ``fp16`` and ``int8`` format
+at `<https://huggingface.co/marcoyang/sherpa-ncnn-conv-emformer-transducer-small-2023-01-09>`_.
 
-This model is trained using `LibriSpeech <https://www.openslr.org/12/>`_ and it support only English.
+This model is trained using `LibriSpeech`_ and thus it supports only English.
 
-In the following, we show you how to download it and 
-deploy it with `sherpa-ncnn <https://github.com/k2-fsa/sherpa-ncnn>`_ on an embedded device.
+In the following, we show you how to download it and
+deploy it with `sherpa-ncnn`_ on an embedded device, whose CPU is
+`RV1126 <https://www.rock-chips.com/a/en/products/RV11_Series/2020/0427/1076.html>`_
+(Quad core ARM Cortex-A7)
 
 Please use the following commands to download it.
 
-.. code-block::bash
+.. code-block:: bash
 
    cd /path/to/sherpa-ncnn
 
@@ -33,6 +35,15 @@ screen shot below):
 .. figure:: ./pic/2023-01-09-filesize.jpg
    :alt: File size for sherpa-ncnn-conv-emformer-transducer-small-2023-01-09
    :width: 800
+
+
+.. note::
+
+  Please refer to :ref:`sherpa-ncnn-embedded-linux-arm-install` for how to
+  compile `sherpa-ncnn`_ for a 32-bit ARM platform. In the following, we
+  test the pre-trained model on an embedded device, whose CPU is
+  `RV1126 <https://www.rock-chips.com/a/en/products/RV11_Series/2020/0427/1076.html>`_
+  (Quad core ARM Cortex-A7).
 
 Decode a single wave file with ./build/bin/sherpa-ncnn
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -110,9 +121,22 @@ The outputs are shown below. The CPU used for decoding is RV1126 (Quad core ARM 
    :alt: Decoding time and decoding result of int8 model
    :width: 800
 
-Compared to the original model in ``float32`` format, 
-the decoding speed is significantly improved (3.26s -> 2.44s).
+Compared to the original model in ``fp16`` format,
+the decoding speed is significantly improved. The decoding time is changed from
+``3.26 s`` to ``2.44 s``.
 
+.. note::
+
+  When the model's weights are quantized to ``float16``, it is converted
+  to ``float32`` during computation.
+
+  When the model's weights are quantized to ``int8``, it is using ``int8``
+  during computation.
+
+.. hint::
+
+  Even if we use only 1 thread for the ``int8`` model, the resulting real
+  time factor (RTF) is still less than ``1``.
 
 .. _sherpa-ncnn-mixed-english-chinese-conv-emformer-model:
 

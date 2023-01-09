@@ -1,3 +1,5 @@
+.. _sherpa-ncnn-embedded-linux-arm-install:
+
 Embedded Linux (arm)
 ====================
 
