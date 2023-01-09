@@ -30,7 +30,7 @@ Please use the following commands to download it.
 Please check that the file size of the pre-trained models is correct (see the
 screen shot below):
 
-.. figure:: ./pic/2023-01-09-filesize.png
+.. figure:: ./pic/2023-01-09-filesize.jpg
    :alt: File size for sherpa-ncnn-conv-emformer-transducer-small-2023-01-09
    :width: 800
 
