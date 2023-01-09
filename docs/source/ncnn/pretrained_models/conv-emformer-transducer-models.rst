@@ -7,16 +7,16 @@ marcoyang/sherpa-ncnn-conv-emformer-transducer-small-2023-01-09 (English)
 .. hint::
 
 This model is a small version of `conv-emformer-transducer <https://github.com/k2-fsa/icefall/tree/master/egs/librispeech/ASR/conv_emformer_transducer_stateless2>_` 
-trained in `icefall`_. It only has 8.8 million parameters and can be deployed on embedded device 
+trained in `icefall`_. It only has 8.8 million parameters and can be deployed on **embedded device** 
 for real-time speech recognition. You can find the models in ``fp32`` and ``int8`` format
 here `<https://huggingface.co/marcoyang/sherpa-ncnn-conv-emformer-transducer-small-2023-01-09>`_.
 
 This model is trained using `LibriSpeech <https://www.openslr.org/12/>`_ and it support only English.
 
-In the following, we show you how to download it and use it with `sherpa-ncnn <https://github.com/k2-fsa/sherpa-ncnn>`_
+In the following, we show you how to download it and 
+deploy it with `sherpa-ncnn <https://github.com/k2-fsa/sherpa-ncnn>`_ on an embedded device.
 
 Please use the following commands to download it.
-
 
 .. code-block::bash
 
@@ -56,7 +56,7 @@ Decode a single wave file with ./build/bin/sherpa-ncnn
     ./sherpa-ncnn-conv-emformer-transducer-small-2023-01-09/joiner_jit_trace-pnnx.ncnn.bin \
     ./sherpa-ncnn-conv-emformer-transducer-small-2023-01-09/test_wavs/1089-134686-0001.wav \
 
-The outputs are shown below:
+The outputs are shown below. The CPU used for decoding is RV1126 (Quad core ARM Cortex-A7).
 
 .. figure:: ./pic/2023-01-09-fp32-decoding.png
    :alt: Decoding time and decoding result of float32 model
@@ -104,7 +104,7 @@ To decode the int8-quantized model, use the following command:
     ./sherpa-ncnn-conv-emformer-transducer-small-2023-01-09/joiner_jit_trace-pnnx.ncnn.int8.bin \
     ./sherpa-ncnn-conv-emformer-transducer-small-2023-01-09/test_wavs/1089-134686-0001.wav \
 
-The outputs are shown below:
+The outputs are shown below. The CPU used for decoding is RV1126 (Quad core ARM Cortex-A7).
 
 .. figure:: ./pic/2023-01-09-int8-decoding.png
    :alt: Decoding time and decoding result of int8 model
