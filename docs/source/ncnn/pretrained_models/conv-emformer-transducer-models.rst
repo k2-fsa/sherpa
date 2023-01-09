@@ -2,13 +2,13 @@ Conv-Emformer-transducer-based Models
 =====================================
 
 marcoyang/sherpa-ncnn-conv-emformer-transducer-small-2023-01-09 (English)
---------------------------------------------------------------------
+-------------------------------------------------------------------------
 
 .. hint::
 
-This model is a small version of `conv-emformer-transducer <https://github.com/k2-fsa/icefall/tree/master/egs/librispeech/ASR/conv_emformer_transducer_stateless2>` 
-trained in ``icefall``. It only has 8.8 million parameters and can be deployed on embedded device 
-for real-time speech recognition. You can find the models in ``fp32`` and ``int8`` model
+This model is a small version of `conv-emformer-transducer <https://github.com/k2-fsa/icefall/tree/master/egs/librispeech/ASR/conv_emformer_transducer_stateless2>_` 
+trained in `icefall`_. It only has 8.8 million parameters and can be deployed on embedded device 
+for real-time speech recognition. You can find the models in ``fp32`` and ``int8`` format
 here `<https://huggingface.co/marcoyang/sherpa-ncnn-conv-emformer-transducer-small-2023-01-09>`_.
 
 This model is trained using `LibriSpeech <https://www.openslr.org/12/>`_ and it support only English.
@@ -19,6 +19,7 @@ Please use the following commands to download it.
 
 
 .. code-block::bash
+
    cd /path/to/sherpa-ncnn
 
    git lfs install
@@ -63,6 +64,7 @@ The outputs are shown below:
    :width: 800
 
 .. note::
+
    The default option use 4 threads and ``greedy_search`` for decoding.
 
 .. note::
@@ -80,9 +82,10 @@ The outputs are shown below:
    in your commandline.
 
 Decode a single wave file with ./build/bin/sherpa-ncnn (with int8 quantization)
-::::::::::::::::::::::::::::::::::::::::::::::::::::::
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 .. note::
+   
    We also support int8 quantization to compresss the model and speed up inference.
    Currently, only encoder and joiner are quantized.
 
