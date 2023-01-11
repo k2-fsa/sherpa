@@ -32,7 +32,7 @@ struct OnlineRecognitionResult {
   int32_t segment = 0;
 
   /// Starting frame of this segment.
-  int32_t start_frame = 0;
+  float start_time = 0;
 
   /// True if this is the last segment.
   bool is_final = false;
@@ -45,7 +45,7 @@ struct OnlineRecognitionResult {
    *     "tokens": [x, x, x],
    *     "timestamps": [x, x, x],
    *     "segment": x,
-   *     "start_frame": x,
+   *     "start_time": x,
    *     "is_final": true|false
    *   }
    */

@@ -22,7 +22,7 @@ static void PybindOnlineRecognitionResult(py::module &m) {  // NOLINT
       .def_property_readonly("segment",
                              [](const PyClass &self) { return self.segment; })
       .def_property_readonly(
-          "start_frame", [](const PyClass &self) { return self.start_frame; })
+          "start_time", [](const PyClass &self) { return self.start_time; })
       .def_property_readonly("is_final",
                              [](const PyClass &self) { return self.is_final; })
       .def("__str__", &PyClass::AsJsonString)

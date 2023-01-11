@@ -29,20 +29,21 @@ std::string OnlineRecognitionResult::AsJsonString() const {
   using json = nlohmann::json;
   json j;
   j["text"] = text;
+  j["start_time"] = start_time;
   j["tokens"] = tokens;
 
-  std::ostringstream os;
-  os << "[";
-  std::string sep = "";
-  for (auto t : timestamps) {
-    os << sep << std::fixed << std::setprecision(2) << t;
-    sep = ",";
-  }
-  os << "]";
+  // std::ostringstream os;
+  // os << "[";
+  // std::string sep = "";
+  // for (auto t : timestamps) {
+  //   os << sep << std::fixed << std::setprecision(2) << t;
+  //   sep = ",";
+  // }
+  // os << "]";
 
   // NOTE: We don't use j["timestamps"] = timestamps;
   // because we need to control the number of decimal points to keep
-  j["timestamps"] = os.str();
+  j["timestamps"] = timestamps; // os.str();
 
   // TODO(fangjun): The key in the json object should be kept
   // in sync with sherpa/bin/pruned_transducer_statelessX/streaming_server.py
@@ -191,7 +192,6 @@ static OnlineRecognitionResult Convert(const OnlineTransducerDecoderResult &src,
     float time = frame_shift_s * t;
     r.timestamps.push_back(time);
   }
-
   return r;
 }
 
@@ -376,7 +376,8 @@ class OnlineRecognizer::OnlineRecognizerImpl {
       ans.is_final = true;
     }
     ans.segment = s->GetWavSegment();
-    ans.start_frame = s->GetStartFrame();
+    float frame_shift_s = config_.feat_config.fbank_opts.frame_opts.frame_shift_ms / 1000.;
+    ans.start_time = s->GetStartFrame()*frame_shift_s;
     s->GetNumTrailingBlankFrames() = r.num_trailing_blanks;
 
     if (config_.use_endpoint && IsEndpoint(s)) {
