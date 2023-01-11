@@ -77,9 +77,21 @@ Let us check whether `sherpa-ncnn`_ was installed successfully:
 
 .. code-block:: bash
 
-  python3 -c "import sherpa_ncnn; print(sherpa_ncnn.__version__)"
+  python3 -c "import sherpa_ncnn; print(sherpa_ncnn.__file__)"
+  python3 -c "import _sherpa_ncnn; print(_sherpa_ncnn.__file__)"
 
-It should print the version of `sherpa-ncnn`_, e.g., ``1.1``.
+They should print the location of ``sherpa_ncnn`` and ``_sherpa_ncnn``.
+
+.. hint::
+
+  If you use ``Method 1``, ``Method 2``, and ``Method 3``, you can also use
+
+    .. code-block:: bash
+
+      python3 -c "import sherpa_ncnn; print(sherpa_ncnn.__version__)"
+
+  It should print the version of `sherpa-ncnn`_, e.g., ``1.1``.
+
 
 Next, we describe how to use `sherpa-ncnn`_ Python API for speech recognition:
 
