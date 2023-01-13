@@ -1,6 +1,8 @@
 Conv-Emformer-transducer-based Models
 =====================================
 
+.. _marcoyang_sherpa_ncnn_conv_emformer_transducer_small_2023_01_09_english:
+
 marcoyang/sherpa-ncnn-conv-emformer-transducer-small-2023-01-09 (English)
 -------------------------------------------------------------------------
 

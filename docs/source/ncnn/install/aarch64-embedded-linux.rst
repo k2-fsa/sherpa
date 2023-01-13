@@ -70,14 +70,79 @@ After building, you will get two binaries:
 .. code-block:: bash
 
   $ ls -lh build-aarch64-linux-gnu/install/bin/
-  total 6.1M
-  -rwxr-xr-x 1 kuangfangjun root 3.1M Dec 18 14:53 sherpa-ncnn
-  -rwxr-xr-x 1 kuangfangjun root 3.1M Dec 18 14:53 sherpa-ncnn-microphone
+  total 10M
+  -rwxr-xr-x 1 kuangfangjun root 3.4M Jan 13 21:16 sherpa-ncnn
+  -rwxr-xr-x 1 kuangfangjun root 3.4M Jan 13 21:16 sherpa-ncnn-alsa
+  -rwxr-xr-x 1 kuangfangjun root 3.4M Jan 13 21:16 sherpa-ncnn-microphone
 
 That's it!
 
+.. hint::
+
+  - ``sherpa-ncnn`` is for decoding a single file
+  - ``sherpa-ncnn-alsa`` is for real-time speech recongition by reading
+    the microphone with `ALSA <https://en.wikipedia.org/wiki/Advanced_Linux_Sound_Architecture>`_
+  - ``sherpa-ncnn-microphone`` is for real-time speech recongition by reading
+    the microphone with ``portaudio``.
+
+.. caution::
+
+  We recommend that you use ``sherpa-ncnn-alsa`` on embedded systems such
+  as Raspberry pi.
+
+  You need to provide a ``device_name`` when invoking ``sherpa-ncnn-alsa``.
+  We describe below how to find the device name for you microphone.
+
+  Run the following command:
+
+      .. code-block:: bash
+
+        arecord -l
+
+  to list all avaliable microphones for recording. If it complains that
+  ``arecord: command not found``, please use ``sudo apt-get install alsa-utils``
+  to install it.
+
+  If the above command gives the following output:
+
+    .. code-block:: bash
+
+      **** List of CAPTURE Hardware Devices ****
+      card 3: UACDemoV10 [UACDemoV1.0], device 0: USB Audio [USB Audio]
+        Subdevices: 1/1
+        Subdevice #0: subdevice #0
+
+  In this case, I only have 1 microphone. It is ``card 3`` and that card
+  has only ``device 0``. To select ``card 3`` and ``device 0`` on that card,
+  we need to pass ``hw:3,0`` to ``sherpa-ncnn-alsa``.
+
+  For instance, you have to use
+
+    .. code-block:: bash
+
+      ./bin/sherpa-ncnn-alsa \
+        ./sherpa-ncnn-conv-emformer-transducer-small-2023-01-09/tokens.txt \
+        ./sherpa-ncnn-conv-emformer-transducer-small-2023-01-09/encoder_jit_trace-pnnx.ncnn.param \
+        ./sherpa-ncnn-conv-emformer-transducer-small-2023-01-09/encoder_jit_trace-pnnx.ncnn.bin \
+        ./sherpa-ncnn-conv-emformer-transducer-small-2023-01-09/decoder_jit_trace-pnnx.ncnn.param \
+        ./sherpa-ncnn-conv-emformer-transducer-small-2023-01-09/decoder_jit_trace-pnnx.ncnn.bin \
+        ./sherpa-ncnn-conv-emformer-transducer-small-2023-01-09/joiner_jit_trace-pnnx.ncnn.param \
+        ./sherpa-ncnn-conv-emformer-transducer-small-2023-01-09/joiner_jit_trace-pnnx.ncnn.bin \
+        "hw:3,0"
+
+  Please change the card number and also the device index on the selected card
+  accordingly in your own situation. Otherwise, you won't be able to record
+  with your microphone.
+
 Please read :ref:`sherpa-ncnn-pre-trained-models` for usages about
 the generated binaries.
+
+.. hint::
+
+  If you want to select a pre-trained model for Raspberry that can be
+  run on real-time, we recommend you to use
+  :ref:`marcoyang_sherpa_ncnn_conv_emformer_transducer_small_2023_01_09_english`.
+
 
 Read below if you want to learn more.
 
