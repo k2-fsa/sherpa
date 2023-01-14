@@ -4,6 +4,8 @@ Embedded Linux (aarch64)
 This page describes how to build `sherpa-ncnn`_ for embedded Linux (aarch64, 64-bit)
 with cross-compiling on an x86 machine with Ubuntu OS.
 
+.. _sherpa_ncnn_install_for_aarch64_embedded_linux:
+
 Install toolchain
 -----------------
 
@@ -65,7 +67,7 @@ Finally, let us build `sherpa-ncnn`_.
   cd sherpa-ncnn
   ./build-aarch64-linux-gnu.sh
 
-After building, you will get two binaries:
+After building, you will get three binaries:
 
 .. code-block:: bash
 
@@ -114,7 +116,8 @@ That's it!
 
   In this case, I only have 1 microphone. It is ``card 3`` and that card
   has only ``device 0``. To select ``card 3`` and ``device 0`` on that card,
-  we need to pass ``hw:3,0`` to ``sherpa-ncnn-alsa``.
+  we need to pass ``hw:3,0`` to ``sherpa-ncnn-alsa``. (Note: It has the format
+  ``hw:card_number:device_index``.)
 
   For instance, you have to use
 
@@ -168,6 +171,19 @@ Read below if you want to learn more.
        0x0000000000000001 (NEEDED)             Shared library: [libc.so.6]
        0x000000000000000f (RPATH)              Library rpath: [$ORIGIN]
 
+      $ readelf -d build-aarch64-linux-gnu/install/bin/sherpa-ncnn-alsa
+
+      Dynamic section at offset 0x34ea48 contains 31 entries:
+        Tag        Type                         Name/Value
+       0x0000000000000001 (NEEDED)             Shared library: [libasound.so.2]
+       0x0000000000000001 (NEEDED)             Shared library: [libgomp.so.1]
+       0x0000000000000001 (NEEDED)             Shared library: [libpthread.so.0]
+       0x0000000000000001 (NEEDED)             Shared library: [libstdc++.so.6]
+       0x0000000000000001 (NEEDED)             Shared library: [libm.so.6]
+       0x0000000000000001 (NEEDED)             Shared library: [libgcc_s.so.1]
+       0x0000000000000001 (NEEDED)             Shared library: [libc.so.6]
+       0x000000000000000f (RPATH)              Library rpath: [$ORIGIN]
+
       $ readelf -d build-aarch64-linux-gnu/install/bin/sherpa-ncnn-microphone
 
       Dynamic section at offset 0x301a98 contains 30 entries:
@@ -179,6 +195,7 @@ Read below if you want to learn more.
        0x0000000000000001 (NEEDED)             Shared library: [libgcc_s.so.1]
        0x0000000000000001 (NEEDED)             Shared library: [libc.so.6]
        0x000000000000000f (RPATH)              Library rpath: [$ORIGIN]
+
 
 Please create an issue at `<https://github.com/k2-fsa/sherpa-ncnn/issues>`_
 if you have any problems.
