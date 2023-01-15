@@ -117,7 +117,7 @@ That's it!
   In this case, I only have 1 microphone. It is ``card 0`` and that card
   has only ``device 0``. To select ``card 0`` and ``device 0`` on that card,
   we need to pass ``hw:0,0`` to ``sherpa-ncnn-alsa``. (Note: It has the format
-  ``hw:card_number:device_index``.)
+  ``hw:card_number,device_index``.)
 
   For instance, you have to use
 
