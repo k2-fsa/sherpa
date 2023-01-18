@@ -75,7 +75,6 @@ After building, you will get three binaries:
   total 10M
   -rwxr-xr-x 1 kuangfangjun root 3.4M Jan 13 21:16 sherpa-ncnn
   -rwxr-xr-x 1 kuangfangjun root 3.4M Jan 13 21:16 sherpa-ncnn-alsa
-  -rwxr-xr-x 1 kuangfangjun root 3.4M Jan 13 21:16 sherpa-ncnn-microphone
 
 That's it!
 
@@ -84,8 +83,6 @@ That's it!
   - ``sherpa-ncnn`` is for decoding a single file
   - ``sherpa-ncnn-alsa`` is for real-time speech recongition by reading
     the microphone with `ALSA <https://en.wikipedia.org/wiki/Advanced_Linux_Sound_Architecture>`_
-  - ``sherpa-ncnn-microphone`` is for real-time speech recongition by reading
-    the microphone with ``portaudio``.
 
 .. caution::
 
@@ -178,18 +175,6 @@ Read below if you want to learn more.
        0x0000000000000001 (NEEDED)             Shared library: [libasound.so.2]
        0x0000000000000001 (NEEDED)             Shared library: [libgomp.so.1]
        0x0000000000000001 (NEEDED)             Shared library: [libpthread.so.0]
-       0x0000000000000001 (NEEDED)             Shared library: [libstdc++.so.6]
-       0x0000000000000001 (NEEDED)             Shared library: [libm.so.6]
-       0x0000000000000001 (NEEDED)             Shared library: [libgcc_s.so.1]
-       0x0000000000000001 (NEEDED)             Shared library: [libc.so.6]
-       0x000000000000000f (RPATH)              Library rpath: [$ORIGIN]
-
-      $ readelf -d build-aarch64-linux-gnu/install/bin/sherpa-ncnn-microphone
-
-      Dynamic section at offset 0x301a98 contains 30 entries:
-        Tag        Type                         Name/Value
-       0x0000000000000001 (NEEDED)             Shared library: [libpthread.so.0]
-       0x0000000000000001 (NEEDED)             Shared library: [libgomp.so.1]
        0x0000000000000001 (NEEDED)             Shared library: [libstdc++.so.6]
        0x0000000000000001 (NEEDED)             Shared library: [libm.so.6]
        0x0000000000000001 (NEEDED)             Shared library: [libgcc_s.so.1]

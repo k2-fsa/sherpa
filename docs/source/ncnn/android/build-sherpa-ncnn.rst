@@ -93,19 +93,24 @@ Next, let us set the environment variable ``ANDROID_NDK`` for later use.
 
   Note from https://github.com/Tencent/ncnn/wiki/how-to-build#build-for-android
 
-  (optional) remove the hardcoded debug flag in Android NDK to fix
+  (Important) remove the hardcoded debug flag in Android NDK to fix
   the android-ndk issue: https://github.com/android/ndk/issues/243
 
   1. open ``$ANDROID_NDK/build/cmake/android.toolchain.cmake`` for ndk < r23
   or ``$ANDROID_NDK/build/cmake/android-legacy.toolchain.cmake`` for ndk >= r23
 
-  2. delete "-g" line
+  2. delete the line contining "-g"
 
     .. code-block::
 
       list(APPEND ANDROID_COMPILER_FLAGS
       -g
       -DANDROID
+
+.. caution::
+
+  If you don't delete the line containin ``-g`` above, the generated
+  library ``libncnn.so`` can be as large as ``21 MB`` or even larger!
 
 Build sherpa-ncnn (C++ code)
 ----------------------------
