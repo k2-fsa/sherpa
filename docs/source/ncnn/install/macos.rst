@@ -3,6 +3,10 @@ macOS
 
 This page describes how to build `sherpa-ncnn`_ on macOS.
 
+.. hint::
+
+  For the Python API, please refer to :ref:`sherpa-ncnn-python-api`.
+
 All you need is to run:
 
 .. code-block:: bash
