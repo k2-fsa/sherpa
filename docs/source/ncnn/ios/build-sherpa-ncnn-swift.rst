@@ -8,7 +8,7 @@ Requirement
 
 .. warning::
 
-  The minimum deployment requires the iOS version ``>= 1.13.0``.
+  The minimum deployment requires the iOS version ``>= 13.0``.
 
 
 Before we continue, please make sure the following requirements are satisfied:
@@ -209,7 +209,7 @@ Please read below if you want to run `sherpa-ncnn`_ on your iPhone or iPad.
 Run sherpa-ncnn on your iPhone/iPad
 -----------------------------------
 
-First, please make sure the iOS version of your iPhone/iPad is ``>= 1.13.0``.
+First, please make sure the iOS version of your iPhone/iPad is ``>= 13.0``.
 
 Click the menu ``Xcode -> Settings...``, as is shown in the following screenshot:
 
