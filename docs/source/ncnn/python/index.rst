@@ -5,7 +5,7 @@ Python API
 
 .. hint::
 
-  It works for ``Python >= 3.6`` on Linux, macOS, and Windows.
+  It is known to work for ``Python >= 3.6`` on Linux, macOS, and Windows.
 
 In this section, we describe
 
