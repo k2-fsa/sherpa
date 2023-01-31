@@ -1,15 +1,15 @@
 function(download_googltest)
   include(FetchContent)
 
-  set(googletest_URL  "https://github.com/google/googletest/archive/release-1.10.0.tar.gz")
-  set(googletest_HASH "SHA256=9dc9157a9a1551ec7a7e43daea9a694a0bb5fb8bec81235d8a1e6ef64c716dcb")
+  set(googletest_URL  "https://github.com/google/googletest/archive/refs/tags/v1.13.0.tar.gz")
+  set(googletest_HASH "SHA256=ad7fdba11ea011c1d925b3289cf4af2c66a352e18d4c7264392fead75e919363")
 
   # If you don't have access to the Internet, please download it to your
   # local drive and modify the following line according to your needs.
-  if(EXISTS "/star-fj/fangjun/download/github/googletest-release-1.10.0.tar.gz")
-    set(googletest_URL  "file:///star-fj/fangjun/download/github/googletest-release-1.10.0.tar.gz")
-  elseif(EXISTS "/tmp/googletest-release-1.10.0.tar.gz")
-    set(googletest_URL  "file:///tmp/googletest-release-1.10.0.tar.gz")
+  if(EXISTS "/star-fj/fangjun/download/github/googletest-1.13.0.tar.gz")
+    set(googletest_URL  "file:///star-fj/fangjun/download/github/googletest-1.13.0.tar.gz")
+  elseif(EXISTS "/tmp/googletest-1.13.0.tar.gz")
+    set(googletest_URL  "file:///tmp/googletest-1.13.0.tar.gz")
   endif()
 
   set(BUILD_GMOCK ON CACHE BOOL "" FORCE)
