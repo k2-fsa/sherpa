@@ -61,8 +61,8 @@ void PybindRnntLstmModel(py::module &m) {  // NOLINT
                 self.StreamingForwardEncoder(features, features_length, {},
                                              self.StateToIValue(states));
 
-            return {encoder_out, encoder_out_lens,
-                    self.StateFromIValue(next_states)};
+            return std::make_tuple(encoder_out, encoder_out_lens,
+                    self.StateFromIValue(next_states));
           },
           py::arg("features"), py::arg("features_length"), py::arg("states"),
           py::call_guard<py::gil_scoped_release>())
