@@ -59,8 +59,8 @@ void PybindRnntConvEmformerModel(py::module &m) {  // NOLINT
                                              num_processed_frames,
                                              self.StateToIValue(states));
 
-            return {encoder_out, encoder_out_lens,
-                    self.StateFromIValue(next_states)};
+            return std::make_tuple(encoder_out, encoder_out_lens,
+                    self.StateFromIValue(next_states));
           },
           py::arg("features"), py::arg("features_length"),
           py::arg("num_processed_frames"), py::arg("states"),

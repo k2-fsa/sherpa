@@ -66,7 +66,7 @@ RnntEmformerModel::StreamingForwardEncoder(
   torch::Tensor encoder_out_length = tuple_ptr->elements()[1].toTensor();
   torch::IValue next_states = tuple_ptr->elements()[2];
 
-  return {encoder_out, encoder_out_length, next_states};
+  return std::make_tuple(encoder_out, encoder_out_length, next_states);
 }
 
 torch::IValue RnntEmformerModel::GetEncoderInitStates(int32_t /*unused=1*/) {
