@@ -49,8 +49,8 @@ jobs:
       fail-fast: false
       matrix:
         os: [windows-2019]
-        torch: ["1.10.0"]
-        torchaudio: ["0.10.0"]
+        torch: ["1.13.1"]
+        torchaudio: ["0.13.1"]
         python-version: ["3.7", "3.8", "3.9"]
         decoding: ["greedy_search", "modified_beam_search", "fast_beam_search", "fast_beam_search_nbest", "fast_beam_search_nbest_LG"]
     steps:
@@ -77,10 +77,9 @@ jobs:
           python3 -m pip install wheel twine typing_extensions websockets sentencepiece>=0.1.96 soundfile
           python3 -m pip install torch==${{ matrix.torch }}+cpu torchaudio==${{ matrix.torchaudio }}+cpu numpy -f https://download.pytorch.org/whl/cpu/torch_stable.html
 
-          python3 -m pip install k2==1.23.2.dev20221125+cpu.torch${{ matrix.torch }} -f https://k2-fsa.org/nightly/index.html
+          python3 -m pip install k2==1.23.3.dev20230127+cpu.torch${{ matrix.torch }} -f https://k2-fsa.org/nightly/index.html
 
           python3 -m torch.utils.collect_env
-
 
       - name: Install kaldifeat
         shell: bash
