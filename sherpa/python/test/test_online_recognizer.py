@@ -721,6 +721,225 @@ class TestOnlineRecognizer(unittest.TestCase):
 
         decode(recognizer=recognizer, s=s, samples=samples)
 
+    def test_k2fsa_zipformer_chinese_english_mixed(self):
+        encoder_model = f"{d}/k2fsa-zipformer-chinese-english-mixed/exp/encoder_jit_trace.pt"
+        decoder_model = f"{d}/k2fsa-zipformer-chinese-english-mixed/exp/decoder_jit_trace.pt"
+        joiner_model = (
+            f"{d}/k2fsa-zipformer-chinese-english-mixed/exp/joiner_jit_trace.pt"
+        )
+        tokens = f"{d}/k2fsa-zipformer-chinese-english-mixed/data/lang_char_bpe/tokens.txt"
+        wave = f"{d}/k2fsa-zipformer-chinese-english-mixed/test_wavs/0.wav"
+
+        if not Path(encoder_model).is_file():
+            print(f"{encoder_model} does not exist")
+            print("skipping test_k2fsa_zipformer_chinese_english_mixed()")
+            return
+
+        feat_config = sherpa.FeatureConfig()
+        expected_sample_rate = 16000
+
+        samples, sample_rate = torchaudio.load(wave)
+        assert sample_rate == expected_sample_rate, (
+            sample_rate,
+            expected_sample_rate,
+        )
+        samples = samples.squeeze(0)
+
+        feat_config.fbank_opts.frame_opts.samp_freq = expected_sample_rate
+        feat_config.fbank_opts.mel_opts.num_bins = 80
+        feat_config.fbank_opts.frame_opts.dither = 0
+
+        print("--------------------greedy search--------------------")
+
+        config = sherpa.OnlineRecognizerConfig(
+            nn_model="",
+            encoder_model=encoder_model,
+            decoder_model=decoder_model,
+            joiner_model=joiner_model,
+            tokens=tokens,
+            use_gpu=False,
+            feat_config=feat_config,
+            decoding_method="greedy_search",
+            chunk_size=32,
+        )
+
+        recognizer = sherpa.OnlineRecognizer(config)
+
+        s = recognizer.create_stream()
+
+        decode(recognizer=recognizer, s=s, samples=samples)
+        print("--------------------modified beam search--------------------")
+        config = sherpa.OnlineRecognizerConfig(
+            nn_model="",
+            encoder_model=encoder_model,
+            decoder_model=decoder_model,
+            joiner_model=joiner_model,
+            tokens=tokens,
+            use_gpu=False,
+            feat_config=feat_config,
+            decoding_method="modified_beam_search",
+            num_active_paths=4,
+            chunk_size=32,
+        )
+
+        recognizer = sherpa.OnlineRecognizer(config)
+
+        s = recognizer.create_stream()
+
+        decode(recognizer=recognizer, s=s, samples=samples)
+
+        print("--------------------fast beam search--------------------")
+        fast_beam_search_config = sherpa.FastBeamSearchConfig(
+            beam=20.0,
+            max_states=64,
+            max_contexts=8,
+            allow_partial=True,
+        )
+        config = sherpa.OnlineRecognizerConfig(
+            nn_model="",
+            encoder_model=encoder_model,
+            decoder_model=decoder_model,
+            joiner_model=joiner_model,
+            tokens=tokens,
+            use_gpu=False,
+            feat_config=feat_config,
+            decoding_method="fast_beam_search",
+            fast_beam_search_config=fast_beam_search_config,
+            chunk_size=32,
+        )
+
+        recognizer = sherpa.OnlineRecognizer(config)
+
+        s = recognizer.create_stream()
+
+        decode(recognizer=recognizer, s=s, samples=samples)
+
+    def test_icefall_asr_librispeech_pruned_transducer_stateless7_streaming_2022_12_29(
+        self,
+    ):
+        encoder_model = f"{d}/icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29/exp/encoder_jit_trace.pt"
+        decoder_model = f"{d}/icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29/exp/decoder_jit_trace.pt"
+        joiner_model = f"{d}/icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29/exp/joiner_jit_trace.pt"
+        tokens = f"{d}/icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29/data/lang_bpe_500/tokens.txt"
+        lg = f"{d}/icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29/data/lang_bpe_500/LG.pt"
+        wave = f"{d}/icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29/test_wavs/1089-134686-0001.wav"
+
+        if not Path(encoder_model).is_file():
+            print(f"{encoder_model} does not exist")
+            print(
+                "skipping test_icefall_asr_librispeech_pruned_transducer_stateless7_streaming_2022_12_29()"
+            )
+            return
+
+        feat_config = sherpa.FeatureConfig()
+        expected_sample_rate = 16000
+
+        samples, sample_rate = torchaudio.load(wave)
+        assert sample_rate == expected_sample_rate, (
+            sample_rate,
+            expected_sample_rate,
+        )
+        samples = samples.squeeze(0)
+
+        feat_config.fbank_opts.frame_opts.samp_freq = expected_sample_rate
+        feat_config.fbank_opts.mel_opts.num_bins = 80
+        feat_config.fbank_opts.frame_opts.dither = 0
+
+        print("--------------------greedy search--------------------")
+
+        config = sherpa.OnlineRecognizerConfig(
+            nn_model="",
+            encoder_model=encoder_model,
+            decoder_model=decoder_model,
+            joiner_model=joiner_model,
+            tokens=tokens,
+            use_gpu=False,
+            feat_config=feat_config,
+            decoding_method="greedy_search",
+            chunk_size=32,
+        )
+
+        recognizer = sherpa.OnlineRecognizer(config)
+
+        s = recognizer.create_stream()
+
+        decode(recognizer=recognizer, s=s, samples=samples)
+        print("--------------------modified beam search--------------------")
+        config = sherpa.OnlineRecognizerConfig(
+            nn_model="",
+            encoder_model=encoder_model,
+            decoder_model=decoder_model,
+            joiner_model=joiner_model,
+            tokens=tokens,
+            use_gpu=False,
+            feat_config=feat_config,
+            decoding_method="modified_beam_search",
+            num_active_paths=4,
+            chunk_size=32,
+        )
+
+        recognizer = sherpa.OnlineRecognizer(config)
+
+        s = recognizer.create_stream()
+
+        decode(recognizer=recognizer, s=s, samples=samples)
+
+        print("--------------------fast beam search--------------------")
+        fast_beam_search_config = sherpa.FastBeamSearchConfig(
+            beam=20.0,
+            max_states=64,
+            max_contexts=8,
+            allow_partial=True,
+        )
+        config = sherpa.OnlineRecognizerConfig(
+            nn_model="",
+            encoder_model=encoder_model,
+            decoder_model=decoder_model,
+            joiner_model=joiner_model,
+            tokens=tokens,
+            use_gpu=False,
+            feat_config=feat_config,
+            decoding_method="fast_beam_search",
+            fast_beam_search_config=fast_beam_search_config,
+            chunk_size=32,
+        )
+
+        recognizer = sherpa.OnlineRecognizer(config)
+
+        s = recognizer.create_stream()
+
+        decode(recognizer=recognizer, s=s, samples=samples)
+
+        print(
+            "--------------------fast beam search with LG--------------------"
+        )
+        fast_beam_search_config = sherpa.FastBeamSearchConfig(
+            beam=20.0,
+            max_states=64,
+            max_contexts=8,
+            allow_partial=True,
+            lg=lg,
+            ngram_lm_scale=0.01,
+        )
+        config = sherpa.OnlineRecognizerConfig(
+            nn_model="",
+            encoder_model=encoder_model,
+            decoder_model=decoder_model,
+            joiner_model=joiner_model,
+            tokens=tokens,
+            use_gpu=False,
+            feat_config=feat_config,
+            decoding_method="fast_beam_search",
+            fast_beam_search_config=fast_beam_search_config,
+            chunk_size=32,
+        )
+
+        recognizer = sherpa.OnlineRecognizer(config)
+
+        s = recognizer.create_stream()
+
+        decode(recognizer=recognizer, s=s, samples=samples)
+
 
 torch.set_num_threads(1)
 torch.set_num_interop_threads(1)

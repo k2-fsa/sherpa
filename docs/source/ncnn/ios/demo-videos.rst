@@ -1,4 +1,4 @@
-.. _sherpa-ncnn-android-video-demos:
+.. _sherpa-ncnn-ios-video-demos:
 
 Video demos
 ===========
