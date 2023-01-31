@@ -278,13 +278,6 @@ pushd $repo
 git lfs pull --include "exp/cpu_jit-epoch-11-avg-1.pt"
 cd exp
 ln -sv cpu_jit-epoch-11-avg-1.pt cpu_jit.pt
-cd ..
-
-cd test_wavs
-wget https://huggingface.co/spaces/k2-fsa/automatic-speech-recognition/resolve/main/test_wavs/tal_csasr/0.wav
-wget https://huggingface.co/spaces/k2-fsa/automatic-speech-recognition/resolve/main/test_wavs/tal_csasr/210_36476_210_8341_1_1533271973_7057520_132.wav
-wget https://huggingface.co/spaces/k2-fsa/automatic-speech-recognition/resolve/main/test_wavs/tal_csasr/210_36476_210_8341_1_1533271973_7057520_138.wav
-wget https://huggingface.co/spaces/k2-fsa/automatic-speech-recognition/resolve/main/test_wavs/tal_csasr/210_36476_210_8341_1_1533271973_7057520_145.wav
 popd
 
 for m in greedy_search modified_beam_search fast_beam_search; do
@@ -293,9 +286,39 @@ for m in greedy_search modified_beam_search fast_beam_search; do
     --nn-model=$repo/exp/cpu_jit.pt \
     --tokens=$repo/data/lang_char_bpe/tokens.txt \
     $repo/test_wavs/0.wav \
-    $repo/test_wavs/210_36476_210_8341_1_1533271973_7057520_132.wav \
-    $repo/test_wavs/210_36476_210_8341_1_1533271973_7057520_138.wav \
-    $repo/test_wavs/210_36476_210_8341_1_1533271973_7057520_145.wav
+    $repo/test_wavs/1.wav \
+    $repo/test_wavs/2.wav \
+    $repo/test_wavs/3.wav \
+    $repo/test_wavs/4.wav
+done
+
+rm -rf $repo
+log "End of testing ${repo_url}"
+log "=========================================================================="
+
+repo_url=https://huggingface.co/pfluo/k2fsa-zipformer-chinese-english-mixed
+log "Start testing ${repo_url}"
+repo=$(basename $repo_url)
+GIT_LFS_SKIP_SMUDGE=1 git clone $repo_url
+pushd $repo
+git lfs pull --include "exp/encoder_jit_trace.pt"
+git lfs pull --include "exp/decoder_jit_trace.pt"
+git lfs pull --include "exp/joiner_jit_trace.pt"
+popd
+
+for m in greedy_search modified_beam_search fast_beam_search; do
+  time ./build/bin/sherpa-online \
+    --decoding-method=$m \
+    --decode-chunk-size=32 \
+    --encoder-model=$repo/exp/encoder_jit_trace.pt \
+    --decoder-model=$repo/exp/decoder_jit_trace.pt \
+    --joiner-model=$repo/exp/joiner_jit_trace.pt \
+    --tokens=$repo/data/lang_char_bpe/tokens.txt \
+    $repo/test_wavs/0.wav \
+    $repo/test_wavs/1.wav \
+    $repo/test_wavs/2.wav \
+    $repo/test_wavs/3.wav \
+    $repo/test_wavs/4.wav
 done
 
 rm -rf $repo
