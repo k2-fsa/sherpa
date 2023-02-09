@@ -38,7 +38,7 @@ mkdir build
 cd build
 cmake \
   -DCMAKE_BUILD_TYPE=Release \
-  -DCMAKE_INSTALL_PREFIX=$HOME/software/sherpa
+  -DCMAKE_INSTALL_PREFIX=$HOME/software/sherpa \
   ..
 make -j6 install/strip
 
