@@ -127,8 +127,7 @@ def get_parser():
         nargs="+",
         help="The input sound file(s) to transcribe. "
         "Supported formats are those supported by torchaudio.load(). "
-        "For example, wav and flac are supported. "
-        "The sample rate has to equal to `--sample-rate`.",
+        "For example, wav and flac are supported. ",
     )
 
     return parser
@@ -150,6 +149,20 @@ def add_model_args(parser: argparse.ArgumentParser):
         "--tokens",
         type=str,
         help="Path to tokens.txt",
+    )
+
+    parser.add_argument(
+        "--sample-rate",
+        type=int,
+        default=16000,
+        help="Sample rate of the data used to train the model",
+    )
+
+    parser.add_argument(
+        "--feat-dim",
+        type=int,
+        default=80,
+        help="Feature dimension of the model",
     )
 
 
@@ -288,8 +301,8 @@ def read_sound_files(
 def create_recognizer(args):
     feat_config = sherpa.FeatureConfig()
 
-    feat_config.fbank_opts.frame_opts.samp_freq = 16000
-    feat_config.fbank_opts.mel_opts.num_bins = 80
+    feat_config.fbank_opts.frame_opts.samp_freq = args.sample_rate
+    feat_config.fbank_opts.mel_opts.num_bins = args.feat_dim
     feat_config.fbank_opts.frame_opts.dither = 0
 
     fast_beam_search_config = sherpa.FastBeamSearchConfig(
