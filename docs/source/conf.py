@@ -110,6 +110,7 @@ rst_epilog = """
 .. _ConvEmformer: https://arxiv.org/pdf/2110.05241.pdf
 .. _Emformer: https://arxiv.org/pdf/2010.10759.pdf
 .. _LibriSpeech: https://www.openslr.org/12
+.. _CSJ: https://clrd.ninjal.ac.jp/csj/en/index.html
 .. _aishell: https://www.openslr.org/33
 .. _sherpa: https://github.com/k2-fsa/sherpa
 .. _transducer: https://arxiv.org/pdf/1211.3711.pdf

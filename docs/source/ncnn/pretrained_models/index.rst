@@ -12,7 +12,7 @@ available pre-trained models.
 
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
 
    zipformer-transucer-models.rst
    lstm-transducer-models
