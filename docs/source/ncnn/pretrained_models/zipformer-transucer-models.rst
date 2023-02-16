@@ -313,6 +313,63 @@ Real-time speech recognition from a microphone
     2 \
     greedy_search
 
+A faster model
+--------------
+
+We provide a second version of the model that is exported with
+``--decode-chunk-len=96`` instead of ``32``.
+
+.. hint::
+
+  Please see the model export script at
+
+  `<https://huggingface.co/csukuangfj/sherpa-ncnn-streaming-zipformer-small-bilingual-zh-en-2023-02-16/blob/main/96/export-for-ncnn-bilingual-small.sh>`_
+
+  if you are interested.
+
+
+The advantage of using this model is that it runs much faster, while the downside
+is that you will see some delay before you see the recognition result after you speak.
+
+In the following, we describe how to download it.
+
+.. code-block:: bash
+
+  cd sherpa-ncnn-streaming-zipformer-small-bilingual-zh-en-2023-02-16
+  cd 96/
+  git lfs pull --include "*.bin"
+
+After downloading, please check the file sizes of ``*.bin`` files:
+
+.. code-block:: bash
+
+  sherpa-ncnn-streaming-zipformer-small-bilingual-zh-en-2023-02-16 fangjun$ ls -lh 96/*.bin
+
+  -rw-r--r--  1 fangjun  staff   6.1M Feb 16 14:39 96/decoder_jit_trace-pnnx.ncnn.bin
+  -rw-r--r--  1 fangjun  staff    38M Feb 16 14:39 96/encoder_jit_trace-pnnx.ncnn.bin
+  -rw-r--r--  1 fangjun  staff   6.9M Feb 16 14:39 96/joiner_jit_trace-pnnx.ncnn.bin
+
+
+To decode a file, please use:
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-ncnn
+
+  for method in greedy_search modified_beam_search; do
+    ./build/bin/sherpa-ncnn \
+      ./sherpa-ncnn-streaming-zipformer-small-bilingual-zh-en-2023-02-16/96/tokens.txt \
+      ./sherpa-ncnn-streaming-zipformer-small-bilingual-zh-en-2023-02-16/96/encoder_jit_trace-pnnx.ncnn.param \
+      ./sherpa-ncnn-streaming-zipformer-small-bilingual-zh-en-2023-02-16/96/encoder_jit_trace-pnnx.ncnn.bin \
+      ./sherpa-ncnn-streaming-zipformer-small-bilingual-zh-en-2023-02-16/96/decoder_jit_trace-pnnx.ncnn.param \
+      ./sherpa-ncnn-streaming-zipformer-small-bilingual-zh-en-2023-02-16/96/decoder_jit_trace-pnnx.ncnn.bin \
+      ./sherpa-ncnn-streaming-zipformer-small-bilingual-zh-en-2023-02-16/96/joiner_jit_trace-pnnx.ncnn.param \
+      ./sherpa-ncnn-streaming-zipformer-small-bilingual-zh-en-2023-02-16/96/joiner_jit_trace-pnnx.ncnn.bin \
+      ./sherpa-ncnn-streaming-zipformer-small-bilingual-zh-en-2023-02-16/test_wavs/1.wav \
+      2 \
+      $method
+  done
+
 
 csukuangfj/sherpa-ncnn-streaming-zipformer-ja-fluent-2023-02-14 (Japanese)
 --------------------------------------------------------------------------
