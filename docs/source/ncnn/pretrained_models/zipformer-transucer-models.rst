@@ -313,8 +313,8 @@ Real-time speech recognition from a microphone
     2 \
     greedy_search
 
-A faster model
---------------
+A faster model of sherpa-ncnn-streaming-zipformer-small-bilingual-zh-en-2023-02-16
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 We provide a second version of the model that is exported with
 ``--decode-chunk-len=96`` instead of ``32``.
