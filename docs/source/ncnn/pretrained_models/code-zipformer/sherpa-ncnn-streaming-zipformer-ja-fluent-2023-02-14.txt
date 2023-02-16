@@ -12,7 +12,7 @@ Recognition result for ./sherpa-ncnn-streaming-zipformer-ja-fluent-2023-02-14/te
 けども言語情報と違って連続的に変化するからカテゴライズすることがやや難しいそういった情
 報であります
 Elapsed seconds: 4.186 s
-Real time factor (RTF): 35.172 / 4.186 = 0.119
+Real time factor (RTF): 4.186 / 35.172 = 0.119
 ModelConfig(encoder_param="./sherpa-ncnn-streaming-zipformer-ja-fluent-2023-02-14/encoder_jit_trace-pnnx.ncnn.param", encoder_bin="./sherpa-ncnn-streaming-zipformer-ja-fluent-2023-02-14/encoder_jit_trace-pnnx.ncnn.bin", decoder_param="./sherpa-ncnn-streaming-zipformer-ja-fluent-2023-02-14/decoder_jit_trace-pnnx.ncnn.param", decoder_bin="./sherpa-ncnn-streaming-zipformer-ja-fluent-2023-02-14/decoder_jit_trace-pnnx.ncnn.bin", joiner_param="./sherpa-ncnn-streaming-zipformer-ja-fluent-2023-02-14/joiner_jit_trace-pnnx.ncnn.param", joiner_bin="./sherpa-ncnn-streaming-zipformer-ja-fluent-2023-02-14/joiner_jit_trace-pnnx.ncnn.bin", tokens="./sherpa-ncnn-streaming-zipformer-ja-fluent-2023-02-14/tokens.txt", encoder num_threads=2, decoder num_threads=2, joiner num_threads=2)
 DecoderConfig(method="modified_beam_search", num_active_paths=4, enable_endpoint=False, endpoint_config=EndpointConfig(rule1=EndpointRule(must_contain_nonsilence=False, min_trailing_silence=2.4, min_utterance_length=0), rule2=EndpointRule(must_contain_nonsilence=True, min_trailing_silence=1.4, min_utterance_length=0), rule3=EndpointRule(must_contain_nonsilence=False, min_trailing_silence=0, min_utterance_length=20)))
 wav filename: ./sherpa-ncnn-streaming-zipformer-ja-fluent-2023-02-14/test_wavs/aps-smp.wav
