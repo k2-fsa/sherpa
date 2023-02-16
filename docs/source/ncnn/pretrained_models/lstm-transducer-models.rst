@@ -9,7 +9,14 @@ This is a model trained using the `GigaSpeech`_ and the `LibriSpeech`_ dataset.
 Please see `<https://github.com/k2-fsa/icefall/pull/558>`_ for how the model
 is trained.
 
-In the following, we describe how to download and use it with `sherpa-ncnn`_.
+You can find the training code at
+
+`<https://github.com/k2-fsa/icefall/tree/master/egs/librispeech/ASR/lstm_transducer_stateless2>`_
+
+In the following, we describe how to download it and use it with `sherpa-ncnn`_.
+
+Download the model
+~~~~~~~~~~~~~~~~~~
 
 Please use the following commands to download it.
 
@@ -18,18 +25,33 @@ Please use the following commands to download it.
   cd /path/to/sherpa-ncnn
 
   GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/sherpa-ncnn-2022-09-05
-  cd sherpa-ncnn-2022-09-05/bar
+  cd sherpa-ncnn-2022-09-05
   git lfs pull --include "*.bin"
 
-Please check that the file size of the pre-trained models is correct (see the
-screen shot below):
+Please check that the file sizes of the pre-trained models are correct. See
+the file sizes of ``*.bin`` files below.
 
-.. figure:: ./pic/2022-09-05-filesize.png
-   :alt: File size for sherpa-ncnn-2022-09-05
-   :width: 800
+.. code-block:: bash
 
-Decode a single wave file with ./build/bin/sherpa-ncnn
-::::::::::::::::::::::::::::::::::::::::::::::::::::::
+  # before running `git lfs pull`
+
+  sherpa-ncnn-2022-09-05 fangjun$ ls -lh *.bin
+  -rw-r--r--  1 fangjun  staff   131B Feb 16 11:12 decoder_jit_trace-pnnx.ncnn.bin
+  -rw-r--r--  1 fangjun  staff   134B Feb 16 11:12 encoder_jit_trace-pnnx.ncnn.bin
+  -rw-r--r--  1 fangjun  staff   132B Feb 16 11:12 joiner_jit_trace-pnnx.ncnn.bin
+
+  sherpa-ncnn-2022-09-05 fangjun$ git lfs pull --include "*.bin"
+
+  # after running `git lfs pull`
+
+  sherpa-ncnn-2022-09-05 fangjun$ ls -lh *.bin
+  -rw-r--r--  1 fangjun  staff   502K Feb 16 11:12 decoder_jit_trace-pnnx.ncnn.bin
+  -rw-r--r--  1 fangjun  staff   159M Feb 16 11:13 encoder_jit_trace-pnnx.ncnn.bin
+  -rw-r--r--  1 fangjun  staff   1.5M Feb 16 11:12 joiner_jit_trace-pnnx.ncnn.bin
+
+
+Decode a single wave file
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. hint::
 
@@ -40,23 +62,31 @@ Decode a single wave file with ./build/bin/sherpa-ncnn
 
   cd /path/to/sherpa-ncnn
 
-  ./build/bin/sherpa-ncnn \
-    ./sherpa-ncnn-2022-09-05/tokens.txt \
-    ./sherpa-ncnn-2022-09-05/bar/encoder_jit_trace-v2-iter-468000-avg-16-pnnx.ncnn.param \
-    ./sherpa-ncnn-2022-09-05/bar/encoder_jit_trace-v2-iter-468000-avg-16-pnnx.ncnn.bin \
-    ./sherpa-ncnn-2022-09-05/bar/decoder_jit_trace-v2-iter-468000-avg-16-pnnx.ncnn.param \
-    ./sherpa-ncnn-2022-09-05/bar/decoder_jit_trace-v2-iter-468000-avg-16-pnnx.ncnn.bin \
-    ./sherpa-ncnn-2022-09-05/bar/joiner_jit_trace-v2-iter-468000-avg-16-pnnx.ncnn.param \
-    ./sherpa-ncnn-2022-09-05/bar/joiner_jit_trace-v2-iter-468000-avg-16-pnnx.ncnn.bin \
-    ./sherpa-ncnn-2022-09-05/test_wavs/1089-134686-0001.wav
+  for method in greedy_search modified_beam_search; do
+    ./build/bin/sherpa-ncnn \
+      ./sherpa-ncnn-2022-09-05/tokens.txt \
+      ./sherpa-ncnn-2022-09-05/encoder_jit_trace-pnnx.ncnn.param \
+      ./sherpa-ncnn-2022-09-05/encoder_jit_trace-pnnx.ncnn.bin \
+      ./sherpa-ncnn-2022-09-05/decoder_jit_trace-pnnx.ncnn.param \
+      ./sherpa-ncnn-2022-09-05/decoder_jit_trace-pnnx.ncnn.bin \
+      ./sherpa-ncnn-2022-09-05/joiner_jit_trace-pnnx.ncnn.param \
+      ./sherpa-ncnn-2022-09-05/joiner_jit_trace-pnnx.ncnn.bin \
+      ./sherpa-ncnn-2022-09-05/test_wavs/1089-134686-0001.wav \
+      2 \
+      $method
+  done
+
+You should see the following output:
+
+.. literalinclude:: ./code-lstm/2022-09-05.txt
 
 .. note::
 
    Please use ``./build/bin/Release/sherpa-ncnn.exe`` for Windows.
 
 
-Real-time speech recognition from a microphone with build/bin/sherpa-ncnn-microphone
-::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+Real-time speech recognition from a microphone
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: bash
 
@@ -64,12 +94,14 @@ Real-time speech recognition from a microphone with build/bin/sherpa-ncnn-microp
 
   ./build/bin/sherpa-ncnn-microphone \
     ./sherpa-ncnn-2022-09-05/tokens.txt \
-    ./sherpa-ncnn-2022-09-05/bar/encoder_jit_trace-v2-iter-468000-avg-16-pnnx.ncnn.param \
-    ./sherpa-ncnn-2022-09-05/bar/encoder_jit_trace-v2-iter-468000-avg-16-pnnx.ncnn.bin \
-    ./sherpa-ncnn-2022-09-05/bar/decoder_jit_trace-v2-iter-468000-avg-16-pnnx.ncnn.param \
-    ./sherpa-ncnn-2022-09-05/bar/decoder_jit_trace-v2-iter-468000-avg-16-pnnx.ncnn.bin \
-    ./sherpa-ncnn-2022-09-05/bar/joiner_jit_trace-v2-iter-468000-avg-16-pnnx.ncnn.param \
-    ./sherpa-ncnn-2022-09-05/bar/joiner_jit_trace-v2-iter-468000-avg-16-pnnx.ncnn.bin
+    ./sherpa-ncnn-2022-09-05/encoder_jit_trace-pnnx.ncnn.param \
+    ./sherpa-ncnn-2022-09-05/encoder_jit_trace-pnnx.ncnn.bin \
+    ./sherpa-ncnn-2022-09-05/decoder_jit_trace-pnnx.ncnn.param \
+    ./sherpa-ncnn-2022-09-05/decoder_jit_trace-pnnx.ncnn.bin \
+    ./sherpa-ncnn-2022-09-05/joiner_jit_trace-pnnx.ncnn.param \
+    ./sherpa-ncnn-2022-09-05/joiner_jit_trace-pnnx.ncnn.bin \
+    2 \
+    greedy_search
 
 .. note::
 
@@ -101,7 +133,10 @@ This is a model trained using the `WenetSpeech`_ dataset.
 Please see `<https://github.com/k2-fsa/icefall/pull/595>`_ for how the model
 is trained.
 
-In the following, we describe how to download and use it with `sherpa-ncnn`_.
+In the following, we describe how to download it and use it with `sherpa-ncnn`_.
+
+Download the model
+~~~~~~~~~~~~~~~~~~
 
 Please use the following commands to download it.
 
@@ -113,15 +148,29 @@ Please use the following commands to download it.
   cd sherpa-ncnn-2022-09-30
   git lfs pull --include "*.bin"
 
-Please check that the file size of the pre-trained models is correct (see the
-screen shot below):
+Please check that the file sizes of the pre-trained models are correct. See
+the file sizes of ``*.bin`` files below.
 
-.. figure:: ./pic/2022-09-30-filesize.png
-   :alt: File size for sherpa-ncnn-2022-09-30
-   :width: 800
+.. code-block:: bash
 
-Decode a single wave file with ./build/bin/sherpa-ncnn
-::::::::::::::::::::::::::::::::::::::::::::::::::::::
+  # before running `git lfs pull`
+
+  sherpa-ncnn-2022-09-30 fangjun$ ls -lh *.bin
+  -rw-r--r--  1 fangjun  staff   132B Feb 16 11:30 decoder_jit_trace-pnnx.ncnn.bin
+  -rw-r--r--  1 fangjun  staff   134B Feb 16 11:30 encoder_jit_trace-pnnx.ncnn.bin
+  -rw-r--r--  1 fangjun  staff   132B Feb 16 11:30 joiner_jit_trace-pnnx.ncnn.bin
+
+  sherpa-ncnn-2022-09-30 fangjun$ git lfs pull --include "*.bin"
+
+  # after running `git lfs pull`
+
+  sherpa-ncnn-2022-09-30 fangjun$ ls -lh *.bin
+  -rw-r--r--  1 fangjun  staff   5.4M Feb 16 11:30 decoder_jit_trace-pnnx.ncnn.bin
+  -rw-r--r--  1 fangjun  staff   159M Feb 16 11:31 encoder_jit_trace-pnnx.ncnn.bin
+  -rw-r--r--  1 fangjun  staff   6.4M Feb 16 11:30 joiner_jit_trace-pnnx.ncnn.bin
+
+Decode a single wave file
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. hint::
 
@@ -130,17 +179,25 @@ Decode a single wave file with ./build/bin/sherpa-ncnn
 
 .. code-block:: bash
 
-   cd /path/to/sherpa-ncnn
+  cd /path/to/sherpa-ncnn
 
-   ./build/bin/sherpa-ncnn \
-    ./sherpa-ncnn-2022-09-30/tokens.txt \
-    ./sherpa-ncnn-2022-09-30/encoder_jit_trace-v2-epoch-11-avg-2-pnnx.ncnn.param \
-    ./sherpa-ncnn-2022-09-30/encoder_jit_trace-v2-epoch-11-avg-2-pnnx.ncnn.bin \
-    ./sherpa-ncnn-2022-09-30/decoder_jit_trace-v2-epoch-11-avg-2-pnnx.ncnn.param \
-    ./sherpa-ncnn-2022-09-30/decoder_jit_trace-v2-epoch-11-avg-2-pnnx.ncnn.bin \
-    ./sherpa-ncnn-2022-09-30/joiner_jit_trace-v2-epoch-11-avg-2-pnnx.ncnn.param \
-    ./sherpa-ncnn-2022-09-30/joiner_jit_trace-v2-epoch-11-avg-2-pnnx.ncnn.bin \
-    ./sherpa-ncnn-2022-09-30/test_wavs/0.wav
+  for method in greedy_search modified_beam_search; do
+    ./build/bin/sherpa-ncnn \
+      ./sherpa-ncnn-2022-09-30/tokens.txt \
+      ./sherpa-ncnn-2022-09-30/encoder_jit_trace-pnnx.ncnn.param \
+      ./sherpa-ncnn-2022-09-30/encoder_jit_trace-pnnx.ncnn.bin \
+      ./sherpa-ncnn-2022-09-30/decoder_jit_trace-pnnx.ncnn.param \
+      ./sherpa-ncnn-2022-09-30/decoder_jit_trace-pnnx.ncnn.bin \
+      ./sherpa-ncnn-2022-09-30/joiner_jit_trace-pnnx.ncnn.param \
+      ./sherpa-ncnn-2022-09-30/joiner_jit_trace-pnnx.ncnn.bin \
+      ./sherpa-ncnn-2022-09-30/test_wavs/0.wav \
+      2 \
+      $method
+  done
+
+You should see the following output:
+
+.. literalinclude:: ./code-lstm/2022-09-30.txt
 
 .. caution::
 
@@ -152,21 +209,23 @@ Decode a single wave file with ./build/bin/sherpa-ncnn
 
    in your commandline.
 
-Real-time speech recognition from a microphone with build/bin/sherpa-ncnn-microphone
-::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+Real-time speech recognition from a microphone
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: bash
 
-   cd /path/to/sherpa-ncnn
+  cd /path/to/sherpa-ncnn
 
-   ./build/bin/sherpa-ncnn-microphone \
+  ./build/bin/sherpa-ncnn-microphone \
     ./sherpa-ncnn-2022-09-30/tokens.txt \
-    ./sherpa-ncnn-2022-09-30/encoder_jit_trace-v2-epoch-11-avg-2-pnnx.ncnn.param \
-    ./sherpa-ncnn-2022-09-30/encoder_jit_trace-v2-epoch-11-avg-2-pnnx.ncnn.bin \
-    ./sherpa-ncnn-2022-09-30/decoder_jit_trace-v2-epoch-11-avg-2-pnnx.ncnn.param \
-    ./sherpa-ncnn-2022-09-30/decoder_jit_trace-v2-epoch-11-avg-2-pnnx.ncnn.bin \
-    ./sherpa-ncnn-2022-09-30/joiner_jit_trace-v2-epoch-11-avg-2-pnnx.ncnn.param \
-    ./sherpa-ncnn-2022-09-30/joiner_jit_trace-v2-epoch-11-avg-2-pnnx.ncnn.bin
+    ./sherpa-ncnn-2022-09-30/encoder_jit_trace-pnnx.ncnn.param \
+    ./sherpa-ncnn-2022-09-30/encoder_jit_trace-pnnx.ncnn.bin \
+    ./sherpa-ncnn-2022-09-30/decoder_jit_trace-pnnx.ncnn.param \
+    ./sherpa-ncnn-2022-09-30/decoder_jit_trace-pnnx.ncnn.bin \
+    ./sherpa-ncnn-2022-09-30/joiner_jit_trace-pnnx.ncnn.param \
+    ./sherpa-ncnn-2022-09-30/joiner_jit_trace-pnnx.ncnn.bin \
+    2 \
+    greedy_search
 
 .. note::
 
