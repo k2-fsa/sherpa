@@ -15,3 +15,4 @@ resource constrained embedded systems.
 
 - :ref:`marcoyang_sherpa_ncnn_conv_emformer_transducer_small_2023_01_09_english`
 - :ref:`sherpa_ncnn_streaming_zipformer_small_bilingual_zh_en_2023_02_16`
+- :ref:`marcoyang_sherpa_ncnn_lstm_transducer_small_2023_02_13_bilingual`
