@@ -1,12 +1,87 @@
 Zipformer-transducer-based Models
 =================================
 
+.. _marcoyang_sherpa_ncnn_streaming_zipformer_small_20M_2023_02_17_english:
+
+marcoyang/sherpa-ncnn-streaming-zipformer-20M-2023-02-17 (English)
+------------------------------------------------------------------
+
+This model is a streaming Zipformer model converted from 
+
+`<https://huggingface.co/desh2608/icefall-asr-librispeech-pruned-transducer-stateless7-streaming-small>`_
+
+which has around 20 millon parameters. It is trained on the `LibriSpeech`_ corpus so it supports only English.
+The word-error-rates(%) on ``test-clean`` is 3.88.
+
+You can find the training code at `<https://github.com/k2-fsa/icefall/tree/master/egs/librispeech/ASR/pruned_transducer_stateless7_streaming>`_
+
+In the following, we describe how to download it and use it with `sherpa-ncnn`_.
+
+Download the model
+~~~~~~~~~~~~~~~~~~
+
+Please use the following commands to download it.
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-ncnn
+
+  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/marcoyang/sherpa-ncnn-streaming-zipformer-20M-2023-02-17
+  cd sherpa-ncnn-streaming-zipformer-20M-2023-02-17
+  git lfs pull --include "*.bin"
+
+After downloading, please check the file sizes of the models. You should see the following
+output after .
+
+.. code-block:: bash
+
+  # after running `git lfs pull`
+  $ ls -lh *.bin
+
+  -rw-r--r-- 1 yangxiaoyu root 509K Feb 20 11:40 decoder_jit_trace-pnnx.ncnn.bin
+  -rw-r--r-- 1 yangxiaoyu root  38M Feb 20 11:40 encoder_jit_trace-pnnx.ncnn.bin
+  -rw-r--r-- 1 yangxiaoyu root 1.3M Feb 20 11:40 joiner_jit_trace-pnnx.ncnn.bin
+
+Decode a single wave file
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. hint::
+
+   It supports decoding only wave files with a single channel and the sampling rate
+   should be 16 kHz.
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-ncnn
+
+  for method in greedy_search modified_beam_search; do
+    ./build/bin/sherpa-ncnn \
+      ./sherpa-ncnn-streaming-zipformer-20M-2023-02-17/tokens.txt \
+      ./sherpa-ncnn-streaming-zipformer-20M-2023-02-17/encoder_jit_trace-pnnx.ncnn.param \
+      ./sherpa-ncnn-streaming-zipformer-20M-2023-02-17/encoder_jit_trace-pnnx.ncnn.bin \
+      ./sherpa-ncnn-streaming-zipformer-20M-2023-02-17/decoder_jit_trace-pnnx.ncnn.param \
+      ./sherpa-ncnn-streaming-zipformer-20M-2023-02-17/decoder_jit_trace-pnnx.ncnn.bin \
+      ./sherpa-ncnn-streaming-zipformer-20M-2023-02-17/joiner_jit_trace-pnnx.ncnn.param \
+      ./sherpa-ncnn-streaming-zipformer-20M-2023-02-17/joiner_jit_trace-pnnx.ncnn.bin \
+      ./sherpa-ncnn-streaming-zipformer-20M-2023-02-17/test_wavs/0.wav \
+      2 \
+      $method
+  done
+
+You should see the following output:
+
+.. literalinclude:: ./code-zipformer/sherpa-ncnn-streaming-zipformer-small-20M-en-2023-02-19.txt
+
+.. note::
+
+   Please use ``./build/bin/Release/sherpa-ncnn.exe`` for Windows.
+
 csukuangfj/sherpa-ncnn-streaming-zipformer-en-2023-02-13 (English)
 ------------------------------------------------------------------
 
 This model is converted from
 
-`<https://huggingface.co/csukuangfj/sherpa-ncnn-streaming-zipformer-en-2023-02-13>`_
+docs/source/ncnn/pretrained_models/lstm-transducer-models.rst`<https://huggingface.co/csukuangfj/sherpa-ncnn-streaming-zipformer-en-2023-02-13>`_
 
 which supports only English as it is trained on the `LibriSpeech`_ corpus.
 
