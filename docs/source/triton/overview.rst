@@ -33,3 +33,9 @@ The following content describes how to deploy ASR models trained by `icefall`_ u
    :caption: Benchmark with Perf Analyzer
 
    ./perf/index
+
+.. toctree::
+   :maxdepth: 2
+   :caption: TensorRT acceleration
+
+   ./trt/index
