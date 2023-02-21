@@ -3,6 +3,10 @@ macOS
 
 This page describes how to build `sherpa-onnx`_ on macOS.
 
+.. hint::
+
+  It supports both Intel and Apple Silicon (e.g., M1).
+
 All you need is to run:
 
 .. code-block:: bash
@@ -17,3 +21,6 @@ All you need is to run:
 After building, you will find an executable ``sherpa-onnx`` inside the ``bin`` directory.
 
 That's it!
+
+Please refer to :ref:`sherpa-onnx-pre-trained-models` for a list of pre-trained
+models.

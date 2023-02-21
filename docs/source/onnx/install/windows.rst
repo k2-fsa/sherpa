@@ -20,3 +20,6 @@ All you need is to run:
 After building, you will find an executable ``sherpa-onnx.exe`` inside the ``bin/Release`` directory.
 
 That's it!
+
+Please refer to :ref:`sherpa-onnx-pre-trained-models` for a list of pre-trained
+models.
