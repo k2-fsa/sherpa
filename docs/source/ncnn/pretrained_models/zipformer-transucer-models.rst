@@ -6,7 +6,7 @@ csukuangfj/sherpa-ncnn-streaming-zipformer-en-2023-02-13 (English)
 
 This model is converted from
 
-`<https://huggingface.co/csukuangfj/sherpa-ncnn-streaming-zipformer-en-2023-02-13>`_
+`<https://huggingface.co/Zengwei/icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29>`_
 
 which supports only English as it is trained on the `LibriSpeech`_ corpus.
 

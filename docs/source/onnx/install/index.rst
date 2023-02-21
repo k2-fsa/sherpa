@@ -14,3 +14,4 @@ In this section, we describe how to install `sherpa-onnx`_ on various platforms.
    ./linux.rst
    ./macos.rst
    ./windows.rst
+   ./aarch64-embedded-linux.rst
