@@ -13,6 +13,7 @@ resource constrained embedded systems.
   Raspberry Pi 4.
 
 
+- :ref:`marcoyang_sherpa_ncnn_streaming_zipformer_small_14M_2023_02_23_chinese`
 - :ref:`marcoyang_sherpa_ncnn_streaming_zipformer_small_20M_2023_02_17_english`
 - :ref:`marcoyang_sherpa_ncnn_conv_emformer_transducer_small_2023_01_09_english`
 - :ref:`sherpa_ncnn_streaming_zipformer_small_bilingual_zh_en_2023_02_16`

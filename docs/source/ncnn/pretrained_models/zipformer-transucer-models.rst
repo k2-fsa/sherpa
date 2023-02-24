@@ -1,6 +1,77 @@
 Zipformer-transducer-based Models
 =================================
 
+.. _marcoyang_sherpa_ncnn_streaming_zipformer_small_14M_2023_02_23_chinese:
+
+marcoyang/sherpa-ncnn-streaming-zipformer-zh-14M-2023-02-23 (Chinese)
+------------------------------------------------------------------
+
+This model is a streaming Zipformer model which has around 14 millon parameters. It is trained on the `WenetSpeech`_ corpus
+so it supports only Chinese.
+
+You can find the training code at `<https://github.com/k2-fsa/icefall/tree/master/egs/librispeech/ASR/pruned_transducer_stateless7_streaming>`_
+
+In the following, we describe how to download it and use it with `sherpa-ncnn`_.
+
+Download the model
+~~~~~~~~~~~~~~~~~~
+
+Please use the following commands to download it.
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-ncnn
+
+  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/marcoyang/sherpa-ncnn-streaming-zipformer-zh-14M-2023-02-23
+  cd sherpa-ncnn-streaming-zipformer-zh-14M-2023-02-23
+  git lfs pull --include "*.bin"
+
+After downloading, please check the file sizes of the models. You should see the following
+output after .
+
+.. code-block:: bash
+
+  # after running `git lfs pull`
+  $ ls -lh *.bin
+
+  -rw-r--r-- 1 yangxiaoyu root 3.4M Feb 23 22:21 decoder_jit_trace-pnnx.ncnn.bin
+  -rw-r--r-- 1 yangxiaoyu root  17M Feb 23 22:21 encoder_jit_trace-pnnx.ncnn.bin
+  -rw-r--r-- 1 yangxiaoyu root 3.7M Feb 23 22:21 joiner_jit_trace-pnnx.ncnn.bin
+
+Decode a single wave file
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. hint::
+
+   It supports decoding only wave files with a single channel and the sampling rate
+   should be 16 kHz.
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-ncnn
+
+  for method in greedy_search modified_beam_search; do
+    ./build/bin/sherpa-ncnn \
+      ./sherpa-ncnn-streaming-zipformer-zh-14M-2023-02-23/tokens.txt \
+      ./sherpa-ncnn-streaming-zipformer-zh-14M-2023-02-23/encoder_jit_trace-pnnx.ncnn.param \
+      ./sherpa-ncnn-streaming-zipformer-zh-14M-2023-02-23/encoder_jit_trace-pnnx.ncnn.bin \
+      ./sherpa-ncnn-streaming-zipformer-zh-14M-2023-02-23/decoder_jit_trace-pnnx.ncnn.param \
+      ./sherpa-ncnn-streaming-zipformer-zh-14M-2023-02-23/decoder_jit_trace-pnnx.ncnn.bin \
+      ./sherpa-ncnn-streaming-zipformer-zh-14M-2023-02-23/joiner_jit_trace-pnnx.ncnn.param \
+      ./sherpa-ncnn-streaming-zipformer-zh-14M-2023-02-23/joiner_jit_trace-pnnx.ncnn.bin \
+      ./sherpa-ncnn-streaming-zipformer-zh-14M-2023-02-23/test_wavs/0.wav \
+      2 \
+      $method
+  done
+
+You should see the following output:
+
+.. literalinclude:: ./code-zipformer/sherpa-ncnn-streaming-zipformer-zh-small-14M-2023-02-23.txt
+
+.. note::
+
+   Please use ``./build/bin/Release/sherpa-ncnn.exe`` for Windows.
+
 .. _marcoyang_sherpa_ncnn_streaming_zipformer_small_20M_2023_02_17_english:
 
 marcoyang/sherpa-ncnn-streaming-zipformer-20M-2023-02-17 (English)
