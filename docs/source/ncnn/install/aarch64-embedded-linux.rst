@@ -67,7 +67,7 @@ Finally, let us build `sherpa-ncnn`_.
   cd sherpa-ncnn
   ./build-aarch64-linux-gnu.sh
 
-After building, you will get three binaries:
+After building, you will get two binaries:
 
 .. code-block:: bash
 
