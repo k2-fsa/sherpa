@@ -16,7 +16,7 @@ You can find the training code at
 
 `<https://github.com/k2-fsa/icefall/tree/master/egs/librispeech/ASR/pruned_transducer_stateless7_streaming>`_
 
-In the following, we describe how to download it and use it with `sherpa-ncnn`_.
+In the following, we describe how to download it and use it with `sherpa-onnx`_.
 
 Download the model
 ~~~~~~~~~~~~~~~~~~
@@ -77,6 +77,27 @@ You should see the following output:
 
 .. literalinclude:: ./code-zipformer/sherpa-onnx-streaming-zipformer-en-2023-02-21.txt
 
+Real-time speech recognition from a microphone
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  ./build/bin/sherpa-onnx-microphone \
+    ./sherpa-onnx-streaming-zipformer-en-2023-02-21/tokens.txt \
+    ./sherpa-onnx-streaming-zipformer-en-2023-02-21/encoder-epoch-99-avg-1.onnx \
+    ./sherpa-onnx-streaming-zipformer-en-2023-02-21/decoder-epoch-99-avg-1.onnx \
+    ./sherpa-onnx-streaming-zipformer-en-2023-02-21/joiner-epoch-99-avg-1.onnx
+
+.. hint::
+
+   If your system is Linux (including embedded Linux), you can also use
+   :ref:`sherpa-onnx-alsa` to do real-time speech recognition with your
+   microphone if ``sherpa-onnx-microphone`` does not work for you.
+
+
+.. _sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20:
 
 sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20 (Bilingual, Chinese + English)
 -----------------------------------------------------------------------------------------
@@ -158,3 +179,22 @@ Decode a single wave file
 You should see the following output:
 
 .. literalinclude:: ./code-zipformer/sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20.txt
+
+Real-time speech recognition from a microphone
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  ./build/bin/sherpa-onnx-microphone \
+    ./sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20/tokens.txt \
+    ./sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20/encoder-epoch-99-avg-1.onnx \
+    ./sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20/decoder-epoch-99-avg-1.onnx \
+    ./sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20/joiner-epoch-99-avg-1.onnx
+
+.. hint::
+
+   If your system is Linux (including embedded Linux), you can also use
+   :ref:`sherpa-onnx-alsa` to do real-time speech recognition with your
+   microphone if ``sherpa-onnx-microphone`` does not work for you.

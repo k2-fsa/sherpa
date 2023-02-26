@@ -107,6 +107,11 @@ That's it!
   - ``sherpa-onnx-alsa`` is for real-time speech recongition by reading
     the microphone with `ALSA <https://en.wikipedia.org/wiki/Advanced_Linux_Sound_Architecture>`_
 
+.. _sherpa-onnx-alsa:
+
+sherpa-onnx-alsa
+----------------
+
 .. caution::
 
   We recommend that you use ``sherpa-onnx-alsa`` on embedded systems such

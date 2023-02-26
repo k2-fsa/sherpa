@@ -4,7 +4,7 @@ Zipformer-transducer-based Models
 .. _marcoyang_sherpa_ncnn_streaming_zipformer_small_14M_2023_02_23_chinese:
 
 marcoyang/sherpa-ncnn-streaming-zipformer-zh-14M-2023-02-23 (Chinese)
-------------------------------------------------------------------
+---------------------------------------------------------------------
 
 This model is a streaming Zipformer model which has around 14 millon parameters. It is trained on the `WenetSpeech`_ corpus
 so it supports only Chinese.
@@ -72,12 +72,46 @@ You should see the following output:
 
    Please use ``./build/bin/Release/sherpa-ncnn.exe`` for Windows.
 
+.. caution::
+
+   If you use Windows and get encoding issues, please run:
+
+      .. code-block:: bash
+
+          CHCP 65001
+
+   in your commandline.
+
+Real-time speech recognition from a microphone
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-ncnn
+
+  ./build/bin/sherpa-ncnn-microphone \
+    ./sherpa-ncnn-streaming-zipformer-zh-14M-2023-02-23/tokens.txt \
+    ./sherpa-ncnn-streaming-zipformer-zh-14M-2023-02-23/encoder_jit_trace-pnnx.ncnn.param \
+    ./sherpa-ncnn-streaming-zipformer-zh-14M-2023-02-23/encoder_jit_trace-pnnx.ncnn.bin \
+    ./sherpa-ncnn-streaming-zipformer-zh-14M-2023-02-23/decoder_jit_trace-pnnx.ncnn.param \
+    ./sherpa-ncnn-streaming-zipformer-zh-14M-2023-02-23/decoder_jit_trace-pnnx.ncnn.bin \
+    ./sherpa-ncnn-streaming-zipformer-zh-14M-2023-02-23/joiner_jit_trace-pnnx.ncnn.param \
+    ./sherpa-ncnn-streaming-zipformer-zh-14M-2023-02-23/joiner_jit_trace-pnnx.ncnn.bin \
+    2 \
+    greedy_search
+
+.. hint::
+
+   If your system is Linux (including embedded Linux), you can also use
+   :ref:`sherpa-ncnn-alsa` to do real-time speech recognition with your
+   microphone if ``sherpa-ncnn-microphone`` does not work for you.
+
 .. _marcoyang_sherpa_ncnn_streaming_zipformer_small_20M_2023_02_17_english:
 
 marcoyang/sherpa-ncnn-streaming-zipformer-20M-2023-02-17 (English)
 ------------------------------------------------------------------
 
-This model is a streaming Zipformer model converted from 
+This model is a streaming Zipformer model converted from
 
 `<https://huggingface.co/desh2608/icefall-asr-librispeech-pruned-transducer-stateless7-streaming-small>`_
 
@@ -146,6 +180,30 @@ You should see the following output:
 .. note::
 
    Please use ``./build/bin/Release/sherpa-ncnn.exe`` for Windows.
+
+Real-time speech recognition from a microphone
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-ncnn
+
+  ./build/bin/sherpa-ncnn-microphone \
+    ./sherpa-ncnn-streaming-zipformer-20M-2023-02-17/tokens.txt \
+    ./sherpa-ncnn-streaming-zipformer-20M-2023-02-17/encoder_jit_trace-pnnx.ncnn.param \
+    ./sherpa-ncnn-streaming-zipformer-20M-2023-02-17/encoder_jit_trace-pnnx.ncnn.bin \
+    ./sherpa-ncnn-streaming-zipformer-20M-2023-02-17/decoder_jit_trace-pnnx.ncnn.param \
+    ./sherpa-ncnn-streaming-zipformer-20M-2023-02-17/decoder_jit_trace-pnnx.ncnn.bin \
+    ./sherpa-ncnn-streaming-zipformer-20M-2023-02-17/joiner_jit_trace-pnnx.ncnn.param \
+    ./sherpa-ncnn-streaming-zipformer-20M-2023-02-17/joiner_jit_trace-pnnx.ncnn.bin \
+    2 \
+    greedy_search
+
+.. hint::
+
+   If your system is Linux (including embedded Linux), you can also use
+   :ref:`sherpa-ncnn-alsa` to do real-time speech recognition with your
+   microphone if ``sherpa-ncnn-microphone`` does not work for you.
 
 csukuangfj/sherpa-ncnn-streaming-zipformer-en-2023-02-13 (English)
 ------------------------------------------------------------------
@@ -251,6 +309,12 @@ Real-time speech recognition from a microphone
     2 \
     greedy_search
 
+.. hint::
+
+   If your system is Linux (including embedded Linux), you can also use
+   :ref:`sherpa-ncnn-alsa` to do real-time speech recognition with your
+   microphone if ``sherpa-ncnn-microphone`` does not work for you.
+
 .. _sherpa_ncnn_streaming_zipformer_bilingual_zh_en_2023_02_13:
 
 csukuangfj/sherpa-ncnn-streaming-zipformer-bilingual-zh-en-2023-02-13 (Bilingual, Chinese + English)
@@ -351,6 +415,12 @@ Real-time speech recognition from a microphone
     2 \
     greedy_search
 
+.. hint::
+
+   If your system is Linux (including embedded Linux), you can also use
+   :ref:`sherpa-ncnn-alsa` to do real-time speech recognition with your
+   microphone if ``sherpa-ncnn-microphone`` does not work for you.
+
 
 .. _sherpa_ncnn_streaming_zipformer_small_bilingual_zh_en_2023_02_16:
 
@@ -368,7 +438,7 @@ In the following, we describe how to download it and use it with `sherpa-ncnn`_.
 
 .. note::
 
-  Unlinke :ref:`sherpa_ncnn_streaming_zipformer_bilingual_zh_en_2023_02_13`, this
+  Unlike :ref:`sherpa_ncnn_streaming_zipformer_bilingual_zh_en_2023_02_13`, this
   model is much smaller.
 
 Download the model
@@ -458,6 +528,12 @@ Real-time speech recognition from a microphone
     ./sherpa-ncnn-streaming-zipformer-small-bilingual-zh-en-2023-02-16/joiner_jit_trace-pnnx.ncnn.bin \
     2 \
     greedy_search
+
+.. hint::
+
+   If your system is Linux (including embedded Linux), you can also use
+   :ref:`sherpa-ncnn-alsa` to do real-time speech recognition with your
+   microphone if ``sherpa-ncnn-microphone`` does not work for you.
 
 A faster model of sherpa-ncnn-streaming-zipformer-small-bilingual-zh-en-2023-02-16
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
