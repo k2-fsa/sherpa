@@ -1,0 +1,21 @@
+usage: online-websocket-client-decode-file.py [-h] [--server-addr SERVER_ADDR]
+                                              [--server-port SERVER_PORT]
+                                              [--samples-per-message SAMPLES_PER_MESSAGE]
+                                              [--seconds-per-message SECONDS_PER_MESSAGE]
+                                              sound_file
+
+positional arguments:
+  sound_file            The input sound file. Must be wave with a single
+                        channel, 16kHz sampling rate, 16-bit of each sample.
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --server-addr SERVER_ADDR
+                        Address of the server (default: localhost)
+  --server-port SERVER_PORT
+                        Port of the server (default: 6006)
+  --samples-per-message SAMPLES_PER_MESSAGE
+                        Number of samples per message (default: 8000)
+  --seconds-per-message SECONDS_PER_MESSAGE
+                        We will simulate that the duration of two messages is
+                        of this value (default: 0.1)
