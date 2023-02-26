@@ -32,4 +32,5 @@ Also, we show how to use it for speech recognition with pre-trained models.
    ./python/index
    ./android/index
    ./ios/index
+   ./websocket/index
    ./pretrained_models/index

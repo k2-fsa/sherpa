@@ -136,4 +136,7 @@ rst_epilog = """
 .. _Triton-server: https://github.com/triton-inference-server/server
 .. _Triton-client: https://github.com/triton-inference-server/client
 .. _WebSocket: https://en.wikipedia.org/wiki/WebSocket
+.. _websocketpp: https://github.com/zaphoyd/websocketpp
+.. _asio: https://github.com/chriskohlhoff/asio
+.. _boost: https://github.com/boostorg/boost
 """

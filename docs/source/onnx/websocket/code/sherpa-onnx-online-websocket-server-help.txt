@@ -1,0 +1,54 @@
+[I] /Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:525:void sherpa_onnx::ParseOptions::PrintUsage(bool) const 
+
+Automatic speech recognition with sherpa-onnx using websocket.
+
+Usage:
+
+./bin/sherpa-onnx-online-websocket-server --help
+
+./bin/sherpa-onnx-online-websocket-server \
+  --port=6006 \
+  --num-work-threads=5 \
+  --tokens=/path/to/tokens.txt \
+  --encoder=/path/to/encoder.onnx \
+  --decoder=/path/to/decoder.onnx \
+  --joiner=/path/to/joiner.onnx \
+  --log-file=./log.txt \
+  --max-batch-size=5 \
+  --loop-interval-ms=10
+
+Please refer to
+https://k2-fsa.github.io/sherpa/onnx/pretrained_models/index.html
+for a list of pre-trained models to download.
+
+Options:
+  --max-batch-size            : Max batch size for recognition. (int, default = 5)
+  --loop-interval-ms          : It determines how often the decoder loop runs.  (int, default = 10)
+  --rule3-min-utterance-length : This endpointing rule3 requires utterance-length (in seconds) to be >= this value. (float, default = 20)
+  --rule3-min-trailing-silence : This endpointing rule3 requires duration of trailing silence in seconds) to be >= this value. (float, default = 0)
+  --rule3-must-contain-nonsilence : If True, for this endpointing rule3 to apply there must be nonsilence in the best-path traceback. For decoding, a non-blank token is considered as non-silence (bool, default = false)
+  --rule2-min-utterance-length : This endpointing rule2 requires utterance-length (in seconds) to be >= this value. (float, default = 0)
+  --rule1-min-trailing-silence : This endpointing rule1 requires duration of trailing silence in seconds) to be >= this value. (float, default = 2.4)
+  --feat-dim                  : Feature dimension. Must match the one expected by the model. (int, default = 80)
+  --rule1-must-contain-nonsilence : If True, for this endpointing rule1 to apply there must be nonsilence in the best-path traceback. For decoding, a non-blank token is considered as non-silence (bool, default = false)
+  --enable-endpoint           : True to enable endpoint detection. False to disable it. (bool, default = true)
+  --num_threads               : Number of threads to run the neural network (int, default = 2)
+  --debug                     : true to print model information while loading it. (bool, default = false)
+  --port                      : The port on which the server will listen. (int, default = 6006)
+  --num-io-threads            : Thread pool size for network connections. (int, default = 1)
+  --rule2-must-contain-nonsilence : If True, for this endpointing rule2 to apply there must be nonsilence in the best-path traceback. For decoding, a non-blank token is considered as non-silence (bool, default = true)
+  --joiner                    : Path to joiner.onnx (string, default = "")
+  --tokens                    : Path to tokens.txt (string, default = "")
+  --num-work-threads          : Thread pool size for for neural network computation and decoding. (int, default = 3)
+  --encoder                   : Path to encoder.onnx (string, default = "")
+  --sample-rate               : Sampling rate of the input waveform. Must match the one expected by the model. (float, default = 16000)
+  --rule2-min-trailing-silence : This endpointing rule2 requires duration of trailing silence in seconds) to be >= this value. (float, default = 1.2)
+  --log-file                  : Path to the log file. Logs are appended to this file (string, default = "./log.txt")
+  --rule1-min-utterance-length : This endpointing rule1 requires utterance-length (in seconds) to be >= this value. (float, default = 0)
+  --decoder                   : Path to decoder.onnx (string, default = "")
+
+Standard options:
+  --config                    : Configuration file to read (this option may be repeated) (string, default = "")
+  --help                      : Print out usage message (bool, default = false)
+  --print-args                : Print the command line arguments (to stderr) (bool, default = true)
+

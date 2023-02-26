@@ -1,0 +1,30 @@
+[I] /Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:484:int sherpa_onnx::ParseOptions::Read(int, const char *const *) ./build/bin/sherpa-onnx-online-websocket-client 
+[I] /Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:525:void sherpa_onnx::ParseOptions::PrintUsage(bool) const 
+
+Automatic speech recognition with sherpa-onnx using websocket.
+
+Usage:
+
+./bin/sherpa-onnx-online-websocket-client --help
+
+./bin/sherpa-onnx-online-websocket-client \
+  --server-ip=127.0.0.1 \
+  --server-port=6006 \
+  --samples-per-message=8000 \
+  --seconds-per-message=0.2 \
+  /path/to/foo.wav
+
+It support only wave of with a single channel, 16kHz, 16-bit samples.
+
+Options:
+  --seconds-per-message       : We will simulate that each message takes this number of seconds to send. If you select a very large value, it will take a long time to send all the samples (float, default = 0.2)
+  --samples-per-message       : Send this number of samples per message. (int, default = 8000)
+  --sample-rate               : Sample rate of the input wave. Should be the one expected by the server (int, default = 16000)
+  --server-port               : Port of the websocket server (int, default = 6006)
+  --server-ip                 : IP address of the websocket server (string, default = "127.0.0.1")
+
+Standard options:
+  --help                      : Print out usage message (bool, default = false)
+  --print-args                : Print the command line arguments (to stderr) (bool, default = true)
+  --config                    : Configuration file to read (this option may be repeated) (string, default = "")
+
