@@ -31,4 +31,5 @@ Also, we show how to use it for speech recognition with pre-trained models.
    ./install/index
    ./python/index
    ./android/index
+   ./ios/index
    ./pretrained_models/index
