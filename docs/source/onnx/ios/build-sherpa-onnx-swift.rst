@@ -1,7 +1,7 @@
-Build sherpa-ncnn for iOS
+Build sherpa-onnx for iOS
 =========================
 
-This section describes how to build `sherpa-ncnn`_ for ``iPhone`` and ``iPad``.
+This section describes how to build `sherpa-onnx`_ for ``iPhone`` and ``iPad``.
 
 Requirement
 -----------
@@ -9,7 +9,6 @@ Requirement
 .. warning::
 
   The minimum deployment requires the iOS version ``>= 13.0``.
-
 
 Before we continue, please make sure the following requirements are satisfied:
 
@@ -19,14 +18,14 @@ Before we continue, please make sure the following requirements are satisfied:
 - (Optional) iPhone or iPad. This is for testing the app on your device.
   If you don't have a device, you can still run the app within a simulator on your Mac.
 
-Download sherpa-ncnn
+Download sherpa-onnx
 --------------------
 
-First, let us download the source code of `sherpa-ncnn`_.
+First, let us download the source code of `sherpa-onnx`_.
 
 .. note::
 
-  In the following, I will download `sherpa-ncnn`_ to
+  In the following, I will download `sherpa-onnx`_ to
   ``$HOME/open-source``, i.e., ``/Users/fangjun/open-source``, on my Mac.
 
   You can put it anywhere as you like.
@@ -35,50 +34,40 @@ First, let us download the source code of `sherpa-ncnn`_.
 
   mkdir -p $HOME/open-source
   cd $HOME/open-source
-  git clone https://github.com/k2-fsa/sherpa-ncnn
+  git clone https://github.com/k2-fsa/sherpa-onnx
 
-Build sherpa-ncnn (in commandline, C++ Part)
+Build sherpa-onnx (in commandline, C++ Part)
 --------------------------------------------
 
-After downloading `sherpa-ncnn`_, let us build the C++ part of `sherpa-ncnn`_.
+After downloading `sherpa-onnx`_, let us build the C++ part of `sherpa-onnx`_.
 
 .. code-block:: bash
 
-  cd $HOME/open-source/sherpa-ncnn/
+  cd $HOME/open-source/sherpa-onnx/
   ./build-ios.sh
 
 It will generate a directory
-``$HOME/open-source/sherpa-ncnn/build-ios``, which we have already pre-configured
+``$HOME/open-source/sherpa-onnx/build-ios``, which we have already pre-configured
 for you in Xcode.
 
-.. hint::
-
-  You don't have to look at the generated files in ``$HOME/open-source/sherpa-ncnn/build-ios``
-  to build an app. We have pre-configured it for you.
-
-  If you are eager to learn more about the generated files or want to use
-  `sherpa-ncnn`_ in your own iOS project, please have a look
-  at :ref:`sherpa_ncnn_ios_swift_for_the_more_curious`.
-
-
-Build sherpa-ncnn (in Xcode)
+Build sherpa-onnx (in Xcode)
 ----------------------------
 
-Use the following command to open `sherpa-ncnn`_ in Xcode:
+Use the following command to open `sherpa-onnx`_ in Xcode:
 
 .. code-block:: bash
 
-  cd $HOME/open-source/sherpa-ncnn/ios-swift/SherpaNcnn
-  open SherpaNcnn.xcodeproj
+  cd $HOME/open-source/sherpa-onnx/ios-swift/SherpaOnnx
+  open SherpaOnnx.xcodeproj
 
 It will start Xcode and you will see the following screenshot:
 
-  .. figure:: ./pic/start-xcode-for-sherpa-ncnn.png
-     :alt: Screenshot after running the command ``open SherpaNcnn.xcodeproj``
+  .. figure:: ./pic/start-xcode-for-sherpa-onnx.png
+     :alt: Screenshot after running the command ``open SherpaOnnx.xcodeproj``
      :width: 600
      :align: center
 
-     Screenshot after running the command ``open SherpaNcnn.xcodeproj``
+     Screenshot after running the command ``open SherpaOnnx.xcodeproj``
 
 Please select ``Product -> Build`` to build the project. See the screenshot
 below:
@@ -91,6 +80,7 @@ below:
      Screenshot for selecting ``Product -> Build``
 
 After finishing the build, you should see the following screenshot:
+
 
   .. figure:: ./pic/after-finishing-build.png
      :alt: Screenshot after finishing the build.
@@ -124,8 +114,8 @@ Unfortunately, it will throw the following error:
 The reason for the above error is that we have not provided the pre-trained
 model yet.
 
-The file `ViewController.swift <https://github.com/k2-fsa/sherpa-ncnn/blob/master/ios-swift/SherpaNcnn/SherpaNcnn/ViewController.swift>`_
-pre-selects the pre-trained model to be :ref:`sherpa-ncnn-mixed-english-chinese-conv-emformer-model`,
+The file `ViewController.swift <https://github.com/k2-fsa/sherpa-onnx/blob/master/ios-swift/SherpaOnnx/SherpaOnnx/ViewController.swift#L88>`_
+pre-selects the pre-trained model to be :ref:`sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20`,
 shown in the screenshot below:
 
   .. figure:: ./pic/pre-trained-model-1.png
@@ -135,26 +125,26 @@ shown in the screenshot below:
 
      Screenshot for the pre-selected pre-trained model
 
-Let us add the pre-trained model :ref:`sherpa-ncnn-mixed-english-chinese-conv-emformer-model`
-to Xcode. Please follow :ref:`sherpa-ncnn-mixed-english-chinese-conv-emformer-model`
-to download it from `huggingface <https://huggingface.co/csukuangfj/sherpa-ncnn-conv-emformer-transducer-2022-12-06>`_.
+Let us add the pre-trained model :ref:`sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20`
+to Xcode. Please follow :ref:`sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20`
+to download it from `huggingface <https://huggingface.co/csukuangfj/sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20>`_.
 You can download it to any directory as you like.
 
-Please right click the project ``SherpaNcnn`` and select ``Add Files to "SherpaNcnn"...``
+Please right click the project ``SherpaOnnx`` and select ``Add Files to "SherpaOnnx"...``
 in the popup menu, as is shown in the screenshot below:
 
   .. figure:: ./pic/step-to-add-pre-trained-model-1.png
-     :alt: Screenshot for adding files to SherpaNcnn
+     :alt: Screenshot for adding files to SherpaOnnx
      :width: 600
      :align: center
 
-     Screenshot for adding files to SherpaNcnn
+     Screenshot for adding files to SherpaOnnx
 
 In the popup dialog, switch to the folder where you just downloaded the pre-trained
 model.
 
-In the screenshot below, it is the
-folder ``/Users/fangjun/open-source/icefall-models/sherpa-ncnn-conv-emformer-transducer-2022-12-06``:
+In the screenshot below, it is the folder
+``/Users/fangjun/open-source/icefall-models/sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20``:
 
   .. figure:: ./pic/step-to-add-pre-trained-model-2.png
      :alt: Screenshot for navigating to the folder containing the downloaded pre-trained
@@ -201,12 +191,12 @@ Click the button to start recording! A screenshot is given below:
 
      Screenshot for recording and recognition.
 
-Congratulations! You have finally succeeded in running `sherpa-ncnn`_ with iOS,
+Congratulations! You have finally succeeded in running `sherpa-onnx`_ with iOS,
 though it is in a simulator.
 
-Please read below if you want to run `sherpa-ncnn`_ on your iPhone or iPad.
+Please read below if you want to run `sherpa-onnx`_ on your iPhone or iPad.
 
-Run sherpa-ncnn on your iPhone/iPad
+Run sherpa-onnx on your iPhone/iPad
 -----------------------------------
 
 First, please make sure the iOS version of your iPhone/iPad is ``>= 13.0``.
@@ -278,7 +268,7 @@ Now your Xcode should look like below after selecting a device:
 
      Screenshot after selecting your device
 
-Please select ``Product -> Run`` again to run `sherpa-ncnn`_ on your selected
+Please select ``Product -> Run`` again to run `sherpa-onnx`_ on your selected
 device, as is shown in the following screenshot:
 
   .. figure:: ./pic/run-3.png
@@ -291,42 +281,22 @@ device, as is shown in the following screenshot:
 After a successful build, check your iPhone/iPad and you should see the following
 screenshot:
 
-  .. figure:: ./pic/run-4.jpg
-     :alt: Screenshot for running sherpa-ncnn on your device
+  .. figure:: ./pic/run-4.png
+     :alt: Screenshot for running sherpa-onnx on your device
      :width: 300
      :align: center
 
-     Screenshot for running sherpa-ncnn on your device
-
-To fix that, please select ``Settings -> General -> Device Management``
-on your device
-
-  .. figure:: ./pic/run-5.jpg
-     :alt: Screenshot for selecting `Settings -> General -> Device Management` on your device
-     :width: 300
-     :align: center
-
-     Screenshot for selecting `Settings -> General -> Device Management` on your device
-
-Please click ``Apple Development: csukuangfj...`` and click ``Trust "Apple Development: csukuangfj@g..."``
-in the subsequent dialog, as is shown below:
-
-  .. figure:: ./pic/run-6.jpg
-     :alt: Screenshot for "Trust "Apple Development: csukuangfj@g...""
-     :width: 300
-     :align: center
-
-     Screenshot for "Trust "Apple Development: csukuangfj@g...""
+     Screenshot for running sherpa-onnx on your device
 
 At this point, you should be able to run the app on your device. The following is a screenshot
 about running it on my iPhone:
 
-  .. figure:: ./pic/run-7.jpg
-     :alt: Screenshot for running `sherpa-ncnn`_ on iPhone
+  .. figure:: ./pic/run-5.png
+     :alt: Screenshot for running `sherpa-onnx`_ on iPhone
      :width: 300
      :align: center
 
-     Screenshot for running `sherpa-ncnn`_ on iPhone
+     Screenshot for running `sherpa-onnx`_ on iPhone
 
 
-Congratulations! You have successfully run `sherpa-ncnn`_ on your device!
+Congratulations! You have successfully run `sherpa-onnx`_ on your device!
