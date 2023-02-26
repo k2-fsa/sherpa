@@ -25,179 +25,112 @@ The above command generates files inside the directory ``./build-ios``:
 
 .. code-block:: bash
 
-  sherpa-ncnn fangjun$ ls -lh build-ios/
+  sherpa-ncnn fangjun$ ls -lh build-ios
   total 1912
-  drwxr-xr-x  13 fangjun  staff   416B Jan 29 14:43 build-arm64
-  drwxr-xr-x  13 fangjun  staff   416B Jan 29 14:45 build-simulator
-  drwxr-xr-x  16 fangjun  staff   512B Jan 28 12:53 openmp-11.0.0.src
+  drwxr-xr-x   6 fangjun  staff   192B Feb 26 16:48 build
+  drwxr-xr-x   4 fangjun  staff   128B Feb 26 16:46 install
+  drwxr-xr-x  15 fangjun  staff   480B Feb 14 18:09 openmp-11.0.0.src
   -rw-r--r--   1 fangjun  staff   952K Dec  8  2021 openmp-11.0.0.src.tar.xz
-  drwxr-xr-x   6 fangjun  staff   192B Jan 29 14:47 openmp.framework
-  drwxr-xr-x   6 fangjun  staff   192B Jan 29 14:47 sherpa-ncnn.framework
+  drwxr-xr-x   6 fangjun  staff   192B Feb 26 16:44 openmp.xcframework
+  drwxr-xr-x   6 fangjun  staff   192B Feb 26 16:48 sherpa-ncnn.xcframework
 
-What is interesting is the two framework folders ``openmp.framework`` and ``sherpa-ncnn.framework``.
+What is interesting here is the two framework folders ``openmp.xcframework``
+and ``sherpa-ncnn.xcframework``.
 All other folders can be safely removed. We only need the two framework folders.
 
 
 In the following, we describe the content in these two framework folders.
 
-openmp.framework
-~~~~~~~~~~~~~~~~
+openmp.xcframework
+~~~~~~~~~~~~~~~~~~
 
 .. code-block::
 
-  sherpa-ncnn fangjun$ tree build-ios/openmp.framework/
-  build-ios/openmp.framework/
-  ├── Headers -> Versions/Current/Headers
-  ├── Resources -> Versions/Current/Resources
-  ├── Versions
-  │   ├── A
-  │   │   ├── Headers
-  │   │   │   └── omp.h
-  │   │   ├── Resources
-  │   │   │   └── Info.plist
-  │   │   └── openmp
-  │   └── Current -> A
-  └── openmp -> Versions/Current/openmp
+  $ tree build-ios/openmp.xcframework/
+  build-ios/openmp.xcframework/
+  ├── Headers
+  │   └── omp.h
+  ├── Info.plist
+  ├── ios-arm64
+  │   └── libomp.a
+  └── ios-arm64_x86_64-simulator
+      └── libomp.a
 
-  7 directories, 4 files
+  3 directories, 4 files
 
 **Explanation**:
 
   - ``omp.h``: The header file, which is used by `ncnn`_
   - ``Info.plist``: A file that is dedicated for framework on macOS/iOS
-  - ``openmp``: A static library
-
-    .. code-block:: bash
-
-      $ ls -lh ./build-ios/openmp.framework/openmp
-      lrwxr-xr-x  1 fangjun  staff    23B Jan 29 14:47 ./build-ios/openmp.framework/openmp -> Versions/Current/openmp
-
-      $ ls -lh ./build-ios/openmp.framework/Versions/Current/openmp
-      -rw-r--r--  1 fangjun  staff   2.6M Jan 29 14:47 ./build-ios/openmp.framework/Versions/Current/openmp
-
-      # Don't be scared about the file size of ``openmp``. It contains libraries for 4
-      # different architectures, i.e., i386, x86_64, arm64, and arm64e.
-
-      $ lipo -info ./build-ios/openmp.framework/Versions/Current/openmp
-      Architectures in the fat file: ./build-ios/openmp.framework/Versions/Current/openmp are: i386 x86_64 arm64 arm64e
-
-      $ file ./build-ios/openmp.framework/Versions/Current/openmp
-      ./build-ios/openmp.framework/Versions/Current/openmp: Mach-O universal binary with 4 architectures: [i386:current ar archive random library] [x86_64:current ar archive random library] [arm64] [arm64e]
-      ./build-ios/openmp.framework/Versions/Current/openmp (for architecture i386):   current ar archive random library
-      ./build-ios/openmp.framework/Versions/Current/openmp (for architecture x86_64): current ar archive random library
-      ./build-ios/openmp.framework/Versions/Current/openmp (for architecture arm64):  current ar archive random library
-      ./build-ios/openmp.framework/Versions/Current/openmp (for architecture arm64e): current ar archive random library
-
-      $ ls -lh build-ios/openmp-11.0.0.src/build-simulator/install/lib/libomp.a
-      -rw-r--r--  1 fangjun  staff   1.4M Jan 24 20:32 build-ios/openmp-11.0.0.src/build-simulator/install/lib/libomp.a
-
-      $ file build-ios/openmp-11.0.0.src/build-simulator/install/lib/libomp.a
-      build-ios/openmp-11.0.0.src/build-simulator/install/lib/libomp.a: Mach-O universal binary with 2 architectures: [i386:current ar archive random library] [x86_64:current ar archive random library]
-      build-ios/openmp-11.0.0.src/build-simulator/install/lib/libomp.a (for architecture i386):       current ar archive random library
-      build-ios/openmp-11.0.0.src/build-simulator/install/lib/libomp.a (for architecture x86_64):     current ar archive random library
-
-      $ ls -lh build-ios/openmp-11.0.0.src/build-arm64/install/lib/libomp.a
-      -rw-r--r--  1 fangjun  staff   1.3M Jan 24 20:34 build-ios/openmp-11.0.0.src/build-arm64/install/lib/libomp.a
-
-      $ file build-ios/openmp-11.0.0.src/build-arm64/install/lib/libomp.a
-      build-ios/openmp-11.0.0.src/build-arm64/install/lib/libomp.a: Mach-O universal binary with 2 architectures: [arm64:current ar archive random library] [arm64e:current ar archive random library]
-      build-ios/openmp-11.0.0.src/build-arm64/install/lib/libomp.a (for architecture arm64):  current ar archive random library
-      build-ios/openmp-11.0.0.src/build-arm64/install/lib/libomp.a (for architecture arm64e): current ar archive random library
-
-sherpa-ncnn.framework
-~~~~~~~~~~~~~~~~~~~~~
+  - ``ios-arm64/libopm.a``: A static library for iOS device, e.g., for iPhone
+  - ``ios-arm64_x86_64-simulator/libomp.a``: A static library for iOS
+    simulators, including simulators for Intel chips and Apple Silicon (e.g., M1)
 
 .. code-block:: bash
 
-  sherpa-ncnn fangjun$ tree build-ios/sherpa-ncnn.framework/
-  build-ios/sherpa-ncnn.framework/
-  ├── Headers -> Versions/Current/Headers
-  ├── Resources -> Versions/Current/Resources
-  ├── Versions
-  │   ├── A
-  │   │   ├── Headers
-  │   │   │   └── sherpa-ncnn
-  │   │   │       └── c-api
-  │   │   │           └── c-api.h
-  │   │   ├── Resources
-  │   │   │   └── Info.plist
-  │   │   └── sherpa-ncnn
-  │   └── Current -> A
-  └── sherpa-ncnn -> Versions/Current/sherpa-ncnn
+  sherpa-ncnn fangjun$ file build-ios/openmp.xcframework/ios-arm64_x86_64-simulator/libomp.a
+  build-ios/openmp.xcframework/ios-arm64_x86_64-simulator/libomp.a: Mach-O universal binary with 2 architectures: [x86_64:current ar archive random library] [arm64:current ar archive random library]
+  build-ios/openmp.xcframework/ios-arm64_x86_64-simulator/libomp.a (for architecture x86_64):     current ar archive random library
+  build-ios/openmp.xcframework/ios-arm64_x86_64-simulator/libomp.a (for architecture arm64):      current ar archive random library
 
-  9 directories, 4 files
+  sherpa-ncnn fangjun$ lipo -info build-ios/openmp.xcframework/ios-arm64_x86_64-simulator/libomp.a
+  Architectures in the fat file: build-ios/openmp.xcframework/ios-arm64_x86_64-simulator/libomp.a are: x86_64 arm64
+
+  sherpa-ncnn fangjun$ file build-ios/openmp.xcframework/ios-arm64/libomp.a
+  build-ios/openmp.xcframework/ios-arm64/libomp.a: current ar archive random library
+
+  sherpa-ncnn fangjun$ lipo -info build-ios/openmp.xcframework/ios-arm64/libomp.a
+  Non-fat file: build-ios/openmp.xcframework/ios-arm64/libomp.a is architecture: arm64
+
+sherpa-ncnn.xcframework
+~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+  sherpa-ncnn fangjun$ tree build-ios/sherpa-ncnn.xcframework/
+  build-ios/sherpa-ncnn.xcframework/
+  ├── Headers
+  │   └── sherpa-ncnn
+  │       └── c-api
+  │           └── c-api.h
+  ├── Info.plist
+  ├── ios-arm64
+  │   └── sherpa-ncnn.a
+  └── ios-arm64_x86_64-simulator
+      └── sherpa-ncnn.a
+
+  5 directories, 4 files
 
 **Explanation**:
 
-  - ``c-api.h``: The header file, which is copied from `<https://github.com/k2-fsa/sherpa-ncnn/blob/master/sherpa-ncnn/c-api/c-api.h>`_
+  - ``c-api.h``: The header file, which is copied from
+    `<https://github.com/k2-fsa/sherpa-ncnn/blob/master/sherpa-ncnn/c-api/c-api.h>`_
   - ``Info.plist``: A file that is dedicated for framework on macOS/iOS
-  - ``sherpa-ncnn``: A static library
+  - ``ios-arm64/sherpa-ncnn.a``: A static library for iOS, e.g., iPhone
+  - ``ios-arm64_x86_64-simulator/sherpa-ncnn.a``: A static library for
+    simulators, including simulators for Intel chips and Apple Silicon (e.g., M1)
 
-    .. code-block:: bash
+.. code-block:: bash
 
-      sherpa-ncnn fangjun$ ls -lh build-ios/sherpa-ncnn.framework/sherpa-ncnn
-      lrwxr-xr-x  1 fangjun  staff    28B Jan 29 14:47 build-ios/sherpa-ncnn.framework/sherpa-ncnn -> Versions/Current/sherpa-ncnn
+  sherpa-ncnn fangjun$ file build-ios/sherpa-ncnn.xcframework/ios-arm64_x86_64-simulator/sherpa-ncnn.a
+  build-ios/sherpa-ncnn.xcframework/ios-arm64_x86_64-simulator/sherpa-ncnn.a: Mach-O universal binary with 2 architectures: [x86_64:current ar archive] [arm64]
+  build-ios/sherpa-ncnn.xcframework/ios-arm64_x86_64-simulator/sherpa-ncnn.a (for architecture x86_64):   current ar archive
+  build-ios/sherpa-ncnn.xcframework/ios-arm64_x86_64-simulator/sherpa-ncnn.a (for architecture arm64):    current ar archive
 
-      sherpa-ncnn fangjun$ ls -lh build-ios/sherpa-ncnn.framework/Versions/Current/sherpa-ncnn
-      -rw-r--r--  1 fangjun  staff    25M Jan 29 14:47 build-ios/sherpa-ncnn.framework/Versions/Current/sherpa-ncnn
+  sherpa-ncnn fangjun$ lipo -info build-ios/sherpa-ncnn.xcframework/ios-arm64_x86_64-simulator/sherpa-ncnn.a
+  Architectures in the fat file: build-ios/sherpa-ncnn.xcframework/ios-arm64_x86_64-simulator/sherpa-ncnn.a are: x86_64 arm64
 
-      # Don't be scared about the file size of ``sherpa-ncnn``. It contains libraries for 4
-      # different architectures, i.e., i386, x86_64, arm64, and arm64e.
+  sherpa-ncnn fangjun$ file build-ios/sherpa-ncnn.xcframework/ios-arm64/sherpa-ncnn.a
+  build-ios/sherpa-ncnn.xcframework/ios-arm64/sherpa-ncnn.a: current ar archive
 
-      sherpa-ncnn fangjun$ lipo -info build-ios/sherpa-ncnn.framework/Versions/Current/sherpa-ncnn
-      Architectures in the fat file: build-ios/sherpa-ncnn.framework/Versions/Current/sherpa-ncnn are: i386 x86_64 arm64 arm64e
-
-      sherpa-ncnn fangjun$ file build-ios/sherpa-ncnn.framework/Versions/Current/sherpa-ncnn
-      build-ios/sherpa-ncnn.framework/Versions/Current/sherpa-ncnn: Mach-O universal binary with 4 architectures: [i386:current ar archive] [x86_64] [arm64] [arm64e]
-      build-ios/sherpa-ncnn.framework/Versions/Current/sherpa-ncnn (for architecture i386):   current ar archive
-      build-ios/sherpa-ncnn.framework/Versions/Current/sherpa-ncnn (for architecture x86_64): current ar archive
-      build-ios/sherpa-ncnn.framework/Versions/Current/sherpa-ncnn (for architecture arm64):  current ar archive
-      build-ios/sherpa-ncnn.framework/Versions/Current/sherpa-ncnn (for architecture arm64e): current ar archive
-
-      sherpa-ncnn fangjun$ ls -lh build-ios/build-simulator/install/lib/lib*.a
-      -rw-r--r--  1 fangjun  staff   248K Jan 29 14:47 build-ios/build-simulator/install/lib/libkaldi-native-fbank-core.a
-      -rw-r--r--  1 fangjun  staff    16M Jan 29 14:47 build-ios/build-simulator/install/lib/libncnn.a
-      -rw-r--r--  1 fangjun  staff   9.9K Jan 29 14:47 build-ios/build-simulator/install/lib/libsherpa-ncnn-c-api.a
-      -rw-r--r--  1 fangjun  staff   615K Jan 29 14:47 build-ios/build-simulator/install/lib/libsherpa-ncnn-core.a
-
-      sherpa-ncnn fangjun$ file build-ios/build-simulator/install/lib/lib*.a
-      build-ios/build-simulator/install/lib/libkaldi-native-fbank-core.a: Mach-O universal binary with 2 architectures: [i386:current ar archive] [x86_64:current ar archive]
-      build-ios/build-simulator/install/lib/libkaldi-native-fbank-core.a (for architecture i386):     current ar archive
-      build-ios/build-simulator/install/lib/libkaldi-native-fbank-core.a (for architecture x86_64):   current ar archive
-      build-ios/build-simulator/install/lib/libncnn.a:                    Mach-O universal binary with 2 architectures: [i386:current ar archive] [x86_64]
-      build-ios/build-simulator/install/lib/libncnn.a (for architecture i386):        current ar archive
-      build-ios/build-simulator/install/lib/libncnn.a (for architecture x86_64):      current ar archive
-      build-ios/build-simulator/install/lib/libsherpa-ncnn-c-api.a:       Mach-O universal binary with 2 architectures: [i386:current ar archive random library] [x86_64:current ar archive random library]
-      build-ios/build-simulator/install/lib/libsherpa-ncnn-c-api.a (for architecture i386):   current ar archive random library
-      build-ios/build-simulator/install/lib/libsherpa-ncnn-c-api.a (for architecture x86_64): current ar archive random library
-      build-ios/build-simulator/install/lib/libsherpa-ncnn-core.a:        Mach-O universal binary with 2 architectures: [i386:current ar archive] [x86_64:current ar archive]
-      build-ios/build-simulator/install/lib/libsherpa-ncnn-core.a (for architecture i386):    current ar archive
-      build-ios/build-simulator/install/lib/libsherpa-ncnn-core.a (for architecture x86_64):  current ar archive
-
-      sherpa-ncnn fangjun$ ls -lh build-ios/build-arm64/install/lib/lib*.a
-      -rw-r--r--  1 fangjun  staff   221K Jan 29 14:45 build-ios/build-arm64/install/lib/libkaldi-native-fbank-core.a
-      -rw-r--r--  1 fangjun  staff   7.2M Jan 29 14:45 build-ios/build-arm64/install/lib/libncnn.a
-      -rw-r--r--  1 fangjun  staff   9.1K Jan 29 14:45 build-ios/build-arm64/install/lib/libsherpa-ncnn-c-api.a
-      -rw-r--r--  1 fangjun  staff   579K Jan 29 14:45 build-ios/build-arm64/install/lib/libsherpa-ncnn-core.a
-      sherpa-ncnn fangjun$ file build-ios/build-arm64/install/lib/lib*.a
-      build-ios/build-arm64/install/lib/libkaldi-native-fbank-core.a: Mach-O universal binary with 2 architectures: [arm64:current ar archive] [arm64e:current ar archive]
-      build-ios/build-arm64/install/lib/libkaldi-native-fbank-core.a (for architecture arm64):        current ar archive
-      build-ios/build-arm64/install/lib/libkaldi-native-fbank-core.a (for architecture arm64e):       current ar archive
-      build-ios/build-arm64/install/lib/libncnn.a:                    Mach-O universal binary with 2 architectures: [arm64:current ar archive] [arm64e]
-      build-ios/build-arm64/install/lib/libncnn.a (for architecture arm64):   current ar archive
-      build-ios/build-arm64/install/lib/libncnn.a (for architecture arm64e):  current ar archive
-      build-ios/build-arm64/install/lib/libsherpa-ncnn-c-api.a:       Mach-O universal binary with 2 architectures: [arm64:current ar archive random library] [arm64e:current ar archive random library]
-      build-ios/build-arm64/install/lib/libsherpa-ncnn-c-api.a (for architecture arm64):      current ar archive random library
-      build-ios/build-arm64/install/lib/libsherpa-ncnn-c-api.a (for architecture arm64e):     current ar archive random library
-      build-ios/build-arm64/install/lib/libsherpa-ncnn-core.a:        Mach-O universal binary with 2 architectures: [arm64:current ar archive] [arm64e:current ar archive]
-      build-ios/build-arm64/install/lib/libsherpa-ncnn-core.a (for architecture arm64):       current ar archive
-      build-ios/build-arm64/install/lib/libsherpa-ncnn-core.a (for architecture arm64e):      current ar archive
+  sherpa-ncnn fangjun$ lipo -info build-ios/sherpa-ncnn.xcframework/ios-arm64/sherpa-ncnn.a
+  Non-fat file: build-ios/sherpa-ncnn.xcframework/ios-arm64/sherpa-ncnn.a is architecture: arm64
 
 How to use files generated by ./build-ios.sh in Xcode
 -----------------------------------------------------
 
-In this section, we describe how to use ``openmp.framework`` and ``sherpa-ncnn.framework``
-in Xcode.
+In this section, we describe how to use ``openmp.xcframework`` and
+``sherpa-ncnn.xcframework`` in Xcode.
 
 The underlying implementation of `sherpa-ncnn`_ is in C++. It also provides
 `C API <https://github.com/k2-fsa/sherpa-ncnn/blob/master/sherpa-ncnn/c-api/c-api.h>`_.
@@ -230,7 +163,7 @@ We list the content of the bridging header below for reference:
 
 After adding the bridging header to your iOS project, Xcode will complain
 it cannot find ``sherpa-ncnn/c-api/c-api.h``. The fix is to add the path
-``build-ios/sherpa-ncnn.framework/Headers`` to ``Header Search Paths`` by changing
+``build-ios/sherpa-ncnn.xcframework/Headers`` to ``Header Search Paths`` by changing
 ``Build Settings -> Search Paths -> Header Search Paths``, as is shown in the
 following screenshot:
 
@@ -244,24 +177,24 @@ following screenshot:
 .. hint::
 
   Instead of using an absolute path, we use
-  ``${PROJECT_DIR}/../../build-ios/sherpa-ncnn.framework/Headers/``
+  ``${PROJECT_DIR}/../../build-ios/sherpa-ncnn.xcframework/Headers/``
 
   For instance, my `sherpa-ncnn`_ is downloaded to
-  ``/Users/fangjun/open-source/sherpa-ncnn`` and the path to ``sherpa-ncnn.framework``
-  is ``/Users/fangjun/open-source/sherpa-ncnn/build-ios/sherpa-ncnn.framework``.
+  ``/Users/fangjun/open-source/sherpa-ncnn`` and the path to ``sherpa-ncnn.xcframework``
+  is ``/Users/fangjun/open-source/sherpa-ncnn/build-ios/sherpa-ncnn.xcframework``.
 
   The value of ``PROJECT_DIR`` is
   ``/Users/fangjun/open-source/sherpa-ncnn/ios-swift/SherpaNcnn``, so
-  we can use ``${PROJECT_DIR}/../../build-ios/sherpa-ncnn.framework/Headers/``.
+  we can use ``${PROJECT_DIR}/../../build-ios/sherpa-ncnn.xcframework/Headers/``.
 
   Also note that ``PROJECT_DIR`` is a pre-defined variable in Xcode.
 
 Please also add `SherpaNcnn.swift <https://github.com/k2-fsa/sherpa-ncnn/blob/master/swift-api-examples/SherpaNcnn.swift>`_
 to your iOS project, which is a utility to make it easier to access functions from the bridging header.
 
-The next thing is to add ``openmp.framework`` and ``sherpa-ncnn.framework``
+The next thing is to add ``openmp.xcframework`` and ``sherpa-ncnn.xcframework``
 as dependencies to you iOS project. Select ``Build Phases -> Link Binary with Libraries``
-and then click ``+`` to add ``sherpa-ncnn.framework`` and ``openmp.framework``.
+and then click ``+`` to add ``sherpa-ncnn.xcframework`` and ``openmp.xcframework``.
 See the screenshot below for reference:
 
     .. figure:: ./pic/add-framework-to-your-project.png
@@ -274,9 +207,9 @@ See the screenshot below for reference:
 .. hint::
 
   After clicking ``+``, please select ``Add Other... -> Add Files..``, and then
-  add the path to ``sherpa-ncnn.framework``.
+  add the path to ``sherpa-ncnn.xcframework``.
 
-  Repeat the step for ``openmp.framework``.
+  Repeat the step for ``openmp.xcframework``.
 
   See the screenshot below for reference:
 
