@@ -59,7 +59,7 @@ Start the server
 
 .. note::
 
-  Note that the server supports processing multiple client in a batch in parallel.
+  Note that the server supports processing multiple clients in a batch in parallel.
   You can use ``--max-batch-size`` to limit the batch size.
 
 View the usage of the client (C++)
@@ -123,18 +123,26 @@ Use the following command to view the usage:
 
    python3 ./python-api-examples/online-websocket-client-decode-file.py  --help
 
+.. hint::
+
+   ``online-websocket-client-decode-file.py`` is from
+   `<https://github.com/k2-fsa/sherpa-onnx/blob/master/python-api-examples/online-websocket-client-decode-file.py>`_
+
 It will print:
 
 .. literalinclude:: ./code/python-online-websocket-client-decode-a-file.txt
 
 .. hint::
 
-   For the Python client, you can use a domain name for the server.
+   For the Python client, you can use either a domain name or an IP address
+   for ``--server-addr``. For instance, you can use either
+   ``--server-addr localhost`` or ``--server-addr 127.0.0.1``.
 
-   For the argument form, you can either use ``--key=value`` or ``--key value``.
+   For the input argument, you can either use ``--key=value`` or ``--key value``.
 
-Start of the client (Python)
-----------------------------
+
+Start the client (Python)
+-------------------------
 
 .. code-block:: bash
 
@@ -144,11 +152,14 @@ Start of the client (Python)
     --seconds-per-message 0.1 \
     ./sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20/test_wavs/4.wav
 
-Start of the client (Python, with microphone)
----------------------------------------------
+Start the client (Python, with microphone)
+------------------------------------------
 
 .. code-block:: bash
 
   python3 ./python-api-examples/online-websocket-client-microphone.py \
     --server-addr localhost \
     --server-port 6006
+
+   ``online-websocket-client-microphone.py `` is from
+   `<https://github.com/k2-fsa/sherpa-onnx/blob/master/python-api-examples/online-websocket-client-microphone.py>`_
