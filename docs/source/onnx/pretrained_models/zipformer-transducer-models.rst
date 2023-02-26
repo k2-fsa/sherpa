@@ -16,7 +16,7 @@ You can find the training code at
 
 `<https://github.com/k2-fsa/icefall/tree/master/egs/librispeech/ASR/pruned_transducer_stateless7_streaming>`_
 
-In the following, we describe how to download it and use it with `sherpa-ncnn`_.
+In the following, we describe how to download it and use it with `sherpa-onnx`_.
 
 Download the model
 ~~~~~~~~~~~~~~~~~~
