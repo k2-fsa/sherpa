@@ -84,6 +84,11 @@ That's it!
   - ``sherpa-ncnn-alsa`` is for real-time speech recongition by reading
     the microphone with `ALSA <https://en.wikipedia.org/wiki/Advanced_Linux_Sound_Architecture>`_
 
+.. _sherpa-ncnn-alsa:
+
+sherpa-ncnn-alsa
+----------------
+
 .. caution::
 
   We recommend that you use ``sherpa-ncnn-alsa`` on embedded systems such

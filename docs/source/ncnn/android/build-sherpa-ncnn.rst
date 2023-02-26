@@ -99,7 +99,7 @@ Next, let us set the environment variable ``ANDROID_NDK`` for later use.
   1. open ``$ANDROID_NDK/build/cmake/android.toolchain.cmake`` for ndk < r23
   or ``$ANDROID_NDK/build/cmake/android-legacy.toolchain.cmake`` for ndk >= r23
 
-  2. delete the line contining "-g"
+  2. delete the line containing "-g"
 
     .. code-block::
 
@@ -117,7 +117,7 @@ Build sherpa-ncnn (C++ code)
 
 After installing ``NDK``, it is time to build the C++ code of `sherpa-ncnn`_.
 
-In the following, we show how to build ``sherpa-ncnn`` for the following
+In the following, we show how to build `sherpa-ncnn`_ for the following
 Android ABIs:
 
   - ``arm64-v8a``
@@ -321,6 +321,8 @@ You can find the generated APK in ``android/SherpaNcnn/app/build/outputs/apk/deb
 Congratulations! You have successfully built an APK for Android.
 
 Read below to learn more.
+
+.. _sherpa-ncnn-analyze-apk-result:
 
 Analyze the APK
 ---------------

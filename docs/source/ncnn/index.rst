@@ -3,6 +3,11 @@ sherpa-ncnn
 
 .. hint::
 
+  During speech recognition, it does not need to access the Internet.
+  Everyting is processed locally on your device.
+
+.. hint::
+
   A colab notebook is provided for you so that you can try `sherpa-ncnn`_
   in the browser.
 
@@ -20,7 +25,7 @@ Please refer to `<https://k2-fsa.github.io/icefall/model-export/export-ncnn.html
 for how to export models to `ncnn`_ format.
 
 In the following, we describe how to build `sherpa-ncnn`_ for Linux, macOS,
-Windows, embedded systems, and Android.
+Windows, embedded systems, Android, and iOS.
 
 Also, we show how to use it for speech recognition with pre-trained models.
 
