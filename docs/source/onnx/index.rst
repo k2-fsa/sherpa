@@ -20,11 +20,6 @@ Windows, embedded systems, Android, and iOS.
 
 Also, we show how to use it for speech recognition with pre-trained models.
 
-.. hint::
-
-   We use pre-compiled `onnxruntime`_ from
-   `<https://github.com/microsoft/onnxruntime/releases>`_.
-
 .. toctree::
    :maxdepth: 2
 
