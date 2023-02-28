@@ -32,7 +32,16 @@ Method 3 (For developers)
   cd sherpa-onnx
   mkdir build
   cd build
-  cmake -DSHERPA_ONNX_ENABLE_PYTHON=ON ..
+
+  cmake \
+    -DSHERPA_ONNX_ENABLE_PYTHON=ON \
+    -DBUILD_SHARED_LIBS=ON \
+    -DSHERPA_ONNX_ENABLE_CHECK=OFF \
+    -DSHERPA_ONNX_ENABLE_PORTAUDIO=OFF \
+    -DSHERPA_ONNX_ENABLE_C_API=OFF \
+    -DSHERPA_ONNX_ENABLE_WEBSOCKET=OFF \
+    ..
+
   make -j
   export PYTHONPATH=$PWD/../sherpa-onnx/python/:$PWD/lib:$PYTHONPATH
 
