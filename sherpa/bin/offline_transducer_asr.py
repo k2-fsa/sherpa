@@ -110,16 +110,7 @@ def get_parser():
 
     add_model_args(parser)
     add_decoding_args(parser)
-
-    parser.add_argument(
-        "--use-gpu",
-        type=str2bool,
-        default=False,
-        help="""True to use GPU. It always selects GPU 0. You can use the
-        environement variable CUDA_VISIBLE_DEVICES to control which GPU
-        is mapped to GPU 0.
-        """,
-    )
+    add_resources_args(parser)
 
     parser.add_argument(
         "sound_files",
@@ -244,6 +235,25 @@ def add_fast_beam_search_args(parser: argparse.ArgumentParser):
     )
 
 
+def add_resources_args(parser: argparse.ArgumentParser):
+    parser.add_argument(
+        "--use-gpu",
+        type=str2bool,
+        default=False,
+        help="""True to use GPU. It always selects GPU 0. You can use the
+        environement variable CUDA_VISIBLE_DEVICES to control which GPU
+        is mapped to GPU 0.
+        """,
+    )
+
+    parser.add_argument(
+        "--num-threads",
+        type=int,
+        default=1,
+        help="Sets the number of threads used for interop parallelism (e.g. in JIT interpreter) on CPU.",
+    )
+
+
 def check_args(args):
     if not Path(args.nn_model).is_file():
         raise ValueError(f"{args.nn_model} does not exist")
@@ -334,6 +344,9 @@ def main():
     logging.info(vars(args))
     check_args(args)
 
+    torch.set_num_threads(args.num_threads)
+    torch.set_num_interop_threads(args.num_threads)
+
     recognizer = create_recognizer(args)
     sample_rate = 16000
 
@@ -352,9 +365,6 @@ def main():
     for filename, stream in zip(args.sound_files, streams):
         print(f"{filename}\n{stream.result}")
 
-
-torch.set_num_threads(1)
-torch.set_num_interop_threads(1)
 
 # See https://github.com/pytorch/pytorch/issues/38342
 # and https://github.com/pytorch/pytorch/issues/33354
@@ -379,3 +389,6 @@ if __name__ == "__main__":
     logging.basicConfig(format=formatter, level=logging.INFO)
 
     main()
+else:
+    torch.set_num_threads(1)
+    torch.set_num_interop_threads(1)
