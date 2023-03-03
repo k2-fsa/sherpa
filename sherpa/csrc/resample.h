@@ -27,6 +27,8 @@
 #include <cstdint>
 #include <vector>
 
+#include "torch/script.h"
+
 namespace sherpa {
 
 /*
@@ -70,8 +72,9 @@ class LinearResample {
   /// If your most recent call to the object was with flush == false, it will
   /// have internal state; you can remove this by calling Reset().
   /// Empty input is acceptable.
-  void Resample(const float *input, int32_t input_dim, bool flush,
-                std::vector<float> *output);
+  ///
+  /// Note: We will resize output on return
+  torch::Tensor Resample(torch::Tensor input_tensor, bool flush);
 
   //// Return the input and output sampling rates (for checks, for example)
   int32_t GetInputSamplingRate() const { return samp_rate_in_; }

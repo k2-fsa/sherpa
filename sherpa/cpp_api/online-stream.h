@@ -63,14 +63,14 @@ class OnlineStream {
   /** This would be called from the application, when you get
    * more wave data.
    *
-   * @param sampling_rate Sampling rate of the input waveform. It is provided so
-   *                      the code can **assert** that it matches the sampling
-   *                      rate expected by the extractor.
+   * @param sampling_rate Sampling rate of the input waveform. If it is
+   *                      different from the sampling rate expected by the
+   *                      model, we will do resampling inside sherpa.
    * @param waveform  A 1-D array containing audio samples. For
    *                  models from icefall, the samples should be in the
    *                  range [-1, 1].
    */
-  void AcceptWaveform(float sampling_rate, torch::Tensor waveform);
+  void AcceptWaveform(int32_t sampling_rate, torch::Tensor waveform);
 
   /** Returns the total number of frames, since the start of the utterance, that
    * are now available.  In an online-decoding context, this will likely
@@ -150,10 +150,10 @@ class OnlineStream {
   int32_t &GetNumTrailingBlankFrames();
 
   // Return ID of this segment in Stream
-  int32_t & GetWavSegment();
+  int32_t &GetWavSegment();
 
   // Return Starting frame of this segment.
-  int32_t & GetStartFrame();
+  int32_t &GetStartFrame();
 
  private:
   class OnlineStreamImpl;

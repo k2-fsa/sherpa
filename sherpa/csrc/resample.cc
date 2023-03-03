@@ -159,14 +159,18 @@ void LinearResample::Reset() {
   input_remainder_.resize(0);
 }
 
-void LinearResample::Resample(const float *input, int32_t input_dim, bool flush,
-                              std::vector<float> *output) {
+torch::Tensor LinearResample::Resample(torch::Tensor input_tensor, bool flush) {
+  const float *input = input_tensor.data_ptr<float>();
+  int32_t input_dim = input_tensor.numel();
+
   int64_t tot_input_samp = input_sample_offset_ + input_dim,
           tot_output_samp = GetNumOutputSamples(tot_input_samp, flush);
 
   assert(tot_output_samp >= output_sample_offset_);
 
-  output->resize(tot_output_samp - output_sample_offset_);
+  torch::Tensor output =
+      torch::zeros({tot_output_samp - output_sample_offset_}, torch::kFloat);
+  float *p_output = output.data_ptr<float>();
 
   // samp_out is the index into the total output signal, not just the part
   // of it we are producing here.
@@ -206,7 +210,7 @@ void LinearResample::Resample(const float *input, int32_t input_dim, bool flush,
     }
     int32_t output_index =
         static_cast<int32_t>(samp_out - output_sample_offset_);
-    (*output)[output_index] = this_output;
+    p_output[output_index] = this_output;
   }
 
   if (flush) {
@@ -216,6 +220,8 @@ void LinearResample::Resample(const float *input, int32_t input_dim, bool flush,
     input_sample_offset_ = tot_input_samp;
     output_sample_offset_ = tot_output_samp;
   }
+
+  return output;
 }
 
 int64_t LinearResample::GetNumOutputSamples(int64_t input_num_samp,

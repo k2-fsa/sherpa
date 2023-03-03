@@ -24,6 +24,7 @@ from _sherpa import (
     OnlineRecognizer,
     OnlineRecognizerConfig,
     OnlineStream,
+    Resampler,
     RnntConformerModel,
     RnntConvEmformerModel,
     RnntEmformerModel,

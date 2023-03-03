@@ -184,6 +184,18 @@ def get_args():
         help="""Path to the web root""",
     )
 
+    parser.add_argument(
+        "--audio-sample-rate",
+        type=int,
+        default=16000,
+        help="""sample rate of the input audio samples.
+        It does not have to be the same as the one expected by the model.
+        If they are different, we will do resampling inside sherpa.
+        For instance, you can have model.sample_rate=16000, while
+        audio_sample_rate=8000.
+        """,
+    )
+
     return (
         parser.parse_args(),
         beam_search_parser.parse_known_args()[0],
@@ -207,6 +219,7 @@ class StreamingServer(object):
         online_endpoint_config: OnlineEndpointConfig,
         doc_root: str,
         certificate: Optional[str] = None,
+        audio_sample_rate: int = 16000,
     ):
         """
         Args:
@@ -244,6 +257,10 @@ class StreamingServer(object):
             Optional. If not None, it will use secure websocket.
             You can use ./sherpa/bin/web/generate-certificate.py to generate
             it (the default generated filename is `cert.pem`).
+          audio_sample_rate:
+            The sample rate of input audio samples. If does not need to be
+            the same as model.sample_rate. For instance, you can have
+            model.sample_rate=16000, while using audio_sample_rate=8000.
         """
         if torch.cuda.is_available():
             device = torch.device("cuda", 0)
@@ -317,6 +334,7 @@ class StreamingServer(object):
         self.max_active_connections = max_active_connections
 
         self.current_active_connections = 0
+        self.audio_sample_rate = audio_sample_rate
 
     async def warmup(self) -> None:
         """Do warmup to the torchscript model to decrease the waiting time
@@ -329,11 +347,16 @@ class StreamingServer(object):
             context_size=self.context_size,
             subsampling_factor=self.subsampling_factor,
             initial_states=self.initial_states,
+            audio_sample_rate=self.audio_sample_rate,
         )
         self.beam_search.init_stream(stream)
 
-        samples = torch.rand(16000 * 1, dtype=torch.float32)  # 1 second
-        stream.accept_waveform(sampling_rate=16000, waveform=samples)
+        samples = torch.rand(
+            self.audio_sample_rate * 1, dtype=torch.float32
+        )  # 1 second
+        stream.accept_waveform(
+            sampling_rate=self.audio_sample_rate, waveform=samples
+        )
 
         while len(stream.features) > self.chunk_length_pad:
             await self.compute_and_decode(stream)
@@ -500,6 +523,7 @@ class StreamingServer(object):
             context_size=self.context_size,
             initial_states=self.initial_states,
             subsampling_factor=self.subsampling_factor,
+            audio_sample_rate=self.audio_sample_rate,
         )
 
         self.beam_search.init_stream(stream)
@@ -509,9 +533,9 @@ class StreamingServer(object):
             if samples is None:
                 break
 
-            # TODO(fangjun): At present, we assume the sampling rate
-            # of the received audio samples is always 16000.
-            stream.accept_waveform(sampling_rate=16000, waveform=samples)
+            stream.accept_waveform(
+                sampling_rate=self.audio_sample_rate, waveform=samples
+            )
 
             while len(stream.features) > self.chunk_length_pad:
                 await self.compute_and_decode(stream)
@@ -632,6 +656,7 @@ def main():
     max_active_connections = args.max_active_connections
     certificate = args.certificate
     doc_root = args.doc_root
+    audio_sample_rate = args.audio_sample_rate
 
     if certificate and not Path(certificate).is_file():
         raise ValueError(f"{certificate} does not exist")
@@ -653,6 +678,7 @@ def main():
         online_endpoint_config=online_endpoint_config,
         certificate=certificate,
         doc_root=doc_root,
+        audio_sample_rate=audio_sample_rate,
     )
     asyncio.run(server.run(port))
 
