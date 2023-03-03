@@ -18,6 +18,8 @@ set(sherpa_srcs
   online-transducer-fast-beam-search-decoder.cc
   online-zipformer-transducer-model.cc
 
+  resample.cc
+
   # TODO(fangjun): Refactor the following files
   fbank-features.cc
   file-utils.cc

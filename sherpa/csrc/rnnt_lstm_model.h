@@ -60,7 +60,7 @@ class RnntLstmModel : public RnntModel {
   StreamingForwardEncoder(const torch::Tensor &features,
                           const torch::Tensor &features_length,
                           const torch::Tensor &unused_num_processed_frames,
-                          torch::IValue states);
+                          torch::IValue states) override;
 
   // The returned IValue is a tuple containing two tensors:
   //  - hx: (num_layers, batch_size, proj_size)

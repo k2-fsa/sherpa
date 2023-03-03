@@ -16,6 +16,8 @@
  * limitations under the License.
  */
 
+#include "sherpa/cpp_api/online-stream.h"
+
 #include <memory>
 #include <mutex>  // NOLINT
 #include <utility>
@@ -24,21 +26,55 @@
 #include "kaldifeat/csrc/feature-fbank.h"
 #include "kaldifeat/csrc/online-feature.h"
 #include "sherpa/cpp_api/endpoint.h"
-#include "sherpa/cpp_api/online-stream.h"
 #include "sherpa/csrc/hypothesis.h"
 #include "sherpa/csrc/log.h"
 #include "sherpa/csrc/online-transducer-decoder.h"
+#include "sherpa/csrc/resample.h"
 
 namespace sherpa {
 
 class OnlineStream::OnlineStreamImpl {
  public:
-  explicit OnlineStreamImpl(const kaldifeat::FbankOptions &opts) {
+  explicit OnlineStreamImpl(const kaldifeat::FbankOptions &opts) : opts_(opts) {
     fbank_ = std::make_unique<kaldifeat::OnlineFbank>(opts);
   }
 
-  void AcceptWaveform(float sampling_rate, torch::Tensor waveform) {
+  void AcceptWaveform(int32_t sampling_rate, torch::Tensor waveform) {
     std::lock_guard<std::mutex> lock(feat_mutex_);
+
+    if (resampler_) {
+      if (sampling_rate != resampler_->GetInputSamplingRate()) {
+        SHERPA_LOG(FATAL) << "You changed the input sampling rate!! Expected: "
+                          << resampler_->GetInputSamplingRate()
+                          << ", given: " << static_cast<int32_t>(sampling_rate);
+        exit(-1);
+      }
+
+      waveform = resampler_->Resample(waveform, false);
+      fbank_->AcceptWaveform(opts_.frame_opts.samp_freq, waveform);
+      return;
+    }
+
+    if (sampling_rate != opts_.frame_opts.samp_freq) {
+      SHERPA_LOG(INFO) << "Creating a resampler:\n"
+                       << "   in_sample_rate: " << sampling_rate << "\n"
+                       << "   output_sample_rate: "
+                       << static_cast<int32_t>(opts_.frame_opts.samp_freq);
+
+      float min_freq =
+          std::min<int32_t>(sampling_rate, opts_.frame_opts.samp_freq);
+      float lowpass_cutoff = 0.99 * 0.5 * min_freq;
+
+      int32_t lowpass_filter_width = 6;
+      resampler_ = std::make_unique<LinearResample>(
+          sampling_rate, opts_.frame_opts.samp_freq, lowpass_cutoff,
+          lowpass_filter_width);
+
+      waveform = resampler_->Resample(waveform, false);
+      fbank_->AcceptWaveform(opts_.frame_opts.samp_freq, waveform);
+      return;
+    }
+
     fbank_->AcceptWaveform(sampling_rate, waveform);
   }
 
@@ -85,6 +121,7 @@ class OnlineStream::OnlineStreamImpl {
   int32_t &GetStartFrame() { return start_frame_; }
 
  private:
+  kaldifeat::FbankOptions opts_;
   std::unique_ptr<kaldifeat::OnlineFbank> fbank_;
   mutable std::mutex feat_mutex_;
 
@@ -100,6 +137,7 @@ class OnlineStream::OnlineStreamImpl {
   /// Starting frame of this segment.
   int32_t start_frame_ = 0;
   OnlineTransducerDecoderResult r_;
+  std::unique_ptr<LinearResample> resampler_;
 };
 
 OnlineStream::OnlineStream(const kaldifeat::FbankOptions &opts)
@@ -107,7 +145,8 @@ OnlineStream::OnlineStream(const kaldifeat::FbankOptions &opts)
 
 OnlineStream::~OnlineStream() = default;
 
-void OnlineStream::AcceptWaveform(float sampling_rate, torch::Tensor waveform) {
+void OnlineStream::AcceptWaveform(int32_t sampling_rate,
+                                  torch::Tensor waveform) {
   impl_->AcceptWaveform(sampling_rate, waveform);
 }
 
@@ -141,13 +180,9 @@ int32_t &OnlineStream::GetNumTrailingBlankFrames() {
   return impl_->GetNumTrailingBlankFrames();
 }
 
-int32_t &OnlineStream::GetWavSegment() {
-  return impl_->GetWavSegment();
-}
+int32_t &OnlineStream::GetWavSegment() { return impl_->GetWavSegment(); }
 
-int32_t &OnlineStream::GetStartFrame() {
-  return impl_->GetStartFrame();
-}
+int32_t &OnlineStream::GetStartFrame() { return impl_->GetStartFrame(); }
 
 void OnlineStream::SetResult(const OnlineTransducerDecoderResult &r) {
   impl_->SetResult(r);
