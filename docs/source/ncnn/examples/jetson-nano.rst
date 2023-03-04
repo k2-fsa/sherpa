@@ -1,7 +1,7 @@
 Jetson Nano
 ===========
 
-This page posts some screenshot of running `sherpa-ncnn`_ on `Jetson Nano <https://developer.nvidia.com/embedded/jetson-nano-developer-kit>`_.
+This page posts some screenshots of running `sherpa-ncnn`_ on `Jetson Nano <https://developer.nvidia.com/embedded/jetson-nano-developer-kit>`_.
 
 .. hint::
 

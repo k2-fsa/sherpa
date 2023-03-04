@@ -1,7 +1,7 @@
 Raspberry Pi 3
 ==============
 
-This page posts some screenshot of running `sherpa-ncnn`_ on Raspberry Pi 3.
+This page posts some screenshots of running `sherpa-ncnn`_ on Raspberry Pi 3.
 
 .. hint::
 
