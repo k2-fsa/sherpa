@@ -38,3 +38,5 @@ Also, we show how to use it for speech recognition with pre-trained models.
    ./android/index
    ./ios/index
    ./pretrained_models/index
+   ./examples/index
+   ./faq
