@@ -3,6 +3,11 @@
 Zipformer-transducer-based Models
 =================================
 
+.. hint::
+
+   Please refer to :ref:`install_sherpa_onnx` to install `sherpa-onnx`_
+   before you read this section.
+
 csukuangfj/sherpa-onnx-streaming-zipformer-en-2023-02-21 (English)
 ------------------------------------------------------------------
 

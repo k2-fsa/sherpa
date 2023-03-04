@@ -1,5 +1,10 @@
 LSTM-transducer-based Models
-=============================
+============================
+
+.. hint::
+
+   Please refer to :ref:`install_sherpa_onnx` to install `sherpa-onnx`_
+   before you read this section.
 
 csukuangfj/sherpa-onnx-lstm-en-2023-02-17 (English)
 ---------------------------------------------------

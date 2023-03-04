@@ -1,3 +1,5 @@
+.. _install_sherpa_ncnn:
+
 Installation
 ============
 
@@ -18,4 +20,4 @@ platforms:
    aarch64-embedded-linux
 
 If you want to build an Android app, please refer to :ref:`sherpa-ncnn-android`.
-
+If you want to build an iOS app, please refer to :ref:`sherpa-ncnn-ios`.
