@@ -1,10 +1,15 @@
 LSTM-transducer-based Models
 =============================
 
+.. hint::
+
+   Please refer to :ref:`install_sherpa_ncnn` to install `sherpa-ncnn`_
+   before you read this section.
+
 .. _marcoyang_sherpa_ncnn_lstm_transducer_small_2023_02_13_bilingual:
 
 marcoyang/sherpa-ncnn-lstm-transducer-small-2023-02-13 (Bilingual, Chinese + English)
--------------------------------------------------------------------------
+--------------------------------------------------------------------------------------
 
 This model is a small version of `lstm-transducer <https://github.com/k2-fsa/icefall/tree/master/egs/librispeech/ASR/lstm_transducer_stateless3>`_
 trained in `icefall`_.

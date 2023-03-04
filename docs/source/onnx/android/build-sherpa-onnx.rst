@@ -115,6 +115,7 @@ In the following, we show how to build `sherpa-onnx`_ for the following
 Android ABIs:
 
   - ``arm64-v8a``
+  - ``armv7-eabi``
   - ``x86_64``
 
 .. caution::
@@ -136,7 +137,7 @@ After building, you will find the following shared libraries:
 
 .. code-block:: bash
 
-  $ ls -lh build-android-arm64-v8a/install/lib/lib*.so
+  ls -lh build-android-arm64-v8a/install/lib/lib*.so
   -rwxr-xr-x  1 fangjun  staff   848K Feb 26 15:54 build-android-arm64-v8a/install/lib/libkaldi-native-fbank-core.so
   -rw-r--r--@ 1 fangjun  staff    13M Feb 26 15:54 build-android-arm64-v8a/install/lib/libonnxruntime.so
   -rwxr-xr-x  1 fangjun  staff    29K Feb 26 15:54 build-android-arm64-v8a/install/lib/libsherpa-onnx-c-api.so
@@ -147,12 +148,44 @@ Please copy them to ``android/SherpaOnnx/app/src/main/jniLibs/arm64-v8a/``:
 
 .. code-block:: bash
 
-  $ cp build-android-arm64-v8a/install/lib/lib*.so  android/SherpaOnnx/app/src/main/jniLibs/arm64-v8a/
+  cp build-android-arm64-v8a/install/lib/lib*.so  android/SherpaOnnx/app/src/main/jniLibs/arm64-v8a/
 
 You should see the following screen shot after running the above copy ``cp`` command.
 
 .. figure:: ./pic/so-libs-for-arm64-v8a.png
    :alt: Generated shared libraries for arm64-v8a
+   :width: 600
+
+Build for armv7-eabi
+^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: bash
+
+  cd sherpa-onnx # Go to the root repo
+  ./build-android-armv7-eabi.sh
+
+After building, you will find the following shared libraries:
+
+.. code-block:: bash
+
+  ls -lh build-android-armv7-eabi/install/lib/lib*.so
+
+  -rwxr-xr-x  1 fangjun  staff   513K Mar  4 21:48 build-android-armv7-eabi/install/lib/libkaldi-native-fbank-core.so
+  -rw-r--r--  1 fangjun  staff   9.1M Mar  4 21:48 build-android-armv7-eabi/install/lib/libonnxruntime.so
+  -rwxr-xr-x  1 fangjun  staff    19K Mar  4 21:48 build-android-armv7-eabi/install/lib/libsherpa-onnx-c-api.so
+  -rwxr-xr-x  1 fangjun  staff   298K Mar  4 21:48 build-android-armv7-eabi/install/lib/libsherpa-onnx-core.so
+  -rwxr-xr-x  1 fangjun  staff    22K Mar  4 21:48 build-android-armv7-eabi/install/lib/libsherpa-onnx-jni.so
+
+Please copy them to ``android/SherpaOnnx/app/src/main/jniLibs/armeabi-v7a``:
+
+.. code-block:: bash
+
+   cp build-android-armv7-eabi/install/lib/lib*.so android/SherpaOnnx/app/src/main/jniLibs/armeabi-v7a/
+
+You should see the following screen shot after running the above copy ``cp`` command.
+
+.. figure:: ./pic/so-libs-for-armv7a-eabi.png
+   :alt: Generated shared libraries for armv7-eabi
    :width: 600
 
 Build for x86_64
@@ -167,7 +200,8 @@ After building, you will find the following shared libraries:
 
 .. code-block:: bash
 
-  $ ls -lh build-android-x86-64/install/lib/lib*.so
+  ls -lh build-android-x86-64/install/lib/lib*.so
+
   -rwxr-xr-x  1 fangjun  staff   901K Feb 26 16:00 build-android-x86-64/install/lib/libkaldi-native-fbank-core.so
   -rw-r--r--@ 1 fangjun  staff    15M Feb 26 16:00 build-android-x86-64/install/lib/libonnxruntime.so
   -rwxr-xr-x  1 fangjun  staff   347K Feb 26 16:00 build-android-x86-64/install/lib/libsherpa-onnx-core.so
@@ -177,7 +211,7 @@ Please copy them to ``android/SherpaOnnx/app/src/main/jniLibs/x86_64/``:
 
 .. code-block:: bash
 
-  $ cp build-android-x86-64/install/lib/lib*.so android/SherpaOnnx/app/src/main/jniLibs/x86_64/
+   build-android-x86-64/install/lib/lib*.so android/SherpaOnnx/app/src/main/jniLibs/x86_64/
 
 You should see the following screen shot after running the above copy ``cp`` command.
 
@@ -220,14 +254,16 @@ In the end, you should have the following files:
 
 .. code-block:: bash
 
-  $ ls -lh
+  ls -lh
+
   total 696984
   -rw-r--r--  1 fangjun  staff    13M Feb 21 21:45 decoder-epoch-99-avg-1.onnx
   -rw-r--r--  1 fangjun  staff   315M Feb 23 21:18 encoder-epoch-99-avg-1.onnx
   -rw-r--r--  1 fangjun  staff    12M Feb 21 21:45 joiner-epoch-99-avg-1.onnx
   -rw-r--r--  1 fangjun  staff    55K Feb 21 21:45 tokens.txt
 
-  $ du -h .
+  du -h .
+
   340M    .
 
 You should see the following screen shot after downloading the pre-trained model:
@@ -260,7 +296,8 @@ You can find the generated APK in ``android/SherpaOnnx/app/build/outputs/apk/deb
 
 .. code-block:: bash
 
-  $ ls -lh android/SherpaOnnx/app/build/outputs/apk/debug/app-debug.apk
+  ls -lh android/SherpaOnnx/app/build/outputs/apk/debug/app-debug.apk
+
   -rw-r--r--  1 fangjun  staff   331M Feb 26 16:17 android/SherpaOnnx/app/build/outputs/apk/debug/app-debug.apk
 
 Congratulations! You have successfully built an APK for Android.
