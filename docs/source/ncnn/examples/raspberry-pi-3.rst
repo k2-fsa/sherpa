@@ -1,7 +1,7 @@
-Raspberry Pi 3
-==============
+Raspberry Pi 3B E14
+===================
 
-This page posts some screenshots of running `sherpa-ncnn`_ on Raspberry Pi 3.
+This page posts some screenshots of running `sherpa-ncnn`_ on Raspberry Pi 3B E14.
 
 .. hint::
 
