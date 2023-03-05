@@ -13,6 +13,7 @@ platforms:
 .. toctree::
    :maxdepth: 2
 
+   videos
    linux
    macos
    windows
