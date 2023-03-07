@@ -7,6 +7,11 @@ This page describes how to build `sherpa-ncnn`_ on Windows.
 
   For the Python API, please refer to :ref:`sherpa-ncnn-python-api`.
 
+.. hint::
+
+   MinGW is known not to work.
+   Please install ``Visual Studio`` before you continue.
+
 64-bit Windows (x64)
 --------------------
 
