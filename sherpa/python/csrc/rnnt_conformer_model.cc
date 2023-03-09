@@ -64,7 +64,7 @@ void PybindRnntConformerModel(py::module &m) {  // NOLINT
                                              processed_frames,
                                              self.StateToIValue(states));
             return std::make_tuple(encoder_out, encoder_out_lens,
-                    self.StateFromIValue(next_states));
+                                   self.StateFromIValue(next_states));
           },
           py::arg("features"), py::arg("features_length"), py::arg("states"),
           py::arg("processed_frames"), py::call_guard<py::gil_scoped_release>())
