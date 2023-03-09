@@ -7,7 +7,9 @@
 #include <string>
 
 #include "nlohmann/json.hpp"
+#include "sherpa/cpp_api/feature-config.h"
 #include "sherpa/csrc/fbank-features.h"
+#include "sherpa/csrc/log.h"
 
 namespace sherpa {
 
@@ -35,24 +37,26 @@ std::string OfflineRecognitionResult::AsJsonString() const {
 
 class OfflineStream::OfflineStreamImpl {
  public:
-  OfflineStreamImpl(kaldifeat::Fbank *fbank, bool return_waveform,
-                    bool normalize_samples)
-      : fbank_(fbank),
-        return_waveform_(return_waveform),
-        normalize_samples_(normalize_samples) {}
+  OfflineStreamImpl(kaldifeat::Fbank *fbank, const FeatureConfig &feat_config)
+      : fbank_(fbank), feat_config_(feat_config) {
+    if (!feat_config_.nemo_normalize.empty()) {
+      SHERPA_CHECK_EQ(feat_config_.nemo_normalize, "per_feature");
+    }
+  }
 
   void AcceptWaveFile(const std::string &wave_file) {
     torch::Tensor samples =
         ReadWave(wave_file, fbank_->GetFrameOptions().samp_freq).first;
-    if (!normalize_samples_) {
+    if (!feat_config_.normalize_samples) {
       samples.mul_(32767);
     }
 
-    if (return_waveform_) {
+    if (feat_config_.return_waveform) {
       // We return audio samples directly, e.g., for Wav2Vec2.0
       features_ = samples;
     } else {
       features_ = ComputeFeatures(*fbank_, {samples})[0];
+      features_ = Normalize(features_);
     }
   }
 
@@ -60,15 +64,16 @@ class OfflineStream::OfflineStreamImpl {
     torch::Tensor tensor =
         torch::from_blob(const_cast<float *>(samples), {n}, torch::kFloat);
 
-    if (!normalize_samples_) {
+    if (feat_config_.normalize_samples) {
       tensor.mul_(32767);
     }
 
-    if (return_waveform_) {
+    if (feat_config_.return_waveform) {
       features_ = tensor.clone();
     } else {
       // We return audio samples directly, e.g., for Wav2Vec2.0
       features_ = ComputeFeatures(*fbank_, {tensor})[0];
+      features_ = Normalize(features_);
     }
   }
 
@@ -86,20 +91,35 @@ class OfflineStream::OfflineStreamImpl {
   const OfflineRecognitionResult &GetResult() const { return result_; }
 
  private:
+  torch::Tensor Normalize(torch::Tensor features) {
+    if (feat_config_.nemo_normalize.empty()) {
+      return features;
+    }
+
+    if (feat_config_.nemo_normalize == "per_feature") {
+      torch::Tensor mean = features.mean(0 /*dim*/, true /*keepdim*/);
+      torch::Tensor std = features.std(0 /*dim*/, true /*keepdim*/);
+
+      return (features - mean) / (std + 1e-5f);
+    }
+
+    SHERPA_LOG(FATAL) << "Unsupported nemo_normalize: "
+                      << feat_config_.nemo_normalize;
+    return {};
+  }
+
+ private:
   torch::Tensor features_;
   OfflineRecognitionResult result_;
   kaldifeat::Fbank *fbank_ = nullptr;  // not owned
-  bool return_waveform_ = false;
-  bool normalize_samples_ = true;
+  FeatureConfig feat_config_;
 };
 
 OfflineStream::~OfflineStream() = default;
 
 OfflineStream::OfflineStream(kaldifeat::Fbank *fbank,
-                             bool return_waveform /*= false*/,
-                             bool normalize_samples /*= true*/)
-    : impl_(std::make_unique<OfflineStreamImpl>(fbank, return_waveform,
-                                                normalize_samples)) {}
+                             const FeatureConfig &feat_config)
+    : impl_(std::make_unique<OfflineStreamImpl>(fbank, feat_config)) {}
 
 void OfflineStream::AcceptWaveFile(const std::string &filename) {
   impl_->AcceptWaveFile(filename);

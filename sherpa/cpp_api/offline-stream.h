@@ -9,6 +9,7 @@
 #include <vector>
 
 #include "kaldifeat/csrc/feature-fbank.h"
+#include "sherpa/cpp_api/feature-config.h"
 #include "torch/script.h"
 
 namespace sherpa {
@@ -49,14 +50,8 @@ class OfflineStream {
   /** Create a stream.
    *
    * @param fbank Not owned by this class.
-   * @param normalize_samples If false, we will multiply the input samples by
-   *                          32767.
-   * @param return_waveform true to use raw waveforms; in this case, no feature
-   *                        extraction is performed, the raw waveforms are
-   *                        returned directly when calling `GetFeatures()`.
    */
-  explicit OfflineStream(kaldifeat::Fbank *fbank, bool return_waveform = false,
-                         bool normalize_samples = true);
+  OfflineStream(kaldifeat::Fbank *fbank, const FeatureConfig &feat_config);
 
   /** Create a stream from a WAVE file.
    *

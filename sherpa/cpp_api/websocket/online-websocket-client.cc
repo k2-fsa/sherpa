@@ -2,8 +2,8 @@
 //
 // Copyright (c)  2022  Xiaomi Corporation
 #include <chrono>  // NOLINT
-#include <string>
 #include <fstream>
+#include <string>
 
 #include "kaldi_native_io/csrc/kaldi-io.h"
 #include "kaldi_native_io/csrc/wave-reader.h"
@@ -80,21 +80,23 @@ class Client {
  public:
   Client(asio::io_context &io,  // NOLINT
          const std::string &ip, int16_t port, const std::string &wave_filename,
-         float seconds_per_message, int32_t SampleRate, std::string ctm_filename)
+         float seconds_per_message, int32_t SampleRate,
+         std::string ctm_filename)
       : io_(io),
         uri_(/*secure*/ false, ip, port, /*resource*/ "/"),
         samples_(ReadWave(wave_filename, SampleRate)),
         samples_per_message_(seconds_per_message * SampleRate),
         seconds_per_message_(seconds_per_message),
-	ctm_filename_(ctm_filename){
+        ctm_filename_(ctm_filename) {
     c_.clear_access_channels(websocketpp::log::alevel::all);
     //    c_.set_access_channels(websocketpp::log::alevel::connect);
     //    c_.set_access_channels(websocketpp::log::alevel::disconnect);
     of_ = std::ofstream(ctm_filename);
-    of_ << std::fixed << std::setprecision(2) ;
-    std::string base_filename = wave_filename.substr(wave_filename.find_last_of("/\\") + 1);
+    of_ << std::fixed << std::setprecision(2);
+    std::string base_filename =
+        wave_filename.substr(wave_filename.find_last_of("/\\") + 1);
     wave_filename_ = base_filename.substr(0, base_filename.find_last_of('.'));
-    
+
     c_.init_asio(&io_);
     c_.set_open_handler([this](connection_hdl hdl) { OnOpen(hdl); });
     c_.set_close_handler(
@@ -119,47 +121,54 @@ class Client {
   }
 
   void DumpCtm(nlohmann::json result) {
-    int i=0;
-    std::vector<std::string> tokens = result["tokens"].get<std::vector<std::string>>();
+    int i = 0;
+    std::vector<std::string> tokens =
+        result["tokens"].get<std::vector<std::string>>();
     int length = tokens.size();
-    if (length<1) { return; }
-    std::vector<float> timestamps = result["timestamps"].get<std::vector<float>>();
+    if (length < 1) {
+      return;
+    }
+    std::vector<float> timestamps =
+        result["timestamps"].get<std::vector<float>>();
     if (tokens[0].at(0) != ' ') {
       SHERPA_LOG(WARNING) << "First word is not a new word " << tokens[0];
     }
-    
+
     std::string word = tokens[0];
     float start_time = result["start_time"];
-    float start = timestamps[0]+start_time;
+    float start = timestamps[0] + start_time;
     float duration = 0.01;
-    if (length>2) {
+    if (length > 2) {
       duration = timestamps[1] - timestamps[0];
     }
     int word_start_index = i;
-    while (i<length) {
+    while (i < length) {
       //      SHERPA_LOG(INFO) <<i<<" "<<length<< tokens[i];
-      while (i+1 < length && tokens[i+1].at(0) != ' ') {
-	word += tokens[i+1];
-	if (length > i+2) {
-	  duration = timestamps[i+2] - timestamps[word_start_index];
-	}
-	i++;
+      while (i + 1 < length && tokens[i + 1].at(0) != ' ') {
+        word += tokens[i + 1];
+        if (length > i + 2) {
+          duration = timestamps[i + 2] - timestamps[word_start_index];
+        }
+        i++;
       }
-      if(word.compare(" ") != 0) {
-	of_ << wave_filename_ << " 0 " << start << " " << duration << " " << word << std::endl;
+      if (word.compare(" ") != 0) {
+        of_ << wave_filename_ << " 0 " << start << " " << duration << " "
+            << word << std::endl;
       }
-      if (i >= length-1) { break; }
+      if (i >= length - 1) {
+        break;
+      }
       i++;
-      word_start_index=i;
+      word_start_index = i;
       word = tokens[i];
-      start = timestamps[i]+start_time;
+      start = timestamps[i] + start_time;
       duration = 0.01;
-	if (length>i+1) {
-	  duration = timestamps[i+1] - timestamps[word_start_index];
-	}
+      if (length > i + 1) {
+        duration = timestamps[i + 1] - timestamps[word_start_index];
+      }
     }
   }
- 
+
   void OnOpen(connection_hdl hdl) {
     auto start_time = std::chrono::steady_clock::now();
     asio::post(
@@ -171,19 +180,19 @@ class Client {
     auto result = json::parse(payload);
     std::string res = result.dump();
     SHERPA_LOG(INFO) << res;
-    if (result["segment"]>segment_id_) {
+    if (result["segment"] > segment_id_) {
       segment_id_ = result["segment"];
       std::cout << text_;
-      if (ctm_filename_.length()>0) {
-	DumpCtm(old_result_);
+      if (ctm_filename_.length() > 0) {
+        DumpCtm(old_result_);
       }
     }
-    text_=result["text"].get<std::string>();
-    old_result_=result;
+    text_ = result["text"].get<std::string>();
+    old_result_ = result;
     if (result["final"]) {
       std::cout << result["text"].get<std::string>() << std::endl;
-      if (ctm_filename_.length()>0) {
-	DumpCtm(result);
+      if (ctm_filename_.length() > 0) {
+        DumpCtm(result);
       }
       websocketpp::lib::error_code ec;
       c_.close(hdl, websocketpp::close::status::normal, "I'm exiting now", ec);
@@ -283,7 +292,7 @@ int32_t main(int32_t argc, char *argv[]) {
   float seconds_per_message = 10;
   // Sample rate of the input wave. No resampling is made.
   int32_t SampleRate = 16000;
-  std::string ctm_filename="";
+  std::string ctm_filename = "";
 
   sherpa::ParseOptions po(kUsageMessage);
 
