@@ -42,6 +42,7 @@ torch::Tensor OfflineNeMoEncDecCTCModelBPE::GetLogSoftmaxOutLength(
     torch::IValue forward_out) const {
   // We return an undefined tensor and the caller should use
   // the features_length and subsampling_factor_ to figure out
+  // the actual length
   return {};
 }
 

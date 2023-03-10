@@ -40,7 +40,8 @@ class OfflineStream::OfflineStreamImpl {
   OfflineStreamImpl(kaldifeat::Fbank *fbank, const FeatureConfig &feat_config)
       : fbank_(fbank), feat_config_(feat_config) {
     if (!feat_config_.nemo_normalize.empty()) {
-      SHERPA_CHECK_EQ(feat_config_.nemo_normalize, "per_feature");
+      SHERPA_CHECK_EQ(feat_config_.nemo_normalize, "per_feature")
+          << "Only per_feature is implemented at present";
     }
   }
 
@@ -64,14 +65,14 @@ class OfflineStream::OfflineStreamImpl {
     torch::Tensor tensor =
         torch::from_blob(const_cast<float *>(samples), {n}, torch::kFloat);
 
-    if (feat_config_.normalize_samples) {
+    if (!feat_config_.normalize_samples) {
       tensor.mul_(32767);
     }
 
     if (feat_config_.return_waveform) {
+      // We return audio samples directly, e.g., for Wav2Vec2.0
       features_ = tensor.clone();
     } else {
-      // We return audio samples directly, e.g., for Wav2Vec2.0
       features_ = ComputeFeatures(*fbank_, {tensor})[0];
       features_ = Normalize(features_);
     }
@@ -91,7 +92,7 @@ class OfflineStream::OfflineStreamImpl {
   const OfflineRecognitionResult &GetResult() const { return result_; }
 
  private:
-  torch::Tensor Normalize(torch::Tensor features) {
+  torch::Tensor Normalize(torch::Tensor features) const {
     if (feat_config_.nemo_normalize.empty()) {
       return features;
     }
@@ -105,7 +106,7 @@ class OfflineStream::OfflineStreamImpl {
 
     SHERPA_LOG(FATAL) << "Unsupported nemo_normalize: "
                       << feat_config_.nemo_normalize;
-    return {};
+    return {};  // unreachable code; to make the compiler happy
   }
 
  private:
