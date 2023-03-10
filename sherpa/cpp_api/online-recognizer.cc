@@ -43,7 +43,7 @@ std::string OnlineRecognitionResult::AsJsonString() const {
 
   // NOTE: We don't use j["timestamps"] = timestamps;
   // because we need to control the number of decimal points to keep
-  j["timestamps"] = timestamps; // os.str();
+  j["timestamps"] = timestamps;  // os.str();
 
   // TODO(fangjun): The key in the json object should be kept
   // in sync with sherpa/bin/pruned_transducer_statelessX/streaming_server.py
@@ -376,8 +376,9 @@ class OnlineRecognizer::OnlineRecognizerImpl {
       ans.is_final = true;
     }
     ans.segment = s->GetWavSegment();
-    float frame_shift_s = config_.feat_config.fbank_opts.frame_opts.frame_shift_ms / 1000.;
-    ans.start_time = s->GetStartFrame()*frame_shift_s;
+    float frame_shift_s =
+        config_.feat_config.fbank_opts.frame_opts.frame_shift_ms / 1000.;
+    ans.start_time = s->GetStartFrame() * frame_shift_s;
     s->GetNumTrailingBlankFrames() = r.num_trailing_blanks;
 
     if (config_.use_endpoint && IsEndpoint(s)) {

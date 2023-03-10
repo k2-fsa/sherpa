@@ -15,3 +15,5 @@ errs-*
 rtf-*
 *.wav
 Testing
+run-offline-ctc*.sh
+run-offline-asr*.sh

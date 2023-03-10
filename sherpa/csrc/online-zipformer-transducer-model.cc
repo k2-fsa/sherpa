@@ -184,7 +184,6 @@ std::vector<torch::IValue> OnlineZipformerTransducerModel::UnStackStates(
 
   std::vector<torch::IValue> ans(batch_size);
   for (int32_t n = 0; n != batch_size; ++n) {
-    // TODO:
     // unstacked_states[n] is std::vector<torch::Tensor>
     ans[n] = unstacked_states[n];
   }

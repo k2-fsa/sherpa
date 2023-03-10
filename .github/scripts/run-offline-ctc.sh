@@ -336,3 +336,29 @@ log "Decoding with HLG"
 rm -rf $repo
 log "End of testing ${repo_url}"
 log "=========================================================================="
+
+repo_url=https://huggingface.co/csukuangfj/sherpa-nemo-ctc-en-citrinet-512
+log "Start testing ${repo_url}"
+repo=$(basename $repo_url)
+log "Download pretrained model and test-data from $repo_url"
+
+GIT_LFS_SKIP_SMUDGE=1 git clone $repo_url
+pushd $repo
+git lfs pull --include "model.pt"
+popd
+
+log "Decoding with H"
+
+./build/bin/sherpa-offline \
+  --nn-model=$repo/model.pt \
+  --tokens=$repo/tokens.txt \
+  --use-gpu=false \
+  --modified=false \
+  --nemo-normalize=per_feature \
+  $repo/test_wavs/0.wav \
+  $repo/test_wavs/1.wav \
+  $repo/test_wavs/2.wav
+
+rm -rf $repo
+log "End of testing ${repo_url}"
+log "=========================================================================="

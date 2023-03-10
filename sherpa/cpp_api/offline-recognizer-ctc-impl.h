@@ -17,6 +17,7 @@
 #include "sherpa/csrc/offline-ctc-decoder.h"
 #include "sherpa/csrc/offline-ctc-model.h"
 #include "sherpa/csrc/offline-ctc-one-best-decoder.h"
+#include "sherpa/csrc/offline-nemo-enc-dec-ctc-model-bpe.h"
 #include "sherpa/csrc/offline-wav2vec2-ctc-model.h"
 #include "sherpa/csrc/offline-wenet-conformer-ctc-model.h"
 #include "sherpa/csrc/symbol-table.h"
@@ -80,26 +81,38 @@ class OfflineRecognizerCtcImpl : public OfflineRecognizerImpl {
       // https://github.com/pytorch/audio/blob/main/torchaudio/models/wav2vec2/model.py#L11
       model_ =
           std::make_unique<OfflineWav2Vec2CtcModel>(config.nn_model, device_);
-      return_waveform_ = true;
+      config_.feat_config.return_waveform = true;
       symbol_table_.Replace(symbol_table_["|"], " ", "|");
       // See Section 4.2 of
       // https://arxiv.org/pdf/2006.11477.pdf
       config_.feat_config.fbank_opts.frame_opts.frame_shift_ms = 20;
       SHERPA_LOG(WARNING) << "Set frame_shift_ms to 20 for wav2vec 2.0";
+    } else if (class_name == "EncDecCTCModelBPE") {
+      // This one is from NeMo
+      // See
+      // https://github.com/NVIDIA/NeMo/blob/main/nemo/collections/asr/models/ctc_bpe_models.py#L34
+      //
+      model_ = std::make_unique<OfflineNeMoEncDecCTCModelBPE>(config.nn_model,
+                                                              device_);
     } else {
-      std::string s =
-          "Support only models from icefall, wenet and torchaudio\n"
-          "https://github.com/k2-fsa/icefall/blob/master/egs/librispeech/ASR/"
-          "conformer_ctc/conformer.py#L27"
-          "\n"
-          "https://github.com/wenet-e2e/wenet/blob/main/wenet/transformer/"
-          "asr_model.py#L42"
-          "\n"
-          "https://github.com/pytorch/audio/blob/main/torchaudio/models/"
-          "wav2vec2/model.py#L11"
-          "\n";
+      std::ostringstream os;
+      os << "Support only models from icefall, wenet, torchaudio, and NeMo\n"
+            "https://github.com/k2-fsa/icefall/blob/master/egs/librispeech/"
+            "ASR/"
+            "conformer_ctc/conformer.py#L27"
+            "\n"
+            "https://github.com/wenet-e2e/wenet/blob/main/wenet/transformer/"
+            "asr_model.py#L42"
+            "\n"
+            "https://github.com/pytorch/audio/blob/main/torchaudio/models/"
+            "wav2vec2/model.py#L11"
+            "\n"
+            "https://github.com/NVIDIA/NeMo/blob/main/nemo/collections/asr/"
+            "models/ctc_bpe_models.py#L34"
+         << "\n"
+         << "Given: " << class_name << "\n";
 
-      TORCH_CHECK(false, s);
+      TORCH_CHECK(false, os.str());
     }
 
     WarmUp();
@@ -109,8 +122,7 @@ class OfflineRecognizerCtcImpl : public OfflineRecognizerImpl {
   }
 
   std::unique_ptr<OfflineStream> CreateStream() override {
-    return std::make_unique<OfflineStream>(
-        &fbank_, return_waveform_, config_.feat_config.normalize_samples);
+    return std::make_unique<OfflineStream>(&fbank_, config_.feat_config);
   }
 
   void DecodeStreams(OfflineStream **ss, int32_t n) override {
@@ -125,8 +137,8 @@ class OfflineRecognizerCtcImpl : public OfflineRecognizerImpl {
     }
 
     // If return_waveform is false, features_vec contains 2-D tensors of shape
-    // (num_frames, feature_dim). In this case, we should use the padding value
-    // -23.
+    // (num_frames, feature_dim). In this case, we should use the padding
+    // value -23.
     //
     // If return_waveform is true, features_vec contains 1-D tensors of shape
     // (num_samples,). In this case, we use 0 as the padding value.
@@ -139,6 +151,11 @@ class OfflineRecognizerCtcImpl : public OfflineRecognizerImpl {
     torch::IValue ivalue = model_->Forward(features, features_length);
     torch::Tensor log_prob = model_->GetLogSoftmaxOut(ivalue);
     torch::Tensor log_prob_len = model_->GetLogSoftmaxOutLength(ivalue);
+    if (!log_prob_len.defined()) {
+      log_prob_len =
+          torch::floor_divide(features_length, model_->SubsamplingFactor());
+      log_prob_len = log_prob_len.to(log_prob.device());
+    }
 
     auto results =
         decoder_->Decode(log_prob, log_prob_len, model_->SubsamplingFactor());
