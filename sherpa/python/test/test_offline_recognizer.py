@@ -164,7 +164,7 @@ class TestOfflineRecognizer(unittest.TestCase):
         print(s1.result)
         print(s2.result)
 
-    def test_nemo_ctc_model(self):
+    def test_nemo_ctc_en_model(self):
         # Please download the model from
         # https://huggingface.co/csukuangfj/sherpa-nemo-ctc-en-citrinet-512
         nn_model = f"{d}/sherpa-nemo-ctc-en-citrinet-512/model.pt"
@@ -175,11 +175,11 @@ class TestOfflineRecognizer(unittest.TestCase):
         wave2 = f"{d}/sherpa-nemo-ctc-en-citrinet-512/test_wavs/2.wav"
 
         if not Path(nn_model).is_file():
-            print("skipping test_nemo_ctc_model()")
+            print("skipping test_nemo_ctc_en_model()")
             return
 
         print()
-        print("test_nemo_ctc_model()")
+        print("test_nemo_ctc_en_model()")
 
         feat_config = sherpa.FeatureConfig()
 
@@ -198,6 +198,62 @@ class TestOfflineRecognizer(unittest.TestCase):
             tokens=tokens,
             use_gpu=False,
             feat_config=feat_config,
+        )
+
+        recognizer = sherpa.OfflineRecognizer(config)
+
+        s0 = recognizer.create_stream()
+        s1 = recognizer.create_stream()
+        s2 = recognizer.create_stream()
+
+        s0.accept_wave_file(wave0)
+        s1.accept_wave_file(wave1)
+        s2.accept_wave_file(wave2)
+
+        recognizer.decode_streams([s0, s1, s2])
+        print(s0.result)
+        print(s1.result)
+        print(s2.result)
+
+    def test_nemo_ctc_zh_model(self):
+        # Please download the model from
+        # https://huggingface.co/csukuangfj/sherpa-nemo-ctc-zh-citrinet-512
+        nn_model = f"{d}/sherpa-nemo-ctc-zh-citrinet-512/model.pt"
+        tokens = f"{d}/sherpa-nemo-ctc-zh-citrinet-512/tokens.txt"
+
+        wave0 = f"{d}/sherpa-nemo-ctc-zh-citrinet-512/test_wavs/0.wav"
+        wave1 = f"{d}/sherpa-nemo-ctc-zh-citrinet-512/test_wavs/1.wav"
+        wave2 = f"{d}/sherpa-nemo-ctc-zh-citrinet-512/test_wavs/2.wav"
+
+        if not Path(nn_model).is_file():
+            print("skipping test_nemo_ctc_zh_model()")
+            return
+
+        print()
+        print("test_nemo_ctc_zh_model()")
+
+        feat_config = sherpa.FeatureConfig()
+
+        feat_config.fbank_opts.frame_opts.samp_freq = 16000
+        feat_config.fbank_opts.mel_opts.num_bins = 80
+        feat_config.fbank_opts.frame_opts.dither = 0
+
+        # The following option is very important.
+        #
+        # For the model we are using for testing, it is trained
+        # with per_feature in its preprocessor
+        feat_config.nemo_normalize = "per_feature"
+
+        # The vocabulary size is very large, e.g., 5207, so
+        # we use a modified_ctc_topo here
+        ctc_decoder_config = sherpa.OfflineCtcDecoderConfig(modified=True)
+
+        config = sherpa.OfflineRecognizerConfig(
+            nn_model=nn_model,
+            tokens=tokens,
+            use_gpu=False,
+            feat_config=feat_config,
+            ctc_decoder_config=ctc_decoder_config,
         )
 
         recognizer = sherpa.OfflineRecognizer(config)
