@@ -94,6 +94,13 @@ class OfflineRecognizerCtcImpl : public OfflineRecognizerImpl {
       //
       model_ = std::make_unique<OfflineNeMoEncDecCTCModelBPE>(config.nn_model,
                                                               device_);
+    } else if (class_name == "EncDecCTCModel") {
+      // This one is from NeMo
+      // See
+      // https://github.com/NVIDIA/NeMo/blob/main/nemo/collections/asr/models/ctc_models.py#L41
+      //
+      model_ =
+          std::make_unique<OfflineNeMoEncDecCTCModel>(config.nn_model, device_);
     } else {
       std::ostringstream os;
       os << "Support only models from icefall, wenet, torchaudio, and NeMo\n"
@@ -109,6 +116,9 @@ class OfflineRecognizerCtcImpl : public OfflineRecognizerImpl {
             "\n"
             "https://github.com/NVIDIA/NeMo/blob/main/nemo/collections/asr/"
             "models/ctc_bpe_models.py#L34"
+            "\n"
+            "https://github.com/NVIDIA/NeMo/blob/main/nemo/collections/asr/"
+            "models/ctc_models.py#L41"
          << "\n"
          << "Given: " << class_name << "\n";
 
