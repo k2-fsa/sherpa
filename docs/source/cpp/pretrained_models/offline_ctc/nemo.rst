@@ -244,3 +244,72 @@ This model is converted from
 .. caution::
 
     It is of paramount importance to specify ``--nemo-normalize=per_feature``.
+
+sherpa-nemo-ctc-de-conformer-large (German)
+-------------------------------------------
+
+This model is converted from
+
+  `<https://registry.ngc.nvidia.com/orgs/nvidia/teams/nemo/models/stt_de_conformer_ctc_large>`_
+
+.. hint::
+
+   The vocabulary size is 129
+
+.. code-block::
+
+   GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/sherpa-nemo-ctc-de-conformer-large
+   cd sherpa-nemo-ctc-de-conformer-large
+   git lfs pull --include "model.pt"
+
+   sherpa-offline \
+      --nn-model=./model.pt \
+      --tokens=./tokens.txt \
+      --use-gpu=false \
+      --modified=false \
+      --nemo-normalize=per_feature \
+      ./test_wavs/0.wav \
+      ./test_wavs/1.wav \
+      ./test_wavs/2.wav
+
+.. code-block:: bash
+
+  ls -lh model.pt
+  -rw-r--r--  1 fangjun  staff   508M Mar 10 21:34 model.pt
+
+.. caution::
+
+    It is of paramount importance to specify ``--nemo-normalize=per_feature``.
+
+How to convert NeMo models to sherpa
+------------------------------------
+
+This section describes how to export `NeMo`_ pre-trained CTC models to `sherpa`_.
+
+You can find a list of pre-trained models from `NeMo`_ by visiting:
+
+  `<https://catalog.ngc.nvidia.com/orgs/nvidia/collections/nemo_asr>`_.
+
+Let us take ``stt_en_conformer_ctc_small`` as an example.
+
+You can use the following code to obtain ``model.pt`` and ``tokens.txt``:
+
+.. code-block:: bash
+
+  import nemo.collections.asr as nemo_asr
+  m = nemo_asr.models.EncDecCTCModelBPE.from_pretrained('stt_en_conformer_ctc_small')
+  m.export("model.pt")
+
+  with open('tokens.txt', 'w', encoding='utf-8') as f:
+    f.write("<blk> 0\n")
+    for i, s in enumerate(m.decoder.vocabulary):
+      f.write(f"{s} {i+1}\n")
+
+One thing to note is that the blank token has the largest token ID in ``NeMo``.
+However, it is always ``0`` in `sherpa`_. During network computation, we shift
+the last column of the ``log_prob`` tensor to the first column so that
+it matches the convention about using 0 for the blank in `sherpa`_.
+
+You can find the exported ``model.pt`` and ``tokens.txt`` by visiting
+
+  `<https://huggingface.co/csukuangfj/sherpa-nemo-ctc-en-conformer-small>`_
