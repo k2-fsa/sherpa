@@ -139,4 +139,5 @@ rst_epilog = """
 .. _websocketpp: https://github.com/zaphoyd/websocketpp
 .. _asio: https://github.com/chriskohlhoff/asio
 .. _boost: https://github.com/boostorg/boost
+.. _NeMo: https://github.com/NVIDIA/NeMo
 """
