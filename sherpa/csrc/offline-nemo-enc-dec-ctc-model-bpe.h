@@ -14,6 +14,7 @@ namespace sherpa {
  *
  * See
  * https://github.com/NVIDIA/NeMo/blob/main/nemo/collections/asr/models/ctc_bpe_models.py
+ * https://github.com/NVIDIA/NeMo/blob/main/nemo/collections/asr/models/ctc_models.py
  */
 class OfflineNeMoEncDecCTCModelBPE : public OfflineCtcModel {
  public:
@@ -56,6 +57,8 @@ class OfflineNeMoEncDecCTCModelBPE : public OfflineCtcModel {
   torch::jit::Module model_;
   int32_t subsampling_factor_;
 };
+
+using OfflineNeMoEncDecCTCModel = OfflineNeMoEncDecCTCModelBPE;
 
 }  // namespace sherpa
 
