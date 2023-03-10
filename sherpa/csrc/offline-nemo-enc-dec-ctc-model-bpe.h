@@ -52,10 +52,13 @@ class OfflineNeMoEncDecCTCModelBPE : public OfflineCtcModel {
   torch::Tensor GetLogSoftmaxOutLength(
       torch::IValue forward_out) const override;
 
+  // we need to set the subsampling_factor_ inside it
+  void WarmUp(torch::Tensor features, torch::Tensor features_length) override;
+
  private:
   torch::Device device_;
   torch::jit::Module model_;
-  int32_t subsampling_factor_;
+  int32_t subsampling_factor_ = 0;
 };
 
 using OfflineNeMoEncDecCTCModel = OfflineNeMoEncDecCTCModelBPE;

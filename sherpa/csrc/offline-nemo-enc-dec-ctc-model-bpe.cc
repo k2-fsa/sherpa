@@ -11,14 +11,6 @@ OfflineNeMoEncDecCTCModelBPE::OfflineNeMoEncDecCTCModelBPE(
     : device_(device) {
   model_ = torch::jit::load(filename, device);
   model_.eval();
-
-  // TODO(fangjun): This is true for the following models:
-  //
-  // Citrinet-512:
-  // https://catalog.ngc.nvidia.com/orgs/nvidia/teams/nemo/models/stt_en_citrinet_512
-  //
-  // We need to find a way to embed it into the model
-  subsampling_factor_ = 8;
 }
 
 torch::IValue OfflineNeMoEncDecCTCModelBPE::Forward(
@@ -44,6 +36,19 @@ torch::Tensor OfflineNeMoEncDecCTCModelBPE::GetLogSoftmaxOutLength(
   // the features_length and subsampling_factor_ to figure out
   // the actual length
   return {};
+}
+
+void OfflineNeMoEncDecCTCModelBPE::WarmUp(torch::Tensor features,
+                                          torch::Tensor features_length) {
+  // For Citrinet, the subsampling_factor_ is 16.
+  // For Conformer CTC, the subsampling_factor_ is 4.
+  auto ivalue = Forward(features, features_length);
+  auto log_prob = GetLogSoftmaxOut(ivalue);
+
+  vocab_size_ = log_prob.size(-1);
+  subsampling_factor_ =
+      (features_length.cpu().to(torch::kInt).item<int32_t>() + 15) /
+      log_prob.size(1);
 }
 
 }  // namespace sherpa
