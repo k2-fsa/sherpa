@@ -3,7 +3,7 @@ project(sherpa)
 
 # Remember to change
 # scripts/conda-cpu/sherpa/meta.yaml
-set(SHERPA_VERSION "1.1")
+set(SHERPA_VERSION "1.2")
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
