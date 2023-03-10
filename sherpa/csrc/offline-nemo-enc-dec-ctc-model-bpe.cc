@@ -40,7 +40,7 @@ torch::Tensor OfflineNeMoEncDecCTCModelBPE::GetLogSoftmaxOutLength(
 
 void OfflineNeMoEncDecCTCModelBPE::WarmUp(torch::Tensor features,
                                           torch::Tensor features_length) {
-  // For Citrinet, the subsampling_factor_ is 18
+  // For Citrinet, the subsampling_factor_ is 8
   // For Conformer CTC, the subsampling_factor_ is 4.
   auto ivalue = Forward(features, features_length);
   auto log_prob = GetLogSoftmaxOut(ivalue);
