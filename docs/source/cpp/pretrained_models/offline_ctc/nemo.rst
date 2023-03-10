@@ -69,7 +69,7 @@ sherpa-nemo-ctc-zh-citrinet-1024-gamma-0-25 (Chinese)
 
 This model is converted from
 
-  `<https://catalog.ngc.nvidia.com/orgs/nvidia/teams/nemo/models/stt_zh_citrinet_512>`_
+  `<https://catalog.ngc.nvidia.com/orgs/nvidia/teams/nemo/models/stt_zh_citrinet_1024_gamma_0_25>`_
 
 .. code-block:: bash
 
