@@ -33,7 +33,7 @@ C++ compiler.
 
 For the following methods, you have to first install:
 
-- ``cmake``, which can be installed using ``pip instal cmake``
+- ``cmake``, which can be installed using ``pip install cmake``
 - A C++ compiler, e.g., GCC on Linux and macOS, Visual Studio on Windows
 
 Method 2
