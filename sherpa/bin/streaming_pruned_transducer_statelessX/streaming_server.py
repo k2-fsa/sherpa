@@ -192,6 +192,13 @@ def get_args():
     )
 
     parser.add_argument(
+        "--num-threads",
+        type=int,
+        default=1,
+        help="Sets the number of threads used for interop parallelism (e.g. in JIT interpreter) on CPU.",
+    )
+
+    parser.add_argument(
         "--certificate",
         type=str,
         help="""Path to the X.509 certificate. You need it only if you want to
@@ -658,6 +665,9 @@ class StreamingServer(object):
 def main():
     args, beam_search_parser, online_endpoint_parser = get_args()
 
+    torch.set_num_threads(args.num_threads)
+    torch.set_num_interop_threads(args.num_threads)
+
     beam_search_params = vars(beam_search_parser)
     logging.info(beam_search_params)
 
@@ -713,9 +723,6 @@ def main():
     asyncio.run(server.run(port))
 
 
-torch.set_num_threads(1)
-torch.set_num_interop_threads(1)
-
 # See https://github.com/pytorch/pytorch/issues/38342
 # and https://github.com/pytorch/pytorch/issues/33354
 #
@@ -737,3 +744,6 @@ if __name__ == "__main__":
     log_filename = "log/log-streaming-pruned-statelessX"
     setup_logger(log_filename)
     main()
+else:
+    torch.set_num_threads(1)
+    torch.set_num_interop_threads(1)
