@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-name: "ctc_output"
+name: "ctc_model"
 backend: "onnxruntime"
 default_model_filename: "ctc_output.onnx"
 

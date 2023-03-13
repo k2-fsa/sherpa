@@ -19,12 +19,12 @@ default_model_filename: "joiner.onnx"
 max_batch_size: 512
 input [
   {
-    name: "projected_encoder_out"
+    name: "encoder_out"
     data_type: TYPE_FP32
     dims: [ 512 ]
   },
   {
-    name: "projected_decoder_out"
+    name: "decoder_out"
     data_type: TYPE_FP32
     dims: [ 512 ] 
   }

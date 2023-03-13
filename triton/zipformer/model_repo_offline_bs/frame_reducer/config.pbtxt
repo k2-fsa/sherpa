@@ -12,9 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-name: "frame_reeucer"
-backend: "onnxruntime"
-default_model_filename: "frame_reducer.onnx"
+name: "frame_reducer"
+backend: "python"
 
 max_batch_size: 512
 input [
@@ -27,13 +26,7 @@ input [
     name: "x_lens"
     data_type: TYPE_INT64
     dims: [-1]
-  },
-  {
-    name: "ctc_output"
-    data_type: TYPE_FP32
-    dims: [-1, 500]
   }
-
 ]
 output [
   {

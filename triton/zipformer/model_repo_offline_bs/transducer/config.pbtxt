@@ -80,47 +80,15 @@ ensemble_scheduling {
     }
   },
   {
-    model_name: "ctc_output"
-    model_version: -1
-    input_map {
-      key: "encoder_out"
-      value: "encoder_out"
-    }
-    output_map {
-      key: "ctc_output"
-      value: "ctc_output"
-    }
-  },
-  { 
-    model_name: "lconv"
-    model_version: -1
-    input_map {
-      key: "lconv_input"
-      value: "ctc_output"
-    }
-    input_map {
-      key: "lconv_input_lens"
-      value: "encoder_out_lens"
-    }
-    output_map {
-      key: "lconv_out"
-      value: "lconv_out"
-    }
-  },
-  {
     model_name: "frame_reducer"
     model_version: -1
     input_map {
       key: "x"
-      value: "lconv_out"
+      value: "encoder_out"
     }
     input_map {
       key: "x_lens"
       value: "encoder_out_lens"
-    }
-    input_map {
-      key: "ctc_output"
-      value: "ctc_output"
     }
     output_map {
       key: "out"
