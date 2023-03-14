@@ -273,17 +273,21 @@ In the end, you should have the following files:
 .. code-block:: bash
 
   $ ls -lh
-  total 322208
+  total 525224
   -rw-r--r--  1 fangjun  staff   5.9M Dec 18 17:40 decoder_jit_trace-pnnx.ncnn.bin
   -rw-r--r--  1 fangjun  staff   439B Dec 18 17:39 decoder_jit_trace-pnnx.ncnn.param
   -rw-r--r--  1 fangjun  staff   141M Dec 18 17:40 encoder_jit_trace-pnnx.ncnn.bin
+  -rw-r--r--  1 fangjun  staff    99M Dec 18 17:40 encoder_jit_trace-pnnx.ncnn.int8.bin
+  -rw-r--r--  1 fangjun  staff    78K Dec 18 17:40 encoder_jit_trace-pnnx.ncnn.int8.param
   -rw-r--r--  1 fangjun  staff    79K Dec 18 17:39 encoder_jit_trace-pnnx.ncnn.param
   -rw-r--r--  1 fangjun  staff   6.9M Dec 18 17:40 joiner_jit_trace-pnnx.ncnn.bin
+  -rw-r--r--  1 fangjun  staff   3.5M Dec 18 17:40 joiner_jit_trace-pnnx.ncnn.int8.bin
+  -rw-r--r--  1 fangjun  staff   498B Dec 18 17:40 joiner_jit_trace-pnnx.ncnn.int8.param
   -rw-r--r--  1 fangjun  staff   490B Dec 18 17:39 joiner_jit_trace-pnnx.ncnn.param
   -rw-r--r--  1 fangjun  staff    53K Dec 18 17:39 tokens.txt
 
   $ du -h -d1 .
-  157M    .
+  256M    .
 
 You should see the following screen shot after downloading the pre-trained model:
 
@@ -341,7 +345,7 @@ and you will see the following screen shot:
 
 You can see from the above screen shot that most part of the APK
 is occupied by the pre-trained model, while the runtime, including the shared
-libraries, is only ``1.6 MB``.
+libraries, is only ``1.7 MB``.
 
 .. hint::
 
