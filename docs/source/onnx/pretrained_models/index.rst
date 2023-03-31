@@ -13,5 +13,4 @@ available pre-trained models.
 .. toctree::
    :maxdepth: 3
 
-   zipformer-transducer-models
-   lstm-transducer-models
+   online-transducer/index
