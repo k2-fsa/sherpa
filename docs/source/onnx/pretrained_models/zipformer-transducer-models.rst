@@ -41,27 +41,27 @@ the file sizes of ``*.onnx`` files below.
 
 .. code-block:: bash
 
-  # before running `git lfs pull`
+  sherpa-onnx-streaming-zipformer-en-2023-02-21$ ls -lh *.onnx
+  -rw-r--r-- 1 kuangfangjun root  1.3M Mar 31 23:06 decoder-epoch-99-avg-1.int8.onnx
+  -rw-r--r-- 1 kuangfangjun root  2.0M Feb 21 20:51 decoder-epoch-99-avg-1.onnx
+  -rw-r--r-- 1 kuangfangjun root  180M Mar 31 23:07 encoder-epoch-99-avg-1.int8.onnx
+  -rw-r--r-- 1 kuangfangjun root  338M Feb 21 20:51 encoder-epoch-99-avg-1.onnx
+  -rw-r--r-- 1 kuangfangjun root  254K Mar 31 23:06 joiner-epoch-99-avg-1.int8.onnx
+  -rw-r--r-- 1 kuangfangjun root 1003K Feb 21 20:51 joiner-epoch-99-avg-1.onnx
 
-  sherpa-onnx-streaming-zipformer-en-2023-02-21 fangjun$ ls -lh *.onnx
-  -rw-r--r--  1 fangjun  staff   132B Feb 21 20:58 decoder-epoch-99-avg-1.onnx
-  -rw-r--r--  1 fangjun  staff   134B Feb 21 20:58 encoder-epoch-99-avg-1.onnx
-  -rw-r--r--  1 fangjun  staff   132B Feb 21 20:58 joiner-epoch-99-avg-1.onnx
-
-  # after running `git lfs pull`
-
-  sherpa-onnx-streaming-zipformer-en-2023-02-21 fangjun$ ls -lh *.onnx
-  -rw-r--r--  1 fangjun  staff   2.0M Feb 21 21:34 decoder-epoch-99-avg-1.onnx
-  -rw-r--r--  1 fangjun  staff   337M Feb 21 21:35 encoder-epoch-99-avg-1.onnx
-  -rw-r--r--  1 fangjun  staff   1.0M Feb 21 21:35 joiner-epoch-99-avg-1.onnx
 
 Decode a single wave file
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. hint::
 
-   It supports decoding only wave files with a single channel and the sampling rate
-   should be 16 kHz.
+   It supports decoding only wave files of a single channel with 16-bit
+   encoded samples, while the sampling rate does not need to be 16 kHz.
+
+fp32
+^^^^
+
+The following code shows how to use ``fp32`` models to decode a wave file:
 
 .. code-block:: bash
 
@@ -72,7 +72,7 @@ Decode a single wave file
     ./sherpa-onnx-streaming-zipformer-en-2023-02-21/encoder-epoch-99-avg-1.onnx \
     ./sherpa-onnx-streaming-zipformer-en-2023-02-21/decoder-epoch-99-avg-1.onnx \
     ./sherpa-onnx-streaming-zipformer-en-2023-02-21/joiner-epoch-99-avg-1.onnx \
-    ./sherpa-onnx-streaming-zipformer-en-2023-02-21/test_wavs/1089-134686-0001.wav
+    ./sherpa-onnx-streaming-zipformer-en-2023-02-21/test_wavs/0.wav
 
 .. note::
 
@@ -81,6 +81,30 @@ Decode a single wave file
 You should see the following output:
 
 .. literalinclude:: ./code-zipformer/sherpa-onnx-streaming-zipformer-en-2023-02-21.txt
+
+int8
+^^^^
+
+The following code shows how to use ``int8`` models to decode a wave file:
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  ./build/bin/sherpa-onnx \
+    ./sherpa-onnx-streaming-zipformer-en-2023-02-21/tokens.txt \
+    ./sherpa-onnx-streaming-zipformer-en-2023-02-21/encoder-epoch-99-avg-1.int8.onnx \
+    ./sherpa-onnx-streaming-zipformer-en-2023-02-21/decoder-epoch-99-avg-1.int8.onnx \
+    ./sherpa-onnx-streaming-zipformer-en-2023-02-21/joiner-epoch-99-avg-1.int8.onnx \
+    ./sherpa-onnx-streaming-zipformer-en-2023-02-21/test_wavs/0.wav
+
+.. note::
+
+   Please use ``./build/bin/Release/sherpa-onnx.exe`` for Windows.
+
+You should see the following output:
+
+.. literalinclude:: ./code-zipformer/sherpa-onnx-streaming-zipformer-en-2023-02-21-int8.txt
 
 Real-time speech recognition from a microphone
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -134,27 +158,27 @@ the file sizes of ``*.onnx`` files below.
 
 .. code-block:: bash
 
-  # before running `git lfs pull`
+  sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20$ ls -lh *.onnx
+  -rw-r--r-- 1 kuangfangjun root  13M Mar 31 21:11 decoder-epoch-99-avg-1.int8.onnx
+  -rw-r--r-- 1 kuangfangjun root  14M Feb 20 20:13 decoder-epoch-99-avg-1.onnx
+  -rw-r--r-- 1 kuangfangjun root 174M Mar 31 21:11 encoder-epoch-99-avg-1.int8.onnx
+  -rw-r--r-- 1 kuangfangjun root 315M Feb 20 20:13 encoder-epoch-99-avg-1.onnx
+  -rw-r--r-- 1 kuangfangjun root 3.1M Mar 31 21:11 joiner-epoch-99-avg-1.int8.onnx
+  -rw-r--r-- 1 kuangfangjun root  13M Feb 20 20:13 joiner-epoch-99-avg-1.onnx
 
-  sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20 fangjun$ ls -lh *.onnx
-  -rw-r--r--  1 fangjun  staff   133B Feb 21 20:27 decoder-epoch-99-avg-1.onnx
-  -rw-r--r--  1 fangjun  staff   134B Feb 21 20:27 encoder-epoch-99-avg-1.onnx
-  -rw-r--r--  1 fangjun  staff   133B Feb 21 20:27 joiner-epoch-99-avg-1.onnx
-
-  # after running `git lfs pull`
-
-  sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20 fangjun$ ls -lh *.onnx
-  -rw-r--r--  1 fangjun  staff    13M Feb 21 20:30 decoder-epoch-99-avg-1.onnx
-  -rw-r--r--  1 fangjun  staff   315M Feb 21 20:32 encoder-epoch-99-avg-1.onnx
-  -rw-r--r--  1 fangjun  staff    12M Feb 21 20:30 joiner-epoch-99-avg-1.onnx
 
 Decode a single wave file
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. hint::
 
-   It supports decoding only wave files with a single channel and the sampling rate
-   should be 16 kHz.
+   It supports decoding only wave files of a single channel with 16-bit
+   encoded samples, while the sampling rate does not need to be 16 kHz.
+
+fp32
+^^^^
+
+The following code shows how to use ``fp32`` models to decode a wave file:
 
 .. code-block:: bash
 
@@ -184,6 +208,40 @@ Decode a single wave file
 You should see the following output:
 
 .. literalinclude:: ./code-zipformer/sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20.txt
+
+int8
+^^^^
+
+The following code shows how to use ``fp32`` models to decode a wave file:
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  ./build/bin/sherpa-onnx \
+    ./sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20/tokens.txt \
+    ./sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20/encoder-epoch-99-avg-1.int8.onnx \
+    ./sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20/decoder-epoch-99-avg-1.int8.onnx \
+    ./sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20/joiner-epoch-99-avg-1.int8.onnx \
+    ./sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20/test_wavs/1.wav
+
+.. note::
+
+   Please use ``./build/bin/Release/sherpa-onnx.exe`` for Windows.
+
+.. caution::
+
+   If you use Windows and get encoding issues, please run:
+
+      .. code-block:: bash
+
+          CHCP 65001
+
+   in your commandline.
+
+You should see the following output:
+
+.. literalinclude:: ./code-zipformer/sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20-int8.txt
 
 Real-time speech recognition from a microphone
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

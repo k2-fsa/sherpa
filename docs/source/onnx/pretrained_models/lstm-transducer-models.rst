@@ -9,7 +9,7 @@ LSTM-transducer-based Models
 csukuangfj/sherpa-onnx-lstm-en-2023-02-17 (English)
 ---------------------------------------------------
 
-This is a model trained using the `GigaSpeech`_ and the `LibriSpeech`_ dataset.
+This model trained using the `GigaSpeech`_ and the `LibriSpeech`_ dataset.
 
 Please see `<https://github.com/k2-fsa/icefall/pull/558>`_ for how the model
 is trained.
@@ -38,27 +38,26 @@ the file sizes of ``*.onnx`` files below.
 
 .. code-block:: bash
 
-  # before running `git lfs pull`
-
-  sherpa-onnx-lstm-en-2023-02-17 fangjun$ ls -lh *.onnx
-  -rw-r--r--  1 fangjun  staff   132B Feb 17 15:55 decoder-epoch-99-avg-1.onnx
-  -rw-r--r--  1 fangjun  staff   134B Feb 17 15:55 encoder-epoch-99-avg-1.onnx
-  -rw-r--r--  1 fangjun  staff   132B Feb 17 15:55 joiner-epoch-99-avg-1.onnx
-
-  # after running `git lfs pull`
-
-  sherpa-onnx-lstm-en-2023-02-17 fangjun$ ls -lh *.onnx
-  -rw-r--r--  1 fangjun  staff   2.0M Feb 17 15:55 decoder-epoch-99-avg-1.onnx
-  -rw-r--r--  1 fangjun  staff   318M Feb 17 15:57 encoder-epoch-99-avg-1.onnx
-  -rw-r--r--  1 fangjun  staff   1.0M Feb 17 15:55 joiner-epoch-99-avg-1.onnx
+  sherpa-onnx-lstm-en-2023-02-17$ ls -lh *.onnx
+  -rw-r--r-- 1 kuangfangjun root  1.3M Mar 31 22:41 decoder-epoch-99-avg-1.int8.onnx
+  -rw-r--r-- 1 kuangfangjun root  2.0M Mar 31 22:41 decoder-epoch-99-avg-1.onnx
+  -rw-r--r-- 1 kuangfangjun root   80M Mar 31 22:41 encoder-epoch-99-avg-1.int8.onnx
+  -rw-r--r-- 1 kuangfangjun root  319M Mar 31 22:41 encoder-epoch-99-avg-1.onnx
+  -rw-r--r-- 1 kuangfangjun root  254K Mar 31 22:41 joiner-epoch-99-avg-1.int8.onnx
+  -rw-r--r-- 1 kuangfangjun root 1003K Mar 31 22:41 joiner-epoch-99-avg-1.onnx
 
 Decode a single wave file
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. hint::
 
-   It supports decoding only wave files with a single channel and the sampling rate
-   should be 16 kHz.
+   It supports decoding only wave files of a single channel with 16-bit
+   encoded samples, while the sampling rate does not need to be 16 kHz.
+
+fp32
+^^^^
+
+The following code shows how to use ``fp32`` models to decode a wave file:
 
 .. code-block:: bash
 
@@ -69,7 +68,7 @@ Decode a single wave file
     ./sherpa-onnx-lstm-en-2023-02-17/encoder-epoch-99-avg-1.onnx \
     ./sherpa-onnx-lstm-en-2023-02-17/decoder-epoch-99-avg-1.onnx \
     ./sherpa-onnx-lstm-en-2023-02-17/joiner-epoch-99-avg-1.onnx \
-    ./sherpa-onnx-lstm-en-2023-02-17/test_wavs/1089-134686-0001.wav
+    ./sherpa-onnx-lstm-en-2023-02-17/test_wavs/0.wav
 
 .. note::
 
@@ -78,6 +77,30 @@ Decode a single wave file
 You should see the following output:
 
 .. literalinclude:: ./code-lstm/sherpa-onnx-lstm-en-2023-02-17.txt
+
+int8
+^^^^
+
+The following code shows how to use ``int8`` models to decode a wave file:
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  ./build/bin/sherpa-onnx \
+    ./sherpa-onnx-lstm-en-2023-02-17/tokens.txt \
+    ./sherpa-onnx-lstm-en-2023-02-17/encoder-epoch-99-avg-1.int8.onnx \
+    ./sherpa-onnx-lstm-en-2023-02-17/decoder-epoch-99-avg-1.int8.onnx \
+    ./sherpa-onnx-lstm-en-2023-02-17/joiner-epoch-99-avg-1.int8.onnx \
+    ./sherpa-onnx-lstm-en-2023-02-17/test_wavs/0.wav
+
+.. note::
+
+   Please use ``./build/bin/Release/sherpa-onnx.exe`` for Windows.
+
+You should see the following output:
+
+.. literalinclude:: ./code-lstm/sherpa-onnx-lstm-en-2023-02-17-int8.txt
 
 Real-time speech recognition from a microphone
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -127,27 +150,26 @@ the file sizes of ``*.onnx`` files below.
 
 .. code-block:: bash
 
-  # before running `git lfs pull`
-
-  sherpa-onnx-lstm-zh-2023-02-20 fangjun$ ls -lh *.onnx
-  -rw-r--r--  1 fangjun  staff   133B Feb 20 15:01 decoder-epoch-11-avg-1.onnx
-  -rw-r--r--  1 fangjun  staff   134B Feb 20 15:01 encoder-epoch-11-avg-1.onnx
-  -rw-r--r--  1 fangjun  staff   133B Feb 20 15:01 joiner-epoch-11-avg-1.onnx
-
-  # after running `git lfs pull`
-
-  sherpa-onnx-lstm-zh-2023-02-20 fangjun$ ls -lh *.onnx
-  -rw-r--r--  1 fangjun  staff    12M Feb 20 15:02 decoder-epoch-11-avg-1.onnx
-  -rw-r--r--  1 fangjun  staff   318M Feb 20 15:04 encoder-epoch-11-avg-1.onnx
-  -rw-r--r--  1 fangjun  staff    11M Feb 20 15:02 joiner-epoch-11-avg-1.onnx
+  sherpa-onnx-lstm-zh-2023-02-20$ ls -lh *.onnx
+  -rw-r--r-- 1 kuangfangjun root  12M Mar 31 20:55 decoder-epoch-11-avg-1.int8.onnx
+  -rw-r--r-- 1 kuangfangjun root  12M Mar 31 20:55 decoder-epoch-11-avg-1.onnx
+  -rw-r--r-- 1 kuangfangjun root  80M Mar 31 20:55 encoder-epoch-11-avg-1.int8.onnx
+  -rw-r--r-- 1 kuangfangjun root 319M Mar 31 20:55 encoder-epoch-11-avg-1.onnx
+  -rw-r--r-- 1 kuangfangjun root 2.8M Mar 31 20:55 joiner-epoch-11-avg-1.int8.onnx
+  -rw-r--r-- 1 kuangfangjun root  11M Mar 31 20:55 joiner-epoch-11-avg-1.onnx
 
 Decode a single wave file
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. hint::
 
-   It supports decoding only wave files with a single channel and the sampling rate
-   should be 16 kHz.
+   It supports decoding only wave files of a single channel with 16-bit
+   encoded samples, while the sampling rate does not need to be 16 kHz.
+
+fp32
+^^^^
+
+The following code shows how to use ``fp32`` models to decode a wave file:
 
 .. code-block:: bash
 
@@ -177,6 +199,40 @@ Decode a single wave file
 You should see the following output:
 
 .. literalinclude:: ./code-lstm/sherpa-onnx-lstm-zh-2023-02-20.txt
+
+int8
+^^^^
+
+The following code shows how to use ``int8`` models to decode a wave file:
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  ./build/bin/sherpa-onnx \
+    ./sherpa-onnx-lstm-zh-2023-02-20/tokens.txt \
+    ./sherpa-onnx-lstm-zh-2023-02-20/encoder-epoch-11-avg-1.int8.onnx \
+    ./sherpa-onnx-lstm-zh-2023-02-20/decoder-epoch-11-avg-1.int8.onnx \
+    ./sherpa-onnx-lstm-zh-2023-02-20/joiner-epoch-11-avg-1.int8.onnx \
+    ./sherpa-onnx-lstm-zh-2023-02-20/test_wavs/0.wav
+
+.. note::
+
+   Please use ``./build/bin/Release/sherpa-onnx.exe`` for Windows.
+
+.. caution::
+
+   If you use Windows and get encoding issues, please run:
+
+      .. code-block:: bash
+
+          CHCP 65001
+
+   in your commandline.
+
+You should see the following output:
+
+.. literalinclude:: ./code-lstm/sherpa-onnx-lstm-zh-2023-02-20-int8.txt
 
 Real-time speech recognition from a microphone
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

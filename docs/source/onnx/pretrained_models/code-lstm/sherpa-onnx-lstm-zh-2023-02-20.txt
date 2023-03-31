@@ -1,11 +1,7 @@
-OnlineRecognizerConfig(
-feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80),
-model_config=OnlineTransducerModelConfig(
-  encoder_filename="./sherpa-onnx-lstm-zh-2023-02-20/encoder-epoch-11-avg-1.onnx",
-  decoder_filename="./sherpa-onnx-lstm-zh-2023-02-20/decoder-epoch-11-avg-1.onnx",
-  joiner_filename="./sherpa-onnx-lstm-zh-2023-02-20/joiner-epoch-11-avg-1.onnx",
-  num_threads=2, debug=False),
-tokens="./sherpa-onnx-lstm-zh-2023-02-20/tokens.txt")
+OnlineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80), model_config=OnlineTransducerModelConfig(encoder_filename="./sherpa-onnx-lstm-zh-2023-02-20/encoder-epoch-11-avg-1.onnx", decoder_filename="./sherpa-onnx-lstm-zh-2023-02-20/decoder-epoch-11-avg-1.onnx", joiner_filename="./sherpa-onnx-lstm-zh-2023-02-20/joiner-epoch-11-avg-1.onnx", tokens="./sherpa-onnx-lstm-zh-2023-02-20/tokens.txt", num_threads=2, debug=False), endpoint_config=EndpointConfig(rule1=EndpointRule(must_contain_nonsilence=False, min_trailing_silence=2.4, min_utterance_length=0), rule2=EndpointRule(must_contain_nonsilence=True, min_trailing_silence=1.2, min_utterance_length=0), rule3=EndpointRule(must_contain_nonsilence=False, min_trailing_silence=0, min_utterance_length=20)), enable_endpoint=True, max_active_paths=4, decoding_method="greedy_search")
+2023-03-31 22:58:59.348229346 [E:onnxruntime:, env.cc:251 ThreadMain] pthread_setaffinity_np failed for thread: 578800, index: 15, mask: {16, 52, }, error code: 22 error msg: Invalid argument. Specify the number of threads explicitly so the affinity is not set.
+2023-03-31 22:58:59.348231417 [E:onnxruntime:, env.cc:251 ThreadMain] pthread_setaffinity_np failed for thread: 578801, index: 16, mask: {17, 53, }, error code: 22 error msg: Invalid argument. Specify the number of threads explicitly so the affinity is not set.
+sampling rate of input file: 16000
 wav filename: ./sherpa-onnx-lstm-zh-2023-02-20/test_wavs/0.wav
 wav duration (s): 5.611
 Started
@@ -13,5 +9,6 @@ Done!
 Recognition result for ./sherpa-onnx-lstm-zh-2023-02-20/test_wavs/0.wav:
 对我做了介绍那么我想说的是大家如果对我的研究感兴趣
 num threads: 2
-Elapsed seconds: 1.611 s
-Real time factor (RTF): 1.611 / 5.611 = 0.287
+decoding method: greedy_search
+Elapsed seconds: 3.030 s
+Real time factor (RTF): 3.030 / 5.611 = 0.540

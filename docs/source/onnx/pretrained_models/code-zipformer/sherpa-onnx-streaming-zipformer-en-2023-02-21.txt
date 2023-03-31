@@ -1,17 +1,14 @@
-OnlineRecognizerConfig(
-feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80),
-model_config=OnlineTransducerModelConfig(
-  encoder_filename="./sherpa-onnx-streaming-zipformer-en-2023-02-21/encoder-epoch-99-avg-1.onnx",
-  decoder_filename="./sherpa-onnx-streaming-zipformer-en-2023-02-21/decoder-epoch-99-avg-1.onnx",
-  joiner_filename="./sherpa-onnx-streaming-zipformer-en-2023-02-21/joiner-epoch-99-avg-1.onnx",
-  num_threads=2, debug=False),
-tokens="./sherpa-onnx-streaming-zipformer-en-2023-02-21/tokens.txt")
-wav filename: ./sherpa-onnx-streaming-zipformer-en-2023-02-21/test_wavs/1089-134686-0001.wav
+OnlineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80), model_config=OnlineTransducerModelConfig(encoder_filename="./sherpa-onnx-streaming-zipformer-en-2023-02-21/encoder-epoch-99-avg-1.onnx", decoder_filename="./sherpa-onnx-streaming-zipformer-en-2023-02-21/decoder-epoch-99-avg-1.onnx", joiner_filename="./sherpa-onnx-streaming-zipformer-en-2023-02-21/joiner-epoch-99-avg-1.onnx", tokens="./sherpa-onnx-streaming-zipformer-en-2023-02-21/tokens.txt", num_threads=2, debug=False), endpoint_config=EndpointConfig(rule1=EndpointRule(must_contain_nonsilence=False, min_trailing_silence=2.4, min_utterance_length=0), rule2=EndpointRule(must_contain_nonsilence=True, min_trailing_silence=1.2, min_utterance_length=0), rule3=EndpointRule(must_contain_nonsilence=False, min_trailing_silence=0, min_utterance_length=20)), enable_endpoint=True, max_active_paths=4, decoding_method="greedy_search")
+2023-04-01 06:16:29.128344485 [E:onnxruntime:, env.cc:251 ThreadMain] pthread_setaffinity_np failed for thread: 604840, index: 15, mask: {16, 52, }, error code: 22 error msg: Invalid argument. Specify the number of threads explicitly so the affinity is not set.
+2023-04-01 06:16:29.128346568 [E:onnxruntime:, env.cc:251 ThreadMain] pthread_setaffinity_np failed for thread: 604841, index: 16, mask: {17, 53, }, error code: 22 error msg: Invalid argument. Specify the number of threads explicitly so the affinity is not set.
+sampling rate of input file: 16000
+wav filename: ./sherpa-onnx-streaming-zipformer-en-2023-02-21/test_wavs/0.wav
 wav duration (s): 6.625
 Started
 Done!
-Recognition result for ./sherpa-onnx-streaming-zipformer-en-2023-02-21/test_wavs/1089-134686-0001.wav:
+Recognition result for ./sherpa-onnx-streaming-zipformer-en-2023-02-21/test_wavs/0.wav:
  AFTER EARLY NIGHTFALL THE YELLOW LAMPS WOULD LIGHT UP HERE AND THERE THE SQUALID QUARTER OF THE BROTHELS
 num threads: 2
-Elapsed seconds: 0.527 s
-Real time factor (RTF): 0.527 / 6.625 = 0.080
+decoding method: greedy_search
+Elapsed seconds: 0.825 s
+Real time factor (RTF): 0.825 / 6.625 = 0.125
