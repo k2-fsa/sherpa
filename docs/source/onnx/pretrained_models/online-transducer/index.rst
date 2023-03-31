@@ -1,10 +1,10 @@
 Online transducer models
 ========================
 
-This sections lists available online transducer models.
+This section lists available online transducer models.
 
 .. toctree::
-   :maxdepth: 3
+   :maxdepth: 5
 
    zipformer-transducer-models
    lstm-transducer-models

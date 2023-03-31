@@ -49,7 +49,6 @@ the file sizes of ``*.onnx`` files below.
   -rw-r--r-- 1 kuangfangjun root  254K Mar 31 23:06 joiner-epoch-99-avg-1.int8.onnx
   -rw-r--r-- 1 kuangfangjun root 1003K Feb 21 20:51 joiner-epoch-99-avg-1.onnx
 
-
 Decode a single wave file
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -128,8 +127,8 @@ Real-time speech recognition from a microphone
 
 .. _sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20:
 
-sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20 (Bilingual, Chinese + English)
------------------------------------------------------------------------------------------
+csukuangfj/sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20 (Bilingual, Chinese + English)
+----------------------------------------------------------------------------------------------------
 
 This model is converted from
 

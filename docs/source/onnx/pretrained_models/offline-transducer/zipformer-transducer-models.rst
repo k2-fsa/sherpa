@@ -77,7 +77,7 @@ The following code shows how to use ``fp32`` models to decode wave files:
 
 .. note::
 
-   Please use ``./build/bin/Release/sherpa-onnx.exe`` for Windows.
+   Please use ``./build/bin/Release/sherpa-onnx-offline.exe`` for Windows.
 
 You should see the following output:
 
@@ -103,7 +103,7 @@ The following code shows how to use ``int8`` models to decode wave files:
 
 .. note::
 
-   Please use ``./build/bin/Release/sherpa-onnx.exe`` for Windows.
+   Please use ``./build/bin/Release/sherpa-onnx-offline.exe`` for Windows.
 
 You should see the following output:
 
