@@ -6,6 +6,8 @@ Paraformer models
    Please refer to :ref:`install_sherpa_onnx` to install `sherpa-onnx`_
    before you read this section.
 
+.. _sherpa_onnx_offline_paraformer_zh_2023_03_28_chinese:
+
 csukuangfj/sherpa-onnx-paraformer-zh-2023-03-28 (Chinese)
 ---------------------------------------------------------
 

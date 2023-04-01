@@ -1,3 +1,5 @@
+.. _onnx_online_transducer_models:
+
 Online transducer models
 ========================
 

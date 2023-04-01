@@ -22,3 +22,4 @@ The `WebSocket`_ server is implemented in C++ with the help of
    :maxdepth: 3
 
    ./online-websocket.rst
+   ./offline-websocket.rst

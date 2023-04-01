@@ -1,4 +1,4 @@
-[I] /Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:525:void sherpa_onnx::ParseOptions::PrintUsage(bool) const 
+
 
 Automatic speech recognition with sherpa-onnx using websocket.
 
@@ -24,6 +24,8 @@ for a list of pre-trained models to download.
 Options:
   --max-batch-size            : Max batch size for recognition. (int, default = 5)
   --loop-interval-ms          : It determines how often the decoder loop runs.  (int, default = 10)
+  --max-active-paths          : beam size used in modified beam search. (int, default = 4)
+  --decoding-method           : decoding method,now support greedy_search and modified_beam_search. (string, default = "greedy_search")
   --rule3-min-utterance-length : This endpointing rule3 requires utterance-length (in seconds) to be >= this value. (float, default = 20)
   --rule3-min-trailing-silence : This endpointing rule3 requires duration of trailing silence in seconds) to be >= this value. (float, default = 0)
   --rule3-must-contain-nonsilence : If True, for this endpointing rule3 to apply there must be nonsilence in the best-path traceback. For decoding, a non-blank token is considered as non-silence (bool, default = false)
@@ -41,7 +43,7 @@ Options:
   --tokens                    : Path to tokens.txt (string, default = "")
   --num-work-threads          : Thread pool size for for neural network computation and decoding. (int, default = 3)
   --encoder                   : Path to encoder.onnx (string, default = "")
-  --sample-rate               : Sampling rate of the input waveform. Must match the one expected by the model. (float, default = 16000)
+  --sample-rate               : Sampling rate of the input waveform. Note: You can have a different sample rate for the input waveform. We will do resampling inside the feature extractor (int, default = 16000)
   --rule2-min-trailing-silence : This endpointing rule2 requires duration of trailing silence in seconds) to be >= this value. (float, default = 1.2)
   --log-file                  : Path to the log file. Logs are appended to this file (string, default = "./log.txt")
   --rule1-min-utterance-length : This endpointing rule1 requires utterance-length (in seconds) to be >= this value. (float, default = 0)
@@ -51,4 +53,5 @@ Standard options:
   --config                    : Configuration file to read (this option may be repeated) (string, default = "")
   --help                      : Print out usage message (bool, default = false)
   --print-args                : Print the command line arguments (to stderr) (bool, default = true)
+
 
