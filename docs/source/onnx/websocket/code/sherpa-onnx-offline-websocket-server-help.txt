@@ -1,0 +1,55 @@
+Automatic speech recognition with sherpa-onnx using websocket.
+
+Usage:
+
+./bin/sherpa-onnx-offline-websocket-server --help
+
+(1) For transducer models
+
+./bin/sherpa-onnx-offline-websocket-server \
+  --port=6006 \
+  --num-work-threads=5 \
+  --tokens=/path/to/tokens.txt \
+  --encoder=/path/to/encoder.onnx \
+  --decoder=/path/to/decoder.onnx \
+  --joiner=/path/to/joiner.onnx \
+  --log-file=./log.txt \
+  --max-batch-size=5
+
+(2) For Paraformer
+
+./bin/sherpa-onnx-offline-websocket-server \
+  --port=6006 \
+  --num-work-threads=5 \
+  --tokens=/path/to/tokens.txt \
+  --paraformer=/path/to/model.onnx \
+  --log-file=./log.txt \
+  --max-batch-size=5
+
+Please refer to
+https://k2-fsa.github.io/sherpa/onnx/pretrained_models/index.html
+for a list of pre-trained models to download.
+
+Options:
+  --log-file                  : Path to the log file. Logs are appended to this file (string, default = "./log.txt")
+  --max-utterance-length      : Max utterance length in seconds. If we receive an utterance longer than this value, we will reject the connection. If you have enough memory, you can select a large value for it. (float, default = 300)
+  --decoding-method           : decoding method,Valid values: greedy_search. (string, default = "greedy_search")
+  --num-threads               : Number of threads to run the neural network (int, default = 2)
+  --feat-dim                  : Feature dimension. Must match the one expected by the model. (int, default = 80)
+  --port                      : The port on which the server will listen. (int, default = 6006)
+  --debug                     : true to print model information while loading it. (bool, default = false)
+  --joiner                    : Path to joiner.onnx (string, default = "")
+  --tokens                    : Path to tokens.txt (string, default = "")
+  --encoder                   : Path to encoder.onnx (string, default = "")
+  --num-work-threads          : Thread pool size for for neural network computation and decoding. (int, default = 3)
+  --paraformer                : Path to model.onnx of paraformer. (string, default = "")
+  --num-io-threads            : Thread pool size for network connections. (int, default = 1)
+  --max-batch-size            : Max batch size for decoding. (int, default = 5)
+  --decoder                   : Path to decoder.onnx (string, default = "")
+
+Standard options:
+  --help                      : Print out usage message (bool, default = false)
+  --print-args                : Print the command line arguments (to stderr) (bool, default = true)
+  --config                    : Configuration file to read (this option may be repeated) (string, default = "")
+
+

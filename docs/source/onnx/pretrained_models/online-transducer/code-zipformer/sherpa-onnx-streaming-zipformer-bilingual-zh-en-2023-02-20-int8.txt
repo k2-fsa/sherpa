@@ -1,0 +1,14 @@
+OnlineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80), model_config=OnlineTransducerModelConfig(encoder_filename="./sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20/encoder-epoch-99-avg-1.int8.onnx", decoder_filename="./sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20/decoder-epoch-99-avg-1.int8.onnx", joiner_filename="./sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20/joiner-epoch-99-avg-1.int8.onnx", tokens="./sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20/tokens.txt", num_threads=2, debug=False), endpoint_config=EndpointConfig(rule1=EndpointRule(must_contain_nonsilence=False, min_trailing_silence=2.4, min_utterance_length=0), rule2=EndpointRule(must_contain_nonsilence=True, min_trailing_silence=1.2, min_utterance_length=0), rule3=EndpointRule(must_contain_nonsilence=False, min_trailing_silence=0, min_utterance_length=20)), enable_endpoint=True, max_active_paths=4, decoding_method="greedy_search")
+2023-04-01 06:24:10.503505750 [E:onnxruntime:, env.cc:251 ThreadMain] pthread_setaffinity_np failed for thread: 604982, index: 16, mask: {17, 53, }, error code: 22 error msg: Invalid argument. Specify the number of threads explicitly so the affinity is not set.
+2023-04-01 06:24:10.503503942 [E:onnxruntime:, env.cc:251 ThreadMain] pthread_setaffinity_np failed for thread: 604981, index: 15, mask: {16, 52, }, error code: 22 error msg: Invalid argument. Specify the number of threads explicitly so the affinity is not set.
+sampling rate of input file: 16000
+wav filename: ./sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20/test_wavs/1.wav
+wav duration (s): 5.100
+Started
+Done!
+Recognition result for ./sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20/test_wavs/1.wav:
+这是第一种第二种叫呃与 ALWAYS ALWAYS什么意思啊
+num threads: 2
+decoding method: greedy_search
+Elapsed seconds: 0.551 s
+Real time factor (RTF): 0.551 / 5.100 = 0.108
