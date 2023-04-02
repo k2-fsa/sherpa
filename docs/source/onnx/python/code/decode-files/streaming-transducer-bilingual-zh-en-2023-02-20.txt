@@ -1,0 +1,26 @@
+Creating a resampler:
+   in_sample_rate: 8000
+   output_sample_rate: 16000
+
+Started!
+Done!
+./sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20/test_wavs/0.wav
+昨天是 MONDAY TODAY IS LIBR THE DAY AFTER TOMORROW是星期三
+----------
+./sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20/test_wavs/1.wav
+这是第一种第二种叫呃与 ALWAYS ALWAYS什么意思啊
+----------
+./sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20/test_wavs/2.wav
+这个是频繁的啊不认识记下来 FREQUENTLY频繁的
+----------
+./sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20/test_wavs/3.wav
+第一句是个什么时态加了 ES是一般现在时对后面还有时态写上
+----------
+./sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20/test_wavs/8k.wav
+嗯太不要准时 IN TIME是及时叫他总是准时教他的作业那用一般现在时是没有什么感情色彩的陈述一个事实下一句话为什么要用现在进行时它的意思并不是说说他现在正在教他的
+----------
+num_threads: 1
+decoding_method: greedy_search
+Wave duration: 17.640 s
+Elapsed time: 3.907 s
+Real time factor (RTF): 3.907/17.640 = 0.221

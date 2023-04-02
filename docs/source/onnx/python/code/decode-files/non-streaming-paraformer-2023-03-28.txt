@@ -1,0 +1,23 @@
+Creating a resampler:
+   in_sample_rate: 8000
+   output_sample_rate: 16000
+
+Started!
+Done!
+./sherpa-onnx-paraformer-zh-2023-03-28/test_wavs/0.wav
+对我做了介绍啊那么我想说的是呢大家如果对我的研究感兴趣呢你
+----------
+./sherpa-onnx-paraformer-zh-2023-03-28/test_wavs/1.wav
+重点呢想谈三个问题首先呢就是这一轮全球金融动荡的表现
+----------
+./sherpa-onnx-paraformer-zh-2023-03-28/test_wavs/2.wav
+深入的分析这一次全球金融动荡背后的根源
+----------
+./sherpa-onnx-paraformer-zh-2023-03-28/test_wavs/8k.wav
+甚至出现交易几乎停滞的情况
+----------
+num_threads: 1
+decoding_method: greedy_search
+Wave duration: 4.204 s
+Elapsed time: 1.663 s
+Real time factor (RTF): 1.663/4.204 = 0.396
