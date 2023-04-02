@@ -22,9 +22,17 @@ You can use ``1`` of the  ``4`` methods below to install the Python package `she
 Method 1
 ^^^^^^^^
 
+.. hint::
+
+   This method works only on ``x86/x86_64`` systems: Linux, macOS and Windows.
+
+   For other architectures, e.g., Mac M1, Raspberry Pi, etc, please
+   use Method 2, 3, or 4.
+
 .. code-block:: bash
 
   pip install sherpa-ncnn
+
 
 If you use ``Method 1``, it will install pre-compiled libraries.
 The ``disadvantage`` is that it may ``not be optimized`` for your platform,
