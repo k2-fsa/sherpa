@@ -24,6 +24,25 @@ struct FeatureConfig {
   // If false, we scale the input samples by 32767 inside sherpa
   bool normalize_samples = true;
 
+  // For Wav2Vec 2.0, we set it to true so that it returns audio samples
+  // directly.
+  //
+  // The user does not need to set it. We set it internally when we
+  // load a Wav2Vec 2.0 model.
+  bool return_waveform = false;
+
+  // For models from NeMo
+  // Possible values:
+  // - per_feature
+  // - all_features (not implemented yet)
+  // - fixed_mean (not implemented)
+  // - fixed_std (not implemented)
+  // - or just leave it to empty
+  // See
+  // https://github.com/NVIDIA/NeMo/blob/main/nemo/collections/asr/parts/preprocessing/features.py#L59
+  // for details
+  std::string nemo_normalize;
+
   void Register(ParseOptions *po);
 
   /** A string representation for debugging purpose. */

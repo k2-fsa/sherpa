@@ -44,13 +44,21 @@ void FeatureConfig::Register(ParseOptions *po) {
                "true to use samples in the range [-1, 1]. "
                "false to use samples in the range [-32768, 32767]. "
                "Note: kaldi uses un-normalized samples.");
+
+  po->Register(
+      "nemo-normalize", &nemo_normalize,
+      "See "
+      "https://github.com/NVIDIA/NeMo/blob/main/nemo/collections/asr/parts/"
+      "preprocessing/features.py#L59"
+      "Current supported value: per_feature or leave it to empty (unset)");
 }
 
 std::string FeatureConfig::ToString() const {
   std::ostringstream os;
   os << "FeatureConfig(";
   os << "fbank_opts=" << fbank_opts.ToString() << ", ";
-  os << "normalize_samples=" << (normalize_samples ? "True" : "False") << ")";
+  os << "normalize_samples=" << (normalize_samples ? "True" : "False") << ", ";
+  os << "nemo_normalize=\"" << nemo_normalize << "\")";
   return os.str();
 }
 

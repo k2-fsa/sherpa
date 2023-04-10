@@ -63,6 +63,7 @@ Args:
                  the transformer decoder branch and only use the transformer
                  encoder for CTC decoding.
         - torchaudio. We support wav2vec 2.0 models from torchaudio.
+        - NeMo. We support EncDecCTCModelBPE from NeMo.
 
       (2) Transducer. Models from the following frameworks are supported.
 

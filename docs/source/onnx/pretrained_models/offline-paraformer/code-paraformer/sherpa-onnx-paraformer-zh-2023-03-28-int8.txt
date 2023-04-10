@@ -1,0 +1,27 @@
+OfflineRecognizerConfig(feat_config=OfflineFeatureExtractorConfig(sampling_rate=16000, feature_dim=80), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename="", decoder_filename="", joiner_filename=""), paraformer=OfflineParaformerModelConfig(model="./sherpa-onnx-paraformer-zh-2023-03-28/model.int8.onnx"), tokens="./sherpa-onnx-paraformer-zh-2023-03-28/tokens.txt", num_threads=2, debug=False), decoding_method="greedy_search")
+Creating recognizer ...
+2023-04-01 07:34:48.051279367 [E:onnxruntime:, env.cc:251 ThreadMain] pthread_setaffinity_np failed for thread: 610335, index: 15, mask: {16, 52, }, error code: 22 error msg: Invalid argument. Specify the number of threads explicitly so the affinity is not set.
+2023-04-01 07:34:48.051281075 [E:onnxruntime:, env.cc:251 ThreadMain] pthread_setaffinity_np failed for thread: 610336, index: 16, mask: {17, 53, }, error code: 22 error msg: Invalid argument. Specify the number of threads explicitly so the affinity is not set.
+Started
+Creating a resampler:
+   in_sample_rate: 8000
+   output_sample_rate: 16000
+
+Done!
+
+./sherpa-onnx-paraformer-zh-2023-03-28/test_wavs/0.wav
+对我做了介绍啊那么我想说的是呢大家如果对我的研究感兴趣呢你
+----
+./sherpa-onnx-paraformer-zh-2023-03-28/test_wavs/1.wav
+重点呢想谈三个问题首先呢就是这一轮全球金融动荡的表现
+----
+./sherpa-onnx-paraformer-zh-2023-03-28/test_wavs/2.wav
+深入的分析这一次全球金融动荡背后的根源
+----
+./sherpa-onnx-paraformer-zh-2023-03-28/test_wavs/8k.wav
+甚至出现交易几乎停滞的情况
+----
+num threads: 2
+decoding method: greedy_search
+Elapsed seconds: 0.604 s
+Real time factor (RTF): 0.604 / 19.502 = 0.031

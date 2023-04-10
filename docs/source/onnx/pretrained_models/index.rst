@@ -11,7 +11,9 @@ available pre-trained models.
   Please install `git-lfs <https://git-lfs.com/>`_ before you continue.
 
 .. toctree::
-   :maxdepth: 3
+   :maxdepth: 5
 
-   zipformer-transducer-models
-   lstm-transducer-models
+   online-transducer/index
+   offline-transducer/index
+   offline-paraformer/index
+   offline-ctc/index

@@ -1,0 +1,24 @@
+OfflineRecognizerConfig(feat_config=OfflineFeatureExtractorConfig(sampling_rate=16000, feature_dim=80), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename="./sherpa-onnx-zipformer-en-2023-04-01/encoder-epoch-99-avg-1.int8.onnx", decoder_filename="./sherpa-onnx-zipformer-en-2023-04-01/decoder-epoch-99-avg-1.int8.onnx", joiner_filename="./sherpa-onnx-zipformer-en-2023-04-01/joiner-epoch-99-avg-1.int8.onnx"), paraformer=OfflineParaformerModelConfig(model=""), tokens="./sherpa-onnx-zipformer-en-2023-04-01/tokens.txt", num_threads=2, debug=False), decoding_method="greedy_search")
+Creating recognizer ...
+2023-04-01 14:42:00.407939001 [E:onnxruntime:, env.cc:251 ThreadMain] pthread_setaffinity_np failed for thread: 638195, index: 15, mask: {16, 52, }, error code: 22 error msg: Invalid argument. Specify the number of threads explicitly so the affinity is not set.
+2023-04-01 14:42:00.407940827 [E:onnxruntime:, env.cc:251 ThreadMain] pthread_setaffinity_np failed for thread: 638196, index: 16, mask: {17, 53, }, error code: 22 error msg: Invalid argument. Specify the number of threads explicitly so the affinity is not set.
+Started
+Creating a resampler:
+   in_sample_rate: 8000
+   output_sample_rate: 16000
+
+Done!
+
+./sherpa-onnx-zipformer-en-2023-04-01/test_wavs/0.wav
+ AFTER EARLY NIGHTFALL THE YELLOW LAMPS WOULD LIGHT UP HERE AND THERE THE SQUALID QUARTER OF THE BROTHELS
+----
+./sherpa-onnx-zipformer-en-2023-04-01/test_wavs/1.wav
+ GOD AS A DIRECT CONSEQUENCE OF THE SIN WHICH MAN THUS PUNISHED HAD GIVEN HER A LOVELY CHILD WHOSE PLACE WAS ON THAT SAME DISHONOURED BOSOM TO CONNECT HER PARENT FOR EVER WITH THE RACE AND DESCENT OF MORTALS AND TO BE FINALLY A BLESSED SOUL IN HEAVEN
+----
+./sherpa-onnx-zipformer-en-2023-04-01/test_wavs/8k.wav
+ YET THESE THOUGHTS AFFECTED HESTER PRYNNE LESS WITH HOPE THAN APPREHENSION
+----
+num threads: 2
+decoding method: greedy_search
+Elapsed seconds: 1.478 s
+Real time factor (RTF): 1.478 / 28.165 = 0.052

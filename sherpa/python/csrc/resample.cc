@@ -3,6 +3,10 @@
 // Copyright (c)  2022  Xiaomi Corporation
 #include "sherpa/csrc/resample.h"
 
+#include <algorithm>
+#include <memory>
+
+#include "sherpa/python/csrc/resample.h"
 #include "sherpa/python/csrc/sherpa.h"
 #include "torch/torch.h"
 

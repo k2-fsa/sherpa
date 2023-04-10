@@ -84,6 +84,23 @@ cd /path/to/sherpa
   ./wav2vec2.0-torchaudio/test_wavs/1089-134686-0001.wav \
   ./wav2vec2.0-torchaudio/test_wavs/1221-135766-0001.wav \
   ./wav2vec2.0-torchaudio/test_wavs/1221-135766-0002.wav
+
+(4) Use NeMo CTC models
+
+GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/sherpa-nemo-ctc-en-citrinet-512
+cd sherpa-nemo-ctc-en-citrinet-512
+git lfs pull --include "model.pt"
+
+cd /path/to/sherpa
+
+./sherpa/bin/offline_ctc_asr.py \
+  --nn-model ./sherpa-nemo-ctc-en-citrinet-512/model.pt
+  --tokens ./sherpa-nemo-ctc-en-citrinet-512/tokens.txt \
+  --use-gpu false \
+  --nemo-normalize per_feature \
+  ./sherpa-nemo-ctc-en-citrinet-512/test_wavs/0.wav \
+  ./sherpa-nemo-ctc-en-citrinet-512/test_wavs/1.wav \
+  ./sherpa-nemo-ctc-en-citrinet-512/test_wavs/2.wav
 """
 import argparse
 import logging
@@ -121,7 +138,18 @@ def get_parser():
         default=True,
         help="""If your model was trained using features computed
         from samples in the range `[-32768, 32767]`, then please set
-        this flag to False.
+        this flag to False. For instance, if you use models from WeNet,
+        please set it to False.
+        """,
+    )
+
+    parser.add_argument(
+        "--nemo-normalize",
+        type=str,
+        default="",
+        help="""Used only for models from NeMo.
+        Leave it to empty if the preprocessor of the model does not use
+        normalization. Current supported value is "per_feature".
         """,
     )
 
@@ -283,6 +311,7 @@ def create_recognizer(args):
     feat_config.fbank_opts.frame_opts.dither = 0
 
     feat_config.normalize_samples = args.normalize_samples
+    feat_config.nemo_normalize = args.nemo_normalize
 
     ctc_decoder_config = sherpa.OfflineCtcDecoderConfig(
         hlg=args.HLG if args.HLG else "",
