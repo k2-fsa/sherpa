@@ -45,7 +45,7 @@ Then, just run the command:
 
 
 The generated TRT model will be saved into ``$model_dir/encoder.trt``.
-We also give an example of ``model_repo`` of TRT model. You can follow the same procedure as discribe
+We also give an example of ``model_repo`` of TRT model. You can follow the same procedure as described
 `here <https://github.com/k2-fsa/sherpa/tree/master/triton#deploy-on-triton-inference-server>`_ to deploy the pipeline using triton.
 
 

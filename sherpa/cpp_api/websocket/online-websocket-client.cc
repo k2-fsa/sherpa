@@ -299,7 +299,7 @@ int32_t main(int32_t argc, char *argv[]) {
   po.Register("server-ip", &server_ip, "IP address of the websocket server");
   po.Register("server-port", &server_port, "Port of the websocket server");
   po.Register("samplerate", &SampleRate,
-              "RampleRate of the recorded audio (expecting wav, no resampling "
+              "SampleRate of the recorded audio (expecting wav, no resampling "
               "is done)");
   po.Register("num-seconds-per-message", &seconds_per_message,
               "The number of samples per message equals to "

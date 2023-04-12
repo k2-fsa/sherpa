@@ -35,7 +35,7 @@ cp $model_dir/encoder.trt model_repo_offline_fast_beam_trt/encoder/1
 ```
 
 The generated TRT model will be saved into `$model_dir/encoder.trt`. 
-We also give an example of `model_repo` of TRT model. You can follow the same procedure as discribe [here](https://github.com/k2-fsa/sherpa/tree/master/triton#deploy-on-triton-inference-server) to deploy the pipeline using triton.
+We also give an example of `model_repo` of TRT model. You can follow the same procedure as described [here](https://github.com/k2-fsa/sherpa/tree/master/triton#deploy-on-triton-inference-server) to deploy the pipeline using triton.
 
 ## Benchmark for Conformer TRT encoder vs ONNX
 
