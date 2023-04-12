@@ -76,7 +76,7 @@ void OnlineRecognizerConfig::Register(ParseOptions *po) {
                "variable CUDA_VISIBLE_DEVICES to select which device to use.");
 
   po->Register("use-endpoint", &use_endpoint,
-               "true to enable Endpoint, fasle to disable Endpoint, "
+               "true to enable Endpoint, false to disable Endpoint, "
                "default is false.\n");
 
   po->Register("decoding-method", &decoding_method,

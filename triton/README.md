@@ -309,7 +309,7 @@ perf_analyzer -m attention_rescoring -b 16 -a -p20000 --concurrency-range 100:20
 
 ## Benchmarks
 
-In this section, we show a reference performance benchamrk for the non-streaming ASR based on Icefall. 
+In this section, we show a reference performance benchmark for the non-streaming ASR based on Icefall. 
 
 Notice that we send the test requests all with same length, so that Triton server will pack several requests into a batch. But in the real production cases, the lengths of all the incoming requests will not be the same, therefore, in order to allow Triton batch the requests to improve throughput, you need to try to padding the input to a specific length at the client side.
 
