@@ -1,0 +1,12 @@
+OnlineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80), model_config=OnlineTransducerModelConfig(encoder_filename="./sherpa-onnx-streaming-zipformer-fr-2023-04-14/encoder-epoch-29-avg-9-with-averaged-model.onnx", decoder_filename="./sherpa-onnx-streaming-zipformer-fr-2023-04-14/decoder-epoch-29-avg-9-with-averaged-model.onnx", joiner_filename="./sherpa-onnx-streaming-zipformer-fr-2023-04-14/joiner-epoch-29-avg-9-with-averaged-model.onnx", tokens="./sherpa-onnx-streaming-zipformer-fr-2023-04-14/tokens.txt", num_threads=2, debug=False), endpoint_config=EndpointConfig(rule1=EndpointRule(must_contain_nonsilence=False, min_trailing_silence=2.4, min_utterance_length=0), rule2=EndpointRule(must_contain_nonsilence=True, min_trailing_silence=1.2, min_utterance_length=0), rule3=EndpointRule(must_contain_nonsilence=False, min_trailing_silence=0, min_utterance_length=20)), enable_endpoint=True, max_active_paths=4, decoding_method="greedy_search")
+sampling rate of input file: 16000
+wav filename: ./sherpa-onnx-streaming-zipformer-fr-2023-04-14/test_wavs/common_voice_fr_19364697.wav
+wav duration (s): 7.128
+Started
+Done!
+Recognition result for ./sherpa-onnx-streaming-zipformer-fr-2023-04-14/test_wavs/common_voice_fr_19364697.wav:
+ CE SITE CONTIENT QUATRE TOMBEAUX DE LA DYNASTIE ASHÉMÉNIDE ET SEPT DES SASSANDIDES
+num threads: 2
+decoding method: greedy_search
+Elapsed seconds: 0.458 s
+Real time factor (RTF): 0.458 / 7.128 = 0.064

@@ -596,3 +596,93 @@ To decode a file, please use:
       2 \
       $method
   done
+  
+.. _sherpa_ncnn_streaming_zipformer_fr_2023_04_14:
+
+shaojieli/sherpa-ncnn-streaming-zipformer-fr-2023-04-14
+----------------------------------------------------------------------------------------------------------
+
+This model is converted from
+
+`<https://huggingface.co/shaojieli/icefall-asr-commonvoice-fr-pruned-transducer-stateless7-streaming-2023-04-02>`_
+
+which supports only French as it is trained on the `CommonVoice`_ corpus.
+In the following, we describe how to download it and use it with `sherpa-ncnn`_.
+
+Download the model
+~~~~~~~~~~~~~~~~~~
+
+
+Please use the following commands to download it.
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-ncnn
+
+  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/shaojieli/sherpa-ncnn-streaming-zipformer-fr-2023-04-14
+  cd sherpa-ncnn-streaming-zipformer-fr-2023-04-14
+  git lfs pull --include "*.bin"
+
+
+Please check that the file sizes of the pre-trained models are correct. See
+the file sizes of ``*.bin`` files below.
+
+.. code-block:: bash
+
+  sherpa-ncnn-streaming-zipformer-fr-2023-04-14 shaojieli$ ls -lh *.bin
+
+  -rw-r--r-- 1 lishaojie Students 509K 4月  12 13:37 decoder_jit_trace-pnnx.ncnn.bin
+  -rw-r--r-- 1 lishaojie Students 133M 4月  12 13:37 encoder_jit_trace-pnnx.ncnn.bin
+  -rw-r--r-- 1 lishaojie Students 1.4M 4月  12 13:37 joiner_jit_trace-pnnx.ncnn.bin
+
+
+To decode a file, please use:
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-ncnn
+  for method in greedy_search modified_beam_search; do
+    ./build/bin/sherpa-ncnn \
+      ./sherpa-ncnn-streaming-zipformer-fr-2023-04-14/tokens.txt \
+      ./sherpa-ncnn-streaming-zipformer-fr-2023-04-14/encoder_jit_trace-pnnx.ncnn.param \
+      ./sherpa-ncnn-streaming-zipformer-fr-2023-04-14/encoder_jit_trace-pnnx.ncnn.bin \
+      ./sherpa-ncnn-streaming-zipformer-fr-2023-04-14/decoder_jit_trace-pnnx.ncnn.param \
+      ./sherpa-ncnn-streaming-zipformer-fr-2023-04-14/decoder_jit_trace-pnnx.ncnn.bin \
+      ./sherpa-ncnn-streaming-zipformer-fr-2023-04-14/joiner_jit_trace-pnnx.ncnn.param \
+      ./sherpa-ncnn-streaming-zipformer-fr-2023-04-14/joiner_jit_trace-pnnx.ncnn.bin \
+      ./sherpa-ncnn-streaming-zipformer-fr-2023-04-14/test_wavs/common_voice_fr_19364697.wav \
+      2 \
+      $method
+  done
+
+You should see the following output:
+
+.. literalinclude:: ./code-zipformer/sherpa-ncnn-streaming-zipformer-fr-2023-04-14.txt
+
+.. note::
+
+   Please use ``./build/bin/Release/sherpa-ncnn.exe`` for Windows.
+
+Real-time speech recognition from a microphone
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-ncnn
+  ./build/bin/sherpa-ncnn-microphone \
+    ./sherpa-ncnn-streaming-zipformer-fr-2023-04-14/tokens.txt \
+    ./sherpa-ncnn-streaming-zipformer-fr-2023-04-14/encoder_jit_trace-pnnx.ncnn.param \
+    ./sherpa-ncnn-streaming-zipformer-fr-2023-04-14/encoder_jit_trace-pnnx.ncnn.bin \
+    ./sherpa-ncnn-streaming-zipformer-fr-2023-04-14/decoder_jit_trace-pnnx.ncnn.param \
+    ./sherpa-ncnn-streaming-zipformer-fr-2023-04-14/decoder_jit_trace-pnnx.ncnn.bin \
+    ./sherpa-ncnn-streaming-zipformer-fr-2023-04-14/joiner_jit_trace-pnnx.ncnn.param \
+    ./sherpa-ncnn-streaming-zipformer-fr-2023-04-14/joiner_jit_trace-pnnx.ncnn.bin \
+    ./sherpa-ncnn-streaming-zipformer-fr-2023-04-14/test_wavs/common_voice_fr_19364697.wav \
+    2 \
+    greedy_search
+
+.. hint::
+
+   If your system is Linux (including embedded Linux), you can also use
+   :ref:`sherpa-ncnn-alsa` to do real-time speech recognition with your
+   microphone if ``sherpa-ncnn-microphone`` does not work for you.

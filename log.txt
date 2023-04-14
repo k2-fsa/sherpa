@@ -1,0 +1,143 @@
+running install
+/home/lishaojie/.conda/envs/env_lishaojie/lib/python3.8/site-packages/setuptools/command/install.py:34: SetuptoolsDeprecationWarning: setup.py install is deprecated. Use build and pip and other standards-based tools.
+  warnings.warn(
+/home/lishaojie/.conda/envs/env_lishaojie/lib/python3.8/site-packages/setuptools/command/easy_install.py:144: EasyInstallDeprecationWarning: easy_install command is deprecated. Use build and pip and other standards-based tools.
+  warnings.warn(
+running bdist_egg
+running egg_info
+writing k2_sherpa.egg-info/PKG-INFO
+writing dependency_links to k2_sherpa.egg-info/dependency_links.txt
+writing top-level names to k2_sherpa.egg-info/top_level.txt
+reading manifest file 'k2_sherpa.egg-info/SOURCES.txt'
+reading manifest template 'MANIFEST.in'
+adding license file 'LICENSE'
+writing manifest file 'k2_sherpa.egg-info/SOURCES.txt'
+installing library code to build/bdist.linux-x86_64/egg
+running install_lib
+running build_py
+copying sherpa/python/sherpa/__init__.py -> build/lib.linux-x86_64-cpython-38/sherpa
+running build_ext
+Setting PYTHON_EXECUTABLE to /home/lishaojie/.conda/envs/env_lishaojie/bin/python3
+for fast compilation, run:
+export SHERPA_MAKE_ARGS="-j"; python setup.py install
+Setting make_args to "-j4"
+build command is:
+
+                cd build/temp.linux-x86_64-cpython-38
+
+                cmake -DCMAKE_BUILD_TYPE=Release -DPYTHON_EXECUTABLE=/home/lishaojie/.conda/envs/env_lishaojie/bin/python3 -DSHERPA_ENABLE_TESTS=OFF  -DCMAKE_INSTALL_PREFIX=/home/lishaojie/sherpa/build/lib.linux-x86_64-cpython-38/sherpa  /home/lishaojie/sherpa
+
+                make -j4 install/strip
+            
+-- CMAKE_BUILD_TYPE: Release
+-- SHERPA_ENABLE_TESTS: OFF
+-- SHERPA_ENABLE_PORTAUDIO: ON
+-- SHERPA_ENABLE_WEBSOCKET: ON
+-- SHERPA_OS: Ubuntu 20.04.5 LTS
+-- CMake version: 3.16.3
+-- SHERPA_GIT_SHA1: 21a5b943dffb3f222010fcc5f2b52f25b889c905
+-- SHERPA_GIT_DATE: Sun Jan 15 12:26:25 2023
+-- SHERPA_GIT_BRANCH: master
+-- Downloading pybind11
+-- pybind11 is downloaded to /home/lishaojie/sherpa/build/temp.linux-x86_64-cpython-38/_deps/pybind11-src
+-- pybind11 v2.10.2 
+-- Downloading json https://github.com/nlohmann/json/archive/refs/tags/v3.11.2.tar.gz
+-- json is downloaded to /home/lishaojie/sherpa/build/temp.linux-x86_64-cpython-38/_deps/json-src
+-- Python executable: /home/lishaojie/.conda/envs/env_lishaojie/bin/python3
+-- PYTHON_EXECUTABLE: /home/lishaojie/.conda/envs/env_lishaojie/bin/python3
+-- TORCH_DIR: /home/lishaojie/.conda/envs/env_lishaojie/lib/python3.8/site-packages/torch
+-- Caffe2: CUDA detected: 11.7
+-- Caffe2: CUDA nvcc is: /home/lishaojie/.conda/envs/env_lishaojie/bin/nvcc
+-- Caffe2: CUDA toolkit directory: /home/lishaojie/.conda/envs/env_lishaojie
+-- Caffe2: Header version is: 11.7
+-- Could NOT find CUDNN (missing: CUDNN_LIBRARY_PATH CUDNN_INCLUDE_PATH) 
+CMake Warning at /home/lishaojie/.conda/envs/env_lishaojie/lib/python3.8/site-packages/torch/share/cmake/Caffe2/public/cuda.cmake:120 (message):
+  Caffe2: Cannot find cuDNN library.  Turning the option off
+Call Stack (most recent call first):
+  /home/lishaojie/.conda/envs/env_lishaojie/lib/python3.8/site-packages/torch/share/cmake/Caffe2/Caffe2Config.cmake:92 (include)
+  /home/lishaojie/.conda/envs/env_lishaojie/lib/python3.8/site-packages/torch/share/cmake/Torch/TorchConfig.cmake:68 (find_package)
+  cmake/torch.cmake:14 (find_package)
+  CMakeLists.txt:140 (include)
+
+
+-- /home/lishaojie/.conda/envs/env_lishaojie/lib/libnvrtc.so shorthash is c7d6c09a
+-- Autodetected CUDA architecture(s):  8.6 8.6 8.6 8.6 8.6 8.6 8.6 8.6
+-- Added CUDA NVCC flags for: -gencode;arch=compute_86,code=sm_86
+CMake Error at /home/lishaojie/.conda/envs/env_lishaojie/lib/python3.8/site-packages/torch/share/cmake/Caffe2/Caffe2Config.cmake:100 (message):
+  Your installed Caffe2 version uses cuDNN but I cannot find the cuDNN
+  libraries.  Please set the proper cuDNN prefixes and / or install cuDNN.
+Call Stack (most recent call first):
+  /home/lishaojie/.conda/envs/env_lishaojie/lib/python3.8/site-packages/torch/share/cmake/Torch/TorchConfig.cmake:68 (find_package)
+  cmake/torch.cmake:14 (find_package)
+  CMakeLists.txt:140 (include)
+
+
+-- Configuring incomplete, errors occurred!
+See also "/home/lishaojie/sherpa/build/temp.linux-x86_64-cpython-38/CMakeFiles/CMakeOutput.log".
+See also "/home/lishaojie/sherpa/build/temp.linux-x86_64-cpython-38/CMakeFiles/CMakeError.log".
+make: *** No rule to make target 'install/strip'.  Stop.
+Traceback (most recent call last):
+  File "setup.py", line 99, in <module>
+    setuptools.setup(
+  File "/home/lishaojie/.conda/envs/env_lishaojie/lib/python3.8/site-packages/setuptools/__init__.py", line 87, in setup
+    return distutils.core.setup(**attrs)
+  File "/home/lishaojie/.conda/envs/env_lishaojie/lib/python3.8/site-packages/setuptools/_distutils/core.py", line 185, in setup
+    return run_commands(dist)
+  File "/home/lishaojie/.conda/envs/env_lishaojie/lib/python3.8/site-packages/setuptools/_distutils/core.py", line 201, in run_commands
+    dist.run_commands()
+  File "/home/lishaojie/.conda/envs/env_lishaojie/lib/python3.8/site-packages/setuptools/_distutils/dist.py", line 969, in run_commands
+    self.run_command(cmd)
+  File "/home/lishaojie/.conda/envs/env_lishaojie/lib/python3.8/site-packages/setuptools/dist.py", line 1208, in run_command
+    super().run_command(command)
+  File "/home/lishaojie/.conda/envs/env_lishaojie/lib/python3.8/site-packages/setuptools/_distutils/dist.py", line 988, in run_command
+    cmd_obj.run()
+  File "/home/lishaojie/.conda/envs/env_lishaojie/lib/python3.8/site-packages/setuptools/command/install.py", line 74, in run
+    self.do_egg_install()
+  File "/home/lishaojie/.conda/envs/env_lishaojie/lib/python3.8/site-packages/setuptools/command/install.py", line 123, in do_egg_install
+    self.run_command('bdist_egg')
+  File "/home/lishaojie/.conda/envs/env_lishaojie/lib/python3.8/site-packages/setuptools/_distutils/cmd.py", line 318, in run_command
+    self.distribution.run_command(command)
+  File "/home/lishaojie/.conda/envs/env_lishaojie/lib/python3.8/site-packages/setuptools/dist.py", line 1208, in run_command
+    super().run_command(command)
+  File "/home/lishaojie/.conda/envs/env_lishaojie/lib/python3.8/site-packages/setuptools/_distutils/dist.py", line 988, in run_command
+    cmd_obj.run()
+  File "/home/lishaojie/.conda/envs/env_lishaojie/lib/python3.8/site-packages/setuptools/command/bdist_egg.py", line 165, in run
+    cmd = self.call_command('install_lib', warn_dir=0)
+  File "/home/lishaojie/.conda/envs/env_lishaojie/lib/python3.8/site-packages/setuptools/command/bdist_egg.py", line 151, in call_command
+    self.run_command(cmdname)
+  File "/home/lishaojie/.conda/envs/env_lishaojie/lib/python3.8/site-packages/setuptools/_distutils/cmd.py", line 318, in run_command
+    self.distribution.run_command(command)
+  File "/home/lishaojie/.conda/envs/env_lishaojie/lib/python3.8/site-packages/setuptools/dist.py", line 1208, in run_command
+    super().run_command(command)
+  File "/home/lishaojie/.conda/envs/env_lishaojie/lib/python3.8/site-packages/setuptools/_distutils/dist.py", line 988, in run_command
+    cmd_obj.run()
+  File "/home/lishaojie/.conda/envs/env_lishaojie/lib/python3.8/site-packages/setuptools/command/install_lib.py", line 11, in run
+    self.build()
+  File "/home/lishaojie/.conda/envs/env_lishaojie/lib/python3.8/site-packages/setuptools/_distutils/command/install_lib.py", line 112, in build
+    self.run_command('build_ext')
+  File "/home/lishaojie/.conda/envs/env_lishaojie/lib/python3.8/site-packages/setuptools/_distutils/cmd.py", line 318, in run_command
+    self.distribution.run_command(command)
+  File "/home/lishaojie/.conda/envs/env_lishaojie/lib/python3.8/site-packages/setuptools/dist.py", line 1208, in run_command
+    super().run_command(command)
+  File "/home/lishaojie/.conda/envs/env_lishaojie/lib/python3.8/site-packages/setuptools/_distutils/dist.py", line 988, in run_command
+    cmd_obj.run()
+  File "/home/lishaojie/.conda/envs/env_lishaojie/lib/python3.8/site-packages/setuptools/command/build_ext.py", line 84, in run
+    _build_ext.run(self)
+  File "/home/lishaojie/.conda/envs/env_lishaojie/lib/python3.8/site-packages/Cython/Distutils/old_build_ext.py", line 186, in run
+    _build_ext.build_ext.run(self)
+  File "/home/lishaojie/.conda/envs/env_lishaojie/lib/python3.8/site-packages/setuptools/_distutils/command/build_ext.py", line 346, in run
+    self.build_extensions()
+  File "/home/lishaojie/.conda/envs/env_lishaojie/lib/python3.8/site-packages/Cython/Distutils/old_build_ext.py", line 195, in build_extensions
+    _build_ext.build_ext.build_extensions(self)
+  File "/home/lishaojie/.conda/envs/env_lishaojie/lib/python3.8/site-packages/setuptools/_distutils/command/build_ext.py", line 468, in build_extensions
+    self._build_extensions_serial()
+  File "/home/lishaojie/.conda/envs/env_lishaojie/lib/python3.8/site-packages/setuptools/_distutils/command/build_ext.py", line 494, in _build_extensions_serial
+    self.build_extension(ext)
+  File "/home/lishaojie/sherpa/cmake/cmake_extension.py", line 117, in build_extension
+    raise Exception(
+Exception: 
+Build sherpa failed. Please check the error message.
+You can ask for help by creating an issue on GitHub.
+
+Click:
+        https://github.com/k2-fsa/sherpa/issues/new
