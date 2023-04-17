@@ -4,93 +4,81 @@
 # Copyright (c)  2023  Xiaomi Corporation
 
 """
-A standalone script for offline (i.e., non-streaming) speech recognition.
+A standalone script for online (i.e., streaming) speech recognition.
 
 This file decodes files without the need to start a server and a client.
 
 Please refer to
-https://k2-fsa.github.io/sherpa/cpp/pretrained_models/offline_transducer.html#
+https://k2-fsa.github.io/sherpa/cpp/pretrained_models/online_transducer.html#
 for pre-trained models to download.
 
-See
-https://k2-fsa.github.io/sherpa/python/offline_asr/standalone/transducer.html
-for detailed usages and also you can find a colab notebook there.
-
 We use the Zipformer pre-trained model below to demonstrate how to use
-this file:
+this file.
+
+The following example demonstrates the usage of this file with a pre-trained
+streaming zipformer model for English.
 
 (1) Download pre-trained models
 
 cd /path/to/sherpa
 
-GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/WeijiZhuang/icefall-asr-librispeech-pruned-transducer-stateless8-2022-12-02
-cd icefall-asr-librispeech-pruned-transducer-stateless8-2022-12-02
-git lfs pull --include "exp/cpu_jit-torch-1.10.pt"
+GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/Zengwei/icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29
+
+cd icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29
+
+git lfs pull --include "exp/cpu_jit.pt"
 git lfs pull --include "data/lang_bpe_500/LG.pt"
 
 (2) greedy_search
 
 cd /path/to/sherpa
 
-./sherpa/bin/offline_transducer_asr.py \
-  --nn-model ./icefall-asr-librispeech-pruned-transducer-stateless8-2022-12-02/exp/cpu_jit-torch-1.10.pt \
-  --tokens ./icefall-asr-librispeech-pruned-transducer-stateless8-2022-12-02/data/lang_bpe_500/tokens.txt \
-  --decoding-method greedy_search \
-  --use-gpu false \
-  ./icefall-asr-librispeech-pruned-transducer-stateless8-2022-12-02/test_wavs/1089-134686-0001.wav \
-  ./icefall-asr-librispeech-pruned-transducer-stateless8-2022-12-02/test_wavs/1221-135766-0001.wav \
-  ./icefall-asr-librispeech-pruned-transducer-stateless8-2022-12-02/test_wavs/1221-135766-0002.wav
+python3 ./sherpa/bin/online_transducer_asr.py \
+  --decoding-method="greedy_search" \
+  --nn-model=./icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29/exp/cpu_jit.pt \
+  --tokens=./icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29/data/lang_bpe_500/tokens.txt \
+  ./icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29/test_wavs/1089-134686-0001.wav \
+  ./icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29/test_wavs/1221-135766-0001.wav \
+  ./icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29/test_wavs/1221-135766-0002.wav
 
 (3) modified_beam_search
 
 cd /path/to/sherpa
 
-./sherpa/bin/offline_transducer_asr.py \
-  --nn-model ./icefall-asr-librispeech-pruned-transducer-stateless8-2022-12-02/exp/cpu_jit-torch-1.10.pt \
-  --tokens ./icefall-asr-librispeech-pruned-transducer-stateless8-2022-12-02/data/lang_bpe_500/tokens.txt \
-  --decoding-method modified_beam_search \
-  --num-active-paths 4 \
-  --use-gpu false \
-  ./icefall-asr-librispeech-pruned-transducer-stateless8-2022-12-02/test_wavs/1089-134686-0001.wav \
-  ./icefall-asr-librispeech-pruned-transducer-stateless8-2022-12-02/test_wavs/1221-135766-0001.wav \
-  ./icefall-asr-librispeech-pruned-transducer-stateless8-2022-12-02/test_wavs/1221-135766-0002.wav
+python3 ./sherpa/bin/online_transducer_asr.py \
+  --decoding-method="modified_beam_search" \
+  --nn-model=./icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29/exp/cpu_jit.pt \
+  --tokens=./icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29/data/lang_bpe_500/tokens.txt \
+  ./icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29/test_wavs/1089-134686-0001.wav \
+  ./icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29/test_wavs/1221-135766-0001.wav \
+  ./icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29/test_wavs/1221-135766-0002.wav
 
-(4) fast_beam_search (without LG)
+(4) fast_beam_search
 
 cd /path/to/sherpa
 
-./sherpa/bin/offline_transducer_asr.py \
-  --nn-model ./icefall-asr-librispeech-pruned-transducer-stateless8-2022-12-02/exp/cpu_jit-torch-1.10.pt \
-  --tokens ./icefall-asr-librispeech-pruned-transducer-stateless8-2022-12-02/data/lang_bpe_500/tokens.txt \
-  --decoding-method fast_beam_search \
-  --max-contexts 8 \
-  --max-states 64 \
-  --allow-partial true \
-  --beam 4 \
-  --use-gpu false \
-  ./icefall-asr-librispeech-pruned-transducer-stateless8-2022-12-02/test_wavs/1089-134686-0001.wav \
-  ./icefall-asr-librispeech-pruned-transducer-stateless8-2022-12-02/test_wavs/1221-135766-0001.wav \
-  ./icefall-asr-librispeech-pruned-transducer-stateless8-2022-12-02/test_wavs/1221-135766-0002.wav
+python3 ./sherpa/bin/online_transducer_asr.py \
+  --decoding-method="fast_beam_search" \
+  --nn-model=./icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29/exp/cpu_jit.pt \
+  --tokens=./icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29/data/lang_bpe_500/tokens.txt \
+  ./icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29/test_wavs/1089-134686-0001.wav \
+  ./icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29/test_wavs/1221-135766-0001.wav \
+  ./icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29/test_wavs/1221-135766-0002.wav
 
-(5) fast_beam_search (with LG)
+(5) fast_beam_search with LG
 
 cd /path/to/sherpa
 
-./sherpa/bin/offline_transducer_asr.py \
-  --nn-model ./icefall-asr-librispeech-pruned-transducer-stateless8-2022-12-02/exp/cpu_jit-torch-1.10.pt \
-  --tokens ./icefall-asr-librispeech-pruned-transducer-stateless8-2022-12-02/data/lang_bpe_500/tokens.txt \
-  --decoding-method fast_beam_search \
-  --max-contexts 8 \
-  --max-states 64 \
-  --allow-partial true \
-  --beam 4 \
-  --LG ./icefall-asr-librispeech-pruned-transducer-stateless8-2022-12-02/data/lang_bpe_500/LG.pt \
-  --ngram-lm-scale 0.01 \
-  --use-gpu false \
-  ./icefall-asr-librispeech-pruned-transducer-stateless8-2022-12-02/test_wavs/1089-134686-0001.wav \
-  ./icefall-asr-librispeech-pruned-transducer-stateless8-2022-12-02/test_wavs/1221-135766-0001.wav \
-  ./icefall-asr-librispeech-pruned-transducer-stateless8-2022-12-02/test_wavs/1221-135766-0002.wav
+python3 ./sherpa/bin/online_transducer_asr.py \
+  --decoding-method="fast_beam_search" \
+  --LG=./icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29/data/lang_bpe_500/LG.pt \
+  --nn-model=./icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29/exp/cpu_jit.pt \
+  --tokens=./icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29/data/lang_bpe_500/tokens.txt \
+  ./icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29/test_wavs/1089-134686-0001.wav \
+  ./icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29/test_wavs/1221-135766-0001.wav \
+  ./icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29/test_wavs/1221-135766-0002.wav
 """
+
 import argparse
 import logging
 from pathlib import Path
@@ -129,9 +117,7 @@ def add_model_args(parser: argparse.ArgumentParser):
         "--nn-model",
         type=str,
         help="""The torchscript model. Please refer to
-        https://k2-fsa.github.io/sherpa/cpp/pretrained_models/offline_ctc.html
-        and
-        https://k2-fsa.github.io/sherpa/cpp/pretrained_models/offline_transducer.html
+        https://k2-fsa.github.io/sherpa/cpp/pretrained_models/online_transducer.html
         for a list of pre-trained models to download.
         """,
     )
@@ -163,6 +149,7 @@ def add_decoding_args(parser: argparse.ArgumentParser):
     parser.add_argument(
         "--decoding-method",
         type=str,
+        default="greedy_search",
         help="""Decoding method to use. Current supported methods are:
         - greedy_search
         - modified_beam_search
@@ -310,7 +297,7 @@ def read_sound_files(
     return ans
 
 
-def create_recognizer(args) -> sherpa.OfflineRecognizer:
+def create_recognizer(args) -> sherpa.OnlineRecognizer:
     feat_config = sherpa.FeatureConfig()
 
     feat_config.fbank_opts.frame_opts.samp_freq = args.sample_rate
@@ -326,7 +313,7 @@ def create_recognizer(args) -> sherpa.OfflineRecognizer:
         allow_partial=args.allow_partial,
     )
 
-    config = sherpa.OfflineRecognizerConfig(
+    config = sherpa.OnlineRecognizerConfig(
         nn_model=args.nn_model,
         tokens=args.tokens,
         use_gpu=args.use_gpu,
@@ -336,7 +323,7 @@ def create_recognizer(args) -> sherpa.OfflineRecognizer:
         fast_beam_search_config=fast_beam_search_config,
     )
 
-    recognizer = sherpa.OfflineRecognizer(config)
+    recognizer = sherpa.OnlineRecognizer(config)
 
     return recognizer
 
@@ -357,15 +344,31 @@ def main():
         sample_rate,
     )
 
-    streams: List[sherpa.OfflineStream] = []
+    tail_padding = torch.zeros(int(sample_rate * 0.3), dtype=torch.float32)
+
+    streams: List[sherpa.OnlineStream] = []
     for s in samples:
         stream = recognizer.create_stream()
-        stream.accept_samples(s)
+        stream.accept_waveform(sample_rate, s)
+        stream.accept_waveform(sample_rate, tail_padding)
+        stream.input_finished()
         streams.append(stream)
 
-    recognizer.decode_streams(streams)
-    for filename, stream in zip(args.sound_files, streams):
-        print(f"{filename}\n{stream.result}")
+    while True:
+        ready_streams = []
+        for s in streams:
+            if recognizer.is_ready(s):
+                ready_streams.append(s)
+
+        if len(ready_streams) == 0:
+            break
+
+        recognizer.decode_streams(ready_streams)
+
+    print("-" * 10)
+    for filename, s in zip(args.sound_files, streams):
+        print(f"{filename}\n{recognizer.get_result(s).text}")
+        print("-" * 10)
 
 
 # See https://github.com/pytorch/pytorch/issues/38342

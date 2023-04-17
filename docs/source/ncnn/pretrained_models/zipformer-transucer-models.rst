@@ -596,11 +596,11 @@ To decode a file, please use:
       2 \
       $method
   done
-  
+
 .. _sherpa_ncnn_streaming_zipformer_fr_2023_04_14:
 
 shaojieli/sherpa-ncnn-streaming-zipformer-fr-2023-04-14
-----------------------------------------------------------------------------------------------------------
+-------------------------------------------------------
 
 This model is converted from
 

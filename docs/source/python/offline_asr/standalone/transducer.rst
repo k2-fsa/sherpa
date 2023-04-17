@@ -35,6 +35,13 @@ In the following, we use the pre-trained model
 :ref:`icefall-asr-librispeech-pruned-transducer-stateless8-2022-12-02`
 to demonstrate how to decode sound files.
 
+.. caution::
+
+   Make sure you have installed `sherpa`_ before you continue.
+
+   Please refer to :ref:`install_sherpa_from_source` to install `sherpa`_
+   from source.
+
 Download the pre-trained model
 ------------------------------
 
