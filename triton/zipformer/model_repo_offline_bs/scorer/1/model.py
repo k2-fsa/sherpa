@@ -152,9 +152,6 @@ class TritonPythonModel:
             encoder_out_lens[st:st + b] = batch_encoder_lens_list.pop(0)
             st += b
 
-        # Get CTC output
-
-
         if self.decoding_method == 'greedy_search':
             ans = greedy_search(encoder_out, encoder_out_lens, self.context_size, self.unk_id, self.blank_id)
         else:

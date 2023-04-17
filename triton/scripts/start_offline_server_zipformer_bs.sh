@@ -15,7 +15,7 @@
 # limitations under the License.
 #
 onnx_dir=/mnt/samsung-t7/wend/asr/skip_blanks/icefall-asr-librispeech-pruned_transducer_stateless7_ctc_bs-2023-01-29/exp/
-model_repo_dir=/ws/zipformer/model_repo_offline_bs
+model_repo_dir=/ws/triton/zipformer/model_repo_offline_bs
 export PYTHONPATH=$PYTHONPATH:/workspace/k2/k2/python/
 export PYTHONPATH=$PYTHONPATH:/workspace/k2/build/lib.linux-x86_64-cpython-38/
 
@@ -28,5 +28,5 @@ cp $onnx_dir/lconv.onnx $model_repo_dir/lconv/1/lconv.onnx
 cp $onnx_dir/ctc_output.onnx $model_repo_dir/ctc_model/1/ctc_output.onnx
 cp $onnx_dir/../data/lang_bpe_500/bpe.model /workspace/
 # Start server
-tritonserver --model-repository=$model_repo_dir --pinned-memory-pool-byte-size=512000000 --cuda-memory-pool-byte-size=0:1024000000 
+tritonserver --model-repository=$model_repo_dir
 

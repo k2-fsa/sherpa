@@ -135,6 +135,7 @@ class TritonPythonModel:
                 total_waves.append(wav)
 
         features = self.feature_extractor(total_waves)
+        print(features)
         for b, l in zip(batch_count, batch_len):
             expect_feat_len = _kaldifeat.num_frames(l, self.opts.frame_opts)
             speech = torch.zeros((b, expect_feat_len, self.feature_size),
@@ -145,6 +146,7 @@ class TritonPythonModel:
                 f_l = f.shape[0]
                 speech[i, 0: f_l, :] = f.to(self.output0_dtype)
                 speech_lengths[i][0] = f_l
+            print(f'speech {speech}')
             out0 = pb_utils.Tensor.from_dlpack("speech", to_dlpack(speech))
             out1 = pb_utils.Tensor.from_dlpack("speech_lengths",
                                                to_dlpack(speech_lengths))

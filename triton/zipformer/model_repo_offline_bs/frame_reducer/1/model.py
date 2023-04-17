@@ -13,8 +13,10 @@
 # limitations under the License.
 
 import triton_python_backend_utils as pb_utils
-from torch.utils.dlpack import to_dlpack
+from torch.utils.dlpack import to_dlpack, from_dlpack
 import torch
+import torch.nn as nn
+import torch.nn.functional as F
 import numpy as np
 import kaldifeat
 import _kaldifeat
@@ -22,6 +24,33 @@ from typing import List
 import json
 import math
 from typing import Optional, Tuple
+
+def make_pad_mask(lengths: torch.Tensor, max_len: int = 0) -> torch.Tensor:
+    """
+    Args:
+      lengths:
+        A 1-D tensor containing sentence lengths.
+      max_len:
+        The length of masks.
+    Returns:
+      Return a 2-D bool tensor, where masked positions
+      are filled with `True` and non-masked positions are
+      filled with `False`.
+    >>> lengths = torch.tensor([1, 3, 2, 5])
+    >>> make_pad_mask(lengths)
+    tensor([[False,  True,  True,  True,  True],
+            [False, False, False,  True,  True],
+            [False, False,  True,  True,  True],
+            [False, False, False, False, False]])
+    """
+    assert lengths.ndim == 1, lengths.ndim
+    max_len = max(max_len, lengths.max())
+    n = lengths.size(0)
+    seq_range = torch.arange(0, max_len, device=lengths.device)
+    expaned_lengths = seq_range.unsqueeze(0).expand(n, max_len)
+
+    return expaned_lengths >= lengths.unsqueeze(-1)
+
 
 class FrameReducer(torch.nn.Module):
     """The encoder output is first used to calculate
@@ -68,11 +97,12 @@ class FrameReducer(torch.nn.Module):
 
         padding_mask = make_pad_mask(x_lens)
         left = ctc_output[:, :, blank_id] < math.log(0.9)
-        non_blank_mask = torch.logical_and(left, (~padding_mask))
+        non_blank_mask = torch.logical_and(left.to(x.device), (~padding_mask))
         #non_blank_mask = left * (~padding_mask)
 
-        out_lens = non_blank_mask.sum(dim=1)
+        out_lens = non_blank_mask.sum(dim=1).to(x.device)
         max_len = out_lens.max()
+
         pad_lens_list = (
             torch.full_like(
                 out_lens,
@@ -122,6 +152,16 @@ class TritonPythonModel:
         else:
             self.device = "cpu"
 
+        # Get INPUT configuration
+        encoder_config = pb_utils.get_input_config_by_name(
+            model_config, "x")
+        self.data_type = pb_utils.triton_string_to_numpy(
+            encoder_config['data_type'])
+        if self.data_type == np.float32:
+            self.torch_dtype = torch.float32
+        else:
+            self.torch_dtype = torch.float16
+
         # Get OUTPUT0 configuration
         output0_config = pb_utils.get_output_config_by_name(
             model_config, "out")
@@ -142,6 +182,7 @@ class TritonPythonModel:
 
         params = self.model_config['parameters']
         self.frame_reducer= FrameReducer()
+
 
     def execute(self, requests):
         """`execute` must be implemented in every Python model. `execute`
@@ -164,62 +205,68 @@ class TritonPythonModel:
         batchsize_lists = []
         total_seqs = 0
         encoder_max_len = 0
+        batch_masks = []
 
         for request in requests:
             # Perform inference on the request and append it to responses list...
             in_0 = pb_utils.get_input_tensor_by_name(request, "x")
             in_1 = pb_utils.get_input_tensor_by_name(request, "x_lens")
-            assert not in_0.is_cpu()
+            
             batch_encoder_out_list.append(from_dlpack(in_0.to_dlpack()))
             encoder_max_len = max(encoder_max_len, batch_encoder_out_list[-1].shape[1])
+
             cur_b_lens = from_dlpack(in_1.to_dlpack())
+
             batch_encoder_lens_list.append(cur_b_lens)
             cur_batchsize = cur_b_lens.shape[0]
             batchsize_lists.append(cur_batchsize)
             total_seqs += cur_batchsize
 
-        encoder_out = torch.zeros((total_seqs, encoder_max_len, self.encoder_dim),
+        encoder_out = torch.zeros((total_seqs, encoder_max_len, 384),
                                   dtype=self.torch_dtype, device=self.device)
-        encoder_out_lens = torch.zeros(total_seqs, dtype=torch.int64)
+        encoder_out_lens = torch.zeros(total_seqs, dtype=torch.int64, device=self.device)
         st = 0
+
 
         for b in batchsize_lists:
             t = batch_encoder_out_list.pop(0)
-            c = batch_ctc_out_list.pop(0)
             encoder_out[st:st + b, 0:t.shape[1]] = t
             encoder_out_lens[st:st + b] = batch_encoder_lens_list.pop(0)
+
             st += b
-        in_tensor_0 = pb_utils.Tensor("encoder_out", encoder_out)
-        
+
+        in_tensor_0 = pb_utils.Tensor.from_dlpack("encoder_out", to_dlpack(encoder_out))
+
         inference_request = pb_utils.InferenceRequest(
             model_name='ctc_model',
             requested_output_names=['ctc_output'],
-            inputs=input_tensor_0)
+            inputs=[in_tensor_0])
+
         inference_response = inference_request.exec()
         if inference_response.has_error():
             raise pb_utils.TritonModelException(inference_response.error().message())
         else:
             ctc_out = pb_utils.get_output_tensor_by_name(inference_response, 'ctc_output')
             ctc_out = from_dlpack(ctc_out.to_dlpack())
-       
-        in_tensor_0 = pb_utils.Tensor("lconv_input", encoder_out)
-        in_tensor_1 = pb_utils.Tensor("lconv_input_lens", encoder_out_lens)
+
+        in_tensor_0 = pb_utils.Tensor.from_dlpack("lconv_input", to_dlpack(encoder_out))
+        in_tensor_1 = pb_utils.Tensor.from_dlpack("lconv_input_lens", to_dlpack(encoder_out_lens.unsqueeze(-1)))
 
         input_tensors = [in_tensor_0, in_tensor_1]
         inference_request = pb_utils.InferenceRequest(
             model_name='lconv',
-            requested_output_names=['lconv_output'],
+            requested_output_names=['lconv_out'],
             inputs=input_tensors)
 
         inference_response = inference_request.exec()
         if inference_response.has_error():
             raise pb_utils.TritonModelException(inference_response.error().message())
         else:
-            lconv_out = pb_utils.get_output_tensor_by_name(inference_response, 'lconv_output')
+            lconv_out = pb_utils.get_output_tensor_by_name(inference_response, 'lconv_out')
             lconv_out = from_dlpack(lconv_out.to_dlpack())
 
-        out, out_lens = self.frame_reducer(lconv_out, encoder_out_lens, ctc_out)
-        
+        out, out_lens = self.frame_reducer(encoder_out, encoder_out_lens, ctc_out)
+
         st = 0
         responses = []
         for b in batchsize_lists:

@@ -33,6 +33,7 @@ def forward_joiner(cur_encoder_out, decoder_out):
         # Extract the output tensors from the inference response.
         proj_encoder_out = pb_utils.get_output_tensor_by_name(inference_response,
                                                         'projected_encoder_out')
+        proj_encoder_out = from_dlpack(proj_encoder_out.to_dlpack())
 
     inference_request = pb_utils.InferenceRequest(
         model_name='joiner_decoder_proj',
@@ -45,11 +46,16 @@ def forward_joiner(cur_encoder_out, decoder_out):
         # Extract the output tensors from the inference response.
         proj_decoder_out = pb_utils.get_output_tensor_by_name(inference_response,
                                                         'projected_decoder_out')
+        proj_decoder_out = from_dlpack(proj_decoder_out.to_dlpack())
+
+
+    proj_encoder = pb_utils.Tensor.from_dlpack("encoder_out", to_dlpack(proj_encoder_out))
+    proj_decoder = pb_utils.Tensor.from_dlpack("decoder_out", to_dlpack(proj_decoder_out))
 
     inference_request = pb_utils.InferenceRequest(
         model_name='joiner',
         requested_output_names=['logit'],
-        inputs=[proj_encoder_out, proj_decoder_out])
+        inputs=[proj_encoder, proj_decoder])
     inference_response = inference_request.exec()
 
     if inference_response.has_error():
