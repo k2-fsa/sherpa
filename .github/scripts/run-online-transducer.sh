@@ -17,20 +17,15 @@ log "Download pretrained model and test-data from $repo_url"
 
 GIT_LFS_SKIP_SMUDGE=1 git clone $repo_url
 pushd $repo
-git lfs pull --include "exp/encoder_jit_trace.pt"
-git lfs pull --include "exp/decoder_jit_trace.pt"
-git lfs pull --include "exp/joiner_jit_trace.pt"
+git lfs pull --include "exp/cpu_jit.pt"
 git lfs pull --include "data/lang_bpe_500/LG.pt"
 popd
 
 for m in greedy_search modified_beam_search fast_beam_search; do
   time ./build/bin/sherpa-online \
     --decoding-method=$m \
-    --encoder-model=$repo/exp/encoder_jit_trace.pt \
-    --decoder-model=$repo/exp/decoder_jit_trace.pt \
-    --joiner-model=$repo/exp/joiner_jit_trace.pt \
+    --nn-model=$repo/exp/cpu_jit.pt \
     --tokens=$repo/data/lang_bpe_500/tokens.txt \
-    --decode-chunk-size=32 \
     $repo/test_wavs/1089-134686-0001.wav \
     $repo/test_wavs/1221-135766-0001.wav \
     $repo/test_wavs/1221-135766-0002.wav
@@ -39,12 +34,9 @@ done
 # For fast_beam_search with LG
 time ./build/bin/sherpa-online \
   --decoding-method=fast_beam_search \
-  --encoder-model=$repo/exp/encoder_jit_trace.pt \
-  --decoder-model=$repo/exp/decoder_jit_trace.pt \
-  --joiner-model=$repo/exp/joiner_jit_trace.pt \
+  --nn-model=$repo/exp/cpu_jit.pt \
   --lg=$repo/data/lang_bpe_500/LG.pt \
   --tokens=$repo/data/lang_bpe_500/tokens.txt \
-  --decode-chunk-size=32 \
   $repo/test_wavs/1089-134686-0001.wav \
   $repo/test_wavs/1221-135766-0001.wav \
   $repo/test_wavs/1221-135766-0002.wav
@@ -301,18 +293,13 @@ log "Start testing ${repo_url}"
 repo=$(basename $repo_url)
 GIT_LFS_SKIP_SMUDGE=1 git clone $repo_url
 pushd $repo
-git lfs pull --include "exp/encoder_jit_trace.pt"
-git lfs pull --include "exp/decoder_jit_trace.pt"
-git lfs pull --include "exp/joiner_jit_trace.pt"
+git lfs pull --include "exp/cpu_jit.pt"
 popd
 
 for m in greedy_search modified_beam_search fast_beam_search; do
   time ./build/bin/sherpa-online \
     --decoding-method=$m \
-    --decode-chunk-size=32 \
-    --encoder-model=$repo/exp/encoder_jit_trace.pt \
-    --decoder-model=$repo/exp/decoder_jit_trace.pt \
-    --joiner-model=$repo/exp/joiner_jit_trace.pt \
+    --nn-model=$repo/exp/cpu_jit.pt \
     --tokens=$repo/data/lang_char_bpe/tokens.txt \
     $repo/test_wavs/0.wav \
     $repo/test_wavs/1.wav \

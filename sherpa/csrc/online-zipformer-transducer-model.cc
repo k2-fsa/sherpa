@@ -14,8 +14,7 @@ namespace sherpa {
 
 OnlineZipformerTransducerModel::OnlineZipformerTransducerModel(
     const std::string &encoder_filename, const std::string &decoder_filename,
-    const std::string &joiner_filename, int32_t decode_chunk_size,
-    torch::Device device /*=torch::kCPU*/)
+    const std::string &joiner_filename, torch::Device device /*=torch::kCPU*/)
     : device_(device) {
   encoder_ = torch::jit::load(encoder_filename, device);
   encoder_.eval();
@@ -31,8 +30,34 @@ OnlineZipformerTransducerModel::OnlineZipformerTransducerModel(
 
   // Use 7 here since the subsampling is ((len - 7) // 2 + 1) // 2.
   int32_t pad_length = 7;
-  chunk_shift_ = decode_chunk_size;
+  chunk_shift_ = encoder_.attr("decode_chunk_size").toInt() * 2;
   chunk_size_ = chunk_shift_ + pad_length;
+
+  encoder_forward_method_name_ = "forward";
+  from_torch_jit_trace_ = true;
+}
+
+OnlineZipformerTransducerModel::OnlineZipformerTransducerModel(
+    const std::string &filename, torch::Device device /*= torch::kCPU*/)
+    : device_(device) {
+  model_ = torch::jit::load(filename, device);
+  model_.eval();
+
+  encoder_ = model_.attr("encoder").toModule();
+  decoder_ = model_.attr("decoder").toModule();
+  joiner_ = model_.attr("joiner").toModule();
+
+  context_size_ =
+      decoder_.attr("conv").toModule().attr("weight").toTensor().size(2);
+
+  // Use 7 here since the subsampling is ((len - 7) // 2 + 1) // 2.
+  int32_t pad_length = 7;
+
+  chunk_shift_ = encoder_.attr("decode_chunk_size").toInt() * 2;
+  chunk_size_ = chunk_shift_ + pad_length;
+
+  from_torch_jit_trace_ = false;
+  encoder_forward_method_name_ = "streaming_forward";
 }
 
 torch::IValue OnlineZipformerTransducerModel::StackStates(
@@ -211,8 +236,8 @@ OnlineZipformerTransducerModel::RunEncoder(
   // We can figure out `encoder_out_len` from `encoder_out`.
   torch::List<torch::Tensor> s_list =
       c10::impl::toTypedList<torch::Tensor>(states.toList());
-  torch::IValue ivalue =
-      encoder_.run_method("forward", features, features_length, states);
+  torch::IValue ivalue = encoder_.run_method(encoder_forward_method_name_,
+                                             features, features_length, states);
   auto tuple_ptr = ivalue.toTuple();
   torch::Tensor encoder_out = tuple_ptr->elements()[0].toTensor();
 
@@ -226,10 +251,17 @@ OnlineZipformerTransducerModel::RunEncoder(
 torch::Tensor OnlineZipformerTransducerModel::RunDecoder(
     const torch::Tensor &decoder_input) {
   torch::NoGradGuard no_grad;
-  return decoder_
-      .run_method("forward", decoder_input,
-                  /*need_pad*/ torch::tensor({0}).to(torch::kBool))
-      .toTensor();
+  if (from_torch_jit_trace_) {
+    return decoder_
+        .run_method("forward", decoder_input,
+                    /*need_pad*/ torch::tensor({0}).to(torch::kBool))
+        .toTensor();
+  } else {
+    return decoder_
+        .run_method("forward", decoder_input,
+                    /*need_pad*/ false)
+        .toTensor();
+  }
 }
 
 torch::Tensor OnlineZipformerTransducerModel::RunJoiner(

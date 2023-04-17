@@ -32,19 +32,14 @@ icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29
   GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/Zengwei/icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29
   cd icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29
 
-  git lfs pull --include "exp/encoder_jit_trace.pt"
-  git lfs pull --include "exp/decoder_jit_trace.pt"
-  git lfs pull --include "exp/joiner_jit_trace.pt"
+  git lfs pull --include "exp/cpu_jit.pt"
   git lfs pull --include "data/lang_bpe_500/LG.pt"
 
   for m in greedy_search modified_beam_search fast_beam_search; do
     sherpa-online \
       --decoding-method=$m \
-      --encoder-model=./exp/encoder_jit_trace.pt \
-      --decoder-model=./exp/decoder_jit_trace.pt \
-      --joiner-model=./exp/joiner_jit_trace.pt \
+      --nn-model=./exp/cpu_jit.pt \
       --tokens=./data/lang_bpe_500/tokens.txt \
-      --decode-chunk-size=32 \
       ./test_wavs/1089-134686-0001.wav \
       ./test_wavs/1221-135766-0001.wav \
       ./test_wavs/1221-135766-0002.wav
@@ -53,12 +48,9 @@ icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29
   # For fast_beam_search with LG
   sherpa-online \
     --decoding-method=fast_beam_search \
-    --encoder-model=./exp/encoder_jit_trace.pt \
-    --decoder-model=./exp/decoder_jit_trace.pt \
-    --joiner-model=./exp/joiner_jit_trace.pt \
+    --nn-model=./exp/cpu_jit.pt \
     --lg=./data/lang_bpe_500/LG.pt \
     --tokens=./data/lang_bpe_500/tokens.txt \
-    --decode-chunk-size=32 \
     ./test_wavs/1089-134686-0001.wav \
     ./test_wavs/1221-135766-0001.wav \
     ./test_wavs/1221-135766-0002.wav
@@ -283,17 +275,12 @@ It is a `streaming zipformer model <https://github.com/k2-fsa/icefall/tree/maste
   # This model supports both Chinese and English
   GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/pfluo/k2fsa-zipformer-chinese-english-mixed
   cd k2fsa-zipformer-chinese-english-mixed
-  git lfs pull --include "exp/encoder_jit_trace.pt"
-  git lfs pull --include "exp/decoder_jit_trace.pt"
-  git lfs pull --include "exp/joiner_jit_trace.pt"
+  git lfs pull --include "exp/cpu_jit.pt"
 
   for m in greedy_search modified_beam_search fast_beam_search; do
     sherpa-online \
       --decoding-method=$m \
-      --decode-chunk-size=32 \
-      --encoder-model=./exp/encoder_jit_trace.pt \
-      --decoder-model=./exp/decoder_jit_trace.pt \
-      --joiner-model=./exp/joiner_jit_trace.pt \
+      --nn-model=./exp/cpu_jit.pt \
       --tokens=./data/lang_char_bpe/tokens.txt \
       ./test_wavs/0.wav \
       ./test_wavs/1.wav \

@@ -722,16 +722,12 @@ class TestOnlineRecognizer(unittest.TestCase):
         decode(recognizer=recognizer, s=s, samples=samples)
 
     def test_k2fsa_zipformer_chinese_english_mixed(self):
-        encoder_model = f"{d}/k2fsa-zipformer-chinese-english-mixed/exp/encoder_jit_trace.pt"
-        decoder_model = f"{d}/k2fsa-zipformer-chinese-english-mixed/exp/decoder_jit_trace.pt"
-        joiner_model = (
-            f"{d}/k2fsa-zipformer-chinese-english-mixed/exp/joiner_jit_trace.pt"
-        )
+        nnr_model = f"{d}/k2fsa-zipformer-chinese-english-mixed/exp/cpu_jit.pt"
         tokens = f"{d}/k2fsa-zipformer-chinese-english-mixed/data/lang_char_bpe/tokens.txt"
         wave = f"{d}/k2fsa-zipformer-chinese-english-mixed/test_wavs/0.wav"
 
         if not Path(encoder_model).is_file():
-            print(f"{encoder_model} does not exist")
+            print(f"{nn_model} does not exist")
             print("skipping test_k2fsa_zipformer_chinese_english_mixed()")
             return
 
@@ -752,10 +748,7 @@ class TestOnlineRecognizer(unittest.TestCase):
         print("--------------------greedy search--------------------")
 
         config = sherpa.OnlineRecognizerConfig(
-            nn_model="",
-            encoder_model=encoder_model,
-            decoder_model=decoder_model,
-            joiner_model=joiner_model,
+            nn_model=nn_model,
             tokens=tokens,
             use_gpu=False,
             feat_config=feat_config,
@@ -770,10 +763,7 @@ class TestOnlineRecognizer(unittest.TestCase):
         decode(recognizer=recognizer, s=s, samples=samples)
         print("--------------------modified beam search--------------------")
         config = sherpa.OnlineRecognizerConfig(
-            nn_model="",
-            encoder_model=encoder_model,
-            decoder_model=decoder_model,
-            joiner_model=joiner_model,
+            nn_model=nn_model,
             tokens=tokens,
             use_gpu=False,
             feat_config=feat_config,
@@ -796,10 +786,7 @@ class TestOnlineRecognizer(unittest.TestCase):
             allow_partial=True,
         )
         config = sherpa.OnlineRecognizerConfig(
-            nn_model="",
-            encoder_model=encoder_model,
-            decoder_model=decoder_model,
-            joiner_model=joiner_model,
+            nn_model=nn_model,
             tokens=tokens,
             use_gpu=False,
             feat_config=feat_config,
@@ -817,15 +804,13 @@ class TestOnlineRecognizer(unittest.TestCase):
     def test_icefall_asr_librispeech_pruned_transducer_stateless7_streaming_2022_12_29(
         self,
     ):
-        encoder_model = f"{d}/icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29/exp/encoder_jit_trace.pt"
-        decoder_model = f"{d}/icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29/exp/decoder_jit_trace.pt"
-        joiner_model = f"{d}/icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29/exp/joiner_jit_trace.pt"
+        nn_model = f"{d}/icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29/exp/cpu_jit.pt"
         tokens = f"{d}/icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29/data/lang_bpe_500/tokens.txt"
         lg = f"{d}/icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29/data/lang_bpe_500/LG.pt"
         wave = f"{d}/icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29/test_wavs/1089-134686-0001.wav"
 
         if not Path(encoder_model).is_file():
-            print(f"{encoder_model} does not exist")
+            print(f"{nn_model} does not exist")
             print(
                 "skipping test_icefall_asr_librispeech_pruned_transducer_stateless7_streaming_2022_12_29()"
             )
@@ -848,10 +833,7 @@ class TestOnlineRecognizer(unittest.TestCase):
         print("--------------------greedy search--------------------")
 
         config = sherpa.OnlineRecognizerConfig(
-            nn_model="",
-            encoder_model=encoder_model,
-            decoder_model=decoder_model,
-            joiner_model=joiner_model,
+            nn_model=nn_model,
             tokens=tokens,
             use_gpu=False,
             feat_config=feat_config,
@@ -866,10 +848,7 @@ class TestOnlineRecognizer(unittest.TestCase):
         decode(recognizer=recognizer, s=s, samples=samples)
         print("--------------------modified beam search--------------------")
         config = sherpa.OnlineRecognizerConfig(
-            nn_model="",
-            encoder_model=encoder_model,
-            decoder_model=decoder_model,
-            joiner_model=joiner_model,
+            nn_model=nn_model,
             tokens=tokens,
             use_gpu=False,
             feat_config=feat_config,
@@ -892,10 +871,7 @@ class TestOnlineRecognizer(unittest.TestCase):
             allow_partial=True,
         )
         config = sherpa.OnlineRecognizerConfig(
-            nn_model="",
-            encoder_model=encoder_model,
-            decoder_model=decoder_model,
-            joiner_model=joiner_model,
+            nn_model=nn_model,
             tokens=tokens,
             use_gpu=False,
             feat_config=feat_config,
@@ -922,10 +898,7 @@ class TestOnlineRecognizer(unittest.TestCase):
             ngram_lm_scale=0.01,
         )
         config = sherpa.OnlineRecognizerConfig(
-            nn_model="",
-            encoder_model=encoder_model,
-            decoder_model=decoder_model,
-            joiner_model=joiner_model,
+            nn_model=nn_model,
             tokens=tokens,
             use_gpu=False,
             feat_config=feat_config,

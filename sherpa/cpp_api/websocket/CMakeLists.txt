@@ -10,6 +10,7 @@ target_link_libraries(sherpa-offline-websocket-server
 )
 if(NOT WIN32)
   target_link_libraries(sherpa-offline-websocket-server -pthread)
+  target_compile_options(sherpa-offline-websocket-server PRIVATE -Wno-deprecated-declarations)
 endif()
 
 add_executable(sherpa-offline-websocket-client
@@ -23,6 +24,7 @@ target_link_libraries(sherpa-offline-websocket-client
 
 if(NOT WIN32)
   target_link_libraries(sherpa-offline-websocket-client -pthread)
+  target_compile_options(sherpa-offline-websocket-client PRIVATE -Wno-deprecated-declarations)
 endif()
 
 add_executable(sherpa-online-websocket-server
@@ -33,6 +35,7 @@ target_link_libraries(sherpa-online-websocket-server sherpa_cpp_api)
 
 if(NOT WIN32)
   target_link_libraries(sherpa-online-websocket-server -pthread)
+  target_compile_options(sherpa-online-websocket-server PRIVATE -Wno-deprecated-declarations)
 endif()
 
 add_executable(sherpa-online-websocket-client
@@ -64,6 +67,7 @@ if(SHERPA_ENABLE_PORTAUDIO)
 
   if(NOT WIN32)
     target_link_libraries(sherpa-online-websocket-client-microphone -pthread)
+    target_compile_options(sherpa-online-websocket-client-microphone PRIVATE -Wno-deprecated-declarations)
   endif()
 endif()
 

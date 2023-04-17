@@ -31,10 +31,12 @@ class OnlineZipformerTransducerModel : public OnlineTransducerModel {
    * @param decode_chunk_size  Number of frames before subsampling
    * @param device  Move the model to this device on loading.
    */
-  explicit OnlineZipformerTransducerModel(const std::string &encoder_filename,
-                                          const std::string &decoder_filename,
-                                          const std::string &joiner_filename,
-                                          int32_t decode_chunk_size,
+  OnlineZipformerTransducerModel(const std::string &encoder_filename,
+                                 const std::string &decoder_filename,
+                                 const std::string &joiner_filename,
+                                 torch::Device device = torch::kCPU);
+
+  explicit OnlineZipformerTransducerModel(const std::string &filename,
                                           torch::Device device = torch::kCPU);
 
   torch::IValue StackStates(
@@ -74,6 +76,10 @@ class OnlineZipformerTransducerModel : public OnlineTransducerModel {
   int32_t context_size_;
   int32_t chunk_size_;
   int32_t chunk_shift_;
+  // true if the model is from torch.jit.trace()
+  bool from_torch_jit_trace_;
+
+  const char *encoder_forward_method_name_;
 };
 
 }  // namespace sherpa
