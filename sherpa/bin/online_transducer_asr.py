@@ -16,13 +16,10 @@ See
 https://k2-fsa.github.io/sherpa/python/streaming_asr/standalone/transducer.html
 for detailed usages.
 
-We use the Zipformer pre-trained model below to demonstrate how to use
-this file.
-
 The following example demonstrates the usage of this file with a pre-trained
 streaming zipformer model for English.
 
-(1) Download pre-trained models
+(1) Download the pre-trained model
 
 cd /path/to/sherpa
 
@@ -137,7 +134,7 @@ def add_model_args(parser: argparse.ArgumentParser):
         type=int,
         default=16000,
         help="Sample rate of the data used to train the model. "
-        "Caution: If you input sound files have a different sampling rate, "
+        "Caution: If your input sound files have a different sampling rate, "
         "we will do resampling inside",
     )
 
