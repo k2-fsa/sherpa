@@ -1,8 +1,8 @@
 // sherpa/csrc/online-lstm-transducer-model.h
 //
 // Copyright (c)  2022  Xiaomi Corporation
-#ifndef SHERPA_CSRC_ONLINE_ZIPFORMER_TRANSDUCER_MODEL_H
-#define SHERPA_CSRC_ONLINE_ZIPFORMER_TRANSDUCER_MODEL_H
+#ifndef SHERPA_CSRC_ONLINE_ZIPFORMER_TRANSDUCER_MODEL_H_
+#define SHERPA_CSRC_ONLINE_ZIPFORMER_TRANSDUCER_MODEL_H_
 #include <string>
 #include <tuple>
 #include <utility>
@@ -78,4 +78,4 @@ class OnlineZipformerTransducerModel : public OnlineTransducerModel {
 
 }  // namespace sherpa
 
-#endif  // SHERPA_CSRC_ONLINE_ZIPFORMER_TRANSDUCER_MODEL_H
+#endif  // SHERPA_CSRC_ONLINE_ZIPFORMER_TRANSDUCER_MODEL_H_

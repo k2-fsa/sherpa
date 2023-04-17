@@ -223,7 +223,8 @@ OnlineConvEmformerTransducerModel::RunEncoder(
   auto projected_encoder_out =
       encoder_proj_.run_method("forward", encoder_out).toTensor();
 
-  return std::make_tuple(projected_encoder_out, encoder_out_length, next_states); 
+  return std::make_tuple(projected_encoder_out, encoder_out_length,
+                         next_states);
 }
 
 torch::Tensor OnlineConvEmformerTransducerModel::RunDecoder(

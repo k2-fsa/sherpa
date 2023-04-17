@@ -10,6 +10,9 @@ Method 1 (From pre-compiled wheels)
 
   This method supports only ``x86_64`` machines.
 
+  For other architectures, e.g., Mac M1, Raspberry Pi, etc, please
+  use Method 2 or 3.
+
 .. code-block:: bash
 
   pip install sherpa-onnx

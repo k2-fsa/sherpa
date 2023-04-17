@@ -178,11 +178,22 @@ Please use the following commands to download it.
   git lfs pull --include "*.bin"
 
 Please check that the file size of the pre-trained models is correct (see the
-screen shot below):
+output below):
 
-.. figure:: ./pic/2022-12-06-filesize.png
-   :alt: File size for sherpa-ncnn-2022-12-06
-   :width: 800
+.. code-block:: bash
+
+  ls -lh *ncnn*{param,bin}
+
+  -rw-r--r--@ 1 fangjun  staff   5.9M Dec  6 12:06 decoder_jit_trace-pnnx.ncnn.bin
+  -rw-r--r--  1 fangjun  staff   439B Feb  3 20:23 decoder_jit_trace-pnnx.ncnn.param
+  -rw-r--r--@ 1 fangjun  staff   141M Dec  6 12:06 encoder_jit_trace-pnnx.ncnn.bin
+  -rw-r--r--  1 fangjun  staff    99M Dec 28 11:03 encoder_jit_trace-pnnx.ncnn.int8.bin
+  -rw-r--r--  1 fangjun  staff    78K Mar 26 10:33 encoder_jit_trace-pnnx.ncnn.int8.param
+  -rw-r--r--  1 fangjun  staff    79K Jan 10 21:13 encoder_jit_trace-pnnx.ncnn.param
+  -rw-r--r--  1 fangjun  staff   6.9M Dec  6 12:06 joiner_jit_trace-pnnx.ncnn.bin
+  -rw-r--r--  1 fangjun  staff   3.5M Dec 28 11:03 joiner_jit_trace-pnnx.ncnn.int8.bin
+  -rw-r--r--  1 fangjun  staff   498B Dec 28 11:02 joiner_jit_trace-pnnx.ncnn.int8.param
+  -rw-r--r--  1 fangjun  staff   490B Dec  6 12:05 joiner_jit_trace-pnnx.ncnn.param
 
 Decode a single wave file with ./build/bin/sherpa-ncnn
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -281,15 +292,24 @@ Please use the following commands to download it.
 
   GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/sherpa-ncnn-conv-emformer-transducer-2022-12-08
   cd sherpa-ncnn-conv-emformer-transducer-2022-12-08
-  cd v2
   git lfs pull --include "*.bin"
 
 Please check that the file size of the pre-trained models is correct (see the
-screen shot below):
+output below):
 
-.. figure:: ./pic/2022-12-08-filesize.png
-   :alt: File size for sherpa-ncnn-2022-12-08
-   :width: 800
+.. code-block:: bash
+
+  sherpa-ncnn-conv-emformer-transducer-2022-12-08 fangjun$ ls -lh *.ncnn.*
+  -rw-r--r--  1 fangjun  staff   5.4M Dec 20 12:53 decoder_jit_trace-pnnx.ncnn.bin
+  -rw-r--r--  1 fangjun  staff   439B Dec 20 12:53 decoder_jit_trace-pnnx.ncnn.param
+  -rw-r--r--  1 fangjun  staff    16M Dec 20 12:53 encoder_jit_trace-pnnx.ncnn.bin
+  -rw-r--r--  1 fangjun  staff    11M Apr  2 21:06 encoder_jit_trace-pnnx.ncnn.int8.bin
+  -rw-r--r--  1 fangjun  staff    33K Apr  2 21:06 encoder_jit_trace-pnnx.ncnn.int8.param
+  -rw-r--r--  1 fangjun  staff    34K Dec 20 12:53 encoder_jit_trace-pnnx.ncnn.param
+  -rw-r--r--  1 fangjun  staff   6.2M Dec 20 12:53 joiner_jit_trace-pnnx.ncnn.bin
+  -rw-r--r--  1 fangjun  staff   3.1M Apr  2 21:06 joiner_jit_trace-pnnx.ncnn.int8.bin
+  -rw-r--r--  1 fangjun  staff   498B Apr  2 21:06 joiner_jit_trace-pnnx.ncnn.int8.param
+  -rw-r--r--  1 fangjun  staff   490B Dec 20 12:53 joiner_jit_trace-pnnx.ncnn.param
 
 Decode a single wave file with ./build/bin/sherpa-ncnn
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -304,13 +324,13 @@ Decode a single wave file with ./build/bin/sherpa-ncnn
   cd /path/to/sherpa-ncnn
 
   ./build/bin/sherpa-ncnn \
-    ./sherpa-ncnn-conv-emformer-transducer-2022-12-08/v2/tokens.txt \
-    ./sherpa-ncnn-conv-emformer-transducer-2022-12-08/v2/encoder_jit_trace-pnnx-epoch-15-avg-3.ncnn.param \
-    ./sherpa-ncnn-conv-emformer-transducer-2022-12-08/v2/encoder_jit_trace-pnnx-epoch-15-avg-3.ncnn.bin \
-    ./sherpa-ncnn-conv-emformer-transducer-2022-12-08/v2/decoder_jit_trace-pnnx-epoch-15-avg-3.ncnn.param \
-    ./sherpa-ncnn-conv-emformer-transducer-2022-12-08/v2/decoder_jit_trace-pnnx-epoch-15-avg-3.ncnn.bin \
-    ./sherpa-ncnn-conv-emformer-transducer-2022-12-08/v2/joiner_jit_trace-pnnx-epoch-15-avg-3.ncnn.param \
-    ./sherpa-ncnn-conv-emformer-transducer-2022-12-08/v2/joiner_jit_trace-pnnx-epoch-15-avg-3.ncnn.bin \
+    ./sherpa-ncnn-conv-emformer-transducer-2022-12-08/tokens.txt \
+    ./sherpa-ncnn-conv-emformer-transducer-2022-12-08/encoder_jit_trace-pnnx.ncnn.param \
+    ./sherpa-ncnn-conv-emformer-transducer-2022-12-08/encoder_jit_trace-pnnx.ncnn.bin \
+    ./sherpa-ncnn-conv-emformer-transducer-2022-12-08/decoder_jit_trace-pnnx.ncnn.param \
+    ./sherpa-ncnn-conv-emformer-transducer-2022-12-08/decoder_jit_trace-pnnx.ncnn.bin \
+    ./sherpa-ncnn-conv-emformer-transducer-2022-12-08/joiner_jit_trace-pnnx.ncnn.param \
+    ./sherpa-ncnn-conv-emformer-transducer-2022-12-08/joiner_jit_trace-pnnx.ncnn.bin \
     ./sherpa-ncnn-conv-emformer-transducer-2022-12-08/test_wavs/0.wav
 
 .. note::
@@ -334,13 +354,13 @@ Real-time speech recognition from a microphone with build/bin/sherpa-ncnn-microp
 
   cd /path/to/sherpa-ncnn
   ./build/bin/sherpa-ncnn-microphone \
-    ./sherpa-ncnn-conv-emformer-transducer-2022-12-08/v2/tokens.txt \
-    ./sherpa-ncnn-conv-emformer-transducer-2022-12-08/v2/encoder_jit_trace-pnnx-epoch-15-avg-3.ncnn.param \
-    ./sherpa-ncnn-conv-emformer-transducer-2022-12-08/v2/encoder_jit_trace-pnnx-epoch-15-avg-3.ncnn.bin \
-    ./sherpa-ncnn-conv-emformer-transducer-2022-12-08/v2/decoder_jit_trace-pnnx-epoch-15-avg-3.ncnn.param \
-    ./sherpa-ncnn-conv-emformer-transducer-2022-12-08/v2/decoder_jit_trace-pnnx-epoch-15-avg-3.ncnn.bin \
-    ./sherpa-ncnn-conv-emformer-transducer-2022-12-08/v2/joiner_jit_trace-pnnx-epoch-15-avg-3.ncnn.param \
-    ./sherpa-ncnn-conv-emformer-transducer-2022-12-08/v2/joiner_jit_trace-pnnx-epoch-15-avg-3.ncnn.bin
+    ./sherpa-ncnn-conv-emformer-transducer-2022-12-08/tokens.txt \
+    ./sherpa-ncnn-conv-emformer-transducer-2022-12-08/encoder_jit_trace-pnnx.ncnn.param \
+    ./sherpa-ncnn-conv-emformer-transducer-2022-12-08/encoder_jit_trace-pnnx.ncnn.bin \
+    ./sherpa-ncnn-conv-emformer-transducer-2022-12-08/decoder_jit_trace-pnnx.ncnn.param \
+    ./sherpa-ncnn-conv-emformer-transducer-2022-12-08/decoder_jit_trace-pnnx.ncnn.bin \
+    ./sherpa-ncnn-conv-emformer-transducer-2022-12-08/joiner_jit_trace-pnnx.ncnn.param \
+    ./sherpa-ncnn-conv-emformer-transducer-2022-12-08/joiner_jit_trace-pnnx.ncnn.bin
 
 .. note::
 
@@ -387,11 +407,21 @@ Please use the following commands to download it.
   git lfs pull --include "*.bin"
 
 Please check that the file size of the pre-trained models is correct (see the
-screen shot below):
+output below):
 
-.. figure:: ./pic/2022-12-04-filesize.png
-   :alt: File size for sherpa-ncnn-2022-12-04
-   :width: 800
+.. code-block:: bash
+
+  sherpa-ncnn-conv-emformer-transducer-2022-12-04 fangjun$ ls -lh *.ncnn*
+  -rw-r--r--  1 fangjun  staff   502K Apr  2 21:47 decoder_jit_trace-pnnx.ncnn.bin
+  -rw-r--r--  1 fangjun  staff   437B Apr  2 21:36 decoder_jit_trace-pnnx.ncnn.param
+  -rw-r--r--  1 fangjun  staff   141M Apr  2 21:48 encoder_jit_trace-pnnx.ncnn.bin
+  -rw-r--r--  1 fangjun  staff    99M Apr  2 21:47 encoder_jit_trace-pnnx.ncnn.int8.bin
+  -rw-r--r--  1 fangjun  staff    78K Apr  2 21:36 encoder_jit_trace-pnnx.ncnn.int8.param
+  -rw-r--r--  1 fangjun  staff    79K Apr  2 21:36 encoder_jit_trace-pnnx.ncnn.param
+  -rw-r--r--  1 fangjun  staff   1.5M Apr  2 21:47 joiner_jit_trace-pnnx.ncnn.bin
+  -rw-r--r--  1 fangjun  staff   774K Apr  2 21:47 joiner_jit_trace-pnnx.ncnn.int8.bin
+  -rw-r--r--  1 fangjun  staff   496B Apr  2 21:36 joiner_jit_trace-pnnx.ncnn.int8.param
+  -rw-r--r--  1 fangjun  staff   488B Apr  2 21:36 joiner_jit_trace-pnnx.ncnn.param
 
 Decode a single wave file with ./build/bin/sherpa-ncnn
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -407,12 +437,12 @@ Decode a single wave file with ./build/bin/sherpa-ncnn
 
   ./build/bin/sherpa-ncnn \
     ./sherpa-ncnn-conv-emformer-transducer-2022-12-04/tokens.txt \
-    ./sherpa-ncnn-conv-emformer-transducer-2022-12-04/encoder_jit_trace-epoch-30-avg-10-pnnx.ncnn.param \
-    ./sherpa-ncnn-conv-emformer-transducer-2022-12-04/encoder_jit_trace-epoch-30-avg-10-pnnx.ncnn.bin \
-    ./sherpa-ncnn-conv-emformer-transducer-2022-12-04/decoder_jit_trace-epoch-30-avg-10-pnnx.ncnn.param \
-    ./sherpa-ncnn-conv-emformer-transducer-2022-12-04/decoder_jit_trace-epoch-30-avg-10-pnnx.ncnn.bin \
-    ./sherpa-ncnn-conv-emformer-transducer-2022-12-04/joiner_jit_trace-epoch-30-avg-10-pnnx.ncnn.param \
-    ./sherpa-ncnn-conv-emformer-transducer-2022-12-04/joiner_jit_trace-epoch-30-avg-10-pnnx.ncnn.bin \
+    ./sherpa-ncnn-conv-emformer-transducer-2022-12-04/encoder_jit_trace-pnnx.ncnn.param \
+    ./sherpa-ncnn-conv-emformer-transducer-2022-12-04/encoder_jit_trace-pnnx.ncnn.bin \
+    ./sherpa-ncnn-conv-emformer-transducer-2022-12-04/decoder_jit_trace-pnnx.ncnn.param \
+    ./sherpa-ncnn-conv-emformer-transducer-2022-12-04/decoder_jit_trace-pnnx.ncnn.bin \
+    ./sherpa-ncnn-conv-emformer-transducer-2022-12-04/joiner_jit_trace-pnnx.ncnn.param \
+    ./sherpa-ncnn-conv-emformer-transducer-2022-12-04/joiner_jit_trace-pnnx.ncnn.bin \
     ./sherpa-ncnn-conv-emformer-transducer-2022-12-04/test_wavs/1089-134686-0001.wav
 
 .. note::
@@ -437,12 +467,12 @@ Real-time speech recognition from a microphone with build/bin/sherpa-ncnn-microp
   cd /path/to/sherpa-ncnn
   ./build/bin/sherpa-ncnn-microphone \
     ./sherpa-ncnn-conv-emformer-transducer-2022-12-04/tokens.txt \
-    ./sherpa-ncnn-conv-emformer-transducer-2022-12-04/encoder_jit_trace-epoch-30-avg-10-pnnx.ncnn.param \
-    ./sherpa-ncnn-conv-emformer-transducer-2022-12-04/encoder_jit_trace-epoch-30-avg-10-pnnx.ncnn.bin \
-    ./sherpa-ncnn-conv-emformer-transducer-2022-12-04/decoder_jit_trace-epoch-30-avg-10-pnnx.ncnn.param \
-    ./sherpa-ncnn-conv-emformer-transducer-2022-12-04/decoder_jit_trace-epoch-30-avg-10-pnnx.ncnn.bin \
-    ./sherpa-ncnn-conv-emformer-transducer-2022-12-04/joiner_jit_trace-epoch-30-avg-10-pnnx.ncnn.bin \
-    ./sherpa-ncnn-conv-emformer-transducer-2022-12-04/joiner_jit_trace-epoch-30-avg-10-pnnx.ncnn.param
+    ./sherpa-ncnn-conv-emformer-transducer-2022-12-04/encoder_jit_trace-pnnx.ncnn.param \
+    ./sherpa-ncnn-conv-emformer-transducer-2022-12-04/encoder_jit_trace-pnnx.ncnn.bin \
+    ./sherpa-ncnn-conv-emformer-transducer-2022-12-04/decoder_jit_trace-pnnx.ncnn.param \
+    ./sherpa-ncnn-conv-emformer-transducer-2022-12-04/decoder_jit_trace-pnnx.ncnn.bin \
+    ./sherpa-ncnn-conv-emformer-transducer-2022-12-04/joiner_jit_trace-pnnx.ncnn.bin \
+    ./sherpa-ncnn-conv-emformer-transducer-2022-12-04/joiner_jit_trace-pnnx.ncnn.param
 
 .. note::
 

@@ -1,3 +1,5 @@
+.. _onnx_streaming_websocket_server_and_client:
+
 Streaming WebSocket server and client
 =====================================
 
@@ -14,8 +16,12 @@ By default, it will generate the following binaries after :ref:`install_sherpa_o
 .. code-block:: bash
 
   sherpa-onnx fangjun$ ls -lh build/bin/*websocket*
-  -rwxr-xr-x  1 fangjun  staff   1.0M Feb 26 18:56 build/bin/sherpa-onnx-online-websocket-client
-  -rwxr-xr-x  1 fangjun  staff   1.1M Feb 26 18:56 build/bin/sherpa-onnx-online-websocket-server
+  -rwxr-xr-x  1 fangjun  staff   1.1M Mar 31 22:09 build/bin/sherpa-onnx-offline-websocket-server
+  -rwxr-xr-x  1 fangjun  staff   1.0M Mar 31 22:09 build/bin/sherpa-onnx-online-websocket-client
+  -rwxr-xr-x  1 fangjun  staff   1.2M Mar 31 22:09 build/bin/sherpa-onnx-online-websocket-server
+
+Please refer to :ref:`onnx_non_streaming_websocket_server_and_client`
+for the usage of ``sherpa-onnx-offline-websocket-server``.
 
 View the server usage
 ---------------------
@@ -32,6 +38,11 @@ The above command will print the following help information:
 
 Start the server
 ----------------
+
+.. hint::
+
+  Please refer to :ref:`sherpa-onnx-pre-trained-models`
+  for a list of pre-trained models.
 
 .. code-block:: bash
 
