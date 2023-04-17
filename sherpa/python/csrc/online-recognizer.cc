@@ -82,17 +82,24 @@ void PybindOnlineRecognizer(py::module &m) {  // NOLINT
   using PyClass = OnlineRecognizer;
   py::class_<PyClass>(m, "OnlineRecognizer")
       .def(py::init<const OnlineRecognizerConfig &>(), py::arg("config"))
-      .def("create_stream", &PyClass::CreateStream)
-      .def("is_ready", &PyClass::IsReady, py::arg("s"))
-      .def("is_endpoint", &PyClass::IsEndpoint, py::arg("s"))
-      .def("decode_stream", &PyClass::DecodeStream, py::arg("s"))
+      .def("create_stream", &PyClass::CreateStream,
+           py::call_guard<py::gil_scoped_release>())
+      .def("is_ready", &PyClass::IsReady, py::arg("s"),
+           py::call_guard<py::gil_scoped_release>())
+      .def("is_endpoint", &PyClass::IsEndpoint, py::arg("s"),
+           py::call_guard<py::gil_scoped_release>())
+      .def("decode_stream", &PyClass::DecodeStream, py::arg("s"),
+           py::call_guard<py::gil_scoped_release>())
       .def(
           "decode_streams",
           [](PyClass &self, std::vector<OnlineStream *> &ss) {
             self.DecodeStreams(ss.data(), ss.size());
           },
-          py::arg("ss"))
-      .def("get_result", &PyClass::GetResult, py::arg("s"));
+          py::arg("ss"), py::call_guard<py::gil_scoped_release>())
+      .def("get_result", &PyClass::GetResult, py::arg("s"),
+           py::call_guard<py::gil_scoped_release>())
+      .def_property_readonly("config", &PyClass::GetConfig,
+                             py::call_guard<py::gil_scoped_release>());
 }
 
 }  // namespace sherpa
