@@ -71,12 +71,9 @@ To use fast_beam_search with an LG, use
 (4) To use a streaming Zipformer model for recognition
 
   ./bin/sherpa-online \
-    --encoder-model=/path/to/encoder_jit_trace.pt \
-    --decoder-model=/path/to/decoder_jit_trace.pt \
-    --joiner-model=/path/to/joiner_jit_trace.pt \
+    --nn-model=/path/to/cpu_jit.pt \
     --tokens=/path/to/tokens.txt \
     --use-gpu=false \
-    --decode-chunk-size=32 \
     foo.wav \
     bar.wav
 
