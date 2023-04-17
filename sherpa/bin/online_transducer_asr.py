@@ -12,6 +12,10 @@ Please refer to
 https://k2-fsa.github.io/sherpa/cpp/pretrained_models/online_transducer.html#
 for pre-trained models to download.
 
+See
+https://k2-fsa.github.io/sherpa/python/streaming_asr/standalone/transducer.html
+for detailed usages.
+
 We use the Zipformer pre-trained model below to demonstrate how to use
 this file.
 
