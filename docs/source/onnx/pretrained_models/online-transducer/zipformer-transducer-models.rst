@@ -260,13 +260,13 @@ Real-time speech recognition from a microphone
    If your system is Linux (including embedded Linux), you can also use
    :ref:`sherpa-onnx-alsa` to do real-time speech recognition with your
    microphone if ``sherpa-onnx-microphone`` does not work for you.
-   
+
 
 
 .. _sherpa_onnx_streaming_zipformer_fr_2023_04_14:
 
 shaojieli/sherpa-onnx-streaming-zipformer-fr-2023-04-14
-----------------------------------------------------------------------------------------------------------
+-------------------------------------------------------
 
 This model is converted from
 
@@ -292,7 +292,7 @@ Please check that the file sizes of the pre-trained models are correct. See
 the file sizes of ``*.onnx`` files below.
 
 .. code-block:: bash
-  
+
   sherpa-onnx-streaming-zipformer-fr-2023-04-14 shaojieli$ ls -lh *.bin
 
   -rw-r--r-- 1 lishaojie Students  1.3M 4月  14 14:09 decoder-epoch-29-avg-9-with-averaged-model.int8.onnx
@@ -301,7 +301,7 @@ the file sizes of ``*.onnx`` files below.
   -rw-r--r-- 1 lishaojie Students  279M 4月  14 14:09 encoder-epoch-29-avg-9-with-averaged-model.onnx
   -rw-r--r-- 1 lishaojie Students  254K 4月  14 14:09 joiner-epoch-29-avg-9-with-averaged-model.int8.onnx
   -rw-r--r-- 1 lishaojie Students 1003K 4月  14 14:09 joiner-epoch-29-avg-9-with-averaged-model.onnx
-  
+
 Decode a single wave file
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -387,7 +387,7 @@ Real-time speech recognition from a microphone
     ./sherpa-onnx-streaming-zipformer-fr-2023-04-14/encoder-epoch-29-avg-9-with-averaged-model.onnx \
     ./sherpa-onnx-streaming-zipformer-fr-2023-04-14/decoder-epoch-29-avg-9-with-averaged-model.onnx \
     ./sherpa-onnx-streaming-zipformer-fr-2023-04-14/joiner-epoch-29-avg-9-with-averaged-model.onnx \
-    
+
 .. hint::
 
    If your system is Linux (including embedded Linux), you can also use

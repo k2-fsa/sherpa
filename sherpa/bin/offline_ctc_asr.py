@@ -159,8 +159,7 @@ def get_parser():
         nargs="+",
         help="The input sound file(s) to transcribe. "
         "Supported formats are those supported by torchaudio.load(). "
-        "For example, wav and flac are supported. "
-        "The sample rate has to equal to `--sample-rate`.",
+        "For example, wav and flac are supported. ",
     )
 
     return parser

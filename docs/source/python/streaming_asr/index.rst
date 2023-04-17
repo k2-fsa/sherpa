@@ -3,13 +3,22 @@ Streaming ASR
 
 This page describes how to use `sherpa`_ for streaming ASR.
 
-Currently, implemented streaming ASR models include:
-`Emformer`_ `transducer`_ (i.e., Emformer-T)
-and `ConvEmformer`_ `transducer`_ (i.e., ConvEmformer-T).
-and `LSTM` `transducer`_ (i.e., LSTM-T).
+The following types of transducer models are supported:
+
+  - `Emformer`_
+  - `ConvEmformer`_
+  - ``LSTM``
+  - `Zipformer`_
+
+
+We support standalone speech recognition as well as server/client based
+speech recognition using `WebSocket`_.
+
 
 .. toctree::
    :maxdepth: 3
+
+   standalone/index
 
    endpointing
    secure-connections

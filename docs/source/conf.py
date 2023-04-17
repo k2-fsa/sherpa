@@ -142,4 +142,5 @@ rst_epilog = """
 .. _boost: https://github.com/boostorg/boost
 .. _NeMo: https://github.com/NVIDIA/NeMo
 .. _CommonVoice: https://commonvoice.mozilla.org
+.. _Zipformer: https://github.com/k2-fsa/icefall/tree/master/egs/librispeech/ASR/pruned_transducer_stateless7_streaming
 """

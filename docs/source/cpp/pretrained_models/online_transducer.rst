@@ -1,5 +1,7 @@
+.. _online_transducer_pretrained_models:
+
 Online transducer models
-=========================
+========================
 
 .. hint::
 
@@ -19,6 +21,8 @@ This sections lists models trained using `icefall`_.
 
 English
 ^^^^^^^
+
+.. _icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29:
 
 icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
