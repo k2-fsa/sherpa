@@ -408,6 +408,8 @@ class OnlineRecognizer::OnlineRecognizerImpl {
         config_.feat_config.fbank_opts.frame_opts.frame_shift_ms / 1000.0);
   }
 
+  const OnlineRecognizerConfig &GetConfig() const { return config_; }
+
  private:
   void WarmUp() {
     SHERPA_LOG(INFO) << "WarmUp begins";
@@ -467,6 +469,10 @@ void OnlineRecognizer::DecodeStreams(OnlineStream **ss, int32_t n) {
 
 OnlineRecognitionResult OnlineRecognizer::GetResult(OnlineStream *s) {
   return impl_->GetResult(s);
+}
+
+const OnlineRecognizerConfig &OnlineRecognizer::GetConfig() const {
+  return impl_->GetConfig();
 }
 
 }  // namespace sherpa

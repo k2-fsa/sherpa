@@ -33,7 +33,6 @@ OnlineZipformerTransducerModel::OnlineZipformerTransducerModel(
   chunk_shift_ = encoder_.attr("decode_chunk_size").toInt() * 2;
   chunk_size_ = chunk_shift_ + pad_length;
 
-  encoder_forward_method_name_ = "forward";
   from_torch_jit_trace_ = true;
 }
 
@@ -57,7 +56,6 @@ OnlineZipformerTransducerModel::OnlineZipformerTransducerModel(
   chunk_size_ = chunk_shift_ + pad_length;
 
   from_torch_jit_trace_ = false;
-  encoder_forward_method_name_ = "streaming_forward";
 }
 
 torch::IValue OnlineZipformerTransducerModel::StackStates(
@@ -236,8 +234,8 @@ OnlineZipformerTransducerModel::RunEncoder(
   // We can figure out `encoder_out_len` from `encoder_out`.
   torch::List<torch::Tensor> s_list =
       c10::impl::toTypedList<torch::Tensor>(states.toList());
-  torch::IValue ivalue = encoder_.run_method(encoder_forward_method_name_,
-                                             features, features_length, states);
+  torch::IValue ivalue =
+      encoder_.run_method("forward", features, features_length, states);
   auto tuple_ptr = ivalue.toTuple();
   torch::Tensor encoder_out = tuple_ptr->elements()[0].toTensor();
 

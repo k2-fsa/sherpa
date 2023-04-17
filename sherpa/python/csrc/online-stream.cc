@@ -13,20 +13,28 @@ namespace sherpa {
 static void PybindOnlineRecognitionResult(py::module &m) {  // NOLINT
   using PyClass = OnlineRecognitionResult;
   py::class_<PyClass>(m, "OnlineRecognitionResult")
-      .def_property_readonly("text",
-                             [](const PyClass &self) { return self.text; })
-      .def_property_readonly("tokens",
-                             [](const PyClass &self) { return self.tokens; })
       .def_property_readonly(
-          "timestamps", [](const PyClass &self) { return self.timestamps; })
-      .def_property_readonly("segment",
-                             [](const PyClass &self) { return self.segment; })
+          "text", [](const PyClass &self) { return self.text; },
+          py::call_guard<py::gil_scoped_release>())
       .def_property_readonly(
-          "start_time", [](const PyClass &self) { return self.start_time; })
-      .def_property_readonly("is_final",
-                             [](const PyClass &self) { return self.is_final; })
-      .def("__str__", &PyClass::AsJsonString)
-      .def("as_json_string", &PyClass::AsJsonString);
+          "tokens", [](const PyClass &self) { return self.tokens; },
+          py::call_guard<py::gil_scoped_release>())
+      .def_property_readonly(
+          "timestamps", [](const PyClass &self) { return self.timestamps; },
+          py::call_guard<py::gil_scoped_release>())
+      .def_property_readonly(
+          "segment", [](const PyClass &self) { return self.segment; },
+          py::call_guard<py::gil_scoped_release>())
+      .def_property_readonly(
+          "start_time", [](const PyClass &self) { return self.start_time; },
+          py::call_guard<py::gil_scoped_release>())
+      .def_property_readonly(
+          "is_final", [](const PyClass &self) { return self.is_final; },
+          py::call_guard<py::gil_scoped_release>())
+      .def("__str__", &PyClass::AsJsonString,
+           py::call_guard<py::gil_scoped_release>())
+      .def("as_json_string", &PyClass::AsJsonString,
+           py::call_guard<py::gil_scoped_release>());
 }
 
 void PybindOnlineStream(py::module &m) {  // NOLINT

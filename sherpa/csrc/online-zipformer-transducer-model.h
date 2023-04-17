@@ -78,8 +78,6 @@ class OnlineZipformerTransducerModel : public OnlineTransducerModel {
   int32_t chunk_shift_;
   // true if the model is from torch.jit.trace()
   bool from_torch_jit_trace_;
-
-  const char *encoder_forward_method_name_;
 };
 
 }  // namespace sherpa

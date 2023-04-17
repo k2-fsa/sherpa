@@ -84,6 +84,8 @@ class OnlineRecognizer {
 
   ~OnlineRecognizer();
 
+  const OnlineRecognizerConfig &GetConfig() const;
+
   // Create a stream for decoding.
   std::unique_ptr<OnlineStream> CreateStream();
 
