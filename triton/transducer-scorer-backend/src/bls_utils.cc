@@ -26,16 +26,17 @@
 
 #include "bls_utils.h"
 
-namespace triton { namespace backend { namespace scorer {
+namespace triton {
+namespace backend {
+namespace scorer {
 
-TRITONSERVER_Error *ResponseAlloc(TRITONSERVER_ResponseAllocator *allocator,
-                                  const char *tensor_name, size_t byte_size,
+TRITONSERVER_Error* ResponseAlloc(TRITONSERVER_ResponseAllocator* allocator,
+                                  const char* tensor_name, size_t byte_size,
                                   TRITONSERVER_MemoryType preferred_memory_type,
-                                  int64_t preferred_memory_type_id, void *userp,
-                                  void **buffer, void **buffer_userp,
-                                  TRITONSERVER_MemoryType *actual_memory_type,
-                                  int64_t *actual_memory_type_id) {
-
+                                  int64_t preferred_memory_type_id, void* userp,
+                                  void** buffer, void** buffer_userp,
+                                  TRITONSERVER_MemoryType* actual_memory_type,
+                                  int64_t* actual_memory_type_id) {
   auto allocate_start_time = std::chrono::system_clock::now();
 
   // Initially attempt to make the actual memory type and id that we allocate be
@@ -49,42 +50,41 @@ TRITONSERVER_Error *ResponseAlloc(TRITONSERVER_ResponseAllocator *allocator,
     *buffer = nullptr;
     *buffer_userp = nullptr;
   } else {
-    void *allocated_ptr = nullptr;
+    void* allocated_ptr = nullptr;
 
     switch (*actual_memory_type) {
+      case TRITONSERVER_MEMORY_CPU_PINNED: {
+        auto err =
+            cudaHostAlloc(&allocated_ptr, byte_size, cudaHostAllocPortable);
+        if (err != cudaSuccess) {
+          return TRITONSERVER_ErrorNew(
+              TRITONSERVER_ERROR_INTERNAL,
+              std::string("cudaHostAlloc failed: " +
+                          std::string(cudaGetErrorString(err)))
+                  .c_str());
+        }
 
-    case TRITONSERVER_MEMORY_CPU_PINNED: {
-      auto err =
-          cudaHostAlloc(&allocated_ptr, byte_size, cudaHostAllocPortable);
-      if (err != cudaSuccess) {
-        return TRITONSERVER_ErrorNew(
-            TRITONSERVER_ERROR_INTERNAL,
-            std::string("cudaHostAlloc failed: " +
-                        std::string(cudaGetErrorString(err)))
-                .c_str());
+        break;
       }
+      case TRITONSERVER_MEMORY_GPU: {
+        auto err = cudaMalloc(&allocated_ptr, byte_size);
+        if (err != cudaSuccess) {
+          return TRITONSERVER_ErrorNew(
+              TRITONSERVER_ERROR_INTERNAL,
+              std::string("cudaMalloc failed: " +
+                          std::string(cudaGetErrorString(err)))
+                  .c_str());
+        }
 
-      break;
-    }
-    case TRITONSERVER_MEMORY_GPU: {
-      auto err = cudaMalloc(&allocated_ptr, byte_size);
-      if (err != cudaSuccess) {
-        return TRITONSERVER_ErrorNew(
-            TRITONSERVER_ERROR_INTERNAL,
-            std::string("cudaMalloc failed: " +
-                        std::string(cudaGetErrorString(err)))
-                .c_str());
+        break;
       }
-
-      break;
-    }
-    // Use CPU memory if the requested memory type is unknown (default case).
-    case TRITONSERVER_MEMORY_CPU:
-    default: {
-      *actual_memory_type = TRITONSERVER_MEMORY_CPU;
-      allocated_ptr = malloc(byte_size);
-      break;
-    }
+      // Use CPU memory if the requested memory type is unknown (default case).
+      case TRITONSERVER_MEMORY_CPU:
+      default: {
+        *actual_memory_type = TRITONSERVER_MEMORY_CPU;
+        allocated_ptr = malloc(byte_size);
+        break;
+      }
     }
 
     // Pass the tensor name with buffer_userp so we can show it when releasing
@@ -99,15 +99,14 @@ TRITONSERVER_Error *ResponseAlloc(TRITONSERVER_ResponseAllocator *allocator,
   std::chrono::duration<double> allocate_dur_seconds =
       allocate_end_time - allocate_start_time;
 
-  return nullptr; // Success
+  return nullptr;  // Success
 }
 
-TRITONSERVER_Error*
-ResponseRelease(
-    TRITONSERVER_ResponseAllocator* allocator, void* buffer, void* buffer_userp,
-    size_t byte_size, TRITONSERVER_MemoryType memory_type,
-    int64_t memory_type_id)
-{
+TRITONSERVER_Error* ResponseRelease(TRITONSERVER_ResponseAllocator* allocator,
+                                    void* buffer, void* buffer_userp,
+                                    size_t byte_size,
+                                    TRITONSERVER_MemoryType memory_type,
+                                    int64_t memory_type_id) {
   std::string* name = nullptr;
   if (buffer_userp != nullptr) {
     name = reinterpret_cast<std::string*>(buffer_userp);
@@ -144,21 +143,16 @@ ResponseRelease(
   return nullptr;  // Success
 }
 
-void
-InferRequestComplete(
-    TRITONSERVER_InferenceRequest* request, const uint32_t flags, void* userp)
-{
+void InferRequestComplete(TRITONSERVER_InferenceRequest* request,
+                          const uint32_t flags, void* userp) {
   if (request != nullptr) {
-    LOG_IF_ERROR(
-        TRITONSERVER_InferenceRequestDelete(request),
-        "Failed to delete inference request.");
+    LOG_IF_ERROR(TRITONSERVER_InferenceRequestDelete(request),
+                 "Failed to delete inference request.");
   }
 }
 
-void
-InferResponseComplete(
-    TRITONSERVER_InferenceResponse* response, const uint32_t flags, void* userp)
-{
+void InferResponseComplete(TRITONSERVER_InferenceResponse* response,
+                           const uint32_t flags, void* userp) {
   // The following logic only works for non-decoupled models as for decoupled
   // models it may send multiple responses for a request or not send any
   // responses for a request. Need to modify this function if the model is using
@@ -172,8 +166,7 @@ InferResponseComplete(
   }
 }
 
-ModelExecutor::ModelExecutor(TRITONSERVER_Server* server) : server_(server)
-{
+ModelExecutor::ModelExecutor(TRITONSERVER_Server* server) : server_(server) {
   // When triton needs a buffer to hold an output tensor, it will ask
   // us to provide the buffer. In this way we can have any buffer
   // management and sharing strategy that we want. To communicate to
@@ -189,11 +182,9 @@ ModelExecutor::ModelExecutor(TRITONSERVER_Server* server) : server_(server)
       &allocator_, ResponseAlloc, ResponseRelease, nullptr /* start_fn */));
 }
 
-TRITONSERVER_Error*
-ModelExecutor::AsyncExecute(
+TRITONSERVER_Error* ModelExecutor::AsyncExecute(
     TRITONSERVER_InferenceRequest* irequest,
-    std::future<TRITONSERVER_InferenceResponse*>* future)
-{
+    std::future<TRITONSERVER_InferenceResponse*>* future) {
   // Perform inference by calling TRITONSERVER_ServerInferAsync. This
   // call is asychronous and therefore returns immediately. The
   // completion of the inference and delivery of the response is done
@@ -212,4 +203,6 @@ ModelExecutor::AsyncExecute(
   return nullptr;  // success
 }
 
-}}}  // namespace triton::backend::scorer
+}  // namespace scorer
+}  // namespace backend
+}  // namespace triton

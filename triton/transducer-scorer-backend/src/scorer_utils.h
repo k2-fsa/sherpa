@@ -1,17 +1,19 @@
 
 #pragma once
 
-#include "torch/script.h"
 #include <triton/core/tritonserver.h>
+
 #include "symbol-table.h"
+#include "torch/script.h"
 
 using triton::common::TritonJson;
 
-namespace triton { namespace backend { namespace scorer {
+namespace triton {
+namespace backend {
+namespace scorer {
 
-static std::string Convert(
-    const std::vector<int32_t> &src, const sherpa::SymbolTable * sym_table) {
-
+static std::string Convert(const std::vector<int32_t>& src,
+                           const sherpa::SymbolTable* sym_table) {
   std::string text;
   for (auto i : src) {
     auto sym = (*sym_table)[i];
@@ -20,12 +22,11 @@ static std::string Convert(
   return text;
 }
 
-static void BuildDecoderInput(
-    const std::vector<std::vector<int32_t>> &r,
-    torch::Tensor *decoder_input) {
+static void BuildDecoderInput(const std::vector<std::vector<int32_t>>& r,
+                              torch::Tensor* decoder_input) {
   int32_t batch_size = decoder_input->size(0);
   int32_t context_size = decoder_input->size(1);
-  int64_t *p = decoder_input->data_ptr<int64_t>();
+  int64_t* p = decoder_input->data_ptr<int64_t>();
   for (int32_t i = 0; i != batch_size; ++i) {
     auto start = r[i].end() - context_size;
     auto end = r[i].end();
@@ -34,9 +35,8 @@ static void BuildDecoderInput(
   }
 }
 
-std::pair<bool, torch::ScalarType>
-ConvertDataTypeToTorchType(const TRITONSERVER_DataType dtype)
-{
+std::pair<bool, torch::ScalarType> ConvertDataTypeToTorchType(
+    const TRITONSERVER_DataType dtype) {
   torch::ScalarType type = torch::kInt;
   switch (dtype) {
     case TRITONSERVER_TYPE_BOOL:
@@ -104,10 +104,9 @@ TRITONSERVER_Error* ReadParameter(TritonJson::Value& params,
 }
 
 #ifdef TRITON_ENABLE_GPU
-TRITONSERVER_Error*
-ConvertCUDAStatusToTritonError(
-   cudaError_t cuda_error,TRITONSERVER_Error_Code code, const char* msg)
-{
+TRITONSERVER_Error* ConvertCUDAStatusToTritonError(cudaError_t cuda_error,
+                                                   TRITONSERVER_Error_Code code,
+                                                   const char* msg) {
   if (cuda_error != cudaSuccess) {
     return TRITONSERVER_ErrorNew(
         code,
@@ -117,4 +116,6 @@ ConvertCUDAStatusToTritonError(
 }
 #endif
 
-}}}
+}  // namespace scorer
+}  // namespace backend
+}  // namespace triton

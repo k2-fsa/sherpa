@@ -25,13 +25,16 @@
 // OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <future>
+
 #include "bls_utils.h"
+#include "torch/script.h"
 #include "triton/backend/backend_common.h"
 #include "triton/core/tritonbackend.h"
 #include "triton/core/tritonserver.h"
-#include "torch/script.h"
 
-namespace triton { namespace backend { namespace scorer {
+namespace triton {
+namespace backend {
+namespace scorer {
 
 //
 // BLSExecutor
@@ -39,28 +42,32 @@ namespace triton { namespace backend { namespace scorer {
 // Includes the custom BLS logic for this backend.
 // This class shows how to utilize Triton in-process C-API to build the
 // execution pipeline.
+// It does not take ownership of the server.
 //
 class BLSExecutor {
  public:
-  BLSExecutor(TRITONSERVER_Server* server);
+  explicit BLSExecutor(TRITONSERVER_Server* server);
 
   // Prepares the inference request that will be used internally.
   TRITONSERVER_Error* PrepareInferenceRequest(
-      TRITONSERVER_InferenceRequest** irequest, const std::string model_name);
+      TRITONSERVER_InferenceRequest** irequest, const std::string& model_name);
 
   // Prepares the input for the internal inference request.
   TRITONSERVER_Error* PrepareInferenceInput(
-       std::vector<torch::Tensor> & input_tensors, std::vector<const char*> & input_names,
+      const std::vector<torch::Tensor>& input_tensors,
+      const std::vector<const char*>& input_names,
       TRITONSERVER_InferenceRequest* irequest);
 
   // Prepares the output for the internal inference request.
   TRITONSERVER_Error* PrepareInferenceOutput(
-      std::vector<const char *> &output_names,
+      const std::vector<const char*>& output_names,
       TRITONSERVER_InferenceRequest* irequest);
 
   // Performs the whole BLS pipeline.
-  torch::Tensor Execute(
-      std::vector<torch::Tensor> & input_tensors, std::vector<const char*> & input_names, std::vector<const char*> & output_names, std::string model_name);
+  torch::Tensor Execute(std::vector<torch::Tensor>& input_tensors,
+                        std::vector<const char*>& input_names,
+                        std::vector<const char*>& output_names,
+                        std::string model_name);
 
   // Constructs the final response.
   torch::Tensor ConstructFinalResponse(
@@ -75,4 +82,6 @@ class BLSExecutor {
   ModelExecutor model_executor_;
 };
 
-}}}  // namespace triton::backend::scorer
+}  // namespace scorer
+}  // namespace backend
+}  // namespace triton

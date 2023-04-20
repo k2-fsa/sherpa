@@ -40,7 +40,6 @@ SymbolTable::SymbolTable(const std::string &filename) {
     sym2id_.insert({sym, id});
     id2sym_.insert({id, sym});
   }
-
 }
 
 std::string SymbolTable::ToString() const {

@@ -26,7 +26,7 @@
 
 cmake_minimum_required(VERSION 3.17...3.22 FATAL_ERROR)
 
-project(transducerscorerbackend LANGUAGES C CXX)
+project(TransducerScorerBackend LANGUAGES C CXX)
 
 #
 # Options
@@ -42,7 +42,7 @@ set(TRITON_CORE_REPO_TAG "r22.11" CACHE STRING "Tag for triton-inference-server/
 set(TRITON_BACKEND_REPO_TAG "r22.11" CACHE STRING "Tag for triton-inference-server/backend repo")
 
 if(NOT CMAKE_BUILD_TYPE)
-	set(CMAKE_BUILD_TYPE Release)
+ set(CMAKE_BUILD_TYPE Release)
 endif()
 
 #

@@ -26,11 +26,14 @@
 
 #include <future>
 #include <sstream>
+
 #include "triton/backend/backend_common.h"
 #include "triton/core/tritonbackend.h"
 #include "triton/core/tritonserver.h"
 
-namespace triton { namespace backend { namespace scorer {
+namespace triton {
+namespace backend {
+namespace scorer {
 
 #define THROW_IF_TRITON_ERROR(X)                                       \
   do {                                                                 \
@@ -53,23 +56,24 @@ struct BLSBackendException : std::exception {
   std::string message_;
 };
 
-TRITONSERVER_Error* ResponseAlloc(
-    TRITONSERVER_ResponseAllocator* allocator, const char* tensor_name,
-    size_t byte_size, TRITONSERVER_MemoryType preferred_memory_type,
-    int64_t preferred_memory_type_id, void* userp, void** buffer,
-    void** buffer_userp, TRITONSERVER_MemoryType* actual_memory_type,
-    int64_t* actual_memory_type_id);
+TRITONSERVER_Error* ResponseAlloc(TRITONSERVER_ResponseAllocator* allocator,
+                                  const char* tensor_name, size_t byte_size,
+                                  TRITONSERVER_MemoryType preferred_memory_type,
+                                  int64_t preferred_memory_type_id, void* userp,
+                                  void** buffer, void** buffer_userp,
+                                  TRITONSERVER_MemoryType* actual_memory_type,
+                                  int64_t* actual_memory_type_id);
 
 // Callback functions for server inference.
-TRITONSERVER_Error* ResponseRelease(
-    TRITONSERVER_ResponseAllocator* allocator, void* buffer, void* buffer_userp,
-    size_t byte_size, TRITONSERVER_MemoryType memory_type,
-    int64_t memory_type_id);
-void InferRequestComplete(
-    TRITONSERVER_InferenceRequest* request, const uint32_t flags, void* userp);
-void InferResponseComplete(
-    TRITONSERVER_InferenceResponse* response, const uint32_t flags,
-    void* userp);
+TRITONSERVER_Error* ResponseRelease(TRITONSERVER_ResponseAllocator* allocator,
+                                    void* buffer, void* buffer_userp,
+                                    size_t byte_size,
+                                    TRITONSERVER_MemoryType memory_type,
+                                    int64_t memory_type_id);
+void InferRequestComplete(TRITONSERVER_InferenceRequest* request,
+                          const uint32_t flags, void* userp);
+void InferResponseComplete(TRITONSERVER_InferenceResponse* response,
+                           const uint32_t flags, void* userp);
 
 //
 // ModelExecutor
@@ -94,4 +98,6 @@ class ModelExecutor {
   TRITONSERVER_ResponseAllocator* allocator_;
 };
 
-}}}  // namespace triton::backend::scorer
+}  // namespace scorer
+}  // namespace backend
+}  // namespace triton
