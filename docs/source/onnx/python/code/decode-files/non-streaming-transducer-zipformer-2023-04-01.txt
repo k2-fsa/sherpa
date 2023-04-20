@@ -1,0 +1,20 @@
+Creating a resampler:
+   in_sample_rate: 8000
+   output_sample_rate: 16000
+
+Started!
+Done!
+./sherpa-onnx-zipformer-en-2023-04-01/test_wavs/0.wav
+ AFTER EARLY NIGHTFALL THE YELLOW LAMPS WOULD LIGHT UP HERE AND THERE THE SQUALID QUARTER OF THE BROTHELS
+----------
+./sherpa-onnx-zipformer-en-2023-04-01/test_wavs/1.wav
+ GOD AS A DIRECT CONSEQUENCE OF THE SIN WHICH MAN THUS PUNISHED HAD GIVEN HER A LOVELY CHILD WHOSE PLACE WAS ON THAT SAME DISHONOURED BOSOM TO CONNECT HER PARENT FOR EVER WITH THE RACE AND DESCENT OF MORTALS AND TO BE FINALLY A BLESSED SOUL IN HEAVEN
+----------
+./sherpa-onnx-zipformer-en-2023-04-01/test_wavs/8k.wav
+ YET THESE THOUGHTS AFFECTED HESTER PRYNNE LESS WITH HOPE THAN APPREHENSION
+----------
+num_threads: 1
+decoding_method: greedy_search
+Wave duration: 4.825 s
+Elapsed time: 2.567 s
+Real time factor (RTF): 2.567/4.825 = 0.532

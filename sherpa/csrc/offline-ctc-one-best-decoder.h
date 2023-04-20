@@ -17,7 +17,7 @@ class OfflineCtcOneBestDecoder : public OfflineCtcDecoder {
   /**
    * @param vocab_size Output dimension of the model.
    */
-  OfflineCtcOneBestDecoder(const OfflineCtcDecoderConfig config,
+  OfflineCtcOneBestDecoder(const OfflineCtcDecoderConfig &config,
                            torch::Device device, int32_t vocab_size);
 
   std::vector<OfflineCtcDecoderResult> Decode(

@@ -47,7 +47,9 @@ static void PybindOfflineRecognitionResult(py::module &m) {  // NOLINT
 void PybindOfflineStream(py::module &m) {  // NOLINT
   PybindOfflineRecognitionResult(m);
   using PyClass = OfflineStream;
-  py::class_<PyClass>(m, "OfflineStream")
+
+  py::class_<PyClass> stream(m, "OfflineStream");
+  stream
       .def("accept_wave_file", &PyClass::AcceptWaveFile,
            py::call_guard<py::gil_scoped_release>(), py::arg("filename"))
       .def(
@@ -66,6 +68,9 @@ void PybindOfflineStream(py::module &m) {  // NOLINT
           py::arg("samples"), py::call_guard<py::gil_scoped_release>(),
           kOfflineStreamAcceptSamplesTensorDoc)
       .def_property_readonly("result", &PyClass::GetResult);
+
+  // alias
+  stream.attr("accept_waveform") = stream.attr("accept_samples");
 }
 
 }  // namespace sherpa

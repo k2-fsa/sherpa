@@ -13,7 +13,7 @@ int main(int argc, char *argv[]) {
 
   if (argc == 2) {
     std::cout << "===test from wave file===\n";
-    sherpa::OfflineStream s(&fbank);
+    sherpa::OfflineStream s(&fbank, feat_config);
     s.AcceptWaveFile(argv[1]);
     auto f = s.GetFeatures();
     std::cout << "f.sizes(): " << f.sizes() << "\n";
@@ -24,7 +24,7 @@ int main(int argc, char *argv[]) {
   {
     std::cout << "===test from samples===\n";
     torch::Tensor samples = torch::rand({160000}, torch::kFloat);
-    sherpa::OfflineStream s(&fbank);
+    sherpa::OfflineStream s(&fbank, feat_config);
     s.AcceptSamples(samples.data_ptr<float>(), samples.numel());
     auto f = s.GetFeatures();
     std::cout << "f.sizes(): " << f.sizes() << "\n";
@@ -36,7 +36,7 @@ int main(int argc, char *argv[]) {
     std::cout << "===test from features===\n";
     torch::Tensor features = torch::rand(
         {50, feat_config.fbank_opts.mel_opts.num_bins}, torch::kFloat);
-    sherpa::OfflineStream s(&fbank);
+    sherpa::OfflineStream s(&fbank, feat_config);
     s.AcceptFeatures(features.data_ptr<float>(), features.size(0),
                      features.size(1));
     auto f = s.GetFeatures();

@@ -91,7 +91,7 @@ bool Endpoint::IsEndpoint(int num_frames_decoded, int trailing_silence_frames,
   float trailing_silence = trailing_silence_frames * frame_shift_in_seconds;
   if (RuleActivated(config_.rule1, "rule1", trailing_silence,
                     utterance_length) ||
-      RuleActivated(config_.rule1, "rule2", trailing_silence,
+      RuleActivated(config_.rule2, "rule2", trailing_silence,
                     utterance_length) ||
       RuleActivated(config_.rule3, "rule3", trailing_silence,
                     utterance_length)) {

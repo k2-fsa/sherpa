@@ -47,7 +47,7 @@ Usage:
     --nn-model=/path/to/cpu_jit.pt \
     --tokens=/path/to/tokens.txt \
     --use-gpu=false \
-    --use-wav-scp=false \
+    --use-wav-scp=true \
     scp:wav.scp \
     ark,scp,t:results.ark,results.scp
 
@@ -57,7 +57,7 @@ Usage:
     --nn-model=/path/to/cpu_jit.pt \
     --tokens=/path/to/tokens.txt \
     --use-gpu=false \
-    --use-feats-scp=false \
+    --use-feats-scp=true \
     scp:feats.scp \
     ark,scp,t:results.ark,results.scp
 
@@ -122,6 +122,7 @@ int main(int argc, char *argv[]) {
       << "The model was trained using training data with sample rate 16000. "
       << "We don't support resample yet";
 
+  SHERPA_LOG(INFO) << config.ToString();
   sherpa::OfflineRecognizer recognizer(config);
 
   if (use_wav_scp) {

@@ -3,6 +3,11 @@ sherpa-ncnn
 
 .. hint::
 
+  During speech recognition, it does not need to access the Internet.
+  Everyting is processed locally on your device.
+
+.. hint::
+
   A colab notebook is provided for you so that you can try `sherpa-ncnn`_
   in the browser.
 
@@ -16,18 +21,22 @@ The code is put in a separate repository `sherpa-ncnn`_
 
 `sherpa-ncnn`_ is self-contained and everything can be compiled from source.
 
-Please refer to `<https://k2-fsa.github.io/icefall/recipes/librispeech/lstm_pruned_stateless_transducer.html#export-models>`_
+Please refer to `<https://k2-fsa.github.io/icefall/model-export/export-ncnn.html>`_
 for how to export models to `ncnn`_ format.
 
 In the following, we describe how to build `sherpa-ncnn`_ for Linux, macOS,
-Windows, embedded systems, and Android.
+Windows, embedded systems, Android, and iOS.
 
 Also, we show how to use it for speech recognition with pre-trained models.
 
 .. toctree::
    :maxdepth: 2
 
-   ./python/index
    ./install/index
+   ./python/index
+   ./endpoint
    ./android/index
+   ./ios/index
    ./pretrained_models/index
+   ./examples/index
+   ./faq

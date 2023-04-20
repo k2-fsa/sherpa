@@ -3,6 +3,10 @@
 Python API
 ==========
 
+.. hint::
+
+  It is known to work for ``Python >= 3.6`` on Linux, macOS, and Windows.
+
 In this section, we describe
 
   1. How to install the Python package `sherpa-ncnn`_
@@ -18,25 +22,44 @@ You can use ``1`` of the  ``4`` methods below to install the Python package `she
 Method 1
 ^^^^^^^^
 
+.. hint::
+
+   This method works only on ``x86/x86_64`` systems: Linux, macOS and Windows.
+
+   For other architectures, e.g., Mac M1, Raspberry Pi, etc, please
+   use Method 2, 3, or 4.
+
 .. code-block:: bash
 
-  git clone https://github.com/k2-fsa/sherpa-ncnn
-  cd sherpa-ncnn
-  python3 setup.py install
+  pip install sherpa-ncnn
+
+
+If you use ``Method 1``, it will install pre-compiled libraries.
+The ``disadvantage`` is that it may ``not be optimized`` for your platform,
+while the ``advantage`` is that you don't need to install ``cmake`` or a
+C++ compiler.
+
+For the following methods, you have to first install:
+
+- ``cmake``, which can be installed using ``pip install cmake``
+- A C++ compiler, e.g., GCC on Linux and macOS, Visual Studio on Windows
 
 Method 2
 ^^^^^^^^
 
 .. code-block:: bash
 
-  pip install git+https://github.com/k2-fsa/sherpa-ncnn
+  git clone https://github.com/k2-fsa/sherpa-ncnn
+  cd sherpa-ncnn
+  python3 setup.py install
 
 Method 3
 ^^^^^^^^
 
 .. code-block:: bash
 
-  pip install sherpa-ncnn
+  pip install git+https://github.com/k2-fsa/sherpa-ncnn
+
 
 Method 4 (For developers)
 ^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -62,9 +85,21 @@ Let us check whether `sherpa-ncnn`_ was installed successfully:
 
 .. code-block:: bash
 
-  python3 -c "import sherpa_ncnn; print(sherpa_ncnn.__version__)"
+  python3 -c "import sherpa_ncnn; print(sherpa_ncnn.__file__)"
+  python3 -c "import _sherpa_ncnn; print(_sherpa_ncnn.__file__)"
 
-It should print the version of `sherpa-ncnn`_, e.g., ``1.1``.
+They should print the location of ``sherpa_ncnn`` and ``_sherpa_ncnn``.
+
+.. hint::
+
+  If you use ``Method 1``, ``Method 2``, and ``Method 3``, you can also use
+
+    .. code-block:: bash
+
+      python3 -c "import sherpa_ncnn; print(sherpa_ncnn.__version__)"
+
+  It should print the version of `sherpa-ncnn`_, e.g., ``1.1``.
+
 
 Next, we describe how to use `sherpa-ncnn`_ Python API for speech recognition:
 
@@ -164,8 +199,8 @@ Please refer to :ref:`sherpa-ncnn-pre-trained-models` for more models.
 
 **Note that**:
 
-  - It reads ``20 ms`` of audio samples at a time. You can choose a larger
-    value, e.g., ``100 ms``.
+  - It reads ``100 ms`` of audio samples at a time. You can choose a larger
+    value, e.g., ``200 ms``.
   - No queue or callback is used. Instead, we use a blocking read here.
   - The ``samples`` array is reshaped to a ``1-D`` array
 
@@ -220,6 +255,18 @@ The following is a YouTube video for demonstration.
   .. raw:: html
 
     <iframe src="//player.bilibili.com/player.html?bvid=BV1K44y197Fg&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" width="800" height="600"> </iframe>
+
+
+.. note::
+
+  `<https://github.com/k2-fsa/sherpa-ncnn/blob/master/python-api-examples/speech-recognition-from-microphone-with-endpoint-detection.py>`_ supports endpoint detection.
+
+  Please see the following video for its usage:
+
+  .. raw:: html
+
+    <iframe src="//player.bilibili.com/player.html?bvid=BV1eK411y788&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" width="800" height="600"> </iframe>
+
 
 Recognize a file
 ----------------

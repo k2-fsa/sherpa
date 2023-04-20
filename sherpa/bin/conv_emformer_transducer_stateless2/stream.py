@@ -162,6 +162,7 @@ class Stream(object):
         context_size: int,
         subsampling_factor: int,
         initial_states: List[List[torch.Tensor]],
+        audio_sample_rate: int,
     ) -> None:
         """
         Args:
@@ -195,6 +196,14 @@ class Stream(object):
         # frame offset within the current segment after subsampling
         self.segment_frame_offset = 0  # reset on endpointing
 
+        if audio_sample_rate != 16000:
+            self.resampler = sherpa.LinearResample(
+                samp_rate_in_hz=audio_sample_rate,
+                samp_rate_out_hz=16000,
+            )
+        else:
+            self.resampler = None
+
     def accept_waveform(
         self,
         sampling_rate: float,
@@ -218,8 +227,15 @@ class Stream(object):
             A 1-D torch tensor of dtype torch.float32 containing audio samples.
             It should be on CPU.
         """
+        if self.resampler:
+            assert sampling_rate == self.resampler.input_sample_rate, (
+                sampling_rate,
+                self.resampler.input_sample_rate,
+            )
+            waveform = self.resampler.resample(waveform, flush=False)
+
         self.feature_extractor.accept_waveform(
-            sampling_rate=sampling_rate,
+            sampling_rate=16000,
             waveform=waveform,
         )
         self._fetch_frames()

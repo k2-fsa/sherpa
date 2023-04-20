@@ -9,6 +9,10 @@ set(sherpa_cpp_api_srcs
 add_library(sherpa_cpp_api ${sherpa_cpp_api_srcs})
 target_link_libraries(sherpa_cpp_api sherpa_core)
 
+if(UNIT AND NOT APPLE)
+  target_link_libraries(sherpa_cpp_api -pthread)
+endif()
+
 if(SHERPA_ENABLE_TESTS)
   add_executable(test-feature-config test-feature-config.cc)
   target_link_libraries(test-feature-config sherpa_cpp_api)

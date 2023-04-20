@@ -82,8 +82,7 @@ class OfflineRecognizerTransducerImpl : public OfflineRecognizerImpl {
 
   std::unique_ptr<OfflineStream> CreateStream() override {
     bool return_waveform = false;
-    return std::make_unique<OfflineStream>(
-        &fbank_, return_waveform, config_.feat_config.normalize_samples);
+    return std::make_unique<OfflineStream>(&fbank_, config_.feat_config);
   }
 
   void DecodeStreams(OfflineStream **ss, int32_t n) override {

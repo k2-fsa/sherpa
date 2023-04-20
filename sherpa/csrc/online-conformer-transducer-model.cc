@@ -36,8 +36,8 @@ OnlineConformerTransducerModel::OnlineConformerTransducerModel(
   // of encoder_embed output (in conformer.py) to avoid a training
   // and decoding mismatch by seeing padding values.
   int32_t pad_length =
-      (2 + right_context) * subsampling_factor + (subsampling_factor - 1);
-  chunk_shift_ = decode_chunk_size * subsampling_factor;
+      2 * subsampling_factor + right_context + (subsampling_factor - 1);
+  chunk_shift_ = decode_chunk_size;
   chunk_size_ = chunk_shift_ + pad_length;
   // Note: Differences from the conv-emformer:
   //  right_context in streaming conformer is specified by users during
@@ -119,7 +119,8 @@ OnlineConformerTransducerModel::RunEncoder(
   auto projected_encoder_out =
       encoder_proj_.run_method("forward", encoder_out).toTensor();
 
-  return {projected_encoder_out, encoder_out_length, next_states};
+  return std::make_tuple(projected_encoder_out, encoder_out_length,
+                         next_states);
 }
 
 torch::Tensor OnlineConformerTransducerModel::RunDecoder(

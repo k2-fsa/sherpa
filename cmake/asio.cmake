@@ -1,19 +1,33 @@
 function(download_asio)
   include(FetchContent)
 
-  set(asio_URL  "https://github.com/chriskohlhoff/asio/archive/refs/tags/asio-1-24-0.tar.gz")
-  set(asio_HASH "SHA256=cbcaaba0f66722787b1a7c33afe1befb3a012b5af3ad7da7ff0f6b8c9b7a8a5b")
+  set(asio_URL   "https://github.com/chriskohlhoff/asio/archive/refs/tags/asio-1-24-0.tar.gz")
+  set(asio_URL2  "https://huggingface.co/csukuangfj/sherpa-cmake-deps/resolve/main/asio-asio-1-24-0.tar.gz")
+  set(asio_HASH  "SHA256=cbcaaba0f66722787b1a7c33afe1befb3a012b5af3ad7da7ff0f6b8c9b7a8a5b")
 
-  # If you don't have access to the Internet, please download it to your
-  # local drive and modify the following line according to your needs.
-  if(EXISTS "/star-fj/fangjun/download/github/asio-asio-1-24-0.tar.gz")
-    set(asio_URL  "file:///star-fj/fangjun/download/github/asio-asio-1-24-0.tar.gz")
-  elseif(EXISTS "/tmp/asio-asio-1-24-0.tar.gz")
-    set(asio_URL  "file:///tmp/asio-asio-1-24-0.tar.gz")
-  endif()
+  # If you don't have access to the Internet,
+  # please pre-download asio
+  set(possible_file_locations
+    $ENV{HOME}/Downloads/asio-asio-1-24-0.tar.gz
+    ${PROJECT_SOURCE_DIR}/asio-asio-1-24-0.tar.gz
+    ${PROJECT_BINARY_DIR}/asio-asio-1-24-0.tar.gz
+    /tmp/asio-asio-1-24-0.tar.gz
+    /star-fj/fangjun/download/github/asio-asio-1-24-0.tar.gz
+  )
+
+  foreach(f IN LISTS possible_file_locations)
+    if(EXISTS ${f})
+      set(asio_URL  "${f}")
+      file(TO_CMAKE_PATH "${asio_URL}" asio_URL)
+      set(asio_URL2)
+      break()
+    endif()
+  endforeach()
 
   FetchContent_Declare(asio
-    URL               ${asio_URL}
+    URL
+      ${asio_URL}
+      ${asio_URL2}
     URL_HASH          ${asio_HASH}
   )
 

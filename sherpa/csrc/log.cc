@@ -31,20 +31,43 @@
 // Useful to decode the stack trace, but only used if we have execinfo.h
 #endif  // SHERPA_HAVE_CXXABI_H
 #endif  // SHERPA_HAVE_EXECINFO_H
-
 #include <stdlib.h>
 
+#include <chrono>  // NOLINT
+#include <cstdint>
 #include <ctime>
 #include <iomanip>
+#include <iostream>
 #include <string>
+#include <type_traits>
+
+class log_watch {
+ public:
+  static constexpr auto decimal_width = 3;
+  explicit log_watch(const std::string &format = "%FT%T") : m_format(format) {}
+  friend std::ostream &operator<<(std::ostream &, const log_watch &);
+
+ private:
+  std::string m_format;
+};
+
+std::ostream &operator<<(std::ostream &os, const log_watch &lw) {
+  auto time_point = std::chrono::system_clock::now();
+  std::time_t t = std::chrono::system_clock::to_time_t(time_point);
+  os << std::put_time(std::localtime(&t), lw.m_format.c_str());
+  auto dur = time_point.time_since_epoch();
+  auto ss = std::chrono::duration_cast<std::chrono::milliseconds>(dur) %
+            std::chrono::seconds{1};
+  os << std::setfill('0') << std::setw(lw.decimal_width) << ss.count();
+  return os;
+}
 
 namespace sherpa {
 
 std::string GetDateTimeStr() {
+  log_watch ms("%F %T.");
   std::ostringstream os;
-  std::time_t t = std::time(nullptr);
-  std::tm tm = *std::localtime(&t);
-  os << std::put_time(&tm, "%F %T");  // yyyy-mm-dd hh:mm:ss
+  os << ms;  // yyyy-mm-dd hh:mm:ss.sss
   return os.str();
 }
 

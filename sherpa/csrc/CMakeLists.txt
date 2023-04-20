@@ -1,13 +1,14 @@
 # Please sort the filenames alphabetically
 set(sherpa_srcs
+  offline-conformer-ctc-model.cc
   offline-conformer-transducer-model.cc
+  offline-ctc-one-best-decoder.cc
+  offline-nemo-enc-dec-ctc-model-bpe.cc
+  offline-transducer-fast-beam-search-decoder.cc
   offline-transducer-greedy-search-decoder.cc
   offline-transducer-modified-beam-search-decoder.cc
-  offline-conformer-ctc-model.cc
-  offline-wenet-conformer-ctc-model.cc
-  offline-ctc-one-best-decoder.cc
   offline-wav2vec2-ctc-model.cc
-  offline-transducer-fast-beam-search-decoder.cc
+  offline-wenet-conformer-ctc-model.cc
 
   online-conv-emformer-transducer-model.cc
   online-transducer-greedy-search-decoder.cc
@@ -16,6 +17,9 @@ set(sherpa_srcs
   online-conformer-transducer-model.cc
   online-lstm-transducer-model.cc
   online-transducer-fast-beam-search-decoder.cc
+  online-zipformer-transducer-model.cc
+
+  resample.cc
 
   # TODO(fangjun): Refactor the following files
   fbank-features.cc

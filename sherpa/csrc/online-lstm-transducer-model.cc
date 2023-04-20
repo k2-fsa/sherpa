@@ -115,7 +115,7 @@ OnlineLstmTransducerModel::RunEncoder(
 
   auto next_states = tuple_ptr->elements()[2];
 
-  return {encoder_out, encoder_out_length, next_states};
+  return std::make_tuple(encoder_out, encoder_out_length, next_states);
 }
 
 torch::Tensor OnlineLstmTransducerModel::RunDecoder(

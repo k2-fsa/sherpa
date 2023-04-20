@@ -1,0 +1,24 @@
+/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:361 ./build/bin/sherpa-onnx-offline --tokens=./sherpa-onnx-nemo-ctc-en-citrinet-512/tokens.txt --nemo-ctc-model=./sherpa-onnx-nemo-ctc-en-citrinet-512/model.onnx --num-threads=2 --decoding-method=greedy_search --debug=false ./sherpa-onnx-nemo-ctc-en-citrinet-512/test_wavs/0.wav ./sherpa-onnx-nemo-ctc-en-citrinet-512/test_wavs/1.wav ./sherpa-onnx-nemo-ctc-en-citrinet-512/test_wavs/8k.wav 
+
+OfflineRecognizerConfig(feat_config=OfflineFeatureExtractorConfig(sampling_rate=16000, feature_dim=80), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename="", decoder_filename="", joiner_filename=""), paraformer=OfflineParaformerModelConfig(model=""), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model="./sherpa-onnx-nemo-ctc-en-citrinet-512/model.onnx"), tokens="./sherpa-onnx-nemo-ctc-en-citrinet-512/tokens.txt", num_threads=2, debug=False), decoding_method="greedy_search")
+Creating recognizer ...
+Started
+/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/offline-stream.cc:AcceptWaveformImpl:105 Creating a resampler:
+   in_sample_rate: 8000
+   output_sample_rate: 16000
+
+Done!
+
+./sherpa-onnx-nemo-ctc-en-citrinet-512/test_wavs/0.wav
+ after early nightfall the yellow lamps would light up here and there the squalid quarter of the brothels
+----
+./sherpa-onnx-nemo-ctc-en-citrinet-512/test_wavs/1.wav
+ god as a direct consequence of the sin which man thus punished had given her a lovely child whose place was on that same dishonoured bosom to connect her parent for ever with the race and descent of mortals and to be finally a blessed soul in heaven
+----
+./sherpa-onnx-nemo-ctc-en-citrinet-512/test_wavs/8k.wav
+ yet these thoughts affected hester prynne less with hope than apprehension
+----
+num threads: 2
+decoding method: greedy_search
+Elapsed seconds: 4.963 s
+Real time factor (RTF): 4.963 / 28.165 = 0.176

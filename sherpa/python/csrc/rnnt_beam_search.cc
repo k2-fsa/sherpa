@@ -157,7 +157,8 @@ void PybindRnntBeamSearch(py::module &m) {  // NOLINT
         decoder_out = StreamingGreedySearch(
             model, encoder_out, decoder_out, frame_offset, &hyps,
             &num_trailing_blank_frames, &timestamps);
-        return {decoder_out, hyps, num_trailing_blank_frames, timestamps};
+        return std::make_tuple(decoder_out, hyps, num_trailing_blank_frames,
+                               timestamps);
       },
       py::arg("model"), py::arg("encoder_out"), py::arg("decoder_out"),
       py::arg("hyps"), py::arg("num_trailing_blank_frames"),

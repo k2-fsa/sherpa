@@ -48,6 +48,10 @@ if(NOT WIN32)
       target_link_libraries(${exe} "-Wl,-rpath,${p}/../lib")
     endforeach()
   endforeach()
+
+  foreach(exe IN LISTS exe_list)
+    target_link_libraries(${exe} "-Wl,-rpath,${SHERPA_RPATH_ORIGIN}/../lib")
+  endforeach()
 endif()
 
 install(

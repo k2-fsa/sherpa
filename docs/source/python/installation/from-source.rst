@@ -1,3 +1,5 @@
+.. _install_sherpa_from_source:
+
 Install from source
 ===================
 

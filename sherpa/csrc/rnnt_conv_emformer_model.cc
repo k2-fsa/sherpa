@@ -156,7 +156,7 @@ torch::IValue RnntConvEmformerModel::StackStates(
   for (int32_t l = 0; l != num_layers; ++l) {
     auto &attn_caches_l = attn_caches[l];
     auto &stacked_attn_caches_l = stacked_attn_caches[l];
-    for (int32_t i = 0; i != attn_caches_l.size(); ++i) {
+    for (size_t i = 0; i != attn_caches_l.size(); ++i) {
       stacked_attn_caches_l.push_back(
           torch::stack(attn_caches_l[i], /*dim*/ 1));
     }
@@ -233,7 +233,8 @@ RnntConvEmformerModel::StreamingForwardEncoder(
 
   torch::Tensor encoder_out_length = tuple_ptr->elements()[1].toTensor();
   torch::IValue next_states = tuple_ptr->elements()[2];
-  return {encoder_out, encoder_out_length, next_states};
+
+  return std::make_tuple(encoder_out, encoder_out_length, next_states);
 }
 
 torch::IValue RnntConvEmformerModel::GetEncoderInitStates(

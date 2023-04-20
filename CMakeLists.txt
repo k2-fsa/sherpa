@@ -3,7 +3,7 @@ project(sherpa)
 
 # Remember to change
 # scripts/conda-cpu/sherpa/meta.yaml
-set(SHERPA_VERSION "1.1")
+set(SHERPA_VERSION "1.2")
 
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
@@ -16,6 +16,7 @@ set(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 if(NOT APPLE)
   set(SHERPA_RPATH_ORIGIN "$ORIGIN")
 else()
+  set(CMAKE_MACOSX_RPATH ON)
   set(SHERPA_RPATH_ORIGIN "@loader_path")
 endif()
 

@@ -153,7 +153,7 @@ RnntConformerModel::StreamingForwardEncoder(
 
   auto next_states = outputs->elements()[2];
 
-  return {encoder_out, encoder_out_length, next_states};
+  return std::make_tuple(encoder_out, encoder_out_length, next_states);
 }
 
 torch::Tensor RnntConformerModel::ForwardDecoder(

@@ -40,7 +40,7 @@ This page lists all available pre-trained models that you can download.
 
 
 .. hint::
-   
+
    We provide a colab notebook
    |Sherpa offline recognition python api colab notebook|
    for you to try offline recognition step by step.
@@ -55,6 +55,6 @@ This page lists all available pre-trained models that you can download.
    :maxdepth: 2
    :caption: Pretrained models
 
-   offline_ctc
+   offline_ctc/index
    offline_transducer
    online_transducer

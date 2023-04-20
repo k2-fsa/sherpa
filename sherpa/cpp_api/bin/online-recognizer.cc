@@ -68,7 +68,16 @@ To use fast_beam_search with an LG, use
     foo.wav \
     bar.wav
 
-(4) To decode wav.scp
+(4) To use a streaming Zipformer model for recognition
+
+  ./bin/sherpa-online \
+    --nn-model=/path/to/cpu_jit.pt \
+    --tokens=/path/to/tokens.txt \
+    --use-gpu=false \
+    foo.wav \
+    bar.wav
+
+(5) To decode wav.scp
 
   ./bin/sherpa-online \
     --nn-model=/path/to/cpu_jit.pt \

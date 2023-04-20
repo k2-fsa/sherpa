@@ -93,13 +93,13 @@ Next, let us set the environment variable ``ANDROID_NDK`` for later use.
 
   Note from https://github.com/Tencent/ncnn/wiki/how-to-build#build-for-android
 
-  (optional) remove the hardcoded debug flag in Android NDK to fix
+  (Important) remove the hardcoded debug flag in Android NDK to fix
   the android-ndk issue: https://github.com/android/ndk/issues/243
 
   1. open ``$ANDROID_NDK/build/cmake/android.toolchain.cmake`` for ndk < r23
   or ``$ANDROID_NDK/build/cmake/android-legacy.toolchain.cmake`` for ndk >= r23
 
-  2. delete "-g" line
+  2. delete the line containing "-g"
 
     .. code-block::
 
@@ -107,12 +107,17 @@ Next, let us set the environment variable ``ANDROID_NDK`` for later use.
       -g
       -DANDROID
 
+.. caution::
+
+  If you don't delete the line containin ``-g`` above, the generated
+  library ``libncnn.so`` can be as large as ``21 MB`` or even larger!
+
 Build sherpa-ncnn (C++ code)
 ----------------------------
 
 After installing ``NDK``, it is time to build the C++ code of `sherpa-ncnn`_.
 
-In the following, we show how to build ``sherpa-ncnn`` for the following
+In the following, we show how to build `sherpa-ncnn`_ for the following
 Android ABIs:
 
   - ``arm64-v8a``
@@ -268,17 +273,21 @@ In the end, you should have the following files:
 .. code-block:: bash
 
   $ ls -lh
-  total 322208
+  total 525224
   -rw-r--r--  1 fangjun  staff   5.9M Dec 18 17:40 decoder_jit_trace-pnnx.ncnn.bin
   -rw-r--r--  1 fangjun  staff   439B Dec 18 17:39 decoder_jit_trace-pnnx.ncnn.param
   -rw-r--r--  1 fangjun  staff   141M Dec 18 17:40 encoder_jit_trace-pnnx.ncnn.bin
+  -rw-r--r--  1 fangjun  staff    99M Dec 18 17:40 encoder_jit_trace-pnnx.ncnn.int8.bin
+  -rw-r--r--  1 fangjun  staff    78K Dec 18 17:40 encoder_jit_trace-pnnx.ncnn.int8.param
   -rw-r--r--  1 fangjun  staff    79K Dec 18 17:39 encoder_jit_trace-pnnx.ncnn.param
   -rw-r--r--  1 fangjun  staff   6.9M Dec 18 17:40 joiner_jit_trace-pnnx.ncnn.bin
+  -rw-r--r--  1 fangjun  staff   3.5M Dec 18 17:40 joiner_jit_trace-pnnx.ncnn.int8.bin
+  -rw-r--r--  1 fangjun  staff   498B Dec 18 17:40 joiner_jit_trace-pnnx.ncnn.int8.param
   -rw-r--r--  1 fangjun  staff   490B Dec 18 17:39 joiner_jit_trace-pnnx.ncnn.param
   -rw-r--r--  1 fangjun  staff    53K Dec 18 17:39 tokens.txt
 
   $ du -h -d1 .
-  157M    .
+  256M    .
 
 You should see the following screen shot after downloading the pre-trained model:
 
@@ -317,6 +326,8 @@ Congratulations! You have successfully built an APK for Android.
 
 Read below to learn more.
 
+.. _sherpa-ncnn-analyze-apk-result:
+
 Analyze the APK
 ---------------
 
@@ -334,7 +345,7 @@ and you will see the following screen shot:
 
 You can see from the above screen shot that most part of the APK
 is occupied by the pre-trained model, while the runtime, including the shared
-libraries, is only ``1.6 MB``.
+libraries, is only ``1.7 MB``.
 
 .. hint::
 

@@ -45,14 +45,15 @@ release = version
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
+    "_ext.rst_roles",
     "recommonmark",
     "sphinx.ext.autodoc",
     "sphinx.ext.githubpages",
     "sphinx.ext.napoleon",
     "sphinx_autodoc_typehints",
     "sphinx_rtd_theme",
+    "sphinx_tabs.tabs",
     "sphinxcontrib.youtube",
-    "_ext.rst_roles",
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -110,9 +111,11 @@ rst_epilog = """
 .. _ConvEmformer: https://arxiv.org/pdf/2110.05241.pdf
 .. _Emformer: https://arxiv.org/pdf/2010.10759.pdf
 .. _LibriSpeech: https://www.openslr.org/12
+.. _CSJ: https://clrd.ninjal.ac.jp/csj/en/index.html
 .. _aishell: https://www.openslr.org/33
 .. _sherpa: https://github.com/k2-fsa/sherpa
 .. _transducer: https://arxiv.org/pdf/1211.3711.pdf
+.. _CTC: https://www.cs.toronto.edu/~graves/icml_2006.pdf
 .. _asyncio: https://docs.python.org/3/library/asyncio.html
 .. _k2: https://github.com/k2-fsa/k2
 .. _icefall: https://github.com/k2-fsa/icefall
@@ -133,4 +136,11 @@ rst_epilog = """
 .. _Triton: https://github.com/triton-inference-server
 .. _Triton-server: https://github.com/triton-inference-server/server
 .. _Triton-client: https://github.com/triton-inference-server/client
+.. _WebSocket: https://en.wikipedia.org/wiki/WebSocket
+.. _websocketpp: https://github.com/zaphoyd/websocketpp
+.. _asio: https://github.com/chriskohlhoff/asio
+.. _boost: https://github.com/boostorg/boost
+.. _NeMo: https://github.com/NVIDIA/NeMo
+.. _CommonVoice: https://commonvoice.mozilla.org
+.. _Zipformer: https://github.com/k2-fsa/icefall/tree/master/egs/librispeech/ASR/pruned_transducer_stateless7_streaming
 """

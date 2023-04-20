@@ -12,7 +12,11 @@ Please refer to
 https://k2-fsa.github.io/sherpa/cpp/pretrained_models/offline_transducer.html#
 for pre-trained models to download.
 
-We use the zipformer pre-trained model below to demonstrate how to use
+See
+https://k2-fsa.github.io/sherpa/python/offline_asr/standalone/transducer.html
+for detailed usages and also you can find a colab notebook there.
+
+We use the Zipformer pre-trained model below to demonstrate how to use
 this file:
 
 (1) Download pre-trained models
@@ -106,16 +110,7 @@ def get_parser():
 
     add_model_args(parser)
     add_decoding_args(parser)
-
-    parser.add_argument(
-        "--use-gpu",
-        type=str2bool,
-        default=False,
-        help="""True to use GPU. It always selects GPU 0. You can use the
-        environement variable CUDA_VISIBLE_DEVICES to control which GPU
-        is mapped to GPU 0.
-        """,
-    )
+    add_resources_args(parser)
 
     parser.add_argument(
         "sound_files",
@@ -123,8 +118,7 @@ def get_parser():
         nargs="+",
         help="The input sound file(s) to transcribe. "
         "Supported formats are those supported by torchaudio.load(). "
-        "For example, wav and flac are supported. "
-        "The sample rate has to equal to `--sample-rate`.",
+        "For example, wav and flac are supported. ",
     )
 
     return parser
@@ -146,6 +140,22 @@ def add_model_args(parser: argparse.ArgumentParser):
         "--tokens",
         type=str,
         help="Path to tokens.txt",
+    )
+
+    parser.add_argument(
+        "--sample-rate",
+        type=int,
+        default=16000,
+        help="Sample rate of the data used to train the model. "
+        "Caution: If your input sound files have a different sampling rate, "
+        "we will do resampling inside",
+    )
+
+    parser.add_argument(
+        "--feat-dim",
+        type=int,
+        default=80,
+        help="Feature dimension of the model",
     )
 
 
@@ -227,6 +237,25 @@ def add_fast_beam_search_args(parser: argparse.ArgumentParser):
     )
 
 
+def add_resources_args(parser: argparse.ArgumentParser):
+    parser.add_argument(
+        "--use-gpu",
+        type=str2bool,
+        default=False,
+        help="""True to use GPU. It always selects GPU 0. You can use the
+        environement variable CUDA_VISIBLE_DEVICES to control which GPU
+        is mapped to GPU 0.
+        """,
+    )
+
+    parser.add_argument(
+        "--num-threads",
+        type=int,
+        default=1,
+        help="Sets the number of threads used for interop parallelism (e.g. in JIT interpreter) on CPU.",
+    )
+
+
 def check_args(args):
     if not Path(args.nn_model).is_file():
         raise ValueError(f"{args.nn_model} does not exist")
@@ -281,11 +310,11 @@ def read_sound_files(
     return ans
 
 
-def create_recognizer(args):
+def create_recognizer(args) -> sherpa.OfflineRecognizer:
     feat_config = sherpa.FeatureConfig()
 
-    feat_config.fbank_opts.frame_opts.samp_freq = 16000
-    feat_config.fbank_opts.mel_opts.num_bins = 80
+    feat_config.fbank_opts.frame_opts.samp_freq = args.sample_rate
+    feat_config.fbank_opts.mel_opts.num_bins = args.feat_dim
     feat_config.fbank_opts.frame_opts.dither = 0
 
     fast_beam_search_config = sherpa.FastBeamSearchConfig(
@@ -317,8 +346,11 @@ def main():
     logging.info(vars(args))
     check_args(args)
 
+    torch.set_num_threads(args.num_threads)
+    torch.set_num_interop_threads(args.num_threads)
+
     recognizer = create_recognizer(args)
-    sample_rate = 16000
+    sample_rate = args.sample_rate
 
     samples: List[torch.Tensor] = read_sound_files(
         args.sound_files,
@@ -335,9 +367,6 @@ def main():
     for filename, stream in zip(args.sound_files, streams):
         print(f"{filename}\n{stream.result}")
 
-
-torch.set_num_threads(1)
-torch.set_num_interop_threads(1)
 
 # See https://github.com/pytorch/pytorch/issues/38342
 # and https://github.com/pytorch/pytorch/issues/33354
@@ -362,3 +391,6 @@ if __name__ == "__main__":
     logging.basicConfig(format=formatter, level=logging.INFO)
 
     main()
+else:
+    torch.set_num_threads(1)
+    torch.set_num_interop_threads(1)

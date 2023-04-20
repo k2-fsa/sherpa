@@ -1,5 +1,7 @@
+.. _online_transducer_pretrained_models:
+
 Online transducer models
-=========================
+========================
 
 .. hint::
 
@@ -19,6 +21,43 @@ This sections lists models trained using `icefall`_.
 
 English
 ^^^^^^^
+
+.. _icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29:
+
+icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+  # This model is trained using LibriSpeech with streaming zipformer transducer
+  #
+  # See https://github.com/k2-fsa/icefall/pull/787
+  #
+  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/Zengwei/icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29
+  cd icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29
+
+  git lfs pull --include "exp/cpu_jit.pt"
+  git lfs pull --include "data/lang_bpe_500/LG.pt"
+
+  for m in greedy_search modified_beam_search fast_beam_search; do
+    sherpa-online \
+      --decoding-method=$m \
+      --nn-model=./exp/cpu_jit.pt \
+      --tokens=./data/lang_bpe_500/tokens.txt \
+      ./test_wavs/1089-134686-0001.wav \
+      ./test_wavs/1221-135766-0001.wav \
+      ./test_wavs/1221-135766-0002.wav
+  done
+
+  # For fast_beam_search with LG
+  sherpa-online \
+    --decoding-method=fast_beam_search \
+    --nn-model=./exp/cpu_jit.pt \
+    --lg=./data/lang_bpe_500/LG.pt \
+    --tokens=./data/lang_bpe_500/tokens.txt \
+    ./test_wavs/1089-134686-0001.wav \
+    ./test_wavs/1221-135766-0001.wav \
+    ./test_wavs/1221-135766-0002.wav
 
 icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -230,8 +269,34 @@ icefall_asr_wenetspeech_pruned_transducer_stateless5_streaming
 Chinese + English (all-in-one)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+pfluo/k2fsa-zipformer-chinese-english-mixed
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+It is a `streaming zipformer model <https://github.com/k2-fsa/icefall/tree/master/egs/librispeech/ASR/pruned_transducer_stateless7_streaming>`_
+
+.. code-block:: bash
+
+  # This model supports both Chinese and English
+  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/pfluo/k2fsa-zipformer-chinese-english-mixed
+  cd k2fsa-zipformer-chinese-english-mixed
+  git lfs pull --include "exp/cpu_jit.pt"
+
+  for m in greedy_search modified_beam_search fast_beam_search; do
+    sherpa-online \
+      --decoding-method=$m \
+      --nn-model=./exp/cpu_jit.pt \
+      --tokens=./data/lang_char_bpe/tokens.txt \
+      ./test_wavs/0.wav \
+      ./test_wavs/1.wav \
+      ./test_wavs/2.wav \
+      ./test_wavs/3.wav \
+      ./test_wavs/4.wav
+  done
+
 icefall-asr-conv-emformer-transducer-stateless2-zh
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+It is a `ConvEmformer model <https://github.com/k2-fsa/icefall/tree/master/egs/librispeech/ASR/conv_emformer_transducer_stateless2>`_
 
 .. code-block:: bash
 
@@ -243,21 +308,14 @@ icefall-asr-conv-emformer-transducer-stateless2-zh
   ln -sv cpu_jit-epoch-11-avg-1.pt cpu_jit.pt
   cd ..
 
-  mkdir test_wavs
-  cd test_wavs
-  wget https://huggingface.co/spaces/k2-fsa/automatic-speech-recognition/resolve/main/test_wavs/tal_csasr/0.wav
-  wget https://huggingface.co/spaces/k2-fsa/automatic-speech-recognition/resolve/main/test_wavs/tal_csasr/210_36476_210_8341_1_1533271973_7057520_132.wav
-  wget https://huggingface.co/spaces/k2-fsa/automatic-speech-recognition/resolve/main/test_wavs/tal_csasr/210_36476_210_8341_1_1533271973_7057520_138.wav
-  wget https://huggingface.co/spaces/k2-fsa/automatic-speech-recognition/resolve/main/test_wavs/tal_csasr/210_36476_210_8341_1_1533271973_7057520_145.wav
-  cd ..
-
   for m in greedy_search modified_beam_search fast_beam_search; do
     sherpa-online \
       --decoding-method=$m \
       --nn-model=./exp/cpu_jit.pt \
       --tokens=./data/lang_char_bpe/tokens.txt \
       ./test_wavs/0.wav \
-      ./test_wavs/210_36476_210_8341_1_1533271973_7057520_132.wav \
-      ./test_wavs/210_36476_210_8341_1_1533271973_7057520_138.wav \
-      ./test_wavs/210_36476_210_8341_1_1533271973_7057520_145.wav
+      ./test_wavs/1.wav \
+      ./test_wavs/2.wav \
+      ./test_wavs/3.wav \
+      ./test_wavs/4.wav
   done

@@ -43,13 +43,13 @@ class OfflineCtcModel {
       torch::IValue forward_out) const = 0;
 
   // Send some fake data to the model for computation
-  void WarmUp(torch::Tensor features, torch::Tensor features_length) {
+  virtual void WarmUp(torch::Tensor features, torch::Tensor features_length) {
     auto ivalue = Forward(features, features_length);
     auto log_prob = GetLogSoftmaxOut(ivalue);
     vocab_size_ = log_prob.size(-1);
   }
 
- private:
+ protected:
   int32_t vocab_size_ = -1;
 };
 

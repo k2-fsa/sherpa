@@ -93,7 +93,7 @@ class Client {
     c_.set_open_handler([this](connection_hdl hdl) { OnOpen(hdl); });
 
     c_.set_close_handler(
-        [this](connection_hdl /*hdl*/) { SHERPA_LOG(INFO) << "Disconnected"; });
+        [](connection_hdl /*hdl*/) { SHERPA_LOG(INFO) << "Disconnected"; });
 
     c_.set_message_handler(
         [this](connection_hdl hdl, message_ptr msg) { OnMessage(hdl, msg); });

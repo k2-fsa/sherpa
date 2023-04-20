@@ -111,7 +111,10 @@ async def run(server_addr: str, server_port: int, test_wav: str):
     ) as websocket:  # noqa
         logging.info(f"Sending {test_wav}")
         wave, sample_rate = torchaudio.load(test_wav)
-        assert sample_rate == 16000, sample_rate
+        # You have to ensure that sample_rate equals to
+        # the argument --audio-sample-rate that you used to
+        # start streaming_server.py
+        logging.info(f"sample_rate: {sample_rate}")
 
         wave = wave.squeeze(0)
         receive_task = asyncio.create_task(receive_results(websocket))
