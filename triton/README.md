@@ -71,15 +71,15 @@ cp <bpe_model_path> <jit_model_dir>
 
 Streaming Model Export:
 ```bash
-cp $SHERPA_SRC/triton/scripts/*onnx*.py $ICEFALL_DIR/egs/wenetspeech/ASR/pruned_stateless_transducer5/
+cp $SHERPA_SRC/triton/scripts/*onnx*.py $ICEFALL_DIR/egs/wenetspeech/ASR/pruned_transducer_stateless5/
 
 cd $ICEFALL_DIR/egs/wenetspeech/ASR/
 
 GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/luomingshuang/icefall_asr_wenetspeech_pruned_transducer_stateless5_streaming
-cd /icefall_asr_wenetspeech_pruned_transducer_stateless5_streaming
-git lfs pull --include "exp/pretrained_epoch_7_avg_1.pt"
+cd ./icefall_asr_wenetspeech_pruned_transducer_stateless5_streaming
+git lfs pull --include "exp/pretrained_epoch_7_avg_1.pt,data/lang_char/Linv.pt"
 
-ln -s ./icefall_asr_wenetspeech_pruned_transducer_stateless5_streaming/exp/pretrained_epoch_7_avg_1.pt ./icefall_asr_wenetspeech_pruned_transducer_stateless5_streaming/exp/epoch-999.pt 
+cd exp && ln -s pretrained_epoch_7_avg_1.pt epoch-999.pt && cd ../..
 
 ./pruned_transducer_stateless5/export_onnx.py \
     --exp-dir ./icefall_asr_wenetspeech_pruned_transducer_stateless5_streaming/exp \
