@@ -6,17 +6,17 @@ with cross-compiling on an x86 machine with Ubuntu OS.
 
 .. caution::
 
-   If you want to build `sherpa-ncnn`_ directly on your board, please dont'
+   If you want to build `sherpa-ncnn`_ directly on your board, please don't
    use this document. Refer to :ref:`install_sherpa_ncnn_on_linux` instead.
 
 .. caution::
 
-   If you want to build `sherpa-ncnn`_ directly on your board, please dont'
+   If you want to build `sherpa-ncnn`_ directly on your board, please don't
    use this document. Refer to :ref:`install_sherpa_ncnn_on_linux` instead.
 
 .. caution::
 
-   If you want to build `sherpa-ncnn`_ directly on your board, please dont'
+   If you want to build `sherpa-ncnn`_ directly on your board, please don't
    use this document. Refer to :ref:`install_sherpa_ncnn_on_linux` instead.
 
 .. hint::
