@@ -61,25 +61,70 @@ Method 3
   pip install git+https://github.com/k2-fsa/sherpa-ncnn
 
 
-Method 4 (For developers)
-^^^^^^^^^^^^^^^^^^^^^^^^^
+Method 4 (For developers and embedded boards)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.. tabs::
 
-.. code-block:: bash
+   .. tab:: x86/x86_64
 
-  git clone https://github.com/k2-fsa/sherpa-ncnn
-  cd sherpa-ncnn
-  mkdir build
-  cd build
+      .. code-block:: bash
 
-  cmake \
-    -D SHERPA_NCNN_ENABLE_PYTHON=ON \
-    -D SHERPA_NCNN_ENABLE_PORTAUDIO=OFF \
-    -D BUILD_SHARED_LIBS=ON \
-    ..
+        git clone https://github.com/k2-fsa/sherpa-ncnn
+        cd sherpa-ncnn
+        mkdir build
+        cd build
 
-  make -j6
+        cmake \
+          -D SHERPA_NCNN_ENABLE_PYTHON=ON \
+          -D SHERPA_NCNN_ENABLE_PORTAUDIO=OFF \
+          -D BUILD_SHARED_LIBS=ON \
+          ..
 
-  export PYTHONPATH=$PWD/lib:$PWD/../sherpa-ncnn/python:$PYTHONPATH
+        make -j6
+
+        export PYTHONPATH=$PWD/lib:$PWD/../sherpa-ncnn/python:$PYTHONPATH
+
+   .. tab:: 32-bit ARM
+
+      .. code-block:: bash
+
+        git clone https://github.com/k2-fsa/sherpa-ncnn
+        cd sherpa-ncnn
+        mkdir build
+        cd build
+
+        cmake \
+          -D SHERPA_NCNN_ENABLE_PYTHON=ON \
+          -D SHERPA_NCNN_ENABLE_PORTAUDIO=OFF \
+          -D BUILD_SHARED_LIBS=ON \
+          -DCMAKE_C_FLAGS="-march=armv7-a -mfloat-abi=hard -mfpu=neon" \
+          -DCMAKE_CXX_FLAGS="-march=armv7-a -mfloat-abi=hard -mfpu=neon" \
+          ..
+
+        make -j6
+
+        export PYTHONPATH=$PWD/lib:$PWD/../sherpa-ncnn/python:$PYTHONPATH
+
+   .. tab:: 64-bit ARM
+
+      .. code-block:: bash
+
+        git clone https://github.com/k2-fsa/sherpa-ncnn
+        cd sherpa-ncnn
+        mkdir build
+        cd build
+
+        cmake \
+          -D SHERPA_NCNN_ENABLE_PYTHON=ON \
+          -D SHERPA_NCNN_ENABLE_PORTAUDIO=OFF \
+          -D BUILD_SHARED_LIBS=ON \
+          -DCMAKE_C_FLAGS="-march=armv8-a" \
+          -DCMAKE_CXX_FLAGS="-march=armv8-a" \
+          ..
+
+        make -j6
+
+        export PYTHONPATH=$PWD/lib:$PWD/../sherpa-ncnn/python:$PYTHONPATH
 
 Let us check whether `sherpa-ncnn`_ was installed successfully:
 
