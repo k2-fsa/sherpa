@@ -33,21 +33,31 @@ All you need is to run:
 
      .. code-block:: bash
 
+        git clone https://github.com/k2-fsa/sherpa-ncnn
+        cd sherpa-ncnn
+        mkdir build
+        cd build
         cmake \
           -DCMAKE_BUILD_TYPE=Release \
           -DCMAKE_C_FLAGS="-march=armv7-a -mfloat-abi=hard -mfpu=neon" \
           -DCMAKE_CXX_FLAGS="-march=armv7-a -mfloat-abi=hard -mfpu=neon" \
           ..
+        make -j6
 
    .. tab:: 64-bit ARM
 
      .. code-block:: bash
 
+        git clone https://github.com/k2-fsa/sherpa-ncnn
+        cd sherpa-ncnn
+        mkdir build
+        cd build
         cmake \
           -DCMAKE_BUILD_TYPE=Release \
           -DCMAKE_C_FLAGS="-march=armv8-a" \
           -DCMAKE_CXX_FLAGS="-march=armv8-a" \
           ..
+        make -j6
 
 
 After building, you will find two executables inside the ``bin`` directory:
