@@ -1,3 +1,5 @@
+.. _install_sherpa_ncnn_on_linux:
+
 Linux
 =====
 
@@ -5,18 +7,58 @@ This page describes how to build `sherpa-ncnn`_ on Linux.
 
 .. hint::
 
+   You can follow this section if you want to build `sherpa-ncnn`_ directly
+   on your board.
+
+.. hint::
+
   For the Python API, please refer to :ref:`sherpa-ncnn-python-api`.
 
 All you need is to run:
 
-.. code-block:: bash
+.. tabs::
 
-  git clone https://github.com/k2-fsa/sherpa-ncnn
-  cd sherpa-ncnn
-  mkdir build
-  cd build
-  cmake -DCMAKE_BUILD_TYPE=Release ..
-  make -j6
+   .. tab:: x86/x86_64
+
+      .. code-block:: bash
+
+        git clone https://github.com/k2-fsa/sherpa-ncnn
+        cd sherpa-ncnn
+        mkdir build
+        cd build
+        cmake -DCMAKE_BUILD_TYPE=Release ..
+        make -j6
+
+   .. tab:: 32-bit ARM
+
+     .. code-block:: bash
+
+        git clone https://github.com/k2-fsa/sherpa-ncnn
+        cd sherpa-ncnn
+        mkdir build
+        cd build
+        cmake \
+          -DCMAKE_BUILD_TYPE=Release \
+          -DCMAKE_C_FLAGS="-march=armv7-a -mfloat-abi=hard -mfpu=neon" \
+          -DCMAKE_CXX_FLAGS="-march=armv7-a -mfloat-abi=hard -mfpu=neon" \
+          ..
+        make -j6
+
+   .. tab:: 64-bit ARM
+
+     .. code-block:: bash
+
+        git clone https://github.com/k2-fsa/sherpa-ncnn
+        cd sherpa-ncnn
+        mkdir build
+        cd build
+        cmake \
+          -DCMAKE_BUILD_TYPE=Release \
+          -DCMAKE_C_FLAGS="-march=armv8-a" \
+          -DCMAKE_CXX_FLAGS="-march=armv8-a" \
+          ..
+        make -j6
+
 
 After building, you will find two executables inside the ``bin`` directory:
 

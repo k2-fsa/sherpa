@@ -4,6 +4,25 @@ Embedded Linux (aarch64)
 This page describes how to build `sherpa-ncnn`_ for embedded Linux (aarch64, 64-bit)
 with cross-compiling on an x86 machine with Ubuntu OS.
 
+.. caution::
+
+   If you want to build `sherpa-ncnn`_ directly on your board, please don't
+   use this document. Refer to :ref:`install_sherpa_ncnn_on_linux` instead.
+
+.. caution::
+
+   If you want to build `sherpa-ncnn`_ directly on your board, please don't
+   use this document. Refer to :ref:`install_sherpa_ncnn_on_linux` instead.
+
+.. caution::
+
+   If you want to build `sherpa-ncnn`_ directly on your board, please don't
+   use this document. Refer to :ref:`install_sherpa_ncnn_on_linux` instead.
+
+.. hint::
+
+   This page is for cross-compiling.
+
 .. _sherpa_ncnn_install_for_aarch64_embedded_linux:
 
 Install toolchain
