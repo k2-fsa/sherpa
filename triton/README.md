@@ -126,6 +126,8 @@ cd $ICEFALL_DIR/egs/librispeech/ASR/
 GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/pkufool/icefall_librispeech_streaming_pruned_transducer_stateless3_giga_0.9_20220625
 cd icefall_librispeech_streaming_pruned_transducer_stateless3_giga_0.9_20220625
 git lfs pull --include "exp/pretrained-epoch-25-avg-12.pt"
+git lfs pull --include "data/lang_bpe_500/bpe.model"
+
 
 ln -s ./icefall_librispeech_streaming_pruned_transducer_stateless3_giga_0.9_20220625/exp/pretrained-epoch-25-avg-12.pt ./icefall_librispeech_streaming_pruned_transducer_stateless3_giga_0.9_20220625/exp/epoch-999.pt 
 
