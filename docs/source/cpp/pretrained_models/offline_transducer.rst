@@ -22,6 +22,34 @@ This sections lists models trained using `icefall`_.
 English
 ^^^^^^^
 
+.. _icefall-asr-multidataset-pruned_transducer_stateless7-2023-05-04:
+
+icefall-asr-multidataset-pruned_transducer_stateless7-2023-05-04
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+  # This model is trained using GigaSpeech + LibriSpeech + Common Voice 13.0 with zipformer
+  #
+  # See https://github.com/k2-fsa/icefall/pull/1010
+  #
+  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/yfyeung/icefall-asr-multidataset-pruned_transducer_stateless7-2023-05-04
+  cd icefall-asr-multidataset-pruned_transducer_stateless7-2023-05-04
+  git lfs pull --include "exp/cpu_jit-epoch-30-avg-4.pt"
+  cd exp
+  ln -s cpu_jit-epoch-30-avg-4.pt cpu_jit.pt
+  cd ..
+
+  for m in greedy_search modified_beam_search fast_beam_search; do
+    sherpa-offline \
+      --decoding-method=$m \
+      --nn-model=./exp/cpu_jit.pt \
+      --tokens=./data/lang_bpe_500/tokens.txt \
+      ./test_wavs/1089-134686-0001.wav \
+      ./test_wavs/1221-135766-0001.wav \
+      ./test_wavs/1221-135766-0002.wav
+  done
+
 .. _icefall-asr-librispeech-pruned-transducer-stateless8-2022-12-02:
 
 icefall-asr-librispeech-pruned-transducer-stateless8-2022-12-02
