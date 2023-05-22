@@ -10,13 +10,18 @@ real-time speech recognition on Android.
 
   You can find pre-built ``APK`` packages used by the following videos at:
 
-    `<https://huggingface.co/csukuangfj/sherpa-ncnn-apk/tree/main/to-delete>`_
+    `<https://huggingface.co/csukuangfj/sherpa-ncnn-apk/tree/main>`_
 
-  - ``2022-12-17-mixed-english-chinese-sherpa-ncnn.apk`` runs on CPU and supports
-    ``Android >= 5.0``
+  - CPU versions require ``Android >= 5.0``
+  - GPU versions with ``Vulkan`` require ``Android >= 7.0``
 
-  - ``2022-12-17-with-vulkan-gpu-mixed-english-chinese-sherpa-ncnn.apk`` runs on
-    GPU with ``Vulkan`` and requires ``Android >= 7.0``.
+.. note::
+
+   You can also find the latest APK for each release at
+
+      `<https://github.com/k2-fsa/sherpa-ncnn/releases>`_
+
+
 
 Video 1: Chinese
 ----------------
