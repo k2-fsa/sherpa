@@ -1,4 +1,4 @@
-// sherpa/csrc/offline-ctc-model.cc
+// sherpa/csrc/offline-ctc-model.h
 //
 // Copyright (c)  2022  Xiaomi Corporation
 #ifndef SHERPA_CSRC_OFFLINE_CTC_MODEL_H_

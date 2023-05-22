@@ -1,4 +1,4 @@
-// sherpa/csrc/online-zipformer2-transducer-model.h
+// sherpa/csrc/online-zipformer2-transducer-model.cc
 //
 // Copyright (c)  2023  Xiaomi Corporation
 #include "sherpa/csrc/online-zipformer2-transducer-model.h"

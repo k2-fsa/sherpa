@@ -1,4 +1,4 @@
-// sherpa/csrc/offline-wav2vec2-ctc-model.h
+// sherpa/csrc/offline-wav2vec2-ctc-model.cc
 //
 // Copyright (c)  2022  Xiaomi Corporation
 
