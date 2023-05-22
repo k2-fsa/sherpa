@@ -131,6 +131,14 @@ Android ABIs:
 
   If you want to test the app on an emulator, you probably need ``x86_64``.
 
+.. hint::
+
+   Building scripts for this section are for macOS and Linux. If you are
+   using Windows or if you don't want to build the shared libraries by yourself,
+   you can download pre-compiled shared libraries for this section by visiting
+
+    `<https://github.com/k2-fsa/sherpa-ncnn/releases>`_
+
 Build for arm64-v8a
 ^^^^^^^^^^^^^^^^^^^
 
