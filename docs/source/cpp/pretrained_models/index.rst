@@ -52,7 +52,7 @@ This page lists all available pre-trained models that you can download.
    :target: https://colab.research.google.com/drive/1RdU06GcytTpI-r8vkQ7NkI0ugytnwJVB?usp=sharing
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 5
    :caption: Pretrained models
 
    offline_ctc/index

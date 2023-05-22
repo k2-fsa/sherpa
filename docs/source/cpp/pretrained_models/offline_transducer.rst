@@ -22,6 +22,121 @@ This sections lists models trained using `icefall`_.
 English
 ^^^^^^^
 
+.. _icefall-asr-librispeech-zipformer-2023-05-15:
+
+icefall-asr-librispeech-zipformer-2023-05-15
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+  # This model is trained using LibriSpeech with zipformer transducer
+  #
+  # See https://github.com/k2-fsa/icefall/pull/1058
+  #
+  # normal-scaled model, number of model parameters: 65549011, i.e., 65.55 M
+  #
+  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/Zengwei/icefall-asr-librispeech-zipformer-2023-05-15
+  cd icefall-asr-librispeech-zipformer-2023-05-15
+
+  git lfs pull --include "exp/jit_script.pt"
+  git lfs pull --include "data/lang_bpe_500/LG.pt"
+
+  for m in greedy_search modified_beam_search fast_beam_search; do
+    sherpa-offline \
+      --decoding-method=$m \
+      --nn-model=./exp/jit_script.pt \
+      --tokens=./data/lang_bpe_500/tokens.txt \
+      ./test_wavs/1089-134686-0001.wav \
+      ./test_wavs/1221-135766-0001.wav \
+      ./test_wavs/1221-135766-0002.wav
+  done
+
+  sherpa-offline \
+    --decoding-method=fast_beam_search \
+    --nn-model=./exp/jit_script.pt \
+    --lg=./data/lang_bpe_500/LG.pt \
+    --tokens=./data/lang_bpe_500/tokens.txt \
+    ./test_wavs/1089-134686-0001.wav \
+    ./test_wavs/1221-135766-0001.wav \
+    ./test_wavs/1221-135766-0002.wav
+
+.. _icefall-asr-librispeech-zipformer-small-2023-05-16:
+
+icefall-asr-librispeech-zipformer-small-2023-05-16
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+  # This model is trained using LibriSpeech with zipformer transducer
+  #
+  # See https://github.com/k2-fsa/icefall/pull/1058
+  #
+  # small-scaled model, number of model parameters: 23285615, i.e., 23.3 M
+  #
+  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/Zengwei/icefall-asr-librispeech-zipformer-small-2023-05-16
+  cd icefall-asr-librispeech-zipformer-small-2023-05-16
+
+  git lfs pull --include "exp/jit_script.pt"
+  git lfs pull --include "data/lang_bpe_500/LG.pt"
+
+  for m in greedy_search modified_beam_search fast_beam_search; do
+    sherpa-offline \
+      --decoding-method=$m \
+      --nn-model=./exp/jit_script.pt \
+      --tokens=./data/lang_bpe_500/tokens.txt \
+      ./test_wavs/1089-134686-0001.wav \
+      ./test_wavs/1221-135766-0001.wav \
+      ./test_wavs/1221-135766-0002.wav
+  done
+
+  sherpa-offline \
+    --decoding-method=fast_beam_search \
+    --nn-model=./exp/jit_script.pt \
+    --lg=./data/lang_bpe_500/LG.pt \
+    --tokens=./data/lang_bpe_500/tokens.txt \
+    ./test_wavs/1089-134686-0001.wav \
+    ./test_wavs/1221-135766-0001.wav \
+    ./test_wavs/1221-135766-0002.wav
+
+
+.. _icefall-asr-librispeech-zipformer-large-2023-05-16:
+
+icefall-asr-librispeech-zipformer-large-2023-05-16
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+  # This model is trained using LibriSpeech with zipformer transducer
+  #
+  # See https://github.com/k2-fsa/icefall/pull/1058
+  #
+  # large-scaled model, number of model parameters: 148439574, i.e., 148.4 M
+  #
+  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/Zengwei/icefall-asr-librispeech-zipformer-large-2023-05-16
+  cd icefall-asr-librispeech-zipformer-large-2023-05-16
+
+  git lfs pull --include "exp/jit_script.pt"
+  git lfs pull --include "data/lang_bpe_500/LG.pt"
+
+  for m in greedy_search modified_beam_search fast_beam_search; do
+    sherpa-offline \
+      --decoding-method=$m \
+      --nn-model=./exp/jit_script.pt \
+      --tokens=./data/lang_bpe_500/tokens.txt \
+      ./test_wavs/1089-134686-0001.wav \
+      ./test_wavs/1221-135766-0001.wav \
+      ./test_wavs/1221-135766-0002.wav
+  done
+
+  sherpa-offline \
+    --decoding-method=fast_beam_search \
+    --nn-model=./exp/jit_script.pt \
+    --lg=./data/lang_bpe_500/LG.pt \
+    --tokens=./data/lang_bpe_500/tokens.txt \
+    ./test_wavs/1089-134686-0001.wav \
+    ./test_wavs/1221-135766-0001.wav \
+    ./test_wavs/1221-135766-0002.wav
+
 .. _icefall-asr-multidataset-pruned_transducer_stateless7-2023-05-04:
 
 icefall-asr-multidataset-pruned_transducer_stateless7-2023-05-04

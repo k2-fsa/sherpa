@@ -1,8 +1,9 @@
-// sherpa/csrc/online-zipformer-transducer-model.h
+// sherpa/csrc/online-zipformer2-transducer-model.h
 //
-// Copyright (c)  2022  Xiaomi Corporation
-#ifndef SHERPA_CSRC_ONLINE_ZIPFORMER_TRANSDUCER_MODEL_H_
-#define SHERPA_CSRC_ONLINE_ZIPFORMER_TRANSDUCER_MODEL_H_
+// Copyright (c)  2023  Xiaomi Corporation
+#ifndef SHERPA_CSRC_ONLINE_ZIPFORMER2_TRANSDUCER_MODEL_H_
+#define SHERPA_CSRC_ONLINE_ZIPFORMER2_TRANSDUCER_MODEL_H_
+
 #include <string>
 #include <tuple>
 #include <utility>
@@ -11,33 +12,20 @@
 #include "sherpa/csrc/online-transducer-model.h"
 
 namespace sherpa {
-/** This class implements models from pruned_transducer_stateless7_streaming
- * from icefall.
+
+/** This class implements models from zipformer with causal=True from icefall.
  *
  * See
- * https://github.com/k2-fsa/icefall/blob/master/egs/librispeech/ASR/pruned_transducer_stateless7_streaming/zipformer.py
+ * https://github.com/k2-fsa/icefall/blob/master/egs/librispeech/ASR/zipformer/zipformer.py
  * for an instance.
  *
  * You can find the interface and implementation details of the
  * encoder, decoder, and joiner network in the above Python code.
  */
-class OnlineZipformerTransducerModel : public OnlineTransducerModel {
+class OnlineZipformer2TransducerModel : public OnlineTransducerModel {
  public:
-  /** Constructor.
-   *
-   * @param filename Path to the torchscript model. See
-   *                 https://github.com/k2-fsa/icefall/blob/master/egs/librispeech/ASR/pruned_transducer_stateless7_streaming/jit_trace_export.py
-   *                 for how to export a model.
-   * @param decode_chunk_size  Number of frames before subsampling
-   * @param device  Move the model to this device on loading.
-   */
-  OnlineZipformerTransducerModel(const std::string &encoder_filename,
-                                 const std::string &decoder_filename,
-                                 const std::string &joiner_filename,
-                                 torch::Device device = torch::kCPU);
-
-  explicit OnlineZipformerTransducerModel(const std::string &filename,
-                                          torch::Device device = torch::kCPU);
+  explicit OnlineZipformer2TransducerModel(const std::string &filename,
+                                           torch::Device device = torch::kCPU);
 
   torch::IValue StackStates(
       const std::vector<torch::IValue> &states) const override;
@@ -76,10 +64,8 @@ class OnlineZipformerTransducerModel : public OnlineTransducerModel {
   int32_t context_size_;
   int32_t chunk_size_;
   int32_t chunk_shift_;
-  // true if the model is from torch.jit.trace()
-  bool from_torch_jit_trace_;
 };
 
 }  // namespace sherpa
 
-#endif  // SHERPA_CSRC_ONLINE_ZIPFORMER_TRANSDUCER_MODEL_H_
+#endif  // SHERPA_CSRC_ONLINE_ZIPFORMER2_TRANSDUCER_MODEL_H_

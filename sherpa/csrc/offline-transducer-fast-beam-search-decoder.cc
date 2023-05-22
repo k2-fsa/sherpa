@@ -1,4 +1,4 @@
-// sherpa/csrc/offline-transducer-fast-beam-search-decoder.h
+// sherpa/csrc/offline-transducer-fast-beam-search-decoder.cc
 //
 // Copyright (c)  2022  Xiaomi Corporation
 #include "sherpa/csrc/offline-transducer-fast-beam-search-decoder.h"
