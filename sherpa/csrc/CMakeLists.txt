@@ -18,6 +18,7 @@ set(sherpa_srcs
   online-lstm-transducer-model.cc
   online-transducer-fast-beam-search-decoder.cc
   online-zipformer-transducer-model.cc
+  online-zipformer2-transducer-model.cc
 
   resample.cc
 

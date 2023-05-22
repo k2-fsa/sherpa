@@ -4,7 +4,6 @@
 
 #include "sherpa/csrc/online-zipformer-transducer-model.h"
 
-#include <iostream>
 #include <string>
 #include <tuple>
 #include <utility>
