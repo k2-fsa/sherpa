@@ -36,7 +36,7 @@ torch::IValue OnlineZipformer2TransducerModel::StackStates(
 
   std::vector<torch::List<torch::Tensor>> states;
   states.reserve(_states.size());
-  for (auto s : _states) {
+  for (const auto &s : _states) {
     states.push_back(c10::impl::toTypedList<torch::Tensor>(s.toList()));
   }
 
@@ -127,7 +127,7 @@ std::vector<torch::IValue> OnlineZipformer2TransducerModel::UnStackStates(
   std::vector<torch::IValue> ans(batch_size);
   for (int32_t n = 0; n != batch_size; ++n) {
     // unstacked_states[n] is std::vector<torch::Tensor>
-    ans[n] = unstacked_states[n];
+    ans[n] = std::move(unstacked_states[n]);
   }
 
   return ans;
@@ -171,6 +171,7 @@ OnlineZipformer2TransducerModel::RunEncoder(
       c10::impl::toTypedList<torch::Tensor>(states.toList());
   torch::IValue ivalue =
       encoder_.run_method("forward", features, features_length, states);
+
   auto tuple_ptr = ivalue.toTuple();
   torch::Tensor encoder_out = tuple_ptr->elements()[0].toTensor();
 
