@@ -12,8 +12,8 @@ real-time speech recognition on Android.
 
     `<https://huggingface.co/csukuangfj/sherpa-ncnn-apk/tree/main>`_
 
-  - CPU versions requires ``Android >= 5.0``
-  - GPU versions with ``Vulkan`` requires ``Android >= 7.0``
+  - CPU versions require ``Android >= 5.0``
+  - GPU versions with ``Vulkan`` require ``Android >= 7.0``
 
 .. note::
 
