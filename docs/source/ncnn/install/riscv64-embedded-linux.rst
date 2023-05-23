@@ -67,8 +67,8 @@ the generated binaries.
 
 .. hint::
 
-  If you want to select a pre-trained model for Raspberry that can be
-  run on real-time, we recommend you to use
+  If you want to select a pre-trained model for `VisionFive 2 <https://www.starfivetech.com/en/site/boards>`_
+  that can be run on real-time, we recommend you to use
   :ref:`sherpa_ncnn_streaming_zipformer_small_bilingual_zh_en_2023_02_16`.
 
   You can use the following command with the above model:
