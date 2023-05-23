@@ -1,0 +1,20 @@
+/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:361 ./build/bin/sherpa-onnx-offline --tokens=./sherpa-onnx-conformer-zh-2023-05-23/tokens.txt --encoder=./sherpa-onnx-conformer-zh-2023-05-23/encoder-epoch-99-avg-1.onnx --decoder=./sherpa-onnx-conformer-zh-2023-05-23/decoder-epoch-99-avg-1.onnx --joiner=./sherpa-onnx-conformer-zh-2023-05-23/joiner-epoch-99-avg-1.onnx ./sherpa-onnx-conformer-zh-2023-05-23/test_wavs/0.wav ./sherpa-onnx-conformer-zh-2023-05-23/test_wavs/1.wav ./sherpa-onnx-conformer-zh-2023-05-23/test_wavs/2.wav 
+
+OfflineRecognizerConfig(feat_config=OfflineFeatureExtractorConfig(sampling_rate=16000, feature_dim=80), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename="./sherpa-onnx-conformer-zh-2023-05-23/encoder-epoch-99-avg-1.onnx", decoder_filename="./sherpa-onnx-conformer-zh-2023-05-23/decoder-epoch-99-avg-1.onnx", joiner_filename="./sherpa-onnx-conformer-zh-2023-05-23/joiner-epoch-99-avg-1.onnx"), paraformer=OfflineParaformerModelConfig(model=""), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=""), tokens="./sherpa-onnx-conformer-zh-2023-05-23/tokens.txt", num_threads=2, debug=False, provider="cpu"), lm_config=OfflineLMConfig(model="", scale=0.5), decoding_method="greedy_search", max_active_paths=4)
+Creating recognizer ...
+Started
+Done!
+
+./sherpa-onnx-conformer-zh-2023-05-23/test_wavs/0.wav
+{"text":"对我做了介绍那么我想说的是呢大家如果对我的研究感兴趣呢","timestamps":"[0.00, 0.12, 0.52, 0.64, 0.84, 1.04, 1.68, 1.80, 1.92, 2.12, 2.32, 2.48, 2.64, 2.76, 3.08, 3.20, 3.44, 3.52, 3.64, 3.76, 3.88, 4.00, 4.16, 4.32, 4.48, 4.64, 4.84]","tokens":["对","我","做","了","介","绍","那","么","我","想","说","的","是","呢","大","家","如","果","对","我","的","研","究","感","兴","趣","呢"]}
+----
+./sherpa-onnx-conformer-zh-2023-05-23/test_wavs/1.wav
+{"text":"重点呢想谈三个问题首先呢就是这一轮全球金融动荡的表现","timestamps":"[0.04, 0.16, 0.36, 0.48, 0.68, 0.92, 1.08, 1.24, 1.44, 1.84, 2.08, 2.36, 2.52, 2.68, 2.88, 3.04, 3.16, 3.40, 3.56, 3.72, 3.84, 4.04, 4.16, 4.32, 4.56, 4.76]","tokens":["重","点","呢","想","谈","三","个","问","题","首","先","呢","就","是","这","一","轮","全","球","金","融","动","荡","的","表","现"]}
+----
+./sherpa-onnx-conformer-zh-2023-05-23/test_wavs/2.wav
+{"text":"深度地分析这一次全球金融动荡背后的根源","timestamps":"[0.00, 0.12, 0.60, 0.84, 1.04, 1.44, 1.68, 1.84, 2.28, 2.52, 2.80, 2.92, 3.08, 3.24, 3.40, 3.60, 3.72, 3.84, 4.12]","tokens":["深","度","地","分","析","这","一","次","全","球","金","融","动","荡","背","后","的","根","源"]}
+----
+num threads: 2
+decoding method: greedy_search
+Elapsed seconds: 0.706 s
+Real time factor (RTF): 0.706 / 15.289 = 0.046

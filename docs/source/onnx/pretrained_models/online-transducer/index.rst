@@ -9,4 +9,5 @@ This section lists available online transducer models.
    :maxdepth: 5
 
    zipformer-transducer-models
+   conformer-transducer-models
    lstm-transducer-models
