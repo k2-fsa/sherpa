@@ -265,8 +265,8 @@ Real-time speech recognition from a microphone
 
 .. _sherpa_onnx_streaming_zipformer_fr_2023_04_14:
 
-shaojieli/sherpa-onnx-streaming-zipformer-fr-2023-04-14
--------------------------------------------------------
+shaojieli/sherpa-onnx-streaming-zipformer-fr-2023-04-14 (French)
+----------------------------------------------------------------
 
 This model is converted from
 

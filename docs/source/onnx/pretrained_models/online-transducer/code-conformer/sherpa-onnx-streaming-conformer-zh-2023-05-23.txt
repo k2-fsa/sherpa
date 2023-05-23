@@ -1,0 +1,12 @@
+OnlineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80), model_config=OnlineTransducerModelConfig(encoder_filename="./sherpa-onnx-streaming-conformer-zh-2023-05-23/encoder-epoch-99-avg-1.onnx", decoder_filename="./sherpa-onnx-streaming-conformer-zh-2023-05-23/decoder-epoch-99-avg-1.onnx", joiner_filename="./sherpa-onnx-streaming-conformer-zh-2023-05-23/joiner-epoch-99-avg-1.onnx", tokens="./sherpa-onnx-streaming-conformer-zh-2023-05-23/tokens.txt", num_threads=2, debug=False), lm_config=OnlineLMConfig(model="", scale=0.5), endpoint_config=EndpointConfig(rule1=EndpointRule(must_contain_nonsilence=False, min_trailing_silence=2.4, min_utterance_length=0), rule2=EndpointRule(must_contain_nonsilence=True, min_trailing_silence=1.2, min_utterance_length=0), rule3=EndpointRule(must_contain_nonsilence=False, min_trailing_silence=0, min_utterance_length=20)), enable_endpoint=True, max_active_paths=4, decoding_method="greedy_search")
+sampling rate of input file: 16000
+wav filename: ./sherpa-onnx-streaming-conformer-zh-2023-05-23/test_wavs/0.wav
+wav duration (s): 5.611
+Started
+Done!
+Recognition result for ./sherpa-onnx-streaming-conformer-zh-2023-05-23/test_wavs/0.wav:
+{"is_final":false,"segment":0,"start_time":0.0,"text":"对我做了介绍那么我想说的是大家如果对我的研究感兴趣呢","timestamps":"[0.00, 0.48, 0.76, 0.88, 1.08, 1.24, 2.00, 2.04, 2.16, 2.36, 2.56, 2.72, 2.92, 3.36, 3.44, 3.64, 3.72, 3.84, 3.96, 4.04, 4.16, 4.28, 4.48, 4.64, 4.84, 5.16]","tokens":["对","我","做","了","介","绍","那","么","我","想","说","的","是","大","家","如","果","对","我","的","研","究","感","兴","趣","呢"]}
+num threads: 2
+decoding method: greedy_search
+Elapsed seconds: 0.559 s
+Real time factor (RTF): 0.559 / 5.611 = 0.100
