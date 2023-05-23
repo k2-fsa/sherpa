@@ -167,7 +167,7 @@ Read below if you want to learn more.
   You can use the following commands to check that and you will find
   they depend only on system libraries.
 
-    .. code-block::
+    .. code-block:: bash
 
       $ readelf -d build-arm-linux-gnueabihf/install/bin/sherpa-ncnn
 
