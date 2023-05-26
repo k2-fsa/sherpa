@@ -1,6 +1,7 @@
 #!/bin/bash
-stage=0
+stage=-1
 stop_stage=2
+
 
 pretrained_model_dir=/workspace/icefall/egs/wenetspeech/ASR/icefall_asr_wenetspeech_pruned_transducer_stateless5_streaming
 model_repo_path=./model_repo_streaming
@@ -27,6 +28,7 @@ else
     echo "pretrained model using bpe"
     TOKENIZER_FILE=$pretrained_model_dir/data/lang_bpe_500/bpe.model
 fi
+
 MAX_BATCH=512
 # for streaming ASR 
 CNN_MODULE_KERNEL_MINUS_ONE=$(($CNN_MODULE_KERNEL - 1))
@@ -40,6 +42,28 @@ JOINER_INSTANCE_NUM=1
 DECODER_INSTANCE_NUM=1
 SCORER_INSTANCE_NUM=2
 
+
+if [ ${stage} -le -1 ] && [ ${stop_stage} -ge -1 ]; then
+    echo "export onnx"
+    icefall_dir=/workspace/icefall
+    export PYTHONPATH=$PYTHONPATH:$icefall_dir
+    recipe_dir=$icefall_dir/egs/wenetspeech/ASR/pruned_transducer_stateless5
+    cp scripts/*onnx*.py ${recipe_dir}/
+    cd ${recipe_dir}
+    ./export_onnx.py \
+        --exp-dir ${pretrained_model_dir}/exp \
+        --tokenizer-file $TOKENIZER_FILE \
+        --epoch 999 \
+        --avg 1 \
+        --streaming-model 1\
+        --causal-convolution 1 \
+        --onnx 1 \
+        --left-context $ENCODER_LEFT_CONTEXT \
+        --right-context $ENCODER_RIGHT_CONTEXT \
+        --fp16
+    cd -
+fi
+
 if [ ${stage} -le 0 ] && [ ${stop_stage} -ge 0 ]; then
      echo "auto gen config.pbtxt"
      dirs="encoder decoder feature_extractor joiner scorer transducer"
@@ -49,6 +73,8 @@ if [ ${stage} -le 0 ] && [ ${stop_stage} -ge 0 ]; then
         exit 1
      fi
 
+     cp -r $TOKENIZER_FILE $model_repo_path/scorer/
+     TOKENIZER_FILE=$model_repo_path/scorer/$(basename $TOKENIZER_FILE)
      for dir in $dirs
      do   
           cp $model_repo_path/$dir/config.pbtxt.template $model_repo_path/$dir/config.pbtxt
@@ -85,5 +111,5 @@ if [ ${stage} -le 1 ] && [ ${stop_stage} -ge 1 ]; then
 fi
 
 if [ ${stage} -le 2 ] && [ ${stop_stage} -ge 2 ]; then
-    tritonserver --model-repository=$model_repo_path --pinned-memory-pool-byte-size=512000000 --cuda-memory-pool-byte-size=0:1024000000
+    tritonserver --model-repository=$model_repo_path --pinned-memory-pool-byte-size=512000000 --cuda-memory-pool-byte-size=0:1024000000 --http-port 10086
 fi
