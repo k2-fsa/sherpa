@@ -10,8 +10,8 @@ RUN apt-get update  && apt-get -y install \
     cmake \
     libsndfile1
 RUN pip3 install \
-    torch \
-    torchaudio \
+    torch==1.13.1+cu117 \
+    torchaudio==0.13.1 \
     kaldialign \
     tensorboard \
     sentencepiece \
