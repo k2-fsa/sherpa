@@ -3,22 +3,22 @@ stage=-2
 stop_stage=2
 
 
-pretrained_model_dir=/workspace/icefall/egs/wenetspeech/ASR/icefall_asr_wenetspeech_pruned_transducer_stateless5_streaming
+pretrained_model_dir=/workspace/icefall/egs/librispeech/ASR/icefall_librispeech_streaming_pruned_transducer_stateless3_giga_0.9_20220625
 model_repo_path=./model_repo_streaming
 
 # modify model specific parameters according to $pretrained_model_dir/exp/onnx_export.log
-VOCAB_SIZE=5537
+VOCAB_SIZE=500
 
 DECODER_CONTEXT_SIZE=2
 DECODER_DIM=512
 
-ENCODER_LAYERS=24
-ENCODER_DIM=384
+ENCODER_LAYERS=12
+ENCODER_DIM=512
 CNN_MODULE_KERNEL=31
 
 # for streaming ASR 
-ENCODER_LEFT_CONTEXT=32
-ENCODER_RIGHT_CONTEXT=2
+ENCODER_LEFT_CONTEXT=64
+ENCODER_RIGHT_CONTEXT=4
 
 if [ -d "$pretrained_model_dir/data/lang_char" ] 
 then
@@ -42,21 +42,23 @@ JOINER_INSTANCE_NUM=1
 DECODER_INSTANCE_NUM=1
 SCORER_INSTANCE_NUM=2
 
+
 icefall_dir=/workspace/icefall
 export PYTHONPATH=$PYTHONPATH:$icefall_dir
-recipe_dir=$icefall_dir/egs/wenetspeech/ASR/pruned_transducer_stateless5
+recipe_dir=$icefall_dir/egs/librispeech/ASR/pruned_transducer_stateless3
 
 if [ ${stage} -le -2 ] && [ ${stop_stage} -ge -2 ]; then
   if [ -d "$pretrained_model_dir" ]
   then
     echo "skip download pretrained model"
   else
-    pushd $icefall_dir/egs/wenetspeech/ASR/
-    GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/luomingshuang/icefall_asr_wenetspeech_pruned_transducer_stateless5_streaming
-    pushd icefall_asr_wenetspeech_pruned_transducer_stateless5_streaming
-    git lfs pull --include "exp/pretrained_epoch_7_avg_1.pt,data/lang_char/Linv.pt"
+    pushd $icefall_dir/egs/librispeech/ASR/
+    GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/pkufool/icefall_librispeech_streaming_pruned_transducer_stateless3_giga_0.9_20220625
+    pushd icefall_librispeech_streaming_pruned_transducer_stateless3_giga_0.9_20220625
+    git lfs pull --include "exp/pretrained-epoch-25-avg-12.pt"
+    git lfs pull --include "data/lang_bpe_500/bpe.model"
     popd
-    ln -s ./icefall_asr_wenetspeech_pruned_transducer_stateless5_streaming/exp/pretrained_epoch_7_avg_1.pt ./icefall_asr_wenetspeech_pruned_transducer_stateless5_streaming/exp/epoch-999.pt 
+    ln -s ./icefall_librispeech_streaming_pruned_transducer_stateless3_giga_0.9_20220625/exp/pretrained-epoch-25-avg-12.pt ./icefall_librispeech_streaming_pruned_transducer_stateless3_giga_0.9_20220625/exp/epoch-999.pt 
     popd
   fi
 fi
