@@ -74,6 +74,26 @@ parameters [
   {
    key: "FORCE_CPU_ONLY_INPUT_TENSORS", 
    value: {string_value:"yes"}
+  },
+  {
+    key: "decoding_method",
+    value: { string_value: "greedy_search"} # fast_beam_search
+  },
+  {
+    key: "beam",
+    value: { string_value: "4"}
+  },
+  {
+    key: "max_contexts",
+    value: { string_value: "4"}
+  },
+  {
+    key: "max_states",
+    value: { string_value: "32"}
+  },
+  {
+    key: "temperature",
+    value: { string_value: "1.0"}
   }
 ]
 

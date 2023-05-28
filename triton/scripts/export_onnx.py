@@ -72,7 +72,6 @@ pretrained_model_dir=./icefall_asr_wenetspeech_pruned_transducer_stateless5_offl
     --fp16
 
 It will generate the following six files in the given `exp_dir`.
-TODO: Check `onnx_check.py` for how to use them.
 
     - encoder.onnx
     - decoder.onnx
