@@ -12,12 +12,13 @@ RUN apt-get update  && apt-get -y install \
 RUN pip3 install \
     torch==1.13.1+cu117 \
     torchaudio==0.13.1+cu117 \
+    --index-url https://download.pytorch.org/whl/cu117
+RUN pip3 install \
     kaldialign \
     tensorboard \
     sentencepiece \
     lhotse \
-    --index-url https://download.pytorch.org/whl/cu117
-RUN pip3 install kaldifeat
+    kaldifeat
 RUN pip3 install \
     k2==1.24.3.dev20230528+cuda11.7.torch1.13.1 -f https://k2-fsa.org/nightly/
 # Dependency for client
