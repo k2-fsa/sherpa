@@ -5,6 +5,7 @@ as a reference
 """
 import argparse
 from dataclasses import dataclass
+from typing import Optional
 
 from .utils import str2bool
 
@@ -25,28 +26,45 @@ class OnlineEndpointRule:
     min_utterance_length: float
 
 
-@dataclass
 class OnlineEndpointConfig:
-    # rule1 times out after 5 seconds of silence, even if we decoded nothing.
-    rule1: OnlineEndpointRule = OnlineEndpointRule(
-        must_contain_nonsilence=False,
-        min_trailing_silence=5.0,
-        min_utterance_length=0.0,
-    )
+    def __init__(
+        self,
+        rule1: Optional[OnlineEndpointRule] = None,
+        rule2: Optional[OnlineEndpointRule] = None,
+        rule3: Optional[OnlineEndpointRule] = None,
+    ):
+        # rule1 times out after 5 seconds of silence, even if we decoded nothing.
+        self.rule1 = (
+            rule1
+            if rule1 is not None
+            else OnlineEndpointRule(
+                must_contain_nonsilence=False,
+                min_trailing_silence=5.0,
+                min_utterance_length=0.0,
+            )
+        )
 
-    # rule2 times out after 2.0 seconds of silence after decoding something,
-    rule2: OnlineEndpointRule = OnlineEndpointRule(
-        must_contain_nonsilence=True,
-        min_trailing_silence=2.0,
-        min_utterance_length=0.0,
-    )
-    # rule3 times out after the utterance is 20 seconds long, regardless of
-    # anything else.
-    rule3: OnlineEndpointRule = OnlineEndpointRule(
-        must_contain_nonsilence=False,
-        min_trailing_silence=0.0,
-        min_utterance_length=20.0,
-    )
+        # rule2 times out after 2.0 seconds of silence after decoding something,
+        self.rule2 = (
+            rule2
+            if rule2 is not None
+            else OnlineEndpointRule(
+                must_contain_nonsilence=True,
+                min_trailing_silence=2.0,
+                min_utterance_length=0.0,
+            )
+        )
+        # rule3 times out after the utterance is 20 seconds long, regardless of
+        # anything else.
+        self.rule3 = (
+            rule3
+            if rule3 is not None
+            else OnlineEndpointRule(
+                must_contain_nonsilence=False,
+                min_trailing_silence=0.0,
+                min_utterance_length=20.0,
+            )
+        )
 
     @staticmethod
     def from_args(args: dict) -> "OnlineEndpointConfig":
