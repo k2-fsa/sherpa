@@ -68,16 +68,6 @@ class TritonPythonModel:
             parameters[key] = value["string_value"]
         self.context_size = int(parameters['context_size'])
         self.decoding_method = parameters['decoding_method']
-        if self.decoding_method == 'fast_beam_search':
-            # parameters for fast beam search
-            self.beam = int(self.model_config['parameters']['beam'])
-            self.max_contexts = int(self.model_config['parameters']['max_contexts'])
-            self.max_states = int(self.model_config['parameters']['max_states'])
-            self.temperature = float(self.model_config['parameters']['temperature'])
-            # Support fast beam search one best currently
-            self.decoding_graph = k2.trivial_graph(
-                    self.vocab_size - 1, device=self.device
-                )
         if 'bpe' in parameters['tokenizer_file']:
             sp = spm.SentencePieceProcessor()
             sp.load(parameters['tokenizer_file'])
@@ -92,6 +82,16 @@ class TritonPythonModel:
             self.blank_id = lexicon.token_table["<blk>"]
             self.vocab_size = max(lexicon.tokens) + 1
             self.tokenizer = lexicon
+        if self.decoding_method == 'fast_beam_search':
+            # parameters for fast beam search
+            self.beam = int(self.model_config['parameters']['beam'])
+            self.max_contexts = int(self.model_config['parameters']['max_contexts'])
+            self.max_states = int(self.model_config['parameters']['max_states'])
+            self.temperature = float(self.model_config['parameters']['temperature'])
+            # Support fast beam search one best currently
+            self.decoding_graph = k2.trivial_graph(
+                    self.vocab_size - 1, device=self.device
+                )
 
     def forward_joiner(self, cur_encoder_out, decoder_out):
         in_joiner_tensor_0 = pb_utils.Tensor.from_dlpack("encoder_out", to_dlpack(cur_encoder_out))
@@ -112,10 +112,8 @@ class TritonPythonModel:
             assert len(logits.shape) == 2, logits.shape
             return logits
     
-    def forward_decoder(self, hyps, context_size):
-        decoder_input = [h[-context_size:] for h in hyps]
-    
-        decoder_input = np.asarray(decoder_input,dtype=np.int64)
+    def forward_decoder(self, hyps):
+        decoder_input = np.asarray(hyps,dtype=np.int64)
     
         in_decoder_input_tensor = pb_utils.Tensor("y", decoder_input)
     
@@ -147,19 +145,20 @@ class TritonPythonModel:
         pack_batch_size_list = packed_encoder_out.batch_sizes.tolist()
                 
         hyps = [[self.blank_id] * self.context_size for _ in range(encoder_out.shape[0])]
-        decoder_out = forward_decoder(hyps, self.context_size)
+        contexts = [h[-self.context_size:] for h in hyps]
+        decoder_out = self.forward_decoder(contexts)
     
         offset = 0
         for batch_size in pack_batch_size_list:
             start = offset
             end = offset + batch_size
             current_encoder_out = packed_encoder_out.data[start:end]
-    
+
             offset = end
         
             decoder_out = decoder_out[:batch_size]
     
-            logits = forward_joiner(current_encoder_out, decoder_out)
+            logits = self.forward_joiner(current_encoder_out, decoder_out)
     
             assert logits.ndim == 2, logits.shape
             y = logits.argmax(dim=1).tolist()
@@ -170,7 +169,9 @@ class TritonPythonModel:
                     hyps[i].append(v)
                     emitted = True
             if emitted:
-                decoder_out = forward_decoder(hyps[:batch_size], self.context_size)
+                hyps = hyps[:batch_size]
+                contexts = [h[-self.context_size:] for h in hyps]
+                decoder_out = self.forward_decoder(contexts)
     
     
         sorted_ans = [h[self.context_size:] for h in hyps]
@@ -242,13 +243,13 @@ class TritonPythonModel:
             shape, contexts = decoding_streams.get_contexts()
             contexts = contexts.to(torch.int64)
       
-            decoder_out = forward_decoder(contexts)
+            decoder_out = self.forward_decoder(contexts)
       
             cur_encoder_out = torch.index_select(
                 encoder_out[:, t:t + 1, :], 0, shape.row_ids(1).to(torch.int64)
             )
       
-            logits = forward_joiner(cur_encoder_out.squeeze(1),
+            logits = self.forward_joiner(cur_encoder_out.squeeze(1),
                 decoder_out)
       
             logits = logits.squeeze(1).squeeze(1).float()
