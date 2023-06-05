@@ -41,7 +41,7 @@ recipe_dir=$icefall_dir/egs/librispeech/ASR/pruned_transducer_stateless7
 if [ ${stage} -le -2 ] && [ ${stop_stage} -ge -2 ]; then
   if [ -d "$pretrained_model_dir" ]
   then
-    echo "skip download pretrained model"
+    echo "skip downloading pretrained model"
   else
     pushd $icefall_dir/egs/librispeech/ASR/
     GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/icefall-asr-librispeech-pruned-transducer-stateless7-2022-11-11
