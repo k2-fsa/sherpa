@@ -19,10 +19,10 @@ CNN_MODULE_KERNEL=31
 if [ -d "$pretrained_model_dir/data/lang_char" ]
 then
     echo "pretrained model using char"
-    TOKENIZER_FILE=$pretrained_model_dir/data/lang_char
+    TOKENIZER_FILE_OR_DIR=$pretrained_model_dir/data/lang_char
 else
     echo "pretrained model using bpe"
-    TOKENIZER_FILE=$pretrained_model_dir/data/lang_bpe_500/bpe.model
+    TOKENIZER_FILE_OR_DIR=$pretrained_model_dir/data/lang_bpe_500/bpe.model
 fi
 
 MAX_BATCH=512
@@ -46,8 +46,9 @@ if [ ${stage} -le -2 ] && [ ${stop_stage} -ge -2 ]; then
     pushd $icefall_dir/egs/librispeech/ASR/
     GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/icefall-asr-librispeech-pruned-transducer-stateless7-2022-11-11
     pushd icefall-asr-librispeech-pruned-transducer-stateless7-2022-11-11
-    git lfs pull --include "exp/epoch-30.pt"
+    git lfs pull --include "exp/pretrained-epoch-30-avg-9.pt"
     git lfs pull --include "data/lang_bpe_500/bpe.model"
+    ln -rs icefall-asr-librispeech-pruned-transducer-stateless7-2022-11-11/exp/pretrained-epoch-30-avg-9.pt icefall-asr-librispeech-pruned-transducer-stateless7-2022-11-11/exp/epoch-999.pt
     popd
   fi
 fi
@@ -57,8 +58,8 @@ if [ ${stage} -le -1 ] && [ ${stop_stage} -ge -1 ]; then
     cd ${recipe_dir}
     ./export_onnx.py \
         --exp-dir ${pretrained_model_dir}/exp \
-        --tokenizer-file $TOKENIZER_FILE \
-        --epoch 30 \
+        --tokenizer-file $TOKENIZER_FILE_OR_DIR \
+        --epoch 999 \
         --avg 1 \
         --use-averaged-model 0
     cd -
@@ -73,8 +74,8 @@ if [ ${stage} -le 0 ] && [ ${stop_stage} -ge 0 ]; then
         exit 1
      fi
 
-     cp -r $TOKENIZER_FILE $model_repo_path/scorer/
-     TOKENIZER_FILE=$model_repo_path/scorer/$(basename $TOKENIZER_FILE)
+     cp -r $TOKENIZER_FILE_OR_DIR $model_repo_path/scorer/
+     TOKENIZER_FILE=$model_repo_path/scorer/$(basename $TOKENIZER_FILE_OR_DIR)
      for dir in $dirs
      do
           cp $model_repo_path/$dir/config.pbtxt.template $model_repo_path/$dir/config.pbtxt
@@ -102,9 +103,9 @@ if [ ${stage} -le 0 ] && [ ${stop_stage} -ge 0 ]; then
 fi
 
 if [ ${stage} -le 1 ] && [ ${stop_stage} -ge 1 ]; then
-    cp $pretrained_model_dir/exp/encoder-epoch-30-avg-1.onnx $model_repo_path/encoder/1/encoder.onnx
-    cp $pretrained_model_dir/exp/decoder-epoch-30-avg-1.onnx $model_repo_path/decoder/1/decoder.onnx
-    cp $pretrained_model_dir/exp/joiner-epoch-30-avg-1.onnx $model_repo_path/joiner/1/joiner.onnx
+    cp $pretrained_model_dir/exp/encoder-epoch-999-avg-1.onnx $model_repo_path/encoder/1/encoder.onnx
+    cp $pretrained_model_dir/exp/decoder-epoch-999-avg-1.onnx $model_repo_path/decoder/1/decoder.onnx
+    cp $pretrained_model_dir/exp/joiner-epoch-999-avg-1.onnx $model_repo_path/joiner/1/joiner.onnx
     cp $TOKENIZER_FILE /workspace/
 fi
 
