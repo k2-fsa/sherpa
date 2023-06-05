@@ -1,4 +1,4 @@
-# Copyright (c) 2023, NVIDIA CORPORATION.  All rights reserved.
+# Copyright (c) 2021, NVIDIA CORPORATION.  All rights reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,16 +14,16 @@
 
 name: "scorer"
 backend: "python"
-max_batch_size: 512
+max_batch_size: MAX_BATCH
 
 parameters [
   {
     key: "context_size",
-    value: { string_value: "2"}
+    value: { string_value: "DECODER_CONTEXT_SIZE"}
   },
   {
     key: "tokenizer_file",
-    value: { string_value: "/workspace/bpe.model"} 
+    value: { string_value: "TOKENIZER_FILE"} 
   },
   {
    key: "FORCE_CPU_ONLY_INPUT_TENSORS", 
@@ -32,6 +32,22 @@ parameters [
   {
     key: "decoding_method",
     value: { string_value: "greedy_search"}
+  },
+  {
+    key: "beam",
+    value: { string_value: "4"}
+  },
+  {
+    key: "max_contexts",
+    value: { string_value: "4"}
+  },
+  {
+    key: "max_states",
+    value: { string_value: "32"}
+  },
+  {
+    key: "temperature",
+    value: { string_value: "1.0"}
   }
 ]
 
@@ -40,7 +56,7 @@ input [
   {
     name: "encoder_out"
     data_type: TYPE_FP32
-    dims: [-1, 384] 
+    dims: [-1, ENCODER_DIM] 
   },
   {
     name: "encoder_out_lens"
@@ -62,7 +78,7 @@ dynamic_batching {
   }
 instance_group [
     {
-      count: 2
+      count: SCORER_INSTANCE_NUM
       kind: KIND_CPU
     }
   ]

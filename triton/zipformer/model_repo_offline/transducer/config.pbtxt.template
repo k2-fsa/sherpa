@@ -14,7 +14,7 @@
 
 name: "transducer"
 platform: "ensemble"
-max_batch_size: 512
+max_batch_size: MAX_BATCH
 
 input [
   {
