@@ -8,6 +8,10 @@ captured before sending them for recognition.
 
 It supports multiple clients sending at the same time.
 
+HINT: This file supports all streaming models from icefall, which means
+you don't need ./conv_emformer_transducer_stateless2 or
+./streaming_pruned_transducer_statelessX.
+
 Usage:
     ./streaming_server.py --help
 
