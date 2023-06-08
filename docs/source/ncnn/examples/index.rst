@@ -10,4 +10,5 @@ boards.
    ./raspberry-pi-3.rst
    ./jetson-nano.rst
    ./jetson-nx.rst
+   ./vision-five-2.rst
 
