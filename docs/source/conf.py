@@ -143,4 +143,5 @@ rst_epilog = """
 .. _NeMo: https://github.com/NVIDIA/NeMo
 .. _CommonVoice: https://commonvoice.mozilla.org
 .. _Zipformer: https://github.com/k2-fsa/icefall/tree/master/egs/librispeech/ASR/pruned_transducer_stateless7_streaming
+.. _VisionFive2: https://www.starfivetech.com/en/site/boards
 """
