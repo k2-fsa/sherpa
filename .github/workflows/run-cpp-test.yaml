@@ -94,7 +94,7 @@ jobs:
           python3 -m pip install wheel twine typing_extensions
           python3 -m pip install torch==${{ matrix.torch }} numpy -f https://download.pytorch.org/whl/cpu/torch_stable.html
 
-          python3 -m pip install k2==1.24.1.dev20230502+cpu.torch${{ matrix.torch }} -f https://k2-fsa.org/nightly/index.html
+          python3 -m pip install k2==1.23.4.dev20230319+cpu.torch${{ matrix.torch }} -f https://k2-fsa.org/nightly/index.html
 
           python3 -m torch.utils.collect_env
 
