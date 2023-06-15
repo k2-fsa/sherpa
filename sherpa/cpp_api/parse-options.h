@@ -7,6 +7,7 @@
 #ifndef SHERPA_CPP_API_PARSE_OPTIONS_H_
 #define SHERPA_CPP_API_PARSE_OPTIONS_H_
 
+#include <cstdint>
 #include <sstream>
 #include <string>
 #include <unordered_map>
