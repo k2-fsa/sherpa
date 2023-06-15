@@ -35,8 +35,8 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest]
-        torch: ["1.13.1"]
-        torchaudio: ["0.13.1"]
+        torch: ["1.13.0"]
+        torchaudio: ["0.13.0"]
         python-version: ["3.8"]
         build_type: ["Release"]
 
@@ -71,7 +71,7 @@ jobs:
           python3 -m pip install wheel twine typing_extensions pytest
           python3 -m pip install torch==${{ matrix.torch }} torchaudio==${{ matrix.torchaudio }} numpy -f https://download.pytorch.org/whl/cpu/torch_stable.html
 
-          python3 -m pip install k2==1.23.3.dev20230127+cpu.torch${{ matrix.torch }} -f https://k2-fsa.org/nightly/index.html
+          python3 -m pip install k2==1.24.1.dev20230502+cpu.torch${{ matrix.torch }} -f https://k2-fsa.org/nightly/index.html
 
           python3 -m torch.utils.collect_env
 
