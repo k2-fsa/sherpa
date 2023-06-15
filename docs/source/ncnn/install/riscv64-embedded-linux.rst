@@ -75,7 +75,7 @@ the generated binaries.
 
     .. code-block:: bash
 
-      ./sherpa-ncnn-alsa \
+      ./sherpa-ncnn \
         ./sherpa-ncnn-streaming-zipformer-small-bilingual-zh-en-2023-02-16/tokens.txt \
         ./sherpa-ncnn-streaming-zipformer-small-bilingual-zh-en-2023-02-16/64/encoder_jit_trace-pnnx.ncnn.param \
         ./sherpa-ncnn-streaming-zipformer-small-bilingual-zh-en-2023-02-16/64/encoder_jit_trace-pnnx.ncnn.bin \
