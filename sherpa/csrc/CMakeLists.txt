@@ -1,5 +1,7 @@
 # Please sort the filenames alphabetically
 set(sherpa_srcs
+  context-graph.cc
+
   offline-conformer-ctc-model.cc
   offline-conformer-transducer-model.cc
   offline-ctc-one-best-decoder.cc
@@ -75,6 +77,7 @@ if(SHERPA_ENABLE_TESTS)
     # test-offline-conformer-transducer-model.cc
     # test-online-conv-emformer-transducer-model.cc
 
+    test-context-graph.cc
     test-hypothesis.cc
     test-log.cc
     test-online-stream.cc
