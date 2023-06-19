@@ -2,7 +2,7 @@
 # Copyright      2022-2023  Xiaomi Corp.
 
 """
-A client for streaming ASR recognition.
+A client for streaming ASR.
 
 Usage:
     ./streaming_client.py \

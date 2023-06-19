@@ -2,15 +2,11 @@
 # Copyright      2022-2023  Xiaomi Corp.
 #
 """
-A server for streaming ASR recognition. By streaming it means the audio samples
+A server for streaming ASR. By streaming it means the audio samples
 are coming in real-time. You don't need to wait until all audio samples are
 captured before sending them for recognition.
 
 It supports multiple clients sending at the same time.
-
-HINT: This file supports all streaming models from icefall, which means
-you don't need ./conv_emformer_transducer_stateless2 or
-./streaming_pruned_transducer_statelessX.
 
 Usage:
     ./streaming_server.py --help

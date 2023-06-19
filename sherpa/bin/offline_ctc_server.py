@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # Copyright      2022-2023  Xiaomi Corp.
 """
-A server for offline CTC ASR recognition. Offline means you send all the content
+A server for CTC-based offline ASR. Offline means you send all the content
 of the audio for recognition.
 
 It supports multiple clients sending at the same time.

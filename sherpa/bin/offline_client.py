@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # Copyright      2022-2023  Xiaomi Corp.
 """
-A client for offline ASR recognition.
+A client for offline ASR.
 
 Usage:
     ./offline_client.py \
@@ -10,7 +10,8 @@ Usage:
       /path/to/foo.wav \
       /path/to/bar.wav
 
-(Note: You have to first start the server before starting the client)
+Note: You have to first start the server before starting the client.
+You can use either ./offline_transducer_server.py or ./offline_ctc_server.py
 """
 import argparse
 import asyncio
@@ -61,9 +62,24 @@ async def run(server_addr: str, server_port: int, test_wavs: List[str]):
         for test_wav in test_wavs:
             logging.info(f"Sending {test_wav}")
             wave, sample_rate = torchaudio.load(test_wav)
-            assert sample_rate == 16000, sample_rate
 
-            wave = wave.squeeze(0)
+            if sample_rate != 16000:
+                wave = torchaudio.functional.resample(
+                    wave,
+                    orig_freq=sample_rate,
+                    new_freq=16000,
+                )
+                sample_rate = 16000
+
+            wave = wave.squeeze(0).contiguous()
+
+            # wave is a 1-D float32 tensor normalized to the range [-1, 1]
+            # The format of the message sent to the server for each wave is
+            #
+            # - 4 bytes in little endian specifying number of bytes to send
+            # - one or more messages containing the data
+            # - The last message is "Done"
+
             num_bytes = wave.numel() * wave.element_size()
             await websocket.send((num_bytes).to_bytes(4, "little", signed=True))
 
@@ -72,6 +88,8 @@ async def run(server_addr: str, server_port: int, test_wavs: List[str]):
             start = 0
             while start < wave.numel():
                 end = start + frame_size
+
+                # reinterpret floats to bytes
                 d = wave.numpy().data[start:end].tobytes()
 
                 await websocket.send(d)
