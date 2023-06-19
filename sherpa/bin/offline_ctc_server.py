@@ -15,7 +15,7 @@ Please refer to
 https://k2-fsa.github.io/sherpa/cpp/pretrained_models/offline_ctc/index.html
 for pre-trained models to download.
 
-We use a Conformer CTC pre-trained model from NeMO below to demonstrate how to use
+We use a Conformer CTC pre-trained model from NeMo below to demonstrate how to use
 this file. You can use other non-streaming CTC models with this file
 if you want.
 
@@ -35,7 +35,7 @@ cd /path/to/sherpa
   --port 6006 \
   --nemo-normalize=per_feature \
   --nn-model ./sherpa-nemo-ctc-en-conformer-medium/model.pt \
-  --tokens ./sherpa-nemo-ctc-en-conformer-medium/tokens.txt \
+  --tokens ./sherpa-nemo-ctc-en-conformer-medium/tokens.txt
 
 (3) Start the client
 
@@ -74,7 +74,8 @@ def add_model_args(parser: argparse.ArgumentParser):
         "--sample-rate",
         type=int,
         default=16000,
-        help="Sample rate of the data used to train the model. ",
+        help="Sample rate of the data used to train the model. "
+        "The client is expected to send audio samples with this sample rate.",
     )
 
     parser.add_argument(
@@ -133,6 +134,7 @@ def add_decoding_args(parser: argparse.ArgumentParser):
         CTC topology. False to use a standard CTC topology.
         Please refer to https://k2-fsa.github.io/k2/python_api/api.html#ctc-topo
         for the differences between standard and modified CTC topology.
+        If you encounter CUDA OOM, then please set this flag to True.
         """,
     )
 

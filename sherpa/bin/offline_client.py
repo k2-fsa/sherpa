@@ -48,8 +48,10 @@ def get_args():
         nargs="+",
         help="The input sound file(s) to transcribe. "
         "Supported formats are those supported by torchaudio.load(). "
-        "For example, wav and flac are supported. "
-        "The sample rate has to be 16kHz.",
+        "For example, wav and flac are supported. All models from icefall "
+        "uses 16 kHz training data. If the input sound file has a sample rate "
+        "different from 16 kHz, it is resampled to 16 kHz. "
+        "Only the first channel is used.",
     )
 
     return parser.parse_args()
@@ -76,7 +78,8 @@ async def run(server_addr: str, server_port: int, test_wavs: List[str]):
             # wave is a 1-D float32 tensor normalized to the range [-1, 1]
             # The format of the message sent to the server for each wave is
             #
-            # - 4 bytes in little endian specifying number of bytes to send
+            # - 4-byte in little endian specifying number of subsequent bytes
+            #   to send
             # - one or more messages containing the data
             # - The last message is "Done"
 
