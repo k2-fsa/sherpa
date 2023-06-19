@@ -1,20 +1,5 @@
 #!/usr/bin/env python3
-# Copyright      2022  Xiaomi Corp.        (authors: Fangjun Kuang)
-#
-# See LICENSE for clarification regarding multiple authors
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
-
+# Copyright      2022-2023  Xiaomi Corp.
 """
 A client for offline ASR recognition.
 
@@ -82,7 +67,7 @@ async def run(server_addr: str, server_port: int, test_wavs: List[str]):
             num_bytes = wave.numel() * wave.element_size()
             await websocket.send((num_bytes).to_bytes(4, "little", signed=True))
 
-            frame_size = (2 ** 20) // 4  # max payload is 1MB
+            frame_size = (2**20) // 4  # max payload is 1MB
             sleep_time = 0.25
             start = 0
             while start < wave.numel():
