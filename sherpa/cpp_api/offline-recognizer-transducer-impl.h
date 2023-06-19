@@ -99,9 +99,12 @@ class OfflineRecognizerTransducerImpl : public OfflineRecognizerImpl {
   void DecodeStreams(OfflineStream **ss, int32_t n) override {
     torch::NoGradGuard no_grad;
 
+    bool has_context_graph = false;
     std::vector<torch::Tensor> features_vec(n);
     std::vector<int64_t> features_length_vec(n);
     for (int32_t i = 0; i != n; ++i) {
+      if (!has_context_graph && ss[i]->GetContextGraph())
+        has_context_graph = true;
       const auto &f = ss[i]->GetFeatures();
       features_vec[i] = f;
       features_length_vec[i] = f.size(0);
@@ -121,7 +124,11 @@ class OfflineRecognizerTransducerImpl : public OfflineRecognizerImpl {
         model_->RunEncoder(features, features_length);
     encoder_out_length = encoder_out_length.cpu();
 
-    auto results = decoder_->Decode(encoder_out, encoder_out_length);
+    OfflineStream **streams = has_context_graph ? ss : nullptr;
+    int32_t num_streams = has_context_graph ? n : 0;
+    auto results =
+        decoder_->Decode(encoder_out, encoder_out_length, streams, num_streams);
+
     for (int32_t i = 0; i != n; ++i) {
       auto ans =
           Convert(results[i], symbol_table_,

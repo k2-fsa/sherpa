@@ -92,6 +92,9 @@ Args:
   num_active_paths:
     Used only for modified_beam_search in transducer decoding. It is ignored
     if the passed ``nn_model`` is a CTC model.
+  context_score:
+    The bonus score for each token in context word/phrase.
+    Used only when decoding_method is modified_beam_search.
   ctc_decoder_config:
     Used only when the passed ``nn_model`` is a CTC model. It is ignored if
     the passed ``nn_model`` is a transducer model.
@@ -151,6 +154,7 @@ static void PybindOfflineRecognizerConfig(py::module &m) {  // NOLINT
   py::class_<PyClass>(m, "OfflineRecognizerConfig")
       .def(py::init([](const std::string &nn_model, const std::string &tokens,
                        bool use_gpu = false, int32_t num_active_paths = 4,
+                       float context_score = 1.5,
                        const OfflineCtcDecoderConfig &ctc_decoder_config = {},
                        const FeatureConfig &feat_config = {},
                        const FastBeamSearchConfig &fast_beam_search_config = {},
@@ -166,11 +170,12 @@ static void PybindOfflineRecognizerConfig(py::module &m) {  // NOLINT
              config->use_gpu = use_gpu;
              config->decoding_method = decoding_method;
              config->num_active_paths = num_active_paths;
+             config->context_score = context_score;
 
              return config;
            }),
            py::arg("nn_model"), py::arg("tokens"), py::arg("use_gpu") = false,
-           py::arg("num_active_paths") = 4,
+           py::arg("num_active_paths") = 4, py::arg("context_score") = 1.5,
            py::arg("ctc_decoder_config") = OfflineCtcDecoderConfig(),
            py::arg("feat_config") = FeatureConfig(),
            py::arg("fast_beam_search_config") = FastBeamSearchConfig(),
@@ -187,6 +192,7 @@ static void PybindOfflineRecognizerConfig(py::module &m) {  // NOLINT
       .def_readwrite("use_gpu", &PyClass::use_gpu)
       .def_readwrite("decoding_method", &PyClass::decoding_method)
       .def_readwrite("num_active_paths", &PyClass::num_active_paths)
+      .def_readwrite("context_score", &PyClass::context_score)
       .def("validate", &PyClass::Validate);
 }
 

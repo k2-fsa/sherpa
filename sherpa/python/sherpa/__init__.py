@@ -28,7 +28,7 @@ from _sherpa import (
 
 from .http_server import HttpServer
 from .utils import (
-    encode_contexts
+    encode_contexts,
     setup_logger,
     str2bool,
 )
