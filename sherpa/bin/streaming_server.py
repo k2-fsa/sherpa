@@ -2,21 +2,18 @@
 # Copyright      2022-2023  Xiaomi Corp.
 #
 """
-A server for streaming ASR recognition. By streaming it means the audio samples
+A server for streaming ASR. By streaming it means the audio samples
 are coming in real-time. You don't need to wait until all audio samples are
 captured before sending them for recognition.
 
 It supports multiple clients sending at the same time.
 
-HINT: This file supports all streaming models from icefall, which means
-you don't need ./conv_emformer_transducer_stateless2 or
-./streaming_pruned_transducer_statelessX.
-
 Usage:
     ./streaming_server.py --help
 
 The following example demonstrates the usage of this file with a pre-trained
-streaming zipformer model for English.
+streaming zipformer model for English. You can also use other streaming
+models from icefall for testing.
 
 See below for the usage of an example client after starting the server.
 
@@ -80,14 +77,13 @@ cd /path/to/sherpa
 python3 ./sherpa/bin/streaming_client.py \
     --server-port 6006 \
     ./icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29/test_wavs/1089-134686-0001.wav
-"""
+"""  # noqa
 
 import argparse
 import asyncio
 import http
 import json
 import logging
-import math
 import socket
 import ssl
 import sys
@@ -101,16 +97,6 @@ import torch
 import websockets
 
 import sherpa
-from sherpa import (
-    HttpServer,
-    OnlineEndpointConfig,
-    RnntConformerModel,
-    add_beam_search_arguments,
-    add_online_endpoint_arguments,
-    convert_timestamp,
-    setup_logger,
-    str2bool,
-)
 
 
 def add_model_args(parser: argparse.ArgumentParser):
@@ -118,10 +104,11 @@ def add_model_args(parser: argparse.ArgumentParser):
         "--nn-model",
         type=str,
         help="""The torchscript model. Please refer to
-        https://k2-fsa.github.io/sherpa/cpp/pretrained_models/online_transducer.html
+    https://k2-fsa.github.io/sherpa/cpp/pretrained_models/online_transducer.html
         for a list of pre-trained models to download.
 
-        Not needed if you provide --encoder-model, --decoder-model, and --joiner-model
+        Not needed if you provide --encoder-model, --decoder-model, and
+        --joiner-model
         """,
     )
 
@@ -154,9 +141,7 @@ def add_model_args(parser: argparse.ArgumentParser):
         "--sample-rate",
         type=int,
         default=16000,
-        help="Sample rate of the data used to train the model. "
-        "Caution: If your input sound files have a different sampling rate, "
-        "we will do resampling inside",
+        help="Sample rate of the data used to train the model. ",
     )
 
     parser.add_argument(
@@ -197,7 +182,7 @@ def add_modified_beam_search_args(parser: argparse.ArgumentParser):
 def add_endpointing_args(parser: argparse.ArgumentParser):
     parser.add_argument(
         "--use-endpoint",
-        type=str2bool,
+        type=sherpa.str2bool,
         default=True,
         help="True to enable endpoiting. False to disable it",
     )
@@ -244,7 +229,7 @@ def add_fast_beam_search_args(parser: argparse.ArgumentParser):
 
     parser.add_argument(
         "--allow-partial",
-        type=str2bool,
+        type=sherpa.str2bool,
         default=True,
         help="Used only when --decoding-method is fast_beam_search",
     )
@@ -354,12 +339,13 @@ def get_args():
         "--num-threads",
         type=int,
         default=1,
-        help="Sets the number of threads used for interop parallelism (e.g. in JIT interpreter) on CPU.",
+        help="""Sets the number of threads used for interop parallelism
+        (e.g. in JIT interpreter) on CPU.""",
     )
 
     parser.add_argument(
         "--use-gpu",
-        type=str2bool,
+        type=sherpa.str2bool,
         default=False,
         help="""True to use GPU. It always selects GPU 0. You can use the
         environement variable CUDA_VISIBLE_DEVICES to control which GPU
@@ -408,10 +394,8 @@ def create_recognizer(args) -> sherpa.OnlineRecognizer:
     endpoint_config.rule2.min_trailing_silence = args.rule2_min_trailing_silence
     endpoint_config.rule3.min_utterance_length = args.rule3_min_utterance_length
 
-    use_gpu = args.use_gpu
-
-    if use_gpu and not torch.cuda.is_available():
-        sys.exit(f"not CUDA devices availabe but you set --use-gpu=true")
+    if args.use_gpu and not torch.cuda.is_available():
+        sys.exit("no CUDA devices available but you set --use-gpu=true")
 
     config = sherpa.OnlineRecognizerConfig(
         nn_model=args.nn_model,
@@ -484,7 +468,7 @@ class StreamingServer(object):
         self.recognizer = recognizer
 
         self.certificate = certificate
-        self.http_server = HttpServer(doc_root)
+        self.http_server = sherpa.HttpServer(doc_root)
 
         self.nn_pool = ThreadPoolExecutor(
             max_workers=nn_pool_size,
@@ -848,8 +832,8 @@ torch::jit::setGraphExecutorOptimize(false);
 """
 
 if __name__ == "__main__":
-    log_filename = "log/log-streaming-zipformer"
-    setup_logger(log_filename)
+    log_filename = "log/log-streaming-server"
+    sherpa.setup_logger(log_filename)
     main()
 else:
     torch.set_num_threads(1)

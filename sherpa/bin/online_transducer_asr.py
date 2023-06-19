@@ -1,6 +1,4 @@
 #!/usr/bin/env python3
-# noqa
-#
 # Copyright (c)  2023  Xiaomi Corporation
 
 """
@@ -78,7 +76,7 @@ python3 ./sherpa/bin/online_transducer_asr.py \
   ./icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29/test_wavs/1089-134686-0001.wav \
   ./icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29/test_wavs/1221-135766-0001.wav \
   ./icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29/test_wavs/1221-135766-0002.wav
-"""
+"""  # noqa
 
 import argparse
 import logging
@@ -240,7 +238,8 @@ def add_resources_args(parser: argparse.ArgumentParser):
         "--num-threads",
         type=int,
         default=1,
-        help="Sets the number of threads used for interop parallelism (e.g. in JIT interpreter) on CPU.",
+        help="Sets the number of threads used for interop parallelism "
+        "(e.g. in JIT interpreter) on CPU.",
     )
 
 
