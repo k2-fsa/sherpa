@@ -1,7 +1,10 @@
 # Please sort the filenames alphabetically
 set(sherpa_srcs
   context-graph.cc
-
+  fbank-features.cc
+  file-utils.cc
+  hypothesis.cc
+  log.cc
   offline-conformer-ctc-model.cc
   offline-conformer-transducer-model.cc
   offline-ctc-one-best-decoder.cc
@@ -11,34 +14,19 @@ set(sherpa_srcs
   offline-transducer-modified-beam-search-decoder.cc
   offline-wav2vec2-ctc-model.cc
   offline-wenet-conformer-ctc-model.cc
-
+  online-conformer-transducer-model.cc
   online-conv-emformer-transducer-model.cc
+  online-emformer-transducer-model.cc
+  online-lstm-transducer-model.cc
+  online-stream.cc
+  online-transducer-fast-beam-search-decoder.cc
   online-transducer-greedy-search-decoder.cc
   online-transducer-modified-beam-search-decoder.cc
-  online-emformer-transducer-model.cc
-  online-conformer-transducer-model.cc
-  online-lstm-transducer-model.cc
-  online-transducer-fast-beam-search-decoder.cc
   online-zipformer-transducer-model.cc
   online-zipformer2-transducer-model.cc
-
-  resample.cc
-
-  # TODO(fangjun): Refactor the following files
-  fbank-features.cc
-  file-utils.cc
-  hypothesis.cc
-  log.cc
-  symbol-table.cc
-  online-stream.cc
   parse-options.cc
-
-  # TODO(fangjun): Remove the following files
-  rnnt_beam_search.cc
-  rnnt_conformer_model.cc
-  rnnt_conv_emformer_model.cc
-  rnnt_emformer_model.cc
-  rnnt_lstm_model.cc
+  resample.cc
+  symbol-table.cc
 )
 
 add_library(sherpa_core ${sherpa_srcs})
@@ -82,7 +70,6 @@ if(SHERPA_ENABLE_TESTS)
     test-log.cc
     test-online-stream.cc
     test-parse-options.cc
-    test-stack-unstack-states.cc
   )
 
   function(sherpa_add_test source)

@@ -722,11 +722,11 @@ class TestOnlineRecognizer(unittest.TestCase):
         decode(recognizer=recognizer, s=s, samples=samples)
 
     def test_k2fsa_zipformer_chinese_english_mixed(self):
-        nnr_model = f"{d}/k2fsa-zipformer-chinese-english-mixed/exp/cpu_jit.pt"
+        nn_model = f"{d}/k2fsa-zipformer-chinese-english-mixed/exp/cpu_jit.pt"
         tokens = f"{d}/k2fsa-zipformer-chinese-english-mixed/data/lang_char_bpe/tokens.txt"
         wave = f"{d}/k2fsa-zipformer-chinese-english-mixed/test_wavs/0.wav"
 
-        if not Path(encoder_model).is_file():
+        if not Path(nn_model).is_file():
             print(f"{nn_model} does not exist")
             print("skipping test_k2fsa_zipformer_chinese_english_mixed()")
             return
@@ -809,7 +809,7 @@ class TestOnlineRecognizer(unittest.TestCase):
         lg = f"{d}/icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29/data/lang_bpe_500/LG.pt"
         wave = f"{d}/icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29/test_wavs/1089-134686-0001.wav"
 
-        if not Path(encoder_model).is_file():
+        if not Path(nn_model).is_file():
             print(f"{nn_model} does not exist")
             print(
                 "skipping test_icefall_asr_librispeech_pruned_transducer_stateless7_streaming_2022_12_29()"

@@ -97,7 +97,7 @@ cat ./log.txt
 log "start the client"
 
 # We create 50 concurrent connections here
-time python3 ./sherpa/bin/streaming_pruned_transducer_statelessX/decode_manifest.py \
+time python3 ./sherpa/bin/decode_manifest.py \
   --server-addr 127.0.0.1 \
   --server-port 6006 \
   --manifest-filename ./test-clean.jsonl.gz \

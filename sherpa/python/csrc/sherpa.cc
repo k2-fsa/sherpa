@@ -21,14 +21,7 @@
 #include <string>
 
 #include "sherpa/csrc/version.h"
-#include "sherpa/python/csrc/hypothesis.h"
 #include "sherpa/python/csrc/resample.h"
-#include "sherpa/python/csrc/rnnt_beam_search.h"
-#include "sherpa/python/csrc/rnnt_conformer_model.h"
-#include "sherpa/python/csrc/rnnt_conv_emformer_model.h"
-#include "sherpa/python/csrc/rnnt_emformer_model.h"
-#include "sherpa/python/csrc/rnnt_lstm_model.h"
-#include "sherpa/python/csrc/rnnt_model.h"
 //
 #include "sherpa/python/csrc/endpoint.h"
 #include "sherpa/python/csrc/fast-beam-search-config.h"
@@ -47,15 +40,6 @@ PYBIND11_MODULE(_sherpa, m) {
 
   PybindResample(m);
 
-  PybindHypothesis(m);
-  PybindRnntBeamSearch(m);
-  PybindRnntModel(m);
-  PybindRnntConformerModel(m);
-  PybindRnntConvEmformerModel(m);
-  PybindRnntEmformerModel(m);
-  PybindRnntLstmModel(m);
-  //
-  //
   PybindFeatureConfig(m);
   PybindFastBeamSearch(m);
   PybindOfflineCtcModel(m);
