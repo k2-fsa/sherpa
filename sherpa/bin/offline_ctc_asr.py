@@ -101,7 +101,7 @@ cd /path/to/sherpa
   ./sherpa-nemo-ctc-en-citrinet-512/test_wavs/0.wav \
   ./sherpa-nemo-ctc-en-citrinet-512/test_wavs/1.wav \
   ./sherpa-nemo-ctc-en-citrinet-512/test_wavs/2.wav
-"""
+"""  # noqa
 import argparse
 import logging
 from pathlib import Path
@@ -170,9 +170,7 @@ def add_model_args(parser: argparse.ArgumentParser):
         "--nn-model",
         type=str,
         help="""The torchscript model. Please refer to
-        https://k2-fsa.github.io/sherpa/cpp/pretrained_models/offline_ctc.html
-        and
-        https://k2-fsa.github.io/sherpa/cpp/pretrained_models/offline_transducer.html
+        https://k2-fsa.github.io/sherpa/cpp/pretrained_models/offline_ctc/index.html
         for a list of pre-trained models to download.
         """,
     )

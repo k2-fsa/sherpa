@@ -90,7 +90,7 @@ cd /path/to/sherpa
   ./icefall-asr-librispeech-pruned-transducer-stateless8-2022-12-02/test_wavs/1089-134686-0001.wav \
   ./icefall-asr-librispeech-pruned-transducer-stateless8-2022-12-02/test_wavs/1221-135766-0001.wav \
   ./icefall-asr-librispeech-pruned-transducer-stateless8-2022-12-02/test_wavs/1221-135766-0002.wav
-"""
+"""  # noqa
 import argparse
 import logging
 from pathlib import Path
@@ -129,8 +129,6 @@ def add_model_args(parser: argparse.ArgumentParser):
         "--nn-model",
         type=str,
         help="""The torchscript model. Please refer to
-        https://k2-fsa.github.io/sherpa/cpp/pretrained_models/offline_ctc.html
-        and
         https://k2-fsa.github.io/sherpa/cpp/pretrained_models/offline_transducer.html
         for a list of pre-trained models to download.
         """,
@@ -252,7 +250,8 @@ def add_resources_args(parser: argparse.ArgumentParser):
         "--num-threads",
         type=int,
         default=1,
-        help="Sets the number of threads used for interop parallelism (e.g. in JIT interpreter) on CPU.",
+        help="Sets the number of threads used for interop parallelism "
+        "(e.g. in JIT interpreter) on CPU.",
     )
 
 
