@@ -14,7 +14,7 @@ We also have other **similar** projects that don't depend on PyTorch:
   - [sherpa-onnx][sherpa-onnx]
   - [sherpa-ncnn][sherpa-ncnn]
 
-> `sherpa-onnx` and `sherpa-ncnn` also supports iOS, Android and embedded systems.
+> `sherpa-onnx` and `sherpa-ncnn` also support iOS, Android and embedded systems.
 
 ## Installation and Usage
 
