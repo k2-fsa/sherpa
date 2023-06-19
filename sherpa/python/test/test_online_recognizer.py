@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# flake8: noqa
 # To run this single test, use
 #
 #  ctest --verbose -R  test_online_recognizer_py
