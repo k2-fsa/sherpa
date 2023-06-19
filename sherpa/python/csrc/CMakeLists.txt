@@ -2,25 +2,16 @@ add_definitions(-DTORCH_API_INCLUDE_EXTENSION_H)
 
 # Please sort files alphabetically
 pybind11_add_module(_sherpa
-  hypothesis.cc
-  resample.cc
-  rnnt_beam_search.cc
-  rnnt_conformer_model.cc
-  rnnt_conv_emformer_model.cc
-  rnnt_emformer_model.cc
-  rnnt_lstm_model.cc
-  rnnt_model.cc
-  sherpa.cc
-  #
+  endpoint.cc
   fast-beam-search-config.cc
   feature-config.cc
   offline-ctc-model.cc
   offline-recognizer.cc
   offline-stream.cc
-
-  endpoint.cc
   online-recognizer.cc
   online-stream.cc
+  resample.cc
+  sherpa.cc
 )
 
 if(APPLE)

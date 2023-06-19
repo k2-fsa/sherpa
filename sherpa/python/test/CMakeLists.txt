@@ -17,19 +17,12 @@ endfunction()
 
 # please sort the files in alphabetic order
 set(py_test_files
-  test_hypothesis.py
-  test_online_endpoint.py
-  test_timestamp.py
-  test_utils.py
-  #
-  test_endpoint_config.py
-  test_endpoint_rule.py
-  test_fast_beam_search_config.py
   test_feature_config.py
   test_offline_ctc_decoder_config.py
+  test_offline_recognizer.py
   test_offline_recognizer_config.py
-  test_online_recognizer_config.py
   test_online_recognizer.py
+  test_online_recognizer_config.py
 )
 
 foreach(source IN LISTS py_test_files)
