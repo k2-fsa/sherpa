@@ -1,6 +1,4 @@
 #!/usr/bin/env python3
-# noqa
-#
 # Copyright (c)  2023  Xiaomi Corporation
 
 """
