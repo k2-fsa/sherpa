@@ -64,6 +64,9 @@ struct OfflineRecognizerConfig {
   /// used only for modified_beam_search
   int32_t num_active_paths = 4;
 
+  /// used only for modified_beam_search
+  float context_score = 1.5;
+
   void Register(ParseOptions *po);
 
   void Validate() const;
@@ -85,6 +88,10 @@ class OfflineRecognizer {
 
   /// Create a stream for decoding.
   std::unique_ptr<OfflineStream> CreateStream();
+
+  /// Create a stream with contextual-biasing lists.
+  std::unique_ptr<OfflineStream> CreateStream(
+      const std::vector<std::vector<int32_t>> &context_list);
 
   /** Decode a single stream
    *

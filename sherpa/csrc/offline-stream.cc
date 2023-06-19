@@ -37,8 +37,11 @@ std::string OfflineRecognitionResult::AsJsonString() const {
 
 class OfflineStream::OfflineStreamImpl {
  public:
-  OfflineStreamImpl(kaldifeat::Fbank *fbank, const FeatureConfig &feat_config)
-      : fbank_(fbank), feat_config_(feat_config) {
+  OfflineStreamImpl(kaldifeat::Fbank *fbank, const FeatureConfig &feat_config,
+                    ContextGraphPtr context_graph)
+      : fbank_(fbank),
+        feat_config_(feat_config),
+        context_graph_(context_graph) {
     if (!feat_config_.nemo_normalize.empty()) {
       SHERPA_CHECK_EQ(feat_config_.nemo_normalize, "per_feature")
           << "Only per_feature is implemented at present";
@@ -91,6 +94,8 @@ class OfflineStream::OfflineStreamImpl {
 
   const OfflineRecognitionResult &GetResult() const { return result_; }
 
+  const ContextGraphPtr &GetContextGraph() const { return context_graph_; }
+
  private:
   torch::Tensor Normalize(torch::Tensor features) const {
     if (feat_config_.nemo_normalize.empty()) {
@@ -114,13 +119,16 @@ class OfflineStream::OfflineStreamImpl {
   OfflineRecognitionResult result_;
   kaldifeat::Fbank *fbank_ = nullptr;  // not owned
   FeatureConfig feat_config_;
+  ContextGraphPtr context_graph_;
 };
 
 OfflineStream::~OfflineStream() = default;
 
 OfflineStream::OfflineStream(kaldifeat::Fbank *fbank,
-                             const FeatureConfig &feat_config)
-    : impl_(std::make_unique<OfflineStreamImpl>(fbank, feat_config)) {}
+                             const FeatureConfig &feat_config,
+                             ContextGraphPtr context_graph /* nullptr */)
+    : impl_(std::make_unique<OfflineStreamImpl>(fbank, feat_config,
+                                                context_graph)) {}
 
 void OfflineStream::AcceptWaveFile(const std::string &filename) {
   impl_->AcceptWaveFile(filename);
@@ -137,6 +145,10 @@ void OfflineStream::AcceptFeatures(const float *features, int32_t num_frames,
 
 const torch::Tensor &OfflineStream::GetFeatures() const {
   return impl_->GetFeatures();
+}
+
+const ContextGraphPtr &OfflineStream::GetContextGraph() const {
+  return impl_->GetContextGraph();
 }
 
 /** Set the recognition result for this stream. */

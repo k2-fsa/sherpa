@@ -7,6 +7,7 @@
 
 #include "k2/torch_api.h"
 #include "sherpa/cpp_api/fast-beam-search-config.h"
+#include "sherpa/cpp_api/offline-stream.h"
 #include "sherpa/csrc/offline-transducer-decoder.h"
 #include "sherpa/csrc/offline-transducer-model.h"
 
@@ -22,11 +23,14 @@ class OfflineTransducerFastBeamSearchDecoder : public OfflineTransducerDecoder {
    * @param encoder_out A 3-D tensor of shape (N, T, joiner_dim)
    * @param encoder_out_length A 1-D tensor of shape (N,) containing number
    *                           of valid frames in encoder_out before padding.
+   * @param ss Pointer to an array of streams.
+   * @param n  Size of the input array.
    *
    * @return Return a vector of size `N` containing the decoded results.
    */
   std::vector<OfflineTransducerDecoderResult> Decode(
-      torch::Tensor encoder_out, torch::Tensor encoder_out_length) override;
+      torch::Tensor encoder_out, torch::Tensor encoder_out_length,
+      OfflineStream **ss = nullptr, int32_t n = 0) override;
 
  private:
   OfflineTransducerModel *model_;  // Not owned

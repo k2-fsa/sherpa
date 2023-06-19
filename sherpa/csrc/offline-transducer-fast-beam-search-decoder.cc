@@ -22,8 +22,10 @@ OfflineTransducerFastBeamSearchDecoder::OfflineTransducerFastBeamSearchDecoder(
 }
 
 std::vector<OfflineTransducerDecoderResult>
-OfflineTransducerFastBeamSearchDecoder::Decode(
-    torch::Tensor encoder_out, torch::Tensor encoder_out_length) {
+OfflineTransducerFastBeamSearchDecoder::Decode(torch::Tensor encoder_out,
+                                               torch::Tensor encoder_out_length,
+                                               OfflineStream **ss /*= nullptr*/,
+                                               int32_t n /*= 0*/) {
   TORCH_CHECK(encoder_out.dim() == 3, encoder_out.dim(), " vs ", 3);
 
   auto device = model_->Device();

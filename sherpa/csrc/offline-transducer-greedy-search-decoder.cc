@@ -35,7 +35,9 @@ static void BuildDecoderInput(
 
 std::vector<OfflineTransducerDecoderResult>
 OfflineTransducerGreedySearchDecoder::Decode(torch::Tensor encoder_out,
-                                             torch::Tensor encoder_out_length) {
+                                             torch::Tensor encoder_out_length,
+                                             OfflineStream **ss /*= nullptr*/,
+                                             int32_t n /*= 0*/) {
   torch::NoGradGuard no_grad;
 
   TORCH_CHECK(encoder_out.dim() == 3, "encoder_out.dim() is ",

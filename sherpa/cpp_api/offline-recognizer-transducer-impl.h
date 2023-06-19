@@ -12,6 +12,7 @@
 
 #include "sherpa/cpp_api/feature-config.h"
 #include "sherpa/cpp_api/offline-recognizer-impl.h"
+#include "sherpa/csrc/context-graph.h"
 #include "sherpa/csrc/offline-conformer-transducer-model.h"
 #include "sherpa/csrc/offline-transducer-decoder.h"
 #include "sherpa/csrc/offline-transducer-fast-beam-search-decoder.h"
@@ -81,8 +82,18 @@ class OfflineRecognizerTransducerImpl : public OfflineRecognizerImpl {
   }
 
   std::unique_ptr<OfflineStream> CreateStream() override {
-    bool return_waveform = false;
     return std::make_unique<OfflineStream>(&fbank_, config_.feat_config);
+  }
+
+  std::unique_ptr<OfflineStream> CreateStream(
+      const std::vector<std::vector<int32_t>> &context_list) override {
+    // We create context_graph at this level, because we might have default
+    // context_graph(will be added later if needed) that belongs to the whole
+    // model rather than each stream.
+    auto context_graph =
+        std::make_shared<ContextGraph>(context_list, config_.context_score);
+    return std::make_unique<OfflineStream>(&fbank_, config_.feat_config,
+                                           context_graph);
   }
 
   void DecodeStreams(OfflineStream **ss, int32_t n) override {

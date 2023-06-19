@@ -8,6 +8,7 @@
 #include <memory>
 
 #include "sherpa/cpp_api/offline-recognizer.h"
+#include "sherpa/csrc/log.h"
 
 namespace sherpa {
 
@@ -16,6 +17,12 @@ class OfflineRecognizerImpl {
   virtual ~OfflineRecognizerImpl() = default;
 
   virtual std::unique_ptr<OfflineStream> CreateStream() = 0;
+
+  virtual std::unique_ptr<OfflineStream> CreateStream(
+      const std::vector<std::vector<int32_t>> &context_list) {
+    SHERPA_LOG(FATAL) << "Only transducer models support contextual biasing.";
+    return nullptr;  // just to make compiler happy
+  }
 
   virtual void DecodeStreams(OfflineStream **ss, int32_t n) = 0;
 };

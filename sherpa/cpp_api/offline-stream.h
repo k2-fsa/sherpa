@@ -10,6 +10,7 @@
 
 #include "kaldifeat/csrc/feature-fbank.h"
 #include "sherpa/cpp_api/feature-config.h"
+#include "sherpa/csrc/context-graph.h"
 #include "torch/script.h"
 
 namespace sherpa {
@@ -51,7 +52,8 @@ class OfflineStream {
    *
    * @param fbank Not owned by this class.
    */
-  OfflineStream(kaldifeat::Fbank *fbank, const FeatureConfig &feat_config);
+  OfflineStream(kaldifeat::Fbank *fbank, const FeatureConfig &feat_config,
+                ContextGraphPtr context_graph = nullptr);
 
   /** Create a stream from a WAVE file.
    *
@@ -97,6 +99,9 @@ class OfflineStream {
 
   /** Get the recognition result of this stream */
   const OfflineRecognitionResult &GetResult() const;
+
+  /** Get the ContextGraph of this stream */
+  const ContextGraphPtr &GetContextGraph() const;
 
  private:
   class OfflineStreamImpl;
