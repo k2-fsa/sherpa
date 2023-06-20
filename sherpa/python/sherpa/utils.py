@@ -97,7 +97,7 @@ def str2bool(v):
 def encode_contexts(
     modeling_unit: str,
     contexts: List[str],
-    sp: Optional["SentencePieceProcessor"] = None,
+    sp: Optional["SentencePieceProcessor"] = None,  # noqa
     tokens_table: Optional[Dict[str, int]] = None,
 ) -> List[List[int]]:
     """
