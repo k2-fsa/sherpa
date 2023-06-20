@@ -186,8 +186,8 @@ def add_modified_beam_search_args(parser: argparse.ArgumentParser):
         type=str,
         default="char",
         help="""
-        The type of modeling unit, it will be used to tokenize contexts biasing phrases.
-        Valid values are bpe, bpe+char, char.
+        The type of modeling unit, it will be used to tokenize contexts biasing
+        phrases. Valid values are bpe, bpe+char, char.
         Note: the char here means characters in CJK languages.
         Used only when --decoding-method=modified_beam_search
         """,

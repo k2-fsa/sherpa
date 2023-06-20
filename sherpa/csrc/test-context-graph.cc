@@ -16,13 +16,12 @@
  * limitations under the License.
  */
 
-#include "sherpa/csrc/context-graph.h"
-
 #include <map>
 #include <string>
 #include <vector>
 
 #include "gtest/gtest.h"
+#include "sherpa/csrc/context-graph.h"
 
 namespace sherpa {
 
