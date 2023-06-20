@@ -85,6 +85,7 @@ from typing import List
 
 import torch
 import torchaudio
+import sentencepiece as spm
 
 import sherpa
 from sherpa import str2bool
@@ -167,6 +168,50 @@ def add_modified_beam_search_args(parser: argparse.ArgumentParser):
         default=4,
         help="""Used only when --decoding-method is modified_beam_search.
         It specifies number of active paths to keep during decoding.
+        """,
+    )
+
+    parser.add_argument(
+        "--bpe-model",
+        type=str,
+        default="",
+        help="""
+        Path to bpe.model, it will be used to tokenize contexts biasing phrases.
+        Used only when --decoding-method=modified_beam_search
+        """,
+    )
+
+    parser.add_argument(
+        "--modeling-unit",
+        type=str,
+        default="char",
+        help="""
+        The type of modeling unit, it will be used to tokenize contexts biasing phrases.
+        Valid values are bpe, bpe+char, char.
+        Note: the char here means characters in CJK languages.
+        Used only when --decoding-method=modified_beam_search
+        """,
+    )
+
+    parser.add_argument(
+        "--contexts",
+        type=str,
+        default="",
+        help="""
+        The context list, it is a string containing some words/phrases separated
+        with /, for example, 'HELLO WORLD/I LOVE YOU/GO AWAY".
+        Used only when --decoding-method=modified_beam_search
+        """,
+    )
+
+    parser.add_argument(
+        "--context-score",
+        type=float,
+        default=1.5,
+        help="""
+        The context score of each token for biasing word/phrase. Used only if
+        --contexts is given.
+        Used only when --decoding-method=modified_beam_search
         """,
     )
 
@@ -257,6 +302,15 @@ def check_args(args):
     ):
         raise ValueError(f"Unsupported decoding method {args.decoding_method}")
 
+    if args.contexts.strip() != "":
+        assert (
+            args.decoding_method == "modified_beam_search"
+        ), "Contextual-biasing only supported in modified_beam_search."
+        if "bpe" in args.modeling_unit:
+            assert Path(
+                args.bpe_model
+            ).is_file(), f"{args.bpe_model} does not exist"
+
     if args.decoding_method == "modified_beam_search":
         assert args.num_active_paths > 0, args.num_active_paths
 
@@ -297,6 +351,26 @@ def read_sound_files(
     return ans
 
 
+def encode_contexts(args, contexts: List[str]) -> List[List[int]]:
+    sp = None
+    if "bpe" in args.modeling_unit:
+        sp = spm.SentencePieceProcessor()
+        sp.load(args.bpe_model)
+    tokens = {}
+    with open(args.tokens, "r", encoding="utf-8") as f:
+        for line in f:
+            toks = line.strip().split()
+            assert len(toks) == 2, len(toks)
+            assert toks[0] not in tokens, f"Duplicate token: {toks} "
+            tokens[toks[0]] = int(toks[1])
+    return sherpa.encode_contexts(
+        modeling_unit=args.modeling_unit,
+        contexts=contexts,
+        sp=sp,
+        tokens_table=tokens,
+    )
+
+
 def create_recognizer(args) -> sherpa.OnlineRecognizer:
     feat_config = sherpa.FeatureConfig()
 
@@ -318,6 +392,7 @@ def create_recognizer(args) -> sherpa.OnlineRecognizer:
         tokens=args.tokens,
         use_gpu=args.use_gpu,
         num_active_paths=args.num_active_paths,
+        context_score=args.context_score,
         feat_config=feat_config,
         decoding_method=args.decoding_method,
         fast_beam_search_config=fast_beam_search_config,
@@ -346,9 +421,20 @@ def main():
 
     tail_padding = torch.zeros(int(sample_rate * 0.3), dtype=torch.float32)
 
+    contexts_list = []
+    contexts = [
+        x.strip().upper() for x in args.contexts.split("/") if x.strip()
+    ]
+    if contexts:
+        print(f"Contexts list: {contexts}")
+        contexts_list = encode_contexts(args, contexts)
+
     streams: List[sherpa.OnlineStream] = []
     for s in samples:
-        stream = recognizer.create_stream()
+        if contexts_list:
+            stream = recognizer.create_stream(contexts_list=contexts_list)
+        else:
+            stream = recognizer.create_stream()
         stream.accept_waveform(sample_rate, s)
         stream.accept_waveform(sample_rate, tail_padding)
         stream.input_finished()

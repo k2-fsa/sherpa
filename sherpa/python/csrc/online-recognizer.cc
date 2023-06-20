@@ -20,8 +20,9 @@ static void PybindOnlineRecognizerConfig(py::module &m) {  // NOLINT
                        const std::string &joiner_model = {},
                        bool use_gpu = false, bool use_endpoint = false,
                        const std::string &decoding_method = "greedy_search",
-                       int32_t num_active_paths = 4, int32_t left_context = 64,
-                       int32_t right_context = 0, int32_t chunk_size = 16,
+                       int32_t num_active_paths = 4, float context_score = 1.5,
+                       int32_t left_context = 64, int32_t right_context = 0,
+                       int32_t chunk_size = 16,
                        const FeatureConfig &feat_config = {},
                        const EndpointConfig &endpoint_config = {},
                        const FastBeamSearchConfig &fast_beam_search_config = {})
@@ -40,6 +41,7 @@ static void PybindOnlineRecognizerConfig(py::module &m) {  // NOLINT
              ans->use_endpoint = use_endpoint;
              ans->decoding_method = decoding_method;
              ans->num_active_paths = num_active_paths;
+             ans->context_score = context_score;
              ans->left_context = left_context;
              ans->right_context = right_context;
              ans->chunk_size = chunk_size;
@@ -51,9 +53,9 @@ static void PybindOnlineRecognizerConfig(py::module &m) {  // NOLINT
            py::arg("joiner_model") = "", py::arg("use_gpu") = false,
            py::arg("use_endpoint") = false,
            py::arg("decoding_method") = "greedy_search",
-           py::arg("num_active_paths") = 4, py::arg("left_context") = 64,
-           py::arg("right_context") = 0, py::arg("chunk_size") = 16,
-           py::arg("feat_config") = FeatureConfig(),
+           py::arg("num_active_paths") = 4, py::arg("context_score") = 1.5,
+           py::arg("left_context") = 64, py::arg("right_context") = 0,
+           py::arg("chunk_size") = 16, py::arg("feat_config") = FeatureConfig(),
            py::arg("endpoint_config") = EndpointConfig(),
            py::arg("fast_beam_search_config") = FastBeamSearchConfig())
       .def_readwrite("feat_config", &PyClass::feat_config)
@@ -69,6 +71,7 @@ static void PybindOnlineRecognizerConfig(py::module &m) {  // NOLINT
       .def_readwrite("use_endpoint", &PyClass::use_endpoint)
       .def_readwrite("decoding_method", &PyClass::decoding_method)
       .def_readwrite("num_active_paths", &PyClass::num_active_paths)
+      .def_readwrite("context_score", &PyClass::context_score)
       .def_readwrite("left_context", &PyClass::left_context)
       .def_readwrite("right_context", &PyClass::right_context)
       .def_readwrite("chunk_size", &PyClass::chunk_size)
@@ -82,8 +85,16 @@ void PybindOnlineRecognizer(py::module &m) {  // NOLINT
   using PyClass = OnlineRecognizer;
   py::class_<PyClass>(m, "OnlineRecognizer")
       .def(py::init<const OnlineRecognizerConfig &>(), py::arg("config"))
-      .def("create_stream", &PyClass::CreateStream,
-           py::call_guard<py::gil_scoped_release>())
+      .def(
+          "create_stream", [](PyClass &self) { return self.CreateStream(); },
+          py::call_guard<py::gil_scoped_release>())
+      .def(
+          "create_stream",
+          [](PyClass &self,
+             const std::vector<std::vector<int32_t>> &contexts_list) {
+            return self.CreateStream(contexts_list);
+          },
+          py::arg("contexts_list"), py::call_guard<py::gil_scoped_release>())
       .def("is_ready", &PyClass::IsReady, py::arg("s"),
            py::call_guard<py::gil_scoped_release>())
       .def("is_endpoint", &PyClass::IsEndpoint, py::arg("s"),

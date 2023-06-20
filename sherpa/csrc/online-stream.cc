@@ -26,6 +26,7 @@
 #include "kaldifeat/csrc/feature-fbank.h"
 #include "kaldifeat/csrc/online-feature.h"
 #include "sherpa/cpp_api/endpoint.h"
+#include "sherpa/csrc/context-graph.h"
 #include "sherpa/csrc/hypothesis.h"
 #include "sherpa/csrc/log.h"
 #include "sherpa/csrc/online-transducer-decoder.h"
@@ -35,7 +36,9 @@ namespace sherpa {
 
 class OnlineStream::OnlineStreamImpl {
  public:
-  explicit OnlineStreamImpl(const kaldifeat::FbankOptions &opts) : opts_(opts) {
+  explicit OnlineStreamImpl(const kaldifeat::FbankOptions &opts,
+                            ContextGraphPtr context_graph /*=nullptr*/)
+      : opts_(opts), context_graph_(context_graph) {
     fbank_ = std::make_unique<kaldifeat::OnlineFbank>(opts);
   }
 
@@ -102,17 +105,19 @@ class OnlineStream::OnlineStreamImpl {
 
   void SetState(torch::IValue state) { state_ = std::move(state); }
 
+  const ContextGraphPtr &GetContextGraph() { return context_graph_; }
+
   void SetResult(const OnlineTransducerDecoderResult &r) { r_ = r; }
 
   const OnlineTransducerDecoderResult &GetResult() const { return r_; }
 
   int32_t &GetNumProcessedFrames() { return num_processed_frames_; }
 
-  std::vector<int32_t> &GetHyps() { return hyps_; }
+  // std::vector<int32_t> &GetHyps() { return hyps_; }
 
   torch::Tensor &GetDecoderOut() { return decoder_out_; }
 
-  Hypotheses &GetHypotheses() { return hypotheses_; }
+  // Hypotheses &GetHypotheses() { return hypotheses_; }
 
   int32_t &GetNumTrailingBlankFrames() { return num_trailing_blank_frames_; }
 
@@ -134,14 +139,18 @@ class OnlineStream::OnlineStreamImpl {
   /// ID of this segment
   int32_t segment_ = 0;
 
+  /// For contextual-biasing
+  ContextGraphPtr context_graph_;
+
   /// Starting frame of this segment.
   int32_t start_frame_ = 0;
   OnlineTransducerDecoderResult r_;
   std::unique_ptr<LinearResample> resampler_;
 };
 
-OnlineStream::OnlineStream(const kaldifeat::FbankOptions &opts)
-    : impl_(std::make_unique<OnlineStreamImpl>(opts)) {}
+OnlineStream::OnlineStream(const kaldifeat::FbankOptions &opts,
+                           ContextGraphPtr context_graph)
+    : impl_(std::make_unique<OnlineStreamImpl>(opts, context_graph)) {}
 
 OnlineStream::~OnlineStream() = default;
 
@@ -166,15 +175,19 @@ torch::IValue OnlineStream::GetState() const { return impl_->GetState(); }
 
 void OnlineStream::SetState(torch::IValue state) { impl_->SetState(state); }
 
+const ContextGraphPtr &OnlineStream::GetContextGraph() const {
+  return impl_->GetContextGraph();
+}
+
 int32_t &OnlineStream::GetNumProcessedFrames() {
   return impl_->GetNumProcessedFrames();
 }
 
-std::vector<int32_t> &OnlineStream::GetHyps() { return impl_->GetHyps(); }
+// std::vector<int32_t> &OnlineStream::GetHyps() { return impl_->GetHyps(); }
 
 torch::Tensor &OnlineStream::GetDecoderOut() { return impl_->GetDecoderOut(); }
 
-Hypotheses &OnlineStream::GetHypotheses() { return impl_->GetHypotheses(); }
+// Hypotheses &OnlineStream::GetHypotheses() { return impl_->GetHypotheses(); }
 
 int32_t &OnlineStream::GetNumTrailingBlankFrames() {
   return impl_->GetNumTrailingBlankFrames();

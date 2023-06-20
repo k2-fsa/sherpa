@@ -89,6 +89,10 @@ void OnlineRecognizerConfig::Register(ParseOptions *po) {
                "Number of active paths for modified_beam_search. "
                "Used only when --decoding-method is modified_beam_search");
 
+  po->Register("context-score", &context_score,
+               "The bonus score for each token in context word/phrase. "
+               "Used only when decoding_method is modified_beam_search");
+
   po->Register("decode-left-context", &left_context,
                "Used only for streaming Conformer, i.e, models from "
                "pruned_transducer_statelessX, "
@@ -165,6 +169,7 @@ std::string OnlineRecognizerConfig::ToString() const {
   os << "use_endpoint=" << (use_endpoint ? "True" : "False") << "\", ";
   os << "decoding_method=\"" << decoding_method << "\", ";
   os << "num_active_paths=" << num_active_paths << ", ";
+  os << "context_score=" << context_score << ", ";
   os << "left_context=" << left_context << ", ";
   os << "right_context=" << right_context << ", ";
   os << "chunk_size=" << chunk_size << ")";
@@ -303,15 +308,39 @@ class OnlineRecognizer::OnlineRecognizerImpl {
     }
   }
 
-  std::unique_ptr<OnlineStream> CreateStream() {
-    auto s = std::make_unique<OnlineStream>(config_.feat_config.fbank_opts);
-
+  void InitOnlineStream(OnlineStream *stream) const {
     auto r = decoder_->GetEmptyResult();
-    s->SetResult(r);
+
+    if (config_.decoding_method == "modified_beam_search" &&
+        nullptr != stream->GetContextGraph()) {
+      // r.hyps has only one element.
+      for (auto it = r.hyps.begin(); it != r.hyps.end(); ++it) {
+        it->second.context_state = stream->GetContextGraph()->Root();
+      }
+    }
+
+    stream->SetResult(r);
 
     auto state = model_->GetEncoderInitStates();
-    s->SetState(state);
+    stream->SetState(state);
+  }
 
+  std::unique_ptr<OnlineStream> CreateStream() {
+    auto s = std::make_unique<OnlineStream>(config_.feat_config.fbank_opts);
+    InitOnlineStream(s.get());
+    return s;
+  }
+
+  std::unique_ptr<OnlineStream> CreateStream(
+      const std::vector<std::vector<int32_t>> &contexts) {
+    // We create context_graph at this level, because we might have default
+    // context_graph(will be added later if needed) that belongs to the whole
+    // model rather than each stream.
+    auto context_graph =
+        std::make_shared<ContextGraph>(contexts, config_.context_score);
+    auto s = std::make_unique<OnlineStream>(config_.feat_config.fbank_opts,
+                                            context_graph);
+    InitOnlineStream(s.get());
     return s;
   }
 
@@ -334,8 +363,11 @@ class OnlineRecognizer::OnlineRecognizerImpl {
     std::vector<torch::IValue> all_states(n);
     std::vector<int32_t> all_processed_frames(n);
     std::vector<OnlineTransducerDecoderResult> all_results(n);
+    bool has_context_graph = false;
     for (int32_t i = 0; i != n; ++i) {
       OnlineStream *s = ss[i];
+
+      if (!has_context_graph && s->GetContextGraph()) has_context_graph = true;
 
       SHERPA_CHECK(IsReady(s));
       int32_t num_processed_frames = s->GetNumProcessedFrames();
@@ -370,7 +402,11 @@ class OnlineRecognizer::OnlineRecognizerImpl {
     std::tie(encoder_out, encoder_out_lens, next_states) = model_->RunEncoder(
         batched_features, features_length, processed_frames, stacked_states);
 
-    decoder_->Decode(encoder_out, &all_results);
+    if (has_context_graph) {
+      decoder_->Decode(encoder_out, ss, n, &all_results);
+    } else {
+      decoder_->Decode(encoder_out, &all_results);
+    }
 
     std::vector<torch::IValue> unstacked_states =
         model_->UnStackStates(next_states);
@@ -386,22 +422,39 @@ class OnlineRecognizer::OnlineRecognizerImpl {
 
   OnlineRecognitionResult GetResult(OnlineStream *s) {
     auto r = s->GetResult();  // we use a copy here as we will change it below
+
+    // Caution: FinalizeResult should be invoked before StripLeadingBlanks.
+    bool is_endpoint = config_.use_endpoint && IsEndpoint(s);
+    bool is_final = !IsReady(s) && s->IsLastFrame(s->NumFramesReady() - 1);
+
+    if (is_endpoint || is_final) {
+      decoder_->FinalizeResult(s, &r);
+    }
+
     decoder_->StripLeadingBlanks(&r);
+
     auto ans = Convert(r, symbol_table_,
                        config_.feat_config.fbank_opts.frame_opts.frame_shift_ms,
                        model_->SubsamplingFactor());
 
-    if (!IsReady(s) && s->IsLastFrame(s->NumFramesReady() - 1)) {
-      ans.is_final = true;
-    }
+    ans.is_final = is_final;
     ans.segment = s->GetWavSegment();
     float frame_shift_s =
         config_.feat_config.fbank_opts.frame_opts.frame_shift_ms / 1000.;
     ans.start_time = s->GetStartFrame() * frame_shift_s;
     s->GetNumTrailingBlankFrames() = r.num_trailing_blanks;
 
-    if (config_.use_endpoint && IsEndpoint(s)) {
+    if (is_endpoint) {
       auto r = decoder_->GetEmptyResult();
+
+      if (config_.decoding_method == "modified_beam_search" &&
+          nullptr != s->GetContextGraph()) {
+        // r.hyps has only one element.
+        for (auto it = r.hyps.begin(); it != r.hyps.end(); ++it) {
+          it->second.context_state = s->GetContextGraph()->Root();
+        }
+      }
+
       s->SetResult(r);
       s->GetWavSegment() += 1;
       s->GetStartFrame() = s->GetNumProcessedFrames();
@@ -463,6 +516,11 @@ OnlineRecognizer::~OnlineRecognizer() = default;
 
 std::unique_ptr<OnlineStream> OnlineRecognizer::CreateStream() {
   return impl_->CreateStream();
+}
+
+std::unique_ptr<OnlineStream> OnlineRecognizer::CreateStream(
+    const std::vector<std::vector<int32_t>> &contexts_list) {
+  return impl_->CreateStream(contexts_list);
 }
 
 bool OnlineRecognizer::IsReady(OnlineStream *s) { return impl_->IsReady(s); }

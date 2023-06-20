@@ -51,6 +51,9 @@ struct OnlineRecognizerConfig {
   /// used only for modified_beam_search
   int32_t num_active_paths = 4;
 
+  /// used only for modified_beam_search
+  float context_score = 1.5;
+
   // For OnlineConformerTransducerModel, i.e., for models from
   // pruned_transducer_stateless{2,3,4,5} in icefall
   // In number of frames after subsampling
@@ -88,6 +91,10 @@ class OnlineRecognizer {
 
   // Create a stream for decoding.
   std::unique_ptr<OnlineStream> CreateStream();
+
+  // Create a stream with context phrases
+  std::unique_ptr<OnlineStream> CreateStream(
+      const std::vector<std::vector<int32_t>> &context_list);
 
   /**
    * Return true if the given stream has enough frames for decoding.
