@@ -28,7 +28,9 @@ def main():
         num_threads=4,
     )
 
-    filename = "./sherpa-ncnn-conv-emformer-transducer-2022-12-06/test_wavs/1.wav"
+    filename = (
+        "./sherpa-ncnn-conv-emformer-transducer-2022-12-06/test_wavs/1.wav"
+    )
     with wave.open(filename) as f:
         assert f.getframerate() == recognizer.sample_rate, (
             f.getframerate(),
@@ -45,7 +47,9 @@ def main():
 
     recognizer.accept_waveform(recognizer.sample_rate, samples_float32)
 
-    tail_paddings = np.zeros(int(recognizer.sample_rate * 0.5), dtype=np.float32)
+    tail_paddings = np.zeros(
+        int(recognizer.sample_rate * 0.5), dtype=np.float32
+    )
     recognizer.accept_waveform(recognizer.sample_rate, tail_paddings)
 
     recognizer.input_finished()
