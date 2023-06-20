@@ -3,7 +3,7 @@ import logging
 from dataclasses import dataclass
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple, Union
+from typing import Dict, List, Optional, Union
 
 Pathlike = Union[str, Path]
 
@@ -92,6 +92,7 @@ def str2bool(v):
     else:
         raise argparse.ArgumentTypeError("Boolean value expected.")
 
+
 def encode_contexts(
     modeling_unit: str,
     contexts: List[str],
@@ -99,12 +100,14 @@ def encode_contexts(
     tokens_table: Optional[Dict[str, int]] = None,
 ) -> List[List[int]]:
     """
-    Encode the given contexts (a list of string) to a list of a list of token ids.
+    Encode the given contexts (a list of string) to a list of a list of token
+    ids.
 
     Args:
       modeling_unit:
         The valid values are bpe, char, bpe+char.
-        Note: char here means characters in CJK languages, not English like languages.
+        Note: char here means characters in CJK languages, not English like
+        languages.
       contexts:
         The given contexts list (a list of string).
       sp:
@@ -123,9 +126,11 @@ def encode_contexts(
 
     if "char" == modeling_unit:
         for context in contexts:
-            assert ' ' not in context
+            assert " " not in context
             ids = [
-                tokens_table[txt] if txt in tokens_table else tokens_table["<unk>"]
+                tokens_table[txt]
+                if txt in tokens_table
+                else tokens_table["<unk>"]
                 for txt in context
             ]
             contexts_list.append(ids)

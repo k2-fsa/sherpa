@@ -113,11 +113,7 @@ class OnlineStream::OnlineStreamImpl {
 
   int32_t &GetNumProcessedFrames() { return num_processed_frames_; }
 
-  // std::vector<int32_t> &GetHyps() { return hyps_; }
-
   torch::Tensor &GetDecoderOut() { return decoder_out_; }
-
-  // Hypotheses &GetHypotheses() { return hypotheses_; }
 
   int32_t &GetNumTrailingBlankFrames() { return num_trailing_blank_frames_; }
 
@@ -183,11 +179,7 @@ int32_t &OnlineStream::GetNumProcessedFrames() {
   return impl_->GetNumProcessedFrames();
 }
 
-// std::vector<int32_t> &OnlineStream::GetHyps() { return impl_->GetHyps(); }
-
 torch::Tensor &OnlineStream::GetDecoderOut() { return impl_->GetDecoderOut(); }
-
-// Hypotheses &OnlineStream::GetHypotheses() { return impl_->GetHypotheses(); }
 
 int32_t &OnlineStream::GetNumTrailingBlankFrames() {
   return impl_->GetNumTrailingBlankFrames();
