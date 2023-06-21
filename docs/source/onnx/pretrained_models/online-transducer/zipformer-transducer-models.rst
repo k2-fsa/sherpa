@@ -13,7 +13,7 @@ csukuangfj/sherpa-onnx-streaming-zipformer-en-2023-06-21 (English)
 
 This model is converted from
 
-`<https://huggingface.co/csukuangfj/sherpa-onnx-streaming-zipformer-en-2023-06-21/>`_
+`<https://huggingface.co/marcoyang/icefall-libri-giga-pruned-transducer-stateless7-streaming-2023-04-04>`_
 
 which supports only English as it is trained on the `LibriSpeech`_ and `GigaSpeech`_ corpus.
 
