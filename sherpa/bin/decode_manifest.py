@@ -99,7 +99,7 @@ async def send(
 
             await websocket.send((num_bytes).to_bytes(4, "little", signed=True))
 
-            frame_size = (2**20) // 4  # max payload is 1MB
+            frame_size = (2 ** 20) // 4  # max payload is 1MB
             start = 0
             while start < samples.size:
                 end = start + frame_size

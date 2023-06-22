@@ -24,6 +24,7 @@
 #include <utility>
 #include <vector>
 
+#include "sherpa/csrc/context-graph.h"
 #include "torch/all.h"
 
 namespace sherpa {
@@ -39,11 +40,15 @@ struct Hypothesis {
   // The total score of ys in log space.
   double log_prob = 0;
 
+  // The state of contextual-baising graph
+  const ContextState *context_state;
+
   int32_t num_trailing_blanks = 0;
 
   Hypothesis() = default;
-  Hypothesis(const std::vector<int32_t> &ys, double log_prob)
-      : ys(ys), log_prob(log_prob) {}
+  Hypothesis(const std::vector<int32_t> &ys, double log_prob,
+             const ContextState *context_state = nullptr)
+      : ys(ys), log_prob(log_prob), context_state(context_state) {}
 
   // If two Hypotheses have the same `Key`, then they contain
   // the same token sequence.

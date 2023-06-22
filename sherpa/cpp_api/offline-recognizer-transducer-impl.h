@@ -12,6 +12,7 @@
 
 #include "sherpa/cpp_api/feature-config.h"
 #include "sherpa/cpp_api/offline-recognizer-impl.h"
+#include "sherpa/csrc/context-graph.h"
 #include "sherpa/csrc/offline-conformer-transducer-model.h"
 #include "sherpa/csrc/offline-transducer-decoder.h"
 #include "sherpa/csrc/offline-transducer-fast-beam-search-decoder.h"
@@ -81,16 +82,29 @@ class OfflineRecognizerTransducerImpl : public OfflineRecognizerImpl {
   }
 
   std::unique_ptr<OfflineStream> CreateStream() override {
-    bool return_waveform = false;
     return std::make_unique<OfflineStream>(&fbank_, config_.feat_config);
+  }
+
+  std::unique_ptr<OfflineStream> CreateStream(
+      const std::vector<std::vector<int32_t>> &context_list) override {
+    // We create context_graph at this level, because we might have default
+    // context_graph(will be added later if needed) that belongs to the whole
+    // model rather than each stream.
+    auto context_graph =
+        std::make_shared<ContextGraph>(context_list, config_.context_score);
+    return std::make_unique<OfflineStream>(&fbank_, config_.feat_config,
+                                           context_graph);
   }
 
   void DecodeStreams(OfflineStream **ss, int32_t n) override {
     torch::NoGradGuard no_grad;
 
+    bool has_context_graph = false;
     std::vector<torch::Tensor> features_vec(n);
     std::vector<int64_t> features_length_vec(n);
     for (int32_t i = 0; i != n; ++i) {
+      if (!has_context_graph && ss[i]->GetContextGraph())
+        has_context_graph = true;
       const auto &f = ss[i]->GetFeatures();
       features_vec[i] = f;
       features_length_vec[i] = f.size(0);
@@ -110,7 +124,11 @@ class OfflineRecognizerTransducerImpl : public OfflineRecognizerImpl {
         model_->RunEncoder(features, features_length);
     encoder_out_length = encoder_out_length.cpu();
 
-    auto results = decoder_->Decode(encoder_out, encoder_out_length);
+    OfflineStream **streams = has_context_graph ? ss : nullptr;
+    int32_t num_streams = has_context_graph ? n : 0;
+    auto results =
+        decoder_->Decode(encoder_out, encoder_out_length, streams, num_streams);
+
     for (int32_t i = 0; i != n; ++i) {
       auto ans =
           Convert(results[i], symbol_table_,

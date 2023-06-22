@@ -86,7 +86,7 @@ async def run(server_addr: str, server_port: int, test_wavs: List[str]):
             num_bytes = wave.numel() * wave.element_size()
             await websocket.send((num_bytes).to_bytes(4, "little", signed=True))
 
-            frame_size = (2**20) // 4  # max payload is 1MB
+            frame_size = (2 ** 20) // 4  # max payload is 1MB
             sleep_time = 0.25
             start = 0
             while start < wave.numel():

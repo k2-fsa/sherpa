@@ -10,6 +10,7 @@
 #include <vector>
 
 #include "kaldifeat/csrc/feature-fbank.h"
+#include "sherpa/csrc/context-graph.h"
 #include "torch/script.h"
 
 namespace sherpa {
@@ -57,7 +58,8 @@ struct OnlineTransducerDecoderResult;
 
 class OnlineStream {
  public:
-  explicit OnlineStream(const kaldifeat::FbankOptions &opts);
+  explicit OnlineStream(const kaldifeat::FbankOptions &opts,
+                        ContextGraphPtr context_graph = nullptr);
   ~OnlineStream();
 
   /** This would be called from the application, when you get
@@ -112,6 +114,13 @@ class OnlineStream {
    */
   void SetState(torch::IValue state);
 
+  /**
+   * Get the context graph corresponding to this stream.
+   *
+   * @return Return the context graph for this stream.
+   */
+  const ContextGraphPtr &GetContextGraph() const;
+
   // Return a reference to the number of processed frames so far.
   // Initially, it is 0. It is always less than NumFramesReady().
   //
@@ -120,23 +129,6 @@ class OnlineStream {
 
   void SetResult(const OnlineTransducerDecoderResult &r);
   const OnlineTransducerDecoderResult &GetResult() const;
-
-  // TODO(fangjun): Make it return a struct
-  //
-  // Used for greedy_search.
-  //
-  // Return a reference to the current recognized tokens.
-  // The first context_size tokens are blanks for greedy_search.
-  //
-  // The returned reference is valid as long as this object is alive.
-  std::vector<int32_t> &GetHyps();
-
-  // Used for modified_beam_search.
-  //
-  // Get the hypotheses we have so far.
-  //
-  // The returned reference is valid as long as this object is alive.
-  Hypotheses &GetHypotheses();
 
   // Return a reference to the decoder output of the last chunk.
   // Its shape is [1, decoder_dim]

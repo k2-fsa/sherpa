@@ -22,7 +22,13 @@ class OnlineTransducerModifiedBeamSearchDecoder
 
   void StripLeadingBlanks(OnlineTransducerDecoderResult *r) override;
 
+  void FinalizeResult(OnlineStream *s,
+                      OnlineTransducerDecoderResult *r) override;
+
   void Decode(torch::Tensor encoder_out,
+              std::vector<OnlineTransducerDecoderResult> *result) override;
+
+  void Decode(torch::Tensor encoder_out, OnlineStream **ss, int32_t num_streams,
               std::vector<OnlineTransducerDecoderResult> *result) override;
 
  private:

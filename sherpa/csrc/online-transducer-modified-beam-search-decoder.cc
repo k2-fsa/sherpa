@@ -88,8 +88,26 @@ void OnlineTransducerModifiedBeamSearchDecoder::StripLeadingBlanks(
   r->num_trailing_blanks = hyp.num_trailing_blanks;
 }
 
+void OnlineTransducerModifiedBeamSearchDecoder::FinalizeResult(
+    OnlineStream *s, OnlineTransducerDecoderResult *r) {
+  if (nullptr != s->GetContextGraph()) {
+    for (auto iter = r->hyps.begin(); iter != r->hyps.end(); ++iter) {
+      auto context_res =
+          s->GetContextGraph()->Finalize(iter->second.context_state);
+      iter->second.log_prob += context_res.first;
+      iter->second.context_state = context_res.second;
+    }
+  }
+}
+
 void OnlineTransducerModifiedBeamSearchDecoder::Decode(
     torch::Tensor encoder_out,
+    std::vector<OnlineTransducerDecoderResult> *results) {
+  Decode(encoder_out, nullptr, 0, results);
+}
+
+void OnlineTransducerModifiedBeamSearchDecoder::Decode(
+    torch::Tensor encoder_out, OnlineStream **ss, int32_t num_streams,
     std::vector<OnlineTransducerDecoderResult> *results) {
   TORCH_CHECK(encoder_out.dim() == 3, encoder_out.dim(), " vs ", 3);
 
@@ -103,8 +121,11 @@ void OnlineTransducerModifiedBeamSearchDecoder::Decode(
   int32_t N = encoder_out.size(0);
   int32_t T = encoder_out.size(1);
 
+  if (ss) SHERPA_CHECK_EQ(N, num_streams);
+
   std::vector<Hypotheses> cur;
   cur.reserve(N);
+
   for (auto &r : *results) {
     cur.push_back(std::move(r.hyps));
   }
@@ -182,17 +203,27 @@ void OnlineTransducerModifiedBeamSearchDecoder::Decode(
         Hypothesis new_hyp = prev[start + hyp_idx];  // note: hyp_idx is 0 based
 
         int32_t new_token = topk_token_indexes_acc[j];
+
+        float context_score = 0;
+        auto context_state = new_hyp.context_state;
+
         if (new_token != blank_id) {
           new_hyp.ys.push_back(new_token);
           new_hyp.timestamps.push_back(t + frame_offset);
           new_hyp.num_trailing_blanks = 0;
+          if (ss != nullptr && ss[k]->GetContextGraph() != nullptr) {
+            auto context_res = ss[k]->GetContextGraph()->ForwardOneStep(
+                context_state, new_token);
+            context_score = context_res.first;
+            new_hyp.context_state = context_res.second;
+          }
         } else {
           new_hyp.num_trailing_blanks += 1;
         }
 
         // We already added log_prob of the path to log_probs before, so
         // we use values_acc[j] here directly.
-        new_hyp.log_prob = values_acc[j];
+        new_hyp.log_prob = values_acc[j] + context_score;
         hyps.Add(std::move(new_hyp));
       }
       cur.push_back(std::move(hyps));

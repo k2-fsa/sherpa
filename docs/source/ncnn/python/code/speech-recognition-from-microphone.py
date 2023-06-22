@@ -44,7 +44,9 @@ def main():
     sample_rate = recognizer.sample_rate
     samples_per_read = int(0.1 * sample_rate)  # 0.1 second = 100 ms
     last_result = ""
-    with sd.InputStream(channels=1, dtype="float32", samplerate=sample_rate) as s:
+    with sd.InputStream(
+        channels=1, dtype="float32", samplerate=sample_rate
+    ) as s:
         while True:
             samples, _ = s.read(samples_per_read)  # a blocking read
             samples = samples.reshape(-1)

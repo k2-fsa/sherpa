@@ -10,6 +10,7 @@
 
 #include "k2/torch_api.h"
 #include "sherpa/csrc/hypothesis.h"
+#include "sherpa/csrc/log.h"
 
 namespace sherpa {
 
@@ -66,7 +67,8 @@ static k2::RaggedShapePtr GetHypsShape(const std::vector<Hypotheses> &hyps) {
 
 std::vector<OfflineTransducerDecoderResult>
 OfflineTransducerModifiedBeamSearchDecoder::Decode(
-    torch::Tensor encoder_out, torch::Tensor encoder_out_length) {
+    torch::Tensor encoder_out, torch::Tensor encoder_out_length,
+    OfflineStream **ss /*= nullptr*/, int32_t n /*= 0*/) {
   TORCH_CHECK(encoder_out.dim() == 3, "encoder_out.dim() is ",
               encoder_out.dim(), "Expected value is 3");
   TORCH_CHECK(encoder_out.scalar_type() == torch::kFloat,
@@ -96,12 +98,30 @@ OfflineTransducerModifiedBeamSearchDecoder::Decode(
 
   int32_t batch_size = encoder_out_length.size(0);
 
+  if (ss != nullptr) SHERPA_CHECK_EQ(batch_size, n);
+
   std::vector<int32_t> blanks(context_size, blank_id);
   Hypotheses blank_hyp({{blanks, 0}});
 
   std::deque<Hypotheses> finalized;
-  std::vector<Hypotheses> cur(batch_size, blank_hyp);
+  std::vector<Hypotheses> cur;
   std::vector<Hypothesis> prev;
+
+  std::vector<ContextGraphPtr> context_graphs(batch_size, nullptr);
+
+  auto sorted_indices = packed_seq.sorted_indices().cpu();
+  auto sorted_indices_accessor = sorted_indices.accessor<int64_t, 1>();
+
+  for (int32_t i = 0; i < batch_size; ++i) {
+    const ContextState *context_state = nullptr;
+    if (ss != nullptr) {
+      context_graphs[i] = ss[sorted_indices_accessor[i]]->GetContextGraph();
+      if (context_graphs[i] != nullptr)
+        context_state = context_graphs[i]->Root();
+    }
+    Hypotheses blank_hyp({{blanks, 0, context_state}});
+    cur.emplace_back(std::move(blank_hyp));
+  }
 
   using torch::indexing::Slice;
   auto batch_sizes_acc = packed_seq.batch_sizes().accessor<int64_t, 1>();
@@ -196,14 +216,24 @@ OfflineTransducerModifiedBeamSearchDecoder::Decode(
         Hypothesis new_hyp = prev[start + hyp_idx];  // note: hyp_idx is 0 based
 
         int32_t new_token = topk_token_indexes_acc[j];
+
+        float context_score = 0;
+        auto context_state = new_hyp.context_state;
+
         if (new_token != blank_id) {
           new_hyp.ys.push_back(new_token);
           new_hyp.timestamps.push_back(t);
+          if (context_graphs[k] != nullptr) {
+            auto context_res =
+                context_graphs[k]->ForwardOneStep(context_state, new_token);
+            context_score = context_res.first;
+            new_hyp.context_state = context_res.second;
+          }
         }
 
         // We already added log_prob of the path to log_probs before, so
         // we use values_acc[j] here directly.
-        new_hyp.log_prob = values_acc[j];
+        new_hyp.log_prob = values_acc[j] + context_score;
         hyps.Add(std::move(new_hyp));
       }
       cur.push_back(std::move(hyps));
@@ -212,6 +242,18 @@ OfflineTransducerModifiedBeamSearchDecoder::Decode(
 
   for (auto &h : finalized) {
     cur.push_back(std::move(h));
+  }
+
+  // Finalize context biasing matching..
+  for (int32_t i = 0; i < cur.size(); ++i) {
+    for (auto iter = cur[i].begin(); iter != cur[i].end(); ++iter) {
+      if (context_graphs[i] != nullptr) {
+        auto context_res =
+            context_graphs[i]->Finalize(iter->second.context_state);
+        iter->second.log_prob += context_res.first;
+        iter->second.context_state = context_res.second;
+      }
+    }
   }
 
   auto unsorted_indices = packed_seq.unsorted_indices().cpu();

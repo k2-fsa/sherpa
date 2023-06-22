@@ -8,6 +8,7 @@
 #include <vector>
 
 #include "k2/torch_api.h"
+#include "sherpa/cpp_api/online-stream.h"
 #include "sherpa/csrc/hypothesis.h"
 #include "torch/script.h"
 
@@ -29,7 +30,8 @@ struct OnlineTransducerDecoderResult {
   // used only for modified_beam_search
   Hypotheses hyps;
 
-  k2::RnntStreamPtr rnnt_stream;  // used only for fast_beam_search
+  // used only for fast_beam_search
+  k2::RnntStreamPtr rnnt_stream;
 
   // Before subsampling. Used only for fast_beam_search
   int32_t num_processed_frames = 0;
@@ -50,6 +52,14 @@ class OnlineTransducerDecoder {
   /** Strip blanks added by `GetEmptyResult()`. */
   virtual void StripLeadingBlanks(OnlineTransducerDecoderResult * /*r*/) {}
 
+  /* Finalize the context graph searching, it will subtract the bonus of
+   * partial matching hypothesis.
+   *
+   * Used only in modified_beam_search and when context_graph is given.
+   */
+  virtual void FinalizeResult(OnlineStream * /*s*/,
+                              OnlineTransducerDecoderResult * /*r*/) {}
+
   /** Run transducer beam search given the output from the encoder model.
    *
    * @param encoder_out A 3-D tensor of shape (N, T, joiner_dim)
@@ -62,6 +72,12 @@ class OnlineTransducerDecoder {
    */
   virtual void Decode(torch::Tensor encoder_out,
                       std::vector<OnlineTransducerDecoderResult> *result) = 0;
+
+  virtual void Decode(torch::Tensor encoder_out, OnlineStream **ss,
+                      int32_t num_streams,
+                      std::vector<OnlineTransducerDecoderResult> *result) {
+    SHERPA_LOG(FATAL) << "This interface is for ModifiedBeamSearchDecoder.";
+  }
 };
 }  // namespace sherpa
 

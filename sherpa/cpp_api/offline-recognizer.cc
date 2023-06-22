@@ -106,6 +106,9 @@ void OfflineRecognizerConfig::Register(ParseOptions *po) {
   po->Register("num-active-paths", &num_active_paths,
                "Number of active paths for modified_beam_search. "
                "Used only when --decoding-method is modified_beam_search");
+  po->Register("context-score", &context_score,
+               "The bonus score for each token in context word/phrase. "
+               "Used only when decoding_method is modified_beam_search");
 }
 
 void OfflineRecognizerConfig::Validate() const {
@@ -146,7 +149,8 @@ std::string OfflineRecognizerConfig::ToString() const {
   os << "tokens=\"" << tokens << "\", ";
   os << "use_gpu=" << (use_gpu ? "True" : "False") << ", ";
   os << "decoding_method=\"" << decoding_method << "\", ";
-  os << "num_active_paths=" << num_active_paths << ")";
+  os << "num_active_paths=" << num_active_paths << ", ";
+  os << "context_score=" << context_score << ")";
 
   return os.str();
 }
@@ -175,6 +179,11 @@ OfflineRecognizer::OfflineRecognizer(const OfflineRecognizerConfig &config) {
 
 std::unique_ptr<OfflineStream> OfflineRecognizer::CreateStream() {
   return impl_->CreateStream();
+}
+
+std::unique_ptr<OfflineStream> OfflineRecognizer::CreateStream(
+    const std::vector<std::vector<int32_t>> &context_list) {
+  return impl_->CreateStream(context_list);
 }
 
 void OfflineRecognizer::DecodeStreams(OfflineStream **ss, int32_t n) {
