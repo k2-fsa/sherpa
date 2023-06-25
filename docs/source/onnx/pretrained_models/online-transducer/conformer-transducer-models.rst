@@ -16,7 +16,7 @@ This model is converted from
 `<https://huggingface.co/luomingshuang/icefall_asr_wenetspeech_pruned_transducer_stateless5_streaming>`_
 
 
-which supports only English as it is trained on the `WenetSpeech`_ corpus.
+which supports only Chinese as it is trained on the `WenetSpeech`_ corpus.
 
 You can find the training code at
 
