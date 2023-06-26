@@ -278,7 +278,6 @@ icefall-asr-zipformer-wenetspeech-20230615
   cd icefall-asr-zipformer-streaming-wenetspeech-20230615
 
   git lfs pull --include exp/jit_script_chunk_16_left_128.pt
-  git lfs pull --include "data/lang_char/tokens.txt"
   git lfs pull --include "data/lang_char/LG.pt"
 
   for m in greedy_search modified_beam_search fast_beam_search; do

@@ -35,10 +35,9 @@ Please use the following commands to download it.
   cd icefall-asr-zipformer-wenetspeech-20230615
 
   git lfs pull --include "exp/*.onnx"
-  git lfs pull --include "data/lang_char/tokens.txt"
 
 Please check that the file sizes of the pre-trained models are correct. See
-the file sizes of ``*.onnx`` files and ``data/lang_char/tokens.txt`` below.
+the file sizes of ``*.onnx`` files below.
 
 .. code-block:: bash
 
@@ -49,9 +48,6 @@ the file sizes of ``*.onnx`` files and ``data/lang_char/tokens.txt`` below.
   -rw-r--r--  1 fangjun  staff   248M Jun 26 14:34 exp/encoder-epoch-12-avg-4.onnx
   -rw-r--r--  1 fangjun  staff   2.7M Jun 26 14:31 exp/joiner-epoch-12-avg-4.int8.onnx
   -rw-r--r--  1 fangjun  staff    11M Jun 26 14:31 exp/joiner-epoch-12-avg-4.onnx
-
-  icefall-asr-zipformer-wenetspeech-20230615 fangjun$ ls -lh data/lang_char/tokens.txt
-  -rw-r--r--  1 fangjun  staff    48K Jun 26 14:24 data/lang_char/tokens.txt
 
 Decode wave files
 ~~~~~~~~~~~~~~~~~

@@ -36,10 +36,9 @@ Please use the following commands to download it.
   GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/pkufool/icefall-asr-zipformer-streaming-wenetspeech-20230615
   cd icefall-asr-zipformer-streaming-wenetspeech-20230615
   git lfs pull --include "exp/*chunk-16-left-128.*onnx"
-  git lfs pull --include "data/lang_char/tokens.txt"
 
 Please check that the file sizes of the pre-trained models are correct. See
-the file sizes of ``*.onnx`` files and ``data/lang_char/tokens.txt`` below.
+the file sizes of ``*.onnx`` files below.
 
 .. code-block:: bash
 
@@ -50,9 +49,6 @@ the file sizes of ``*.onnx`` files and ``data/lang_char/tokens.txt`` below.
   -rw-r--r--  1 fangjun  staff   250M Jun 26 15:43 exp/encoder-epoch-12-avg-4-chunk-16-left-128.onnx
   -rw-r--r--  1 fangjun  staff   2.7M Jun 26 15:42 exp/joiner-epoch-12-avg-4-chunk-16-left-128.int8.onnx
   -rw-r--r--  1 fangjun  staff    11M Jun 26 15:42 exp/joiner-epoch-12-avg-4-chunk-16-left-128.onnx
-
-  icefall-asr-zipformer-streaming-wenetspeech-20230615 fangjun$ ls -lh data/lang_char/tokens.txt
-  -rw-r--r--  1 fangjun  staff    48K Jun 26 15:34 data/lang_char/tokens.txt
 
 Decode a single wave file
 ~~~~~~~~~~~~~~~~~~~~~~~~~
