@@ -16,7 +16,7 @@ Online transducer models
 icefall
 -------
 
-This sections lists models trained using `icefall`_.
+This section lists models trained using `icefall`_.
 
 
 English
