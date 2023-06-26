@@ -270,7 +270,7 @@ icefall-asr-zipformer-wenetspeech-20230615
 
 .. code-block:: bash
 
-  # This models is trained using WenetSpeech
+  # This model is trained using WenetSpeech
   #
   # See https://github.com/k2-fsa/icefall/pull/1130
   #

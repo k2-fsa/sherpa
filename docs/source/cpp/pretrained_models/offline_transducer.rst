@@ -354,7 +354,7 @@ icefall-asr-zipformer-wenetspeech-20230615
 
 .. code-block::
 
-  # This models is trained using WenetSpeech
+  # This model is trained using WenetSpeech
   #
   # See https://github.com/k2-fsa/icefall/pull/1130
   #
@@ -390,7 +390,7 @@ icefall_asr_wenetspeech_pruned_transducer_stateless2
 
 .. code-block:: bash
 
-  # This models is trained using WenetSpeech
+  # This model is trained using WenetSpeech
   #
   # See https://github.com/k2-fsa/icefall/pull/349
   #
@@ -427,7 +427,7 @@ icefall_asr_aidatatang-200zh_pruned_transducer_stateless2
 
 .. code-block:: bash
 
-  # This models is trained using aidatatang_200zh
+  # This model is trained using aidatatang_200zh
   #
   # See https://github.com/k2-fsa/icefall/pull/355
   #
@@ -454,7 +454,7 @@ icefall-asr-alimeeting-pruned-transducer-stateless7
 
 .. code-block:: bash
 
-  # This models is trained using alimeeting (https://www.openslr.org/119/)
+  # This model is trained using alimeeting (https://www.openslr.org/119/)
   #
   # See https://github.com/k2-fsa/icefall/pull/751
   #
@@ -481,7 +481,7 @@ icefall_asr_tal-csasr_pruned_transducer_stateless5
 
 .. code-block:: bash
 
-  # This models is trained using TAL_CSASR dataset from
+  # This model is trained using TAL_CSASR dataset from
   # https://ai.100tal.com/dataset
   # where each utterance contains both English and Chinese.
   #
