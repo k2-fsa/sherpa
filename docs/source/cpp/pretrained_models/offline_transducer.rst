@@ -22,6 +22,31 @@ This section lists models trained using `icefall`_.
 English
 ^^^^^^^
 
+
+icefall-asr-cv-corpus-13.0-2023-03-09-en-pruned-transducer-stateless7-2023-04-17
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+  # This model is trained using Common Voice 13.0 with zipformer transducer
+  #
+  # See https://github.com/k2-fsa/icefall/pull/997
+  #
+  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/yfyeung/icefall-asr-cv-corpus-13.0-2023-03-09-en-pruned-transducer-stateless7-2023-04-17
+  cd icefall-asr-cv-corpus-13.0-2023-03-09-en-pruned-transducer-stateless7-2023-04-17
+
+  git lfs pull --include "cpu_jit-epoch-60-avg-20.pt"
+
+  for m in greedy_search modified_beam_search fast_beam_search; do
+    sherpa-offline \
+      --decoding-method=$m \
+      --nn-model=./exp/cpu_jit-epoch-60-avg-20.pt \
+      --tokens=./data/lang_bpe_500/tokens.txt \
+      ./test_wavs/1089-134686-0001.wav \
+      ./test_wavs/1221-135766-0001.wav \
+      ./test_wavs/1221-135766-0002.wav
+  done
+
 .. _icefall-asr-librispeech-zipformer-2023-05-15:
 
 icefall-asr-librispeech-zipformer-2023-05-15
