@@ -106,6 +106,7 @@ setuptools.setup(
     },
     data_files=[("bin", get_binaries_to_install())],
     packages=["sherpa"],
+    package_data={"sherpa": ["py.typed", "*.pyi"]},
     url="https://github.com/k2-fsa/sherpa",
     long_description=read_long_description(),
     long_description_content_type="text/markdown",
