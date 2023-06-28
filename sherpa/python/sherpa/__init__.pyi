@@ -147,8 +147,8 @@ class OfflineRecognizerConfig:
 
 class OfflineRecognitionResult:
     text: str
-    tokens: List
-    timestamps: List
+    tokens: List[str]
+    timestamps: List[float]
 
     def as_json_string(self) -> str: ...
 
