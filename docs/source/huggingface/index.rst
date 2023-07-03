@@ -1,10 +1,9 @@
 .. _try sherpa with huggingface:
 
-Try sherpa with Huggingface
-===========================
+Run Next-gen Kaldi in your browser
+==================================
 
-This page describes how to use `sherpa`_ for automatic speech recognition
-with `Huggingface`_.
+This page describes how to try Next-gen Kaldi in your browser.
 
 .. hint::
 
@@ -15,8 +14,9 @@ The server is running on CPU within a docker container provided by
 `Huggingface`_ and you use a browser to interact with it. The browser
 can be run on Windows, macOS, Linux, or even on your phone or iPad.
 
-You can either upload a file for recognition or record your speech via
-a microphone from within the browser and submit it for recognition.
+You can upload a file for recognition, record your speech via
+a microphone from within the browser and submit it for recognition, or even
+provider an URL to an audio file for speech recognition.
 
 Now let's get started.
 

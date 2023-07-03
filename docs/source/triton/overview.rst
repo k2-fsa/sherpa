@@ -1,5 +1,8 @@
-Overview
-==========================
+
+.. _triton_overview:
+
+Triton
+======
 
 Nvidia `Triton`_ Inference Server provides a cloud and edge inferencing solution optimized for both CPUs and GPUs.
 
