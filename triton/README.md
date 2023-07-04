@@ -55,8 +55,11 @@ Now start server:
 ```bash
 # Inside the docker container
 # If you want to use greedy search decoding
-cd $SHERPA_SRC/triton/
+cd /Your_SHERPA_SRC/triton/
+apt-get install git-lfs
+pip3 install -r ./requirements.txt
+export CUDA_VISIBLE_DEVICES="your_gpu_id"
 
-bash build_wenetspeech_pruned_transducer_stateless5_streaming.sh
-bash build_librispeech_pruned_transducer_stateless3_streaming.sh
+bash scripts/build_wenetspeech_pruned_transducer_stateless5_streaming.sh
+bash scripts/build_librispeech_pruned_transducer_stateless3_streaming.sh
 ```

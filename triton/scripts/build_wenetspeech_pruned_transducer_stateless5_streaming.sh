@@ -2,7 +2,6 @@
 stage=-2
 stop_stage=2
 
-
 pretrained_model_dir=/workspace/icefall/egs/wenetspeech/ASR/icefall_asr_wenetspeech_pruned_transducer_stateless5_streaming
 model_repo_path=./model_repo_streaming
 
@@ -56,7 +55,7 @@ if [ ${stage} -le -2 ] && [ ${stop_stage} -ge -2 ]; then
     pushd icefall_asr_wenetspeech_pruned_transducer_stateless5_streaming
     git lfs pull --include "exp/pretrained_epoch_7_avg_1.pt,data/lang_char/Linv.pt"
     popd
-    ln -s ./icefall_asr_wenetspeech_pruned_transducer_stateless5_streaming/exp/pretrained_epoch_7_avg_1.pt ./icefall_asr_wenetspeech_pruned_transducer_stateless5_streaming/exp/epoch-999.pt 
+    ln -s $icefall_dir/egs/wenetspeech/ASR/icefall_asr_wenetspeech_pruned_transducer_stateless5_streaming/exp/pretrained_epoch_7_avg_1.pt $icefall_dir/egs/wenetspeech/ASR/icefall_asr_wenetspeech_pruned_transducer_stateless5_streaming/exp/epoch-999.pt
     popd
   fi
 fi
