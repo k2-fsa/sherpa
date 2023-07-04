@@ -10,6 +10,8 @@ Zipformer-transducer-based Models
 
 
 
+.. _sherpa-onnx-wenetspeech-2023-06-15-streaming:
+
 pkufool/icefall-asr-zipformer-streaming-wenetspeech-20230615 (Chinese)
 ----------------------------------------------------------------------
 

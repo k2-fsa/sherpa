@@ -12,6 +12,7 @@ sherpa
    ./intro.rst
    ./social-groups.rst
    ./huggingface/index.rst
+   ./pretrained-models.rst
 
 
 .. toctree::
