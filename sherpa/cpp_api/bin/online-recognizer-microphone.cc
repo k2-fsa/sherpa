@@ -130,6 +130,12 @@ static void Handler(int sig) {
 
 int main(int argc, char *argv[]) {
   signal(SIGINT, Handler);
+
+  if (argc == 1) {
+    fprintf(stderr, kUsageMessage);
+    exit(0);
+  }
+
   Microphone mic;
 
   // see

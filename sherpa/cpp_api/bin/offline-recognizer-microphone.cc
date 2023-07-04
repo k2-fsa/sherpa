@@ -124,6 +124,10 @@ See:
 
 for more details.
 )usage";
+  if (argc == 1) {
+    fprintf(stderr, kUsageMessage);
+    exit(0);
+  }
 
   // see
   // https://pytorch.org/docs/stable/notes/cpu_threading_torchscript_inference.html
