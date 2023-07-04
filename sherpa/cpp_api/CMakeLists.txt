@@ -8,7 +8,7 @@ set(sherpa_cpp_api_srcs
 add_library(sherpa_cpp_api ${sherpa_cpp_api_srcs})
 target_link_libraries(sherpa_cpp_api sherpa_core)
 
-if(UNIT AND NOT APPLE)
+if(UNIX AND NOT APPLE)
   target_link_libraries(sherpa_cpp_api -pthread)
 endif()
 
