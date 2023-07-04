@@ -144,4 +144,7 @@ rst_epilog = """
 .. _CommonVoice: https://commonvoice.mozilla.org
 .. _Zipformer: https://github.com/k2-fsa/icefall/tree/master/egs/librispeech/ASR/pruned_transducer_stateless7_streaming
 .. _VisionFive2: https://www.starfivetech.com/en/site/boards
+.. _k2-fsa/sherpa: http://github.com/k2-fsa/sherpa
+.. _k2-fsa/sherpa-onnx: http://github.com/k2-fsa/sherpa-onnx
+.. _k2-fsa/sherpa-ncnn: http://github.com/k2-fsa/sherpa-ncnn
 """

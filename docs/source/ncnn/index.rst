@@ -6,15 +6,6 @@ sherpa-ncnn
   During speech recognition, it does not need to access the Internet.
   Everyting is processed locally on your device.
 
-.. hint::
-
-  A colab notebook is provided for you so that you can try `sherpa-ncnn`_
-  in the browser.
-
-  |sherpa-ncnn colab notebook|
-
-  .. |sherpa-ncnn colab notebook| image:: https://colab.research.google.com/assets/colab-badge.svg
-     :target: https://colab.research.google.com/drive/1zdNAdWgV5rh1hLbLDqvLjxTa5tjU7cPa?usp=sharing
 
 We support using `ncnn`_ to replace PyTorch for neural network computation.
 The code is put in a separate repository `sherpa-ncnn`_
