@@ -79,6 +79,7 @@ def get_binaries_to_install():
     binaries = ["sherpa-offline"]
     binaries += ["sherpa-online", "sherpa-version"]
     binaries += ["sherpa-online-microphone"]
+    binaries += ["sherpa-offline-microphone"]
     binaries += ["sherpa-offline-websocket-server"]
     binaries += ["sherpa-offline-websocket-client"]
     binaries += ["sherpa-online-websocket-server"]

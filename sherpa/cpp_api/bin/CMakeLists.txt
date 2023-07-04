@@ -12,6 +12,14 @@ if(SHERPA_ENABLE_PORTAUDIO)
   else()
     target_link_libraries(sherpa-online-microphone portaudio_static)
   endif()
+
+  add_executable(sherpa-offline-microphone offline-recognizer-microphone.cc)
+  target_link_libraries(sherpa-offline-microphone sherpa_cpp_api)
+  if(BUILD_SHARED_LIBS)
+    target_link_libraries(sherpa-offline-microphone portaudio)
+  else()
+    target_link_libraries(sherpa-offline-microphone portaudio_static)
+  endif()
 endif()
 
 set(exe_list
@@ -21,6 +29,7 @@ set(exe_list
 
 if(SHERPA_ENABLE_PORTAUDIO)
   list(APPEND exe_list sherpa-online-microphone)
+  list(APPEND exe_list sherpa-offline-microphone)
 endif()
 
 if(NOT WIN32)
