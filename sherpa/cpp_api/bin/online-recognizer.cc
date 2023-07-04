@@ -88,7 +88,7 @@ To use fast_beam_search with an LG, use
     ark,scp,t:result.ark,result.scp
 
 See
-https://k2-fsa.github.io/sherpa/cpp/pretrained_models/online_transducer.html
+https://k2-fsa.github.io/sherpa/sherpa/pretrained_models/online_transducer.html
 for more details.
 )";
 

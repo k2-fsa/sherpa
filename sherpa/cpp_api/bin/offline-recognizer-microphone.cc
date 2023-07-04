@@ -119,11 +119,15 @@ Usage:
 
 See:
 
-  https://k2-fsa.github.io/sherpa/cpp/pretrained_models/offline_transducer.html
-  https://k2-fsa.github.io/sherpa/cpp/pretrained_models/offline_ctc.html
+  https://k2-fsa.github.io/sherpa/sherpa/pretrained_models/offline_transducer.html
+  https://k2-fsa.github.io/sherpa/sherpa/pretrained_models/offline_ctc/index.html
 
 for more details.
 )usage";
+  if (argc == 1) {
+    fprintf(stderr, "%s\n", kUsageMessage);
+    exit(0);
+  }
 
   // see
   // https://pytorch.org/docs/stable/notes/cpu_threading_torchscript_inference.html

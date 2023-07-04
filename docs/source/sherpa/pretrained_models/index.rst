@@ -1,4 +1,4 @@
-.. _pretrained_models:
+.. _k2_fsa_sherpa_pretrained_models:
 
 Pre-trained models
 ==================

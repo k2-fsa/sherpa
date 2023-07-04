@@ -85,7 +85,7 @@ To use fast_beam_search with an LG, use
     ark,scp,t:result.ark,result.scp
 
 See
-https://k2-fsa.github.io/sherpa/cpp/pretrained_models/online_transducer.html
+https://k2-fsa.github.io/sherpa/sherpa/pretrained_models/online_transducer.html
 for more details.
 )";
 
@@ -130,6 +130,12 @@ static void Handler(int sig) {
 
 int main(int argc, char *argv[]) {
   signal(SIGINT, Handler);
+
+  if (argc == 1) {
+    fprintf(stderr, "%s\n", kUsageMessage);
+    exit(0);
+  }
+
   Microphone mic;
 
   // see

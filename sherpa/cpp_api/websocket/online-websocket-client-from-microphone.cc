@@ -35,9 +35,9 @@ Automatic speech recognition with sherpa using websocket.
 
 Usage:
 
-./bin/online_websocket_client_from_microphone --help
+./bin/sherpa-online-websocket-client-microphone --help
 
-./bin/online_websocket_client_from_microphone \
+./bin/sherpa-online-websocket-client-microphone \
   --server-ip=127.0.0.1 \
   --server-port=6006
 )";
