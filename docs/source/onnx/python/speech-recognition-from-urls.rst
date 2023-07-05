@@ -37,7 +37,7 @@ for demonstration in the following examples.
 Decode a URL
 ------------
 
-This example shows you how to decode an URL pointing to a file.
+This example shows you how to decode a URL pointing to a file.
 
 .. hint::
 
