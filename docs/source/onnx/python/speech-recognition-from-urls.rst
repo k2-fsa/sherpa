@@ -9,7 +9,7 @@ Speech recognition from URLs
    `code <https://github.com/k2-fsa/sherpa-onnx/blob/master/python-api-examples/speech-recognition-from-url.py>`_
    for non-streaming models on need.
 
-All types of URLs supported by ``ffmpeg`` are supported by `sherpa-onnx`_.
+All types of URLs supported by ``ffmpeg`` are supported.
 
 The following table lists some example URLs.
 
@@ -37,7 +37,7 @@ for demonstration in the following examples.
 Decode a URL
 ------------
 
-This example shows you how to decode an URL that pointing to a file.
+This example shows you how to decode an URL pointing to a file.
 
 .. hint::
 
@@ -119,7 +119,7 @@ which gives the following output:
 Start ffmpeg to push audio stream
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-First, let us list available recording devices in the current computer
+First, let us list available recording devices on the current computer
 with the following command:
 
 .. code-block:: bash
