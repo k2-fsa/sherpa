@@ -10,6 +10,10 @@ In this section, we describe how to install `sherpa-onnx`_ on various platforms.
   - ``CMake >= 3.13``
   - A compiler that supports at least ``C++14``
 
+.. hint::
+
+   You can use ``pip install cmake`` to install the latest cmake.
+
 .. toctree::
    :maxdepth: 2
 
