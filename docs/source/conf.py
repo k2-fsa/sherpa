@@ -147,4 +147,6 @@ rst_epilog = """
 .. _k2-fsa/sherpa: http://github.com/k2-fsa/sherpa
 .. _k2-fsa/sherpa-onnx: http://github.com/k2-fsa/sherpa-onnx
 .. _k2-fsa/sherpa-ncnn: http://github.com/k2-fsa/sherpa-ncnn
+.. _srs: https://github.com/ossrs/srs
+.. _RTMP: https://en.wikipedia.org/wiki/Real-Time_Messaging_Protocol
 """
