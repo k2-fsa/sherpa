@@ -109,7 +109,7 @@ That's it!
   as Raspberry pi.
 
   You need to provide a ``device_name`` when invoking ``sherpa-ncnn-alsa``.
-  We describe below how to find the device name for you microphone.
+  We describe below how to find the device name for your microphone.
 
   Run the following command:
 

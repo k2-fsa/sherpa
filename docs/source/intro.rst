@@ -33,9 +33,9 @@ The differences are compared below:
  * - CPU Support
    - x86, x86_64
    - | x86, x86_64,
-     | ``arm``, ``arm64``
+     | ``arm32``, ``arm64``
    - | x86, x86_64,
-     | ``arm``, ``arm64``,
+     | ``arm32``, ``arm64``,
      | ``**RISC-V**``
  * - GPU Support
    - | Yes
