@@ -31,10 +31,10 @@ sequence_batching{
       input_name: "attn_cache"
       output_name: "new_attn_cache"
       data_type: TYPE_FP32
-      dims: [ ENCODER_LEFT_CONTEXT, ENCODER_LAYERS, ENCODER_DIM ]
+      dims: [ ENCODER_LEFT_CONTEXT, ENCODER_LAYERS_3X, ENCODER_DIM_HALF ]
       initial_state: {
-       data_type: TYPE_FP16
-       dims: [ ENCODER_LEFT_CONTEXT, ENCODER_LAYERS, ENCODER_DIM ]
+       data_type: TYPE_FP32
+       dims: [ ENCODER_LEFT_CONTEXT, ENCODER_LAYERS_3X, ENCODER_DIM_HALF ]
        zero_data: true
        name: "initial state"
       }
@@ -42,11 +42,11 @@ sequence_batching{
     {
       input_name: "cnn_cache"
       output_name: "new_cnn_cache"
-      data_type: TYPE_FP16
-      dims: [ CNN_MODULE_KERNEL_MINUS_ONE, ENCODER_LAYERS, ENCODER_DIM ]
+      data_type: TYPE_FP32
+      dims: [ ENCODER_LAYERS_2X, ENCODER_DIM , CNN_MODULE_KERNEL_MINUS_ONE]
       initial_state: {
-       data_type: TYPE_FP16
-       dims: [CNN_MODULE_KERNEL_MINUS_ONE, ENCODER_LAYERS, ENCODER_DIM]
+       data_type: TYPE_FP32
+       dims: [ ENCODER_LAYERS_2X, ENCODER_DIM , CNN_MODULE_KERNEL_MINUS_ONE]
        zero_data: true
        name: "initial state"
       }
@@ -66,13 +66,13 @@ sequence_batching{
     },
 
     {
-      input_name: "processed_lens"
-      output_name: "next_processed_lens"
+      input_name: "len_cache"
+      output_name: "new_len_cache"
       data_type: TYPE_INT64
-      dims: [ 1 ]
+      dims: [ ENCODER_LAYERS ]
       initial_state: {
        data_type: TYPE_INT64
-       dims: [ 1 ]
+       dims: [ ENCODER_LAYERS ]
        zero_data: true
        name: "initial state"
       }
@@ -96,7 +96,7 @@ output [
   {
     name: "encoder_out"
     data_type: TYPE_FP32
-    dims: [-1, ENCODER_DIM]
+    dims: [-1, -1]
   },
   {
     name: "encoder_out_lens"

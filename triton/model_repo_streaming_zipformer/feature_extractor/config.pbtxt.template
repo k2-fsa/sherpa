@@ -27,7 +27,7 @@ parameters [
   },
   {
     key: "sample_rate"
-    value: { string_value: "8000" }
+    value: { string_value: "16000" }
   },
   {
     key: "decode_chunk_size",
