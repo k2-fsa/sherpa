@@ -30,10 +30,10 @@ sequence_batching{
     {
       input_name: "attn_cache"
       output_name: "new_attn_cache"
-      data_type: TYPE_FP32
+      data_type: TYPE_FP16
       dims: [ ENCODER_LEFT_CONTEXT, ENCODER_LAYERS_3X, ENCODER_DIM_HALF ]
       initial_state: {
-       data_type: TYPE_FP32
+       data_type: TYPE_FP16
        dims: [ ENCODER_LEFT_CONTEXT, ENCODER_LAYERS_3X, ENCODER_DIM_HALF ]
        zero_data: true
        name: "initial state"
@@ -42,10 +42,10 @@ sequence_batching{
     {
       input_name: "cnn_cache"
       output_name: "new_cnn_cache"
-      data_type: TYPE_FP32
+      data_type: TYPE_FP16
       dims: [ ENCODER_LAYERS_2X, ENCODER_DIM , CNN_MODULE_KERNEL_MINUS_ONE]
       initial_state: {
-       data_type: TYPE_FP32
+       data_type: TYPE_FP16
        dims: [ ENCODER_LAYERS_2X, ENCODER_DIM , CNN_MODULE_KERNEL_MINUS_ONE]
        zero_data: true
        name: "initial state"
@@ -55,10 +55,10 @@ sequence_batching{
        {
       input_name: "avg_cache"
       output_name: "new_avg_cache"
-      data_type: TYPE_FP32
+      data_type: TYPE_FP16
       dims: [ ENCODER_LAYERS, ENCODER_DIM ]
       initial_state: {
-       data_type: TYPE_FP32
+       data_type: TYPE_FP16
        dims: [ ENCODER_LAYERS, ENCODER_DIM ]
        zero_data: true
        name: "initial state"
@@ -82,7 +82,7 @@ sequence_batching{
 input [
   {
     name: "x"
-    data_type: TYPE_FP32
+    data_type: TYPE_FP16
     dims: [-1, 80]
   },
   {
@@ -95,7 +95,7 @@ input [
 output [
   {
     name: "encoder_out"
-    data_type: TYPE_FP32
+    data_type: TYPE_FP16
     dims: [-1, -1]
   },
   {
