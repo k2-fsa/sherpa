@@ -1,0 +1,1 @@
+../../../model_repo_streaming/feature_extractor/1/model.py
