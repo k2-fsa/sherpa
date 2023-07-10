@@ -390,16 +390,16 @@ def export_encoder_model_onnx_triton(
         verbose=False,
         opset_version=opset_version,
         input_names=[
-            "x",
-            "x_lens",
+            "speech",
+            "speech_lengths",
         ],
         output_names=[
             "encoder_out",
             "encoder_out_lens",
         ],
         dynamic_axes={
-            "x": {0: "B", 1: "T"},
-            "x_lens": {0: "B"},
+            "speech": {0: "B", 1: "T"},
+            "speech_lengths": {0: "B"},
             "encoder_out": {0: "B", 1: "T"},
             "encoder_out_lens": {0: "B"},
         },
