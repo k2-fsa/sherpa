@@ -1,5 +1,5 @@
 #!/bin/bash
-stage=-2
+stage=1
 stop_stage=3
 
 
@@ -56,7 +56,6 @@ fi
 
 if [ ${stage} -le -1 ] && [ ${stop_stage} -ge -1 ]; then
     echo "export onnx"
-    cp scripts/*onnx*.py ${recipe_dir}/
     cd ${recipe_dir}
     ./export-onnx.py \
         --bpe-model $TOKENIZER_FILE \
@@ -67,6 +66,7 @@ if [ ${stage} -le -1 ] && [ ${stop_stage} -ge -1 ]; then
 fi
 
 if [ ${stage} -le 0 ] && [ ${stop_stage} -ge 0 ]; then
+   echo "Buiding TRT engine..."
    bash scripts/build_trt.sh $MAX_BATCH $pretrained_model_dir/exp/encoder-epoch-9999-avg-1.onnx $model_repo_path/encoder/1/encoder.trt
 fi
 
