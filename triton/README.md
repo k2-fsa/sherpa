@@ -9,8 +9,7 @@ In this tutorial, we'll go through how to run  non-streaming (offline) and strea
   - [Quick Start](#quick-start)
 - [Inference Client](client/README.md)
 - [Using TensorRT acceleration](#using-tensorrt-acceleration)
-  - [Preparation for TRT](#preparation-for-trt)
-  - [Model Export](#model-export)
+  - [TRT Quick start](#trt-quick-start)
   - [Benchmark for Conformer TRT encoder vs ONNX](#benchmark-for-conformer-trt-encoder-vs-onnx)
 
 
@@ -40,7 +39,7 @@ Alternatively, you could directly pull the pre-built image based on tritonserver
 docker pull soar97/triton-k2:22.12.1
 ```
 
-If you are planning to use TRT to accelerate the inference speed, you can use the following image:
+If you are planning to use TRT to accelerate the inference speed, you can use the following prebuit image:
 ```
 docker pull wd929/sherpa_wend_23.04:v1.1
 ```
@@ -76,7 +75,19 @@ bash scripts/build_librispeech_pruned_transducer_stateless3_streaming.sh
 
 ## Using TensorRT acceleration
 
-### Preparation for TRT
+### TRT Quick start
+
+You can directly use the following script to export TRT engine and start Triton server for Conformer Offline model: 
+
+```bash
+bash scripts/build_librispeech_pruned_transducer_stateless3_offline_trt.sh
+```
+
+### Export to TensorRT Step by Step
+
+If you want to build TensorRT for your own model, you can try the following steps:
+
+#### Preparation for TRT
 
 First of all, you have to install the TensorRT. Here we suggest you to use docker container to run TRT. Just run the following command:
 
@@ -85,9 +96,7 @@ docker run --gpus '"device=0"' -it --rm --net host -v $PWD/:/k2 nvcr.io/nvidia/t
 ```
 You can also see [here](https://github.com/NVIDIA/TensorRT#build) to build TRT on your machine. 
 
-Please pay attention that, the TRT version must have to >= 8.5.3!!!
-
-### Model export 
+#### Model export 
 
 You have to prepare the ONNX model by referring [here](https://github.com/k2-fsa/sherpa/blob/master/triton/scripts/build_librispeech_pruned_transducer_stateless3_offline.sh#L41C1-L41C1) to export your models into ONNX format. Assume you have put your ONNX model in the `$model_dir` directory. 
 Then, just run the command:
@@ -97,12 +106,8 @@ bash scripts/build_trt.sh 128 $model_dir/encoder.onnx model_repo_offline/encoder
 ```
 
 The generated TRT model will be saved into `model_repo_offline/encoder/1/encoder.trt`. 
+Then you can start the Triton server.
 
-Then you can use the following script to start the Triton server.
-
-```bash
-bash scripts/build_librispeech_pruned_transducer_stateless3_offline_trt.sh
-```
 
 ### Benchmark for Conformer TRT encoder vs ONNX
 

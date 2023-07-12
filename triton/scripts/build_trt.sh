@@ -23,7 +23,7 @@ ENC_MIN_LEN=16
 ENC_OPT_LEN=512
 ENC_MAX_LEN=2000
 
-trtexec \
+/usr/src/tensorrt/bin/trtexec \
 --onnx=$onnx_model \
 --minShapes=x:${MIN_BATCH}x${ENC_MIN_LEN}x80,x_lens:${MIN_BATCH} \
 --optShapes=x:${OPT_BATCH}x${ENC_OPT_LEN}x80,x_lens:${OPT_BATCH} \
