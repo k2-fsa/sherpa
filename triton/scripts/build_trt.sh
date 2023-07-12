@@ -12,44 +12,24 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-name: "encoder"
-backend: "tensorrt"
-default_model_filename: "encoder.trt"
+# paramters for TRT engines
+MIN_BATCH=1
+OPT_BATCH=32
+MAX_BATCH=$1
+onnx_model=$2
+trt_model=$3
 
-max_batch_size: 128
-input [
-  {
-    name: "speech"
-    data_type: TYPE_FP32
-    dims: [-1, 80] # 80
-  },
-  {
-    name: "speech_lengths"
-    data_type: TYPE_INT32
-    dims: [1]
-    reshape: { shape: [ ] }
-  }
-]
-output [
-  {
-    name: "encoder_out"
-    data_type: TYPE_FP32
-    dims: [-1, 512] # [-1, encoder_dim]
-  },
-  {
-    name: "encoder_out_lens"
-    data_type: TYPE_INT32
-    dims: [1]
-    reshape: { shape: [ ] }
-  }
-]
+ENC_MIN_LEN=16
+ENC_OPT_LEN=512
+ENC_MAX_LEN=2000
 
-dynamic_batching {
-  }
+/usr/src/tensorrt/bin/trtexec \
+--onnx=$onnx_model \
+--minShapes=x:${MIN_BATCH}x${ENC_MIN_LEN}x80,x_lens:${MIN_BATCH} \
+--optShapes=x:${OPT_BATCH}x${ENC_OPT_LEN}x80,x_lens:${OPT_BATCH} \
+--maxShapes=x:${MAX_BATCH}x${ENC_MAX_LEN}x80,x_lens:${MAX_BATCH} \
+--fp16 \
+--loadInputs=x:scripts/test_features/input_tensor_fp32.dat,x_lens:scripts/test_features/shape.bin \
+--shapes=x:1x663x80,x_lens:1 \
+--saveEngine=$trt_model
 
-instance_group [
-    {
-      count: 1
-      kind: KIND_GPU
-    }
-]

@@ -44,19 +44,19 @@ input [
   },
   {
     name: "wav_lens"
-    data_type: TYPE_INT32
+    data_type: TYPE_INT64
     dims: [1]
   }
 ]
 
 output [
   {
-    name: "speech"
-    data_type: TYPE_FP16
+    name: "x"
+    data_type: TYPE_FP32
     dims: [-1, 80]
   },
   {
-    name: "speech_lengths"
+    name: "x_lens"
     data_type: TYPE_INT64
     dims: [1]
   }

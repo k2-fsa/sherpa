@@ -1,9 +1,7 @@
 #!/bin/bash
-stage=-2
-stop_stage=2
+stage=1
+stop_stage=3
 
-# whether to use convert ONNX model to FP16
-fp16=true
 
 pretrained_model_dir=/workspace/icefall/egs/librispeech/ASR/icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13
 model_repo_path=./model_repo_offline
@@ -58,7 +56,7 @@ fi
 
 if [ ${stage} -le -1 ] && [ ${stop_stage} -ge -1 ]; then
     echo "export onnx"
-    cd $recipe_dir
+    cd ${recipe_dir}
     ./export-onnx.py \
         --bpe-model $TOKENIZER_FILE \
         --epoch 9999 \
@@ -68,6 +66,11 @@ if [ ${stage} -le -1 ] && [ ${stop_stage} -ge -1 ]; then
 fi
 
 if [ ${stage} -le 0 ] && [ ${stop_stage} -ge 0 ]; then
+   echo "Buiding TRT engine..."
+   bash scripts/build_trt.sh $MAX_BATCH $pretrained_model_dir/exp/encoder-epoch-9999-avg-1.onnx $model_repo_path/encoder/1/encoder.trt
+fi
+
+if [ ${stage} -le 1 ] && [ ${stop_stage} -ge 1 ]; then
      echo "auto gen config.pbtxt"
      dirs="encoder decoder feature_extractor joiner scorer transducer"
 
@@ -102,25 +105,21 @@ if [ ${stage} -le 0 ] && [ ${stop_stage} -ge 0 ]; then
 
      done
 
+     # modify TRT specific parameters
+     sed -i "s|TYPE_INT64|TYPE_INT32|g" $model_repo_path/feature_extractor/config.pbtxt
+     sed -i "s|TYPE_INT64|TYPE_INT32|g" $model_repo_path/encoder/config.pbtxt
+     sed -i "s|TYPE_INT64|TYPE_INT32|g" $model_repo_path/scorer/config.pbtxt
+     sed -i "s|onnxruntime|tensorrt|g" $model_repo_path/encoder/config.pbtxt
+     sed -i "s|encoder.onnx|encoder.trt|g" $model_repo_path/encoder/config.pbtxt
+
 fi
 
-if [ ${stage} -le 1 ] && [ ${stop_stage} -ge 1 ]; then
-    if [ $fp16 == true ]; then
-	echo "Convert to FP16..."
-        polygraphy convert --fp-to-fp16 -o $pretrained_model_dir/exp/encoder_fp16.onnx $pretrained_model_dir/exp/encoder-epoch-9999-avg-1.onnx
-        polygraphy convert --fp-to-fp16 -o $pretrained_model_dir/exp/decoder_fp16.onnx $pretrained_model_dir/exp/decoder-epoch-9999-avg-1.onnx
-        polygraphy convert --fp-to-fp16 -o $pretrained_model_dir/exp/joiner_fp16.onnx $pretrained_model_dir/exp/joiner-epoch-9999-avg-1.onnx
-	
-	cp $pretrained_model_dir/exp/encoder_fp16.onnx $model_repo_path/encoder/1/encoder.onnx
-	cp $pretrained_model_dir/exp/decoder_fp16.onnx $model_repo_path/decoder/1/decoder.onnx
-	cp $pretrained_model_dir/exp/joiner_fp16.onnx $model_repo_path/joiner/1/joiner.onnx
-    else
-        cp $pretrained_model_dir/exp/encoder-epoch-9999-avg-1.onnx $model_repo_path/encoder/1/encoder.onnx
-        cp $pretrained_model_dir/exp/decoder-epoch-9999-avg-1.onnx $model_repo_path/decoder/1/decoder.onnx
-        cp $pretrained_model_dir/exp/joiner-epoch-9999-avg-1.onnx $model_repo_path/joiner/1/joiner.onnx
-    fi
-fi
 
 if [ ${stage} -le 2 ] && [ ${stop_stage} -ge 2 ]; then
+    cp $pretrained_model_dir/exp/decoder-epoch-9999-avg-1.onnx $model_repo_path/decoder/1/decoder.onnx
+    cp $pretrained_model_dir/exp/joiner-epoch-9999-avg-1.onnx $model_repo_path/joiner/1/joiner.onnx
+fi
+
+if [ ${stage} -le 3 ] && [ ${stop_stage} -ge 3 ]; then
     tritonserver --model-repository=$model_repo_path --pinned-memory-pool-byte-size=512000000 --cuda-memory-pool-byte-size=0:1024000000 --http-port 10086
 fi
