@@ -29,5 +29,7 @@ trtexec \
 --optShapes=x:${OPT_BATCH}x${ENC_OPT_LEN}x80,x_lens:${OPT_BATCH} \
 --maxShapes=x:${MAX_BATCH}x${ENC_MAX_LEN}x80,x_lens:${MAX_BATCH} \
 --fp16 \
+--loadInputs=x:scripts/test_features/input_tensor_fp32.dat,x_lens:scripts/test_features/shape.bin \
+--shapes=x:1x663x80,x_lens:1 \
 --saveEngine=$trt_model
 
