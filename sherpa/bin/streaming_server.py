@@ -658,7 +658,7 @@ class StreamingServer(object):
                 break
 
             self.received_audio_secs += samples.shape[0] / self.sample_rate
-            logging.info(f'==> {datetime.now()} === Received audio up until {self.received_audio_secs} s')
+            logging.info(f'Received audio up until {self.received_audio_secs} s')
 
             # TODO(fangjun): At present, we assume the sampling rate
             # of the received audio samples equal to --sample-rate
@@ -691,7 +691,7 @@ class StreamingServer(object):
                 # if is_final:
                 #     stream = self.recognizer.create_stream()
 
-                logging.info(f'==> {datetime.now()} === Sending ASR with latest timestamp {timestamps[-1] if timestamps else 0}s and seg_end {frame_offset / 100}: '
+                logging.info(f'Sending ASR with latest timestamp {timestamps[-1] if timestamps else 0}s and seg_end {frame_offset / 100}: '
                       f'{" ".join(result.text.split(" ")[-10:])}')
 
                 await socket.send(json.dumps(message))
