@@ -484,6 +484,8 @@ class StreamingServer(object):
 
         self.current_active_connections = 0
 
+        self.received_audio_secs = 0
+
         self.sample_rate = int(
             recognizer.config.feat_config.fbank_opts.frame_opts.samp_freq
         )
@@ -497,6 +499,9 @@ class StreamingServer(object):
             if self.stream_queue.empty():
                 await asyncio.sleep(self.max_wait_ms / 1000)
                 continue
+
+            if self.stream_queue.qsize() > 1:
+                logging.info(f'Stream queue: {self.stream_queue.qsize()} msgs')
 
             batch = []
             try:
@@ -588,6 +593,7 @@ class StreamingServer(object):
             max_queue=self.max_queue_size,
             process_request=self.process_request,
             ssl=ssl_context,
+            ping_interval=None
         ):
             ip_list = ["0.0.0.0", "localhost", "127.0.0.1"]
             ip_list.append(socket.gethostbyname(socket.gethostname()))
@@ -643,10 +649,16 @@ class StreamingServer(object):
 
         stream = self.recognizer.create_stream()
 
+        is_final = True
+        seg_start = 0.0
+
         while True:
             samples = await self.recv_audio_samples(socket)
             if samples is None:
                 break
+
+            self.received_audio_secs += samples.shape[0] / self.sample_rate
+            logging.info(f'==> {datetime.now()} === Received audio up until {self.received_audio_secs} s')
 
             # TODO(fangjun): At present, we assume the sampling rate
             # of the received audio samples equal to --sample-rate
@@ -655,18 +667,32 @@ class StreamingServer(object):
             )
 
             while self.recognizer.is_ready(stream):
+                if is_final:
+                    seg_start = stream.frame_offset * stream.subsampling_factor / 100
+
                 await self.compute_and_decode(stream)
                 result = self.recognizer.get_result(stream)
+
+                timestamps = format_timestamps(result.timestamps)
 
                 message = {
                     "method": self.decoding_method,
                     "segment": result.segment,
                     "text": result.text,
                     "tokens": result.tokens,
-                    "timestamps": format_timestamps(result.timestamps),
+                    "timestamps": timestamps,
                     "final": result.is_final,
+                    "seg_start": seg_start,
+                    "seg_end": round(frame_offset / 100, 2),
                 }
                 print(message)
+
+                # not sure we need this now
+                # if is_final:
+                #     stream = self.recognizer.create_stream()
+
+                logging.info(f'==> {datetime.now()} === Sending ASR with latest timestamp {timestamps[-1] if timestamps else 0}s and seg_end {frame_offset / 100}: '
+                      f'{" ".join(result.text.split(" ")[-10:])}')
 
                 await socket.send(json.dumps(message))
 
@@ -689,6 +715,8 @@ class StreamingServer(object):
             "tokens": result.tokens,
             "timestamps": format_timestamps(result.timestamps),
             "final": True,  # end of connection, always set final to True
+            "seg_start": seg_start,
+            "seg_end": round(frame_offset / 100, 2),
         }
 
         await socket.send(json.dumps(message))
