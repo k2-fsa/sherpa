@@ -56,9 +56,9 @@ fi
 if [ ${stage} -le -1 ] && [ ${stop_stage} -ge -1 ]; then
     echo "export onnx"
     cd ${recipe_dir}
-    ./export_onnx.py \
+    ./export-onnx.py \
         --exp-dir ${pretrained_model_dir}/exp \
-        --tokenizer-file $TOKENIZER_FILE_OR_DIR \
+        --bpe-model $TOKENIZER_FILE_OR_DIR \
         --epoch 999 \
         --avg 1 \
         --use-averaged-model 0
