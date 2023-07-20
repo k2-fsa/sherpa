@@ -458,7 +458,7 @@ class OnlineRecognizer::OnlineRecognizerImpl {
                        config_.feat_config.fbank_opts.frame_opts.frame_shift_ms,
                        model_->SubsamplingFactor(), config_.use_bbpe);
 
-    ans.is_final = is_final;
+    ans.is_final = is_final || is_endpoint;
     ans.segment = s->GetWavSegment();
     float frame_shift_s =
         config_.feat_config.fbank_opts.frame_opts.frame_shift_ms / 1000.;
