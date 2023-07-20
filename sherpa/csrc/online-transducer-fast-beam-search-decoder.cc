@@ -127,6 +127,8 @@ void OnlineTransducerFastBeamSearchDecoder::Decode(
       ++t;
       ++p->num_trailing_blanks;
       continue;
+    } else {
+      p->num_trailing_blanks = 0;
     }
 
     p->tokens.push_back(token);
