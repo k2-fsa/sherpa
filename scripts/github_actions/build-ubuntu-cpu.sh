@@ -30,8 +30,8 @@ if [[ $PYTHON_VERSION =~ 3.1. ]]; then
   sed -i 's/PKG_CONFIG openssl /PKG_CONFIG openssl11 /g' configure
 fi
 
-./configure --enable-shared --prefix=$PYTHON_INSTALL_DIR
-make install
+./configure --enable-shared --prefix=$PYTHON_INSTALL_DIR >/dev/null 2>&1
+make install >/dev/null 2>&1
 
 popd
 
