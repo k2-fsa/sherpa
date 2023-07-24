@@ -97,6 +97,11 @@ auditwheel --verbose repair \
   --exclude libtorch_cuda_cpp.so \
   \
   --exclude libkaldifeat_core.so \
+  --exclude libk2_log.so \
+  --exclude libk2_torch_api.so \
+  --exclude libk2context.so \
+  --exclude libk2fsa.so \
+  --exclude libk2_torch.so \
   \
   --plat manylinux_2_17_x86_64 \
   -w /var/www/wheelhouse \

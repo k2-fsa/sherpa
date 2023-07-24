@@ -103,28 +103,14 @@ jobs:
 
           export GIT_LFS_SKIP_SMUDGE=1
 
-          cur_path=$PWD
+          git clone https://huggingface.co/csukuangfj/sherpa huggingface
+          cd huggingface
+          git pull
 
-          function push_to_huggingface() {
-            cd $cur_path
-            rm -rf huggingface
-            git clone https://huggingface.co/csukuangfj/sherpa huggingface
-            cd huggingface
-            git pull
-
-            mkdir -p ubuntu-cpu
-            cp -v ../wheelhouse/*.whl ./ubuntu-cpu
-            git status
-            git lfs track "*.whl"
-            git add .
-            git commit -m "upload ubuntu-cpu wheel for torch ${{ matrix.torch }} python ${{ matrix.python-version }}"
-            git push https://csukuangfj:$HF_TOKEN@huggingface.co/csukuangfj/sherpa main
-
-            cd ..
-            rm -rf huggingface
-          }
-          function retry() {
-            $* || (sleep 1 && $*) || (sleep 2 && $*) || (sleep 4 && $*) || (sleep 8 && $*)
-          }
-
-          retry push_to_huggingface
+          mkdir -p ubuntu-cpu
+          cp -v ../wheelhouse/*.whl ./ubuntu-cpu
+          git status
+          git lfs track "*.whl"
+          git add .
+          git commit -m "upload ubuntu-cpu wheel for torch ${{ matrix.torch }} python ${{ matrix.python-version }}"
+          git push https://csukuangfj:$HF_TOKEN@huggingface.co/csukuangfj/sherpa main
