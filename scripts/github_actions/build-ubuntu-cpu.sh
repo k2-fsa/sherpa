@@ -76,6 +76,14 @@ export KALDIFEAT_MAKE_ARGS=" -j "
 
 python3 setup.py bdist_wheel
 
+pushd dist
+unzip *.whl
+export LD_LIBRARY_PATH=$PWD/sherpa/lib:$LD_LIBRARY_PATH
+popd
+
+echo $LD_LIBRARY_PATH
+ls -lh $PWD/dist/sherpa/lib
+
 auditwheel --verbose repair \
   --exclude libc10.so \
   --exclude libc10_cuda.so \
