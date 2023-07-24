@@ -69,7 +69,11 @@ jobs:
               popd
               which nvcc
               nvcc --version
+
               find /usr/local -name libcuda.so*
+              echo "libnvrtc.so*"
+
+              find /usr/local -name libnvrtc.so*
 
               pushd /usr/local/cuda-$CUDA_VERSION/targets/x86_64-linux/lib/stubs
               ln -s libcuda.so libcuda.so.1
