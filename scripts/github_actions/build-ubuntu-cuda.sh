@@ -88,6 +88,17 @@ pip install k2==1.24.3.dev20230718+cuda${CUDA_VERSION}.torch${TORCH_VERSION} -f 
 echo "Install kaldifeat"
 pip install kaldifeat==1.24.dev20230724+cuda${CUDA_VERSION}.torch${TORCH_VERSION} -f https://csukuangfj.github.io/kaldifeat/cuda.html
 
+find /usr/local -name libcuda.so.1
+
+export LD_LIBRARY_PATH=/usr/local/cuda/compat:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=/usr/local/cuda-10.2/compat:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=/usr/local/cuda-11.1/compat:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=/usr/local/cuda-11.3/compat:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=/usr/local/cuda-11.5/compat:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=/usr/local/cuda-11.6/compat:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=/usr/local/cuda-11.7/compat:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=/usr/local/cuda-11.8/compat:$LD_LIBRARY_PATH
+
 python3 -m torch.utils.collect_env
 python3 -m k2.version
 
@@ -100,16 +111,6 @@ export CMAKE_CUDA_COMPILER_LAUNCHER=
 # export SHERPA_CMAKE_ARGS=" -DPYTHON_EXECUTABLE=$PYTHON_INSTALL_DIR/bin/python3 "
 # export SHERPA_MAKE_ARGS=" -j2 "
 
-find /usr/local -name libcuda.so.1
-
-export LD_LIBRARY_PATH=/usr/local/cuda/compat:$LD_LIBRARY_PATH
-export LD_LIBRARY_PATH=/usr/local/cuda-10.2/compat:$LD_LIBRARY_PATH
-export LD_LIBRARY_PATH=/usr/local/cuda-11.1/compat:$LD_LIBRARY_PATH
-export LD_LIBRARY_PATH=/usr/local/cuda-11.3/compat:$LD_LIBRARY_PATH
-export LD_LIBRARY_PATH=/usr/local/cuda-11.5/compat:$LD_LIBRARY_PATH
-export LD_LIBRARY_PATH=/usr/local/cuda-11.6/compat:$LD_LIBRARY_PATH
-export LD_LIBRARY_PATH=/usr/local/cuda-11.7/compat:$LD_LIBRARY_PATH
-export LD_LIBRARY_PATH=/usr/local/cuda-11.8/compat:$LD_LIBRARY_PATH
 
 python3 setup.py bdist_wheel
 
