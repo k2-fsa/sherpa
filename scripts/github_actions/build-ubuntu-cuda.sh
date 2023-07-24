@@ -93,7 +93,7 @@ find /usr/local -name libcuda.so.1
 python3 -m torch.utils.collect_env
 python3 -m k2.version
 
-rm -rf ~/.cache/pip
+rm -rf ~/.cache/pip >/dev/null 2>&1
 yum clean all
 
 cd /var/www
