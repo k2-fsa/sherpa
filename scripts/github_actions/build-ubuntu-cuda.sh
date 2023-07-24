@@ -100,6 +100,17 @@ export CMAKE_CUDA_COMPILER_LAUNCHER=
 # export SHERPA_CMAKE_ARGS=" -DPYTHON_EXECUTABLE=$PYTHON_INSTALL_DIR/bin/python3 "
 # export SHERPA_MAKE_ARGS=" -j2 "
 
+find /usr/local -name libcuda.so.1
+
+export LD_LIBRARY_PATH=/usr/local/cuda/compat:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=/usr/local/cuda-10.2/compat:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=/usr/local/cuda-11.1/compat:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=/usr/local/cuda-11.3/compat:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=/usr/local/cuda-11.5/compat:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=/usr/local/cuda-11.6/compat:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=/usr/local/cuda-11.7/compat:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=/usr/local/cuda-11.8/compat:$LD_LIBRARY_PATH
+
 python3 setup.py bdist_wheel
 
 pushd dist
