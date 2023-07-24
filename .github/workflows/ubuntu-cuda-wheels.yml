@@ -69,6 +69,8 @@ jobs:
               popd
               which nvcc
               nvcc --version
+              find /usr/local -name libcuda.so*
+              exit 1
 
               cp /var/www/scripts/github_actions/install_torch.sh .
               chmod +x install_torch.sh
