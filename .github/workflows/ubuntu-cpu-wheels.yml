@@ -1,0 +1,130 @@
+name: build-wheels-cpu-ubuntu
+
+on:
+  push:
+    branches:
+      - wheels
+    tags:
+      - '*'
+  workflow_dispatch:
+
+concurrency:
+  group: build-wheels-cpu-ubuntu-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  generate_build_matrix:
+    # see https://github.com/pytorch/pytorch/pull/50633
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: Generating build matrix
+        id: set-matrix
+        run: |
+          # outputting for debugging purposes
+          python ./scripts/github_actions/generate_build_matrix.py
+          MATRIX=$(python ./scripts/github_actions/generate_build_matrix.py)
+          echo "::set-output name=matrix::${MATRIX}"
+
+  build-manylinux-wheels:
+    needs: generate_build_matrix
+    name: ${{ matrix.torch }} ${{ matrix.python-version }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        ${{ fromJson(needs.generate_build_matrix.outputs.matrix) }}
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: display
+        shell: bash
+        run: |
+          function retry() {
+            $* || (sleep 1 && $*) || (sleep 2 && $*) || (sleep 4 && $*) || (sleep 8 && $*)
+          }
+
+          retry ls -lh
+
+      # see https://github.com/pytorch/test-infra/blob/9e3d392690719fac85bad0c9b67f530e48375ca1/tools/scripts/generate_binary_build_matrix.py
+      # https://github.com/pytorch/builder/tree/main/manywheel
+      # https://github.com/pytorch/builder/pull/476
+      # https://github.com/k2-fsa/k2/issues/733
+      # https://github.com/pytorch/pytorch/pull/50633  (generate build matrix)
+      - name: Run the build process with Docker
+        uses: addnab/docker-run-action@v3
+        with:
+            image: ${{ matrix.image }}
+            options: -v ${{ github.workspace }}:/var/www -e PYTHON_VERSION=${{ matrix.python-version }} -e TORCH_VERSION=${{ matrix.torch }}
+            run: |
+              echo "pwd: $PWD"
+              uname -a
+              id
+              cat /etc/*release
+              gcc --version
+              python3 --version
+              which python3
+              /var/www/scripts/github_actions/build-ubuntu-cpu.sh
+
+      - name: Display wheels
+        shell: bash
+        run: |
+
+          function retry() {
+            $* || (sleep 1 && $*) || (sleep 2 && $*) || (sleep 4 && $*) || (sleep 8 && $*)
+          }
+
+          ls -lh ./wheelhouse/
+
+          ls -lh ./wheelhouse/*.whl
+
+      - name: Upload Wheel
+        uses: actions/upload-artifact@v2
+        with:
+          name: torch-${{ matrix.torch }}-python-${{ matrix.python-version }}-ubuntu-latest-cpu
+          path: wheelhouse/*.whl
+
+      # https://huggingface.co/docs/hub/spaces-github-actions
+      - name: Publish to huggingface
+        if: github.repository_owner == 'csukuangfj' || github.repository_owner == 'k2-fsa'
+        shell: bash
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          git config --global user.email "csukuangfj@gmail.com"
+          git config --global user.name "Fangjun Kuang"
+
+          export GIT_LFS_SKIP_SMUDGE=1
+
+          cur_path=$PWD
+
+          function push_to_huggingface() {
+            cd $cur_path
+            rm -rf huggingface
+            git clone https://huggingface.co/csukuangfj/sherpa huggingface
+            cd huggingface
+            git pull
+
+            mkdir -p ubuntu-cpu
+            cp -v ../wheelhouse/*.whl ./ubuntu-cpu
+            git status
+            git lfs track "*.whl"
+            git add .
+            git commit -m "upload ubuntu-cpu wheel for torch ${{ matrix.torch }} python ${{ matrix.python-version }}"
+            git push https://csukuangfj:$HF_TOKEN@huggingface.co/csukuangfj/sherpa main
+
+            cd ..
+            rm -rf huggingface
+          }
+          function retry() {
+            $* || (sleep 1 && $*) || (sleep 2 && $*) || (sleep 4 && $*) || (sleep 8 && $*)
+          }
+
+          retry push_to_huggingface
