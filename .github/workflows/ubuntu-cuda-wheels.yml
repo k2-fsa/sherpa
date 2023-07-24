@@ -84,7 +84,6 @@ jobs:
 
               cp /var/www/scripts/github_actions/install_torch.sh .
               chmod +x install_torch.sh
-              exit 1
 
               /var/www/scripts/github_actions/build-ubuntu-cuda.sh
 
