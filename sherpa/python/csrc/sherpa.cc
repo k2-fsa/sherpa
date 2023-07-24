@@ -38,9 +38,6 @@ PYBIND11_MODULE(_sherpa, m) {
   m.doc() = "pybind11 binding of sherpa";
   m.attr("cxx_flags") = std::string(kCMakeCxxFlags);
 
-  py::module::import("torch");
-  py::module::import("kaldifeat");
-
   PybindResample(m);
 
   PybindFeatureConfig(m);

@@ -1,15 +1,15 @@
-name: build-wheels-cpu-ubuntu
+name: build-wheels-cuda-ubuntu
 
 on:
   push:
     branches:
-      - wheels
+      - wheels2
     tags:
       - '*'
   workflow_dispatch:
 
 concurrency:
-  group: build-wheels-cpu-ubuntu-${{ github.ref }}
+  group: build-wheels-cuda-ubuntu-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -26,13 +26,13 @@ jobs:
         id: set-matrix
         run: |
           # outputting for debugging purposes
-          python ./scripts/github_actions/generate_build_matrix.py
-          MATRIX=$(python ./scripts/github_actions/generate_build_matrix.py)
+          python ./scripts/github_actions/generate_build_matrix.py --enable-cuda
+          MATRIX=$(python ./scripts/github_actions/generate_build_matrix.py --enable-cuda)
           echo "::set-output name=matrix::${MATRIX}"
 
   build-manylinux-wheels:
     needs: generate_build_matrix
-    name: ${{ matrix.torch }} ${{ matrix.python-version }}
+    name: ${{ matrix.torch }} ${{ matrix.python-version }} cuda${{ matrix.cuda }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -53,7 +53,7 @@ jobs:
         uses: addnab/docker-run-action@v3
         with:
             image: ${{ matrix.image }}
-            options: -v ${{ github.workspace }}:/var/www -e PYTHON_VERSION=${{ matrix.python-version }} -e TORCH_VERSION=${{ matrix.torch }}
+            options: -v ${{ github.workspace }}:/var/www -e PYTHON_VERSION=${{ matrix.python-version }} -e TORCH_VERSION=${{ matrix.torch }} -e CUDA_VERSION=${{ matrix.cuda }}
             run: |
               echo "pwd: $PWD"
               uname -a
@@ -62,7 +62,18 @@ jobs:
               gcc --version
               python3 --version
               which python3
-              /var/www/scripts/github_actions/build-ubuntu-cpu.sh
+
+              pushd /usr/local
+              rm cuda
+              ln -s cuda-$CUDA_VERSION cuda
+              popd
+              which nvcc
+              nvcc --version
+
+              cp /var/www/scripts/github_actions/install_torch.sh .
+              chmod +x install_torch.sh
+
+              /var/www/scripts/github_actions/build-ubuntu-cuda.sh
 
       - name: Display wheels
         shell: bash
@@ -74,13 +85,12 @@ jobs:
       - name: Upload Wheel
         uses: actions/upload-artifact@v2
         with:
-          name: torch-${{ matrix.torch }}-python-${{ matrix.python-version }}-ubuntu-latest-cpu
+          name: torch-${{ matrix.torch }}-python-${{ matrix.python-version }}-ubuntu-latest-cuda
           path: wheelhouse/*.whl
 
       # https://huggingface.co/docs/hub/spaces-github-actions
       - name: Publish to huggingface
         if: github.repository_owner == 'csukuangfj' || github.repository_owner == 'k2-fsa'
-        shell: bash
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         uses: nick-fields/retry@v2
@@ -92,16 +102,17 @@ jobs:
             git config --global user.email "csukuangfj@gmail.com"
             git config --global user.name "Fangjun Kuang"
 
+            rm -rf huggingface
             export GIT_LFS_SKIP_SMUDGE=1
 
             git clone https://huggingface.co/csukuangfj/sherpa huggingface
             cd huggingface
             git pull
 
-            mkdir -p ubuntu-cpu
-            cp -v ../wheelhouse/*.whl ./ubuntu-cpu
+            mkdir -p ubuntu-cuda
+            cp -v ../wheelhouse/*.whl ./ubuntu-cuda
             git status
             git lfs track "*.whl"
             git add .
-            git commit -m "upload ubuntu-cpu wheel for torch ${{ matrix.torch }} python ${{ matrix.python-version }}"
+            git commit -m "upload ubuntu-cuda wheel for torch ${{ matrix.torch }} python ${{ matrix.python-version }}"
             git push https://csukuangfj:$HF_TOKEN@huggingface.co/csukuangfj/sherpa main

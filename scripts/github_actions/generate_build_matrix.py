@@ -171,8 +171,8 @@ def generate_build_matrix(enable_cuda, for_windows, for_macos, test_only_latest_
                     continue
 
                 for c in cuda_versions:
-                    if c == "10.1":
-                        # no docker image for cuda 10.1
+                    if c in ["10.1", "11.0"]:
+                        # no docker image for cuda 10.1 and 11.0
                         continue
                     ans.append(
                         {
