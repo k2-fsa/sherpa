@@ -82,6 +82,12 @@ python3 -m pip install bs4 requests tqdm auditwheel
 echo "Installing torch ${TORCH_VERSION} ${CUDA_VERSION}"
 ./install_torch.sh
 
+echo "Install k2"
+pip install k2==1.24.3.dev20230718+cuda${CUDA_VERSION}.torch${TORCH_VERSION} -f https://k2-fsa.github.io/k2/cuda.html || pip install k2==1.24.3.dev20230717+cuda${CUDA_VERSION}.torch${TORCH_VERSION} -f https://k2-fsa.github.io/k2/cuda.html
+
+echo "Install kaldifeat"
+pip install kaldifeat==1.24.dev20230724+cuda${CUDA_VERSION}.torch${TORCH_VERSION} -f https://csukuangfj.github.io/kaldifeat/cuda.html
+
 rm -rf ~/.cache/pip
 yum clean all
 
