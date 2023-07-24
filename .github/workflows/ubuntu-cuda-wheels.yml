@@ -70,7 +70,11 @@ jobs:
               which nvcc
               nvcc --version
               find /usr/local -name libcuda.so*
-              exit 1
+
+              pushd /usr/local/cuda-$CUDA_VERSION/targets/x86_64-linux/lib/stubs
+              ln -s libcuda.so libcuda.so.1
+              popd
+              export LD_LIBRARY_PATH=/usr/local/cuda-$CUDA_VERSION/targets/x86_64-linux/lib/stubs:$LD_LIBRARY_PATH
 
               cp /var/www/scripts/github_actions/install_torch.sh .
               chmod +x install_torch.sh
