@@ -88,14 +88,17 @@ pip install k2==1.24.3.dev20230718+cuda${CUDA_VERSION}.torch${TORCH_VERSION} -f 
 echo "Install kaldifeat"
 pip install kaldifeat==1.24.dev20230724+cuda${CUDA_VERSION}.torch${TORCH_VERSION} -f https://csukuangfj.github.io/kaldifeat/cuda.html
 
+python3 -m torch.utils.collect_env
+python3 -m k2.version
+
 rm -rf ~/.cache/pip
 yum clean all
 
 cd /var/www
 
 export CMAKE_CUDA_COMPILER_LAUNCHER=
-export SHERPA_CMAKE_ARGS=" -DPYTHON_EXECUTABLE=$PYTHON_INSTALL_DIR/bin/python3 "
-export SHERPA_MAKE_ARGS=" -j2 "
+# export SHERPA_CMAKE_ARGS=" -DPYTHON_EXECUTABLE=$PYTHON_INSTALL_DIR/bin/python3 "
+# export SHERPA_MAKE_ARGS=" -j2 "
 
 python3 setup.py bdist_wheel
 
