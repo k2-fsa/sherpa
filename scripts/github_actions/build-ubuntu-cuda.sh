@@ -25,7 +25,7 @@ fi
 
 yum -y install openssl-devel bzip2-devel libffi-devel xz-devel wget redhat-lsb-core
 
-if false; then
+if true; then
   echo "Installing ${PYTHON_VERSION}.3"
   curl -O https://www.python.org/ftp/python/${PYTHON_VERSION}.3/Python-${PYTHON_VERSION}.3.tgz
   tar xf Python-${PYTHON_VERSION}.3.tgz
@@ -49,25 +49,25 @@ if false; then
 
   python3 --version
   which python3
+else
+  case ${PYTHON_VERSION} in
+    3.7)
+      export PATH=/opt/python/cp37-cp37m/bin:$PATH
+      ;;
+    3.8)
+      export PATH=/opt/python/cp38-cp38/bin:$PATH
+      ;;
+    3.9)
+      export PATH=/opt/python/cp39-cp39/bin:$PATH
+      ;;
+    3.10)
+      export PATH=/opt/python/cp310-cp310/bin:$PATH
+      ;;
+    3.11)
+      export PATH=/opt/python/cp311-cp311/bin:$PATH
+      ;;
+  esac
 fi
-
-case ${PYTHON_VERSION} in
-  3.7)
-    export PATH=/opt/python/cp37-cp37m/bin:$PATH
-    ;;
-  3.8)
-    export PATH=/opt/python/cp38-cp38/bin:$PATH
-    ;;
-  3.9)
-    export PATH=/opt/python/cp39-cp39/bin:$PATH
-    ;;
-  3.10)
-    export PATH=/opt/python/cp310-cp310/bin:$PATH
-    ;;
-  3.11)
-    export PATH=/opt/python/cp311-cp311/bin:$PATH
-    ;;
-esac
 
 if [[ $PYTHON_VERSION != 3.6 ]]; then
   curl -O https://bootstrap.pypa.io/get-pip.py
