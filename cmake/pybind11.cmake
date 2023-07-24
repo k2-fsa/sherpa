@@ -1,18 +1,18 @@
 function(download_pybind11)
   include(FetchContent)
 
-  set(pybind11_URL  "https://github.com/pybind/pybind11/archive/refs/tags/v2.10.2.tar.gz")
-  set(pybind11_URL2 "https://huggingface.co/csukuangfj/sherpa-cmake-deps/resolve/main/pybind11-2.10.2.tar.gz")
-  set(pybind11_HASH "SHA256=93bd1e625e43e03028a3ea7389bba5d3f9f2596abc074b068e70f4ef9b1314ae")
+  set(pybind11_URL  "https://github.com/pybind/pybind11/archive/5bc0943ed96836f46489f53961f6c438d2935357.zip")
+  set(pybind11_URL2 "https://huggingface.co/csukuangfj/k2-cmake-deps/resolve/main/pybind11-5bc0943ed96836f46489f53961f6c438d2935357.zip")
+  set(pybind11_HASH "SHA256=ff65a1a8c9e6ceec11e7ed9d296f2e22a63e9ff0c4264b3af29c72b4f18f25a0")
 
   # If you don't have access to the Internet,
   # please pre-download pybind11
   set(possible_file_locations
-    $ENV{HOME}/Downloads/pybind11-2.10.2.tar.gz
-    ${PROJECT_SOURCE_DIR}/pybind11-2.10.2.tar.gz
-    ${PROJECT_BINARY_DIR}/pybind11-2.10.2.tar.gz
-    /tmp/pybind11-2.10.2.tar.gz
-    /star-fj/fangjun/download/github/pybind11-2.10.2.tar.gz
+    $ENV{HOME}/Downloads/pybind11-5bc0943ed96836f46489f53961f6c438d2935357.zip
+    ${PROJECT_SOURCE_DIR}/pybind11-5bc0943ed96836f46489f53961f6c438d2935357.zip
+    ${PROJECT_BINARY_DIR}/pybind11-5bc0943ed96836f46489f53961f6c438d2935357.zip
+    /tmp/pybind11-5bc0943ed96836f46489f53961f6c438d2935357.zip
+    /star-fj/fangjun/download/github/pybind11-5bc0943ed96836f46489f53961f6c438d2935357.zip
   )
 
   foreach(f IN LISTS possible_file_locations)
