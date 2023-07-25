@@ -89,7 +89,6 @@ jobs:
       # https://huggingface.co/docs/hub/spaces-github-actions
       - name: Publish to huggingface
         if: github.repository_owner == 'csukuangfj' || github.repository_owner == 'k2-fsa'
-        shell: bash
         env:
           HF_TOKEN: ${{ secrets.HF_TOKEN }}
         uses: nick-fields/retry@v2
@@ -101,6 +100,7 @@ jobs:
             git config --global user.email "csukuangfj@gmail.com"
             git config --global user.name "Fangjun Kuang"
 
+            rm -rf huggingface
             export GIT_LFS_SKIP_SMUDGE=1
 
             git clone https://huggingface.co/csukuangfj/sherpa huggingface
