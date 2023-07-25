@@ -9,7 +9,7 @@ This section describe how to install ``k2-fsa/sherpa`` from source.
 Install dependencies
 --------------------
 
-Before install ``k2-fsa/sherpa`` from source, we have to install the following
+Before installing ``k2-fsa/sherpa`` from source, we have to install the following
 dependencies.
 
   - `PyTorch`_
