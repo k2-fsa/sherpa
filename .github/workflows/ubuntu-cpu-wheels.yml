@@ -62,6 +62,13 @@ jobs:
               gcc --version
               python3 --version
               which python3
+
+              cp /var/www/scripts/github_actions/patch_wheel.py .
+              chmod +x patch_wheel.py
+
+              yum -y install patchelf
+              patchelf --help
+
               /var/www/scripts/github_actions/build-ubuntu-cpu.sh
 
       - name: Display wheels

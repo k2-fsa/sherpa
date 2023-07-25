@@ -19,25 +19,50 @@ echo "Installing ${PYTHON_VERSION}.3"
 
 yum -y install openssl-devel bzip2-devel libffi-devel xz-devel wget redhat-lsb-core
 
-curl -O https://www.python.org/ftp/python/${PYTHON_VERSION}.3/Python-${PYTHON_VERSION}.3.tgz
-tar xf Python-${PYTHON_VERSION}.3.tgz
-pushd Python-${PYTHON_VERSION}.3
+if false; then
+  echo "Installing ${PYTHON_VERSION}.3"
+  curl -O https://www.python.org/ftp/python/${PYTHON_VERSION}.3/Python-${PYTHON_VERSION}.3.tgz
+  tar xf Python-${PYTHON_VERSION}.3.tgz
+  pushd Python-${PYTHON_VERSION}.3
 
-PYTHON_INSTALL_DIR=$PWD/py-${PYTHON_VERSION}
+  PYTHON_INSTALL_DIR=$PWD/py-${PYTHON_VERSION}
 
-if [[ $PYTHON_VERSION =~ 3.1. ]]; then
-  yum install -y openssl11-devel
-  sed -i 's/PKG_CONFIG openssl /PKG_CONFIG openssl11 /g' configure
+  if [[ $PYTHON_VERSION =~ 3.1. ]]; then
+    yum install -y openssl11-devel
+    sed -i 's/PKG_CONFIG openssl /PKG_CONFIG openssl11 /g' configure
+  fi
+
+  ./configure --enable-shared --prefix=$PYTHON_INSTALL_DIR >/dev/null 2>&1
+  make install >/dev/null 2>&1
+
+  popd
+
+  export PATH=$PYTHON_INSTALL_DIR/bin:$PATH
+  export LD_LIBRARY_PATH=$PYTHON_INSTALL_DIR/lib:$LD_LIBRARY_PATH
+  ls -lh $PYTHON_INSTALL_DIR/lib/
+
+  python3 --version
+  which python3
+else
+  case ${PYTHON_VERSION} in
+    3.7)
+      export PATH=/opt/python/cp37-cp37m/bin:$PATH
+      ;;
+    3.8)
+      export PATH=/opt/python/cp38-cp38/bin:$PATH
+      ;;
+    3.9)
+      export PATH=/opt/python/cp39-cp39/bin:$PATH
+      ;;
+    3.10)
+      export PATH=/opt/python/cp310-cp310/bin:$PATH
+      ;;
+    3.11)
+      export PATH=/opt/python/cp311-cp311/bin:$PATH
+      ;;
+  esac
 fi
 
-./configure --enable-shared --prefix=$PYTHON_INSTALL_DIR >/dev/null 2>&1
-make install >/dev/null 2>&1
-
-popd
-
-export PATH=$PYTHON_INSTALL_DIR/bin:$PATH
-export LD_LIBRARY_PATH=$PYTHON_INSTALL_DIR/lib:$LD_LIBRARY_PATH
-ls -lh $PYTHON_INSTALL_DIR/lib/
 
 nvcc --version || true
 rm -rf /usr/local/cuda*
@@ -112,7 +137,10 @@ auditwheel --verbose repair \
   --exclude libk2_torch.so \
   \
   --plat manylinux_2_17_x86_64 \
-  -w /var/www/wheelhouse \
+  -w /var/www/wheels \
   dist/*.whl
 
-ls -lh  /var/www
+patch_wheel.py --in-dir /var/www/wheels --out-dir /var/www/wheelhouse
+
+ls -lh  /var/www/wheels
+ls -lh  /var/www/wheelhouse

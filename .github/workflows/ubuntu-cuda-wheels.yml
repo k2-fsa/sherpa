@@ -83,7 +83,12 @@ jobs:
               export LD_LIBRARY_PATH=/usr/local/cuda-$CUDA_VERSION/targets/x86_64-linux/lib:$LD_LIBRARY_PATH
 
               cp /var/www/scripts/github_actions/install_torch.sh .
+              cp /var/www/scripts/github_actions/patch_wheel.py .
               chmod +x install_torch.sh
+              chmod +x patch_wheel.py
+
+              yum -y install patchelf
+              patchelf --help
 
               /var/www/scripts/github_actions/build-ubuntu-cuda.sh
 

@@ -25,7 +25,7 @@ fi
 
 yum -y install openssl-devel bzip2-devel libffi-devel xz-devel wget redhat-lsb-core
 
-if true; then
+if false; then
   echo "Installing ${PYTHON_VERSION}.3"
   curl -O https://www.python.org/ftp/python/${PYTHON_VERSION}.3/Python-${PYTHON_VERSION}.3.tgz
   tar xf Python-${PYTHON_VERSION}.3.tgz
@@ -93,8 +93,8 @@ find /usr/local -name libcuda.so.1
 python3 -m torch.utils.collect_env
 python3 -m k2.version
 
-rm -rf ~/.cache/pip >/dev/null 2>&1
-yum clean all
+# rm -rf ~/.cache/pip >/dev/null 2>&1
+# yum clean all
 
 cd /var/www
 
@@ -132,6 +132,9 @@ auditwheel --verbose repair \
   --exclude libnvrtc.so.11.2 \
   --exclude libtorch_cuda_cu.so \
   --exclude libtorch_cuda_cpp.so \
+  --exclude libcudart.so.10.2.89 \
+  --exclude libnvToolsExt.so.1.0.0 \
+  --exclude libnvrtc.so.10.2.89 \
   \
   --exclude libkaldifeat_core.so \
   --exclude libk2_log.so \
@@ -141,7 +144,10 @@ auditwheel --verbose repair \
   --exclude libk2_torch.so \
   \
   --plat manylinux_2_17_x86_64 \
-  -w /var/www/wheelhouse \
+  -w /var/www/wheels \
   dist/*.whl
 
-ls -lh  /var/www
+patch_wheel.py --in-dir /var/www/wheels --out-dir /var/www/wheelhouse
+
+ls -lh  /var/www/wheels
+ls -lh  /var/www/wheelhouse
