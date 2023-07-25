@@ -112,7 +112,7 @@ int32_t main(int32_t argc, char *argv[]) {
 This program uses non-streaming models with microphone for speech recognition.
 Usage:
 
-./bin/sherpa-offline-microphone \
+sherpa-offline-microphone \
   --nn-model=/path/to/cpu_jit.pt \
   --tokens=/path/to/tokens.txt \
   --use-gpu=false
