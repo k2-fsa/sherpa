@@ -106,13 +106,6 @@ jobs:
 
           ls -lh ./wheelhouse/
 
-      - name: Display wheels
-        shell: bash
-        run: |
-          ls -lh ./wheelhouse/
-
-          ls -lh ./wheelhouse/*.whl
-
       - name: Upload Wheel
         uses: actions/upload-artifact@v2
         with:
