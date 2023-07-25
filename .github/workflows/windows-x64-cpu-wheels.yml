@@ -49,7 +49,7 @@ jobs:
       - name: Build wheels
         uses: pypa/cibuildwheel@v2.11.4
         env:
-          CIBW_BEFORE_BUILD: pip install torch==${{ matrix.torch}}+cpu cmake numpy k2==1.24.3.dev20230720+cpu.torch${{ matrix.torch }} kaldifeat==1.24.dev20230724+cpu.torch${{ matrix.torch }} -f https://csukuangfj.github.io/kaldifeat/cpu.html -f https://k2-fsa.github.io/k2/cpu.html
+          CIBW_BEFORE_BUILD: pip install torch==${{ matrix.torch}}+cpu cmake numpy k2==1.24.3.dev20230720+cpu.torch${{ matrix.torch }} kaldifeat==1.24.dev20230724+cpu.torch${{ matrix.torch }} -f https://csukuangfj.github.io/kaldifeat/cpu.html -f https://k2-fsa.github.io/k2/cpu.html -f https://download.pytorch.org/whl/torch_stable.html
           CIBW_BUILD: ${{ matrix.python-version }}-win_amd64
           CIBW_REPAIR_WHEEL_COMMAND_WINDOWS: ""
           CIBW_BUILD_VERBOSITY: 3
