@@ -17,6 +17,7 @@ To check that you have installed ``k2-fsa/sherpa`` successfully, please run:
 
    sherpa-online-websocket-server --help
    sherpa-online-websocket-client --help
+   sherpa-online-websocket-client-microphone --help
 
    sherpa-offline-websocket-server --help
    sherpa-offline-websocket-client --help
