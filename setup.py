@@ -14,6 +14,10 @@ from cmake.cmake_extension import (
     is_windows,
 )
 
+import get_version
+
+get_package_version = get_version.get_package_version
+
 if sys.argv[1] != "sdist":
     if "K2_INSTALL_PREFIX" not in os.environ:
         try:
@@ -60,15 +64,6 @@ def read_long_description():
     with open("README.md", encoding="utf8") as f:
         readme = f.read()
     return readme
-
-
-def get_package_version():
-    with open("CMakeLists.txt") as f:
-        content = f.read()
-
-    match = re.search(r"set\(SHERPA_VERSION (.*)\)", content)
-    latest_version = match.group(1).strip('"')
-    return latest_version
 
 
 def get_binaries_to_install():
@@ -121,6 +116,8 @@ setuptools.setup(
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
         "Topic :: Scientific/Engineering :: Artificial Intelligence",
     ],
     python_requires=">=3.7.0",

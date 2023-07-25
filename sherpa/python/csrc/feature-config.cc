@@ -30,19 +30,16 @@ Args:
 void PybindFeatureConfig(py::module &m) {  // NOLINT
   using PyClass = FeatureConfig;
   py::class_<PyClass>(m, "FeatureConfig")
-      .def(py::init([](const kaldifeat::FbankOptions &fbank_opts = {},
-                       bool normalize_samples = true,
+      .def(py::init([](bool normalize_samples = true,
                        const std::string &nemo_normalize =
                            "") -> std::unique_ptr<FeatureConfig> {
              auto config = std::make_unique<FeatureConfig>();
 
-             config->fbank_opts = fbank_opts;
              config->normalize_samples = normalize_samples;
              config->nemo_normalize = nemo_normalize;
 
              return config;
            }),
-           py::arg("fbank_opts") = kaldifeat::FbankOptions(),
            py::arg("normalize_samples") = true, py::arg("nemo_normalize") = "",
            kFeatureConfigInitDoc)
       .def_readwrite("fbank_opts", &PyClass::fbank_opts)

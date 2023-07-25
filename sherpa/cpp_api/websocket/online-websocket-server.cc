@@ -12,9 +12,9 @@ Automatic speech recognition with sherpa using websocket.
 
 Usage:
 
-./bin/sherpa-online-websocket-server --help
+sherpa-online-websocket-server --help
 
-./bin/sherpa-online-websocket-server \
+sherpa-online-websocket-server \
   --use-gpu=false \
   --port=6006 \
   --num-work-threads=5 \
