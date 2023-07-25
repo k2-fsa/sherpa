@@ -160,7 +160,7 @@ def generate_build_matrix(enable_cuda, for_windows, for_macos, test_only_latest_
             matrix["1.13.1"]["python-version"].remove("3.11")
 
     excluded_python_versions = ["3.6"]
-    enabled_torch_versions = []
+    enabled_torch_versions = ["2.0.1", "2.0.0", "1.13.1", "1.13.0"]
 
     ans = []
     for torch, python_cuda in matrix.items():

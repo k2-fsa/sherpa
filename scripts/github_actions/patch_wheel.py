@@ -40,6 +40,14 @@ def process(out_dir: Path, whl: Path):
         f"$ORIGIN/../lib/python{py_version}/site-packages/k2/lib64",
         f"$ORIGIN/../lib/python{py_version}/site-packages/kaldifeat/lib",
         f"$ORIGIN/../lib/python{py_version}/site-packages/kaldifeat/lib64",
+        #
+        f"$ORIGIN/../lib/python{py_version}/dist-packages/k2_sherpa.libs",
+        f"$ORIGIN/../lib/python{py_version}/dist-packages/torch/lib",
+        f"$ORIGIN/../lib/python{py_version}/dist-packages/torch/lib64",
+        f"$ORIGIN/../lib/python{py_version}/dist-packages/k2/lib",
+        f"$ORIGIN/../lib/python{py_version}/dist-packages/k2/lib64",
+        f"$ORIGIN/../lib/python{py_version}/dist-packages/kaldifeat/lib",
+        f"$ORIGIN/../lib/python{py_version}/dist-packages/kaldifeat/lib64",
     ]
     rpaths = ":".join(rpath_list)
 

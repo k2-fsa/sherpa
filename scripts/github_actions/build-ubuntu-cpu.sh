@@ -19,7 +19,7 @@ echo "Installing ${PYTHON_VERSION}.3"
 
 yum -y install openssl-devel bzip2-devel libffi-devel xz-devel wget redhat-lsb-core
 
-if false; then
+if true; then
   echo "Installing ${PYTHON_VERSION}.3"
   curl -O https://www.python.org/ftp/python/${PYTHON_VERSION}.3/Python-${PYTHON_VERSION}.3.tgz
   tar xf Python-${PYTHON_VERSION}.3.tgz
@@ -89,6 +89,10 @@ pip install k2==1.24.3.dev20230719+cpu.torch${TORCH_VERSION} -f https://k2-fsa.g
 
 echo "Installing kaldifeat 1.24.dev20230724+cpu.torch${TORCH_VERSION}"
 pip install kaldifeat==1.24.dev20230724+cpu.torch${TORCH_VERSION} -f https://csukuangfj.github.io/kaldifeat/cpu.html
+
+python3 -m k2.version
+python3 -c "import k2; print(k2.__file__)"
+python3 -c "import kaldifeat; print(kaldifeat.__file__)"
 
 rm -rf ~/.cache/pip
 yum clean all
