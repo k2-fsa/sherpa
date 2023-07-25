@@ -56,24 +56,8 @@ def process(out_dir: Path, whl: Path):
             shell=True,
         )
 
-    # Now remove the un-needed binaries in sherpa/bin
-    exe_list = [
-        "sherpa-offline",
-        "sherpa-offline-microphone",
-        "sherpa-offline-websocket-client",
-        "sherpa-offline-websocket-server",
-        "sherpa-online",
-        "sherpa-online-microphone",
-        "sherpa-online-websocket-client",
-        "sherpa-online-websocket-client-microphone",
-        "sherpa-online-websocket-server",
-        "sherpa-version",
-    ]
-    for exe in exe_list:
-        (tmp_dir / "sherpa" / "bin" / exe).unlink()
-
     outwheel = Path(shutil.make_archive(whl, "zip", tmp_dir))
-    Path(outwheel).rename(out_dir / whl)
+    Path(outwheel).rename(out_dir / whl.name)
 
     shutil.rmtree(tmp_dir)
 
