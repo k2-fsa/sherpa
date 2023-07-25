@@ -1,18 +1,18 @@
 function(download_kaldi_native_io)
   include(FetchContent)
 
-  set(kaldi_native_io_URL  "https://github.com/csukuangfj/kaldi_native_io/archive/refs/tags/v1.17.2.tar.gz")
-  set(kaldi_native_io_URL2 "https://huggingface.co/csukuangfj/sherpa-cmake-deps/resolve/main/kaldi_native_io-1.17.2.tar.gz")
-  set(kaldi_native_io_HASH "SHA256=f916f2d3cd4c155b22cb64aa0d5e4f533b3ba2a40a77137c46506cfa7a00ec12")
+  set(kaldi_native_io_URL  "https://github.com/csukuangfj/kaldi_native_io/archive/refs/tags/v1.20.tar.gz")
+  set(kaldi_native_io_URL2 "https://huggingface.co/csukuangfj/sherpa-cmake-deps/resolve/main/kaldi_native_io-1.20.tar.gz")
+  set(kaldi_native_io_HASH "SHA256=ebd37f678e69abbed0860860b797221d9558d1f82874a5e102b4045d1c389568")
 
   # If you don't have access to the Internet,
   # please pre-download kaldi_native_io
   set(possible_file_locations
-    $ENV{HOME}/Downloads/kaldi_native_io-1.17.2.tar.gz
-    ${PROJECT_SOURCE_DIR}/kaldi_native_io-1.17.2.tar.gz
-    ${PROJECT_BINARY_DIR}/kaldi_native_io-1.17.2.tar.gz
-    /tmp/kaldi_native_io-1.17.2.tar.gz
-    /star-fj/fangjun/download/github/kaldi_native_io-1.17.2.tar.gz
+    $ENV{HOME}/Downloads/kaldi_native_io-1.20.tar.gz
+    ${PROJECT_SOURCE_DIR}/kaldi_native_io-1.20.tar.gz
+    ${PROJECT_BINARY_DIR}/kaldi_native_io-1.20.tar.gz
+    /tmp/kaldi_native_io-1.20.tar.gz
+    /star-fj/fangjun/download/github/kaldi_native_io-1.20.tar.gz
   )
 
   foreach(f IN LISTS possible_file_locations)
