@@ -2,6 +2,8 @@ name: build-wheels-cpu-ubuntu
 
 on:
   push:
+    branches:
+      - release
     tags:
       - '*'
   workflow_dispatch:
