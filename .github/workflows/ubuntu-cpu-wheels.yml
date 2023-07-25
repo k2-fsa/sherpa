@@ -44,6 +44,13 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Install patchelf
+        shell: bash
+        run: |
+          sudo apt-get update -q
+          sudo apt-get install -q -y patchelf
+          patchelf --help
+
       # see https://github.com/pytorch/test-infra/blob/9e3d392690719fac85bad0c9b67f530e48375ca1/tools/scripts/generate_binary_build_matrix.py
       # https://github.com/pytorch/builder/tree/main/manywheel
       # https://github.com/pytorch/builder/pull/476
@@ -63,13 +70,15 @@ jobs:
               python3 --version
               which python3
 
-              cp /var/www/scripts/github_actions/patch_wheel.py .
-              chmod +x patch_wheel.py
-
-              yum -y install patchelf
-              patchelf --help
-
               /var/www/scripts/github_actions/build-ubuntu-cpu.sh
+
+      - name: Patch wheels
+        shell: bash
+        run: |
+          ls -lh ./wheels/
+          ./scripts/github_actions/patch_wheel.py --in-dir ./wheels --out-dir ./wheelhouse
+
+          ls -lh ./wheelhouse/
 
       - name: Display wheels
         shell: bash

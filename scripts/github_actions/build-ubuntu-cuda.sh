@@ -147,7 +147,4 @@ auditwheel --verbose repair \
   -w /var/www/wheels \
   dist/*.whl
 
-/var/www/scripts/github_actions/patch_wheel.py --in-dir /var/www/wheels --out-dir /var/www/wheelhouse
-
 ls -lh  /var/www/wheels
-ls -lh  /var/www/wheelhouse
