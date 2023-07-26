@@ -2,8 +2,6 @@ name: build-wheels-cuda-ubuntu
 
 on:
   push:
-    branches:
-      - release-2
     tags:
       - '*'
   workflow_dispatch:
@@ -43,6 +41,14 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
+
+      - name: Setup Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Display Python version
+        run: python -c "import sys; print(sys.version)"
 
       - name: Install patchelf
         shell: bash
