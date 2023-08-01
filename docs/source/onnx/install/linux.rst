@@ -28,7 +28,7 @@ All you need is to run:
         cd sherpa-onnx
         mkdir build
         cd build
-        cmake -DCMAKE_BUILD_TYPE=Release -DSHERPA_ONNX_ENABLE_GPU=ON ..
+        cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON -DSHERPA_ONNX_ENABLE_GPU=ON ..
         make -j6
 
       .. hint::
