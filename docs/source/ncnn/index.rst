@@ -25,6 +25,7 @@ Also, we show how to use it for speech recognition with pre-trained models.
 
    ./install/index
    ./python/index
+   ./c-api/index
    ./endpoint
    ./android/index
    ./ios/index
