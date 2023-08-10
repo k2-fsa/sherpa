@@ -30,6 +30,7 @@ Assume that we want to put library files and header files in the directory
   cd build-shared
 
   cmake \
+    -DSHERPA_NCNN_ENABLE_C_API=ON \
     -DCMAKE_BUILD_TYPE=Release \
     -DBUILD_SHARED_LIBS=ON \
     -DCMAKE_INSTALL_PREFIX=/tmp/sherpa-ncnn/shared \
@@ -100,6 +101,7 @@ Assume that we want to put library files and header files in the directory
   cd build-static
 
   cmake \
+    -DSHERPA_NCNN_ENABLE_C_API=ON \
     -DCMAKE_BUILD_TYPE=Release \
     -DBUILD_SHARED_LIBS=OFF \
     -DCMAKE_INSTALL_PREFIX=/tmp/sherpa-ncnn/static \
