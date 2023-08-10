@@ -154,6 +154,8 @@ You should see the following output:
 
 .. literalinclude:: ./code-english/stt_en_conformer_ctc_small.txt
 
+.. _stt-en-conformer-ctc-medium-nemo-sherpa-onnx:
+
 stt_en_conformer_ctc_medium
 ---------------------------
 

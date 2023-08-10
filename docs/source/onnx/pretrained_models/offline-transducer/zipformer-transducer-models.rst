@@ -486,6 +486,8 @@ Speech recognition from a microphone
     --decoder=./sherpa-onnx-zipformer-small-en-2023-06-26/decoder-epoch-99-avg-1.onnx \
     --joiner=./sherpa-onnx-zipformer-small-en-2023-06-26/joiner-epoch-99-avg-1.onnx
 
+.. _sherpa-onnx-zipformer-en-2023-06-26-english:
+
 csukuangfj/sherpa-onnx-zipformer-en-2023-06-26 (English)
 --------------------------------------------------------
 

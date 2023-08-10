@@ -148,6 +148,8 @@ Real-time speech recognition from a microphone
    microphone if ``sherpa-onnx-microphone`` does not work for you.
 
 
+.. _sherpa-onnx-streaming-zipformer-en-2023-06-26-english:
+
 csukuangfj/sherpa-onnx-streaming-zipformer-en-2023-06-26 (English)
 ------------------------------------------------------------------
 
