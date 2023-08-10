@@ -5,10 +5,16 @@ C API
 
 In this section, we describe how to use the C API of `sherpa-onnx`_.
 
+
 Specifically, we will describe:
 
   - How to generate required files
   - How to use ``pkg-config`` with `sherpa-onnx`_
+
+You can find the implementation at
+
+  - `<https://github.com/k2-fsa/sherpa-onnx/blob/master/sherpa-onnx/c-api/c-api.h>`_
+  - `<https://github.com/k2-fsa/sherpa-onnx/blob/master/sherpa-onnx/c-api/c-api.cc>`_
 
 Generate required files
 -----------------------

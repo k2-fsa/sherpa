@@ -27,6 +27,7 @@ Also, we show how to use it for speech recognition with pre-trained models.
    ./python/index
    ./c-api/index
    ./go-api/index
+   ./csharp-api/index
    ./android/index
    ./ios/index
    ./websocket/index
