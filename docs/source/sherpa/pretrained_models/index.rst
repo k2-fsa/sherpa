@@ -49,7 +49,7 @@ This page lists all available pre-trained models that you can download.
    which supports the models from icefall, the wenet framework and torchaudio.
 
 .. |Sherpa offline recognition python api colab notebook| image:: https://colab.research.google.com/assets/colab-badge.svg
-   :target: https://colab.research.google.com/drive/1RdU06GcytTpI-r8vkQ7NkI0ugytnwJVB?usp=sharing
+   :target: https://github.com/k2-fsa/colab/blob/master/sherpa/sherpa_offline_recognition_python_api_demo.ipynb
 
 .. toctree::
    :maxdepth: 5
