@@ -244,7 +244,7 @@ colab
 
 We provide a colab notebook
 |Sherpa-onnx c api example colab notebook|
-for you to try the C APIs of `sherpa-onnx`_.
+for you to try the C API of `sherpa-onnx`_.
 
 .. |Sherpa-onnx c api example colab notebook| image:: https://colab.research.google.com/assets/colab-badge.svg
    :target: https://github.com/k2-fsa/colab/blob/master/sherpa-onnx/sherpa_onnx_c_api_example.ipynb
