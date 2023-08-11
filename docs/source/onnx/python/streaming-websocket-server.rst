@@ -166,7 +166,7 @@ We use the following command to run the script:
 
    cd /path/to/sherpa-onnx
 
-   python3 ./python-api-examples/python-api-examples/online-websocket-client-microphone.py \
+   python3 ./python-api-examples/online-websocket-client-microphone.py \
      --server-addr localhost \
      --server-port 6006
 
