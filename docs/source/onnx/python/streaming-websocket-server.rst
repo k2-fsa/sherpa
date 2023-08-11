@@ -214,7 +214,7 @@ colab
 
 We provide a colab notebook
 |Sherpa-onnx python streaming websocket example colab notebook|
-for you to try the `Go`_ API examples of `sherpa-onnx`_.
+for you to try the Python streaming websocket server example of `sherpa-onnx`_.
 
 .. |Sherpa-onnx python streaming websocket example colab notebook| image:: https://colab.research.google.com/assets/colab-badge.svg
    :target: https://github.com/k2-fsa/colab/blob/master/sherpa-onnx/sherpa_onnx_python_streaming_websocket_server.ipynb
