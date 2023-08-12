@@ -1,3 +1,5 @@
+.. _whisper_tiny_en_sherpa_onnx:
+
 tiny.en
 =======
 
