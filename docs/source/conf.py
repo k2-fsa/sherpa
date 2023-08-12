@@ -152,4 +152,5 @@ rst_epilog = """
 .. _Whisper: https://github.com/openai/whisper/
 .. _Go: https://en.wikipedia.org/wiki/Go_(programming_language)
 .. _sherpa-onnx-go: https://github.com/k2-fsa/sherpa-onnx-go
+.. _yesno: https://www.openslr.org/1/
 """

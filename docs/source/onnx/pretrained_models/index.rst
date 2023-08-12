@@ -10,6 +10,8 @@ available pre-trained models.
 
   Please install `git-lfs <https://git-lfs.com/>`_ before you continue.
 
+  Otherwise, you will be ``SAD`` later.
+
 .. toctree::
    :maxdepth: 5
 

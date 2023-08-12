@@ -7,3 +7,4 @@ This section lists available offline CTC models.
    :maxdepth: 5
 
    nemo/index
+   yesno/index
