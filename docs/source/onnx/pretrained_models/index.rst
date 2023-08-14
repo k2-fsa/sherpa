@@ -16,6 +16,7 @@ available pre-trained models.
    :maxdepth: 5
 
    online-transducer/index
+   online-paraformer/index
    offline-transducer/index
    offline-paraformer/index
    offline-ctc/index

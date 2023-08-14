@@ -65,9 +65,9 @@ Now we can use:
   cd /path/to/sherpa-onnx/
 
    python3 ./python-api-examples/streaming_server.py \
-    --encoder-model ./sherpa-onnx-streaming-zipformer-en-2023-06-26/encoder-epoch-99-avg-1-chunk-16-left-128.onnx \
-    --decoder-model ./sherpa-onnx-streaming-zipformer-en-2023-06-26/decoder-epoch-99-avg-1-chunk-16-left-128.onnx \
-    --joiner-model ./sherpa-onnx-streaming-zipformer-en-2023-06-26/joiner-epoch-99-avg-1-chunk-16-left-128.onnx \
+    --encoder ./sherpa-onnx-streaming-zipformer-en-2023-06-26/encoder-epoch-99-avg-1-chunk-16-left-128.onnx \
+    --decoder ./sherpa-onnx-streaming-zipformer-en-2023-06-26/decoder-epoch-99-avg-1-chunk-16-left-128.onnx \
+    --joiner ./sherpa-onnx-streaming-zipformer-en-2023-06-26/joiner-epoch-99-avg-1-chunk-16-left-128.onnx \
     --tokens ./sherpa-onnx-streaming-zipformer-en-2023-06-26/tokens.txt \
     --port 6006
 
@@ -75,7 +75,7 @@ It will print the following logs:
 
 .. code-block:: bash
 
-    2023-08-11 16:29:51,522 INFO [streaming_server.py:678] {'encoder_model': './sherpa-onnx-streaming-zipformer-en-2023-06-26/encoder-epoch-99-avg-1-chunk-16-left-128.onnx', 'decoder_model': './sherpa-onnx-streaming-zipformer-en-2023-06-26/decoder-epoch-99-avg-1-chunk-16-left-128.onnx', 'joiner_model': './sherpa-onnx-streaming-zipformer-en-2023-06-26/joiner-epoch-99-avg-1-chunk-16-left-128.onnx', 'tokens': './sherpa-onnx-streaming-zipformer-en-2023-06-26/tokens.txt', 'sample_rate': 16000, 'feat_dim': 80, 'provider': 'cpu', 'decoding_method': 'greedy_search', 'num_active_paths': 4, 'use_endpoint': 1, 'rule1_min_trailing_silence': 2.4, 'rule2_min_trailing_silence': 1.2, 'rule3_min_utterance_length': 20, 'port': 6006, 'nn_pool_size': 1, 'max_batch_size': 50, 'max_wait_ms': 10, 'max_message_size': 1048576, 'max_queue_size': 32, 'max_active_connections': 500, 'num_threads': 2, 'certificate': None, 'doc_root': './python-api-examples/web'}
+    2023-08-11 16:29:51,522 INFO [streaming_server.py:678] {'encoder': './sherpa-onnx-streaming-zipformer-en-2023-06-26/encoder-epoch-99-avg-1-chunk-16-left-128.onnx', 'decoder': './sherpa-onnx-streaming-zipformer-en-2023-06-26/decoder-epoch-99-avg-1-chunk-16-left-128.onnx', 'joiner': './sherpa-onnx-streaming-zipformer-en-2023-06-26/joiner-epoch-99-avg-1-chunk-16-left-128.onnx', 'tokens': './sherpa-onnx-streaming-zipformer-en-2023-06-26/tokens.txt', 'sample_rate': 16000, 'feat_dim': 80, 'provider': 'cpu', 'decoding_method': 'greedy_search', 'num_active_paths': 4, 'use_endpoint': 1, 'rule1_min_trailing_silence': 2.4, 'rule2_min_trailing_silence': 1.2, 'rule3_min_utterance_length': 20, 'port': 6006, 'nn_pool_size': 1, 'max_batch_size': 50, 'max_wait_ms': 10, 'max_message_size': 1048576, 'max_queue_size': 32, 'max_active_connections': 500, 'num_threads': 2, 'certificate': None, 'doc_root': './python-api-examples/web'}
     2023-08-11 16:29:57,476 INFO [streaming_server.py:520] No certificate provided
     2023-08-11 16:29:57,480 INFO [server.py:707] server listening on 0.0.0.0:6006
     2023-08-11 16:29:57,480 INFO [server.py:707] server listening on [::]:6006

@@ -11,7 +11,6 @@ Paraformer models
 csukuangfj/sherpa-onnx-paraformer-zh-2023-03-28 (Chinese)
 ---------------------------------------------------------
 
-
 This model is converted from
 
 `<https://www.modelscope.cn/models/damo/speech_paraformer-large_asr_nat-zh-cn-16k-common-vocab8404-pytorch>`_
