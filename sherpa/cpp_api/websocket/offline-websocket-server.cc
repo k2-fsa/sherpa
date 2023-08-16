@@ -15,9 +15,9 @@ Automatic speech recognition with sherpa using websocket.
 
 Usage:
 
-./bin/sherpa-offline-websocket-server --help
+sherpa-offline-websocket-server --help
 
-./bin/sherpa-offline-websocket-server \
+sherpa-offline-websocket-server \
   --use-gpu=false \
   --port=6006 \
   --num-io-threads=3 \

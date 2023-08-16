@@ -26,9 +26,9 @@ Automatic speech recognition with sherpa using websocket.
 
 Usage:
 
-./bin/sherpa-online-websocket-client --help
+sherpa-online-websocket-client --help
 
-./bin/sherpa-online-websocket-client \
+sherpa-online-websocket-client \
   --server-ip=127.0.0.1 \
   --server-port=6006 \
   /path/to/foo.wav

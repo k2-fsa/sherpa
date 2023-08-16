@@ -12,6 +12,14 @@ if(SHERPA_ENABLE_PORTAUDIO)
   else()
     target_link_libraries(sherpa-online-microphone portaudio_static)
   endif()
+
+  add_executable(sherpa-offline-microphone offline-recognizer-microphone.cc)
+  target_link_libraries(sherpa-offline-microphone sherpa_cpp_api)
+  if(BUILD_SHARED_LIBS)
+    target_link_libraries(sherpa-offline-microphone portaudio)
+  else()
+    target_link_libraries(sherpa-offline-microphone portaudio_static)
+  endif()
 endif()
 
 set(exe_list
@@ -21,6 +29,7 @@ set(exe_list
 
 if(SHERPA_ENABLE_PORTAUDIO)
   list(APPEND exe_list sherpa-online-microphone)
+  list(APPEND exe_list sherpa-offline-microphone)
 endif()
 
 if(NOT WIN32)
@@ -51,6 +60,33 @@ if(NOT WIN32)
 
   foreach(exe IN LISTS exe_list)
     target_link_libraries(${exe} "-Wl,-rpath,${SHERPA_RPATH_ORIGIN}/../lib")
+  endforeach()
+
+  # add additional paths
+  set(additional_paths
+    ${SHERPA_RPATH_ORIGIN}/../lib/python${PYTHON_VERSION_MAJOR}.${PYTHON_VERSION_MINOR}/site-packages/torch/lib
+    ${SHERPA_RPATH_ORIGIN}/../lib/python${PYTHON_VERSION_MAJOR}.${PYTHON_VERSION_MINOR}/site-packages/torch/lib64
+    ${SHERPA_RPATH_ORIGIN}/../lib/python${PYTHON_VERSION_MAJOR}.${PYTHON_VERSION_MINOR}/site-packages/k2/lib
+    ${SHERPA_RPATH_ORIGIN}/../lib/python${PYTHON_VERSION_MAJOR}.${PYTHON_VERSION_MINOR}/site-packages/k2/lib64
+    ${SHERPA_RPATH_ORIGIN}/../lib/python${PYTHON_VERSION_MAJOR}.${PYTHON_VERSION_MINOR}/site-packages/kaldifeat/lib
+    ${SHERPA_RPATH_ORIGIN}/../lib/python${PYTHON_VERSION_MAJOR}.${PYTHON_VERSION_MINOR}/site-packages/kaldifeat/lib64
+    ${SHERPA_RPATH_ORIGIN}/../lib/python${PYTHON_VERSION_MAJOR}.${PYTHON_VERSION_MINOR}/site-packages/sherpa/lib
+    ${SHERPA_RPATH_ORIGIN}/../lib/python${PYTHON_VERSION_MAJOR}.${PYTHON_VERSION_MINOR}/site-packages/sherpa/lib64
+    ${SHERPA_RPATH_ORIGIN}/../lib/python${PYTHON_VERSION_MAJOR}.${PYTHON_VERSION_MINOR}/dist-packages/torch/lib
+    ${SHERPA_RPATH_ORIGIN}/../lib/python${PYTHON_VERSION_MAJOR}.${PYTHON_VERSION_MINOR}/dist-packages/torch/lib64
+    ${SHERPA_RPATH_ORIGIN}/../lib/python${PYTHON_VERSION_MAJOR}.${PYTHON_VERSION_MINOR}/dist-packages/k2/lib
+    ${SHERPA_RPATH_ORIGIN}/../lib/python${PYTHON_VERSION_MAJOR}.${PYTHON_VERSION_MINOR}/dist-packages/k2/lib64
+    ${SHERPA_RPATH_ORIGIN}/../lib/python${PYTHON_VERSION_MAJOR}.${PYTHON_VERSION_MINOR}/dist-packages/kaldifeat/lib
+    ${SHERPA_RPATH_ORIGIN}/../lib/python${PYTHON_VERSION_MAJOR}.${PYTHON_VERSION_MINOR}/dist-packages/kaldifeat/lib64
+    ${SHERPA_RPATH_ORIGIN}/../lib/python${PYTHON_VERSION_MAJOR}.${PYTHON_VERSION_MINOR}/dist-packages/sherpa/lib
+    ${SHERPA_RPATH_ORIGIN}/../lib/python${PYTHON_VERSION_MAJOR}.${PYTHON_VERSION_MINOR}/dist-packages/sherpa/lib64
+    )
+  message(STATUS "additional_paths: ${additional_paths}")
+  foreach(p IN LISTS additional_paths)
+    foreach(exe IN LISTS exe_list)
+      target_link_libraries(${exe} "-Wl,-rpath,${p}")
+      target_link_libraries(${exe} "-Wl,-rpath,${p}")
+    endforeach()
   endforeach()
 endif()
 

@@ -96,7 +96,7 @@ class TritonPythonModel:
 
         # Get OUTPUT0 configuration
         output0_config = pb_utils.get_output_config_by_name(
-            model_config, "speech")
+            model_config, "x")
         # Convert Triton types to numpy types
         self.output0_dtype = pb_utils.triton_string_to_numpy(
             output0_config['data_type'])
@@ -110,7 +110,7 @@ class TritonPythonModel:
         self.decoding_window = output0_config['dims'][-2]
         # Get OUTPUT1 configuration
         output1_config = pb_utils.get_output_config_by_name(
-            model_config, "speech_lengths")
+            model_config, "x_lens")
         # Convert Triton types to numpy types
         self.output1_dtype = pb_utils.triton_string_to_numpy(
             output1_config['data_type'])
@@ -253,8 +253,8 @@ class TritonPythonModel:
             # out_tensor0 = pb_utils.Tensor.from_dlpack("speech", to_dlpack(speech))
             # out_tensor1 = pb_utils.Tensor.from_dlpack("speech_lengths",
             #                                            to_dlpack(speech_lengths))
-            out_tensor0 = pb_utils.Tensor("speech", speech.numpy())
-            out_tensor1 = pb_utils.Tensor("speech_lengths", speech_lengths.numpy().astype(np.int64))
+            out_tensor0 = pb_utils.Tensor("x", speech.numpy())
+            out_tensor1 = pb_utils.Tensor("x_lens", speech_lengths.numpy().astype(np.int64))
             output_tensors = [out_tensor0, out_tensor1]
             response = pb_utils.InferenceResponse(output_tensors=output_tensors)
             responses.append(response)

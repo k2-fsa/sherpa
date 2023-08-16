@@ -30,7 +30,7 @@ void ContextGraph::Build(
     for (size_t j = 0; j < token_ids[i].size(); ++j) {
       int32_t token = token_ids[i][j];
       if (0 == node->next.count(token)) {
-        bool is_end = j == token_ids[i].size() - 1;
+        bool is_end = j == (token_ids[i].size() - 1);
         node->next[token] = std::make_unique<ContextState>(
             token, context_score_, node->node_score + context_score_,
             is_end ? 0 : node->local_node_score + context_score_, is_end);

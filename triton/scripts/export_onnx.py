@@ -310,8 +310,8 @@ def export_encoder_model_onnx_streaming(
         verbose=False,
         opset_version=opset_version,
         input_names=[
-            "speech",
-            "speech_lengths",
+            "x",
+            "x_lens",
             "attn_cache",
             "cnn_cache",
             "processed_lens",
@@ -324,8 +324,8 @@ def export_encoder_model_onnx_streaming(
             "next_processed_lens",
         ],
         dynamic_axes={
-            "speech": {0: "B", 1: "T"},
-            "speech_lengths": {0: "B"},
+            "x": {0: "B", 1: "T"},
+            "x_lens": {0: "B"},
             "attn_cache": {0: "B"},
             "cnn_cache": {0: "B"},
             "processed_lens": {0: "B"},
@@ -344,8 +344,8 @@ def export_encoder_model_onnx_streaming(
     providers = ["CUDAExecutionProvider"]
     ort_session = onnxruntime.InferenceSession(str(encoder_filename),
                                                providers=providers)
-    ort_inputs = {'speech': to_numpy(x),
-                  'speech_lengths': to_numpy(x_lens),
+    ort_inputs = {'x': to_numpy(x),
+                  'x_lens': to_numpy(x_lens),
                   'attn_cache': to_numpy(attn_cache),
                   'cnn_cache': to_numpy(cnn_cache),
                   'processed_lens': to_numpy(processed_lens)}

@@ -30,11 +30,11 @@ Offline (non-streaming) automatic speech recognition with sherpa.
 Usage:
 (1) View help information.
 
-  ./bin/sherpa-offline --help
+  sherpa-offline --help
 
 (2) Use a pretrained model for recognition
 
-  ./bin/sherpa-offline \
+  sherpa-offline \
     --nn-model=/path/to/cpu_jit.pt \
     --tokens=/path/to/tokens.txt \
     --use-gpu=false \
@@ -43,7 +43,7 @@ Usage:
 
 (3) Decode wav.scp
 
-  ./bin/sherpa-offline \
+  sherpa-offline \
     --nn-model=/path/to/cpu_jit.pt \
     --tokens=/path/to/tokens.txt \
     --use-gpu=false \
@@ -53,7 +53,7 @@ Usage:
 
 (4) Decode feats.scp
 
-  ./bin/sherpa-offline \
+  sherpa-offline \
     --nn-model=/path/to/cpu_jit.pt \
     --tokens=/path/to/tokens.txt \
     --use-gpu=false \
@@ -69,8 +69,8 @@ expected results.
 
 See:
 
-  https://k2-fsa.github.io/sherpa/cpp/pretrained_models/offline_transducer.html
-  https://k2-fsa.github.io/sherpa/cpp/pretrained_models/offline_ctc.html
+  https://k2-fsa.github.io/sherpa/sherpa/pretrained_models/offline_transducer.html
+  https://k2-fsa.github.io/sherpa/sherpa/pretrained_models/offline_ctc/index.html
 
 for more details.
 )";

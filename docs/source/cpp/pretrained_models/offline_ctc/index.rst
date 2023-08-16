@@ -1,7 +1,7 @@
 Offline CTC models
 ==================
 
-This sections list pre-trained CTC models from the following frameworks:
+This section list pre-trained CTC models from the following frameworks:
 
 .. toctree::
    :maxdepth: 2

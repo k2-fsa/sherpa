@@ -1,3 +1,4 @@
+.DS_Store
 path.sh
 build
 dist
@@ -18,3 +19,6 @@ Testing
 run-offline-ctc*.sh
 run-offline-asr*.sh
 sherpa-nemo-ctc*
+/.cache
+/.idea
+/.vscode

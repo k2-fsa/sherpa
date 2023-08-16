@@ -14,6 +14,10 @@ from cmake.cmake_extension import (
     is_windows,
 )
 
+import get_version
+
+get_package_version = get_version.get_package_version
+
 if sys.argv[1] != "sdist":
     if "K2_INSTALL_PREFIX" not in os.environ:
         try:
@@ -62,15 +66,6 @@ def read_long_description():
     return readme
 
 
-def get_package_version():
-    with open("CMakeLists.txt") as f:
-        content = f.read()
-
-    match = re.search(r"set\(SHERPA_VERSION (.*)\)", content)
-    latest_version = match.group(1).strip('"')
-    return latest_version
-
-
 def get_binaries_to_install():
     bin_dir = Path("build") / "sherpa" / "bin"
     bin_dir.mkdir(parents=True, exist_ok=True)
@@ -79,6 +74,7 @@ def get_binaries_to_install():
     binaries = ["sherpa-offline"]
     binaries += ["sherpa-online", "sherpa-version"]
     binaries += ["sherpa-online-microphone"]
+    binaries += ["sherpa-offline-microphone"]
     binaries += ["sherpa-offline-websocket-server"]
     binaries += ["sherpa-offline-websocket-client"]
     binaries += ["sherpa-online-websocket-server"]
@@ -106,6 +102,7 @@ setuptools.setup(
     },
     data_files=[("bin", get_binaries_to_install())],
     packages=["sherpa"],
+    package_data={"sherpa": ["py.typed", "*.pyi"]},
     url="https://github.com/k2-fsa/sherpa",
     long_description=read_long_description(),
     long_description_content_type="text/markdown",
@@ -119,6 +116,8 @@ setuptools.setup(
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3.11",
         "Topic :: Scientific/Engineering :: Artificial Intelligence",
     ],
     python_requires=">=3.7.0",

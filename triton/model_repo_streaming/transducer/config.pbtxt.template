@@ -19,7 +19,7 @@ max_batch_size: MAX_BATCH
 input [
   {
     name: "WAV"
-    data_type: TYPE_FP32
+    data_type: TYPE_FP16
     dims: [-1]
   },
   {
@@ -51,24 +51,24 @@ ensemble_scheduling {
       value: "WAV_LENS"
     }
     output_map {
-      key: "speech"
-      value: "SPEECH"
+      key: "x"
+      value: "x"
     }
     output_map {
-      key: "speech_lengths"
-      value: "SPEECH_LENGTHS"
+      key: "x_lens"
+      value: "x_lens"
     }
    },
    {
     model_name: "encoder"
     model_version: -1
     input_map {
-      key: "speech"
-      value: "SPEECH"
+      key: "x"
+      value: "x"
     }
     input_map {
-      key: "speech_lengths"
-      value: "SPEECH_LENGTHS"
+      key: "x_lens"
+      value: "x_lens"
     }
     output_map {
       key: "encoder_out"

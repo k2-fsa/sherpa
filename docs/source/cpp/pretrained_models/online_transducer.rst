@@ -16,7 +16,7 @@ Online transducer models
 icefall
 -------
 
-This sections lists models trained using `icefall`_.
+This section lists models trained using `icefall`_.
 
 
 English
@@ -264,6 +264,42 @@ icefall_librispeech_streaming_pruned_transducer_stateless4_20220625
 
 Chinese
 ^^^^^^^
+
+icefall-asr-zipformer-wenetspeech-20230615
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+  # This model is trained using WenetSpeech
+  #
+  # See https://github.com/k2-fsa/icefall/pull/1130
+  #
+  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/pkufool/icefall-asr-zipformer-streaming-wenetspeech-20230615
+  cd icefall-asr-zipformer-streaming-wenetspeech-20230615
+
+  git lfs pull --include exp/jit_script_chunk_16_left_128.pt
+  git lfs pull --include "data/lang_char/LG.pt"
+
+  for m in greedy_search modified_beam_search fast_beam_search; do
+    sherpa-online \
+      --decoding-method=$m \
+      --nn-model=./exp/jit_script_chunk_16_left_128.pt \
+      --tokens=./data/lang_char/tokens.txt \
+      ./test_wavs/DEV_T0000000000.wav \
+      ./test_wavs/DEV_T0000000001.wav \
+      ./test_wavs/DEV_T0000000002.wav
+  done
+
+  # For fast_beam_search with LG
+
+  sherpa-online \
+    --decoding-method=fast_beam_search \
+    --nn-model=./exp/jit_script_chunk_16_left_128.pt \
+    --lg=./data/lang_char/LG.pt \
+    --tokens=./data/lang_char/tokens.txt \
+    ./test_wavs/DEV_T0000000000.wav \
+    ./test_wavs/DEV_T0000000001.wav \
+    ./test_wavs/DEV_T0000000002.wav
 
 icefall_asr_wenetspeech_pruned_transducer_stateless5_streaming
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

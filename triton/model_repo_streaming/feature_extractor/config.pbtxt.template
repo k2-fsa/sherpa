@@ -81,7 +81,7 @@ sequence_batching{
 input [
   {
     name: "wav"
-    data_type: TYPE_FP32
+    data_type: TYPE_FP16
     dims: [-1]
   },
   {
@@ -92,12 +92,12 @@ input [
 ]
 output [
   {
-    name: "speech"
+    name: "x"
     data_type: TYPE_FP16
     dims: [DECODE_WINDOW_SIZE, 80]
   },
   {
-    name: "speech_lengths"
+    name: "x_lens"
     data_type: TYPE_INT64
     dims: [1]
   }

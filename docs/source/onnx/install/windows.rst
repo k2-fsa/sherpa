@@ -14,14 +14,34 @@ This page describes how to build `sherpa-onnx`_ on Windows.
 
 All you need is to run:
 
-.. code-block:: bash
+.. tabs::
 
-  git clone https://github.com/k2-fsa/sherpa-onnx
-  cd sherpa-onnx
-  mkdir build
-  cd build
-  cmake -DCMAKE_BUILD_TYPE=Release ..
-  cmake --build . --config Release -- -m:6
+   .. tab:: CPU
+
+      .. code-block:: bash
+
+        git clone https://github.com/k2-fsa/sherpa-onnx
+        cd sherpa-onnx
+        mkdir build
+        cd build
+        cmake -DCMAKE_BUILD_TYPE=Release ..
+        cmake --build . --config Release
+
+   .. tab:: Nvidia GPU (CUDA)
+
+      .. code-block:: bash
+
+        git clone https://github.com/k2-fsa/sherpa-onnx
+        cd sherpa-onnx
+        mkdir build
+        cd build
+        cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON -DSHERPA_ONNX_ENABLE_GPU=ON ..
+        cmake --build . --config Release
+
+      .. hint::
+
+          You need to install CUDA toolkit. Otherwise, you would get
+          errors at runtime.
 
 After building, you will find an executable ``sherpa-onnx.exe`` inside the ``bin/Release`` directory.
 
@@ -32,6 +52,10 @@ models.
 
 32-bit Windows (x86)
 --------------------
+
+.. hint::
+
+   It does not support NVIDIA GPU for ``Win32/x86``.
 
 All you need is to run:
 

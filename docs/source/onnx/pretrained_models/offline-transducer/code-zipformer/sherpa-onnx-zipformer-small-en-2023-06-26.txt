@@ -1,0 +1,24 @@
+/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:361 ./build/bin/sherpa-onnx-offline --tokens=./sherpa-onnx-zipformer-small-en-2023-06-26/tokens.txt --encoder=./sherpa-onnx-zipformer-small-en-2023-06-26/encoder-epoch-99-avg-1.onnx --decoder=./sherpa-onnx-zipformer-small-en-2023-06-26/decoder-epoch-99-avg-1.onnx --joiner=./sherpa-onnx-zipformer-small-en-2023-06-26/joiner-epoch-99-avg-1.onnx ./sherpa-onnx-zipformer-small-en-2023-06-26/test_wavs/0.wav ./sherpa-onnx-zipformer-small-en-2023-06-26/test_wavs/1.wav ./sherpa-onnx-zipformer-small-en-2023-06-26/test_wavs/8k.wav 
+
+OfflineRecognizerConfig(feat_config=OfflineFeatureExtractorConfig(sampling_rate=16000, feature_dim=80), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename="./sherpa-onnx-zipformer-small-en-2023-06-26/encoder-epoch-99-avg-1.onnx", decoder_filename="./sherpa-onnx-zipformer-small-en-2023-06-26/decoder-epoch-99-avg-1.onnx", joiner_filename="./sherpa-onnx-zipformer-small-en-2023-06-26/joiner-epoch-99-avg-1.onnx"), paraformer=OfflineParaformerModelConfig(model=""), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=""), tokens="./sherpa-onnx-zipformer-small-en-2023-06-26/tokens.txt", num_threads=2, debug=False, provider="cpu"), lm_config=OfflineLMConfig(model="", scale=0.5), decoding_method="greedy_search", max_active_paths=4, context_score=1.5)
+Creating recognizer ...
+Started
+/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/offline-stream.cc:AcceptWaveformImpl:108 Creating a resampler:
+   in_sample_rate: 8000
+   output_sample_rate: 16000
+
+Done!
+
+./sherpa-onnx-zipformer-small-en-2023-06-26/test_wavs/0.wav
+{"text":" AFTER EARLY NIGHTFALL THE YELLOW LAMPS WOULD LIGHT UP HERE AND THERE THE SQUALID QUARTER OF THE BROTHELS","timestamps":"[0.00, 0.64, 0.76, 0.84, 1.12, 1.36, 1.44, 1.56, 1.72, 1.84, 1.96, 2.04, 2.20, 2.32, 2.36, 2.44, 2.60, 2.76, 3.04, 3.24, 3.40, 3.52, 3.72, 4.04, 4.20, 4.28, 4.48, 4.64, 4.80, 4.84, 4.96, 5.00, 5.28, 5.40, 5.52, 5.60, 5.76, 5.92, 6.08]","tokens":[" AFTER"," E","AR","LY"," NIGHT","F","A","LL"," THE"," YE","LL","OW"," LA","M","P","S"," WOULD"," LIGHT"," UP"," HE","RE"," AND"," THERE"," THE"," S","QUA","LI","D"," ","QUA","R","TER"," OF"," THE"," B","RO","TH","EL","S"]}
+----
+./sherpa-onnx-zipformer-small-en-2023-06-26/test_wavs/1.wav
+{"text":" GOD AS A DIRECT CONSEQUENCE OF THE SIN WHICH MAN THUS PUNISHED HAD GIVEN HER A LOVELY CHILD WHOSE PLACE WAS ON THAT SAME DISHONOURED BOSOM TO CONNECT HER PARENT FOREVER WITH THE RACE AND DESCENT OF MORTALS AND TO BE FINALLY A BLESSED SOUL IN HEAVEN","timestamps":"[0.00, 0.32, 0.64, 0.80, 0.96, 1.08, 1.16, 1.20, 1.32, 1.52, 1.68, 1.80, 1.88, 2.04, 2.16, 2.32, 2.40, 2.64, 2.88, 3.16, 3.20, 3.44, 3.52, 3.72, 3.88, 4.16, 4.44, 4.60, 4.76, 4.96, 5.16, 5.36, 5.60, 6.16, 6.32, 6.52, 6.88, 7.16, 7.32, 7.60, 7.96, 8.16, 8.28, 8.36, 8.48, 8.64, 8.76, 8.84, 9.04, 9.28, 9.44, 9.52, 9.60, 9.68, 9.88, 9.92, 10.12, 10.52, 10.76, 10.80, 11.08, 11.20, 11.36, 11.56, 11.76, 11.96, 12.08, 12.24, 12.28, 12.48, 12.68, 12.80, 12.92, 13.00, 13.20, 13.48, 13.72, 13.84, 14.04, 14.20, 14.28, 14.40, 14.56, 14.68, 14.76, 15.00, 15.24, 15.48, 15.68, 15.92, 16.08, 16.12, 16.20]","tokens":[" GO","D"," AS"," A"," DI","RE","C","T"," CON","SE","QUE","N","CE"," OF"," THE"," S","IN"," WHICH"," MAN"," TH","US"," P","UN","ISH","ED"," HAD"," GIVE","N"," HER"," A"," LOVE","LY"," CHILD"," WHO","SE"," PLACE"," WAS"," ON"," THAT"," SAME"," DIS","HO","N","OUR","ED"," BO","S","OM"," TO"," CON","NE","C","T"," HER"," P","AR","ENT"," FOR","E","VER"," WITH"," THE"," RA","CE"," AND"," DE","S","C","ENT"," OF"," MO","R","T","AL","S"," AND"," TO"," BE"," FI","N","AL","LY"," A"," B","LESS","ED"," SO","UL"," IN"," HE","A","VE","N"]}
+----
+./sherpa-onnx-zipformer-small-en-2023-06-26/test_wavs/8k.wav
+{"text":" YET THESE THOUGHTS AFFECTED HESTER PRYNNE LESS WITH HOPE THAN APPREHENSION","timestamps":"[0.00, 0.32, 0.48, 0.64, 0.84, 1.08, 1.20, 1.32, 1.36, 1.44, 1.48, 1.64, 1.76, 1.88, 2.08, 2.12, 2.24, 2.28, 2.44, 2.48, 2.80, 3.04, 3.24, 3.48, 3.72, 3.88, 3.92, 4.08, 4.16, 4.24, 4.36]","tokens":[" YE","T"," THE","SE"," THOUGHT","S"," A","FF","E","C","TED"," HE","S","TER"," P","RY","N","NE"," ","LESS"," WITH"," HO","PE"," THAN"," A","PP","RE","HE","N","S","ION"]}
+----
+num threads: 2
+decoding method: greedy_search
+Elapsed seconds: 0.953 s
+Real time factor (RTF): 0.953 / 28.165 = 0.034

@@ -34,11 +34,11 @@ Online (streaming) automatic speech recognition with sherpa.
 Usage:
 (1) View help information.
 
-  ./bin/sherpa-online --help
+  sherpa-online --help
 
 (2) Use a pretrained model for recognition
 
-  ./bin/sherpa-online \
+  sherpa-online \
     --nn-model=/path/to/cpu_jit.pt \
     --tokens=/path/to/tokens.txt \
     --use-gpu=false \
@@ -48,7 +48,7 @@ Usage:
 
 To use fast_beam_search with an LG, use
 
-  ./bin/sherpa-online \
+  sherpa-online \
     --decoding-method=fast_beam_search \
     --nn-model=/path/to/cpu_jit.pt \
     --tokens=/path/to/tokens.txt \
@@ -59,7 +59,7 @@ To use fast_beam_search with an LG, use
 
 (3) To use an LSTM model for recognition
 
-  ./bin/sherpa-online \
+  sherpa-online \
     --encoder-model=/path/to/encoder_jit_trace.pt \
     --decoder-model=/path/to/decoder_jit_trace.pt \
     --joiner-model=/path/to/joiner_jit_trace.pt \
@@ -70,7 +70,7 @@ To use fast_beam_search with an LG, use
 
 (4) To use a streaming Zipformer model for recognition
 
-  ./bin/sherpa-online \
+  sherpa-online \
     --nn-model=/path/to/cpu_jit.pt \
     --tokens=/path/to/tokens.txt \
     --use-gpu=false \
@@ -79,7 +79,7 @@ To use fast_beam_search with an LG, use
 
 (5) To decode wav.scp
 
-  ./bin/sherpa-online \
+  sherpa-online \
     --nn-model=/path/to/cpu_jit.pt \
     --tokens=/path/to/tokens.txt \
     --use-gpu=false \
@@ -88,7 +88,7 @@ To use fast_beam_search with an LG, use
     ark,scp,t:result.ark,result.scp
 
 See
-https://k2-fsa.github.io/sherpa/cpp/pretrained_models/online_transducer.html
+https://k2-fsa.github.io/sherpa/sherpa/pretrained_models/online_transducer.html
 for more details.
 )";
 

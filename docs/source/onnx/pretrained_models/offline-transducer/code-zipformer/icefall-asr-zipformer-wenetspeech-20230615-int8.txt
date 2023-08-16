@@ -1,0 +1,20 @@
+/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:361 ./build/bin/sherpa-onnx-offline --tokens=./icefall-asr-zipformer-wenetspeech-20230615/data/lang_char/tokens.txt --encoder=./icefall-asr-zipformer-wenetspeech-20230615/exp/encoder-epoch-12-avg-4.int8.onnx --decoder=./icefall-asr-zipformer-wenetspeech-20230615/exp/decoder-epoch-12-avg-4.int8.onnx --joiner=./icefall-asr-zipformer-wenetspeech-20230615/exp/joiner-epoch-12-avg-4.int8.onnx ./icefall-asr-zipformer-wenetspeech-20230615/test_wavs/DEV_T0000000000.wav ./icefall-asr-zipformer-wenetspeech-20230615/test_wavs/DEV_T0000000001.wav ./icefall-asr-zipformer-wenetspeech-20230615/test_wavs/DEV_T0000000002.wav 
+
+OfflineRecognizerConfig(feat_config=OfflineFeatureExtractorConfig(sampling_rate=16000, feature_dim=80), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename="./icefall-asr-zipformer-wenetspeech-20230615/exp/encoder-epoch-12-avg-4.int8.onnx", decoder_filename="./icefall-asr-zipformer-wenetspeech-20230615/exp/decoder-epoch-12-avg-4.int8.onnx", joiner_filename="./icefall-asr-zipformer-wenetspeech-20230615/exp/joiner-epoch-12-avg-4.int8.onnx"), paraformer=OfflineParaformerModelConfig(model=""), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=""), tokens="./icefall-asr-zipformer-wenetspeech-20230615/data/lang_char/tokens.txt", num_threads=2, debug=False, provider="cpu"), lm_config=OfflineLMConfig(model="", scale=0.5), decoding_method="greedy_search", max_active_paths=4, context_score=1.5)
+Creating recognizer ...
+Started
+Done!
+
+./icefall-asr-zipformer-wenetspeech-20230615/test_wavs/DEV_T0000000000.wav
+{"text":"对我做了介绍那么我想说的是大家如果对我的研究感兴趣呢","timestamps":"[0.00, 0.12, 0.48, 0.60, 0.80, 1.08, 1.64, 1.76, 1.92, 2.08, 2.32, 2.48, 2.64, 3.08, 3.20, 3.28, 3.44, 3.60, 3.72, 3.84, 3.92, 4.12, 4.28, 4.48, 4.72, 4.84]","tokens":["对","我","做","了","介","绍","那","么","我","想","说","的","是","大","家","如","果","对","我","的","研","究","感","兴","趣","呢"]}
+----
+./icefall-asr-zipformer-wenetspeech-20230615/test_wavs/DEV_T0000000001.wav
+{"text":"重点想谈三个问题首先呢就是这一轮全球金融动荡的表现","timestamps":"[0.00, 0.16, 0.48, 0.68, 0.84, 1.08, 1.20, 1.48, 1.64, 2.08, 2.36, 2.52, 2.64, 2.84, 3.00, 3.16, 3.40, 3.52, 3.72, 3.84, 4.00, 4.16, 4.32, 4.56, 4.84]","tokens":["重","点","想","谈","三","个","问","题","首","先","呢","就","是","这","一","轮","全","球","金","融","动","荡","的","表","现"]}
+----
+./icefall-asr-zipformer-wenetspeech-20230615/test_wavs/DEV_T0000000002.wav
+{"text":"深入地分析这一次全球金融动荡荡背后的根源","timestamps":"[0.00, 0.12, 0.48, 0.84, 1.08, 1.44, 1.60, 1.84, 2.24, 2.48, 2.76, 2.88, 3.12, 3.24, 3.28, 3.36, 3.60, 3.72, 3.84, 4.16]","tokens":["深","入","地","分","析","这","一","次","全","球","金","融","动","荡","荡","背","后","的","根","源"]}
+----
+num threads: 2
+decoding method: greedy_search
+Elapsed seconds: 0.338 s
+Real time factor (RTF): 0.338 / 15.289 = 0.022

@@ -144,4 +144,13 @@ rst_epilog = """
 .. _CommonVoice: https://commonvoice.mozilla.org
 .. _Zipformer: https://github.com/k2-fsa/icefall/tree/master/egs/librispeech/ASR/pruned_transducer_stateless7_streaming
 .. _VisionFive2: https://www.starfivetech.com/en/site/boards
+.. _k2-fsa/sherpa: http://github.com/k2-fsa/sherpa
+.. _k2-fsa/sherpa-onnx: http://github.com/k2-fsa/sherpa-onnx
+.. _k2-fsa/sherpa-ncnn: http://github.com/k2-fsa/sherpa-ncnn
+.. _srs: https://github.com/ossrs/srs
+.. _RTMP: https://en.wikipedia.org/wiki/Real-Time_Messaging_Protocol
+.. _Whisper: https://github.com/openai/whisper/
+.. _Go: https://en.wikipedia.org/wiki/Go_(programming_language)
+.. _sherpa-onnx-go: https://github.com/k2-fsa/sherpa-onnx-go
+.. _yesno: https://www.openslr.org/1/
 """

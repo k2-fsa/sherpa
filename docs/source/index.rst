@@ -6,55 +6,36 @@
 sherpa
 ======
 
-`sherpa`_ is a framework for streaming and non-streaming
-automatic speech recognition (ASR).
-
-CPU-bound tasks, such as neural network computation, are implemented in
-C++; while IO-bound tasks, such as socket communication, are implemented
-in Python with `asyncio`_.
-
-Python is responsible for managing threads, which call into C++ extensions
-with the `global interpreter lock (GIL) <https://docs.python.org/3/glossary.html#term-global-interpreter-lock>`_
-released so that multiple threads can run concurrently.
-
-The following content describes how to install `sherpa`_ and its usage
-for both streaming ASR and offline ASR (i.e., non-streaming ASR).
-
 .. toctree::
    :maxdepth: 2
-   :caption: For Python users
 
-   ./python/huggingface/index
-   ./python/installation/index
-   ./python/streaming_asr/index
-   ./python/offline_asr/index
-   ./python/faq
+   ./intro.rst
+   ./social-groups.rst
+   ./huggingface/index.rst
+   ./pretrained-models.rst
 
-.. toctree::
-   :maxdepth: 2
-   :caption: For C++ users
-
-   ./cpp/installation/index
-   ./cpp/pretrained_models/index
 
 .. toctree::
-   :maxdepth: 2
-   :caption: ncnn
+   :maxdepth: 5
+   :caption: k2-fsa/sherpa
+
+   ./sherpa/index
+
+.. toctree::
+   :maxdepth: 5
+   :caption: k2-fsa/sherpa-ncnn
 
    ./ncnn/index
 
 .. toctree::
-   :maxdepth: 2
-   :caption: onnx
+   :maxdepth: 5
+   :caption: k2-fsa/sherpa-onnx
 
    ./onnx/index
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 5
    :caption: Triton
 
    ./triton/overview
-   ./triton/installation/index
-   ./triton/server/index
-   ./triton/client/index
-   ./triton/perf/index
+

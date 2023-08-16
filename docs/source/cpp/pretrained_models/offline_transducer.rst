@@ -17,10 +17,35 @@ Offline transducer models
 icefall
 -------
 
-This sections lists models trained using `icefall`_.
+This section lists models trained using `icefall`_.
 
 English
 ^^^^^^^
+
+
+icefall-asr-cv-corpus-13.0-2023-03-09-en-pruned-transducer-stateless7-2023-04-17
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+  # This model is trained using Common Voice 13.0 with zipformer transducer
+  #
+  # See https://github.com/k2-fsa/icefall/pull/997
+  #
+  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/yfyeung/icefall-asr-cv-corpus-13.0-2023-03-09-en-pruned-transducer-stateless7-2023-04-17
+  cd icefall-asr-cv-corpus-13.0-2023-03-09-en-pruned-transducer-stateless7-2023-04-17
+
+  git lfs pull --include "cpu_jit-epoch-60-avg-20.pt"
+
+  for m in greedy_search modified_beam_search fast_beam_search; do
+    sherpa-offline \
+      --decoding-method=$m \
+      --nn-model=./exp/cpu_jit-epoch-60-avg-20.pt \
+      --tokens=./data/lang_bpe_500/tokens.txt \
+      ./test_wavs/1089-134686-0001.wav \
+      ./test_wavs/1221-135766-0001.wav \
+      ./test_wavs/1221-135766-0002.wav
+  done
 
 .. _icefall-asr-librispeech-zipformer-2023-05-15:
 
@@ -349,12 +374,47 @@ icefall-asr-gigaspeech-pruned-transducer-stateless2
 Chinese
 ^^^^^^^
 
+icefall-asr-zipformer-wenetspeech-20230615
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block::
+
+  # This model is trained using WenetSpeech
+  #
+  # See https://github.com/k2-fsa/icefall/pull/1130
+  #
+  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/pkufool/icefall-asr-zipformer-wenetspeech-20230615
+
+  cd icefall-asr-zipformer-wenetspeech-20230615
+  git lfs pull --include "exp/jit_script.pt"
+  git lfs pull --include "data/lang_char/LG.pt"
+
+  for m in greedy_search modified_beam_search fast_beam_search; do
+    sherpa-offline \
+      --decoding-method=$m \
+      --nn-model=./exp/jit_script.pt \
+      --tokens=./data/lang_char/tokens.txt \
+      ./test_wavs/DEV_T0000000000.wav \
+      ./test_wavs/DEV_T0000000001.wav \
+      ./test_wavs/DEV_T0000000002.wav
+  done
+
+  sherpa-offline \
+    --decoding-method=fast_beam_search \
+    --nn-model=./exp/jit_script.pt \
+    --lg=./data/lang_char/LG.pt \
+    --tokens=./data/lang_char/tokens.txt \
+    ./test_wavs/DEV_T0000000000.wav \
+    ./test_wavs/DEV_T0000000001.wav \
+    ./test_wavs/DEV_T0000000002.wav
+
+
 icefall_asr_wenetspeech_pruned_transducer_stateless2
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: bash
 
-  # This models is trained using WenetSpeech
+  # This model is trained using WenetSpeech
   #
   # See https://github.com/k2-fsa/icefall/pull/349
   #
@@ -378,7 +438,7 @@ icefall_asr_wenetspeech_pruned_transducer_stateless2
   done
 
   sherpa-offline \
-    --decoding-method=$m \
+    --decoding-method=fast_beam_search \
     --nn-model=./exp/cpu_jit.pt \
     --lg=./data/lang_char/LG.pt \
     --tokens=./data/lang_char/tokens.txt \
@@ -391,7 +451,7 @@ icefall_asr_aidatatang-200zh_pruned_transducer_stateless2
 
 .. code-block:: bash
 
-  # This models is trained using aidatatang_200zh
+  # This model is trained using aidatatang_200zh
   #
   # See https://github.com/k2-fsa/icefall/pull/355
   #
@@ -418,7 +478,7 @@ icefall-asr-alimeeting-pruned-transducer-stateless7
 
 .. code-block:: bash
 
-  # This models is trained using alimeeting (https://www.openslr.org/119/)
+  # This model is trained using alimeeting (https://www.openslr.org/119/)
   #
   # See https://github.com/k2-fsa/icefall/pull/751
   #
@@ -445,7 +505,7 @@ icefall_asr_tal-csasr_pruned_transducer_stateless5
 
 .. code-block:: bash
 
-  # This models is trained using TAL_CSASR dataset from
+  # This model is trained using TAL_CSASR dataset from
   # https://ai.100tal.com/dataset
   # where each utterance contains both English and Chinese.
   #

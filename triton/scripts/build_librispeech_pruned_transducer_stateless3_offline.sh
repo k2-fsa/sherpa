@@ -2,8 +2,10 @@
 stage=-2
 stop_stage=2
 
+# whether to use convert ONNX model to FP16
+fp16=true
 
-pretrained_model_dir=/workspace/icefall/egs/librispeech/ASR/icefall-asr-librispeech-pruned-transducer-stateless3-2022-04-29
+pretrained_model_dir=/workspace/icefall/egs/librispeech/ASR/icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13
 model_repo_path=./model_repo_offline
 
 # modify model specific parameters according to $pretrained_model_dir/exp/onnx_export.log
@@ -44,29 +46,24 @@ if [ ${stage} -le -2 ] && [ ${stop_stage} -ge -2 ]; then
     echo "skip download pretrained model"
   else
     pushd $icefall_dir/egs/librispeech/ASR/
-    GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/icefall-asr-librispeech-pruned-transducer-stateless3-2022-04-29
-    pushd icefall_librispeech_streaming_pruned_transducer_stateless3-2022-04-29
-    git lfs pull --include "exp/pretrained-epoch-25-avg-7.pt"
+    GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13
+    pushd icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13
+    git lfs pull --include "exp/pretrained-iter-1224000-avg-14.pt"
     git lfs pull --include "data/lang_bpe_500/bpe.model"
     popd
-    ln -s ./icefall_librispeech_streaming_pruned_transducer_stateless3-2022-04-29/exp/pretrained-epoch-25-avg-7.pt ./icefall_librispeech_streaming_pruned_transducer_stateless3-2022-04-29/exp/epoch-999.pt
+    ln -s ./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/pretrained-iter-1224000-avg-14.pt ./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/epoch-9999.pt
     popd
   fi
 fi
 
 if [ ${stage} -le -1 ] && [ ${stop_stage} -ge -1 ]; then
     echo "export onnx"
-    cp scripts/*onnx*.py ${recipe_dir}/
-    cd ${recipe_dir}
-    ./export_onnx.py \
-        --exp-dir ${pretrained_model_dir}/exp \
-        --tokenizer-file $TOKENIZER_FILE \
-        --epoch 999 \
+    cd $recipe_dir
+    ./export-onnx.py \
+        --bpe-model $TOKENIZER_FILE \
+        --epoch 9999 \
         --avg 1 \
-        --streaming-model 0 \
-        --causal-convolution 1 \
-        --onnx 1 \
-        --fp16
+        --exp-dir $pretrained_model_dir/exp/
     cd -
 fi
 
@@ -108,9 +105,20 @@ if [ ${stage} -le 0 ] && [ ${stop_stage} -ge 0 ]; then
 fi
 
 if [ ${stage} -le 1 ] && [ ${stop_stage} -ge 1 ]; then
-    cp $pretrained_model_dir/exp/encoder_fp16.onnx $model_repo_path/encoder/1/encoder.onnx
-    cp $pretrained_model_dir/exp/decoder_fp16.onnx $model_repo_path/decoder/1/decoder.onnx
-    cp $pretrained_model_dir/exp/joiner_fp16.onnx $model_repo_path/joiner/1/joiner.onnx
+    if [ $fp16 == true ]; then
+	echo "Convert to FP16..."
+        polygraphy convert --fp-to-fp16 -o $pretrained_model_dir/exp/encoder_fp16.onnx $pretrained_model_dir/exp/encoder-epoch-9999-avg-1.onnx
+        polygraphy convert --fp-to-fp16 -o $pretrained_model_dir/exp/decoder_fp16.onnx $pretrained_model_dir/exp/decoder-epoch-9999-avg-1.onnx
+        polygraphy convert --fp-to-fp16 -o $pretrained_model_dir/exp/joiner_fp16.onnx $pretrained_model_dir/exp/joiner-epoch-9999-avg-1.onnx
+	
+	cp $pretrained_model_dir/exp/encoder_fp16.onnx $model_repo_path/encoder/1/encoder.onnx
+	cp $pretrained_model_dir/exp/decoder_fp16.onnx $model_repo_path/decoder/1/decoder.onnx
+	cp $pretrained_model_dir/exp/joiner_fp16.onnx $model_repo_path/joiner/1/joiner.onnx
+    else
+        cp $pretrained_model_dir/exp/encoder-epoch-9999-avg-1.onnx $model_repo_path/encoder/1/encoder.onnx
+        cp $pretrained_model_dir/exp/decoder-epoch-9999-avg-1.onnx $model_repo_path/decoder/1/decoder.onnx
+        cp $pretrained_model_dir/exp/joiner-epoch-9999-avg-1.onnx $model_repo_path/joiner/1/joiner.onnx
+    fi
 fi
 
 if [ ${stage} -le 2 ] && [ ${stop_stage} -ge 2 ]; then

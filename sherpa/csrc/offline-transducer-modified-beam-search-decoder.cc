@@ -245,7 +245,7 @@ OfflineTransducerModifiedBeamSearchDecoder::Decode(
   }
 
   // Finalize context biasing matching..
-  for (int32_t i = 0; i < cur.size(); ++i) {
+  for (int32_t i = 0; i < static_cast<int32_t>(cur.size()); ++i) {
     for (auto iter = cur[i].begin(); iter != cur[i].end(); ++iter) {
       if (context_graphs[i] != nullptr) {
         auto context_res =

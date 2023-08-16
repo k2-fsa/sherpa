@@ -23,12 +23,6 @@ endif()
 set(CMAKE_INSTALL_RPATH ${SHERPA_RPATH_ORIGIN})
 set(CMAKE_BUILD_RPATH ${SHERPA_RPATH_ORIGIN})
 
-set(BUILD_SHARED_LIBS ON)
-if(WIN32)
-  message(STATUS "Set BUILD_SHARED_LIBS to OFF for Windows")
-  set(BUILD_SHARED_LIBS OFF CACHE BOOL "" FORCE)
-endif()
-
 if(NOT CMAKE_BUILD_TYPE)
   message(STATUS "No CMAKE_BUILD_TYPE given, default to Release")
   set(CMAKE_BUILD_TYPE Release)
@@ -41,10 +35,15 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 option(SHERPA_ENABLE_TESTS "Whether to build tests" OFF)
 option(SHERPA_ENABLE_PORTAUDIO "Whether to build with portaudio" ON)
 option(SHERPA_ENABLE_WEBSOCKET "Whether to build with websocket" ON)
+option(BUILD_SHARED_LIBS "Whether to build shared libraries" ON)
 
 message(STATUS "SHERPA_ENABLE_TESTS: ${SHERPA_ENABLE_TESTS}")
 message(STATUS "SHERPA_ENABLE_PORTAUDIO: ${SHERPA_ENABLE_PORTAUDIO}")
 message(STATUS "SHERPA_ENABLE_WEBSOCKET: ${SHERPA_ENABLE_WEBSOCKET}")
+
+if(BUILD_SHARED_LIBS AND MSVC)
+  set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
+endif()
 
 include(CheckIncludeFileCXX)
 check_include_file_cxx(cxxabi.h SHERPA_HAVE_CXXABI_H)

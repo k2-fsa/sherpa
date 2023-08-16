@@ -8,6 +8,264 @@ Zipformer-transducer-based Models
    Please refer to :ref:`install_sherpa_onnx` to install `sherpa-onnx`_
    before you read this section.
 
+
+
+.. _sherpa-onnx-wenetspeech-2023-06-15-streaming:
+
+pkufool/icefall-asr-zipformer-streaming-wenetspeech-20230615 (Chinese)
+----------------------------------------------------------------------
+
+This model is from
+
+`<https://huggingface.co/pkufool/icefall-asr-zipformer-streaming-wenetspeech-20230615>`_
+
+which supports only Chinese as it is trained on the `WenetSpeech`_ corpus.
+
+If you are interested in how the model is trained, please refer to
+`<https://github.com/k2-fsa/icefall/pull/1130>`_.
+
+In the following, we describe how to download it and use it with `sherpa-onnx`_.
+
+Download the model
+~~~~~~~~~~~~~~~~~~
+
+Please use the following commands to download it.
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/pkufool/icefall-asr-zipformer-streaming-wenetspeech-20230615
+  cd icefall-asr-zipformer-streaming-wenetspeech-20230615
+  git lfs pull --include "exp/*chunk-16-left-128.*onnx"
+
+Please check that the file sizes of the pre-trained models are correct. See
+the file sizes of ``*.onnx`` files below.
+
+.. code-block:: bash
+
+  icefall-asr-zipformer-streaming-wenetspeech-20230615 fangjun$ ls -lh exp/*chunk-16-left-128.*onnx
+  -rw-r--r--  1 fangjun  staff    11M Jun 26 15:42 exp/decoder-epoch-12-avg-4-chunk-16-left-128.int8.onnx
+  -rw-r--r--  1 fangjun  staff    12M Jun 26 15:42 exp/decoder-epoch-12-avg-4-chunk-16-left-128.onnx
+  -rw-r--r--  1 fangjun  staff    68M Jun 26 15:42 exp/encoder-epoch-12-avg-4-chunk-16-left-128.int8.onnx
+  -rw-r--r--  1 fangjun  staff   250M Jun 26 15:43 exp/encoder-epoch-12-avg-4-chunk-16-left-128.onnx
+  -rw-r--r--  1 fangjun  staff   2.7M Jun 26 15:42 exp/joiner-epoch-12-avg-4-chunk-16-left-128.int8.onnx
+  -rw-r--r--  1 fangjun  staff    11M Jun 26 15:42 exp/joiner-epoch-12-avg-4-chunk-16-left-128.onnx
+
+Decode a single wave file
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. hint::
+
+   It supports decoding only wave files of a single channel with 16-bit
+   encoded samples, while the sampling rate does not need to be 16 kHz.
+
+fp32
+^^^^
+
+The following code shows how to use ``fp32`` models to decode a wave file:
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  ./build/bin/sherpa-onnx \
+    --tokens=./icefall-asr-zipformer-streaming-wenetspeech-20230615/data/lang_char/tokens.txt \
+    --encoder=./icefall-asr-zipformer-streaming-wenetspeech-20230615/exp/encoder-epoch-12-avg-4-chunk-16-left-128.onnx \
+    --decoder=./icefall-asr-zipformer-streaming-wenetspeech-20230615/exp/decoder-epoch-12-avg-4-chunk-16-left-128.onnx \
+    --joiner=./icefall-asr-zipformer-streaming-wenetspeech-20230615/exp/joiner-epoch-12-avg-4-chunk-16-left-128.onnx \
+    ./icefall-asr-zipformer-streaming-wenetspeech-20230615/test_wavs/DEV_T0000000000.wav
+
+.. note::
+
+   Please use ``./build/bin/Release/sherpa-onnx.exe`` for Windows.
+
+.. caution::
+
+   If you use Windows and get encoding issues, please run:
+
+      .. code-block:: bash
+
+          CHCP 65001
+
+   in your commandline.
+
+You should see the following output:
+
+.. literalinclude:: ./code-zipformer/icefall-asr-zipformer-streaming-wenetspeech-20230615.txt
+
+int8
+^^^^
+
+The following code shows how to use ``int8`` models to decode a wave file:
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  ./build/bin/sherpa-onnx \
+    --tokens=./icefall-asr-zipformer-streaming-wenetspeech-20230615/data/lang_char/tokens.txt \
+    --encoder=./icefall-asr-zipformer-streaming-wenetspeech-20230615/exp/encoder-epoch-12-avg-4-chunk-16-left-128.int8.onnx \
+    --decoder=./icefall-asr-zipformer-streaming-wenetspeech-20230615/exp/decoder-epoch-12-avg-4-chunk-16-left-128.int8.onnx \
+    --joiner=./icefall-asr-zipformer-streaming-wenetspeech-20230615/exp/joiner-epoch-12-avg-4-chunk-16-left-128.int8.onnx \
+    ./icefall-asr-zipformer-streaming-wenetspeech-20230615/test_wavs/DEV_T0000000000.wav
+
+.. note::
+
+   Please use ``./build/bin/Release/sherpa-onnx.exe`` for Windows.
+
+.. caution::
+
+   If you use Windows and get encoding issues, please run:
+
+      .. code-block:: bash
+
+          CHCP 65001
+
+   in your commandline.
+
+You should see the following output:
+
+.. literalinclude:: ./code-zipformer/icefall-asr-zipformer-streaming-wenetspeech-20230615-int8.txt
+
+Real-time speech recognition from a microphone
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  ./build/bin/sherpa-onnx-microphone \
+    ./icefall-asr-zipformer-streaming-wenetspeech-20230615/data/lang_char/tokens.txt \
+    ./icefall-asr-zipformer-streaming-wenetspeech-20230615/exp/encoder-epoch-12-avg-4-chunk-16-left-128.int8.onnx \
+    ./icefall-asr-zipformer-streaming-wenetspeech-20230615/exp/decoder-epoch-12-avg-4-chunk-16-left-128.int8.onnx \
+    ./icefall-asr-zipformer-streaming-wenetspeech-20230615/exp/joiner-epoch-12-avg-4-chunk-16-left-128.int8.onnx
+
+.. hint::
+
+   If your system is Linux (including embedded Linux), you can also use
+   :ref:`sherpa-onnx-alsa` to do real-time speech recognition with your
+   microphone if ``sherpa-onnx-microphone`` does not work for you.
+
+
+.. _sherpa-onnx-streaming-zipformer-en-2023-06-26-english:
+
+csukuangfj/sherpa-onnx-streaming-zipformer-en-2023-06-26 (English)
+------------------------------------------------------------------
+
+This model is converted from
+
+`<https://huggingface.co/Zengwei/icefall-asr-librispeech-streaming-zipformer-2023-05-17>`_
+
+which supports only English as it is trained on the `LibriSpeech`_ corpus.
+
+If you are interested in how the model is trained, please refer to
+`<https://github.com/k2-fsa/icefall/pull/1058>`_.
+
+In the following, we describe how to download it and use it with `sherpa-onnx`_.
+
+Download the model
+~~~~~~~~~~~~~~~~~~
+
+Please use the following commands to download it.
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/sherpa-onnx-streaming-zipformer-en-2023-06-26
+  cd sherpa-onnx-streaming-zipformer-en-2023-06-26
+  git lfs pull --include "*.onnx"
+
+Please check that the file sizes of the pre-trained models are correct. See
+the file sizes of ``*.onnx`` files below.
+
+.. code-block:: bash
+
+  sherpa-onnx-streaming-zipformer-en-2023-06-26 fangjun$ ls -lh *.onnx
+  -rw-r--r--  1 fangjun  staff   1.2M Jun 26 11:53 decoder-epoch-99-avg-1-chunk-16-left-64.int8.onnx
+  -rw-r--r--  1 fangjun  staff   2.0M Jun 26 11:53 decoder-epoch-99-avg-1-chunk-16-left-64.onnx
+  -rw-r--r--  1 fangjun  staff    68M Jun 26 11:54 encoder-epoch-99-avg-1-chunk-16-left-64.int8.onnx
+  -rw-r--r--  1 fangjun  staff   250M Jun 26 11:55 encoder-epoch-99-avg-1-chunk-16-left-64.onnx
+  -rw-r--r--  1 fangjun  staff   253K Jun 26 11:53 joiner-epoch-99-avg-1-chunk-16-left-64.int8.onnx
+  -rw-r--r--  1 fangjun  staff   1.0M Jun 26 11:53 joiner-epoch-99-avg-1-chunk-16-left-64.onnx
+
+Decode a single wave file
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. hint::
+
+   It supports decoding only wave files of a single channel with 16-bit
+   encoded samples, while the sampling rate does not need to be 16 kHz.
+
+fp32
+^^^^
+
+The following code shows how to use ``fp32`` models to decode a wave file:
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  ./build/bin/sherpa-onnx \
+    --tokens=./sherpa-onnx-streaming-zipformer-en-2023-06-26/tokens.txt \
+    --encoder=./sherpa-onnx-streaming-zipformer-en-2023-06-26/encoder-epoch-99-avg-1-chunk-16-left-64.onnx \
+    --decoder=./sherpa-onnx-streaming-zipformer-en-2023-06-26/decoder-epoch-99-avg-1-chunk-16-left-64.onnx \
+    --joiner=./sherpa-onnx-streaming-zipformer-en-2023-06-26/joiner-epoch-99-avg-1-chunk-16-left-64.onnx \
+    ./sherpa-onnx-streaming-zipformer-en-2023-06-26/test_wavs/0.wav
+
+.. note::
+
+   Please use ``./build/bin/Release/sherpa-onnx.exe`` for Windows.
+
+You should see the following output:
+
+.. literalinclude:: ./code-zipformer/sherpa-onnx-streaming-zipformer-en-2023-06-26.txt
+
+int8
+^^^^
+
+The following code shows how to use ``int8`` models to decode a wave file:
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  ./build/bin/sherpa-onnx \
+    --tokens=./sherpa-onnx-streaming-zipformer-en-2023-06-26/tokens.txt \
+    --encoder=./sherpa-onnx-streaming-zipformer-en-2023-06-26/encoder-epoch-99-avg-1-chunk-16-left-64.int8.onnx \
+    --decoder=./sherpa-onnx-streaming-zipformer-en-2023-06-26/decoder-epoch-99-avg-1-chunk-16-left-64.int8.onnx \
+    --joiner=./sherpa-onnx-streaming-zipformer-en-2023-06-26/joiner-epoch-99-avg-1-chunk-16-left-64.int8.onnx \
+    ./sherpa-onnx-streaming-zipformer-en-2023-06-26/test_wavs/0.wav
+
+.. note::
+
+   Please use ``./build/bin/Release/sherpa-onnx.exe`` for Windows.
+
+You should see the following output:
+
+.. literalinclude:: ./code-zipformer/sherpa-onnx-streaming-zipformer-en-2023-06-26-int8.txt
+
+Real-time speech recognition from a microphone
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  ./build/bin/sherpa-onnx-microphone \
+    ./sherpa-onnx-streaming-zipformer-en-2023-06-26/tokens.txt \
+    ./sherpa-onnx-streaming-zipformer-en-2023-06-26/encoder-epoch-99-avg-1-chunk-16-left-64.onnx \
+    ./sherpa-onnx-streaming-zipformer-en-2023-06-26/decoder-epoch-99-avg-1-chunk-16-left-64.onnx \
+    ./sherpa-onnx-streaming-zipformer-en-2023-06-26/joiner-epoch-99-avg-1-chunk-16-left-64.onnx
+
+.. hint::
+
+   If your system is Linux (including embedded Linux), you can also use
+   :ref:`sherpa-onnx-alsa` to do real-time speech recognition with your
+   microphone if ``sherpa-onnx-microphone`` does not work for you.
+
+
 csukuangfj/sherpa-onnx-streaming-zipformer-en-2023-06-21 (English)
 ------------------------------------------------------------------
 
