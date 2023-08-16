@@ -38,7 +38,7 @@ TEST(ByteUtil, TestBasic) {
 
 TEST(ByteUtil, TestInvalidBytes) {
   ByteUtil *bu = GetByteUtil();
-  std::string str = "ƍĩĴƎĩŗƋţŅƋŞœƌľţ";
+  std::string str = "ƍĩĴƎĩŗƋţŅƋ⁇Şœƌľţ";
   SHERPA_CHECK_EQ(bu->Decode(str), "我爱你中国");
 
   str = "ƍĩĴĩŗƋţŅƋŞœƌľţ";  // drop one byte in 爱

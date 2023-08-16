@@ -88,6 +88,7 @@ void ByteUtil::UTF8StringToBytes(const std::string &str,
       if (c > max_token_ || token2byte_[c] == -1) {
         SHERPA_LOG(WARNING) << "Skip OOV token, code point : " << c
                             << " utf8 char : " << CodePointToUTF8String(c);
+        continue;
       }
       bytes->push_back(token2byte_[c]);
     } else {
@@ -115,6 +116,7 @@ void ByteUtil::UTF8StringToBytes(const std::string &str,
       if (code > max_token_ || token2byte_[code] == -1) {
         SHERPA_LOG(WARNING) << "Skip OOV token, code point : " << code
                             << " utf8 char : " << CodePointToUTF8String(code);
+        continue;
       }
       bytes->push_back(token2byte_[code]);
     }
