@@ -109,6 +109,10 @@ void OfflineRecognizerConfig::Register(ParseOptions *po) {
   po->Register("context-score", &context_score,
                "The bonus score for each token in context word/phrase. "
                "Used only when decoding_method is modified_beam_search");
+
+  po->Register("temperature", &temperature,
+               "Softmax temperature,. "
+               "Used only when decoding_method is modified_beam_search.");
 }
 
 void OfflineRecognizerConfig::Validate() const {
@@ -150,7 +154,8 @@ std::string OfflineRecognizerConfig::ToString() const {
   os << "use_gpu=" << (use_gpu ? "True" : "False") << ", ";
   os << "decoding_method=\"" << decoding_method << "\", ";
   os << "num_active_paths=" << num_active_paths << ", ";
-  os << "context_score=" << context_score << ")";
+  os << "context_score=" << context_score << ", ";
+  os << "temperature=" << chunk_size << ")";
 
   return os.str();
 }

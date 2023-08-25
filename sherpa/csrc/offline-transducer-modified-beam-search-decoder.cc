@@ -184,7 +184,7 @@ OfflineTransducerModifiedBeamSearchDecoder::Decode(
     logits = logits.squeeze(1).squeeze(1);
     // now logits' shape is (num_hyps, vocab_size)
 
-    auto log_probs = logits.log_softmax(-1).cpu();
+    auto log_probs = (logits / temperature_).log_softmax(-1).cpu();
 
     log_probs.add_(ys_log_probs);
 
