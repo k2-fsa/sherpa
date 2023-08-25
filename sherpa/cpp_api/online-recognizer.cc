@@ -113,7 +113,7 @@ void OnlineRecognizerConfig::Register(ParseOptions *po) {
                "and streaming Zipformer, i.e, models from "
                "pruned_transducer_stateless7_streaming in icefall."
                "Number of frames before subsampling during decoding.");
-  
+
   po->Register("temperature", &temperature,
                "Softmax temperature,. "
                "Used only when decoding_method is modified_beam_search.");
