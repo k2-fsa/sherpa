@@ -40,6 +40,12 @@ void FeatureConfig::Register(ParseOptions *po) {
   fbank_opts.mel_opts.num_bins = 80;
   RegisterMelBanksOptions(po, &fbank_opts.mel_opts);
 
+  fbank_opts.mel_opts.high_freq = -400;
+  fbank_opts.frame_opts.remove_dc_offset = true;
+  fbank_opts.frame_opts.round_to_power_of_two = true;
+  fbank_opts.energy_floor = 1e-10;
+  fbank_opts.frame_opts.snip_edges = false;
+  fbank_opts.frame_opts.samp_freq = 16000;
   po->Register("normalize-samples", &normalize_samples,
                "true to use samples in the range [-1, 1]. "
                "false to use samples in the range [-32768, 32767]. "
