@@ -100,7 +100,9 @@ OfflineTransducerModifiedBeamSearchDecoder::Decode(
 
   if (ss != nullptr) SHERPA_CHECK_EQ(batch_size, n);
 
-  std::vector<int32_t> blanks(context_size, blank_id);
+  std::vector<int32_t> blanks(context_size, -1);
+  blanks.back() = blank_id;
+
   Hypotheses blank_hyp({{blanks, 0}});
 
   std::deque<Hypotheses> finalized;
