@@ -69,6 +69,9 @@ struct OnlineRecognizerConfig {
   // In number of frames after subsampling
   int32_t chunk_size = 12;
 
+  // temperature for the softmax in the joiner
+  float temperature = 1.0;
+
   void Register(ParseOptions *po);
 
   void Validate() const;
