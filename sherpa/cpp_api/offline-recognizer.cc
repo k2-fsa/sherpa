@@ -155,7 +155,7 @@ std::string OfflineRecognizerConfig::ToString() const {
   os << "decoding_method=\"" << decoding_method << "\", ";
   os << "num_active_paths=" << num_active_paths << ", ";
   os << "context_score=" << context_score << ", ";
-  os << "temperature=" << chunk_size << ")";
+  os << "temperature=" << temperature << ")";
 
   return os.str();
 }
