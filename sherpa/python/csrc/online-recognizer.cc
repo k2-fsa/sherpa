@@ -57,10 +57,11 @@ static void PybindOnlineRecognizerConfig(py::module &m) {  // NOLINT
            py::arg("decoding_method") = "greedy_search",
            py::arg("num_active_paths") = 4, py::arg("context_score") = 1.5,
            py::arg("left_context") = 64, py::arg("right_context") = 0,
-           py::arg("chunk_size") = 16, py::arg("feat_config") = FeatureConfig(),
+           py::arg("chunk_size") = 16, py::arg("temperature") = 1.0,
+           py::arg("feat_config") = FeatureConfig(),
            py::arg("endpoint_config") = EndpointConfig(),
-           py::arg("fast_beam_search_config") = FastBeamSearchConfig(),
-           py::arg("temperature") = 1.0)
+           py::arg("fast_beam_search_config") = FastBeamSearchConfig())
+
       .def_readwrite("feat_config", &PyClass::feat_config)
       .def_readwrite("endpoint_config", &PyClass::endpoint_config)
       .def_readwrite("fast_beam_search_config",

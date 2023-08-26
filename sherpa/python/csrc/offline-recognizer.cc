@@ -178,11 +178,11 @@ static void PybindOfflineRecognizerConfig(py::module &m) {  // NOLINT
            }),
            py::arg("nn_model"), py::arg("tokens"), py::arg("use_gpu") = false,
            py::arg("num_active_paths") = 4, py::arg("context_score") = 1.5,
+           py::arg("temperature") = 1.0,
            py::arg("ctc_decoder_config") = OfflineCtcDecoderConfig(),
            py::arg("feat_config") = FeatureConfig(),
            py::arg("fast_beam_search_config") = FastBeamSearchConfig(),
            py::arg("decoding_method") = "greedy_search",
-           py::arg("temperature") = 1.0,
            kOfflineRecognizerConfigInitDoc)
       .def("__str__",
            [](const PyClass &self) -> std::string { return self.ToString(); })
