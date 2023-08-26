@@ -177,7 +177,7 @@ std::string OnlineRecognizerConfig::ToString() const {
   os << "left_context=" << left_context << ", ";
   os << "right_context=" << right_context << ", ";
   os << "chunk_size=" << chunk_size << ", ";
-  os << "temperature=" << chunk_size << ")";
+  os << "temperature=" << temperature << ")";
   return os.str();
 }
 
