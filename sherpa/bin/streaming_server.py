@@ -177,6 +177,14 @@ def add_modified_beam_search_args(parser: argparse.ArgumentParser):
         It specifies number of active paths to keep during decoding.
         """,
     )
+    parser.add_argument(
+        "--temperature",
+        type=float,
+        default=1.0,
+        help="""Used only when --decoding-method is modified_beam_search.
+        It specifies the softmax temperature.
+        """,
+    )
 
 
 def add_endpointing_args(parser: argparse.ArgumentParser):
@@ -405,6 +413,7 @@ def create_recognizer(args) -> sherpa.OnlineRecognizer:
         tokens=args.tokens,
         use_gpu=args.use_gpu,
         num_active_paths=args.num_active_paths,
+        temperature=args.temperature,
         feat_config=feat_config,
         decoding_method=args.decoding_method,
         fast_beam_search_config=fast_beam_search_config,
@@ -768,6 +777,7 @@ def check_args(args):
 
     if args.decoding_method == "modified_beam_search":
         assert args.num_active_paths > 0, args.num_active_paths
+        assert args.temperature > 0, args.temperature
 
     if args.decoding_method == "fast_beam_search" and args.LG:
         if not Path(args.LG).is_file():

@@ -15,9 +15,9 @@ namespace sherpa {
 class OfflineTransducerModifiedBeamSearchDecoder
     : public OfflineTransducerDecoder {
  public:
-  OfflineTransducerModifiedBeamSearchDecoder(OfflineTransducerModel *model,
-                                             int32_t num_active_paths)
-      : model_(model), num_active_paths_(num_active_paths) {}
+  OfflineTransducerModifiedBeamSearchDecoder(
+    OfflineTransducerModel *model, int32_t num_active_paths, float temperature)
+      : model_(model), num_active_paths_(num_active_paths), temperature_(temperature) {}
 
   /** Run modified beam search given the output from the encoder model.
    *
@@ -35,8 +35,8 @@ class OfflineTransducerModifiedBeamSearchDecoder
 
  private:
   OfflineTransducerModel *model_;  // Not owned
-
   int32_t num_active_paths_;
+  float temperature_ = 1.0;
 };
 
 }  // namespace sherpa

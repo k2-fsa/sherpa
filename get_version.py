@@ -95,7 +95,8 @@ def get_package_version():
     if not is_stable():
         dt = datetime.datetime.utcnow()
         package_version = (
-            f"{latest_version}.dev{dt.year}{dt.month:02d}{dt.day:02d}{local_version}"
+            f"{latest_version}.dev{dt.year}{dt.month:02d}{dt.day:02d}"
+            f"{local_version}"
         )
     else:
         package_version = f"{latest_version}"

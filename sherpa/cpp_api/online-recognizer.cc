@@ -113,6 +113,10 @@ void OnlineRecognizerConfig::Register(ParseOptions *po) {
                "and streaming Zipformer, i.e, models from "
                "pruned_transducer_stateless7_streaming in icefall."
                "Number of frames before subsampling during decoding.");
+
+  po->Register("temperature", &temperature,
+               "Softmax temperature,. "
+               "Used only when decoding_method is modified_beam_search.");
 }
 
 void OnlineRecognizerConfig::Validate() const {
@@ -172,7 +176,8 @@ std::string OnlineRecognizerConfig::ToString() const {
   os << "context_score=" << context_score << ", ";
   os << "left_context=" << left_context << ", ";
   os << "right_context=" << right_context << ", ";
-  os << "chunk_size=" << chunk_size << ")";
+  os << "chunk_size=" << chunk_size << ", ";
+  os << "temperature=" << temperature << ")";
   return os.str();
 }
 
@@ -296,7 +301,7 @@ class OnlineRecognizer::OnlineRecognizerImpl {
           std::make_unique<OnlineTransducerGreedySearchDecoder>(model_.get());
     } else if (config.decoding_method == "modified_beam_search") {
       decoder_ = std::make_unique<OnlineTransducerModifiedBeamSearchDecoder>(
-          model_.get(), config.num_active_paths);
+          model_.get(), config.num_active_paths, config.temperature);
     } else if (config.decoding_method == "fast_beam_search") {
       config.fast_beam_search_config.Validate();
 
