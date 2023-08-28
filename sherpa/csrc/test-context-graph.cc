@@ -29,14 +29,15 @@ TEST(ContextGraph, TestBasic) {
   std::vector<std::string> contexts_str(
       {"S", "HE", "SHE", "SHELL", "HIS", "HERS", "HELLO", "THIS", "THEM"});
   std::vector<std::vector<int32_t>> contexts;
-  for (int32_t i = 0; i < contexts_str.size(); ++i) {
+  for (size_t i = 0; i < contexts_str.size(); ++i) {
     contexts.emplace_back(contexts_str[i].begin(), contexts_str[i].end());
   }
   auto context_graph = ContextGraph(contexts, 1);
 
   auto queries = std::map<std::string, float>{
-      {"HEHERSHE", 14}, {"HERSHE", 12}, {"HISHE", 9},   {"SHED", 6},
-      {"HELL", 2},      {"HELLO", 7},   {"DHRHISQ", 4}, {"THEN", 2}};
+      {"HEHERSHE", 14}, {"HERSHE", 12}, {"HISHE", 9},
+      {"SHED", 6},      {"SHELF", 6},   {"HELL", 2},
+      {"HELLO", 7},     {"DHRHISQ", 4}, {"THEN", 2}};
 
   for (const auto &iter : queries) {
     float total_scores = 0;
