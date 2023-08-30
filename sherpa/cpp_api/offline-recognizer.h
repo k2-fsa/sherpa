@@ -67,6 +67,9 @@ struct OfflineRecognizerConfig {
   /// used only for modified_beam_search
   float context_score = 1.5;
 
+  // True if the model used is trained with byte level bpe.
+  bool use_bbpe = false;
+
   void Register(ParseOptions *po);
 
   void Validate() const;

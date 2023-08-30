@@ -69,6 +69,9 @@ struct OnlineRecognizerConfig {
   // In number of frames after subsampling
   int32_t chunk_size = 12;
 
+  // True if the model used is trained with byte level bpe.
+  bool use_bbpe = false;
+
   void Register(ParseOptions *po);
 
   void Validate() const;
