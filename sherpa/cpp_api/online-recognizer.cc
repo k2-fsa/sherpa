@@ -185,7 +185,7 @@ std::string OnlineRecognizerConfig::ToString() const {
   os << "left_context=" << left_context << ", ";
   os << "right_context=" << right_context << ", ";
   os << "chunk_size=" << chunk_size << ", ";
-  os << "use_bbpe=" << use_bbpe << ", ";
+  os << "use_bbpe=" << (use_bbpe ? "True" : "False") << ", ";
   os << "temperature=" << temperature << ")";
   return os.str();
 }
@@ -208,7 +208,7 @@ static OnlineRecognitionResult Convert(const OnlineTransducerDecoderResult &src,
   }
 
   if (use_bbpe) {
-    ByteUtil *bu = GetByteUtil();
+    auto bu = GetByteUtil();
     text = bu->Decode(text);
   }
 

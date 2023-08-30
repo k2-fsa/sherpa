@@ -16,6 +16,7 @@
 
 #include "sherpa/csrc/byte_util.h"
 
+#include <mutex>
 #include <string>
 
 #include "sherpa/csrc/log.h"
@@ -23,7 +24,7 @@
 namespace sherpa {
 
 ByteUtil::ByteUtil() {
-  // The table below is copy from
+  // The table below is copied from
   // https://github.com/k2-fsa/icefall/blob/master/icefall/byte_utils.py
   // which is used to train byte level bpe, if you change the table in icefall
   // you have to change the table below accordingly.
@@ -68,7 +69,7 @@ std::string ByteUtil::Encode(const std::string &str) const {
 
 std::string ByteUtil::Decode(const std::string &str) const {
   std::vector<uint8_t> bytes;
-  UTF8StringToBytes(str, &bytes);
+  UTF8StringToTokensAndMapToBytes(str, &bytes);
   std::vector<int32_t> codes;
   BytesToCodePoints(bytes.data(), bytes.size(), &codes);
   std::ostringstream oss;
@@ -78,9 +79,10 @@ std::string ByteUtil::Decode(const std::string &str) const {
   return oss.str();
 }
 
-void ByteUtil::UTF8StringToBytes(const std::string &str,
-                                 std::vector<uint8_t> *bytes) const {
+void ByteUtil::UTF8StringToTokensAndMapToBytes(
+    const std::string &str, std::vector<uint8_t> *bytes) const {
   const char *data = str.data();
+  bytes->clear();
   const size_t length = str.size();
   for (size_t i = 0; i < length; /* no update */) {
     int32_t c = data[i++] & 0xff;
@@ -93,25 +95,29 @@ void ByteUtil::UTF8StringToBytes(const std::string &str,
       bytes->push_back(token2byte_[c]);
     } else {
       if ((c & 0xc0) == 0x80) {
-        SHERPA_LOG(FATAL) << "Invalid utf8 string.";
+        SHERPA_LOG(FATAL) << "Invalid utf8 string : " << str
+                          << ", code point : " << c;
       }
       int32_t count =
           (c >= 0xc0) + (c >= 0xe0) + (c >= 0xf0) + (c >= 0xf8) + (c >= 0xfc);
       int32_t code = c & ((1 << (6 - count)) - 1);
       while (count != 0) {
         if (i == length) {
-          SHERPA_LOG(FATAL) << "Invalid utf8 string.";
+          SHERPA_LOG(FATAL)
+              << "Invalid utf8 string : " << str << ", code point : " << code;
         }
         char cb = data[i++];
         if ((cb & 0xc0) != 0x80) {
-          SHERPA_LOG(FATAL) << "Invalid utf8 string.";
+          SHERPA_LOG(FATAL)
+              << "Invalid utf8 string : " << str << ", code point : " << code;
         }
         code = (code << 6) | (cb & 0x3f);
         count--;
       }
       if (code < 0) {
         // This should not be able to happen.
-        SHERPA_LOG(FATAL) << "Invalid utf8 string.";
+        SHERPA_LOG(FATAL) << "Invalid utf8 string : " << str
+                          << ", code point : " << code;
       }
       if (code > max_token_ || token2byte_[code] == -1) {
         SHERPA_LOG(WARNING) << "Skip OOV token, code point : " << code
@@ -123,11 +129,13 @@ void ByteUtil::UTF8StringToBytes(const std::string &str,
   }
 }
 
-void ByteUtil::BytesToCodePoints(uint8_t *bytes, int32_t length,
+void ByteUtil::BytesToCodePoints(const uint8_t *bytes, int32_t length,
                                  std::vector<int32_t> *codes) const {
-  if (length <= 0) return;
-  char *data = reinterpret_cast<char *>(bytes);
-  int32_t idx = 1;  // means start from next byte
+  if (length <= 0) {
+    return;
+  }
+  const char *data = reinterpret_cast<const char *>(bytes);
+  int32_t idx = 1;  // means starting from the next byte
   for (int32_t i = 0; i < length; /* no update */) {
     int32_t c = data[i++] & 0xff;
     if ((c & 0x80) == 0) {
@@ -167,7 +175,7 @@ void ByteUtil::BytesToCodePoints(uint8_t *bytes, int32_t length,
 std::string ByteUtil::CodePointToUTF8String(int32_t code) const {
   std::ostringstream ostr;
   if (code < 0) {
-    SHERPA_LOG(FATAL) << "Invalid utf8 code point.";
+    SHERPA_LOG(FATAL) << "Invalid utf8 code point : " << code;
     return ostr.str();  // Unreachable code.
   } else if (code < 0x80) {
     ostr << static_cast<char>(code);
@@ -200,11 +208,12 @@ std::string ByteUtil::CodePointToUTF8String(int32_t code) const {
   return ostr.str();
 }
 
-ByteUtil *GetByteUtil() {
-  static ByteUtil *bu = nullptr;
+const ByteUtilPtr GetByteUtil() {
+  static ByteUtilPtr bu = nullptr;
   static std::once_flag init_flag;
 
-  std::call_once(init_flag, []() { bu = new ByteUtil(); });
+  std::call_once(init_flag,
+                 []() { bu = std::make_shared<ByteUtil>(ByteUtil()); });
   SHERPA_CHECK_NE(bu, nullptr);
   return bu;
 }

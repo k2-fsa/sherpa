@@ -19,10 +19,14 @@
 #ifndef SHERPA_CSRC_BYTE_UTIL_H_
 #define SHERPA_CSRC_BYTE_UTIL_H_
 
+#include <memory>
 #include <string>
 #include <vector>
 
 namespace sherpa {
+
+class ByteUtil;
+using ByteUtilPtr = std::shared_ptr<ByteUtil>;
 
 /* The class implements the functions in byte_utils.py
  * (https://github.com/k2-fsa/icefall/blob/master/icefall/byte_utils.py)
@@ -83,7 +87,7 @@ class ByteUtil {
    * @param length  The length of bytes array.
    * @param code  The utf8 code points will be written here.
    */
-  void BytesToCodePoints(uint8_t *bytes, int32_t length,
+  void BytesToCodePoints(const uint8_t *bytes, int32_t length,
                          std::vector<int32_t> *codes) const;
   /*
    * The utf8 string here is expected to be the encoded string (the string
@@ -96,15 +100,15 @@ class ByteUtil {
    * @param str  The input string.
    * @param bytes  The converted bytes will be written here.
    */
-  void UTF8StringToBytes(const std::string &str,
-                         std::vector<uint8_t> *bytes) const;
+  void UTF8StringToTokensAndMapToBytes(const std::string &str,
+                                       std::vector<uint8_t> *bytes) const;
 };
 
 /*
  * Get the ByteUtil pointer, this guarantees the ByteUtil object only be
  * initialized once.
  */
-ByteUtil *GetByteUtil();
+const ByteUtilPtr GetByteUtil();
 
 }  // namespace sherpa
 

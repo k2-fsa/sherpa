@@ -40,7 +40,7 @@ static OfflineRecognitionResult Convert(
   }
 
   if (use_bbpe) {
-    ByteUtil *bu = GetByteUtil();
+    auto bu = GetByteUtil();
     text = bu->Decode(text);
   }
 

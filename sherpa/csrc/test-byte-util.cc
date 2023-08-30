@@ -25,7 +25,7 @@
 namespace sherpa {
 
 TEST(ByteUtil, TestBasic) {
-  ByteUtil *bu = GetByteUtil();
+  auto bu = GetByteUtil();
   std::string str = "Hello world";
   SHERPA_CHECK_EQ(bu->Decode(bu->Encode(str)), str);
 
@@ -37,7 +37,7 @@ TEST(ByteUtil, TestBasic) {
 }
 
 TEST(ByteUtil, TestInvalidBytes) {
-  ByteUtil *bu = GetByteUtil();
+  auto bu = GetByteUtil();
   std::string str = "ƍĩĴƎĩŗƋţŅƋ⁇Şœƌľţ";
   SHERPA_CHECK_EQ(bu->Decode(str), "我爱你中国");
 
