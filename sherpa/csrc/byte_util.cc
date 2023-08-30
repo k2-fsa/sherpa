@@ -16,7 +16,7 @@
 
 #include "sherpa/csrc/byte_util.h"
 
-#include <mutex>
+#include <mutex>  // NOLINT
 #include <string>
 
 #include "sherpa/csrc/log.h"
