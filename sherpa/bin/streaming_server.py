@@ -153,7 +153,7 @@ def add_model_args(parser: argparse.ArgumentParser):
 
     parser.add_argument(
         "--use-bbpe",
-        type=str2bool,
+        type=sherpa.str2bool,
         default=False,
         help="Whether the model to be used is trained with bbpe",
     )
