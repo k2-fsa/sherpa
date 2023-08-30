@@ -23,6 +23,7 @@ static void PybindOnlineRecognizerConfig(py::module &m) {  // NOLINT
                        int32_t num_active_paths = 4, float context_score = 1.5,
                        int32_t left_context = 64, int32_t right_context = 0,
                        int32_t chunk_size = 16, bool use_bbpe = false,
+                       float temperature = 1.0,
                        const FeatureConfig &feat_config = {},
                        const EndpointConfig &endpoint_config = {},
                        const FastBeamSearchConfig &fast_beam_search_config = {})
@@ -46,7 +47,7 @@ static void PybindOnlineRecognizerConfig(py::module &m) {  // NOLINT
              ans->right_context = right_context;
              ans->chunk_size = chunk_size;
              ans->use_bbpe = use_bbpe;
-
+             ans->temperature = temperature;
              return ans;
            }),
            py::arg("nn_model"), py::arg("tokens"),
@@ -57,9 +58,11 @@ static void PybindOnlineRecognizerConfig(py::module &m) {  // NOLINT
            py::arg("num_active_paths") = 4, py::arg("context_score") = 1.5,
            py::arg("left_context") = 64, py::arg("right_context") = 0,
            py::arg("chunk_size") = 16, py::arg("use_bbpe") = false,
+           py::arg("temperature") = 1.0,
            py::arg("feat_config") = FeatureConfig(),
            py::arg("endpoint_config") = EndpointConfig(),
            py::arg("fast_beam_search_config") = FastBeamSearchConfig())
+
       .def_readwrite("feat_config", &PyClass::feat_config)
       .def_readwrite("endpoint_config", &PyClass::endpoint_config)
       .def_readwrite("fast_beam_search_config",
@@ -78,6 +81,7 @@ static void PybindOnlineRecognizerConfig(py::module &m) {  // NOLINT
       .def_readwrite("right_context", &PyClass::right_context)
       .def_readwrite("chunk_size", &PyClass::chunk_size)
       .def_readwrite("use_bbpe", &PyClass::use_bbpe)
+      .def_readwrite("temperature", &PyClass::temperature)
       .def("validate", &PyClass::Validate)
       .def("__str__",
            [](const PyClass &self) -> std::string { return self.ToString(); });

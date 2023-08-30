@@ -66,7 +66,9 @@ OnlineTransducerModifiedBeamSearchDecoder::GetEmptyResult() {
   int32_t context_size = model_->ContextSize();
   int32_t blank_id = 0;  // always 0
                          //
-  std::vector<int32_t> blanks(context_size, blank_id);
+  std::vector<int32_t> blanks(context_size, -1);
+  blanks.back() = blank_id;
+
   Hypotheses blank_hyp({{blanks, 0}});
 
   OnlineTransducerDecoderResult r;
@@ -121,7 +123,9 @@ void OnlineTransducerModifiedBeamSearchDecoder::Decode(
   int32_t N = encoder_out.size(0);
   int32_t T = encoder_out.size(1);
 
-  if (ss) SHERPA_CHECK_EQ(N, num_streams);
+  if (ss) {
+    SHERPA_CHECK_EQ(N, num_streams);
+  }
 
   std::vector<Hypotheses> cur;
   cur.reserve(N);
@@ -169,7 +173,7 @@ void OnlineTransducerModifiedBeamSearchDecoder::Decode(
     auto logits = model_->RunJoiner(cur_encoder_out, decoder_out);
     // logits has shape (num_hyps, vocab_size)
 
-    auto log_probs = logits.log_softmax(-1).cpu();
+    auto log_probs = (logits / temperature_).log_softmax(-1).cpu();
 
     log_probs.add_(ys_log_probs);
 

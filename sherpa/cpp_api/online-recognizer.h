@@ -72,6 +72,9 @@ struct OnlineRecognizerConfig {
   // True if the model used is trained with byte level bpe.
   bool use_bbpe = false;
 
+  // temperature for the softmax in the joiner
+  float temperature = 1.0;
+
   void Register(ParseOptions *po);
 
   void Validate() const;

@@ -116,6 +116,10 @@ void OfflineRecognizerConfig::Register(ParseOptions *po) {
                "languages or multilingual datasets, it can further break "
                "the multi-byte unicode characters into byte sequence and "
                "then train some kind of sub-char bpes.");
+
+  po->Register("temperature", &temperature,
+               "Softmax temperature,. "
+               "Used only when decoding_method is modified_beam_search.");
 }
 
 void OfflineRecognizerConfig::Validate() const {
@@ -158,7 +162,8 @@ std::string OfflineRecognizerConfig::ToString() const {
   os << "decoding_method=\"" << decoding_method << "\", ";
   os << "num_active_paths=" << num_active_paths << ", ";
   os << "context_score=" << context_score << ", ";
-  os << "use_bbpe=" << use_bbpe << ")";
+  os << "use_bbpe=" << use_bbpe << ", ";
+  os << "temperature=" << temperature << ")";
 
   return os.str();
 }
