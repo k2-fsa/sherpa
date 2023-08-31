@@ -25,12 +25,12 @@
 namespace sherpa {
 void ContextGraph::Build(
     const std::vector<std::vector<int32_t>> &token_ids) const {
-  for (int32_t i = 0; i < static_cast<int32_t>(token_ids.size()); ++i) {
+  for (size_t i = 0; i < token_ids.size(); ++i) {
     auto node = root_.get();
-    for (int32_t j = 0; j < static_cast<int32_t>(token_ids[i].size()); ++j) {
+    for (size_t j = 0; j < token_ids[i].size(); ++j) {
       int32_t token = token_ids[i][j];
       if (0 == node->next.count(token)) {
-        bool is_end = j == (static_cast<int32_t>(token_ids[i].size()) - 1);
+        bool is_end = j == (token_ids[i].size() - 1);
         node->next[token] = std::make_unique<ContextState>(
             token, context_score_, node->node_score + context_score_,
             is_end ? node->node_score + context_score_ : 0, is_end);

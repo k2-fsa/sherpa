@@ -12,6 +12,7 @@
 
 #include "sherpa/cpp_api/feature-config.h"
 #include "sherpa/cpp_api/offline-recognizer-impl.h"
+#include "sherpa/csrc/byte_util.h"
 #include "sherpa/csrc/context-graph.h"
 #include "sherpa/csrc/offline-conformer-transducer-model.h"
 #include "sherpa/csrc/offline-transducer-decoder.h"
@@ -25,7 +26,7 @@ namespace sherpa {
 
 static OfflineRecognitionResult Convert(
     const OfflineTransducerDecoderResult &src, const SymbolTable &sym_table,
-    int32_t frame_shift_ms, int32_t subsampling_factor) {
+    int32_t frame_shift_ms, int32_t subsampling_factor, bool use_bbpe) {
   OfflineRecognitionResult r;
   r.tokens.reserve(src.tokens.size());
   r.timestamps.reserve(src.timestamps.size());
@@ -37,6 +38,12 @@ static OfflineRecognitionResult Convert(
 
     r.tokens.push_back(std::move(sym));
   }
+
+  if (use_bbpe) {
+    auto bu = GetByteUtil();
+    text = bu->Decode(text);
+  }
+
   r.text = std::move(text);
 
   float frame_shift_s = frame_shift_ms / 1000. * subsampling_factor;
@@ -133,7 +140,7 @@ class OfflineRecognizerTransducerImpl : public OfflineRecognizerImpl {
       auto ans =
           Convert(results[i], symbol_table_,
                   config_.feat_config.fbank_opts.frame_opts.frame_shift_ms,
-                  model_->SubsamplingFactor());
+                  model_->SubsamplingFactor(), config_.use_bbpe);
 
       ss[i]->SetResult(ans);
     }
