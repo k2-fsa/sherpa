@@ -110,6 +110,13 @@ void OfflineRecognizerConfig::Register(ParseOptions *po) {
                "The bonus score for each token in context word/phrase. "
                "Used only when decoding_method is modified_beam_search");
 
+  po->Register("use-bbpe", &use_bbpe,
+               "true if the model to use is trained with byte level bpe, "
+               "The byte level bpe modeling unit is mainly used on CJK "
+               "languages or multilingual datasets, it can further break "
+               "the multi-byte unicode characters into byte sequence and "
+               "then train some kind of sub-char bpes.");
+
   po->Register("temperature", &temperature,
                "Softmax temperature,. "
                "Used only when decoding_method is modified_beam_search.");
@@ -155,6 +162,7 @@ std::string OfflineRecognizerConfig::ToString() const {
   os << "decoding_method=\"" << decoding_method << "\", ";
   os << "num_active_paths=" << num_active_paths << ", ";
   os << "context_score=" << context_score << ", ";
+  os << "use_bbpe=" << (use_bbpe ? "True" : "False") << ", ";
   os << "temperature=" << temperature << ")";
 
   return os.str();

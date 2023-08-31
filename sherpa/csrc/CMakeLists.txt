@@ -1,5 +1,6 @@
 # Please sort the filenames alphabetically
 set(sherpa_srcs
+  byte_util.cc
   context-graph.cc
   fbank-features.cc
   file-utils.cc
@@ -66,6 +67,7 @@ if(SHERPA_ENABLE_TESTS)
     # test-offline-conformer-transducer-model.cc
     # test-online-conv-emformer-transducer-model.cc
 
+    test-byte-util.cc
     test-context-graph.cc
     test-hypothesis.cc
     test-log.cc

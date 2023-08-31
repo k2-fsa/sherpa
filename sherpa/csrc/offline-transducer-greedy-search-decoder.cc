@@ -68,16 +68,21 @@ OfflineTransducerGreedySearchDecoder::Decode(torch::Tensor encoder_out,
 
   std::vector<OfflineTransducerDecoderResult> results(N);
 
-  std::vector<int32_t> padding(context_size, blank_id);
+  std::vector<int32_t> padding(context_size, -1);
+  padding.back() = blank_id;
+
   for (auto &r : results) {
     // We will remove the padding at the end
     r.tokens = padding;
   }
 
   auto decoder_input =
-      torch::full({N, context_size}, blank_id,
+      torch::full({N, context_size}, -1,
                   torch::dtype(torch::kLong)
                       .memory_format(torch::MemoryFormat::Contiguous));
+
+  // set the last column to blank_id, i.e., decoder_input[:, -1] = blank_id
+  decoder_input.index({torch::indexing::Slice(), -1}) = blank_id;
 
   // its shape is (N, 1, joiner_dim)
   auto decoder_out = model_->RunDecoder(decoder_input.to(device));
