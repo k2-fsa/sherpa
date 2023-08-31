@@ -1,0 +1,72 @@
+# Copyright (c) 2021, NVIDIA CORPORATION.  All rights reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+name: "scorer"
+backend: "python"
+max_batch_size: 16
+
+parameters [
+  {
+   key: "FORCE_CPU_ONLY_INPUT_TENSORS", 
+   value: {string_value:"no"}
+  },
+  {
+    key: "n_text_layer",
+    value: { string_value: "32"}
+  },
+  {
+    key: "n_text_state",
+    value: { string_value: "1280"}
+  },
+  {
+    key: "n_text_ctx",
+    value: { string_value: "128"}
+  }
+]
+
+
+input [
+  {
+    name: "text_prefix"
+    data_type: TYPE_STRING
+    dims: [1]
+  },
+  {
+    name: "n_layer_cross_k"
+    data_type: TYPE_FP32
+    dims: [-1, -1, -1]
+  },
+  {
+    name: "n_layer_cross_v"
+    data_type: TYPE_FP32
+    dims: [-1, -1, -1]
+  }
+]
+
+output [
+  {
+    name: "OUTPUT0"
+    data_type: TYPE_STRING
+    dims: [1]
+  }
+]
+
+dynamic_batching {
+  }
+instance_group [
+    {
+      count: 1
+      kind: KIND_CPU
+    }
+  ]
