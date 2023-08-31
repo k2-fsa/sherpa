@@ -91,6 +91,13 @@ def add_model_args(parser: argparse.ArgumentParser):
         help="Feature dimension of the model",
     )
 
+    parser.add_argument(
+        "--use-bbpe",
+        type=sherpa.str2bool,
+        default=False,
+        help="Whether the model to be used is trained with bbpe",
+    )
+
 
 def add_decoding_args(parser: argparse.ArgumentParser):
     parser.add_argument(
@@ -115,6 +122,14 @@ def add_modified_beam_search_args(parser: argparse.ArgumentParser):
         default=4,
         help="""Used only when --decoding-method is modified_beam_search.
         It specifies number of active paths to keep during decoding.
+        """,
+    )
+    parser.add_argument(
+        "--temperature",
+        type=float,
+        default=1.0,
+        help="""Used only when --decoding-method is modified_beam_search.
+        It specifies the softmax temperature.
         """,
     )
 
@@ -210,6 +225,7 @@ def check_args(args):
 
     if args.decoding_method == "modified_beam_search":
         assert args.num_active_paths > 0, args.num_active_paths
+        assert args.temperature > 0, args.temperature
 
     if args.decoding_method == "fast_beam_search" and args.LG:
         if not Path(args.LG).is_file():
@@ -636,9 +652,11 @@ def create_recognizer(args) -> sherpa.OfflineRecognizer:
         tokens=args.tokens,
         use_gpu=args.use_gpu,
         num_active_paths=args.num_active_paths,
+        use_bbpe=args.use_bbpe,
         feat_config=feat_config,
         decoding_method=args.decoding_method,
         fast_beam_search_config=fast_beam_search_config,
+        temperature=args.temperature
     )
 
     recognizer = sherpa.OfflineRecognizer(config)

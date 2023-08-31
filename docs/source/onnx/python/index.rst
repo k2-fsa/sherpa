@@ -10,3 +10,5 @@ In this section, we describe how to install the Python package `sherpa-onnx`_.
    ./decode-files.rst
    ./real-time-speech-recongition-from-a-microphone.rst
    ./speech-recognition-from-urls.rst
+   ./streaming-websocket-server.rst
+   ./non-streaming-websocket-server.rst

@@ -9,6 +9,7 @@
 #include <utility>
 
 #include "nlohmann/json.hpp"
+#include "sherpa/csrc/byte_util.h"
 #include "sherpa/csrc/file-utils.h"
 #include "sherpa/csrc/log.h"
 #include "sherpa/csrc/online-conformer-transducer-model.h"
@@ -113,6 +114,17 @@ void OnlineRecognizerConfig::Register(ParseOptions *po) {
                "and streaming Zipformer, i.e, models from "
                "pruned_transducer_stateless7_streaming in icefall."
                "Number of frames before subsampling during decoding.");
+
+  po->Register("use-bbpe", &use_bbpe,
+               "true if the model to use is trained with byte level bpe, "
+               "The byte level bpe modeling unit is mainly used on CJK "
+               "languages or multilingual datasets, it can further break "
+               "the multi-byte unicode characters into byte sequence and "
+               "then train some kind of sub-char bpes.");
+
+  po->Register("temperature", &temperature,
+               "Softmax temperature,. "
+               "Used only when decoding_method is modified_beam_search.");
 }
 
 void OnlineRecognizerConfig::Validate() const {
@@ -172,14 +184,17 @@ std::string OnlineRecognizerConfig::ToString() const {
   os << "context_score=" << context_score << ", ";
   os << "left_context=" << left_context << ", ";
   os << "right_context=" << right_context << ", ";
-  os << "chunk_size=" << chunk_size << ")";
+  os << "chunk_size=" << chunk_size << ", ";
+  os << "use_bbpe=" << (use_bbpe ? "True" : "False") << ", ";
+  os << "temperature=" << temperature << ")";
   return os.str();
 }
 
 static OnlineRecognitionResult Convert(const OnlineTransducerDecoderResult &src,
                                        const SymbolTable &sym_table,
                                        int32_t frame_shift_ms,
-                                       int32_t subsampling_factor) {
+                                       int32_t subsampling_factor,
+                                       bool use_bbpe) {
   OnlineRecognitionResult r;
   r.tokens.reserve(src.tokens.size());
   r.timestamps.reserve(src.timestamps.size());
@@ -191,6 +206,12 @@ static OnlineRecognitionResult Convert(const OnlineTransducerDecoderResult &src,
 
     r.tokens.push_back(std::move(sym));
   }
+
+  if (use_bbpe) {
+    auto bu = GetByteUtil();
+    text = bu->Decode(text);
+  }
+
   r.text = std::move(text);
 
   float frame_shift_s = frame_shift_ms / 1000. * subsampling_factor;
@@ -296,7 +317,7 @@ class OnlineRecognizer::OnlineRecognizerImpl {
           std::make_unique<OnlineTransducerGreedySearchDecoder>(model_.get());
     } else if (config.decoding_method == "modified_beam_search") {
       decoder_ = std::make_unique<OnlineTransducerModifiedBeamSearchDecoder>(
-          model_.get(), config.num_active_paths);
+          model_.get(), config.num_active_paths, config.temperature);
     } else if (config.decoding_method == "fast_beam_search") {
       config.fast_beam_search_config.Validate();
 
@@ -435,7 +456,7 @@ class OnlineRecognizer::OnlineRecognizerImpl {
 
     auto ans = Convert(r, symbol_table_,
                        config_.feat_config.fbank_opts.frame_opts.frame_shift_ms,
-                       model_->SubsamplingFactor());
+                       model_->SubsamplingFactor(), config_.use_bbpe);
 
     ans.is_final = is_final;
     ans.segment = s->GetWavSegment();

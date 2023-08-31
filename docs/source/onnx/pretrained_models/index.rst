@@ -10,10 +10,13 @@ available pre-trained models.
 
   Please install `git-lfs <https://git-lfs.com/>`_ before you continue.
 
+  Otherwise, you will be ``SAD`` later.
+
 .. toctree::
    :maxdepth: 5
 
    online-transducer/index
+   online-paraformer/index
    offline-transducer/index
    offline-paraformer/index
    offline-ctc/index

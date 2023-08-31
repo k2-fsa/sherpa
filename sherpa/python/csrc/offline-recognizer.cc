@@ -154,7 +154,8 @@ static void PybindOfflineRecognizerConfig(py::module &m) {  // NOLINT
   py::class_<PyClass>(m, "OfflineRecognizerConfig")
       .def(py::init([](const std::string &nn_model, const std::string &tokens,
                        bool use_gpu = false, int32_t num_active_paths = 4,
-                       float context_score = 1.5,
+                       float context_score = 1.5, bool use_bbpe = false,
+                       float temperature = 1.0,
                        const OfflineCtcDecoderConfig &ctc_decoder_config = {},
                        const FeatureConfig &feat_config = {},
                        const FastBeamSearchConfig &fast_beam_search_config = {},
@@ -171,11 +172,14 @@ static void PybindOfflineRecognizerConfig(py::module &m) {  // NOLINT
              config->decoding_method = decoding_method;
              config->num_active_paths = num_active_paths;
              config->context_score = context_score;
+             config->use_bbpe = use_bbpe;
+             config->temperature = temperature;
 
              return config;
            }),
            py::arg("nn_model"), py::arg("tokens"), py::arg("use_gpu") = false,
            py::arg("num_active_paths") = 4, py::arg("context_score") = 1.5,
+           py::arg("use_bbpe") = false, py::arg("temperature") = 1.0,
            py::arg("ctc_decoder_config") = OfflineCtcDecoderConfig(),
            py::arg("feat_config") = FeatureConfig(),
            py::arg("fast_beam_search_config") = FastBeamSearchConfig(),
@@ -193,6 +197,8 @@ static void PybindOfflineRecognizerConfig(py::module &m) {  // NOLINT
       .def_readwrite("decoding_method", &PyClass::decoding_method)
       .def_readwrite("num_active_paths", &PyClass::num_active_paths)
       .def_readwrite("context_score", &PyClass::context_score)
+      .def_readwrite("use_bbpe", &PyClass::use_bbpe)
+      .def_readwrite("temperature", &PyClass::temperature)
       .def("validate", &PyClass::Validate);
 }
 
