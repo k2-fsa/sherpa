@@ -680,7 +680,7 @@ class StreamingServer(object):
                 await socket.send(json.dumps(message))
 
         tail_padding = torch.rand(
-            int(self.sample_rate * 0.3), dtype=torch.float32
+            int(self.sample_rate * 1.0), dtype=torch.float32
         )
         stream.accept_waveform(
             sampling_rate=self.sample_rate, waveform=tail_padding
