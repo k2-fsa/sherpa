@@ -385,6 +385,13 @@ def get_args():
         help="""Path to the web root""",
     )
 
+    parser.add_argument(
+        "--tail-padding-length",
+        type=float,
+        default=1.0,
+        help="Length of the tail padding in seconds",
+    )
+
     return parser.parse_args()
 
 
@@ -449,6 +456,7 @@ class StreamingServer(object):
         max_queue_size: int,
         max_active_connections: int,
         doc_root: str,
+        tail_padding_length: float,
         certificate: Optional[str] = None,
     ):
         """
@@ -505,6 +513,7 @@ class StreamingServer(object):
             recognizer.config.feat_config.fbank_opts.frame_opts.samp_freq
         )
         self.decoding_method = recognizer.config.decoding_method
+        self.tail_padding_length = tail_padding_length
 
     async def stream_consumer_task(self):
         """This function extracts streams from the queue, batches them up, sends
@@ -688,7 +697,7 @@ class StreamingServer(object):
                 await socket.send(json.dumps(message))
 
         tail_padding = torch.rand(
-            int(self.sample_rate * 1.0), dtype=torch.float32
+            int(self.sample_rate * self.tail_padding_length), dtype=torch.float32
         )
         stream.accept_waveform(
             sampling_rate=self.sample_rate, waveform=tail_padding
@@ -811,6 +820,7 @@ def main():
     max_active_connections = args.max_active_connections
     certificate = args.certificate
     doc_root = args.doc_root
+    tail_padding_length = args.tail_padding_length
 
     if certificate and not Path(certificate).is_file():
         raise ValueError(f"{certificate} does not exist")
@@ -828,6 +838,7 @@ def main():
         max_active_connections=max_active_connections,
         certificate=certificate,
         doc_root=doc_root,
+        tail_padding_length=tail_padding_length
     )
     asyncio.run(server.run(port))
 
