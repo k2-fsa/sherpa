@@ -528,10 +528,9 @@ Convert the hotwords into tokens
 .. code-block::
 
    sherpa-onnx text2token \
-     --tokens exp/tokens.txt \
-     --tokens-type bpe \
-     --bpe-model exp/bpe.model \
-     hotwords.txt hotwords_en.txt
+     --tokens exp-zh/tokens.txt \
+     --tokens-type cjkchar \
+     hotwords.txt hotwords_cn.txt
 
 
 The ``hotwords.txt`` contains:
@@ -745,6 +744,15 @@ Modeling unit is cjkchar+bpe
     cd ..
     ln -s sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20 exp-mixed
 
+Convert the hotwords into tokens
+
+.. code-block::
+
+   sherpa-onnx text2token \
+     --tokens exp-mixed/tokens.txt \
+     --tokens-type cjkchar+bpe \
+     --bpe-model exp-mixed/bpe.model \
+     hotwords.txt hotwords_mix.txt
 
 The ``hotwords.txt`` contains:
 
