@@ -22,7 +22,7 @@ How do we implement it with an Aho-corasick
 -------------------------------------------
 
 We first construct an Aho-corasick automaton on those given hotwords (after tokenizing
-into to tokens). Please refer to `<https://en.wikipedia.org/wiki/Aho%E2%80%93Corasick_algorithm>`_
+into tokens). Please refer to `<https://en.wikipedia.org/wiki/Aho%E2%80%93Corasick_algorithm>`_
 for the construction details of Aho-corasick.
 
 The figure below is the aho-corasick on "HE/SHE/SHELL/HIS/THIS" with ``hotwords-score==1``.
@@ -35,14 +35,14 @@ The figure below is the aho-corasick on "HE/SHE/SHELL/HIS/THIS" with ``hotwords-
 
 The ``black`` arrows in the graph are the goto arcs, the ``red`` arrows are the
 failure arcs, the ``green`` arrows are the output arcs. On each goto arc, there
-are matched token and matches score (**Note: we will boost the path when any partial
+are token and boosting score (**Note: we will boost the path when any partial
 sequence is matched, if the path finally fail to full match any hotwords, the boosted
 score will be canceled**). Currentlly, the boosting score distributes on the arcs
 evenly along the path. On each state, there are two scores, the first one is the
 node score (mainly used to cancel score) the second one is output score, the output
 score is the total scores of the full matched hotwords of this state.
 
-The following are several matching examples of the above graph.
+The following are several matching examples of the graph above.
 
 .. note::
 
@@ -101,7 +101,7 @@ The following are several matching examples of the above graph.
 At ``frame 3`` we reach ``state 5`` and match ``HE, SHE``, so we get a boosting
 score ``1 + 5``, the score ``1`` here because the ``SHEL`` still might be the prefix
 of other hotwords.
-At ``frame 5`` ``F`` can not matched any tokens and fail back to root, so we cancel
+At ``frame 5`` ``F`` can not match any tokens and fail back to root, so we cancel
 the score for ``SHEL`` which is ``4`` (the node score of ``state 6``).
 
 
@@ -194,7 +194,7 @@ How to use hotwords in sherpa-onnx
 .. caution::
 
    Currentlly, the hotwords feature is only supported in the
-   ``modified_beam_search`` decoding method of the **transducer model**
+   ``modified_beam_search`` decoding method of the **transducer models**
    (both streaming and non-streaming).
 
 The use of the hotwords is no different for streaming and non-streaming models,
@@ -205,7 +205,7 @@ We add extra four arguments for hotwords:
 
     The modeling unit used to train the transducer model to be used. Three kinds
     of ``tokens_type`` are supported now, ``cjkchar``, ``bpe`` and ``cjkchar+bpe``.
-    The ``tokens-type`` tells the systems how to encode ``hotwords`` in into tokens.
+    The ``tokens-type`` tells the systems how to encode ``hotwords`` into tokens.
 
   - ``bpe-model``
 
@@ -250,7 +250,7 @@ We add extra four arguments for hotwords:
        at token level.
 
 
-Th main difference of using hotwords feature is about the modeling units (i.e. tokens_type).
+The main difference of using hotwords feature is about the modeling units (i.e. tokens_type).
 The following shows how to use it for different modeling units.
 
 .. note::
@@ -388,6 +388,7 @@ The output is:
 .. hint::
 
    ``QUARTER``  ->  ``QUARTERS``
+
    ``FOR EVER``  ->  ``FOREVER``
 
 
@@ -469,6 +470,7 @@ The output is:
 .. hint::
 
    ``QUARTER``  ->  ``QUARTERS``
+
    ``FOR EVER``  ->  ``FOREVER``
 
 
@@ -576,8 +578,11 @@ The ``hotwords.txt`` is:
 .. hint::
 
    ``文森特卡所``  ->  ``文森特卡索``
+
    ``周望军``  ->  ``周望君``
+
    ``朱立南``  ->  ``朱丽楠``
+
    ``蒋友伯``  ->  ``蒋有伯``
 
 
@@ -671,8 +676,11 @@ The output is:
 .. hint::
 
    ``文森特卡所``  ->  ``文森特卡索``
+
    ``周望军``  ->  ``周望君``
+
    ``朱立南``  ->  ``朱丽楠``
+
    ``蒋友伯``  ->  ``蒋有伯``
 
 
@@ -771,6 +779,7 @@ The output is:
 .. hint::
 
     ``LIBR``  ->  ``礼拜二``
+
     ``平凡`` ->  ``频繁``
 
 
@@ -853,4 +862,5 @@ The output is:
 .. hint::
 
     ``LIBR``  ->  ``礼拜二``
+
     ``平凡`` ->  ``频繁``
