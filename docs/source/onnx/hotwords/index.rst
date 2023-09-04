@@ -9,12 +9,183 @@ feature with an Aho-corasick automaton and how to use it in `sherpa-onnx`_.
 What is hotwords
 ----------------
 
-To be added.
+Current ASR systems work very well for general cases, but they sometimes fail to
+recognize the special words/phrases (aka hotwords) like rare words, personalized
+information etc. Usually, those words/phrases will be recognized as the words/phrases
+that pronounce similar to them (for example, recognize ``LOUIS FOURTEEN`` as ``LEWIS FOURTEEN``).
+So we have to provide some kind of contexts information (for example, the ``LOUIS FOURTEEN``)
+to the ASR systems to boost those words/phrases. Normally, we call this kind of
+boosting task contextual biasing (aka hotwords recognition).
+
 
 How do we implement it with an Aho-corasick
 -------------------------------------------
 
-To be added
+We first construct an Aho-corasick automaton on those given hotwords (after tokenizing
+into to tokens). Please refer to `<https://en.wikipedia.org/wiki/Aho%E2%80%93Corasick_algorithm>`_
+for the construction details of Aho-corasick.
+
+The figure below is the aho-corasick on "HE/SHE/SHELL/HIS/THIS" with ``hotwords-score==1``.
+
+  .. figure:: ./pic/context_graph.png
+     :alt: The aho-corasick for "HE/SHE/SHELL/HIS/THIS"
+     :width: 600
+
+     The Aho-corasick for "HE/SHE/SHELL/HIS/THIS"
+
+The ``black`` arrows in the graph are the goto arcs, the ``red`` arrows are the
+failure arcs, the ``green`` arrows are the output arcs. On each goto arc, there
+are matched token and matches score (**Note: we will boost the path when any partial
+sequence is matched, if the path finally fail to full match any hotwords, the boosted
+score will be canceled**). Currentlly, the boosting score distributes on the arcs
+evenly along the path. On each state, there are two scores, the first one is the
+node score (mainly used to cancel score) the second one is output score, the output
+score is the total scores of the full matched hotwords of this state.
+
+The following are several matching examples of the above graph.
+
+.. note::
+
+   For simplicity, we assume that the system emits a token each frame.
+
+.. hint::
+
+   We have an extra ``finalize`` step to force the graph state to ge back to
+   the root state.
+
+**The path is "SHELF"**
+
+.. list-table::
+
+ * - Frame
+   - Boost score
+   - Total boost score
+   - Graph state
+   - Matched hotwords
+ * - init
+   - 0
+   - 0
+   - 0
+   -
+ * - 1
+   - 1
+   - 1
+   - 3
+   -
+ * - 2
+   - 1
+   - 2
+   - 4
+   -
+ * - 3
+   - 1 + 5
+   - 8
+   - 5
+   - HE, SHE
+ * - 4
+   - 1
+   - 9
+   - 6
+   -
+ * - 5
+   - -4
+   - 5
+   - 0
+   -
+ * - finalize
+   - 0
+   - 5
+   - 0
+   -
+
+At ``frame 3`` we reach ``state 5`` and match ``HE, SHE``, so we get a boosting
+score ``1 + 5``, the score ``1`` here because the ``SHEL`` still might be the prefix
+of other hotwords.
+At ``frame 5`` ``F`` can not matched any tokens and fail back to root, so we cancel
+the score for ``SHEL`` which is ``4`` (the node score of ``state 6``).
+
+
+**The path is "HI"**
+
+.. list-table::
+
+ * - Frame
+   - Boost score
+   - Total boost score
+   - Graph state
+   - Matched hotwords
+ * - init
+   - 0
+   - 0
+   - 0
+   -
+ * - 1
+   - 1
+   - 1
+   - 1
+   -
+ * - 2
+   - 1
+   - 2
+   - 8
+   -
+ * - finalize
+   - -2
+   - 0
+   - 0
+   -
+
+``H`` and ``I`` all match the tokens in the graph, unfortunately, we have to go
+back to root state when finishing matching a path, so we cancel the boosting score
+of ``HI`` which is ``2`` (the node score of ``state 8``).
+
+
+**The path is "THE"**
+
+.. list-table::
+
+ * - Frame
+   - Boost score
+   - Total boost score
+   - Graph state
+   - Matched hotwords
+ * - init
+   - 0
+   - 0
+   - 0
+   -
+ * - 1
+   - 1
+   - 1
+   - 10
+   -
+ * - 2
+   - 1
+   - 2
+   - 11
+   -
+ * - 3
+   - 0 + 2
+   - 4
+   - 2
+   - HE
+ * - finalize
+   - -2
+   - 3
+   - 0
+   -
+
+At ``frame 3`` we jump from ``state 11`` to ``state 2`` and get a boosting score
+of ``0 + 2``, ``0`` because the node score of ``state 2`` is the same as ``state 11``
+so we don't get score by partial match (the prefix of ``state 11`` is ``TH`` has
+the same length of the prefix of ``state 2`` which is ``HE``), but we do get the
+output score (at ``state 2`` it outputs ``HE``).
+
+
+.. note::
+
+   We implement the hotwords feature during inference time, you don't have to
+   re-train the models to use this feature.
 
 
 How to use hotwords in sherpa-onnx
@@ -32,22 +203,54 @@ We add extra four arguments for hotwords:
 
   - ``tokens-type``
 
-    the type
+    The modeling unit used to train the transducer model to be used. Three kinds
+    of ``tokens_type`` are supported now, ``cjkchar``, ``bpe`` and ``cjkchar+bpe``.
+    The ``tokens-type`` tells the systems how to encode ``hotwords`` in into tokens.
 
   - ``bpe-model``
 
-    to
+    The file path of the bpe model used to generate the ``tokens.txt``, it is also
+    used to encode the ``hotwords``.
+    Only used when ``tokens-type`` is ``bpe`` or ``cjkchar+bpe``.
 
   - ``hotwords-file``
 
-    hotwords
+    The file path of the hotwords, one hotwords per line, the tokens (for cjkchar)
+    and words (for English languages) for each hotwords are separated by ``spaces``
+
+    For ``cjkchar`` it looks like:
+
+     .. code-block::
+
+       语 音 识 别
+       深 度 学 习
+
+    For ``bpe`` (English like languages) it looks like:
+
+     .. code-block::
+
+      SPEECH RECOGNITION
+      DEEP LEARNING
+
+    For ``cjkchar+bpe`` it looks like:
+
+     .. code-block::
+
+      SPEECH 识 别
+      SPEECH RECOGNITION
+      深 度 学 习
 
   - ``hotwords-score``
 
-    score
+    The boosting score for each matched token.
+
+     .. note::
+
+       We match the hotwords at token level, so the ``hotwords-score`` is applied
+       at token level.
 
 
-Th main difference of using hotwords feature is about the modeling unit (i.e. tokens_type).
+Th main difference of using hotwords feature is about the modeling units (i.e. tokens_type).
 The following shows how to use it for different modeling units.
 
 .. note::
@@ -59,12 +262,12 @@ The following shows how to use it for different modeling units.
 
 .. hint::
 
-   You can use any transducer models here `<https://k2-fsa.github.io/sherpa/onnx/pretrained_models/index.html>_`,
+   You can use any transducer models here `<https://k2-fsa.github.io/sherpa/onnx/pretrained_models/index.html>`_,
    we just choose three of them randomly for the following examples.
 
 
 Modeling unit is bpe
-^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^
 
 **Download the model**
 
