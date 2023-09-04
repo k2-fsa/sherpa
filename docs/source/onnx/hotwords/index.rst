@@ -282,13 +282,6 @@ The tool has three options:
 The main difference of using hotwords feature is about the modeling units (i.e. tokens_type).
 The following shows how to use it for different modeling units.
 
-.. note::
-
-   Only three kinds of modeling units are supported now, they are ``cjkchar``
-   which is normally used for Chinese ASR, ``bpe`` which is normally used for
-   English like languages, ``cjkchar+bpe`` which is normally used for bilingual
-   models especially when one of the languages is Chinese.
-
 .. hint::
 
    You can use any transducer models here `<https://k2-fsa.github.io/sherpa/onnx/pretrained_models/index.html>`_,
