@@ -199,45 +199,39 @@ How to use hotwords in sherpa-onnx
 
 The use of the hotwords is no different for streaming and non-streaming models,
 and in fact it is even no different for all the API supported by sherpa onnx.
-We add extra four arguments for hotwords:
-
-  - ``tokens-type``
-
-    The modeling unit used to train the transducer model to be used. Three kinds
-    of ``tokens_type`` are supported now, ``cjkchar``, ``bpe`` and ``cjkchar+bpe``.
-    The ``tokens-type`` tells the systems how to encode ``hotwords`` into tokens.
-
-  - ``bpe-model``
-
-    The file path of the bpe model used to generate the ``tokens.txt``, it is also
-    used to encode the ``hotwords``.
-    Only used when ``tokens-type`` is ``bpe`` or ``cjkchar+bpe``.
+We add two extra arguments for hotwords:
 
   - ``hotwords-file``
 
-    The file path of the hotwords, one hotwords per line, the tokens (for cjkchar)
-    and words (for English languages) for each hotwords are separated by ``spaces``
+    The file path of the hotwords, one hotwords per line, for each hotwords
+    the chars (for Chinese) and bpes are separated by ``spaces``
 
-    For ``cjkchar`` it looks like:
+      .. caution::
+
+        The hotwords in hotwords-file should be tokenized to modeling units (i.e
+        the symbols in tokens.txt
+
+
+    For models trained on ``cjkchar`` it looks like:
 
      .. code-block::
 
        语 音 识 别
        深 度 学 习
 
-    For ``bpe`` (English like languages) it looks like:
+    For models trained on ``bpe`` (English like languages) it looks like:
 
      .. code-block::
 
-      SPEECH RECOGNITION
-      DEEP LEARNING
+      ▁SP E E CH ▁RE C O G N ITION
+      ▁DE E P ▁LE AR N ING
 
-    For ``cjkchar+bpe`` it looks like:
+    For models trained on ``cjkchar+bpe`` it looks like:
 
      .. code-block::
 
-      SPEECH 识 别
-      SPEECH RECOGNITION
+      ▁SP E E CH 识 别
+      ▁SP E E CH ▁RE CO G N ITION    
       深 度 学 习
 
   - ``hotwords-score``
@@ -248,6 +242,41 @@ We add extra four arguments for hotwords:
 
        We match the hotwords at token level, so the ``hotwords-score`` is applied
        at token level.
+
+
+We provide a command line tool to convert hotwords to tokens, you can see the
+usage as follows:
+
+.. code-block::
+
+   sherpa-onnx text2token --help
+   Usage: sherpa-onnx text2token [OPTIONS] INPUT OUTPUT
+   
+   Options:
+     --tokens TEXT       The path to tokens.txt.
+     --tokens-type TEXT  The type of modeling units, should be cjkchar, bpe or
+                         cjkchar+bpe
+     --bpe-model TEXT    The path to bpe.model.
+     --help              Show this message and exit.
+
+The tool has three options:
+
+  - ``tokens``
+
+    The file path of the tokens.txt, you can find tokens.txt in any of our
+    pretrained model.
+
+  - ``tokens-type``
+
+    The modeling unit used to train the models. Three kinds
+    of ``tokens_type`` are supported now, ``cjkchar``, ``bpe`` and ``cjkchar+bpe``.
+    The ``tokens-type`` tells the systems how to encode ``hotwords`` into tokens.
+
+  - ``bpe-model``
+
+    The file path of the bpe model used to generate the ``tokens.txt``, it is also
+    used to encode the ``hotwords``.
+    Only used when ``tokens-type`` is ``bpe`` or ``cjkchar+bpe``.
 
 
 The main difference of using hotwords feature is about the modeling units (i.e. tokens_type).
@@ -282,6 +311,30 @@ Modeling unit is bpe
    cd ..
    ln -s sherpa-onnx-zipformer-en-2023-04-01 exp
 
+Convert the hotwords into tokens
+
+.. code-block::
+
+   sherpa-onnx text2token \
+     --tokens exp/tokens.txt \
+     --tokens-type bpe \
+     --bpe-model exp/bpe.model \
+     hotwords.txt hotwords_en.txt
+
+The ``hotwords.txt`` contains:
+
+.. code-block::
+
+    QUARTERS
+    FOREVER
+
+The ``hotwords_en.txt`` contains:
+
+.. code-block::
+
+   ▁ QUA R TER S
+   ▁FOR E VER
+
 
 C++ api
 *******
@@ -303,7 +356,7 @@ The output is:
 
     /star-kw/kangwei/code/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:361 ./build/bin/sherpa-onnx-offline --encoder=exp/encoder-epoch-99-avg-1.onnx --decoder=exp/decoder-epoch-99-avg-1.onnx --joiner=exp/joiner-epoch-99-avg-1.onnx --decoding-method=modified_beam_search --tokens=exp/tokens.txt exp/test_wavs/0.wav exp/test_wavs/1.wav
     
-    OfflineRecognizerConfig(feat_config=OfflineFeatureExtractorConfig(sampling_rate=16000, feature_dim=80), model_config=OfflineModelConfig(transducer=OfflineTran$ducerModelConfig(encoder_filename="exp/encoder-epoch-99-avg-1.onnx", decoder_filename="exp/decoder-epoch-99-avg-1.onnx", joiner_filename="exp/joiner-epoch-99-$vg-1.onnx"), paraformer=OfflineParaformerModelConfig(model=""), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=""), whisper=OfflineWhisperModelConfig(encoder=$", decoder="", language="", task="transcribe"), tdnn=OfflineTdnnModelConfig(model=""), tokens="exp/tokens.txt", tokens_type=cjkchar, bpe_model="", num_threads$2, debug=False, provider="cpu", model_type=""), lm_config=OfflineLMConfig(model="", scale=0.5), decoding_method="modified_beam_search", max_active_paths=4, ho$words_file=, hotwords_score=1.5)
+    OfflineRecognizerConfig(feat_config=OfflineFeatureExtractorConfig(sampling_rate=16000, feature_dim=80), model_config=OfflineModelConfig(transducer=OfflineTran$ducerModelConfig(encoder_filename="exp/encoder-epoch-99-avg-1.onnx", decoder_filename="exp/decoder-epoch-99-avg-1.onnx", joiner_filename="exp/joiner-epoch-99-$vg-1.onnx"), paraformer=OfflineParaformerModelConfig(model=""), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=""), whisper=OfflineWhisperModelConfig(encoder=$", decoder="", language="", task="transcribe"), tdnn=OfflineTdnnModelConfig(model=""), tokens="exp/tokens.txt", num_threads$2, debug=False, provider="cpu", model_type=""), lm_config=OfflineLMConfig(model="", scale=0.5), decoding_method="modified_beam_search", max_active_paths=4, ho$words_file=, hotwords_score=1.5)
     Creating recognizer ...
     Started
     Done!
@@ -330,13 +383,6 @@ The output is:
 
 **Decoding with hotwords**
 
-The ``hotwords_en.txt`` is:
-
-.. code-block::
-
-    QUARTERS
-    FOREVER
-
 .. code-block::
 
     ./build/bin/sherpa-onnx-offline \
@@ -345,8 +391,6 @@ The ``hotwords_en.txt`` is:
         --joiner=exp/joiner-epoch-99-avg-1.onnx \
         --decoding-method=modified_beam_search \
         --tokens=exp/tokens.txt \
-        --tokens-type=bpe \
-        --bpe-model=exp/bpe.model \
         --hotwords-file=hotwords_en.txt \
         --hotwords-score=2.0 \
         exp/test_wavs/0.wav exp/test_wavs/1.wav
@@ -355,10 +399,10 @@ The output is:
 
 .. code-block::
 
-    /star-kw/kangwei/code/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:361 ./build/bin/sherpa-onnx-offline --encoder=exp/encoder-epoch-99-avg-1.onnx --decoder=exp/decoder-epoch-99-avg-1.onnx --joiner=exp/joiner-epoch-99-avg-1.onnx --decoding-method=modified_beam_search --tokens=exp/tokens.txt --tokens-type=bpe --bpe-model=exp/bpe.model --hotwords-file=hotwords_en.txt --hotwords-score=2.0 exp/test_wavs/0.wav exp/test_wavs/1.wav
+    /star-kw/kangwei/code/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:361 ./build/bin/sherpa-onnx-offline --encoder=exp/encoder-epoch-99-avg-1.onnx --decoder=exp/decoder-epoch-99-avg-1.onnx --joiner=exp/joiner-epoch-99-avg-1.onnx --decoding-method=modified_beam_search --tokens=exp/tokens.txt --hotwords-file=hotwords_en.txt --hotwords-score=2.0 exp/test_wavs/0.wav exp/test_wavs/1.wav
     
     OfflineRecognizerConfig(feat_config=OfflineFeatureExtractorConfig(sampling_rate=16000, feature_dim=80), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename="exp/encoder-epoch-99-avg-1.onnx", decoder_filename="exp/decoder-epoch-99-avg-1.onnx", joiner_filename="exp/joiner-epoch-99-avg-1.onnx"), paraformer=OfflineParaformerModelConfig(model=""), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=""), whisper=OfflineWhisperModelConfig(encoder="
-    ", decoder="", language="", task="transcribe"), tdnn=OfflineTdnnModelConfig(model=""), tokens="exp/tokens.txt", tokens_type=bpe, bpe_model="exp/bpe.model", num_threads=2, debug=False, provider="cpu", model_type=""), lm_config=OfflineLMConfig(model="", scale=0.5), decoding_method="modified_beam_search", max_active_paths=4, hotwords_file=hotwords_en.txt, hotwords_score=2)
+    ", decoder="", language="", task="transcribe"), tdnn=OfflineTdnnModelConfig(model=""), tokens="exp/tokens.txt", num_threads=2, debug=False, provider="cpu", model_type=""), lm_config=OfflineLMConfig(model="", scale=0.5), decoding_method="modified_beam_search", max_active_paths=4, hotwords_file=hotwords_en.txt, hotwords_score=2)
     Creating recognizer ...
     Started
     Done!
@@ -428,13 +472,6 @@ The output is:
 
 **Decoding with hotwords**
 
-The ``hotwords_en.txt`` is:
-
-.. code-block::
-
-    QUARTERS
-    FOREVER
-
 .. code-block::
 
     python python-api-examples/offline-decode-files.py \
@@ -443,8 +480,6 @@ The ``hotwords_en.txt`` is:
         --joiner=exp/joiner-epoch-99-avg-1.onnx \
         --decoding=modified_beam_search \
         --tokens=exp/tokens.txt \
-        --tokens-type bpe \
-        --bpe-model exp/bpe.model \
         --hotwords-file hotwords_en.txt \
         --hotwords-score 2.0 \
         exp/test_wavs/0.wav exp/test_wavs/1.wav
@@ -488,6 +523,35 @@ Modeling unit is cjkchar
    cd ..
    ln -s sherpa-onnx-conformer-zh-stateless2-2023-05-23 exp-zh
 
+Convert the hotwords into tokens
+
+.. code-block::
+
+   sherpa-onnx text2token \
+     --tokens exp/tokens.txt \
+     --tokens-type bpe \
+     --bpe-model exp/bpe.model \
+     hotwords.txt hotwords_en.txt
+
+
+The ``hotwords.txt`` contains:
+
+.. code-block::
+   
+    文森特卡索
+    周望君
+    朱丽楠
+    蒋有伯
+
+The ``hotwords_cn.txt`` contains:
+
+.. code-block::
+
+    文 森 特 卡 索
+    周 望 君
+    朱 丽 楠
+    蒋 有 伯
+
 
 C++ api
 *******
@@ -509,7 +573,7 @@ The output is:
 
     /star-kw/kangwei/code/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:361 ./build/bin/sherpa-onnx-offline --encoder=exp-zh/encoder-epoch-99-avg-1.onnx --decoder=exp-zh/decoder-epoch-99-avg-1.onnx --joiner=exp-zh/joiner-epoch-99-avg-1.onnx --tokens=exp-zh/tokens.txt --decoding-method=modified_beam_search exp-zh/test_wavs/3.wav exp-zh/test_wavs/4.wav exp-zh/test_wavs/5.wav exp-zh/test_wavs/6.wav                                                                              
     
-    OfflineRecognizerConfig(feat_config=OfflineFeatureExtractorConfig(sampling_rate=16000, feature_dim=80), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename="exp-zh/encoder-epoch-99-avg-1.onnx", decoder_filename="exp-zh/decoder-epoch-99-avg-1.onnx", joiner_filename="exp-zh/joiner-$poch-99-avg-1.onnx"), paraformer=OfflineParaformerModelConfig(model=""), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=""), whisper=OfflineWhisperModelConfig$encoder="", decoder="", language="", task="transcribe"), tdnn=OfflineTdnnModelConfig(model=""), tokens="exp-zh/tokens.txt", tokens_type=cjkchar, bpe_model="",num_threads=2, debug=False, provider="cpu", model_type=""), lm_config=OfflineLMConfig(model="", scale=0.5), decoding_method="modified_beam_search", max_active$paths=4, hotwords_file=, hotwords_score=1.5)
+    OfflineRecognizerConfig(feat_config=OfflineFeatureExtractorConfig(sampling_rate=16000, feature_dim=80), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename="exp-zh/encoder-epoch-99-avg-1.onnx", decoder_filename="exp-zh/decoder-epoch-99-avg-1.onnx", joiner_filename="exp-zh/joiner-$poch-99-avg-1.onnx"), paraformer=OfflineParaformerModelConfig(model=""), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=""), whisper=OfflineWhisperModelConfig$encoder="", decoder="", language="", task="transcribe"), tdnn=OfflineTdnnModelConfig(model=""), tokens="exp-zh/tokens.txt", num_threads=2, debug=False, provider="cpu", model_type=""), lm_config=OfflineLMConfig(model="", scale=0.5), decoding_method="modified_beam_search", max_active$paths=4, hotwords_file=, hotwords_score=1.5)
     Creating recognizer ...
     Started
     Done!
@@ -537,20 +601,11 @@ The output is:
 
 **Decoding with hotwords**
 
-The ``hotwords.txt`` is:
-
-.. code-block::
-   
-    文 森 特 卡 索
-    周 望 君
-    朱 丽 楠
-    蒋 有 伯
-
 .. code-block::
 
-    ./build/bin/sherpa-onnx-offline --encoder=exp-zh/encoder-epoch-99-avg-1.onnx --decoder=exp-zh/decoder-epoch-99-avg-1.onnx --joiner=exp-zh/joiner-epoch-99-avg-1.onnx --tokens=exp-zh/tokens.txt --decoding-method=modified_beam_search --tokens-type=cjkchar --hotwords-file=hotwords.txt --hotwords-score=2.0 exp-zh/test_wavs/3.wav exp-zh/test_wavs/4.wav exp-zh/test_wavs/5.wav exp-zh/test_wavs/6.wav      
+    ./build/bin/sherpa-onnx-offline --encoder=exp-zh/encoder-epoch-99-avg-1.onnx --decoder=exp-zh/decoder-epoch-99-avg-1.onnx --joiner=exp-zh/joiner-epoch-99-avg-1.onnx --tokens=exp-zh/tokens.txt --decoding-method=modified_beam_search --hotwords-file=hotwords_cn.txt --hotwords-score=2.0 exp-zh/test_wavs/3.wav exp-zh/test_wavs/4.wav exp-zh/test_wavs/5.wav exp-zh/test_wavs/6.wav      
     
-    OfflineRecognizerConfig(feat_config=OfflineFeatureExtractorConfig(sampling_rate=16000, feature_dim=80), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename="exp-zh/encoder-epoch-99-avg-1.onnx", decoder_filename="exp-zh/decoder-epoch-99-avg-1.onnx", joiner_filename="exp-zh/joiner-$poch-99-avg-1.onnx"), paraformer=OfflineParaformerModelConfig(model=""), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=""), whisper=OfflineWhisperModelConfig$encoder="", decoder="", language="", task="transcribe"), tdnn=OfflineTdnnModelConfig(model=""), tokens="exp-zh/tokens.txt", tokens_type=cjkchar, bpe_model="",num_threads=2, debug=False, provider="cpu", model_type=""), lm_config=OfflineLMConfig(model="", scale=0.5), decoding_method="modified_beam_search", max_active$paths=4, hotwords_file=hotwords.txt, hotwords_score=2)
+    OfflineRecognizerConfig(feat_config=OfflineFeatureExtractorConfig(sampling_rate=16000, feature_dim=80), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename="exp-zh/encoder-epoch-99-avg-1.onnx", decoder_filename="exp-zh/decoder-epoch-99-avg-1.onnx", joiner_filename="exp-zh/joiner-$poch-99-avg-1.onnx"), paraformer=OfflineParaformerModelConfig(model=""), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=""), whisper=OfflineWhisperModelConfig$encoder="", decoder="", language="", task="transcribe"), tdnn=OfflineTdnnModelConfig(model=""), tokens="exp-zh/tokens.txt", num_threads=2, debug=False, provider="cpu", model_type=""), lm_config=OfflineLMConfig(model="", scale=0.5), decoding_method="modified_beam_search", max_active$paths=4, hotwords_file=hotwords_cn.txt, hotwords_score=2)
     Creating recognizer ...
     Started
     Done!
@@ -626,15 +681,6 @@ The output is:
 
 **Decoding with hotwords**
 
-The ``hotwords.txt`` is:
-
-.. code-block::
-   
-    文 森 特 卡 索
-    周 望 君
-    朱 丽 楠
-    蒋 有 伯
-
 .. code-block::
 
     python python-api-examples/offline-decode-files.py \
@@ -643,8 +689,7 @@ The ``hotwords.txt`` is:
         --joiner exp-zh/joiner-epoch-99-avg-1.onnx \
         --tokens exp-zh/tokens.txt \
         --decoding-method modified_beam_search \
-        --tokens-type cjkchar \
-        --hotwords-file hotwords.txt \
+        --hotwords-file hotwords_cn.txt \
         --hotwords-score 2.0 \
         exp-zh/test_wavs/3.wav exp-zh/test_wavs/4.wav exp-zh/test_wavs/5.wav exp-zh/test_wavs/6.wav
 
@@ -701,6 +746,20 @@ Modeling unit is cjkchar+bpe
     ln -s sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20 exp-mixed
 
 
+The ``hotwords.txt`` contains:
+
+.. code-block::
+
+    礼拜二
+    频繁
+
+The ``hotwords_mix.txt`` contains:
+
+.. code-block::
+
+    礼 拜 二
+    频 繁
+
 C++ api
 *******
 
@@ -721,7 +780,7 @@ The output is:
 .. code-block::
 
     /star-kw/kangwei/code/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:361 ./build/bin/sherpa-onnx --encoder=exp-mixed/encoder-epoch-99-avg-1.onnx --decoder=exp-mixed/decoder-epoch-99-avg-1.onnx --joiner=exp-mixed/joiner-epoch-99-avg-1.onnx --decoding-method=modified_beam_search --tokens=exp-mixed/tokens.txt exp-mixed/test_wavs/0.wav exp-mixed/test_wavs/2.wav                                   
-    OnlineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80), model_config=OnlineModelConfig(transducer=OnlineTransducerModelConfig(encoder="exp-mixed/encoder-epoch-99-avg-1.onnx", decoder="exp-mixed/decoder-epoch-99-avg-1.onnx", joiner="exp-mixed/joiner-epoch-99-avg-1.onnx"), paraformer=OnlineParaformerModelConfig(encoder="", decoder=""), tokens="exp-mixed/tokens.txt", tokens_type=cjkchar, bpe_model="", num_threads=1, debug=False, provider="cpu", model_type=""), lm_config=OnlineLMConfig(model="", scale=0.5), endpoint_config=EndpointConfig(rule1=EndpointRule(must_contain_nonsilence=False, min_trailing_silence=2.4, min_utterance_length=0), rule2=EndpointRule(must_contain_nonsilence=True, min_trailing_silence=1.2, min_utterance_length=0), rule3=EndpointRule(must_contain_nonsilence=False, min_trailing_silence=0, min_utterance_length=20)), enable_endpoint=True, max_active_paths=4, hotwords_score=1.5, hotwords_file="", decoding_method="modified_beam_search")
+    OnlineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80), model_config=OnlineModelConfig(transducer=OnlineTransducerModelConfig(encoder="exp-mixed/encoder-epoch-99-avg-1.onnx", decoder="exp-mixed/decoder-epoch-99-avg-1.onnx", joiner="exp-mixed/joiner-epoch-99-avg-1.onnx"), paraformer=OnlineParaformerModelConfig(encoder="", decoder=""), tokens="exp-mixed/tokens.txt", num_threads=1, debug=False, provider="cpu", model_type=""), lm_config=OnlineLMConfig(model="", scale=0.5), endpoint_config=EndpointConfig(rule1=EndpointRule(must_contain_nonsilence=False, min_trailing_silence=2.4, min_utterance_length=0), rule2=EndpointRule(must_contain_nonsilence=True, min_trailing_silence=1.2, min_utterance_length=0), rule3=EndpointRule(must_contain_nonsilence=False, min_trailing_silence=0, min_utterance_length=20)), enable_endpoint=True, max_active_paths=4, hotwords_score=1.5, hotwords_file="", decoding_method="modified_beam_search")
     
     exp-mixed/test_wavs/0.wav
     Elapsed seconds: 3, Real time factor (RTF): 0.3
@@ -736,13 +795,6 @@ The output is:
 
 **Decoding with hotwords**
 
-The ``hotwords_mix.txt`` is:
-
-.. code-block::
-
-    礼 拜 二
-    频 繁
-
 .. code-block:: bash
 
     ./build/bin/sherpa-onnx \
@@ -751,8 +803,6 @@ The ``hotwords_mix.txt`` is:
         --joiner=exp-mixed/joiner-epoch-99-avg-1.onnx \
         --decoding-method=modified_beam_search \
         --tokens=exp-mixed/tokens.txt \
-        --tokens-type=cjkchar+bpe \
-        --bpe-model=exp-mixed/bpe.model \
         --hotwords-file=hotwords_mix.txt \
         --hotwords-score=2.0 \
         exp-mixed/test_wavs/0.wav exp-mixed/test_wavs/2.wav                    
@@ -763,7 +813,7 @@ The output is:
 
     /star-kw/kangwei/code/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:361 ./build/bin/sherpa-onnx --encoder=exp-mixed/encoder-epoch-99-avg-1.onnx --decoder=exp-mixed/decoder-epoch-99-avg-1.onnx --joiner=exp-mixed/joiner-epoch-99-avg-1.onnx --decoding-method=modified_beam_search --tokens=exp-mixed/tokens.txt --tokens-type=cjkchar+bpe --bpe-model=exp-mixed/bpe.model --hotwords-file=hotwords_mix.txt --hotwords-score=2.0 exp-mixed/test_wavs/0.wav exp-mixed/test_wavs/2.wav 
     
-    OnlineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80), model_config=OnlineModelConfig(transducer=OnlineTransducerModelConfig(encoder="exp-mixed/encoder-epoch-99-avg-1.onnx", decoder="exp-mixed/decoder-epoch-99-avg-1.onnx", joiner="exp-mixed/joiner-epoch-99-avg-1.onnx"), paraformer=OnlineParaformerModelConfig(encoder="", decoder=""), tokens="exp-mixed/tokens.txt", tokens_type=cjkchar+bpe, bpe_model="exp-mixed/bpe.model", num_threads=1, debug=False, provider="cpu", model_type=""), lm_config=OnlineLMConfig(model="", scale=0.5), endpoint_config=EndpointConfig(rule1=EndpointRule(must_contain_nonsilence=False, min_trailing_silence=2.4, min_utterance_length=0), rule2=EndpointRule(must_contain_nonsilence=True, min_trailing_silence=1.2, min_utterance_length=0), rule3=EndpointRule(must_contain_nonsilence=False, min_trailing_silence=0, min_utterance_length=20)), enable_endpoint=True, max_active_paths=4, hotwords_score=2, hotwords_file="hotwords_mix.txt", decoding_method="modified_beam_search")
+    OnlineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80), model_config=OnlineModelConfig(transducer=OnlineTransducerModelConfig(encoder="exp-mixed/encoder-epoch-99-avg-1.onnx", decoder="exp-mixed/decoder-epoch-99-avg-1.onnx", joiner="exp-mixed/joiner-epoch-99-avg-1.onnx"), paraformer=OnlineParaformerModelConfig(encoder="", decoder=""), tokens="exp-mixed/tokens.txt", num_threads=1, debug=False, provider="cpu", model_type=""), lm_config=OnlineLMConfig(model="", scale=0.5), endpoint_config=EndpointConfig(rule1=EndpointRule(must_contain_nonsilence=False, min_trailing_silence=2.4, min_utterance_length=0), rule2=EndpointRule(must_contain_nonsilence=True, min_trailing_silence=1.2, min_utterance_length=0), rule3=EndpointRule(must_contain_nonsilence=False, min_trailing_silence=0, min_utterance_length=20)), enable_endpoint=True, max_active_paths=4, hotwords_score=2, hotwords_file="hotwords_mix.txt", decoding_method="modified_beam_search")
     
     exp-mixed/test_wavs/0.wav
     Elapsed seconds: 3.2, Real time factor (RTF): 0.32
@@ -818,13 +868,6 @@ The output is:
     
 
 **Decoding with hotwords**
-
-The ``hotwords_mix.txt`` is:
-
-.. code-block::
-
-    礼 拜 二
-    频 繁
 
 .. code-block::
 
