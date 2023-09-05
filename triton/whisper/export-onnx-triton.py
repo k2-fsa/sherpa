@@ -58,7 +58,7 @@ class AudioEncoderTensorCache(nn.Module):
             n_layer_cross_k_list.append(block.cross_attn.key(audio_features))
             n_layer_cross_v_list.append(block.cross_attn.value(audio_features))
 
-        # transpose the list of tensors, since we would like it is batch first
+        # transpose the list of tensors, since we would like it to use batch first
         return torch.stack(n_layer_cross_k_list).transpose(0, 1), torch.stack(n_layer_cross_v_list).transpose(0, 1)
 
 

@@ -1,14 +1,14 @@
 export CUDA_VISIBLE_DEVICES="0"
+name=large-v2
+model_repo_path=./model_repo_whisper_${name}
 
-model_repo_path=./model_repo_whisper
-
-encoder_fp32_file=./large-v2-encoder.onnx
-decoder_fp32_file=./large-v2-decoder.onnx
-encoder_file=./large-v2-encoder-fp16.onnx
-decoder_file=./large-v2-decoder-fp16.onnx
+encoder_fp32_file=./${name}-encoder.onnx
+decoder_fp32_file=./${name}-decoder.onnx
+encoder_file=./${name}-encoder-fp16.onnx
+decoder_file=./${name}-decoder-fp16.onnx
 
 
-python3 export-onnx-triton.py --model large-v2
+python3 export-onnx-triton.py --model ${name}
 polygraphy convert --fp-to-fp16 -o $encoder_file $encoder_fp32_file
 polygraphy convert --fp-to-fp16 -o $decoder_file $decoder_fp32_file
 

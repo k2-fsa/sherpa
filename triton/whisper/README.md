@@ -35,7 +35,7 @@ bash launch_server.sh
 ```
 
 ### Launch Gradio WebUI Client
-The gradio client supports text as the input, which enable user to prompt the whisper model.
+The gradio client supports text as the input, which enables users to prompt the whisper model.
 
 See [Prompting the Hidden Talent of Web-Scale Speech Models for Zero-Shot Task Generalization](https://arxiv.org/abs/2305.11095) for more details.
 
@@ -64,9 +64,9 @@ python3 client.py \
 ```
 
 ### Benchmark Results
-Decoding on a single V100 GPU, audios are padding to 30s, using aishell1 test set files
+Decoding on a single V100 GPU, audios are padded to 30s, using aishell1 test set files
 
-[Details](media/stats_summary_onnx_op14_single_batch.txt)
+[Details](media/stats_summary_op14_single_batch_large-v2.txt)
 | Model | Backend   | Concurrency | RTF     |
 |-------|-----------|-----------------------|---------|
 | Large-v2 | ONNX FP16 | 4                   | 0.14 |
