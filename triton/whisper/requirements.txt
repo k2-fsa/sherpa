@@ -1,0 +1,5 @@
+openai-whisper
+onnxruntime-gpu
+onnx
+onnxmltools
+polygraphy
