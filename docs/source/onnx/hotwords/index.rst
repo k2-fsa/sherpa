@@ -288,6 +288,15 @@ The following shows how to use it for different modeling units.
    we just choose three of them randomly for the following examples.
 
 
+.. note::
+
+   In the following example, we use a non-streaming model, if you are using a
+   streaming model, you should use ``sherpa-onnx``. ``sherpa-onnx-alsa``,
+   ``sherpa-onnx-microphone``, ``sherpa-onnx-microphone-offline``,
+   ``sherpa-onnx-online-websocket-server`` and ``sherpa-onnx-offline-websocket-server``
+   all support hotwords.
+
+
 Modeling unit is bpe
 ^^^^^^^^^^^^^^^^^^^^
 
