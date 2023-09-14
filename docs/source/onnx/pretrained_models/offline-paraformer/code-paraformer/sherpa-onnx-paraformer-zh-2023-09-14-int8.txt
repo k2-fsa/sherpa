@@ -1,0 +1,27 @@
+/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:361 ./build/bin/sherpa-onnx-offline --tokens=./sherpa-onnx-paraformer-zh-2023-09-14/tokens.txt --paraformer=./sherpa-onnx-paraformer-zh-2023-09-14/model.int8.onnx --model-type=paraformer ./sherpa-onnx-paraformer-zh-2023-09-14/test_wavs/0.wav ./sherpa-onnx-paraformer-zh-2023-09-14/test_wavs/1.wav ./sherpa-onnx-paraformer-zh-2023-09-14/test_wavs/2.wav ./sherpa-onnx-paraformer-zh-2023-09-14/test_wavs/8k.wav 
+
+OfflineRecognizerConfig(feat_config=OfflineFeatureExtractorConfig(sampling_rate=16000, feature_dim=80), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename="", decoder_filename="", joiner_filename=""), paraformer=OfflineParaformerModelConfig(model="./sherpa-onnx-paraformer-zh-2023-09-14/model.int8.onnx"), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=""), whisper=OfflineWhisperModelConfig(encoder="", decoder="", language="", task="transcribe"), tdnn=OfflineTdnnModelConfig(model=""), tokens="./sherpa-onnx-paraformer-zh-2023-09-14/tokens.txt", num_threads=2, debug=False, provider="cpu", model_type="paraformer"), lm_config=OfflineLMConfig(model="", scale=0.5), decoding_method="greedy_search", max_active_paths=4, context_score=1.5)
+Creating recognizer ...
+Started
+/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/offline-stream.cc:AcceptWaveformImpl:117 Creating a resampler:
+   in_sample_rate: 8000
+   output_sample_rate: 16000
+
+Done!
+
+./sherpa-onnx-paraformer-zh-2023-09-14/test_wavs/0.wav
+{"text":"对我做了介绍啊那么我想说的是呢大家如果对我的研究感兴趣呢你","timestamps":"[0.36, 0.48, 0.62, 0.72, 0.86, 1.02, 1.32, 1.74, 1.90, 2.10, 2.20, 2.38, 2.50, 2.62, 2.74, 3.18, 3.32, 3.52, 3.62, 3.74, 3.82, 3.90, 3.98, 4.08, 4.20, 4.34, 4.56, 4.74, 5.10]","tokens":["对","我","做","了","介","绍","啊","那","么","我","想","说","的","是","呢","大","家","如","果","对","我","的","研","究","感","兴","趣","呢","你"]}
+----
+./sherpa-onnx-paraformer-zh-2023-09-14/test_wavs/1.wav
+{"text":"重点呢想谈三个问题首先呢就是这一轮全球金融动荡的表现","timestamps":"[0.16, 0.30, 0.42, 0.56, 0.72, 0.96, 1.08, 1.18, 1.30, 2.08, 2.26, 2.44, 2.58, 2.72, 2.98, 3.14, 3.26, 3.46, 3.62, 3.80, 3.88, 4.02, 4.12, 4.20, 4.36, 4.56]","tokens":["重","点","呢","想","谈","三","个","问","题","首","先","呢","就","是","这","一","轮","全","球","金","融","动","荡","的","表","现"]}
+----
+./sherpa-onnx-paraformer-zh-2023-09-14/test_wavs/2.wav
+{"text":"深入的分析这一次全球金融动荡背后的根源","timestamps":"[0.34, 0.54, 0.66, 0.80, 1.08, 1.52, 1.72, 1.90, 2.42, 2.68, 2.86, 2.96, 3.16, 3.26, 3.46, 3.54, 3.66, 3.80, 3.90]","tokens":["深","入","的","分","析","这","一","次","全","球","金","融","动","荡","背","后","的","根","源"]}
+----
+./sherpa-onnx-paraformer-zh-2023-09-14/test_wavs/8k.wav
+{"text":"甚至出现交易几乎停滞的情况","timestamps":"[0.50, 0.78, 1.04, 1.18, 1.52, 1.78, 2.06, 2.24, 2.50, 2.66, 2.88, 3.10, 3.30]","tokens":["甚","至","出","现","交","易","几","乎","停","滞","的","情","况"]}
+----
+num threads: 2
+decoding method: greedy_search
+Elapsed seconds: 0.957 s
+Real time factor (RTF): 0.957 / 19.502 = 0.049
