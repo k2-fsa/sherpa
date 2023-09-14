@@ -934,8 +934,8 @@ Please use the following commands to download it.
 
   cd /path/to/sherpa-onnx
 
-  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/desh2608/icefall-asr-librispeech-pruned-transducer-stateless7-streaming-small
-  cd icefall-asr-librispeech-pruned-transducer-stateless7-streaming-small
+  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/sherpa-onnx-streaming-zipformer-en-20M-2023-02-17
+  cd sherpa-onnx-streaming-zipformer-en-20M-2023-02-17
   git lfs pull --include ".*onnx"
 
 Please check that the file sizes of the pre-trained models are correct. See
