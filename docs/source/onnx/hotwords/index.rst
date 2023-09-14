@@ -1,16 +1,16 @@
 .. _sherpa-onnx-hotwords:
 
-Hotwords(Contextual biasing)
-============================
+Hotwords (Contextual biasing)
+=============================
 
-In this section, we describe how do we implement the hotwords (aka contextual biasing)
+In this section, we describe how we implement the hotwords (aka contextual biasing)
 feature with an Aho-corasick automaton and how to use it in `sherpa-onnx`_.
 
-What is hotwords
-----------------
+What are hotwords
+-----------------
 
 Current ASR systems work very well for general cases, but they sometimes fail to
-recognize the special words/phrases (aka hotwords) like rare words, personalized
+recognize special words/phrases (aka hotwords) like rare words, personalized
 information etc. Usually, those words/phrases will be recognized as the words/phrases
 that pronounce similar to them (for example, recognize ``LOUIS FOURTEEN`` as ``LEWIS FOURTEEN``).
 So we have to provide some kind of contexts information (for example, the ``LOUIS FOURTEEN``)
@@ -36,7 +36,7 @@ The figure below is the aho-corasick on "HE/SHE/SHELL/HIS/THIS" with ``hotwords-
 The ``black`` arrows in the graph are the goto arcs, the ``red`` arrows are the
 failure arcs, the ``green`` arrows are the output arcs. On each goto arc, there
 are token and boosting score (**Note: we will boost the path when any partial
-sequence is matched, if the path finally fail to full match any hotwords, the boosted
+sequence is matched, if the path finally fails to full match any hotwords, the boosted
 score will be canceled**). Currentlly, the boosting score distributes on the arcs
 evenly along the path. On each state, there are two scores, the first one is the
 node score (mainly used to cancel score) the second one is output score, the output
@@ -50,7 +50,7 @@ The following are several matching examples of the graph above.
 
 .. hint::
 
-   We have an extra ``finalize`` step to force the graph state to ge back to
+   We have an extra ``finalize`` step to force the graph state to go back to
    the root state.
 
 **The path is "SHELF"**
@@ -249,8 +249,8 @@ usage as follows:
 
 .. code-block::
 
-   sherpa-onnx text2token --help
-   Usage: sherpa-onnx text2token [OPTIONS] INPUT OUTPUT
+   sherpa-onnx-cli text2token --help
+   Usage: sherpa-onnx-cli text2token [OPTIONS] INPUT OUTPUT
    
    Options:
      --tokens TEXT       The path to tokens.txt.
@@ -277,6 +277,16 @@ The tool has three options:
     The file path of the bpe model used to generate the ``tokens.txt``, it is also
     used to encode the ``hotwords``.
     Only used when ``tokens-type`` is ``bpe`` or ``cjkchar+bpe``.
+
+.. note::
+
+   If you install sherpa-onnx from sources (i.e. not by pip), you can use the
+   alternative script in `scripts`, the usage is almost the same as the command
+   line tool, read the help information by:
+
+   .. code-block::
+
+     python3 scripts/text2token.py --help
 
 
 The main difference of using hotwords feature is about the modeling units (i.e. tokens_type).
@@ -317,7 +327,7 @@ Convert the hotwords into tokens
 
 .. code-block::
 
-   sherpa-onnx text2token \
+   sherpa-onnx-cli text2token \
      --tokens exp/tokens.txt \
      --tokens-type bpe \
      --bpe-model exp/bpe.model \
@@ -482,8 +492,8 @@ The output is:
         --joiner=exp/joiner-epoch-99-avg-1.onnx \
         --decoding=modified_beam_search \
         --tokens=exp/tokens.txt \
-        --hotwords-file hotwords_en.txt \
-        --hotwords-score 2.0 \
+        --hotwords-file=hotwords_en.txt \
+        --hotwords-score=2.0 \
         exp/test_wavs/0.wav exp/test_wavs/1.wav
 
 The output is:
@@ -529,7 +539,7 @@ Convert the hotwords into tokens
 
 .. code-block::
 
-   sherpa-onnx text2token \
+   sherpa-onnx-cli text2token \
      --tokens exp-zh/tokens.txt \
      --tokens-type cjkchar \
      hotwords.txt hotwords_cn.txt
@@ -750,7 +760,7 @@ Convert the hotwords into tokens
 
 .. code-block::
 
-   sherpa-onnx text2token \
+   sherpa-onnx-cli text2token \
      --tokens exp-mixed/tokens.txt \
      --tokens-type cjkchar+bpe \
      --bpe-model exp-mixed/bpe.model \
