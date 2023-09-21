@@ -5,7 +5,7 @@ Zipformer-transducer-based Models
 
 .. hint::
 
-   Please refer to :ref:`install_sherpa_onnx` to install `sherpa-onnx`_
+   Please refer to :ref:`install_sherpa_onnx` to install `sherpa-onnx`
    before you read this section.
 
 zrjin/sherpa-onnx-zipformer-multi-zh-hans-2023-9-2 (Chinese)
@@ -15,7 +15,7 @@ This model is from
 
 `<https://huggingface.co/zrjin/sherpa-onnx-zipformer-multi-zh-hans-2023-9-2>`_
 
-which supports Chinese as it is trained on whatever datasets involved in the `multi-zh_hans`_ recipe.
+which supports Chinese as it is trained on whatever datasets involved in the `multi-zh_hans <https://github.com/k2-fsa/icefall/tree/master/egs/multi_zh-hans/ASR/>`_ recipe.
 
 If you are interested in how the model is trained, please refer to
 `<https://github.com/k2-fsa/icefall/pull/1238>`_.
