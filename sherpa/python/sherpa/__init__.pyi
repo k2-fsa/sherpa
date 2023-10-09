@@ -154,8 +154,12 @@ class OfflineRecognitionResult:
 
 class OfflineStream:
     def accept_wave_file(self, filename: str) -> None: ...
+    @overload
+    def accept_samples(self, samples: List[float]) -> None: ...
+    @overload
     def accept_samples(self, samples: torch.Tensor) -> None: ...
-
+    @property
+    def result(self) -> OfflineRecognitionResult: ...
     accept_waveform = accept_samples
 
 class OfflineRecognizer:
