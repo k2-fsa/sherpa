@@ -1,0 +1,24 @@
+/Users/runner/work/sherpa-onnx/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:361 sherpa-onnx-offline --tokens=./sherpa-onnx-zipformer-multi-zh-hans-2023-9-2/tokens.txt --encoder=./sherpa-onnx-zipformer-multi-zh-hans-2023-9-2/encoder-epoch-20-avg-1.onnx --decoder=./sherpa-onnx-zipformer-multi-zh-hans-2023-9-2/decoder-epoch-20-avg-1.onnx --joiner=./sherpa-onnx-zipformer-multi-zh-hans-2023-9-2/joiner-epoch-20-avg-1.onnx ./sherpa-onnx-zipformer-multi-zh-hans-2023-9-2/test_wavs/0.wav ./sherpa-onnx-zipformer-multi-zh-hans-2023-9-2/test_wavs/1.wav ./sherpa-onnx-zipformer-multi-zh-hans-2023-9-2/test_wavs/8k.wav 
+
+OfflineRecognizerConfig(feat_config=OfflineFeatureExtractorConfig(sampling_rate=16000, feature_dim=80), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename="./sherpa-onnx-zipformer-multi-zh-hans-2023-9-2/encoder-epoch-20-avg-1.onnx", decoder_filename="./sherpa-onnx-zipformer-multi-zh-hans-2023-9-2/decoder-epoch-20-avg-1.onnx", joiner_filename="./sherpa-onnx-zipformer-multi-zh-hans-2023-9-2/joiner-epoch-20-avg-1.onnx"), paraformer=OfflineParaformerModelConfig(model=""), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=""), whisper=OfflineWhisperModelConfig(encoder="", decoder="", language="", task="transcribe"), tdnn=OfflineTdnnModelConfig(model=""), tokens="./sherpa-onnx-zipformer-multi-zh-hans-2023-9-2/tokens.txt", num_threads=2, debug=False, provider="cpu", model_type=""), lm_config=OfflineLMConfig(model="", scale=0.5), decoding_method="greedy_search", max_active_paths=4, hotwords_file="", hotwords_score=1.5)
+Creating recognizer ...
+Started
+/Users/runner/work/sherpa-onnx/sherpa-onnx/sherpa-onnx/csrc/offline-stream.cc:AcceptWaveformImpl:117 Creating a resampler:
+   in_sample_rate: 8000
+   output_sample_rate: 16000
+
+Done!
+
+./sherpa-onnx-zipformer-multi-zh-hans-2023-9-2/test_wavs/0.wav
+{"text":" 对我做了介绍那么我想说的是大家如果对我的研究感兴趣","timestamps":"[0.00, 0.16, 0.40, 0.60, 0.84, 1.08, 1.60, 1.72, 1.88, 2.04, 2.24, 2.44, 2.60, 2.96, 3.12, 3.32, 3.40, 3.60, 3.72, 3.84, 4.00, 4.16, 4.32, 4.52, 4.68]","tokens":[" 对","我","做","了","介","绍","那","么","我","想","说","的","是","大","家","如","果","对","我","的","研","究","感","兴","趣"]}
+----
+./sherpa-onnx-zipformer-multi-zh-hans-2023-9-2/test_wavs/1.wav
+{"text":" 重点想谈三个问题首先就是这一轮全球金融动<0xE8><0x8D><0xA1>的表现","timestamps":"[0.00, 0.12, 0.48, 0.68, 0.92, 1.12, 1.28, 1.48, 1.80, 2.04, 2.40, 2.56, 2.76, 2.96, 3.08, 3.32, 3.48, 3.68, 3.84, 4.00, 4.20, 4.24, 4.28, 4.40, 4.60, 4.84]","tokens":[" 重","点","想","谈","三","个","问","题","首","先","就","是","这","一","轮","全","球","金","融","动","<0xE8>","<0x8D>","<0xA1>","的","表","现"]}
+----
+./sherpa-onnx-zipformer-multi-zh-hans-2023-9-2/test_wavs/8k.wav
+{"text":" 深入地分析这一次全球金融动<0xE8><0x8D><0xA1>背后的根源","timestamps":"[0.00, 0.04, 0.24, 0.52, 0.76, 1.00, 1.40, 1.64, 1.80, 2.12, 2.32, 2.64, 2.80, 3.00, 3.20, 3.24, 3.28, 3.44, 3.64, 3.76, 3.96, 4.20]","tokens":[" ","深","入","地","分","析","这","一","次","全","球","金","融","动","<0xE8>","<0x8D>","<0xA1>","背","后","的","根","源"]}
+----
+num threads: 2
+decoding method: greedy_search
+Elapsed seconds: 0.362 s
+Real time factor (RTF): 0.362 / 15.289 = 0.024

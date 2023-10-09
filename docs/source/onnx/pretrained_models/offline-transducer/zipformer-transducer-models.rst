@@ -5,8 +5,123 @@ Zipformer-transducer-based Models
 
 .. hint::
 
-   Please refer to :ref:`install_sherpa_onnx` to install `sherpa-onnx`_
+   Please refer to :ref:`install_sherpa_onnx` to install `sherpa-onnx`
    before you read this section.
+
+zrjin/sherpa-onnx-zipformer-multi-zh-hans-2023-9-2 (Chinese)
+------------------------------------------------------------
+
+This model is from
+
+`<https://huggingface.co/zrjin/sherpa-onnx-zipformer-multi-zh-hans-2023-9-2>`_
+
+which supports Chinese as it is trained on whatever datasets involved in the `multi-zh_hans <https://github.com/k2-fsa/icefall/tree/master/egs/multi_zh-hans/ASR/>`_ recipe.
+
+If you are interested in how the model is trained, please refer to
+`<https://github.com/k2-fsa/icefall/pull/1238>`_.
+
+In the following, we describe how to download it and use it with `sherpa-onnx`_.
+
+Download the model
+~~~~~~~~~~~~~~~~~~
+
+Please use the following commands to download it.
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/zrjin/sherpa-onnx-zipformer-multi-zh-hans-2023-9-2
+  cd sherpa-onnx-zipformer-multi-zh-hans-2023-9-2
+
+  git lfs pull --include "*.onnx"
+
+Please check that the file sizes of the pre-trained models are correct. See
+the file sizes of ``*.onnx`` files below.
+
+.. code-block:: bash
+
+  sherpa-onnx-zipformer-multi-zh-hans-2023-9-2 zengruijin$ ls -lh *.onnx
+  -rw-rw-r--@ 1 zengruijin  staff   1.2M Sep 18 07:04 decoder-epoch-20-avg-1.int8.onnx
+  -rw-rw-r--@ 1 zengruijin  staff   4.9M Sep 18 07:04 decoder-epoch-20-avg-1.onnx
+  -rw-rw-r--@ 1 zengruijin  staff    66M Sep 18 07:04 encoder-epoch-20-avg-1.int8.onnx
+  -rw-rw-r--@ 1 zengruijin  staff   248M Sep 18 07:05 encoder-epoch-20-avg-1.onnx
+  -rw-rw-r--@ 1 zengruijin  staff   1.0M Sep 18 07:05 joiner-epoch-20-avg-1.int8.onnx
+  -rw-rw-r--@ 1 zengruijin  staff   3.9M Sep 18 07:05 joiner-epoch-20-avg-1.onnx
+
+Decode wave files
+~~~~~~~~~~~~~~~~~
+
+.. hint::
+
+   It supports decoding only wave files of a single channel with 16-bit
+   encoded samples, while the sampling rate does not need to be 16 kHz.
+
+fp32
+^^^^
+
+The following code shows how to use ``fp32`` models to decode wave files:
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  ./build/bin/sherpa-onnx-offline \
+    --tokens=./sherpa-onnx-zipformer-multi-zh-hans-2023-9-2/tokens.txt \
+    --encoder=./sherpa-onnx-zipformer-multi-zh-hans-2023-9-2/encoder-epoch-20-avg-1.onnx \
+    --decoder=./sherpa-onnx-zipformer-multi-zh-hans-2023-9-2/decoder-epoch-20-avg-1.onnx \
+    --joiner=./sherpa-onnx-zipformer-multi-zh-hans-2023-9-2/joiner-epoch-20-avg-1.onnx \
+    ./sherpa-onnx-zipformer-multi-zh-hans-2023-9-2/test_wavs/0.wav \
+    ./sherpa-onnx-zipformer-multi-zh-hans-2023-9-2/test_wavs/1.wav \
+    ./sherpa-onnx-zipformer-multi-zh-hans-2023-9-2/test_wavs/8k.wav
+
+.. note::
+
+   Please use ``./build/bin/Release/sherpa-onnx-offline.exe`` for Windows.
+
+You should see the following output:
+
+.. literalinclude:: ./code-zipformer/sherpa-onnx-zipformer-multi-zh-hans-2023-9-2.txt
+
+int8
+^^^^
+
+The following code shows how to use ``int8`` models to decode wave files:
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  ./build/bin/sherpa-onnx-offline \
+    --tokens=./sherpa-onnx-zipformer-multi-zh-hans-2023-9-2/tokens.txt \
+    --encoder=./sherpa-onnx-zipformer-multi-zh-hans-2023-9-2/encoder-epoch-20-avg-1.int8.onnx \
+    --decoder=./sherpa-onnx-zipformer-multi-zh-hans-2023-9-2/decoder-epoch-20-avg-1.int8.onnx \
+    --joiner=./sherpa-onnx-zipformer-multi-zh-hans-2023-9-2/joiner-epoch-20-avg-1.int8.onnx \
+    ./sherpa-onnx-zipformer-multi-zh-hans-2023-9-2/test_wavs/0.wav \
+    ./sherpa-onnx-zipformer-multi-zh-hans-2023-9-2/test_wavs/1.wav \
+    ./sherpa-onnx-zipformer-multi-zh-hans-2023-9-2/test_wavs/8k.wav
+
+.. note::
+
+   Please use ``./build/bin/Release/sherpa-onnx-offline.exe`` for Windows.
+
+You should see the following output:
+
+.. literalinclude:: ./code-zipformer/sherpa-onnx-zipformer-multi-zh-hans-2023-9-2-int8.txt
+
+Speech recognition from a microphone
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  ./build/bin/sherpa-onnx-microphone-offline \
+    --tokens=./sherpa-onnx-zipformer-multi-zh-hans-2023-9-2/tokens.txt \
+    --encoder=./sherpa-onnx-zipformer-multi-zh-hans-2023-9-2/encoder-epoch-20-avg-1.onnx \
+    --decoder=./sherpa-onnx-zipformer-multi-zh-hans-2023-9-2/decoder-epoch-0-avg-1.onnx \
+    --joiner=./sherpa-onnx-zipformer-multi-zh-hans-2023-9-2/joiner-epoch-20-avg-1.onnx
+
 
 yfyeung/icefall-asr-cv-corpus-13.0-2023-03-09-en-pruned-transducer-stateless7-2023-04-17 (English)
 --------------------------------------------------------------------------------------------------
