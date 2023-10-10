@@ -169,8 +169,8 @@ class TritonPythonModel:
                     hyps[i].append(v)
                     emitted = True
             if emitted:
-                hyps = hyps[:batch_size]
-                contexts = [h[-self.context_size:] for h in hyps]
+                hyp = hyps[:batch_size]
+                contexts = [h[-self.context_size:] for h in hyp]
                 decoder_out = self.forward_decoder(contexts)
     
     
