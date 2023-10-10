@@ -8,10 +8,8 @@ Method 1 (From pre-compiled wheels)
 
 .. hint::
 
-  This method supports only ``x86_64`` machines.
-
-  For other architectures, e.g., Mac M1, Raspberry Pi, etc, please
-  use Method 2 or 3.
+  This method supports ``x86_64``, ``arm64`` (e.g., Mac M1, 64-bit Raspberry Pi),
+  and ``arm32`` (e.g., 32-bit Raspberry Pi).
 
 .. code-block:: bash
 
