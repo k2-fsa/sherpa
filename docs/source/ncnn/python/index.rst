@@ -24,10 +24,8 @@ Method 1
 
 .. hint::
 
-   This method works only on ``x86/x86_64`` systems: Linux, macOS and Windows.
-
-   For other architectures, e.g., Mac M1, Raspberry Pi, etc, please
-   use Method 2, 3, or 4.
+   This method supports ``x86_64``, ``arm64`` (e.g., Mac M1, 64-bit Raspberry Pi),
+   and ``arm32`` (e.g., 32-bit Raspberry Pi).
 
 .. code-block:: bash
 
