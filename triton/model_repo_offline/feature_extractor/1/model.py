@@ -149,6 +149,8 @@ class TritonPythonModel:
                 f_l = f.shape[0]
                 speech[i, 0: f_l, :] = f.to(self.output0_dtype)
                 speech_lengths[i][0] = f_l
+            speech = speech.cpu()
+            speech_lengths = speech_lengths.cpu()
             out0 = pb_utils.Tensor.from_dlpack("x", to_dlpack(speech))
             out1 = pb_utils.Tensor.from_dlpack("x_lens",
                                                to_dlpack(speech_lengths))
