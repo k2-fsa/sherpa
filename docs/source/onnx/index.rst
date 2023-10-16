@@ -33,3 +33,9 @@ Also, we show how to use it for speech recognition with pre-trained models.
    ./websocket/index
    ./hotwords/index
    ./pretrained_models/index
+
+.. toctree::
+   :maxdepth: 5
+   :caption: tts
+
+   ./tts/index
