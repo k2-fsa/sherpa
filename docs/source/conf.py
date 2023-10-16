@@ -153,4 +153,7 @@ rst_epilog = """
 .. _Go: https://en.wikipedia.org/wiki/Go_(programming_language)
 .. _sherpa-onnx-go: https://github.com/k2-fsa/sherpa-onnx-go
 .. _yesno: https://www.openslr.org/1/
+.. _vits: https://github.com/jaywalnut310/vits
+.. _ljspeech: https://github.com/jaywalnut310
+.. _VCTK: https://datashare.ed.ac.uk/handle/10283/2950
 """

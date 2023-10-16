@@ -1,3 +1,5 @@
+.. _install_sherpa_onnx_python:
+
 Install the Python Package
 ==========================
 
