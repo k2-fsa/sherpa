@@ -134,10 +134,10 @@ Real-time speech recognition from a microphone
   cd /path/to/sherpa-onnx
 
   ./build/bin/sherpa-onnx-microphone \
-    ./sherpa-onnx-streaming-conformer-zh-2023-05-23/tokens.txt \
-    ./sherpa-onnx-streaming-conformer-zh-2023-05-23/encoder-epoch-99-avg-1.onnx \
-    ./sherpa-onnx-streaming-conformer-zh-2023-05-23/decoder-epoch-99-avg-1.onnx \
-    ./sherpa-onnx-streaming-conformer-zh-2023-05-23/joiner-epoch-99-avg-1.onnx
+    --tokens=./sherpa-onnx-streaming-conformer-zh-2023-05-23/tokens.txt \
+    --encoder=./sherpa-onnx-streaming-conformer-zh-2023-05-23/encoder-epoch-99-avg-1.onnx \
+    --decoder=./sherpa-onnx-streaming-conformer-zh-2023-05-23/decoder-epoch-99-avg-1.onnx \
+    --joiner=./sherpa-onnx-streaming-conformer-zh-2023-05-23/joiner-epoch-99-avg-1.onnx
 
 .. hint::
 

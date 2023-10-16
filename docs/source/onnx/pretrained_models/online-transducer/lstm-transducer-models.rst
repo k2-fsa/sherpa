@@ -110,10 +110,10 @@ Real-time speech recognition from a microphone
   cd /path/to/sherpa-onnx
 
   ./build/bin/sherpa-onnx-microphone \
-    ./sherpa-onnx-lstm-en-2023-02-17/tokens.txt \
-    ./sherpa-onnx-lstm-en-2023-02-17/encoder-epoch-99-avg-1.onnx \
-    ./sherpa-onnx-lstm-en-2023-02-17/decoder-epoch-99-avg-1.onnx \
-    ./sherpa-onnx-lstm-en-2023-02-17/joiner-epoch-99-avg-1.onnx
+    --tokens=./sherpa-onnx-lstm-en-2023-02-17/tokens.txt \
+    --encoder=./sherpa-onnx-lstm-en-2023-02-17/encoder-epoch-99-avg-1.onnx \
+    --decoder=./sherpa-onnx-lstm-en-2023-02-17/decoder-epoch-99-avg-1.onnx \
+    --joiner=./sherpa-onnx-lstm-en-2023-02-17/joiner-epoch-99-avg-1.onnx
 
 .. hint::
 
@@ -242,10 +242,10 @@ Real-time speech recognition from a microphone
   cd /path/to/sherpa-onnx
 
   ./build/bin/sherpa-onnx-microphone \
-    ./sherpa-onnx-lstm-zh-2023-02-20/tokens.txt \
-    ./sherpa-onnx-lstm-zh-2023-02-20/encoder-epoch-11-avg-1.onnx \
-    ./sherpa-onnx-lstm-zh-2023-02-20/decoder-epoch-11-avg-1.onnx \
-    ./sherpa-onnx-lstm-zh-2023-02-20/joiner-epoch-11-avg-1.onnx
+    --tokens=./sherpa-onnx-lstm-zh-2023-02-20/tokens.txt \
+    --encoder=./sherpa-onnx-lstm-zh-2023-02-20/encoder-epoch-11-avg-1.onnx \
+    --decoder=./sherpa-onnx-lstm-zh-2023-02-20/decoder-epoch-11-avg-1.onnx \
+    --joiner=./sherpa-onnx-lstm-zh-2023-02-20/joiner-epoch-11-avg-1.onnx
 
 .. hint::
 
