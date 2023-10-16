@@ -32,7 +32,7 @@ Start the server
     .. code-block:: bash
 
        cd python-api-examples/web
-       ./generate.py
+       ./generate-certificate.py
 
   The above commands will generate 3 files. You only need to use the file
   ``cert.pem``. When starting the server, you pass the following argument:

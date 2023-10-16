@@ -135,10 +135,10 @@ Real-time speech recognition from a microphone
   cd /path/to/sherpa-onnx
 
   ./build/bin/sherpa-onnx-microphone \
-    ./icefall-asr-zipformer-streaming-wenetspeech-20230615/data/lang_char/tokens.txt \
-    ./icefall-asr-zipformer-streaming-wenetspeech-20230615/exp/encoder-epoch-12-avg-4-chunk-16-left-128.int8.onnx \
-    ./icefall-asr-zipformer-streaming-wenetspeech-20230615/exp/decoder-epoch-12-avg-4-chunk-16-left-128.int8.onnx \
-    ./icefall-asr-zipformer-streaming-wenetspeech-20230615/exp/joiner-epoch-12-avg-4-chunk-16-left-128.int8.onnx
+    --tokens=./icefall-asr-zipformer-streaming-wenetspeech-20230615/data/lang_char/tokens.txt \
+    --encoder=./icefall-asr-zipformer-streaming-wenetspeech-20230615/exp/encoder-epoch-12-avg-4-chunk-16-left-128.int8.onnx \
+    --decoder=./icefall-asr-zipformer-streaming-wenetspeech-20230615/exp/decoder-epoch-12-avg-4-chunk-16-left-128.onnx \
+    --joiner=./icefall-asr-zipformer-streaming-wenetspeech-20230615/exp/joiner-epoch-12-avg-4-chunk-16-left-128.int8.onnx
 
 .. hint::
 
@@ -253,10 +253,10 @@ Real-time speech recognition from a microphone
   cd /path/to/sherpa-onnx
 
   ./build/bin/sherpa-onnx-microphone \
-    ./sherpa-onnx-streaming-zipformer-en-2023-06-26/tokens.txt \
-    ./sherpa-onnx-streaming-zipformer-en-2023-06-26/encoder-epoch-99-avg-1-chunk-16-left-64.onnx \
-    ./sherpa-onnx-streaming-zipformer-en-2023-06-26/decoder-epoch-99-avg-1-chunk-16-left-64.onnx \
-    ./sherpa-onnx-streaming-zipformer-en-2023-06-26/joiner-epoch-99-avg-1-chunk-16-left-64.onnx
+    --tokens=./sherpa-onnx-streaming-zipformer-en-2023-06-26/tokens.txt \
+    --encoder=./sherpa-onnx-streaming-zipformer-en-2023-06-26/encoder-epoch-99-avg-1-chunk-16-left-64.onnx \
+    --decoder=./sherpa-onnx-streaming-zipformer-en-2023-06-26/decoder-epoch-99-avg-1-chunk-16-left-64.onnx \
+    --joiner=./sherpa-onnx-streaming-zipformer-en-2023-06-26/joiner-epoch-99-avg-1-chunk-16-left-64.onnx
 
 .. hint::
 
@@ -369,10 +369,10 @@ Real-time speech recognition from a microphone
   cd /path/to/sherpa-onnx
 
   ./build/bin/sherpa-onnx-microphone \
-    ./sherpa-onnx-streaming-zipformer-en-2023-06-21/tokens.txt \
-    ./sherpa-onnx-streaming-zipformer-en-2023-06-21/encoder-epoch-99-avg-1.onnx \
-    ./sherpa-onnx-streaming-zipformer-en-2023-06-21/decoder-epoch-99-avg-1.onnx \
-    ./sherpa-onnx-streaming-zipformer-en-2023-06-21/joiner-epoch-99-avg-1.onnx
+    --tokens=./sherpa-onnx-streaming-zipformer-en-2023-06-21/tokens.txt \
+    --encoder=./sherpa-onnx-streaming-zipformer-en-2023-06-21/encoder-epoch-99-avg-1.onnx \
+    --decoder=./sherpa-onnx-streaming-zipformer-en-2023-06-21/decoder-epoch-99-avg-1.onnx \
+    --joiner=./sherpa-onnx-streaming-zipformer-en-2023-06-21/joiner-epoch-99-avg-1.onnx
 
 .. hint::
 
@@ -486,10 +486,10 @@ Real-time speech recognition from a microphone
   cd /path/to/sherpa-onnx
 
   ./build/bin/sherpa-onnx-microphone \
-    ./sherpa-onnx-streaming-zipformer-en-2023-02-21/tokens.txt \
-    ./sherpa-onnx-streaming-zipformer-en-2023-02-21/encoder-epoch-99-avg-1.onnx \
-    ./sherpa-onnx-streaming-zipformer-en-2023-02-21/decoder-epoch-99-avg-1.onnx \
-    ./sherpa-onnx-streaming-zipformer-en-2023-02-21/joiner-epoch-99-avg-1.onnx
+    --tokens=./sherpa-onnx-streaming-zipformer-en-2023-02-21/tokens.txt \
+    --encoder=./sherpa-onnx-streaming-zipformer-en-2023-02-21/encoder-epoch-99-avg-1.onnx \
+    --decoder=./sherpa-onnx-streaming-zipformer-en-2023-02-21/decoder-epoch-99-avg-1.onnx \
+    --joiner=./sherpa-onnx-streaming-zipformer-en-2023-02-21/joiner-epoch-99-avg-1.onnx
 
 .. hint::
 
@@ -623,10 +623,10 @@ Real-time speech recognition from a microphone
   cd /path/to/sherpa-onnx
 
   ./build/bin/sherpa-onnx-microphone \
-    ./sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20/tokens.txt \
-    ./sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20/encoder-epoch-99-avg-1.onnx \
-    ./sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20/decoder-epoch-99-avg-1.onnx \
-    ./sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20/joiner-epoch-99-avg-1.onnx
+    --tokens=./sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20/tokens.txt \
+    --encoder=./sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20/encoder-epoch-99-avg-1.onnx \
+    --decoder=./sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20/decoder-epoch-99-avg-1.onnx \
+    --joiner=./sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20/joiner-epoch-99-avg-1.onnx
 
 .. hint::
 
@@ -758,10 +758,10 @@ Real-time speech recognition from a microphone
 
   cd /path/to/sherpa-onnx
   ./build/bin/sherpa-onnx-microphone \
-    ./sherpa-onnx-streaming-zipformer-fr-2023-04-14/tokens.txt \
-    ./sherpa-onnx-streaming-zipformer-fr-2023-04-14/encoder-epoch-29-avg-9-with-averaged-model.onnx \
-    ./sherpa-onnx-streaming-zipformer-fr-2023-04-14/decoder-epoch-29-avg-9-with-averaged-model.onnx \
-    ./sherpa-onnx-streaming-zipformer-fr-2023-04-14/joiner-epoch-29-avg-9-with-averaged-model.onnx \
+    --tokens=./sherpa-onnx-streaming-zipformer-fr-2023-04-14/tokens.txt \
+    --encoder=./sherpa-onnx-streaming-zipformer-fr-2023-04-14/encoder-epoch-29-avg-9-with-averaged-model.onnx \
+    --decoder=./sherpa-onnx-streaming-zipformer-fr-2023-04-14/decoder-epoch-29-avg-9-with-averaged-model.onnx \
+    --joiner=./sherpa-onnx-streaming-zipformer-fr-2023-04-14/joiner-epoch-29-avg-9-with-averaged-model.onnx
 
 .. hint::
 
@@ -1018,7 +1018,7 @@ Real-time speech recognition from a microphone
     --tokens=./sherpa-onnx-streaming-zipformer-en-20M-2023-02-17/tokens.txt \
     --encoder=./sherpa-onnx-streaming-zipformer-en-20M-2023-02-17/encoder-epoch-99-avg-1.onnx \
     --decoder=./sherpa-onnx-streaming-zipformer-en-20M-2023-02-17/decoder-epoch-99-avg-1.onnx \
-    --joiner=./sherpa-onnx-streaming-zipformer-en-20M-2023-02-17/joiner-epoch-99-avg-1.onnx \
+    --joiner=./sherpa-onnx-streaming-zipformer-en-20M-2023-02-17/joiner-epoch-99-avg-1.onnx
 
 .. hint::
 
