@@ -1,0 +1,13 @@
+[I] /audio/code/k2-fsa/sherpa-mnn/sherpa-mnn/csrc/parse-options.cc:495:int sherpa_mnn::ParseOptions::Read(int, const char* const*) 2023-10-16 11:53:03.194 ./build/bin/sherpa-mnn --tokens=k2fsa-zipformer-bilingual-zh-en-t/data/lang_char_bpe/tokens.txt --encoder=k2fsa-zipformer-bilingual-zh-en-t/exp/encoder-epoch-99-avg-1.b1.mnn --decoder=k2fsa-zipformer-bilingual-zh-en-t/exp/decoder-epoch-99-avg-1.b1.mnn --joiner=k2fsa-zipformer-bilingual-zh-en-t/exp/joiner-epoch-99-avg-1.b1.mnn --num-threads=2 --lm-num-threads=2 --decode-method=modified_beam_search_lm_shallow_fusion --lm=streaming_lm_example_20231016/rnnlm/rnnlm_64_1.mnn --lm-hidden-size=64 --lm-num-layers=1 k2fsa-zipformer-bilingual-zh-en-t/test_wavs/46.wav
+
+The device support i8sdot:0, support fp16:0, support i8mm: 0
+RecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80), model_config=ModelConfig(encoder="k2fsa-zipformer-bilingual-zh-en-t/exp/encoder-epoch-99-avg-1.b1.mnn", decoder="k2fsa-zipformer-bilingual-zh-en-t/exp/decoder-epoch-99-avg-1.b1.mnn", joiner="k2fsa-zipformer-bilingual-zh-en-t/exp/joiner-epoch-99-avg-1.b1.mnn", tokens="k2fsa-zipformer-bilingual-zh-en-t/data/lang_char_bpe/tokens.txt", , decoder_config=DecoderConfig(method="modified_beam_search_lm_shallow_fusion", num_active_paths=4), endpoint_config=EndpointConfig(rule1=EndpointRule(must_contain_nonsilence=False, min_trailing_silence=2.4, min_utterance_length=0), rule2=EndpointRule(must_contain_nonsilence=True, min_trailing_silence=1.4, min_utterance_length=0), rule3=EndpointRule(must_contain_nonsilence=False, min_trailing_silence=0, min_utterance_length=20)), enable_endpoint=False)
+wav filename: k2fsa-zipformer-bilingual-zh-en-t/test_wavs/46.wav
+wav duration (s): 3.90056
+Started!
+Done!
+Recognition result for k2fsa-zipformer-bilingual-zh-en-t/test_wavs/46.wav
+text: 你好石头把厨房扫拖下
+timestamps: 1.28 1.6 1.8 2 2.24 2.4 2.6 2.88 3 3.32
+Elapsed seconds: 0.219 s
+Real time factor (RTF): 0.219 / 3.901 = 0.056
