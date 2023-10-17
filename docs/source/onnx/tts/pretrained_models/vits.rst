@@ -80,7 +80,7 @@ After running, it will generate a file ``liliana.wav`` in the current directory.
       <td>liliana.wav</td>
       <td>
        <audio title="Generated ./liliana.wav" controls="controls">
-             <source src="/_static/vits-ljs/liliana.wav" type="audio/wav">
+             <source src="/sherpa/_static/vits-ljs/liliana.wav" type="audio/wav">
              Your browser does not support the <code>audio</code> element.
        </audio>
       </td>
@@ -131,7 +131,7 @@ After running, it will generate a file ``armstrong.wav`` in the current director
       <td>armstrong.wav</td>
       <td>
        <audio title="Generated ./armstrong.wav" controls="controls">
-             <source src="/_static/vits-ljs/armstrong.wav" type="audio/wav">
+             <source src="/sherpa/_static/vits-ljs/armstrong.wav" type="audio/wav">
              Your browser does not support the <code>audio</code> element.
        </audio>
       </td>
@@ -228,7 +228,7 @@ It will generate 3 files: ``kennedy-0.wav``, ``kennedy-10.wav``, and ``kennedy-1
       <td>kennedy-0.wav</td>
       <td>
        <audio title="Generated ./kennedy-0.wav" controls="controls">
-             <source src="/_static/vits-vctk/kennedy-0.wav" type="audio/wav">
+             <source src="/sherpa/_static/vits-vctk/kennedy-0.wav" type="audio/wav">
              Your browser does not support the <code>audio</code> element.
        </audio>
       </td>
@@ -240,7 +240,7 @@ It will generate 3 files: ``kennedy-0.wav``, ``kennedy-10.wav``, and ``kennedy-1
       <td>kennedy-10.wav</td>
       <td>
        <audio title="Generated ./kennedy-10.wav" controls="controls">
-             <source src="/_static/vits-vctk/kennedy-10.wav" type="audio/wav">
+             <source src="/sherpa/_static/vits-vctk/kennedy-10.wav" type="audio/wav">
              Your browser does not support the <code>audio</code> element.
        </audio>
       </td>
@@ -252,7 +252,7 @@ It will generate 3 files: ``kennedy-0.wav``, ``kennedy-10.wav``, and ``kennedy-1
       <td>kennedy-108.wav</td>
       <td>
        <audio title="Generated ./kennedy-108.wav" controls="controls">
-             <source src="/_static/vits-vctk/kennedy-108.wav" type="audio/wav">
+             <source src="/sherpa/_static/vits-vctk/kennedy-108.wav" type="audio/wav">
              Your browser does not support the <code>audio</code> element.
        </audio>
       </td>
@@ -309,7 +309,7 @@ It will generate 3 files: ``einstein-30.wav``, ``franklin-66.wav``, and ``martin
       <td>einstein-30.wav</td>
       <td>
        <audio title="Generated ./einstein-30.wav" controls="controls">
-             <source src="/_static/vits-vctk/einstein-30.wav" type="audio/wav">
+             <source src="/sherpa/_static/vits-vctk/einstein-30.wav" type="audio/wav">
              Your browser does not support the <code>audio</code> element.
        </audio>
       </td>
@@ -321,7 +321,7 @@ It will generate 3 files: ``einstein-30.wav``, ``franklin-66.wav``, and ``martin
       <td>franklin-66.wav</td>
       <td>
        <audio title="Generated ./franklin-66.wav" controls="controls">
-             <source src="/_static/vits-vctk/franklin-66.wav" type="audio/wav">
+             <source src="/sherpa/_static/vits-vctk/franklin-66.wav" type="audio/wav">
              Your browser does not support the <code>audio</code> element.
        </audio>
       </td>
@@ -333,7 +333,7 @@ It will generate 3 files: ``einstein-30.wav``, ``franklin-66.wav``, and ``martin
       <td>martin-99.wav</td>
       <td>
        <audio title="Generated ./martin-99.wav" controls="controls">
-             <source src="/_static/vits-vctk/martin-99.wav" type="audio/wav">
+             <source src="/sherpa/_static/vits-vctk/martin-99.wav" type="audio/wav">
              Your browser does not support the <code>audio</code> element.
        </audio>
       </td>
