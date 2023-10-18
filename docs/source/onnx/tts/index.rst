@@ -11,3 +11,4 @@ to install `sherpa-onnx`_ before you continue.
    :maxdepth: 5
 
    ./pretrained_models/index
+   ./faq
