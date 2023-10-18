@@ -342,3 +342,204 @@ It will generate 3 files: ``einstein-30.wav``, ``franklin-66.wav``, and ``martin
       </td>
     </tr>
   </table>
+
+aishell3 (Chinese, multi-speaker, 174 speakers)
+-----------------------------------------------
+
+This model is converted from `<https://huggingface.co/jackyqs/vits-aishell3-175-chinese>`_,
+which is trained on the aishell3 dataset. It supports only Chinese and it's a multi-speaker model.
+It contains 174 speakers.
+
+.. note::
+
+   If you are interested in how the model is converted, please see
+   `<https://github.com/csukuangfj/vits_chinese/blob/master/export_onnx_aishell3.py>`_
+
+In the following, we describe how to download it and use it with `sherpa-onnx`_.
+
+Download the model
+~~~~~~~~~~~~~~~~~~
+
+Please use the following commands to download it.
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/vits-zh-aishell3
+  cd vits-zh-aishell3
+  git lfs pull --include ".*onnx"
+
+Please check that the file sizes of the pre-trained models are correct. See
+the file sizes of ``*.onnx`` files below.
+
+.. code-block:: bash
+
+  vits-zh-aishell3 fangjun$ ls -lh *.onnx
+  -rw-r--r--  1 fangjun  staff    37M Oct 18 11:01 vits-aishell3.int8.onnx
+  -rw-r--r--  1 fangjun  staff   116M Oct 18 11:01 vits-aishell3.onnx
+
+Generate speech with executable compiled from C++
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Since there are 174 speakers available, we can choose a speaker from 0 to 173.
+The default speaker ID is 0.
+
+We use speaker ID 10, 33, and 99 below to generate audio for the same text.
+
+.. code-block:: bash
+
+   cd /path/to/sherpa-onnx
+
+  ./build/bin/sherpa-onnx-offline-tts \
+    --vits-model=./vits-zh-aishell3/vits-aishell3.onnx \
+    --vits-lexicon=./vits-zh-aishell3/lexicon.txt \
+    --vits-tokens=./vits-zh-aishell3/tokens.txt \
+    --sid=10 \
+    --output-filename=./liliana-10.wav \
+    "林美丽最美丽、最漂亮、最可爱！"
+
+  ./build/bin/sherpa-onnx-offline-tts \
+    --vits-model=./vits-zh-aishell3/vits-aishell3.onnx \
+    --vits-lexicon=./vits-zh-aishell3/lexicon.txt \
+    --vits-tokens=./vits-zh-aishell3/tokens.txt \
+    --sid=33 \
+    --output-filename=./liliana-33.wav \
+    "林美丽最美丽、最漂亮、最可爱！"
+
+  ./build/bin/sherpa-onnx-offline-tts \
+    --vits-model=./vits-zh-aishell3/vits-aishell3.onnx \
+    --vits-lexicon=./vits-zh-aishell3/lexicon.txt \
+    --vits-tokens=./vits-zh-aishell3/tokens.txt \
+    --sid=99 \
+    --output-filename=./liliana-99.wav \
+    "林美丽最美丽、最漂亮、最可爱！"
+
+It will generate 3 files: ``liliana-10.wav``, ``liliana-33.wav``, and ``liliana-99.wav``.
+
+.. raw:: html
+
+  <table>
+    <tr>
+      <th>Wave filename</th>
+      <th>Content</th>
+      <th>Text</th>
+    </tr>
+    <tr>
+      <td>liliana-10.wav</td>
+      <td>
+       <audio title="Generated ./liliana-10.wav" controls="controls">
+             <source src="/sherpa/_static/vits-zh-aishell3/liliana-10.wav" type="audio/wav">
+             Your browser does not support the <code>audio</code> element.
+       </audio>
+      </td>
+      <td>
+        林美丽最美丽、最漂亮、最可爱！
+      </td>
+    </tr>
+    <tr>
+      <td>liliana-33.wav</td>
+      <td>
+       <audio title="Generated ./liliana-33.wav" controls="controls">
+             <source src="/sherpa/_static/vits-zh-aishell3/liliana-33.wav" type="audio/wav">
+             Your browser does not support the <code>audio</code> element.
+       </audio>
+      </td>
+      <td>
+        林美丽最美丽、最漂亮、最可爱！
+      </td>
+    </tr>
+    <tr>
+      <td>liliana-99.wav</td>
+      <td>
+       <audio title="Generated ./liliana-99.wav" controls="controls">
+             <source src="/sherpa/_static/vits-zh-aishell3/liliana-99.wav" type="audio/wav">
+             Your browser does not support the <code>audio</code> element.
+       </audio>
+      </td>
+      <td>
+        林美丽最美丽、最漂亮、最可爱！
+      </td>
+    </tr>
+  </table>
+
+Generate speech with Python script
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+We use speaker ID 21, 41, and 45 below to generate audio for different transcripts.
+
+.. code-block:: bash
+
+   cd /path/to/sherpa-onnx
+
+   python3 ./python-api-examples/offline-tts.py \
+    --vits-model=./vits-zh-aishell3/vits-aishell3.onnx \
+    --vits-lexicon=./vits-zh-aishell3/lexicon.txt \
+    --vits-tokens=./vits-zh-aishell3/tokens.txt \
+    --sid=21 \
+    --output-filename=./liubei-21.wav \
+    "勿以恶小而为之，勿以善小而不为。惟贤惟德，能服于人。"
+
+   python3 ./python-api-examples/offline-tts.py \
+    --vits-model=./vits-zh-aishell3/vits-aishell3.onnx \
+    --vits-lexicon=./vits-zh-aishell3/lexicon.txt \
+    --vits-tokens=./vits-zh-aishell3/tokens.txt \
+    --sid=41 \
+    --output-filename=./demokelite-41.wav \
+    "要留心，即使当你独自一人时，也不要说坏话或做坏事，而要学得在你自己面前比在别人面前更知耻。"
+
+   python3 ./python-api-examples/offline-tts.py \
+    --vits-model=./vits-zh-aishell3/vits-aishell3.onnx \
+    --vits-lexicon=./vits-zh-aishell3/lexicon.txt \
+    --vits-tokens=./vits-zh-aishell3/tokens.txt \
+    --sid=45 \
+    --output-filename=./zhugeliang-45.wav \
+    "夫君子之行，静以修身，俭以养德，非淡泊无以明志，非宁静无以致远。"
+
+It will generate 3 files: ``liubei-21.wav``, ``demokelite-41.wav``, and ``zhugeliang-45.wav``.
+
+.. raw:: html
+
+  <table>
+    <tr>
+      <th>Wave filename</th>
+      <th>Content</th>
+      <th>Text</th>
+    </tr>
+    <tr>
+      <td>liube-21.wav</td>
+      <td>
+       <audio title="Generated ./liubei-21.wav" controls="controls">
+             <source src="/sherpa/_static/vits-zh-aishell3/liubei-21.wav" type="audio/wav">
+             Your browser does not support the <code>audio</code> element.
+       </audio>
+      </td>
+      <td>
+        勿以恶小而为之，勿以善小而不为。惟贤惟德，能服于人。
+      </td>
+    </tr>
+    <tr>
+      <td>demokelite-41.wav</td>
+      <td>
+       <audio title="Generated ./demokelite-41.wav" controls="controls">
+             <source src="/sherpa/_static/vits-zh-aishell3/demokelite-41.wav" type="audio/wav">
+             Your browser does not support the <code>audio</code> element.
+       </audio>
+      </td>
+      <td>
+        要留心，即使当你独自一人时，也不要说坏话或做坏事，而要学得在你自己面前比在别人面前更知耻。
+      </td>
+    </tr>
+    <tr>
+      <td>zhugeliang-45.wav</td>
+      <td>
+       <audio title="Generated ./zhugeliang-45.wav" controls="controls">
+             <source src="/sherpa/_static/vits-zh-aishell3/zhugeliang-45.wav" type="audio/wav">
+             Your browser does not support the <code>audio</code> element.
+       </audio>
+      </td>
+      <td>
+        夫君子之行，静以修身，俭以养德，非淡泊无以明志，非宁静无以致远。
+      </td>
+    </tr>
+  </table>
