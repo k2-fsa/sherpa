@@ -897,8 +897,6 @@ The output is:
         --joiner exp-mixed/joiner-epoch-99-avg-1.onnx \
         --decoding-method modified_beam_search \
         --tokens exp-mixed/tokens.txt \
-        --tokens-type cjkchar+bpe \
-        --bpe-model exp-mixed/bpe.model \
         --hotwords-file hotwords_mix.txt \
         --hotwords-score 2.0 \
         exp-mixed/test_wavs/0.wav exp-mixed/test_wavs/2.wav 
