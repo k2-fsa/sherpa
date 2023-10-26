@@ -188,7 +188,7 @@ We use speaker ID 0, 10, and 108 below to generate audio for the same text.
 
 .. code-block:: bash
 
-   cd /path/to/sherpa-onnx
+  cd /path/to/sherpa-onnx
 
   ./build/bin/sherpa-onnx-offline-tts \
     --vits-model=./vits-vctk/vits-vctk.onnx \
@@ -389,7 +389,7 @@ We use speaker ID 10, 33, and 99 below to generate audio for the same text.
 
 .. code-block:: bash
 
-   cd /path/to/sherpa-onnx
+  cd /path/to/sherpa-onnx
 
   ./build/bin/sherpa-onnx-offline-tts \
     --vits-model=./vits-zh-aishell3/vits-aishell3.onnx \
@@ -540,6 +540,147 @@ It will generate 3 files: ``liubei-21.wav``, ``demokelite-41.wav``, and ``zhugel
       </td>
       <td>
         夫君子之行，静以修身，俭以养德，非淡泊无以明志，非宁静无以致远。
+      </td>
+    </tr>
+  </table>
+
+
+lessac_blizzard2013-medium (English, single-speaker)
+----------------------------------------------------
+
+This model is converted from `<https://huggingface.co/rhasspy/piper-voices/tree/main/en/en_US/lessac/medium>`_.
+You can find the colab notebook for the conversion at the following addres `<https://colab.research.google.com/drive/1PScLJV3sbUUAOiptLO7Ixlzh9XnWWoYZ?usp=sharing>`_
+
+The dataset used to train the model can be found at
+`<https://www.cstr.ed.ac.uk/projects/blizzard/2013/lessac_blizzard2013/>`_.
+
+.. hint::
+
+  The model is from `piper`_.
+
+In the following, we describe how to download it and use it with `sherpa-onnx`_.
+
+Download the model
+~~~~~~~~~~~~~~~~~~
+
+Please use the following commands to download it.
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/vits-piper-en_US-lessac-medium
+  cd vits-piper-en_US-lessac-medium
+  git lfs pull --include ".*onnx"
+
+Please check that the file sizes of the pre-trained models are correct. See
+the file sizes of ``*.onnx`` files below.
+
+.. code-block:: bash
+
+  vits-piper-en_US-lessac-medium fangjun$ ls -lh *.onnx
+
+  -rw-r--r-- 1 fangjun staff 61M Oct 26 05:21 en_US-lessac-medium.onnx
+
+Generate speech with executable compiled from C++
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  ./build/bin/sherpa-onnx-offline-tts \
+    --vits-model=./vits-piper-en_US-lessac-medium/en_US-lessac-medium.onnx \
+    --vits-lexicon=./vits-piper-en_US-lessac-medium/lexicon.txt \
+    --vits-tokens=./vits-piper-en_US-lessac-medium/tokens.txt \
+    --output-filename=./liliana-piper-en_US-lessac-medium.wav \
+    'liliana, the most beautiful and lovely assistant of our team!'
+
+After running, it will generate a file ``liliana-piper.wav`` in the current directory.
+
+.. code-block:: bash
+
+   soxi ./liliana-piper-en_US-lessac-medium.wav
+
+   Input File     : './liliana-piper-en_US-lessac-medium.wav'
+   Channels       : 1
+   Sample Rate    : 22050
+   Precision      : 16-bit
+   Duration       : 00:00:03.48 = 76800 samples ~ 261.224 CDDA sectors
+   File Size      : 154k
+   Bit Rate       : 353k
+   Sample Encoding: 16-bit Signed Integer PCM
+
+.. raw:: html
+
+  <table>
+    <tr>
+      <th>Wave filename</th>
+      <th>Content</th>
+      <th>Text</th>
+    </tr>
+    <tr>
+      <td>liliana-piper-en_US-lessac-medium.wav</td>
+      <td>
+       <audio title="Generated ./liliana-piper-en_US-lessac-medium.wav" controls="controls">
+             <source src="/sherpa/_static/vits-piper/liliana-piper-en_US-lessac-medium.wav" type="audio/wav">
+             Your browser does not support the <code>audio</code> element.
+       </audio>
+      </td>
+      <td>
+        liliana, the most beautiful and lovely assistant of our team!
+      </td>
+    </tr>
+  </table>
+
+Generate speech with Python script
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+   cd /path/to/sherpa-onnx
+
+   python3 ./python-api-examples/offline-tts.py \
+    --vits-model=./vits-piper-en_US-lessac-medium/en_US-lessac-medium.onnx \
+    --vits-lexicon=./vits-piper-en_US-lessac-medium/lexicon.txt \
+    --vits-tokens=./vits-piper-en_US-lessac-medium/tokens.txt \
+    --output-filename=./liliana-piper-en_US-lessac-medium.wav \
+    --output-filename=./armstrong-piper-en_US-lessac-medium.wav \
+    "That's one small step for a man, a giant leap for mankind."
+
+After running, it will generate a file ``armstrong-piper-en_US-lessac-medium.wav`` in the current directory.
+
+.. code-block:: bash
+
+   soxi ./armstrong-piper-en_US-lessac-medium.wav
+
+   Input File     : './armstrong-piper-en_US-lessac-medium.wav'
+   Channels       : 1
+   Sample Rate    : 22050
+   Precision      : 16-bit
+   Duration       : 00:00:03.74 = 82432 samples ~ 280.381 CDDA sectors
+   File Size      : 165k
+   Bit Rate       : 353k
+   Sample Encoding: 16-bit Signed Integer PCM
+
+.. raw:: html
+
+  <table>
+    <tr>
+      <th>Wave filename</th>
+      <th>Content</th>
+      <th>Text</th>
+    </tr>
+    <tr>
+      <td>armstrong-piper-en_US-lessac-medium.wav</td>
+      <td>
+       <audio title="Generated ./armstrong-piper-en_US-lessac-medium.wav" controls="controls">
+             <source src="/sherpa/_static/vits-piper/armstrong-piper-en_US-lessac-medium.wav" type="audio/wav">
+             Your browser does not support the <code>audio</code> element.
+       </audio>
+      </td>
+      <td>
+        That's one small step for a man, a giant leap for mankind.
       </td>
     </tr>
   </table>
