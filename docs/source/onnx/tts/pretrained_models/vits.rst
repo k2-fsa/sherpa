@@ -545,11 +545,14 @@ It will generate 3 files: ``liubei-21.wav``, ``demokelite-41.wav``, and ``zhugel
   </table>
 
 
-vits-piper-en_US-lessac-medium (English, single-speaker)
---------------------------------------------------------
+lessac_blizzard2013-medium (English, single-speaker)
+----------------------------------------------------
 
 This model is converted from `<https://huggingface.co/rhasspy/piper-voices/tree/main/en/en_US/lessac/medium>`_.
 You can find the colab notebook for the conversion at the following addres `<https://colab.research.google.com/drive/1PScLJV3sbUUAOiptLO7Ixlzh9XnWWoYZ?usp=sharing>`_
+
+The dataset used to train the model can be found at
+`<https://www.cstr.ed.ac.uk/projects/blizzard/2013/lessac_blizzard2013/>`_.
 
 .. hint::
 
