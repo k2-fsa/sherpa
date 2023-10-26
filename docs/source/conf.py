@@ -156,4 +156,5 @@ rst_epilog = """
 .. _vits: https://github.com/jaywalnut310/vits
 .. _ljspeech: https://github.com/jaywalnut310
 .. _VCTK: https://datashare.ed.ac.uk/handle/10283/2950
+.. _piper: https://github.com/rhasspy/piper
 """
