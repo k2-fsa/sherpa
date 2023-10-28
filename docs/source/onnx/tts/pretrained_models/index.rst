@@ -1,3 +1,5 @@
+.. _onnx-tts-pretrained-models:
+
 Pre-trained models
 ==================
 

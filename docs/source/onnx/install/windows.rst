@@ -89,3 +89,12 @@ That's it!
 
 Please refer to :ref:`sherpa-onnx-pre-trained-models` for a list of pre-trained
 models.
+
+.. hint::
+
+   By default, it builds static libraries of `sherpa-onnx`_. To get dynamic/shared
+   libraries, please pass ``-DBUILD_SHARED_LIBS=ON`` to ``cmake``. That is, use
+
+    .. code-block:: bash
+
+        cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON ..

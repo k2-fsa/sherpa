@@ -3,12 +3,52 @@ vits
 
 This page lists pre-trained `vits`_ models.
 
+All models in a single table
+-----------------------------
+
+The following table summarizes the information of all models in this page.
+
+.. list-table::
+
+ * - Model
+   - Language
+   - # Speakers
+   - Dataset
+   - Model filesize (MB)
+   - Sample rate (Hz)
+ * - :ref:`vits-model-aishell3`
+   - Chinese
+   - 174
+   - `aishell3`_
+   - 116
+   - 8000
+ * - :ref:`vits-model-vits-ljspeech`
+   - English (US)
+   - 1 (Female)
+   - `LJ Speech`_
+   - 109
+   - 22050
+ * - :ref:`vits-model-vits-vctk`
+   - English
+   - 109
+   - `VCTK`_
+   - 116
+   - 22050
+ * - :ref:`vits-model-en_US-lessac-medium`
+   - English (US)
+   - 1 (Male)
+   - `lessac_blizzard2013`_
+   - 61
+   - 22050
+
+.. _vits-model-vits-ljspeech:
+
 ljspeech (English, single-speaker)
 ----------------------------------
 
 This model is converted from `pretrained_ljspeech.pth <https://drive.google.com/file/d/1q86w74Ygw2hNzYP9cWkeClGT5X25PvBT/view?usp=drive_link>`_,
 which is trained by the `vits`_ author `Jaehyeon Kim <https://github.com/jaywalnut310>`_ on
-the `ljspeech`_ dataset. It supports only English and is a single-speaker model.
+the `LJ Speech`_ dataset. It supports only English and is a single-speaker model.
 
 .. note::
 
@@ -28,7 +68,7 @@ Please use the following commands to download it.
 
   GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/vits-ljs
   cd vits-ljs
-  git lfs pull --include ".*onnx"
+  git lfs pull --include "*.onnx"
 
 Please check that the file sizes of the pre-trained models are correct. See
 the file sizes of ``*.onnx`` files below.
@@ -141,6 +181,8 @@ After running, it will generate a file ``armstrong.wav`` in the current director
     </tr>
   </table>
 
+.. _vits-model-vits-vctk:
+
 VCTK (English, multi-speaker, 109 speakers)
 -------------------------------------------
 
@@ -167,7 +209,7 @@ Please use the following commands to download it.
 
   GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/vits-vctk
   cd vits-ctk
-  git lfs pull --include ".*onnx"
+  git lfs pull --include "*.onnx"
 
 Please check that the file sizes of the pre-trained models are correct. See
 the file sizes of ``*.onnx`` files below.
@@ -343,11 +385,13 @@ It will generate 3 files: ``einstein-30.wav``, ``franklin-66.wav``, and ``martin
     </tr>
   </table>
 
+.. _vits-model-aishell3:
+
 aishell3 (Chinese, multi-speaker, 174 speakers)
 -----------------------------------------------
 
 This model is converted from `<https://huggingface.co/jackyqs/vits-aishell3-175-chinese>`_,
-which is trained on the aishell3 dataset. It supports only Chinese and it's a multi-speaker model.
+which is trained on the `aishell3`_ dataset. It supports only Chinese and it's a multi-speaker model.
 It contains 174 speakers.
 
 .. note::
@@ -368,7 +412,7 @@ Please use the following commands to download it.
 
   GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/vits-zh-aishell3
   cd vits-zh-aishell3
-  git lfs pull --include ".*onnx"
+  git lfs pull --include "*.onnx"
 
 Please check that the file sizes of the pre-trained models are correct. See
 the file sizes of ``*.onnx`` files below.
@@ -544,15 +588,16 @@ It will generate 3 files: ``liubei-21.wav``, ``demokelite-41.wav``, and ``zhugel
     </tr>
   </table>
 
+.. _vits-model-en_US-lessac-medium:
 
-lessac_blizzard2013-medium (English, single-speaker)
-----------------------------------------------------
+en_US-lessac-medium (English, single-speaker)
+---------------------------------------------
 
 This model is converted from `<https://huggingface.co/rhasspy/piper-voices/tree/main/en/en_US/lessac/medium>`_.
-You can find the colab notebook for the conversion at the following addres `<https://colab.research.google.com/drive/1PScLJV3sbUUAOiptLO7Ixlzh9XnWWoYZ?usp=sharing>`_
+You can find the colab notebook for the conversion at the following
+address `<https://github.com/k2-fsa/colab/blob/master/sherpa-onnx/piper/convert_de_DE_thorsten_medium.ipynb>`_
 
-The dataset used to train the model can be found at
-`<https://www.cstr.ed.ac.uk/projects/blizzard/2013/lessac_blizzard2013/>`_.
+The dataset used to train the model is `lessac_blizzard2013`_.
 
 .. hint::
 
@@ -571,7 +616,7 @@ Please use the following commands to download it.
 
   GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/vits-piper-en_US-lessac-medium
   cd vits-piper-en_US-lessac-medium
-  git lfs pull --include ".*onnx"
+  git lfs pull --include "*.onnx"
 
 Please check that the file sizes of the pre-trained models are correct. See
 the file sizes of ``*.onnx`` files below.
