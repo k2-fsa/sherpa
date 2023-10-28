@@ -25,7 +25,7 @@ How to install sherpa-onnx for TTS
 For Python users
 ^^^^^^^^^^^^^^^^
 
-The fastest way to install `sherpa-onnx`_ for TTS is run:
+The fastest way to install `sherpa-onnx`_ for TTS is:
 
 .. code-block:: bash
 
