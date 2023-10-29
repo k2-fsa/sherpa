@@ -27,6 +27,8 @@ on:
       - '.github/workflows/build-doc.yml'
       - 'docs/**'
 
+  workflow_dispatch:
+
 concurrency:
   group: build-doc-${{ github.ref }}
   cancel-in-progress: true
@@ -41,13 +43,9 @@ jobs:
         python-version: [3.8]
     steps:
       # refer to https://github.com/actions/checkout
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
-      - name: Display gcc version
-        run: |
-          gcc --version
 
       - name: Setup Python ${{ matrix.python-version }}
         uses: actions/setup-python@v2
@@ -63,6 +61,14 @@ jobs:
           cd docs
           python3 -m pip install -r ./requirements.txt
           make html
+
+          export GIT_LFS_SKIP_SMUDGE=1
+          git clone https://huggingface.co/csukuangfj/sherpa-onnx-apk huggingface
+          cd huggingface
+          ./generate-tts.py
+          mv -v apk.html ../build/html/onnx/tts/
+          cd ..
+          rm -rf huggingface
 
           cp source/cpu.html build/html/
           cp source/cuda.html build/html/

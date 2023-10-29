@@ -8,6 +8,12 @@ All models in a single table
 
 The following table summarizes the information of all models in this page.
 
+.. hint::
+
+   You can find Android APKs for each model at the following page
+
+   `<https://k2-fsa.github.io/sherpa/onnx/tts/apk.html>`_
+
 .. list-table::
 
  * - Model
