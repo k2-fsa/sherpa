@@ -37,6 +37,14 @@ void PybindFeatureConfig(py::module &m) {  // NOLINT
 
              config->normalize_samples = normalize_samples;
              config->nemo_normalize = nemo_normalize;
+             config->fbank_opts.frame_opts.dither = 0;
+             config->fbank_opts.mel_opts.num_bins = 80;
+             config->fbank_opts.mel_opts.high_freq = -400;
+             config->fbank_opts.frame_opts.remove_dc_offset = true;
+             config->fbank_opts.frame_opts.round_to_power_of_two = true;
+             config->fbank_opts.energy_floor = 1e-10;
+             config->fbank_opts.frame_opts.snip_edges = false;
+             config->fbank_opts.frame_opts.samp_freq = 16000;
 
              return config;
            }),
