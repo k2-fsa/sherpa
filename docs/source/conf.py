@@ -154,11 +154,11 @@ rst_epilog = """
 .. _sherpa-onnx-go: https://github.com/k2-fsa/sherpa-onnx-go
 .. _yesno: https://www.openslr.org/1/
 .. _vits: https://github.com/jaywalnut310/vits
-.. _ljspeech: https://github.com/jaywalnut310
 .. _ljspeech: https://keithito.com/LJ-Speech-Dataset/
 .. _LJ Speech: https://keithito.com/LJ-Speech-Dataset/
 .. _VCTK: https://datashare.ed.ac.uk/handle/10283/2950
 .. _piper: https://github.com/rhasspy/piper
 .. _aishell3: https://www.openslr.org/93/
 .. _lessac_blizzard2013: https://www.cstr.ed.ac.uk/projects/blizzard/2013/lessac_blizzard2013/
+.. _OpenFst: https://www.openfst.org/
 """
