@@ -1,17 +1,19 @@
-// sherpa/cpp_api/websocket/online-websocket-server-impl.cc
-//
-// Copyright (c)  2022  Xiaomi Corporation
+// sherpa/cpp_api/grpc/online-grpc-server-impl.cc
 
-#include "sherpa/cpp_api/websocket/online-websocket-server-impl.h"
-
-#include <vector>
-
-#include "sherpa/csrc/file-utils.h"
+#include "sherpa/cpp_api/grpc/online-grpc-server-impl.h"
 #include "sherpa/csrc/log.h"
 
-namespace sherpa {
+#define SHERPA_SLEEP_TIME          100
+#define SHERPA_SLEEP_ROUND_MAX     3000
 
-void OnlineWebsocketDecoderConfig::Register(ParseOptions *po) {
+namespace sherpa {
+using grpc::ServerContext
+using grpc::ServerReaderWriter;
+using sherpa::Request;
+using sherpa::Response;
+using sherpa::Response_OneBest;
+
+void OnlineGrpcDecoderConfig::Register(ParseOptions *po) {
   recognizer_config.Register(po);
 
   po->Register("loop-interval-ms", &loop_interval_ms,
@@ -21,60 +23,64 @@ void OnlineWebsocketDecoderConfig::Register(ParseOptions *po) {
                "Max batch size for recognition.");
 }
 
-void OnlineWebsocketDecoderConfig::Validate() const {
+void OnlineGrpcDecoderConfig::Validate() const {
   recognizer_config.Validate();
   SHERPA_CHECK_GT(loop_interval_ms, 0);
   SHERPA_CHECK_GT(max_batch_size, 0);
 }
 
-void OnlineWebsocketServerConfig::Register(sherpa::ParseOptions *po) {
+void OnlineGrpcServerConfig::Register(sherpa::ParseOptions *po) {
   decoder_config.Register(po);
-  po->Register("doc-root", &doc_root,
-               "Path to the directory where "
-               "files like index.html for the HTTP server locate.");
-
-  po->Register("log-file", &log_file,
-               "Path to the log file. Logs are "
-               "appended to this file");
 }
 
-void OnlineWebsocketServerConfig::Validate() const {
+void OnlineGrpcServerConfig::Validate() const {
   decoder_config.Validate();
-
-  if (doc_root.empty()) {
-    SHERPA_LOG(FATAL) << "Please provide --doc-root, e.g., sherpa/bin/web";
-  }
-
-  if (!FileExists(doc_root + "/index.html")) {
-    SHERPA_LOG(FATAL) << "\n--doc-root=" << doc_root << "\n"
-                      << doc_root << "/index.html does not exist!\n"
-                      << "Make sure that you use sherpa/bin/web/ as --doc-root";
-  }
 }
 
-OnlineWebsocketDecoder::OnlineWebsocketDecoder(OnlineWebsocketServer *server)
+OnlineWebsocketDecoder::OnlineGrpcDecoder(OnlineGrpcServer *server)
     : server_(server),
       config_(server->GetConfig().decoder_config),
       timer_(server->GetWorkContext()) {
   recognizer_ = std::make_unique<OnlineRecognizer>(config_.recognizer_config);
 }
 
-std::shared_ptr<Connection> OnlineWebsocketDecoder::GetOrCreateConnection(
-    connection_hdl hdl) {
-  std::lock_guard<std::mutex> lock(mutex_);
-  auto it = connections_.find(hdl);
-  if (it != connections_.end()) {
-    return it->second;
-  } else {
-    // create a new connection
-    std::shared_ptr<OnlineStream> s = recognizer_->CreateStream();
-    auto c = std::make_shared<Connection>(hdl, s);
-    connections_.insert({hdl, c});
-    return c;
+void OnlineGrpcDecoder::SerializeResult(std::shared_ptr<connect> c) {
+  std::lock_guard<std::mutex> lock(c->mutex);
+  auto result = recognizer_->GetResult(c->s.get());
+  c->response_->clear_nbest();
+  Response_OneBest* one_best_ = response_->add_nbest();
+  one_best_->set_sentence(result.text);
+}
+
+void OnlineGrpcDecoder::OnPartialResult(std::shared_ptr<connect> c) {
+  std::lock_guard<std::mutex> lock(c->mutex);
+  if (!c->finish_flag_) {
+    c->response_->set_status(Response::ok);
+    c->response_->set_type(Response::partial_result);
+    c->stream_->Write(*response_);
   }
 }
 
-void OnlineWebsocketDecoder::AcceptWaveform(std::shared_ptr<Connection> c) {
+void OnlineGrpcDecoder::OnFinalResult(std::shared_ptr<connect> c) {
+  std::lock_guard<std::mutex> lock(c->mutex);
+  if (!c->finish_flag_) {
+    c->response_->set_status(Response::ok);
+    c->response_->set_type(Response::final_result);
+    c->stream_->Write(*response_);
+  }
+}
+
+void OnlineGrpcDecoder::OnSpeechEnd(std::shared_ptr<connect> c) {
+  std::lock_guard<std::mutex> lock(c->mutex);
+  if (!c->finish_flag_) {
+    c->response_->set_status(Response::ok);
+    c->response_->set_type(Response::speech_end);
+    c->stream_->Write(*response_);
+  }
+  c->finish_flag_ = true;
+}
+
+void OnlineGrpcDecoder::AcceptWaveform(std::shared_ptr<Connection> c) {
   std::lock_guard<std::mutex> lock(c->mutex);
   float sample_rate =
       config_.recognizer_config.feat_config.fbank_opts.frame_opts.samp_freq;
@@ -104,14 +110,14 @@ void OnlineWebsocketDecoder::InputFinished(std::shared_ptr<Connection> c) {
   c->s->InputFinished();
 }
 
-void OnlineWebsocketDecoder::Run() {
+void OnlineGrpcDecoder::Run() {
   timer_.expires_after(std::chrono::milliseconds(config_.loop_interval_ms));
 
   timer_.async_wait(
       [this](const asio::error_code &ec) { ProcessConnections(ec); });
 }
 
-void OnlineWebsocketDecoder::ProcessConnections(const asio::error_code &ec) {
+void OnlineGrpcDecoder::ProcessConnections(const asio::error_code &ec) {
   if (ec) {
     SHERPA_LOG(FATAL) << "The decoder loop is aborted!";
   }
@@ -119,17 +125,17 @@ void OnlineWebsocketDecoder::ProcessConnections(const asio::error_code &ec) {
   std::lock_guard<std::mutex> lock(mutex_);
   std::vector<connection_hdl> to_remove;
   for (auto &p : connections_) {
-    auto hdl = p.first;
+    auto reqid = p.first;
     auto c = p.second;
 
     // The order of `if` below matters!
-    if (!server_->Contains(hdl)) {
+    if (!server_->Contains(reqid)) {
       // If the connection is disconnected, we stop processing it
-      to_remove.push_back(hdl);
+      to_remove.push_back(reqid);
       continue;
     }
 
-    if (active_.count(hdl)) {
+    if (active_.count(reqid)) {
       // Another thread is decoding this stream, so skip it
       continue;
     }
@@ -147,11 +153,11 @@ void OnlineWebsocketDecoder::ProcessConnections(const asio::error_code &ec) {
     ready_connections_.push_back(c);
 
     // In `Decode()`, it will remove hdl from `active_`
-    active_.insert(c->hdl);
+    active_.insert(reqid);
   }
 
-  for (auto hdl : to_remove) {
-    connections_.erase(hdl);
+  for (auto reqid_rm : to_remove) {
+    connections_.erase(reqid_rm);
   }
 
   if (!ready_connections_.empty()) {
@@ -165,7 +171,7 @@ void OnlineWebsocketDecoder::ProcessConnections(const asio::error_code &ec) {
       [this](const asio::error_code &ec) { ProcessConnections(ec); });
 }
 
-void OnlineWebsocketDecoder::Decode() {
+void OnlineGrpcDecoder::Decode() {
   std::unique_lock<std::mutex> lock(mutex_);
   if (ready_connections_.empty()) {
     // There are no connections that are ready for decoding,
@@ -197,174 +203,91 @@ void OnlineWebsocketDecoder::Decode() {
 
   for (auto c : c_vec) {
     auto result = recognizer_->GetResult(c->s.get());
-
-    asio::post(server_->GetConnectionContext(),
-               [this, hdl = c->hdl, json = result.AsJsonString()]() {
-                 server_->Send(hdl, json);
-               });
-    active_.erase(c->hdl);
+    SerializeResult(c);
+    if (!result.is_final) {
+      OnPartialResult(c);
+    } else {
+      OnFinalResult(c);
+      connections_.erase(c->reqid_);
+      OnSpeechEnd(c);
+    }
+    SHERPA_LOG(INFO) << "Decode result:" << result.AsJsonString();
+    active_.erase(c->reqid_);
   }
 }
 
-OnlineWebsocketServer::OnlineWebsocketServer(
+OnlineWebsocketServer::OnlineGrpcServer(
     asio::io_context &io_conn, asio::io_context &io_work,
-    const OnlineWebsocketServerConfig &config)
+    const OnlineGrpcServerConfig &config)
     : config_(config),
       io_conn_(io_conn),
       io_work_(io_work),
-      http_server_(config.doc_root),
-      log_(config.log_file, std::ios::app),
-      tee_(std::cout, log_),
-      decoder_(this) {
-  SetupLog();
-
-  server_.init_asio(&io_conn_);
-
-  server_.set_open_handler([this](connection_hdl hdl) { OnOpen(hdl); });
-
-  server_.set_close_handler([this](connection_hdl hdl) { OnClose(hdl); });
-
-  server_.set_http_handler([this](connection_hdl hdl) { OnHttp(hdl); });
-
-  server_.set_message_handler(
-      [this](connection_hdl hdl, server::message_ptr msg) {
-        OnMessage(hdl, msg);
-      });
-}
+      decoder_(this) {}
 
 void OnlineWebsocketServer::Run(uint16_t port) {
-  server_.set_reuse_addr(true);
-  server_.listen(asio::ip::tcp::v4(), port);
-  server_.start_accept();
   decoder_.Run();
 }
 
-void OnlineWebsocketServer::SetupLog() {
-  server_.clear_access_channels(websocketpp::log::alevel::all);
-  // server_.set_access_channels(websocketpp::log::alevel::connect);
-  // server_.set_access_channels(websocketpp::log::alevel::disconnect);
-
-  // So that it also prints to std::cout and std::cerr
-  server_.get_alog().set_ostream(&tee_);
-  server_.get_elog().set_ostream(&tee_);
-}
-
-void OnlineWebsocketServer::Send(connection_hdl hdl, const std::string &text) {
-  websocketpp::lib::error_code ec;
-  if (!Contains(hdl)) {
-    return;
-  }
-
-  server_.send(hdl, text, websocketpp::frame::opcode::text, ec);
-  if (ec) {
-    server_.get_alog().write(websocketpp::log::alevel::app, ec.message());
-  }
-}
-
-void OnlineWebsocketServer::OnOpen(connection_hdl hdl) {
+bool OnlineWebsocketServer::Contains(std::string reqid) const {
   std::lock_guard<std::mutex> lock(mutex_);
-  connections_.insert(hdl);
-
-  std::ostringstream os;
-  os << "New connection: "
-     << server_.get_con_from_hdl(hdl)->get_remote_endpoint() << ". "
-     << "Number of active connections: " << connections_.size() << ".\n";
-  SHERPA_LOG(INFO) << os.str();
+  return connections_.count(reqid);
 }
 
-void OnlineWebsocketServer::OnClose(connection_hdl hdl) {
-  std::lock_guard<std::mutex> lock(mutex_);
-  connections_.erase(hdl);
+Status OnlineGrpcServer::Recognize(ServerContext* context,
+                             ServerReaderWriter<Response, Request>* stream) {
+  SHERPA_LOG(INFO) << "Get Recognize request" << std::endl;
+  std::shared_ptr<OnlineStream> s = decoder_.recognizer_->CreatStream();
+  auto c = std::make_shared<connection> (
+              std::make_shared<ServerReaderWriter<Response, Request>>(*stream),
+              std::make_shared<Request>(),
+              std::make_shared<Response>(),
+              s);
+  int32_t sleep_cnt = 0;
 
-  SHERPA_LOG(INFO) << "Number of active connections: " << connections_.size()
-                   << "\n";
-}
+  float sample_rate =
+      config_.recognizer_config.feat_config.fbank_opts.frame_opts.samp_freq;
 
-bool OnlineWebsocketServer::Contains(connection_hdl hdl) const {
-  std::lock_guard<std::mutex> lock(mutex_);
-  return connections_.count(hdl);
-}
+  while (stream->Read(c->request_.get())) {
+    if (!c->start_flag_) {
+      c->start_flag_ = true;
+      c->reqid_ = c->request_->decoder_config().reqid();
 
-void OnlineWebsocketServer::OnHttp(connection_hdl hdl) {
-  auto con = server_.get_con_from_hdl(hdl);
+      mutex.lock();
+      connections_.insert(c->reqid_);
+      mutex.unlock();
 
-  std::string filename = con->get_resource();
-  if (filename == "/") filename = "/index.html";
-
-  std::string content;
-  bool found = false;
-
-  if (filename != "/upload.html" && filename != "/offline_record.html") {
-    found = http_server_.ProcessRequest(filename, &content);
-  } else {
-    content = R"(
-<!doctype html><html><head>
-<title>Speech recognition with next-gen Kaldi</title><body>
-<h2>Only /streaming_record.html is available for the online server.<h2>
-<br/>
-<br/>
-Go back to <a href="/streaming_record.html">/streaming_record.html</a>
-</body></head></html>
-    )";
-  }
-
-  if (found) {
-    con->set_status(websocketpp::http::status_code::ok);
-  } else {
-    con->set_status(websocketpp::http::status_code::not_found);
-  }
-
-  con->set_body(std::move(content));
-}
-
-void OnlineWebsocketServer::OnMessage(connection_hdl hdl,
-                                      server::message_ptr msg) {
-  auto c = decoder_.GetOrCreateConnection(hdl);
-
-  const std::string &payload = msg->get_payload();
-
-  switch (msg->get_opcode()) {
-    case websocketpp::frame::opcode::text:
-      if (payload == "Done") {
-        asio::post(io_work_, [this, c]() { decoder_.InputFinished(c); });
-      }
-      break;
-    case websocketpp::frame::opcode::binary: {
-      auto p = reinterpret_cast<const float *>(payload.data());
-      int32_t num_samples = payload.size() / sizeof(float);
-      torch::Tensor samples = torch::from_blob(const_cast<float *>(p),
-                                               {num_samples}, torch::kFloat);
-      // Caution(fangjun): We have to make a copy here since the tensor
-      // is referenced inside the fbank computer.
-      // Otherwise, it will cause segfault for the next invocation
-      // of AcceptWaveform since payload is freed after this function returns
+      decoder_.mutex.lock();
+      decoder_.connections_.insert(c->reqid_, c);
+      decoder_.mutex.unlock();
+    } else {
+      const int16_t* pcm_data =
+                     reinterpret_cast<const int16_t*>(request_->audio_data().c_str());
+      int num_samples = request_->audio_data().length() / sizeof(int16_t);
+      SHERPA_LOG(INFO) << "Received " << num_samples << " samples";
+      torch::Tensor samples = torch::from_blob(const_cast<int16_t *>(pcm_data),
+                                               {num_samples},
+                                               torch::kShort.to(torch::kFloat)) / 32768;
       samples = samples.clone();
       c->samples.push_back(samples);
-
       asio::post(io_work_, [this, c]() { decoder_.AcceptWaveform(c); });
+    }
+  }
+  asio::post(io_work_, [this, c]() { decoder_.InputFinished(c); });
+
+  while (!c->finish_flag_) {
+    std::this_thread::sleep_for(
+          std::chrono::milliseconds(static_cast<int>(SHERPA_SLEEP_TIME)));
+    if (sleep_cnt++ > SHERPA_SLEEP_ROUND_MAX) {
+      c->finish_flag_ = true;
       break;
     }
-    default:
-      break;
   }
+
+  mutex_.lock();
+  connections_.erase(c->reqid_);
+  mutex_.unlock();
+
+  SHERPA_LOG(INFO) << "reqid:" << c->reqid_ << " close";
+  return Status::OK;
 }
-
-void OnlineWebsocketServer::Close(connection_hdl hdl,
-                                  websocketpp::close::status::value code,
-                                  const std::string &reason) {
-  auto con = server_.get_con_from_hdl(hdl);
-
-  std::ostringstream os;
-  os << "Closing " << con->get_remote_endpoint() << " with reason: " << reason
-     << "\n";
-
-  websocketpp::lib::error_code ec;
-  server_.close(hdl, code, reason, ec);
-  if (ec) {
-    os << "Failed to close" << con->get_remote_endpoint() << ". "
-       << ec.message() << "\n";
-  }
-  server_.get_alog().write(websocketpp::log::alevel::app, os.str());
-}
-
 }  // namespace sherpa

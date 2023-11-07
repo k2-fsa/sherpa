@@ -9,6 +9,9 @@
 #include "sherpa/csrc/log.h"
 #include "torch/all.h"
 
+using grpc::Server;
+using grpc::ServerBuilder;
+
 static constexpr const char *kUsageMessage = R"(
 Automatic speech recognition with sherpa using grpc.
 
@@ -37,13 +40,13 @@ int32_t main(int32_t argc, char *argv[]) {
 
   sherpa::ParseOptions po(kUsageMessage);
 
-  sherpa::OnlineWebsocketServerConfig config;
+  sherpa::OnlineGrpcServerConfig config;
 
   // the server will listen on this port, for both websocket and http
   int32_t port = 6006;
 
   // size of the thread pool for handling network connections
-  int32_t num_io_threads = 1;
+  int32_t num_io_threads = 3;
 
   // size of the thread pool for neural network computation and decoding
   int32_t num_work_threads = 5;
@@ -79,9 +82,8 @@ int32_t main(int32_t argc, char *argv[]) {
   asio::io_context io_conn;  // for network connections
   asio::io_context io_work;  // for neural network and decoding
 
-  sherpa::OnlineGrpcServer server(io_conn, io_work, config);
-  server.Run();
-
+  sherpa::OnlineGrpcServer service(io_conn, io_work, config);
+  service.Run();
 
   // SHERPA_LOG(INFO) << "Number of I/O threads: " << num_io_threads << "\n";
   SHERPA_LOG(INFO) << "Number of work threads: " << num_work_threads << "\n";

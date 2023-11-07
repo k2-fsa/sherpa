@@ -25,47 +25,45 @@
 #include <string>
 #include <thread>
 
-#include "grpc/wenet.grpc.pb.h"
-#include "utils/utils.h"
+#include "sherpa/cpp_api/grpc/sherpa.grpc.pb.h"
+#include "sherpa/csrc/log.h"
 
-namespace wenet {
+namespace sherpa {
 
 using grpc::Channel;
 using grpc::ClientContext;
 using grpc::ClientReaderWriter;
-using wenet::ASR;
-using wenet::Request;
-using wenet::Response;
+using sherpa::ASR;
+using sherpa::Request;
+using sherpa::Response;
 
 class GrpcClient {
  public:
-  GrpcClient(const std::string& host, int port, int nbest,
-             bool continuous_decoding);
+  GrpcClient(const std::string& host, int port, int nbest, std::string reqid);
 
   void SendBinaryData(const void* data, size_t size);
   void ReadLoopFunc();
   void Join();
   bool done() const { return done_; }
+  std::string key_;
 
  private:
   void Connect();
   std::string host_;
   int port_;
+  int nbest_;
+  std::string reqid_;
   std::shared_ptr<Channel> channel_{nullptr};
   std::unique_ptr<ASR::Stub> stub_{nullptr};
   std::shared_ptr<ClientContext> context_{nullptr};
   std::unique_ptr<ClientReaderWriter<Request, Response>> stream_{nullptr};
   std::shared_ptr<Request> request_{nullptr};
   std::shared_ptr<Response> response_{nullptr};
-  int nbest_ = 1;
-  bool continuous_decoding_ = false;
   bool done_ = false;
   std::unique_ptr<std::thread> t_{nullptr};
-
-  WENET_DISALLOW_COPY_AND_ASSIGN(GrpcClient);
 };
 
-}  // namespace wenet
+}  // namespace sherpa
 
 #endif  // GRPC_GRPC_CLIENT_H_
 
