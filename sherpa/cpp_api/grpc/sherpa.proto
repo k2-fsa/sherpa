@@ -14,9 +14,9 @@
 syntax = "proto3";
 
 option java_package = "ex.grpc";
-option objc_class_prefix = "wenet";
+option objc_class_prefix = "sherpa";
 
-package wenet;
+package sherpa;
 
 service ASR {
   rpc Recognize (stream Request) returns (stream Response) {}

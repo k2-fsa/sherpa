@@ -42,7 +42,7 @@ int32_t main(int32_t argc, char *argv[]) {
 
   sherpa::OnlineGrpcServerConfig config;
 
-  // the server will listen on this port, for both websocket and http
+  // the server will listen on this port, for both grpc and http
   int32_t port = 6006;
 
   // size of the thread pool for handling network connections

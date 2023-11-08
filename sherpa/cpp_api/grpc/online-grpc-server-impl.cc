@@ -37,7 +37,7 @@ void OnlineGrpcServerConfig::Validate() const {
   decoder_config.Validate();
 }
 
-OnlineWebsocketDecoder::OnlineGrpcDecoder(OnlineGrpcServer *server)
+OnlineGrpcDecoder::OnlineGrpcDecoder(OnlineGrpcServer *server)
     : server_(server),
       config_(server->GetConfig().decoder_config),
       timer_(server->GetWorkContext()) {
@@ -90,7 +90,7 @@ void OnlineGrpcDecoder::AcceptWaveform(std::shared_ptr<Connection> c) {
   }
 }
 
-void OnlineWebsocketDecoder::InputFinished(std::shared_ptr<Connection> c) {
+void OnlineGrpcDecoder::InputFinished(std::shared_ptr<Connection> c) {
   std::lock_guard<std::mutex> lock(c->mutex);
 
   float sample_rate =
@@ -123,7 +123,7 @@ void OnlineGrpcDecoder::ProcessConnections(const asio::error_code &ec) {
   }
 
   std::lock_guard<std::mutex> lock(mutex_);
-  std::vector<connection_hdl> to_remove;
+  std::vector<std::string> to_remove;
   for (auto &p : connections_) {
     auto reqid = p.first;
     auto c = p.second;
@@ -252,27 +252,27 @@ Status OnlineGrpcServer::Recognize(ServerContext* context,
       c->start_flag_ = true;
       c->reqid_ = c->request_->decoder_config().reqid();
 
-      mutex.lock();
+      mutex_.lock();
       connections_.insert(c->reqid_);
-      mutex.unlock();
+      mutex_.unlock();
 
-      decoder_.mutex.lock();
+      decoder_.mutex_.lock();
       decoder_.connections_.insert(c->reqid_, c);
-      decoder_.mutex.unlock();
+      decoder_.mutex_.unlock();
     } else {
       const int16_t* pcm_data =
-                     reinterpret_cast<const int16_t*>(request_->audio_data().c_str());
-      int num_samples = request_->audio_data().length() / sizeof(int16_t);
+                     reinterpret_cast<const int16_t*>(c->request_->audio_data().c_str());
+      int num_samples = c->request_->audio_data().length() / sizeof(int16_t);
       SHERPA_LOG(INFO) << "Received " << num_samples << " samples";
       torch::Tensor samples = torch::from_blob(const_cast<int16_t *>(pcm_data),
                                                {num_samples},
-                                               torch::kShort.to(torch::kFloat)) / 32768;
+                                               torch::kShort).to(torch::kFloat) / 32768;
       samples = samples.clone();
       c->samples.push_back(samples);
-      asio::post(io_work_, [this, c]() { decoder_.AcceptWaveform(c); });
+      decoder_.AcceptWaveform(c);
     }
   }
-  asio::post(io_work_, [this, c]() { decoder_.InputFinished(c); });
+  decoder_.InputFinished(c);
 
   while (!c->finish_flag_) {
     std::this_thread::sleep_for(

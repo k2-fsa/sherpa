@@ -17,7 +17,6 @@
 #include "sherpa/cpp_api/parse-options.h"
 #include "sherpa/cpp_api/grpc/sherpa.grpc.pb.h"
 
-
 namespace sherpa {
 using grpc::ServerContext;
 using grpc::ServerReaderWriter;
@@ -40,7 +39,7 @@ struct Connection {
   // for a specified time.
   std::chrono::steady_clock::time_point last_active;
 
-  std::mutex mutex;  // protect sampels
+  std::mutex mutex_;  // protect sampels
 
   // Audio samples received from the client.
   //
@@ -122,7 +121,7 @@ class OnlineGrpcDecoder {
 };
 
 struct OnlineGrpcServerConfig {
-  OnlineWebsocketDecoderConfig decoder_config;
+  OnlineGrpcDecoderConfig decoder_config;
 
   void Register(sherpa::ParseOptions *po);
   void Validate() const;
@@ -132,7 +131,7 @@ class OnlineGrpcServer final : public ASR::Service {
  public:
   OnlineGrpcServer(asio::io_context &io_conn,  // NOLINT
                    asio::io_context &io_work,  // NOLINT
-                   const OnlineWebsocketServerConfig &config);
+                   const OnlineGrpcServerConfig &config);
 
   void Run();
 
@@ -143,10 +142,10 @@ class OnlineGrpcServer final : public ASR::Service {
   std::set<std::string> connections_;
 
  private:
-  OnlineWebsocketServerConfig config_;
+  OnlineGrpcServerConfig config_;
   asio::io_context &io_conn_;
   asio::io_context &io_work_;
-  OnlineWebsocketDecoder decoder_;
+  OnlineGrpcDecoder decoder_;
 
   mutable std::mutex mutex_;
 };

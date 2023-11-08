@@ -10,8 +10,7 @@
 #include <grpc/grpc.h>
 #include <grpcpp/channel.h>
 #include <grpcpp/client_context.h>
-#include <grpcpp/creat_channel.h>
-
+#include <grpcpp/create_channel.h>
 
 #include "sherpa/csrc/wav.h"
 #include "sherpa/csrc/log.h"
@@ -35,7 +34,7 @@ using namespace std;
 
 vector<string> split(const string& str, const string& delim) {
   vector<string> res;
-  if ("") == str return res;
+  if ("" == str) return res;
   char *strs = new char[str.length() + 1];
   char *d = new char[delim.length() + 1];
   strcpy(strs, str.c_str());
@@ -43,7 +42,7 @@ vector<string> split(const string& str, const string& delim) {
   char *p = strtok(strs, d);
   while(p) {
     string s = p;
-    res.push_back(s)
+    res.push_back(s);
     p = strtok(NULL, d);
   }
   return res;
@@ -59,7 +58,7 @@ int main(int argc, char* argv[]) {
 
   po.Register("server-ip", &server_ip, "IP address of the grpc server");
   po.Register("server-port", &server_port, "Port of the grpc server");
-  po.Register("wav-path", &wav_path, "wav path");
+  po.Register("wav-path", &wav_path, "wav to recognize");
   po.Register("wav-scp", &wav_path, "wav.scp path");
 
   po.Read(argc, argv);
@@ -79,15 +78,13 @@ int main(int argc, char* argv[]) {
   const float interval = 0.02;
   const int sample_interval = interval * sample_rate;
 
-  std::string wave_filename = po.GetArg(1);
-
   sherpa::GrpcClient client(server_ip, server_port, nbest, reqid);
 
-  vector<pair <string string>> wav_dict;
+  vector<pair <string, string>> wav_dict;
   if (wav_path != "") {
     wav_dict.push_back(make_pair(wav_path, wav_path));
   } else if (wav_scp != "") {
-    ifstream in(wav_scp)
+    ifstream in(wav_scp);
     string line;
     while (getline(in, line)) {
       string wav_id;
@@ -98,8 +95,8 @@ int main(int argc, char* argv[]) {
       }
       wav_id = res[0];
       wav_path = res[1];
+      wav_dict.push_back(make_pair(wav_id, wav_path));
     }
-    wav_dict.push_back(make_pair(wav_id, wav_path));
   }
 
   for (long unsigned int i = 0; i < wav_dict.size(); i++) {
