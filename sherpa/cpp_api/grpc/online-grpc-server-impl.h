@@ -39,7 +39,7 @@ struct Connection {
   // for a specified time.
   std::chrono::steady_clock::time_point last_active;
 
-  std::mutex mutex_;  // protect sampels
+  std::mutex mutex;  // protect sampels
 
   // Audio samples received from the client.
   //
@@ -99,10 +99,10 @@ class OnlineGrpcDecoder {
 
  private:
   void ProcessConnections(const asio::error_code &ec);
-  void SerializeResult(std::shared_ptr<connect> c);
-  void OnPartialResult(std::shared_ptr<connect> c);
-  void OnFinalResult(std::shared_ptr<connect> c);
-  void OnSpeechEnd(std::shared_ptr<connect> c);
+  void SerializeResult(std::shared_ptr<Connection> c);
+  void OnPartialResult(std::shared_ptr<Connection> c);
+  void OnFinalResult(std::shared_ptr<Connection> c);
+  void OnSpeechEnd(std::shared_ptr<Connection> c);
   /** It is called by one of the worker thread.
    */
   void Decode();
@@ -132,7 +132,8 @@ class OnlineGrpcServer final : public ASR::Service {
   OnlineGrpcServer(asio::io_context &io_conn,  // NOLINT
                    asio::io_context &io_work,  // NOLINT
                    const OnlineGrpcServerConfig &config);
-
+  Status Recognize(ServerContext* context,
+                   ServerReaderWriter<Response, Request>* reader) override;
   void Run();
 
   const OnlineGrpcServerConfig &GetConfig() const { return config_; }

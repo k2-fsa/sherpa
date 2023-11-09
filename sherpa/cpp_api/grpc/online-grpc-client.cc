@@ -51,7 +51,6 @@ vector<string> split(const string& str, const string& delim) {
 int main(int argc, char* argv[]) {
   std::string server_ip = "127.0.0.1";
   int32_t server_port = 6006;
-  int32_t sample_rate = 16000;
   string wav_path = "";
   string wav_scp = "";
   sherpa::ParseOptions po(kUsageMessage);
@@ -78,8 +77,6 @@ int main(int argc, char* argv[]) {
   const float interval = 0.02;
   const int sample_interval = interval * sample_rate;
 
-  sherpa::GrpcClient client(server_ip, server_port, nbest, reqid);
-
   vector<pair <string, string>> wav_dict;
   if (wav_path != "") {
     wav_dict.push_back(make_pair(wav_path, wav_path));
@@ -91,7 +88,7 @@ int main(int argc, char* argv[]) {
       string wav_path;
       vector<string> res = split(line, " ");
       if (res.size() != 2) {
-        res = split(line, "\t")
+        res = split(line, "\t");
       }
       wav_id = res[0];
       wav_path = res[1];
@@ -101,8 +98,9 @@ int main(int argc, char* argv[]) {
 
   for (long unsigned int i = 0; i < wav_dict.size(); i++) {
     int req_id = gen();
+    int nbest = 1;
     string request_id = to_string(req_id);
-    sherpa::GrpcClient client(server_ip, server_port, 1, request_id);
+    sherpa::GrpcClient client(server_ip, server_port, nbest, request_id);
     client.key_ = wav_dict[i].first;
     sherpa::WavReader wav_reader(wav_dict[i].second);
     const int num_samples = wav_reader.num_samples();
@@ -126,8 +124,7 @@ int main(int argc, char* argv[]) {
       std::this_thread::sleep_for(
           std::chrono::milliseconds(static_cast<int>(interval * 1000)));
     }
+    client.Join();
   }
-
-  client.Join();
   return 0;
 }

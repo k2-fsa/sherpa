@@ -7,7 +7,7 @@
 #define SHERPA_SLEEP_ROUND_MAX     3000
 
 namespace sherpa {
-using grpc::ServerContext
+using grpc::ServerContext;
 using grpc::ServerReaderWriter;
 using sherpa::Request;
 using sherpa::Response;
@@ -44,38 +44,38 @@ OnlineGrpcDecoder::OnlineGrpcDecoder(OnlineGrpcServer *server)
   recognizer_ = std::make_unique<OnlineRecognizer>(config_.recognizer_config);
 }
 
-void OnlineGrpcDecoder::SerializeResult(std::shared_ptr<connect> c) {
+void OnlineGrpcDecoder::SerializeResult(std::shared_ptr<Connection> c) {
   std::lock_guard<std::mutex> lock(c->mutex);
   auto result = recognizer_->GetResult(c->s.get());
   c->response_->clear_nbest();
-  Response_OneBest* one_best_ = response_->add_nbest();
+  Response_OneBest* one_best_ = c->response_->add_nbest();
   one_best_->set_sentence(result.text);
 }
 
-void OnlineGrpcDecoder::OnPartialResult(std::shared_ptr<connect> c) {
+void OnlineGrpcDecoder::OnPartialResult(std::shared_ptr<Connection> c) {
   std::lock_guard<std::mutex> lock(c->mutex);
   if (!c->finish_flag_) {
     c->response_->set_status(Response::ok);
     c->response_->set_type(Response::partial_result);
-    c->stream_->Write(*response_);
+    c->stream_->Write(*c->response_);
   }
 }
 
-void OnlineGrpcDecoder::OnFinalResult(std::shared_ptr<connect> c) {
+void OnlineGrpcDecoder::OnFinalResult(std::shared_ptr<Connection> c) {
   std::lock_guard<std::mutex> lock(c->mutex);
   if (!c->finish_flag_) {
     c->response_->set_status(Response::ok);
     c->response_->set_type(Response::final_result);
-    c->stream_->Write(*response_);
+    c->stream_->Write(*c->response_);
   }
 }
 
-void OnlineGrpcDecoder::OnSpeechEnd(std::shared_ptr<connect> c) {
+void OnlineGrpcDecoder::OnSpeechEnd(std::shared_ptr<Connection> c) {
   std::lock_guard<std::mutex> lock(c->mutex);
   if (!c->finish_flag_) {
     c->response_->set_status(Response::ok);
     c->response_->set_type(Response::speech_end);
-    c->stream_->Write(*response_);
+    c->stream_->Write(*c->response_);
   }
   c->finish_flag_ = true;
 }
@@ -216,7 +216,7 @@ void OnlineGrpcDecoder::Decode() {
   }
 }
 
-OnlineWebsocketServer::OnlineGrpcServer(
+OnlineGrpcServer::OnlineGrpcServer(
     asio::io_context &io_conn, asio::io_context &io_work,
     const OnlineGrpcServerConfig &config)
     : config_(config),
@@ -224,20 +224,20 @@ OnlineWebsocketServer::OnlineGrpcServer(
       io_work_(io_work),
       decoder_(this) {}
 
-void OnlineWebsocketServer::Run(uint16_t port) {
+void OnlineGrpcServer::Run() {
   decoder_.Run();
 }
 
-bool OnlineWebsocketServer::Contains(std::string reqid) const {
+bool OnlineGrpcServer::Contains(std::string reqid) const {
   std::lock_guard<std::mutex> lock(mutex_);
   return connections_.count(reqid);
 }
 
 Status OnlineGrpcServer::Recognize(ServerContext* context,
                              ServerReaderWriter<Response, Request>* stream) {
-  SHERPA_LOG(INFO) << "Get Recognize request" << std::endl;
-  std::shared_ptr<OnlineStream> s = decoder_.recognizer_->CreatStream();
-  auto c = std::make_shared<connection> (
+  SHERPA_LOG(INFO) << "Get Recognize request";
+  std::shared_ptr<OnlineStream> s = decoder_.recognizer_->CreateStream();
+  auto c = std::make_shared<Connection> (
               std::make_shared<ServerReaderWriter<Response, Request>>(*stream),
               std::make_shared<Request>(),
               std::make_shared<Response>(),
@@ -245,19 +245,19 @@ Status OnlineGrpcServer::Recognize(ServerContext* context,
   int32_t sleep_cnt = 0;
 
   float sample_rate =
-      config_.recognizer_config.feat_config.fbank_opts.frame_opts.samp_freq;
+      decoder_.config_.recognizer_config.feat_config.fbank_opts.frame_opts.samp_freq;
 
   while (stream->Read(c->request_.get())) {
     if (!c->start_flag_) {
       c->start_flag_ = true;
-      c->reqid_ = c->request_->decoder_config().reqid();
+      c->reqid_ = c->request_->decode_config().reqid();
 
       mutex_.lock();
       connections_.insert(c->reqid_);
       mutex_.unlock();
 
       decoder_.mutex_.lock();
-      decoder_.connections_.insert(c->reqid_, c);
+      decoder_.connections_.insert({c->reqid_, c});
       decoder_.mutex_.unlock();
     } else {
       const int16_t* pcm_data =

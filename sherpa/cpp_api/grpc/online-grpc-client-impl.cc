@@ -23,7 +23,7 @@ using grpc::Status;
 using sherpa::Request;
 using sherpa::Response;
 
-GrpcClient::GrpcClient(const std::string& host, int port, int nbest std::string reqid)
+GrpcClient::GrpcClient(const std::string& host, int port, int nbest, std::string reqid)
     : host_(host),
       port_(port),
       nbest_(nbest),
