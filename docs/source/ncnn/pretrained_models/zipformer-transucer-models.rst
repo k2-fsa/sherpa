@@ -23,13 +23,28 @@ Download the model
 
 Please use the following commands to download it.
 
-.. code-block:: bash
+.. tabs::
 
-  cd /path/to/sherpa-ncnn
+   .. tab:: Huggingface
 
-  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/marcoyang/sherpa-ncnn-streaming-zipformer-zh-14M-2023-02-23
-  cd sherpa-ncnn-streaming-zipformer-zh-14M-2023-02-23
-  git lfs pull --include "*.bin"
+      .. code-block:: bash
+
+        cd /path/to/sherpa-ncnn
+
+        GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/marcoyang/sherpa-ncnn-streaming-zipformer-zh-14M-2023-02-23
+        cd sherpa-ncnn-streaming-zipformer-zh-14M-2023-02-23
+        git lfs pull --include "*.bin"
+
+   .. tab:: ModelScope
+
+      .. code-block:: bash
+
+        cd /path/to/sherpa-ncnn
+
+        GIT_LFS_SKIP_SMUDGE=1 git clone https://www.modelscope.cn/pkufool/sherpa-ncnn-streaming-zipformer-zh-14M-2023-02-23.git
+        cd sherpa-ncnn-streaming-zipformer-zh-14M-2023-02-23
+        git lfs pull --include "*.bin"
+
 
 After downloading, please check the file sizes of the models. You should see the following
 output after .
@@ -132,13 +147,27 @@ Download the model
 
 Please use the following commands to download it.
 
-.. code-block:: bash
+.. tabs::
 
-  cd /path/to/sherpa-ncnn
+   .. tab:: Huggingface
 
-  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/marcoyang/sherpa-ncnn-streaming-zipformer-20M-2023-02-17
-  cd sherpa-ncnn-streaming-zipformer-20M-2023-02-17
-  git lfs pull --include "*.bin"
+      .. code-block:: bash
+
+        cd /path/to/sherpa-ncnn
+
+        GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/marcoyang/sherpa-ncnn-streaming-zipformer-20M-2023-02-17
+        cd sherpa-ncnn-streaming-zipformer-20M-2023-02-17
+        git lfs pull --include "*.bin"
+
+   .. tab:: ModelScope
+
+      .. code-block:: bash
+
+        cd /path/to/sherpa-ncnn
+
+        GIT_LFS_SKIP_SMUDGE=1 git clone https://www.modelscope.cn/pkufool/sherpa-ncnn-streaming-zipformer-20M-2023-02-17.git
+        cd sherpa-ncnn-streaming-zipformer-20M-2023-02-17
+        git lfs pull --include "*.bin"
 
 After downloading, please check the file sizes of the models. You should see the following
 output after .
