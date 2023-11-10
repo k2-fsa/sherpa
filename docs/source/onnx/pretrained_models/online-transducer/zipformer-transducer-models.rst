@@ -401,13 +401,27 @@ Download the model
 
 Please use the following commands to download it.
 
-.. code-block:: bash
+.. tabs::
 
-  cd /path/to/sherpa-onnx
+   .. tab:: Huggingface
 
-  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/sherpa-onnx-streaming-zipformer-en-2023-02-21
-  cd sherpa-onnx-streaming-zipformer-en-2023-02-21
-  git lfs pull --include "*.onnx"
+      .. code-block:: bash
+
+        cd /path/to/sherpa-onnx
+
+        GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/sherpa-onnx-streaming-zipformer-en-2023-02-21
+        cd sherpa-onnx-streaming-zipformer-en-2023-02-21
+        git lfs pull --include "*.onnx"
+
+   .. tab:: ModelScope
+
+      .. code-block:: bash
+
+        cd /path/to/sherpa-onnx
+
+        GIT_LFS_SKIP_SMUDGE=1 git clone https://www.modelscope.cn/pkufool/sherpa-onnx-streaming-zipformer-en-2023-02-21.git
+        cd sherpa-onnx-streaming-zipformer-en-2023-02-21
+        git lfs pull --include "*.onnx"
 
 Please check that the file sizes of the pre-trained models are correct. See
 the file sizes of ``*.onnx`` files below.
@@ -517,13 +531,27 @@ Download the model
 
 Please use the following commands to download it.
 
-.. code-block:: bash
+.. tabs::
 
-  cd /path/to/sherpa-onnx
+   .. tab:: Huggingface
 
-  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20
-  cd sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20
-  git lfs pull --include "*.onnx"
+      .. code-block:: bash
+
+        cd /path/to/sherpa-onnx
+
+        GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20
+        cd sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20
+        git lfs pull --include "*.onnx"
+
+   .. tab:: ModelScope
+
+      .. code-block:: bash
+
+        cd /path/to/sherpa-onnx
+
+        GIT_LFS_SKIP_SMUDGE=1 git clone https://www.modelscope.cn/pkufool/sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20.git
+        cd sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20
+        git lfs pull --include "*.onnx"
 
 Please check that the file sizes of the pre-trained models are correct. See
 the file sizes of ``*.onnx`` files below.

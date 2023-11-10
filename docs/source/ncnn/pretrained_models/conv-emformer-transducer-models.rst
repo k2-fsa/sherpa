@@ -169,13 +169,27 @@ In the following, we describe how to download and use it with `sherpa-ncnn`_.
 
 Please use the following commands to download it.
 
-.. code-block:: bash
+.. tabs::
 
-  cd /path/to/sherpa-ncnn
+   .. tab:: Huggingface
 
-  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/sherpa-ncnn-conv-emformer-transducer-2022-12-06
-  cd sherpa-ncnn-conv-emformer-transducer-2022-12-06
-  git lfs pull --include "*.bin"
+      .. code-block:: bash
+
+        cd /path/to/sherpa-ncnn
+
+        GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/sherpa-ncnn-conv-emformer-transducer-2022-12-06
+        cd sherpa-ncnn-conv-emformer-transducer-2022-12-06
+        git lfs pull --include "*.bin"
+
+   .. tab:: ModelScope
+
+      .. code-block:: bash
+
+        cd /path/to/sherpa-ncnn
+
+        GIT_LFS_SKIP_SMUDGE=1 git clone https://www.modelscope.cn/pkufool/sherpa-ncnn-conv-emformer-transducer-2022-12-06.git
+        cd sherpa-ncnn-conv-emformer-transducer-2022-12-06
+        git lfs pull --include "*.bin"
 
 Please check that the file size of the pre-trained models is correct (see the
 output below):
