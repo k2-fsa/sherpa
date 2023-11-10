@@ -62,7 +62,7 @@ class WavReader {
   bool Open(const std::string& filename) {
     FILE* fp = fopen(filename.c_str(), "rb");
     if (NULL == fp) {
-      std::out << "Error in read " << filename << std::endl;
+      std::cout << "Error in read " << filename << std::endl;
       return false;
     }
 

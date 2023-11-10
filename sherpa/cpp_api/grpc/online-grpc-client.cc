@@ -120,7 +120,7 @@ int main(int argc, char* argv[]) {
       }
       // Send PCM data
       client.SendBinaryData(data.data(), data.size() * sizeof(int16_t));
-      SHERPA_LOG(INFO) << "Send " << data.size() << " samples";
+      SHERPA_LOG(INFO) << req_id << "Send " << data.size() << " samples";
       std::this_thread::sleep_for(
           std::chrono::milliseconds(static_cast<int>(interval * 1000)));
     }

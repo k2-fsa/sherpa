@@ -263,7 +263,7 @@ Status OnlineGrpcServer::Recognize(ServerContext* context,
       const int16_t* pcm_data =
                      reinterpret_cast<const int16_t*>(c->request_->audio_data().c_str());
       int num_samples = c->request_->audio_data().length() / sizeof(int16_t);
-      SHERPA_LOG(INFO) << "Received " << num_samples << " samples";
+      SHERPA_LOG(INFO) << c->reqid_ << "Received " << num_samples << " samples";
       torch::Tensor samples = torch::from_blob(const_cast<int16_t *>(pcm_data),
                                                {num_samples},
                                                torch::kShort).to(torch::kFloat) / 32768;
@@ -287,7 +287,7 @@ Status OnlineGrpcServer::Recognize(ServerContext* context,
   connections_.erase(c->reqid_);
   mutex_.unlock();
 
-  SHERPA_LOG(INFO) << "reqid:" << c->reqid_ << " close";
+  SHERPA_LOG(INFO) << "reqid:" << c->reqid_ << " Connection close";
   return Status::OK;
 }
 }  // namespace sherpa

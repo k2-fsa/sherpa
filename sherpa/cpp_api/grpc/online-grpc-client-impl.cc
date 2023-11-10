@@ -41,6 +41,7 @@ void GrpcClient::Connect() {
   request_ = std::make_shared<Request>();
   response_ = std::make_shared<Response>();
   request_->mutable_decode_config()->set_nbest_config(nbest_);
+  request_->mutable_decode_config()->set_reqid(reqid_);
   stream_->Write(*request_);
 }
 
