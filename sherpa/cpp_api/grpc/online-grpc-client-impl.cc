@@ -23,7 +23,10 @@ using grpc::Status;
 using sherpa::Request;
 using sherpa::Response;
 
-GrpcClient::GrpcClient(const std::string& host, int port, int nbest, std::string reqid)
+GrpcClient::GrpcClient(const std::string& host,
+                       int32_t port,
+                       int32_t nbest,
+                       const std::string& reqid)
     : host_(host),
       port_(port),
       nbest_(nbest),
@@ -54,7 +57,7 @@ void GrpcClient::SendBinaryData(const void* data, size_t size) {
 void GrpcClient::ReadLoopFunc() {
   try {
     while (stream_->Read(response_.get())) {
-      for (int i = 0; i < response_->nbest_size(); i++) {
+      for (int32_t i = 0; i < response_->nbest_size(); i++) {
         // you can also traverse wordpieces like demonstrated above
         SHERPA_LOG(INFO) << i + 1 << "best " << response_->nbest(i).sentence();
       }

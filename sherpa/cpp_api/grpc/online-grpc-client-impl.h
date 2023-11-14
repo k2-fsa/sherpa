@@ -15,18 +15,18 @@
 #ifndef GRPC_GRPC_CLIENT_H_
 #define GRPC_GRPC_CLIENT_H_
 
-#include <grpc/grpc.h>
-#include <grpcpp/channel.h>
-#include <grpcpp/client_context.h>
-#include <grpcpp/create_channel.h>
-
 #include <iostream>
 #include <memory>
 #include <string>
 #include <thread>
 
-#include "sherpa/cpp_api/grpc/sherpa.grpc.pb.h"
+#include "grpc/grpc.h"
+#include "grpcpp/channel.h"
+#include "grpcpp/client_context.h"
+#include "grpcpp/create_channel.h"
+
 #include "sherpa/csrc/log.h"
+#include "sherpa.grpc.pb.h"
 
 namespace sherpa {
 
@@ -39,7 +39,10 @@ using sherpa::Response;
 
 class GrpcClient {
  public:
-  GrpcClient(const std::string& host, int port, int nbest, std::string reqid);
+  GrpcClient(const std::string& host,
+             int32_t port,
+             int32_t nbest,
+             const std::string& reqid);
 
   void SendBinaryData(const void* data, size_t size);
   void ReadLoopFunc();
@@ -53,14 +56,14 @@ class GrpcClient {
   int port_;
   int nbest_;
   std::string reqid_;
-  std::shared_ptr<Channel> channel_{nullptr};
-  std::unique_ptr<ASR::Stub> stub_{nullptr};
-  std::shared_ptr<ClientContext> context_{nullptr};
-  std::unique_ptr<ClientReaderWriter<Request, Response>> stream_{nullptr};
-  std::shared_ptr<Request> request_{nullptr};
-  std::shared_ptr<Response> response_{nullptr};
+  std::shared_ptr<Channel> channel_;
+  std::unique_ptr<ASR::Stub> stub_;
+  std::shared_ptr<ClientContext> context_;
+  std::unique_ptr<ClientReaderWriter<Request, Response>> stream_;
+  std::shared_ptr<Request> request_;
+  std::shared_ptr<Response> response_;
   bool done_ = false;
-  std::unique_ptr<std::thread> t_{nullptr};
+  std::unique_ptr<std::thread> t_;
 };
 
 }  // namespace sherpa

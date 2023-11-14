@@ -15,7 +15,7 @@
 #include "sherpa/cpp_api/online-recognizer.h"
 #include "sherpa/cpp_api/online-stream.h"
 #include "sherpa/cpp_api/parse-options.h"
-#include "sherpa/cpp_api/grpc/sherpa.grpc.pb.h"
+#include "sherpa.grpc.pb.h"
 
 namespace sherpa {
 using grpc::ServerContext;
@@ -33,7 +33,7 @@ struct Connection {
   std::shared_ptr<Response> response_;
   std::shared_ptr<OnlineStream> s;
 
-  int nbest_ = 1;
+  int32_t nbest_ = 1;
   // The last time we received a message from the client
   // TODO(fangjun): Use it to disconnect from a client if it is inactive
   // for a specified time.
@@ -129,8 +129,7 @@ struct OnlineGrpcServerConfig {
 
 class OnlineGrpcServer final : public ASR::Service {
  public:
-  OnlineGrpcServer(asio::io_context &io_conn,  // NOLINT
-                   asio::io_context &io_work,  // NOLINT
+  OnlineGrpcServer(asio::io_context &io_work,  // NOLINT
                    const OnlineGrpcServerConfig &config);
   Status Recognize(ServerContext* context,
                    ServerReaderWriter<Response, Request>* reader) override;
@@ -138,13 +137,11 @@ class OnlineGrpcServer final : public ASR::Service {
 
   const OnlineGrpcServerConfig &GetConfig() const { return config_; }
   bool Contains(std::string reqid) const;
-  asio::io_context &GetConnectionContext() { return io_conn_; }
   asio::io_context &GetWorkContext() { return io_work_; }
   std::set<std::string> connections_;
 
  private:
   OnlineGrpcServerConfig config_;
-  asio::io_context &io_conn_;
   asio::io_context &io_work_;
   OnlineGrpcDecoder decoder_;
 

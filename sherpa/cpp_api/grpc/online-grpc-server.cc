@@ -1,13 +1,13 @@
 // sherpa/cpp_api/grpc/online-grpc-server.cc
 //
-#include <grpcpp/ext/proto_server_reflection_plugin.h>
-#include <grpcpp/grpcpp.h>
-#include <grpcpp/health_check_service_interface.h>
+#include "grpcpp/ext/proto_server_reflection_plugin.h"
+#include "grpcpp/grpcpp.h"
+#include "grpcpp/health_check_service_interface.h"
 
 #include "asio.hpp"
-#include "sherpa/cpp_api/grpc/online-grpc-server-impl.h"
 #include "sherpa/csrc/log.h"
 #include "torch/all.h"
+#include "online-grpc-server-impl.h"
 
 using grpc::Server;
 using grpc::ServerBuilder;
@@ -45,16 +45,10 @@ int32_t main(int32_t argc, char *argv[]) {
   // the server will listen on this port, for both grpc and http
   int32_t port = 6006;
 
-  // size of the thread pool for handling network connections
-  int32_t num_io_threads = 3;
-
   // size of the thread pool for neural network computation and decoding
   int32_t num_work_threads = 5;
 
-  int32_t num_workers = 4;
-
-  po.Register("num-io-threads", &num_io_threads,
-              "Number of threads to use for network connections.");
+  int32_t num_workers = 1;
 
   po.Register("num-work-threads", &num_work_threads,
               "Number of threads to use for neural network "
@@ -79,10 +73,9 @@ int32_t main(int32_t argc, char *argv[]) {
 
   config.Validate();
 
-  asio::io_context io_conn;  // for network connections
   asio::io_context io_work;  // for neural network and decoding
 
-  sherpa::OnlineGrpcServer service(io_conn, io_work, config);
+  sherpa::OnlineGrpcServer service(io_work, config);
   service.Run();
 
   // SHERPA_LOG(INFO) << "Number of I/O threads: " << num_io_threads << "\n";
@@ -91,19 +84,10 @@ int32_t main(int32_t argc, char *argv[]) {
   // give some work to do for the io_work pool
   auto work_guard = asio::make_work_guard(io_work);
 
-  std::vector<std::thread> io_threads;
-
-  // decrement since the main thread is also used for network communications
-  for (int32_t i = 0; i < num_io_threads - 1; ++i) {
-    io_threads.emplace_back([&io_conn]() { io_conn.run(); });
-  }
-
   std::vector<std::thread> work_threads;
   for (int32_t i = 0; i < num_work_threads; ++i) {
     work_threads.emplace_back([&io_work]() { io_work.run(); });
   }
-
-  io_conn.run();
 
   grpc::EnableDefaultHealthCheckService(true);
   grpc::reflection::InitProtoReflectionServerBuilderPlugin();
@@ -115,10 +99,6 @@ int32_t main(int32_t argc, char *argv[]) {
                               num_workers);
   std::unique_ptr<Server> server(builder.BuildAndStart());
   SHERPA_LOG(INFO) << "Listening on: " << port << "\n";
-
-  for (auto &t : io_threads) {
-    t.join();
-  }
 
   for (auto &t : work_threads) {
     t.join();

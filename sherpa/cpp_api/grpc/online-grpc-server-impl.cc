@@ -217,10 +217,9 @@ void OnlineGrpcDecoder::Decode() {
 }
 
 OnlineGrpcServer::OnlineGrpcServer(
-    asio::io_context &io_conn, asio::io_context &io_work,
+    asio::io_context &io_work,
     const OnlineGrpcServerConfig &config)
     : config_(config),
-      io_conn_(io_conn),
       io_work_(io_work),
       decoder_(this) {}
 
@@ -262,7 +261,7 @@ Status OnlineGrpcServer::Recognize(ServerContext* context,
     } else {
       const int16_t* pcm_data =
                      reinterpret_cast<const int16_t*>(c->request_->audio_data().c_str());
-      int num_samples = c->request_->audio_data().length() / sizeof(int16_t);
+      int32_t num_samples = c->request_->audio_data().length() / sizeof(int16_t);
       SHERPA_LOG(INFO) << c->reqid_ << "Received " << num_samples << " samples";
       torch::Tensor samples = torch::from_blob(const_cast<int16_t *>(pcm_data),
                                                {num_samples},
@@ -276,7 +275,7 @@ Status OnlineGrpcServer::Recognize(ServerContext* context,
 
   while (!c->finish_flag_) {
     std::this_thread::sleep_for(
-          std::chrono::milliseconds(static_cast<int>(SHERPA_SLEEP_TIME)));
+          std::chrono::milliseconds(static_cast<int32_t>(SHERPA_SLEEP_TIME)));
     if (sleep_cnt++ > SHERPA_SLEEP_ROUND_MAX) {
       c->finish_flag_ = true;
       break;

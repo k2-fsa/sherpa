@@ -147,13 +147,15 @@ if(SHERPA_ENABLE_PORTAUDIO)
   include(portaudio)
 endif()
 
-if(SHERPA_ENABLE_WEBSOCKET)
+if(SHERPA_ENABLE_WEBSOCKET OR SHERPA_ENABLE_GRPC)
   include(asio)
+endif()
+
+if(SHERPA_ENABLE_WEBSOCKET)
   include(websocketpp)
 endif()
 
 if(SHERPA_ENABLE_GRPC)
-  include(asio)
   include(grpc)
 endif()
 

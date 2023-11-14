@@ -1,9 +1,11 @@
 add_definitions(-DASIO_STANDALONE)
 
 # compile sherpo.proto
-set(PROTO_DIR "${CMAKE_CURRENT_SOURCE_DIR}")
+set(PROTO_DIR "${CMAKE_CURRENT_BINARY_DIR}")
+set(PROTO_IN "${CMAKE_CURRENT_SOURCE_DIR}")
 set(grpc_BINARY_DIR ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 set(grpc_LIBRARY_DIR ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
+include_directories(${CMAKE_CURRENT_BINARY_DIR})
 add_custom_command(
   OUTPUT  ${PROTO_DIR}/sherpa.pb.cc
           ${PROTO_DIR}/sherpa.pb.h
@@ -12,7 +14,7 @@ add_custom_command(
   COMMAND ${grpc_BINARY_DIR}/protoc
   ARGS --grpc_out "${PROTO_DIR}"
     --cpp_out "${PROTO_DIR}"
-    -I "${PROTO_DIR}"
+    -I "${PROTO_IN}"
     --plugin=protoc-gen-grpc=${grpc_BINARY_DIR}/grpc_cpp_plugin
     sherpa.proto)
 
