@@ -56,7 +56,7 @@ vector<string> split(const string& str, const string& delim) {
   return res;
 }
 
-bool file_exists(const std::string& file) {
+bool file_exists(const std::string& filename) {
   ifstream infile(filename);
   return infile.good();
 }
