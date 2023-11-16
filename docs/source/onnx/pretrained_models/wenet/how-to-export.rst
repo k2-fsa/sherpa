@@ -6,6 +6,7 @@ Suppose you have the following files from `WeNet`_:
   - ``final.pt``
   - ``train.yaml``
   - ``global_cmvn``
+  - ``units.txt``
 
 We describe below how to use scripts from `sherpa-onnx`_ to export your files.
 
