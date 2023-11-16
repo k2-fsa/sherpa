@@ -122,7 +122,7 @@ rst_epilog = """
 .. _PyTorch: https://pytorch.org/
 .. _Huggingface: https://huggingface.co
 .. _WenetSpeech: https://github.com/wenet-e2e/WenetSpeech
-.. _wenet: https://github.com/k2-fsa/sherpa
+.. _WeNet: https://github.com/wenet-e2e/wenet
 .. _GigaSpeech: https://github.com/SpeechColab/GigaSpeech
 .. _Kaldi: https://github.com/kaldi-asr/kaldi
 .. _kaldifeat: https://csukuangfj.github.io/kaldifeat/installation.html
