@@ -16,7 +16,7 @@ Two kinds of end-to-end (E2E) models are supported by `sherpa`_:
 
    For CTC-based models, we support any type of models trained using CTC loss
    as long as you can export the model via torchscript. Models from the following
-   frameworks are currently supported: `icefall`_, `wenet`_, and `torchaudio`_ (Wav2Vec 2.0).
+   frameworks are currently supported: `icefall`_, `WeNet`_, and `torchaudio`_ (Wav2Vec 2.0).
    If you have a CTC model and want it to be supported in `sherpa`, please
    create an issue at `<https://github.com/k2-fsa/sherpa/issues>`_.
 
@@ -46,7 +46,7 @@ This page lists all available pre-trained models that you can download.
    for you to try offline recognition step by step.
 
    It shows how to install sherpa and use it as offline recognizer,
-   which supports the models from icefall, the wenet framework and torchaudio.
+   which supports the models from icefall, the `WeNet`_ framework and torchaudio.
 
 .. |Sherpa offline recognition python api colab notebook| image:: https://colab.research.google.com/assets/colab-badge.svg
    :target: https://colab.research.google.com/drive/1RdU06GcytTpI-r8vkQ7NkI0ugytnwJVB?usp=sharing

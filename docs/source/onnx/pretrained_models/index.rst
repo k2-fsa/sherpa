@@ -21,4 +21,5 @@ available pre-trained models.
    offline-paraformer/index
    offline-ctc/index
    whisper/index
+   wenet/index
    small-online-models

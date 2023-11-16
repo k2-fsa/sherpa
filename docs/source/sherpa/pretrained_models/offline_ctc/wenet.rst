@@ -1,7 +1,7 @@
 WeNet
 =====
 
-This section lists models from `wenet`_.
+This section lists models from `WeNet`_.
 
 wenet-english-model (English)
 -----------------------------
