@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef FRONTEND_WAV_H_
-#define FRONTEND_WAV_H_
+#ifndef SHERPA_CSRC_WAV_H_
+#define SHERPA_CSRC_WAV_H_
 
 #include <assert.h>
 #include <stdint.h>
@@ -238,7 +238,7 @@ class StreamWavWriter {
   size_t total_num_samples_;
 };
 
-}  // namespace wenet
+}  // namespace sherpa
 
-#endif  // FRONTEND_WAV_H_
+#endif  // SHERPA_CSRC_WAV_H_
 

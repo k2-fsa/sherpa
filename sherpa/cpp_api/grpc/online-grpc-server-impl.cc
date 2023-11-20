@@ -261,7 +261,7 @@ Status OnlineGrpcServer::Recognize(ServerContext* context,
     } else {
       const int16_t* pcm_data =
            reinterpret_cast<const int16_t*>(c->request_->audio_data().c_str());
-      int32_t num_samples = 
+      int32_t num_samples =
                           c->request_->audio_data().length() / sizeof(int16_t);
       SHERPA_LOG(INFO) << c->reqid_ << "Received "
                        << num_samples << " samples";
