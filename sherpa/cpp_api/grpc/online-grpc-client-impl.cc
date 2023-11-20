@@ -1,4 +1,5 @@
 // Copyright (c) 2021 Ximalaya Speech Team (Xiang Lyu)
+//               2023 y00281951
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -20,8 +21,6 @@ using grpc::Channel;
 using grpc::ClientContext;
 using grpc::ClientReaderWriter;
 using grpc::Status;
-using sherpa::Request;
-using sherpa::Response;
 
 GrpcClient::GrpcClient(const std::string& host,
                        int32_t port,

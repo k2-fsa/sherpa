@@ -35,7 +35,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 option(SHERPA_ENABLE_TESTS "Whether to build tests" OFF)
 option(SHERPA_ENABLE_PORTAUDIO "Whether to build with portaudio" ON)
 option(SHERPA_ENABLE_WEBSOCKET "Whether to build with websocket" ON)
-option(SHERPA_ENABLE_GRPC "Whether to build with grpc" ON)
+option(SHERPA_ENABLE_GRPC "Whether to build with grpc" OFF)
 option(BUILD_SHARED_LIBS "Whether to build shared libraries" ON)
 
 message(STATUS "SHERPA_ENABLE_TESTS: ${SHERPA_ENABLE_TESTS}")

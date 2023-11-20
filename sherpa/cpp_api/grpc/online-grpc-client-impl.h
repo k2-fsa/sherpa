@@ -1,4 +1,5 @@
 // Copyright (c) 2021 Ximalaya Speech Team (Xiang Lyu)
+//               2023 y00281951
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,13 +13,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef GRPC_GRPC_CLIENT_H_
-#define GRPC_GRPC_CLIENT_H_
+#ifndef SHERPA_CPP_API_GRPC_ONLINE_GRPC_CLIENT_IMPL_H_
+#define SHERPA_CPP_API_GRPC_ONLINE_GRPC_CLIENT_IMPL_H_
 
 #include <iostream>
 #include <memory>
 #include <string>
-#include <thread>
+#include <thread>  // NOLINT
 
 #include "grpc/grpc.h"
 #include "grpcpp/channel.h"
@@ -26,7 +27,7 @@
 #include "grpcpp/create_channel.h"
 
 #include "sherpa/csrc/log.h"
-#include "sherpa.grpc.pb.h"
+#include "sherpa/cpp_api/grpc/sherpa.grpc.pb.h"
 
 namespace sherpa {
 
@@ -45,16 +46,16 @@ class GrpcClient {
              const std::string& reqid);
 
   void SendBinaryData(const void* data, size_t size);
-  void ReadLoopFunc();
   void Join();
-  bool done() const { return done_; }
+  bool Done() const { return done_; }
   std::string key_;
 
  private:
+  void ReadLoopFunc();
   void Connect();
   std::string host_;
-  int port_;
-  int nbest_;
+  int32_t port_;
+  int32_t nbest_;
   std::string reqid_;
   std::shared_ptr<Channel> channel_;
   std::unique_ptr<ASR::Stub> stub_;
@@ -68,5 +69,4 @@ class GrpcClient {
 
 }  // namespace sherpa
 
-#endif  // GRPC_GRPC_CLIENT_H_
-
+#endif  // SHERPA_CPP_API_GRPC_ONLINE_GRPC_CLIENT_IMPL_H_

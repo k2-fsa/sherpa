@@ -1,5 +1,7 @@
 // sherpa/cpp_api/grpc/online-grpc-server.cc
-//
+// Copyright (c)  2022  Xiaomi Corporation
+//                2023  y00281951
+
 #include "grpcpp/ext/proto_server_reflection_plugin.h"
 #include "grpcpp/grpcpp.h"
 #include "grpcpp/health_check_service_interface.h"
@@ -7,7 +9,7 @@
 #include "asio.hpp"
 #include "sherpa/csrc/log.h"
 #include "torch/all.h"
-#include "online-grpc-server-impl.h"
+#include "sherpa/cpp_api/grpc/online-grpc-server-impl.h"
 
 using grpc::Server;
 using grpc::ServerBuilder;
@@ -78,9 +80,7 @@ int32_t main(int32_t argc, char *argv[]) {
   sherpa::OnlineGrpcServer service(io_work, config);
   service.Run();
 
-  // SHERPA_LOG(INFO) << "Number of I/O threads: " << num_io_threads << "\n";
   SHERPA_LOG(INFO) << "Number of work threads: " << num_work_threads << "\n";
-
   // give some work to do for the io_work pool
   auto work_guard = asio::make_work_guard(io_work);
 

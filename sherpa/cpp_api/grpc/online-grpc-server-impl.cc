@@ -1,4 +1,7 @@
 // sherpa/cpp_api/grpc/online-grpc-server-impl.cc
+//
+// Copyright (c)  2022  Xiaomi Corporation
+//                2023  y00281951
 
 #include "sherpa/cpp_api/grpc/online-grpc-server-impl.h"
 #include "sherpa/csrc/log.h"
@@ -9,9 +12,6 @@
 namespace sherpa {
 using grpc::ServerContext;
 using grpc::ServerReaderWriter;
-using sherpa::Request;
-using sherpa::Response;
-using sherpa::Response_OneBest;
 
 void OnlineGrpcDecoderConfig::Register(ParseOptions *po) {
   recognizer_config.Register(po);
@@ -243,8 +243,8 @@ Status OnlineGrpcServer::Recognize(ServerContext* context,
               s);
   int32_t sleep_cnt = 0;
 
-  float sample_rate =
-      decoder_.config_.recognizer_config.feat_config.fbank_opts.frame_opts.samp_freq;
+  float sample_rate = decoder_.config_.recognizer_config.
+                      feat_config.fbank_opts.frame_opts.samp_freq;
 
   while (stream->Read(c->request_.get())) {
     if (!c->start_flag_) {
@@ -260,12 +260,14 @@ Status OnlineGrpcServer::Recognize(ServerContext* context,
       decoder_.mutex_.unlock();
     } else {
       const int16_t* pcm_data =
-                     reinterpret_cast<const int16_t*>(c->request_->audio_data().c_str());
-      int32_t num_samples = c->request_->audio_data().length() / sizeof(int16_t);
-      SHERPA_LOG(INFO) << c->reqid_ << "Received " << num_samples << " samples";
+           reinterpret_cast<const int16_t*>(c->request_->audio_data().c_str());
+      int32_t num_samples = 
+                          c->request_->audio_data().length() / sizeof(int16_t);
+      SHERPA_LOG(INFO) << c->reqid_ << "Received "
+                       << num_samples << " samples";
       torch::Tensor samples = torch::from_blob(const_cast<int16_t *>(pcm_data),
-                                               {num_samples},
-                                               torch::kShort).to(torch::kFloat) / 32768;
+                                      {num_samples},
+                                      torch::kShort).to(torch::kFloat) / 32768;
       samples = samples.clone();
       c->samples.push_back(samples);
       decoder_.AcceptWaveform(c);

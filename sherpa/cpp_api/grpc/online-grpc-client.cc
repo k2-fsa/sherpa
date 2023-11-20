@@ -1,4 +1,6 @@
 // sherpa/cpp_api/grpc/online-grpc-client.cc
+//
+// Copyright (c) 2023 y00281951
 
 #include <chrono>  // NOLINT
 #include <random>
@@ -6,7 +8,6 @@
 #include <fstream>
 #include <string>
 #include <cstdlib>
-#include <iostream>
 
 #include "grpc/grpc.h"
 #include "grpcpp/channel.h"
@@ -15,8 +16,9 @@
 
 #include "sherpa/csrc/wav.h"
 #include "sherpa/csrc/log.h"
+#include "sherpa/csrc/file-utils.h"
 #include "sherpa/cpp_api/parse-options.h"
-#include "online-grpc-client-impl.h"
+#include "sherpa/cpp_api/grpc/online-grpc-client-impl.h"
 
 static constexpr const char *kUsageMessage = R"(
 Automatic speech recognition with sherpa using grpc.
@@ -38,40 +40,31 @@ sherpa-online-grpc-client \
   --wav-scp=/path/to/wav.scp
 )";
 
-using namespace std;
-
-vector<string> split(const string& str, const string& delim) {
-  vector<string> res;
-  if ("" == str) return res;
-  char *strs = new char[str.length() + 1];
-  char *d = new char[delim.length() + 1];
-  strcpy(strs, str.c_str());
-  strcpy(d, delim.c_str());
-  char *p = strtok(strs, d);
-  while(p) {
-    string s = p;
-    res.push_back(s);
-    p = strtok(NULL, d);
+void SplitStringToVector(const std::string &full, const char *delim,
+                         bool omit_empty_strings,
+                         std::vector<std::string> *out) {
+  size_t start = 0, found = 0, end = full.size();
+  out->clear();
+  while (found != std::string::npos) {
+    found = full.find_first_of(delim, start);
+    // start != end condition is for when the delimiter is at the end
+    if (!omit_empty_strings || (found != start && start != end))
+      out->push_back(full.substr(start, found - start));
+    start = found + 1;
   }
-  return res;
-}
-
-bool file_exists(const std::string& filename) {
-  ifstream infile(filename);
-  return infile.good();
 }
 
 int32_t main(int32_t argc, char* argv[]) {
   std::string server_ip = "127.0.0.1";
   int32_t server_port = 6006;
-  string wav_path = "";
-  string wav_scp = "";
+  std::string wav_path = "";
+  std::string wav_scp = "";
   sherpa::ParseOptions po(kUsageMessage);
 
   po.Register("server-ip", &server_ip, "IP address of the grpc server");
   po.Register("server-port", &server_port, "Port of the grpc server");
   po.Register("wav-path", &wav_path, "wav to recognize");
-  po.Register("wav-scp", &wav_path, "wav.scp path");
+  po.Register("wav-scp", &wav_scp, "wav.scp path");
 
   po.Read(argc, argv);
 
@@ -84,28 +77,33 @@ int32_t main(int32_t argc, char* argv[]) {
     exit(EXIT_FAILURE);
   }
 
-  random_device rd;
-  mt19937 gen(rd());
+  std::random_device rd;
+  std::mt19937 gen(rd());
   const int32_t sample_rate = 16000;
   const float interval = 0.02;
   const int32_t sample_interval = interval * sample_rate;
 
-  vector<pair <string, string>> wav_dict;
+  std::vector<std::pair <std::string, std::string>> wav_dict;
   if (wav_path != "") {
     wav_dict.push_back(make_pair(wav_path, wav_path));
-  } else if (wav_scp != "" && file_exists(wav_path)) {
-    ifstream in(wav_scp);
-    string line;
+  } else if (wav_scp != "" && sherpa::FileExists(wav_scp)) {
+    std::ifstream in(wav_scp);
+    std::string line;
     while (getline(in, line)) {
-      string wav_id;
-      string wav_path;
-      vector<string> res = split(line, " ");
+      std::string wav_id;
+      std::string wav_path;
+      std::vector<std::string> res;
+      SplitStringToVector(line, "\t", true, &res);
       if (res.size() != 2) {
-        res = split(line, "\t");
+        SplitStringToVector(line, " ", true, &res);
+      }
+      if (res.size() != 2) {
+        SHERPA_LOG(WARNING) << "Wav scp: " << wav_scp << " format error";
+        continue;
       }
       wav_id = res[0];
       wav_path = res[1];
-      if (!file_exists(wav_path)) {
+      if (!FileExists(wav_path)) {
         SHERPA_LOG(WARNING) << "Wav path: " << wav_path << " not exist";
         continue;
       }
@@ -118,10 +116,10 @@ int32_t main(int32_t argc, char* argv[]) {
     return -1;
   }
 
-  for (long unsigned int i = 0; i < wav_dict.size(); i++) {
+  for (__uint64_t i = 0; i < wav_dict.size(); i++) {
     int32_t req_id = gen();
     int32_t nbest = 1;
-    const string request_id = to_string(req_id);
+    const std::string request_id = std::to_string(req_id);
     sherpa::GrpcClient client(server_ip, server_port, nbest, request_id);
     client.key_ = wav_dict[i].first;
     sherpa::WavReader wav_reader(wav_dict[i].second);
@@ -130,7 +128,7 @@ int32_t main(int32_t argc, char* argv[]) {
                               wav_reader.data() + num_samples);
 
     for (int32_t start = 0; start < num_samples; start += sample_interval) {
-      if (client.done()) {
+      if (client.Done()) {
         break;
       }
       int32_t end = std::min(start + sample_interval, num_samples);

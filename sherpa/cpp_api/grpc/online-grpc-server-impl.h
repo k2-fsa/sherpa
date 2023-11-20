@@ -1,5 +1,7 @@
 // sherpa/cpp_api/websocket/online-grpc-server-impl.h
 //
+// Copyright (c)  2022  Xiaomi Corporation
+//                2023  y00281951
 
 #ifndef SHERPA_CPP_API_GRPC_ONLINE_GRPC_SERVER_IMPL_H_
 #define SHERPA_CPP_API_GRPC_ONLINE_GRPC_SERVER_IMPL_H_
@@ -10,20 +12,19 @@
 #include <mutex>  // NOLINT
 #include <set>
 #include <vector>
+#include <string>
 
 #include "asio.hpp"
 #include "sherpa/cpp_api/online-recognizer.h"
 #include "sherpa/cpp_api/online-stream.h"
 #include "sherpa/cpp_api/parse-options.h"
-#include "sherpa.grpc.pb.h"
+#include "sherpa/cpp_api/grpc/sherpa.grpc.pb.h"
 
 namespace sherpa {
 using grpc::ServerContext;
 using grpc::ServerReaderWriter;
 using grpc::Status;
 using sherpa::ASR;
-using sherpa::Request;
-using sherpa::Response;
 
 struct Connection {
   // handle to the connection. We can use it to send messages to the client
