@@ -103,7 +103,7 @@ int32_t main(int32_t argc, char* argv[]) {
       }
       wav_id = res[0];
       wav_path = res[1];
-      if (!FileExists(wav_path)) {
+      if (!sherpa::FileExists(wav_path)) {
         SHERPA_LOG(WARNING) << "Wav path: " << wav_path << " not exist";
         continue;
       }

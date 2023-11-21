@@ -5,7 +5,7 @@ set(PROTO_DIR "${CMAKE_CURRENT_BINARY_DIR}")
 set(PROTO_IN "${CMAKE_CURRENT_SOURCE_DIR}")
 set(grpc_BINARY_DIR ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 set(grpc_LIBRARY_DIR ${CMAKE_LIBRARY_OUTPUT_DIRECTORY})
-include_directories(${CMAKE_CURRENT_BINARY_DIR})
+include_directories(${CMAKE_BINARY_DIR})
 add_custom_command(
   OUTPUT  ${PROTO_DIR}/sherpa.pb.cc
           ${PROTO_DIR}/sherpa.pb.h
