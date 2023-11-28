@@ -83,7 +83,7 @@ int32_t main(int32_t argc, char* argv[]) {
   const float interval = 0.02;
   const int32_t sample_interval = interval * sample_rate;
 
-  std::vector<std::pair <std::string, std::string>> wav_dict;
+  std::vector<std::pair<std::string, std::string>> wav_dict;
   if (wav_path != "") {
     wav_dict.push_back(make_pair(wav_path, wav_path));
   } else if (wav_scp != "" && sherpa::FileExists(wav_scp)) {
