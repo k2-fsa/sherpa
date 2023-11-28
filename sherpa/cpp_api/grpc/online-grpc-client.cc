@@ -57,8 +57,8 @@ void SplitStringToVector(const std::string &full, const char *delim,
 int32_t main(int32_t argc, char* argv[]) {
   std::string server_ip = "127.0.0.1";
   int32_t server_port = 6006;
-  std::string wav_path = "";
-  std::string wav_scp = "";
+  std::string wav_path;
+  std::string wav_scp;
   sherpa::ParseOptions po(kUsageMessage);
 
   po.Register("server-ip", &server_ip, "IP address of the grpc server");
