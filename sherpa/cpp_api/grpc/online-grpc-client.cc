@@ -116,7 +116,7 @@ int32_t main(int32_t argc, char* argv[]) {
     return -1;
   }
 
-  for (__uint64_t i = 0; i < wav_dict.size(); i++) {
+  for (size_t i = 0; i < wav_dict.size(); i++) {
     int32_t req_id = gen();
     int32_t nbest = 1;
     const std::string request_id = std::to_string(req_id);
