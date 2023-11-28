@@ -31,7 +31,7 @@ GrpcClient::GrpcClient(const std::string& host,
       nbest_(nbest),
       reqid_(reqid) {
   Connect();
-  t_.reset(new std::thread(&GrpcClient::ReadLoopFunc, this));
+  t_ = std::make_unique<std::thread>(&GrpcClient::ReadLoopFunc, this);
 }
 
 void GrpcClient::Connect() {
