@@ -85,7 +85,7 @@ int32_t main(int32_t argc, char* argv[]) {
 
   std::vector<std::pair<std::string, std::string>> wav_dict;
   if (wav_path != "") {
-    wav_dict.push_back(make_pair(wav_path, wav_path));
+    wav_dict.push_back({wav_path, wav_path});
   } else if (wav_scp != "" && sherpa::FileExists(wav_scp)) {
     std::ifstream in(wav_scp);
     std::string line;
