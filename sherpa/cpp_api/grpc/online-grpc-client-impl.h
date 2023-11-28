@@ -34,9 +34,6 @@ namespace sherpa {
 using grpc::Channel;
 using grpc::ClientContext;
 using grpc::ClientReaderWriter;
-using sherpa::ASR;
-using sherpa::Request;
-using sherpa::Response;
 
 class GrpcClient {
  public:
