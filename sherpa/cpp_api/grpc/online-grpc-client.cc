@@ -107,7 +107,7 @@ int32_t main(int32_t argc, char* argv[]) {
         SHERPA_LOG(WARNING) << "Wav path: " << wav_path << " not exist";
         continue;
       }
-      wav_dict.push_back(make_pair(wav_id, wav_path));
+      wav_dict.push_back({wav_id, wav_path});
     }
   }
 
