@@ -29,7 +29,7 @@ void OnlineGrpcDecoderConfig::Validate() const {
   SHERPA_CHECK_GT(max_batch_size, 0);
 }
 
-void OnlineGrpcServerConfig::Register(sherpa::ParseOptions *po) {
+void OnlineGrpcServerConfig::Register(ParseOptions *po) {
   decoder_config.Register(po);
 }
 
