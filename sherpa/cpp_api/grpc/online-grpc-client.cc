@@ -104,8 +104,6 @@ int32_t main(int32_t argc, char* argv[]) {
     exit(EXIT_FAILURE);
   }
 
-  config.Validate();
-
   std::random_device rd;
   std::mt19937 gen(rd());
   const float interval = 0.02;
@@ -137,7 +135,8 @@ int32_t main(int32_t argc, char* argv[]) {
     for (; !wav_reader.Done(); wav_reader.Next()) {
       const std::string request_id = std::to_string(gen());
 
-      SHERPA_LOG(INFO) << "\n" << num_decoded++ << ": decoding " << key;
+      SHERPA_LOG(INFO) << "\n" << num_decoded++ << ": decoding "
+                       << wav_reader.Key();
       auto &wave_data = wav_reader.Value();
       if (wave_data.SampFreq() != EXPECTED_SAMPLE_RATE) {
         SHERPA_LOG(FATAL) << wav_reader.Key()
@@ -151,7 +150,7 @@ int32_t main(int32_t argc, char* argv[]) {
             << "Only the first channel from " << wav_reader.Key() << " is used";
       }
       RecoginzeWav(server_ip, server_port, request_id,
-                   wav_reader.key(), d, interval);
+                   wav_reader.Key(), d, interval);
     }
   } else {
     for (int32_t i = 1; i <= po.NumArgs(); ++i) {
@@ -162,10 +161,17 @@ int32_t main(int32_t argc, char* argv[]) {
       if (!wh.Read(ki.Stream())) {
         SHERPA_LOG(FATAL) << "Failed to read " << po.GetArg(i);
       }
+      auto &wave_data = wh.Value();
+      if (wave_data.SampFreq() != EXPECTED_SAMPLE_RATE) {
+        SHERPA_LOG(FATAL) << po.GetArg(i)
+                          << "is expected to have sample rate "
+                          << EXPECTED_SAMPLE_RATE << ". Given "
+                          << wave_data.SampFreq();
+      }
       auto &d = wave_data.Data();
       if (d.NumRows() > 1) {
         SHERPA_LOG(WARNING)
-            << "Only the first channel from " << wav_reader.Key() << " is used";
+            << "Only the first channel from " << po.GetArg(i) << " is used";
       }
       RecoginzeWav(server_ip, server_port, request_id,
                    po.GetArg(i), d, interval);
