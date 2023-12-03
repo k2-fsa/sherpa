@@ -24,7 +24,6 @@ namespace sherpa {
 using grpc::ServerContext;
 using grpc::ServerReaderWriter;
 using grpc::Status;
-using sherpa::ASR;
 
 struct Connection {
   // handle to the connection. We can use it to send messages to the client
@@ -70,6 +69,8 @@ struct OnlineGrpcDecoderConfig {
   int32_t loop_interval_ms = 10;
 
   int32_t max_batch_size = 5;
+
+  float padding_seconds = 0.8;
 
   void Register(ParseOptions *po);
   void Validate() const;

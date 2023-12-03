@@ -43,9 +43,10 @@ class GrpcClient {
              const std::string& reqid);
 
   void SendBinaryData(const void* data, size_t size);
+  void SetKey(std::string key) {key_ = key;}
   void Join();
   bool Done() const { return done_; }
-  std::string key_;
+
 
  private:
   void ReadLoopFunc();
@@ -54,13 +55,15 @@ class GrpcClient {
   int32_t port_;
   int32_t nbest_;
   std::string reqid_;
+  std::string key_;
+  bool done_ = false;
+
   std::shared_ptr<Channel> channel_;
   std::unique_ptr<ASR::Stub> stub_;
-  std::shared_ptr<ClientContext> context_;
+  std::unique_ptr<ClientContext> context_;
   std::unique_ptr<ClientReaderWriter<Request, Response>> stream_;
-  std::shared_ptr<Request> request_;
-  std::shared_ptr<Response> response_;
-  bool done_ = false;
+  std::unique_ptr<Request> request_;
+  std::unique_ptr<Response> response_;
   std::unique_ptr<std::thread> t_;
 };
 

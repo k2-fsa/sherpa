@@ -38,10 +38,10 @@ void GrpcClient::Connect() {
   channel_ = grpc::CreateChannel(host_ + ":" + std::to_string(port_),
                                  grpc::InsecureChannelCredentials());
   stub_ = ASR::NewStub(channel_);
-  context_ = std::make_shared<ClientContext>();
+  context_ = std::make_unique<ClientContext>();
   stream_ = stub_->Recognize(context_.get());
-  request_ = std::make_shared<Request>();
-  response_ = std::make_shared<Response>();
+  request_ = std::make_unique<Request>();
+  response_ = std::make_unique<Response>();
   request_->mutable_decode_config()->set_nbest_config(nbest_);
   request_->mutable_decode_config()->set_reqid(reqid_);
   stream_->Write(*request_);

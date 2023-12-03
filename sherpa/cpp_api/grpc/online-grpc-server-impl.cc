@@ -21,12 +21,16 @@ void OnlineGrpcDecoderConfig::Register(ParseOptions *po) {
 
   po->Register("max-batch-size", &max_batch_size,
                "Max batch size for recognition.");
+
+  po->Register("padding-seconds", &padding_seconds,
+               "Num of seconds for tail padding.");
 }
 
 void OnlineGrpcDecoderConfig::Validate() const {
   recognizer_config.Validate();
   SHERPA_CHECK_GT(loop_interval_ms, 0);
   SHERPA_CHECK_GT(max_batch_size, 0);
+  SHERPA_CHECK_GT(padding_seconds, 0);
 }
 
 void OnlineGrpcServerConfig::Register(ParseOptions *po) {
@@ -103,7 +107,8 @@ void OnlineGrpcDecoder::InputFinished(std::shared_ptr<Connection> c) {
 
   // TODO(fangjun): Change the amount of paddings to be configurable
   torch::Tensor tail_padding =
-      torch::zeros({static_cast<int64_t>(0.8 * sample_rate)}).to(torch::kFloat);
+      torch::zeros({static_cast<int64_t>
+           (config_.padding_seconds * sample_rate)}).to(torch::kFloat);
 
   c->s->AcceptWaveform(sample_rate, tail_padding);
 

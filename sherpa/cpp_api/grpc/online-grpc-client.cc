@@ -14,11 +14,17 @@
 #include "grpcpp/client_context.h"
 #include "grpcpp/create_channel.h"
 
-#include "sherpa/csrc/wav.h"
+#include "kaldi_native_io/csrc/kaldi-table.h"
+#include "kaldi_native_io/csrc/text-utils.h"
+#include "kaldi_native_io/csrc/wave-reader.h"
+
+#include "sherpa/csrc/fbank-features.h"
 #include "sherpa/csrc/log.h"
 #include "sherpa/csrc/file-utils.h"
 #include "sherpa/cpp_api/parse-options.h"
 #include "sherpa/cpp_api/grpc/online-grpc-client-impl.h"
+
+#define EXPECTED_SAMPLE_RATE 16000
 
 static constexpr const char *kUsageMessage = R"(
 Automatic speech recognition with sherpa using grpc.
@@ -30,41 +36,62 @@ sherpa-online-grpc-client --help
 sherpa-online-grpc-client \
   --server-ip=127.0.0.1 \
   --server-port=6006 \
-  --wav-path=/path/to/foo.wav
+  path/to/foo.wav \
+  path/to/bar.wav \
 
 or
 
 sherpa-online-grpc-client \
   --server-ip=127.0.0.1 \
   --server-port=6006 \
-  --wav-scp=/path/to/wav.scp
+  --use-wav-scp=true \
+  scp:wav.scp \
+  ark,scp,t:results.ark,results.scp
 )";
 
-void SplitStringToVector(const std::string &full, const char *delim,
-                         bool omit_empty_strings,
-                         std::vector<std::string> *out) {
-  size_t start = 0, found = 0, end = full.size();
-  out->clear();
-  while (found != std::string::npos) {
-    found = full.find_first_of(delim, start);
-    // start != end condition is for when the delimiter is at the end
-    if (!omit_empty_strings || (found != start && start != end))
-      out->push_back(full.substr(start, found - start));
-    start = found + 1;
+void RecoginzeWav(std::string server_ip, int32_t server_port,
+                  std::string req_id, std::string key,
+                  const kaldiio::Matrix<float> &wav_data,
+                  const float interval) {
+  int32_t nbest = 1;
+  const int32_t num_samples = wav_data.NumCols();
+  const int32_t sample_interval = interval * EXPECTED_SAMPLE_RATE;
+
+  sherpa::GrpcClient client(server_ip, server_port, nbest, req_id);
+  client.SetKey(key);
+
+  for (int32_t start = 0; start < num_samples; start += sample_interval) {
+    if (client.Done()) {
+      break;
+    }
+    int32_t end = std::min(start + sample_interval, num_samples);
+    // Convert to short
+    std::vector<int16_t> data;
+    data.reserve(end - start);
+    for (int32_t j = start; j < end; j++) {
+      data.push_back(static_cast<int16_t>(wav_data(0, j)));
+    }
+    // Send PCM data
+    client.SendBinaryData(data.data(), data.size() * sizeof(int16_t));
+    SHERPA_LOG(INFO) << req_id << "Send " << data.size() << " samples";
+    std::this_thread::sleep_for(
+        std::chrono::milliseconds(static_cast<int32_t>(interval * 1000)));
   }
+  client.Join();
 }
 
 int32_t main(int32_t argc, char* argv[]) {
   std::string server_ip = "127.0.0.1";
   int32_t server_port = 6006;
-  std::string wav_path;
-  std::string wav_scp;
+  bool use_wav_scp = false;    // true to use wav.scp as input
+
   sherpa::ParseOptions po(kUsageMessage);
 
   po.Register("server-ip", &server_ip, "IP address of the grpc server");
   po.Register("server-port", &server_port, "Port of the grpc server");
-  po.Register("wav-path", &wav_path, "wav to recognize");
-  po.Register("wav-scp", &wav_scp, "wav.scp path");
+  po.Register("use-wav-scp", &use_wav_scp,
+              "If true, user should provide two arguments: "
+              "scp:wav.scp ark,scp,t:results.ark,results.scp");
 
   po.Read(argc, argv);
 
@@ -72,79 +99,77 @@ int32_t main(int32_t argc, char* argv[]) {
     SHERPA_LOG(FATAL) << "Invalid server port: " << server_port;
   }
 
-  if (po.NumArgs() != 0 || (wav_scp == "" && wav_path == "")) {
+  if (po.NumArgs() < 1) {
     po.PrintUsage();
     exit(EXIT_FAILURE);
   }
 
+  config.Validate();
+
   std::random_device rd;
   std::mt19937 gen(rd());
-  const int32_t sample_rate = 16000;
   const float interval = 0.02;
-  const int32_t sample_interval = interval * sample_rate;
 
-  std::vector<std::pair<std::string, std::string>> wav_dict;
-  if (wav_path != "") {
-    wav_dict.push_back({wav_path, wav_path});
-  } else if (wav_scp != "" && sherpa::FileExists(wav_scp)) {
-    std::ifstream in(wav_scp);
-    std::string line;
-    while (getline(in, line)) {
-      std::string wav_id;
-      std::string wav_path;
-      std::vector<std::string> res;
-      SplitStringToVector(line, "\t", true, &res);
-      if (res.size() != 2) {
-        SplitStringToVector(line, " ", true, &res);
-      }
-      if (res.size() != 2) {
-        SHERPA_LOG(WARNING) << "Wav scp: " << wav_scp << " format error";
-        continue;
-      }
-      wav_id = res[0];
-      wav_path = res[1];
-      if (!sherpa::FileExists(wav_path)) {
-        SHERPA_LOG(WARNING) << "Wav path: " << wav_path << " not exist";
-        continue;
-      }
-      wav_dict.push_back({wav_id, wav_path});
+  if (use_wav_scp) {
+    SHERPA_CHECK_EQ(po.NumArgs(), 2)
+        << "Please use something like:\n"
+        << "scp:wav.scp ark,scp,t:results.scp,results.ark\n"
+        << "if you provide --use-wav-scp=true";
+
+    if (kaldiio::ClassifyRspecifier(po.GetArg(1), nullptr, nullptr) ==
+        kaldiio::kNoRspecifier) {
+      SHERPA_LOG(FATAL) << "Please provide an rspecifier. Current value is: "
+                        << po.GetArg(1);
     }
-  }
 
-  if (wav_dict.size() == 0) {
-    SHERPA_LOG(WARNING) << "There is no wav to decode, please check!";
-    return -1;
-  }
-
-  for (size_t i = 0; i < wav_dict.size(); i++) {
-    int32_t req_id = gen();
-    int32_t nbest = 1;
-    const std::string request_id = std::to_string(req_id);
-    sherpa::GrpcClient client(server_ip, server_port, nbest, request_id);
-    client.key_ = wav_dict[i].first;
-    sherpa::WavReader wav_reader(wav_dict[i].second);
-    const int32_t num_samples = wav_reader.num_samples();
-    std::vector<float> pcm_data(wav_reader.data(),
-                              wav_reader.data() + num_samples);
-
-    for (int32_t start = 0; start < num_samples; start += sample_interval) {
-      if (client.Done()) {
-        break;
-      }
-      int32_t end = std::min(start + sample_interval, num_samples);
-      // Convert to short
-      std::vector<int16_t> data;
-      data.reserve(end - start);
-      for (int32_t j = start; j < end; j++) {
-        data.push_back(static_cast<int16_t>(pcm_data[j]));
-      }
-      // Send PCM data
-      client.SendBinaryData(data.data(), data.size() * sizeof(int16_t));
-      SHERPA_LOG(INFO) << req_id << "Send " << data.size() << " samples";
-      std::this_thread::sleep_for(
-          std::chrono::milliseconds(static_cast<int32_t>(interval * 1000)));
+    if (kaldiio::ClassifyWspecifier(po.GetArg(2), nullptr, nullptr, nullptr) ==
+        kaldiio::kNoWspecifier) {
+      SHERPA_LOG(FATAL) << "Please provide a wspecifier. Current value is: "
+                        << po.GetArg(2);
     }
-    client.Join();
+
+    kaldiio::TableWriter<kaldiio::TokenVectorHolder> writer(po.GetArg(2));
+
+    kaldiio::SequentialTableReader<kaldiio::WaveHolder> wav_reader(
+        po.GetArg(1));
+
+    int32_t num_decoded = 0;
+    for (; !wav_reader.Done(); wav_reader.Next()) {
+      const std::string request_id = std::to_string(gen());
+
+      SHERPA_LOG(INFO) << "\n" << num_decoded++ << ": decoding " << key;
+      auto &wave_data = wav_reader.Value();
+      if (wave_data.SampFreq() != EXPECTED_SAMPLE_RATE) {
+        SHERPA_LOG(FATAL) << wav_reader.Key()
+                          << "is expected to have sample rate "
+                          << EXPECTED_SAMPLE_RATE << ". Given "
+                          << wave_data.SampFreq();
+      }
+      auto &d = wave_data.Data();
+      if (d.NumRows() > 1) {
+        SHERPA_LOG(WARNING)
+            << "Only the first channel from " << wav_reader.Key() << " is used";
+      }
+      RecoginzeWav(server_ip, server_port, request_id,
+                   wav_reader.key(), d, interval);
+    }
+  } else {
+    for (int32_t i = 1; i <= po.NumArgs(); ++i) {
+      const std::string request_id = std::to_string(gen());
+      bool binary = true;
+      kaldiio::Input ki(po.GetArg(i), &binary);
+      kaldiio::WaveHolder wh;
+      if (!wh.Read(ki.Stream())) {
+        SHERPA_LOG(FATAL) << "Failed to read " << po.GetArg(i);
+      }
+      auto &d = wave_data.Data();
+      if (d.NumRows() > 1) {
+        SHERPA_LOG(WARNING)
+            << "Only the first channel from " << wav_reader.Key() << " is used";
+      }
+      RecoginzeWav(server_ip, server_port, request_id,
+                   po.GetArg(i), d, interval);
+    }
   }
   return 0;
 }
