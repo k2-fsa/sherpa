@@ -9,7 +9,7 @@ from pathlib import Path
 
 import setuptools
 from setuptools.command.build_ext import build_ext
-
+import torch
 
 def is_for_pypi():
     ans = os.environ.get("SHERPA_IS_FOR_PYPI", None)
@@ -22,6 +22,11 @@ def is_macos():
 
 def is_windows():
     return platform.system() == "Windows"
+
+
+def get_pytorch_version():
+    # if it is 1.7.1+cuda101, then strip +cuda101
+    return torch.__version__.split("+")[0]
 
 
 try:
@@ -76,6 +81,12 @@ class BuildExtension(build_ext):
         if "PYTHON_EXECUTABLE" not in cmake_args:
             print(f"Setting PYTHON_EXECUTABLE to {sys.executable}")
             cmake_args += f" -DPYTHON_EXECUTABLE={sys.executable}"
+
+        major, minor = get_pytorch_version().split(".")[:2]
+        major = int(major)
+        minor = int(minor)
+        if major == 2 and minor >= 1:
+            extra_cmake_args += f" -DCMAKE_CXX_STANDARD=17 "
 
         cmake_args += extra_cmake_args
 
