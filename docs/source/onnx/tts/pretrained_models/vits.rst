@@ -8,6 +8,16 @@ All models in a single table
 
 The following table summarizes the information of all models in this page.
 
+.. note::
+
+   Since there are more than ``100`` pre-trained models for over ``40`` languages,
+   we don't list all of them on this page. Please find them at
+   `<https://github.com/k2-fsa/sherpa-onnx/releases/tag/tts-models>`_.
+
+   You can try all the models at the following huggingface space.
+   `<https://huggingface.co/spaces/k2-fsa/text-to-speech>`_.
+
+
 .. hint::
 
    You can find Android APKs for each model at the following page
@@ -1003,8 +1013,6 @@ en_US-lessac-medium (English, single-speaker)
 ---------------------------------------------
 
 This model is converted from `<https://huggingface.co/rhasspy/piper-voices/tree/main/en/en_US/lessac/medium>`_.
-You can find the colab notebook for the conversion at the following
-address `<https://github.com/k2-fsa/colab/blob/master/sherpa-onnx/piper/convert_de_DE_thorsten_medium.ipynb>`_
 
 The dataset used to train the model is `lessac_blizzard2013`_.
 
@@ -1023,18 +1031,13 @@ Please use the following commands to download it.
 
   cd /path/to/sherpa-onnx
 
-  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/vits-piper-en_US-lessac-medium
-  cd vits-piper-en_US-lessac-medium
-  git lfs pull --include "*.onnx"
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/vits-piper-en_US-lessac-medium.tar.bz2
+  tar xf vits-piper-en_US-lessac-medium.tar.bz2
 
-Please check that the file sizes of the pre-trained models are correct. See
-the file sizes of ``*.onnx`` files below.
+.. hint::
 
-.. code-block:: bash
-
-  vits-piper-en_US-lessac-medium fangjun$ ls -lh *.onnx
-
-  -rw-r--r-- 1 fangjun staff 61M Oct 26 05:21 en_US-lessac-medium.onnx
+   You can find a lot of pre-trained models for over 40 languages at
+   `<https://github.com/k2-fsa/sherpa-onnx/releases/tag/tts-models>`.
 
 Generate speech with executable compiled from C++
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1045,10 +1048,28 @@ Generate speech with executable compiled from C++
 
   ./build/bin/sherpa-onnx-offline-tts \
     --vits-model=./vits-piper-en_US-lessac-medium/en_US-lessac-medium.onnx \
-    --vits-lexicon=./vits-piper-en_US-lessac-medium/lexicon.txt \
+    --vits-data-dir=./vits-piper-en_US-lessac-medium/espeak-ng-data \
     --vits-tokens=./vits-piper-en_US-lessac-medium/tokens.txt \
     --output-filename=./liliana-piper-en_US-lessac-medium.wav \
     'liliana, the most beautiful and lovely assistant of our team!'
+
+.. hint::
+
+   You can also use
+
+    .. code-block:: bash
+
+      cd /path/to/sherpa-onnx
+
+      ./build/bin/sherpa-onnx-offline-tts-play \
+        --vits-model=./vits-piper-en_US-lessac-medium/en_US-lessac-medium.onnx \
+        --vits-data-dir=./vits-piper-en_US-lessac-medium/espeak-ng-data \
+        --vits-tokens=./vits-piper-en_US-lessac-medium/tokens.txt \
+        --output-filename=./liliana-piper-en_US-lessac-medium.wav \
+        'liliana, the most beautiful and lovely assistant of our team!'
+
+    which will play the audio as it is generating.
+
 
 After running, it will generate a file ``liliana-piper.wav`` in the current directory.
 
@@ -1096,11 +1117,27 @@ Generate speech with Python script
 
    python3 ./python-api-examples/offline-tts.py \
     --vits-model=./vits-piper-en_US-lessac-medium/en_US-lessac-medium.onnx \
-    --vits-lexicon=./vits-piper-en_US-lessac-medium/lexicon.txt \
+    --vits-data-dir=./vits-piper-en_US-lessac-medium/espeak-ng-data \
     --vits-tokens=./vits-piper-en_US-lessac-medium/tokens.txt \
-    --output-filename=./liliana-piper-en_US-lessac-medium.wav \
     --output-filename=./armstrong-piper-en_US-lessac-medium.wav \
     "That's one small step for a man, a giant leap for mankind."
+
+.. hint::
+
+   You can also use
+
+    .. code-block:: bash
+
+      cd /path/to/sherpa-onnx
+
+      python3 ./python-api-examples/offline-tts-play.py \
+        --vits-model=./vits-piper-en_US-lessac-medium/en_US-lessac-medium.onnx \
+        --vits-data-dir=./vits-piper-en_US-lessac-medium/espeak-ng-data \
+        --vits-tokens=./vits-piper-en_US-lessac-medium/tokens.txt \
+        --output-filename=./armstrong-piper-en_US-lessac-medium.wav \
+        "That's one small step for a man, a giant leap for mankind."
+
+    which will play the audio as it is generating.
 
 After running, it will generate a file ``armstrong-piper-en_US-lessac-medium.wav`` in the current directory.
 
