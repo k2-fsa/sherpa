@@ -75,6 +75,7 @@ Finally, let us build `sherpa-onnx`_.
 
   git clone https://github.com/k2-fsa/sherpa-onnx
   cd sherpa-onnx
+  export BUILD_SHARED_LIBS=ON
   ./build-aarch64-linux-gnu.sh
 
 After building, you will get two binaries:
@@ -171,3 +172,69 @@ the generated binaries.
 
 Please create an issue at `<https://github.com/k2-fsa/sherpa-onnx/issues>`_
 if you have any problems.
+
+How to build static libraries and static linked binaries
+---------------------------------------------------------
+
+If you want to build static libraries and static linked binaries, please first
+download a cross compile toolchain with GCC >= 9.0. The following is an example:
+
+.. code-block:: bash
+
+   mkdir -p $HOME/software
+   cd $HOME/software
+   wget https://huggingface.co/csukuangfj/sherpa-ncnn-toolchains/resolve/main/gcc-arm-9.2-2019.12-x86_64-aarch64-none-linux-gnu.tar.xz
+   tar xvf gcc-arm-9.2-2019.12-x86_64-aarch64-none-linux-gnu.tar.xz
+
+Next, we need to set the following environment variable:
+
+.. code-block:: bash
+
+   export PATH=$HOME/software/gcc-arm-9.2-2019.12-x86_64-aarch64-none-linux-gnu/bin:$PATH
+
+To check that we have installed the cross-compiling toolchain successfully, please
+run:
+
+.. code-block:: bash
+
+  aarch64-none-linux-gnu-gcc --version
+
+which should print the following log:
+
+.. code-block::
+
+  aarch64-none-linux-gnu-gcc (GNU Toolchain for the A-profile Architecture 9.2-2019.12 (arm-9.10)) 9.2.1 20191025
+  Copyright (C) 2019 Free Software Foundation, Inc.
+  This is free software; see the source for copying conditions.  There is NO
+  warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+
+Now you can build static libraries and static linked binaries with the following commands:
+
+.. code-block:: bash
+
+  git clone https://github.com/k2-fsa/sherpa-onnx
+  cd sherpa-onnx
+  export BUILD_SHARED_LIBS=OFF
+  ./build-aarch64-linux-gnu.sh
+
+You can use the following commands to check that the generated binaries are indeed static linked:
+
+.. code-block:: bash
+
+    $ cd build-aarch64-linux-gnu/bin
+
+    $ ldd sherpa-onnx-alsa
+        not a dynamic executable
+
+    $ readelf -d sherpa-onnx-alsa
+
+    Dynamic section at offset 0xed9950 contains 30 entries:
+      Tag        Type                         Name/Value
+     0x0000000000000001 (NEEDED)             Shared library: [libasound.so.2]
+     0x0000000000000001 (NEEDED)             Shared library: [libdl.so.2]
+     0x0000000000000001 (NEEDED)             Shared library: [libm.so.6]
+     0x0000000000000001 (NEEDED)             Shared library: [libpthread.so.0]
+     0x0000000000000001 (NEEDED)             Shared library: [libc.so.6]
+     0x000000000000000f (RPATH)              Library rpath: [$ORIGIN:/star-fj/fangjun/open-source/sherpa-onnx/build-aarch64-linux-gnu/_deps/onnxruntime-sr
+    c/lib:]
+     0x000000000000000c (INIT)               0x404218

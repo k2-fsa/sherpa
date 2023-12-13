@@ -4,9 +4,6 @@ Whisper
 This section describes how to use models from `Whisper`_ with `sherpa-onnx`_
 for non-streaming speech recognition.
 
-.. hint::
-
-
 .. toctree::
    :maxdepth: 5
 
