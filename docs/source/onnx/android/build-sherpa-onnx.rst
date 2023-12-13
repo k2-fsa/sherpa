@@ -3,6 +3,41 @@
 Build sherpa-onnx for Android
 =============================
 
+You can use this section for both ``speech-to-text`` (STT, ASR)
+and ``text-to-speech`` (TTS).
+
+.. hint::
+
+   The build scripts mentioned in this section run on both Linux and macOS.
+
+   If you are using Windows or if you don't want to build the shared libraries,
+   you can download pre-built shared libraries by visiting the release page
+   `<https://github.com/k2-fsa/sherpa-onnx/releases/>`_
+
+   For instance, for the relase ``v1.9.0``, you can visit
+   `<https://github.com/k2-fsa/sherpa-onnx/releases/tag/v1.9.0>`_
+   and download the file ``sherpa-onnx-v1.9.0-android.tar.bz2``
+   using the following command:
+
+    .. code-block:: bash
+
+      wget https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.9.0/sherpa-onnx-v1.9.0-android.tar.bz2
+
+   Please always use the latest release.
+
+.. hint::
+
+   This section is originally written for speech-to-text. However, it is
+   also applicable to other folders in `<https://github.com/k2-fsa/sherpa-onnx/tree/master/android>`_.
+
+   For instance, you can replace ``SherpaOnnx`` in this section with
+
+    - ``SherpaOnnx2Pass``
+    - ``SherpaOnnxTts``  (this is for text-to-speech)
+    - ``SherpaOnnxVad``
+    - ``SherpaOnnxVadAsr``
+
+
 Install Android Studio
 ----------------------
 
@@ -155,6 +190,12 @@ You should see the following screen shot after running the above copy ``cp`` com
 .. figure:: ./pic/so-libs-for-arm64-v8a.png
    :alt: Generated shared libraries for arm64-v8a
    :width: 600
+
+.. hint::
+
+   You may see more files than it is shown in the screenshot. That is totally fine
+   since we are extending `sherpa-onnx`_. The first thing to remember is to always
+   use the wildcard ``lib*.so`` in the ``cp`` command.
 
 Build for armv7-eabi
 ^^^^^^^^^^^^^^^^^^^^
@@ -336,6 +377,10 @@ libraries, is only ``5.4 MB``.
 
   Please refer to `<https://onnxruntime.ai/docs/build/custom.html>`_ for a
   custom build to reduce the file size of ``libonnxruntime.so``.
+
+  Note that we are constantly updating the version of ``onnxruntime``. By
+  the time you are reading this section, we may be using the latest version
+  of ``onnxruntime``.
 
 .. hint::
 
