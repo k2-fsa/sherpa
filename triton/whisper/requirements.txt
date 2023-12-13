@@ -1,5 +1,7 @@
+colored
+onnxconverter_common==1.12.2
+onnxmltools==1.11.1
 openai-whisper
 onnxruntime-gpu
 onnx
-onnxmltools
 polygraphy
