@@ -161,4 +161,5 @@ rst_epilog = """
 .. _aishell3: https://www.openslr.org/93/
 .. _lessac_blizzard2013: https://www.cstr.ed.ac.uk/projects/blizzard/2013/lessac_blizzard2013/
 .. _OpenFst: https://www.openfst.org/
+.. _MMS: https://huggingface.co/spaces/mms-meta/MMS
 """
