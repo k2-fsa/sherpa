@@ -20,8 +20,20 @@ from the following huggingface repositories:
    - `<https://huggingface.co/csukuangfj/sherpa-onnx-whisper-base.en>`_
  * - ``small.en``
    - `<https://huggingface.co/csukuangfj/sherpa-onnx-whisper-small.en>`_
+ * - ``distil-small.en``
+   - `<https://huggingface.co/csukuangfj/sherpa-onnx-whisper-distil-small.en>`_
  * - ``medium.en``
    - `<https://huggingface.co/csukuangfj/sherpa-onnx-whisper-medium.en>`_
+ * - ``distil-medium.en``
+   - `<https://huggingface.co/csukuangfj/sherpa-onnx-whisper-distil-medium.en>`_
+ * - ``tiny``
+   - `<https://huggingface.co/csukuangfj/sherpa-onnx-whisper-tiny>`_
+ * - ``base``
+   - `<https://huggingface.co/csukuangfj/sherpa-onnx-whisper-base>`_
+ * - ``small``
+   - `<https://huggingface.co/csukuangfj/sherpa-onnx-whisper-small>`_
+ * - ``medium``
+   - `<https://huggingface.co/csukuangfj/sherpa-onnx-whisper-medium>`_
 
 If you want to export the models by yourself or/and want to learn how the models
 are exported, please read below.
