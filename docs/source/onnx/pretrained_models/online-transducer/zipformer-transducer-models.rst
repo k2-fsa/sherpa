@@ -667,27 +667,12 @@ Download the model
 
 Please use the following commands to download it.
 
-.. tabs::
+.. code-block:: bash
 
-   .. tab:: Huggingface
+    cd /path/to/sherpa-onnx
 
-      .. code-block:: bash
-
-        cd /path/to/sherpa-onnx
-
-        GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20
-        cd sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20
-        git lfs pull --include "*.onnx"
-
-   .. tab:: ModelScope
-
-      .. code-block:: bash
-
-        cd /path/to/sherpa-onnx
-
-        GIT_LFS_SKIP_SMUDGE=1 git clone https://www.modelscope.cn/pkufool/sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20.git
-        cd sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20
-        git lfs pull --include "*.onnx"
+    wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20.tar.bz2
+    tar xvf sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20.tar.bz2
 
 Please check that the file sizes of the pre-trained models are correct. See
 the file sizes of ``*.onnx`` files below.
