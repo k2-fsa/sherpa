@@ -34,10 +34,8 @@ Please use the following commands to download it.
 .. code-block:: bash
 
   cd /path/to/sherpa-onnx
-
-  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/sherpa-onnx-paraformer-zh-2023-03-28
-  cd sherpa-onnx-paraformer-zh-2023-03-28
-  git lfs pull --include "*.onnx"
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-paraformer-zh-2023-03-28.tar.bz2
+  tar xvf sherpa-onnx-paraformer-zh-2023-03-28.tar.bz2
 
 Please check that the file sizes of the pre-trained models are correct. See
 the file sizes of ``*.onnx`` files below.
