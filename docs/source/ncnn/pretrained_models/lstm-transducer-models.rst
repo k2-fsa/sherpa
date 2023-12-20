@@ -19,7 +19,7 @@ for real-time speech recognition. You can find the models in ``fp16`` format
 at `<https://huggingface.co/marcoyang/sherpa-ncnn-lstm-transducer-small-2023-02-13>`_.
 
 The model is trained on a bi-lingual dataset ``tal_csasr`` (Chinese + English), so it can be used
-for both Chinese and English. 
+for both Chinese and English.
 
 In the following, we show you how to download it and
 deploy it with `sherpa-ncnn`_.
@@ -30,16 +30,13 @@ Please use the following commands to download it.
 
    cd /path/to/sherpa-ncnn
 
-   GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/marcoyang/sherpa-ncnn-lstm-transducer-small-2023-02-13
+   wget https://github.com/k2-fsa/sherpa-ncnn/releases/download/models/sherpa-ncnn-lstm-transducer-small-2023-02-13.tar.bz2
+   tar xvf sherpa-ncnn-lstm-transducer-small-2023-02-13.tar.bz2
 
-   cd sherpa-ncnn-lstm-transducer-small-2023-02-13
-   git lfs pull --include "*.bin"
-
-  
 .. note::
 
   Please refer to :ref:`sherpa-ncnn-embedded-linux-arm-install` for how to
-  compile `sherpa-ncnn`_ for a 32-bit ARM platform. 
+  compile `sherpa-ncnn`_ for a 32-bit ARM platform.
 
 Decode a single wave file with ./build/bin/sherpa-ncnn
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -104,31 +101,8 @@ Please use the following commands to download it.
 
   cd /path/to/sherpa-ncnn
 
-  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/sherpa-ncnn-2022-09-05
-  cd sherpa-ncnn-2022-09-05
-  git lfs pull --include "*.bin"
-
-Please check that the file sizes of the pre-trained models are correct. See
-the file sizes of ``*.bin`` files below.
-
-.. code-block:: bash
-
-  # before running `git lfs pull`
-
-  sherpa-ncnn-2022-09-05 fangjun$ ls -lh *.bin
-  -rw-r--r--  1 fangjun  staff   131B Feb 16 11:12 decoder_jit_trace-pnnx.ncnn.bin
-  -rw-r--r--  1 fangjun  staff   134B Feb 16 11:12 encoder_jit_trace-pnnx.ncnn.bin
-  -rw-r--r--  1 fangjun  staff   132B Feb 16 11:12 joiner_jit_trace-pnnx.ncnn.bin
-
-  sherpa-ncnn-2022-09-05 fangjun$ git lfs pull --include "*.bin"
-
-  # after running `git lfs pull`
-
-  sherpa-ncnn-2022-09-05 fangjun$ ls -lh *.bin
-  -rw-r--r--  1 fangjun  staff   502K Feb 16 11:12 decoder_jit_trace-pnnx.ncnn.bin
-  -rw-r--r--  1 fangjun  staff   159M Feb 16 11:13 encoder_jit_trace-pnnx.ncnn.bin
-  -rw-r--r--  1 fangjun  staff   1.5M Feb 16 11:12 joiner_jit_trace-pnnx.ncnn.bin
-
+  wget https://github.com/k2-fsa/sherpa-ncnn/releases/download/models/sherpa-ncnn-2022-09-05.tar.bz2
+  tar xvf sherpa-ncnn-2022-09-05.tar.bz2
 
 Decode a single wave file
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -224,30 +198,8 @@ Please use the following commands to download it.
 
   cd /path/to/sherpa-ncnn
 
-  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/sherpa-ncnn-2022-09-30
-  cd sherpa-ncnn-2022-09-30
-  git lfs pull --include "*.bin"
-
-Please check that the file sizes of the pre-trained models are correct. See
-the file sizes of ``*.bin`` files below.
-
-.. code-block:: bash
-
-  # before running `git lfs pull`
-
-  sherpa-ncnn-2022-09-30 fangjun$ ls -lh *.bin
-  -rw-r--r--  1 fangjun  staff   132B Feb 16 11:30 decoder_jit_trace-pnnx.ncnn.bin
-  -rw-r--r--  1 fangjun  staff   134B Feb 16 11:30 encoder_jit_trace-pnnx.ncnn.bin
-  -rw-r--r--  1 fangjun  staff   132B Feb 16 11:30 joiner_jit_trace-pnnx.ncnn.bin
-
-  sherpa-ncnn-2022-09-30 fangjun$ git lfs pull --include "*.bin"
-
-  # after running `git lfs pull`
-
-  sherpa-ncnn-2022-09-30 fangjun$ ls -lh *.bin
-  -rw-r--r--  1 fangjun  staff   5.4M Feb 16 11:30 decoder_jit_trace-pnnx.ncnn.bin
-  -rw-r--r--  1 fangjun  staff   159M Feb 16 11:31 encoder_jit_trace-pnnx.ncnn.bin
-  -rw-r--r--  1 fangjun  staff   6.4M Feb 16 11:30 joiner_jit_trace-pnnx.ncnn.bin
+  wget https://github.com/k2-fsa/sherpa-ncnn/releases/download/models/sherpa-ncnn-2022-09-30.tar.bz2
+  tar xvf sherpa-ncnn-2022-09-30.tar.bz2
 
 Decode a single wave file
 ~~~~~~~~~~~~~~~~~~~~~~~~~
