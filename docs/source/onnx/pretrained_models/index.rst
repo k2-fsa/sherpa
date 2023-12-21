@@ -17,6 +17,7 @@ available pre-trained models.
 
    online-transducer/index
    online-paraformer/index
+   online-ctc/index
    offline-transducer/index
    offline-paraformer/index
    offline-ctc/index
