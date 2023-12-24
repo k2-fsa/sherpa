@@ -152,6 +152,7 @@ Android ABIs:
   - ``arm64-v8a``
   - ``armv7-eabi``
   - ``x86_64``
+  - ``x86``
 
 .. caution::
 
@@ -159,6 +160,26 @@ Android ABIs:
   most common one.
 
   If you want to test the app on an emulator, you probably need ``x86_64``.
+
+.. hint::
+
+   Building scripts for this section are for macOS and Linux. If you are
+   using Windows or if you don't want to build the shared libraries by yourself,
+   you can download pre-compiled shared libraries for this section by visiting
+
+    `<https://github.com/k2-fsa/sherpa-onnx/releases>`_
+
+.. hint::
+
+   We provide a colab notebook
+   |build sherpa-onnx for android colab notebook|
+   for you to try this section step by step.
+
+   If you are using Windows or you don't want to setup your local environment
+   to build the C++ libraries, please use the above colab notebook.
+
+.. |build sherpa-onnx for android colab notebook| image:: https://colab.research.google.com/assets/colab-badge.svg
+   :target: https://github.com/k2-fsa/colab/blob/master/sherpa-onnx/build_sherpa_onnx_for_android.ipynb
 
 Build for arm64-v8a
 ^^^^^^^^^^^^^^^^^^^
@@ -259,6 +280,14 @@ You should see the following screen shot after running the above copy ``cp`` com
 .. figure:: ./pic/so-libs-for-x86-64.png
    :alt: Generated shared libraries for x86_64
    :width: 600
+
+Build for x86
+^^^^^^^^^^^^^
+
+.. code-block:: bash
+
+  cd sherpa-onnx # Go to the root repo
+  ./build-android-x86.sh
 
 Download pre-trained models
 ---------------------------
