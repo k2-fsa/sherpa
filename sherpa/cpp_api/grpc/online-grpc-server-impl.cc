@@ -257,7 +257,7 @@ Status OnlineGrpcServer::Recognize(ServerContext* context,
       c->reqid = c->request->decode_config().reqid();
 
       mutex_.lock();
-      connections_.insert(c->reqid_);
+      connections_.insert(c->reqid);
       mutex_.unlock();
 
       decoder_.mutex_.lock();
