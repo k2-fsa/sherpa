@@ -27,13 +27,12 @@ using grpc::Status;
 
 struct Connection {
   // handle to the connection. We can use it to send messages to the client
-  std::string reqid_ = "";
-  std::shared_ptr<ServerReaderWriter<Response, Request>> stream_;
-  std::shared_ptr<Request> request_;
-  std::shared_ptr<Response> response_;
+  std::string reqid;
+  std::shared_ptr<ServerReaderWriter<Response, Request>> stream;
+  std::shared_ptr<Request> request;
+  std::shared_ptr<Response> response;
   std::shared_ptr<OnlineStream> s;
 
-  int32_t nbest_ = 1;
   // The last time we received a message from the client
   // TODO(fangjun): Use it to disconnect from a client if it is inactive
   // for a specified time.
@@ -47,17 +46,17 @@ struct Connection {
   // and invoke work threads to compute features
   std::deque<torch::Tensor> samples;
 
-  bool start_flag_ = false;       // first time read request flag
-  bool finish_flag_ = false;      // connection finish flag
+  bool start_flag = false;       // first time read request flag
+  bool finish_flag = false;      // connection finish flag
 
   Connection() = default;
   Connection(std::shared_ptr<ServerReaderWriter<Response, Request>> stream,
              std::shared_ptr<Request> request,
              std::shared_ptr<Response> response,
              std::shared_ptr<OnlineStream> s)
-             : stream_(stream),
-               request_(request),
-               response_(response),
+             : stream(stream),
+               request(request),
+               response(response),
                s(s),
                last_active(std::chrono::steady_clock::now()) {}
 };

@@ -51,37 +51,37 @@ OnlineGrpcDecoder::OnlineGrpcDecoder(OnlineGrpcServer *server)
 void OnlineGrpcDecoder::SerializeResult(std::shared_ptr<Connection> c) {
   std::lock_guard<std::mutex> lock(c->mutex);
   auto result = recognizer_->GetResult(c->s.get());
-  c->response_->clear_nbest();
-  Response_OneBest* one_best_ = c->response_->add_nbest();
-  one_best_->set_sentence(result.text);
+  c->response->clear_nbest();
+  Response_OneBest* one_best = c->response->add_nbest();
+  one_best->set_sentence(result.text);
 }
 
 void OnlineGrpcDecoder::OnPartialResult(std::shared_ptr<Connection> c) {
   std::lock_guard<std::mutex> lock(c->mutex);
-  if (!c->finish_flag_) {
-    c->response_->set_status(Response::ok);
-    c->response_->set_type(Response::partial_result);
-    c->stream_->Write(*c->response_);
+  if (!c->finish_flag) {
+    c->response->set_status(Response::ok);
+    c->response->set_type(Response::partial_result);
+    c->stream->Write(*c->response);
   }
 }
 
 void OnlineGrpcDecoder::OnFinalResult(std::shared_ptr<Connection> c) {
   std::lock_guard<std::mutex> lock(c->mutex);
-  if (!c->finish_flag_) {
-    c->response_->set_status(Response::ok);
-    c->response_->set_type(Response::final_result);
-    c->stream_->Write(*c->response_);
+  if (!c->finish_flag) {
+    c->response->set_status(Response::ok);
+    c->response->set_type(Response::final_result);
+    c->stream->Write(*c->response);
   }
 }
 
 void OnlineGrpcDecoder::OnSpeechEnd(std::shared_ptr<Connection> c) {
   std::lock_guard<std::mutex> lock(c->mutex);
-  if (!c->finish_flag_) {
-    c->response_->set_status(Response::ok);
-    c->response_->set_type(Response::speech_end);
-    c->stream_->Write(*c->response_);
+  if (!c->finish_flag) {
+    c->response->set_status(Response::ok);
+    c->response->set_type(Response::speech_end);
+    c->stream->Write(*c->response);
   }
-  c->finish_flag_ = true;
+  c->finish_flag = true;
 }
 
 void OnlineGrpcDecoder::AcceptWaveform(std::shared_ptr<Connection> c) {
@@ -213,11 +213,11 @@ void OnlineGrpcDecoder::Decode() {
       OnPartialResult(c);
     } else {
       OnFinalResult(c);
-      connections_.erase(c->reqid_);
+      connections_.erase(c->reqid);
       OnSpeechEnd(c);
     }
     SHERPA_LOG(INFO) << "Decode result:" << result.AsJsonString();
-    active_.erase(c->reqid_);
+    active_.erase(c->reqid);
   }
 }
 
@@ -232,7 +232,7 @@ void OnlineGrpcServer::Run() {
   decoder_.Run();
 }
 
-bool OnlineGrpcServer::Contains(std::string reqid) const {
+bool OnlineGrpcServer::Contains(const std::string& reqid) const {
   std::lock_guard<std::mutex> lock(mutex_);
   return connections_.count(reqid);
 }
@@ -251,24 +251,24 @@ Status OnlineGrpcServer::Recognize(ServerContext* context,
   float sample_rate = decoder_.config_.recognizer_config.
                       feat_config.fbank_opts.frame_opts.samp_freq;
 
-  while (stream->Read(c->request_.get())) {
-    if (!c->start_flag_) {
-      c->start_flag_ = true;
-      c->reqid_ = c->request_->decode_config().reqid();
+  while (stream->Read(c->request.get())) {
+    if (!c->start_flag) {
+      c->start_flag = true;
+      c->reqid = c->request->decode_config().reqid();
 
       mutex_.lock();
       connections_.insert(c->reqid_);
       mutex_.unlock();
 
       decoder_.mutex_.lock();
-      decoder_.connections_.insert({c->reqid_, c});
+      decoder_.connections_.insert({c->reqid, c});
       decoder_.mutex_.unlock();
     } else {
       const int16_t* pcm_data =
-           reinterpret_cast<const int16_t*>(c->request_->audio_data().c_str());
+           reinterpret_cast<const int16_t*>(c->request->audio_data().c_str());
       int32_t num_samples =
-                          c->request_->audio_data().length() / sizeof(int16_t);
-      SHERPA_LOG(INFO) << c->reqid_ << "Received "
+                          c->request->audio_data().length() / sizeof(int16_t);
+      SHERPA_LOG(INFO) << c->reqid << "Received "
                        << num_samples << " samples";
       torch::Tensor samples = torch::from_blob(const_cast<int16_t *>(pcm_data),
                                       {num_samples},
@@ -279,20 +279,20 @@ Status OnlineGrpcServer::Recognize(ServerContext* context,
   }
   decoder_.InputFinished(c);
 
-  while (!c->finish_flag_) {
+  while (!c->finish_flag) {
     std::this_thread::sleep_for(
           std::chrono::milliseconds(static_cast<int32_t>(SHERPA_SLEEP_TIME)));
     if (sleep_cnt++ > SHERPA_SLEEP_ROUND_MAX) {
-      c->finish_flag_ = true;
+      c->finish_flag = true;
       break;
     }
   }
 
   mutex_.lock();
-  connections_.erase(c->reqid_);
+  connections_.erase(c->reqid);
   mutex_.unlock();
 
-  SHERPA_LOG(INFO) << "reqid:" << c->reqid_ << " Connection close";
+  SHERPA_LOG(INFO) << "reqid:" << c->reqid << " Connection close";
   return Status::OK;
 }
 }  // namespace sherpa
