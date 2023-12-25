@@ -138,7 +138,7 @@ class OnlineGrpcServer final : public ASR::Service {
   void Run();
 
   const OnlineGrpcServerConfig &GetConfig() const { return config_; }
-  bool Contains(std::string reqid) const;
+  bool Contains(const std::string& reqid) const;
   asio::io_context &GetWorkContext() { return io_work_; }
   std::set<std::string> connections_;
 

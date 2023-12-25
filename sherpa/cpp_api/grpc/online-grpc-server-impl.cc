@@ -273,7 +273,6 @@ Status OnlineGrpcServer::Recognize(ServerContext* context,
       torch::Tensor samples = torch::from_blob(const_cast<int16_t *>(pcm_data),
                                       {num_samples},
                                       torch::kShort).to(torch::kFloat) / 32768;
-      samples = samples.clone();
       c->samples.push_back(samples);
       decoder_.AcceptWaveform(c);
     }

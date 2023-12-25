@@ -43,7 +43,7 @@ class GrpcClient {
              const std::string& reqid);
 
   void SendBinaryData(const void* data, size_t size);
-  void SetKey(std::string key) {key_ = key;}
+  void SetKey(const std::string& key) { key_ = key; }
   void Join();
   bool Done() const { return done_; }
 

@@ -37,7 +37,7 @@ sherpa-online-grpc-client \
   --server-ip=127.0.0.1 \
   --server-port=6006 \
   path/to/foo.wav \
-  path/to/bar.wav \
+  path/to/bar.wav
 
 or
 
@@ -49,10 +49,10 @@ sherpa-online-grpc-client \
   ark,scp,t:results.ark,results.scp
 )";
 
-void RecoginzeWav(std::string server_ip, int32_t server_port,
-                  std::string req_id, std::string key,
+static void RecoginzeWav(const std::string& server_ip, int32_t server_port,
+                  const std::string& req_id, const std::string& key,
                   const kaldiio::Matrix<float> &wav_data,
-                  const float interval) {
+                  float interval) {
   int32_t nbest = 1;
   const int32_t num_samples = wav_data.NumCols();
   const int32_t sample_interval = interval * EXPECTED_SAMPLE_RATE;
@@ -144,7 +144,7 @@ int32_t main(int32_t argc, char* argv[]) {
                           << EXPECTED_SAMPLE_RATE << ". Given "
                           << wave_data.SampFreq();
       }
-      auto &d = wave_data.Data();
+      const auto &d = wave_data.Data();
       if (d.NumRows() > 1) {
         SHERPA_LOG(WARNING)
             << "Only the first channel from " << wav_reader.Key() << " is used";
@@ -168,7 +168,7 @@ int32_t main(int32_t argc, char* argv[]) {
                           << EXPECTED_SAMPLE_RATE << ". Given "
                           << wave_data.SampFreq();
       }
-      auto &d = wave_data.Data();
+      const auto &d = wave_data.Data();
       if (d.NumRows() > 1) {
         SHERPA_LOG(WARNING)
             << "Only the first channel from " << po.GetArg(i) << " is used";
