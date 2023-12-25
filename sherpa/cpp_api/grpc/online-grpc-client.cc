@@ -137,7 +137,7 @@ int32_t main(int32_t argc, char* argv[]) {
 
       SHERPA_LOG(INFO) << "\n" << num_decoded++ << ": decoding "
                        << wav_reader.Key();
-      auto &wave_data = wav_reader.Value();
+      const auto &wave_data = wav_reader.Value();
       if (wave_data.SampFreq() != EXPECTED_SAMPLE_RATE) {
         SHERPA_LOG(FATAL) << wav_reader.Key()
                           << "is expected to have sample rate "
