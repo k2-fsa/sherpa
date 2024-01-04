@@ -400,6 +400,7 @@ def create_recognizer(args) -> sherpa.OnlineRecognizer:
 
     feat_config.fbank_opts.frame_opts.samp_freq = args.sample_rate
     feat_config.fbank_opts.mel_opts.num_bins = args.feat_dim
+    feat_config.fbank_opts.mel_opts.high_freq = -400
     feat_config.fbank_opts.frame_opts.dither = 0
 
     fast_beam_search_config = sherpa.FastBeamSearchConfig(
