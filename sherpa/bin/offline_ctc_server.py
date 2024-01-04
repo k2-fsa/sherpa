@@ -302,6 +302,7 @@ def create_recognizer(args) -> sherpa.OfflineRecognizer:
 
     feat_config.fbank_opts.frame_opts.samp_freq = args.sample_rate
     feat_config.fbank_opts.mel_opts.num_bins = args.feat_dim
+    feat_config.fbank_opts.mel_opts.high_freq = -400
     feat_config.fbank_opts.frame_opts.dither = 0
 
     feat_config.normalize_samples = args.normalize_samples

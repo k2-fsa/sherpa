@@ -34,6 +34,7 @@ class TestOfflineRecognizer(unittest.TestCase):
 
         feat_config.fbank_opts.frame_opts.samp_freq = 16000
         feat_config.fbank_opts.mel_opts.num_bins = 80
+        feat_config.fbank_opts.mel_opts.high_freq = -400
         feat_config.fbank_opts.frame_opts.dither = 0
 
         config = sherpa.OfflineRecognizerConfig(
@@ -72,6 +73,7 @@ class TestOfflineRecognizer(unittest.TestCase):
 
         feat_config.fbank_opts.frame_opts.samp_freq = 16000
         feat_config.fbank_opts.mel_opts.num_bins = 80
+        feat_config.fbank_opts.mel_opts.high_freq = -400
         feat_config.fbank_opts.frame_opts.dither = 0
 
         ctc_decoder_config = sherpa.OfflineCtcDecoderConfig(hlg=hlg)
@@ -112,6 +114,7 @@ class TestOfflineRecognizer(unittest.TestCase):
 
         feat_config.fbank_opts.frame_opts.samp_freq = 16000
         feat_config.fbank_opts.mel_opts.num_bins = 80
+        feat_config.fbank_opts.mel_opts.high_freq = -400
         feat_config.fbank_opts.frame_opts.dither = 0
 
         config = sherpa.OfflineRecognizerConfig(
@@ -185,6 +188,7 @@ class TestOfflineRecognizer(unittest.TestCase):
 
         feat_config.fbank_opts.frame_opts.samp_freq = 16000
         feat_config.fbank_opts.mel_opts.num_bins = 80
+        feat_config.fbank_opts.mel_opts.high_freq = -400
         feat_config.fbank_opts.frame_opts.dither = 0
 
         # The following option is very important.
@@ -236,6 +240,7 @@ class TestOfflineRecognizer(unittest.TestCase):
 
         feat_config.fbank_opts.frame_opts.samp_freq = 16000
         feat_config.fbank_opts.mel_opts.num_bins = 80
+        feat_config.fbank_opts.mel_opts.high_freq = -400
         feat_config.fbank_opts.frame_opts.dither = 0
 
         # The following option is very important.
@@ -288,6 +293,7 @@ class TestOfflineRecognizer(unittest.TestCase):
 
         feat_config.fbank_opts.frame_opts.samp_freq = 16000
         feat_config.fbank_opts.mel_opts.num_bins = 80
+        feat_config.fbank_opts.mel_opts.high_freq = -400
         feat_config.fbank_opts.frame_opts.dither = 0
 
         config = sherpa.OfflineRecognizerConfig(
