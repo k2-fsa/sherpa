@@ -37,11 +37,13 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 option(SHERPA_ENABLE_TESTS "Whether to build tests" OFF)
 option(SHERPA_ENABLE_PORTAUDIO "Whether to build with portaudio" ON)
 option(SHERPA_ENABLE_WEBSOCKET "Whether to build with websocket" ON)
+option(SHERPA_ENABLE_GRPC "Whether to build with grpc" OFF)
 option(BUILD_SHARED_LIBS "Whether to build shared libraries" ON)
 
 message(STATUS "SHERPA_ENABLE_TESTS: ${SHERPA_ENABLE_TESTS}")
 message(STATUS "SHERPA_ENABLE_PORTAUDIO: ${SHERPA_ENABLE_PORTAUDIO}")
 message(STATUS "SHERPA_ENABLE_WEBSOCKET: ${SHERPA_ENABLE_WEBSOCKET}")
+message(STATUS "SHERPA_ENABLE_GRPC: ${SHERPA_ENABLE_GRPC}")
 
 if(BUILD_SHARED_LIBS AND MSVC)
   set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
@@ -147,9 +149,16 @@ if(SHERPA_ENABLE_PORTAUDIO)
   include(portaudio)
 endif()
 
-if(SHERPA_ENABLE_WEBSOCKET)
+if(SHERPA_ENABLE_WEBSOCKET OR SHERPA_ENABLE_GRPC)
   include(asio)
+endif()
+
+if(SHERPA_ENABLE_WEBSOCKET)
   include(websocketpp)
+endif()
+
+if(SHERPA_ENABLE_GRPC)
+  include(grpc)
 endif()
 
 if(SHERPA_ENABLE_TESTS)
