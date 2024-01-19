@@ -32,6 +32,7 @@ Also, we show how to use it for speech recognition with pre-trained models.
    ./ios/index
    ./websocket/index
    ./hotwords/index
+   ./kws/index
    ./pretrained_models/index
 
 .. toctree::
