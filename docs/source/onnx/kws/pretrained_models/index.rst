@@ -32,12 +32,25 @@ Download the model
 
 Please use the following commands to download it.
 
-.. code-block:: bash
+.. tabs::
 
-  cd /path/to/sherpa-onnx
-  git lfs install
-  git clone https://www.modelscope.cn/pkufool/sherpa-onnx-kws-zipformer-wenetspeech-3.3M-2024-01-01.git
-  ls -lh sherpa-onnx-kws-zipformer-wenetspeech-3.3M-2024-01-01
+   .. tab:: Github
+
+      .. code-block:: bash
+
+        cd /path/to/sherpa-onnx
+        wget -qq https://github.com/pkufool/keyword-spotting-models/releases/download/v0.1/sherpa-onnx-kws-zipformer-wenetspeech-3.3M-2024-01-01.tar.bz 
+        tar jxvf sherpa-onnx-kws-zipformer-wenetspeech-3.3M-2024-01-01.tar.bz
+        ls -lh sherpa-onnx-kws-zipformer-wenetspeech-3.3M-2024-01-01
+
+   .. tab:: ModelScope
+
+      .. code-block:: bash
+
+        cd /path/to/sherpa-onnx
+        git lfs install
+        git clone https://www.modelscope.cn/pkufool/sherpa-onnx-kws-zipformer-wenetspeech-3.3M-2024-01-01.git
+        ls -lh sherpa-onnx-kws-zipformer-wenetspeech-3.3M-2024-01-01
 
 The output is given below:
 
@@ -228,12 +241,25 @@ Download the model
 
 Please use the following commands to download it.
 
-.. code-block:: bash
+.. tabs::
 
-  cd /path/to/sherpa-onnx
-  git lfs install
-  git clone https://www.modelscope.cn/pkufool/sherpa-onnx-kws-zipformer-gigaspeech-3.3M-2024-01-01.git
-  ls -lh sherpa-onnx-kws-zipformer-gigaspeech-3.3M-2024-01-01
+   .. tab:: Github
+
+      .. code-block:: bash
+
+        cd /path/to/sherpa-onnx
+        wget -qq https://github.com/pkufool/keyword-spotting-models/releases/download/v0.1/sherpa-onnx-kws-zipformer-gigaspeech-3.3M-2024-01-01.tar.bz 
+        tar jxvf sherpa-onnx-kws-zipformer-gigaspeech-3.3M-2024-01-01.tar.bz
+        ls -lh sherpa-onnx-kws-zipformer-gigaspeech-3.3M-2024-01-01
+
+   .. tab:: ModelScope
+
+      .. code-block:: bash
+
+        cd /path/to/sherpa-onnx
+        git lfs install
+        git clone https://www.modelscope.cn/pkufool/sherpa-onnx-kws-zipformer-gigaspeech-3.3M-2024-01-01.git
+        ls -lh sherpa-onnx-kws-zipformer-gigaspeech-3.3M-2024-01-01
 
 The output is given below:
 
