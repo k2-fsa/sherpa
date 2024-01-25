@@ -6,6 +6,7 @@
 
 #include <utility>
 
+#include "sherpa/cpp_api/macros.h"
 #include "sherpa/csrc/log.h"
 
 namespace sherpa {
@@ -33,7 +34,7 @@ std::vector<OfflineCtcDecoderResult> OfflineCtcOneBestDecoder::Decode(
     SHERPA_CHECK_EQ(log_prob.size(2), vocab_size_);
   }
 
-  torch::NoGradGuard no_grad;
+  InferenceMode no_grad;
 
   auto lattice = k2::GetLattice(log_prob, log_prob_len.cpu(), decoding_graph_,
                                 config_.search_beam, config_.output_beam,

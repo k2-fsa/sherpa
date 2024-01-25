@@ -53,7 +53,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest]
-        torch: ["1.13.1"]
+        torch: ["2.1.2"]
         python-version: ["3.8"]
         build_type: ["Release", "Debug"]
 
@@ -94,39 +94,24 @@ jobs:
           python3 -m pip install wheel twine typing_extensions
           python3 -m pip install torch==${{ matrix.torch }} numpy -f https://download.pytorch.org/whl/cpu/torch_stable.html
 
-          python3 -m pip install k2==1.23.4.dev20230319+cpu.torch${{ matrix.torch }} -f https://k2-fsa.org/nightly/index.html
+          python3 -m pip install k2==1.24.4.dev20231220+cpu.torch${{ matrix.torch }} -f https://k2-fsa.org/nightly/index.html
+          python3 -m pip install kaldifeat==1.25.3.dev20231221+cpu.torch${{ matrix.torch }} -f https://csukuangfj.github.io/kaldifeat/cpu.html
+
 
           python3 -m torch.utils.collect_env
-
-      - name: Cache kaldifeat
-        id: my-cache-2
-        uses: actions/cache@v2
-        with:
-          path: |
-            ~/tmp/kaldifeat
-          key: cache-tmp-${{ matrix.python-version }}-${{ matrix.os }}-${{ matrix.torch }}-kaldifeat-v1.22
-
-      - name: Install kaldifeat
-        if: steps.my-cache-2.outputs.cache-hit != 'true'
-        shell: bash
-        run: |
-          .github/scripts/install-kaldifeat.sh
 
       - name: Build sherpa
         shell: bash
         env:
           BUILD_TYPE: ${{ matrix.build_type }}
         run: |
-          export KALDIFEAT_INSTALL_PREFIX=$HOME/tmp/kaldifeat/build
-          echo $KALDIFEAT_INSTALL_PREFIX
-          ls -lh $KALDIFEAT_INSTALL_PREFIX
-
           echo "Build type: $BUILD_TYPE"
 
           mkdir build
           cd build
 
           cmake \
+            -DCMAKE_CXX_STANDARD=17 \
             -DCMAKE_C_COMPILER_LAUNCHER=ccache \
             -DCMAKE_CXX_COMPILER_LAUNCHER=ccache \
             -DCMAKE_BUILD_TYPE=$BUILD_TYPE \

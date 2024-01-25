@@ -4,6 +4,8 @@
 
 #include "sherpa/csrc/offline-wenet-conformer-ctc-model.h"
 
+#include "sherpa/cpp_api/macros.h"
+
 namespace sherpa {
 
 OfflineWenetConformerCtcModel::OfflineWenetConformerCtcModel(
@@ -17,7 +19,7 @@ OfflineWenetConformerCtcModel::OfflineWenetConformerCtcModel(
 
 torch::IValue OfflineWenetConformerCtcModel::Forward(
     torch::Tensor features, torch::Tensor features_length) {
-  torch::NoGradGuard no_grad;
+  InferenceMode no_grad;
 
   return model_.attr("encoder").toModule().run_method(
       "forward", features.to(device_), features_length.to(device_));
@@ -25,7 +27,7 @@ torch::IValue OfflineWenetConformerCtcModel::Forward(
 
 torch::Tensor OfflineWenetConformerCtcModel::GetLogSoftmaxOut(
     torch::IValue forward_out) const {
-  torch::NoGradGuard no_grad;
+  InferenceMode no_grad;
 
   auto logit = forward_out.toTuple()->elements()[0];
   return model_.attr("ctc")
@@ -36,7 +38,7 @@ torch::Tensor OfflineWenetConformerCtcModel::GetLogSoftmaxOut(
 
 torch::Tensor OfflineWenetConformerCtcModel::GetLogSoftmaxOutLength(
     torch::IValue forward_out) const {
-  torch::NoGradGuard no_grad;
+  InferenceMode no_grad;
 
   auto mask = forward_out.toTuple()->elements()[1].toTensor();
   return mask.sum({1, 2});

@@ -98,6 +98,12 @@ in a single environment.
    cd sherpa
    mkdir build
    cd build
+
+   # For torch >= 2.0, please use
+   #
+   #  cmake -DCMAKE_CXX_STANDARD=17 ..
+   #
+
    cmake ..
    make -j
 

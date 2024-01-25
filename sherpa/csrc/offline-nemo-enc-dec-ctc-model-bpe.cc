@@ -4,6 +4,8 @@
 
 #include "sherpa/csrc/offline-nemo-enc-dec-ctc-model-bpe.h"
 
+#include "sherpa/cpp_api/macros.h"
+
 namespace sherpa {
 
 OfflineNeMoEncDecCTCModelBPE::OfflineNeMoEncDecCTCModelBPE(
@@ -15,7 +17,7 @@ OfflineNeMoEncDecCTCModelBPE::OfflineNeMoEncDecCTCModelBPE(
 
 torch::IValue OfflineNeMoEncDecCTCModelBPE::Forward(
     torch::Tensor features, torch::Tensor features_length) {
-  torch::NoGradGuard no_grad;
+  InferenceMode no_grad;
 
   // Change (N, T, C) to (N, C, T)
   features = features.permute({0, 2, 1});

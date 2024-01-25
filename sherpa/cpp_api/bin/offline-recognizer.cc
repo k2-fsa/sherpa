@@ -80,7 +80,7 @@ int main(int argc, char *argv[]) {
   // https://pytorch.org/docs/stable/notes/cpu_threading_torchscript_inference.html
   torch::set_num_threads(1);
   torch::set_num_interop_threads(1);
-  torch::NoGradGuard no_grad;
+  sherpa::InferenceMode no_grad;
 
   torch::jit::getExecutorMode() = false;
   torch::jit::getProfilingMode() = false;

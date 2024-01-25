@@ -9,6 +9,8 @@
 #include <utility>
 #include <vector>
 
+#include "sherpa/cpp_api/macros.h"
+
 namespace sherpa {
 
 OnlineZipformer2TransducerModel::OnlineZipformer2TransducerModel(
@@ -32,7 +34,7 @@ OnlineZipformer2TransducerModel::OnlineZipformer2TransducerModel(
 
 torch::IValue OnlineZipformer2TransducerModel::StackStates(
     const std::vector<torch::IValue> &_states) const {
-  torch::NoGradGuard no_grad;
+  InferenceMode no_grad;
 
   std::vector<torch::List<torch::Tensor>> states;
   states.reserve(_states.size());
@@ -78,7 +80,7 @@ torch::IValue OnlineZipformer2TransducerModel::StackStates(
 
 std::vector<torch::IValue> OnlineZipformer2TransducerModel::UnStackStates(
     torch::IValue ivalue) const {
-  torch::NoGradGuard no_grad;
+  InferenceMode no_grad;
   // ivalue is a list
   auto list_ptr = ivalue.toList();
   int32_t num_elements = list_ptr.size();
@@ -135,7 +137,7 @@ std::vector<torch::IValue> OnlineZipformer2TransducerModel::UnStackStates(
 
 torch::IValue OnlineZipformer2TransducerModel::GetEncoderInitStates(
     int32_t batch_size /*=1*/) {
-  torch::NoGradGuard no_grad;
+  InferenceMode no_grad;
   auto states = encoder_.run_method("get_init_states", batch_size, device_);
   /* states is a list of tensors. States of all layers are concatednated into
      a single list.
@@ -165,7 +167,7 @@ std::tuple<torch::Tensor, torch::Tensor, torch::IValue>
 OnlineZipformer2TransducerModel::RunEncoder(
     const torch::Tensor &features, const torch::Tensor &features_length,
     const torch::Tensor &num_processed_frames, torch::IValue states) {
-  torch::NoGradGuard no_grad;
+  InferenceMode no_grad;
 
   torch::List<torch::Tensor> s_list =
       c10::impl::toTypedList<torch::Tensor>(states.toList());
@@ -184,7 +186,7 @@ OnlineZipformer2TransducerModel::RunEncoder(
 
 torch::Tensor OnlineZipformer2TransducerModel::RunDecoder(
     const torch::Tensor &decoder_input) {
-  torch::NoGradGuard no_grad;
+  InferenceMode no_grad;
   return decoder_
       .run_method("forward", decoder_input,
                   /*need_pad*/ false)
@@ -193,7 +195,7 @@ torch::Tensor OnlineZipformer2TransducerModel::RunDecoder(
 
 torch::Tensor OnlineZipformer2TransducerModel::RunJoiner(
     const torch::Tensor &encoder_out, const torch::Tensor &decoder_out) {
-  torch::NoGradGuard no_grad;
+  InferenceMode no_grad;
   return joiner_
       .run_method("forward", encoder_out, decoder_out, /*project_input*/ true)
       .toTensor();
