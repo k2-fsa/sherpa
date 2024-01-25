@@ -88,15 +88,14 @@ jobs:
           sudo apt-get -qq install git-lfs tree sox
           sox --version
 
-          sudo apt-get install -y libsnappy-dev libzzip-dev zlib1g-dev libboost-all-dev
+          sudo apt-get -qq install -y libsnappy-dev libzzip-dev zlib1g-dev libboost-all-dev
 
           python3 -m pip install --upgrade pip kaldi_native_io sentencepiece>=0.1.96
           python3 -m pip install wheel twine typing_extensions
           python3 -m pip install torch==${{ matrix.torch }} numpy -f https://download.pytorch.org/whl/cpu/torch_stable.html
 
-          python3 -m pip install k2==1.24.4.dev20231220+cpu.torch${{ matrix.torch }} -f https://k2-fsa.org/nightly/index.html
+          python3 -m pip install k2==1.24.4.dev20231220+cpu.torch${{ matrix.torch }} -f https://k2-fsa.github.io/k2/cpu.html
           python3 -m pip install kaldifeat==1.25.3.dev20231221+cpu.torch${{ matrix.torch }} -f https://csukuangfj.github.io/kaldifeat/cpu.html
-
 
           python3 -m torch.utils.collect_env
 
