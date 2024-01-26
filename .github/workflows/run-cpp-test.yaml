@@ -20,7 +20,6 @@ on:
   push:
     branches:
       - master
-      - inference-mode-2
     paths:
       - '.github/workflows/run-cpp-test.yaml'
       - '.github/scripts/run-offline-transducer.sh'
