@@ -27,7 +27,7 @@ sherpa-online-websocket-server \
 int32_t main(int32_t argc, char *argv[]) {
   torch::set_num_threads(1);
   torch::set_num_interop_threads(1);
-  torch::NoGradGuard no_grad;
+  sherpa::InferenceMode no_grad;
 
   torch::jit::getExecutorMode() = false;
   torch::jit::getProfilingMode() = false;

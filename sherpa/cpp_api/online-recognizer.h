@@ -12,6 +12,7 @@
 #include "sherpa/cpp_api/endpoint.h"
 #include "sherpa/cpp_api/fast-beam-search-config.h"
 #include "sherpa/cpp_api/feature-config.h"
+#include "sherpa/cpp_api/macros.h"
 #include "sherpa/cpp_api/online-stream.h"
 
 namespace sherpa {

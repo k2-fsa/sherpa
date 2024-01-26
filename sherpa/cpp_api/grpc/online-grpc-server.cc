@@ -2,14 +2,13 @@
 // Copyright (c)  2022  Xiaomi Corporation
 //                2023  y00281951
 
+#include "asio.hpp"
 #include "grpcpp/ext/proto_server_reflection_plugin.h"
 #include "grpcpp/grpcpp.h"
 #include "grpcpp/health_check_service_interface.h"
-
-#include "asio.hpp"
+#include "sherpa/cpp_api/grpc/online-grpc-server-impl.h"
 #include "sherpa/csrc/log.h"
 #include "torch/all.h"
-#include "sherpa/cpp_api/grpc/online-grpc-server-impl.h"
 
 using grpc::Server;
 using grpc::ServerBuilder;
@@ -34,7 +33,7 @@ sherpa-online-grpc-server \
 int32_t main(int32_t argc, char *argv[]) {
   torch::set_num_threads(1);
   torch::set_num_interop_threads(1);
-  torch::NoGradGuard no_grad;
+  sherpa::InferenceMode no_grad;
 
   torch::jit::getExecutorMode() = false;
   torch::jit::getProfilingMode() = false;

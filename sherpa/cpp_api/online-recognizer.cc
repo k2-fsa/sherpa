@@ -372,7 +372,7 @@ class OnlineRecognizer::OnlineRecognizerImpl {
   }
 
   void DecodeStreams(OnlineStream **ss, int32_t n) {
-    torch::NoGradGuard no_grad;
+    InferenceMode no_grad;
 
     SHERPA_CHECK_GT(n, 0);
 
@@ -551,7 +551,7 @@ bool OnlineRecognizer::IsEndpoint(OnlineStream *s) {
 }
 
 void OnlineRecognizer::DecodeStreams(OnlineStream **ss, int32_t n) {
-  torch::NoGradGuard no_grad;
+  InferenceMode no_grad;
   impl_->DecodeStreams(ss, n);
 }
 

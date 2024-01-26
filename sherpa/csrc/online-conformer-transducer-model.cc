@@ -8,6 +8,8 @@
 #include <tuple>
 #include <vector>
 
+#include "sherpa/cpp_api/macros.h"
+
 namespace sherpa {
 
 OnlineConformerTransducerModel::OnlineConformerTransducerModel(
@@ -95,7 +97,7 @@ std::vector<torch::IValue> OnlineConformerTransducerModel::UnStackStates(
 
 torch::IValue OnlineConformerTransducerModel::GetEncoderInitStates(
     int32_t /*unused=1*/) {
-  torch::NoGradGuard no_grad;
+  InferenceMode no_grad;
   return encoder_.run_method("get_init_state", left_context_, device_);
 }
 
@@ -103,7 +105,7 @@ std::tuple<torch::Tensor, torch::Tensor, torch::IValue>
 OnlineConformerTransducerModel::RunEncoder(
     const torch::Tensor &features, const torch::Tensor &features_length,
     const torch::Tensor &num_processed_frames, torch::IValue states) {
-  torch::NoGradGuard no_grad;
+  InferenceMode no_grad;
 
   auto outputs =
       encoder_
@@ -125,7 +127,7 @@ OnlineConformerTransducerModel::RunEncoder(
 
 torch::Tensor OnlineConformerTransducerModel::RunDecoder(
     const torch::Tensor &decoder_input) {
-  torch::NoGradGuard no_grad;
+  InferenceMode no_grad;
   auto decoder_out =
       decoder_.run_method("forward", decoder_input, /*need_pad*/ false);
 
@@ -134,7 +136,7 @@ torch::Tensor OnlineConformerTransducerModel::RunDecoder(
 
 torch::Tensor OnlineConformerTransducerModel::RunJoiner(
     const torch::Tensor &encoder_out, const torch::Tensor &decoder_out) {
-  torch::NoGradGuard no_grad;
+  InferenceMode no_grad;
   return joiner_
       .run_method("forward", encoder_out, decoder_out,
                   /*project_input*/ false)

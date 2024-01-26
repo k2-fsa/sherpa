@@ -11,6 +11,7 @@
 
 #include "sherpa/cpp_api/fast-beam-search-config.h"
 #include "sherpa/cpp_api/feature-config.h"
+#include "sherpa/cpp_api/macros.h"
 #include "sherpa/cpp_api/offline-stream.h"
 
 namespace sherpa {

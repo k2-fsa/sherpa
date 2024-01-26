@@ -136,7 +136,7 @@ class OfflineRecognizerCtcImpl : public OfflineRecognizerImpl {
   }
 
   void DecodeStreams(OfflineStream **ss, int32_t n) override {
-    torch::NoGradGuard no_grad;
+    InferenceMode no_grad;
 
     std::vector<torch::Tensor> features_vec(n);
     std::vector<int64_t> features_length_vec(n);
