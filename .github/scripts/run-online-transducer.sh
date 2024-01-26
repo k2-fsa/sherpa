@@ -186,7 +186,7 @@ rm -rf $repo
 log "End of testing ${repo_url}"
 log "=========================================================================="
 
-repo_url=https://huggingface.co/pkufool/icefall_librispeech_streaming_pruned_transducer_stateless4_20220625
+repo_url=https://huggingface.co/csukuangfj/icefall_librispeech_streaming_pruned_transducer_stateless4_20220625
 log "Start testing ${repo_url}"
 repo=$(basename $repo_url)
 log "Download pretrained model and test-data from $repo_url"
