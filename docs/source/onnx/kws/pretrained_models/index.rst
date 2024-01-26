@@ -40,7 +40,7 @@ Please use the following commands to download it.
 
         cd /path/to/sherpa-onnx
         wget -qq https://github.com/pkufool/keyword-spotting-models/releases/download/v0.1/sherpa-onnx-kws-zipformer-wenetspeech-3.3M-2024-01-01.tar.bz 
-        tar jxvf sherpa-onnx-kws-zipformer-wenetspeech-3.3M-2024-01-01.tar.bz
+        tar xf sherpa-onnx-kws-zipformer-wenetspeech-3.3M-2024-01-01.tar.bz
         ls -lh sherpa-onnx-kws-zipformer-wenetspeech-3.3M-2024-01-01
 
    .. tab:: ModelScope
@@ -249,7 +249,7 @@ Please use the following commands to download it.
 
         cd /path/to/sherpa-onnx
         wget -qq https://github.com/pkufool/keyword-spotting-models/releases/download/v0.1/sherpa-onnx-kws-zipformer-gigaspeech-3.3M-2024-01-01.tar.bz 
-        tar jxvf sherpa-onnx-kws-zipformer-gigaspeech-3.3M-2024-01-01.tar.bz
+        tar xf sherpa-onnx-kws-zipformer-gigaspeech-3.3M-2024-01-01.tar.bz
         ls -lh sherpa-onnx-kws-zipformer-gigaspeech-3.3M-2024-01-01
 
    .. tab:: ModelScope
