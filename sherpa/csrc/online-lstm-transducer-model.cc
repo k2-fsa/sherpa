@@ -125,7 +125,7 @@ torch::Tensor OnlineLstmTransducerModel::RunDecoder(
   InferenceMode no_grad;
   return decoder_
       .run_method("forward", decoder_input,
-                  /*need_pad*/ torch::tensor({0}).to(torch::kBool))
+                  /*need_pad*/ false)
       .toTensor();
 }
 
