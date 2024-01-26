@@ -45,17 +45,17 @@ rm -rf $repo
 log "End of testing ${repo_url}"
 
 log "=========================================================================="
-repo_url=https://huggingface.co/Zengwei/icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05
+repo_url=https://huggingface.co/csukuangfj/icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05
 log "Start testing ${repo_url}"
 repo=$(basename $repo_url)
 log "Download pretrained model and test-data from $repo_url"
 
 GIT_LFS_SKIP_SMUDGE=1 git clone $repo_url
 pushd $repo
-git lfs pull --include "exp/cpu-jit-epoch-30-avg-10-torch-1.10.0.pt"
+git lfs pull --include "exp/cpu-jit-epoch-30-avg-10-torch-1.13.0.pt"
 git lfs pull --include "data/lang_bpe_500/LG.pt"
 cd exp
-ln -sv cpu-jit-epoch-30-avg-10-torch-1.10.0.pt cpu_jit.pt
+ln -sv cpu-jit-epoch-30-avg-10-torch-1.13.0.pt cpu_jit.pt
 popd
 
 for m in greedy_search modified_beam_search fast_beam_search; do
