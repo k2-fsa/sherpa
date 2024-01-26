@@ -355,7 +355,7 @@ rm -rf $repo
 log "End of testing ${repo_url}"
 log "=========================================================================="
 
-repo_url=https://huggingface.co/luomingshuang/icefall_asr_tal-csasr_pruned_transducer_stateless5
+repo_url=https://huggingface.co/csukuangfj/icefall_asr_tal-csasr_pruned_transducer_stateless5
 log "Start testing ${repo_url}"
 repo=$(basename $repo_url)
 log "Download pretrained model and test-data from $repo_url"
