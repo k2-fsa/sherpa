@@ -12,6 +12,43 @@ log() {
 
 log "=========================================================================="
 
+repo_url=https://huggingface.co/csukuangfj/icefall-asr-gigaspeech-pruned-transducer-stateless2
+
+log "Start testing ${repo_url}"
+repo=$(basename $repo_url)
+log "Download pretrained model and test-data from $repo_url"
+
+GIT_LFS_SKIP_SMUDGE=1 git clone $repo_url
+pushd $repo
+git lfs pull --include "exp/cpu_jit-iter-3488000-avg-15.pt"
+git lfs pull --include "data/lang_bpe_500/bpe.model"
+
+mkdir test_wavs
+cd test_wavs
+wget https://huggingface.co/csukuangfj/wav2vec2.0-torchaudio/resolve/main/test_wavs/1089-134686-0001.wav
+wget https://huggingface.co/csukuangfj/wav2vec2.0-torchaudio/resolve/main/test_wavs/1221-135766-0001.wav
+wget https://huggingface.co/csukuangfj/wav2vec2.0-torchaudio/resolve/main/test_wavs/1221-135766-0002.wav
+
+cd ../exp
+ln -s cpu_jit-iter-3488000-avg-15.pt cpu_jit.pt
+popd
+
+./scripts/bpe_model_to_tokens.py $repo/data/lang_bpe_500/bpe.model > $repo/data/lang_bpe_500/tokens.txt
+
+for m in greedy_search modified_beam_search fast_beam_search; do
+  time ./build/bin/sherpa-offline \
+    --decoding-method=$m \
+    --nn-model=$repo/exp/cpu_jit.pt \
+    --tokens=$repo/data/lang_bpe_500/tokens.txt \
+    $repo/test_wavs/1089-134686-0001.wav \
+    $repo/test_wavs/1221-135766-0001.wav \
+    $repo/test_wavs/1221-135766-0002.wav
+done
+
+rm -rf $repo
+log "End of testing ${repo_url}"
+log "=========================================================================="
+
 repo_url=https://huggingface.co/csukuangfj/icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13
 log "Start testing ${repo_url}"
 repo=$(basename $repo_url)
@@ -254,7 +291,8 @@ rm -rf $repo
 log "End of testing ${repo_url}"
 log "=========================================================================="
 
-repo_url=https://huggingface.co/wgb14/icefall-asr-gigaspeech-pruned-transducer-stateless2
+
+repo_url=https://huggingface.co/csukuangfj/icefall_asr_wenetspeech_pruned_transducer_stateless2
 
 log "Start testing ${repo_url}"
 repo=$(basename $repo_url)
@@ -262,47 +300,10 @@ log "Download pretrained model and test-data from $repo_url"
 
 GIT_LFS_SKIP_SMUDGE=1 git clone $repo_url
 pushd $repo
-git lfs pull --include "exp/cpu_jit-iter-3488000-avg-15.pt"
-git lfs pull --include "data/lang_bpe_500/bpe.model"
-
-mkdir test_wavs
-cd test_wavs
-wget https://huggingface.co/csukuangfj/wav2vec2.0-torchaudio/resolve/main/test_wavs/1089-134686-0001.wav
-wget https://huggingface.co/csukuangfj/wav2vec2.0-torchaudio/resolve/main/test_wavs/1221-135766-0001.wav
-wget https://huggingface.co/csukuangfj/wav2vec2.0-torchaudio/resolve/main/test_wavs/1221-135766-0002.wav
-
-cd ../exp
-ln -s cpu_jit-iter-3488000-avg-15.pt cpu_jit.pt
-popd
-
-./scripts/bpe_model_to_tokens.py $repo/data/lang_bpe_500/bpe.model > $repo/data/lang_bpe_500/tokens.txt
-
-for m in greedy_search modified_beam_search fast_beam_search; do
-  time ./build/bin/sherpa-offline \
-    --decoding-method=$m \
-    --nn-model=$repo/exp/cpu_jit.pt \
-    --tokens=$repo/data/lang_bpe_500/tokens.txt \
-    $repo/test_wavs/1089-134686-0001.wav \
-    $repo/test_wavs/1221-135766-0001.wav \
-    $repo/test_wavs/1221-135766-0002.wav
-done
-
-rm -rf $repo
-log "End of testing ${repo_url}"
-log "=========================================================================="
-
-repo_url=https://huggingface.co/luomingshuang/icefall_asr_wenetspeech_pruned_transducer_stateless2
-
-log "Start testing ${repo_url}"
-repo=$(basename $repo_url)
-log "Download pretrained model and test-data from $repo_url"
-
-GIT_LFS_SKIP_SMUDGE=1 git clone $repo_url
-pushd $repo
-git lfs pull --include "exp/cpu_jit_epoch_10_avg_2_torch_1.7.1.pt"
+git lfs pull --include "exp/cpu_jit_epoch_10_avg_2_torch_1.13.0.pt"
 git lfs pull --include "data/lang_char/LG.pt"
 cd exp
-ln -s cpu_jit_epoch_10_avg_2_torch_1.7.1.pt cpu_jit.pt
+ln -s cpu_jit_epoch_10_avg_2_torch_1.13.0.pt cpu_jit.pt
 popd
 
 for m in greedy_search modified_beam_search fast_beam_search; do
