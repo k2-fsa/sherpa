@@ -262,7 +262,7 @@ rm -rf $repo
 log "End of testing ${repo_url}"
 log "=========================================================================="
 
-repo_url=https://huggingface.co/ptrnull/icefall-asr-conv-emformer-transducer-stateless2-zh
+repo_url=https://huggingface.co/csukuangfj/icefall-asr-conv-emformer-transducer-stateless2-zh
 log "Start testing ${repo_url}"
 repo=$(basename $repo_url)
 GIT_LFS_SKIP_SMUDGE=1 git clone $repo_url
