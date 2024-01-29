@@ -174,7 +174,7 @@ Please create an issue at `<https://github.com/k2-fsa/sherpa-onnx/issues>`_
 if you have any problems.
 
 How to build static libraries and static linked binaries
----------------------------------------------------------
+--------------------------------------------------------
 
 If you want to build static libraries and static linked binaries, please first
 download a cross compile toolchain with GCC >= 9.0. The following is an example:
