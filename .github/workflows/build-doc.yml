@@ -67,6 +67,12 @@ jobs:
           cp source/cpu.html build/html/
           cp source/cuda.html build/html/
 
+          wget -q https://github.com/k2-fsa/sherpa-ncnn/releases/download/v2.1.7/sherpa-ncnn-wasm-simd-v2.1.7.tar.bz2
+          tar xvf sherpa-ncnn-wasm-simd-v2.1.7.tar.bz2
+          rm sherpa-ncnn-wasm-simd-v2.1.7.tar.bz2
+          mv sherpa-ncnn-wasm-simd wasm
+          mv wasm build/html/ncnn
+
           touch build/html/.nojekyll
 
       - name: Deploy
