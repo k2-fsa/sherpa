@@ -59,7 +59,7 @@ Now you can use the following command to run it:
 
 .. code-block:: bash
 
-  build-wasm-simd/install/bin/wasm/
+  cd build-wasm-simd/install/bin/wasm/
   python3 -m http.server 6006
 
 Start your browser and visit `<http://localhost:6006/>`_; you should see the following

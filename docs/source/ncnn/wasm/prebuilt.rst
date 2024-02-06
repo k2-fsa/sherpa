@@ -18,7 +18,7 @@ Please use the following command to download the pre-built library for version
 
 .. hint::
 
-   Please always use the latest releast. You can visit
+   Please always use the latest release. You can visit
    `<https://github.com/k2-fsa/sherpa-ncnn/releases>`_ to find the latest release.
 
 .. code-block::
