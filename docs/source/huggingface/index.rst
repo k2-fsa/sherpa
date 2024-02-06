@@ -33,6 +33,12 @@ and you will see a page like the following screenshot:
    :alt: screenshot of `<https://huggingface.co/spaces/k2-fsa/automatic-speech-recognition>`_
    :target: https://huggingface.co/spaces/k2-fsa/automatic-speech-recognition
 
+.. hint::
+
+   If you don't have access to `Huggingface`_, please visit the following mirror:
+
+    `<https://hf-mirror.com/spaces/k2-fsa/automatic-speech-recognition>`_
+
 You can:
 
   1. Select a language for recognition. Currently, we provide pre-trained models
@@ -76,3 +82,9 @@ We provide the following YouTube video demonstrating how to use
       `<https://www.youtube.com/channel/UC_VaumpkmINz1pNkFXAN9mw>`_
 
 ..  youtube:: ElN3r9dkKE4
+
+Other Huggingface spaces
+------------------------
+
+- ASR + WebAssembly + sherpa-ncnn: Please see :ref:`try sherpa ncnn wasm with huggingface`
+- TTS: Please see: `<https://huggingface.co/spaces/k2-fsa/text-to-speech>`_

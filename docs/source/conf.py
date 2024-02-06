@@ -162,4 +162,6 @@ rst_epilog = """
 .. _lessac_blizzard2013: https://www.cstr.ed.ac.uk/projects/blizzard/2013/lessac_blizzard2013/
 .. _OpenFst: https://www.openfst.org/
 .. _MMS: https://huggingface.co/spaces/mms-meta/MMS
+.. _WebAssembly: https://en.wikipedia.org/wiki/WebAssembly
+.. _emscripten: https://emscripten.org/index.html
 """
