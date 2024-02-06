@@ -331,7 +331,7 @@ recognize a wave file.
 
 .. literalinclude:: ./code/decode-file.py
    :language: python
-   :lines: 13-57
+   :lines: 13-61
    :caption: Decode a file with `sherpa-ncnn`_ Python API
 
 We use the model :ref:`sherpa-ncnn-mixed-english-chinese-conv-emformer-model`
