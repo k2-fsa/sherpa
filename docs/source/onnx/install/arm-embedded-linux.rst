@@ -35,9 +35,9 @@ The first step is to install a toolchain for cross-compiling.
   You can use any toolchain that is suitable for your platform. The toolchain
   we use below is just an example.
 
-Visit `<https://developer.arm.com/tools-and-software/open-source-software/developer-tools/gnu-toolchain/gnu-a/downloads/8-3-2019-03>`_ to download the toolchain:
+Visit `<https://developer.arm.com/downloads/-/arm-gnu-toolchain-downloads>`_ to download the toolchain:
 
-We are going to download ``gcc-arm-8.3-2019.03-x86_64-arm-linux-gnueabihf.tar.xz``,
+We are going to download ``gcc-arm-10.3-2021.07-x86_64-arm-none-linux-gnueabihf.tar.xz``,
 which has been uploaded to `<https://huggingface.co/csukuangfj/sherpa-ncnn-toolchains>`_.
 
 Assume you want to install it in the folder ``$HOME/software``:
@@ -46,28 +46,28 @@ Assume you want to install it in the folder ``$HOME/software``:
 
    mkdir -p $HOME/software
    cd $HOME/software
-   wget https://huggingface.co/csukuangfj/sherpa-ncnn-toolchains/resolve/main/gcc-arm-8.3-2019.03-x86_64-arm-linux-gnueabihf.tar.xz
-   tar xvf gcc-arm-8.3-2019.03-x86_64-arm-linux-gnueabihf.tar.xz
+   wget -q https://huggingface.co/csukuangfj/sherpa-ncnn-toolchains/resolve/main/gcc-arm-10.3-2021.07-x86_64-arm-none-linux-gnueabihf.tar.xz
+   tar xf gcc-arm-10.3-2021.07-x86_64-arm-none-linux-gnueabihf.tar.xz
 
 Next, we need to set the following environment variable:
 
 .. code-block:: bash
 
-   export PATH=$HOME/software/gcc-arm-8.3-2019.03-x86_64-arm-linux-gnueabihf/bin:$PATH
+   export PATH=$HOME/software/gcc-arm-10.3-2021.07-x86_64-arm-none-linux-gnueabihf/bin:$PATH
 
 To check that we have installed the cross-compiling toolchain successfully, please
 run:
 
 .. code-block:: bash
 
-  arm-linux-gnueabihf-gcc --version
+  arm-none-linux-gnueabihf-gcc --version
 
 which should print the following log:
 
 .. code-block::
 
-  arm-linux-gnueabihf-gcc (GNU Toolchain for the A-profile Architecture 8.3-2019.03 (arm-rel-8.36)) 8.3.0
-  Copyright (C) 2018 Free Software Foundation, Inc.
+  arm-none-linux-gnueabihf-gcc (GNU Toolchain for the A-profile Architecture 10.3-2021.07 (arm-10.29)) 10.3.1 20210621
+  Copyright (C) 2020 Free Software Foundation, Inc.
   This is free software; see the source for copying conditions.  There is NO
   warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
@@ -207,14 +207,14 @@ download a cross compile toolchain with GCC >= 9.0. The following is an example:
 
    mkdir -p $HOME/software
    cd $HOME/software
-   wget -q https://huggingface.co/csukuangfj/sherpa-ncnn-toolchains/resolve/main/gcc-arm-9.2-2019.12-x86_64-arm-none-linux-gnueabihf.tar.xz
-   tar xf gcc-arm-9.2-2019.12-x86_64-arm-none-linux-gnueabihf.tar.xz
+   wget -q https://huggingface.co/csukuangfj/sherpa-ncnn-toolchains/resolve/main/gcc-arm-10.3-2021.07-x86_64-arm-none-linux-gnueabihf.tar.xz
+   tar xf gcc-arm-10.3-2021.07-x86_64-arm-none-linux-gnueabihf.tar.xz
 
 Next, we need to set the following environment variable:
 
 .. code-block:: bash
 
-   export PATH=$HOME/software/gcc-arm-9.2-2019.12-x86_64-arm-none-linux-gnueabihf/bin:$PATH
+   export PATH=$HOME/software/gcc-arm-10.3-2021.07-x86_64-arm-none-linux-gnueabihf/bin:$PATH
 
 
 To check that we have installed the cross-compiling toolchain successfully, please
@@ -228,10 +228,10 @@ which should print the following log:
 
 .. code-block::
 
-  arm-none-linux-gnueabihf-gcc (GNU Toolchain for the A-profile Architecture 9.2-2019.12 (arm-9.10)) 9.2.1 20191025
-  Copyright (C) 2019 Free Software Foundation, Inc.
+  arm-none-linux-gnueabihf-gcc (GNU Toolchain for the A-profile Architecture 10.3-2021.07 (arm-10.29)) 10.3.1 20210621
+  Copyright (C) 2020 Free Software Foundation, Inc.
   This is free software; see the source for copying conditions.  There is NO
-  warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE
+  warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
 Now you can build static libraries and static linked binaries with the following commands:
 
