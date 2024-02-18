@@ -26,10 +26,9 @@ The first step is to install a toolchain for cross-compiling.
   You can use any toolchain that is suitable for your platform. The toolchain
   we use below is just an example.
 
-Visit `<https://releases.linaro.org/components/toolchain/binaries/latest-7/aarch64-linux-gnu/>`_
-to download the toolchain.
+Visit `<https://developer.arm.com/downloads/-/arm-gnu-toolchain-downloads>`_ to download the toolchain:
 
-We are going to download ``gcc-linaro-7.5.0-2019.12-x86_64_aarch64-linux-gnu.tar.xz``,
+We are going to download ``gcc-arm-10.3-2021.07-x86_64-aarch64-none-linux-gnu.tar.xz``,
 which has been uploaded to `<https://huggingface.co/csukuangfj/sherpa-ncnn-toolchains>`_.
 
 Assume you want to install it in the folder ``$HOME/software``:
@@ -38,28 +37,28 @@ Assume you want to install it in the folder ``$HOME/software``:
 
    mkdir -p $HOME/software
    cd $HOME/software
-   wget https://huggingface.co/csukuangfj/sherpa-ncnn-toolchains/resolve/main/gcc-linaro-7.5.0-2019.12-x86_64_aarch64-linux-gnu.tar.xz
-   tar xvf gcc-linaro-7.5.0-2019.12-x86_64_aarch64-linux-gnu.tar.xz
+   wget -q https://huggingface.co/csukuangfj/sherpa-ncnn-toolchains/resolve/main/gcc-arm-10.3-2021.07-x86_64-aarch64-none-linux-gnu.tar.xz
+   tar xf gcc-arm-10.3-2021.07-x86_64-aarch64-none-linux-gnu.tar.xz
 
 Next, we need to set the following environment variable:
 
 .. code-block:: bash
 
-   export PATH=$HOME/software/gcc-linaro-7.5.0-2019.12-x86_64_aarch64-linux-gnu/bin:$PATH
+   export PATH=$HOME/software/gcc-arm-10.3-2021.07-x86_64-aarch64-none-linux-gnu/bin:$PATH
 
 To check that we have installed the cross-compiling toolchain successfully, please
 run:
 
 .. code-block:: bash
 
-  aarch64-linux-gnu-gcc --version
+  aarch64-none-linux-gnu-gcc --version
 
 which should print the following log:
 
 .. code-block::
 
-  aarch64-linux-gnu-gcc (Linaro GCC 7.5-2019.12) 7.5.0
-  Copyright (C) 2017 Free Software Foundation, Inc.
+  aarch64-none-linux-gnu-gcc (GNU Toolchain for the A-profile Architecture 10.3-2021.07 (arm-10.29)) 10.3.1 20210621
+  Copyright (C) 2020 Free Software Foundation, Inc.
   This is free software; see the source for copying conditions.  There is NO
   warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
@@ -183,14 +182,14 @@ download a cross compile toolchain with GCC >= 9.0. The following is an example:
 
    mkdir -p $HOME/software
    cd $HOME/software
-   wget https://huggingface.co/csukuangfj/sherpa-ncnn-toolchains/resolve/main/gcc-arm-9.2-2019.12-x86_64-aarch64-none-linux-gnu.tar.xz
-   tar xvf gcc-arm-9.2-2019.12-x86_64-aarch64-none-linux-gnu.tar.xz
+   wget -q https://huggingface.co/csukuangfj/sherpa-ncnn-toolchains/resolve/main/gcc-arm-10.3-2021.07-x86_64-aarch64-none-linux-gnu.tar.xz
+   tar xf gcc-arm-10.3-2021.07-x86_64-aarch64-none-linux-gnu.tar.xz
 
 Next, we need to set the following environment variable:
 
 .. code-block:: bash
 
-   export PATH=$HOME/software/gcc-arm-9.2-2019.12-x86_64-aarch64-none-linux-gnu/bin:$PATH
+   export PATH=$HOME/software/gcc-arm-10.3-2021.07-x86_64-aarch64-none-linux-gnu/bin:$PATH
 
 To check that we have installed the cross-compiling toolchain successfully, please
 run:
@@ -203,8 +202,8 @@ which should print the following log:
 
 .. code-block::
 
-  aarch64-none-linux-gnu-gcc (GNU Toolchain for the A-profile Architecture 9.2-2019.12 (arm-9.10)) 9.2.1 20191025
-  Copyright (C) 2019 Free Software Foundation, Inc.
+  aarch64-none-linux-gnu-gcc (GNU Toolchain for the A-profile Architecture 10.3-2021.07 (arm-10.29)) 10.3.1 20210621
+  Copyright (C) 2020 Free Software Foundation, Inc.
   This is free software; see the source for copying conditions.  There is NO
   warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
