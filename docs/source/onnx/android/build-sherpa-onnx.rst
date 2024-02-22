@@ -312,13 +312,16 @@ Use the following command to download the pre-trained model and place it into
 
   sudo apt-get install git-lfs
 
-  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20.tar.bz2
+
+  tar xvf sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20.tar.bz2
+  rm sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20.tar.bz2
+
   cd sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20
-  git lfs pull --include "*.onnx"
 
   # Now, remove extra files to reduce the file size of the generated apk
   rm -rf .git test_wavs
-  rm *.sh README.md
+  rm -f *.sh README.md
 
 In the end, you should have the following files:
 
