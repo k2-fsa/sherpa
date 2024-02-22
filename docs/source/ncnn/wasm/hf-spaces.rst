@@ -15,7 +15,7 @@ English only
 
    If you don't have access to `Huggingface`_, please visit the following mirror:
 
-    `<https://hf-mirror.com/spaces/k2-fsa/web-assembly-asr-sherpa-ncnn-en>`_
+    `<https://modelscope.cn/studios/k2-fsa/web-assembly-asr-sherpa-ncnn-en/summary>`_
 
 .. figure:: ./pic/wasm-hf-en.png
    :alt: start page of wasm
@@ -31,7 +31,7 @@ Chinese + English
 
    If you don't have access to `Huggingface`_, please visit the following mirror:
 
-    `<https://hf-mirror.com/spaces/k2-fsa/web-assembly-asr-sherpa-ncnn-zh-en>`_
+    `<https://modelscope.cn/studios/k2-fsa/web-assembly-asr-sherpa-ncnn-zh-en/summary>`_
 
 .. figure:: ./pic/wasm-hf-zh-en.png
    :alt: start page of wasm
