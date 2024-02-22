@@ -12,6 +12,7 @@ to install `sherpa-onnx`_ before you continue.
 
    ./hf-space.rst
    ./pretrained_models/index
+   ./wasm/index
    ./piper
    ./mms
    ./faq
