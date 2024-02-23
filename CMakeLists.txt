@@ -32,6 +32,7 @@ message(STATUS "CMAKE_BUILD_TYPE: ${CMAKE_BUILD_TYPE}")
 if(NOT CMAKE_CXX_STANDARD)
   set(CMAKE_CXX_STANDARD 14 CACHE STRING "The C++ version to be used.")
 endif()
+
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 option(SHERPA_ENABLE_TESTS "Whether to build tests" OFF)

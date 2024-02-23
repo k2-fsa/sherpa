@@ -21,8 +21,6 @@
 #include <string>
 
 #include "sherpa/csrc/version.h"
-#include "sherpa/python/csrc/resample.h"
-//
 #include "sherpa/python/csrc/endpoint.h"
 #include "sherpa/python/csrc/fast-beam-search-config.h"
 #include "sherpa/python/csrc/feature-config.h"
@@ -31,12 +29,16 @@
 #include "sherpa/python/csrc/offline-stream.h"
 #include "sherpa/python/csrc/online-recognizer.h"
 #include "sherpa/python/csrc/online-stream.h"
+#include "sherpa/python/csrc/resample.h"
 
 namespace sherpa {
 
 PYBIND11_MODULE(_sherpa, m) {
   m.doc() = "pybind11 binding of sherpa";
   m.attr("cxx_flags") = std::string(kCMakeCxxFlags);
+  auto torch = py::module::import("torch");
+  auto kaldifeat = py::module::import("_kaldifeat");
+  (void)kaldifeat.attr("FbankOptions");
 
   PybindResample(m);
 
