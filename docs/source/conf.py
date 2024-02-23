@@ -21,7 +21,7 @@ sys.path.insert(0, os.path.abspath("."))
 # -- Project information -----------------------------------------------------
 
 project = "sherpa"
-copyright = "2022, sherpa development team"
+copyright = "2022-2023, sherpa development team"
 author = "sherpa development team"
 
 
@@ -122,7 +122,7 @@ rst_epilog = """
 .. _PyTorch: https://pytorch.org/
 .. _Huggingface: https://huggingface.co
 .. _WenetSpeech: https://github.com/wenet-e2e/WenetSpeech
-.. _wenet: https://github.com/k2-fsa/sherpa
+.. _WeNet: https://github.com/wenet-e2e/wenet
 .. _GigaSpeech: https://github.com/SpeechColab/GigaSpeech
 .. _Kaldi: https://github.com/kaldi-asr/kaldi
 .. _kaldifeat: https://csukuangfj.github.io/kaldifeat/installation.html
@@ -154,11 +154,14 @@ rst_epilog = """
 .. _sherpa-onnx-go: https://github.com/k2-fsa/sherpa-onnx-go
 .. _yesno: https://www.openslr.org/1/
 .. _vits: https://github.com/jaywalnut310/vits
-.. _ljspeech: https://github.com/jaywalnut310
 .. _ljspeech: https://keithito.com/LJ-Speech-Dataset/
 .. _LJ Speech: https://keithito.com/LJ-Speech-Dataset/
 .. _VCTK: https://datashare.ed.ac.uk/handle/10283/2950
 .. _piper: https://github.com/rhasspy/piper
 .. _aishell3: https://www.openslr.org/93/
 .. _lessac_blizzard2013: https://www.cstr.ed.ac.uk/projects/blizzard/2013/lessac_blizzard2013/
+.. _OpenFst: https://www.openfst.org/
+.. _MMS: https://huggingface.co/spaces/mms-meta/MMS
+.. _WebAssembly: https://en.wikipedia.org/wiki/WebAssembly
+.. _emscripten: https://emscripten.org/index.html
 """

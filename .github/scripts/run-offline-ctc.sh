@@ -375,11 +375,13 @@ popd
 
 log "Decoding with H"
 
+# the vocab size is huge (e.g., >5000), so we use modified=true here
+# to avoid OOM in CI
 ./build/bin/sherpa-offline \
   --nn-model=$repo/model.pt \
   --tokens=$repo/tokens.txt \
   --use-gpu=false \
-  --modified=false \
+  --modified=true \
   --nemo-normalize=per_feature \
   $repo/test_wavs/0.wav \
   $repo/test_wavs/1.wav \

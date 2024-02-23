@@ -9,6 +9,8 @@
 #include <utility>
 #include <vector>
 
+#include "sherpa/cpp_api/macros.h"
+
 namespace sherpa {
 
 OnlineEmformerTransducerModel::OnlineEmformerTransducerModel(
@@ -148,7 +150,7 @@ std::tuple<torch::Tensor, torch::Tensor, torch::IValue>
 OnlineEmformerTransducerModel::RunEncoder(
     const torch::Tensor &features, const torch::Tensor &features_length,
     const torch::Tensor & /*num_processed_frames*/, torch::IValue states) {
-  torch::NoGradGuard no_grad;
+  InferenceMode no_grad;
 
   torch::IValue ivalue = encoder_.run_method("streaming_forward", features,
                                              features_length, states);
@@ -163,14 +165,14 @@ OnlineEmformerTransducerModel::RunEncoder(
 
 torch::Tensor OnlineEmformerTransducerModel::RunDecoder(
     const torch::Tensor &decoder_input) {
-  torch::NoGradGuard no_grad;
+  InferenceMode no_grad;
   return decoder_.run_method("forward", decoder_input, /*need_pad*/ false)
       .toTensor();
 }
 
 torch::Tensor OnlineEmformerTransducerModel::RunJoiner(
     const torch::Tensor &encoder_out, const torch::Tensor &decoder_out) {
-  torch::NoGradGuard no_grad;
+  InferenceMode no_grad;
   return joiner_.run_method("forward", encoder_out, decoder_out).toTensor();
 }
 

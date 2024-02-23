@@ -8,6 +8,142 @@ Zipformer-transducer-based Models
    Please refer to :ref:`install_sherpa_onnx` to install `sherpa-onnx`_
    before you read this section.
 
+sherpa-onnx-streaming-zipformer-multi-zh-hans-2023-12-12 (Chinese)
+------------------------------------------------------------------
+
+Training code for this model can be found at `<https://github.com/k2-fsa/icefall/pull/1369>`_.
+It supports only Chinese.
+
+Please refer to `<https://github.com/k2-fsa/icefall/tree/master/egs/multi_zh-hans/ASR#included-training-sets>`_
+for the detailed information about the training data. In total, there are 14k hours of training data.
+
+In the following, we describe how to download it and use it with `sherpa-onnx`_.
+
+Download the model
+~~~~~~~~~~~~~~~~~~
+
+Please use the following commands to download it.
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-zipformer-multi-zh-hans-2023-12-12.tar.bz2
+  tar xf sherpa-onnx-streaming-zipformer-multi-zh-hans-2023-12-12.tar.bz2
+  rm sherpa-onnx-streaming-zipformer-multi-zh-hans-2023-12-12.tar.bz2
+  ls -lh sherpa-onnx-streaming-zipformer-multi-zh-hans-2023-12-12
+
+The output is given below:
+
+.. code-block::
+
+  $ ls -lh sherpa-onnx-streaming-zipformer-multi-zh-hans-2023-12-12
+  total 668864
+  -rw-r--r--  1 fangjun  staff    28B Dec 12 18:59 README.md
+  -rw-r--r--  1 fangjun  staff   131B Dec 12 18:59 bpe.model
+  -rw-r--r--  1 fangjun  staff   1.2M Dec 12 18:59 decoder-epoch-20-avg-1-chunk-16-left-128.int8.onnx
+  -rw-r--r--  1 fangjun  staff   4.9M Dec 12 18:59 decoder-epoch-20-avg-1-chunk-16-left-128.onnx
+  -rw-r--r--  1 fangjun  staff    67M Dec 12 18:59 encoder-epoch-20-avg-1-chunk-16-left-128.int8.onnx
+  -rw-r--r--  1 fangjun  staff   249M Dec 12 18:59 encoder-epoch-20-avg-1-chunk-16-left-128.onnx
+  -rw-r--r--  1 fangjun  staff   1.0M Dec 12 18:59 joiner-epoch-20-avg-1-chunk-16-left-128.int8.onnx
+  -rw-r--r--  1 fangjun  staff   3.9M Dec 12 18:59 joiner-epoch-20-avg-1-chunk-16-left-128.onnx
+  drwxr-xr-x  8 fangjun  staff   256B Dec 12 18:59 test_wavs
+  -rw-r--r--  1 fangjun  staff    18K Dec 12 18:59 tokens.txt
+
+Decode a single wave file
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. hint::
+
+   It supports decoding only wave files of a single channel with 16-bit
+   encoded samples, while the sampling rate does not need to be 16 kHz.
+
+fp32
+^^^^
+
+The following code shows how to use ``fp32`` models to decode a wave file:
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  ./build/bin/sherpa-onnx \
+    --tokens=./sherpa-onnx-streaming-zipformer-multi-zh-hans-2023-12-12/tokens.txt \
+    --encoder=./sherpa-onnx-streaming-zipformer-multi-zh-hans-2023-12-12/encoder-epoch-20-avg-1-chunk-16-left-128.onnx \
+    --decoder=./sherpa-onnx-streaming-zipformer-multi-zh-hans-2023-12-12/decoder-epoch-20-avg-1-chunk-16-left-128.onnx \
+    --joiner=./sherpa-onnx-streaming-zipformer-multi-zh-hans-2023-12-12/joiner-epoch-20-avg-1-chunk-16-left-128.onnx \
+    ./sherpa-onnx-streaming-zipformer-multi-zh-hans-2023-12-12/test_wavs/DEV_T0000000000.wav
+
+.. note::
+
+   Please use ``./build/bin/Release/sherpa-onnx.exe`` for Windows.
+
+.. caution::
+
+   If you use Windows and get encoding issues, please run:
+
+      .. code-block:: bash
+
+          CHCP 65001
+
+   in your commandline.
+
+You should see the following output:
+
+.. literalinclude:: ./code-zipformer/sherpa-onnx-streaming-zipformer-multi-zh-hans-2023-12-12.txt
+
+int8
+^^^^
+
+The following code shows how to use ``int8`` models to decode a wave file:
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  ./build/bin/sherpa-onnx \
+    --tokens=./sherpa-onnx-streaming-zipformer-multi-zh-hans-2023-12-12/tokens.txt \
+    --encoder=./sherpa-onnx-streaming-zipformer-multi-zh-hans-2023-12-12/encoder-epoch-20-avg-1-chunk-16-left-128.int8.onnx \
+    --decoder=./sherpa-onnx-streaming-zipformer-multi-zh-hans-2023-12-12/decoder-epoch-20-avg-1-chunk-16-left-128.onnx \
+    --joiner=./sherpa-onnx-streaming-zipformer-multi-zh-hans-2023-12-12/joiner-epoch-20-avg-1-chunk-16-left-128.int8.onnx \
+    ./sherpa-onnx-streaming-zipformer-multi-zh-hans-2023-12-12/test_wavs/DEV_T0000000000.wav
+
+.. note::
+
+   Please use ``./build/bin/Release/sherpa-onnx.exe`` for Windows.
+
+.. caution::
+
+   If you use Windows and get encoding issues, please run:
+
+      .. code-block:: bash
+
+          CHCP 65001
+
+   in your commandline.
+
+You should see the following output:
+
+.. literalinclude:: ./code-zipformer/sherpa-onnx-streaming-zipformer-multi-zh-hans-2023-12-12-int8.txt
+
+Real-time speech recognition from a microphone
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  ./build/bin/sherpa-onnx-microphone \
+    --tokens=./sherpa-onnx-streaming-zipformer-multi-zh-hans-2023-12-12/tokens.txt \
+    --encoder=./sherpa-onnx-streaming-zipformer-multi-zh-hans-2023-12-12/encoder-epoch-20-avg-1-chunk-16-left-128.int8.onnx \
+    --decoder=./sherpa-onnx-streaming-zipformer-multi-zh-hans-2023-12-12/decoder-epoch-20-avg-1-chunk-16-left-128.onnx \
+    --joiner=./sherpa-onnx-streaming-zipformer-multi-zh-hans-2023-12-12/joiner-epoch-20-avg-1-chunk-16-left-128.int8.onnx
+
+.. hint::
+
+   If your system is Linux (including embedded Linux), you can also use
+   :ref:`sherpa-onnx-alsa` to do real-time speech recognition with your
+   microphone if ``sherpa-onnx-microphone`` does not work for you.
+
 
 .. _sherpa-onnx-wenetspeech-2023-06-15-streaming:
 
@@ -401,13 +537,27 @@ Download the model
 
 Please use the following commands to download it.
 
-.. code-block:: bash
+.. tabs::
 
-  cd /path/to/sherpa-onnx
+   .. tab:: Huggingface
 
-  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/sherpa-onnx-streaming-zipformer-en-2023-02-21
-  cd sherpa-onnx-streaming-zipformer-en-2023-02-21
-  git lfs pull --include "*.onnx"
+      .. code-block:: bash
+
+        cd /path/to/sherpa-onnx
+
+        GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/sherpa-onnx-streaming-zipformer-en-2023-02-21
+        cd sherpa-onnx-streaming-zipformer-en-2023-02-21
+        git lfs pull --include "*.onnx"
+
+   .. tab:: ModelScope
+
+      .. code-block:: bash
+
+        cd /path/to/sherpa-onnx
+
+        GIT_LFS_SKIP_SMUDGE=1 git clone https://www.modelscope.cn/pkufool/sherpa-onnx-streaming-zipformer-en-2023-02-21.git
+        cd sherpa-onnx-streaming-zipformer-en-2023-02-21
+        git lfs pull --include "*.onnx"
 
 Please check that the file sizes of the pre-trained models are correct. See
 the file sizes of ``*.onnx`` files below.
@@ -519,11 +669,10 @@ Please use the following commands to download it.
 
 .. code-block:: bash
 
-  cd /path/to/sherpa-onnx
+    cd /path/to/sherpa-onnx
 
-  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20
-  cd sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20
-  git lfs pull --include "*.onnx"
+    wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20.tar.bz2
+    tar xvf sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20.tar.bz2
 
 Please check that the file sizes of the pre-trained models are correct. See
 the file sizes of ``*.onnx`` files below.

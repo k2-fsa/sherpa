@@ -8,6 +8,131 @@ Zipformer-transducer-based Models
    Please refer to :ref:`install_sherpa_onnx` to install `sherpa-onnx`
    before you read this section.
 
+
+sherpa-onnx-zipformer-gigaspeech-2023-12-12 (English)
+-----------------------------------------------------
+
+Training code for this model is `<https://github.com/k2-fsa/icefall/pull/1254>`_.
+It supports only English since it is trained on the `GigaSpeech`_ dataset.
+
+In the following, we describe how to download it and use it with `sherpa-onnx`_.
+
+Download the model
+~~~~~~~~~~~~~~~~~~
+
+Please use the following commands to download it.
+
+.. code-block:: bash
+
+   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-gigaspeech-2023-12-12.tar.bz2
+   tar xf sherpa-onnx-zipformer-gigaspeech-2023-12-12.tar.bz2
+   ls -lh sherpa-onnx-zipformer-gigaspeech-2023-12-12
+
+You should see the following output:
+
+.. code-block:: bash
+
+  $ ls -lh sherpa-onnx-zipformer-gigaspeech-2023-12-12
+  total 656184
+  -rw-r--r--  1 fangjun  staff    28B Dec 12 19:00 README.md
+  -rw-r--r--  1 fangjun  staff   239K Dec 12 19:00 bpe.model
+  -rw-r--r--  1 fangjun  staff   528K Dec 12 19:00 decoder-epoch-30-avg-1.int8.onnx
+  -rw-r--r--  1 fangjun  staff   2.0M Dec 12 19:00 decoder-epoch-30-avg-1.onnx
+  -rw-r--r--  1 fangjun  staff    68M Dec 12 19:00 encoder-epoch-30-avg-1.int8.onnx
+  -rw-r--r--  1 fangjun  staff   249M Dec 12 19:00 encoder-epoch-30-avg-1.onnx
+  -rw-r--r--  1 fangjun  staff   253K Dec 12 19:00 joiner-epoch-30-avg-1.int8.onnx
+  -rw-r--r--  1 fangjun  staff   1.0M Dec 12 19:00 joiner-epoch-30-avg-1.onnx
+  drwxr-xr-x  5 fangjun  staff   160B Dec 12 19:00 test_wavs
+  -rw-r--r--  1 fangjun  staff   4.9K Dec 12 19:00 tokens.txt
+
+Decode wave files
+~~~~~~~~~~~~~~~~~
+
+.. hint::
+
+   It supports decoding only wave files of a single channel with 16-bit
+   encoded samples, while the sampling rate does not need to be 16 kHz.
+
+fp32
+^^^^
+
+The following code shows how to use ``fp32`` models to decode wave files:
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  ./build/bin/sherpa-onnx-offline \
+    --tokens=./sherpa-onnx-zipformer-gigaspeech-2023-12-12/tokens.txt \
+    --encoder=./sherpa-onnx-zipformer-gigaspeech-2023-12-12/encoder-epoch-30-avg-1.onnx \
+    --decoder=./sherpa-onnx-zipformer-gigaspeech-2023-12-12/decoder-epoch-30-avg-1.onnx \
+    --joiner=./sherpa-onnx-zipformer-gigaspeech-2023-12-12/joiner-epoch-30-avg-1.onnx \
+    ./sherpa-onnx-zipformer-gigaspeech-2023-12-12/test_wavs/1089-134686-0001.wav \
+    ./sherpa-onnx-zipformer-gigaspeech-2023-12-12/test_wavs/1221-135766-0001.wav \
+    ./sherpa-onnx-zipformer-gigaspeech-2023-12-12/test_wavs/1221-135766-0002.wav
+
+.. note::
+
+   Please use ``./build/bin/Release/sherpa-onnx-offline.exe`` for Windows.
+
+You should see the following output:
+
+.. literalinclude:: ./code-zipformer/sherpa-onnx-zipformer-gigaspeech-2023-12-12.txt
+
+int8
+^^^^
+
+The following code shows how to use ``int8`` models to decode wave files:
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  ./build/bin/sherpa-onnx-offline \
+    --tokens=./sherpa-onnx-zipformer-gigaspeech-2023-12-12/tokens.txt \
+    --encoder=./sherpa-onnx-zipformer-gigaspeech-2023-12-12/encoder-epoch-30-avg-1.int8.onnx \
+    --decoder=./sherpa-onnx-zipformer-gigaspeech-2023-12-12/decoder-epoch-30-avg-1.onnx \
+    --joiner=./sherpa-onnx-zipformer-gigaspeech-2023-12-12/joiner-epoch-30-avg-1.int8.onnx \
+    ./sherpa-onnx-zipformer-gigaspeech-2023-12-12/test_wavs/1089-134686-0001.wav \
+    ./sherpa-onnx-zipformer-gigaspeech-2023-12-12/test_wavs/1221-135766-0001.wav \
+    ./sherpa-onnx-zipformer-gigaspeech-2023-12-12/test_wavs/1221-135766-0002.wav
+
+.. note::
+
+   Please use ``./build/bin/Release/sherpa-onnx-offline.exe`` for Windows.
+
+You should see the following output:
+
+.. literalinclude:: ./code-zipformer/sherpa-onnx-zipformer-gigaspeech-2023-12-12-int8.txt
+
+Speech recognition from a microphone
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  ./build/bin/sherpa-onnx-microphone-offline \
+    --tokens=./sherpa-onnx-zipformer-gigaspeech-2023-12-12/tokens.txt \
+    --encoder=./sherpa-onnx-zipformer-gigaspeech-2023-12-12/encoder-epoch-30-avg-1.int8.onnx \
+    --decoder=./sherpa-onnx-zipformer-gigaspeech-2023-12-12/decoder-epoch-30-avg-1.onnx \
+    --joiner=./sherpa-onnx-zipformer-gigaspeech-2023-12-12/joiner-epoch-30-avg-1.int8.onnx
+
+Speech recognition from a microphone with VAD
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/silero_vad.onnx
+
+  ./build/bin/sherpa-onnx-vad-microphone-offline-asr \
+    --silero-vad-model=./silero_vad.onnx \
+    --tokens=./sherpa-onnx-zipformer-gigaspeech-2023-12-12/tokens.txt \
+    --encoder=./sherpa-onnx-zipformer-gigaspeech-2023-12-12/encoder-epoch-30-avg-1.int8.onnx \
+    --decoder=./sherpa-onnx-zipformer-gigaspeech-2023-12-12/decoder-epoch-30-avg-1.onnx \
+    --joiner=./sherpa-onnx-zipformer-gigaspeech-2023-12-12/joiner-epoch-30-avg-1.int8.onnx
+
 zrjin/sherpa-onnx-zipformer-multi-zh-hans-2023-9-2 (Chinese)
 ------------------------------------------------------------
 
@@ -627,9 +752,8 @@ Please use the following commands to download it.
 
   cd /path/to/sherpa-onnx
 
-  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/sherpa-onnx-zipformer-en-2023-06-26
-  cd sherpa-onnx-zipformer-en-2023-06-26
-  git lfs pull --include "*.onnx"
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-en-2023-06-26.tar.bz2
+  tar xvf sherpa-onnx-zipformer-en-2023-06-26.tar.bz2
 
 Please check that the file sizes of the pre-trained models are correct. See
 the file sizes of ``*.onnx`` files below.

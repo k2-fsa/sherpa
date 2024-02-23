@@ -30,16 +30,16 @@ dependencies.
         .. code-block:: bash
 
            pip install torch==2.0.1+cpu -f https://download.pytorch.org/whl/torch_stable.html
-           pip install k2==1.24.3.dev20230719+cpu.torch2.0.1 -f https://k2-fsa.github.io/k2/cpu.html
-           pip install kaldifeat==1.24.dev20230724+cpu.torch2.0.1 -f https://csukuangfj.github.io/kaldifeat/cpu.html
+           pip install k2==1.24.4.dev20231220+cpu.torch2.0.1 -f https://k2-fsa.github.io/k2/cpu.html
+           pip install kaldifeat==1.25.3.dev20231221+cpu.torch2.0.1 -f https://csukuangfj.github.io/kaldifeat/cpu.html
 
        .. tab:: macOS
 
         .. code-block:: bash
 
            pip install torch==2.0.1+cpu -f https://download.pytorch.org/whl/torch_stable.html
-           pip install k2==1.24.3.dev20230720+cpu.torch2.0.1 -f https://k2-fsa.github.io/k2/cpu.html
-           pip install kaldifeat==1.24.dev20230724+cpu.torch2.0.1 -f https://csukuangfj.github.io/kaldifeat/cpu.html
+           pip install k2==1.24.4.dev20231220+cpu.torch2.0.1 -f https://k2-fsa.github.io/k2/cpu.html
+           pip install kaldifeat==1.25.3.dev20231221+cpu.torch2.0.1 -f https://csukuangfj.github.io/kaldifeat/cpu.html
 
        .. tab:: Windows
 
@@ -53,8 +53,8 @@ dependencies.
       .. code-block:: bash
 
          pip install torch==2.0.1+cu117 -f https://download.pytorch.org/whl/torch_stable.html
-         pip install k2==1.24.3.dev20230718+cuda11.7.torch2.0.1 -f https://k2-fsa.github.io/k2/cuda.html
-         pip install kaldifeat==1.24.dev20230724+cuda11.7.torch2.0.1  -f https://csukuangfj.github.io/kaldifeat/cuda.html
+         pip install k2==1.24.4.dev20231220+cuda11.7.torch2.0.1 -f https://k2-fsa.github.io/k2/cuda.html
+         pip install kaldifeat==1.25.3.dev20231221+cuda11.7.torch2.0.1  -f https://csukuangfj.github.io/kaldifeat/cuda.html
 
      Next, please follow `<https://k2-fsa.github.io/k2/installation/cuda-cudnn.html>`_ to install CUDA toolkit.
 
@@ -98,6 +98,12 @@ in a single environment.
    cd sherpa
    mkdir build
    cd build
+
+   # For torch >= 2.0, please use
+   #
+   #  cmake -DCMAKE_CXX_STANDARD=17 ..
+   #
+
    cmake ..
    make -j
 

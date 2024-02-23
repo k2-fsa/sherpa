@@ -8,6 +8,7 @@
 #include <utility>
 #include <vector>
 
+#include "sherpa/cpp_api/macros.h"
 #include "torch/all.h"
 
 namespace sherpa {
@@ -38,7 +39,7 @@ OfflineTransducerGreedySearchDecoder::Decode(torch::Tensor encoder_out,
                                              torch::Tensor encoder_out_length,
                                              OfflineStream **ss /*= nullptr*/,
                                              int32_t n /*= 0*/) {
-  torch::NoGradGuard no_grad;
+  InferenceMode no_grad;
 
   TORCH_CHECK(encoder_out.dim() == 3, "encoder_out.dim() is ",
               encoder_out.dim(), "Expected value is 3");

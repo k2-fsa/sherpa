@@ -303,6 +303,7 @@ def create_recognizer(args):
 
     feat_config.fbank_opts.frame_opts.samp_freq = 16000
     feat_config.fbank_opts.mel_opts.num_bins = 80
+    feat_config.fbank_opts.mel_opts.high_freq = -400
     feat_config.fbank_opts.frame_opts.dither = 0
 
     feat_config.normalize_samples = args.normalize_samples
@@ -377,7 +378,9 @@ torch::jit::setGraphExecutorOptimize(false);
 
 if __name__ == "__main__":
     torch.manual_seed(20230104)
-    formatter = "%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] %(message)s"  # noqa
+    formatter = (
+        "%(asctime)s %(levelname)s [%(filename)s:%(lineno)d] %(message)s"  # noqa
+    )
     logging.basicConfig(format=formatter, level=logging.INFO)
 
     main()

@@ -3,6 +3,41 @@
 Build sherpa-onnx for Android
 =============================
 
+You can use this section for both ``speech-to-text`` (STT, ASR)
+and ``text-to-speech`` (TTS).
+
+.. hint::
+
+   The build scripts mentioned in this section run on both Linux and macOS.
+
+   If you are using Windows or if you don't want to build the shared libraries,
+   you can download pre-built shared libraries by visiting the release page
+   `<https://github.com/k2-fsa/sherpa-onnx/releases/>`_
+
+   For instance, for the relase ``v1.9.0``, you can visit
+   `<https://github.com/k2-fsa/sherpa-onnx/releases/tag/v1.9.0>`_
+   and download the file ``sherpa-onnx-v1.9.0-android.tar.bz2``
+   using the following command:
+
+    .. code-block:: bash
+
+      wget https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.9.0/sherpa-onnx-v1.9.0-android.tar.bz2
+
+   Please always use the latest release.
+
+.. hint::
+
+   This section is originally written for speech-to-text. However, it is
+   also applicable to other folders in `<https://github.com/k2-fsa/sherpa-onnx/tree/master/android>`_.
+
+   For instance, you can replace ``SherpaOnnx`` in this section with
+
+    - ``SherpaOnnx2Pass``
+    - ``SherpaOnnxTts``  (this is for text-to-speech)
+    - ``SherpaOnnxVad``
+    - ``SherpaOnnxVadAsr``
+
+
 Install Android Studio
 ----------------------
 
@@ -117,6 +152,7 @@ Android ABIs:
   - ``arm64-v8a``
   - ``armv7-eabi``
   - ``x86_64``
+  - ``x86``
 
 .. caution::
 
@@ -124,6 +160,26 @@ Android ABIs:
   most common one.
 
   If you want to test the app on an emulator, you probably need ``x86_64``.
+
+.. hint::
+
+   Building scripts for this section are for macOS and Linux. If you are
+   using Windows or if you don't want to build the shared libraries by yourself,
+   you can download pre-compiled shared libraries for this section by visiting
+
+    `<https://github.com/k2-fsa/sherpa-onnx/releases>`_
+
+.. hint::
+
+   We provide a colab notebook
+   |build sherpa-onnx for android colab notebook|
+   for you to try this section step by step.
+
+   If you are using Windows or you don't want to setup your local environment
+   to build the C++ libraries, please use the above colab notebook.
+
+.. |build sherpa-onnx for android colab notebook| image:: https://colab.research.google.com/assets/colab-badge.svg
+   :target: https://github.com/k2-fsa/colab/blob/master/sherpa-onnx/build_sherpa_onnx_for_android.ipynb
 
 Build for arm64-v8a
 ^^^^^^^^^^^^^^^^^^^
@@ -155,6 +211,12 @@ You should see the following screen shot after running the above copy ``cp`` com
 .. figure:: ./pic/so-libs-for-arm64-v8a.png
    :alt: Generated shared libraries for arm64-v8a
    :width: 600
+
+.. hint::
+
+   You may see more files than it is shown in the screenshot. That is totally fine
+   since we are extending `sherpa-onnx`_. The first thing to remember is to always
+   use the wildcard ``lib*.so`` in the ``cp`` command.
 
 Build for armv7-eabi
 ^^^^^^^^^^^^^^^^^^^^
@@ -219,6 +281,14 @@ You should see the following screen shot after running the above copy ``cp`` com
    :alt: Generated shared libraries for x86_64
    :width: 600
 
+Build for x86
+^^^^^^^^^^^^^
+
+.. code-block:: bash
+
+  cd sherpa-onnx # Go to the root repo
+  ./build-android-x86.sh
+
 Download pre-trained models
 ---------------------------
 
@@ -242,13 +312,16 @@ Use the following command to download the pre-trained model and place it into
 
   sudo apt-get install git-lfs
 
-  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20.tar.bz2
+
+  tar xvf sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20.tar.bz2
+  rm sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20.tar.bz2
+
   cd sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20
-  git lfs pull --include "*.onnx"
 
   # Now, remove extra files to reduce the file size of the generated apk
   rm -rf .git test_wavs
-  rm *.sh README.md
+  rm -f *.sh README.md
 
 In the end, you should have the following files:
 
@@ -336,6 +409,10 @@ libraries, is only ``5.4 MB``.
 
   Please refer to `<https://onnxruntime.ai/docs/build/custom.html>`_ for a
   custom build to reduce the file size of ``libonnxruntime.so``.
+
+  Note that we are constantly updating the version of ``onnxruntime``. By
+  the time you are reading this section, we may be using the latest version
+  of ``onnxruntime``.
 
 .. hint::
 

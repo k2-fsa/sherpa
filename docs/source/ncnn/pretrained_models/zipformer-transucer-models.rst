@@ -27,21 +27,8 @@ Please use the following commands to download it.
 
   cd /path/to/sherpa-ncnn
 
-  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/marcoyang/sherpa-ncnn-streaming-zipformer-zh-14M-2023-02-23
-  cd sherpa-ncnn-streaming-zipformer-zh-14M-2023-02-23
-  git lfs pull --include "*.bin"
-
-After downloading, please check the file sizes of the models. You should see the following
-output after .
-
-.. code-block:: bash
-
-  # after running `git lfs pull`
-  $ ls -lh *.bin
-
-  -rw-r--r-- 1 yangxiaoyu root 3.4M Feb 23 22:21 decoder_jit_trace-pnnx.ncnn.bin
-  -rw-r--r-- 1 yangxiaoyu root  17M Feb 23 22:21 encoder_jit_trace-pnnx.ncnn.bin
-  -rw-r--r-- 1 yangxiaoyu root 3.7M Feb 23 22:21 joiner_jit_trace-pnnx.ncnn.bin
+  wget https://github.com/k2-fsa/sherpa-ncnn/releases/download/models/sherpa-ncnn-streaming-zipformer-zh-14M-2023-02-23.tar.bz2
+  tar xvf sherpa-ncnn-streaming-zipformer-zh-14M-2023-02-23.tar.bz2
 
 Decode a single wave file
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -136,21 +123,8 @@ Please use the following commands to download it.
 
   cd /path/to/sherpa-ncnn
 
-  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/marcoyang/sherpa-ncnn-streaming-zipformer-20M-2023-02-17
-  cd sherpa-ncnn-streaming-zipformer-20M-2023-02-17
-  git lfs pull --include "*.bin"
-
-After downloading, please check the file sizes of the models. You should see the following
-output after .
-
-.. code-block:: bash
-
-  # after running `git lfs pull`
-  $ ls -lh *.bin
-
-  -rw-r--r-- 1 yangxiaoyu root 509K Feb 20 11:40 decoder_jit_trace-pnnx.ncnn.bin
-  -rw-r--r-- 1 yangxiaoyu root  38M Feb 20 11:40 encoder_jit_trace-pnnx.ncnn.bin
-  -rw-r--r-- 1 yangxiaoyu root 1.3M Feb 20 11:40 joiner_jit_trace-pnnx.ncnn.bin
+  wget https://github.com/k2-fsa/sherpa-ncnn/releases/download/models/sherpa-ncnn-streaming-zipformer-20M-2023-02-17.tar.bz2
+  tar xvf sherpa-ncnn-streaming-zipformer-20M-2023-02-17.tar.bz2
 
 Decode a single wave file
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -234,33 +208,8 @@ Please use the following commands to download it.
 
   cd /path/to/sherpa-ncnn
 
-  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/sherpa-ncnn-streaming-zipformer-en-2023-02-13
-
-  cd sherpa-ncnn-streaming-zipformer-en-2023-02-13
-  git lfs pull --include "*.bin"
-
-Please check that the file sizes of the pre-trained models are correct. See
-the file sizes of ``*.bin`` files below.
-
-.. code-block:: bash
-
-  # before running `git lfs pull`
-
-  sherpa-ncnn-streaming-zipformer-en-2023-02-13 fangjun$ ls -lh *.bin
-
-  -rw-r--r--  1 fangjun  staff   131B Feb 14 11:51 decoder_jit_trace-pnnx.ncnn.bin
-  -rw-r--r--  1 fangjun  staff   134B Feb 14 11:51 encoder_jit_trace-pnnx.ncnn.bin
-  -rw-r--r--  1 fangjun  staff   132B Feb 14 11:51 joiner_jit_trace-pnnx.ncnn.bin
-
-  sherpa-ncnn-streaming-zipformer-en-2023-02-13 fangjun$ git lfs pull --include "*.bin"
-
-  # after running `git lfs pull`
-
-  sherpa-ncnn-streaming-zipformer-en-2023-02-13 fangjun$ ls -lh *.bin
-
-  -rw-r--r--  1 fangjun  staff   508K Feb 14 22:19 decoder_jit_trace-pnnx.ncnn.bin
-  -rw-r--r--  1 fangjun  staff   132M Feb 14 22:19 encoder_jit_trace-pnnx.ncnn.bin
-  -rw-r--r--  1 fangjun  staff   1.4M Feb 14 22:19 joiner_jit_trace-pnnx.ncnn.bin
+  wget https://github.com/k2-fsa/sherpa-ncnn/releases/download/models/sherpa-ncnn-streaming-zipformer-en-2023-02-13.tar.bz2
+  tar xvf sherpa-ncnn-streaming-zipformer-en-2023-02-13.tar.bz2
 
 Decode a single wave file
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -343,20 +292,8 @@ Please use the following commands to download it.
 
   cd /path/to/sherpa-ncnn
 
-  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/sherpa-ncnn-streaming-zipformer-bilingual-zh-en-2023-02-13
-  cd sherpa-ncnn-streaming-zipformer-bilingual-zh-en-2023-02-13
-  git lfs pull --include "*.bin"
-
-Please check that the file sizes of the pre-trained models are correct. See
-the file sizes of ``*.bin`` files below.
-
-.. code-block:: bash
-
-  sherpa-ncnn-streaming-zipformer-bilingual-zh-en-2023-02-13 fangjun$ ls -lh *.bin
-
-  -rw-r--r--  1 fangjun  staff   6.1M Feb 14 10:08 decoder_jit_trace-pnnx.ncnn.bin
-  -rw-r--r--  1 fangjun  staff   121M Feb 14 10:09 encoder_jit_trace-pnnx.ncnn.bin
-  -rw-r--r--  1 fangjun  staff   7.0M Feb 14 10:08 joiner_jit_trace-pnnx.ncnn.bin
+  wget https://github.com/k2-fsa/sherpa-ncnn/releases/download/models/sherpa-ncnn-streaming-zipformer-bilingual-zh-en-2023-02-13.tar.bz2
+  tar xvf sherpa-ncnn-streaming-zipformer-bilingual-zh-en-2023-02-13.tar.bz2
 
 Decode a single wave file
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -456,31 +393,8 @@ Please use the following commands to download it.
 
   cd /path/to/sherpa-ncnn
 
-  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/sherpa-ncnn-streaming-zipformer-small-bilingual-zh-en-2023-02-16
-  cd sherpa-ncnn-streaming-zipformer-small-bilingual-zh-en-2023-02-16
-  git lfs pull --include "*.bin"
-
-
-Please check that the file sizes of the pre-trained models are correct. See
-the file sizes of ``*.bin`` files below.
-
-.. code-block:: bash
-
-  # before running `git lfs pull`
-
-  sherpa-ncnn-streaming-zipformer-small-bilingual-zh-en-2023-02-16 fangjun$ ls -lh *.bin
-  -rw-r--r--  1 fangjun  staff   132B Feb 16 12:18 decoder_jit_trace-pnnx.ncnn.bin
-  -rw-r--r--  1 fangjun  staff   133B Feb 16 12:18 encoder_jit_trace-pnnx.ncnn.bin
-  -rw-r--r--  1 fangjun  staff   132B Feb 16 12:18 joiner_jit_trace-pnnx.ncnn.bin
-
-  sherpa-ncnn-streaming-zipformer-small-bilingual-zh-en-2023-02-16 fangjun$ git lfs pull --include "*.bin"
-
-  # after running `git lfs pull`
-
-  sherpa-ncnn-streaming-zipformer-small-bilingual-zh-en-2023-02-16 fangjun$ ls -lh *.bin
-  -rw-r--r--  1 fangjun  staff   6.1M Feb 16 12:18 decoder_jit_trace-pnnx.ncnn.bin
-  -rw-r--r--  1 fangjun  staff    37M Feb 16 12:19 encoder_jit_trace-pnnx.ncnn.bin
-  -rw-r--r--  1 fangjun  staff   6.9M Feb 16 12:18 joiner_jit_trace-pnnx.ncnn.bin
+  wget https://github.com/k2-fsa/sherpa-ncnn/releases/download/models/sherpa-ncnn-streaming-zipformer-small-bilingual-zh-en-2023-02-16.tar.bz2
+  tar xvf sherpa-ncnn-streaming-zipformer-small-bilingual-zh-en-2023-02-16.tar.bz2
 
 Decode a single wave file
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -555,27 +469,12 @@ We provide a second version of the model that is exported with
   if you are interested.
 
 
+.. note::
+
+   You can also find a third version with folder ``64``.
+
 The advantage of using this model is that it runs much faster, while the downside
 is that you will see some delay before you see the recognition result after you speak.
-
-In the following, we describe how to download it.
-
-.. code-block:: bash
-
-  cd sherpa-ncnn-streaming-zipformer-small-bilingual-zh-en-2023-02-16
-  cd 96/
-  git lfs pull --include "*.bin"
-
-After downloading, please check the file sizes of ``*.bin`` files:
-
-.. code-block:: bash
-
-  sherpa-ncnn-streaming-zipformer-small-bilingual-zh-en-2023-02-16 fangjun$ ls -lh 96/*.bin
-
-  -rw-r--r--  1 fangjun  staff   6.1M Feb 16 14:39 96/decoder_jit_trace-pnnx.ncnn.bin
-  -rw-r--r--  1 fangjun  staff    38M Feb 16 14:39 96/encoder_jit_trace-pnnx.ncnn.bin
-  -rw-r--r--  1 fangjun  staff   6.9M Feb 16 14:39 96/joiner_jit_trace-pnnx.ncnn.bin
-
 
 To decode a file, please use:
 
@@ -619,22 +518,8 @@ Please use the following commands to download it.
 
   cd /path/to/sherpa-ncnn
 
-  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/shaojieli/sherpa-ncnn-streaming-zipformer-fr-2023-04-14
-  cd sherpa-ncnn-streaming-zipformer-fr-2023-04-14
-  git lfs pull --include "*.bin"
-
-
-Please check that the file sizes of the pre-trained models are correct. See
-the file sizes of ``*.bin`` files below.
-
-.. code-block:: bash
-
-  sherpa-ncnn-streaming-zipformer-fr-2023-04-14 shaojieli$ ls -lh *.bin
-
-  -rw-r--r-- 1 lishaojie Students 509K 4月  12 13:37 decoder_jit_trace-pnnx.ncnn.bin
-  -rw-r--r-- 1 lishaojie Students 133M 4月  12 13:37 encoder_jit_trace-pnnx.ncnn.bin
-  -rw-r--r-- 1 lishaojie Students 1.4M 4月  12 13:37 joiner_jit_trace-pnnx.ncnn.bin
-
+  wget https://github.com/k2-fsa/sherpa-ncnn/releases/download/models/sherpa-ncnn-streaming-zipformer-fr-2023-04-14.tar.bz2
+  tar xvf sherpa-ncnn-streaming-zipformer-fr-2023-04-14.tar.bz2
 
 To decode a file, please use:
 

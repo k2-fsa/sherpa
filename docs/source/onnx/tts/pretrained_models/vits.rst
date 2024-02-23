@@ -8,6 +8,16 @@ All models in a single table
 
 The following table summarizes the information of all models in this page.
 
+.. note::
+
+   Since there are more than ``100`` pre-trained models for over ``40`` languages,
+   we don't list all of them on this page. Please find them at
+   `<https://github.com/k2-fsa/sherpa-onnx/releases/tag/tts-models>`_.
+
+   You can try all the models at the following huggingface space.
+   `<https://huggingface.co/spaces/k2-fsa/text-to-speech>`_.
+
+
 .. hint::
 
    You can find Android APKs for each model at the following page
@@ -28,6 +38,30 @@ The following table summarizes the information of all models in this page.
    - `aishell3`_
    - 116
    - 8000
+ * - :ref:`vits-zh-hf-fanchen-C`
+   - Chinese
+   - 1
+   - N/A
+   - 116
+   - 16000
+ * - :ref:`vits-zh-hf-fanchen-wnj`
+   - Chinese
+   - 1
+   - N/A
+   - 116
+   - 16000
+ * - :ref:`vits-zh-hf-theresa`
+   - Chinese
+   - 804
+   - N/A
+   - 117
+   - 22050
+ * - :ref:`vits-zh-hf-eula`
+   - Chinese
+   - 804
+   - N/A
+   - 117
+   - 22050
  * - :ref:`vits-model-vits-ljspeech`
    - English (US)
    - 1 (Female)
@@ -467,6 +501,26 @@ We use speaker ID 10, 33, and 99 below to generate audio for the same text.
 
 It will generate 3 files: ``liliana-10.wav``, ``liliana-33.wav``, and ``liliana-99.wav``.
 
+We also support rule-based text normalization, which is implemented with `OpenFst`_.
+Currently, only number normalization is supported.
+
+.. hint::
+
+   We will support other normalization rules later.
+
+The following is an example:
+
+.. code-block:: bash
+
+  ./build/bin/sherpa-onnx-offline-tts \
+    --vits-model=./vits-zh-aishell3/vits-aishell3.onnx \
+    --vits-lexicon=./vits-zh-aishell3/lexicon.txt \
+    --vits-tokens=./vits-zh-aishell3/tokens.txt \
+    --tts-rule-fsts=./vits-zh-aishell3/rule.fst \
+    --sid=66 \
+    --output-filename=./rule-66.wav \
+    "35年前，他于长沙出生, 在长白山长大。9年前他当上了银行的领导，主管行政。1天前莅临我行指导工作。"
+
 .. raw:: html
 
   <table>
@@ -511,6 +565,18 @@ It will generate 3 files: ``liliana-10.wav``, ``liliana-33.wav``, and ``liliana-
         林美丽最美丽、最漂亮、最可爱！
       </td>
     </tr>
+    <tr>
+      <td>rule-66.wav</td>
+      <td>
+       <audio title="Generated ./rle66-99.wav" controls="controls">
+             <source src="/sherpa/_static/vits-zh-aishell3/rule-66.wav" type="audio/wav">
+             Your browser does not support the <code>audio</code> element.
+       </audio>
+      </td>
+      <td>
+        35年前，他于长沙出生, 在长白山长大。9年前他当上了银行的领导，主管行政。1天前莅临我行指导工作。
+      </td>
+    </tr>
   </table>
 
 Generate speech with Python script
@@ -546,7 +612,21 @@ We use speaker ID 21, 41, and 45 below to generate audio for different transcrip
     --output-filename=./zhugeliang-45.wav \
     "夫君子之行，静以修身，俭以养德，非淡泊无以明志，非宁静无以致远。"
 
+
 It will generate 3 files: ``liubei-21.wav``, ``demokelite-41.wav``, and ``zhugeliang-45.wav``.
+
+The Python script also supports rule-based text normalization.
+
+.. code-block:: bash
+
+   python3 ./python-api-examples/offline-tts.py \
+    --vits-model=./vits-zh-aishell3/vits-aishell3.onnx \
+    --vits-lexicon=./vits-zh-aishell3/lexicon.txt \
+    --vits-tokens=./vits-zh-aishell3/tokens.txt \
+    --tts-rule-fsts=./vits-zh-aishell3/rule.fst \
+    --sid=103 \
+    --output-filename=./rule-103.wav \
+    "根据第7次全国人口普查结果表明，我国总人口有1443497378人。普查登记的大陆31个省、自治区、直辖市和现役军人的人口共1411778724人。"
 
 .. raw:: html
 
@@ -592,7 +672,340 @@ It will generate 3 files: ``liubei-21.wav``, ``demokelite-41.wav``, and ``zhugel
         夫君子之行，静以修身，俭以养德，非淡泊无以明志，非宁静无以致远。
       </td>
     </tr>
+    <tr>
+      <td>rule-103.wav</td>
+      <td>
+       <audio title="Generated ./rule-103.wav" controls="controls">
+             <source src="/sherpa/_static/vits-zh-aishell3/rule-103.wav" type="audio/wav">
+             Your browser does not support the <code>audio</code> element.
+       </audio>
+      </td>
+      <td>
+        根据第7次全国人口普查结果表明，我国总人口有1443497378人。普查登记的大陆31个省、自治区、直辖市和现役军人的人口共1411778724人。
+      </td>
+    </tr>
   </table>
+
+.. _vits-zh-hf-fanchen-C:
+
+csukuangfj/vits-zh-hf-fanchen-C (Chinese, 1 female)
+---------------------------------------------------
+
+You can download the model at
+`<https://huggingface.co/csukuangfj/vits-zh-hf-fanchen-C/tree/main>`_
+
+.. hint::
+
+   This model is converted from
+   `<https://huggingface.co/spaces/lkz99/tts_model/tree/main/zh>`_
+
+.. code-block:: bash
+
+    # information about model files
+
+    ls -lh vits-zh-hf-fanchen-C
+
+    total 117M
+    -rw-r--r-- 1 root root 346K Nov  7 14:57 lexicon.txt
+    -rw-r--r-- 1 root root  63K Nov  7 14:57 rule.fst
+    -rw-r--r-- 1 root root  331 Nov  7 14:57 tokens.txt
+    -rw-r--r-- 1 root root 116M Nov  7 10:55 vits-zh-hf-fanchen-C.onnx
+
+**usage**:
+
+.. code-block:: bash
+
+  sherpa-onnx-offline-tts \
+    --vits-model=./vits-zh-hf-fanchen-C/vits-zh-hf-fanchen-C.onnx \
+    --vits-lexicon=./vits-zh-hf-fanchen-C/lexicon.txt \
+    --vits-tokens=./vits-zh-hf-fanchen-C/tokens.txt \
+    --vits-length-scale=0.5 \
+    --output-filename="./value-2x.wav" \
+    "小米的核心价值观是什么？答案是真诚热爱！"
+
+  sherpa-onnx-offline-tts \
+    --vits-model=./vits-zh-hf-fanchen-C/vits-zh-hf-fanchen-C.onnx \
+    --vits-lexicon=./vits-zh-hf-fanchen-C/lexicon.txt \
+    --vits-tokens=./vits-zh-hf-fanchen-C/tokens.txt \
+    --vits-length-scale=1.0 \
+    --tts-rule-fsts=./vits-zh-hf-fanchen-C/rule.fst \
+    --output-filename="./numbers.wav" \
+    "小米有13岁了"
+
+.. raw:: html
+
+  <table>
+    <tr>
+      <th>Wave filename</th>
+      <th>Content</th>
+      <th>Text</th>
+    </tr>
+    <tr>
+      <td>value-2x.wav</td>
+      <td>
+       <audio title="Generated ./value-2x.wav" controls="controls">
+             <source src="/sherpa/_static/vits-zh-hf-fanchen-C/value-2x.wav" type="audio/wav">
+             Your browser does not support the <code>audio</code> element.
+       </audio>
+      </td>
+      <td>
+        小米的核心价值观是什么？答案是真诚热爱！
+      </td>
+    </tr>
+    <tr>
+      <td>numbers.wav</td>
+      <td>
+       <audio title="Generated ./numbers.wav" controls="controls">
+             <source src="/sherpa/_static/vits-zh-hf-fanchen-C/numbers.wav" type="audio/wav">
+             Your browser does not support the <code>audio</code> element.
+       </audio>
+      </td>
+      <td>
+        小米有13岁了
+      </td>
+    </tr>
+  </table>
+
+.. _vits-zh-hf-fanchen-wnj:
+
+csukuangfj/vits-zh-hf-fanchen-wnj (Chinese, 1 male)
+---------------------------------------------------
+
+You can download the model at
+`<https://huggingface.co/csukuangfj/vits-zh-hf-fanchen-wnj/tree/main>`_
+
+.. hint::
+
+   This model is converted from
+   `<https://huggingface.co/spaces/lkz99/tts_model/blob/main/G_wnj_latest.pth>`_
+
+.. code-block:: bash
+
+    # information about model files
+
+    ls -lh vits-zh-hf-fanchen-wnj
+
+    total 116M
+    -rw-r--r-- 1 root root 346K Nov  7 15:12 lexicon.txt
+    -rw-r--r-- 1 root root  63K Nov  7 15:12 rule.fst
+    -rw-r--r-- 1 root root  331 Nov  7 15:12 tokens.txt
+    -rw-r--r-- 1 root root 116M Nov  7 06:34 vits-zh-hf-fanchen-wnj.onnx
+
+**usage**:
+
+.. code-block:: bash
+
+  sherpa-onnx-offline-tts \
+    --vits-model=./vits-zh-hf-fanchen-wnj/vits-zh-hf-fanchen-wnj.onnx \
+    --vits-lexicon=./vits-zh-hf-fanchen-wnj/lexicon.txt \
+    --vits-tokens=./vits-zh-hf-fanchen-wnj/tokens.txt \
+    --output-filename="./kuayue.wav" \
+    "升级人车家全生态，小米迎跨越时刻。"
+
+  sherpa-onnx-offline-tts \
+    --vits-model=./vits-zh-hf-fanchen-wnj/vits-zh-hf-fanchen-wnj.onnx \
+    --vits-lexicon=./vits-zh-hf-fanchen-wnj/lexicon.txt \
+    --vits-tokens=./vits-zh-hf-fanchen-wnj/tokens.txt \
+    --tts-rule-fsts=./vits-zh-hf-fanchen-wnj/rule.fst \
+    --output-filename="./os.wav" \
+    "这一全新操作系统，是小米13年来技术积淀的结晶。"
+
+.. raw:: html
+
+  <table>
+    <tr>
+      <th>Wave filename</th>
+      <th>Content</th>
+      <th>Text</th>
+    </tr>
+    <tr>
+      <td>kuayue.wav</td>
+      <td>
+       <audio title="Generated ./kuayue.wav" controls="controls">
+             <source src="/sherpa/_static/vits-zh-hf-fanchen-wnj/kuayue.wav" type="audio/wav">
+             Your browser does not support the <code>audio</code> element.
+       </audio>
+      </td>
+      <td>
+        升级人车家全生态，小米迎跨越时刻。
+      </td>
+    </tr>
+    <tr>
+      <td>os.wav</td>
+      <td>
+       <audio title="Generated ./os.wav" controls="controls">
+             <source src="/sherpa/_static/vits-zh-hf-fanchen-wnj/os.wav" type="audio/wav">
+             Your browser does not support the <code>audio</code> element.
+       </audio>
+      </td>
+      <td>
+        这一全新操作系统，是小米13年来技术积淀的结晶。
+      </td>
+    </tr>
+  </table>
+
+.. _vits-zh-hf-theresa:
+
+csukuangfj/vits-zh-hf-theresa (Chinese, 804 speakers)
+-----------------------------------------------------
+
+You can download the model at
+`<https://huggingface.co/csukuangfj/vits-zh-hf-theresa/tree/main>`_
+
+.. hint::
+
+   This model is converted from
+   `<https://huggingface.co/spaces/zomehwh/vits-models-genshin-bh3/tree/main/pretrained_models/theresa>`_
+
+.. code-block:: bash
+
+    # information about model files
+
+    ls -lh vits-zh-hf-theresa
+
+    total 117M
+    -rw-r--r-- 1 root root 384K Nov  7 15:26 lexicon.txt
+    -rw-r--r-- 1 root root  63K Nov  7 15:26 rule.fst
+    -rw-r--r-- 1 root root 117M Nov  5 17:04 theresa.onnx
+    -rw-r--r-- 1 root root  268 Nov  7 15:26 tokens.txt
+
+**usage**:
+
+.. code-block:: bash
+
+  sherpa-onnx-offline-tts \
+    --vits-model=./vits-zh-hf-theresa/theresa.onnx \
+    --vits-lexicon=./vits-zh-hf-theresa/lexicon.txt \
+    --vits-tokens=./vits-zh-hf-theresa/tokens.txt \
+    --sid=0 \
+    --output-filename="./reai-0.wav" \
+    "真诚就是不欺人也不自欺。热爱就是全心投入并享受其中。"
+
+  sherpa-onnx-offline-tts \
+    --vits-model=./vits-zh-hf-theresa/theresa.onnx \
+    --vits-lexicon=./vits-zh-hf-theresa/lexicon.txt \
+    --vits-tokens=./vits-zh-hf-theresa/tokens.txt \
+    --tts-rule-fsts=./vits-zh-hf-theresa/rule.fst \
+    --debug=1 \
+    --sid=88 \
+    --output-filename="./mi14-88.wav" \
+    "小米14一周销量破1000000!"
+
+.. raw:: html
+
+  <table>
+    <tr>
+      <th>Wave filename</th>
+      <th>Content</th>
+      <th>Text</th>
+    </tr>
+    <tr>
+      <td>reai-0.wav</td>
+      <td>
+       <audio title="Generated ./reai-0.wav" controls="controls">
+             <source src="/sherpa/_static/vits-zh-hf-theresa/reai-0.wav" type="audio/wav">
+             Your browser does not support the <code>audio</code> element.
+       </audio>
+      </td>
+      <td>
+        真诚就是不欺人也不自欺。热爱就是全心投入并享受其中。
+      </td>
+    </tr>
+    <tr>
+      <td>m14-88.wav</td>
+      <td>
+       <audio title="Generated ./mi14-88.wav" controls="controls">
+             <source src="/sherpa/_static/vits-zh-hf-theresa/mi14-88.wav" type="audio/wav">
+             Your browser does not support the <code>audio</code> element.
+       </audio>
+      </td>
+      <td>
+        小米14一周销量破1000000!
+      </td>
+    </tr>
+  </table>
+
+.. _vits-zh-hf-eula:
+
+csukuangfj/vits-zh-hf-eula (Chinese, 804 speakers)
+--------------------------------------------------
+
+You can download the model at
+`<https://huggingface.co/csukuangfj/vits-zh-hf-eula/tree/main>`_
+
+.. hint::
+
+   This model is converted from
+   `<https://huggingface.co/spaces/zomehwh/vits-models-genshin-bh3/tree/main/pretrained_models/eula>`_
+
+.. code-block:: bash
+
+    # information about model files
+
+    ls -lh vits-zh-hf-eula
+
+    -rw-r--r-- 1 root root 117M Nov  5 17:00 eula.onnx
+    -rw-r--r-- 1 root root 384K Nov  7 15:42 lexicon.txt
+    -rw-r--r-- 1 root root  63K Nov  7 15:42 rule.fst
+    -rw-r--r-- 1 root root  268 Nov  7 15:42 tokens.txt
+
+**usage**:
+
+.. code-block:: bash
+
+  sherpa-onnx-offline-tts \
+    --vits-model=./vits-zh-hf-eula/eula.onnx \
+    --vits-lexicon=./vits-zh-hf-eula/lexicon.txt \
+    --vits-tokens=./vits-zh-hf-eula/tokens.txt \
+    --debug=1 \
+    --sid=666 \
+    --output-filename="./news-666.wav" \
+    "小米在今天上午举办的核心干部大会上，公布了新十年的奋斗目标和科技战略，并发布了小米价值观的八条诠释。"
+
+  sherpa-onnx-offline-tts \
+    --vits-model=./vits-zh-hf-eula/eula.onnx \
+    --vits-lexicon=./vits-zh-hf-eula/lexicon.txt \
+    --vits-tokens=./vits-zh-hf-eula/tokens.txt \
+    --tts-rule-fsts=./vits-zh-hf-eula/rule.fst \
+    --sid=99 \
+    --output-filename="./news-99.wav" \
+    "9月25日消息，雷军今日在微博发文称"
+
+.. raw:: html
+
+  <table>
+    <tr>
+      <th>Wave filename</th>
+      <th>Content</th>
+      <th>Text</th>
+    </tr>
+    <tr>
+      <td>news-666.wav</td>
+      <td>
+       <audio title="Generated ./news-666.wav" controls="controls">
+             <source src="/sherpa/_static/vits-zh-hf-eula/news-666.wav" type="audio/wav">
+             Your browser does not support the <code>audio</code> element.
+       </audio>
+      </td>
+      <td>
+        小米在今天上午举办的核心干部大会上，公布了新十年的奋斗目标和科技战略，并发布了小米价值观的八条诠释。
+      </td>
+    </tr>
+    <tr>
+      <td>news-99.wav</td>
+      <td>
+       <audio title="Generated ./news-99.wav" controls="controls">
+             <source src="/sherpa/_static/vits-zh-hf-eula/news-99.wav" type="audio/wav">
+             Your browser does not support the <code>audio</code> element.
+       </audio>
+      </td>
+      <td>
+        9月25日消息，雷军今日在微博发文称
+      </td>
+    </tr>
+  </table>
+
+
 
 .. _vits-model-en_US-lessac-medium:
 
@@ -600,8 +1013,6 @@ en_US-lessac-medium (English, single-speaker)
 ---------------------------------------------
 
 This model is converted from `<https://huggingface.co/rhasspy/piper-voices/tree/main/en/en_US/lessac/medium>`_.
-You can find the colab notebook for the conversion at the following
-address `<https://github.com/k2-fsa/colab/blob/master/sherpa-onnx/piper/convert_de_DE_thorsten_medium.ipynb>`_
 
 The dataset used to train the model is `lessac_blizzard2013`_.
 
@@ -620,18 +1031,13 @@ Please use the following commands to download it.
 
   cd /path/to/sherpa-onnx
 
-  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/vits-piper-en_US-lessac-medium
-  cd vits-piper-en_US-lessac-medium
-  git lfs pull --include "*.onnx"
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/vits-piper-en_US-lessac-medium.tar.bz2
+  tar xf vits-piper-en_US-lessac-medium.tar.bz2
 
-Please check that the file sizes of the pre-trained models are correct. See
-the file sizes of ``*.onnx`` files below.
+.. hint::
 
-.. code-block:: bash
-
-  vits-piper-en_US-lessac-medium fangjun$ ls -lh *.onnx
-
-  -rw-r--r-- 1 fangjun staff 61M Oct 26 05:21 en_US-lessac-medium.onnx
+   You can find a lot of pre-trained models for over 40 languages at
+   `<https://github.com/k2-fsa/sherpa-onnx/releases/tag/tts-models>`.
 
 Generate speech with executable compiled from C++
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -642,10 +1048,28 @@ Generate speech with executable compiled from C++
 
   ./build/bin/sherpa-onnx-offline-tts \
     --vits-model=./vits-piper-en_US-lessac-medium/en_US-lessac-medium.onnx \
-    --vits-lexicon=./vits-piper-en_US-lessac-medium/lexicon.txt \
+    --vits-data-dir=./vits-piper-en_US-lessac-medium/espeak-ng-data \
     --vits-tokens=./vits-piper-en_US-lessac-medium/tokens.txt \
     --output-filename=./liliana-piper-en_US-lessac-medium.wav \
     'liliana, the most beautiful and lovely assistant of our team!'
+
+.. hint::
+
+   You can also use
+
+    .. code-block:: bash
+
+      cd /path/to/sherpa-onnx
+
+      ./build/bin/sherpa-onnx-offline-tts-play \
+        --vits-model=./vits-piper-en_US-lessac-medium/en_US-lessac-medium.onnx \
+        --vits-data-dir=./vits-piper-en_US-lessac-medium/espeak-ng-data \
+        --vits-tokens=./vits-piper-en_US-lessac-medium/tokens.txt \
+        --output-filename=./liliana-piper-en_US-lessac-medium.wav \
+        'liliana, the most beautiful and lovely assistant of our team!'
+
+    which will play the audio as it is generating.
+
 
 After running, it will generate a file ``liliana-piper.wav`` in the current directory.
 
@@ -693,11 +1117,27 @@ Generate speech with Python script
 
    python3 ./python-api-examples/offline-tts.py \
     --vits-model=./vits-piper-en_US-lessac-medium/en_US-lessac-medium.onnx \
-    --vits-lexicon=./vits-piper-en_US-lessac-medium/lexicon.txt \
+    --vits-data-dir=./vits-piper-en_US-lessac-medium/espeak-ng-data \
     --vits-tokens=./vits-piper-en_US-lessac-medium/tokens.txt \
-    --output-filename=./liliana-piper-en_US-lessac-medium.wav \
     --output-filename=./armstrong-piper-en_US-lessac-medium.wav \
     "That's one small step for a man, a giant leap for mankind."
+
+.. hint::
+
+   You can also use
+
+    .. code-block:: bash
+
+      cd /path/to/sherpa-onnx
+
+      python3 ./python-api-examples/offline-tts-play.py \
+        --vits-model=./vits-piper-en_US-lessac-medium/en_US-lessac-medium.onnx \
+        --vits-data-dir=./vits-piper-en_US-lessac-medium/espeak-ng-data \
+        --vits-tokens=./vits-piper-en_US-lessac-medium/tokens.txt \
+        --output-filename=./armstrong-piper-en_US-lessac-medium.wav \
+        "That's one small step for a man, a giant leap for mankind."
+
+    which will play the audio as it is generating.
 
 After running, it will generate a file ``armstrong-piper-en_US-lessac-medium.wav`` in the current directory.
 

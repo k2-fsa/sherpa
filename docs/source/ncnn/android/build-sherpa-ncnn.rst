@@ -123,6 +123,7 @@ Android ABIs:
   - ``arm64-v8a``
   - ``armeabi-v7a``
   - ``x86_64``
+  - ``x86``
 
 .. caution::
 
@@ -138,6 +139,18 @@ Android ABIs:
    you can download pre-compiled shared libraries for this section by visiting
 
     `<https://github.com/k2-fsa/sherpa-ncnn/releases>`_
+
+.. hint::
+
+   We provide a colab notebook
+   |build sherpa-ncnn for android colab notebook|
+   for you to try this section step by step.
+
+   If you are using Windows or you don't want to setup your local environment
+   to build the C++ libraries, please use the above colab notebook.
+
+.. |build sherpa-ncnn for android colab notebook| image:: https://colab.research.google.com/assets/colab-badge.svg
+   :target: https://github.com/k2-fsa/colab/blob/master/sherpa-ncnn/build_sherpa_ncnn_for_android.ipynb
 
 Build for arm64-v8a
 ^^^^^^^^^^^^^^^^^^^
@@ -243,6 +256,14 @@ You should see the following screen shot after running the above copy ``cp`` com
 .. figure:: ./pic/so-libs-for-x86-64.png
    :alt: Generated shared libraries for x86_64
    :width: 600
+
+Build for x86
+^^^^^^^^^^^^^
+
+.. code-block:: bash
+
+  cd sherpa-ncnn # Go to the root repo
+  ./build-android-x86.sh
 
 Download pre-trained models
 ---------------------------

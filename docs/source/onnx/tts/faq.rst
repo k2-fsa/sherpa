@@ -17,7 +17,13 @@ It shows you
 How to enable UTF-8 on Windows
 ------------------------------
 
+For Chinese Users: 如果英文模型正常，中文模型不正常。请看下面的解决方法
+和这个 `issue <https://github.com/k2-fsa/sherpa-onnx/issues/468>`_
+
 Please see `win11 下永久设置cmd编码为utf-8 <https://blog.csdn.net/Demonwolfe/article/details/127227808>`_
+
+.. image:: ./pic/utf8-setting.jpg
+   :alt: screenshot of how to set utf8 on windows
 
 How to install sherpa-onnx for TTS
 ----------------------------------

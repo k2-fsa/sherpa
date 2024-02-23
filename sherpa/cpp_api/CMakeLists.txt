@@ -57,3 +57,7 @@ add_subdirectory(bin)
 if(SHERPA_ENABLE_WEBSOCKET)
   add_subdirectory(websocket)
 endif()
+
+if(SHERPA_ENABLE_GRPC)
+  add_subdirectory(grpc)
+endif()

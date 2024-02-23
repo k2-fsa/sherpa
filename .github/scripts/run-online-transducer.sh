@@ -45,17 +45,17 @@ rm -rf $repo
 log "End of testing ${repo_url}"
 
 log "=========================================================================="
-repo_url=https://huggingface.co/Zengwei/icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05
+repo_url=https://huggingface.co/csukuangfj/icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05
 log "Start testing ${repo_url}"
 repo=$(basename $repo_url)
 log "Download pretrained model and test-data from $repo_url"
 
 GIT_LFS_SKIP_SMUDGE=1 git clone $repo_url
 pushd $repo
-git lfs pull --include "exp/cpu-jit-epoch-30-avg-10-torch-1.10.0.pt"
+git lfs pull --include "exp/cpu-jit-epoch-30-avg-10-torch-1.13.0.pt"
 git lfs pull --include "data/lang_bpe_500/LG.pt"
 cd exp
-ln -sv cpu-jit-epoch-30-avg-10-torch-1.10.0.pt cpu_jit.pt
+ln -sv cpu-jit-epoch-30-avg-10-torch-1.13.0.pt cpu_jit.pt
 popd
 
 for m in greedy_search modified_beam_search fast_beam_search; do
@@ -186,7 +186,7 @@ rm -rf $repo
 log "End of testing ${repo_url}"
 log "=========================================================================="
 
-repo_url=https://huggingface.co/pkufool/icefall_librispeech_streaming_pruned_transducer_stateless4_20220625
+repo_url=https://huggingface.co/csukuangfj/icefall_librispeech_streaming_pruned_transducer_stateless4_20220625
 log "Start testing ${repo_url}"
 repo=$(basename $repo_url)
 log "Download pretrained model and test-data from $repo_url"
@@ -224,17 +224,17 @@ rm -rf $repo
 log "End of testing ${repo_url}"
 log "=========================================================================="
 
-repo_url=https://huggingface.co/luomingshuang/icefall_asr_wenetspeech_pruned_transducer_stateless5_streaming
+repo_url=https://huggingface.co/csukuangfj/icefall_asr_wenetspeech_pruned_transducer_stateless5_streaming
 log "Start testing ${repo_url}"
 repo=$(basename $repo_url)
 log "Download pretrained model and test-data from $repo_url"
 
 GIT_LFS_SKIP_SMUDGE=1 git clone $repo_url
 pushd $repo
-git lfs pull --include "exp/cpu_jit_epoch_7_avg_1_torch.1.7.1.pt"
+git lfs pull --include "exp/cpu_jit_epoch_7_avg_1_torch.1.13.0.pt"
 git lfs pull --include "data/lang_char/LG.pt"
 cd exp
-ln -sv cpu_jit_epoch_7_avg_1_torch.1.7.1.pt cpu_jit.pt
+ln -sv cpu_jit_epoch_7_avg_1_torch.1.13.0.pt cpu_jit.pt
 popd
 
 for m in greedy_search modified_beam_search fast_beam_search; do
@@ -262,7 +262,7 @@ rm -rf $repo
 log "End of testing ${repo_url}"
 log "=========================================================================="
 
-repo_url=https://huggingface.co/ptrnull/icefall-asr-conv-emformer-transducer-stateless2-zh
+repo_url=https://huggingface.co/csukuangfj/icefall-asr-conv-emformer-transducer-stateless2-zh
 log "Start testing ${repo_url}"
 repo=$(basename $repo_url)
 GIT_LFS_SKIP_SMUDGE=1 git clone $repo_url
@@ -288,7 +288,7 @@ rm -rf $repo
 log "End of testing ${repo_url}"
 log "=========================================================================="
 
-repo_url=https://huggingface.co/pfluo/k2fsa-zipformer-chinese-english-mixed
+repo_url=https://huggingface.co/csukuangfj/k2fsa-zipformer-chinese-english-mixed
 log "Start testing ${repo_url}"
 repo=$(basename $repo_url)
 GIT_LFS_SKIP_SMUDGE=1 git clone $repo_url

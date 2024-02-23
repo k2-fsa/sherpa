@@ -14,25 +14,19 @@ You can use the following command to download the exported `onnx`_ models of ``t
 
   cd /path/to/sherpa-onnx
 
-  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/sherpa-onnx-whisper-tiny.en
-  cd sherpa-onnx-whisper-tiny.en
-  git lfs pull --include "*.onnx"
-  git lfs pull --include "*.ort"
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-whisper-tiny.en.tar.bz2
+  tar xvf sherpa-onnx-whisper-tiny.en.tar.bz2
 
 Please check that the file sizes of the downloaded models are correct. See
-the file sizes of ``*.onnx`` and ``*.ort`` files below.
+the file size of ``*.onnx`` files below.
 
 .. code-block:: bash
 
-  (py38) fangjuns-MacBook-Pro:sherpa-onnx-whisper-tiny.en fangjun$ ls -lh *.{onnx,ort}
+  (py38) fangjuns-MacBook-Pro:sherpa-onnx-whisper-tiny.en fangjun$ ls -lh *.onnx
   -rw-r--r--  1 fangjun  staff   105M Aug  7 16:22 tiny.en-decoder.int8.onnx
-  -rw-r--r--  1 fangjun  staff   105M Aug  7 16:25 tiny.en-decoder.int8.ort
   -rw-r--r--  1 fangjun  staff   185M Aug  7 16:23 tiny.en-decoder.onnx
-  -rw-r--r--  1 fangjun  staff   185M Aug  7 16:27 tiny.en-decoder.ort
   -rw-r--r--  1 fangjun  staff    12M Aug  7 16:22 tiny.en-encoder.int8.onnx
-  -rw-r--r--  1 fangjun  staff    12M Aug  7 16:24 tiny.en-encoder.int8.ort
   -rw-r--r--  1 fangjun  staff    36M Aug  7 16:22 tiny.en-encoder.onnx
-  -rw-r--r--  1 fangjun  staff    36M Aug  7 16:24 tiny.en-encoder.ort
 
 To use the downloaded files to decode waves, please run:
 
@@ -62,20 +56,6 @@ To use ``int8`` quantized models, please use:
    ./build/bin/sherpa-onnx-offline \
      --whisper-encoder=./sherpa-onnx-whisper-tiny.en/tiny.en-encoder.int8.onnx \
      --whisper-decoder=./sherpa-onnx-whisper-tiny.en/tiny.en-decoder.int8.onnx \
-     --tokens=./sherpa-onnx-whisper-tiny.en/tiny.en-tokens.txt \
-     ./sherpa-onnx-whisper-tiny.en/test_wavs/0.wav \
-     ./sherpa-onnx-whisper-tiny.en/test_wavs/1.wav \
-     ./sherpa-onnx-whisper-tiny.en/test_wavs/8k.wav
-
-To use models of `onnxruntime`_ format, please use:
-
-.. code-block:: bash
-
-   cd /path/to/sherpa-onnx
-
-   ./build/bin/sherpa-onnx-offline \
-     --whisper-encoder=./sherpa-onnx-whisper-tiny.en/tiny.en-encoder.int8.ort \
-     --whisper-decoder=./sherpa-onnx-whisper-tiny.en/tiny.en-decoder.int8.ort \
      --tokens=./sherpa-onnx-whisper-tiny.en/tiny.en-tokens.txt \
      ./sherpa-onnx-whisper-tiny.en/test_wavs/0.wav \
      ./sherpa-onnx-whisper-tiny.en/test_wavs/1.wav \
