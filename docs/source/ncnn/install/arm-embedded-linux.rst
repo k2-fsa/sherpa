@@ -132,8 +132,8 @@ That's it!
 
   In this case, I only have 1 microphone. It is ``card 0`` and that card
   has only ``device 0``. To select ``card 0`` and ``device 0`` on that card,
-  we need to pass ``hw:0,0`` to ``sherpa-ncnn-alsa``. (Note: It has the format
-  ``hw:card_number,device_index``.)
+  we need to pass ``plughw:0,0`` to ``sherpa-ncnn-alsa``. (Note: It has the format
+  ``plughw:card_number,device_index``.)
 
   For instance, you have to use
 
@@ -148,7 +148,7 @@ That's it!
         ./sherpa-ncnn-conv-emformer-transducer-small-2023-01-09/decoder_jit_trace-pnnx.ncnn.bin \
         ./sherpa-ncnn-conv-emformer-transducer-small-2023-01-09/joiner_jit_trace-pnnx.ncnn.int8.param \
         ./sherpa-ncnn-conv-emformer-transducer-small-2023-01-09/joiner_jit_trace-pnnx.ncnn.int8.bin \
-        "hw:0,0"
+        "plughw:0,0"
 
   Please change the card number and also the device index on the selected card
   accordingly in your own situation. Otherwise, you won't be able to record

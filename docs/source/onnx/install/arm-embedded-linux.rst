@@ -135,8 +135,8 @@ That's it!
 
   In this case, I only have 1 microphone. It is ``card 0`` and that card
   has only ``device 0``. To select ``card 0`` and ``device 0`` on that card,
-  we need to pass ``hw:0,0`` to ``sherpa-onnx-alsa``. (Note: It has the format
-  ``hw:card_number,device_index``.)
+  we need to pass ``plughw:0,0`` to ``sherpa-onnx-alsa``. (Note: It has the format
+  ``plughw:card_number,device_index``.)
 
   For instance, you have to use
 
@@ -148,7 +148,7 @@ That's it!
         ./sherpa-onnx-streaming-zipformer-en-2023-06-26/encoder-epoch-99-avg-1-chunk-16-left-64.int8.onnx \
         ./sherpa-onnx-streaming-zipformer-en-2023-06-26/decoder-epoch-99-avg-1-chunk-16-left-64.int8.onnx \
         ./sherpa-onnx-streaming-zipformer-en-2023-06-26/joiner-epoch-99-avg-1-chunk-16-left-64.int8.onnx \
-        "hw:0,0"
+        "plughw:0,0"
 
   Please change the card number and also the device index on the selected card
   accordingly in your own situation. Otherwise, you won't be able to record
