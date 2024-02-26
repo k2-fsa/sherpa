@@ -47,7 +47,7 @@ jobs:
       - name: Build wheels
         shell: bash
         run:
-          pip install torch==${{ matrix.torch}} cmake numpy k2==1.24.4.dev20240223+cpu.torch${{ matrix.torch }} kaldifeat==1.25.4.dev20240223+cpu.torch${{ matrix.torch }} -f https://csukuangfj.github.io/kaldifeat/cpu.html -f https://k2-fsa.github.io/k2/cpu.html
+          pip install torch==${{ matrix.torch}} cmake numpy k2==1.24.4.dev20240223+cpu.torch${{ matrix.torch }} kaldifeat==1.25.4.dev20240223+cpu.torch${{ matrix.torch }} -f https://download.pytorch.org/whl/torch_stable.html -f https://csukuangfj.github.io/kaldifeat/cpu.html -f https://k2-fsa.github.io/k2/cpu.html
 
           python3 setup.py bdist_wheel
           mkdir wheelhouse

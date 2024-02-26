@@ -74,8 +74,13 @@ jobs:
           cd ..
           rm -rf huggingface
 
-          cp source/cpu.html build/html/
-          cp source/cuda.html build/html/
+          git clone https://huggingface.co/csukuangfj/sherpa huggingface
+          cd huggingface
+          ./run.sh
+          cp cpu.html ../build/html
+          cp cuda.html ../build/html
+          cd ..
+          rm -rf huggingface
 
           touch build/html/.nojekyll
 
