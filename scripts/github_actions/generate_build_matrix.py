@@ -5,6 +5,18 @@ import argparse
 import json
 
 
+def version_ge(a, b):
+    a_major, a_minor = list(map(int, a.split(".")))[:2]
+    b_major, b_minor = list(map(int, b.split(".")))[:2]
+    if a_major > b_major:
+        return True
+
+    if a_major == b_major and a_minor >= b_minor:
+        return True
+
+    return False
+
+
 def get_args():
     parser = argparse.ArgumentParser()
     parser.add_argument(
@@ -147,6 +159,37 @@ def generate_build_matrix(enable_cuda, for_windows, for_macos, test_only_latest_
             if not for_windows
             else ["11.7.1", "11.8.0"],
         },
+        "2.1.0": {
+            "python-version": ["3.8", "3.9", "3.10", "3.11"],
+            "cuda": ["11.8", "12.1"]  # default 12.1
+            if not for_windows
+            else ["11.8.0", "12.1.0"],
+        },
+        "2.1.1": {
+            "python-version": ["3.8", "3.9", "3.10", "3.11"],
+            "cuda": ["11.8", "12.1"]  # default 12.1
+            if not for_windows
+            else ["11.8.0", "12.1.0"],
+        },
+        "2.1.2": {
+            "python-version": ["3.8", "3.9", "3.10", "3.11"],
+            "cuda": ["11.8", "12.1"]  # default 12.1
+            if not for_windows
+            else ["11.8.0", "12.1.0"],
+        },
+        "2.2.0": {
+            "python-version": ["3.8", "3.9", "3.10", "3.11", "3.12"],
+            "cuda": ["11.8", "12.1"]  # default 12.1
+            if not for_windows
+            else ["11.8.0", "12.1.0"],
+        },
+        "2.2.1": {
+            "python-version": ["3.8", "3.9", "3.10", "3.11", "3.12"],
+            "cuda": ["11.8", "12.1"]  # default 12.1
+            if not for_windows
+            else ["11.8.0", "12.1.0"],
+        },
+        # https://github.com/Jimver/cuda-toolkit/blob/master/src/links/windows-links.ts
     }
     if test_only_latest_torch:
         latest = "2.0.1"
@@ -159,7 +202,7 @@ def generate_build_matrix(enable_cuda, for_windows, for_macos, test_only_latest_
         if "1.13.1" in matrix:
             matrix["1.13.1"]["python-version"].remove("3.11")
 
-    excluded_python_versions = ["3.6"]
+    excluded_python_versions = ["3.6", "3.7"]
     enabled_torch_versions = []
 
     ans = []
@@ -194,12 +237,22 @@ def generate_build_matrix(enable_cuda, for_windows, for_macos, test_only_latest_
                 if for_windows or for_macos:
                     p = "cp" + "".join(p.split("."))
                     ans.append({"torch": torch, "python-version": p})
+                elif for_macos:
+                    ans.append({"torch": torch, "python-version": p})
+                elif version_ge(torch, "2.2.0"):
+                    ans.append(
+                        {
+                            "torch": torch,
+                            "python-version": p,
+                            "image": "pytorch/manylinux-builder:cpu-2.2",
+                        }
+                    )
                 else:
                     ans.append(
                         {
                             "torch": torch,
                             "python-version": p,
-                            "image": f"pytorch/manylinux-builder:cuda10.2",
+                            "image": "pytorch/manylinux-builder:cuda10.2",
                         }
                     )
 
