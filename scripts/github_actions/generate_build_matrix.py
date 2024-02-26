@@ -234,7 +234,7 @@ def generate_build_matrix(enable_cuda, for_windows, for_macos, test_only_latest_
                 if p in excluded_python_versions:
                     continue
 
-                if for_windows or for_macos:
+                if for_windows:
                     p = "cp" + "".join(p.split("."))
                     ans.append({"torch": torch, "python-version": p})
                 elif for_macos:

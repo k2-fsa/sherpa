@@ -42,15 +42,29 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: ${{ matrix.python-version }}
+
       # see https://cibuildwheel.readthedocs.io/en/stable/changelog/
       # for a list of versions
       - name: Build wheels
         shell: bash
         run:
-          pip install torch==${{ matrix.torch}} cmake numpy k2==1.24.4.dev20240223+cpu.torch${{ matrix.torch }} kaldifeat==1.25.4.dev20240223+cpu.torch${{ matrix.torch }} -f https://download.pytorch.org/whl/torch_stable.html -f https://csukuangfj.github.io/kaldifeat/cpu.html -f https://k2-fsa.github.io/k2/cpu.html
+          pip install -U pip
+          pip install cmake numpy setuptools wheel
+
+          pip install torch==${{ matrix.torch}} -f https://download.pytorch.org/whl/cpu/torch_stable.html
+
+          pip install k2==1.24.4.dev20240223+cpu.torch${{ matrix.torch }} -f https://k2-fsa.github.io/k2/cpu.html
+
+          pip install kaldifeat==1.25.4.dev20240223+cpu.torch${{ matrix.torch }} -f https://csukuangfj.github.io/kaldifeat/cpu.html
 
           python3 setup.py bdist_wheel
-          mkdir wheelhouse
+
+          mkdir -p wheelhouse
+
           cp -v dist/* wheelhouse
 
       - name: Display wheels
