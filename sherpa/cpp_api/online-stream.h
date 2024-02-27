@@ -9,7 +9,7 @@
 #include <string>
 #include <vector>
 
-#include "kaldifeat/csrc/feature-fbank.h"
+#include "sherpa/cpp_api/feature-config.h"
 #include "sherpa/csrc/context-graph.h"
 #include "torch/script.h"
 
@@ -58,7 +58,7 @@ struct OnlineTransducerDecoderResult;
 
 class OnlineStream {
  public:
-  explicit OnlineStream(const kaldifeat::FbankOptions &opts,
+  explicit OnlineStream(const FeatureConfig &feat_config,
                         ContextGraphPtr context_graph = nullptr);
   ~OnlineStream();
 
