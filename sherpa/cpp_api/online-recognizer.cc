@@ -347,7 +347,7 @@ class OnlineRecognizer::OnlineRecognizerImpl {
   }
 
   std::unique_ptr<OnlineStream> CreateStream() {
-    auto s = std::make_unique<OnlineStream>(config_.feat_config.fbank_opts);
+    auto s = std::make_unique<OnlineStream>(config_.feat_config);
     InitOnlineStream(s.get());
     return s;
   }
@@ -359,7 +359,7 @@ class OnlineRecognizer::OnlineRecognizerImpl {
     // model rather than each stream.
     auto context_graph =
         std::make_shared<ContextGraph>(contexts, config_.context_score);
-    auto s = std::make_unique<OnlineStream>(config_.feat_config.fbank_opts,
+    auto s = std::make_unique<OnlineStream>(config_.feat_config,
                                             context_graph);
     InitOnlineStream(s.get());
     return s;

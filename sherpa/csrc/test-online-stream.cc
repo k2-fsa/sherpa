@@ -32,7 +32,7 @@ TEST(OnlineStream, Test) {
   FeatureConfig feat_config;
   feat_config.fbank_opts.mel_opts.num_bins = feature_dim;
 
-  OnlineStream s(feat_config.fbank_opts);
+  OnlineStream s(feat_config);
   EXPECT_EQ(s.NumFramesReady(), 0);
   auto a = torch::rand({500}, torch::kFloat);
   s.AcceptWaveform(sampling_rate, a);

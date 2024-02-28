@@ -23,7 +23,6 @@
 #include <utility>
 #include <vector>
 
-#include "kaldifeat/csrc/feature-fbank.h"
 #include "kaldifeat/csrc/online-feature.h"
 #include "sherpa/cpp_api/endpoint.h"
 #include "sherpa/csrc/context-graph.h"
@@ -36,14 +35,18 @@ namespace sherpa {
 
 class OnlineStream::OnlineStreamImpl {
  public:
-  explicit OnlineStreamImpl(const kaldifeat::FbankOptions &opts,
+  explicit OnlineStreamImpl(const FeatureConfig &feat_config,
                             ContextGraphPtr context_graph /*=nullptr*/)
-      : opts_(opts), context_graph_(context_graph) {
-    fbank_ = std::make_unique<kaldifeat::OnlineFbank>(opts);
+      : opts_(feat_config.fbank_opts), feat_config_(feat_config), context_graph_(context_graph) {
+    fbank_ = std::make_unique<kaldifeat::OnlineFbank>(opts_);
   }
 
   void AcceptWaveform(int32_t sampling_rate, torch::Tensor waveform) {
     std::lock_guard<std::mutex> lock(feat_mutex_);
+
+    if (!feat_config_.normalize_samples) {
+      waveform.mul_(32767);
+    }
 
     if (resampler_) {
       if (sampling_rate != resampler_->GetInputSamplingRate()) {
@@ -124,6 +127,7 @@ class OnlineStream::OnlineStreamImpl {
  private:
   kaldifeat::FbankOptions opts_;
   std::unique_ptr<kaldifeat::OnlineFbank> fbank_;
+  FeatureConfig feat_config_;
   mutable std::mutex feat_mutex_;
 
   torch::IValue state_;
@@ -144,9 +148,9 @@ class OnlineStream::OnlineStreamImpl {
   std::unique_ptr<LinearResample> resampler_;
 };
 
-OnlineStream::OnlineStream(const kaldifeat::FbankOptions &opts,
+OnlineStream::OnlineStream(const FeatureConfig &feat_config,
                            ContextGraphPtr context_graph)
-    : impl_(std::make_unique<OnlineStreamImpl>(opts, context_graph)) {}
+    : impl_(std::make_unique<OnlineStreamImpl>(feat_config, context_graph)) {}
 
 OnlineStream::~OnlineStream() = default;
 
