@@ -25,12 +25,22 @@ static void RegisterFrameExtractionOptions(
       "Dithering constant (0.0 means no dither). "
       "Caution: Samples are normalized to the range [-1, 1). "
       "Please select a small value for dither if you want to enable it");
+
+  po->Register(
+      "snip-edges", &opts->snip_edges,
+      "If true, end effects will be handled by outputting only frames that "
+      "completely fit in the file, and the number of frames depends on the "
+      "frame-length.  If false, the number of frames depends only on the "
+      "frame-shift, and we reflect the data at the ends.");
 }
 
 static void RegisterMelBanksOptions(ParseOptions *po,
                                     kaldifeat::MelBanksOptions *opts) {
   po->Register("num-mel-bins", &opts->num_bins,
                "Number of triangular mel-frequency bins");
+  po->Register(
+      "high-freq", &opts->high_freq,
+      "High cutoff frequency for mel bins (if <= 0, offset from Nyquist)");
 }
 
 void FeatureConfig::Register(ParseOptions *po) {
