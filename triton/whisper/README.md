@@ -81,8 +81,8 @@ python3 client.py \
     --server-addr localhost \
     --model-name whisper \
     --num-tasks $num_task \
-    --whisper-prompt "<|startoftranscript|><|en|><|transcribe|><|notimestamps|>" \
-    --manifest-dir ./datasets/mini_en
+    --whisper-prompt "<|startoftranscript|><|zh|><|transcribe|><|notimestamps|>" \
+    --manifest-dir ./datasets/aishell1_test
 ```
 
 ### Benchmark Results
