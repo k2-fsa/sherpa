@@ -352,7 +352,7 @@ It is a `streaming zipformer model <https://github.com/k2-fsa/icefall/tree/maste
 .. code-block:: bash
 
   # This model supports both Chinese and English
-  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/pfluo/k2fsa-zipformer-chinese-english-mixed
+  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/k2fsa-zipformer-chinese-english-mixed
   cd k2fsa-zipformer-chinese-english-mixed
   git lfs pull --include "exp/cpu_jit.pt"
 
