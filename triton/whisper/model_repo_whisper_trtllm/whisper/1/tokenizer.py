@@ -1,7 +1,22 @@
+# SPDX-FileCopyrightText: Copyright (c) 2022-2024 NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+# SPDX-License-Identifier: Apache-2.0
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 # Modified from https://github.com/openai/whisper/blob/main/whisper/tokenizer.py
-import tiktoken
 import base64
 import os
+
+import tiktoken
 
 LANGUAGES = {
     "en": "english",
@@ -103,10 +118,18 @@ LANGUAGES = {
     "ba": "bashkir",
     "jw": "javanese",
     "su": "sundanese",
+    "yue": "cantonese",
 }
 
-def get_tokenizer(name: str = "multilingual"):
-    vocab_path = os.path.join(os.path.dirname(__file__), f"{name}.tiktoken")
+
+def get_tokenizer(name: str = "multilingual",
+                  num_languages: int = 99,
+                  tokenizer_dir: str = None):
+    if tokenizer_dir is None:
+        vocab_path = os.path.join(os.path.dirname(__file__),
+                                  f"./{name}.tiktoken")
+    else:
+        vocab_path = os.path.join(tokenizer_dir, f"{name}.tiktoken")
     ranks = {
         base64.b64decode(token): int(rank)
         for token, rank in (line.split() for line in open(vocab_path) if line)
@@ -117,7 +140,7 @@ def get_tokenizer(name: str = "multilingual"):
     specials = [
         "<|endoftext|>",
         "<|startoftranscript|>",
-        *[f"<|{lang}|>" for lang in LANGUAGES.keys()],
+        *[f"<|{lang}|>" for lang in list(LANGUAGES.keys())[:num_languages]],
         "<|translate|>",
         "<|transcribe|>",
         "<|startoflm|>",
@@ -134,10 +157,12 @@ def get_tokenizer(name: str = "multilingual"):
     return tiktoken.Encoding(
         name=os.path.basename(vocab_path),
         explicit_n_vocab=n_vocab,
-        pat_str=r"""'s|'t|'re|'ve|'m|'ll|'d| ?\p{L}+| ?\p{N}+| ?[^\s\p{L}\p{N}]+|\s+(?!\S)|\s+""",
+        pat_str=
+        r"""'s|'t|'re|'ve|'m|'ll|'d| ?\p{L}+| ?\p{N}+| ?[^\s\p{L}\p{N}]+|\s+(?!\S)|\s+""",
         mergeable_ranks=ranks,
         special_tokens=special_tokens,
     )
+
 
 if __name__ == "__main__":
     enc = get_tokenizer()
@@ -145,11 +170,15 @@ if __name__ == "__main__":
     encoding = enc.encode(mytest_str, allowed_special=enc.special_tokens_set)
     mystr = enc.decode([50361, 45, 43021, 50258, 50259, 50359])
     mystr2 = enc.decode([50361, 46284, 50258, 50259, 50359])
-    print(encoding, mystr, mystr2)
-    print(enc.encode("<|startoftranscript|>", allowed_special=enc.special_tokens_set)[0])
-
+    #print(encoding, mystr, mystr2)
+    print(
+        enc.encode("<|startoftranscript|>",
+                   allowed_special=enc.special_tokens_set)[0])
+    print(
+        enc.encode("<|endoftext|>",
+                   allowed_special=enc.special_tokens_set)[0])
     my_zh_str = "好好学习"
     encoding = enc.encode(my_zh_str, allowed_special=enc.special_tokens_set)
     decoding = enc.decode(encoding)
     print(type(decoding))
-    print(encoding, decoding)
+    #print(encoding, decoding)
