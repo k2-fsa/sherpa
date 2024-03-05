@@ -1,7 +1,9 @@
-colored
-onnxconverter_common==1.12.2
-onnxmltools==1.11.1
+tiktoken
+datasets
+kaldialign
 openai-whisper
-onnxruntime-gpu
-onnx
-polygraphy
+librosa
+soundfile
+safetensors
+transformers
+janus

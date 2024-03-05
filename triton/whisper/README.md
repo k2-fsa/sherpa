@@ -1,36 +1,59 @@
-## Triton Inference Serving Best Practice for Whisper
+## Triton Inference Serving Best Practice for Whisper TensorRT-LLM
 
 ### Build Image
 Directly pull the image we prepared for you or build it from scratch. 
 ```sh
 # using the prepared image
-docker pull soar97/triton-whisper:23.06
+docker pull soar97/triton-whisper:24.01.complete
 
 # build from scratch, cd to the parent dir of Dockerfile.server
-docker build . -f Dockerfile.server -t soar97/triton-whisper:23.06
+docker build . -f Dockerfile.server -t soar97/triton-whisper:24.01.complete
 ```
 
 ### Create Docker Container
 ```sh
 your_mount_dir=/mnt:/mnt
-docker run -it --name "whisper-server" --gpus all --net host -v $your_mount_dir --shm-size=2g soar97/triton-whisper:23.06
+docker run -it --name "whisper-server" --gpus all --net host -v $your_mount_dir --shm-size=2g soar97/triton-whisper:24.01.complete
 ```
 
-### Export Whisper Model to Onnx
-Use our prepared model_repo_whisper from huggingface or prepare it by yourself.
-```sh
-# using huggingface model_repo_whisper
-apt-get install git-lfs
-git-lfs install
-git clone https://huggingface.co/yuekai/model_repo_whisper_large_v2.git
+### Export Whisper Model to TensorRT-LLM
+Inside docker container, we would follow the offcial guide of TensorRT-LLM to build whisper TensorRT-LLM engines. See [here](https://github.com/NVIDIA/TensorRT-LLM/tree/main/examples/whisper).
 
-# prepare it by yourself, inside the whisper-server docker container
-bash export-onnx-triton.sh
+```sh
+# We already have a clone of TensorRT-LLM inside container, so no need to clone it.
+cd /workspace/TensorRT-LLM/examples/whisper
+
+# take large-v3 model as an example
+wget --directory-prefix=assets https://openaipublic.azureedge.net/main/whisper/models/e5b1a55b89c1367dacf97e3e19bfd829a01529dbfdeefa8caeb59b3f1b81dadb/large-v3.pt
+
+# Build the large-v3 model using a single GPU with plugins.
+python3 build.py --output_dir whisper_large_v3 --use_gpt_attention_plugin --use_gemm_plugin  --use_bert_attention_plugin --enable_context_fmha
+
+# prepare the model_repo_whisper_trtllm
+cd sherpa/triton/whisper
+ln -sv /workspace/TensorRT-LLM/examples/whisper/whisper_large_v3 ./model_repo_whisper_trtllm/whisper/1/
+wget --directory-prefix=./model_repo_whisper_trtllm/whisper/1/ https://raw.githubusercontent.com/openai/whisper/main/whisper/assets/multilingual.tiktoken
+wget --directory-prefix=./model_repo_whisper_trtllm/whisper/1/ assets/mel_filters.npz https://raw.githubusercontent.com/openai/whisper/main/whisper/assets/mel_filters.npz
 ```
 
 ### Launch Server
+Log of directory tree:
 ```sh
-# inside the whisper-server docker container
+model_repo_whisper_trtllm
+└── whisper
+    ├── 1
+    │   ├── fbank.py
+    │   ├── mel_filters.npz
+    │   ├── model.py
+    │   ├── multilingual.tiktoken
+    │   ├── tokenizer.py
+    │   ├── whisper_large_v3 -> /workspace/TensorRT-LLM/examples/whisper/whisper_large_v3
+    │   └── whisper_trtllm.py
+    └── config.pbtxt
+
+3 directories, 7 files
+```
+```sh
 bash launch_server.sh
 ```
 
@@ -46,7 +69,6 @@ git-lfs install
 git clone https://huggingface.co/spaces/yuekai/triton-asr-client.git
 cd triton-asr-client
 pip3 install -r requirement.txt
-pip3 install gradio
 python3 app.py
 ```
 
@@ -54,26 +76,19 @@ python3 app.py
 ```sh
 git clone https://github.com/yuekaizhang/Triton-ASR-Client.git
 cd Triton-ASR-Client
-num_task=4
+num_task=16
 python3 client.py \
     --server-addr localhost \
     --model-name whisper \
     --num-tasks $num_task \
-    --whisper-prompt "<|startoftranscript|><|en|><|transcribe|><|notimestamps|>" \
-    --manifest-dir ./datasets/mini_en
+    --whisper-prompt "<|startoftranscript|><|zh|><|transcribe|><|notimestamps|>" \
+    --manifest-dir ./datasets/aishell1_test
 ```
 
 ### Benchmark Results
 Decoding on a single V100 GPU, audios are padded to 30s, using aishell1 test set files
 
-[Details](media/stats_summary_op14_single_batch_large-v2.txt)
 | Model | Backend   | Concurrency | RTF     |
 |-------|-----------|-----------------------|---------|
-| Large-v2 | ONNX FP16 | 4                   | 0.14 |
-
-|Module| Time Distribution|
-|--|--|
-|feature_extractor|0.8%|
-|encoder|9.6%|
-|decoder|67.4%|
-|greedy search|22.2%|
+| Large-v2 | ONNX FP16 (deprecated) | 4                   | 0.14 |
+| Large-v3 | TensorRT-LLM FP16 | 4                   | 0.0209 |

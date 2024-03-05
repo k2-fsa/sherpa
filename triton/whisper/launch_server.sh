@@ -1,6 +1,6 @@
-export CUDA_VISIBLE_DEVICES="2"
+export CUDA_VISIBLE_DEVICES="0"
 
-model_repo_path=./model_repo_whisper
+model_repo_path=./model_repo_whisper_trtllm
 
 tritonserver --model-repository $model_repo_path \
             --pinned-memory-pool-byte-size=2048000000 \
