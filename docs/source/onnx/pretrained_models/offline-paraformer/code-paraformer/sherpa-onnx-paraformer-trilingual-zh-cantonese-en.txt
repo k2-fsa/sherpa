@@ -1,0 +1,35 @@
+/project/sherpa-onnx/csrc/parse-options.cc:Read:361 sherpa-onnx-offline --tokens=./sherpa-onnx-paraformer-trilingual-zh-cantonese-en/tokens.txt --paraformer=./sherpa-onnx-paraformer-trilingual-zh-cantonese-en/model.onnx ./sherpa-onnx-paraformer-trilingual-zh-cantonese-en/test_wavs/1.wav ./sherpa-onnx-paraformer-trilingual-zh-cantonese-en/test_wavs/2.wav ./sherpa-onnx-paraformer-trilingual-zh-cantonese-en/test_wavs/3-sichuan.wav ./sherpa-onnx-paraformer-trilingual-zh-cantonese-en/test_wavs/4-tianjin.wav ./sherpa-onnx-paraformer-trilingual-zh-cantonese-en/test_wavs/5-henan.wav ./sherpa-onnx-paraformer-trilingual-zh-cantonese-en/test_wavs/6-zh-en.wav 
+
+OfflineRecognizerConfig(feat_config=OfflineFeatureExtractorConfig(sampling_rate=16000, feature_dim=80), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename="", decoder_filename="", joiner_filename=""), paraformer=OfflineParaformerModelConfig(model="./sherpa-onnx-paraformer-trilingual-zh-cantonese-en/model.onnx"), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=""), whisper=OfflineWhisperModelConfig(encoder="", decoder="", language="", task="transcribe", tail_paddings=-1), tdnn=OfflineTdnnModelConfig(model=""), zipformer_ctc=OfflineZipformerCtcModelConfig(model=""), wenet_ctc=OfflineWenetCtcModelConfig(model=""), tokens="./sherpa-onnx-paraformer-trilingual-zh-cantonese-en/tokens.txt", num_threads=2, debug=False, provider="cpu", model_type=""), lm_config=OfflineLMConfig(model="", scale=0.5), ctc_fst_decoder_config=OfflineCtcFstDecoderConfig(graph="", max_active=3000), decoding_method="greedy_search", max_active_paths=4, hotwords_file="", hotwords_score=1.5, blank_penalty=0)
+Creating recognizer ...
+Started
+/project/sherpa-onnx/csrc/offline-paraformer-greedy-search-decoder.cc:Decode:65 time stamp for batch: 0, 13 vs -1
+/project/sherpa-onnx/csrc/offline-paraformer-greedy-search-decoder.cc:Decode:65 time stamp for batch: 1, 15 vs -1
+/project/sherpa-onnx/csrc/offline-paraformer-greedy-search-decoder.cc:Decode:65 time stamp for batch: 2, 40 vs -1
+/project/sherpa-onnx/csrc/offline-paraformer-greedy-search-decoder.cc:Decode:65 time stamp for batch: 3, 41 vs -1
+/project/sherpa-onnx/csrc/offline-paraformer-greedy-search-decoder.cc:Decode:65 time stamp for batch: 4, 37 vs -1
+/project/sherpa-onnx/csrc/offline-paraformer-greedy-search-decoder.cc:Decode:65 time stamp for batch: 5, 16 vs -1
+Done!
+
+./sherpa-onnx-paraformer-trilingual-zh-cantonese-en/test_wavs/1.wav
+{"text": "有无人知道湾仔活道系点去㗎", "timestamps": [], "tokens":["有", "无", "人", "知", "道", "湾", "仔", "活", "道", "系", "点", "去", "㗎"]}
+----
+./sherpa-onnx-paraformer-trilingual-zh-cantonese-en/test_wavs/2.wav
+{"text": "我喺黄大仙九龙塘联合道荡失路啊", "timestamps": [], "tokens":["我", "喺", "黄", "大", "仙", "九", "龙", "塘", "联", "合", "道", "荡", "失", "路", "啊"]}
+----
+./sherpa-onnx-paraformer-trilingual-zh-cantonese-en/test_wavs/3-sichuan.wav
+{"text": "自己就是在那个在那个就是在情节里面就是感觉是演得特别好就是好像很真实一样你知道吧", "timestamps": [], "tokens":["自", "己", "就", "是", "在", "那", "个", "在", "那", "个", "就", "是", "在", "情", "节", "里", "面", "就", "是", "感", "觉", "是", "演", "得", "特", "别", "好", "就", "是", "好", "像", "很", "真", "实", "一", "样", "你", "知", "道", "吧"]}
+----
+./sherpa-onnx-paraformer-trilingual-zh-cantonese-en/test_wavs/4-tianjin.wav
+{"text": "其实他就是怕每个人都可以守法就这意思法律意识太单薄了而且就是嗯也不顾及到别人的感受", "timestamps": [], "tokens":["其", "实", "他", "就", "是", "怕", "每", "个", "人", "都", "可", "以", "守", "法", "就", "这", "意", "思", "法", "律", "意", "识", "太", "单", "薄", "了", "而", "且", "就", "是", "嗯", "也", "不", "顾", "及", "到", "别", "人", "的", "感", "受"]}
+----
+./sherpa-onnx-paraformer-trilingual-zh-cantonese-en/test_wavs/5-henan.wav
+{"text": "它这个管一下都通到有时候都通到七八层楼高然后它这管一下就可以浇到那那柱子上", "timestamps": [], "tokens":["它", "这", "个", "管", "一", "下", "都", "通", "到", "有", "时", "候", "都", "通", "到", "七", "八", "层", "楼", "高", "然", "后", "它", "这", "管", "一", "下", "就", "可", "以", "浇", "到", "那", "那", "柱", "子", "上"]}
+----
+./sherpa-onnx-paraformer-trilingual-zh-cantonese-en/test_wavs/6-zh-en.wav
+{"text": " yesterday was 星期一 today is tuesday 明天是星期三", "timestamps": [], "tokens":["yesterday", "was", "星", "期", "一", "today", "is", "tu@@", "es@@", "day", "明", "天", "是", "星", "期", "三"]}
+----
+num threads: 2
+decoding method: greedy_search
+Elapsed seconds: 6.871 s
+Real time factor (RTF): 6.871 / 42.054 = 0.163

@@ -1,0 +1,24 @@
+/project/sherpa-onnx/csrc/parse-options.cc:Read:361 sherpa-onnx-offline --tokens=./sherpa-onnx-paraformer-en-2024-03-09/tokens.txt --paraformer=./sherpa-onnx-paraformer-en-2024-03-09/model.int8.onnx ./sherpa-onnx-paraformer-en-2024-03-09/test_wavs/0.wav ./sherpa-onnx-paraformer-en-2024-03-09/test_wavs/1.wav ./sherpa-onnx-paraformer-en-2024-03-09/test_wavs/8k.wav 
+
+OfflineRecognizerConfig(feat_config=OfflineFeatureExtractorConfig(sampling_rate=16000, feature_dim=80), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename="", decoder_filename="", joiner_filename=""), paraformer=OfflineParaformerModelConfig(model="./sherpa-onnx-paraformer-en-2024-03-09/model.int8.onnx"), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=""), whisper=OfflineWhisperModelConfig(encoder="", decoder="", language="", task="transcribe", tail_paddings=-1), tdnn=OfflineTdnnModelConfig(model=""), zipformer_ctc=OfflineZipformerCtcModelConfig(model=""), wenet_ctc=OfflineWenetCtcModelConfig(model=""), tokens="./sherpa-onnx-paraformer-en-2024-03-09/tokens.txt", num_threads=2, debug=False, provider="cpu", model_type=""), lm_config=OfflineLMConfig(model="", scale=0.5), ctc_fst_decoder_config=OfflineCtcFstDecoderConfig(graph="", max_active=3000), decoding_method="greedy_search", max_active_paths=4, hotwords_file="", hotwords_score=1.5, blank_penalty=0)
+Creating recognizer ...
+Started
+/project/sherpa-onnx/csrc/offline-stream.cc:AcceptWaveformImpl:119 Creating a resampler:
+   in_sample_rate: 8000
+   output_sample_rate: 16000
+
+Done!
+
+./sherpa-onnx-paraformer-en-2024-03-09/test_wavs/0.wav
+{"text": " after early nightfall the yellow lamps would light up here and there the squalid quarter of the brothels", "timestamps": [], "tokens":["after", "early", "ni@@", "ght@@", "fall", "the", "yel@@", "low", "la@@", "mp@@", "s", "would", "light", "up", "here", "and", "there", "the", "squ@@", "al@@", "id", "quarter", "of", "the", "bro@@", "the@@", "ls"]}
+----
+./sherpa-onnx-paraformer-en-2024-03-09/test_wavs/1.wav
+{"text": " god as a direct consequence of the sin which man thus punished had given her a lovely child whose place was 'on' that same dishonoured bosom to connect her parent for ever with the race and descent of mortals and to be finally a blessed soul in heaven", "timestamps": [], "tokens":["god", "as", "a", "direct", "con@@", "sequence", "of", "the", "sin", "which", "man", "thus", "p@@", "uni@@", "shed", "had", "given", "her", "a", "lo@@", "vely", "child", "whose", "place", "was", "'on'", "that", "same", "di@@", "sh@@", "on@@", "ou@@", "red", "bo@@", "so@@", "m", "to", "connect", "her", "paren@@", "t", "for", "ever", "with", "the", "race", "and", "des@@", "cent", "of", "mor@@", "tal@@", "s", "and", "to", "be", "finally", "a", "bl@@", "essed", "soul", "in", "hea@@", "ven"]}
+----
+./sherpa-onnx-paraformer-en-2024-03-09/test_wavs/8k.wav
+{"text": " yet these thoughts affected hester prynne less with hope than apprehension", "timestamps": [], "tokens":["yet", "these", "thoughts", "aff@@", "ected", "he@@", "ster", "pr@@", "y@@", "n@@", "ne", "less", "with", "hope", "than", "ap@@", "pre@@", "hen@@", "sion"]}
+----
+num threads: 2
+decoding method: greedy_search
+Elapsed seconds: 5.492 s
+Real time factor (RTF): 5.492 / 28.165 = 0.195
