@@ -1,27 +1,39 @@
-OfflineRecognizerConfig(feat_config=OfflineFeatureExtractorConfig(sampling_rate=16000, feature_dim=80), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename="", decoder_filename="", joiner_filename=""), paraformer=OfflineParaformerModelConfig(model="./sherpa-onnx-paraformer-zh-2023-03-28/model.int8.onnx"), tokens="./sherpa-onnx-paraformer-zh-2023-03-28/tokens.txt", num_threads=2, debug=False), decoding_method="greedy_search")
+/project/sherpa-onnx/csrc/parse-options.cc:Read:361 sherpa-onnx-offline --tokens=./sherpa-onnx-paraformer-zh-2023-03-28/tokens.txt --paraformer=./sherpa-onnx-paraformer-zh-2023-03-28/model.int8.onnx ./sherpa-onnx-paraformer-zh-2023-03-28/test_wavs/0.wav ./sherpa-onnx-paraformer-zh-2023-03-28/test_wavs/1.wav ./sherpa-onnx-paraformer-zh-2023-03-28/test_wavs/2.wav ./sherpa-onnx-paraformer-zh-2023-03-28/test_wavs/3-sichuan.wav ./sherpa-onnx-paraformer-zh-2023-03-28/test_wavs/4-tianjin.wav ./sherpa-onnx-paraformer-zh-2023-03-28/test_wavs/5-henan.wav ./sherpa-onnx-paraformer-zh-2023-03-28/test_wavs/6-zh-en.wav ./sherpa-onnx-paraformer-zh-2023-03-28/test_wavs/8k.wav 
+
+OfflineRecognizerConfig(feat_config=OfflineFeatureExtractorConfig(sampling_rate=16000, feature_dim=80), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename="", decoder_filename="", joiner_filename=""), paraformer=OfflineParaformerModelConfig(model="./sherpa-onnx-paraformer-zh-2023-03-28/model.int8.onnx"), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=""), whisper=OfflineWhisperModelConfig(encoder="", decoder="", language="", task="transcribe", tail_paddings=-1), tdnn=OfflineTdnnModelConfig(model=""), zipformer_ctc=OfflineZipformerCtcModelConfig(model=""), wenet_ctc=OfflineWenetCtcModelConfig(model=""), tokens="./sherpa-onnx-paraformer-zh-2023-03-28/tokens.txt", num_threads=2, debug=False, provider="cpu", model_type=""), lm_config=OfflineLMConfig(model="", scale=0.5), ctc_fst_decoder_config=OfflineCtcFstDecoderConfig(graph="", max_active=3000), decoding_method="greedy_search", max_active_paths=4, hotwords_file="", hotwords_score=1.5, blank_penalty=0)
 Creating recognizer ...
-2023-04-01 07:34:48.051279367 [E:onnxruntime:, env.cc:251 ThreadMain] pthread_setaffinity_np failed for thread: 610335, index: 15, mask: {16, 52, }, error code: 22 error msg: Invalid argument. Specify the number of threads explicitly so the affinity is not set.
-2023-04-01 07:34:48.051281075 [E:onnxruntime:, env.cc:251 ThreadMain] pthread_setaffinity_np failed for thread: 610336, index: 16, mask: {17, 53, }, error code: 22 error msg: Invalid argument. Specify the number of threads explicitly so the affinity is not set.
 Started
-Creating a resampler:
+/project/sherpa-onnx/csrc/offline-stream.cc:AcceptWaveformImpl:119 Creating a resampler:
    in_sample_rate: 8000
    output_sample_rate: 16000
 
 Done!
 
 ./sherpa-onnx-paraformer-zh-2023-03-28/test_wavs/0.wav
-对我做了介绍啊那么我想说的是呢大家如果对我的研究感兴趣呢你
+{"text": "对我做了介绍啊那么我想说的是呢大家如果对我的研究感兴趣呢你", "timestamps": [], "tokens":["对", "我", "做", "了", "介", "绍", "啊", "那", "么", "我", "想", "说", "的", "是", "呢", "大", "家", "如", "果", "对", "我", "的", "研", "究", "感", "兴", "趣", "呢", "你"]}
 ----
 ./sherpa-onnx-paraformer-zh-2023-03-28/test_wavs/1.wav
-重点呢想谈三个问题首先呢就是这一轮全球金融动荡的表现
+{"text": "重点呢想谈三个问题首先呢就是这一轮全球金融动荡的表现", "timestamps": [], "tokens":["重", "点", "呢", "想", "谈", "三", "个", "问", "题", "首", "先", "呢", "就", "是", "这", "一", "轮", "全", "球", "金", "融", "动", "荡", "的", "表", "现"]}
 ----
 ./sherpa-onnx-paraformer-zh-2023-03-28/test_wavs/2.wav
-深入的分析这一次全球金融动荡背后的根源
+{"text": "深入的分析这一次全球金融动荡背后的根源", "timestamps": [], "tokens":["深", "入", "的", "分", "析", "这", "一", "次", "全", "球", "金", "融", "动", "荡", "背", "后", "的", "根", "源"]}
+----
+./sherpa-onnx-paraformer-zh-2023-03-28/test_wavs/3-sichuan.wav
+{"text": "自己就是在那个在那个就是在情节里面就是感觉是演的特别好就是好像很真实一样你知道吧", "timestamps": [], "tokens":["自", "己", "就", "是", "在", "那", "个", "在", "那", "个", "就", "是", "在", "情", "节", "里", "面", "就", "是", "感", "觉", "是", "演", "的", "特", "别", "好", "就", "是", "好", "像", "很", "真", "实", "一", "样", "你", "知", "道", "吧"]}
+----
+./sherpa-onnx-paraformer-zh-2023-03-28/test_wavs/4-tianjin.wav
+{"text": "其实他就是那每个人都可以守法就这意思法律意识太单薄了而且就是嗯也不顾及到别人的感受", "timestamps": [], "tokens":["其", "实", "他", "就", "是", "那", "每", "个", "人", "都", "可", "以", "守", "法", "就", "这", "意", "思", "法", "律", "意", "识", "太", "单", "薄", "了", "而", "且", "就", "是", "嗯", "也", "不", "顾", "及", "到", "别", "人", "的", "感", "受"]}
+----
+./sherpa-onnx-paraformer-zh-2023-03-28/test_wavs/5-henan.wav
+{"text": "他这个管一向都通到有时候都通到七八层楼高然后他这管一向就可以浇到那个那柱子上", "timestamps": [], "tokens":["他", "这", "个", "管", "一", "向", "都", "通", "到", "有", "时", "候", "都", "通", "到", "七", "八", "层", "楼", "高", "然", "后", "他", "这", "管", "一", "向", "就", "可", "以", "浇", "到", "那", "个", "那", "柱", "子", "上"]}
+----
+./sherpa-onnx-paraformer-zh-2023-03-28/test_wavs/6-zh-en.wav
+{"text": " yesterday was 星期一 today is tuesday 明天是星期三", "timestamps": [], "tokens":["ye@@", "ster@@", "day", "was", "星", "期", "一", "today", "is", "tu@@", "es@@", "day", "明", "天", "是", "星", "期", "三"]}
 ----
 ./sherpa-onnx-paraformer-zh-2023-03-28/test_wavs/8k.wav
-甚至出现交易几乎停滞的情况
+{"text": "甚至出现交易几乎停滞的情况", "timestamps": [], "tokens":["甚", "至", "出", "现", "交", "易", "几", "乎", "停", "滞", "的", "情", "况"]}
 ----
 num threads: 2
 decoding method: greedy_search
-Elapsed seconds: 0.604 s
-Real time factor (RTF): 0.604 / 19.502 = 0.031
+Elapsed seconds: 6.439 s
+Real time factor (RTF): 6.439 / 51.236 = 0.126

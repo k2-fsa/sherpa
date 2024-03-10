@@ -11,6 +11,11 @@ Paraformer models
 csukuangfj/sherpa-onnx-streaming-paraformer-bilingual-zh-en (Chinese + English)
 -------------------------------------------------------------------------------
 
+.. note::
+
+   This model does not support timestamps. It is a bilingual model, supporting
+   both Chinese and English. (支持普通话、河南话、天津话、四川话等方言)
+
 This model is converted from
 
 `<https://www.modelscope.cn/models/damo/speech_paraformer_asr_nat-zh-cn-16k-common-vocab8404-online/summary>`_
@@ -32,6 +37,10 @@ Please use the following commands to download it.
   cd /path/to/sherpa-onnx
 
   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-paraformer-bilingual-zh-en.tar.bz2
+
+  # For Chinese users
+  # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-paraformer-bilingual-zh-en.tar.bz2
+
   tar xvf sherpa-onnx-streaming-paraformer-bilingual-zh-en.tar.bz2
 
 Please check that the file sizes of the pre-trained models are correct. See
@@ -140,7 +149,12 @@ Real-time speech recognition from a microphone
 .. _sherpa_onnx_online_paraformer_trilingual_zh_yue_en:
 
 csukuangfj/sherpa-onnx-streaming-paraformer-trilingual-zh-cantonese-en (Chinese + Cantonese + English)
--------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------
+
+.. note::
+
+   This model does not support timestamps. It is a trilingual model, supporting
+   both Chinese and English. (支持普通话、``粤语``、河南话、天津话、四川话等方言)
 
 This model is converted from
 
@@ -160,6 +174,10 @@ Please use the following commands to download it.
   cd /path/to/sherpa-onnx
 
   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-paraformer-trilingual-zh-cantonese-en.tar.bz2
+
+  # For Chinese users
+  # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-paraformer-trilingual-zh-cantonese-en.tar.bz2
+
   tar xvf sherpa-onnx-streaming-paraformer-trilingual-zh-cantonese-en.tar.bz2
 
 Please check that the file sizes of the pre-trained models are correct. See
