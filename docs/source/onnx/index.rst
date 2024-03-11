@@ -24,6 +24,7 @@ Also, we show how to use it for speech recognition with pre-trained models.
    :maxdepth: 5
 
    ./install/index
+   ./faqs/index
    ./python/index
    ./c-api/index
    ./go-api/index

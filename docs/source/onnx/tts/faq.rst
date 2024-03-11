@@ -1,3 +1,5 @@
+.. _tts_faqs:
+
 Frequently Asked Question (FAQs)
 ================================
 
@@ -13,6 +15,8 @@ It shows you
  - How to install `sherpa-onnx`_
  - How to download pre-trained text-to-speech (TTS) models
  - How to use `sherpa-onnx`_ with pre-trained models for TTS
+
+.. _how_to_enable_utf8_on_windows:
 
 How to enable UTF-8 on Windows
 ------------------------------

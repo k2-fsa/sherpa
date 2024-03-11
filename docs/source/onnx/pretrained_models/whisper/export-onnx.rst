@@ -116,7 +116,7 @@ Now the generated files so far are as follows:
 
 ``*.ort`` are the corresponding `onnxruntime`_ format.
 
-To check whether the export model works correctly, we can use
+To check whether the exported model works correctly, we can use
 
   `<https://github.com/k2-fsa/sherpa-onnx/blob/master/scripts/whisper/test.py>`_
 
