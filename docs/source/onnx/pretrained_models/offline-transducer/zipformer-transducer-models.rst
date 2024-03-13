@@ -8,6 +8,132 @@ Zipformer-transducer-based Models
    Please refer to :ref:`install_sherpa_onnx` to install `sherpa-onnx`
    before you read this section.
 
+sherpa-onnx-zipformer-cantonese-2024-03-13 (Cantonese, 粤语)
+------------------------------------------------------------
+
+Training code for this model can be found at
+`<https://github.com/k2-fsa/icefall/pull/1537>`_.
+It supports only Cantonese since it is trained on a `Canatonese`_ dataset.
+The paper for the dataset can be found at `<https://arxiv.org/pdf/2201.02419.pdf>`_.
+
+In the following, we describe how to download it and use it with `sherpa-onnx`_.
+
+Download the model
+~~~~~~~~~~~~~~~~~~
+
+Please use the following commands to download it.
+
+.. code-block:: bash
+
+   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-cantonese-2024-03-13.tar.bz2
+   tar xf sherpa-onnx-zipformer-cantonese-2024-03-13.tar.bz2
+   ls -lh sherpa-onnx-zipformer-cantonese-2024-03-13
+
+You should see the following output:
+
+.. code-block:: bash
+
+  total 340M
+  -rw-r--r-- 1 1001 127 2.7M Mar 13 09:06 decoder-epoch-45-avg-35.int8.onnx
+  -rw-r--r-- 1 1001 127  11M Mar 13 09:06 decoder-epoch-45-avg-35.onnx
+  -rw-r--r-- 1 1001 127  67M Mar 13 09:06 encoder-epoch-45-avg-35.int8.onnx
+  -rw-r--r-- 1 1001 127 248M Mar 13 09:06 encoder-epoch-45-avg-35.onnx
+  -rw-r--r-- 1 1001 127 2.4M Mar 13 09:06 joiner-epoch-45-avg-35.int8.onnx
+  -rw-r--r-- 1 1001 127 9.5M Mar 13 09:06 joiner-epoch-45-avg-35.onnx
+  drwxr-xr-x 2 1001 127 4.0K Mar 13 09:06 test_wavs
+  -rw-r--r-- 1 1001 127  42K Mar 13 09:06 tokens.txt
+
+Decode wave files
+~~~~~~~~~~~~~~~~~
+
+.. hint::
+
+   It supports decoding only wave files of a single channel with 16-bit
+   encoded samples, while the sampling rate does not need to be 16 kHz.
+
+fp32
+^^^^
+
+The following code shows how to use ``fp32`` models to decode wave files:
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  ./build/bin/sherpa-onnx-offline \
+    --tokens=./sherpa-onnx-zipformer-cantonese-2024-03-13/tokens.txt \
+    --encoder=./sherpa-onnx-zipformer-cantonese-2024-03-13/encoder-epoch-45-avg-35.onnx \
+    --decoder=./sherpa-onnx-zipformer-cantonese-2024-03-13/decoder-epoch-45-avg-35.onnx \
+    --joiner=./sherpa-onnx-zipformer-cantonese-2024-03-13/joiner-epoch-45-avg-35.onnx \
+    ./sherpa-onnx-zipformer-cantonese-2024-03-13/test_wavs/test_wavs_1.wav \
+    ./sherpa-onnx-zipformer-cantonese-2024-03-13/test_wavs/test_wavs_2.wav
+
+.. note::
+
+   Please use ``./build/bin/Release/sherpa-onnx-offline.exe`` for Windows.
+
+.. caution::
+
+   If you use Windows and get encoding issues, please run:
+
+      .. code-block:: bash
+
+          CHCP 65001
+
+   in your commandline.
+
+You should see the following output:
+
+.. literalinclude:: ./code-zipformer/sherpa-onnx-zipformer-cantonese-2024-03-13.txt
+
+int8
+^^^^
+
+The following code shows how to use ``int8`` models to decode wave files:
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  ./build/bin/sherpa-onnx-offline \
+    --tokens=./sherpa-onnx-zipformer-cantonese-2024-03-13/tokens.txt \
+    --encoder=./sherpa-onnx-zipformer-cantonese-2024-03-13/encoder-epoch-45-avg-35.int8.onnx \
+    --decoder=./sherpa-onnx-zipformer-cantonese-2024-03-13/decoder-epoch-45-avg-35.onnx \
+    --joiner=./sherpa-onnx-zipformer-cantonese-2024-03-13/joiner-epoch-45-avg-35.int8.onnx \
+    ./sherpa-onnx-zipformer-cantonese-2024-03-13/test_wavs/test_wavs_1.wav \
+    ./sherpa-onnx-zipformer-cantonese-2024-03-13/test_wavs/test_wavs_2.wav
+
+.. note::
+
+   Please use ``./build/bin/Release/sherpa-onnx-offline.exe`` for Windows.
+
+.. caution::
+
+   If you use Windows and get encoding issues, please run:
+
+      .. code-block:: bash
+
+          CHCP 65001
+
+   in your commandline.
+
+You should see the following output:
+
+.. literalinclude:: ./code-zipformer/sherpa-onnx-zipformer-cantonese-2024-03-13-int8.txt
+
+Speech recognition from a microphone
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  ./build/bin/sherpa-onnx-microphone-offline \
+    --tokens=./sherpa-onnx-zipformer-cantonese-2024-03-13/tokens.txt \
+    --encoder=./sherpa-onnx-zipformer-cantonese-2024-03-13/encoder-epoch-45-avg-35.int8.onnx \
+    --decoder=./sherpa-onnx-zipformer-cantonese-2024-03-13/decoder-epoch-45-avg-35.onnx \
+    --joiner=./sherpa-onnx-zipformer-cantonese-2024-03-13/joiner-epoch-45-avg-35.int8.onnx
+
 
 sherpa-onnx-zipformer-gigaspeech-2023-12-12 (English)
 -----------------------------------------------------
