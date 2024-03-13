@@ -61,6 +61,7 @@ The following code shows how to use ``fp32`` models to decode wave files:
   cd /path/to/sherpa-onnx
 
   ./build/bin/sherpa-onnx-offline \
+    --blank-penalty=1.2 \
     --tokens=./sherpa-onnx-zipformer-cantonese-2024-03-13/tokens.txt \
     --encoder=./sherpa-onnx-zipformer-cantonese-2024-03-13/encoder-epoch-45-avg-35.onnx \
     --decoder=./sherpa-onnx-zipformer-cantonese-2024-03-13/decoder-epoch-45-avg-35.onnx \
@@ -96,6 +97,7 @@ The following code shows how to use ``int8`` models to decode wave files:
   cd /path/to/sherpa-onnx
 
   ./build/bin/sherpa-onnx-offline \
+    --blank-penalty=1.2 \
     --tokens=./sherpa-onnx-zipformer-cantonese-2024-03-13/tokens.txt \
     --encoder=./sherpa-onnx-zipformer-cantonese-2024-03-13/encoder-epoch-45-avg-35.int8.onnx \
     --decoder=./sherpa-onnx-zipformer-cantonese-2024-03-13/decoder-epoch-45-avg-35.onnx \
