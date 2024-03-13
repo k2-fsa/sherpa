@@ -18,56 +18,39 @@ fi
 if [ -z $CUDA_VERSION ]; then
   echo "Please set the environment variable CUDA_VERSION"
   echo "Example: export CUDA_VERSION=10.2"
-  # valid values: 10.2, 11.1, 11.3, 11.6, 11.7, 11.8
+  # valid values: 10.2, 11.1, 11.3, 11.6, 11.7, 11.8, 12.1
   exit 1
 fi
 
+if [[ $TORCH_VERSION =~ 2.2.* && $CUDA_VERSION =~ 12.* ]]; then
+  # see https://github.com/pytorch/pytorch/issues/113948
+  export TORCH_CUDA_ARCH_LIST="8.0 8.6 8.9 9.0"
+fi
 
 yum -y install openssl-devel bzip2-devel libffi-devel xz-devel wget redhat-lsb-core
+echo "Installing ${PYTHON_VERSION}.2"
+curl -O https://www.python.org/ftp/python/${PYTHON_VERSION}.2/Python-${PYTHON_VERSION}.2.tgz
+tar xf Python-${PYTHON_VERSION}.2.tgz
+pushd Python-${PYTHON_VERSION}.2
 
-if true; then
-  echo "Installing ${PYTHON_VERSION}.3"
-  curl -O https://www.python.org/ftp/python/${PYTHON_VERSION}.3/Python-${PYTHON_VERSION}.3.tgz
-  tar xf Python-${PYTHON_VERSION}.3.tgz
-  pushd Python-${PYTHON_VERSION}.3
+PYTHON_INSTALL_DIR=$PWD/py-${PYTHON_VERSION}
 
-  PYTHON_INSTALL_DIR=$PWD/py-${PYTHON_VERSION}
-
-  if [[ $PYTHON_VERSION =~ 3.1. ]]; then
-    yum install -y openssl11-devel
-    sed -i 's/PKG_CONFIG openssl /PKG_CONFIG openssl11 /g' configure
-  fi
-
-  ./configure --enable-shared --prefix=$PYTHON_INSTALL_DIR >/dev/null 2>&1
-  make install >/dev/null 2>&1
-
-  popd
-
-  export PATH=$PYTHON_INSTALL_DIR/bin:$PATH
-  export LD_LIBRARY_PATH=$PYTHON_INSTALL_DIR/lib:$LD_LIBRARY_PATH
-  ls -lh $PYTHON_INSTALL_DIR/lib/
-
-  python3 --version
-  which python3
-else
-  case ${PYTHON_VERSION} in
-    3.7)
-      export PATH=/opt/python/cp37-cp37m/bin:$PATH
-      ;;
-    3.8)
-      export PATH=/opt/python/cp38-cp38/bin:$PATH
-      ;;
-    3.9)
-      export PATH=/opt/python/cp39-cp39/bin:$PATH
-      ;;
-    3.10)
-      export PATH=/opt/python/cp310-cp310/bin:$PATH
-      ;;
-    3.11)
-      export PATH=/opt/python/cp311-cp311/bin:$PATH
-      ;;
-  esac
+if [[ $PYTHON_VERSION =~ 3.1. ]]; then
+  yum install -y openssl11-devel
+  sed -i 's/PKG_CONFIG openssl /PKG_CONFIG openssl11 /g' configure
 fi
+
+./configure --enable-shared --prefix=$PYTHON_INSTALL_DIR >/dev/null 2>&1
+make install >/dev/null 2>&1
+
+popd
+
+export PATH=$PYTHON_INSTALL_DIR/bin:$PATH
+export LD_LIBRARY_PATH=$PYTHON_INSTALL_DIR/lib:$LD_LIBRARY_PATH
+ls -lh $PYTHON_INSTALL_DIR/lib/
+
+python3 --version
+which python3
 
 if [[ $PYTHON_VERSION != 3.6 ]]; then
   curl -O https://bootstrap.pypa.io/get-pip.py
@@ -83,10 +66,10 @@ echo "Installing torch ${TORCH_VERSION} ${CUDA_VERSION}"
 ./install_torch.sh
 
 echo "Install k2"
-pip install k2==1.24.3.dev20230718+cuda${CUDA_VERSION}.torch${TORCH_VERSION} -f https://k2-fsa.github.io/k2/cuda.html || pip install k2==1.24.3.dev20230717+cuda${CUDA_VERSION}.torch${TORCH_VERSION} -f https://k2-fsa.github.io/k2/cuda.html
+pip install k2==1.24.4.dev20240223+cuda${CUDA_VERSION}.torch${TORCH_VERSION} -f https://k2-fsa.github.io/k2/cuda.html
 
 echo "Install kaldifeat"
-pip install kaldifeat==1.24.dev20230724+cuda${CUDA_VERSION}.torch${TORCH_VERSION} -f https://csukuangfj.github.io/kaldifeat/cuda.html
+pip install kaldifeat==1.25.4.dev20240223+cuda${CUDA_VERSION}.torch${TORCH_VERSION} -f https://csukuangfj.github.io/kaldifeat/cuda.html
 
 find /usr/local -name libcuda.so.1
 
@@ -99,8 +82,8 @@ python3 -m k2.version
 cd /var/www
 
 export CMAKE_CUDA_COMPILER_LAUNCHER=
-# export SHERPA_CMAKE_ARGS=" -DPYTHON_EXECUTABLE=$PYTHON_INSTALL_DIR/bin/python3 "
-# export SHERPA_MAKE_ARGS=" -j2 "
+export SHERPA_CMAKE_ARGS=" -DPYTHON_EXECUTABLE=$PYTHON_INSTALL_DIR/bin/python3 "
+export SHERPA_MAKE_ARGS=" -j2 "
 
 
 python3 setup.py bdist_wheel
@@ -124,17 +107,39 @@ auditwheel --verbose repair \
   --exclude libtorch_cpu.so \
   --exclude libtorch_cuda.so \
   --exclude libtorch_python.so \
-  \
-  --exclude libcudnn.so.8 \
-  --exclude libcublas.so.11 \
-  --exclude libcublasLt.so.11 \
-  --exclude libcudart.so.11.0 \
-  --exclude libnvrtc.so.11.2 \
-  --exclude libtorch_cuda_cu.so \
   --exclude libtorch_cuda_cpp.so \
+  --exclude libtorch_cuda_cu.so \
+  \
+  --exclude libcublas.so \
+  --exclude libcublas.so.11 \
+  --exclude libcublas.so.12 \
+  --exclude libcublasLt.so \
+  --exclude libcublasLt.so.11 \
+  --exclude libcublasLt.so.12 \
   --exclude libcudart.so.10.2.89 \
+  --exclude libcudart.so.11.0 \
+  --exclude libcudnn.so.8 \
+  --exclude libcudart.so.12 \
   --exclude libnvToolsExt.so.1.0.0 \
   --exclude libnvrtc.so.10.2.89 \
+  --exclude libnvrtc.so.11.2 \
+  \
+  --exclude libcufft.so \
+  --exclude libcufft.so.11 \
+  --exclude libcupti.so \
+  --exclude libcupti.so.12 \
+  --exclude libcurand.so \
+  --exclude libcurand.so.10 \
+  --exclude libcusparse.so \
+  --exclude libcusparse.so.12 \
+  --exclude libnccl.so \
+  --exclude libnccl.so.2 \
+  --exclude libnvJitLink.so \
+  --exclude libnvJitLink.so.12 \
+  --exclude libnvrtc.so \
+  --exclude libnvrtc.so.11.2 \
+  --exclude libnvrtc.so.12 \
+  --exclude libshm.so \
   \
   --exclude libkaldifeat_core.so \
   --exclude libk2_log.so \

@@ -20,10 +20,10 @@ echo "Installing ${PYTHON_VERSION}.3"
 yum -y install openssl-devel bzip2-devel libffi-devel xz-devel wget redhat-lsb-core
 
 if true; then
-  echo "Installing ${PYTHON_VERSION}.3"
-  curl -O https://www.python.org/ftp/python/${PYTHON_VERSION}.3/Python-${PYTHON_VERSION}.3.tgz
-  tar xf Python-${PYTHON_VERSION}.3.tgz
-  pushd Python-${PYTHON_VERSION}.3
+  echo "Installing ${PYTHON_VERSION}.2"
+  curl -O https://www.python.org/ftp/python/${PYTHON_VERSION}.2/Python-${PYTHON_VERSION}.2.tgz
+  tar xf Python-${PYTHON_VERSION}.2.tgz
+  pushd Python-${PYTHON_VERSION}.2
 
   PYTHON_INSTALL_DIR=$PWD/py-${PYTHON_VERSION}
 
@@ -84,11 +84,11 @@ python3 -m pip install bs4 requests tqdm auditwheel
 echo "Installing torch $TORCH_VERSION"
 python3 -m pip install -qq torch==$TORCH_VERSION+cpu -f https://download.pytorch.org/whl/torch_stable.html
 
-echo "Install k2 1.24.3.dev20230719+cpu.torch${TORCH_VERSION}"
-pip install k2==1.24.3.dev20230719+cpu.torch${TORCH_VERSION} -f https://k2-fsa.github.io/k2/cpu.html
+echo "Install k2 1.24.4.dev20240223+cpu.torch${TORCH_VERSION}"
+pip install k2==1.24.4.dev20240223+cpu.torch${TORCH_VERSION} -f https://k2-fsa.github.io/k2/cpu.html
 
-echo "Installing kaldifeat 1.24.dev20230724+cpu.torch${TORCH_VERSION}"
-pip install kaldifeat==1.24.dev20230724+cpu.torch${TORCH_VERSION} -f https://csukuangfj.github.io/kaldifeat/cpu.html
+echo "Installing kaldifeat 1.25.4.dev20240223+cpu.torch${TORCH_VERSION}"
+pip install kaldifeat==1.25.4.dev20240223+cpu.torch${TORCH_VERSION} -f https://csukuangfj.github.io/kaldifeat/cpu.html
 
 python3 -m k2.version
 python3 -c "import k2; print(k2.__file__)"
@@ -101,13 +101,14 @@ cd /var/www
 
 export CMAKE_CUDA_COMPILER_LAUNCHER=
 export SHERPA_ARGS=" -DPYTHON_EXECUTABLE=$PYTHON_INSTALL_DIR/bin/python3 "
-export SHERPA_MAKE_ARGS=" -j "
+export SHERPA_MAKE_ARGS=" -j2 "
 
 python3 setup.py bdist_wheel
 
 pushd dist
 unzip *.whl
 export LD_LIBRARY_PATH=$PWD/sherpa/lib:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=$PWD/sherpa/lib64:$LD_LIBRARY_PATH
 popd
 
 echo $LD_LIBRARY_PATH
