@@ -42,7 +42,7 @@ the file sizes of ``*.onnx`` files below.
 
 .. code-block:: bash
 
-  sherpa-onnx-paraformer-zh-small-2024-03-09$ ls -lh *.onnx
+  sherpa-onnx-paraformer-trilingual-zh-cantonese-en$ ls -lh *.onnx
 
   -rw-r--r-- 1 1001 127 234M Mar 10 02:12 model.int8.onnx
   -rw-r--r-- 1 1001 127 831M Mar 10 02:12 model.onnx

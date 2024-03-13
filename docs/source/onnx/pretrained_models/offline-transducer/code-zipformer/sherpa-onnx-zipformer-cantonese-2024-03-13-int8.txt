@@ -1,0 +1,17 @@
+/project/sherpa-onnx/csrc/parse-options.cc:Read:361 sherpa-onnx-offline --tokens=./sherpa-onnx-zipformer-cantonese-2024-03-13/tokens.txt --encoder=./sherpa-onnx-zipformer-cantonese-2024-03-13/encoder-epoch-45-avg-35.int8.onnx --decoder=./sherpa-onnx-zipformer-cantonese-2024-03-13/decoder-epoch-45-avg-35.onnx --joiner=./sherpa-onnx-zipformer-cantonese-2024-03-13/joiner-epoch-45-avg-35.int8.onnx ./sherpa-onnx-zipformer-cantonese-2024-03-13/test_wavs/test_wavs_1.wav ./sherpa-onnx-zipformer-cantonese-2024-03-13/test_wavs/test_wavs_2.wav 
+
+OfflineRecognizerConfig(feat_config=OfflineFeatureExtractorConfig(sampling_rate=16000, feature_dim=80), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename="./sherpa-onnx-zipformer-cantonese-2024-03-13/encoder-epoch-45-avg-35.int8.onnx", decoder_filename="./sherpa-onnx-zipformer-cantonese-2024-03-13/decoder-epoch-45-avg-35.onnx", joiner_filename="./sherpa-onnx-zipformer-cantonese-2024-03-13/joiner-epoch-45-avg-35.int8.onnx"), paraformer=OfflineParaformerModelConfig(model=""), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=""), whisper=OfflineWhisperModelConfig(encoder="", decoder="", language="", task="transcribe", tail_paddings=-1), tdnn=OfflineTdnnModelConfig(model=""), zipformer_ctc=OfflineZipformerCtcModelConfig(model=""), wenet_ctc=OfflineWenetCtcModelConfig(model=""), tokens="./sherpa-onnx-zipformer-cantonese-2024-03-13/tokens.txt", num_threads=2, debug=False, provider="cpu", model_type=""), lm_config=OfflineLMConfig(model="", scale=0.5), ctc_fst_decoder_config=OfflineCtcFstDecoderConfig(graph="", max_active=3000), decoding_method="greedy_search", max_active_paths=4, hotwords_file="", hotwords_score=1.5, blank_penalty=0)
+Creating recognizer ...
+Started
+Done!
+
+./sherpa-onnx-zipformer-cantonese-2024-03-13/test_wavs/test_wavs_1.wav
+{"text": "啊有冇人知道灣仔活道係點去㗎", "timestamps": [0.00, 0.88, 1.28, 1.52, 1.84, 2.08, 2.36, 2.56, 2.80, 3.04, 3.20, 3.44, 3.68, 3.96], "tokens":["啊", "有", "冇", "人", "知", "道", "灣", "仔", "活", "道", "係", "點", "去", "㗎"]}
+----
+./sherpa-onnx-zipformer-cantonese-2024-03-13/test_wavs/test_wavs_2.wav
+{"text": "我喺黃大仙九龍塘聯合失路啊", "timestamps": [0.24, 0.68, 0.88, 1.12, 1.28, 1.60, 1.80, 2.16, 2.40, 2.60, 3.32, 3.44, 3.60], "tokens":["我", "喺", "黃", "大", "仙", "九", "龍", "塘", "聯", "合", "失", "路", "啊"]}
+----
+num threads: 2
+decoding method: greedy_search
+Elapsed seconds: 0.910 s
+Real time factor (RTF): 0.910 / 10.320 = 0.088
