@@ -655,7 +655,7 @@ csukuangfj/sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20 (Bilingual
 
 This model is converted from
 
-`<https://huggingface.co/pfluo/k2fsa-zipformer-chinese-english-mixed>`_
+`<https://huggingface.co/csukuangfj/k2fsa-zipformer-chinese-english-mixed>`_
 
 which supports both Chinese and English. The model is contributed by the community
 and is trained on tens of thousands of some internal dataset.
@@ -918,6 +918,157 @@ Real-time speech recognition from a microphone
    :ref:`sherpa-onnx-alsa` to do real-time speech recognition with your
    microphone if ``sherpa-onnx-microphone`` does not work for you.
 
+.. _sherpa_onnx_streaming_zipformer_small_bilingual_zh_en_2023_02_16:
+
+sherpa-onnx-streaming-zipformer-small-bilingual-zh-en-2023-02-16 (Bilingual, Chinese + English)
+-----------------------------------------------------------------------------------------------
+
+.. hint::
+
+   It is a small model.
+
+This model is converted from
+
+`<https://huggingface.co/csukuangfj/k2fsa-zipformer-bilingual-zh-en-t>`_
+
+which supports both Chinese and English. The model is contributed by the community
+and is trained on tens of thousands of some internal dataset.
+
+In the following, we describe how to download it and use it with `sherpa-onnx`_.
+
+Download the model
+~~~~~~~~~~~~~~~~~~
+
+Please use the following commands to download it.
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  wget -q https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-zipformer-small-bilingual-zh-en-2023-02-16.tar.bz2
+  tar xf sherpa-onnx-streaming-zipformer-small-bilingual-zh-en-2023-02-16.tar.bz2
+  rm sherpa-onnx-streaming-zipformer-small-bilingual-zh-en-2023-02-16.tar.bz2
+
+Please check that the file sizes of the pre-trained models are correct. See
+the file sizes of ``*.onnx`` files below.
+
+.. code-block:: bash
+
+  sherpa-onnx-streaming-zipformer-small-bilingual-zh-en-2023-02-16 fangjun$ ls -lh *.onnx
+  total 158M
+  drwxr-xr-x 2 1001 127 4.0K Mar 20 13:11 64
+  drwxr-xr-x 2 1001 127 4.0K Mar 20 13:11 96
+  -rw-r--r-- 1 1001 127 240K Mar 20 13:11 bpe.model
+  -rw-r--r-- 1 1001 127 3.4M Mar 20 13:11 decoder-epoch-99-avg-1.int8.onnx
+  -rw-r--r-- 1 1001 127  14M Mar 20 13:11 decoder-epoch-99-avg-1.onnx
+  -rw-r--r-- 1 1001 127  41M Mar 20 13:11 encoder-epoch-99-avg-1.int8.onnx
+  -rw-r--r-- 1 1001 127  85M Mar 20 13:11 encoder-epoch-99-avg-1.onnx
+  -rw-r--r-- 1 1001 127 3.1M Mar 20 13:11 joiner-epoch-99-avg-1.int8.onnx
+  -rw-r--r-- 1 1001 127  13M Mar 20 13:11 joiner-epoch-99-avg-1.onnx
+  drwxr-xr-x 2 1001 127 4.0K Mar 20 13:11 test_wavs
+  -rw-r--r-- 1 1001 127  55K Mar 20 13:11 tokens.txt
+
+.. hint::
+
+   There are two sub-folders in the model directory: ``64`` and ``96``.
+   The number represents chunk size. The larger the number, the lower the RTF.
+   The default chunk size is 32.
+
+Decode a single wave file
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. hint::
+
+   It supports decoding only wave files of a single channel with 16-bit
+   encoded samples, while the sampling rate does not need to be 16 kHz.
+
+fp32
+^^^^
+
+The following code shows how to use ``fp32`` models to decode a wave file:
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  ./build/bin/sherpa-onnx \
+    --tokens=./sherpa-onnx-streaming-zipformer-small-bilingual-zh-en-2023-02-16/tokens.txt \
+    --encoder=./sherpa-onnx-streaming-zipformer-small-bilingual-zh-en-2023-02-16/encoder-epoch-99-avg-1.onnx \
+    --decoder=./sherpa-onnx-streaming-zipformer-small-bilingual-zh-en-2023-02-16/decoder-epoch-99-avg-1.onnx \
+    --joiner=./sherpa-onnx-streaming-zipformer-small-bilingual-zh-en-2023-02-16/joiner-epoch-99-avg-1.onnx \
+    ./sherpa-onnx-streaming-zipformer-small-bilingual-zh-en-2023-02-16/test_wavs/0.wav
+
+.. note::
+
+   Please use ``./build/bin/Release/sherpa-onnx.exe`` for Windows.
+
+.. caution::
+
+   If you use Windows and get encoding issues, please run:
+
+      .. code-block:: bash
+
+          CHCP 65001
+
+   in your commandline.
+
+You should see the following output:
+
+.. literalinclude:: ./code-zipformer/sherpa-onnx-streaming-zipformer-small-bilingual-zh-en-2023-02-16.txt
+
+int8
+^^^^
+
+The following code shows how to use ``int8`` models to decode a wave file:
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  ./build/bin/sherpa-onnx \
+    --tokens=./sherpa-onnx-streaming-zipformer-small-bilingual-zh-en-2023-02-16/tokens.txt \
+    --encoder=./sherpa-onnx-streaming-zipformer-small-bilingual-zh-en-2023-02-16/encoder-epoch-99-avg-1.int8.onnx \
+    --decoder=./sherpa-onnx-streaming-zipformer-small-bilingual-zh-en-2023-02-16/decoder-epoch-99-avg-1.onnx \
+    --joiner=./sherpa-onnx-streaming-zipformer-small-bilingual-zh-en-2023-02-16/joiner-epoch-99-avg-1.int8.onnx \
+    ./sherpa-onnx-streaming-zipformer-small-bilingual-zh-en-2023-02-16/test_wavs/0.wav
+
+.. note::
+
+   Please use ``./build/bin/Release/sherpa-onnx.exe`` for Windows.
+
+.. caution::
+
+   If you use Windows and get encoding issues, please run:
+
+      .. code-block:: bash
+
+          CHCP 65001
+
+   in your commandline.
+
+You should see the following output:
+
+.. literalinclude:: ./code-zipformer/sherpa-onnx-streaming-zipformer-small-bilingual-zh-en-2023-02-16.int8.txt
+
+Real-time speech recognition from a microphone
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  ./build/bin/sherpa-onnx-microphone \
+    --tokens=./sherpa-onnx-streaming-zipformer-small-bilingual-zh-en-2023-02-16/tokens.txt \
+    --encoder=./sherpa-onnx-streaming-zipformer-small-bilingual-zh-en-2023-02-16/encoder-epoch-99-avg-1.int8.onnx \
+    --decoder=./sherpa-onnx-streaming-zipformer-small-bilingual-zh-en-2023-02-16/decoder-epoch-99-avg-1.onnx \
+    --joiner=./sherpa-onnx-streaming-zipformer-small-bilingual-zh-en-2023-02-16/joiner-epoch-99-avg-1.int8.onnx
+
+.. hint::
+
+   If your system is Linux (including embedded Linux), you can also use
+   :ref:`sherpa-onnx-alsa` to do real-time speech recognition with your
+   microphone if ``sherpa-onnx-microphone`` does not work for you.
+
 .. _sherpa_onnx_streaming_zipformer_zh_14M_2023_02_23:
 
 csukuangfj/sherpa-onnx-streaming-zipformer-zh-14M-2023-02-23 (Chinese)
@@ -944,9 +1095,9 @@ Please use the following commands to download it.
 
   cd /path/to/sherpa-onnx
 
-  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/sherpa-onnx-streaming-zipformer-zh-14M-2023-02-23
-  cd sherpa-onnx-streaming-zipformer-zh-14M-2023-02-23
-  git lfs pull --include ".*onnx"
+  wget -q https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-zipformer-zh-14M-2023-02-23.tar.bz2
+  tar xvf sherpa-onnx-streaming-zipformer-zh-14M-2023-02-23.tar.bz2
+  rm sherpa-onnx-streaming-zipformer-zh-14M-2023-02-23.tar.bz2
 
 Please check that the file sizes of the pre-trained models are correct. See
 the file sizes of ``*.onnx`` files below.
@@ -1083,9 +1234,9 @@ Please use the following commands to download it.
 
   cd /path/to/sherpa-onnx
 
-  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/sherpa-onnx-streaming-zipformer-en-20M-2023-02-17
-  cd sherpa-onnx-streaming-zipformer-en-20M-2023-02-17
-  git lfs pull --include ".*onnx"
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-zipformer-en-20M-2023-02-17.tar.bz2
+  tar xvf sherpa-onnx-streaming-zipformer-en-20M-2023-02-17.tar.bz2
+  rm sherpa-onnx-streaming-zipformer-en-20M-2023-02-17.tar.bz2
 
 Please check that the file sizes of the pre-trained models are correct. See
 the file sizes of ``*.onnx`` files below.

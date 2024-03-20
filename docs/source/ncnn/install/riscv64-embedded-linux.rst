@@ -2,7 +2,7 @@ Embedded Linux (riscv64)
 ========================
 
 This page describes how to build `sherpa-ncnn`_ for embedded Linux (RISC-V, 64-bit)
-with cross-compiling on an x86 machine with Ubuntu OS.
+with cross-compiling on an x64 machine with Ubuntu OS.
 
 .. hint::
 
@@ -11,7 +11,7 @@ with cross-compiling on an x86 machine with Ubuntu OS.
    for you to try this section step by step.
 
    If you are using Windows/macOS or you don't want to setup your local environment
-   to for cross-compiling, please use the above colab notebook.
+   for cross-compiling, please use the above colab notebook.
 
 .. |build sherpa-ncnn for risc-v colab notebook| image:: https://colab.research.google.com/assets/colab-badge.svg
    :target: https://github.com/k2-fsa/colab/blob/master/sherpa-ncnn/sherpa_ncnn_RISC_V.ipynb

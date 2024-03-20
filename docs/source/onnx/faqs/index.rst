@@ -8,7 +8,7 @@ Cannot open shared library libasound_module_conf_pulse.so
 
 The detailed errors are given below:
 
-.. code-block:: 
+.. code-block::
 
   Cannot open shared library libasound_module_conf_pulse.so
   (/usr/lib64/alsa-lib/libasound_module_conf_pulse.so: cannot open shared object file: No such file or directory)
@@ -40,3 +40,17 @@ TTS 中文模型没有声音
 
 Please see :ref:`how_to_enable_utf8_on_windows`.
 You need to use ``UTF-8`` encoding for your system.
+
+./gitcompile: line 89: libtoolize: command not found
+----------------------------------------------------
+
+If you are using Linux and get the following error:
+
+.. code-block::
+
+   ./gitcompile: line 89: libtoolize: command not found
+
+Please run::
+
+  sudo apt-get install libtool
+
