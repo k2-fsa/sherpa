@@ -20,4 +20,5 @@ that are suitable for resource constrained embedded systems.
 
 - :ref:`sherpa_onnx_streaming_zipformer_zh_14M_2023_02_23`
 - :ref:`sherpa_onnx_streaming_zipformer_en_20M_2023_02_17`
+- :ref:`sherpa_onnx_streaming_zipformer_small_bilingual_zh_en_2023_02_16`
 

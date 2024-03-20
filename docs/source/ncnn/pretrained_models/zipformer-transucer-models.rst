@@ -371,7 +371,7 @@ csukuangfj/sherpa-ncnn-streaming-zipformer-small-bilingual-zh-en-2023-02-16 (Bil
 
 This model is converted from
 
-`<https://huggingface.co/meixu/k2fsa-zipformer-bilingual-zh-en-t>`_
+`<https://huggingface.co/csukuangfj/k2fsa-zipformer-bilingual-zh-en-t>`_
 
 which supports both Chinese and English. The model is contributed by the community
 and is trained on tens of thousands of some internal dataset.
