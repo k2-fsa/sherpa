@@ -23,6 +23,7 @@ Also, we show how to use it for speech recognition with pre-trained models.
 .. toctree::
    :maxdepth: 5
 
+   ./tutorials/index
    ./install/index
    ./faqs/index
    ./python/index
