@@ -231,7 +231,7 @@ We add two extra arguments for hotwords:
      .. code-block::
 
       ▁SP E E CH 识 别
-      ▁SP E E CH ▁RE CO G N ITION    
+      ▁SP E E CH ▁RE CO G N ITION
       深 度 学 习
 
   - ``hotwords-score``
@@ -251,7 +251,7 @@ usage as follows:
 
    sherpa-onnx-cli text2token --help
    Usage: sherpa-onnx-cli text2token [OPTIONS] INPUT OUTPUT
-   
+
    Options:
      --tokens TEXT       The path to tokens.txt.
      --tokens-type TEXT  The type of modeling units, should be cjkchar, bpe or
@@ -316,11 +316,9 @@ Modeling unit is bpe
 
    cd /path/to/sherpa-onnx
 
-   GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/sherpa-onnx-zipformer-en-2023-04-01
-   cd sherpa-onnx-zipformer-en-2023-04-01
-   git lfs pull --include "*.onnx"
-   git lfs pull --include "bpe.model"
-   cd ..
+   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-en-2023-04-01.tar.bz2
+   tar xvf sherpa-onnx-zipformer-en-2023-04-01.tar.bz2
+   rm sherpa-onnx-zipformer-en-2023-04-01.tar.bz2
    ln -s sherpa-onnx-zipformer-en-2023-04-01 exp
 
 Convert the hotwords into tokens
@@ -361,18 +359,19 @@ C++ api
       --joiner=exp/joiner-epoch-99-avg-1.onnx \
       --decoding-method=modified_beam_search \
       --tokens=exp/tokens.txt \
-      exp/test_wavs/0.wav exp/test_wavs/1.wav                                                                                                                       
+      exp/test_wavs/0.wav exp/test_wavs/1.wav
+
 The output is:
 
 .. code-block::
 
     /star-kw/kangwei/code/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:361 ./build/bin/sherpa-onnx-offline --encoder=exp/encoder-epoch-99-avg-1.onnx --decoder=exp/decoder-epoch-99-avg-1.onnx --joiner=exp/joiner-epoch-99-avg-1.onnx --decoding-method=modified_beam_search --tokens=exp/tokens.txt exp/test_wavs/0.wav exp/test_wavs/1.wav
-    
+
     OfflineRecognizerConfig(feat_config=OfflineFeatureExtractorConfig(sampling_rate=16000, feature_dim=80), model_config=OfflineModelConfig(transducer=OfflineTran$ducerModelConfig(encoder_filename="exp/encoder-epoch-99-avg-1.onnx", decoder_filename="exp/decoder-epoch-99-avg-1.onnx", joiner_filename="exp/joiner-epoch-99-$vg-1.onnx"), paraformer=OfflineParaformerModelConfig(model=""), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=""), whisper=OfflineWhisperModelConfig(encoder=$", decoder="", language="", task="transcribe"), tdnn=OfflineTdnnModelConfig(model=""), tokens="exp/tokens.txt", num_threads$2, debug=False, provider="cpu", model_type=""), lm_config=OfflineLMConfig(model="", scale=0.5), decoding_method="modified_beam_search", max_active_paths=4, ho$words_file=, hotwords_score=1.5)
     Creating recognizer ...
     Started
     Done!
-    
+
     exp/test_wavs/0.wav
     {"text":"ALL THE YELLOW LAMPS WOULD LIGHT UP HERE AND THERE THE SQUALID QUARTER OF THE BROTHELS","timestamps":"[1.44, 1.48, 1.56, 1.72, 1.88, 1.96, 2.16, 2.28$ 2.36, 2.48, 2.60, 2.80, 3.08, 3.28, 3.40, 3.60, 3.80, 4.08, 4.24, 4.32, 4.48, 4.64, 4.84, 4.88, 5.00, 5.08, 5.32, 5.48, 5.60, 5.68, 5.84, 6.04, 6.24]","token$":["A","LL"," THE"," YE","LL","OW"," LA","M","P","S"," WOULD"," LIGHT"," UP"," HE","RE"," AND"," THERE"," THE"," S","QUA","LI","D"," ","QUA","R","TER"," OF","THE"," B","RO","TH","EL","S"]}
     ----
@@ -412,13 +411,13 @@ The output is:
 .. code-block::
 
     /star-kw/kangwei/code/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:361 ./build/bin/sherpa-onnx-offline --encoder=exp/encoder-epoch-99-avg-1.onnx --decoder=exp/decoder-epoch-99-avg-1.onnx --joiner=exp/joiner-epoch-99-avg-1.onnx --decoding-method=modified_beam_search --tokens=exp/tokens.txt --hotwords-file=hotwords_en.txt --hotwords-score=2.0 exp/test_wavs/0.wav exp/test_wavs/1.wav
-    
+
     OfflineRecognizerConfig(feat_config=OfflineFeatureExtractorConfig(sampling_rate=16000, feature_dim=80), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename="exp/encoder-epoch-99-avg-1.onnx", decoder_filename="exp/decoder-epoch-99-avg-1.onnx", joiner_filename="exp/joiner-epoch-99-avg-1.onnx"), paraformer=OfflineParaformerModelConfig(model=""), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=""), whisper=OfflineWhisperModelConfig(encoder="
     ", decoder="", language="", task="transcribe"), tdnn=OfflineTdnnModelConfig(model=""), tokens="exp/tokens.txt", num_threads=2, debug=False, provider="cpu", model_type=""), lm_config=OfflineLMConfig(model="", scale=0.5), decoding_method="modified_beam_search", max_active_paths=4, hotwords_file=hotwords_en.txt, hotwords_score=2)
     Creating recognizer ...
     Started
     Done!
-    
+
     exp/test_wavs/0.wav
     {"text":"ALL THE YELLOW LAMPS WOULD LIGHT UP HERE AND THERE THE SQUALID QUARTERS OF THE BROTHELS","timestamps":"[1.44, 1.48, 1.56, 1.72, 1.88, 1.96, 2.16, 2.28
     , 2.36, 2.48, 2.60, 2.80, 3.08, 3.28, 3.40, 3.60, 3.80, 4.08, 4.24, 4.32, 4.48, 4.64, 4.84, 4.88, 5.00, 5.08, 5.12, 5.36, 5.48, 5.60, 5.68, 5.84, 6.04, 6.24]",
@@ -548,7 +547,7 @@ Convert the hotwords into tokens
 The ``hotwords.txt`` contains:
 
 .. code-block::
-   
+
     文森特卡索
     周望君
     朱丽楠
@@ -577,18 +576,19 @@ C++ api
         --joiner=exp-zh/joiner-epoch-99-avg-1.onnx \
         --tokens=exp-zh/tokens.txt \
         --decoding-method=modified_beam_search \
-        exp-zh/test_wavs/3.wav exp-zh/test_wavs/4.wav exp-zh/test_wavs/5.wav exp-zh/test_wavs/6.wav                                                        
+        exp-zh/test_wavs/3.wav exp-zh/test_wavs/4.wav exp-zh/test_wavs/5.wav exp-zh/test_wavs/6.wav
+
 The output is:
 
 .. code-block::
 
-    /star-kw/kangwei/code/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:361 ./build/bin/sherpa-onnx-offline --encoder=exp-zh/encoder-epoch-99-avg-1.onnx --decoder=exp-zh/decoder-epoch-99-avg-1.onnx --joiner=exp-zh/joiner-epoch-99-avg-1.onnx --tokens=exp-zh/tokens.txt --decoding-method=modified_beam_search exp-zh/test_wavs/3.wav exp-zh/test_wavs/4.wav exp-zh/test_wavs/5.wav exp-zh/test_wavs/6.wav                                                                              
-    
+    /star-kw/kangwei/code/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:361 ./build/bin/sherpa-onnx-offline --encoder=exp-zh/encoder-epoch-99-avg-1.onnx --decoder=exp-zh/decoder-epoch-99-avg-1.onnx --joiner=exp-zh/joiner-epoch-99-avg-1.onnx --tokens=exp-zh/tokens.txt --decoding-method=modified_beam_search exp-zh/test_wavs/3.wav exp-zh/test_wavs/4.wav exp-zh/test_wavs/5.wav exp-zh/test_wavs/6.wav
+
     OfflineRecognizerConfig(feat_config=OfflineFeatureExtractorConfig(sampling_rate=16000, feature_dim=80), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename="exp-zh/encoder-epoch-99-avg-1.onnx", decoder_filename="exp-zh/decoder-epoch-99-avg-1.onnx", joiner_filename="exp-zh/joiner-$poch-99-avg-1.onnx"), paraformer=OfflineParaformerModelConfig(model=""), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=""), whisper=OfflineWhisperModelConfig$encoder="", decoder="", language="", task="transcribe"), tdnn=OfflineTdnnModelConfig(model=""), tokens="exp-zh/tokens.txt", num_threads=2, debug=False, provider="cpu", model_type=""), lm_config=OfflineLMConfig(model="", scale=0.5), decoding_method="modified_beam_search", max_active$paths=4, hotwords_file=, hotwords_score=1.5)
     Creating recognizer ...
     Started
     Done!
-    
+
     exp-zh/test_wavs/3.wav
     {"text":"文森特卡所是全球知名的法国性格派演员","timestamps":"[0.00, 0.16, 0.68, 1.32, 1.72, 2.08, 2.60, 2.88, 3.20, 3.52, 3.92, 4.40, 4.68, 5.12, 5.44, 6.36, $.96, 7.32]","tokens":["文","森","特","卡","所","是","全","球","知","名","的","法","国","性","格","派","演","员"]}
     ----
@@ -614,13 +614,13 @@ The output is:
 
 .. code-block::
 
-    ./build/bin/sherpa-onnx-offline --encoder=exp-zh/encoder-epoch-99-avg-1.onnx --decoder=exp-zh/decoder-epoch-99-avg-1.onnx --joiner=exp-zh/joiner-epoch-99-avg-1.onnx --tokens=exp-zh/tokens.txt --decoding-method=modified_beam_search --hotwords-file=hotwords_cn.txt --hotwords-score=2.0 exp-zh/test_wavs/3.wav exp-zh/test_wavs/4.wav exp-zh/test_wavs/5.wav exp-zh/test_wavs/6.wav      
-    
+    ./build/bin/sherpa-onnx-offline --encoder=exp-zh/encoder-epoch-99-avg-1.onnx --decoder=exp-zh/decoder-epoch-99-avg-1.onnx --joiner=exp-zh/joiner-epoch-99-avg-1.onnx --tokens=exp-zh/tokens.txt --decoding-method=modified_beam_search --hotwords-file=hotwords_cn.txt --hotwords-score=2.0 exp-zh/test_wavs/3.wav exp-zh/test_wavs/4.wav exp-zh/test_wavs/5.wav exp-zh/test_wavs/6.wav
+
     OfflineRecognizerConfig(feat_config=OfflineFeatureExtractorConfig(sampling_rate=16000, feature_dim=80), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename="exp-zh/encoder-epoch-99-avg-1.onnx", decoder_filename="exp-zh/decoder-epoch-99-avg-1.onnx", joiner_filename="exp-zh/joiner-$poch-99-avg-1.onnx"), paraformer=OfflineParaformerModelConfig(model=""), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=""), whisper=OfflineWhisperModelConfig$encoder="", decoder="", language="", task="transcribe"), tdnn=OfflineTdnnModelConfig(model=""), tokens="exp-zh/tokens.txt", num_threads=2, debug=False, provider="cpu", model_type=""), lm_config=OfflineLMConfig(model="", scale=0.5), decoding_method="modified_beam_search", max_active$paths=4, hotwords_file=hotwords_cn.txt, hotwords_score=2)
     Creating recognizer ...
     Started
     Done!
-    
+
     exp-zh/test_wavs/3.wav
     {"text":"文森特卡索是全球知名的法国性格派演员","timestamps":"[0.00, 0.16, 0.64, 1.28, 1.64, 2.04, 2.60, 2.88, 3.20, 3.52, 3.92, 4.40, 4.68, 5.12, 5.44, 6.36, $.96, 7.32]","tokens":["文","森","特","卡","索","是","全","球","知","名","的","法","国","性","格","派","演","员"]}
     ----
@@ -665,10 +665,12 @@ Python api
     --joiner exp-zh/joiner-epoch-99-avg-1.onnx \
     --tokens exp-zh/tokens.txt \
     --decoding-method modified_beam_search \
-    exp-zh/test_wavs/3.wav exp-zh/test_wavs/4.wav exp-zh/test_wavs/5.wav exp-zh/test_wavs/6.wav                                     
+    exp-zh/test_wavs/3.wav exp-zh/test_wavs/4.wav exp-zh/test_wavs/5.wav exp-zh/test_wavs/6.wav
+
 The output is:
 
 .. code-block::
+
     Started!
     Done!
     exp-zh/test_wavs/3.wav
@@ -799,14 +801,14 @@ The output is:
 
 .. code-block::
 
-    /star-kw/kangwei/code/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:361 ./build/bin/sherpa-onnx --encoder=exp-mixed/encoder-epoch-99-avg-1.onnx --decoder=exp-mixed/decoder-epoch-99-avg-1.onnx --joiner=exp-mixed/joiner-epoch-99-avg-1.onnx --decoding-method=modified_beam_search --tokens=exp-mixed/tokens.txt exp-mixed/test_wavs/0.wav exp-mixed/test_wavs/2.wav                                   
+    /star-kw/kangwei/code/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:361 ./build/bin/sherpa-onnx --encoder=exp-mixed/encoder-epoch-99-avg-1.onnx --decoder=exp-mixed/decoder-epoch-99-avg-1.onnx --joiner=exp-mixed/joiner-epoch-99-avg-1.onnx --decoding-method=modified_beam_search --tokens=exp-mixed/tokens.txt exp-mixed/test_wavs/0.wav exp-mixed/test_wavs/2.wav
     OnlineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80), model_config=OnlineModelConfig(transducer=OnlineTransducerModelConfig(encoder="exp-mixed/encoder-epoch-99-avg-1.onnx", decoder="exp-mixed/decoder-epoch-99-avg-1.onnx", joiner="exp-mixed/joiner-epoch-99-avg-1.onnx"), paraformer=OnlineParaformerModelConfig(encoder="", decoder=""), tokens="exp-mixed/tokens.txt", num_threads=1, debug=False, provider="cpu", model_type=""), lm_config=OnlineLMConfig(model="", scale=0.5), endpoint_config=EndpointConfig(rule1=EndpointRule(must_contain_nonsilence=False, min_trailing_silence=2.4, min_utterance_length=0), rule2=EndpointRule(must_contain_nonsilence=True, min_trailing_silence=1.2, min_utterance_length=0), rule3=EndpointRule(must_contain_nonsilence=False, min_trailing_silence=0, min_utterance_length=20)), enable_endpoint=True, max_active_paths=4, hotwords_score=1.5, hotwords_file="", decoding_method="modified_beam_search")
-    
+
     exp-mixed/test_wavs/0.wav
     Elapsed seconds: 3, Real time factor (RTF): 0.3
     昨天是 MONDAY TODAY IS LIBR THE DAY AFTER TOMORROW是星期三
     {"is_final":false,"segment":0,"start_time":0.0,"text":"昨天是 MONDAY TODAY IS LIBR THE DAY AFTER TOMORROW是星期三","timestamps":"[0.64, 1.04, 1.60, 2.08, 2.20, 2.40, 4.16, 4.40, 4.88, 5.56, 5.80, 6.16, 6.84, 7.12, 7.44, 8.04, 8.16, 8.24, 8.28, 9.04, 9.40, 9.64, 9.88]","tokens":["昨","天","是"," MO","N","DAY"," TO","DAY"," IS"," LI","B","R"," THE"," DAY"," AFTER"," TO","M","OR","ROW","是","星","期","三"]}
-    
+
     exp-mixed/test_wavs/2.wav
     Elapsed seconds: 1.7, Real time factor (RTF): 0.37
     是不是平凡的啊不认识记下来 FREQUENTLY频繁的
@@ -825,26 +827,26 @@ The output is:
         --tokens=exp-mixed/tokens.txt \
         --hotwords-file=hotwords_mix.txt \
         --hotwords-score=2.0 \
-        exp-mixed/test_wavs/0.wav exp-mixed/test_wavs/2.wav                    
+        exp-mixed/test_wavs/0.wav exp-mixed/test_wavs/2.wav
 
 The output is:
 
 .. code-block::
 
-    /star-kw/kangwei/code/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:361 ./build/bin/sherpa-onnx --encoder=exp-mixed/encoder-epoch-99-avg-1.onnx --decoder=exp-mixed/decoder-epoch-99-avg-1.onnx --joiner=exp-mixed/joiner-epoch-99-avg-1.onnx --decoding-method=modified_beam_search --tokens=exp-mixed/tokens.txt --tokens-type=cjkchar+bpe --bpe-model=exp-mixed/bpe.model --hotwords-file=hotwords_mix.txt --hotwords-score=2.0 exp-mixed/test_wavs/0.wav exp-mixed/test_wavs/2.wav 
-    
+    /star-kw/kangwei/code/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:361 ./build/bin/sherpa-onnx --encoder=exp-mixed/encoder-epoch-99-avg-1.onnx --decoder=exp-mixed/decoder-epoch-99-avg-1.onnx --joiner=exp-mixed/joiner-epoch-99-avg-1.onnx --decoding-method=modified_beam_search --tokens=exp-mixed/tokens.txt --tokens-type=cjkchar+bpe --bpe-model=exp-mixed/bpe.model --hotwords-file=hotwords_mix.txt --hotwords-score=2.0 exp-mixed/test_wavs/0.wav exp-mixed/test_wavs/2.wav
+
     OnlineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80), model_config=OnlineModelConfig(transducer=OnlineTransducerModelConfig(encoder="exp-mixed/encoder-epoch-99-avg-1.onnx", decoder="exp-mixed/decoder-epoch-99-avg-1.onnx", joiner="exp-mixed/joiner-epoch-99-avg-1.onnx"), paraformer=OnlineParaformerModelConfig(encoder="", decoder=""), tokens="exp-mixed/tokens.txt", num_threads=1, debug=False, provider="cpu", model_type=""), lm_config=OnlineLMConfig(model="", scale=0.5), endpoint_config=EndpointConfig(rule1=EndpointRule(must_contain_nonsilence=False, min_trailing_silence=2.4, min_utterance_length=0), rule2=EndpointRule(must_contain_nonsilence=True, min_trailing_silence=1.2, min_utterance_length=0), rule3=EndpointRule(must_contain_nonsilence=False, min_trailing_silence=0, min_utterance_length=20)), enable_endpoint=True, max_active_paths=4, hotwords_score=2, hotwords_file="hotwords_mix.txt", decoding_method="modified_beam_search")
-    
+
     exp-mixed/test_wavs/0.wav
     Elapsed seconds: 3.2, Real time factor (RTF): 0.32
     昨天是 MONDAY TODAY IS礼拜二 THE DAY AFTER TOMORROW是星期三
     {"is_final":false,"segment":0,"start_time":0.0,"text":"昨天是 MONDAY TODAY IS礼拜二 THE DAY AFTER TOMORROW是星期三","timestamps":"[0.64, 1.04, 1.60, 2.08, 2.20, 2.40, 4.16, 4.40, 4.88, 5.56, 5.68, 6.00, 6.84, 7.12, 7.44, 8.04, 8.16, 8.24, 8.28, 9.04, 9.40, 9.64, 9.88]","tokens":["昨","天","是"," MO","N","DAY"," TO","DAY"," IS","礼","拜","二"," THE"," DAY"," AFTER"," TO","M","OR","ROW","是","星","期","三"]}
-    
+
     exp-mixed/test_wavs/2.wav
     Elapsed seconds: 1.9, Real time factor (RTF): 0.4
     是不是频繁的啊不认识记下来 FREQUENTLY频繁的
     {"is_final":false,"segment":0,"start_time":0.0,"text":"是不是频繁的啊不认识记下来 FREQUENTLY频繁的","timestamps":"[0.00, 0.40, 0.52, 0.96, 1.08, 1.28, 1.48, 1.68, 1.84, 2.00, 2.24, 2.36, 2.52, 2.68, 2.92, 3.00, 3.12, 3.32, 3.64, 3.96, 4.36]","tokens":["是","不","是","频","繁","的","啊","不","认","识","记","下","来"," F","RE","QU","ENT","LY","频","繁","的"]}
-    
+
 
 .. hint::
 
@@ -865,7 +867,7 @@ Python api
       --decoder exp-mixed/decoder-epoch-99-avg-1.onnx \
       --joiner exp-mixed/joiner-epoch-99-avg-1.onnx \
       --decoding-method modified_beam_search \
-      --tokens exp-mixed/tokens.txt 
+      --tokens exp-mixed/tokens.txt
       exp-mixed/test_wavs/0.wav exp-mixed/test_wavs/2.wav
 
 The output is:
@@ -885,7 +887,7 @@ The output is:
     Wave duration: 14.743 s
     Elapsed time: 3.052 s
     Real time factor (RTF): 3.052/14.743 = 0.207
-    
+
 
 **Decoding with hotwords**
 
@@ -899,7 +901,7 @@ The output is:
         --tokens exp-mixed/tokens.txt \
         --hotwords-file hotwords_mix.txt \
         --hotwords-score 2.0 \
-        exp-mixed/test_wavs/0.wav exp-mixed/test_wavs/2.wav 
+        exp-mixed/test_wavs/0.wav exp-mixed/test_wavs/2.wav
 
 The output is:
 

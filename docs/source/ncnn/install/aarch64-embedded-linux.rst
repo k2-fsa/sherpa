@@ -48,6 +48,10 @@ Assume you want to install it in the folder ``$HOME/software``:
    mkdir -p $HOME/software
    cd $HOME/software
    wget https://huggingface.co/csukuangfj/sherpa-ncnn-toolchains/resolve/main/gcc-linaro-7.5.0-2019.12-x86_64_aarch64-linux-gnu.tar.xz
+
+   # For users from China
+   # 中国国内用户，如果访问不了 huggingface, 请使用
+   # wget https://hf-mirror.com/csukuangfj/sherpa-ncnn-toolchains/resolve/main/gcc-linaro-7.5.0-2019.12-x86_64_aarch64-linux-gnu.tar.xz
    tar xvf gcc-linaro-7.5.0-2019.12-x86_64_aarch64-linux-gnu.tar.xz
 
 Next, we need to set the following environment variable:

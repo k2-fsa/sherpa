@@ -9,6 +9,31 @@ This page describes how to build `sherpa-onnx`_ on Windows.
    MinGW is known not to work.
    Please install ``Visual Studio`` before you continue.
 
+.. note::
+
+   You can download pre-compiled binaries for both 32-bit and 64-bit Windows
+   from the following URL `<https://huggingface.co/csukuangfj/sherpa-onnx-libs/tree/main>`_.
+
+   Please always download the latest version.
+
+   URLs to download the version ``1.9.12`` is given below.
+
+   .. list-table::
+
+     * - 64-bit Windows (static lib)
+       - `<https://huggingface.co/csukuangfj/sherpa-onnx-libs/resolve/main/win64/sherpa-onnx-v1.9.12-win-x64-static.tar.bz2>`_
+     * - 64-bit Windows (shared lib)
+       - `<https://huggingface.co/csukuangfj/sherpa-onnx-libs/resolve/main/win64/sherpa-onnx-v1.9.12-win-x64-shared.tar.bz2>`_
+     * - 32-bit Windows (static lib)
+       - `<https://huggingface.co/csukuangfj/sherpa-onnx-libs/resolve/main/win32/sherpa-onnx-v1.9.12-win-x86-static.tar.bz2>`_
+     * - 32-bit Windows (shared lib)
+       - `<https://huggingface.co/csukuangfj/sherpa-onnx-libs/resolve/main/win32/sherpa-onnx-v1.9.12-win-x86-shared.tar.bz2>`_
+
+   If you cannot access ``huggingface.co``, then please replace ``huggingface.co`` with
+   ``hf-mirror.com``.
+
+
+
 64-bit Windows (x64)
 --------------------
 
