@@ -25,6 +25,53 @@ with ``cross-compiling`` on an x86 machine with Ubuntu OS.
 
    This page is for cross-compiling.
 
+.. note::
+
+   You can download pre-compiled binaries for 32-bit ``ARM`` from the following URL
+   `<https://huggingface.co/csukuangfj/sherpa-onnx-libs/tree/main/arm32>`_
+
+   Please always download the latest version.
+
+   Example command to download the version ``1.9.12``:
+
+    .. code-block:: bash
+
+      # binaries built with shared libraries
+      wget https://huggingface.co/csukuangfj/sherpa-onnx-libs/resolve/main/arm32/sherpa-onnx-v1.9.12-linux-arm-gnueabihf-shared.tar.bz2
+
+      # binaries built with static link
+      wget https://huggingface.co/csukuangfj/sherpa-onnx-libs/resolve/main/arm32/sherpa-onnx-v1.9.12-linux-arm-gnueabihf-static.tar.bz2
+
+      # For users from China
+      # 中国国内用户，如果访问不了 huggingface, 请使用
+
+      # binaries built with shared libraries
+      wget https://hf-mirror.com/csukuangfj/sherpa-onnx-libs/resolve/main/arm32/sherpa-onnx-v1.9.12-linux-arm-gnueabihf-shared.tar.bz2
+
+      # binaries built with static link
+      wget https://hf-mirror.com/csukuangfj/sherpa-onnx-libs/resolve/main/arm32/sherpa-onnx-v1.9.12-linux-arm-gnueabihf-static.tar.bz2
+
+.. hint::
+
+   We provide two colab notebooks
+   for you to try this section step by step.
+
+    .. list-table::
+
+     * - Build with ``shared`` libraries
+       - Build with ``static`` libraries
+     * - |build sherpa-onnx for arm shared colab notebook|
+       - |build sherpa-onnx for arm static colab notebook|
+
+   If you are using Windows/macOS or you don't want to setup your local environment
+   for cross-compiling, please use the above colab notebooks.
+
+.. |build sherpa-onnx for arm shared colab notebook| image:: https://colab.research.google.com/assets/colab-badge.svg
+   :target: https://github.com/k2-fsa/colab/blob/master/sherpa-onnx/sherpa_onnx_arm_cross_compiling_shared_libs.ipynb
+
+.. |build sherpa-onnx for arm static colab notebook| image:: https://colab.research.google.com/assets/colab-badge.svg
+   :target: https://github.com/k2-fsa/colab/blob/master/sherpa-onnx/sherpa_onnx_arm_cross_compiling_static_libs.ipynb
+
 Install toolchain
 -----------------
 
@@ -47,6 +94,11 @@ Assume you want to install it in the folder ``$HOME/software``:
    mkdir -p $HOME/software
    cd $HOME/software
    wget -q https://huggingface.co/csukuangfj/sherpa-ncnn-toolchains/resolve/main/gcc-arm-10.3-2021.07-x86_64-arm-none-linux-gnueabihf.tar.xz
+
+   # For users from China
+   # 中国国内用户，如果访问不了 huggingface, 请使用
+   # wget -q https://hf-mirror.com/csukuangfj/sherpa-ncnn-toolchains/resolve/main/gcc-arm-10.3-2021.07-x86_64-arm-none-linux-gnueabihf.tar.xz
+
    tar xf gcc-arm-10.3-2021.07-x86_64-arm-none-linux-gnueabihf.tar.xz
 
 Next, we need to set the following environment variable:
@@ -208,6 +260,11 @@ download a cross compile toolchain with GCC >= 9.0. The following is an example:
    mkdir -p $HOME/software
    cd $HOME/software
    wget -q https://huggingface.co/csukuangfj/sherpa-ncnn-toolchains/resolve/main/gcc-arm-10.3-2021.07-x86_64-arm-none-linux-gnueabihf.tar.xz
+
+   # For users from China
+   # 中国国内用户，如果访问不了 huggingface, 请使用
+   wget -q https://hf-mirror.com/csukuangfj/sherpa-ncnn-toolchains/resolve/main/gcc-arm-10.3-2021.07-x86_64-arm-none-linux-gnueabihf.tar.xz
+
    tar xf gcc-arm-10.3-2021.07-x86_64-arm-none-linux-gnueabihf.tar.xz
 
 Next, we need to set the following environment variable:

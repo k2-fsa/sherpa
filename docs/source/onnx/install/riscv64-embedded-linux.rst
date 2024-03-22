@@ -17,6 +17,25 @@ how to use ``qemu`` to run the compiled binaries.
 .. |build sherpa-onnx for risc-v colab notebook| image:: https://colab.research.google.com/assets/colab-badge.svg
    :target: https://github.com/k2-fsa/colab/blob/master/sherpa-onnx/sherpa_onnx_RISC_V.ipynb
 
+.. note::
+
+   You can download pre-compiled binaries for ``riscv64`` from the following URL
+   `<https://huggingface.co/csukuangfj/sherpa-onnx-libs/tree/main/riscv64>`_
+
+   Please always download the latest version.
+
+   Example command to download the version ``1.9.12``:
+
+    .. code-block:: bash
+
+      # binaries built with shared libraries
+      wget https://huggingface.co/csukuangfj/sherpa-onnx-libs/resolve/main/riscv64/sherpa-onnx-v1.9.12-linux-riscv64-shared.tar.bz2
+
+      # For users from China
+      # 中国国内用户，如果访问不了 huggingface, 请使用
+
+      # binaries built with shared libraries
+      # wget https://hf-mirror.com/csukuangfj/sherpa-onnx-libs/resolve/main/riscv64/sherpa-onnx-v1.9.12-linux-riscv64-shared.tar.bz2
 
 Install toolchain
 -----------------
