@@ -14,14 +14,14 @@ and ``text-to-speech`` (TTS).
    you can download pre-built shared libraries by visiting the release page
    `<https://github.com/k2-fsa/sherpa-onnx/releases/>`_
 
-   For instance, for the relase ``v1.9.0``, you can visit
-   `<https://github.com/k2-fsa/sherpa-onnx/releases/tag/v1.9.0>`_
-   and download the file ``sherpa-onnx-v1.9.0-android.tar.bz2``
+   For instance, for the relase ``v1.9.14``, you can visit
+   `<https://github.com/k2-fsa/sherpa-onnx/releases/tag/v1.9.14>`_
+   and download the file ``sherpa-onnx-v1.9.14-android.tar.bz2``
    using the following command:
 
     .. code-block:: bash
 
-      wget https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.9.0/sherpa-onnx-v1.9.0-android.tar.bz2
+      wget https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.9.14/sherpa-onnx-v1.9.14-android.tar.bz2
 
    Please always use the latest release.
 
@@ -34,6 +34,7 @@ and ``text-to-speech`` (TTS).
 
     - ``SherpaOnnx2Pass``
     - ``SherpaOnnxTts``  (this is for text-to-speech)
+    - ``SherpaOnnxTtsEngine``  (this is for text-to-speech)
     - ``SherpaOnnxVad``
     - ``SherpaOnnxVadAsr``
 
