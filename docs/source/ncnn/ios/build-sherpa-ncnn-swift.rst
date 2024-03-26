@@ -19,6 +19,25 @@ Before we continue, please make sure the following requirements are satisfied:
 - (Optional) iPhone or iPad. This is for testing the app on your device.
   If you don't have a device, you can still run the app within a simulator on your Mac.
 
+.. caution::
+
+   If you get the following error::
+
+      CMake Error at toolchains/ios.toolchain.cmake:544 (get_filename_component):
+        get_filename_component called with incorrect number of arguments
+      Call Stack (most recent call first):
+        /usr/local/Cellar/cmake/3.29.0/share/cmake/Modules/CMakeDetermineSystem.cmake:146 (include)
+        CMakeLists.txt:2 (project)
+
+   please run::
+
+     sudo xcode-select --install
+     sudo xcodebuild -license
+
+  And then delete the build directory ``./build-ios`` and re-build.
+
+  Please see also `<https://github.com/k2-fsa/sherpa-onnx/issues/702>`_.
+
 Download sherpa-ncnn
 --------------------
 
