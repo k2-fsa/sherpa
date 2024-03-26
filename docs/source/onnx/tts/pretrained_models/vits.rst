@@ -430,14 +430,27 @@ It will generate 3 files: ``einstein-30.wav``, ``franklin-66.wav``, and ``martin
 aishell3 (Chinese, multi-speaker, 174 speakers)
 -----------------------------------------------
 
-This model is converted from `<https://huggingface.co/jackyqs/vits-aishell3-175-chinese>`_,
-which is trained on the `aishell3`_ dataset. It supports only Chinese and it's a multi-speaker model.
-It contains 174 speakers.
+This model is trained on the `aishell3`_ dataset using `icefall`_.
+
+It supports only Chinese and it's a multi-speaker model and contains 174 speakers.
+
+.. hint::
+
+   You can download the Android APK for this model at
+
+   `<https://k2-fsa.github.io/sherpa/onnx/tts/apk-engine.html>`_
+
+   (Please search for ``vits-icefall-zh-aishell3`` in the above Android APK page)
 
 .. note::
 
    If you are interested in how the model is converted, please see
-   `<https://github.com/csukuangfj/vits_chinese/blob/master/export_onnx_aishell3.py>`_
+   the documentation of `icefall`_.
+
+   If you are interested in training your own model, please also refer to
+   `icefall`_.
+
+   `icefall`_ is also developed by us.
 
 In the following, we describe how to download it and use it with `sherpa-onnx`_.
 
@@ -450,18 +463,17 @@ Please use the following commands to download it.
 
   cd /path/to/sherpa-onnx
 
-  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/vits-zh-aishell3
-  cd vits-zh-aishell3
-  git lfs pull --include "*.onnx"
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/vits-icefall-zh-aishell3.tar.bz2
+  tar xvf vits-icefall-zh-aishell3.tar.bz2
+  rm vits-icefall-zh-aishell3.tar.bz2
 
 Please check that the file sizes of the pre-trained models are correct. See
 the file sizes of ``*.onnx`` files below.
 
 .. code-block:: bash
 
-  vits-zh-aishell3 fangjun$ ls -lh *.onnx
-  -rw-r--r--  1 fangjun  staff    37M Oct 18 11:01 vits-aishell3.int8.onnx
-  -rw-r--r--  1 fangjun  staff   116M Oct 18 11:01 vits-aishell3.onnx
+  vits-icefall-zh-aishell3 fangjun$ ls -lh *.onnx
+  -rw-r--r--  1 fangjun  staff    29M Mar 20 22:50 model.onnx
 
 Generate speech with executable compiled from C++
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -476,25 +488,28 @@ We use speaker ID 10, 33, and 99 below to generate audio for the same text.
   cd /path/to/sherpa-onnx
 
   ./build/bin/sherpa-onnx-offline-tts \
-    --vits-model=./vits-zh-aishell3/vits-aishell3.onnx \
-    --vits-lexicon=./vits-zh-aishell3/lexicon.txt \
-    --vits-tokens=./vits-zh-aishell3/tokens.txt \
+    --vits-model=./vits-icefall-zh-aishell3/model.onnx \
+    --vits-lexicon=./vits-icefall-zh-aishell3/lexicon.txt \
+    --vits-tokens=./vits-icefall-zh-aishell3/tokens.txt \
+    --tts-rule-fsts=./vits-icefall-zh-aishell3/phone.fst,./vits-icefall-zh-aishell3/date.fst,./vits-icefall-zh-aishell3/number.fst \
     --sid=10 \
     --output-filename=./liliana-10.wav \
     "林美丽最美丽、最漂亮、最可爱！"
 
   ./build/bin/sherpa-onnx-offline-tts \
-    --vits-model=./vits-zh-aishell3/vits-aishell3.onnx \
-    --vits-lexicon=./vits-zh-aishell3/lexicon.txt \
-    --vits-tokens=./vits-zh-aishell3/tokens.txt \
+    --vits-model=./vits-icefall-zh-aishell3/model.onnx \
+    --vits-lexicon=./vits-icefall-zh-aishell3/lexicon.txt \
+    --vits-tokens=./vits-icefall-zh-aishell3/tokens.txt \
+    --tts-rule-fsts=./vits-icefall-zh-aishell3/phone.fst,./vits-icefall-zh-aishell3/date.fst,./vits-icefall-zh-aishell3/number.fst \
     --sid=33 \
     --output-filename=./liliana-33.wav \
     "林美丽最美丽、最漂亮、最可爱！"
 
   ./build/bin/sherpa-onnx-offline-tts \
-    --vits-model=./vits-zh-aishell3/vits-aishell3.onnx \
-    --vits-lexicon=./vits-zh-aishell3/lexicon.txt \
-    --vits-tokens=./vits-zh-aishell3/tokens.txt \
+    --vits-model=./vits-icefall-zh-aishell3/model.onnx \
+    --vits-lexicon=./vits-icefall-zh-aishell3/lexicon.txt \
+    --vits-tokens=./vits-icefall-zh-aishell3/tokens.txt \
+    --tts-rule-fsts=./vits-icefall-zh-aishell3/phone.fst,./vits-icefall-zh-aishell3/date.fst,./vits-icefall-zh-aishell3/number.fst \
     --sid=99 \
     --output-filename=./liliana-99.wav \
     "林美丽最美丽、最漂亮、最可爱！"
@@ -513,10 +528,10 @@ The following is an example:
 .. code-block:: bash
 
   ./build/bin/sherpa-onnx-offline-tts \
-    --vits-model=./vits-zh-aishell3/vits-aishell3.onnx \
-    --vits-lexicon=./vits-zh-aishell3/lexicon.txt \
-    --vits-tokens=./vits-zh-aishell3/tokens.txt \
-    --tts-rule-fsts=./vits-zh-aishell3/rule.fst \
+    --vits-model=./vits-icefall-zh-aishell3/model.onnx \
+    --vits-lexicon=./vits-icefall-zh-aishell3/lexicon.txt \
+    --vits-tokens=./vits-icefall-zh-aishell3/tokens.txt \
+    --tts-rule-fsts=./vits-icefall-zh-aishell3/phone.fst,./vits-icefall-zh-aishell3/date.fst,./vits-icefall-zh-aishell3/number.fst \
     --sid=66 \
     --output-filename=./rule-66.wav \
     "35年前，他于长沙出生, 在长白山长大。9年前他当上了银行的领导，主管行政。1天前莅临我行指导工作。"
@@ -589,25 +604,28 @@ We use speaker ID 21, 41, and 45 below to generate audio for different transcrip
    cd /path/to/sherpa-onnx
 
    python3 ./python-api-examples/offline-tts.py \
-    --vits-model=./vits-zh-aishell3/vits-aishell3.onnx \
-    --vits-lexicon=./vits-zh-aishell3/lexicon.txt \
-    --vits-tokens=./vits-zh-aishell3/tokens.txt \
+    --vits-model=./vits-icefall-zh-aishell3/model.onnx \
+    --vits-lexicon=./vits-icefall-zh-aishell3/lexicon.txt \
+    --vits-tokens=./vits-icefall-zh-aishell3/tokens.txt \
+    --tts-rule-fsts=./vits-icefall-zh-aishell3/phone.fst,./vits-icefall-zh-aishell3/date.fst,./vits-icefall-zh-aishell3/number.fst \
     --sid=21 \
     --output-filename=./liubei-21.wav \
     "勿以恶小而为之，勿以善小而不为。惟贤惟德，能服于人。"
 
    python3 ./python-api-examples/offline-tts.py \
-    --vits-model=./vits-zh-aishell3/vits-aishell3.onnx \
-    --vits-lexicon=./vits-zh-aishell3/lexicon.txt \
-    --vits-tokens=./vits-zh-aishell3/tokens.txt \
+    --vits-model=./vits-icefall-zh-aishell3/model.onnx \
+    --vits-lexicon=./vits-icefall-zh-aishell3/lexicon.txt \
+    --vits-tokens=./vits-icefall-zh-aishell3/tokens.txt \
+    --tts-rule-fsts=./vits-icefall-zh-aishell3/phone.fst,./vits-icefall-zh-aishell3/date.fst,./vits-icefall-zh-aishell3/number.fst \
     --sid=41 \
     --output-filename=./demokelite-41.wav \
     "要留心，即使当你独自一人时，也不要说坏话或做坏事，而要学得在你自己面前比在别人面前更知耻。"
 
    python3 ./python-api-examples/offline-tts.py \
-    --vits-model=./vits-zh-aishell3/vits-aishell3.onnx \
-    --vits-lexicon=./vits-zh-aishell3/lexicon.txt \
-    --vits-tokens=./vits-zh-aishell3/tokens.txt \
+    --vits-model=./vits-icefall-zh-aishell3/model.onnx \
+    --vits-lexicon=./vits-icefall-zh-aishell3/lexicon.txt \
+    --vits-tokens=./vits-icefall-zh-aishell3/tokens.txt \
+    --tts-rule-fsts=./vits-icefall-zh-aishell3/phone.fst,./vits-icefall-zh-aishell3/date.fst,./vits-icefall-zh-aishell3/number.fst \
     --sid=45 \
     --output-filename=./zhugeliang-45.wav \
     "夫君子之行，静以修身，俭以养德，非淡泊无以明志，非宁静无以致远。"
@@ -620,13 +638,13 @@ The Python script also supports rule-based text normalization.
 .. code-block:: bash
 
    python3 ./python-api-examples/offline-tts.py \
-    --vits-model=./vits-zh-aishell3/vits-aishell3.onnx \
-    --vits-lexicon=./vits-zh-aishell3/lexicon.txt \
-    --vits-tokens=./vits-zh-aishell3/tokens.txt \
-    --tts-rule-fsts=./vits-zh-aishell3/rule.fst \
+    --vits-model=./vits-icefall-zh-aishell3/model.onnx \
+    --vits-lexicon=./vits-icefall-zh-aishell3/lexicon.txt \
+    --vits-tokens=./vits-icefall-zh-aishell3/tokens.txt \
+    --tts-rule-fsts=./vits-icefall-zh-aishell3/phone.fst,./vits-icefall-zh-aishell3/date.fst,./vits-icefall-zh-aishell3/number.fst \
     --sid=103 \
     --output-filename=./rule-103.wav \
-    "根据第7次全国人口普查结果表明，我国总人口有1443497378人。普查登记的大陆31个省、自治区、直辖市和现役军人的人口共1411778724人。"
+    "根据第7次全国人口普查结果表明，我国总人口有1443497378人。普查登记的大陆31个省、自治区、直辖市和现役军人的人口共1411778724人。电话号码是110。手机号是13812345678"
 
 .. raw:: html
 
@@ -681,7 +699,7 @@ The Python script also supports rule-based text normalization.
        </audio>
       </td>
       <td>
-        根据第7次全国人口普查结果表明，我国总人口有1443497378人。普查登记的大陆31个省、自治区、直辖市和现役军人的人口共1411778724人。
+        根据第7次全国人口普查结果表明，我国总人口有1443497378人。普查登记的大陆31个省、自治区、直辖市和现役军人的人口共1411778724人。电话号码是110。手机号是13812345678
       </td>
     </tr>
   </table>
