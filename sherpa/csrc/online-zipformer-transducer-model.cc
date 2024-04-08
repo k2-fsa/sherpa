@@ -27,7 +27,9 @@ OnlineZipformerTransducerModel::OnlineZipformerTransducerModel(
   joiner_.eval();
 
   context_size_ =
-      decoder_.attr("conv").toModule().attr("weight").toTensor().size(2);
+      decoder_.hasattr("conv")
+          ? decoder_.attr("conv").toModule().attr("weight").toTensor().size(2)
+          : 1;
 
   // Use 7 here since the subsampling is ((len - 7) // 2 + 1) // 2.
   int32_t pad_length = 7;
