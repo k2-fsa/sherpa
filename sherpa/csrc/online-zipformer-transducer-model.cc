@@ -26,10 +26,10 @@ OnlineZipformerTransducerModel::OnlineZipformerTransducerModel(
   joiner_ = torch::jit::load(joiner_filename, device);
   joiner_.eval();
 
+  auto conv = decoder_.attr("conv").toModule();
+
   context_size_ =
-      decoder_.hasattr("conv")
-          ? decoder_.attr("conv").toModule().attr("weight").toTensor().size(2)
-          : 1;
+      conv.hasattr("weight") ? conv.attr("weight").toTensor().size(2) : 1;
 
   // Use 7 here since the subsampling is ((len - 7) // 2 + 1) // 2.
   int32_t pad_length = 7;
@@ -49,10 +49,10 @@ OnlineZipformerTransducerModel::OnlineZipformerTransducerModel(
   decoder_ = model_.attr("decoder").toModule();
   joiner_ = model_.attr("joiner").toModule();
 
+  auto conv = decoder_.attr("conv").toModule();
+
   context_size_ =
-      decoder_.hasattr("conv")
-          ? decoder_.attr("conv").toModule().attr("weight").toTensor().size(2)
-          : 1;
+      conv.hasattr("weight") ? conv.attr("weight").toTensor().size(2) : 1;
 
   // Use 7 here since the subsampling is ((len - 7) // 2 + 1) // 2.
   int32_t pad_length = 7;

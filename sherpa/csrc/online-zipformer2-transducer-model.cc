@@ -23,10 +23,10 @@ OnlineZipformer2TransducerModel::OnlineZipformer2TransducerModel(
   decoder_ = model_.attr("decoder").toModule();
   joiner_ = model_.attr("joiner").toModule();
 
+  auto conv = decoder_.attr("conv").toModule();
+
   context_size_ =
-      decoder_.hasattr("conv")
-          ? decoder_.attr("conv").toModule().attr("weight").toTensor().size(2)
-          : 1;
+      conv.hasattr("weight") ? conv.attr("weight").toTensor().size(2) : 1;
 
   int32_t pad_length = encoder_.attr("pad_length").toInt();
 
