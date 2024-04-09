@@ -107,7 +107,7 @@ icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05
   #
   # See https://github.com/k2-fsa/icefall/pull/440
   #
-  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/Zengwei/icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05
+  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05
   cd icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05
 
   git lfs pull --include "exp/cpu-jit-epoch-30-avg-10-torch-1.10.0.pt"
@@ -233,7 +233,7 @@ icefall_librispeech_streaming_pruned_transducer_stateless4_20220625
   #
   # See https://github.com/k2-fsa/icefall/pull/440
   #
-  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/pkufool/icefall_librispeech_streaming_pruned_transducer_stateless4_20220625
+  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/icefall_librispeech_streaming_pruned_transducer_stateless4_20220625
   cd icefall_librispeech_streaming_pruned_transducer_stateless4_20220625
 
   git lfs pull --include "exp/cpu_jit-epoch-25-avg-3.pt"
@@ -311,7 +311,7 @@ icefall_asr_wenetspeech_pruned_transducer_stateless5_streaming
   #
   # See https://github.com/k2-fsa/icefall/pull/447
   #
-  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/luomingshuang/icefall_asr_wenetspeech_pruned_transducer_stateless5_streaming
+  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/icefall_asr_wenetspeech_pruned_transducer_stateless5_streaming
   cd icefall_asr_wenetspeech_pruned_transducer_stateless5_streaming
 
   git lfs pull --include "exp/cpu_jit_epoch_7_avg_1_torch.1.7.1.pt"

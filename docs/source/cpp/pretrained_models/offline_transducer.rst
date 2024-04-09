@@ -342,7 +342,7 @@ icefall-asr-gigaspeech-pruned-transducer-stateless2
    #
    # See https://github.com/k2-fsa/icefall/pull/318
    #
-   GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/wgb14/icefall-asr-gigaspeech-pruned-transducer-stateless2
+   GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/icefall-asr-gigaspeech-pruned-transducer-stateless2
    cd icefall-asr-gigaspeech-pruned-transducer-stateless2
    git lfs pull --include "exp/cpu_jit-iter-3488000-avg-15.pt"
    git lfs pull --include "data/lang_bpe_500/bpe.model"
@@ -418,7 +418,7 @@ icefall_asr_wenetspeech_pruned_transducer_stateless2
   #
   # See https://github.com/k2-fsa/icefall/pull/349
   #
-  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/luomingshuang/icefall_asr_wenetspeech_pruned_transducer_stateless2
+  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/icefall_asr_wenetspeech_pruned_transducer_stateless2
 
   cd icefall_asr_wenetspeech_pruned_transducer_stateless2
   git lfs pull --include "exp/cpu_jit_epoch_10_avg_2_torch_1.7.1.pt"
@@ -455,7 +455,7 @@ icefall_asr_aidatatang-200zh_pruned_transducer_stateless2
   #
   # See https://github.com/k2-fsa/icefall/pull/355
   #
-  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/luomingshuang/icefall_asr_aidatatang-200zh_pruned_transducer_stateless2
+  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/icefall_asr_aidatatang-200zh_pruned_transducer_stateless2
   cd icefall_asr_aidatatang-200zh_pruned_transducer_stateless2
   git lfs pull --include "exp/cpu_jit_torch.1.7.1.pt"
 
@@ -511,7 +511,7 @@ icefall_asr_tal-csasr_pruned_transducer_stateless5
   #
   # See https://github.com/k2-fsa/icefall/pull/428
   #
-  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/luomingshuang/icefall_asr_tal-csasr_pruned_transducer_stateless5
+  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/icefall_asr_tal-csasr_pruned_transducer_stateless5
   cd icefall_asr_tal-csasr_pruned_transducer_stateless5
   git lfs pull --include "exp/cpu_jit.pt"
 

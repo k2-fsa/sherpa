@@ -3,7 +3,7 @@ from nvcr.io/nvidia/pytorch:22.12-py3
 # Please choose previous pytorch:xx.xx if you encounter cuda driver mismatch issue
 RUN pip3 install torchaudio
 RUN pip3 install \
-    k2==1.23.3.dev20230105+cuda11.7.torch1.13.1 -f https://k2-fsa.org/nightly/
+    k2==1.24.4.dev20240223+cuda11.7.torch1.13.1 -f https://k2-fsa.github.io/k2/cuda.html
 # #install k2 from source
 # #"sed -i ..."  line tries to turn off the cuda check
 # RUN git clone https://github.com/k2-fsa/k2.git && \
