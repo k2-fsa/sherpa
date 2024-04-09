@@ -20,7 +20,7 @@ RUN pip3 install \
     lhotse \
     kaldifeat
 RUN pip3 install \
-    k2==1.24.3.dev20230528+cuda11.7.torch1.13.1 -f https://k2-fsa.org/nightly/
+    k2==1.24.4.dev20240223+cuda11.7.torch1.13.1 -f https://k2-fsa.github.io/k2/cuda.html
 # Dependency for client
 RUN pip3 install soundfile grpcio-tools tritonclient pyyaml
 WORKDIR /workspace
