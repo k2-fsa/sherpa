@@ -107,6 +107,15 @@ jobs:
               ls -lh sherpa.pdf
               cp -v sherpa.pdf ../html/
 
+      - name: Release sherpa.pdf
+        if: (github.repository_owner == 'csukuangfj' || github.repository_owner == 'k2-fsa') && github.event_name == 'push'
+        uses: svenstaro/upload-release-action@v2
+        with:
+          file_glob: true
+          overwrite: true
+          file: ./docs/build/html/sherpa.pdf
+          tag: doc
+
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
