@@ -66,7 +66,7 @@ jobs:
               cd /workspace
               which latexmk
 
-              apk add --no-cache python3 py3-pip make gcc zlib-dev libffi-dev openssl-dev musl-dev ghostscript
+              apk add --no-cache python3 py3-pip git make gcc zlib-dev libffi-dev openssl-dev musl-dev ghostscript
               python3 --version
 
 
