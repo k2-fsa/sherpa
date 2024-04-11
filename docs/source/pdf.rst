@@ -9,7 +9,7 @@ We provide a single pdf file containing all the documentation.
 
 Please download it from the following address:
 
-  https://k2-fsa.github.io/sherpa/sherpa.pdf
+  `<https://k2-fsa.github.io/sherpa/sherpa.pdf>`_
 
 Please always download the latest version.
 
