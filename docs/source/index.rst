@@ -10,6 +10,7 @@ sherpa
    :maxdepth: 2
 
    ./intro.rst
+   ./pdf.rst
    ./social-groups.rst
    ./huggingface/index.rst
    ./pretrained-models.rst

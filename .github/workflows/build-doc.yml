@@ -104,7 +104,8 @@ jobs:
               mkdir -pv build/html/_static
               cd build/latex
               latexmk -interaction=nonstopmode -f -pdf -dvi- -ps- sherpa.tex || true
-              cp -v sherpa.pdf ../html/_static/
+              ls -lh sherpa.pdf
+              cp -v sherpa.pdf ../html/
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
