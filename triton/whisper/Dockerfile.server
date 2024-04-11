@@ -3,7 +3,7 @@ LABEL maintainer="NVIDIA"
 LABEL repository="tritonserver"
 
 RUN apt update && apt-get install -y ffmpeg
-RUN python3 -m pip install --no-cache-dir --extra-index-url https://pypi.nvidia.com tensorrt-llm==0.9.0.dev2024022700
+RUN python3 -m pip install --no-cache-dir --extra-index-url https://pypi.nvidia.com tensorrt-llm==0.9.0.dev2024040900
 RUN python3 -m pip install mpmath==1.3.0 gradio==3.50.2 tritonclient[all]
 
 COPY requirements.txt /workspace/requirements.txt
