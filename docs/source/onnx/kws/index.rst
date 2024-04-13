@@ -1,7 +1,7 @@
 .. _sherpa-onnx-keyword-spotting:
 
-Open vocabulary keyword spotting (Customized keyword spotting)
-==============================================================
+KWS Open vocabulary keyword spotting (Customized keyword spotting)
+==================================================================
 
 In this section, we describe how we implement the open vocabulary keyword spotting (aka customized keyword spotting)
 feature and how to use it in `sherpa-onnx`_.
@@ -24,7 +24,7 @@ Decoder for open vocabulary keyword spotting
 For now, we only implement a beam search decoder to make the system only trigger the given keywords (i.e. the model itself is actually a tiny ASR).
 To make it is able to balance between the ``trigged rate`` and ``false alarm``, we introduce two parameters for each keyword, ``boosting score``
 and ``trigger threshold``.  The ``boosting score`` works like the hotwords recognition, it help the paths containing keywords to survive beam
-search, the larger this score is the easier the corresponding keyword will be triggered, read :ref:`sherpa-onnx-hotwords` for more details. 
+search, the larger this score is the easier the corresponding keyword will be triggered, read :ref:`sherpa-onnx-hotwords` for more details.
 The ``trigger threshold`` defines the minimum acoustic probability of decoded sequences (token sequences) that can be triggered, it is a float
 value between 0 to 1, the lower this threshold is the easier the corresponding keyword will be triggered.
 
@@ -48,7 +48,7 @@ usage as follows:
 
    sherpa-onnx-cli text2token --help
    Usage: sherpa-onnx-cli text2token [OPTIONS] INPUT OUTPUT
-   
+
    Options:
 
      --text TEXT         Path to the input texts. Each line in the texts contains the original phrase, it might also contain some extra items,
@@ -96,8 +96,8 @@ usage as follows:
      python3 scripts/text2token.py --help
 
 
-How to use hotwords in sherpa-onnx
-----------------------------------
+How to use keyword spotting in sherpa-onnx
+------------------------------------------
 
 Currently, we provide command-line tool and android app for keyword spotting.
 
