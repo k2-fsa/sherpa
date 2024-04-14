@@ -36,6 +36,7 @@ Also, we show how to use it for speech recognition with pre-trained models.
    ./websocket/index
    ./hotwords/index
    ./kws/index
+   ./punctuation/index
    ./pretrained_models/index
 
 .. toctree::
