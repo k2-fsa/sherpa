@@ -164,4 +164,5 @@ rst_epilog = """
 .. _MMS: https://huggingface.co/spaces/mms-meta/MMS
 .. _WebAssembly: https://en.wikipedia.org/wiki/WebAssembly
 .. _emscripten: https://emscripten.org/index.html
+.. _audioset: https://research.google.com/audioset/
 """
