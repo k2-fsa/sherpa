@@ -37,6 +37,7 @@ Also, we show how to use it for speech recognition with pre-trained models.
    ./hotwords/index
    ./kws/index
    ./punctuation/index
+   ./audio-tagging/index
    ./pretrained_models/index
 
 .. toctree::
