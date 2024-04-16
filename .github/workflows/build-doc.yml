@@ -86,9 +86,11 @@ jobs:
               ./generate-tts.py
               ./generate-tts-engine.py
               ./generate-speaker-identification.py
+              ./generate-audio-tagging.py
               mv -v apk.html ../build/html/onnx/tts/
               mv -v apk-engine.html ../build/html/onnx/tts/
               mv -v apk-speaker-identification.html ../build/html/onnx/speaker-identification/apk.html
+              mv -v apk-audio-tagging.html ../build/html/onnx/audio-tagging/apk.html
               cd ..
               rm -rf huggingface
 
