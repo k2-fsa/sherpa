@@ -9,3 +9,4 @@ its temporal localization.
    :maxdepth: 5
 
    ./pretrained_models.rst
+   ./android.rst
