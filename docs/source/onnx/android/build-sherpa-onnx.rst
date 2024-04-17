@@ -39,6 +39,7 @@ and ``text-to-speech`` (TTS).
     - ``SherpaOnnxVadAsr``
     - ``SherpaOnnxSpeakerIdentification``
     - ``SherpaOnnxAudioTagging``
+    - ``SherpaOnnxAudioTaggingWearOs``
 
 
 Install Android Studio

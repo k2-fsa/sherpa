@@ -10,3 +10,4 @@ its temporal localization.
 
    ./pretrained_models.rst
    ./android.rst
+   ./wearos.rst
