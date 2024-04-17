@@ -35,6 +35,12 @@ from the following huggingface repositories:
  * - ``medium``
    - `<https://huggingface.co/csukuangfj/sherpa-onnx-whisper-medium>`_
 
+.. hint::
+
+    You can also download them from
+
+      `<https://github.com/k2-fsa/sherpa-onnx/releases/tag/asr-models>`_
+
 If you want to export the models by yourself or/and want to learn how the models
 are exported, please read below.
 
