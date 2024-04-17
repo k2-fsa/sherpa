@@ -38,6 +38,7 @@ Also, we show how to use it for speech recognition with pre-trained models.
    ./kws/index
    ./punctuation/index
    ./audio-tagging/index
+   ./spolken-language-identification/index
    ./pretrained_models/index
 
 .. toctree::
