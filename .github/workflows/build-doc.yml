@@ -27,14 +27,14 @@ on:
       - '.github/workflows/build-doc.yml'
       - 'docs/**'
 
-  schedule:
-    # minute (0-59)
-    # hour (0-23)
-    # day of the month (1-31)
-    # month (1-12)
-    # day of the week (0-6)
-    # nightly build at 23:50 UTC time every day
-    - cron: "50 23 * * *"
+  # schedule:
+  #   # minute (0-59)
+  #   # hour (0-23)
+  #   # day of the month (1-31)
+  #   # month (1-12)
+  #   # day of the week (0-6)
+  #   # nightly build at 23:50 UTC time every day
+  #   - cron: "50 23 * * *"
 
   workflow_dispatch:
 
@@ -97,11 +97,13 @@ jobs:
               ./generate-speaker-identification.py
               ./generate-audio-tagging.py
               ./generate-audio-tagging-wearos.py
+              ./generate-slid.py
               mv -v apk.html ../build/html/onnx/tts/
               mv -v apk-engine.html ../build/html/onnx/tts/
               mv -v apk-speaker-identification.html ../build/html/onnx/speaker-identification/apk.html
               mv -v apk-audio-tagging.html ../build/html/onnx/audio-tagging/apk.html
               mv -v apk-audio-tagging-wearos.html ../build/html/onnx/audio-tagging/apk-wearos.html
+              mv -v apk-slid.html ../build/html/onnx/spolken-language-identification/apk.html
               cd ..
               rm -rf huggingface
 
