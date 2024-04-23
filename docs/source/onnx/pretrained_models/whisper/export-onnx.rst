@@ -111,19 +111,12 @@ Now the generated files so far are as follows:
 
   (py38) fangjuns-MacBook-Pro:whisper fangjun$ ls -lh tiny.en-*
   -rw-r--r--  1 fangjun  staff   105M Aug  7 15:43 tiny.en-decoder.int8.onnx
-  -rw-r--r--  1 fangjun  staff   105M Aug  7 15:45 tiny.en-decoder.int8.ort
   -rw-r--r--  1 fangjun  staff   185M Aug  7 15:43 tiny.en-decoder.onnx
-  -rw-r--r--  1 fangjun  staff   185M Aug  7 15:45 tiny.en-decoder.ort
   -rw-r--r--  1 fangjun  staff    12M Aug  7 15:43 tiny.en-encoder.int8.onnx
-  -rw-r--r--  1 fangjun  staff    12M Aug  7 15:45 tiny.en-encoder.int8.ort
   -rw-r--r--  1 fangjun  staff    36M Aug  7 15:43 tiny.en-encoder.onnx
-  -rw-r--r--  1 fangjun  staff    36M Aug  7 15:45 tiny.en-encoder.ort
   -rw-r--r--  1 fangjun  staff   816K Aug  7 15:43 tiny.en-tokens.txt
 
-``*.ort`` are the corresponding `onnxruntime`_ format.
-
 To check whether the exported model works correctly, we can use
-
   `<https://github.com/k2-fsa/sherpa-onnx/blob/master/scripts/whisper/test.py>`_
 
 We use `<https://huggingface.co/csukuangfj/sherpa-onnx-whisper-tiny.en/resolve/main/test_wavs/0.wav>`_
@@ -148,15 +141,5 @@ To test ``int8`` quantized models, we can use:
    python3 ./test.py \
      --encoder ./tiny.en-encoder.int8.onnx \
      --decoder ./tiny.en-decoder.int8.onnx \
-     --tokens ./tiny.en-tokens.txt \
-     ./0.wav
-
-To test models of `onnxruntime`_ format, we can use:
-
-.. code-block:: bash
-
-   python3 ./test.py \
-     --encoder ./tiny.en-encoder.int8.ort \
-     --decoder ./tiny.en-decoder.int8.ort \
      --tokens ./tiny.en-tokens.txt \
      ./0.wav

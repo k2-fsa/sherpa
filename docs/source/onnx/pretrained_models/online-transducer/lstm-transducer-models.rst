@@ -29,9 +29,13 @@ Please use the following commands to download it.
 
   cd /path/to/sherpa-onnx
 
-  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/sherpa-onnx-lstm-en-2023-02-17
-  cd sherpa-onnx-lstm-en-2023-02-17
-  git lfs pull --include "*.onnx"
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-lstm-en-2023-02-17.tar.bz2
+
+  # For Chinese users, please use the following mirror
+  # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-lstm-en-2023-02-17.tar.bz2
+
+  tar xvf sherpa-onnx-lstm-en-2023-02-17.tar.bz2
+  rm sherpa-onnx-lstm-en-2023-02-17.tar.bz2
 
 Please check that the file sizes of the pre-trained models are correct. See
 the file sizes of ``*.onnx`` files below.
@@ -141,9 +145,14 @@ Please use the following commands to download it.
 
   cd /path/to/sherpa-onnx
 
-  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/sherpa-onnx-lstm-zh-2023-02-20
-  cd sherpa-onnx-lstm-zh-2023-02-20
-  git lfs pull --include "*.onnx"
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-lstm-zh-2023-02-20.tar.bz2
+
+  # For Chinese users, you can use the following mirror
+  # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-lstm-zh-2023-02-20.tar.bz2
+
+  tar xvf sherpa-onnx-lstm-zh-2023-02-20.tar.bz2
+  rm sherpa-onnx-lstm-zh-2023-02-20.tar.bz2
+
 
 Please check that the file sizes of the pre-trained models are correct. See
 the file sizes of ``*.onnx`` files below.

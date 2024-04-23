@@ -33,9 +33,13 @@ Please use the following commands to download it.
 
   cd /path/to/sherpa-onnx
 
-  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/sherpa-onnx-streaming-conformer-zh-2023-05-23
-  cd sherpa-onnx-streaming-conformer-zh-2023-05-23
-  git lfs pull --include "*.onnx"
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-conformer-zh-2023-05-23.tar.bz2
+
+  # For Chinese users, please use the following mirror
+  # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-conformer-zh-2023-05-23.tar.bz2
+
+  tar xvf sherpa-onnx-streaming-conformer-zh-2023-05-23.tar.bz2
+  rm sherpa-onnx-streaming-conformer-zh-2023-05-23.tar.bz2
 
 Please check that the file sizes of the pre-trained models are correct. See
 the file sizes of ``*.onnx`` files below.
