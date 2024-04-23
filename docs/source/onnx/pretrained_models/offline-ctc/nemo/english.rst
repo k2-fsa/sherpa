@@ -38,9 +38,13 @@ Please use the following commands to download it.
 
   cd /path/to/sherpa-onnx
 
-  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/sherpa-onnx-nemo-ctc-en-citrinet-512
-  cd sherpa-onnx-nemo-ctc-en-citrinet-512
-  git lfs pull --include "*.onnx"
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-nemo-ctc-en-citrinet-512.tar.bz2
+
+  # For Chinese users, please use the following mirror
+  # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-nemo-ctc-en-citrinet-512.tar.bz2
+
+  tar xvf sherpa-onnx-nemo-ctc-en-citrinet-512.tar.bz2
+  rm sherpa-onnx-nemo-ctc-en-citrinet-512.tar.bz2
 
 Please check that the file sizes of the pre-trained models are correct. See
 the file sizes of ``*.onnx`` files below.
@@ -107,9 +111,13 @@ Please use the following commands to download it.
 
   cd /path/to/sherpa-onnx
 
-  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/sherpa-onnx-nemo-ctc-en-conformer-small
-  cd sherpa-onnx-nemo-ctc-en-conformer-small
-  git lfs pull --include "*.onnx"
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-nemo-ctc-en-conformer-small.tar.bz2
+
+  # For Chinese users, please use the following mirror
+  # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-nemo-ctc-en-conformer-small.tar.bz2
+
+  tar xvf sherpa-onnx-nemo-ctc-en-conformer-small.tar.bz2
+  rm sherpa-onnx-nemo-ctc-en-conformer-small.tar.bz2
 
 Please check that the file sizes of the pre-trained models are correct. See
 the file sizes of ``*.onnx`` files below.
@@ -178,9 +186,13 @@ Please use the following commands to download it.
 
   cd /path/to/sherpa-onnx
 
-  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/sherpa-onnx-nemo-ctc-en-conformer-medium
-  cd sherpa-onnx-nemo-ctc-en-conformer-medium
-  git lfs pull --include "*.onnx"
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-nemo-ctc-en-conformer-medium.tar.bz2
+
+  # For Chinese users, please use the following mirror
+  # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-nemo-ctc-en-conformer-medium.tar.bz2
+
+  tar xvf sherpa-onnx-nemo-ctc-en-conformer-medium.tar.bz2
+  rm sherpa-onnx-nemo-ctc-en-conformer-medium.tar.bz2
 
 Please check that the file sizes of the pre-trained models are correct. See
 the file sizes of ``*.onnx`` files below.
@@ -247,9 +259,13 @@ Please use the following commands to download it.
 
   cd /path/to/sherpa-onnx
 
-  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/sherpa-onnx-nemo-ctc-en-conformer-large
-  cd sherpa-onnx-nemo-ctc-en-conformer-large
-  git lfs pull --include "*.onnx"
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-nemo-ctc-en-conformer-large.tar.bz2
+
+  # For Chinese users, please use the following mirror
+  # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-nemo-ctc-en-conformer-large.tar.bz2
+
+  tar xvf sherpa-onnx-nemo-ctc-en-conformer-large.tar.bz2
+  rm sherpa-onnx-nemo-ctc-en-conformer-large.tar.bz2
 
 Please check that the file sizes of the pre-trained models are correct. See
 the file sizes of ``*.onnx`` files below.

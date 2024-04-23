@@ -27,7 +27,12 @@ Please use the following commands to download it.
 .. code-block:: bash
 
   cd /path/to/sherpa-onnx
+
   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-zipformer-multi-zh-hans-2023-12-12.tar.bz2
+
+  # For Chinese users, you can use the following mirror
+  # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-zipformer-multi-zh-hans-2023-12-12.tar.bz2
+
   tar xf sherpa-onnx-streaming-zipformer-multi-zh-hans-2023-12-12.tar.bz2
   rm sherpa-onnx-streaming-zipformer-multi-zh-hans-2023-12-12.tar.bz2
   ls -lh sherpa-onnx-streaming-zipformer-multi-zh-hans-2023-12-12
@@ -170,9 +175,13 @@ Please use the following commands to download it.
 
   cd /path/to/sherpa-onnx
 
-  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/pkufool/icefall-asr-zipformer-streaming-wenetspeech-20230615
-  cd icefall-asr-zipformer-streaming-wenetspeech-20230615
-  git lfs pull --include "exp/*chunk-16-left-128.*onnx"
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/icefall-asr-zipformer-streaming-wenetspeech-20230615.tar.bz2
+
+  # For Chinese users, you can use the following mirror
+  # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/icefall-asr-zipformer-streaming-wenetspeech-20230615.tar.bz2
+
+  tar xvf icefall-asr-zipformer-streaming-wenetspeech-20230615.tar.bz2
+  rm icefall-asr-zipformer-streaming-wenetspeech-20230615.tar.bz2
 
 Please check that the file sizes of the pre-trained models are correct. See
 the file sizes of ``*.onnx`` files below.
@@ -241,7 +250,7 @@ The following code shows how to use ``int8`` models to decode a wave file:
   ./build/bin/sherpa-onnx \
     --tokens=./icefall-asr-zipformer-streaming-wenetspeech-20230615/data/lang_char/tokens.txt \
     --encoder=./icefall-asr-zipformer-streaming-wenetspeech-20230615/exp/encoder-epoch-12-avg-4-chunk-16-left-128.int8.onnx \
-    --decoder=./icefall-asr-zipformer-streaming-wenetspeech-20230615/exp/decoder-epoch-12-avg-4-chunk-16-left-128.int8.onnx \
+    --decoder=./icefall-asr-zipformer-streaming-wenetspeech-20230615/exp/decoder-epoch-12-avg-4-chunk-16-left-128.onnx \
     --joiner=./icefall-asr-zipformer-streaming-wenetspeech-20230615/exp/joiner-epoch-12-avg-4-chunk-16-left-128.int8.onnx \
     ./icefall-asr-zipformer-streaming-wenetspeech-20230615/test_wavs/DEV_T0000000000.wav
 
@@ -308,22 +317,30 @@ Please use the following commands to download it.
 
   cd /path/to/sherpa-onnx
 
-  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/sherpa-onnx-streaming-zipformer-en-2023-06-26
-  cd sherpa-onnx-streaming-zipformer-en-2023-06-26
-  git lfs pull --include "*.onnx"
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-zipformer-en-2023-06-26.tar.bz2
+
+  # For Chinese users, you can use the following mirror
+  # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-zipformer-en-2023-06-26.tar.bz2
+
+  tar xvf sherpa-onnx-streaming-zipformer-en-2023-06-26.tar.bz2
+  rm sherpa-onnx-streaming-zipformer-en-2023-06-26.tar.bz2
 
 Please check that the file sizes of the pre-trained models are correct. See
-the file sizes of ``*.onnx`` files below.
+the file sizes below.
 
 .. code-block:: bash
 
-  sherpa-onnx-streaming-zipformer-en-2023-06-26 fangjun$ ls -lh *.onnx
-  -rw-r--r--  1 fangjun  staff   1.2M Jun 26 11:53 decoder-epoch-99-avg-1-chunk-16-left-64.int8.onnx
-  -rw-r--r--  1 fangjun  staff   2.0M Jun 26 11:53 decoder-epoch-99-avg-1-chunk-16-left-64.onnx
-  -rw-r--r--  1 fangjun  staff    68M Jun 26 11:54 encoder-epoch-99-avg-1-chunk-16-left-64.int8.onnx
-  -rw-r--r--  1 fangjun  staff   250M Jun 26 11:55 encoder-epoch-99-avg-1-chunk-16-left-64.onnx
-  -rw-r--r--  1 fangjun  staff   253K Jun 26 11:53 joiner-epoch-99-avg-1-chunk-16-left-64.int8.onnx
-  -rw-r--r--  1 fangjun  staff   1.0M Jun 26 11:53 joiner-epoch-99-avg-1-chunk-16-left-64.onnx
+    -rw-r--r-- 1 1001 127  240K Apr 23 06:45 bpe.model
+    -rw-r--r-- 1 1001 127  1.3M Apr 23 06:45 decoder-epoch-99-avg-1-chunk-16-left-128.int8.onnx
+    -rw-r--r-- 1 1001 127  2.0M Apr 23 06:45 decoder-epoch-99-avg-1-chunk-16-left-128.onnx
+    -rw-r--r-- 1 1001 127   68M Apr 23 06:45 encoder-epoch-99-avg-1-chunk-16-left-128.int8.onnx
+    -rw-r--r-- 1 1001 127  250M Apr 23 06:45 encoder-epoch-99-avg-1-chunk-16-left-128.onnx
+    -rwxr-xr-x 1 1001 127   814 Apr 23 06:45 export-onnx-zipformer-online.sh
+    -rw-r--r-- 1 1001 127  254K Apr 23 06:45 joiner-epoch-99-avg-1-chunk-16-left-128.int8.onnx
+    -rw-r--r-- 1 1001 127 1003K Apr 23 06:45 joiner-epoch-99-avg-1-chunk-16-left-128.onnx
+    -rw-r--r-- 1 1001 127   216 Apr 23 06:45 README.md
+    drwxr-xr-x 2 1001 127  4.0K Apr 23 06:45 test_wavs
+    -rw-r--r-- 1 1001 127  5.0K Apr 23 06:45 tokens.txt
 
 Decode a single wave file
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -344,9 +361,9 @@ The following code shows how to use ``fp32`` models to decode a wave file:
 
   ./build/bin/sherpa-onnx \
     --tokens=./sherpa-onnx-streaming-zipformer-en-2023-06-26/tokens.txt \
-    --encoder=./sherpa-onnx-streaming-zipformer-en-2023-06-26/encoder-epoch-99-avg-1-chunk-16-left-64.onnx \
-    --decoder=./sherpa-onnx-streaming-zipformer-en-2023-06-26/decoder-epoch-99-avg-1-chunk-16-left-64.onnx \
-    --joiner=./sherpa-onnx-streaming-zipformer-en-2023-06-26/joiner-epoch-99-avg-1-chunk-16-left-64.onnx \
+    --encoder=./sherpa-onnx-streaming-zipformer-en-2023-06-26/encoder-epoch-99-avg-1-chunk-16-left-128.onnx \
+    --decoder=./sherpa-onnx-streaming-zipformer-en-2023-06-26/decoder-epoch-99-avg-1-chunk-16-left-128.onnx \
+    --joiner=./sherpa-onnx-streaming-zipformer-en-2023-06-26/joiner-epoch-99-avg-1-chunk-16-left-128.onnx \
     ./sherpa-onnx-streaming-zipformer-en-2023-06-26/test_wavs/0.wav
 
 .. note::
@@ -368,9 +385,9 @@ The following code shows how to use ``int8`` models to decode a wave file:
 
   ./build/bin/sherpa-onnx \
     --tokens=./sherpa-onnx-streaming-zipformer-en-2023-06-26/tokens.txt \
-    --encoder=./sherpa-onnx-streaming-zipformer-en-2023-06-26/encoder-epoch-99-avg-1-chunk-16-left-64.int8.onnx \
-    --decoder=./sherpa-onnx-streaming-zipformer-en-2023-06-26/decoder-epoch-99-avg-1-chunk-16-left-64.int8.onnx \
-    --joiner=./sherpa-onnx-streaming-zipformer-en-2023-06-26/joiner-epoch-99-avg-1-chunk-16-left-64.int8.onnx \
+    --encoder=./sherpa-onnx-streaming-zipformer-en-2023-06-26/encoder-epoch-99-avg-1-chunk-16-left-128.int8.onnx \
+    --decoder=./sherpa-onnx-streaming-zipformer-en-2023-06-26/decoder-epoch-99-avg-1-chunk-16-left-128.onnx \
+    --joiner=./sherpa-onnx-streaming-zipformer-en-2023-06-26/joiner-epoch-99-avg-1-chunk-16-left-128.int8.onnx \
     ./sherpa-onnx-streaming-zipformer-en-2023-06-26/test_wavs/0.wav
 
 .. note::
@@ -390,9 +407,9 @@ Real-time speech recognition from a microphone
 
   ./build/bin/sherpa-onnx-microphone \
     --tokens=./sherpa-onnx-streaming-zipformer-en-2023-06-26/tokens.txt \
-    --encoder=./sherpa-onnx-streaming-zipformer-en-2023-06-26/encoder-epoch-99-avg-1-chunk-16-left-64.onnx \
-    --decoder=./sherpa-onnx-streaming-zipformer-en-2023-06-26/decoder-epoch-99-avg-1-chunk-16-left-64.onnx \
-    --joiner=./sherpa-onnx-streaming-zipformer-en-2023-06-26/joiner-epoch-99-avg-1-chunk-16-left-64.onnx
+    --encoder=./sherpa-onnx-streaming-zipformer-en-2023-06-26/encoder-epoch-99-avg-1-chunk-16-left-128.onnx \
+    --decoder=./sherpa-onnx-streaming-zipformer-en-2023-06-26/decoder-epoch-99-avg-1-chunk-16-left-128.onnx \
+    --joiner=./sherpa-onnx-streaming-zipformer-en-2023-06-26/joiner-epoch-99-avg-1-chunk-16-left-128.onnx
 
 .. hint::
 
@@ -424,9 +441,13 @@ Please use the following commands to download it.
 
   cd /path/to/sherpa-onnx
 
-  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/sherpa-onnx-streaming-zipformer-en-2023-06-21
-  cd sherpa-onnx-streaming-zipformer-en-2023-06-21
-  git lfs pull --include "*.onnx"
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-zipformer-en-2023-06-21.tar.bz2
+
+  # For Chinese users, you can use the following mirror
+  # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-zipformer-en-2023-06-21.tar.bz2
+
+  tar xvf sherpa-onnx-streaming-zipformer-en-2023-06-21.tar.bz2
+  rm sherpa-onnx-streaming-zipformer-en-2023-06-21.tar.bz2
 
 Please check that the file sizes of the pre-trained models are correct. See
 the file sizes of ``*.onnx`` files below.
@@ -485,7 +506,7 @@ The following code shows how to use ``int8`` models to decode a wave file:
   ./build/bin/sherpa-onnx \
     --tokens=./sherpa-onnx-streaming-zipformer-en-2023-06-21/tokens.txt \
     --encoder=./sherpa-onnx-streaming-zipformer-en-2023-06-21/encoder-epoch-99-avg-1.int8.onnx \
-    --decoder=./sherpa-onnx-streaming-zipformer-en-2023-06-21/decoder-epoch-99-avg-1.int8.onnx \
+    --decoder=./sherpa-onnx-streaming-zipformer-en-2023-06-21/decoder-epoch-99-avg-1.onnx \
     --joiner=./sherpa-onnx-streaming-zipformer-en-2023-06-21/joiner-epoch-99-avg-1.int8.onnx \
     ./sherpa-onnx-streaming-zipformer-en-2023-06-21/test_wavs/0.wav
 
@@ -539,15 +560,19 @@ Please use the following commands to download it.
 
 .. tabs::
 
-   .. tab:: Huggingface
+   .. tab:: GitHub
 
       .. code-block:: bash
 
         cd /path/to/sherpa-onnx
 
-        GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/sherpa-onnx-streaming-zipformer-en-2023-02-21
-        cd sherpa-onnx-streaming-zipformer-en-2023-02-21
-        git lfs pull --include "*.onnx"
+        wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-zipformer-en-2023-02-21.tar.bz2
+
+        # For Chinese users, you can use the following mirror
+        # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-zipformer-en-2023-02-21.tar.bz2
+
+        tar xvf sherpa-onnx-streaming-zipformer-en-2023-02-21.tar.bz2
+        rm sherpa-onnx-streaming-zipformer-en-2023-02-21.tar.bz2
 
    .. tab:: ModelScope
 
@@ -616,7 +641,7 @@ The following code shows how to use ``int8`` models to decode a wave file:
   ./build/bin/sherpa-onnx \
     --tokens=./sherpa-onnx-streaming-zipformer-en-2023-02-21/tokens.txt \
     --encoder=./sherpa-onnx-streaming-zipformer-en-2023-02-21/encoder-epoch-99-avg-1.int8.onnx \
-    --decoder=./sherpa-onnx-streaming-zipformer-en-2023-02-21/decoder-epoch-99-avg-1.int8.onnx \
+    --decoder=./sherpa-onnx-streaming-zipformer-en-2023-02-21/decoder-epoch-99-avg-1.onnx \
     --joiner=./sherpa-onnx-streaming-zipformer-en-2023-02-21/joiner-epoch-99-avg-1.int8.onnx \
     ./sherpa-onnx-streaming-zipformer-en-2023-02-21/test_wavs/0.wav
 
@@ -672,7 +697,12 @@ Please use the following commands to download it.
     cd /path/to/sherpa-onnx
 
     wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20.tar.bz2
+
+    # For Chinese users, you can use the following mirror
+    # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20.tar.bz2
+
     tar xvf sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20.tar.bz2
+    rm sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20.tar.bz2
 
 Please check that the file sizes of the pre-trained models are correct. See
 the file sizes of ``*.onnx`` files below.
@@ -805,10 +835,14 @@ Please use the following commands to download it.
 .. code-block:: bash
 
   cd /path/to/sherpa-onnx
-  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/shaojieli/sherpa-onnx-streaming-zipformer-fr-2023-04-14
-  cd sherpa-onnx-streaming-zipformer-fr-2023-04-14
-  git lfs pull --include "*.onnx"
 
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-zipformer-fr-2023-04-14.tar.bz2
+
+  # For Chinese users, you can use the following mirror
+  # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-zipformer-fr-2023-04-14.tar.bz2
+
+  tar xvf sherpa-onnx-streaming-zipformer-fr-2023-04-14.tar.bz2
+  rm sherpa-onnx-streaming-zipformer-fr-2023-04-14.tar.bz2
 
 Please check that the file sizes of the pre-trained models are correct. See
 the file sizes of ``*.onnx`` files below.
@@ -878,7 +912,7 @@ The following code shows how to use ``fp32`` models to decode a wave file:
   ./build/bin/sherpa-onnx \
     --tokens=./sherpa-onnx-streaming-zipformer-fr-2023-04-14/tokens.txt \
     --encoder=./sherpa-onnx-streaming-zipformer-fr-2023-04-14/encoder-epoch-29-avg-9-with-averaged-model.int8.onnx \
-    --decoder=./sherpa-onnx-streaming-zipformer-fr-2023-04-14/decoder-epoch-29-avg-9-with-averaged-model.int8.onnx \
+    --decoder=./sherpa-onnx-streaming-zipformer-fr-2023-04-14/decoder-epoch-29-avg-9-with-averaged-model.onnx \
     --joiner=./sherpa-onnx-streaming-zipformer-fr-2023-04-14/joiner-epoch-29-avg-9-with-averaged-model.int8.onnx \
     ./sherpa-onnx-streaming-zipformer-fr-2023-04-14/test_wavs/common_voice_fr_19364697.wav
 
@@ -945,7 +979,11 @@ Please use the following commands to download it.
 
   cd /path/to/sherpa-onnx
 
-  wget -q https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-zipformer-small-bilingual-zh-en-2023-02-16.tar.bz2
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-zipformer-small-bilingual-zh-en-2023-02-16.tar.bz2
+
+  # For Chinese users, you can use the following mirror
+  # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-zipformer-small-bilingual-zh-en-2023-02-16.tar.bz2
+
   tar xf sherpa-onnx-streaming-zipformer-small-bilingual-zh-en-2023-02-16.tar.bz2
   rm sherpa-onnx-streaming-zipformer-small-bilingual-zh-en-2023-02-16.tar.bz2
 
@@ -1095,7 +1133,11 @@ Please use the following commands to download it.
 
   cd /path/to/sherpa-onnx
 
-  wget -q https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-zipformer-zh-14M-2023-02-23.tar.bz2
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-zipformer-zh-14M-2023-02-23.tar.bz2
+
+  # For Chinese users, you can use the following mirror
+  # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-zipformer-zh-14M-2023-02-23.tar.bz2
+
   tar xvf sherpa-onnx-streaming-zipformer-zh-14M-2023-02-23.tar.bz2
   rm sherpa-onnx-streaming-zipformer-zh-14M-2023-02-23.tar.bz2
 
@@ -1235,6 +1277,10 @@ Please use the following commands to download it.
   cd /path/to/sherpa-onnx
 
   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-zipformer-en-20M-2023-02-17.tar.bz2
+
+  # For Chinese users, you can use the following mirror
+  # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-zipformer-en-20M-2023-02-17.tar.bz2
+
   tar xvf sherpa-onnx-streaming-zipformer-en-20M-2023-02-17.tar.bz2
   rm sherpa-onnx-streaming-zipformer-en-20M-2023-02-17.tar.bz2
 

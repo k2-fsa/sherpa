@@ -26,7 +26,13 @@ Please use the following commands to download it.
 .. code-block:: bash
 
    wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-cantonese-2024-03-13.tar.bz2
+
+   # For Chinese users, you can use the following mirror
+   # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-cantonese-2024-03-13.tar.bz2
+
    tar xf sherpa-onnx-zipformer-cantonese-2024-03-13.tar.bz2
+   rm sherpa-onnx-zipformer-cantonese-2024-03-13.tar.bz2
+
    ls -lh sherpa-onnx-zipformer-cantonese-2024-03-13
 
 You should see the following output:
@@ -153,7 +159,12 @@ Please use the following commands to download it.
 .. code-block:: bash
 
    wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-gigaspeech-2023-12-12.tar.bz2
+
+   # For Chinese users, you can use the following mirror
+   # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-gigaspeech-2023-12-12.tar.bz2
+
    tar xf sherpa-onnx-zipformer-gigaspeech-2023-12-12.tar.bz2
+   rm sherpa-onnx-zipformer-gigaspeech-2023-12-12.tar.bz2
    ls -lh sherpa-onnx-zipformer-gigaspeech-2023-12-12
 
 You should see the following output:
@@ -252,7 +263,11 @@ Speech recognition from a microphone with VAD
 .. code-block:: bash
 
   cd /path/to/sherpa-onnx
+
   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/silero_vad.onnx
+
+  # For Chinese users, you can use the following mirror
+  # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/silero_vad.onnx
 
   ./build/bin/sherpa-onnx-vad-microphone-offline-asr \
     --silero-vad-model=./silero_vad.onnx \
@@ -284,10 +299,13 @@ Please use the following commands to download it.
 
   cd /path/to/sherpa-onnx
 
-  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/zrjin/sherpa-onnx-zipformer-multi-zh-hans-2023-9-2
-  cd sherpa-onnx-zipformer-multi-zh-hans-2023-9-2
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-multi-zh-hans-2023-9-2.tar.bz2
 
-  git lfs pull --include "*.onnx"
+  # For Chinese users, you can use the following mirror
+  # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-multi-zh-hans-2023-9-2.tar.bz2
+
+  tar xvf sherpa-onnx-zipformer-multi-zh-hans-2023-9-2.tar.bz2
+  rm sherpa-onnx-zipformer-multi-zh-hans-2023-9-2.tar.bz2
 
 Please check that the file sizes of the pre-trained models are correct. See
 the file sizes of ``*.onnx`` files below.
@@ -348,7 +366,7 @@ The following code shows how to use ``int8`` models to decode wave files:
   ./build/bin/sherpa-onnx-offline \
     --tokens=./sherpa-onnx-zipformer-multi-zh-hans-2023-9-2/tokens.txt \
     --encoder=./sherpa-onnx-zipformer-multi-zh-hans-2023-9-2/encoder-epoch-20-avg-1.int8.onnx \
-    --decoder=./sherpa-onnx-zipformer-multi-zh-hans-2023-9-2/decoder-epoch-20-avg-1.int8.onnx \
+    --decoder=./sherpa-onnx-zipformer-multi-zh-hans-2023-9-2/decoder-epoch-20-avg-1.onnx \
     --joiner=./sherpa-onnx-zipformer-multi-zh-hans-2023-9-2/joiner-epoch-20-avg-1.int8.onnx \
     ./sherpa-onnx-zipformer-multi-zh-hans-2023-9-2/test_wavs/0.wav \
     ./sherpa-onnx-zipformer-multi-zh-hans-2023-9-2/test_wavs/1.wav \
@@ -399,10 +417,14 @@ Please use the following commands to download it.
 
   cd /path/to/sherpa-onnx
 
-  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/yfyeung/icefall-asr-cv-corpus-13.0-2023-03-09-en-pruned-transducer-stateless7-2023-04-17
-  cd icefall-asr-cv-corpus-13.0-2023-03-09-en-pruned-transducer-stateless7-2023-04-17
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/icefall-asr-cv-corpus-13.0-2023-03-09-en-pruned-transducer-stateless7-2023-04-17.tar.bz2
 
-  git lfs pull --include "exp/*epoch-60-avg-20*.onnx"
+  # For Chinese users, you can use the following mirror
+  # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/icefall-asr-cv-corpus-13.0-2023-03-09-en-pruned-transducer-stateless7-2023-04-17.tar.bz2
+
+  tar xvf icefall-asr-cv-corpus-13.0-2023-03-09-en-pruned-transducer-stateless7-2023-04-17.tar.bz2
+  rm icefall-asr-cv-corpus-13.0-2023-03-09-en-pruned-transducer-stateless7-2023-04-17.tar.bz2
+
 
 Please check that the file sizes of the pre-trained models are correct. See
 the file sizes of ``*.onnx`` files below.
@@ -463,7 +485,7 @@ The following code shows how to use ``int8`` models to decode wave files:
   ./build/bin/sherpa-onnx-offline \
     --tokens=./icefall-asr-cv-corpus-13.0-2023-03-09-en-pruned-transducer-stateless7-2023-04-17/data/lang_bpe_500/tokens.txt \
     --encoder=./icefall-asr-cv-corpus-13.0-2023-03-09-en-pruned-transducer-stateless7-2023-04-17/exp/encoder-epoch-60-avg-20.int8.onnx \
-    --decoder=./icefall-asr-cv-corpus-13.0-2023-03-09-en-pruned-transducer-stateless7-2023-04-17/exp/decoder-epoch-60-avg-20.int8.onnx \
+    --decoder=./icefall-asr-cv-corpus-13.0-2023-03-09-en-pruned-transducer-stateless7-2023-04-17/exp/decoder-epoch-60-avg-20.onnx \
     --joiner=./icefall-asr-cv-corpus-13.0-2023-03-09-en-pruned-transducer-stateless7-2023-04-17/exp/joiner-epoch-60-avg-20.int8.onnx \
     ./icefall-asr-cv-corpus-13.0-2023-03-09-en-pruned-transducer-stateless7-2023-04-17/test_wavs/1089-134686-0001.wav \
     ./icefall-asr-cv-corpus-13.0-2023-03-09-en-pruned-transducer-stateless7-2023-04-17/test_wavs/1221-135766-0001.wav \
@@ -514,10 +536,13 @@ Please use the following commands to download it.
 
   cd /path/to/sherpa-onnx
 
-  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/pkufool/icefall-asr-zipformer-wenetspeech-20230615
-  cd icefall-asr-zipformer-wenetspeech-20230615
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/icefall-asr-zipformer-wenetspeech-20230615.tar.bz2
 
-  git lfs pull --include "exp/*.onnx"
+  # For Chinese users, you can use the following mirror
+  # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/icefall-asr-zipformer-wenetspeech-20230615.tar.bz2
+
+  tar xvf icefall-asr-zipformer-wenetspeech-20230615.tar.bz2
+  rm icefall-asr-zipformer-wenetspeech-20230615.tar.bz2
 
 Please check that the file sizes of the pre-trained models are correct. See
 the file sizes of ``*.onnx`` files below.
@@ -588,7 +613,7 @@ The following code shows how to use ``int8`` models to decode wave files:
   ./build/bin/sherpa-onnx-offline \
     --tokens=./icefall-asr-zipformer-wenetspeech-20230615/data/lang_char/tokens.txt \
     --encoder=./icefall-asr-zipformer-wenetspeech-20230615/exp/encoder-epoch-12-avg-4.int8.onnx \
-    --decoder=./icefall-asr-zipformer-wenetspeech-20230615/exp/decoder-epoch-12-avg-4.int8.onnx \
+    --decoder=./icefall-asr-zipformer-wenetspeech-20230615/exp/decoder-epoch-12-avg-4.onnx \
     --joiner=./icefall-asr-zipformer-wenetspeech-20230615/exp/joiner-epoch-12-avg-4.int8.onnx \
     ./icefall-asr-zipformer-wenetspeech-20230615/test_wavs/DEV_T0000000000.wav \
     ./icefall-asr-zipformer-wenetspeech-20230615/test_wavs/DEV_T0000000001.wav \
@@ -650,9 +675,13 @@ Please use the following commands to download it.
 
   cd /path/to/sherpa-onnx
 
-  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/sherpa-onnx-zipformer-large-en-2023-06-26
-  cd sherpa-onnx-zipformer-large-en-2023-06-26
-  git lfs pull --include "*.onnx"
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-large-en-2023-06-26.tar.bz2
+
+  # For Chinese users, you can use the following mirror
+  # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-large-en-2023-06-26.tar.bz2
+
+  tar xvf sherpa-onnx-zipformer-large-en-2023-06-26.tar.bz2
+  rm sherpa-onnx-zipformer-large-en-2023-06-26.tar.bz2
 
 Please check that the file sizes of the pre-trained models are correct. See
 the file sizes of ``*.onnx`` files below.
@@ -713,7 +742,7 @@ The following code shows how to use ``int8`` models to decode wave files:
   ./build/bin/sherpa-onnx-offline \
     --tokens=./sherpa-onnx-zipformer-large-en-2023-06-26/tokens.txt \
     --encoder=./sherpa-onnx-zipformer-large-en-2023-06-26/encoder-epoch-99-avg-1.int8.onnx \
-    --decoder=./sherpa-onnx-zipformer-large-en-2023-06-26/decoder-epoch-99-avg-1.int8.onnx \
+    --decoder=./sherpa-onnx-zipformer-large-en-2023-06-26/decoder-epoch-99-avg-1.onnx \
     --joiner=./sherpa-onnx-zipformer-large-en-2023-06-26/joiner-epoch-99-avg-1.int8.onnx \
     ./sherpa-onnx-zipformer-large-en-2023-06-26/test_wavs/0.wav \
     ./sherpa-onnx-zipformer-large-en-2023-06-26/test_wavs/1.wav \
@@ -764,9 +793,13 @@ Please use the following commands to download it.
 
   cd /path/to/sherpa-onnx
 
-  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/sherpa-onnx-zipformer-small-en-2023-06-26
-  cd sherpa-onnx-zipformer-small-en-2023-06-26
-  git lfs pull --include "*.onnx"
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-small-en-2023-06-26.tar.bz2
+
+  # For Chinese users, you can use the following mirror
+  # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-small-en-2023-06-26.tar.bz2
+
+  tar xvf sherpa-onnx-zipformer-small-en-2023-06-26.tar.bz2
+  rm sherpa-onnx-zipformer-small-en-2023-06-26.tar.bz2
 
 Please check that the file sizes of the pre-trained models are correct. See
 the file sizes of ``*.onnx`` files below.
@@ -827,7 +860,7 @@ The following code shows how to use ``int8`` models to decode wave files:
   ./build/bin/sherpa-onnx-offline \
     --tokens=./sherpa-onnx-zipformer-small-en-2023-06-26/tokens.txt \
     --encoder=./sherpa-onnx-zipformer-small-en-2023-06-26/encoder-epoch-99-avg-1.int8.onnx \
-    --decoder=./sherpa-onnx-zipformer-small-en-2023-06-26/decoder-epoch-99-avg-1.int8.onnx \
+    --decoder=./sherpa-onnx-zipformer-small-en-2023-06-26/decoder-epoch-99-avg-1.onnx \
     --joiner=./sherpa-onnx-zipformer-small-en-2023-06-26/joiner-epoch-99-avg-1.int8.onnx \
     ./sherpa-onnx-zipformer-small-en-2023-06-26/test_wavs/0.wav \
     ./sherpa-onnx-zipformer-small-en-2023-06-26/test_wavs/1.wav \
@@ -881,7 +914,12 @@ Please use the following commands to download it.
   cd /path/to/sherpa-onnx
 
   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-en-2023-06-26.tar.bz2
+
+  # For Chinese users, you can use the following mirror
+  # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-en-2023-06-26.tar.bz2
+
   tar xvf sherpa-onnx-zipformer-en-2023-06-26.tar.bz2
+  rm sherpa-onnx-zipformer-en-2023-06-26.tar.bz2
 
 Please check that the file sizes of the pre-trained models are correct. See
 the file sizes of ``*.onnx`` files below.
@@ -942,7 +980,7 @@ The following code shows how to use ``int8`` models to decode wave files:
   ./build/bin/sherpa-onnx-offline \
     --tokens=./sherpa-onnx-zipformer-en-2023-06-26/tokens.txt \
     --encoder=./sherpa-onnx-zipformer-en-2023-06-26/encoder-epoch-99-avg-1.int8.onnx \
-    --decoder=./sherpa-onnx-zipformer-en-2023-06-26/decoder-epoch-99-avg-1.int8.onnx \
+    --decoder=./sherpa-onnx-zipformer-en-2023-06-26/decoder-epoch-99-avg-1.onnx \
     --joiner=./sherpa-onnx-zipformer-en-2023-06-26/joiner-epoch-99-avg-1.int8.onnx \
     ./sherpa-onnx-zipformer-en-2023-06-26/test_wavs/0.wav \
     ./sherpa-onnx-zipformer-en-2023-06-26/test_wavs/1.wav \
@@ -989,9 +1027,13 @@ Please use the following commands to download it.
 
 .. code-block:: bash
 
-  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/yfyeung/icefall-asr-multidataset-pruned_transducer_stateless7-2023-05-04
-  cd icefall-asr-multidataset-pruned_transducer_stateless7-2023-05-04/exp
-  git lfs pull --include "*.onnx"
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/icefall-asr-multidataset-pruned_transducer_stateless7-2023-05-04.tar.bz2
+
+  # For Chinese users, you can use the following mirror
+  # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/icefall-asr-multidataset-pruned_transducer_stateless7-2023-05-04.tar.bz2
+
+  tar xvf icefall-asr-multidataset-pruned_transducer_stateless7-2023-05-04.tar.bz2
+  rm icefall-asr-multidataset-pruned_transducer_stateless7-2023-05-04.tar.bz2
 
 Please check that the file sizes of the pre-trained models are correct. See
 the file sizes of ``*.onnx`` files below.
@@ -1052,7 +1094,7 @@ The following code shows how to use ``int8`` models to decode wave files:
   ./build/bin/sherpa-onnx-offline \
     --tokens=./icefall-asr-multidataset-pruned_transducer_stateless7-2023-05-04/data/lang_bpe_500/tokens.txt \
     --encoder=./icefall-asr-multidataset-pruned_transducer_stateless7-2023-05-04/exp/encoder-epoch-30-avg-4.int8.onnx \
-    --decoder=./icefall-asr-multidataset-pruned_transducer_stateless7-2023-05-04/exp/decoder-epoch-30-avg-4.int8.onnx \
+    --decoder=./icefall-asr-multidataset-pruned_transducer_stateless7-2023-05-04/exp/decoder-epoch-30-avg-4.onnx \
     --joiner=./icefall-asr-multidataset-pruned_transducer_stateless7-2023-05-04/exp/joiner-epoch-30-avg-4.int8.onnx \
     ./icefall-asr-multidataset-pruned_transducer_stateless7-2023-05-04/test_wavs/1089-134686-0001.wav \
     ./icefall-asr-multidataset-pruned_transducer_stateless7-2023-05-04/test_wavs/1221-135766-0001.wav \
@@ -1105,9 +1147,13 @@ Please use the following commands to download it.
 
   cd /path/to/sherpa-onnx
 
-  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/sherpa-onnx-zipformer-en-2023-04-01
-  cd sherpa-onnx-zipformer-en-2023-04-01
-  git lfs pull --include "*.onnx"
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-en-2023-04-01.tar.bz2
+
+  # For Chinese users, please use the following mirror
+  # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-en-2023-04-01.tar.bz2
+
+  tar xvf sherpa-onnx-zipformer-en-2023-04-01.tar.bz2
+  rm sherpa-onnx-zipformer-en-2023-04-01.tar.bz2
 
 Please check that the file sizes of the pre-trained models are correct. See
 the file sizes of ``*.onnx`` files below.
@@ -1168,7 +1214,7 @@ The following code shows how to use ``int8`` models to decode wave files:
   ./build/bin/sherpa-onnx-offline \
     --tokens=./sherpa-onnx-zipformer-en-2023-04-01/tokens.txt \
     --encoder=./sherpa-onnx-zipformer-en-2023-04-01/encoder-epoch-99-avg-1.int8.onnx \
-    --decoder=./sherpa-onnx-zipformer-en-2023-04-01/decoder-epoch-99-avg-1.int8.onnx \
+    --decoder=./sherpa-onnx-zipformer-en-2023-04-01/decoder-epoch-99-avg-1.onnx \
     --joiner=./sherpa-onnx-zipformer-en-2023-04-01/joiner-epoch-99-avg-1.int8.onnx \
     ./sherpa-onnx-zipformer-en-2023-04-01/test_wavs/0.wav \
     ./sherpa-onnx-zipformer-en-2023-04-01/test_wavs/1.wav \
@@ -1221,9 +1267,13 @@ Please use the following commands to download it.
 
   cd /path/to/sherpa-onnx
 
-  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/sherpa-onnx-zipformer-en-2023-03-30
-  cd sherpa-onnx-zipformer-en-2023-03-30
-  git lfs pull --include "*.onnx"
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-en-2023-03-30.tar.bz2
+
+  # For Chinese users, please use the following mirror
+  # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-en-2023-03-30.tar.bz2
+
+  tar xvf sherpa-onnx-zipformer-en-2023-03-30.tar.bz2
+  rm sherpa-onnx-zipformer-en-2023-03-30.tar.bz2
 
 Please check that the file sizes of the pre-trained models are correct. See
 the file sizes of ``*.onnx`` files below.
@@ -1284,7 +1334,7 @@ The following code shows how to use ``int8`` models to decode wave files:
   ./build/bin/sherpa-onnx-offline \
     --tokens=./sherpa-onnx-zipformer-en-2023-03-30/tokens.txt \
     --encoder=./sherpa-onnx-zipformer-en-2023-03-30/encoder-epoch-99-avg-1.int8.onnx \
-    --decoder=./sherpa-onnx-zipformer-en-2023-03-30/decoder-epoch-99-avg-1.int8.onnx \
+    --decoder=./sherpa-onnx-zipformer-en-2023-03-30/decoder-epoch-99-avg-1.onnx \
     --joiner=./sherpa-onnx-zipformer-en-2023-03-30/joiner-epoch-99-avg-1.int8.onnx \
     ./sherpa-onnx-zipformer-en-2023-03-30/test_wavs/0.wav \
     ./sherpa-onnx-zipformer-en-2023-03-30/test_wavs/1.wav \

@@ -29,9 +29,14 @@ Please use the following commands to download it.
 .. code-block:: bash
 
   cd /path/to/sherpa-onnx
-  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/sherpa-onnx-conformer-zh-stateless2-2023-05-23
-  cd sherpa-onnx-conformer-zh-stateless2-2023-05-23
-  git lfs pull --include "*.onnx"
+
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-conformer-zh-stateless2-2023-05-23.tar.bz2
+
+  # For Chinese users, you can use the following mirror
+  # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-conformer-zh-stateless2-2023-05-23.tar.bz2
+
+  tar xvf sherpa-onnx-conformer-zh-stateless2-2023-05-23.tar.bz2
+  rm sherpa-onnx-conformer-zh-stateless2-2023-05-23.tar.bz2
 
 Please check that the file sizes of the pre-trained models are correct. See
 the file sizes of ``*.onnx`` files below.
@@ -177,9 +182,14 @@ Please use the following commands to download it.
 .. code-block:: bash
 
   cd /path/to/sherpa-onnx
-  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/sherpa-onnx-conformer-zh-2023-05-23
-  cd sherpa-onnx-conformer-zh-2023-05-23
-  git lfs pull --include "*.onnx"
+
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-conformer-zh-2023-05-23.tar.bz2
+
+  # For Chinese users, you can use the following mirror
+  # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-conformer-zh-2023-05-23.tar.bz2
+
+  tar xvf sherpa-onnx-conformer-zh-2023-05-23.tar.bz2
+  rm sherpa-onnx-conformer-zh-2023-05-23.tar.bz2
 
 Please check that the file sizes of the pre-trained models are correct. See
 the file sizes of ``*.onnx`` files below.
@@ -325,9 +335,13 @@ Please use the following commands to download it.
 
   cd /path/to/sherpa-onnx
 
-  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/sherpa-onnx-conformer-en-2023-03-18
-  cd sherpa-onnx-conformer-en-2023-03-18
-  git lfs pull --include "*.onnx"
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-conformer-en-2023-03-18.tar.bz2
+
+  # For Chinese users, you can use the following mirror
+  # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-conformer-en-2023-03-18.tar.bz2
+
+  tar xvf sherpa-onnx-conformer-en-2023-03-18.tar.bz2
+  rm sherpa-onnx-conformer-en-2023-03-18.tar.bz2
 
 Please check that the file sizes of the pre-trained models are correct. See
 the file sizes of ``*.onnx`` files below.
@@ -388,7 +402,7 @@ The following code shows how to use ``int8`` models to decode wave files:
   ./build/bin/sherpa-onnx-offline \
     --tokens=./sherpa-onnx-conformer-en-2023-03-18/tokens.txt \
     --encoder=./sherpa-onnx-conformer-en-2023-03-18/encoder-epoch-99-avg-1.int8.onnx \
-    --decoder=./sherpa-onnx-conformer-en-2023-03-18/decoder-epoch-99-avg-1.int8.onnx \
+    --decoder=./sherpa-onnx-conformer-en-2023-03-18/decoder-epoch-99-avg-1.onnx \
     --joiner=./sherpa-onnx-conformer-en-2023-03-18/joiner-epoch-99-avg-1.int8.onnx \
     ./sherpa-onnx-conformer-en-2023-03-18/test_wavs/0.wav \
     ./sherpa-onnx-conformer-en-2023-03-18/test_wavs/1.wav \

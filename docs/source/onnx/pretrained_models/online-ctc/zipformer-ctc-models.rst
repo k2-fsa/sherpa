@@ -27,7 +27,12 @@ Please use the following commands to download it.
 .. code-block:: bash
 
   cd /path/to/sherpa-onnx
+
   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-zipformer-ctc-multi-zh-hans-2023-12-13.tar.bz2
+
+  # For Chinese users, please use the following mirror
+  # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-zipformer-ctc-multi-zh-hans-2023-12-13.tar.bz2
+
   tar xvf sherpa-onnx-streaming-zipformer-ctc-multi-zh-hans-2023-12-13.tar.bz2
   rm sherpa-onnx-streaming-zipformer-ctc-multi-zh-hans-2023-12-13.tar.bz2
   ls -lh sherpa-onnx-streaming-zipformer-ctc-multi-zh-hans-2023-12-13
