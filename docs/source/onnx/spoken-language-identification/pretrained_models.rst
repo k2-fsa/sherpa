@@ -132,7 +132,7 @@ Android APKs
 
 You can find pre-built Android APKs for spoken language identification at the following address:
 
-  `<https://k2-fsa.github.io/sherpa/onnx/spolken-language-identification/apk.html>`_
+  `<https://k2-fsa.github.io/sherpa/onnx/spoken-language-identification/apk.html>`_
 
 Huggingface space
 ^^^^^^^^^^^^^^^^^

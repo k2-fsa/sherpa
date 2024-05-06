@@ -92,18 +92,29 @@ jobs:
               export GIT_LFS_SKIP_SMUDGE=1
               git clone https://huggingface.co/csukuangfj/sherpa-onnx-apk huggingface
               cd huggingface
+              ./generate-asr.py
               ./generate-tts.py
               ./generate-tts-engine.py
               ./generate-speaker-identification.py
               ./generate-audio-tagging.py
               ./generate-audio-tagging-wearos.py
               ./generate-slid.py
+              mv -v apk-asr.html ../build/html/onnx/android/apk.html
               mv -v apk.html ../build/html/onnx/tts/
               mv -v apk-engine.html ../build/html/onnx/tts/
               mv -v apk-speaker-identification.html ../build/html/onnx/speaker-identification/apk.html
               mv -v apk-audio-tagging.html ../build/html/onnx/audio-tagging/apk.html
               mv -v apk-audio-tagging-wearos.html ../build/html/onnx/audio-tagging/apk-wearos.html
               mv -v apk-slid.html ../build/html/onnx/spolken-language-identification/apk.html
+
+              mv -v apk-asr-cn.html ../build/html/onnx/android/apk-cn.html
+              mv -v apk-cn.html ../build/html/onnx/tts/
+              mv -v apk-engine-cn.html ../build/html/onnx/tts/
+              mv -v apk-speaker-identification-cn.html ../build/html/onnx/speaker-identification/apk-cn.html
+              mv -v apk-audio-tagging-cn.html ../build/html/onnx/audio-tagging/apk-cn.html
+              mv -v apk-audio-tagging-wearos-cn.html ../build/html/onnx/audio-tagging/apk-wearos-cn.html
+              mv -v apk-slid-cn.html ../build/html/onnx/spolken-language-identification/apk-cn.html
+
               cd ..
               rm -rf huggingface
 
