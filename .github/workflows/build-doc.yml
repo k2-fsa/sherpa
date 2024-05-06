@@ -105,7 +105,7 @@ jobs:
               mv -v apk-speaker-identification.html ../build/html/onnx/speaker-identification/apk.html
               mv -v apk-audio-tagging.html ../build/html/onnx/audio-tagging/apk.html
               mv -v apk-audio-tagging-wearos.html ../build/html/onnx/audio-tagging/apk-wearos.html
-              mv -v apk-slid.html ../build/html/onnx/spolken-language-identification/apk.html
+              mv -v apk-slid.html ../build/html/onnx/spoken-language-identification/apk.html
 
               mv -v apk-asr-cn.html ../build/html/onnx/android/apk-cn.html
               mv -v apk-cn.html ../build/html/onnx/tts/
@@ -113,7 +113,7 @@ jobs:
               mv -v apk-speaker-identification-cn.html ../build/html/onnx/speaker-identification/apk-cn.html
               mv -v apk-audio-tagging-cn.html ../build/html/onnx/audio-tagging/apk-cn.html
               mv -v apk-audio-tagging-wearos-cn.html ../build/html/onnx/audio-tagging/apk-wearos-cn.html
-              mv -v apk-slid-cn.html ../build/html/onnx/spolken-language-identification/apk-cn.html
+              mv -v apk-slid-cn.html ../build/html/onnx/spoken-language-identification/apk-cn.html
 
               cd ..
               rm -rf huggingface
