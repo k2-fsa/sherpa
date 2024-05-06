@@ -15,4 +15,5 @@ recognition with `sherpa-onnx`_.
 .. toctree::
    :maxdepth: 2
 
+   ./prebuilt-apk.rst
    build-sherpa-onnx
