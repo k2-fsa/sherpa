@@ -167,4 +167,5 @@ rst_epilog = """
 .. _WebAssembly: https://en.wikipedia.org/wiki/WebAssembly
 .. _emscripten: https://emscripten.org/index.html
 .. _audioset: https://research.google.com/audioset/
+.. _silero-vad: https://github.com/snakers4/silero-vad
 """
