@@ -93,27 +93,40 @@ jobs:
               git clone https://huggingface.co/csukuangfj/sherpa-onnx-apk huggingface
               cd huggingface
               ./generate-asr.py
+              ./generate-asr-2pass.py
               ./generate-tts.py
               ./generate-tts-engine.py
               ./generate-speaker-identification.py
               ./generate-audio-tagging.py
               ./generate-audio-tagging-wearos.py
               ./generate-slid.py
+              ./generate-kws.py
+              ./generate-vad.py
+              ./generate-vad-asr.py
+
               mv -v apk-asr.html ../build/html/onnx/android/apk.html
+              mv -v apk-asr-2pass.html ../build/html/onnx/android/apk-2pass.html
               mv -v apk.html ../build/html/onnx/tts/
               mv -v apk-engine.html ../build/html/onnx/tts/
               mv -v apk-speaker-identification.html ../build/html/onnx/speaker-identification/apk.html
               mv -v apk-audio-tagging.html ../build/html/onnx/audio-tagging/apk.html
               mv -v apk-audio-tagging-wearos.html ../build/html/onnx/audio-tagging/apk-wearos.html
               mv -v apk-slid.html ../build/html/onnx/spoken-language-identification/apk.html
+              mv -v apk-kws.html ../build/html/onnx/kws/apk.html
+              mv -v apk-vad.html ../build/html/onnx/vad/apk.html
+              mv -v apk-vad-asr.html ../build/html/onnx/vad/apk-asr.html
 
               mv -v apk-asr-cn.html ../build/html/onnx/android/apk-cn.html
+              mv -v apk-asr-2pass-cn.html ../build/html/onnx/android/apk-2pass-cn.html
               mv -v apk-cn.html ../build/html/onnx/tts/
               mv -v apk-engine-cn.html ../build/html/onnx/tts/
               mv -v apk-speaker-identification-cn.html ../build/html/onnx/speaker-identification/apk-cn.html
               mv -v apk-audio-tagging-cn.html ../build/html/onnx/audio-tagging/apk-cn.html
               mv -v apk-audio-tagging-wearos-cn.html ../build/html/onnx/audio-tagging/apk-wearos-cn.html
               mv -v apk-slid-cn.html ../build/html/onnx/spoken-language-identification/apk-cn.html
+              mv -v apk-kws-cn.html ../build/html/onnx/kws/apk-cn.html
+              mv -v apk-vad-cn.html ../build/html/onnx/vad/apk-cn.html
+              mv -v apk-vad-asr-cn.html ../build/html/onnx/vad/apk-asr-cn.html
 
               cd ..
               rm -rf huggingface

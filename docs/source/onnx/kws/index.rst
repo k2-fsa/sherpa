@@ -1,7 +1,7 @@
 .. _sherpa-onnx-keyword-spotting:
 
-KWS Open vocabulary keyword spotting (Customized keyword spotting)
-==================================================================
+Keyword spotting
+================
 
 In this section, we describe how we implement the open vocabulary keyword spotting (aka customized keyword spotting)
 feature and how to use it in `sherpa-onnx`_.
@@ -107,21 +107,24 @@ command-line tool
 
 After installing `sherpa-onnx`_, type ``sherpa-onnx-keyword-spotter --help`` for the help message.
 
-You can find the pre-trained models in :ref:`sherpa-onnx-kws-pre-trained-models`.
 
 
 Android application
-~~~~~~~~~~~~~~~~~~~
+-------------------
 
-You can build your own application by starting with the ``build-kws-apk.sh`` in `sherpa-onnx`_ repository or referring to :ref:`sherpa-onnx-android`,
-you can also try our generated apks from github release page.
+You can find pre-built Android APKs for keyword spotting at
+
+  `<https://k2-fsa.github.io/sherpa/onnx/kws/apk.html>`_
 
 Here is a demo video (Note: It is in Chinese).
 
 .. raw:: html
 
-   <iframe src="//player.bilibili.com/player.html?aid=326175636&bvid=BV1Nw411J7K6&cid=1405110216&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
+   <iframe src="//player.bilibili.com/player.html?aid=326175636&bvid=BV1Nw411J7K6&cid=1405110216&p=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" width="600" height="600"> </iframe>
 
 
 
+Pretrained models
+-----------------
 
+You can find the pre-trained models in :ref:`sherpa-onnx-kws-pre-trained-models`.
