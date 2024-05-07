@@ -3,8 +3,34 @@
 Pre-trained models
 ==================
 
+The following table lists links for all pre-trained models.
+
+
+.. list-table::
+
+ * - Description
+   - URL
+ * - Speech recognition (speech to text, ASR)
+   - `<https://github.com/k2-fsa/sherpa-onnx/releases/tag/asr-models>`_
+ * - Text to speech (TTS)
+   - `<https://github.com/k2-fsa/sherpa-onnx/releases/tag/tts-models>`_
+ * - VAD
+   - `<https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/silero_vad.onnx>`_
+ * - Keyword spotting
+   - `<https://github.com/k2-fsa/sherpa-onnx/releases/tag/kws-models>`_
+ * - Speech identification (Speaker ID)
+   - `<https://github.com/k2-fsa/sherpa-onnx/releases/tag/speaker-recongition-models>`_
+ * - Spoken language identification (Language ID)
+   - `<https://github.com/k2-fsa/sherpa-onnx/releases/tag/asr-models>`_ (multi-lingual whisper)
+ * - Audio tagging
+   - `<https://github.com/k2-fsa/sherpa-onnx/releases/tag/audio-tagging-models>`_
+ * - Punctuation
+   - `<https://github.com/k2-fsa/sherpa-onnx/releases/tag/punctuation-models>`_
+
+
 In this section, we describe how to download and use all
-available pre-trained models.
+available pre-trained models for speech recognition.
+
 
 .. hint::
 
