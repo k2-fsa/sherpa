@@ -86,3 +86,19 @@ Then please run::
   sudo apt-get install libportaudio2
 
 and then re-try.
+
+imports github.com/k2-fsa/sherpa-onnx-go-linux: build constraints exclude all Go files
+--------------------------------------------------------------------------------------
+
+If you have the following output when running ``go build``::
+
+  [root@VM-0-3-centos non-streaming-decode-files]# go build
+  package non-streaming-decode-files
+   imports github.com/k2-fsa/sherpa-onnx-go/sherpa_onnx
+   imports github.com/k2-fsa/sherpa-onnx-go-linux: build constraints exclude all Go files in /root/go/pkg/mod/github.com/k2-fsa/sherpa-onnx-go-linux@v1.9.21
+
+Please first run::
+
+  go env -w CGO_ENABLED=1
+
+And then re-run ``go build``.
