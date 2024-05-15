@@ -16,4 +16,5 @@ Before using the Java API of `sherpa-onnx`_, you have to build the ``JNI`` inter
 
    ./build-jni-macos.rst
    ./build-jni-linux.rst
+   ./build-jar.rst
    ./examples.rst
