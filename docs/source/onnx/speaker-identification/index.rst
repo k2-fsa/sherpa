@@ -14,3 +14,6 @@ Pre-trained models can be found at `<https://github.com/k2-fsa/sherpa-onnx/relea
    You can find Android APKs for each model at the following page
 
    `<https://k2-fsa.github.io/sherpa/onnx/speaker-identification/apk.html>`_
+
+Please refer to `<https://github.com/k2-fsa/sherpa-onnx/tree/master/python-api-examples>`_
+for usage examples.

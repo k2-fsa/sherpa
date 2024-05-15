@@ -28,6 +28,10 @@ Also, we show how to use it for speech recognition with pre-trained models.
    ./faqs/index
    ./python/index
    ./c-api/index
+   ./java-api/index
+   ./javascript-api/index
+   ./kotlin-api/index
+   ./swift-api/index
    ./go-api/index
    ./csharp-api/index
    ./wasm/index
