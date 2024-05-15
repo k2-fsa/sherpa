@@ -192,19 +192,19 @@ sherpa-onnx-alsa
 
   In this case, I only have 1 microphone. It is ``card 3`` and that card
   has only ``device 0``. To select ``card 3`` and ``device 0`` on that card,
-  we need to pass ``hw:3,0`` to ``sherpa-onnx-alsa``. (Note: It has the format
-  ``hw:card_number,device_index``.)
+  we need to pass ``plughw:3,0`` to ``sherpa-onnx-alsa``. (Note: It has the format
+  ``plughw:card_number,device_index``.)
 
   For instance, you have to use
 
     .. code-block:: bash
 
       ./sherpa-onnx-alsa \
-        ./sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20/tokens.txt \
-        ./sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20/encoder-epoch-99-avg-1.onnx \
-        ./sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20/decoder-epoch-99-avg-1.onnx \
-        ./sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20/joiner-epoch-99-avg-1.onnx \
-        hw:3,0
+        --encoder=./sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20/tokens.txt \
+        --decoder=./sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20/encoder-epoch-99-avg-1.onnx \
+        --joiner=./sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20/decoder-epoch-99-avg-1.onnx \
+        --tokens./sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20/joiner-epoch-99-avg-1.onnx \
+        plughw:3,0
 
   Please change the card number and also the device index on the selected card
   accordingly in your own situation. Otherwise, you won't be able to record
