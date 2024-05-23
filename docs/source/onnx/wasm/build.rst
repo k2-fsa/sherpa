@@ -10,7 +10,7 @@ Please use the following command to build it:
   git clone https://github.com/k2-fsa/sherpa-onnx
   cd sherpa-onnx
 
-  cd sherpa-onnx/wasm/asr/assets
+  cd wasm/asr/assets
 
   wget -q https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20.tar.bz2
   tar xvf sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20.tar.bz2
