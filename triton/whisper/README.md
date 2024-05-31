@@ -20,7 +20,7 @@ docker run -it --name "whisper-server" --gpus all --net host -v $your_mount_dir 
 ```
 
 ### Export Whisper Model to TensorRT-LLM
-Inside docker container, we would follow the offcial guide of TensorRT-LLM to build whisper TensorRT-LLM engines. See [here](https://github.com/NVIDIA/TensorRT-LLM/tree/main/examples/whisper).
+Inside docker container, we would follow the official guide of TensorRT-LLM to build whisper TensorRT-LLM engines. See [here](https://github.com/NVIDIA/TensorRT-LLM/tree/main/examples/whisper).
 
 ```sh
 # We already have a clone of TensorRT-LLM inside container, so no need to clone it.
@@ -35,7 +35,7 @@ MAX_BATCH_SIZE=8
 checkpoint_dir=tllm_checkpoint
 output_dir=whisper_large_v3
 
-# Convert the large-v3 openai model into trtllm compatiable checkpoint.
+# Convert the large-v3 openai model into trtllm compatible checkpoint.
 python3 convert_checkpoint.py \
                 --output_dir $checkpoint_dir
 
@@ -106,7 +106,7 @@ See [Prompting the Hidden Talent of Web-Scale Speech Models for Zero-Shot Task G
 git-lfs install
 git clone https://huggingface.co/spaces/yuekai/triton-asr-client.git
 cd triton-asr-client
-pip3 install -r requirement.txt
+pip3 install -r requirements.txt
 python3 app.py
 ```
 

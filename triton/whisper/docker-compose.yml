@@ -15,4 +15,4 @@ services:
               device_ids: ['0']
               capabilities: [gpu]
     command: >
-      cd ./whisper_large_v3_trtllm_triton && bash ./build_and_launch.sh
+      /bin/bash -c "cd ./whisper_large_v3_trtllm_triton && bash ./build_whisper_fp16.sh && ln -sf ../../../whisper_large_v3/ model_repo_whisper_trtllm/whisper/1/ && bash launch_server.sh"
