@@ -1,0 +1,18 @@
+services:
+  asr:
+    image: soar97/triton-whisper:24.05
+    ports:
+      - "8000:8000"
+      - "8001:8001"
+      - "8002:8002"
+    environment:
+      - PYTHONIOENCODING=utf-8
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              device_ids: ['0']
+              capabilities: [gpu]
+    command: >
+      cd ./whisper_large_v3_trtllm_triton && bash ./build_and_launch.sh

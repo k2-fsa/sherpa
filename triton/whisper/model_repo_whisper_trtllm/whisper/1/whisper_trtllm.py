@@ -31,27 +31,17 @@ class WhisperEncoding:
 
     def __init__(self, engine_dir):
         self.session = self.get_session(engine_dir)
-
-    def get_session(self, engine_dir):
-        config_path = engine_dir / 'encoder_config.json'
+        config_path = engine_dir / 'encoder' / 'config.json'
         with open(config_path, 'r') as f:
             config = json.load(f)
+        self.n_mels = config['pretrained_config']['n_mels']
+        self.dtype = config['pretrained_config']['dtype']
+        self.num_languages = config['pretrained_config']['num_languages']
 
-        use_gpt_attention_plugin = config['plugin_config'][
-            'gpt_attention_plugin']
-        dtype = config['builder_config']['precision']
-        n_mels = config['builder_config']['n_mels']
-        num_languages = config['builder_config']['num_languages']
-
-        self.dtype = dtype
-        self.n_mels = n_mels
-        self.num_languages = num_languages
-
-        serialize_path = engine_dir / f'whisper_encoder_{self.dtype}_tp1_rank0.engine'
-
+    def get_session(self, engine_dir):
+        serialize_path = engine_dir / 'encoder' / 'rank0.engine'
         with open(serialize_path, 'rb') as f:
             session = Session.from_serialized_engine(f.read())
-
         return session
 
     def get_audio_features(self, mel):
@@ -99,35 +89,35 @@ class WhisperDecoding:
             engine_dir, runtime_mapping, debug_mode)
 
     def get_config(self, engine_dir):
-        config_path = engine_dir / 'decoder_config.json'
+        config_path = engine_dir / 'decoder' / 'config.json'
         with open(config_path, 'r') as f:
             config = json.load(f)
         decoder_config = OrderedDict()
-        decoder_config.update(config['plugin_config'])
-        decoder_config.update(config['builder_config'])
+        decoder_config.update(config['pretrained_config'])
+        decoder_config.update(config['build_config'])
         return decoder_config
 
     def get_session(self, engine_dir, runtime_mapping, debug_mode=False):
-        dtype = self.decoder_config['precision']
-        serialize_path = engine_dir / f'whisper_decoder_{dtype}_tp1_rank0.engine'
+        serialize_path = engine_dir / 'decoder' / 'rank0.engine'
         with open(serialize_path, "rb") as f:
             decoder_engine_buffer = f.read()
 
         decoder_model_config = ModelConfig(
             max_batch_size=self.decoder_config['max_batch_size'],
             max_beam_width=self.decoder_config['max_beam_width'],
-            num_heads=self.decoder_config['num_heads'],
-            num_kv_heads=self.decoder_config['num_heads'],
+            num_heads=self.decoder_config['num_attention_heads'],
+            num_kv_heads=self.decoder_config['num_attention_heads'],
             hidden_size=self.decoder_config['hidden_size'],
             vocab_size=self.decoder_config['vocab_size'],
-            num_layers=self.decoder_config['num_layers'],
-            gpt_attention_plugin=self.decoder_config['gpt_attention_plugin'],
-            remove_input_padding=self.decoder_config['remove_input_padding'],
-            cross_attention=self.decoder_config['cross_attention'],
+            cross_attention=True,
+            num_layers=self.decoder_config['num_hidden_layers'],
+            gpt_attention_plugin=self.decoder_config['plugin_config']
+            ['gpt_attention_plugin'],
+            remove_input_padding=self.decoder_config['plugin_config']
+            ['remove_input_padding'],
             has_position_embedding=self.
             decoder_config['has_position_embedding'],
-            has_token_type_embedding=self.
-            decoder_config['has_token_type_embedding'],
+            has_token_type_embedding=False,
         )
         decoder_generation_session = tensorrt_llm.runtime.GenerationSession(
             decoder_model_config,
@@ -147,7 +137,6 @@ class WhisperDecoding:
             [encoder_outputs.shape[1] for x in range(encoder_outputs.shape[0])],
             dtype=torch.int32,
             device='cuda')
-
         decoder_input_lengths = torch.tensor([
             decoder_input_ids.shape[-1]
             for _ in range(decoder_input_ids.shape[0])
