@@ -1,13 +1,18 @@
-FROM nvcr.io/nvidia/tritonserver:24.03-py3
+FROM nvcr.io/nvidia/tritonserver:24.05-py3
 LABEL maintainer="NVIDIA"
 LABEL repository="tritonserver"
 
 RUN apt update && apt-get install -y ffmpeg
-RUN python3 -m pip install --no-cache-dir --extra-index-url https://pypi.nvidia.com tensorrt-llm==0.9.0.dev2024040900
+RUN python3 -m pip install --no-cache-dir --extra-index-url https://pypi.nvidia.com tensorrt-llm==0.11.0.dev2024052800
 RUN python3 -m pip install mpmath==1.3.0 gradio==3.50.2 tritonclient[all]
 
 COPY requirements.txt /workspace/requirements.txt
 WORKDIR /workspace
 RUN python3 -m pip install -r requirements.txt
+
+RUN pip install -U "huggingface_hub[cli]"
+
+RUN huggingface-cli download --local-dir ./whisper_large_v3_trtllm_triton yuekai/whisper_large_v3_trtllm_triton
+RUN rm -r ./whisper_large_v3_trtllm_triton/.huggingface
 
 RUN git clone https://github.com/NVIDIA/TensorRT-LLM.git

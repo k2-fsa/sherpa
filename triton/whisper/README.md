@@ -1,19 +1,22 @@
 ## Triton Inference Serving Best Practice for Whisper TensorRT-LLM
 
-### Build Image
-Directly pull the image we prepared for you or build it from scratch. 
+### Quick Start
+Directly launch the service using docker compose.
 ```sh
-# using the prepared image
-docker pull soar97/triton-whisper:24.01.complete
+docker compose up --build
+```
 
+### Build Image
+Build the docker image from scratch. 
+```sh
 # build from scratch, cd to the parent dir of Dockerfile.server
-docker build . -f Dockerfile.server -t soar97/triton-whisper:24.01.complete
+docker build . -f Dockerfile.server -t soar97/triton-whisper:24.05
 ```
 
 ### Create Docker Container
 ```sh
 your_mount_dir=/mnt:/mnt
-docker run -it --name "whisper-server" --gpus all --net host -v $your_mount_dir --shm-size=2g soar97/triton-whisper:24.01.complete
+docker run -it --name "whisper-server" --gpus all --net host -v $your_mount_dir --shm-size=2g soar97/triton-whisper:24.05
 ```
 
 ### Export Whisper Model to TensorRT-LLM
@@ -26,8 +29,43 @@ cd /workspace/TensorRT-LLM/examples/whisper
 # take large-v3 model as an example
 wget --directory-prefix=assets https://openaipublic.azureedge.net/main/whisper/models/e5b1a55b89c1367dacf97e3e19bfd829a01529dbfdeefa8caeb59b3f1b81dadb/large-v3.pt
 
-# Build the large-v3 model using a single GPU with plugins.
-python3 build.py --output_dir whisper_large_v3 --use_gpt_attention_plugin --use_gemm_plugin  --use_bert_attention_plugin --enable_context_fmha
+INFERENCE_PRECISION=float16
+MAX_BEAM_WIDTH=4
+MAX_BATCH_SIZE=8
+checkpoint_dir=tllm_checkpoint
+output_dir=whisper_large_v3
+
+# Convert the large-v3 openai model into trtllm compatiable checkpoint.
+python3 convert_checkpoint.py \
+                --output_dir $checkpoint_dir
+
+# Build the large-v3 trtllm engines
+trtllm-build --checkpoint_dir ${checkpoint_dir}/encoder \
+                --output_dir ${output_dir}/encoder \
+                --paged_kv_cache disable \
+                --moe_plugin disable \
+                --enable_xqa disable \
+                --use_custom_all_reduce disable \
+                --max_batch_size ${MAX_BATCH_SIZE} \
+                --gemm_plugin disable \
+                --bert_attention_plugin ${INFERENCE_PRECISION} \
+                --remove_input_padding disable
+
+trtllm-build --checkpoint_dir ${checkpoint_dir}/decoder \
+                --output_dir ${output_dir}/decoder \
+                --paged_kv_cache disable \
+                --moe_plugin disable \
+                --enable_xqa disable \
+                --use_custom_all_reduce disable \
+                --max_beam_width ${MAX_BEAM_WIDTH} \
+                --max_batch_size ${MAX_BATCH_SIZE} \
+                --max_output_len 100 \
+                --max_input_len 14 \
+                --max_encoder_input_len 1500 \
+                --gemm_plugin ${INFERENCE_PRECISION} \
+                --bert_attention_plugin ${INFERENCE_PRECISION} \
+                --gpt_attention_plugin ${INFERENCE_PRECISION} \
+                --remove_input_padding disable
 
 # prepare the model_repo_whisper_trtllm
 cd sherpa/triton/whisper
