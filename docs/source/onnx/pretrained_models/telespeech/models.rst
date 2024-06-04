@@ -68,3 +68,11 @@ Decode wave files
 You should see the following output:
 
 .. literalinclude:: ./code/sherpa-onnx-telespeech-ctc-int8-zh-2024-06-04.txt
+
+.. note::
+
+   The ``feature_dim=80`` is incorrect in the above logs. The actual value is 40.
+
+.. hint::
+
+   There is also a float32 model. Please see `<https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-telespeech-ctc-zh-2024-06-04.tar.bz2>`_
