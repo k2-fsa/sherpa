@@ -47,6 +47,7 @@ available pre-trained models for speech recognition.
    offline-transducer/index
    offline-paraformer/index
    offline-ctc/index
+   telespeech/index
    whisper/index
    wenet/index
    small-online-models
