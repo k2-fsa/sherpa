@@ -53,10 +53,9 @@ First, let us download it:
 
   cd /path/to/sherpa-onnx/
 
-  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/sherpa-onnx-streaming-zipformer-en-2023-06-26
-  cd sherpa-onnx-streaming-zipformer-en-2023-06-26
-  git lfs pull --include "*.onnx"
-  cd ..
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-zipformer-en-2023-06-26.tar.bz2
+  tar xvf sherpa-onnx-streaming-zipformer-en-2023-06-26.tar.bz2
+  rm sherpa-onnx-streaming-zipformer-en-2023-06-26.tar.bz2
 
 Now we can use:
 

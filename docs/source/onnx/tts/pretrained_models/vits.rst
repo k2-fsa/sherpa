@@ -245,9 +245,9 @@ Please use the following commands to download it.
 
   cd /path/to/sherpa-onnx
 
-  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/vits-vctk
-  cd vits-ctk
-  git lfs pull --include "*.onnx"
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/vits-vctk.tar.bz2
+  tar xvf vits-vctk.tar.bz2
+  rm vits-vctk.tar.bz2
 
 Please check that the file sizes of the pre-trained models are correct. See
 the file sizes of ``*.onnx`` files below.

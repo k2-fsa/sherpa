@@ -40,10 +40,9 @@ Start the server
 
   cd /path/to/sherpa-onnx
 
-  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/sherpa-onnx-zipformer-en-2023-06-26
-  cd sherpa-onnx-zipformer-en-2023-06-26
-  git lfs pull --include "*.onnx"
-  cd ..
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-en-2023-06-26.tar.bz2
+  tar xvf sherpa-onnx-zipformer-en-2023-06-26.tar.bz2
+  rm sherpa-onnx-zipformer-en-2023-06-26.tar.bz2
 
   python3 ./python-api-examples/non_streaming_server.py \
     --encoder ./sherpa-onnx-zipformer-en-2023-06-26/encoder-epoch-99-avg-1.onnx \
@@ -113,10 +112,9 @@ Start the server
 
   cd /path/to/sherpa-onnx
 
-  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/sherpa-onnx-paraformer-zh-2023-03-28
-  cd sherpa-onnx-paraformer-zh-2023-03-28
-  git lfs pull --include "*.onnx"
-  cd ..
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-paraformer-zh-2023-03-28.tar.bz2
+  tar xvf sherpa-onnx-paraformer-zh-2023-03-28.tar.bz2
+  rm sherpa-onnx-paraformer-zh-2023-03-28.tar.bz2
 
   python3 ./python-api-examples/non_streaming_server.py \
     --paraformer ./sherpa-onnx-paraformer-zh-2023-03-28/model.int8.onnx \
@@ -192,10 +190,9 @@ Start the server
 
   cd /path/to/sherpa-onnx
 
-  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/sherpa-onnx-nemo-ctc-en-conformer-medium
-  cd sherpa-onnx-nemo-ctc-en-conformer-medium
-  git lfs pull --include "*.onnx"
-  cd ..
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-nemo-ctc-en-conformer-medium.tar.bz2
+  tar xvf sherpa-onnx-nemo-ctc-en-conformer-medium.tar.bz2
+  rm sherpa-onnx-nemo-ctc-en-conformer-medium.tar.bz2
 
   python3 ./python-api-examples/non_streaming_server.py \
     --nemo-ctc ./sherpa-onnx-nemo-ctc-en-conformer-medium/model.onnx \
@@ -263,10 +260,10 @@ Start the server
 .. code-block:: bash
 
   cd /path/to/sherpa-onnx
-  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/sherpa-onnx-whisper-tiny.en
-  cd sherpa-onnx-whisper-tiny.en
-  git lfs pull --include "*.onnx"
-  cd ..
+
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-whisper-tiny.en.tar.bz2
+  tar xvf sherpa-onnx-whisper-tiny.en.tar.bz2
+  rm sherpa-onnx-whisper-tiny.en.tar.bz2
 
   python3 ./python-api-examples/non_streaming_server.py \
     --whisper-encoder=./sherpa-onnx-whisper-tiny.en/tiny.en-encoder.onnx \
