@@ -148,10 +148,9 @@ First, let us download it:
 .. code-block:: bash
 
   cd sherpa-onnx/dotnet-examples/offline-decode-files
-  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/sherpa-onnx-zipformer-en-2023-06-26
-  cd sherpa-onnx-zipformer-en-2023-06-26
-  git lfs pull --include "*.onnx"
-  cd ..
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-en-2023-06-26.tar.bz2
+  tar xvf sherpa-onnx-zipformer-en-2023-06-26.tar.bz2
+  rm sherpa-onnx-zipformer-en-2023-06-26.tar.bz2
 
 Now we can use:
 
@@ -195,10 +194,9 @@ First, let us download it:
 .. code-block:: bash
 
   cd sherpa-onnx/dotnet-examples/offline-decode-files
-  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/sherpa-onnx-paraformer-zh-2023-03-28
-  cd sherpa-onnx-paraformer-zh-2023-03-28
-  git lfs pull --include "*.onnx"
-  cd ..
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-paraformer-zh-2023-03-28.tar.bz2
+  tar xvf sherpa-onnx-paraformer-zh-2023-03-28.tar.bz2
+  rm sherpa-onnx-paraformer-zh-2023-03-28.tar.bz2
 
 Now we can use:
 
@@ -240,10 +238,9 @@ First, let us download it:
 .. code-block:: bash
 
   cd sherpa-onnx/dotnet-examples/offline-decode-files
-  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/sherpa-onnx-nemo-ctc-en-conformer-medium
-  cd sherpa-onnx-nemo-ctc-en-conformer-medium
-  git lfs pull --include "*.onnx"
-  cd ..
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-nemo-ctc-en-conformer-medium.tar.bz2
+  tar xvf sherpa-onnx-nemo-ctc-en-conformer-medium.tar.bz2
+  rm sherpa-onnx-nemo-ctc-en-conformer-medium.tar.bz2
 
 Now we can use:
 
@@ -359,10 +356,9 @@ First, let us download it:
 .. code-block:: bash
 
   cd sherpa-onnx/dotnet-examples/online-decode-files/
-  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/sherpa-onnx-streaming-zipformer-en-2023-06-26
-  cd sherpa-onnx-streaming-zipformer-en-2023-06-26
-  git lfs pull --include "*.onnx"
-  cd ..
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-zipformer-en-2023-06-26.tar.bz2
+  tar xvf sherpa-onnx-streaming-zipformer-en-2023-06-26.tar.bz2
+  rm sherpa-onnx-streaming-zipformer-en-2023-06-26.tar.bz2
 
 Now we can use:
 
@@ -474,10 +470,9 @@ First, let us download it:
 .. code-block:: bash
 
   cd sherpa-onnx/dotnet-examples/speech-recognition-from-microphone
-  GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/sherpa-onnx-streaming-zipformer-en-2023-06-26
-  cd sherpa-onnx-streaming-zipformer-en-2023-06-26
-  git lfs pull --include "*.onnx"
-  cd ..
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-zipformer-en-2023-06-26.tar.bz2
+  tar xvf sherpa-onnx-streaming-zipformer-en-2023-06-26.tar.bz2
+  rm sherpa-onnx-streaming-zipformer-en-2023-06-26.tar.bz2
 
 Now we can use:
 

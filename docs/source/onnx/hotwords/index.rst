@@ -503,12 +503,11 @@ Modeling unit is cjkchar
 .. code-block:: bash
 
    cd /path/to/sherpa-onnx
-   GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/sherpa-onnx-conformer-zh-stateless2-2023-05-23
-   cd sherpa-onnx-conformer-zh-stateless2-2023-05-23
-   git lfs pull --include "*.onnx"
-   cd ..
-   ln -s sherpa-onnx-conformer-zh-stateless2-2023-05-23 exp-zh
+   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-conformer-zh-stateless2-2023-05-23.tar.bz2
+   tar xvf sherpa-onnx-conformer-zh-stateless2-2023-05-23.tar.bz2
+   rm sherpa-onnx-conformer-zh-stateless2-2023-05-23.tar.bz2
 
+   ln -s sherpa-onnx-conformer-zh-stateless2-2023-05-23 exp-zh
 
 The ``hotwords_cn.txt`` contains:
 
@@ -717,11 +716,10 @@ Modeling unit is cjkchar+bpe
 
     cd /path/to/sherpa-onnx
 
-    GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/csukuangfj/sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20
-    cd sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20
-    git lfs pull --include "*.onnx"
-    git lfs pull --include "bpe.model"
-    cd ..
+    wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20.tar.bz2
+    tar xvf sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20.tar.bz2
+    rm sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20.tar.bz2
+
     ln -s sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20 exp-mixed
 
 
