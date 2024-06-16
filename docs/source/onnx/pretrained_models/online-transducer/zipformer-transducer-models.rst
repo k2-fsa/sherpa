@@ -8,6 +8,148 @@ Zipformer-transducer-based Models
    Please refer to :ref:`install_sherpa_onnx` to install `sherpa-onnx`_
    before you read this section.
 
+sherpa-onnx-streaming-zipformer-korean-2024-06-16 (Korean)
+----------------------------------------------------------
+
+Training code for this model can be found at `<https://github.com/k2-fsa/icefall/pull/1651>`_.
+It supports only Korean.
+
+PyTorch checkpoint with optimizer state can be found at
+`<https://huggingface.co/johnBamma/icefall-asr-ksponspeech-pruned-transducer-stateless7-streaming-2024-06-12>`_
+
+In the following, we describe how to download it and use it with `sherpa-onnx`_.
+
+Download the model
+~~~~~~~~~~~~~~~~~~
+
+Please use the following commands to download it.
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-zipformer-korean-2024-06-16.tar.bz2
+
+  # For Chinese users, you can use the following mirror
+  # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-zipformer-korean-2024-06-16.tar.bz2
+
+  tar xvf sherpa-onnx-streaming-zipformer-korean-2024-06-16.tar.bz2
+  rm sherpa-onnx-streaming-zipformer-korean-2024-06-16.tar.bz2
+  ls -lh sherpa-onnx-streaming-zipformer-korean-2024-06-16
+
+The output is given below:
+
+.. code-block::
+
+  $ ls -lh sherpa-onnx-streaming-zipformer-korean-2024-06-16
+
+  total 907104
+  -rw-r--r--  1 fangjun  staff   307K Jun 16 17:36 bpe.model
+  -rw-r--r--  1 fangjun  staff   2.7M Jun 16 17:36 decoder-epoch-99-avg-1.int8.onnx
+  -rw-r--r--  1 fangjun  staff    11M Jun 16 17:36 decoder-epoch-99-avg-1.onnx
+  -rw-r--r--  1 fangjun  staff   121M Jun 16 17:36 encoder-epoch-99-avg-1.int8.onnx
+  -rw-r--r--  1 fangjun  staff   279M Jun 16 17:36 encoder-epoch-99-avg-1.onnx
+  -rw-r--r--  1 fangjun  staff   2.5M Jun 16 17:36 joiner-epoch-99-avg-1.int8.onnx
+  -rw-r--r--  1 fangjun  staff   9.8M Jun 16 17:36 joiner-epoch-99-avg-1.onnx
+  drwxr-xr-x  7 fangjun  staff   224B Jun 16 17:36 test_wavs
+  -rw-r--r--  1 fangjun  staff    59K Jun 16 17:36 tokens.txt
+
+Decode a single wave file
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. hint::
+
+   It supports decoding only wave files of a single channel with 16-bit
+   encoded samples, while the sampling rate does not need to be 16 kHz.
+
+fp32
+^^^^
+
+The following code shows how to use ``fp32`` models to decode a wave file:
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  ./build/bin/sherpa-onnx \
+    --tokens=./sherpa-onnx-streaming-zipformer-korean-2024-06-16/tokens.txt \
+    --encoder=./sherpa-onnx-streaming-zipformer-korean-2024-06-16/encoder-epoch-99-avg-1.onnx \
+    --decoder=./sherpa-onnx-streaming-zipformer-korean-2024-06-16/decoder-epoch-99-avg-1.onnx \
+    --joiner=./sherpa-onnx-streaming-zipformer-korean-2024-06-16/joiner-epoch-99-avg-1.onnx \
+    ./sherpa-onnx-streaming-zipformer-korean-2024-06-16/test_wavs/0.wav
+
+.. note::
+
+   Please use ``./build/bin/Release/sherpa-onnx.exe`` for Windows.
+
+.. caution::
+
+   If you use Windows and get encoding issues, please run:
+
+      .. code-block:: bash
+
+          CHCP 65001
+
+   in your commandline.
+
+You should see the following output:
+
+.. literalinclude:: ./code-zipformer/sherpa-onnx-streaming-zipformer-korean-2024-06-16.txt
+
+int8
+^^^^
+
+The following code shows how to use ``int8`` models to decode a wave file:
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  ./build/bin/sherpa-onnx \
+    --tokens=./sherpa-onnx-streaming-zipformer-korean-2024-06-16/tokens.txt \
+    --encoder=./sherpa-onnx-streaming-zipformer-korean-2024-06-16/encoder-epoch-99-avg-1.int8.onnx \
+    --decoder=./sherpa-onnx-streaming-zipformer-korean-2024-06-16/decoder-epoch-99-avg-1.onnx \
+    --joiner=./sherpa-onnx-streaming-zipformer-korean-2024-06-16/joiner-epoch-99-avg-1.int8.onnx \
+    ./sherpa-onnx-streaming-zipformer-korean-2024-06-16/test_wavs/0.wav
+
+.. note::
+
+   Please use ``./build/bin/Release/sherpa-onnx.exe`` for Windows.
+
+.. caution::
+
+   If you use Windows and get encoding issues, please run:
+
+      .. code-block:: bash
+
+          CHCP 65001
+
+   in your commandline.
+
+You should see the following output:
+
+.. literalinclude:: ./code-zipformer/sherpa-onnx-streaming-zipformer-korean-2024-06-16-int8.txt
+
+Real-time speech recognition from a microphone
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  ./build/bin/sherpa-onnx-microphone \
+    --tokens=./sherpa-onnx-streaming-zipformer-korean-2024-06-16/tokens.txt \
+    --encoder=./sherpa-onnx-streaming-zipformer-korean-2024-06-16/encoder-epoch-99-avg-1.int8.onnx \
+    --decoder=./sherpa-onnx-streaming-zipformer-korean-2024-06-16/decoder-epoch-99-avg-1.onnx \
+    --joiner=./sherpa-onnx-streaming-zipformer-korean-2024-06-16/joiner-epoch-99-avg-1.int8.onnx
+
+.. hint::
+
+   If your system is Linux (including embedded Linux), you can also use
+   :ref:`sherpa-onnx-alsa` to do real-time speech recognition with your
+   microphone if ``sherpa-onnx-microphone`` does not work for you.
+
+
 sherpa-onnx-streaming-zipformer-multi-zh-hans-2023-12-12 (Chinese)
 ------------------------------------------------------------------
 
