@@ -24,7 +24,7 @@ All you need is to run:
   mkdir build
   cd build
   cmake -DCMAKE_BUILD_TYPE=Release ..
-  cmake --build . --config Release -- -m:6
+  cmake --build . --config Release
 
 It will generate two executables inside ``./bin/Release/``:
 

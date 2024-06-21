@@ -1,0 +1,14 @@
+/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:360 ./build/bin/sherpa-onnx-offline --tokens=./sherpa-onnx-zipformer-thai-2024-06-20/tokens.txt --encoder=./sherpa-onnx-zipformer-thai-2024-06-20/encoder-epoch-12-avg-5.int8.onnx --decoder=./sherpa-onnx-zipformer-thai-2024-06-20/decoder-epoch-12-avg-5.onnx --joiner=./sherpa-onnx-zipformer-thai-2024-06-20/joiner-epoch-12-avg-5.int8.onnx ./sherpa-onnx-zipformer-thai-2024-06-20/test_wavs/0.wav 
+
+OfflineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80, low_freq=20, high_freq=-400, dither=0), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename="./sherpa-onnx-zipformer-thai-2024-06-20/encoder-epoch-12-avg-5.int8.onnx", decoder_filename="./sherpa-onnx-zipformer-thai-2024-06-20/decoder-epoch-12-avg-5.onnx", joiner_filename="./sherpa-onnx-zipformer-thai-2024-06-20/joiner-epoch-12-avg-5.int8.onnx"), paraformer=OfflineParaformerModelConfig(model=""), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=""), whisper=OfflineWhisperModelConfig(encoder="", decoder="", language="", task="transcribe", tail_paddings=-1), tdnn=OfflineTdnnModelConfig(model=""), zipformer_ctc=OfflineZipformerCtcModelConfig(model=""), wenet_ctc=OfflineWenetCtcModelConfig(model=""), telespeech_ctc="", tokens="./sherpa-onnx-zipformer-thai-2024-06-20/tokens.txt", num_threads=2, debug=False, provider="cpu", model_type="", modeling_unit="cjkchar", bpe_vocab=""), lm_config=OfflineLMConfig(model="", scale=0.5), ctc_fst_decoder_config=OfflineCtcFstDecoderConfig(graph="", max_active=3000), decoding_method="greedy_search", max_active_paths=4, hotwords_file="", hotwords_score=1.5, blank_penalty=0, rule_fsts="", rule_fars="")
+Creating recognizer ...
+Started
+Done!
+
+./sherpa-onnx-zipformer-thai-2024-06-20/test_wavs/0.wav
+{"text": " เดี๋ยวเกมในนัดต่อไปต้องไปเจอกับทางอินโดนีเซียนะครับ", "timestamps": [0.00, 0.24, 0.44, 0.64, 0.84, 1.20, 1.84, 2.32, 2.64, 3.12, 3.64, 3.80, 3.88, 4.28], "tokens":[" เดี๋ยว", "เกม", "ใน", "นัด", "ต่อไป", "ต้อง", "ไปเจอ", "กับ", "ทาง", "อิน", "โดน", "ี", "เซีย", "นะครับ"], "words": []}
+----
+num threads: 2
+decoding method: greedy_search
+Elapsed seconds: 0.150 s
+Real time factor (RTF): 0.150 / 4.496 = 0.033

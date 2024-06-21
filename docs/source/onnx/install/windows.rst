@@ -106,7 +106,7 @@ All you need is to run:
   # For Visual Studio 2022
   cmake -T v143,host=x64 -A Win32 -D CMAKE_BUILD_TYPE=Release ..
 
-  cmake --build . --config Release -- -m:6
+  cmake --build . --config Release
 
 After building, you will find an executable ``sherpa-onnx.exe`` inside the ``bin/Release`` directory.
 
