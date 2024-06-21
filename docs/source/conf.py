@@ -168,4 +168,6 @@ rst_epilog = """
 .. _emscripten: https://emscripten.org/index.html
 .. _audioset: https://research.google.com/audioset/
 .. _silero-vad: https://github.com/snakers4/silero-vad
+.. _Flutter: https://flutter.dev/
+.. _Dart: https://dart.dev/
 """

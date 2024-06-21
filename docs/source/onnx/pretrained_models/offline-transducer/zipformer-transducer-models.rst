@@ -8,12 +8,142 @@ Zipformer-transducer-based Models
    Please refer to :ref:`install_sherpa_onnx` to install `sherpa-onnx`
    before you read this section.
 
+sherpa-onnx-zipformer-thai-2024-06-20 (Thai, 泰语)
+------------------------------------------------------------
+
+PyTorch checkpoints of this model can be found at
+`<https://huggingface.co/yfyeung/icefall-asr-gigaspeech2-th-zipformer-2024-06-20>`.
+The training dataset can be found at `<https://github.com/SpeechColab/GigaSpeech2>`_.
+
+In the following, we describe how to download it and use it with `sherpa-onnx`_.
+
+Download the model
+~~~~~~~~~~~~~~~~~~
+
+Please use the following commands to download it.
+
+.. code-block:: bash
+
+   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-thai-2024-06-20.tar.bz2
+
+   # For Chinese users, you can use the following mirror
+   # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-thai-2024-06-20.tar.bz2
+
+   tar xf sherpa-onnx-zipformer-thai-2024-06-20.tar.bz2
+   rm sherpa-onnx-zipformer-thai-2024-06-20.tar.bz2
+
+   ls -lh sherpa-onnx-zipformer-thai-2024-06-20
+
+You should see the following output:
+
+.. code-block:: bash
+
+  -rw-r--r--  1 fangjun  staff   277K Jun 20 16:47 bpe.model
+  -rw-r--r--  1 fangjun  staff   1.2M Jun 20 16:47 decoder-epoch-12-avg-5.int8.onnx
+  -rw-r--r--  1 fangjun  staff   4.9M Jun 20 16:47 decoder-epoch-12-avg-5.onnx
+  -rw-r--r--  1 fangjun  staff   148M Jun 20 16:47 encoder-epoch-12-avg-5.int8.onnx
+  -rw-r--r--  1 fangjun  staff   565M Jun 20 16:47 encoder-epoch-12-avg-5.onnx
+  -rw-r--r--  1 fangjun  staff   1.0M Jun 20 16:47 joiner-epoch-12-avg-5.int8.onnx
+  -rw-r--r--  1 fangjun  staff   3.9M Jun 20 16:47 joiner-epoch-12-avg-5.onnx
+  drwxr-xr-x  6 fangjun  staff   192B Jun 20 16:46 test_wavs
+  -rw-r--r--  1 fangjun  staff    38K Jun 20 16:47 tokens.txt
+
+Decode wave files
+~~~~~~~~~~~~~~~~~
+
+.. hint::
+
+   It supports decoding only wave files of a single channel with 16-bit
+   encoded samples, while the sampling rate does not need to be 16 kHz.
+
+fp32
+^^^^
+
+The following code shows how to use ``fp32`` models to decode wave files:
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  ./build/bin/sherpa-onnx-offline \
+    --tokens=./sherpa-onnx-zipformer-thai-2024-06-20/tokens.txt \
+    --encoder=./sherpa-onnx-zipformer-thai-2024-06-20/encoder-epoch-12-avg-5.onnx \
+    --decoder=./sherpa-onnx-zipformer-thai-2024-06-20/decoder-epoch-12-avg-5.onnx \
+    --joiner=./sherpa-onnx-zipformer-thai-2024-06-20/joiner-epoch-12-avg-5.onnx \
+    ./sherpa-onnx-zipformer-thai-2024-06-20/test_wavs/0.wav
+
+.. note::
+
+   Please use ``./build/bin/Release/sherpa-onnx-offline.exe`` for Windows.
+
+.. caution::
+
+   If you use Windows and get encoding issues, please run:
+
+      .. code-block:: bash
+
+          CHCP 65001
+
+   in your commandline.
+
+You should see the following output:
+
+.. literalinclude:: ./code-zipformer/sherpa-onnx-zipformer-thai-2024-06-20.txt
+
+int8
+^^^^
+
+The following code shows how to use ``int8`` models to decode wave files:
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  ./build/bin/sherpa-onnx-offline \
+    --tokens=./sherpa-onnx-zipformer-thai-2024-06-20/tokens.txt \
+    --encoder=./sherpa-onnx-zipformer-thai-2024-06-20/encoder-epoch-12-avg-5.int8.onnx \
+    --decoder=./sherpa-onnx-zipformer-thai-2024-06-20/decoder-epoch-12-avg-5.onnx \
+    --joiner=./sherpa-onnx-zipformer-thai-2024-06-20/joiner-epoch-12-avg-5.int8.onnx \
+    ./sherpa-onnx-zipformer-thai-2024-06-20/test_wavs/0.wav
+
+.. note::
+
+   Please use ``./build/bin/Release/sherpa-onnx-offline.exe`` for Windows.
+
+.. caution::
+
+   If you use Windows and get encoding issues, please run:
+
+      .. code-block:: bash
+
+          CHCP 65001
+
+   in your commandline.
+
+You should see the following output:
+
+.. literalinclude:: ./code-zipformer/sherpa-onnx-zipformer-thai-2024-06-20-int8.txt
+
+Speech recognition from a microphone
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  ./build/bin/sherpa-onnx-microphone-offline \
+    --tokens=./sherpa-onnx-zipformer-thai-2024-06-20/tokens.txt \
+    --encoder=./sherpa-onnx-zipformer-thai-2024-06-20/encoder-epoch-12-avg-5.int8.onnx \
+    --decoder=./sherpa-onnx-zipformer-thai-2024-06-20/decoder-epoch-12-avg-5.onnx \
+    --joiner=./sherpa-onnx-zipformer-thai-2024-06-20/joiner-epoch-12-avg-5.int8.onnx
+
+
 sherpa-onnx-zipformer-cantonese-2024-03-13 (Cantonese, 粤语)
 ------------------------------------------------------------
 
 Training code for this model can be found at
 `<https://github.com/k2-fsa/icefall/pull/1537>`_.
-It supports only Cantonese since it is trained on a `Canatonese`_ dataset.
+It supports only Cantonese since it is trained on a ``Canatonese`` dataset.
 The paper for the dataset can be found at `<https://arxiv.org/pdf/2201.02419.pdf>`_.
 
 In the following, we describe how to download it and use it with `sherpa-onnx`_.
