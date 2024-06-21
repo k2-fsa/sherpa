@@ -19,20 +19,20 @@ Board info
 RTF (2 threads)
 ---------------
 
-  .. image:: ./pic/jetson-nx/rtf-2-threads.pic.jpg
+  .. image:: ./pic/jetson-nx/rtf-2-threads.jpg
      :alt: RTF for 2 threads
      :width: 600
 
 RTF (4 threads)
 ---------------
 
-  .. image:: ./pic/jetson-nx/rtf-4-threads.pic.jpg
+  .. image:: ./pic/jetson-nx/rtf-4-threads.jpg
      :alt: RTF for 4 threads
      :width: 600
 
 RTF (6 threads)
 ---------------
 
-  .. image:: ./pic/jetson-nx/rtf-6-threads.pic.jpg
+  .. image:: ./pic/jetson-nx/rtf-6-threads.jpg
      :alt: RTF for 6 threads
      :width: 600
