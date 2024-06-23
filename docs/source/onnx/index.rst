@@ -37,6 +37,7 @@ Also, we show how to use it for speech recognition with pre-trained models.
    ./wasm/index
    ./android/index
    ./ios/index
+   ./flutter/index
    ./websocket/index
    ./hotwords/index
    ./kws/index
