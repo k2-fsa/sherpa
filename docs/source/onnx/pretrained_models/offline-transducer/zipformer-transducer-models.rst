@@ -8,12 +8,147 @@ Zipformer-transducer-based Models
    Please refer to :ref:`install_sherpa_onnx` to install `sherpa-onnx`
    before you read this section.
 
+sherpa-onnx-zipformer-korean-2024-06-24 (Korean, 韩语)
+------------------------------------------------------------
+
+PyTorch checkpoints of this model can be found at
+`<https://huggingface.co/johnBamma/icefall-asr-ksponspeech-zipformer-2024-06-24>`.
+
+The training dataset can be found at `<https://aihub.or.kr/aihubdata/data/view.do?currMenu=115&topMenu=100&aihubDataSe=realm&dataSetSn=123>`_.
+
+Paper about the dataset is `<https://www.mdpi.com/2076-3417/10/19/6936>`_
+
+In the following, we describe how to download it and use it with `sherpa-onnx`_.
+
+Download the model
+~~~~~~~~~~~~~~~~~~
+
+Please use the following commands to download it.
+
+.. code-block:: bash
+
+   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-korean-2024-06-24.tar.bz2
+
+   # For Chinese users, you can use the following mirror
+   # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-korean-2024-06-24.tar.bz2
+
+   tar xf sherpa-onnx-zipformer-korean-2024-06-24.tar.bz2
+   rm sherpa-onnx-zipformer-korean-2024-06-24.tar.bz2
+
+   ls -lh sherpa-onnx-zipformer-korean-2024-06-24
+
+You should see the following output:
+
+.. code-block:: bash
+
+  -rw-r--r--  1 fangjun  staff   307K Jun 24 15:33 bpe.model
+  -rw-r--r--  1 fangjun  staff   2.7M Jun 24 15:33 decoder-epoch-99-avg-1.int8.onnx
+  -rw-r--r--  1 fangjun  staff    11M Jun 24 15:33 decoder-epoch-99-avg-1.onnx
+  -rw-r--r--  1 fangjun  staff    68M Jun 24 15:33 encoder-epoch-99-avg-1.int8.onnx
+  -rw-r--r--  1 fangjun  staff   249M Jun 24 15:33 encoder-epoch-99-avg-1.onnx
+  -rw-r--r--  1 fangjun  staff   2.5M Jun 24 15:33 joiner-epoch-99-avg-1.int8.onnx
+  -rw-r--r--  1 fangjun  staff   9.8M Jun 24 15:33 joiner-epoch-99-avg-1.onnx
+  drwxr-xr-x  7 fangjun  staff   224B Jun 24 15:32 test_wavs
+  -rw-r--r--  1 fangjun  staff    59K Jun 24 15:33 tokens.txt
+
+Decode wave files
+~~~~~~~~~~~~~~~~~
+
+.. hint::
+
+   It supports decoding only wave files of a single channel with 16-bit
+   encoded samples, while the sampling rate does not need to be 16 kHz.
+
+fp32
+^^^^
+
+The following code shows how to use ``fp32`` models to decode wave files:
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  ./build/bin/sherpa-onnx-offline \
+    --tokens=./sherpa-onnx-zipformer-korean-2024-06-24/tokens.txt \
+    --encoder=./sherpa-onnx-zipformer-korean-2024-06-24/encoder-epoch-99-avg-1.onnx \
+    --decoder=./sherpa-onnx-zipformer-korean-2024-06-24/decoder-epoch-99-avg-1.onnx \
+    --joiner=./sherpa-onnx-zipformer-korean-2024-06-24/joiner-epoch-99-avg-1.onnx \
+    ./sherpa-onnx-zipformer-korean-2024-06-24/test_wavs/0.wav
+
+.. note::
+
+   Please use ``./build/bin/Release/sherpa-onnx-offline.exe`` for Windows.
+
+.. caution::
+
+   If you use Windows and get encoding issues, please run:
+
+      .. code-block:: bash
+
+          CHCP 65001
+
+   in your commandline.
+
+You should see the following output:
+
+.. literalinclude:: ./code-zipformer/sherpa-onnx-zipformer-korean-2024-06-24.txt
+
+int8
+^^^^
+
+The following code shows how to use ``int8`` models to decode wave files:
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  ./build/bin/sherpa-onnx-offline \
+    --tokens=./sherpa-onnx-zipformer-korean-2024-06-24/tokens.txt \
+    --encoder=./sherpa-onnx-zipformer-korean-2024-06-24/encoder-epoch-99-avg-1.int8.onnx \
+    --decoder=./sherpa-onnx-zipformer-korean-2024-06-24/decoder-epoch-99-avg-1.onnx \
+    --joiner=./sherpa-onnx-zipformer-korean-2024-06-24/joiner-epoch-99-avg-1.int8.onnx \
+    ./sherpa-onnx-zipformer-korean-2024-06-24/test_wavs/0.wav
+
+.. note::
+
+   Please use ``./build/bin/Release/sherpa-onnx-offline.exe`` for Windows.
+
+.. caution::
+
+   If you use Windows and get encoding issues, please run:
+
+      .. code-block:: bash
+
+          CHCP 65001
+
+   in your commandline.
+
+You should see the following output:
+
+.. literalinclude:: ./code-zipformer/sherpa-onnx-zipformer-korean-2024-06-24-int8.txt
+
+Speech recognition from a microphone
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  ./build/bin/sherpa-onnx-microphone-offline \
+    --tokens=./sherpa-onnx-zipformer-korean-2024-06-24/tokens.txt \
+    --encoder=./sherpa-onnx-zipformer-korean-2024-06-24/encoder-epoch-99-avg-1.int8.onnx \
+    --decoder=./sherpa-onnx-zipformer-korean-2024-06-24/decoder-epoch-99-avg-1.onnx \
+    --joiner=./sherpa-onnx-zipformer-korean-2024-06-24/joiner-epoch-99-avg-1.int8.onnx
+
 sherpa-onnx-zipformer-thai-2024-06-20 (Thai, 泰语)
 ------------------------------------------------------------
 
 PyTorch checkpoints of this model can be found at
-`<https://huggingface.co/yfyeung/icefall-asr-gigaspeech2-th-zipformer-2024-06-20>`.
+`<https://huggingface.co/yfyeung/icefall-asr-gigaspeech2-th-zipformer-2024-06-20>`_.
+
 The training dataset can be found at `<https://github.com/SpeechColab/GigaSpeech2>`_.
+
+The paper about the dataset is `<https://arxiv.org/pdf/2406.11546>`_.
 
 In the following, we describe how to download it and use it with `sherpa-onnx`_.
 
