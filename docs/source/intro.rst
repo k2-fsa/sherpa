@@ -60,16 +60,24 @@ The differences are compared below:
    - C++, Python
    - | C, C++, Python,
      | C#, Java, Kotlin,
-     | Swift
+     | Swift, Go,
+     | JavaScript, Dart
    - | C, C++, Python,
      | C#, Kotlin,
-     | Swift
- * - Model types
-   - | streaming,
-     | non-streaming
-   - | streaming,
-     | non-streaming
-   - streaming only
+     | Swift, Go
+ * - Supported functions
+   - | streaming speech recognition,
+     | non-streaming speech recognition
+   - | streaming speech recognition,
+     | non-streaming speech recognition,
+     | text-to-speech,
+     | speaker identification,
+     | speaker verification,
+     | spoken language identification,
+     | audio tagging,
+     | VAD,
+     | keyword spotting,
+   - streaming speech recognition
 
 
 We also support `Triton`_. Please see :ref:`triton_overview`.

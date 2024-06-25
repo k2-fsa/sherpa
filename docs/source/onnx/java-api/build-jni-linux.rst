@@ -101,3 +101,54 @@ You should see the following output for ``ls -lh lib``::
 Note that all these ``*.so`` files are required.
 
 ``libsherpa-onnx-jni.so`` contains the JNI interface for `sherpa-onnx`_.
+
+
+Download pre-built JNI libs
+---------------------------
+
+If you don't want to build ``JNI`` libs by yourself, please download pre-built ``JNI``
+libs from
+
+    `<https://huggingface.co/csukuangfj/sherpa-onnx-libs/tree/main/jni>`_
+
+For Chinese users, please use
+
+  `<https://hf-mirror.com/csukuangfj/sherpa-onnx-libs/tree/main/jni>`_
+
+Please always use the latest version. In the following, we describe how to download
+the version ``1.10.2``.
+
+.. code-block:: bash
+
+   wget https://huggingface.co/csukuangfj/sherpa-onnx-libs/resolve/main/jni/sherpa-onnx-v1.10.2-linux-x64-jni.tar.bz2
+
+   # For Chinese users
+   # wget https://hf-mirror.com/csukuangfj/sherpa-onnx-libs/resolve/main/jni/sherpa-onnx-v1.10.2-linux-x64-jni.tar.bz2
+
+   tar xf sherpa-onnx-v1.10.2-linux-x64-jni.tar.bz2
+   rm sherpa-onnx-v1.10.2-linux-x64-jni.tar.bz2
+
+You should find the following files:
+
+.. code-block:: bash
+
+  ls -lh sherpa-onnx-v1.10.2-linux-x64-jni/lib/
+
+  -rwxr-xr-x  1 fangjun  staff    16K Jun 25 11:41 libcargs.so
+  -rwxr-xr-x  1 fangjun  staff   383K Jun 25 11:41 libespeak-ng.so
+  -rwxr-xr-x  1 fangjun  staff   648K Jun 25 11:41 libkaldi-decoder-core.so
+  -rwxr-xr-x  1 fangjun  staff   214K Jun 25 11:41 libkaldi-native-fbank-core.so
+  -rw-r--r--  1 fangjun  staff    15M Jun 25 11:40 libonnxruntime.so
+  -rw-r--r--  1 fangjun  staff    15M Jun 25 11:40 libonnxruntime.so.1.17.1
+  lrwxr-xr-x  1 fangjun  staff    23B Jun 25 11:44 libpiper_phonemize.so -> libpiper_phonemize.so.1
+  lrwxr-xr-x  1 fangjun  staff    27B Jun 25 11:44 libpiper_phonemize.so.1 -> libpiper_phonemize.so.1.2.0
+  -rwxr-xr-x  1 fangjun  staff   535K Jun 25 11:41 libpiper_phonemize.so.1.2.0
+  -rwxr-xr-x  1 fangjun  staff   128K Jun 25 11:44 libsherpa-onnx-c-api.so
+  -rwxr-xr-x  1 fangjun  staff   2.5M Jun 25 11:43 libsherpa-onnx-core.so
+  -rwxr-xr-x  1 fangjun  staff   2.1M Jun 25 11:41 libsherpa-onnx-fst.so
+  -rwxr-xr-x  1 fangjun  staff    18K Jun 25 11:41 libsherpa-onnx-fstfar.so
+  -rwxr-xr-x  1 fangjun  staff   155K Jun 25 11:44 libsherpa-onnx-jni.so
+  -rwxr-xr-x  1 fangjun  staff   1.1M Jun 25 11:41 libsherpa-onnx-kaldifst-core.so
+  -rwxr-xr-x  1 fangjun  staff    81K Jun 25 11:41 libsherpa-onnx-portaudio.so
+  -rwxr-xr-x  1 fangjun  staff   275K Jun 25 11:41 libssentencepiece_core.so
+  -rwxr-xr-x  1 fangjun  staff   224K Jun 25 11:40 libucd.so
