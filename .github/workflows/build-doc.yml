@@ -142,9 +142,11 @@ jobs:
               git clone https://huggingface.co/csukuangfj/sherpa-onnx-flutter huggingface
               cd huggingface
               ./generate-asr.py
+              ./generate-tts.py
               mkdir -p ../build/html/onnx/flutter/asr
               mv -v app-asr.html ../build/html/onnx/flutter/asr/app.html
               mv -v app-asr-cn.html ../build/html/onnx/flutter/asr/app-cn.html
+              mv -v tts*.html ../build/html/onnx/flutter/
               cd ..
               rm -rf huggingface
 
