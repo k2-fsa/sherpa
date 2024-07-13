@@ -3,11 +3,13 @@
 tiny.en
 =======
 
-You can use the following command to download the exported `onnx`_ models of ``tiny.en``:
+You can use the following commands to download the exported `onnx`_ models of ``tiny.en``:
 
 .. hint::
 
-   Please replace ``tiny.en`` with ``base.en``, ``small.en``, or ``medium.en``
+   Please replace ``tiny.en`` with
+   ``base.en``, ``small.en``, ``medium.en``, ``distil-small.en``,
+   ``tiny``, ``base``, ``small``, and ``medium``
    if you want to try a different type of model.
 
 .. code-block:: bash

@@ -9,5 +9,6 @@ for non-streaming speech recognition.
 
    ./export-onnx.rst
    ./tiny.en.rst
+   ./large-v3.rst
    ./colab.rst
    ./huggingface.rst
