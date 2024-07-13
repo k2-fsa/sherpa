@@ -1,6 +1,10 @@
 Build the jar package
 =====================
 
+.. note::
+
+   Please see the end of this page for how to download pre-built ``jar``.
+
 .. code-block:: bash
 
   cd sherpa-onnx/sherpa-onnx/java-api
@@ -39,3 +43,26 @@ Congratulations! You have generated ``sherpa-onnx.jar`` successfully.
    You can find the Java API source files at
 
     `<https://github.com/k2-fsa/sherpa-onnx/tree/master/sherpa-onnx/java-api/src/com/k2fsa/sherpa/onnx>`_
+
+Download pre-built jar
+----------------------
+
+If you don't want to build ``jar`` by yourself, you can download pre-built ``jar`` from
+from
+
+    `<https://huggingface.co/csukuangfj/sherpa-onnx-libs/tree/main/jni>`_
+
+For Chinese users, please use
+
+  `<https://hf-mirror.com/csukuangfj/sherpa-onnx-libs/tree/main/jni>`_
+
+Please always use the latest version. In the following, we describe how to download
+the version ``1.10.2``.
+
+.. code-block:: bash
+
+   wget https://huggingface.co/csukuangfj/sherpa-onnx-libs/resolve/main/jni/sherpa-onnx-v1.10.2.jar
+
+   # For Chinese users
+   # wget https://hf-mirror.com/csukuangfj/sherpa-onnx-libs/resolve/main/jni/sherpa-onnx-v1.10.2.jar
+
