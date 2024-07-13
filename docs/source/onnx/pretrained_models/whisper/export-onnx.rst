@@ -63,7 +63,7 @@ from the following huggingface repositories:
 
 .. note::
 
-    For non-large models, you can also download them from
+    You can also download them from
 
       `<https://github.com/k2-fsa/sherpa-onnx/releases/tag/asr-models>`_
 
