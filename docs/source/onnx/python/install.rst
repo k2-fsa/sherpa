@@ -28,6 +28,23 @@ To check you have installed `sherpa-onnx`_ successfully, please run
 
   ls -lh $(dirname $(which sherpa-onnx))/sherpa-onnx*
 
+.. hint::
+
+   You can find previous releases at
+   `<https://k2-fsa.github.io/sherpa/onnx/cpu.html>`_
+
+   For Chinese users and users who have no access to huggingface, please visit
+   `<https://k2-fsa.github.io/sherpa/onnx/cpu-cn.html>`_.
+
+   You can use::
+
+    pip install sherpa-onnx -f https://k2-fsa.github.io/sherpa/onnx/cpu.html
+
+   or::
+
+    # For Chinese uers
+    pip install sherpa-onnx -f https://k2-fsa.github.io/sherpa/onnx/cpu-cn.html
+
 Method 2 (From source)
 ----------------------
 
