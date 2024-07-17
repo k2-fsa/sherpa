@@ -152,7 +152,7 @@ jobs:
 
               git clone https://huggingface.co/csukuangfj/sherpa-onnx-wheels huggingface
               cd huggingface
-              ./generate-cpu-wheels.py
+              ./run.sh
               mv -v *.html ../build/html/onnx/
               cd ..
               rm -rf huggingface
