@@ -5,13 +5,18 @@ Install the Python Package
 
 You can select one of the following methods to install the Python package.
 
-Method 1 (From pre-compiled wheels)
------------------------------------
+Method 1 (From pre-compiled wheels, CPU only)
+---------------------------------------------
 
 .. hint::
 
-  This method supports ``x86_64``, ``arm64`` (e.g., Mac M1, 64-bit Raspberry Pi),
-  and ``arm32`` (e.g., 32-bit Raspberry Pi).
+  This method supports the following platfroms:
+
+    - Linux (``x64``, ``aarch64``, ``armv7l``),
+    - macOS (``x64``, ``arm64``)
+    - Windows (``x64``, ``x86``)
+
+  Note that this method installs a CPU-only version of `sherpa-onnx`_.
 
 .. code-block:: bash
 
@@ -45,7 +50,62 @@ To check you have installed `sherpa-onnx`_ successfully, please run
     # For Chinese uers
     pip install sherpa-onnx -f https://k2-fsa.github.io/sherpa/onnx/cpu-cn.html
 
-Method 2 (From source)
+Method 2 (From pre-compiled wheels, CPU + CUDA)
+------------------------------------------------
+
+.. note::
+
+   This method installs a version of `sherpa-onnx`_ supporting both ``CUDA``
+   and ``CPU``. You need to pass the argument ``provider=cuda`` to use
+   NVIDIA GPU, which always uses GPU 0. Otherwise, it uses ``CPU`` by default.
+
+   Please use the environment variable ``CUDA_VISIBLE_DEVICES`` to control
+   which GPU is mapped to GPU 0.
+
+   By default, ``provider`` is set to ``cpu``.
+
+   Remeber to follow `<https://onnxruntime.ai/docs/execution-providers/CUDA-ExecutionProvider.html#requirements>`_
+   to install CUDA 11.8.
+
+   If you have issues about installing CUDA 11.8, please have a look at
+   `<https://k2-fsa.github.io/k2/installation/cuda-cudnn.html#cuda-11-8>`_.
+
+   Note that you don't need to have ``sudo`` permission to install CUDA 11.8
+
+This approach supports only Linux x64 and Windows x64.
+
+Please use the following command to install CUDA-enabled `sherpa-onnx`_::
+
+  # We use 1.10.16 here for demonstration.
+  #
+  # Please visit https://k2-fsa.github.io/sherpa/onnx/cuda.html
+  # to find available versions
+
+  pip install sherpa-onnx==1.10.16+cuda -f https://k2-fsa.github.io/sherpa/onnx/cuda.html
+
+  # For Chinese users, please use
+  # pip install sherpa-onnx==1.10.16+cuda -f https://k2-fsa.github.io/sherpa/onnx/cuda-cn.html
+
+The installation logs are given below::
+
+  Looking in links: https://k2-fsa.github.io/sherpa/onnx/cuda.html
+  Collecting sherpa-onnx==1.10.16+cuda
+    Downloading https://huggingface.co/csukuangfj/sherpa-onnx-wheels/resolve/main/cuda/1.10.16/sherpa_onnx-1.10.16%2Bcuda-cp310-cp310-linux_x86_64.whl (183.3 MB)
+       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 183.3/183.3 MB 4.4 MB/s eta 0:00:00
+  Installing collected packages: sherpa-onnx
+  Successfully installed sherpa-onnx-1.10.16+cuda
+
+To check that you have installed `sherpa-onnx`_ successfully, please run::
+
+  python3 -c "import sherpa_onnx; print(sherpa_onnx.__version__)"
+
+which should print something like below::
+
+  1.10.16+cuda
+
+
+
+Method 3 (From source)
 ----------------------
 
 .. tabs::
@@ -67,7 +127,7 @@ Method 2 (From source)
         cd sherpa-onnx
         python3 setup.py install
 
-Method 3 (For developers)
+Method 4 (For developers)
 -------------------------
 
 .. tabs::
