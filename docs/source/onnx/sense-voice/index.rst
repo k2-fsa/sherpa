@@ -1,8 +1,9 @@
 SenseVoice
 ==========
 
-This section describes how to use models from `<https://github.com/FunAudioLLM/SenseVoice>`_, which supports
-the following languages
+This section describes how to use models from `<https://github.com/FunAudioLLM/SenseVoice>`_.
+
+A single model from `SenseVoice`_ supports the following languages
 
   - Chinese (Mandarin, 普通话)
   - Cantonese (粤语, 广东话)
@@ -10,7 +11,7 @@ the following languages
   - Japanese
   - Korean
 
-in a single model, like what multilingual `Whisper`_ is doing.
+which is similar to what multilingual `Whisper`_ is doing.
 
 We have converted `SenseVoice`_ to onnx and provided APIs for the following programming languages
 
@@ -45,3 +46,4 @@ and use them in `sherpa-onnx`_.
    ./pretrained.rst
    ./c-api.rst
    ./dart-api.rst
+   ./python-api.rst
