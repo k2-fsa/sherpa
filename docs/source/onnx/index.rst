@@ -46,6 +46,7 @@ Also, we show how to use it for speech recognition with pre-trained models.
    ./spoken-language-identification/index
    ./vad/index
    ./pretrained_models/index
+   ./sense-voice/index
 
 .. toctree::
    :maxdepth: 5
