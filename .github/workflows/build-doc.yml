@@ -86,6 +86,13 @@ jobs:
               python3 -m pip install -r ./docs/requirements.txt
 
               cd docs
+
+              # Download test wave files for SenseVoice
+              pushd source/_static/sense-voice
+              curl -SL -O https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/lei-jun-test.wav
+              curl -SL -O https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/Obama.wav
+              popd
+
               make html
               touch build/html/.nojekyll
 

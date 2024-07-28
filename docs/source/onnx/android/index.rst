@@ -4,12 +4,11 @@ Android
 =======
 
 
-In this section, we describe how to build an Android app for ``real-time`` speech
-recognition with `sherpa-onnx`_.
+In this section, we describe how to build an Android app for with `sherpa-onnx`_.
 
 .. hint::
 
-  During speech recognition, it does not need to access the Internet.
+  For real-time speech recognition, it does not need to access the Internet.
   Everyting is processed locally on your phone.
 
 .. toctree::
