@@ -172,4 +172,5 @@ rst_epilog = """
 .. _Dart: https://dart.dev/
 .. _Node: https://nodejs.org/en
 .. _SenseVoice: https://github.com/FunAudioLLM/SenseVoice
+.. _LibriTTS-R: https://www.openslr.org/141/
 """
