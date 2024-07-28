@@ -170,4 +170,6 @@ rst_epilog = """
 .. _silero-vad: https://github.com/snakers4/silero-vad
 .. _Flutter: https://flutter.dev/
 .. _Dart: https://dart.dev/
+.. _Node: https://nodejs.org/en
+.. _SenseVoice: https://github.com/FunAudioLLM/SenseVoice
 """
