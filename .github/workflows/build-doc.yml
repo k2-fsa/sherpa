@@ -87,13 +87,10 @@ jobs:
 
               cd docs
 
-              # Download test wave files for SenseVoice
-              pushd source/_static/sense-voice
-              curl -SL -O https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/lei-jun-test.wav
-              curl -SL -O https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/Obama.wav
-              popd
-
               make html
+
+
+
               touch build/html/.nojekyll
 
               export GIT_LFS_SKIP_SMUDGE=1
@@ -178,8 +175,17 @@ jobs:
               popd
               git diff
 
-              make latex
+              make latex >/dev/null 2>&1
               mkdir -pv build/html/_static
+
+              # Download test wave files for SenseVoice
+              mkdir -p build/html/_static/sense-voice
+              pushd build/html/_static/sense-voice
+              curl -SL -O https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/lei-jun-test.wav
+              curl -SL -O https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/Obama.wav
+              ls -lh
+              popd
+
               cd build/latex
               latexmk -interaction=nonstopmode -f -pdf -dvi- -ps- sherpa.tex || true
               ls -lh sherpa.pdf
