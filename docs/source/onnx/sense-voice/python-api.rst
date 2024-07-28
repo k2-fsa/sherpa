@@ -376,7 +376,7 @@ Please visit `<http://localhost:6006>`_.
     - Incorrect/Wrong address: `<http://a.b.c.d:6006>`_
     - Incorrect/Wrong address: `<https://a.b.c.d:6006>`_
 
-After starting you browser, you should see the following page:
+After starting the browser, you should see the following page:
 
   .. image:: ./pic/python-websocket/client-1.jpg
      :align: center
