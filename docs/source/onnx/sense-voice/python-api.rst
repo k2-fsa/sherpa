@@ -26,11 +26,32 @@ the following commands::
 
   python3 ./python-api-examples/offline-sense-voice-ctc-decode-files.py
 
+
+
 You should see something like below::
 
   ./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/test_wavs/zh.wav
-  {"text": "开饭时间早上9点至下午5点。", "timestamps": [0.72, 0.96, 1.26, 1.44, 1.92, 2.10, 2.58, 2.82, 3.30, 3.90, 4.20, 4.56, 4.74, 5.46], "tokens":["开", "饭", "时", "间", "早", "上", "9", "点", "至", "下", "午", "5", "点", "。"], "words": []}
+  {"text": "开放时间早上9点至下午5点。", "timestamps": [0.72, 0.96, 1.26, 1.44, 1.92, 2.10, 2.58, 2.82, 3.30, 3.90, 4.20, 4.56, 4.74, 5.46], "tokens":["开", "放", "时", "间", "早", "上", "9", "点", "至", "下", "午", "5", "点", "。"], "words": []}
+
   (py38) fangjuns-MacBook-Pro:sherpa-onnx fangjun$ #python3 ./python-api-examples/offline-sense-voice-ctc-decode-files.py
+
+.. raw:: html
+
+  <table>
+    <tr>
+      <th>Wave filename</th>
+      <th>Content</th>
+    </tr>
+    <tr>
+      <td>zh.wav</td>
+      <td>
+       <audio title="zh.wav" controls="controls">
+             <source src="/sherpa/_static/sense-voice/zh.wav" type="audio/wav">
+             Your browser does not support the <code>audio</code> element.
+       </audio>
+      </td>
+    </tr>
+  </table>
 
 You can find ``offline-sense-voice-ctc-decode-files.py`` at the following address:
 
@@ -231,6 +252,33 @@ The following code sends the files in sequential one by one to the server for de
 
    python3 ./python-api-examples/offline-websocket-client-decode-files-sequential.py ./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/test_wavs/zh.wav  ./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/test_wavs/en.wav
 
+.. raw:: html
+
+  <table>
+    <tr>
+      <th>Wave filename</th>
+      <th>Content</th>
+    </tr>
+    <tr>
+      <td>zh.wav</td>
+      <td>
+       <audio title="zh.wav" controls="controls">
+             <source src="/sherpa/_static/sense-voice/zh.wav" type="audio/wav">
+             Your browser does not support the <code>audio</code> element.
+       </audio>
+      </td>
+    </tr>
+    <tr>
+      <td>en.wav</td>
+      <td>
+       <audio title="en.wav" controls="controls">
+             <source src="/sherpa/_static/sense-voice/en.wav" type="audio/wav">
+             Your browser does not support the <code>audio</code> element.
+       </audio>
+      </td>
+    </tr>
+  </table>
+
 You should see something like below on the server side::
 
   2024-07-28 20:28:15,749 INFO [server.py:642] connection open
@@ -258,6 +306,33 @@ The following code sends the files in parallel at the same time to the server fo
 
    python3 ./python-api-examples/offline-websocket-client-decode-files-paralell.py ./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/test_wavs/zh.wav  ./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/test_wavs/en.wav
 
+
+.. raw:: html
+
+  <table>
+    <tr>
+      <th>Wave filename</th>
+      <th>Content</th>
+    </tr>
+    <tr>
+      <td>zh.wav</td>
+      <td>
+       <audio title="zh.wav" controls="controls">
+             <source src="/sherpa/_static/sense-voice/zh.wav" type="audio/wav">
+             Your browser does not support the <code>audio</code> element.
+       </audio>
+      </td>
+    </tr>
+    <tr>
+      <td>en.wav</td>
+      <td>
+       <audio title="en.wav" controls="controls">
+             <source src="/sherpa/_static/sense-voice/en.wav" type="audio/wav">
+             Your browser does not support the <code>audio</code> element.
+       </audio>
+      </td>
+    </tr>
+  </table>
 You should see something like below on the server side::
 
   2024-07-28 20:31:10,147 INFO [server.py:642] connection open
