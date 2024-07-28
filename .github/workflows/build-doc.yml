@@ -75,7 +75,7 @@ jobs:
               cd /workspace
               which latexmk
 
-              apk add --no-cache python3 py3-pip git make gcc zlib-dev libffi-dev openssl-dev musl-dev ghostscript
+              apk add --no-cache python3 py3-pip git make gcc zlib-dev libffi-dev openssl-dev musl-dev ghostscript curl
               python3 --version
 
 
@@ -86,7 +86,20 @@ jobs:
               python3 -m pip install -r ./docs/requirements.txt
 
               cd docs
+
+              # Download test wave files for SenseVoice
+              mkdir -p source/_static/sense-voice
+              pushd source/_static/sense-voice
+              rm .gitignore
+              curl -SL -O https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/lei-jun-test.wav
+              curl -SL -O https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/Obama.wav
+              curl -SL -O https://huggingface.co/csukuangfj/sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/resolve/main/test_wavs/zh.wav
+              curl -SL -O https://huggingface.co/csukuangfj/sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/resolve/main/test_wavs/en.wav
+              ls -lh
+              popd
+
               make html
+
               touch build/html/.nojekyll
 
               export GIT_LFS_SKIP_SMUDGE=1
@@ -171,12 +184,27 @@ jobs:
               popd
               git diff
 
-              make latex
-              mkdir -pv build/html/_static
-              cd build/latex
-              latexmk -interaction=nonstopmode -f -pdf -dvi- -ps- sherpa.tex || true
-              ls -lh sherpa.pdf
-              cp -v sherpa.pdf ../html/
+              if true; then
+                make latex >/dev/null 2>&1
+                mkdir -pv build/html/_static
+
+                cd build/latex
+                latexmk -interaction=nonstopmode -f -pdf -dvi- -ps- sherpa.tex >/dev/null 2>&1 || true
+                ls -lh sherpa.pdf
+                cp -v sherpa.pdf ../html/
+              fi
+
+      - name: View generated files
+        shell: bash
+        run: |
+          cd docs/build/html
+          ls -lh
+
+          echo "-----_static-----"
+          ls -lh _static
+
+          echo "-----_static/sense-voice-----"
+          ls -lh _static/sense-voice
 
       - name: Release sherpa.pdf
         if: (github.repository_owner == 'csukuangfj' || github.repository_owner == 'k2-fsa') && github.event_name == 'push'
