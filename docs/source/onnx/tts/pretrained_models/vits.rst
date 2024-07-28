@@ -32,6 +32,18 @@ The following table summarizes the information of all models in this page.
    - Dataset
    - Model filesize (MB)
    - Sample rate (Hz)
+ * - :ref:`vits-melo-tts-zh_en`
+   - Chinese + English
+   - 1
+   - N/A
+   - 163
+   - 44100
+ * - :ref:`vits-piper-en_US-libritts_r-medium`
+   - English
+   - 904
+   - `LibriTTS-R`_
+   - 75
+   - 22050
  * - :ref:`vits-zh-hf-fanchen-C`
    - Chinese
    - 187
@@ -80,6 +92,436 @@ The following table summarizes the information of all models in this page.
    - `lessac_blizzard2013`_
    - 61
    - 22050
+
+.. _vits-melo-tts-zh_en:
+
+vits-melo-tts-zh_en (Chinese + English, 1 speaker)
+--------------------------------------------------
+
+This model is converted from `<https://huggingface.co/myshell-ai/MeloTTS-Chinese>`_
+and it supports only 1 speaker. It supports both Chinese and English.
+
+Note that if you input English words, only those that are present in the ``lexicon.txt``
+can be pronounced. Please change ``lexicon.txt`` by yourself to add new words.
+
+.. hint::
+
+   The converting script is available at
+   `<https://github.com/k2-fsa/sherpa-onnx/tree/master/scripts/melo-tts>`_
+
+   You can convert more models from `<https://github.com/myshell-ai/MeloTTS>`_
+   by yourself.
+
+In the following, we describe how to download it and use it with `sherpa-onnx`_.
+
+Download the model
+~~~~~~~~~~~~~~~~~~
+
+Please use the following commands to download it.
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/vits-melo-tts-zh_en.tar.bz2
+  tar xvf vits-melo-tts-zh_en.tar.bz2
+  rm vits-melo-tts-zh_en.tar.bz2
+
+Please check that the file sizes of the pre-trained models are correct. See
+the file sizes of ``*.onnx`` files below.
+
+.. code-block:: bash
+
+  ls -lh vits-melo-tts-zh_en/
+  total 346848
+  -rw-r--r--  1 fangjun  staff   1.0K Jul 16 13:38 LICENSE
+  -rw-r--r--  1 fangjun  staff   156B Jul 16 13:38 README.md
+  -rw-r--r--  1 fangjun  staff    58K Jul 16 13:38 date.fst
+  drwxr-xr-x  9 fangjun  staff   288B Apr 19 20:42 dict
+  -rw-r--r--  1 fangjun  staff   6.5M Jul 16 13:38 lexicon.txt
+  -rw-r--r--  1 fangjun  staff   163M Jul 16 13:38 model.onnx
+  -rw-r--r--  1 fangjun  staff    63K Jul 16 13:38 number.fst
+  -rw-r--r--  1 fangjun  staff    87K Jul 16 13:38 phone.fst
+  -rw-r--r--  1 fangjun  staff   655B Jul 16 13:38 tokens.txt
+
+Generate speech with executable compiled from C++
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  ./build/bin/sherpa-onnx-offline-tts \
+   --vits-model=./vits-melo-tts-zh_en/model.onnx \
+   --vits-lexicon=./vits-melo-tts-zh_en/lexicon.txt \
+   --vits-tokens=./vits-melo-tts-zh_en/tokens.txt \
+   --vits-dict-dir=./vits-melo-tts-zh_en/dict \
+   --output-filename=./zh-en-0.wav \
+   "This is a 中英文的 text to speech 测试例子。"
+
+  ./build/bin/sherpa-onnx-offline-tts \
+   --vits-model=./vits-melo-tts-zh_en/model.onnx \
+   --vits-lexicon=./vits-melo-tts-zh_en/lexicon.txt \
+   --vits-tokens=./vits-melo-tts-zh_en/tokens.txt \
+   --vits-dict-dir=./vits-melo-tts-zh_en/dict \
+   --output-filename=./zh-en-1.wav \
+   "我最近在学习machine learning，希望能够在未来的artificial intelligence领域有所建树。"
+
+  ./build/bin/sherpa-onnx-offline-tts-play \
+   --vits-model=./vits-melo-tts-zh_en/model.onnx \
+   --vits-lexicon=./vits-melo-tts-zh_en/lexicon.txt \
+   --vits-tokens=./vits-melo-tts-zh_en/tokens.txt \
+   --tts-rule-fsts='./vits-melo-tts-zh_en/date.fst,./vits-melo-tts-zh_en/number.fst' \
+   --vits-dict-dir=./vits-melo-tts-zh_en/dict \
+   --output-filename=./zh-en-2.wav \
+   "Are you ok 是雷军2015年4月小米在印度举行新品发布会时说的。他还说过 I am very happy to be in China.雷军事后在微博上表示「万万没想到，视频火速传到国内，全国人民都笑了」、「现在国际米粉越来越多，我的确应该把英文学好，不让大家失望！加油！」"
+
+
+After running, it will generate three files ``zh-en-1.wav``,
+``zh-en-2.wav``, and ``zh-en-3.wav`` in the current directory.
+
+.. code-block:: bash
+
+  soxi zh-en-*.wav
+
+  Input File     : 'zh-en-0.wav'
+  Channels       : 1
+  Sample Rate    : 44100
+  Precision      : 16-bit
+  Duration       : 00:00:03.54 = 156160 samples = 265.578 CDDA sectors
+  File Size      : 312k
+  Bit Rate       : 706k
+  Sample Encoding: 16-bit Signed Integer PCM
+
+
+  Input File     : 'zh-en-1.wav'
+  Channels       : 1
+  Sample Rate    : 44100
+  Precision      : 16-bit
+  Duration       : 00:00:05.98 = 263680 samples = 448.435 CDDA sectors
+  File Size      : 527k
+  Bit Rate       : 706k
+  Sample Encoding: 16-bit Signed Integer PCM
+
+
+  Input File     : 'zh-en-2.wav'
+  Channels       : 1
+  Sample Rate    : 44100
+  Precision      : 16-bit
+  Duration       : 00:00:18.92 = 834560 samples = 1419.32 CDDA sectors
+  File Size      : 1.67M
+  Bit Rate       : 706k
+  Sample Encoding: 16-bit Signed Integer PCM
+
+  Total Duration of 3 files: 00:00:28.44
+
+.. raw:: html
+
+  <table>
+    <tr>
+      <th>Wave filename</th>
+      <th>Content</th>
+      <th>Text</th>
+    </tr>
+    <tr>
+      <td>zh-en-0.wav</td>
+      <td>
+       <audio title="Generated ./zh-en-0.wav" controls="controls">
+             <source src="/sherpa/_static/vits-melo-tts/zh-en-0.wav" type="audio/wav">
+             Your browser does not support the <code>audio</code> element.
+       </audio>
+      </td>
+      <td>
+        This is a 中英文的 text to speech 测试例子。
+      </td>
+    </tr>
+    <tr>
+      <td>zh-en-1.wav</td>
+      <td>
+       <audio title="Generated ./zh-en-1.wav" controls="controls">
+             <source src="/sherpa/_static/vits-melo-tts/zh-en-1.wav" type="audio/wav">
+             Your browser does not support the <code>audio</code> element.
+       </audio>
+      </td>
+      <td>
+        我最近在学习machine learning，希望能够在未来的artificial intelligence领域有所建树。
+      </td>
+    </tr>
+    <tr>
+      <td>zh-en-2.wav</td>
+      <td>
+       <audio title="Generated ./zh-en-2.wav" controls="controls">
+             <source src="/sherpa/_static/vits-melo-tts/zh-en-2.wav" type="audio/wav">
+             Your browser does not support the <code>audio</code> element.
+       </audio>
+      </td>
+      <td>
+        Are you ok 是雷军2015年4月小米在印度举行新品发布会时说的。他还说过 I am very happy to be in China.雷军事后在微博上表示「万万没想到，视频火速传到国内，全国人民都笑了」、「现在国际米粉越来越多，我的确应该把英文学好，不让大家失望！加油！」
+      </td>
+    </tr>
+  </table>
+
+
+Generate speech with Python script
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  python3 ./python-api-examples/offline-tts-play.py \
+   --vits-model=./vits-melo-tts-zh_en/model.onnx \
+   --vits-lexicon=./vits-melo-tts-zh_en/lexicon.txt \
+   --vits-tokens=./vits-melo-tts-zh_en/tokens.txt \
+   --vits-dict-dir=./vits-melo-tts-zh_en/dict \
+   --output-filename=./zh-en-3.wav \
+   "它也支持繁体字. 我相信你們一定聽過愛迪生說過的這句話Genius is one percent inspiration and ninety-nine percent perspiration. "
+
+After running, it will generate a file ``zh-en-3.wav`` in the current directory.
+
+.. code-block:: bash
+
+  soxi zh-en-3.wav
+
+  Input File     : 'zh-en-3.wav'
+  Channels       : 1
+  Sample Rate    : 44100
+  Precision      : 16-bit
+  Duration       : 00:00:09.83 = 433664 samples = 737.524 CDDA sectors
+  File Size      : 867k
+  Bit Rate       : 706k
+  Sample Encoding: 16-bit Signed Integer PCM
+
+.. raw:: html
+
+  <table>
+    <tr>
+      <th>Wave filename</th>
+      <th>Content</th>
+      <th>Text</th>
+    </tr>
+    <tr>
+      <td>zh-en-3.wav</td>
+      <td>
+       <audio title="Generated ./zh-en-3.wav" controls="controls">
+             <source src="/sherpa/_static/vits-melo-tts/zh-en-3.wav" type="audio/wav">
+             Your browser does not support the <code>audio</code> element.
+       </audio>
+      </td>
+      <td>
+       它也支持繁体字. 我相信你們一定聽過愛迪生說過的這句話Genius is one percent inspiration and ninety-nine percent perspiration.
+      </td>
+    </tr>
+  </table>
+
+.. _vits-piper-en_US-libritts_r-medium:
+
+vits-piper-en_US-libritts_r-medium (English, 904 speakers)
+----------------------------------------------------------
+
+This model is converted from `<https://huggingface.co/rhasspy/piper-voices/tree/main/en/en_US/libritts_r/medium>`_
+and it supports 904 speakers. It supports only English.
+
+In the following, we describe how to download it and use it with `sherpa-onnx`_.
+
+Download the model
+~~~~~~~~~~~~~~~~~~
+
+Please use the following commands to download it.
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/vits-piper-en_US-libritts_r-medium.tar.bz2
+  tar xvf vits-piper-en_US-libritts_r-medium.tar.bz2
+  rm vits-piper-en_US-libritts_r-medium.tar.bz2
+
+Please check that the file sizes of the pre-trained models are correct. See
+the file sizes of ``*.onnx`` files below.
+
+.. code-block:: bash
+
+  ls -lh vits-piper-en_US-libritts_r-medium/
+  total 153552
+  -rw-r--r--    1 fangjun  staff   279B Nov 29  2023 MODEL_CARD
+  -rw-r--r--    1 fangjun  staff    75M Nov 29  2023 en_US-libritts_r-medium.onnx
+  -rw-r--r--    1 fangjun  staff    20K Nov 29  2023 en_US-libritts_r-medium.onnx.json
+  drwxr-xr-x  122 fangjun  staff   3.8K Nov 28  2023 espeak-ng-data
+  -rw-r--r--    1 fangjun  staff   954B Nov 29  2023 tokens.txt
+  -rwxr-xr-x    1 fangjun  staff   1.8K Nov 29  2023 vits-piper-en_US.py
+  -rwxr-xr-x    1 fangjun  staff   730B Nov 29  2023 vits-piper-en_US.sh
+
+Generate speech with executable compiled from C++
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+   cd /path/to/sherpa-onnx
+
+  ./build/bin/sherpa-onnx-offline-tts \
+    --vits-model=./vits-piper-en_US-libritts_r-medium/en_US-libritts_r-medium.onnx \
+    --vits-tokens=./vits-piper-en_US-libritts_r-medium/tokens.txt \
+    --vits-data-dir=./vits-piper-en_US-libritts_r-medium/espeak-ng-data \
+    --output-filename=./libritts-liliana-109.wav \
+    --sid=109 \
+    'liliana, the most beautiful and lovely assistant of our team!'
+
+  ./build/bin/sherpa-onnx-offline-tts \
+    --vits-model=./vits-piper-en_US-libritts_r-medium/en_US-libritts_r-medium.onnx \
+    --vits-tokens=./vits-piper-en_US-libritts_r-medium/tokens.txt \
+    --vits-data-dir=./vits-piper-en_US-libritts_r-medium/espeak-ng-data \
+    --output-filename=./libritts-liliana-900.wav \
+    --sid=900 \
+    'liliana, the most beautiful and lovely assistant of our team!'
+
+After running, it will generate two files ``libritts-liliana-109.wav``
+and ``libritts-liliana-900.wav`` in the current directory.
+
+.. code-block:: bash
+
+  soxi libritts-liliana-*.wav
+
+  Input File     : 'libritts-liliana-109.wav'
+  Channels       : 1
+  Sample Rate    : 22050
+  Precision      : 16-bit
+  Duration       : 00:00:02.73 = 60160 samples ~ 204.626 CDDA sectors
+  File Size      : 120k
+  Bit Rate       : 353k
+  Sample Encoding: 16-bit Signed Integer PCM
+
+
+  Input File     : 'libritts-liliana-900.wav'
+  Channels       : 1
+  Sample Rate    : 22050
+  Precision      : 16-bit
+  Duration       : 00:00:03.36 = 73984 samples ~ 251.646 CDDA sectors
+  File Size      : 148k
+  Bit Rate       : 353k
+  Sample Encoding: 16-bit Signed Integer PCM
+
+  Total Duration of 2 files: 00:00:06.08
+
+.. raw:: html
+
+  <table>
+    <tr>
+      <th>Wave filename</th>
+      <th>Content</th>
+      <th>Text</th>
+    </tr>
+    <tr>
+      <td>libritts-liliana-109.wav</td>
+      <td>
+       <audio title="Generated ./libritts-liliana-109.wav" controls="controls">
+             <source src="/sherpa/_static/vits-piper-libritts/libritts-liliana-109.wav" type="audio/wav">
+             Your browser does not support the <code>audio</code> element.
+       </audio>
+      </td>
+      <td>
+        liliana, the most beautiful and lovely assistant of our team!
+      </td>
+    </tr>
+    <tr>
+      <td>libritts-liliana-900.wav</td>
+      <td>
+       <audio title="Generated ./libritts-liliana-900.wav" controls="controls">
+             <source src="/sherpa/_static/vits-piper-libritts/libritts-liliana-900.wav" type="audio/wav">
+             Your browser does not support the <code>audio</code> element.
+       </audio>
+      </td>
+      <td>
+        liliana, the most beautiful and lovely assistant of our team!
+      </td>
+    </tr>
+  </table>
+
+Generate speech with Python script
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+   cd /path/to/sherpa-onnx
+
+   python3 ./python-api-examples/offline-tts.py \
+    --vits-model=./vits-piper-en_US-libritts_r-medium/en_US-libritts_r-medium.onnx \
+    --vits-tokens=./vits-piper-en_US-libritts_r-medium/tokens.txt \
+    --vits-data-dir=./vits-piper-en_US-libritts_r-medium/espeak-ng-data \
+    --sid=200 \
+    --output-filename=./libritts-armstrong-200.wav \
+    "That's one small step for a man, a giant leap for mankind."
+
+   python3 ./python-api-examples/offline-tts.py \
+    --vits-model=./vits-piper-en_US-libritts_r-medium/en_US-libritts_r-medium.onnx \
+    --vits-tokens=./vits-piper-en_US-libritts_r-medium/tokens.txt \
+    --vits-data-dir=./vits-piper-en_US-libritts_r-medium/espeak-ng-data \
+    --sid=500 \
+    --output-filename=./libritts-armstrong-500.wav \
+    "That's one small step for a man, a giant leap for mankind."
+
+After running, it will generate two files ``libritts-armstrong-200.wav``
+and ``libritts-armstrong-500.wav`` in the current directory.
+
+.. code-block:: bash
+
+  soxi ./libritts-armstrong*.wav
+
+  Input File     : './libritts-armstrong-200.wav'
+  Channels       : 1
+  Sample Rate    : 22050
+  Precision      : 16-bit
+  Duration       : 00:00:03.11 = 68608 samples ~ 233.361 CDDA sectors
+  File Size      : 137k
+  Bit Rate       : 353k
+  Sample Encoding: 16-bit Signed Integer PCM
+
+
+  Input File     : './libritts-armstrong-500.wav'
+  Channels       : 1
+  Sample Rate    : 22050
+  Precision      : 16-bit
+  Duration       : 00:00:03.42 = 75520 samples ~ 256.871 CDDA sectors
+  File Size      : 151k
+  Bit Rate       : 353k
+  Sample Encoding: 16-bit Signed Integer PCM
+
+  Total Duration of 2 files: 00:00:06.54
+
+.. raw:: html
+
+  <table>
+    <tr>
+      <th>Wave filename</th>
+      <th>Content</th>
+      <th>Text</th>
+    </tr>
+    <tr>
+      <td>libritts-armstrong-200.wav</td>
+      <td>
+       <audio title="Generated ./libritts-armstrong-200.wav" controls="controls">
+             <source src="/sherpa/_static/vits-piper-libritts/libritts-armstrong-200.wav" type="audio/wav">
+             Your browser does not support the <code>audio</code> element.
+       </audio>
+      </td>
+      <td>
+        That's one small step for a man, a giant leap for mankind.
+      </td>
+    </tr>
+    <tr>
+      <td>libritts-armstrong-500.wav</td>
+      <td>
+       <audio title="Generated ./libritts-armstrong-500.wav" controls="controls">
+             <source src="/sherpa/_static/vits-piper-libritts/libritts-armstrong-500.wav" type="audio/wav">
+             Your browser does not support the <code>audio</code> element.
+       </audio>
+      </td>
+      <td>
+        That's one small step for a man, a giant leap for mankind.
+      </td>
+    </tr>
+  </table>
+
 
 .. _vits-model-vits-ljspeech:
 
