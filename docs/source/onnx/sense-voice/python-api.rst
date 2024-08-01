@@ -17,7 +17,7 @@ After installing the Python package, you can download the Python example code an
 the following commands::
 
   cd /tmp
-  git clone http://github.com/k2-fsa/sherpa-onnx
+  git clone https://github.com/k2-fsa/sherpa-onnx.git/
   cd sherpa-onnx
 
   curl -SL -O https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17.tar.bz2
