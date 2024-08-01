@@ -181,6 +181,10 @@ jobs:
               pushd source/onnx/pretrained_models/offline-transducer/
               sed -i.bak /sherpa-onnx-zipformer-thai-2024-06-20\.txt/d zipformer-transducer-models.rst
               sed -i.bak /sherpa-onnx-zipformer-thai-2024-06-20-int8\.txt/d zipformer-transducer-models.rst
+
+              sed -i.bak /sherpa-onnx-zipformer-ja-reazonspeech-2024-08-01\.txt/d zipformer-transducer-models.rst
+              sed -i.bak /sherpa-onnx-zipformer-ja-reazonspeech-2024-08-01-int8\.txt/d zipformer-transducer-models.rst
+
               popd
               git diff
 
