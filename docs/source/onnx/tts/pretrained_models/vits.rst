@@ -44,6 +44,12 @@ The following table summarizes the information of all models in this page.
    - `LibriTTS-R`_
    - 75
    - 22050
+ * - :ref:`sherpa-onnx-vits-zh-ll`
+   - Chinese
+   - 5
+   - N/A
+   - 115
+   - 16000
  * - :ref:`vits-zh-hf-fanchen-C`
    - Chinese
    - 187
@@ -865,7 +871,164 @@ It will generate 3 files: ``einstein-30.wav``, ``franklin-66.wav``, and ``martin
     </tr>
   </table>
 
+.. _sherpa-onnx-vits-zh-ll:
 
+csukuangfj/sherpa-onnx-vits-zh-ll (Chinese, 5 speakers)
+-------------------------------------------------------
+
+You can download the model using the following commands::
+
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/sherpa-onnx-vits-zh-ll.tar.bz2
+  tar xvf sherpa-onnx-vits-zh-ll.tar.bz2
+  rm sherpa-onnx-vits-zh-ll.tar.bz2
+
+.. hint::
+
+   This model is trained with the following framework
+
+    `<https://github.com/Plachtaa/VITS-fast-fine-tuning>`_
+
+Please check the file sizes of the downloaded model:
+
+.. code-block:: bash
+
+  ls -lh sherpa-onnx-vits-zh-ll/
+
+  -rw-r--r--  1 fangjun  staff   2.3K Apr 25 17:58 G_multisperaker_latest.json
+  -rw-r-----@ 1 fangjun  staff   2.2K Apr 25 17:22 G_multisperaker_latest_low.json
+  -rw-r--r--  1 fangjun  staff   127B Apr 25 17:58 README.md
+  -rw-r--r--  1 fangjun  staff    58K Apr 25 17:58 date.fst
+  drwxr-xr-x  9 fangjun  staff   288B Jun 21 16:32 dict
+  -rw-r--r--  1 fangjun  staff   368K Apr 25 17:58 lexicon.txt
+  -rw-r--r--  1 fangjun  staff   115M Apr 25 17:58 model.onnx
+  -rw-r--r--  1 fangjun  staff    21K Apr 25 17:58 new_heteronym.fst
+  -rw-r--r--  1 fangjun  staff    63K Apr 25 17:58 number.fst
+  -rw-r--r--  1 fangjun  staff    87K Apr 25 17:58 phone.fst
+  -rw-r--r--  1 fangjun  staff   331B Apr 25 17:58 tokens.txt
+
+**usage**:
+
+.. code-block:: bash
+
+  sherpa-onnx-offline-tts \
+    --vits-model=./sherpa-onnx-vits-zh-ll/model.onnx \
+    --vits-dict-dir=./sherpa-onnx-vits-zh-ll/dict \
+    --vits-lexicon=./sherpa-onnx-vits-zh-ll/lexicon.txt \
+    --vits-tokens=./sherpa-onnx-vits-zh-ll/tokens.txt \
+    --vits-length-scale=0.5 \
+    --sid=0 \
+    --output-filename="./0-value-2x.wav" \
+    "小米的核心价值观是什么？答案是真诚热爱！"
+
+
+  sherpa-onnx-offline-tts \
+    --vits-model=./sherpa-onnx-vits-zh-ll/model.onnx \
+    --vits-dict-dir=./sherpa-onnx-vits-zh-ll/dict \
+    --vits-lexicon=./sherpa-onnx-vits-zh-ll/lexicon.txt \
+    --vits-tokens=./sherpa-onnx-vits-zh-ll/tokens.txt \
+    --sid=1 \
+    --tts-rule-fsts=./sherpa-onnx-vits-zh-ll/number.fst \
+    --output-filename="./1-numbers.wav" \
+    "小米有14岁了"
+
+  sherpa-onnx-offline-tts \
+    --vits-model=./sherpa-onnx-vits-zh-ll/model.onnx \
+    --vits-dict-dir=./sherpa-onnx-vits-zh-ll/dict \
+    --vits-lexicon=./sherpa-onnx-vits-zh-ll/lexicon.txt \
+    --vits-tokens=./sherpa-onnx-vits-zh-ll/tokens.txt \
+    --tts-rule-fsts=./sherpa-onnx-vits-zh-ll/phone.fst,./sherpa-onnx-vits-zh-ll/number.fst \
+    --sid=2 \
+    --output-filename="./2-numbers.wav" \
+    "有困难，请拨打110 或者18601200909"
+
+  sherpa-onnx-offline-tts \
+    --vits-model=./sherpa-onnx-vits-zh-ll/model.onnx \
+    --vits-dict-dir=./sherpa-onnx-vits-zh-ll/dict \
+    --vits-lexicon=./sherpa-onnx-vits-zh-ll/lexicon.txt \
+    --vits-tokens=./sherpa-onnx-vits-zh-ll/tokens.txt \
+    --sid=3 \
+    --output-filename="./3-wo-mi.wav" \
+    "小米的使命是，始终坚持做感动人心、价格厚道的好产品，让全球每个人都能享受科技带来的美好生活。"
+
+  sherpa-onnx-offline-tts \
+    --vits-model=./sherpa-onnx-vits-zh-ll/model.onnx \
+    --vits-dict-dir=./sherpa-onnx-vits-zh-ll/dict \
+    --vits-lexicon=./sherpa-onnx-vits-zh-ll/lexicon.txt \
+    --vits-tokens=./sherpa-onnx-vits-zh-ll/tokens.txt \
+    --tts-rule-fsts=./sherpa-onnx-vits-zh-ll/number.fst \
+    --sid=4 \
+    --output-filename="./4-heteronym.wav" \
+    "35年前，他于长沙出生, 在长白山长大。9年前他当上了银行的领导，主管行政。"
+
+.. raw:: html
+
+  <table>
+    <tr>
+      <th>Wave filename</th>
+      <th>Content</th>
+      <th>Text</th>
+    </tr>
+    <tr>
+      <td>0-value-2x.wav</td>
+      <td>
+       <audio title="Generated ./0-value-2x.wav" controls="controls">
+             <source src="/sherpa/_static/sherpa-onnx-vits-zh-ll/0-value-2x.wav" type="audio/wav">
+             Your browser does not support the <code>audio</code> element.
+       </audio>
+      </td>
+      <td>
+        小米的核心价值观是什么？答案是真诚热爱！
+      </td>
+    </tr>
+    <tr>
+      <td>1-numbers.wav</td>
+      <td>
+       <audio title="Generated ./1-numbers.wav" controls="controls">
+             <source src="/sherpa/_static/sherpa-onnx-vits-zh-ll/1-numbers.wav" type="audio/wav">
+             Your browser does not support the <code>audio</code> element.
+       </audio>
+      </td>
+      <td>
+        小米有14岁了
+      </td>
+    </tr>
+    <tr>
+      <td>2-numbers.wav</td>
+      <td>
+       <audio title="Generated ./2-numbers.wav" controls="controls">
+             <source src="/sherpa/_static/sherpa-onnx-vits-zh-ll/2-numbers.wav" type="audio/wav">
+             Your browser does not support the <code>audio</code> element.
+       </audio>
+      </td>
+      <td>
+        有困难，请拨打110 或者18601200909
+      </td>
+    </tr>
+    <tr>
+      <td>3-wo-mi.wav</td>
+      <td>
+       <audio title="Generated ./3-wo-mi.wav" controls="controls">
+             <source src="/sherpa/_static/sherpa-onnx-vits-zh-ll/3-wo-mi.wav" type="audio/wav">
+             Your browser does not support the <code>audio</code> element.
+       </audio>
+      </td>
+      <td>
+        小米的使命是，始终坚持做感动人心、价格厚道的好产品，让全球每个人都能享受科技带来的美好生活。
+      </td>
+    </tr>
+    <tr>
+      <td>4-heteronym.wav</td>
+      <td>
+       <audio title="Generated ./4-heteronym.wav" controls="controls">
+             <source src="/sherpa/_static/sherpa-onnx-vits-zh-ll/4-heteronym.wav" type="audio/wav">
+             Your browser does not support the <code>audio</code> element.
+       </audio>
+      </td>
+      <td>
+        35年前，他于长沙出生, 在长白山长大。9年前他当上了银行的领导，主管行政。
+      </td>
+    </tr>
+  </table>
 
 .. _vits-zh-hf-fanchen-C:
 
