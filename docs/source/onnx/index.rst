@@ -34,6 +34,8 @@ Also, we show how to use it for speech recognition with pre-trained models.
    ./swift-api/index
    ./go-api/index
    ./csharp-api/index
+   ./pascal-api/index
+   ./lazarus/index
    ./wasm/index
    ./android/index
    ./ios/index

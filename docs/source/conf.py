@@ -174,6 +174,7 @@ rst_epilog = """
 .. _SenseVoice: https://github.com/FunAudioLLM/SenseVoice
 .. _LibriTTS-R: https://www.openslr.org/141/
 .. _ReazonSpeech: https://github.com/reazon-research/ReazonSpeech
+.. _Lazarus: https://www.lazarus-ide.org/
 """
 
 
