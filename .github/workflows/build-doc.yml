@@ -163,6 +163,14 @@ jobs:
               cd ..
               rm -rf huggingface
 
+              git clone https://huggingface.co/csukuangfj/sherpa-onnx-bin huggingface
+              cd huggingface
+              ./build-generate-subtitles.py
+              mv -v download-generated-subtitles.html ../build/html/onnx/lazarus/
+              mv -v download-generated-subtitles-cn.html ../build/html/onnx/lazarus/
+              cd ..
+              rm -rf huggingface
+
               git clone https://huggingface.co/csukuangfj/sherpa-onnx-wheels huggingface
               cd huggingface
               ./run.sh
