@@ -275,8 +275,8 @@ and put ``silero_vad.onnx`` into ``lazarus-examples/generate_subtitles``.
    If you are using macOS, please put it into ``lazarus-examples/generate_subtitles/generate_subtitles.app/Contents/Resources/``
 
 
-Download an speech recognition model
-::::::::::::::::::::::::::::::::::::
+Download a speech recognition model
+:::::::::::::::::::::::::::::::::::
 
 The executable expects a non-streaming speech recognition model. Currently, we have supported the following
 types of models
@@ -422,7 +422,7 @@ We give two examples below for Zipformer transducer
     cd sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17
 
     mv tokens.txt ../
-    mv model.int8.onnx ../
+    mv model.int8.onnx ../sense-voice.onnx
 
     cd ../
     rm -rf sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17
@@ -441,7 +441,7 @@ We give two examples below for Zipformer transducer
     cd sherpa-onnx-paraformer-zh-2023-09-14
 
     mv tokens.txt ../
-    mv model.int8.onnx ../
+    mv model.int8.onnx ../paraformer.onnx
 
     cd ../
     rm -rf sherpa-onnx-paraformer-zh-2023-09-14
@@ -460,7 +460,7 @@ We give two examples below for Zipformer transducer
     cd sherpa-onnx-telespeech-ctc-int8-zh-2024-06-04
 
     mv tokens.txt ../
-    mv model.int8.onnx ../
+    mv model.int8.onnx ../telespeech.onnx
 
     cd ../
     rm -rf sherpa-onnx-telespeech-ctc-int8-zh-2024-06-04
@@ -469,7 +469,7 @@ For the more curious
 --------------------
 
 If you want to find out how we generate the APPs in
-`<https://k2-fsa.github.io/sherpa/onnx/lazarus/download-generated-subtitles.html>`,
+`<https://k2-fsa.github.io/sherpa/onnx/lazarus/download-generated-subtitles.html>`_,
 please have a look at
 
   - `<https://github.com/k2-fsa/sherpa-onnx/blob/master/scripts/lazarus/generate-subtitles.py>`_

@@ -65,11 +65,11 @@ Build sherpa-onnx
 
    cmake \
      -DBUILD_SHARED_LIBS=ON \
+     -DCMAKE_BUILD_TYPE=Release \
      -DCMAKE_INSTALL_PREFIX=./install \
      ..
 
-   make
-   make install
+   cmake --build . --target install --config Release
 
    ls -lh install/lib
 

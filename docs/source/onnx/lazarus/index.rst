@@ -14,7 +14,7 @@ We provide support for the following platforms and architectures:
   - macOS-arm64
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 5
 
    ./pre-built-app.rst
    ./generate-subtitles.rst
