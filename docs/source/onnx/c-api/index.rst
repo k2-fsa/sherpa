@@ -55,32 +55,39 @@ You should find the following files inside ``/tmp/sherpa-onnx/shared``:
 
           $ tree /tmp/sherpa-onnx/shared/
 
-          /tmp/sherpa-onnx/shared/
+          /tmp/sherpa-onnx/shared
           ├── bin
           │   ├── sherpa-onnx
+          │   ├── sherpa-onnx-keyword-spotter
+          │   ├── sherpa-onnx-keyword-spotter-microphone
           │   ├── sherpa-onnx-microphone
           │   ├── sherpa-onnx-microphone-offline
+          │   ├── sherpa-onnx-microphone-offline-audio-tagging
+          │   ├── sherpa-onnx-microphone-offline-speaker-identification
           │   ├── sherpa-onnx-offline
+          │   ├── sherpa-onnx-offline-audio-tagging
+          │   ├── sherpa-onnx-offline-language-identification
+          │   ├── sherpa-onnx-offline-parallel
+          │   ├── sherpa-onnx-offline-punctuation
+          │   ├── sherpa-onnx-offline-tts
+          │   ├── sherpa-onnx-offline-tts-play
           │   ├── sherpa-onnx-offline-websocket-server
+          │   ├── sherpa-onnx-online-punctuation
           │   ├── sherpa-onnx-online-websocket-client
-          │   └── sherpa-onnx-online-websocket-server
+          │   ├── sherpa-onnx-online-websocket-server
+          │   ├── sherpa-onnx-vad-microphone
+          │   └── sherpa-onnx-vad-microphone-offline-asr
           ├── include
-          │   ├── cargs.h
           │   └── sherpa-onnx
           │       └── c-api
           │           └── c-api.h
           ├── lib
-          │   ├── cargs.h
-          │   ├── libcargs.dylib
-          │   ├── libkaldi-native-fbank-core.dylib
-          │   ├── libonnxruntime.1.15.1.dylib
-          │   ├── libonnxruntime.dylib -> libonnxruntime.1.15.1.dylib
-          │   ├── libsherpa-onnx-c-api.dylib
-          │   ├── libsherpa-onnx-core.dylib
-          │   └── libsherpa-onnx-portaudio.dylib
+          │   ├── libonnxruntime.1.17.1.dylib
+          │   ├── libonnxruntime.dylib -> libonnxruntime.1.17.1.dylib
+          │   └── libsherpa-onnx-c-api.dylib
           └── sherpa-onnx.pc
 
-          5 directories, 18 files
+          5 directories, 25 files
 
    .. tab:: Linux
 
@@ -88,33 +95,37 @@ You should find the following files inside ``/tmp/sherpa-onnx/shared``:
 
           $ tree /tmp/sherpa-onnx/shared/
 
-          /tmp/sherpa-onnx/shared/
-          |-- bin
-          |   |-- sherpa-onnx
-          |   |-- sherpa-onnx-alsa
-          |   |-- sherpa-onnx-microphone
-          |   |-- sherpa-onnx-microphone-offline
-          |   |-- sherpa-onnx-offline
-          |   |-- sherpa-onnx-offline-websocket-server
-          |   |-- sherpa-onnx-online-websocket-client
-          |   `-- sherpa-onnx-online-websocket-server
-          |-- include
-          |   |-- cargs.h
-          |   `-- sherpa-onnx
-          |       `-- c-api
-          |           `-- c-api.h
-          |-- lib
-          |   |-- cargs.h
-          |   |-- libcargs.so
-          |   |-- libkaldi-native-fbank-core.so
-          |   |-- libonnxruntime.so -> libonnxruntime.so.1.15.1
-          |   |-- libonnxruntime.so.1.15.1
-          |   |-- libsherpa-onnx-c-api.so
-          |   |-- libsherpa-onnx-core.so
-          |   `-- libsherpa-onnx-portaudio.so
-          `-- sherpa-onnx.pc
+          /tmp/sherpa-onnx/shared
+          ├── bin
+          │   ├── sherpa-onnx
+          │   ├── sherpa-onnx-alsa
+          │   ├── sherpa-onnx-alsa-offline
+          │   ├── sherpa-onnx-alsa-offline-audio-tagging
+          │   ├── sherpa-onnx-alsa-offline-speaker-identification
+          │   ├── sherpa-onnx-keyword-spotter
+          │   ├── sherpa-onnx-keyword-spotter-alsa
+          │   ├── sherpa-onnx-offline
+          │   ├── sherpa-onnx-offline-audio-tagging
+          │   ├── sherpa-onnx-offline-language-identification
+          │   ├── sherpa-onnx-offline-parallel
+          │   ├── sherpa-onnx-offline-punctuation
+          │   ├── sherpa-onnx-offline-tts
+          │   ├── sherpa-onnx-offline-tts-play-alsa
+          │   ├── sherpa-onnx-offline-websocket-server
+          │   ├── sherpa-onnx-online-punctuation
+          │   ├── sherpa-onnx-online-websocket-client
+          │   ├── sherpa-onnx-online-websocket-server
+          │   └── sherpa-onnx-vad-alsa
+          ├── include
+          │   └── sherpa-onnx
+          │       └── c-api
+          │           └── c-api.h
+          ├── lib
+          │   ├── libonnxruntime.so
+          │   └── libsherpa-onnx-c-api.so
+          └── sherpa-onnx.pc
 
-          5 directories, 19 files
+          6 directories, 23 files
 
 
 Build static libraries
@@ -150,33 +161,49 @@ You should find the following files in ``/tmp/sherpa-onnx/static``:
 
           $ tree /tmp/sherpa-onnx/static/
 
-          /tmp/sherpa-onnx//static/
+          /tmp/sherpa-onnx/static
           ├── bin
           │   ├── sherpa-onnx
+          │   ├── sherpa-onnx-keyword-spotter
+          │   ├── sherpa-onnx-keyword-spotter-microphone
           │   ├── sherpa-onnx-microphone
           │   ├── sherpa-onnx-microphone-offline
+          │   ├── sherpa-onnx-microphone-offline-audio-tagging
+          │   ├── sherpa-onnx-microphone-offline-speaker-identification
           │   ├── sherpa-onnx-offline
+          │   ├── sherpa-onnx-offline-audio-tagging
+          │   ├── sherpa-onnx-offline-language-identification
+          │   ├── sherpa-onnx-offline-parallel
+          │   ├── sherpa-onnx-offline-punctuation
+          │   ├── sherpa-onnx-offline-tts
+          │   ├── sherpa-onnx-offline-tts-play
           │   ├── sherpa-onnx-offline-websocket-server
+          │   ├── sherpa-onnx-online-punctuation
           │   ├── sherpa-onnx-online-websocket-client
-          │   └── sherpa-onnx-online-websocket-server
+          │   ├── sherpa-onnx-online-websocket-server
+          │   ├── sherpa-onnx-vad-microphone
+          │   └── sherpa-onnx-vad-microphone-offline-asr
           ├── include
-          │   ├── cargs.h
           │   └── sherpa-onnx
           │       └── c-api
           │           └── c-api.h
           ├── lib
-          │   ├── cargs.h
-          │   ├── libcargs.a
+          │   ├── libespeak-ng.a
+          │   ├── libkaldi-decoder-core.a
           │   ├── libkaldi-native-fbank-core.a
-          │   ├── libonnxruntime.1.15.1.dylib
-          │   ├── libonnxruntime.dylib -> libonnxruntime.1.15.1.dylib
+          │   ├── libonnxruntime.a
+          │   ├── libpiper_phonemize.a
           │   ├── libsherpa-onnx-c-api.a
           │   ├── libsherpa-onnx-core.a
-          │   └── libsherpa-onnx-portaudio_static.a
+          │   ├── libsherpa-onnx-fst.a
+          │   ├── libsherpa-onnx-fstfar.a
+          │   ├── libsherpa-onnx-kaldifst-core.a
+          │   ├── libsherpa-onnx-portaudio_static.a
+          │   ├── libssentencepiece_core.a
+          │   └── libucd.a
           └── sherpa-onnx.pc
 
-          5 directories, 18 files
-
+          5 directories, 35 files
 
    .. tab:: Linux
 
@@ -184,33 +211,57 @@ You should find the following files in ``/tmp/sherpa-onnx/static``:
 
           $ tree /tmp/sherpa-onnx/static/
 
-          /tmp/sherpa-onnx/static/
-          |-- bin
-          |   |-- sherpa-onnx
-          |   |-- sherpa-onnx-alsa
-          |   |-- sherpa-onnx-microphone
-          |   |-- sherpa-onnx-microphone-offline
-          |   |-- sherpa-onnx-offline
-          |   |-- sherpa-onnx-offline-websocket-server
-          |   |-- sherpa-onnx-online-websocket-client
-          |   `-- sherpa-onnx-online-websocket-server
-          |-- include
-          |   |-- cargs.h
-          |   `-- sherpa-onnx
-          |       `-- c-api
-          |           `-- c-api.h
-          |-- lib
-          |   |-- cargs.h
-          |   |-- libcargs.a
-          |   |-- libkaldi-native-fbank-core.a
-          |   |-- libonnxruntime.so -> libonnxruntime.so.1.15.1
-          |   |-- libonnxruntime.so.1.15.1
-          |   |-- libsherpa-onnx-c-api.a
-          |   |-- libsherpa-onnx-core.a
-          |   `-- libsherpa-onnx-portaudio_static.a
-          `-- sherpa-onnx.pc
+          /tmp/sherpa-onnx/static
+          ├── bin
+          │   ├── sherpa-onnx
+          │   ├── sherpa-onnx-alsa
+          │   ├── sherpa-onnx-alsa-offline
+          │   ├── sherpa-onnx-alsa-offline-audio-tagging
+          │   ├── sherpa-onnx-alsa-offline-speaker-identification
+          │   ├── sherpa-onnx-keyword-spotter
+          │   ├── sherpa-onnx-keyword-spotter-alsa
+          │   ├── sherpa-onnx-keyword-spotter-microphone
+          │   ├── sherpa-onnx-microphone
+          │   ├── sherpa-onnx-microphone-offline
+          │   ├── sherpa-onnx-microphone-offline-audio-tagging
+          │   ├── sherpa-onnx-microphone-offline-speaker-identification
+          │   ├── sherpa-onnx-offline
+          │   ├── sherpa-onnx-offline-audio-tagging
+          │   ├── sherpa-onnx-offline-language-identification
+          │   ├── sherpa-onnx-offline-parallel
+          │   ├── sherpa-onnx-offline-punctuation
+          │   ├── sherpa-onnx-offline-tts
+          │   ├── sherpa-onnx-offline-tts-play
+          │   ├── sherpa-onnx-offline-tts-play-alsa
+          │   ├── sherpa-onnx-offline-websocket-server
+          │   ├── sherpa-onnx-online-punctuation
+          │   ├── sherpa-onnx-online-websocket-client
+          │   ├── sherpa-onnx-online-websocket-server
+          │   ├── sherpa-onnx-vad-alsa
+          │   ├── sherpa-onnx-vad-microphone
+          │   └── sherpa-onnx-vad-microphone-offline-asr
+          ├── include
+          │   └── sherpa-onnx
+          │       └── c-api
+          │           └── c-api.h
+          ├── lib
+          │   ├── libespeak-ng.a
+          │   ├── libkaldi-decoder-core.a
+          │   ├── libkaldi-native-fbank-core.a
+          │   ├── libonnxruntime.a
+          │   ├── libpiper_phonemize.a
+          │   ├── libsherpa-onnx-c-api.a
+          │   ├── libsherpa-onnx-core.a
+          │   ├── libsherpa-onnx-fst.a
+          │   ├── libsherpa-onnx-fstfar.a
+          │   ├── libsherpa-onnx-kaldifst-core.a
+          │   ├── libsherpa-onnx-portaudio_static.a
+          │   ├── libssentencepiece_core.a
+          │   └── libucd.a
+          └── sherpa-onnx.pc
 
-          5 directories, 19 files
+          6 directories, 42 files
+
 
 Build decode-file-c-api.c with generated files
 ----------------------------------------------
@@ -244,6 +295,14 @@ We can use:
           gcc -o decode-file-c-api $(pkg-config --cflags sherpa-onnx) ./decode-file-c-api.c $(pkg-config --libs sherpa-onnx)
 
           ./decode-file-c-api --help
+
+.. warning::
+
+   The order of linking the libraries matters. Please see
+
+    - Static link without TTS: `<https://github.com/k2-fsa/sherpa-onnx/blob/master/cmake/sherpa-onnx-static-no-tts.pc.in>`_
+    - Static link with TTS: `<https://github.com/k2-fsa/sherpa-onnx/blob/master/cmake/sherpa-onnx-static.pc.in>`_
+    - Dynamic link: `<https://github.com/k2-fsa/sherpa-onnx/blob/master/cmake/sherpa-onnx-shared.pc.in>`_
 
 colab
 -----
