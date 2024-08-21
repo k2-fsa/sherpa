@@ -292,6 +292,54 @@ Real-time speech recognition from a microphone
    microphone if ``sherpa-onnx-microphone`` does not work for you.
 
 
+.. _sherpa-onnx-wenetspeech-small-streaming:
+
+k2-fsa/icefall-asr-zipformer-wenetspeech-streaming-small (Chinese)
+------------------------------------------------------------------
+
+This model is from
+
+`<https://huggingface.co/k2-fsa/icefall-asr-zipformer-wenetspeech-streaming-small>`_
+
+which supports only Chinese as it is trained on the `WenetSpeech`_ corpus.
+
+In the following, we describe how to download it.
+
+Download the model
+~~~~~~~~~~~~~~~~~~
+
+Please use the following commands to download it.
+
+.. code-block:: bash
+
+   git lfs install
+   git clone https://huggingface.co/k2-fsa/icefall-asr-zipformer-wenetspeech-streaming-small
+
+
+.. _sherpa-onnx-wenetspeech-large-streaming:
+
+k2-fsa/icefall-asr-zipformer-wenetspeech-streaming-large (Chinese)
+------------------------------------------------------------------
+
+This model is from
+
+`<https://huggingface.co/k2-fsa/icefall-asr-zipformer-wenetspeech-streaming-large>`_
+
+which supports only Chinese as it is trained on the `WenetSpeech`_ corpus.
+
+In the following, we describe how to download it.
+
+Download the model
+~~~~~~~~~~~~~~~~~~
+
+Please use the following commands to download it.
+
+.. code-block:: bash
+
+   git lfs install
+   git clone https://huggingface.co/k2-fsa/icefall-asr-zipformer-wenetspeech-streaming-large
+
+
 .. _sherpa-onnx-wenetspeech-2023-06-15-streaming:
 
 pkufool/icefall-asr-zipformer-streaming-wenetspeech-20230615 (Chinese)
