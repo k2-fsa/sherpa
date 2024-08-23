@@ -14,7 +14,7 @@
 
 # paramters for TRT engines
 MIN_BATCH=1
-OPT_BATCH=32
+OPT_BATCH=4
 MAX_BATCH=$1
 onnx_model=$2
 trt_model=$3
