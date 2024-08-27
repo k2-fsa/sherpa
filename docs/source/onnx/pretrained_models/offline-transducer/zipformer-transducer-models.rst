@@ -936,6 +936,54 @@ Speech recognition from a microphone
     --joiner=./icefall-asr-cv-corpus-13.0-2023-03-09-en-pruned-transducer-stateless7-2023-04-17/exp/joiner-epoch-60-avg-20.onnx
 
 
+.. _sherpa-onnx-wenetspeech-small:
+
+k2-fsa/icefall-asr-zipformer-wenetspeech-small (Chinese)
+--------------------------------------------------------
+
+This model is from
+
+`<https://huggingface.co/k2-fsa/icefall-asr-zipformer-wenetspeech-small>`_
+
+which supports only Chinese as it is trained on the `WenetSpeech`_ corpus.
+
+In the following, we describe how to download it.
+
+Download the model
+~~~~~~~~~~~~~~~~~~
+
+Please use the following commands to download it.
+
+.. code-block:: bash
+
+   git lfs install
+   git clone https://huggingface.co/k2-fsa/icefall-asr-zipformer-wenetspeech-small
+
+
+.. _sherpa-onnx-wenetspeech-large:
+
+k2-fsa/icefall-asr-zipformer-wenetspeech-large (Chinese)
+--------------------------------------------------------
+
+This model is from
+
+`<https://huggingface.co/k2-fsa/icefall-asr-zipformer-wenetspeech-large>`_
+
+which supports only Chinese as it is trained on the `WenetSpeech`_ corpus.
+
+In the following, we describe how to download it.
+
+Download the model
+~~~~~~~~~~~~~~~~~~
+
+Please use the following commands to download it.
+
+.. code-block:: bash
+
+   git lfs install
+   git clone https://huggingface.co/k2-fsa/icefall-asr-zipformer-wenetspeech-large
+
+
 pkufool/icefall-asr-zipformer-wenetspeech-20230615 (Chinese)
 ------------------------------------------------------------
 
