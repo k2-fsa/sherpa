@@ -76,32 +76,33 @@ Please use the following commands to build `sherpa-onnx`_:
 
   make -j4
 
+  # Remove unused files
+  rm lib/lib*.a
+  rm lib/libcargs.dylib
+  rm lib/libsherpa-onnx-c-api.dylib
+
   ls -lh lib
 
 You should see the following output for ``ls -lh lib``::
 
-  total 11576
-  -rwxr-xr-x  1 fangjun  staff    33K May 15 11:24 libcargs.dylib
-  -rwxr-xr-x  1 fangjun  staff   350K May 15 11:24 libespeak-ng.dylib
-  -rwxr-xr-x  1 fangjun  staff   471K May 15 11:24 libkaldi-decoder-core.dylib
-  -rwxr-xr-x  1 fangjun  staff   113K May 15 11:24 libkaldi-native-fbank-core.dylib
-  -rwxr-xr-x  1 fangjun  staff   423K May 15 11:24 libpiper_phonemize.1.2.0.dylib
-  lrwxr-xr-x  1 fangjun  staff    30B May 15 11:24 libpiper_phonemize.1.dylib -> libpiper_phonemize.1.2.0.dylib
-  lrwxr-xr-x  1 fangjun  staff    26B May 15 11:24 libpiper_phonemize.dylib -> libpiper_phonemize.1.dylib
-  -rwxr-xr-x  1 fangjun  staff   113K May 15 11:25 libsherpa-onnx-c-api.dylib
-  -rwxr-xr-x  1 fangjun  staff   1.8M May 15 11:24 libsherpa-onnx-core.dylib
-  -rwxr-xr-x  1 fangjun  staff   1.5M May 15 11:24 libsherpa-onnx-fst.6.dylib
-  lrwxr-xr-x  1 fangjun  staff    26B May 15 11:24 libsherpa-onnx-fst.dylib -> libsherpa-onnx-fst.6.dylib
-  -rwxr-xr-x  1 fangjun  staff    34K May 15 11:24 libsherpa-onnx-fstfar.7.dylib
-  lrwxr-xr-x  1 fangjun  staff    29B May 15 11:24 libsherpa-onnx-fstfar.dylib -> libsherpa-onnx-fstfar.7.dylib
-  -rwxr-xr-x  1 fangjun  staff   127K May 15 11:25 libsherpa-onnx-jni.dylib
-  -rwxr-xr-x  1 fangjun  staff   933K May 15 11:24 libsherpa-onnx-kaldifst-core.dylib
-  -rwxr-xr-x  1 fangjun  staff   187K May 15 11:24 libucd.dylib
-
-
-Note that all these ``*.dylib`` files are required.
+  total 8024
+  -rwxr-xr-x  1 fangjun  staff   3.9M Aug 18 19:34 libsherpa-onnx-jni.dylib
 
 ``libsherpa-onnx-jni.dylib`` contains the JNI interface for `sherpa-onnx`_.
+
+.. hint::
+
+   You can find ``libonnxruntime.dylib`` by running::
+
+      fangjuns-MacBook-Pro:build fangjun$ pwd
+      /Users/fangjun/open-source/sherpa-onnx/build
+
+      fangjuns-MacBook-Pro:build fangjun$ ls -lh _deps/onnxruntime-src/lib/
+      total 51664
+      -rwxr-xr-x  1 fangjun  staff    25M Aug 14 14:09 libonnxruntime.1.17.1.dylib
+      drwxr-xr-x  3 fangjun  staff    96B Aug 14 14:09 libonnxruntime.1.17.1.dylib.dSYM
+      lrwxr-xr-x  1 fangjun  staff    27B Aug 14 14:09 libonnxruntime.dylib -> libonnxruntime.1.17.1.dylib
+
 
 Download pre-built JNI libs
 ---------------------------
@@ -116,7 +117,7 @@ For Chinese users, please use
   `<https://hf-mirror.com/csukuangfj/sherpa-onnx-libs/tree/main/jni>`_
 
 Please always use the latest version. In the following, we describe how to download
-the version ``1.10.2``.
+the version ``1.10.23``.
 
 .. tabs::
 
@@ -124,70 +125,46 @@ the version ``1.10.2``.
 
       .. code-block:: bash
 
-         wget https://huggingface.co/csukuangfj/sherpa-onnx-libs/resolve/main/jni/sherpa-onnx-v1.10.2-osx-x86_64-jni.tar.bz2
+         wget https://huggingface.co/csukuangfj/sherpa-onnx-libs/resolve/main/jni/sherpa-onnx-v1.10.23-osx-x86_64-jni.tar.bz2
 
          # For Chinese users
-         # wget https://hf-mirror.com/csukuangfj/sherpa-onnx-libs/resolve/main/jni/sherpa-onnx-v1.10.2-osx-x86_64-jni.tar.bz2
+         # wget https://hf-mirror.com/csukuangfj/sherpa-onnx-libs/resolve/main/jni/sherpa-onnx-v1.10.23-osx-x86_64-jni.tar.bz2
 
-         tar xf sherpa-onnx-v1.10.2-osx-x86_64-jni.tar.bz2
-         rm sherpa-onnx-v1.10.2-osx-x86_64-jni.tar.bz2
+         tar xf sherpa-onnx-v1.10.23-osx-x86_64-jni.tar.bz2
+         rm sherpa-onnx-v1.10.23-osx-x86_64-jni.tar.bz2
 
    .. tab:: Apple Silicon (arm64)
 
       .. code-block:: bash
 
-         wget https://huggingface.co/csukuangfj/sherpa-onnx-libs/resolve/main/jni/sherpa-onnx-v1.10.2-osx-arm64-jni.tar.bz2
+         wget https://huggingface.co/csukuangfj/sherpa-onnx-libs/resolve/main/jni/sherpa-onnx-v1.10.23-osx-arm64-jni.tar.bz2
 
          # For Chinese users
-         # wget https://hf-mirror.com/csukuangfj/sherpa-onnx-libs/resolve/main/jni/sherpa-onnx-v1.10.2-osx-arm64-jni.tar.bz2
+         # wget https://hf-mirror.com/csukuangfj/sherpa-onnx-libs/resolve/main/jni/sherpa-onnx-v1.10.23-osx-arm64-jni.tar.bz2
 
-         tar xf sherpa-onnx-v1.10.2-osx-arm64-jni.tar.bz2
-         rm sherpa-onnx-v1.10.2-osx-arm64-jni.tar.bz2
+         tar xf sherpa-onnx-v1.10.23-osx-arm64-jni.tar.bz2
+         rm sherpa-onnx-v1.10.23-osx-arm64-jni.tar.bz2
+
+.. note::
+
+   You can also download it from
+
+    `<https://github.com/k2-fsa/sherpa-onnx/releases>`_
 
 After downloading, you should see the following files:
 
 .. code-block:: bash
 
   # For x86_64
-  ls -lh sherpa-onnx-v1.10.2-osx-x86_64-jni/lib/
-
-  -rwxr-xr-x  1 fangjun  staff    33K Jun 25 11:39 libcargs.dylib
-  -rwxr-xr-x  1 fangjun  staff   335K Jun 25 11:39 libespeak-ng.dylib
-  -rwxr-xr-x  1 fangjun  staff   484K Jun 25 11:39 libkaldi-decoder-core.dylib
-  -rwxr-xr-x  1 fangjun  staff   121K Jun 25 11:39 libkaldi-native-fbank-core.dylib
-  -rw-r--r--  1 fangjun  staff    25M Jun 25 11:39 libonnxruntime.1.17.1.dylib
-  lrwxr-xr-x  1 fangjun  staff    27B Jun 25 11:39 libonnxruntime.dylib -> libonnxruntime.1.17.1.dylib
-  -rwxr-xr-x  1 fangjun  staff   427K Jun 25 11:39 libpiper_phonemize.1.2.0.dylib
-  lrwxr-xr-x  1 fangjun  staff    30B Jun 25 11:39 libpiper_phonemize.1.dylib -> libpiper_phonemize.1.2.0.dylib
-  lrwxr-xr-x  1 fangjun  staff    26B Jun 25 11:39 libpiper_phonemize.dylib -> libpiper_phonemize.1.dylib
-  -rwxr-xr-x  1 fangjun  staff   115K Jun 25 11:39 libsherpa-onnx-c-api.dylib
-  -rwxr-xr-x  1 fangjun  staff   1.9M Jun 25 11:39 libsherpa-onnx-core.dylib
-  -rwxr-xr-x  1 fangjun  staff   1.5M Jun 25 11:39 libsherpa-onnx-fst.dylib
-  -rwxr-xr-x  1 fangjun  staff    40K Jun 25 11:39 libsherpa-onnx-fstfar.dylib
-  -rwxr-xr-x  1 fangjun  staff   134K Jun 25 11:39 libsherpa-onnx-jni.dylib
-  -rwxr-xr-x  1 fangjun  staff   963K Jun 25 11:39 libsherpa-onnx-kaldifst-core.dylib
-  -rwxr-xr-x  1 fangjun  staff   117K Jun 25 11:39 libsherpa-onnx-portaudio.dylib
-  -rwxr-xr-x  1 fangjun  staff   150K Jun 25 11:39 libssentencepiece_core.dylib
-  -rwxr-xr-x  1 fangjun  staff   187K Jun 25 11:39 libucd.dylib
+  ls -lh sherpa-onnx-v1.10.23-osx-x86_64-jni/lib
+  total 30M
+  -rw-r--r-- 1 fangjun fangjun  26M Aug 25 00:31 libonnxruntime.1.17.1.dylib
+  lrwxrwxrwx 1 fangjun fangjun   27 Aug 25 00:35 libonnxruntime.dylib -> libonnxruntime.1.17.1.dylib
+  -rwxr-xr-x 1 fangjun fangjun 3.9M Aug 25 00:35 libsherpa-onnx-jni.dylib
 
   # For arm64
-  ls -lh sherpa-onnx-v1.10.2-osx-arm64-jni/lib/
-
-  -rwxr-xr-x  1 fangjun  staff    49K Jun 25 11:39 libcargs.dylib
-  -rwxr-xr-x  1 fangjun  staff   318K Jun 25 11:39 libespeak-ng.dylib
-  -rwxr-xr-x  1 fangjun  staff   436K Jun 25 11:39 libkaldi-decoder-core.dylib
-  -rwxr-xr-x  1 fangjun  staff   122K Jun 25 11:39 libkaldi-native-fbank-core.dylib
-  -rw-r--r--  1 fangjun  staff    23M Jun 25 11:39 libonnxruntime.1.17.1.dylib
-  lrwxr-xr-x  1 fangjun  staff    27B Jun 25 11:39 libonnxruntime.dylib -> libonnxruntime.1.17.1.dylib
-  -rwxr-xr-x  1 fangjun  staff   430K Jun 25 11:39 libpiper_phonemize.1.2.0.dylib
-  lrwxr-xr-x  1 fangjun  staff    30B Jun 25 11:39 libpiper_phonemize.1.dylib -> libpiper_phonemize.1.2.0.dylib
-  lrwxr-xr-x  1 fangjun  staff    26B Jun 25 11:39 libpiper_phonemize.dylib -> libpiper_phonemize.1.dylib
-  -rwxr-xr-x  1 fangjun  staff   132K Jun 25 11:39 libsherpa-onnx-c-api.dylib
-  -rwxr-xr-x  1 fangjun  staff   1.7M Jun 25 11:39 libsherpa-onnx-core.dylib
-  -rwxr-xr-x  1 fangjun  staff   1.4M Jun 25 11:39 libsherpa-onnx-fst.dylib
-  -rwxr-xr-x  1 fangjun  staff    56K Jun 25 11:39 libsherpa-onnx-fstfar.dylib
-  -rwxr-xr-x  1 fangjun  staff   151K Jun 25 11:39 libsherpa-onnx-jni.dylib
-  -rwxr-xr-x  1 fangjun  staff   859K Jun 25 11:39 libsherpa-onnx-kaldifst-core.dylib
-  -rwxr-xr-x  1 fangjun  staff   118K Jun 25 11:39 libsherpa-onnx-portaudio.dylib
-  -rwxr-xr-x  1 fangjun  staff   149K Jun 25 11:39 libssentencepiece_core.dylib
-  -rwxr-xr-x  1 fangjun  staff   188K Jun 25 11:39 libucd.dylib
+  ls -lh sherpa-onnx-v1.10.23-osx-arm64-jni/lib/
+  total 27M
+  -rw-r--r-- 1 fangjun fangjun  23M Aug 24 23:56 libonnxruntime.1.17.1.dylib
+  lrwxrwxrwx 1 fangjun fangjun   27 Aug 24 23:59 libonnxruntime.dylib -> libonnxruntime.1.17.1.dylib
+  -rwxr-xr-x 1 fangjun fangjun 3.6M Aug 24 23:59 libsherpa-onnx-jni.dylib
