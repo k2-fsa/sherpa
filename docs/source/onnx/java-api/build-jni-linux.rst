@@ -65,7 +65,12 @@ Please use the following commands to build `sherpa-onnx`_:
 
   cd build
 
+  # If you want to enable GPU support, please
+  # set OFF to ON
+  SHERPA_ONNX_ENABLE_GPU=OFF
+
   cmake \
+    -DSHERPA_ONNX_ENABLE_GPU=$SHERPA_ONNX_ENABLE_GPU \
     -DSHERPA_ONNX_ENABLE_PYTHON=OFF \
     -DSHERPA_ONNX_ENABLE_TESTS=OFF \
     -DSHERPA_ONNX_ENABLE_CHECK=OFF \
@@ -76,32 +81,28 @@ Please use the following commands to build `sherpa-onnx`_:
 
   make -j4
 
+  # Remove unused libs
+  rm lib/lib*.a
+  rm lib/libcargs.so
+
+  # You don't need it for jni
+  rm lib/libsherpa-onnx-c-api.so
+
   ls -lh lib
 
 You should see the following output for ``ls -lh lib``::
 
-  total 7.7M
-  -rwxrwxr-x 1 fangjun fangjun  16K May 15 03:53 libcargs.so
-  -rwxrwxr-x 1 fangjun fangjun 396K May 15 03:53 libespeak-ng.so
-  -rwxrwxr-x 1 fangjun fangjun 652K May 15 03:53 libkaldi-decoder-core.so
-  -rwxrwxr-x 1 fangjun fangjun 108K May 15 03:53 libkaldi-native-fbank-core.so
-  lrwxrwxrwx 1 fangjun fangjun   23 May 15 03:53 libpiper_phonemize.so -> libpiper_phonemize.so.1
-  lrwxrwxrwx 1 fangjun fangjun   27 May 15 03:53 libpiper_phonemize.so.1 -> libpiper_phonemize.so.1.2.0
-  -rwxrwxr-x 1 fangjun fangjun 450K May 15 03:53 libpiper_phonemize.so.1.2.0
-  -rwxrwxr-x 1 fangjun fangjun 107K May 15 03:55 libsherpa-onnx-c-api.so
-  -rwxrwxr-x 1 fangjun fangjun 2.4M May 15 03:54 libsherpa-onnx-core.so
-  lrwxrwxrwx 1 fangjun fangjun   26 May 15 03:53 libsherpa-onnx-fstfar.so -> libsherpa-onnx-fstfar.so.7
-  -rwxrwxr-x 1 fangjun fangjun  18K May 15 03:53 libsherpa-onnx-fstfar.so.7
-  lrwxrwxrwx 1 fangjun fangjun   23 May 15 03:53 libsherpa-onnx-fst.so -> libsherpa-onnx-fst.so.6
-  -rwxrwxr-x 1 fangjun fangjun 2.1M May 15 03:53 libsherpa-onnx-fst.so.6
-  -rwxrwxr-x 1 fangjun fangjun 134K May 15 03:55 libsherpa-onnx-jni.so
-  -rwxrwxr-x 1 fangjun fangjun 1.2M May 15 03:53 libsherpa-onnx-kaldifst-core.so
-  -rwxrwxr-x 1 fangjun fangjun 229K May 15 03:53 libucd.so
-
-Note that all these ``*.so`` files are required.
+  total 4.0M
+  -rwxrwxr-x 1 fangjun fangjun 4.0M Aug 29 00:56 libsherpa-onnx-jni.so
 
 ``libsherpa-onnx-jni.so`` contains the JNI interface for `sherpa-onnx`_.
 
+.. hint::
+
+   You can find ``libonnxruntime.so`` by running::
+
+    fangjun@ubuntu23-04:~/sherpa-onnx/build$ ls _deps/onnxruntime-src/lib/
+    libonnxruntime.so
 
 Download pre-built JNI libs
 ---------------------------
@@ -116,39 +117,30 @@ For Chinese users, please use
   `<https://hf-mirror.com/csukuangfj/sherpa-onnx-libs/tree/main/jni>`_
 
 Please always use the latest version. In the following, we describe how to download
-the version ``1.10.2``.
+the version ``1.10.23``.
 
 .. code-block:: bash
 
-   wget https://huggingface.co/csukuangfj/sherpa-onnx-libs/resolve/main/jni/sherpa-onnx-v1.10.2-linux-x64-jni.tar.bz2
+   wget https://huggingface.co/csukuangfj/sherpa-onnx-libs/resolve/main/jni/sherpa-onnx-v1.10.23-linux-x64-jni.tar.bz2
 
    # For Chinese users
-   # wget https://hf-mirror.com/csukuangfj/sherpa-onnx-libs/resolve/main/jni/sherpa-onnx-v1.10.2-linux-x64-jni.tar.bz2
+   # wget https://hf-mirror.com/csukuangfj/sherpa-onnx-libs/resolve/main/jni/sherpa-onnx-v1.10.23-linux-x64-jni.tar.bz2
 
-   tar xf sherpa-onnx-v1.10.2-linux-x64-jni.tar.bz2
-   rm sherpa-onnx-v1.10.2-linux-x64-jni.tar.bz2
+   tar xf sherpa-onnx-v1.10.23-linux-x64-jni.tar.bz2
+   rm sherpa-onnx-v1.10.23-linux-x64-jni.tar.bz2
+
+.. note::
+
+   You can also download it from
+
+    `<https://github.com/k2-fsa/sherpa-onnx/releases>`_
 
 You should find the following files:
 
 .. code-block:: bash
 
-  ls -lh sherpa-onnx-v1.10.2-linux-x64-jni/lib/
+  ls -lh sherpa-onnx-v1.10.23-linux-x64-jni/lib/
 
-  -rwxr-xr-x  1 fangjun  staff    16K Jun 25 11:41 libcargs.so
-  -rwxr-xr-x  1 fangjun  staff   383K Jun 25 11:41 libespeak-ng.so
-  -rwxr-xr-x  1 fangjun  staff   648K Jun 25 11:41 libkaldi-decoder-core.so
-  -rwxr-xr-x  1 fangjun  staff   214K Jun 25 11:41 libkaldi-native-fbank-core.so
-  -rw-r--r--  1 fangjun  staff    15M Jun 25 11:40 libonnxruntime.so
-  -rw-r--r--  1 fangjun  staff    15M Jun 25 11:40 libonnxruntime.so.1.17.1
-  lrwxr-xr-x  1 fangjun  staff    23B Jun 25 11:44 libpiper_phonemize.so -> libpiper_phonemize.so.1
-  lrwxr-xr-x  1 fangjun  staff    27B Jun 25 11:44 libpiper_phonemize.so.1 -> libpiper_phonemize.so.1.2.0
-  -rwxr-xr-x  1 fangjun  staff   535K Jun 25 11:41 libpiper_phonemize.so.1.2.0
-  -rwxr-xr-x  1 fangjun  staff   128K Jun 25 11:44 libsherpa-onnx-c-api.so
-  -rwxr-xr-x  1 fangjun  staff   2.5M Jun 25 11:43 libsherpa-onnx-core.so
-  -rwxr-xr-x  1 fangjun  staff   2.1M Jun 25 11:41 libsherpa-onnx-fst.so
-  -rwxr-xr-x  1 fangjun  staff    18K Jun 25 11:41 libsherpa-onnx-fstfar.so
-  -rwxr-xr-x  1 fangjun  staff   155K Jun 25 11:44 libsherpa-onnx-jni.so
-  -rwxr-xr-x  1 fangjun  staff   1.1M Jun 25 11:41 libsherpa-onnx-kaldifst-core.so
-  -rwxr-xr-x  1 fangjun  staff    81K Jun 25 11:41 libsherpa-onnx-portaudio.so
-  -rwxr-xr-x  1 fangjun  staff   275K Jun 25 11:41 libssentencepiece_core.so
-  -rwxr-xr-x  1 fangjun  staff   224K Jun 25 11:40 libucd.so
+  total 19M
+  -rw-r--r-- 1 fangjun fangjun  15M Aug 24 22:18 libonnxruntime.so
+  -rwxr-xr-x 1 fangjun fangjun 4.2M Aug 24 22:25 libsherpa-onnx-jni.so
