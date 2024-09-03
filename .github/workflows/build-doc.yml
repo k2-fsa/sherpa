@@ -75,7 +75,7 @@ jobs:
               cd /workspace
               which latexmk
 
-              apk add --no-cache python3 py3-pip git make gcc zlib-dev libffi-dev openssl-dev musl-dev ghostscript
+              apk add --no-cache python3 py3-pip git make gcc zlib-dev libffi-dev openssl-dev musl-dev ghostscript curl
               python3 --version
 
 
@@ -86,7 +86,20 @@ jobs:
               python3 -m pip install -r ./docs/requirements.txt
 
               cd docs
+
+              # Download test wave files for SenseVoice
+              mkdir -p source/_static/sense-voice
+              pushd source/_static/sense-voice
+              rm .gitignore
+              curl -SL -O https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/lei-jun-test.wav
+              curl -SL -O https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/Obama.wav
+              curl -SL -O https://huggingface.co/csukuangfj/sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/resolve/main/test_wavs/zh.wav
+              curl -SL -O https://huggingface.co/csukuangfj/sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/resolve/main/test_wavs/en.wav
+              ls -lh
+              popd
+
               make html
+
               touch build/html/.nojekyll
 
               export GIT_LFS_SKIP_SMUDGE=1
@@ -150,6 +163,14 @@ jobs:
               cd ..
               rm -rf huggingface
 
+              git clone https://huggingface.co/csukuangfj/sherpa-onnx-bin huggingface
+              cd huggingface
+              ./build-generate-subtitles.py
+              mv -v download-generated-subtitles.html ../build/html/onnx/lazarus/
+              mv -v download-generated-subtitles-cn.html ../build/html/onnx/lazarus/
+              cd ..
+              rm -rf huggingface
+
               git clone https://huggingface.co/csukuangfj/sherpa-onnx-wheels huggingface
               cd huggingface
               ./run.sh
@@ -168,15 +189,32 @@ jobs:
               pushd source/onnx/pretrained_models/offline-transducer/
               sed -i.bak /sherpa-onnx-zipformer-thai-2024-06-20\.txt/d zipformer-transducer-models.rst
               sed -i.bak /sherpa-onnx-zipformer-thai-2024-06-20-int8\.txt/d zipformer-transducer-models.rst
+
+              sed -i.bak /sherpa-onnx-zipformer-ja-reazonspeech-2024-08-01\.txt/d zipformer-transducer-models.rst
+              sed -i.bak /sherpa-onnx-zipformer-ja-reazonspeech-2024-08-01-int8\.txt/d zipformer-transducer-models.rst
+
               popd
               git diff
 
               make latex
               mkdir -pv build/html/_static
               cd build/latex
-              latexmk -interaction=nonstopmode -f -pdf -dvi- -ps- sherpa.tex || true
+              #latexmk -interaction=nonstopmode -f -pdf -dvi- -ps- sherpa.tex || true
+              latexmk -interaction=nonstopmode -f -pdf -dvi- -ps- sherpa.tex >/dev/null 2>&1 || true
               ls -lh sherpa.pdf
               cp -v sherpa.pdf /workspace/
+
+      - name: View generated files
+        shell: bash
+        run: |
+          cd docs/build/html
+          ls -lh
+
+          echo "-----_static-----"
+          ls -lh _static
+
+          echo "-----_static/sense-voice-----"
+          ls -lh _static/sense-voice
 
       - name: Release sherpa.pdf
         if: (github.repository_owner == 'csukuangfj' || github.repository_owner == 'k2-fsa') && github.event_name == 'push'

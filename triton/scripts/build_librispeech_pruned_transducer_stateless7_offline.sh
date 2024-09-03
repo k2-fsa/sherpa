@@ -4,7 +4,7 @@ stop_stage=2
 
 # change to your own model directory
 pretrained_model_dir=/mnt/samsung-t7/wend/github/icefall/egs/librispeech/ASR/pruned_transducer_stateless7/exp/
-model_repo_path=./zipformer/model_repo_offline
+model_repo_path=./model_repo_offline
 
 # modify model specific parameters according to $pretrained_model_dir/exp/onnx_export.log
 VOCAB_SIZE=500

@@ -1,41 +1,24 @@
-FROM nvcr.io/nvidia/tritonserver:22.12-py3
+FROM nvcr.io/nvidia/tritonserver:24.07-py3
 # https://docs.nvidia.com/deeplearning/frameworks/support-matrix/index.html
 # Please choose previous tritonserver:xx.xx if you encounter cuda driver mismatch issue
-
 LABEL maintainer="NVIDIA"
 LABEL repository="tritonserver"
 
-RUN apt-get update  && apt-get -y install \
-    python3-dev \
-    cmake \
-    libsndfile1
-RUN pip3 install \
-    torch==1.13.1+cu117 \
-    torchaudio==0.13.1+cu117 \
-    --index-url https://download.pytorch.org/whl/cu117
-RUN pip3 install \
-    kaldialign \
-    tensorboard \
-    sentencepiece \
-    lhotse \
-    kaldifeat
-RUN pip3 install \
-    k2==1.24.4.dev20240223+cuda11.7.torch1.13.1 -f https://k2-fsa.github.io/k2/cuda.html
-# Dependency for client
-RUN pip3 install soundfile grpcio-tools tritonclient pyyaml
+RUN apt-get update  && apt-get install -y cmake
+RUN python3 -m pip install k2==1.24.4.dev20240725+cuda12.4.torch2.4.0 -f https://k2-fsa.github.io/k2/cuda.html && \
+    python3 -m pip install -r https://raw.githubusercontent.com/k2-fsa/icefall/master/requirements.txt && \
+    pip install -U "huggingface_hub[cli]" lhotse colored onnx_graphsurgeon polygraphy
+# https://github.com/k2-fsa/k2/blob/master/k2/python/k2/__init__.py#L13 delete the cuda version check
+RUN sed -i '/if (/,/^    )/d' /usr/local/lib/python3.10/dist-packages/k2/__init__.py
 WORKDIR /workspace
 
-# #install k2 from source
-# #"sed -i ..."  line tries to turn off the cuda check
-# RUN git clone https://github.com/k2-fsa/k2.git && \
-#     cd k2 && \
-#     sed -i 's/FATAL_ERROR/STATUS/g' cmake/torch.cmake && \
-#     sed -i 's/in running_cuda_version//g' get_version.py && \
-#     python3 setup.py install && \
-#     cd -
+RUN git clone https://github.com/csukuangfj/kaldifeat && \
+    cd kaldifeat && \
+    sed -i 's/in running_cuda_version//g' get_version.py && \
+    python3 setup.py install && \
+    cd -
+
 RUN git clone https://github.com/k2-fsa/icefall.git
 ENV PYTHONPATH "${PYTHONPATH}:/workspace/icefall"
-# https://github.com/k2-fsa/icefall/issues/674
-ENV PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION "python"
 
 COPY ./scripts scripts

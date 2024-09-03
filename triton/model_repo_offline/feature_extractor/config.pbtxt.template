@@ -44,7 +44,7 @@ input [
   },
   {
     name: "wav_lens"
-    data_type: TYPE_INT64
+    data_type: TYPE_INT32
     dims: [1]
   }
 ]

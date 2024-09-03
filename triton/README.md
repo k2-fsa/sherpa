@@ -34,19 +34,14 @@ Build the server docker image:
 cd $SHERPA_SRC/triton
 docker build . -f Dockerfile/Dockerfile.server -t sherpa_triton_server:latest --network host
 ```
-Alternatively, you could directly pull the pre-built image based on tritonserver 22.12.
+Alternatively, you could directly pull the pre-built image based on tritonserver image.
 ```
-docker pull soar97/triton-k2:22.12.1
-```
-
-If you are planning to use TRT to accelerate the inference speed, you can use the following prebuit image:
-```
-docker pull wd929/sherpa_wend_23.04:v1.1
+docker pull soar97/triton-k2:24.07
 ```
 
 Start the docker container:
 ```bash
-docker run --gpus all -v $SHERPA_SRC:/workspace/sherpa --name sherpa_server --net host --shm-size=1g --ulimit memlock=-1 --ulimit stack=67108864 -it soar97/triton-k2:22.12.1
+docker run --gpus all -v $SHERPA_SRC:/workspace/sherpa --name sherpa_server --net host --shm-size=1g --ulimit memlock=-1 --ulimit stack=67108864 -it soar97/triton-k2:24.07
 ```
 Now, you should enter into the container successfully.
 
@@ -69,8 +64,7 @@ apt-get install git-lfs
 pip3 install -r ./requirements.txt
 export CUDA_VISIBLE_DEVICES="your_gpu_id"
 
-bash scripts/build_wenetspeech_pruned_transducer_stateless5_streaming.sh
-bash scripts/build_librispeech_pruned_transducer_stateless3_streaming.sh
+bash scripts/build_wenetspeech_zipformer_offline_trt.sh
 ```
 
 ## Using TensorRT acceleration
@@ -83,26 +77,20 @@ You can directly use the following script to export TRT engine and start Triton 
 bash scripts/build_librispeech_pruned_transducer_stateless3_offline_trt.sh
 ```
 
-### Export to TensorRT Step by Step
+### Export to TensorRT
 
-If you want to build TensorRT for your own model, you can try the following steps:
-
-#### Preparation for TRT
-
-First of all, you have to install the TensorRT. Here we suggest you to use docker container to run TRT. Just run the following command:
-
-```bash
-docker run --gpus '"device=0"' -it --rm --net host -v $PWD/:/k2 nvcr.io/nvidia/tensorrt:23.04-py3
-```
-You can also see [here](https://github.com/NVIDIA/TensorRT#build) to build TRT on your machine. 
+If you want to build TensorRT for your own service, you can try the following steps:
 
 #### Model export 
 
-You have to prepare the ONNX model by referring [here](https://github.com/k2-fsa/sherpa/blob/master/triton/scripts/build_librispeech_pruned_transducer_stateless3_offline.sh#L41C1-L41C1) to export your models into ONNX format. Assume you have put your ONNX model in the `$model_dir` directory. 
+You have to prepare the ONNX model by referring [here](https://icefall.readthedocs.io/en/latest/model-export/export-onnx.html#export-the-model-to-onnx) to export your models into ONNX format. Assume you have put your ONNX model in the `$model_dir` directory. 
 Then, just run the command:
 
 ```bash
-bash scripts/build_trt.sh 128 $model_dir/encoder.onnx model_repo_offline/encoder/1/encoder.trt
+# First, use polygraphy to simplify the onnx model.
+polygraphy surgeon sanitize $model_dir/encoder.onnx --fold-constant -o encoder.trt
+# Using /usr/src/tensorrt/bin/trtexec tool in the tritonserver docker image.
+bash scripts/build_trt.sh 16 $model_dir/encoder.onnx model_repo_offline/encoder/1/encoder.trt
 ```
 
 The generated TRT model will be saved into `model_repo_offline/encoder/1/encoder.trt`. 

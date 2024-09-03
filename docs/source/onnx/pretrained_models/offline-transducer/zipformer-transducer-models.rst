@@ -8,6 +8,164 @@ Zipformer-transducer-based Models
    Please refer to :ref:`install_sherpa_onnx` to install `sherpa-onnx`
    before you read this section.
 
+sherpa-onnx-zipformer-ja-reazonspeech-2024-08-01 (Japanese, 日语)
+------------------------------------------------------------------
+
+This model is from `ReazonSpeech`_ and supports only Japanese.
+It is trained by 35k hours of data.
+
+The code for training the model can be found at
+`<https://github.com/k2-fsa/icefall/tree/master/egs/reazonspeech/ASR>`_
+
+Paper about the dataset is `<https://research.reazon.jp/_static/reazonspeech_nlp2023.pdf>`_
+
+In the following, we describe how to download it and use it with `sherpa-onnx`_.
+
+
+.. hint::
+
+   The original onnx model is from
+
+    `<https://huggingface.co/reazon-research/reazonspeech-k2-v2>`_
+
+Download the model
+~~~~~~~~~~~~~~~~~~
+
+Please use the following commands to download it.
+
+.. code-block:: bash
+
+   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-ja-reazonspeech-2024-08-01.tar.bz2
+
+   # For Chinese users, you can use the following mirror
+   # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-ja-reazonspeech-2024-08-01.tar.bz2
+
+   tar xvf sherpa-onnx-zipformer-ja-reazonspeech-2024-08-01.tar.bz2
+   rm sherpa-onnx-zipformer-ja-reazonspeech-2024-08-01.tar.bz2
+
+   ls -lh sherpa-onnx-zipformer-ja-reazonspeech-2024-08-01
+
+You should see the following output:
+
+.. code-block:: bash
+
+  -rw-r--r--  1 fangjun  staff   1.2K Aug  1 18:32 README.md
+  -rw-r--r--  1 fangjun  staff   2.8M Aug  1 18:32 decoder-epoch-99-avg-1.int8.onnx
+  -rw-r--r--  1 fangjun  staff    11M Aug  1 18:32 decoder-epoch-99-avg-1.onnx
+  -rw-r--r--  1 fangjun  staff   148M Aug  1 18:32 encoder-epoch-99-avg-1.int8.onnx
+  -rw-r--r--  1 fangjun  staff   565M Aug  1 18:32 encoder-epoch-99-avg-1.onnx
+  -rw-r--r--  1 fangjun  staff   2.6M Aug  1 18:32 joiner-epoch-99-avg-1.int8.onnx
+  -rw-r--r--  1 fangjun  staff    10M Aug  1 18:32 joiner-epoch-99-avg-1.onnx
+  drwxr-xr-x  8 fangjun  staff   256B Aug  1 18:31 test_wavs
+  -rw-r--r--  1 fangjun  staff    45K Aug  1 18:32 tokens.txt
+
+Decode wave files
+~~~~~~~~~~~~~~~~~
+
+.. hint::
+
+   It supports decoding only wave files of a single channel with 16-bit
+   encoded samples, while the sampling rate does not need to be 16 kHz.
+
+fp32
+^^^^
+
+The following code shows how to use ``fp32`` models to decode wave files:
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  ./build/bin/sherpa-onnx-offline \
+    --tokens=./sherpa-onnx-zipformer-ja-reazonspeech-2024-08-01/tokens.txt \
+    --encoder=./sherpa-onnx-zipformer-ja-reazonspeech-2024-08-01/encoder-epoch-99-avg-1.onnx \
+    --decoder=./sherpa-onnx-zipformer-ja-reazonspeech-2024-08-01/decoder-epoch-99-avg-1.onnx \
+    --joiner=./sherpa-onnx-zipformer-ja-reazonspeech-2024-08-01/joiner-epoch-99-avg-1.onnx \
+    --num-threads=1 \
+    ./sherpa-onnx-zipformer-ja-reazonspeech-2024-08-01/test_wavs/1.wav
+
+.. note::
+
+   Please use ``./build/bin/Release/sherpa-onnx-offline.exe`` for Windows.
+
+.. caution::
+
+   If you use Windows and get encoding issues, please run:
+
+      .. code-block:: bash
+
+          CHCP 65001
+
+   in your commandline.
+
+You should see the following output:
+
+.. literalinclude:: ./code-zipformer/sherpa-onnx-zipformer-ja-reazonspeech-2024-08-01.txt
+
+int8
+^^^^
+
+The following code shows how to use ``int8`` models to decode wave files:
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  ./build/bin/sherpa-onnx-offline \
+    --tokens=./sherpa-onnx-zipformer-ja-reazonspeech-2024-08-01/tokens.txt \
+    --encoder=./sherpa-onnx-zipformer-ja-reazonspeech-2024-08-01/encoder-epoch-99-avg-1.int8.onnx \
+    --decoder=./sherpa-onnx-zipformer-ja-reazonspeech-2024-08-01/decoder-epoch-99-avg-1.onnx \
+    --joiner=./sherpa-onnx-zipformer-ja-reazonspeech-2024-08-01/joiner-epoch-99-avg-1.int8.onnx \
+    --num-threads=1 \
+    ./sherpa-onnx-zipformer-ja-reazonspeech-2024-08-01/test_wavs/1.wav
+
+.. note::
+
+   Please use ``./build/bin/Release/sherpa-onnx-offline.exe`` for Windows.
+
+.. caution::
+
+   If you use Windows and get encoding issues, please run:
+
+      .. code-block:: bash
+
+          CHCP 65001
+
+   in your commandline.
+
+You should see the following output:
+
+.. literalinclude:: ./code-zipformer/sherpa-onnx-zipformer-ja-reazonspeech-2024-08-01-int8.txt
+
+Speech recognition from a microphone
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  ./build/bin/sherpa-onnx-microphone-offline \
+    --tokens=./sherpa-onnx-zipformer-ja-reazonspeech-2024-08-01/tokens.txt \
+    --encoder=./sherpa-onnx-zipformer-ja-reazonspeech-2024-08-01/encoder-epoch-99-avg-1.int8.onnx \
+    --decoder=./sherpa-onnx-zipformer-ja-reazonspeech-2024-08-01/decoder-epoch-99-avg-1.onnx \
+    --joiner=./sherpa-onnx-zipformer-ja-reazonspeech-2024-08-01/joiner-epoch-99-avg-1.int8.onnx
+
+Speech recognition from a microphone with VAD
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/silero_vad.onnx
+
+  ./build/bin/sherpa-onnx-vad-microphone-offline-asr \
+    --silero-vad-model=./silero_vad.onnx \
+    --tokens=./sherpa-onnx-zipformer-ja-reazonspeech-2024-08-01/tokens.txt \
+    --encoder=./sherpa-onnx-zipformer-ja-reazonspeech-2024-08-01/encoder-epoch-99-avg-1.int8.onnx \
+    --decoder=./sherpa-onnx-zipformer-ja-reazonspeech-2024-08-01/decoder-epoch-99-avg-1.onnx \
+    --joiner=./sherpa-onnx-zipformer-ja-reazonspeech-2024-08-01/joiner-epoch-99-avg-1.int8.onnx
+
 sherpa-onnx-zipformer-korean-2024-06-24 (Korean, 韩语)
 ------------------------------------------------------------
 
@@ -776,6 +934,54 @@ Speech recognition from a microphone
     --encoder=./icefall-asr-cv-corpus-13.0-2023-03-09-en-pruned-transducer-stateless7-2023-04-17/exp/encoder-epoch-60-avg-20.onnx \
     --decoder=./icefall-asr-cv-corpus-13.0-2023-03-09-en-pruned-transducer-stateless7-2023-04-17/exp/decoder-epoch-60-avg-20.onnx \
     --joiner=./icefall-asr-cv-corpus-13.0-2023-03-09-en-pruned-transducer-stateless7-2023-04-17/exp/joiner-epoch-60-avg-20.onnx
+
+
+.. _sherpa-onnx-wenetspeech-small:
+
+k2-fsa/icefall-asr-zipformer-wenetspeech-small (Chinese)
+--------------------------------------------------------
+
+This model is from
+
+`<https://huggingface.co/k2-fsa/icefall-asr-zipformer-wenetspeech-small>`_
+
+which supports only Chinese as it is trained on the `WenetSpeech`_ corpus.
+
+In the following, we describe how to download it.
+
+Download the model
+~~~~~~~~~~~~~~~~~~
+
+Please use the following commands to download it.
+
+.. code-block:: bash
+
+   git lfs install
+   git clone https://huggingface.co/k2-fsa/icefall-asr-zipformer-wenetspeech-small
+
+
+.. _sherpa-onnx-wenetspeech-large:
+
+k2-fsa/icefall-asr-zipformer-wenetspeech-large (Chinese)
+--------------------------------------------------------
+
+This model is from
+
+`<https://huggingface.co/k2-fsa/icefall-asr-zipformer-wenetspeech-large>`_
+
+which supports only Chinese as it is trained on the `WenetSpeech`_ corpus.
+
+In the following, we describe how to download it.
+
+Download the model
+~~~~~~~~~~~~~~~~~~
+
+Please use the following commands to download it.
+
+.. code-block:: bash
+
+   git lfs install
+   git clone https://huggingface.co/k2-fsa/icefall-asr-zipformer-wenetspeech-large
 
 
 pkufool/icefall-asr-zipformer-wenetspeech-20230615 (Chinese)

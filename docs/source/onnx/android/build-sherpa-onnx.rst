@@ -14,14 +14,14 @@ and ``text-to-speech`` (TTS).
    you can download pre-built shared libraries by visiting the release page
    `<https://github.com/k2-fsa/sherpa-onnx/releases/>`_
 
-   For instance, for the relase ``v1.9.14``, you can visit
-   `<https://github.com/k2-fsa/sherpa-onnx/releases/tag/v1.9.14>`_
-   and download the file ``sherpa-onnx-v1.9.14-android.tar.bz2``
+   For instance, for the relase ``v1.10.19``, you can visit
+   `<https://github.com/k2-fsa/sherpa-onnx/releases/tag/v1.10.19>`_
+   and download the file ``sherpa-onnx-v1.10.19-android.tar.bz2``
    using the following command:
 
     .. code-block:: bash
 
-      wget https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.9.14/sherpa-onnx-v1.9.14-android.tar.bz2
+      wget https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.10.19/sherpa-onnx-v1.10.19-android.tar.bz2
 
    Please always use the latest release.
 
@@ -58,6 +58,7 @@ Android Studio.
   For reference, we post the version we are using below:
 
   .. image:: ./pic/android-studio-version.png
+     :align: center
      :alt: screenshot of my version of Android Studio
      :width: 600
 
@@ -197,12 +198,10 @@ After building, you will find the following shared libraries:
 
 .. code-block:: bash
 
-  ls -lh build-android-arm64-v8a/install/lib/lib*.so
-  -rwxr-xr-x  1 fangjun  staff   848K Feb 26 15:54 build-android-arm64-v8a/install/lib/libkaldi-native-fbank-core.so
-  -rw-r--r--@ 1 fangjun  staff    13M Feb 26 15:54 build-android-arm64-v8a/install/lib/libonnxruntime.so
-  -rwxr-xr-x  1 fangjun  staff    29K Feb 26 15:54 build-android-arm64-v8a/install/lib/libsherpa-onnx-c-api.so
-  -rwxr-xr-x  1 fangjun  staff   313K Feb 26 15:54 build-android-arm64-v8a/install/lib/libsherpa-onnx-core.so
-  -rwxr-xr-x  1 fangjun  staff    34K Feb 26 15:54 build-android-arm64-v8a/install/lib/libsherpa-onnx-jni.so
+  ls -lh build-android-arm64-v8a/install/lib/
+
+  -rw-r--r--  1 fangjun  staff    15M Jul 28 12:54 libonnxruntime.so
+  -rwxr-xr-x  1 fangjun  staff   3.7M Jul 28 12:54 libsherpa-onnx-jni.so
 
 Please copy them to ``android/SherpaOnnx/app/src/main/jniLibs/arm64-v8a/``:
 
@@ -212,15 +211,10 @@ Please copy them to ``android/SherpaOnnx/app/src/main/jniLibs/arm64-v8a/``:
 
 You should see the following screen shot after running the above copy ``cp`` command.
 
-.. figure:: ./pic/so-libs-for-arm64-v8a.png
+.. figure:: ./pic/so-libs-for-arm64-v8a.jpg
+   :align: center
    :alt: Generated shared libraries for arm64-v8a
    :width: 600
-
-.. hint::
-
-   You may see more files than it is shown in the screenshot. That is totally fine
-   since we are extending `sherpa-onnx`_. The first thing to remember is to always
-   use the wildcard ``lib*.so`` in the ``cp`` command.
 
 Build for armv7-eabi
 ^^^^^^^^^^^^^^^^^^^^
@@ -234,13 +228,10 @@ After building, you will find the following shared libraries:
 
 .. code-block:: bash
 
-  ls -lh build-android-armv7-eabi/install/lib/lib*.so
+  ls -lh build-android-armv7-eabi/install/lib
 
-  -rwxr-xr-x  1 fangjun  staff   513K Mar  4 21:48 build-android-armv7-eabi/install/lib/libkaldi-native-fbank-core.so
-  -rw-r--r--  1 fangjun  staff   9.1M Mar  4 21:48 build-android-armv7-eabi/install/lib/libonnxruntime.so
-  -rwxr-xr-x  1 fangjun  staff    19K Mar  4 21:48 build-android-armv7-eabi/install/lib/libsherpa-onnx-c-api.so
-  -rwxr-xr-x  1 fangjun  staff   298K Mar  4 21:48 build-android-armv7-eabi/install/lib/libsherpa-onnx-core.so
-  -rwxr-xr-x  1 fangjun  staff    22K Mar  4 21:48 build-android-armv7-eabi/install/lib/libsherpa-onnx-jni.so
+  -rw-r--r--  1 fangjun  staff    10M Jul 28 13:18 libonnxruntime.so
+  -rwxr-xr-x  1 fangjun  staff   2.1M Jul 28 13:18 libsherpa-onnx-jni.so
 
 Please copy them to ``android/SherpaOnnx/app/src/main/jniLibs/armeabi-v7a``:
 
@@ -250,7 +241,8 @@ Please copy them to ``android/SherpaOnnx/app/src/main/jniLibs/armeabi-v7a``:
 
 You should see the following screen shot after running the above copy ``cp`` command.
 
-.. figure:: ./pic/so-libs-for-armv7a-eabi.png
+.. figure:: ./pic/so-libs-for-armv7a-eabi.jpg
+   :align: center
    :alt: Generated shared libraries for armv7-eabi
    :width: 600
 
@@ -266,22 +258,21 @@ After building, you will find the following shared libraries:
 
 .. code-block:: bash
 
-  ls -lh build-android-x86-64/install/lib/lib*.so
+  ls -lh build-android-x86-64/install/lib/
 
-  -rwxr-xr-x  1 fangjun  staff   901K Feb 26 16:00 build-android-x86-64/install/lib/libkaldi-native-fbank-core.so
-  -rw-r--r--@ 1 fangjun  staff    15M Feb 26 16:00 build-android-x86-64/install/lib/libonnxruntime.so
-  -rwxr-xr-x  1 fangjun  staff   347K Feb 26 16:00 build-android-x86-64/install/lib/libsherpa-onnx-core.so
-  -rwxr-xr-x  1 fangjun  staff    32K Feb 26 16:00 build-android-x86-64/install/lib/libsherpa-onnx-jni.so
+  -rw-r--r--  1 fangjun  staff    17M Jul 28 13:26 libonnxruntime.so
+  -rwxr-xr-x  1 fangjun  staff   4.0M Jul 28 13:26 libsherpa-onnx-jni.so
 
 Please copy them to ``android/SherpaOnnx/app/src/main/jniLibs/x86_64/``:
 
 .. code-block:: bash
 
-   build-android-x86-64/install/lib/lib*.so android/SherpaOnnx/app/src/main/jniLibs/x86_64/
+   cp build-android-x86-64/install/lib/lib*.so android/SherpaOnnx/app/src/main/jniLibs/x86_64/
 
 You should see the following screen shot after running the above copy ``cp`` command.
 
-.. figure:: ./pic/so-libs-for-x86-64.png
+.. figure:: ./pic/so-libs-for-x86-64.jpg
+   :align: center
    :alt: Generated shared libraries for x86_64
    :width: 600
 
@@ -292,6 +283,28 @@ Build for x86
 
   cd sherpa-onnx # Go to the root repo
   ./build-android-x86.sh
+
+After building, you will find the following shared libraries:
+
+.. code-block:: bash
+
+  ls -lh build-android-x86/install/lib/
+
+  -rw-r--r--  1 fangjun  staff    17M Jul 28 13:28 libonnxruntime.so
+  -rwxr-xr-x  1 fangjun  staff   3.9M Jul 28 13:28 libsherpa-onnx-jni.so
+
+Please copy them to ``android/SherpaOnnx/app/src/main/jniLibs/x86/``:
+
+.. code-block:: bash
+
+   cp build-android-x86/install/lib/lib*.so android/SherpaOnnx/app/src/main/jniLibs/x86/
+
+You should see the following screen shot after running the above copy ``cp`` command.
+
+.. figure:: ./pic/so-libs-for-x86.jpg
+   :align: center
+   :alt: Generated shared libraries for x86
+   :width: 600
 
 Download pre-trained models
 ---------------------------
@@ -314,8 +327,6 @@ Use the following command to download the pre-trained model and place it into
 
   cd android/SherpaOnnx/app/src/main/assets/
 
-  sudo apt-get install git-lfs
-
   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20.tar.bz2
 
   tar xvf sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20.tar.bz2
@@ -324,8 +335,14 @@ Use the following command to download the pre-trained model and place it into
   cd sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20
 
   # Now, remove extra files to reduce the file size of the generated apk
-  rm -rf .git test_wavs
+  rm -rf test_wavs
   rm -f *.sh README.md
+  rm -f bpe.model
+
+  rm -f encoder-epoch-99-avg-1.int8.onnx
+  rm -f joiner-epoch-99-avg-1.int8.onnx
+  rm -f decoder-epoch-99-avg-1.int8.onnx
+  rm -f bpe.vocab
 
 In the end, you should have the following files:
 
@@ -333,20 +350,16 @@ In the end, you should have the following files:
 
   ls -lh
 
-  total 696984
-  -rw-r--r--  1 fangjun  staff    13M Feb 21 21:45 decoder-epoch-99-avg-1.onnx
-  -rw-r--r--  1 fangjun  staff   315M Feb 23 21:18 encoder-epoch-99-avg-1.onnx
-  -rw-r--r--  1 fangjun  staff    12M Feb 21 21:45 joiner-epoch-99-avg-1.onnx
-  -rw-r--r--  1 fangjun  staff    55K Feb 21 21:45 tokens.txt
-
-  du -h .
-
-  340M    .
+  -rw-r--r--@ 1 fangjun  staff    13M Jul 28 13:51 decoder-epoch-99-avg-1.onnx
+  -rw-r--r--@ 1 fangjun  staff   315M Jul 28 13:51 encoder-epoch-99-avg-1.onnx
+  -rw-r--r--@ 1 fangjun  staff    12M Jul 28 13:51 joiner-epoch-99-avg-1.onnx
+  -rw-r--r--@ 1 fangjun  staff    55K Nov 21  2023 tokens.txt
 
 You should see the following screen shot after downloading the pre-trained model:
 
 .. figure:: ./pic/pre-trained-model-2023-02-20.png
    :alt: Files after downloading the pre-trained model
+   :align: center
    :width: 600
 
 .. hint::
@@ -366,6 +379,7 @@ Finally, it is time to build `sherpa-onnx`_ to generate an APK package.
 Select ``Build -> Make Project``, as shown in the following screen shot.
 
 .. figure:: ./pic/build-make-project.png
+   :align: center
    :alt: Select ``Build -> Make Project``
    :width: 600
 
@@ -375,7 +389,7 @@ You can find the generated APK in ``android/SherpaOnnx/app/build/outputs/apk/deb
 
   ls -lh android/SherpaOnnx/app/build/outputs/apk/debug/app-debug.apk
 
-  -rw-r--r--  1 fangjun  staff   331M Feb 26 16:17 android/SherpaOnnx/app/build/outputs/apk/debug/app-debug.apk
+  -rw-r--r--@ 1 fangjun  staff   329M Jul 28 13:56 android/SherpaOnnx/app/build/outputs/apk/debug/app-debug.apk
 
 Congratulations! You have successfully built an APK for Android.
 
@@ -385,6 +399,7 @@ Analyze the APK
 ---------------
 
 .. figure:: ./pic/analyze-apk.png
+   :align: center
    :alt: Select ``Build -> Analyze APK ...``
    :width: 600
 
@@ -392,24 +407,25 @@ Select ``Build -> Analyze APK ...`` in the above screen shot, in the
 popped-up dialog select the generated APK ``app-debug.apk``,
 and you will see the following screen shot:
 
-.. figure:: ./pic/analyze-apk-result.png
+.. figure:: ./pic/analyze-apk-result.jpg
+   :align: center
    :alt: Result of analyzing apk
    :width: 700
 
 You can see from the above screen shot that most part of the APK
 is occupied by the pre-trained model, while the runtime, including the shared
-libraries, is only ``5.4 MB``.
+libraries, is only ``7.2 MB``.
 
 .. caution::
 
-  You can see that ``libonnxruntime.so`` alone occupies ``5MB`` out of ``5.4MB``.
+  You can see that ``libonnxruntime.so`` alone occupies ``5.8MB`` out of ``7.2MB``.
 
   We use a so-called ``Full build`` instead of ``Mobile build``, so the file
   size of the library is somewhat a bit larger.
 
   ``libonnxruntime.so`` is donwloaded from
 
-    `<https://mvnrepository.com/artifact/com.microsoft.onnxruntime/onnxruntime-android/1.14.0>`_
+    `<https://mvnrepository.com/artifact/com.microsoft.onnxruntime/onnxruntime-android/1.17.1>`_
 
   Please refer to `<https://onnxruntime.ai/docs/build/custom.html>`_ for a
   custom build to reduce the file size of ``libonnxruntime.so``.
