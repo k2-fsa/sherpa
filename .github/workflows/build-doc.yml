@@ -196,15 +196,13 @@ jobs:
               popd
               git diff
 
-              if true; then
-                make latex >/dev/null 2>&1
-                mkdir -pv build/html/_static
-
-                cd build/latex
-                latexmk -interaction=nonstopmode -f -pdf -dvi- -ps- sherpa.tex >/dev/null 2>&1 || true
-                ls -lh sherpa.pdf
-                cp -v sherpa.pdf ../html/
-              fi
+              make latex
+              mkdir -pv build/html/_static
+              cd build/latex
+              #latexmk -interaction=nonstopmode -f -pdf -dvi- -ps- sherpa.tex || true
+              latexmk -interaction=nonstopmode -f -pdf -dvi- -ps- sherpa.tex >/dev/null 2>&1 || true
+              ls -lh sherpa.pdf
+              cp -v sherpa.pdf /workspace/
 
       - name: View generated files
         shell: bash
@@ -224,12 +222,39 @@ jobs:
         with:
           file_glob: true
           overwrite: true
-          file: ./docs/build/html/sherpa.pdf
+          file: /workspace/sherpa.pdf
           tag: doc
+
+      - name: Publish to huggingface
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        uses: nick-fields/retry@v3
+        with:
+          max_attempts: 20
+          timeout_seconds: 200
+          shell: bash
+          command: |
+            git config --global user.email "csukuangfj@gmail.com"
+            git config --global user.name "Fangjun Kuang"
+
+            rm -rf huggingface
+            export GIT_LFS_SKIP_SMUDGE=1
+            export GIT_CLONE_PROTECTION_ACTIVE=false
+
+            git clone https://huggingface.co/csukuangfj/sherpa-doc huggingface
+            cd huggingface
+
+            cp -v ../sherpa.pdf ./
+            git status
+            git lfs track "*.pdf"
+            git add .
+            git commit -m "update doc"
+            git push https://csukuangfj:$HF_TOKEN@huggingface.co/csukuangfj/sherpa-doc main
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./docs/build/html
+          force_orphan: true
           publish_branch: gh-pages
