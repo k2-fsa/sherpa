@@ -102,3 +102,34 @@ Please first run::
   go env -w CGO_ENABLED=1
 
 And then re-run ``go build``.
+
+External buffers are not allowed
+--------------------------------
+
+If you are using ``electron >= 21`` and get the following error:
+
+.. code-block::
+
+   External buffers are not allowed
+
+Then please set ``enableExternalBuffer`` to ``false``.
+
+Specifically,
+
+  - For reading wave files, please use ``sherpa_onnx.readWave(filename, false);``,
+    where the second argument ``false`` means to not use external buffers
+
+  - For VAD, please use ``vad.get(startIndex, n, false)`` and ``vad.front(false)``
+
+  - For speaker identification, please use ``extractor.compute(stream, false)``
+
+  - For TTS, please use:
+
+    .. code-block:: javascript
+
+        const audio = tts.generate({
+          text: text,
+          sid: 0,
+          speed: 1.0,
+          enableExternalBuffer: false,
+        });
