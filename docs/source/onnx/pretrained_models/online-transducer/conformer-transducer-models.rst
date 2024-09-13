@@ -108,7 +108,7 @@ The following code shows how to use ``int8`` models to decode a wave file:
   ./build/bin/sherpa-onnx \
     --tokens=./sherpa-onnx-streaming-conformer-zh-2023-05-23/tokens.txt \
     --encoder=./sherpa-onnx-streaming-conformer-zh-2023-05-23/encoder-epoch-99-avg-1.int8.onnx \
-    --decoder=./sherpa-onnx-streaming-conformer-zh-2023-05-23/decoder-epoch-99-avg-1.int8.onnx \
+    --decoder=./sherpa-onnx-streaming-conformer-zh-2023-05-23/decoder-epoch-99-avg-1.onnx \
     --joiner=./sherpa-onnx-streaming-conformer-zh-2023-05-23/joiner-epoch-99-avg-1.int8.onnx \
     ./sherpa-onnx-streaming-conformer-zh-2023-05-23/test_wavs/0.wav
 
