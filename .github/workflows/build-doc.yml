@@ -222,7 +222,7 @@ jobs:
         with:
           file_glob: true
           overwrite: true
-          file: /workspace/sherpa.pdf
+          file: ./sherpa.pdf
           tag: doc
 
       - name: Publish to huggingface

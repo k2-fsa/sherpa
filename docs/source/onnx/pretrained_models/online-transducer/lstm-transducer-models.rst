@@ -94,7 +94,7 @@ The following code shows how to use ``int8`` models to decode a wave file:
   ./build/bin/sherpa-onnx \
     --tokens=./sherpa-onnx-lstm-en-2023-02-17/tokens.txt \
     --encoder=./sherpa-onnx-lstm-en-2023-02-17/encoder-epoch-99-avg-1.int8.onnx \
-    --decoder=./sherpa-onnx-lstm-en-2023-02-17/decoder-epoch-99-avg-1.int8.onnx \
+    --decoder=./sherpa-onnx-lstm-en-2023-02-17/decoder-epoch-99-avg-1.onnx \
     --joiner=./sherpa-onnx-lstm-en-2023-02-17/joiner-epoch-99-avg-1.int8.onnx \
     ./sherpa-onnx-lstm-en-2023-02-17/test_wavs/0.wav
 
@@ -221,7 +221,7 @@ The following code shows how to use ``int8`` models to decode a wave file:
   ./build/bin/sherpa-onnx \
     --tokens=./sherpa-onnx-lstm-zh-2023-02-20/tokens.txt \
     --encoder=./sherpa-onnx-lstm-zh-2023-02-20/encoder-epoch-11-avg-1.int8.onnx \
-    --decoder=./sherpa-onnx-lstm-zh-2023-02-20/decoder-epoch-11-avg-1.int8.onnx \
+    --decoder=./sherpa-onnx-lstm-zh-2023-02-20/decoder-epoch-11-avg-1.onnx \
     --joiner=./sherpa-onnx-lstm-zh-2023-02-20/joiner-epoch-11-avg-1.int8.onnx \
     ./sherpa-onnx-lstm-zh-2023-02-20/test_wavs/0.wav
 
