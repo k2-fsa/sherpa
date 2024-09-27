@@ -17,6 +17,79 @@ English
 
 This page lists offline CTC models from `NeMo`_ for English.
 
+.. _nemo_parakeet_tdt_ctc_110m:
+
+parakeet_tdt_ctc_110m (English)
+-------------------------------
+
+This model is converted from
+
+  `<https://catalog.ngc.nvidia.com/orgs/nvidia/teams/nemo/models/parakeet-tdt_ctc-110m>`_
+
+Note that only the CTC branch is exported for the model in this section. If you want
+to use the transducer branch, please see :ref:`nemo_parakeet_tdt_transducer_110m`.
+
+This model is trained with 36000 hours of English data. It supports
+both punctuations and casing.
+
+You can find the script for exporting it to `sherpa-onnx`_ at the following address:
+
+  `<https://github.com/k2-fsa/sherpa-onnx/tree/master/scripts/nemo/fast-conformer-hybrid-transducer-ctc>`_
+
+In the following, we describe how to download it and use it with `sherpa-onnx`_.
+
+Download the model
+~~~~~~~~~~~~~~~~~~
+
+Please use the following commands to download it.
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-nemo-parakeet_tdt_ctc_110m-en-36000.tar.bz2
+  tar xvf sherpa-onnx-nemo-parakeet_tdt_ctc_110m-en-36000.tar.bz2
+  rm sherpa-onnx-nemo-parakeet_tdt_ctc_110m-en-36000.tar.bz2
+
+  ls -lh sherpa-onnx-nemo-parakeet_tdt_ctc_110m-en-36000
+
+Please check that the file sizes of the pre-trained models are correct. See
+the file sizes of ``*.onnx`` files below.
+
+.. code-block:: bash
+
+  total 437M
+  -rw-r--r-- 1 501 staff 437M Sep 27 05:47 model.onnx
+  drwxr-xr-x 2 501 staff 4.0K Sep 27 05:49 test_wavs
+  -rw-r--r-- 1 501 staff 9.8K Sep 27 05:47 tokens.txt
+
+Decode wave files
+~~~~~~~~~~~~~~~~~
+
+.. hint::
+
+   It supports decoding only wave files of a single channel with 16-bit
+   encoded samples, while the sampling rate does not need to be 16 kHz.
+
+The following code shows how to use the ``fp32`` model to decode wave files.
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  ./build/bin/sherpa-onnx-offline \
+    --nemo-ctc-model=sherpa-onnx-nemo-parakeet_tdt_ctc_110m-en-36000/model.onnx \
+    --tokens=sherpa-onnx-nemo-parakeet_tdt_ctc_110m-en-36000/tokens.txt \
+    sherpa-onnx-nemo-parakeet_tdt_ctc_110m-en-36000/test_wavs/0.wav
+
+.. note::
+
+   Please use ``./build/bin/Release/sherpa-onnx-offline.exe`` for Windows.
+
+You should see the following output:
+
+.. literalinclude:: ./code-english/parakeet_tdt_ctc_110m.txt
+
 stt_en_citrinet_512
 -------------------
 
@@ -39,9 +112,6 @@ Please use the following commands to download it.
   cd /path/to/sherpa-onnx
 
   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-nemo-ctc-en-citrinet-512.tar.bz2
-
-  # For Chinese users, please use the following mirror
-  # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-nemo-ctc-en-citrinet-512.tar.bz2
 
   tar xvf sherpa-onnx-nemo-ctc-en-citrinet-512.tar.bz2
   rm sherpa-onnx-nemo-ctc-en-citrinet-512.tar.bz2
