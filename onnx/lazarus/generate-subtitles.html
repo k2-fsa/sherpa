@@ -1,0 +1,659 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Generate subtitles &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/tabs.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/tabs.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="WebAssembly" href="../wasm/index.html" />
+    <link rel="prev" title="Pre-built APPs using Lazarus" href="pre-built-app.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">sherpa-onnx</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../install/index.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../faqs/index.html">Frequently Asked Question (FAQs)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python/index.html">Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../c-api/index.html">C API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../java-api/index.html">Java API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../javascript-api/index.html">Javascript API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kotlin-api/index.html">Kotlin API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../swift-api/index.html">Swift API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../go-api/index.html">Go API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../csharp-api/index.html">C# API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pascal-api/index.html">Pascal API</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Lazarus</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="pre-built-app.html">Pre-built APPs using Lazarus</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Generate subtitles</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#screenshots-on-different-platforms">Screenshots on different platforms</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#get-sherpa-onnx-libraries">Get sherpa-onnx libraries</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#build-the-generate-subtitles-project">Build the generate_subtitles project</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#download-models">Download models</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#for-the-more-curious">For the more curious</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../wasm/index.html">WebAssembly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../android/index.html">Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ios/index.html">iOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../flutter/index.html">Flutter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../websocket/index.html">WebSocket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../hotwords/index.html">Hotwords (Contextual biasing)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kws/index.html">Keyword spotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../punctuation/index.html">Punctuation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../audio-tagging/index.html">Audio tagging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spoken-language-identification/index.html">Spoken language identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vad/index.html">VAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/index.html">Pre-trained models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sense-voice/index.html">SenseVoice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-identification/index.html">Speaker Identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tts/index.html">Text-to-speech (TTS)</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">sherpa-onnx</a> &raquo;</li>
+          <li><a href="index.html">Lazarus</a> &raquo;</li>
+      <li>Generate subtitles</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/onnx/lazarus/generate-subtitles.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="generate-subtitles">
+<h1>Generate subtitles<a class="headerlink" href="#generate-subtitles" title="Permalink to this heading"></a></h1>
+<p>This page describes how to run the code in the following directory:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/tree/master/lazarus-examples/generate_subtitles">https://github.com/k2-fsa/sherpa-onnx/tree/master/lazarus-examples/generate_subtitles</a></p>
+</div></blockquote>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>Before you continue, we assume you have installed <a class="reference external" href="https://www.lazarus-ide.org/">Lazarus</a>.</p>
+</div>
+<section id="screenshots-on-different-platforms">
+<h2>Screenshots on different platforms<a class="headerlink" href="#screenshots-on-different-platforms" title="Permalink to this heading"></a></h2>
+<p>The same code can be compiled without any modifications for different operating systems
+and architectures.</p>
+<p>That is <a class="reference external" href="https://en.wikipedia.org/wiki/Write_once,_compile_anywhere">WOCA</a>,</p>
+<blockquote>
+<div><p>Write once, compile anywhere.</p>
+</div></blockquote>
+<p>The following screenshots give an example about that.</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-0-0-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-0-0-0" name="0-0" role="tab" tabindex="0">Linux x64 screenshot</button><button aria-controls="panel-0-0-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-0-0-1" name="0-1" role="tab" tabindex="-1">Windows x64 screenshot</button><button aria-controls="panel-0-0-2" aria-selected="false" class="sphinx-tabs-tab" id="tab-0-0-2" name="0-2" role="tab" tabindex="-1">macOS x64 screenshot</button></div><div aria-labelledby="tab-0-0-0" class="sphinx-tabs-panel" id="panel-0-0-0" name="0-0" role="tabpanel" tabindex="0"><figure class="align-default" id="id5">
+<a class="reference internal image-reference" href="../../_images/linux-x64.jpg"><img alt="Windows-x64" src="../../_images/linux-x64.jpg" style="width: 90%;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 36 </span><span class="caption-text">Linux-x64 screenshot</span><a class="headerlink" href="#id5" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+</div><div aria-labelledby="tab-0-0-1" class="sphinx-tabs-panel" hidden="true" id="panel-0-0-1" name="0-1" role="tabpanel" tabindex="0"><figure class="align-default" id="id6">
+<a class="reference internal image-reference" href="../../_images/windows-x64.jpg"><img alt="Windows-x64" src="../../_images/windows-x64.jpg" style="width: 90%;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 37 </span><span class="caption-text">Windows-x64 screenshot</span><a class="headerlink" href="#id6" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+</div><div aria-labelledby="tab-0-0-2" class="sphinx-tabs-panel" hidden="true" id="panel-0-0-2" name="0-2" role="tabpanel" tabindex="0"><figure class="align-default" id="id7">
+<a class="reference internal image-reference" href="../../_images/macos-x64.jpg"><img alt="macos-x64" src="../../_images/macos-x64.jpg" style="width: 90%;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 38 </span><span class="caption-text">macOS-x64 screenshot</span><a class="headerlink" href="#id7" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+</div></div>
+</section>
+<section id="get-sherpa-onnx-libraries">
+<h2>Get sherpa-onnx libraries<a class="headerlink" href="#get-sherpa-onnx-libraries" title="Permalink to this heading"></a></h2>
+<p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a> is implemented in C++. To use it with Object Pascal, we have to
+get either the static library or the dynamic library for <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>.</p>
+<p>To achieve that, you can either build <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a> from source <code class="docutils literal notranslate"><span class="pre">or</span></code> download
+pre-built libraries from</p>
+<blockquote>
+<div><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases">https://github.com/k2-fsa/sherpa-onnx/releases</a></p>
+</div></blockquote>
+<section id="build-sherpa-onnx-from-source">
+<h3>1. Build sherpa-onnx from source<a class="headerlink" href="#build-sherpa-onnx-from-source" title="Permalink to this heading"></a></h3>
+<p>The following code builds shared libraries for <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>-p<span class="w"> </span><span class="nv">$HOME</span>/open-source/
+<span class="nb">cd</span><span class="w"> </span><span class="nv">$HOME</span>/open-source/
+git<span class="w"> </span>clone<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx
+<span class="nb">cd</span><span class="w"> </span>sherpa-onnx
+
+<span class="c1"># The build directory must be named as &quot;build&quot;</span>
+<span class="c1"># for shared libraries</span>
+
+mkdir<span class="w"> </span>build
+<span class="nb">cd</span><span class="w"> </span>build
+
+cmake<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-DBUILD_SHARED_LIBS<span class="o">=</span>ON<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-DCMAKE_BUILD_TYPE<span class="o">=</span>Release<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-DCMAKE_INSTALL_PREFIX<span class="o">=</span>./install<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>..
+cmake<span class="w"> </span>--build<span class="w"> </span>.<span class="w"> </span>--target<span class="w"> </span>install<span class="w"> </span>--config<span class="w"> </span>Release
+</pre></div>
+</div>
+<p>The following code builds static libraries for <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>-p<span class="w"> </span><span class="nv">$HOME</span>/open-source/
+<span class="nb">cd</span><span class="w"> </span><span class="nv">$HOME</span>/open-source/
+git<span class="w"> </span>clone<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx
+<span class="nb">cd</span><span class="w"> </span>sherpa-onnx
+
+<span class="c1"># The build directory must be named as &quot;build-static&quot;</span>
+<span class="c1"># for shared libraries</span>
+
+mkdir<span class="w"> </span>build-static
+<span class="nb">cd</span><span class="w"> </span>build-static
+
+cmake<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-DBUILD_SHARED_LIBS<span class="o">=</span>OFF<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-DCMAKE_BUILD_TYPE<span class="o">=</span>Release<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-DCMAKE_INSTALL_PREFIX<span class="o">=</span>./install<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>..
+cmake<span class="w"> </span>--build<span class="w"> </span>.<span class="w"> </span>--target<span class="w"> </span>install<span class="w"> </span>--config<span class="w"> </span>Release
+</pre></div>
+</div>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<ul class="simple">
+<li><p>For building shared libraries, the build directory must be <code class="docutils literal notranslate"><span class="pre">build</span></code>.</p></li>
+<li><p>For building static libraries, the build directory must be <code class="docutils literal notranslate"><span class="pre">build-static</span></code>.</p></li>
+</ul>
+<p>If you want to learn why there are such constraints, please search for
+<code class="docutils literal notranslate"><span class="pre">build-static</span></code> in the file <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/blob/master/lazarus-examples/generate_subtitles/generate_subtitles.lpi">generate_subtitles.lpi</a></p>
+</div>
+</section>
+<section id="download-pre-built-libraries">
+<h3>2. Download pre-built libraries<a class="headerlink" href="#download-pre-built-libraries" title="Permalink to this heading"></a></h3>
+<p>If you don’t want to build <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a> from source, please download pre-built libraries
+from <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases">https://github.com/k2-fsa/sherpa-onnx/releases</a>.</p>
+<p>We suggest that you always use the latest release.</p>
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td></td>
+<td><p>Required dynamic library files</p></td>
+<td><p>Required static library files</p></td>
+</tr>
+<tr class="row-even"><td><p>Windows</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">sherpa-onnx-c-api.dll</span></code>, <code class="docutils literal notranslate"><span class="pre">onnxruntime.dll</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">N/A</span></code> (We only support dynamic linking with sherpa-onnx in Lazarus on Windows)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Linux</p></td>
+<td><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">libsherpa-onnx-c-api.so</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">libonnxruntime.so</span></code></p></li>
+</ul>
+</td>
+<td><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">libsherpa-onnx-c-api.a</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">libsherpa-onnx-core.a</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">libkaldi-decoder-core.a</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">libsherpa-onnx-kaldifst-core.a</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">libsherpa-onnx-fstfar.a</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">libsherpa-onnx-fst.a</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">libkaldi-native-fbank-core.a</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">libpiper_phonemize</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">liblibespeak-ng.a</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">libucd.a</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">liblibonnxruntime.a</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">libssentencepiece_core.a</span></code></p></li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td><p>macOS</p></td>
+<td><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">libsherpa-onnx-c-api.dylib</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">libonnxruntime.1.17.1.dylib</span></code></p></li>
+</ul>
+</td>
+<td><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">libsherpa-onnx-c-api.a</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">libsherpa-onnx-core.a</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">libkaldi-decoder-core.a</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">libsherpa-onnx-kaldifst-core.a</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">libsherpa-onnx-fstfar.a</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">libsherpa-onnx-fst.a</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">libkaldi-native-fbank-core.a</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">libpiper_phonemize</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">liblibespeak-ng.a</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">libucd.a</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">liblibonnxruntime.a</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">libssentencepiece_core.a</span></code></p></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>If you download <code class="docutils literal notranslate"><span class="pre">shared</span></code> libraries, please create a <code class="docutils literal notranslate"><span class="pre">build</span></code> directory
+inside the <code class="docutils literal notranslate"><span class="pre">sherpa-onnx</span></code> project directory and put the library files into
+<code class="docutils literal notranslate"><span class="pre">build/install/lib</span></code>. An example on my macOS is given below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(py38) fangjuns-MacBook-Pro:sherpa-onnx fangjun$ pwd
+/Users/fangjun/open-source/sherpa-onnx
+(py38) fangjuns-MacBook-Pro:sherpa-onnx fangjun$ ls -lh build/install/lib
+total 59696
+-rw-r--r--  1 fangjun  staff    25M Aug 14 14:09 libonnxruntime.1.17.1.dylib
+lrwxr-xr-x  1 fangjun  staff    27B Aug 14 14:18 libonnxruntime.dylib -&gt; libonnxruntime.1.17.1.dylib
+-rwxr-xr-x  1 fangjun  staff   3.9M Aug 15 15:01 libsherpa-onnx-c-api.dylib
+</pre></div>
+</div>
+<p>If you download <code class="docutils literal notranslate"><span class="pre">static</span></code> libraries, please create a <code class="docutils literal notranslate"><span class="pre">build-static</span></code> directory
+inside the <code class="docutils literal notranslate"><span class="pre">sherpa-onnx</span></code> project directory and put the library files into
+<code class="docutils literal notranslate"><span class="pre">build-static/install/lib</span></code>. An example on my macOS is given below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(py38) fangjuns-MacBook-Pro:sherpa-onnx fangjun$ pwd
+/Users/fangjun/open-source/sherpa-onnx
+(py38) fangjuns-MacBook-Pro:sherpa-onnx fangjun$ ls -lh build-static/install/lib
+total 138176
+-rw-r--r--  1 fangjun  staff   438K Aug 15 15:03 libespeak-ng.a
+-rw-r--r--  1 fangjun  staff   726K Aug 15 15:03 libkaldi-decoder-core.a
+-rw-r--r--  1 fangjun  staff   198K Aug 15 15:03 libkaldi-native-fbank-core.a
+-rw-r--r--  1 fangjun  staff    56M Aug 14 14:25 libonnxruntime.a
+-rw-r--r--  1 fangjun  staff   421K Aug 15 15:03 libpiper_phonemize.a
+-rw-r--r--  1 fangjun  staff    87K Aug 15 15:03 libsherpa-onnx-c-api.a
+-rw-r--r--  1 fangjun  staff   5.7M Aug 15 15:03 libsherpa-onnx-core.a
+-rw-r--r--  1 fangjun  staff   2.3M Aug 15 15:03 libsherpa-onnx-fst.a
+-rw-r--r--  1 fangjun  staff    30K Aug 15 15:03 libsherpa-onnx-fstfar.a
+-rw-r--r--  1 fangjun  staff   1.6M Aug 15 15:03 libsherpa-onnx-kaldifst-core.a
+-rw-r--r--  1 fangjun  staff   131K Aug 15 15:03 libsherpa-onnx-portaudio_static.a
+-rw-r--r--  1 fangjun  staff   147K Aug 15 15:03 libssentencepiece_core.a
+-rw-r--r--  1 fangjun  staff   197K Aug 15 15:03 libucd.a
+</pre></div>
+</div>
+</section>
+</section>
+<section id="build-the-generate-subtitles-project">
+<h2>Build the generate_subtitles project<a class="headerlink" href="#build-the-generate-subtitles-project" title="Permalink to this heading"></a></h2>
+<p>Now you can start Lazarus and open <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/blob/master/lazarus-examples/generate_subtitles/generate_subtitles.lpi">generate_subtitles.lpi</a> .</p>
+<p>Click the menu <code class="docutils literal notranslate"><span class="pre">Run</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">Compile</span></code>. It should be able to build the project without any errors.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>Please ignore warnings, if there are any.</p>
+</div>
+<p>After building, you should find the following files inside the directory <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/blob/master/lazarus-examples/generate_subtitles">generate_subtitles</a>:</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-1-1-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-1-1-0" name="1-0" role="tab" tabindex="0">macOS</button><button aria-controls="panel-1-1-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-1-1-1" name="1-1" role="tab" tabindex="-1">Windows</button><button aria-controls="panel-1-1-2" aria-selected="false" class="sphinx-tabs-tab" id="tab-1-1-2" name="1-2" role="tab" tabindex="-1">Linux</button></div><div aria-labelledby="tab-1-1-0" class="sphinx-tabs-panel" id="panel-1-1-0" name="1-0" role="tabpanel" tabindex="0"><div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(py38) fangjuns-MacBook-Pro:generate_subtitles fangjun$ pwd
+/Users/fangjun/open-source/sherpa-onnx/lazarus-examples/generate_subtitles
+(py38) fangjuns-MacBook-Pro:generate_subtitles fangjun$ ls -lh generate_subtitles generate_subtitles.app/
+-rwxr-xr-x  1 fangjun  staff    25M Aug 15 20:44 generate_subtitles
+
+generate_subtitles.app/:
+total 0
+drwxr-xr-x  6 fangjun  staff   192B Aug 14 23:01 Contents
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-1-1-1" class="sphinx-tabs-panel" hidden="true" id="panel-1-1-1" name="1-1" role="tabpanel" tabindex="0"><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>fangjun@M-0LQSDCC2RV398<span class="w"> </span>C:<span class="se">\U</span>sers<span class="se">\f</span>angjun<span class="se">\o</span>pen-source<span class="se">\s</span>herpa-onnx<span class="se">\l</span>azarus-examples<span class="se">\g</span>enerate_subtitles&gt;dir<span class="w"> </span>generate_subtitles.exe
+<span class="w"> </span>Volume<span class="w"> </span><span class="k">in</span><span class="w"> </span>drive<span class="w"> </span>C<span class="w"> </span>is<span class="w"> </span>系统
+<span class="w"> </span>Volume<span class="w"> </span>Serial<span class="w"> </span>Number<span class="w"> </span>is<span class="w"> </span>8E17-A21F
+
+<span class="w"> </span>Directory<span class="w"> </span>of<span class="w"> </span>C:<span class="se">\U</span>sers<span class="se">\f</span>angjun<span class="se">\o</span>pen-source<span class="se">\s</span>herpa-onnx<span class="se">\l</span>azarus-examples<span class="se">\g</span>enerate_subtitles
+
+<span class="m">08</span>/15/2024<span class="w">  </span><span class="m">09</span>:39<span class="w"> </span>PM<span class="w">         </span><span class="m">2</span>,897,408<span class="w"> </span>generate_subtitles.exe
+<span class="w">               </span><span class="m">1</span><span class="w"> </span>File<span class="o">(</span>s<span class="o">)</span><span class="w">      </span><span class="m">2</span>,897,408<span class="w"> </span>bytes
+<span class="w">               </span><span class="m">0</span><span class="w"> </span>Dir<span class="o">(</span>s<span class="o">)</span><span class="w">  </span><span class="m">38</span>,524,039,168<span class="w"> </span>bytes<span class="w"> </span>free
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-1-1-2" class="sphinx-tabs-panel" hidden="true" id="panel-1-1-2" name="1-2" role="tabpanel" tabindex="0"><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>lazarus-examples/generate_subtitles
+ls<span class="w"> </span>-lh<span class="w"> </span>generate_subtitles
+
+-rwxr-xr-x<span class="w"> </span><span class="m">1</span><span class="w"> </span>runner<span class="w"> </span>docker<span class="w"> </span><span class="m">3</span>.1M<span class="w"> </span>Aug<span class="w"> </span><span class="m">16</span><span class="w"> </span><span class="m">03</span>:37<span class="w"> </span>generate_subtitles
+</pre></div>
+</div>
+</div></div>
+<p>Now you can start the generated executable <code class="docutils literal notranslate"><span class="pre">generate_subtitles</span></code> and you should
+get the screenshot like the one listed at the start of this section.</p>
+<p>If you get any issues about <code class="docutils literal notranslate"><span class="pre">shared</span> <span class="pre">libraries</span> <span class="pre">not</span> <span class="pre">found</span></code>, please copy the shared
+library files from <code class="docutils literal notranslate"><span class="pre">build/install/lib</span></code> to the directory <code class="docutils literal notranslate"><span class="pre">lazarus-examples/generate_subtitles</span></code>
+or you can set the environment variable <code class="docutils literal notranslate"><span class="pre">DYLD_LIBRARY_PATH</span></code> (for macOS) and <code class="docutils literal notranslate"><span class="pre">LD_LIBRARY_PATH</span></code> (for Linux).</p>
+</section>
+<section id="download-models">
+<h2>Download models<a class="headerlink" href="#download-models" title="Permalink to this heading"></a></h2>
+<p>The generated executable expects that there are model files located in the same directory.</p>
+<section id="download-the-vad-model">
+<h3>Download the VAD model<a class="headerlink" href="#download-the-vad-model" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>lazarus-examples/generate_subtitles
+wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/silero_vad.onnx
+</pre></div>
+</div>
+<p>and put <code class="docutils literal notranslate"><span class="pre">silero_vad.onnx</span></code> into <code class="docutils literal notranslate"><span class="pre">lazarus-examples/generate_subtitles</span></code>.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>If you are using macOS, please put it into <code class="docutils literal notranslate"><span class="pre">lazarus-examples/generate_subtitles/generate_subtitles.app/Contents/Resources/</span></code></p>
+</div>
+</section>
+<section id="download-a-speech-recognition-model">
+<h3>Download a speech recognition model<a class="headerlink" href="#download-a-speech-recognition-model" title="Permalink to this heading"></a></h3>
+<p>The executable expects a non-streaming speech recognition model. Currently, we have supported the following
+types of models</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Whisper</p></li>
+<li><p>Zipformer transducer</p></li>
+<li><p>NeMo transducer</p></li>
+<li><p>SenseVoice</p></li>
+<li><p>Paraformer</p></li>
+<li><p>TeleSpeech CTC</p></li>
+</ul>
+</div></blockquote>
+<p>You can download them from <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/tag/asr-models">https://github.com/k2-fsa/sherpa-onnx/releases/tag/asr-models</a></p>
+<p>Note that you have to rename the model files after downloading.</p>
+<table class="docutils align-default">
+<tbody>
+<tr class="row-odd"><td></td>
+<td><p>Expected filenames</p></td>
+</tr>
+<tr class="row-even"><td><p>Whisper</p></td>
+<td><ul class="simple">
+<li><p>tokens.txt</p></li>
+<li><p>whisper-encoder.onnx</p></li>
+<li><p>whisper-decoder.onnx</p></li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td><p>Zipformer transducer</p></td>
+<td><ul class="simple">
+<li><p>tokens.txt</p></li>
+<li><p>transducer-encoder.onnx</p></li>
+<li><p>transducer-decoder.onnx</p></li>
+<li><p>transducer-joiner.onnx</p></li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td><p>NeMo transducer</p></td>
+<td><ul class="simple">
+<li><p>tokens.txt</p></li>
+<li><p>nemo-transducer-encoder.onnx</p></li>
+<li><p>nemo-transducer-decoder.onnx</p></li>
+<li><p>nemo-transducer-joiner.onnx</p></li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td><p>SenseVoice</p></td>
+<td><ul class="simple">
+<li><p>tokens.txt</p></li>
+<li><p>sense-voice.onnx</p></li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td><p>Paraformer</p></td>
+<td><ul class="simple">
+<li><p>tokens.txt</p></li>
+<li><p>paraformer.onnx</p></li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td><p>TeleSpeech</p></td>
+<td><ul class="simple">
+<li><p>tokens.txt</p></li>
+<li><p>telespeech.onnx</p></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<p>We give several examples below.</p>
+</section>
+<section id="wisper">
+<h3>1. Wisper<a class="headerlink" href="#wisper" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>lazarus-examples/generate_subtitles
+curl<span class="w"> </span>-SL<span class="w"> </span>-O<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-whisper-tiny.en.tar.bz2
+
+tar<span class="w"> </span>xvf<span class="w"> </span>sherpa-onnx-whisper-tiny.en.tar.bz2
+rm<span class="w"> </span>sherpa-onnx-whisper-tiny.en.tar.bz2
+
+<span class="nb">cd</span><span class="w"> </span>sherpa-onnx-whisper-tiny.en
+
+mv<span class="w"> </span>-v<span class="w"> </span>tiny.en-encoder.int8.onnx<span class="w"> </span>../whisper-encoder.onnx
+mv<span class="w"> </span>-v<span class="w"> </span>tiny.en-decoder.int8.onnx<span class="w"> </span>../whisper-decoder.onnx
+mv<span class="w"> </span>-v<span class="w"> </span>tiny.en-tokens.txt<span class="w"> </span>../tokens.txt
+
+<span class="nb">cd</span><span class="w"> </span>..
+rm<span class="w"> </span>-rf<span class="w"> </span>sherpa-onnx-whisper-tiny.en
+</pre></div>
+</div>
+<p>You can replace <code class="docutils literal notranslate"><span class="pre">tiny.en</span></code> with other types of Whisper models, e.g., <code class="docutils literal notranslate"><span class="pre">tiny</span></code>, <code class="docutils literal notranslate"><span class="pre">base</span></code>, etc.</p>
+</section>
+<section id="zipformer-transducer">
+<h3>2. Zipformer transducer<a class="headerlink" href="#zipformer-transducer" title="Permalink to this heading"></a></h3>
+<p>We give two examples below for Zipformer transducer</p>
+<p><strong>Example 1</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>lazarus-examples/generate_subtitles
+curl<span class="w"> </span>-SL<span class="w"> </span>-O<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/icefall-asr-zipformer-wenetspeech-20230615.tar.bz2
+tar<span class="w"> </span>xvf<span class="w"> </span>icefall-asr-zipformer-wenetspeech-20230615.tar.bz2
+rm<span class="w"> </span>icefall-asr-zipformer-wenetspeech-20230615.tar.bz2
+
+<span class="nb">cd</span><span class="w"> </span>icefall-asr-zipformer-wenetspeech-20230615
+
+mv<span class="w"> </span>-v<span class="w"> </span>data/lang_char/tokens.txt<span class="w"> </span>../
+
+mv<span class="w"> </span>-v<span class="w"> </span>exp/encoder-epoch-12-avg-4.int8.onnx<span class="w"> </span>../transducer-encoder.onnx
+mv<span class="w"> </span>-v<span class="w"> </span>exp/decoder-epoch-12-avg-4.onnx<span class="w"> </span>../transducer-decoder.onnx
+mv<span class="w"> </span>-v<span class="w"> </span>exp/joiner-epoch-12-avg-4.int8.onnx<span class="w"> </span>../transducer-joiner.onnx
+
+<span class="nb">cd</span><span class="w"> </span>..
+rm<span class="w"> </span>icefall-asr-zipformer-wenetspeech-20230615
+</pre></div>
+</div>
+<p><strong>Example 2</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>lazarus-examples/generate_subtitles
+curl<span class="w"> </span>-SL<span class="w"> </span>-O<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-ja-reazonspeech-2024-08-01.tar.bz2
+tar<span class="w"> </span>xvf<span class="w"> </span>sherpa-onnx-zipformer-ja-reazonspeech-2024-08-01.tar.bz2
+rm<span class="w"> </span>sherpa-onnx-zipformer-ja-reazonspeech-2024-08-01.tar.bz2
+
+<span class="nb">cd</span><span class="w"> </span>sherpa-onnx-zipformer-ja-reazonspeech-2024-08-01
+
+mv<span class="w"> </span>./tokens.txt<span class="w"> </span>../
+mv<span class="w"> </span>encoder-epoch-99-avg-1.int8.onnx<span class="w"> </span>../transducer-encoder.onnx
+mv<span class="w"> </span>decoder-epoch-99-avg-1.onnx<span class="w"> </span>../transducer-decoder.onnx
+mv<span class="w"> </span>joiner-epoch-99-avg-1.int8.onnx<span class="w"> </span>../transducer-joiner.onnx
+
+<span class="nb">cd</span><span class="w"> </span>../
+
+rm<span class="w"> </span>-rf<span class="w"> </span>sherpa-onnx-zipformer-ja-reazonspeech-2024-08-01
+</pre></div>
+</div>
+</section>
+<section id="nemo-transducer">
+<h3>3. NeMo transducer<a class="headerlink" href="#nemo-transducer" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>lazarus-examples/generate_subtitles
+curl<span class="w"> </span>-SL<span class="w"> </span>-O<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-nemo-fast-conformer-transducer-be-de-en-es-fr-hr-it-pl-ru-uk-20k.tar.bz2
+tar<span class="w"> </span>xvf<span class="w"> </span>sherpa-onnx-nemo-fast-conformer-transducer-be-de-en-es-fr-hr-it-pl-ru-uk-20k.tar.bz2
+rm<span class="w"> </span>sherpa-onnx-nemo-fast-conformer-transducer-be-de-en-es-fr-hr-it-pl-ru-uk-20k.tar.bz2
+
+<span class="nb">cd</span><span class="w"> </span>sherpa-onnx-nemo-fast-conformer-transducer-be-de-en-es-fr-hr-it-pl-ru-uk-20k
+
+mv<span class="w"> </span>tokens.txt<span class="w"> </span>../
+mv<span class="w"> </span>encoder.onnx<span class="w"> </span>../nemo-transducer-encoder.onnx
+mv<span class="w"> </span>decoder.onnx<span class="w"> </span>../nemo-transducer-decoder.onnx
+mv<span class="w"> </span>joiner.onnx<span class="w"> </span>../nemo-transducer-joiner.onnx
+
+<span class="nb">cd</span><span class="w"> </span>../
+rm<span class="w"> </span>-rf<span class="w">  </span>sherpa-onnx-nemo-fast-conformer-transducer-be-de-en-es-fr-hr-it-pl-ru-uk-20k
+</pre></div>
+</div>
+</section>
+<section id="sensevoice">
+<h3>4. SenseVoice<a class="headerlink" href="#sensevoice" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>lazarus-examples/generate_subtitles
+curl<span class="w"> </span>-SL<span class="w"> </span>-O<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17.tar.bz2
+tar<span class="w"> </span>xvf<span class="w"> </span>sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17.tar.bz2
+rm<span class="w"> </span>sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17.tar.bz2
+
+<span class="nb">cd</span><span class="w"> </span>sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17
+
+mv<span class="w"> </span>tokens.txt<span class="w"> </span>../
+mv<span class="w"> </span>model.int8.onnx<span class="w"> </span>../sense-voice.onnx
+
+<span class="nb">cd</span><span class="w"> </span>../
+rm<span class="w"> </span>-rf<span class="w"> </span>sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17
+</pre></div>
+</div>
+</section>
+<section id="paraformer">
+<h3>5. Paraformer<a class="headerlink" href="#paraformer" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>lazarus-examples/generate_subtitles
+curl<span class="w"> </span>-SL<span class="w"> </span>-O<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-paraformer-zh-2023-09-14.tar.bz2
+
+tar<span class="w"> </span>xvf<span class="w"> </span>sherpa-onnx-paraformer-zh-2023-09-14.tar.bz2
+rm<span class="w"> </span>sherpa-onnx-paraformer-zh-2023-09-14.tar.bz2
+
+<span class="nb">cd</span><span class="w"> </span>sherpa-onnx-paraformer-zh-2023-09-14
+
+mv<span class="w"> </span>tokens.txt<span class="w"> </span>../
+mv<span class="w"> </span>model.int8.onnx<span class="w"> </span>../paraformer.onnx
+
+<span class="nb">cd</span><span class="w"> </span>../
+rm<span class="w"> </span>-rf<span class="w"> </span>sherpa-onnx-paraformer-zh-2023-09-14
+</pre></div>
+</div>
+</section>
+<section id="telespeech">
+<h3>6. TeleSpeech<a class="headerlink" href="#telespeech" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>lazarus-examples/generate_subtitles
+curl<span class="w"> </span>-SL<span class="w"> </span>-O<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-telespeech-ctc-int8-zh-2024-06-04.tar.bz2
+
+tar<span class="w"> </span>xvf<span class="w"> </span>sherpa-onnx-telespeech-ctc-int8-zh-2024-06-04.tar.bz2
+rm<span class="w"> </span>sherpa-onnx-telespeech-ctc-int8-zh-2024-06-04.tar.bz2
+
+<span class="nb">cd</span><span class="w"> </span>sherpa-onnx-telespeech-ctc-int8-zh-2024-06-04
+
+mv<span class="w"> </span>tokens.txt<span class="w"> </span>../
+mv<span class="w"> </span>model.int8.onnx<span class="w"> </span>../telespeech.onnx
+
+<span class="nb">cd</span><span class="w"> </span>../
+rm<span class="w"> </span>-rf<span class="w"> </span>sherpa-onnx-telespeech-ctc-int8-zh-2024-06-04
+</pre></div>
+</div>
+</section>
+</section>
+<section id="for-the-more-curious">
+<h2>For the more curious<a class="headerlink" href="#for-the-more-curious" title="Permalink to this heading"></a></h2>
+<p>If you want to find out how we generate the APPs in
+<a class="reference external" href="https://k2-fsa.github.io/sherpa/onnx/lazarus/download-generated-subtitles.html">https://k2-fsa.github.io/sherpa/onnx/lazarus/download-generated-subtitles.html</a>,
+please have a look at</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/blob/master/scripts/lazarus/generate-subtitles.py">https://github.com/k2-fsa/sherpa-onnx/blob/master/scripts/lazarus/generate-subtitles.py</a></p></li>
+<li><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/blob/master/scripts/lazarus/build-generate-subtitles.sh.in">https://github.com/k2-fsa/sherpa-onnx/blob/master/scripts/lazarus/build-generate-subtitles.sh.in</a></p></li>
+<li><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/blob/master/.github/workflows/lazarus.yaml">https://github.com/k2-fsa/sherpa-onnx/blob/master/.github/workflows/lazarus.yaml</a></p></li>
+</ul>
+</div></blockquote>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="pre-built-app.html" class="btn btn-neutral float-left" title="Pre-built APPs using Lazarus" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../wasm/index.html" class="btn btn-neutral float-right" title="WebAssembly" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2024, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>
