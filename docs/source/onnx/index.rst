@@ -52,6 +52,12 @@ Also, we show how to use it for speech recognition with pre-trained models.
 
 .. toctree::
    :maxdepth: 5
+   :caption: Speaker diarization
+
+   ./speaker-diarization/index
+
+.. toctree::
+   :maxdepth: 5
    :caption: Speaker Identification
 
    ./speaker-identification/index

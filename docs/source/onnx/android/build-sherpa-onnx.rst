@@ -38,6 +38,7 @@ and ``text-to-speech`` (TTS).
     - ``SherpaOnnxVad``
     - ``SherpaOnnxVadAsr``
     - ``SherpaOnnxSpeakerIdentification``
+    - ``SherpaOnnxSpeakerDiarization``
     - ``SherpaOnnxAudioTagging``
     - ``SherpaOnnxAudioTaggingWearOs``
 

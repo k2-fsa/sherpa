@@ -110,6 +110,7 @@ jobs:
               ./generate-tts.py
               ./generate-tts-engine.py
               ./generate-speaker-identification.py
+              ./generate-speaker-diarization.py
               ./generate-audio-tagging.py
               ./generate-audio-tagging-wearos.py
               ./generate-slid.py
@@ -122,6 +123,7 @@ jobs:
               mv -v apk.html ../build/html/onnx/tts/
               mv -v apk-engine.html ../build/html/onnx/tts/
               mv -v apk-speaker-identification.html ../build/html/onnx/speaker-identification/apk.html
+              mv -v apk-speaker-diarization.html ../build/html/onnx/speaker-diarization/apk.html
               mv -v apk-audio-tagging.html ../build/html/onnx/audio-tagging/apk.html
               mv -v apk-audio-tagging-wearos.html ../build/html/onnx/audio-tagging/apk-wearos.html
               mv -v apk-slid.html ../build/html/onnx/spoken-language-identification/apk.html
@@ -134,6 +136,7 @@ jobs:
               mv -v apk-cn.html ../build/html/onnx/tts/
               mv -v apk-engine-cn.html ../build/html/onnx/tts/
               mv -v apk-speaker-identification-cn.html ../build/html/onnx/speaker-identification/apk-cn.html
+              mv -v apk-speaker-diarization-cn.html ../build/html/onnx/speaker-diarization/apk-cn.html
               mv -v apk-audio-tagging-cn.html ../build/html/onnx/audio-tagging/apk-cn.html
               mv -v apk-audio-tagging-wearos-cn.html ../build/html/onnx/audio-tagging/apk-wearos-cn.html
               mv -v apk-slid-cn.html ../build/html/onnx/spoken-language-identification/apk-cn.html

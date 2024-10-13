@@ -62,6 +62,7 @@ The differences are compared below:
      | C#, Java, Kotlin,
      | Swift, Go,
      | JavaScript, Dart
+     | Pascal, Rust
    - | C, C++, Python,
      | C#, Kotlin,
      | Swift, Go
@@ -71,13 +72,15 @@ The differences are compared below:
    - | streaming speech recognition,
      | non-streaming speech recognition,
      | text-to-speech,
+     | speaker diarization,
      | speaker identification,
      | speaker verification,
      | spoken language identification,
      | audio tagging,
      | VAD,
      | keyword spotting,
-   - streaming speech recognition
+   - | streaming speech recognition,
+     | VAD,
 
 
 We also support `Triton`_. Please see :ref:`triton_overview`.
