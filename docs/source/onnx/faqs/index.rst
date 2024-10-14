@@ -133,3 +133,12 @@ Specifically,
           speed: 1.0,
           enableExternalBuffer: false,
         });
+
+The given version [17] is not supported, only version 1 to 10 is supported in this build
+----------------------------------------------------------------------------------------
+
+If you have such an error, please find the file ``onnxruntime.dll`` in your ``C`` drive
+and try to remove it.
+
+The reason is that you have two ``onnxruntime.dll`` on your computer and the one
+in your ``C`` drive is outdated.
