@@ -69,7 +69,7 @@ To decode a file without inverse text normalization, please use:
 
   ./build/bin/sherpa-onnx-offline \
     --tokens=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/tokens.txt \
-    --sense-voice-model=/Users/fangjun/open-source/sherpa-onnx/scripts/sense-voice/model.onnx \
+    --sense-voice-model=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/model.onnx \
     --num-threads=1 \
     --debug=0 \
     ./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/test_wavs/zh.wav \
@@ -88,7 +88,7 @@ To decode a file with inverse text normalization, please use:
 
   ./build/bin/sherpa-onnx-offline \
     --tokens=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/tokens.txt \
-    --sense-voice-model=/Users/fangjun/open-source/sherpa-onnx/scripts/sense-voice/model.onnx \
+    --sense-voice-model=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/model.onnx \
     --num-threads=1 \
     --sense-voice-use-itn=1 \
     --debug=0 \
@@ -115,7 +115,7 @@ To specify the language when decoding, please use:
 
   ./build/bin/sherpa-onnx-offline \
     --tokens=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/tokens.txt \
-    --sense-voice-model=/Users/fangjun/open-source/sherpa-onnx/scripts/sense-voice/model.onnx \
+    --sense-voice-model=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/model.onnx \
     --num-threads=1 \
     --sense-voice-language=zh \
     --debug=0 \
