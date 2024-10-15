@@ -1,3 +1,0 @@
-[submodule "triton/client"]
-	path = triton/client
-	url = https://github.com/yuekaizhang/Triton-ASR-Client.git

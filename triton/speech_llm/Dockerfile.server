@@ -1,0 +1,9 @@
+FROM nvcr.io/nvidia/tritonserver:24.08-trtllm-python-py3
+WORKDIR /workspace
+
+COPY build.sh .
+COPY launch_server.sh .
+COPY fill_template.py .
+COPY model_repo_whisper_qwen_trtllm model_repo_whisper_qwen_trtllm
+
+RUN pip install kaldialign soundfile tritonclient[grpc]

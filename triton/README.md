@@ -7,7 +7,7 @@ In this tutorial, we'll go through how to run  non-streaming (offline) and strea
   - [Prepare Environment](#prepare-environment)
 - [Deploy on Triton Inference Server](#deploy-on-triton-inference-server)
   - [Quick Start](#quick-start)
-- [Inference Client](client/README.md)
+- [Inference Client](#benchmark-using-dataset)
 - [Using TensorRT acceleration](#using-tensorrt-acceleration)
   - [TRT Quick start](#trt-quick-start)
   - [Benchmark for Conformer TRT encoder vs ONNX](#benchmark-for-conformer-trt-encoder-vs-onnx)
@@ -65,6 +65,20 @@ pip3 install -r ./requirements.txt
 export CUDA_VISIBLE_DEVICES="your_gpu_id"
 
 bash scripts/build_wenetspeech_zipformer_offline_trt.sh
+```
+
+## Benchmark using Dataset
+```sh
+git clone https://github.com/yuekaizhang/Triton-ASR-Client.git
+cd Triton-ASR-Client
+pip3 install -r requirements.txt
+num_task=16
+python3 client.py \
+    --server-addr localhost \
+    --model-name whisper \
+    --num-tasks $num_task \
+    --whisper-prompt "<|startoftranscript|><|zh|><|transcribe|><|notimestamps|>" \
+    --manifest-dir ./datasets/aishell1_test
 ```
 
 ## Using TensorRT acceleration
