@@ -17,7 +17,17 @@ All you need is to run:
         cd sherpa-onnx
         mkdir build
         cd build
+
+        # By default, it builds static libaries and uses static link.
         cmake -DCMAKE_BUILD_TYPE=Release ..
+
+        # If you have GCC<=10, e.g., use Ubuntu <= 18.04 or use CentOS<=7, please
+        # use the following command to build shared libs; otherwise, you would
+        # get link errors from libonnxruntime.a
+        #
+        # cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON ..
+        #
+        #
         make -j6
 
    .. tab:: Nvidia GPU (CUDA)
