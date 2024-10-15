@@ -83,6 +83,12 @@ Assume you want to install it in the folder ``$HOME/software``:
 
    mkdir -p $HOME/software
    cd $HOME/software
+
+   # Note: the following toolchain gcc 7.5 is for building shared libraries.
+   # Please see below to use gcc 10 to build static libaries.
+   #
+   # You would get link errors if you use gcc 7.5 to build static libraries.
+   #
    wget https://huggingface.co/csukuangfj/sherpa-ncnn-toolchains/resolve/main/gcc-linaro-7.5.0-2019.12-x86_64_aarch64-linux-gnu.tar.xz
 
    # For users from China
