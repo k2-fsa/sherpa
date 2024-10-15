@@ -25,13 +25,6 @@ dynamic_batching {
     max_queue_delay_microseconds: ${max_queue_delay_microseconds}
   }
 
-parameters [
-  {
-   key: "n_mels", 
-   value: {string_value:"${n_mels}"} # 128 dim for large-v3, 80 dim for large-v2
-  }
-]
-
 input [
   {
     name: "TEXT_PREFIX"
@@ -42,6 +35,11 @@ input [
     name: "WAV"
     data_type: TYPE_FP32
     dims: [-1]
+  },
+  {
+    name: "WAV_LENS"
+    data_type: TYPE_INT32
+    dims: [1]
   }
 ]
 
