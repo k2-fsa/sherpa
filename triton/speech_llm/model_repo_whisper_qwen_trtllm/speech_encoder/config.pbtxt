@@ -29,6 +29,10 @@ parameters [
   {
     key: "engine_dir"
     value: { string_value: "${encoder_engine_dir}"}
+  },
+  {
+   key: "n_mels", 
+   value: {string_value:"${n_mels}"} # 128 dim for large-v3, 80 dim for large-v2
   }
 ]
 
@@ -37,6 +41,19 @@ input [
     name: "mel"
     data_type: TYPE_FP16
     dims: [ -1, -1 ]
+    optional: True
+  },
+  {
+    name: "WAV"
+    data_type: TYPE_FP32
+    dims: [-1]
+    optional: True
+  },
+  {
+    name: "WAV_LENS"
+    data_type: TYPE_INT32
+    dims: [1]
+    optional: True
   }
 ]
 output [
