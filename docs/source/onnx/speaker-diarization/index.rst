@@ -30,4 +30,5 @@ In the following, we describe different programming language APIs for speaker di
    ./kotlin.rst
    ./pascal.rst
    ./python.rst
+   ./rust.rst
    ./swift.rst
