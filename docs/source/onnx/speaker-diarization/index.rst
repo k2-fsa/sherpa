@@ -18,6 +18,7 @@ In the following, we describe different programming language APIs for speaker di
 .. toctree::
    :maxdepth: 5
 
+   ./models.rst
    ./hf.rst
    ./android.rst
    ./c.rst
