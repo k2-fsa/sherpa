@@ -1,0 +1,18 @@
+/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:375 ./build/bin/sherpa-onnx-offline-speaker-diarization --clustering.num-clusters=4 --segmentation.pyannote-model=./sherpa-onnx-reverb-diarization-v1/model.onnx --embedding.model=./nemo_en_titanet_small.onnx ./0-four-speakers-zh.wav 
+
+OfflineSpeakerDiarizationConfig(segmentation=OfflineSpeakerSegmentationModelConfig(pyannote=OfflineSpeakerSegmentationPyannoteModelConfig(model="./sherpa-onnx-reverb-diarization-v1/model.onnx"), num_threads=1, debug=False, provider="cpu"), embedding=SpeakerEmbeddingExtractorConfig(model="./nemo_en_titanet_small.onnx", num_threads=1, debug=False, provider="cpu"), clustering=FastClusteringConfig(num_clusters=4, threshold=0.5), min_duration_on=0.3, min_duration_off=0.5)
+
+Started
+
+0.031 -- 6.798 speaker_01
+7.017 -- 13.649 speaker_00
+13.801 -- 16.957 speaker_02
+21.023 -- 24.820 speaker_01
+27.638 -- 38.017 speaker_02
+44.345 -- 45.357 speaker_03
+45.290 -- 50.268 speaker_02
+52.563 -- 54.605 speaker_01
+
+Duration : 56.861 s
+Elapsed seconds: 11.465 s
+Real time factor (RTF): 11.465 / 56.861 = 0.202
