@@ -11,8 +11,8 @@ zero_pad=false
 model_repo=model_repo_whisper
 rm -rf $model_repo
 cp model_repo_whisper_trtllm $model_repo -r
-wget --directory-prefix=$model_repo/infer_bls/1 https://raw.githubusercontent.com/openai/whisper/main/whisper/assets/multilingual.tiktoken
-wget --directory-prefix=$model_repo/whisper/1 assets/mel_filters.npz https://raw.githubusercontent.com/openai/whisper/main/whisper/assets/mel_filters.npz
+wget -nc --directory-prefix=$model_repo/infer_bls/1 https://raw.githubusercontent.com/openai/whisper/main/whisper/assets/multilingual.tiktoken
+wget -nc --directory-prefix=$model_repo/whisper/1 assets/mel_filters.npz https://raw.githubusercontent.com/openai/whisper/main/whisper/assets/mel_filters.npz
 
 TRITON_MAX_BATCH_SIZE=64
 MAX_QUEUE_DELAY_MICROSECONDS=100

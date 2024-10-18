@@ -7,6 +7,7 @@ from torch.utils.dlpack import to_dlpack
 import re
 from .tokenizer import get_tokenizer
 from collections import OrderedDict
+from pathlib import Path
 
 def read_config(component, engine_dir):
     config_path = engine_dir / component / 'config.json'
@@ -46,8 +47,7 @@ class TritonPythonModel:
         # Convert Triton types to numpy types
         self.out0_dtype = pb_utils.triton_string_to_numpy(
             output0_config['data_type'])
-        
-        encoder_config = read_config('encoder', self.model_config['engine_dir']["string_value"])
+        encoder_config = read_config('encoder', Path(self.model_config['parameters']['engine_dir']["string_value"]))
         self.tokenizer = get_tokenizer(num_languages=encoder_config['num_languages'])
         self.blank = self.tokenizer.encode(" ", allowed_special=self.tokenizer.special_tokens_set)[0]
         self.device = torch.device("cuda")
@@ -57,7 +57,7 @@ class TritonPythonModel:
         wav_tensor = pb_utils.Tensor.from_dlpack("WAV", to_dlpack(wav.unsqueeze(0)))
         wav_len_tensor = pb_utils.Tensor("WAV_LENS", np.array([[wav_len]], np.int32))
         prompt_id = torch.tensor(prompt_id).unsqueeze(0)
-        print("prompt_id", prompt_id.shape)
+
         prompt_id = pb_utils.Tensor("DECODER_INPUT_IDS", prompt_id.numpy().astype(np.int32))
         infer_request = pb_utils.InferenceRequest(
             model_name="whisper",
