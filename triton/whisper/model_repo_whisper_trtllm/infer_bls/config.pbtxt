@@ -12,60 +12,50 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-name: "whisper"
+name: "infer_bls"
 backend: "python"
 max_batch_size: ${triton_max_batch_size}
-
-dynamic_batching {
-    max_queue_delay_microseconds: ${max_queue_delay_microseconds}
-}
 
 parameters [
   {
     key: "engine_dir"
     value: { string_value: "${engine_dir}"}
-  },
-  {
-   key: "n_mels", 
-   value: {string_value:"${n_mels}"} # 128 dim for large-v3, 80 dim for large-v2
-  },
-  {
-  key: "zero_pad"
-  value: {string_value: "${zero_pad}"}
   }
 ]
 
 input [
   {
+    name: "TEXT_PREFIX"
+    data_type: TYPE_STRING
+    dims: [1]
+  },
+  {
     name: "WAV"
     data_type: TYPE_FP32
     dims: [-1]
-    optional: True
   },
   {
     name: "WAV_LENS"
     data_type: TYPE_INT32
     dims: [1]
     optional: True
-  },
-  {
-    name: "DECODER_INPUT_IDS"
-    data_type: TYPE_INT32
-    dims: [-1]
-    optional: True
-  }
-]
-output [
-  {
-    name: "OUTPUT_IDS"
-    data_type: TYPE_INT32
-    dims: [-1]
   }
 ]
 
-instance_group [
+output [
   {
-    count: 1
-    kind: KIND_GPU
+    name: "TRANSCRIPTS"
+    data_type: TYPE_STRING
+    dims: [1]
   }
 ]
+
+dynamic_batching {
+    max_queue_delay_microseconds: ${max_queue_delay_microseconds}
+  }
+instance_group [
+    {
+      count: 8
+      kind: KIND_CPU
+    }
+  ]
