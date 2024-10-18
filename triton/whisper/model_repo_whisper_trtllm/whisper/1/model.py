@@ -1,127 +1,101 @@
-# -*- coding: utf-8 -*- 
-import triton_python_backend_utils as pb_utils
-import numpy as np
+
+# Copyright 2024, NVIDIA CORPORATION & AFFILIATES. All rights reserved.
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions
+# are met:
+#  * Redistributions of source code must retain the above copyright
+#    notice, this list of conditions and the following disclaimer.
+#  * Redistributions in binary form must reproduce the above copyright
+#    notice, this list of conditions and the following disclaimer in the
+#    documentation and/or other materials provided with the distribution.
+#  * Neither the name of NVIDIA CORPORATION nor the names of its
+#    contributors may be used to endorse or promote products derived
+#    from this software without specific prior written permission.
+#
+# THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS ``AS IS'' AND ANY
+# EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+# IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+# PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+# CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+# EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+# PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+# PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY
+# OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+# (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+# OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 import json
+from pathlib import Path
+
+from .fbank import FeatureExtractor
 import torch
-from torch.utils.dlpack import from_dlpack, to_dlpack
-import re
-from .tokenizer import get_tokenizer
-from .whisper_trtllm import WhisperTRTLLM
+from torch.utils.dlpack import from_dlpack
+
+import triton_python_backend_utils as pb_utils
+from tensorrt_llm.runtime import ModelRunnerCpp
+from tensorrt_llm.bindings import GptJsonConfig
 from .fbank import FeatureExtractor
 
+
 class TritonPythonModel:
-    """Your Python model must use the same class name. Every Python model
-    that is created must have "TritonPythonModel" as the class name.
-    """
-
     def initialize(self, args):
-        """`initialize` is called only once when the model is being loaded.
-        Implementing `initialize` function is optional. This function allows
-        the model to initialize any state associated with this model.
-
-        Parameters
-        ----------
-        args : dict
-          Both keys and values are strings. The dictionary keys and values are:
-          * model_config: A JSON string containing the model configuration
-          * model_instance_kind: A string containing model instance kind
-          * model_instance_device_id: A string containing model instance device ID
-          * model_repository: Model repository path
-          * model_version: Model version
-          * model_name: Model name
-        """
-        self.model_config = model_config = json.loads(args['model_config'])
-
-        # Get OUTPUT0 configuration
-        output0_config = pb_utils.get_output_config_by_name(
-            model_config, "TRANSCRIPTS")
-        # Convert Triton types to numpy types
-        self.out0_dtype = pb_utils.triton_string_to_numpy(
-            output0_config['data_type'])
-
-        self.tokenizer = get_tokenizer(num_languages=100)
-        self.blank = self.tokenizer.encode(" ", allowed_special=self.tokenizer.special_tokens_set)[0]
-        self.device = torch.device("cuda")
-        self.init_model(self.model_config['parameters'])
-
-    def init_model(self, parameters):
+        parameters = json.loads(args['model_config'])['parameters']
         for key,value in parameters.items():
             parameters[key] = value["string_value"]
         engine_dir = parameters["engine_dir"]
-        n_mels = int(parameters["n_mels"])
-        self.model = WhisperTRTLLM(engine_dir)
-        self.feature_extractor = FeatureExtractor(n_mels=n_mels)
+        json_config = GptJsonConfig.parse_file(Path(engine_dir) / 'decoder' / 'config.json')
+        assert json_config.model_config.supports_inflight_batching
+        runner_kwargs = dict(engine_dir=engine_dir,
+                                is_enc_dec=True,
+                                max_batch_size=64,
+                                max_input_len=3000,
+                                max_output_len=96,
+                                max_beam_width=1,
+                                debug_mode=False,
+                                kv_cache_free_gpu_memory_fraction=0.5)
+        self.model_runner_cpp = ModelRunnerCpp.from_dir(**runner_kwargs)
+        self.feature_extractor = FeatureExtractor(n_mels = int(parameters["n_mels"]))
+        self.zero_pad = True if parameters["zero_pad"] == "true" else False
+        self.eot_id = 50257
 
     def execute(self, requests):
-        """`execute` must be implemented in every Python model. `execute`
-        function receives a list of pb_utils.InferenceRequest as the only
-        argument. This function is called when an inference is requested
-        for this model.
-
-        Parameters
-        ----------
-        requests : list
-          A list of pb_utils.InferenceRequest
-
-        Returns
-        -------
-        list
-          A list of pb_utils.InferenceResponse. The length of this list must
-          be the same as `requests`
         """
-        # Every Python backend must iterate through list of requests and create
-        # an instance of pb_utils.InferenceResponse class for each of them. You
-        # should avoid storing any of the input Tensors in the class attributes
-        # as they will be overridden in subsequent inference requests. You can
-        # make a copy of the underlying NumPy array and store it if it is
-        # required.
-        mel_list, text_prefix_list = [], []
+        This function receives a list of requests (`pb_utils.InferenceRequest`),
+        performs inference on every request and appends it to responses.
+        """
+        responses, batch_mel_list, decoder_input_ids = [], [], []
         for request in requests:
-            # Perform inference on the request and append it to responses list...
-            in_0 = pb_utils.get_input_tensor_by_name(request, "TEXT_PREFIX")
-            in_1 = pb_utils.get_input_tensor_by_name(request, "WAV")
+            wav_tensor = pb_utils.get_input_tensor_by_name(request, "WAV")
+            wav_len = pb_utils.get_input_tensor_by_name(request, "WAV_LENS").as_numpy().item()
+            prompt_ids = pb_utils.get_input_tensor_by_name(request, "DECODER_INPUT_IDS").as_numpy()
+            wav = from_dlpack(wav_tensor.to_dlpack())
+            wav = wav[:, :wav_len]
+            padding = 0 if self.zero_pad else 3000
+            mel = self.feature_extractor.compute_feature(wav[0].to('cuda'), padding_target_len=padding).transpose(1, 2)
+            batch_mel_list.append(mel.squeeze(0))
+            decoder_input_ids.append(torch.tensor(prompt_ids, dtype=torch.int32, device='cuda').squeeze(0))
 
-            wav = in_1.as_numpy()
-            assert wav.shape[0] == 1, "Only support batch size 1"
-            wav = torch.from_numpy(wav[0]).to(self.device)
-            mel = self.feature_extractor.compute_feature(wav)
-            mel_list.append(mel)
+        decoder_input_ids = torch.nn.utils.rnn.pad_sequence(decoder_input_ids, batch_first=True, padding_value=self.eot_id)
+        mel_input_lengths = torch.tensor([mel.shape[0] for mel in batch_mel_list], dtype=torch.int32, device='cuda')
 
-            text_prefix_list.append(in_0.as_numpy().tolist())
-        # concat tensors in batch dimension
-        features = torch.cat(mel_list, dim=0)
-        features = features.to(self.device)
+        outputs = self.model_runner_cpp.generate(
+            batch_input_ids=decoder_input_ids,
+            encoder_input_features=batch_mel_list,
+            encoder_output_lengths=mel_input_lengths // 2,
+            max_new_tokens=96,
+            end_id=self.eot_id,
+            pad_id=self.eot_id,
+            num_beams=1,
+            output_sequence_lengths=True,
+            return_dict=True)
+        torch.cuda.synchronize()
 
-        prompt_ids = []
-        for text_prefix in text_prefix_list:
-            text_prefix = text_prefix[0][0].decode('utf-8')
-            if text_prefix == "":
-                text_prefix = "<|startoftranscript|><|en|><|transcribe|><|notimestamps|>"
-            prompt_id = self.tokenizer.encode(text_prefix, allowed_special=self.tokenizer.special_tokens_set)
-            # convert prompt_id to tensor, tensor shape is [Seq]
-            prompt_id = torch.tensor(prompt_id)
-            prompt_ids.append(prompt_id)
-        # convert prompt_ids to tensor, tensor shape is [Batch, Seq], left padding with self.blank
-        tokens = torch.nn.utils.rnn.pad_sequence(prompt_ids, batch_first=True, padding_value=self.blank)
-        tokens = tokens.to(features.device)
-        print(features.shape)
-        output_ids = self.model.process_batch(features, tokens)
+        output_ids = outputs['output_ids'].cpu().numpy()
 
-        results = [output_ids[i][0] for i in range(len(output_ids))]
-
-        responses = []
-        for result in results:
-            s = self.tokenizer.decode(result)
-            s = re.sub(r'<\|.*?\|>', '', s)
-            sentence = np.array([s])
-            out0 = pb_utils.Tensor("TRANSCRIPTS", sentence.astype(self.out0_dtype))
-            inference_response = pb_utils.InferenceResponse(output_tensors=[out0])
-            responses.append(inference_response)
+        for i, output_id in enumerate(output_ids):
+            response = pb_utils.InferenceResponse(output_tensors=[
+                pb_utils.Tensor("OUTPUT_IDS", output_id[0])
+            ])
+            responses.append(response)
+        assert len(responses) == len(requests)
         return responses
-
-    def finalize(self):
-        """`finalize` is called only once when the model is being unloaded.
-        Implementing `finalize` function is optional. This function allows
-        the model to perform any necessary clean ups before exit.
-        """
-        print('Cleaning up...')
