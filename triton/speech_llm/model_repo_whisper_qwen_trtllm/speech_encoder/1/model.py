@@ -29,10 +29,11 @@ from collections import OrderedDict
 from pathlib import Path
 
 from typing import List, Dict, Any, Tuple
-
+from .fbank import FeatureExtractor
 import torch
 import torch.nn as nn
 from torch.utils.dlpack import from_dlpack, to_dlpack
+
 import tensorrt_llm
 import tensorrt_llm.logger as logger
 from tensorrt_llm._utils import (str_dtype_to_torch, str_dtype_to_trt,
@@ -40,9 +41,13 @@ from tensorrt_llm._utils import (str_dtype_to_torch, str_dtype_to_trt,
 from tensorrt_llm.runtime import ModelConfig, SamplingConfig
 from tensorrt_llm.runtime.session import Session, TensorInfo
 import triton_python_backend_utils as pb_utils
+import math
 
-def remove_tensor_padding(input_tensor, input_tensor_lengths=None, pad_value=0):
-    if input_tensor.dim() == 2:
+def remove_tensor_padding(input_tensor,
+                          input_tensor_lengths=None,
+                          pad_value=None):
+    if pad_value:
+        assert input_tensor_lengths is None, "input_tensor_lengths should be None when pad_value is provided"
         # Text tensor case: batch, seq_len
         assert torch.all(
             input_tensor[:, 0] != pad_value
@@ -55,24 +60,20 @@ def remove_tensor_padding(input_tensor, input_tensor_lengths=None, pad_value=0):
         # Apply the mask to input_tensor to remove pad tokens
         output_tensor = input_tensor[mask].view(1, -1)
 
-    elif input_tensor.dim() == 3:
+    else:
         # Audio tensor case: batch, seq_len, feature_len
+        # position_ids case: batch, seq_len
         assert input_tensor_lengths is not None, "input_tensor_lengths must be provided for 3D input_tensor"
-        batch_size, seq_len, feature_len = input_tensor.shape
 
         # Initialize a list to collect valid sequences
         valid_sequences = []
 
-        for i in range(batch_size):
+        for i in range(input_tensor.shape[0]):
             valid_length = input_tensor_lengths[i]
-            valid_sequences.append(input_tensor[i, :valid_length, :])
+            valid_sequences.append(input_tensor[i, :valid_length])
 
         # Concatenate all valid sequences along the batch dimension
         output_tensor = torch.cat(valid_sequences, dim=0)
-
-    else:
-        raise ValueError("Input tensor must have 2 or 3 dimensions")
-
     return output_tensor
 
 def read_config(component, engine_dir):
@@ -85,6 +86,7 @@ def read_config(component, engine_dir):
     return model_config
 
 class WhisperEncoding:
+
     def __init__(self, engine_dir):
         self.session = self.get_session(engine_dir)
         config = read_config('encoder', engine_dir)
@@ -100,25 +102,39 @@ class WhisperEncoding:
         return session
 
     def get_audio_features(self,
-                           mel):
-        mel_input_lengths = torch.tensor(
-            [mel.shape[2] for _ in range(mel.shape[0])],
+                           mel,
+                           mel_input_lengths,
+                           encoder_downsampling_factor=2):
+        if isinstance(mel, list):
+            longest_mel = max([f.shape[-1] for f in mel])
+            mel = [
+                torch.nn.functional.pad(f, (0, longest_mel - f.shape[-1]), mode='constant')
+                for f in mel
+            ]
+            mel = torch.cat(mel, dim=0).type(str_dtype_to_torch("float16")).contiguous()
+        bsz, seq_len = mel.shape[0], mel.shape[2]
+        position_ids = torch.arange(
+            math.ceil(seq_len / encoder_downsampling_factor),
             dtype=torch.int32,
-            device=mel.device)
+            device=mel.device).expand(bsz, -1).contiguous()
         if self.encoder_config['plugin_config']['remove_input_padding']:
             # mel B,D,T -> B,T,D -> BxT, D
             mel = mel.transpose(1, 2)
             mel = remove_tensor_padding(mel, mel_input_lengths)
-
+            position_ids = remove_tensor_padding(position_ids,
+                                                 mel_input_lengths // encoder_downsampling_factor)
         inputs = OrderedDict()
         inputs['input_features'] = mel
         inputs['input_lengths'] = mel_input_lengths
+        inputs['position_ids'] = position_ids
 
         output_list = [
             TensorInfo('input_features', str_dtype_to_trt(self.dtype),
                        mel.shape),
             TensorInfo('input_lengths', str_dtype_to_trt('int32'),
-                       mel_input_lengths.shape)
+                       mel_input_lengths.shape),
+            TensorInfo('position_ids', str_dtype_to_trt('int32'),
+                       inputs['position_ids'].shape)
         ]
 
         output_info = (self.session).infer_shapes(output_list)
@@ -137,9 +153,8 @@ class WhisperEncoding:
         assert ok, 'Engine execution failed'
         stream.synchronize()
         encoder_output = outputs['encoder_output']
-        encoder_output_lengths = mel_input_lengths // 2
-
-        return encoder_output
+        encoder_output_lengths = mel_input_lengths // encoder_downsampling_factor
+        return encoder_output, encoder_output_lengths
 
 class EncoderProjector(torch.nn.Module):
     """
@@ -178,7 +193,7 @@ class EncoderProjector(torch.nn.Module):
 
 class WhisperTRTLLM(nn.Module):
 
-    def __init__(self, engine_dir):
+    def __init__(self, engine_dir, llm_dim=1536):
         super().__init__()
         world_size = 1
         runtime_rank = tensorrt_llm.mpi_rank()
@@ -187,13 +202,27 @@ class WhisperTRTLLM(nn.Module):
         engine_dir = Path(engine_dir)
 
         self.encoder = WhisperEncoding(engine_dir)
-        self.encoder_projector = EncoderProjector()
+        self.encoder_projector = EncoderProjector(llm_dim=llm_dim)
         self.encoder_projector = self.encoder_projector.half().to("cuda")
 
     def process_batch(self, mel):
-        encoder_outputs = self.encoder.get_audio_features(mel)
-        speech_features = self.encoder_projector(encoder_outputs)
-        speech_features = speech_features.to(torch.float16)
+        mel_input_lengths = torch.tensor([f.shape[-1] for f in mel],
+                                         dtype=torch.int32,
+                                         device='cuda')
+        encoder_outputs, encoder_output_lengths = self.encoder.get_audio_features(mel, mel_input_lengths)
+        if len(encoder_outputs.shape) == 3:
+            speech_features = self.encoder_projector(encoder_outputs)
+            speech_features = speech_features.to(torch.float16)
+        else:
+            assert len(encoder_outputs.shape) == 2
+            speech_features = []
+            start = 0
+            for length in encoder_output_lengths:
+                encoder_output = encoder_outputs[start:start + length].unsqueeze(0)
+                start += length
+                speech_feature = self.encoder_projector(encoder_output).to(torch.float16).squeeze(0)
+                speech_features.append(speech_feature)
+            assert start == encoder_outputs.shape[0]
         return speech_features
 
 class TritonPythonModel:
@@ -201,7 +230,7 @@ class TritonPythonModel:
         device = "cuda"
         device_id = args["model_instance_device_id"]
         self.device = f"{device}:{device_id}"
-
+        self.feature_extractor = FeatureExtractor(n_mels=80)
         self.init_model(json.loads(args['model_config'])['parameters'])
         
     def init_model(self, parameters):
@@ -212,9 +241,12 @@ class TritonPythonModel:
         checkpoint = torch.load(
             adapter_dir, map_location="cpu"
         )
-        self.model = WhisperTRTLLM(engine_dir)
+        self.llm_dim = checkpoint["encoder_projector.linear1.weight"].shape[0]
+        self.model = WhisperTRTLLM(engine_dir, llm_dim=self.llm_dim)
         missing_keys, _ = self.model.load_state_dict(checkpoint, strict=False)
         assert len(missing_keys) == 0, f"Missing keys: {missing_keys}"
+        n_mels = int(parameters["n_mels"])
+        self.feature_extractor = FeatureExtractor(n_mels=n_mels)
 
     def execute(self, requests):
         """
@@ -223,13 +255,16 @@ class TritonPythonModel:
         """
         responses, batch_mel_list = [], []
         for request in requests:
-            in_0 = pb_utils.get_input_tensor_by_name(request, "mel")
-            # assert not in_0.is_cpu()
-            batch_mel_list.append(from_dlpack(in_0.to_dlpack()))
-        # concatenate all mel tensors in the batch
-        batch_mel = torch.cat(batch_mel_list, dim=0).to(self.device)
-        speech_features = self.model.process_batch(batch_mel)
+            wav_tensor = pb_utils.get_input_tensor_by_name(request, "WAV")
+            wav_len = pb_utils.get_input_tensor_by_name(request, "WAV_LENS").as_numpy().item()
+            wav = from_dlpack(wav_tensor.to_dlpack())
+            wav = wav[:, :wav_len]
+            padding = 3000 if self.llm_dim == 3584 else 0 # WAR: whisper_llm_7b model needs padding
+            mel = self.feature_extractor.compute_feature(wav[0].to('cuda'), padding_target_len=padding)
+            batch_mel_list.append(mel)
+
+        speech_features_list = self.model.process_batch(batch_mel_list)
         for i in range(len(requests)):
-            out_0 = pb_utils.Tensor.from_dlpack("speech_features", to_dlpack(speech_features[i].unsqueeze(0)))
+            out_0 = pb_utils.Tensor.from_dlpack("speech_features", to_dlpack(speech_features_list[i].unsqueeze(0)))
             responses.append(pb_utils.InferenceResponse([out_0]))
         return responses

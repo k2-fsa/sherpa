@@ -59,8 +59,8 @@ python3 client.py \
 ```
 
 ### Benchmark Results
-Decoding on a single A10 GPU, audios are padded to 30s, using aishell1 test set files
+Decoding on a single A10 GPU, audios without padding, using aishell1 test set files
 
-| Model | Backend   | Concurrency | RTF     |
-|-------|-----------|-----------------------|---------|
-| Whisper Large-v2 Encoder + Qwen 1.5B | python backend speech encoder + trt-llm backend llm | 16                   | 0.016 |
+| Model | Backend   | Concurrency | RTFx     | RTF | 
+|-------|-----------|-----------------------|---------|--|
+| Whisper Large-v2 Encoder + Qwen 1.5B | python backend speech encoder + trt-llm backend llm | 8                   | 156 | 0.0064|
