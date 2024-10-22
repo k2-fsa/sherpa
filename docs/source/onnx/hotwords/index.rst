@@ -6,6 +6,19 @@ Hotwords (Contextual biasing)
 In this section, we describe how we implement the hotwords (aka contextual biasing)
 feature with an Aho-corasick automaton and how to use it in `sherpa-onnx`_.
 
+.. caution::
+
+   Only transducer models support hotwords in `sherpa-onnx`_.
+   That is, only models from :ref:`sherpa-onnx-offline-transducer-models`
+   and :ref:`onnx_online_transducer_models` support hotwords.
+
+   All other models don't support hotwords.
+
+
+   Also, you have to change the decoding method to ``modified_beam_search``
+   to use hotwords. The default decoding method ``greedy_search`` does not
+   support hotwords.
+
 What are hotwords
 -----------------
 
