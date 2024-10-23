@@ -1,18 +1,19 @@
-FROM nvcr.io/nvidia/tritonserver:24.05-py3
-LABEL maintainer="NVIDIA"
-LABEL repository="tritonserver"
+FROM nvcr.io/nvidia/tritonserver:24.09-trtllm-python-py3
 
-RUN apt update && apt-get install -y ffmpeg
-RUN python3 -m pip install --no-cache-dir --extra-index-url https://pypi.nvidia.com tensorrt-llm==0.11.0.dev2024052800
-RUN python3 -m pip install mpmath==1.3.0 gradio==3.50.2 tritonclient[all]
-
-COPY requirements.txt /workspace/requirements.txt
+RUN python3 -m pip install tensorrt-llm==0.15.0.dev2024101500
 WORKDIR /workspace
+COPY requirements.txt .
+COPY prepare.sh .
+COPY launch_triton_server.py .
+COPY fill_template.py .
+COPY model_repo_whisper_trtllm model_repo_whisper_trtllm
+
 RUN python3 -m pip install -r requirements.txt
 
 RUN pip install -U "huggingface_hub[cli]"
 
-RUN huggingface-cli download --local-dir ./whisper_large_v3_trtllm_triton yuekai/whisper_large_v3_trtllm_triton
-RUN rm -r ./whisper_large_v3_trtllm_triton/.huggingface
+RUN huggingface-cli download --local-dir ./whisper_turbo_and_distill_tllm_checkpoint yuekai/whisper_turbo_and_distill_tllm_checkpoint
+RUN rm -r ./whisper_turbo_and_distill_tllm_checkpoint/.huggingface
 
-RUN git clone https://github.com/NVIDIA/TensorRT-LLM.git
+RUN huggingface-cli download --local-dir ./whisper_multi_zh_tllm_checkpoint yuekai/whisper_multi_zh_tllm_checkpoint
+RUN rm -r ./whisper_multi_zh_tllm_checkpoint/.huggingface

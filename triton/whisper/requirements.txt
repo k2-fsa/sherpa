@@ -7,3 +7,6 @@ soundfile
 safetensors
 transformers
 janus
+tritonclient[grpc]
+scipy
+numpy
