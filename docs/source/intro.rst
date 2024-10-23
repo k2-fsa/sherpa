@@ -3,7 +3,9 @@ Introduction
 
 `sherpa`_ is the deployment framework of the ``Next-gen Kaldi`` project.
 
-`sherpa`_ does only one thing, using a pre-trained model to transcribe speech.
+`sherpa`_ supports deploying speech related pre-trained models on various platforms
+with various language bindings.
+
 If you are interested in how to train your own model or fine tune a pre-trained
 model, please refer to `icefall`_.
 

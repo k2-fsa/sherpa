@@ -1,3 +1,5 @@
+.. _sherpa-onnx-offline-transducer-models:
+
 Offline transducer models
 =========================
 
