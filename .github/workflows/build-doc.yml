@@ -203,6 +203,13 @@ jobs:
               sed -i.bak /sherpa-onnx-small-zipformer-ru-2024-09-18\.int8\.txt/d zipformer-transducer-models.rst
 
               popd
+
+              pushd source/onnx/pretrained_models/offline-ctc/nemo/
+
+              sed -i.bak /sherpa-onnx-nemo-ctc-giga-am-russian-2024-10-24\.int8\.txt/d russian.rst
+
+              popd
+
               git diff
 
               make latex
