@@ -196,6 +196,12 @@ jobs:
               sed -i.bak /sherpa-onnx-zipformer-ja-reazonspeech-2024-08-01\.txt/d zipformer-transducer-models.rst
               sed -i.bak /sherpa-onnx-zipformer-ja-reazonspeech-2024-08-01-int8\.txt/d zipformer-transducer-models.rst
 
+              sed -i.bak /sherpa-onnx-zipformer-ru-2024-09-18\.txt/d zipformer-transducer-models.rst
+              sed -i.bak /sherpa-onnx-small-zipformer-ru-2024-09-18\.txt/d zipformer-transducer-models.rst
+
+              sed -i.bak /sherpa-onnx-zipformer-ru-2024-09-18\.int8\.txt/d zipformer-transducer-models.rst
+              sed -i.bak /sherpa-onnx-small-zipformer-ru-2024-09-18\.int8\.txt/d zipformer-transducer-models.rst
+
               popd
               git diff
 
