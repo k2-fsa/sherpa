@@ -40,9 +40,6 @@ Please use the following commands to download it.
 
   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-nemo-ctc-en-citrinet-512.tar.bz2
 
-  # For Chinese users, please use the following mirror
-  # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-nemo-ctc-en-citrinet-512.tar.bz2
-
   tar xvf sherpa-onnx-nemo-ctc-en-citrinet-512.tar.bz2
   rm sherpa-onnx-nemo-ctc-en-citrinet-512.tar.bz2
 
@@ -112,9 +109,6 @@ Please use the following commands to download it.
   cd /path/to/sherpa-onnx
 
   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-nemo-ctc-en-conformer-small.tar.bz2
-
-  # For Chinese users, please use the following mirror
-  # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-nemo-ctc-en-conformer-small.tar.bz2
 
   tar xvf sherpa-onnx-nemo-ctc-en-conformer-small.tar.bz2
   rm sherpa-onnx-nemo-ctc-en-conformer-small.tar.bz2
@@ -188,9 +182,6 @@ Please use the following commands to download it.
 
   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-nemo-ctc-en-conformer-medium.tar.bz2
 
-  # For Chinese users, please use the following mirror
-  # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-nemo-ctc-en-conformer-medium.tar.bz2
-
   tar xvf sherpa-onnx-nemo-ctc-en-conformer-medium.tar.bz2
   rm sherpa-onnx-nemo-ctc-en-conformer-medium.tar.bz2
 
@@ -260,9 +251,6 @@ Please use the following commands to download it.
   cd /path/to/sherpa-onnx
 
   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-nemo-ctc-en-conformer-large.tar.bz2
-
-  # For Chinese users, please use the following mirror
-  # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-nemo-ctc-en-conformer-large.tar.bz2
 
   tar xvf sherpa-onnx-nemo-ctc-en-conformer-large.tar.bz2
   rm sherpa-onnx-nemo-ctc-en-conformer-large.tar.bz2

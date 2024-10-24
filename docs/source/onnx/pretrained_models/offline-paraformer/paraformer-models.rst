@@ -32,9 +32,6 @@ Please use the following commands to download it.
   cd /path/to/sherpa-onnx
   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-paraformer-trilingual-zh-cantonese-en.tar.bz2
 
-  # For Chinese users
-  # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-paraformer-trilingual-zh-cantonese-en.tar.bz2
-
   tar xvf sherpa-onnx-paraformer-trilingual-zh-cantonese-en.tar.bz2
 
 Please check that the file sizes of the pre-trained models are correct. See
@@ -165,9 +162,6 @@ Please use the following commands to download it.
   cd /path/to/sherpa-onnx
   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-paraformer-en-2024-03-09.tar.bz2
 
-  # For Chinese users
-  # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-paraformer-en-2024-03-09.tar.bz2
-
   tar xvf sherpa-onnx-paraformer-en-2024-03-09.tar.bz2
 
 Please check that the file sizes of the pre-trained models are correct. See
@@ -273,9 +267,6 @@ Please use the following commands to download it.
   cd /path/to/sherpa-onnx
   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-paraformer-zh-small-2024-03-09.tar.bz2
 
-  # For Chinese users
-  wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-paraformer-zh-small-2024-03-09.tar.bz2
-
   tar xvf sherpa-onnx-paraformer-zh-small-2024-03-09.tar.bz2
 
 Please check that the file sizes of the pre-trained models are correct. See
@@ -369,9 +360,6 @@ Please use the following commands to download it.
 
   cd /path/to/sherpa-onnx
   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-paraformer-zh-2024-03-09.tar.bz2
-
-  # For Chinese users
-  # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-paraformer-zh-2024-03-09.tar.bz2
 
   tar xvf sherpa-onnx-paraformer-zh-2024-03-09.tar.bz2
 
@@ -513,9 +501,6 @@ Please use the following commands to download it.
   cd /path/to/sherpa-onnx
   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-paraformer-zh-2023-03-28.tar.bz2
 
-  # For Chinese users
-  # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-paraformer-zh-2023-03-28.tar.bz2
-
   tar xvf sherpa-onnx-paraformer-zh-2023-03-28.tar.bz2
 
 Please check that the file sizes of the pre-trained models are correct. See
@@ -651,9 +636,6 @@ Please use the following commands to download it.
   cd /path/to/sherpa-onnx
 
   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-paraformer-zh-2023-09-14.tar.bz2
-
-  # For Chinese users
-  # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-paraformer-zh-2023-09-14.tar.bz2
 
   tar xvf sherpa-onnx-paraformer-zh-2023-09-14.tar.bz2
 

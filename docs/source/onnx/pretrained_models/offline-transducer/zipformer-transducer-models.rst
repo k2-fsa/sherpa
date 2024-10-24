@@ -8,6 +8,25 @@ Zipformer-transducer-based Models
    Please refer to :ref:`install_sherpa_onnx` to install `sherpa-onnx`
    before you read this section.
 
+sherpa-onnx-zipformer-ru-2024-09-18 (Russian, 俄语)
+---------------------------------------------------
+
+This model is from `<https://huggingface.co/alphacep/vosk-model-ru/tree/main>`_.
+
+You can find the export script at `<https://github.com/k2-fsa/sherpa-onnx/blob/master/.github/workflows/export-russian-onnx-models.yaml>`_
+
+In the following, we describe how to download it and use it with `sherpa-onnx`_.
+
+Download the model
+~~~~~~~~~~~~~~~~~~
+
+Please use the following commands to download it.
+
+.. code-block:: bash
+
+   pass
+
+
 sherpa-onnx-zipformer-ja-reazonspeech-2024-08-01 (Japanese, 日语)
 ------------------------------------------------------------------
 
@@ -36,9 +55,6 @@ Please use the following commands to download it.
 .. code-block:: bash
 
    wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-ja-reazonspeech-2024-08-01.tar.bz2
-
-   # For Chinese users, you can use the following mirror
-   # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-ja-reazonspeech-2024-08-01.tar.bz2
 
    tar xvf sherpa-onnx-zipformer-ja-reazonspeech-2024-08-01.tar.bz2
    rm sherpa-onnx-zipformer-ja-reazonspeech-2024-08-01.tar.bz2
@@ -187,9 +203,6 @@ Please use the following commands to download it.
 
    wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-korean-2024-06-24.tar.bz2
 
-   # For Chinese users, you can use the following mirror
-   # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-korean-2024-06-24.tar.bz2
-
    tar xf sherpa-onnx-zipformer-korean-2024-06-24.tar.bz2
    rm sherpa-onnx-zipformer-korean-2024-06-24.tar.bz2
 
@@ -319,9 +332,6 @@ Please use the following commands to download it.
 
    wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-thai-2024-06-20.tar.bz2
 
-   # For Chinese users, you can use the following mirror
-   # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-thai-2024-06-20.tar.bz2
-
    tar xf sherpa-onnx-zipformer-thai-2024-06-20.tar.bz2
    rm sherpa-onnx-zipformer-thai-2024-06-20.tar.bz2
 
@@ -449,9 +459,6 @@ Please use the following commands to download it.
 .. code-block:: bash
 
    wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-cantonese-2024-03-13.tar.bz2
-
-   # For Chinese users, you can use the following mirror
-   # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-cantonese-2024-03-13.tar.bz2
 
    tar xf sherpa-onnx-zipformer-cantonese-2024-03-13.tar.bz2
    rm sherpa-onnx-zipformer-cantonese-2024-03-13.tar.bz2
@@ -583,9 +590,6 @@ Please use the following commands to download it.
 
    wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-gigaspeech-2023-12-12.tar.bz2
 
-   # For Chinese users, you can use the following mirror
-   # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-gigaspeech-2023-12-12.tar.bz2
-
    tar xf sherpa-onnx-zipformer-gigaspeech-2023-12-12.tar.bz2
    rm sherpa-onnx-zipformer-gigaspeech-2023-12-12.tar.bz2
    ls -lh sherpa-onnx-zipformer-gigaspeech-2023-12-12
@@ -689,9 +693,6 @@ Speech recognition from a microphone with VAD
 
   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/silero_vad.onnx
 
-  # For Chinese users, you can use the following mirror
-  # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/silero_vad.onnx
-
   ./build/bin/sherpa-onnx-vad-microphone-offline-asr \
     --silero-vad-model=./silero_vad.onnx \
     --tokens=./sherpa-onnx-zipformer-gigaspeech-2023-12-12/tokens.txt \
@@ -723,9 +724,6 @@ Please use the following commands to download it.
   cd /path/to/sherpa-onnx
 
   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-multi-zh-hans-2023-9-2.tar.bz2
-
-  # For Chinese users, you can use the following mirror
-  # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-multi-zh-hans-2023-9-2.tar.bz2
 
   tar xvf sherpa-onnx-zipformer-multi-zh-hans-2023-9-2.tar.bz2
   rm sherpa-onnx-zipformer-multi-zh-hans-2023-9-2.tar.bz2
@@ -841,9 +839,6 @@ Please use the following commands to download it.
   cd /path/to/sherpa-onnx
 
   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/icefall-asr-cv-corpus-13.0-2023-03-09-en-pruned-transducer-stateless7-2023-04-17.tar.bz2
-
-  # For Chinese users, you can use the following mirror
-  # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/icefall-asr-cv-corpus-13.0-2023-03-09-en-pruned-transducer-stateless7-2023-04-17.tar.bz2
 
   tar xvf icefall-asr-cv-corpus-13.0-2023-03-09-en-pruned-transducer-stateless7-2023-04-17.tar.bz2
   rm icefall-asr-cv-corpus-13.0-2023-03-09-en-pruned-transducer-stateless7-2023-04-17.tar.bz2
@@ -1009,9 +1004,6 @@ Please use the following commands to download it.
 
   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/icefall-asr-zipformer-wenetspeech-20230615.tar.bz2
 
-  # For Chinese users, you can use the following mirror
-  # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/icefall-asr-zipformer-wenetspeech-20230615.tar.bz2
-
   tar xvf icefall-asr-zipformer-wenetspeech-20230615.tar.bz2
   rm icefall-asr-zipformer-wenetspeech-20230615.tar.bz2
 
@@ -1148,9 +1140,6 @@ Please use the following commands to download it.
 
   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-large-en-2023-06-26.tar.bz2
 
-  # For Chinese users, you can use the following mirror
-  # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-large-en-2023-06-26.tar.bz2
-
   tar xvf sherpa-onnx-zipformer-large-en-2023-06-26.tar.bz2
   rm sherpa-onnx-zipformer-large-en-2023-06-26.tar.bz2
 
@@ -1265,9 +1254,6 @@ Please use the following commands to download it.
   cd /path/to/sherpa-onnx
 
   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-small-en-2023-06-26.tar.bz2
-
-  # For Chinese users, you can use the following mirror
-  # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-small-en-2023-06-26.tar.bz2
 
   tar xvf sherpa-onnx-zipformer-small-en-2023-06-26.tar.bz2
   rm sherpa-onnx-zipformer-small-en-2023-06-26.tar.bz2
@@ -1386,9 +1372,6 @@ Please use the following commands to download it.
 
   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-en-2023-06-26.tar.bz2
 
-  # For Chinese users, you can use the following mirror
-  # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-en-2023-06-26.tar.bz2
-
   tar xvf sherpa-onnx-zipformer-en-2023-06-26.tar.bz2
   rm sherpa-onnx-zipformer-en-2023-06-26.tar.bz2
 
@@ -1499,9 +1482,6 @@ Please use the following commands to download it.
 .. code-block:: bash
 
   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/icefall-asr-multidataset-pruned_transducer_stateless7-2023-05-04.tar.bz2
-
-  # For Chinese users, you can use the following mirror
-  # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/icefall-asr-multidataset-pruned_transducer_stateless7-2023-05-04.tar.bz2
 
   tar xvf icefall-asr-multidataset-pruned_transducer_stateless7-2023-05-04.tar.bz2
   rm icefall-asr-multidataset-pruned_transducer_stateless7-2023-05-04.tar.bz2
@@ -1620,9 +1600,6 @@ Please use the following commands to download it.
 
   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-en-2023-04-01.tar.bz2
 
-  # For Chinese users, please use the following mirror
-  # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-en-2023-04-01.tar.bz2
-
   tar xvf sherpa-onnx-zipformer-en-2023-04-01.tar.bz2
   rm sherpa-onnx-zipformer-en-2023-04-01.tar.bz2
 
@@ -1739,9 +1716,6 @@ Please use the following commands to download it.
   cd /path/to/sherpa-onnx
 
   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-en-2023-03-30.tar.bz2
-
-  # For Chinese users, please use the following mirror
-  # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-en-2023-03-30.tar.bz2
 
   tar xvf sherpa-onnx-zipformer-en-2023-03-30.tar.bz2
   rm sherpa-onnx-zipformer-en-2023-03-30.tar.bz2
