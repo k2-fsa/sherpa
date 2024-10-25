@@ -18,9 +18,6 @@ To download the model, please use:
 
   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-tdnn-yesno.tar.bz2
 
-  # For Chinese users, please use the following mirror
-  # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-tdnn-yesno.tar.bz2
-
   tar xvf sherpa-onnx-tdnn-yesno.tar.bz2
   rm sherpa-onnx-tdnn-yesno.tar.bz2
 

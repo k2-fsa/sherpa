@@ -32,9 +32,6 @@ Please use the following commands to download it.
 
   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-conformer-zh-stateless2-2023-05-23.tar.bz2
 
-  # For Chinese users, you can use the following mirror
-  # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-conformer-zh-stateless2-2023-05-23.tar.bz2
-
   tar xvf sherpa-onnx-conformer-zh-stateless2-2023-05-23.tar.bz2
   rm sherpa-onnx-conformer-zh-stateless2-2023-05-23.tar.bz2
 
@@ -185,9 +182,6 @@ Please use the following commands to download it.
 
   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-conformer-zh-2023-05-23.tar.bz2
 
-  # For Chinese users, you can use the following mirror
-  # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-conformer-zh-2023-05-23.tar.bz2
-
   tar xvf sherpa-onnx-conformer-zh-2023-05-23.tar.bz2
   rm sherpa-onnx-conformer-zh-2023-05-23.tar.bz2
 
@@ -336,9 +330,6 @@ Please use the following commands to download it.
   cd /path/to/sherpa-onnx
 
   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-conformer-en-2023-03-18.tar.bz2
-
-  # For Chinese users, you can use the following mirror
-  # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-conformer-en-2023-03-18.tar.bz2
 
   tar xvf sherpa-onnx-conformer-en-2023-03-18.tar.bz2
   rm sherpa-onnx-conformer-en-2023-03-18.tar.bz2

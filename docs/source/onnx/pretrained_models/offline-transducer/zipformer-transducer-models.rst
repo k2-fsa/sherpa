@@ -8,6 +8,260 @@ Zipformer-transducer-based Models
    Please refer to :ref:`install_sherpa_onnx` to install `sherpa-onnx`
    before you read this section.
 
+sherpa-onnx-zipformer-ru-2024-09-18 (Russian, 俄语)
+---------------------------------------------------
+
+This model is from `<https://huggingface.co/alphacep/vosk-model-ru/tree/main>`_.
+
+You can find the export script at `<https://github.com/k2-fsa/sherpa-onnx/blob/master/.github/workflows/export-russian-onnx-models.yaml>`_
+
+In the following, we describe how to download it and use it with `sherpa-onnx`_.
+
+Download the model
+~~~~~~~~~~~~~~~~~~
+
+Please use the following commands to download it.
+
+.. code-block:: bash
+
+   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-ru-2024-09-18.tar.bz2
+   tar xvf sherpa-onnx-zipformer-ru-2024-09-18.tar.bz2
+   rm sherpa-onnx-zipformer-ru-2024-09-18.tar.bz2
+
+You should see something like below after downloading::
+
+  ls -lh sherpa-onnx-zipformer-ru-2024-09-18
+  total 700352
+  -rw-r--r--  1 fangjun  staff   240K Sep 18 12:01 bpe.model
+  -rw-r--r--  1 fangjun  staff   1.2M Sep 18 12:01 decoder.int8.onnx
+  -rw-r--r--  1 fangjun  staff   2.0M Sep 18 12:01 decoder.onnx
+  -rw-r--r--  1 fangjun  staff    65M Sep 18 12:01 encoder.int8.onnx
+  -rw-r--r--  1 fangjun  staff   247M Sep 18 12:01 encoder.onnx
+  -rw-r--r--  1 fangjun  staff   253K Sep 18 12:01 joiner.int8.onnx
+  -rw-r--r--  1 fangjun  staff   1.0M Sep 18 12:01 joiner.onnx
+  drwxr-xr-x  4 fangjun  staff   128B Sep 18 12:01 test_wavs
+  -rw-r--r--  1 fangjun  staff   6.2K Sep 18 12:01 tokens.txt
+
+Decode wave files
+~~~~~~~~~~~~~~~~~
+
+.. hint::
+
+   It supports decoding only wave files of a single channel with 16-bit
+   encoded samples, while the sampling rate does not need to be 16 kHz.
+
+fp32
+^^^^
+
+The following code shows how to use ``fp32`` models to decode wave files:
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  ./build/bin/sherpa-onnx-offline \
+    --tokens=./sherpa-onnx-zipformer-ru-2024-09-18/tokens.txt \
+    --encoder=./sherpa-onnx-zipformer-ru-2024-09-18/encoder.onnx \
+    --decoder=./sherpa-onnx-zipformer-ru-2024-09-18/decoder.onnx \
+    --joiner=./sherpa-onnx-zipformer-ru-2024-09-18/joiner.onnx \
+    --num-threads=1 \
+    ./sherpa-onnx-zipformer-ru-2024-09-18/test_wavs/1.wav
+
+.. note::
+
+   Please use ``./build/bin/Release/sherpa-onnx-offline.exe`` for Windows.
+
+.. caution::
+
+   If you use Windows and get encoding issues, please run:
+
+      .. code-block:: bash
+
+          CHCP 65001
+
+   in your commandline.
+
+You should see the following output:
+
+.. literalinclude:: ./code-zipformer/sherpa-onnx-zipformer-ru-2024-09-18.txt
+
+int8
+^^^^
+
+The following code shows how to use ``int8`` models to decode wave files:
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  ./build/bin/sherpa-onnx-offline \
+    --tokens=./sherpa-onnx-zipformer-ru-2024-09-18/tokens.txt \
+    --encoder=./sherpa-onnx-zipformer-ru-2024-09-18/encoder.int8.onnx \
+    --decoder=./sherpa-onnx-zipformer-ru-2024-09-18/decoder.onnx \
+    --joiner=./sherpa-onnx-zipformer-ru-2024-09-18/joiner.int8.onnx \
+    --num-threads=1 \
+    ./sherpa-onnx-zipformer-ru-2024-09-18/test_wavs/1.wav
+
+You should see the following output:
+
+.. literalinclude:: ./code-zipformer/sherpa-onnx-zipformer-ru-2024-09-18.int8.txt
+
+Speech recognition from a microphone
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  ./build/bin/sherpa-onnx-microphone-offline \
+    --tokens=./sherpa-onnx-zipformer-ru-2024-09-18/tokens.txt \
+    --encoder=./sherpa-onnx-zipformer-ru-2024-09-18/encoder.int8.onnx \
+    --decoder=./sherpa-onnx-zipformer-ru-2024-09-18/decoder.onnx \
+    --joiner=./sherpa-onnx-zipformer-ru-2024-09-18/joiner.int8.onnx
+
+Speech recognition from a microphone with VAD
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/silero_vad.onnx
+
+  ./build/bin/sherpa-onnx-vad-microphone-offline-asr \
+    --silero-vad-model=./silero_vad.onnx \
+    --tokens=./sherpa-onnx-zipformer-ru-2024-09-18/tokens.txt \
+    --encoder=./sherpa-onnx-zipformer-ru-2024-09-18/encoder.int8.onnx \
+    --decoder=./sherpa-onnx-zipformer-ru-2024-09-18/decoder.onnx \
+    --joiner=./sherpa-onnx-zipformer-ru-2024-09-18/joiner.int8.onnx
+
+sherpa-onnx-small-zipformer-ru-2024-09-18 (Russian, 俄语)
+---------------------------------------------------------
+
+This model is from `<https://huggingface.co/alphacep/vosk-model-small-ru/tree/main>`_.
+
+You can find the export script at `<https://github.com/k2-fsa/sherpa-onnx/blob/master/.github/workflows/export-russian-onnx-models.yaml>`_
+
+In the following, we describe how to download it and use it with `sherpa-onnx`_.
+
+Download the model
+~~~~~~~~~~~~~~~~~~
+
+Please use the following commands to download it.
+
+.. code-block:: bash
+
+   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-small-zipformer-ru-2024-09-18.tar.bz2
+   tar xvf sherpa-onnx-small-zipformer-ru-2024-09-18.tar.bz2
+   rm sherpa-onnx-small-zipformer-ru-2024-09-18.tar.bz2
+
+You should see something like below after downloading::
+
+  ls -lh  sherpa-onnx-small-zipformer-ru-2024-09-18/
+  total 257992
+  -rw-r--r--  1 fangjun  staff   240K Sep 18 12:02 bpe.model
+  -rw-r--r--  1 fangjun  staff   1.2M Sep 18 12:02 decoder.int8.onnx
+  -rw-r--r--  1 fangjun  staff   2.0M Sep 18 12:02 decoder.onnx
+  -rw-r--r--  1 fangjun  staff    24M Sep 18 12:02 encoder.int8.onnx
+  -rw-r--r--  1 fangjun  staff    86M Sep 18 12:02 encoder.onnx
+  -rw-r--r--  1 fangjun  staff   253K Sep 18 12:02 joiner.int8.onnx
+  -rw-r--r--  1 fangjun  staff   1.0M Sep 18 12:02 joiner.onnx
+  drwxr-xr-x  4 fangjun  staff   128B Sep 18 12:02 test_wavs
+  -rw-r--r--  1 fangjun  staff   6.2K Sep 18 12:02 tokens.txt
+
+Decode wave files
+~~~~~~~~~~~~~~~~~
+
+.. hint::
+
+   It supports decoding only wave files of a single channel with 16-bit
+   encoded samples, while the sampling rate does not need to be 16 kHz.
+
+fp32
+^^^^
+
+The following code shows how to use ``fp32`` models to decode wave files:
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  ./build/bin/sherpa-onnx-offline \
+    --tokens=./sherpa-onnx-small-zipformer-ru-2024-09-18/tokens.txt \
+    --encoder=./sherpa-onnx-small-zipformer-ru-2024-09-18/encoder.onnx \
+    --decoder=./sherpa-onnx-small-zipformer-ru-2024-09-18/decoder.onnx \
+    --joiner=./sherpa-onnx-small-zipformer-ru-2024-09-18/joiner.onnx \
+    --num-threads=1 \
+    ./sherpa-onnx-small-zipformer-ru-2024-09-18/test_wavs/1.wav
+
+.. note::
+
+   Please use ``./build/bin/Release/sherpa-onnx-offline.exe`` for Windows.
+
+.. caution::
+
+   If you use Windows and get encoding issues, please run:
+
+      .. code-block:: bash
+
+          CHCP 65001
+
+   in your commandline.
+
+You should see the following output:
+
+.. literalinclude:: ./code-zipformer/sherpa-onnx-small-zipformer-ru-2024-09-18.txt
+
+int8
+^^^^
+
+The following code shows how to use ``int8`` models to decode wave files:
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  ./build/bin/sherpa-onnx-offline \
+    --tokens=./sherpa-onnx-small-zipformer-ru-2024-09-18/tokens.txt \
+    --encoder=./sherpa-onnx-small-zipformer-ru-2024-09-18/encoder.int8.onnx \
+    --decoder=./sherpa-onnx-small-zipformer-ru-2024-09-18/decoder.onnx \
+    --joiner=./sherpa-onnx-small-zipformer-ru-2024-09-18/joiner.int8.onnx \
+    --num-threads=1 \
+    ./sherpa-onnx-small-zipformer-ru-2024-09-18/test_wavs/1.wav
+
+You should see the following output:
+
+.. literalinclude:: ./code-zipformer/sherpa-onnx-small-zipformer-ru-2024-09-18.int8.txt
+
+Speech recognition from a microphone
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  ./build/bin/sherpa-onnx-microphone-offline \
+    --tokens=./sherpa-onnx-small-zipformer-ru-2024-09-18/tokens.txt \
+    --encoder=./sherpa-onnx-small-zipformer-ru-2024-09-18/encoder.int8.onnx \
+    --decoder=./sherpa-onnx-small-zipformer-ru-2024-09-18/decoder.onnx \
+    --joiner=./sherpa-onnx-small-zipformer-ru-2024-09-18/joiner.int8.onnx
+
+Speech recognition from a microphone with VAD
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/silero_vad.onnx
+
+  ./build/bin/sherpa-onnx-vad-microphone-offline-asr \
+    --silero-vad-model=./silero_vad.onnx \
+    --tokens=./sherpa-onnx-small-zipformer-ru-2024-09-18/tokens.txt \
+    --encoder=./sherpa-onnx-small-zipformer-ru-2024-09-18/encoder.int8.onnx \
+    --decoder=./sherpa-onnx-small-zipformer-ru-2024-09-18/decoder.onnx \
+    --joiner=./sherpa-onnx-small-zipformer-ru-2024-09-18/joiner.int8.onnx
+
 sherpa-onnx-zipformer-ja-reazonspeech-2024-08-01 (Japanese, 日语)
 ------------------------------------------------------------------
 
@@ -36,9 +290,6 @@ Please use the following commands to download it.
 .. code-block:: bash
 
    wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-ja-reazonspeech-2024-08-01.tar.bz2
-
-   # For Chinese users, you can use the following mirror
-   # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-ja-reazonspeech-2024-08-01.tar.bz2
 
    tar xvf sherpa-onnx-zipformer-ja-reazonspeech-2024-08-01.tar.bz2
    rm sherpa-onnx-zipformer-ja-reazonspeech-2024-08-01.tar.bz2
@@ -187,9 +438,6 @@ Please use the following commands to download it.
 
    wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-korean-2024-06-24.tar.bz2
 
-   # For Chinese users, you can use the following mirror
-   # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-korean-2024-06-24.tar.bz2
-
    tar xf sherpa-onnx-zipformer-korean-2024-06-24.tar.bz2
    rm sherpa-onnx-zipformer-korean-2024-06-24.tar.bz2
 
@@ -319,9 +567,6 @@ Please use the following commands to download it.
 
    wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-thai-2024-06-20.tar.bz2
 
-   # For Chinese users, you can use the following mirror
-   # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-thai-2024-06-20.tar.bz2
-
    tar xf sherpa-onnx-zipformer-thai-2024-06-20.tar.bz2
    rm sherpa-onnx-zipformer-thai-2024-06-20.tar.bz2
 
@@ -449,9 +694,6 @@ Please use the following commands to download it.
 .. code-block:: bash
 
    wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-cantonese-2024-03-13.tar.bz2
-
-   # For Chinese users, you can use the following mirror
-   # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-cantonese-2024-03-13.tar.bz2
 
    tar xf sherpa-onnx-zipformer-cantonese-2024-03-13.tar.bz2
    rm sherpa-onnx-zipformer-cantonese-2024-03-13.tar.bz2
@@ -583,9 +825,6 @@ Please use the following commands to download it.
 
    wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-gigaspeech-2023-12-12.tar.bz2
 
-   # For Chinese users, you can use the following mirror
-   # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-gigaspeech-2023-12-12.tar.bz2
-
    tar xf sherpa-onnx-zipformer-gigaspeech-2023-12-12.tar.bz2
    rm sherpa-onnx-zipformer-gigaspeech-2023-12-12.tar.bz2
    ls -lh sherpa-onnx-zipformer-gigaspeech-2023-12-12
@@ -689,9 +928,6 @@ Speech recognition from a microphone with VAD
 
   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/silero_vad.onnx
 
-  # For Chinese users, you can use the following mirror
-  # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/silero_vad.onnx
-
   ./build/bin/sherpa-onnx-vad-microphone-offline-asr \
     --silero-vad-model=./silero_vad.onnx \
     --tokens=./sherpa-onnx-zipformer-gigaspeech-2023-12-12/tokens.txt \
@@ -723,9 +959,6 @@ Please use the following commands to download it.
   cd /path/to/sherpa-onnx
 
   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-multi-zh-hans-2023-9-2.tar.bz2
-
-  # For Chinese users, you can use the following mirror
-  # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-multi-zh-hans-2023-9-2.tar.bz2
 
   tar xvf sherpa-onnx-zipformer-multi-zh-hans-2023-9-2.tar.bz2
   rm sherpa-onnx-zipformer-multi-zh-hans-2023-9-2.tar.bz2
@@ -841,9 +1074,6 @@ Please use the following commands to download it.
   cd /path/to/sherpa-onnx
 
   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/icefall-asr-cv-corpus-13.0-2023-03-09-en-pruned-transducer-stateless7-2023-04-17.tar.bz2
-
-  # For Chinese users, you can use the following mirror
-  # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/icefall-asr-cv-corpus-13.0-2023-03-09-en-pruned-transducer-stateless7-2023-04-17.tar.bz2
 
   tar xvf icefall-asr-cv-corpus-13.0-2023-03-09-en-pruned-transducer-stateless7-2023-04-17.tar.bz2
   rm icefall-asr-cv-corpus-13.0-2023-03-09-en-pruned-transducer-stateless7-2023-04-17.tar.bz2
@@ -1009,9 +1239,6 @@ Please use the following commands to download it.
 
   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/icefall-asr-zipformer-wenetspeech-20230615.tar.bz2
 
-  # For Chinese users, you can use the following mirror
-  # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/icefall-asr-zipformer-wenetspeech-20230615.tar.bz2
-
   tar xvf icefall-asr-zipformer-wenetspeech-20230615.tar.bz2
   rm icefall-asr-zipformer-wenetspeech-20230615.tar.bz2
 
@@ -1148,9 +1375,6 @@ Please use the following commands to download it.
 
   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-large-en-2023-06-26.tar.bz2
 
-  # For Chinese users, you can use the following mirror
-  # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-large-en-2023-06-26.tar.bz2
-
   tar xvf sherpa-onnx-zipformer-large-en-2023-06-26.tar.bz2
   rm sherpa-onnx-zipformer-large-en-2023-06-26.tar.bz2
 
@@ -1265,9 +1489,6 @@ Please use the following commands to download it.
   cd /path/to/sherpa-onnx
 
   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-small-en-2023-06-26.tar.bz2
-
-  # For Chinese users, you can use the following mirror
-  # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-small-en-2023-06-26.tar.bz2
 
   tar xvf sherpa-onnx-zipformer-small-en-2023-06-26.tar.bz2
   rm sherpa-onnx-zipformer-small-en-2023-06-26.tar.bz2
@@ -1386,9 +1607,6 @@ Please use the following commands to download it.
 
   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-en-2023-06-26.tar.bz2
 
-  # For Chinese users, you can use the following mirror
-  # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-en-2023-06-26.tar.bz2
-
   tar xvf sherpa-onnx-zipformer-en-2023-06-26.tar.bz2
   rm sherpa-onnx-zipformer-en-2023-06-26.tar.bz2
 
@@ -1499,9 +1717,6 @@ Please use the following commands to download it.
 .. code-block:: bash
 
   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/icefall-asr-multidataset-pruned_transducer_stateless7-2023-05-04.tar.bz2
-
-  # For Chinese users, you can use the following mirror
-  # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/icefall-asr-multidataset-pruned_transducer_stateless7-2023-05-04.tar.bz2
 
   tar xvf icefall-asr-multidataset-pruned_transducer_stateless7-2023-05-04.tar.bz2
   rm icefall-asr-multidataset-pruned_transducer_stateless7-2023-05-04.tar.bz2
@@ -1620,9 +1835,6 @@ Please use the following commands to download it.
 
   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-en-2023-04-01.tar.bz2
 
-  # For Chinese users, please use the following mirror
-  # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-en-2023-04-01.tar.bz2
-
   tar xvf sherpa-onnx-zipformer-en-2023-04-01.tar.bz2
   rm sherpa-onnx-zipformer-en-2023-04-01.tar.bz2
 
@@ -1739,9 +1951,6 @@ Please use the following commands to download it.
   cd /path/to/sherpa-onnx
 
   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-en-2023-03-30.tar.bz2
-
-  # For Chinese users, please use the following mirror
-  # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-en-2023-03-30.tar.bz2
 
   tar xvf sherpa-onnx-zipformer-en-2023-03-30.tar.bz2
   rm sherpa-onnx-zipformer-en-2023-03-30.tar.bz2

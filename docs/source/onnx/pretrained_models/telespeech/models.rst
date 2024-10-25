@@ -16,9 +16,6 @@ Please use the following commands to download it.
 
   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-telespeech-ctc-int8-zh-2024-06-04.tar.bz2
 
-  # For Chinese users, please use the following mirror
-  # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-telespeech-ctc-int8-zh-2024-06-04.tar.bz2
-
   tar xvf sherpa-onnx-telespeech-ctc-int8-zh-2024-06-04.tar.bz2
   rm sherpa-onnx-telespeech-ctc-int8-zh-2024-06-04.tar.bz2
 

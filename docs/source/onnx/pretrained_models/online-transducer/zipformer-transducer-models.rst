@@ -30,9 +30,6 @@ Please use the following commands to download it.
 
   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-zipformer-korean-2024-06-16.tar.bz2
 
-  # For Chinese users, you can use the following mirror
-  # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-zipformer-korean-2024-06-16.tar.bz2
-
   tar xvf sherpa-onnx-streaming-zipformer-korean-2024-06-16.tar.bz2
   rm sherpa-onnx-streaming-zipformer-korean-2024-06-16.tar.bz2
   ls -lh sherpa-onnx-streaming-zipformer-korean-2024-06-16
@@ -171,9 +168,6 @@ Please use the following commands to download it.
   cd /path/to/sherpa-onnx
 
   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-zipformer-multi-zh-hans-2023-12-12.tar.bz2
-
-  # For Chinese users, you can use the following mirror
-  # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-zipformer-multi-zh-hans-2023-12-12.tar.bz2
 
   tar xf sherpa-onnx-streaming-zipformer-multi-zh-hans-2023-12-12.tar.bz2
   rm sherpa-onnx-streaming-zipformer-multi-zh-hans-2023-12-12.tar.bz2
@@ -367,9 +361,6 @@ Please use the following commands to download it.
 
   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/icefall-asr-zipformer-streaming-wenetspeech-20230615.tar.bz2
 
-  # For Chinese users, you can use the following mirror
-  # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/icefall-asr-zipformer-streaming-wenetspeech-20230615.tar.bz2
-
   tar xvf icefall-asr-zipformer-streaming-wenetspeech-20230615.tar.bz2
   rm icefall-asr-zipformer-streaming-wenetspeech-20230615.tar.bz2
 
@@ -509,9 +500,6 @@ Please use the following commands to download it.
 
   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-zipformer-en-2023-06-26.tar.bz2
 
-  # For Chinese users, you can use the following mirror
-  # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-zipformer-en-2023-06-26.tar.bz2
-
   tar xvf sherpa-onnx-streaming-zipformer-en-2023-06-26.tar.bz2
   rm sherpa-onnx-streaming-zipformer-en-2023-06-26.tar.bz2
 
@@ -632,9 +620,6 @@ Please use the following commands to download it.
   cd /path/to/sherpa-onnx
 
   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-zipformer-en-2023-06-21.tar.bz2
-
-  # For Chinese users, you can use the following mirror
-  # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-zipformer-en-2023-06-21.tar.bz2
 
   tar xvf sherpa-onnx-streaming-zipformer-en-2023-06-21.tar.bz2
   rm sherpa-onnx-streaming-zipformer-en-2023-06-21.tar.bz2
@@ -757,9 +742,6 @@ Please use the following commands to download it.
         cd /path/to/sherpa-onnx
 
         wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-zipformer-en-2023-02-21.tar.bz2
-
-        # For Chinese users, you can use the following mirror
-        # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-zipformer-en-2023-02-21.tar.bz2
 
         tar xvf sherpa-onnx-streaming-zipformer-en-2023-02-21.tar.bz2
         rm sherpa-onnx-streaming-zipformer-en-2023-02-21.tar.bz2
@@ -887,9 +869,6 @@ Please use the following commands to download it.
     cd /path/to/sherpa-onnx
 
     wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20.tar.bz2
-
-    # For Chinese users, you can use the following mirror
-    # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20.tar.bz2
 
     tar xvf sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20.tar.bz2
     rm sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20.tar.bz2
@@ -1027,9 +1006,6 @@ Please use the following commands to download it.
   cd /path/to/sherpa-onnx
 
   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-zipformer-fr-2023-04-14.tar.bz2
-
-  # For Chinese users, you can use the following mirror
-  # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-zipformer-fr-2023-04-14.tar.bz2
 
   tar xvf sherpa-onnx-streaming-zipformer-fr-2023-04-14.tar.bz2
   rm sherpa-onnx-streaming-zipformer-fr-2023-04-14.tar.bz2
@@ -1170,9 +1146,6 @@ Please use the following commands to download it.
   cd /path/to/sherpa-onnx
 
   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-zipformer-small-bilingual-zh-en-2023-02-16.tar.bz2
-
-  # For Chinese users, you can use the following mirror
-  # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-zipformer-small-bilingual-zh-en-2023-02-16.tar.bz2
 
   tar xf sherpa-onnx-streaming-zipformer-small-bilingual-zh-en-2023-02-16.tar.bz2
   rm sherpa-onnx-streaming-zipformer-small-bilingual-zh-en-2023-02-16.tar.bz2
@@ -1325,9 +1298,6 @@ Please use the following commands to download it.
 
   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-zipformer-zh-14M-2023-02-23.tar.bz2
 
-  # For Chinese users, you can use the following mirror
-  # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-zipformer-zh-14M-2023-02-23.tar.bz2
-
   tar xvf sherpa-onnx-streaming-zipformer-zh-14M-2023-02-23.tar.bz2
   rm sherpa-onnx-streaming-zipformer-zh-14M-2023-02-23.tar.bz2
 
@@ -1467,9 +1437,6 @@ Please use the following commands to download it.
   cd /path/to/sherpa-onnx
 
   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-zipformer-en-20M-2023-02-17.tar.bz2
-
-  # For Chinese users, you can use the following mirror
-  # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-zipformer-en-20M-2023-02-17.tar.bz2
 
   tar xvf sherpa-onnx-streaming-zipformer-en-20M-2023-02-17.tar.bz2
   rm sherpa-onnx-streaming-zipformer-en-20M-2023-02-17.tar.bz2

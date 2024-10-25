@@ -1,0 +1,14 @@
+/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:375 ./build/bin/sherpa-onnx-offline --tokens=./sherpa-onnx-zipformer-ru-2024-09-18/tokens.txt --encoder=./sherpa-onnx-zipformer-ru-2024-09-18/encoder.onnx --decoder=./sherpa-onnx-zipformer-ru-2024-09-18/decoder.onnx --joiner=./sherpa-onnx-zipformer-ru-2024-09-18/joiner.onnx --num-threads=1 ./sherpa-onnx-zipformer-ru-2024-09-18/test_wavs/1.wav 
+
+OfflineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80, low_freq=20, high_freq=-400, dither=0), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename="./sherpa-onnx-zipformer-ru-2024-09-18/encoder.onnx", decoder_filename="./sherpa-onnx-zipformer-ru-2024-09-18/decoder.onnx", joiner_filename="./sherpa-onnx-zipformer-ru-2024-09-18/joiner.onnx"), paraformer=OfflineParaformerModelConfig(model=""), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=""), whisper=OfflineWhisperModelConfig(encoder="", decoder="", language="", task="transcribe", tail_paddings=-1), tdnn=OfflineTdnnModelConfig(model=""), zipformer_ctc=OfflineZipformerCtcModelConfig(model=""), wenet_ctc=OfflineWenetCtcModelConfig(model=""), sense_voice=OfflineSenseVoiceModelConfig(model="", language="auto", use_itn=False), telespeech_ctc="", tokens="./sherpa-onnx-zipformer-ru-2024-09-18/tokens.txt", num_threads=1, debug=False, provider="cpu", model_type="", modeling_unit="cjkchar", bpe_vocab=""), lm_config=OfflineLMConfig(model="", scale=0.5), ctc_fst_decoder_config=OfflineCtcFstDecoderConfig(graph="", max_active=3000), decoding_method="greedy_search", max_active_paths=4, hotwords_file="", hotwords_score=1.5, blank_penalty=0, rule_fsts="", rule_fars="")
+Creating recognizer ...
+Started
+Done!
+
+./sherpa-onnx-zipformer-ru-2024-09-18/test_wavs/1.wav
+{"lang": "", "emotion": "", "event": "", "text": " родион потапыч высчитывал каждый новый вершок углубления и давно определил про себя", "timestamps": [0.00, 0.16, 0.28, 0.52, 0.68, 0.84, 0.96, 1.12, 1.44, 1.64, 1.76, 1.92, 2.08, 2.16, 2.36, 2.48, 2.60, 2.80, 2.96, 3.04, 3.20, 3.40, 3.44, 3.56, 3.68, 3.80, 3.88, 4.00, 4.16, 4.20, 4.64, 4.88, 5.08, 5.20, 5.44, 5.64, 5.68, 5.92, 6.32, 6.56], "tokens":[" ро", "ди", "он", " по", "та", "п", "ы", "ч", " вы", "с", "чи", "ты", "ва", "л", " ка", "жд", "ый", " но", "в", "ый", " вер", "ш", "о", "к", " у", "г", "лу", "б", "л", "ения", " и", " да", "в", "но", " оп", "ре", "дел", "ил", " про", " себя"], "words": []}
+----
+num threads: 1
+decoding method: greedy_search
+Elapsed seconds: 0.336 s
+Real time factor (RTF): 0.336 / 7.080 = 0.047

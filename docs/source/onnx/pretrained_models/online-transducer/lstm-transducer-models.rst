@@ -31,9 +31,6 @@ Please use the following commands to download it.
 
   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-lstm-en-2023-02-17.tar.bz2
 
-  # For Chinese users, please use the following mirror
-  # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-lstm-en-2023-02-17.tar.bz2
-
   tar xvf sherpa-onnx-lstm-en-2023-02-17.tar.bz2
   rm sherpa-onnx-lstm-en-2023-02-17.tar.bz2
 
@@ -146,9 +143,6 @@ Please use the following commands to download it.
   cd /path/to/sherpa-onnx
 
   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-lstm-zh-2023-02-20.tar.bz2
-
-  # For Chinese users, you can use the following mirror
-  # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-lstm-zh-2023-02-20.tar.bz2
 
   tar xvf sherpa-onnx-lstm-zh-2023-02-20.tar.bz2
   rm sherpa-onnx-lstm-zh-2023-02-20.tar.bz2

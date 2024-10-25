@@ -36,9 +36,6 @@ Please use the following commands to download the ``tiny`` model::
 
   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-whisper-tiny.tar.bz2
 
-  # For Chinese users, please use
-  # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-whisper-tiny.tar.bz2
-
   tar xvf sherpa-onnx-whisper-tiny.tar.bz2
   rm sherpa-onnx-whisper-tiny.tar.bz2
 
@@ -61,9 +58,6 @@ Download test waves
 Please use the following command to download test data::
 
   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/spoken-language-identification-test-wavs.tar.bz2
-
-  # For Chinese users, please use the following mirror
-  # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/spoken-language-identification-test-wavs.tar.bz2
 
   tar xvf spoken-language-identification-test-wavs.tar.bz2
   rm spoken-language-identification-test-wavs.tar.bz2

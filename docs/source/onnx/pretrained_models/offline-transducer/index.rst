@@ -10,4 +10,5 @@ This section lists available offline transducer models.
 
    zipformer-transducer-models
    conformer-transducer-models
+   nemo-transducer-models.rst
 

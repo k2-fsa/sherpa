@@ -35,9 +35,6 @@ Please use the following commands to download it.
 
   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-conformer-zh-2023-05-23.tar.bz2
 
-  # For Chinese users, please use the following mirror
-  # wget https://hub.nuaa.cf/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-conformer-zh-2023-05-23.tar.bz2
-
   tar xvf sherpa-onnx-streaming-conformer-zh-2023-05-23.tar.bz2
   rm sherpa-onnx-streaming-conformer-zh-2023-05-23.tar.bz2
 
