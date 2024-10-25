@@ -17,7 +17,7 @@ This model is converted from
 
 You can find the conversion script at
 
-  `<https://github.com/k2-fsa/sherpa-onnx/blob/master/scripts/nemo/GigaAM/run-ctc.sh>`
+  `<https://github.com/k2-fsa/sherpa-onnx/blob/master/scripts/nemo/GigaAM/run-ctc.sh>`_
 
 .. warning::
 
