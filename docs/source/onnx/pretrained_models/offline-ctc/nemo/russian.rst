@@ -42,7 +42,7 @@ You should see something like below after downloading::
 
   ls -lh sherpa-onnx-nemo-ctc-giga-am-russian-2024-10-24/
   total 558904
-  -rw-r--r--  1 fangjun  staff    15B Oct 24 21:22 GigaAM%20License_NC.pdf
+  -rw-r--r--  1 fangjun  staff    89K Oct 24 21:20 GigaAM%20License_NC.pdf
   -rw-r--r--  1 fangjun  staff   318B Oct 24 21:20 README.md
   -rwxr-xr-x  1 fangjun  staff   3.5K Oct 24 21:20 export-onnx-ctc.py
   -rw-r--r--  1 fangjun  staff   262M Oct 24 21:24 model.int8.onnx

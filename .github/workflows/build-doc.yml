@@ -210,6 +210,12 @@ jobs:
 
               popd
 
+              pushd source/onnx/pretrained_models/offline-transducer
+
+              sed -i.bak /sherpa-onnx-nemo-transducer-giga-am-russian-2024-10-24\.int8\.txt/d nemo-transducer-models.rst
+
+              popd
+
               git diff
 
               make latex
