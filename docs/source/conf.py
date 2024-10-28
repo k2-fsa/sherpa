@@ -175,6 +175,8 @@ rst_epilog = """
 .. _LibriTTS-R: https://www.openslr.org/141/
 .. _ReazonSpeech: https://github.com/reazon-research/ReazonSpeech
 .. _Lazarus: https://www.lazarus-ide.org/
+.. _Moonshine: https://github.com/usefulsensors/moonshine
+.. _moonshine: https://github.com/usefulsensors/moonshine
 """
 
 

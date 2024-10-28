@@ -48,6 +48,7 @@ Also, we show how to use it for speech recognition with pre-trained models.
    ./spoken-language-identification/index
    ./vad/index
    ./pretrained_models/index
+   ./moonshine/index
    ./sense-voice/index
 
 .. toctree::
