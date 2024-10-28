@@ -8,4 +8,5 @@ This section describes how to use models from `<https://github.com/usefulsensors
 
    ./huggingface-space.rst
    ./models.rst
+   ./android.rst
 
