@@ -9,4 +9,14 @@ This section describes how to use models from `<https://github.com/usefulsensors
    ./huggingface-space.rst
    ./models.rst
    ./android.rst
+   ./c.rst
+   ./csharp.rst
+   ./dart.rst
+   ./go.rst
+   ./java.rst
+   ./javascript.rst
+   ./kotlin.rst
+   ./pascal.rst
+   ./python.rst
+   ./swift.rst
 

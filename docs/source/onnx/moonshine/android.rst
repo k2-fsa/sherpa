@@ -1,7 +1,7 @@
 Android APKs for Moonshine
 ==========================
 
-You can find Android APKs for Moonshine with VAD at the following page
+You can find Android APKs for `Moonshine`_ with VAD at the following page
 
   `<https://k2-fsa.github.io/sherpa/onnx/vad/apk-asr.html>`_
 
@@ -10,7 +10,7 @@ You can find Android APKs for Moonshine with VAD at the following page
    :align: center
    :width: 600
 
-   Android APKs about Moonshine + VAD for speech recognition
+   Android APKs about `Moonshine`_ + VAD for speech recognition
 
 The source code for the APK can be found at
 
