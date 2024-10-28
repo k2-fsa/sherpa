@@ -1,0 +1,28 @@
+Huggingface space
+=================
+
+You can try `Moonshine`_ with `sherpa-onnx`_ with the following huggingface spaces
+
+  - For short audio: `<https://huggingface.co/spaces/k2-fsa/automatic-speech-recognition>`_
+  - For generating subtitles (support very long audio/video files): `<https://huggingface.co/spaces/k2-fsa/generate-subtitles-for-videos>`_
+
+.. hint::
+
+   You don't need to install anything. All you need is a browser.
+
+   You can even run it on your phone or tablet.
+
+.. figure:: ./pic/moonshine-hf-space-1.jpg
+   :alt: screenshot of hf space for Moonshine
+   :align: center
+   :width: 600
+
+   Try `Moonshine`_ in our Huggingface space with `sherpa-onnx`_ for short audio
+
+
+.. figure:: ./pic/moonshine-hf-space-2.jpg
+   :alt: screenshot of hf space for Moonshine about generating subtitles
+   :align: center
+   :width: 600
+
+   Try `Moonshine`_ in our Huggingface space with `sherpa-onnx`_ for generating subtitles
