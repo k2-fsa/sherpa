@@ -14,8 +14,13 @@ The following is an example to show you how to install it on Linux/macOS.
   git clone https://github.com/emscripten-core/emsdk.git
   cd emsdk
   git pull
-  ./emsdk install latest
-  ./emsdk activate latest
+
+  # Hint: Please use a version <= 3.1.64
+  # Other versions, like 3.1.70, are known not to work
+
+  ./emsdk install 3.1.48
+  ./emsdk activate 3.1.48
+
   source ./emsdk_env.sh
 
 To check that you have installed `emscripten`_ successfully, please run:
