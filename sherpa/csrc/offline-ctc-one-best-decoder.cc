@@ -50,6 +50,8 @@ std::vector<OfflineCtcDecoderResult> OfflineCtcOneBestDecoder::Decode(
 
   OfflineCtcDecoderResult *p = results.data();
 
+  bool last_token_is_blank = false;
+
   for (int32_t i = 0, t = 0; i != labels.numel(); ++i) {
     int32_t token = acc[i];
 
@@ -63,9 +65,10 @@ std::vector<OfflineCtcDecoderResult> OfflineCtcOneBestDecoder::Decode(
 
     if (token == 0) {
       ++t;
+      last_token_is_blank = true;
       continue;
     }
-    if (t != 0 && !p->tokens.empty() && token == p->tokens.back()) {
+    if (t != 0 && !p->tokens.empty() && token == p->tokens.back() && (!last_token_is_blank)) {
       // This is a repeat, skip it.
       ++t;
       continue;
@@ -74,6 +77,7 @@ std::vector<OfflineCtcDecoderResult> OfflineCtcOneBestDecoder::Decode(
     p->tokens.push_back(token);
     p->timestamps.push_back(t);
     ++t;
+    last_token_is_blank = false;
   }  // for (int32_t i = 0, t = 0; i != labels.numel(); ++i)
 
   return results;
