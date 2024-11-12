@@ -282,6 +282,7 @@ The executable expects a non-streaming speech recognition model. Currently, we h
 types of models
 
   - Whisper
+  - Moonshine
   - Zipformer transducer
   - NeMo transducer
   - SenseVoice
@@ -300,6 +301,12 @@ Note that you have to rename the model files after downloading.
    - - tokens.txt
      - whisper-encoder.onnx
      - whisper-decoder.onnx
+ * - Moonshine
+   - - tokens.txt
+     - moonshine-preprocessor.onnx
+     - moonshine-encoder.onnx
+     - moonshine-uncached-decoder.onnx
+     - moonshine-cached-decoder.onnx
  * - Zipformer transducer
    - - tokens.txt
      - transducer-encoder.onnx
@@ -464,6 +471,29 @@ We give two examples below for Zipformer transducer
 
     cd ../
     rm -rf sherpa-onnx-telespeech-ctc-int8-zh-2024-06-04
+
+7. Moonshine
+:::::::::::::
+
+.. code-block:: bash
+
+    cd lazarus-examples/generate_subtitles
+    curl -SL -O https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-moonshine-tiny-en-int8.tar.bz2
+
+    tar xvf sherpa-onnx-moonshine-tiny-en-int8.tar.bz2
+    rm sherpa-onnx-moonshine-tiny-en-int8.tar.bz2
+
+    cd sherpa-onnx-moonshine-tiny-en-int8
+
+    mv preprocess.onnx ../moonshine-preprocessor.onnx
+    mv encode.int8.onnx ../moonshine-encoder.onnx
+    mv uncached_decode.int8.onnx ../moonshine-uncached-decoder.onnx
+    mv cached_decode.int8.onnx ../moonshine-cached-decoder.onnx
+
+    mv tokens.txt ../
+
+    cd ../
+    rm -rf sherpa-onnx-moonshine-tiny-en-int8
 
 For the more curious
 --------------------
