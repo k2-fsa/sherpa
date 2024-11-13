@@ -54,9 +54,9 @@ launch_triton_repo() {
     local output_dir=$1
     n_mels=$(cat ${output_dir}/encoder/config.json | grep n_mels | awk -F': ' '{print $2}' | tr -d ',')
     if [[ "$output_dir" == *"multi-hans"* ]]; then
-        zero_pad=false # fine-tuned model could remove 30s padding, so set pad to none
+        zero_pad=true # fine-tuned model could remove 30s padding, so set pad to none
     else
-        zero_pad=true
+        zero_pad=false
     fi
 
     echo "output_dir: $output_dir", "n_mels: $n_mels", "zero_pad: $zero_pad"
@@ -84,7 +84,7 @@ checkpoint_dir="${model_id}_tllm_checkpoint"
 output_dir="whisper_${model_id}"
 
 if printf '%s\n' "${MODEL_IDs[@]}" | grep -q "^$model_id$"; then
-    # build_model $model_id "$checkpoint_dir" "$output_dir" || exit 1
+    build_model $model_id "$checkpoint_dir" "$output_dir" || exit 1
     launch_triton_repo "$output_dir" || exit 1
 else
     echo "$model_id is NOT in the MODEL_IDs array."

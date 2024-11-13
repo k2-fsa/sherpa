@@ -10,3 +10,5 @@ janus
 tritonclient[grpc]
 scipy
 numpy
+huggingface_hub[cli]
+tensorrt-llm==0.15.0.dev2024101500
