@@ -15,4 +15,6 @@ services:
               device_ids: ['0']
               capabilities: [gpu]
     command: >
-      /bin/bash -c "cd ./whisper_turbo_and_distill_tllm_checkpoint && bash ./build.sh && cd /workspace && bash prepare.sh"
+      /bin/bash -c "bash prepare.sh $MODEL_ID"
+    environment:
+      MODEL_ID: ${1}

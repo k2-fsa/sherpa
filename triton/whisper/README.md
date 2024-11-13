@@ -3,7 +3,8 @@
 ### Quick Start
 Directly launch the service using docker compose.
 ```sh
-docker compose up --build
+# MODEL_IDs=("large-v3-turbo" "large-v3" "large-v2-turbo-multi-hans" "large-v2-multi-hans")
+MODEL_ID=large-v3-turbo docker compose up
 ```
 
 ### Build Image
@@ -69,7 +70,7 @@ model_repo=model_repo_whisper
 rm -rf $model_repo
 cp model_repo_whisper_trtllm $model_repo -r
 wget --directory-prefix=$model_repo/infer_bls/1 https://raw.githubusercontent.com/openai/whisper/main/whisper/assets/multilingual.tiktoken
-wget --directory-prefix=$model_repo/whisper/1 assets/mel_filters.npz https://raw.githubusercontent.com/openai/whisper/main/whisper/assets/mel_filters.npz
+wget --directory-prefix=$model_repo/whisper/1 https://raw.githubusercontent.com/openai/whisper/main/whisper/assets/mel_filters.npz
 
 output_dir=/workspace/TensorRT-LLM/examples/whisper/whisper_turbo
 n_mels=128
