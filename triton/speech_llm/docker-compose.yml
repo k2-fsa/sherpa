@@ -1,6 +1,6 @@
 services:
   asr:
-    image: soar97/triton-speech-llm:24.09
+    image: soar97/triton-speech-llm:24.11
     shm_size: '1gb'
     ports:
       - "8000:8000"

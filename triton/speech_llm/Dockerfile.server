@@ -1,4 +1,4 @@
-FROM nvcr.io/nvidia/tritonserver:24.10-trtllm-python-py3
+FROM nvcr.io/nvidia/tritonserver:24.11-trtllm-python-py3
 WORKDIR /workspace
 RUN pip install kaldialign soundfile tritonclient[grpc]==2.31
 COPY build.sh .

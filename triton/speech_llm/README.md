@@ -14,13 +14,13 @@ MODEL_ID=whisper_qwen_1.5B docker compose up
 Build the docker image from scratch. 
 ```sh
 # build from scratch, cd to the parent dir of Dockerfile.server
-docker build . -f Dockerfile.server -t soar97/triton-speech-llm:24.09
+docker build . -f Dockerfile.server -t soar97/triton-speech-llm:24.11
 ```
 
 ### Create Docker Container
 ```sh
 your_mount_dir=/mnt:/mnt
-docker run -it --name "whisper-server" --gpus all --net host -v $your_mount_dir --shm-size=2g soar97/triton-speech-llm:24.09
+docker run -it --name "whisper-server" --gpus all --net host -v $your_mount_dir --shm-size=2g soar97/triton-speech-llm:24.11
 ```
 
 ### Export Models to TensorRT-LLM and Launch Server
