@@ -234,7 +234,8 @@ def convert_openai_whisper_encoder(
 
 def convert_openai_whisper_decoder(model_metadata: dict,
                                    model_params: dict,
-                                   quant_algo: str = None):
+                                   quant_algo: str = None,
+                                   model_path: str = None):
 
     weights = {}
 
@@ -244,6 +245,9 @@ def convert_openai_whisper_decoder(model_metadata: dict,
         'decoder.token_embedding.weight'].clone()
     weights['embedding.position_embedding.weight'] = model_params[
         'decoder.positional_embedding']
+    if 'distill-whisper-large-v2-multi-hans' in model_path:
+        # WARNING: This is a hack to fix the position embedding for the large-v2-turbo-multi-hans pretrained model
+        weights['embedding.position_embedding.weight'] *= 2
 
     for i in range(model_metadata['n_text_layer']):
         t = torch.cat([
@@ -378,7 +382,7 @@ if __name__ == '__main__':
     for param_tensor in model_state_dict:
         model_state_dict[param_tensor] = model_state_dict[param_tensor].half()
 
-    def convert_and_save(component: str = "encoder"):
+    def convert_and_save(component: str = "encoder", model_path: str = None):
         # call get_encoder_config or get_decoder_config according to component
         if component == "encoder":
             config = get_encoder_config(model_metadata, args.dtype, quant_algo)
@@ -406,7 +410,8 @@ if __name__ == '__main__':
             assert component == "decoder"
             weights = convert_openai_whisper_decoder(model_metadata,
                                                      model_state_dict,
-                                                     quant_algo=quant_algo)
+                                                     quant_algo=quant_algo,
+                                                     model_path=model_path)
 
         save_file(weights, os.path.join(component_save_dir,
                                         f'rank0.safetensors'))
@@ -414,7 +419,7 @@ if __name__ == '__main__':
     print("Converting encoder checkpoints...")
     convert_and_save("encoder")
     print("Converting decoder checkpoints...")
-    convert_and_save("decoder")
+    convert_and_save("decoder", model_path)
 
     tok = time.time()
     t = time.strftime('%H:%M:%S', time.gmtime(tok - tik))

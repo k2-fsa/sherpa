@@ -50,7 +50,7 @@ build_model() {
                   --gpt_attention_plugin "$INFERENCE_PRECISION"
 }
 
-launch_triton_repo() {
+launch_triton_repo_python_backend() {
     local output_dir=$1
     n_mels=$(cat ${output_dir}/encoder/config.json | grep n_mels | awk -F': ' '{print $2}' | tr -d ',')
     if [[ "$output_dir" == *"multi-hans"* ]]; then
@@ -71,8 +71,8 @@ launch_triton_repo() {
     MAX_QUEUE_DELAY_MICROSECONDS=100
     python3 fill_template.py -i $model_repo/whisper/config.pbtxt engine_dir:${output_dir},n_mels:$n_mels,zero_pad:$zero_pad,triton_max_batch_size:${TRITON_MAX_BATCH_SIZE},max_queue_delay_microseconds:${MAX_QUEUE_DELAY_MICROSECONDS}
     python3 fill_template.py -i $model_repo/infer_bls/config.pbtxt engine_dir:${output_dir},triton_max_batch_size:${TRITON_MAX_BATCH_SIZE},max_queue_delay_microseconds:${MAX_QUEUE_DELAY_MICROSECONDS}
-
-    python3 launch_triton_server.py --world_size 1 --model_repo=$model_repo/ --tensorrt_llm_model_name whisper,infer_bls --multimodal_gpu0_cuda_mem_pool_bytes 300000000
+    echo "Launching triton server with model_repo: $model_repo"
+    tritonserver --model-repository=$model_repo
 }
 
 
@@ -85,7 +85,7 @@ output_dir="whisper_${model_id}"
 
 if printf '%s\n' "${MODEL_IDs[@]}" | grep -q "^$model_id$"; then
     build_model $model_id "$checkpoint_dir" "$output_dir" || exit 1
-    launch_triton_repo "$output_dir" || exit 1
+    launch_triton_repo_python_backend "$output_dir" || exit 1
 else
     echo "$model_id is NOT in the MODEL_IDs array."
     exit 1

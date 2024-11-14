@@ -7,7 +7,7 @@ soundfile
 safetensors
 transformers
 janus
-tritonclient[grpc]
+tritonclient[grpc]==2.31
 scipy
 numpy
 huggingface_hub[cli]

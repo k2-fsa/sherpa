@@ -107,7 +107,7 @@ model_repo_whisper_trtllm
 ```
 ```sh
 # launch the server
-python3 launch_triton_server.py --world_size 1 --model_repo=$model_repo/ --tensorrt_llm_model_name whisper,infer_bls --multimodal_gpu0_cuda_mem_pool_bytes 300000000
+tritonserver --model-repository=$model_repo/
 ```
 
 <!-- ### Launch Gradio WebUI Client

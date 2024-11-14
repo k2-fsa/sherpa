@@ -1,6 +1,7 @@
 services:
   asr:
     image: soar97/triton-whisper:24.09
+    shm_size: '1gb'
     ports:
       - "8000:8000"
       - "8001:8001"
