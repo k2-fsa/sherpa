@@ -15,7 +15,7 @@ else
     exit 1
 fi
 
-#huggingface-cli download --local-dir $huggingface_checkpoint_dir $repo
+huggingface-cli download --local-dir $huggingface_checkpoint_dir $repo
 cd $huggingface_checkpoint_dir && bash build_qwen.sh && bash build_whisper_encoder.sh && cd -
 
 model_repo=./model_repo_whisper_qwen_trtllm_exp
