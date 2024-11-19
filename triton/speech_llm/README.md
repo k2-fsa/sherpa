@@ -6,34 +6,29 @@ See https://github.com/k2-fsa/icefall/tree/master/egs/speech_llm/ASR_LLM.
 ### Quick Start
 Directly launch the service using docker compose.
 ```sh
-docker compose up --build
+# MODEL_ID supports whisper_qwen_1.5B and whisper_qwen_7B
+MODEL_ID=whisper_qwen_1.5B docker compose up
 ```
 
 ### Build Image
 Build the docker image from scratch. 
 ```sh
 # build from scratch, cd to the parent dir of Dockerfile.server
-docker build . -f Dockerfile.server -t soar97/triton-whisper-qwen:24.08
+docker build . -f Dockerfile.server -t soar97/triton-speech-llm:24.11
 ```
 
 ### Create Docker Container
 ```sh
 your_mount_dir=/mnt:/mnt
-docker run -it --name "whisper-server" --gpus all --net host -v $your_mount_dir --shm-size=2g soar97/triton-whisper-qwen:24.08
+docker run -it --name "whisper-server" --gpus all --net host -v $your_mount_dir --shm-size=2g soar97/triton-speech-llm:24.11
 ```
 
-### Export Models to TensorRT-LLM
+### Export Models to TensorRT-LLM and Launch Server
 Inside docker container, we would follow the official guide of TensorRT-LLM to build qwen and whisper TensorRT-LLM engines. See [here](https://github.com/NVIDIA/TensorRT-LLM/tree/main/examples/whisper).
 
 ```sh
 bash build.sh
 ```
-
-### Launch Server
-```sh
-bash launch_server.sh
-```
-
 <!-- ### Launch Gradio WebUI Client
 The gradio client supports text and speech as the inputs.
 

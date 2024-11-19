@@ -1,12 +1,14 @@
 services:
   asr:
     image: soar97/triton-whisper:24.09
+    shm_size: '1gb'
     ports:
       - "8000:8000"
       - "8001:8001"
       - "8002:8002"
     environment:
       - PYTHONIOENCODING=utf-8
+      - MODEL_ID=${MODEL_ID}
     deploy:
       resources:
         reservations:
@@ -15,4 +17,4 @@ services:
               device_ids: ['0']
               capabilities: [gpu]
     command: >
-      /bin/bash -c "cd ./whisper_turbo_and_distill_tllm_checkpoint && bash ./build.sh && cd /workspace && bash prepare.sh"
+      /bin/bash -c "bash prepare.sh $MODEL_ID"

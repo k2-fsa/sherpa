@@ -1,19 +1,10 @@
 FROM nvcr.io/nvidia/tritonserver:24.09-trtllm-python-py3
 
-RUN python3 -m pip install tensorrt-llm==0.15.0.dev2024101500
 WORKDIR /workspace
 COPY requirements.txt .
 COPY prepare.sh .
-COPY launch_triton_server.py .
 COPY fill_template.py .
+COPY convert_checkpoint.py .
 COPY model_repo_whisper_trtllm model_repo_whisper_trtllm
 
 RUN python3 -m pip install -r requirements.txt
-
-RUN pip install -U "huggingface_hub[cli]"
-
-RUN huggingface-cli download --local-dir ./whisper_turbo_and_distill_tllm_checkpoint yuekai/whisper_turbo_and_distill_tllm_checkpoint
-RUN rm -r ./whisper_turbo_and_distill_tllm_checkpoint/.huggingface
-
-RUN huggingface-cli download --local-dir ./whisper_multi_zh_tllm_checkpoint yuekai/whisper_multi_zh_tllm_checkpoint
-RUN rm -r ./whisper_multi_zh_tllm_checkpoint/.huggingface
