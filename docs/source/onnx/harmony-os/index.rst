@@ -1,10 +1,7 @@
-.. _sherpa-onnx-android:
+HarmonyOS
+=========
 
-Android
-=======
-
-
-In this section, we describe how to build an Android app with `sherpa-onnx`_.
+In this section, we describe how to build an HarmonyOS app with `sherpa-onnx`_.
 
 .. hint::
 
@@ -14,5 +11,4 @@ In this section, we describe how to build an Android app with `sherpa-onnx`_.
 .. toctree::
    :maxdepth: 2
 
-   ./prebuilt-apk.rst
-   build-sherpa-onnx
+   ./prebuilt-hap.rst
