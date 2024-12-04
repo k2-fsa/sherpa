@@ -12,3 +12,4 @@ In this section, we describe how to build an HarmonyOS app with `sherpa-onnx`_.
    :maxdepth: 2
 
    ./prebuilt-hap.rst
+   ./how-to-build-har.rst
