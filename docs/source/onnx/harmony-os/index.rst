@@ -9,7 +9,7 @@ In this section, we describe how to build an HarmonyOS app with `sherpa-onnx`_.
   Everyting is processed locally on your phone.
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 4
 
    ./prebuilt-hap.rst
    ./tts.rst
