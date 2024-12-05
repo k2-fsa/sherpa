@@ -38,6 +38,7 @@ Also, we show how to use it for speech recognition with pre-trained models.
    ./lazarus/index
    ./wasm/index
    ./android/index
+   ./harmony-os/index.rst
    ./ios/index
    ./flutter/index
    ./websocket/index

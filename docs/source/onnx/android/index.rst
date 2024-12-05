@@ -4,7 +4,7 @@ Android
 =======
 
 
-In this section, we describe how to build an Android app for with `sherpa-onnx`_.
+In this section, we describe how to build an Android app with `sherpa-onnx`_.
 
 .. hint::
 

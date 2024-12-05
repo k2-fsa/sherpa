@@ -181,6 +181,17 @@ jobs:
               cd ..
               rm -rf huggingface
 
+              git clone https://huggingface.co/csukuangfj/sherpa-onnx-harmony-os huggingface
+              cd huggingface
+              ./generate-vad-asr.py
+
+              mkdir -p ../build/html/onnx/harmony-os/hap
+              mv -v vad-asr.html ../build/html/onnx/harmony-os/hap/
+              mv -v vad-asr-cn.html ../build/html/onnx/harmony-os/hap/
+
+              cd ..
+              rm -rf huggingface
+
               pushd source/ncnn/tutorials
               sed -i.bak /cn\.rst/d ./index.rst
               popd
