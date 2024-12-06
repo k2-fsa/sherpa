@@ -10,6 +10,7 @@ You can find scripts for model quantization at
 In the following, we describe how to use `Moonshine`_ models with pre-built executables
 in `sherpa-onnx`_.
 
+.. _sherpa-onnx-moonshine-tiny-en-int8:
 
 sherpa-onnx-moonshine-tiny-en-int8
 ----------------------------------
