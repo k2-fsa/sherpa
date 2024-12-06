@@ -4,6 +4,8 @@ Pre-trained Models
 This page describes how to download pre-trained `SenseVoice`_ models.
 
 
+.. _sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17:
+
 sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17
 --------------------------------------------------
 

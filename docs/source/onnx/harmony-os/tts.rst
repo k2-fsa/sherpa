@@ -1,5 +1,5 @@
-On-device text-to-speech
-========================
+On-device text-to-speech (TTS)
+==============================
 
 This page describes how to build `SherpaOnnxTts <https://github.com/k2-fsa/sherpa-onnx/tree/master/harmony-os/SherpaOnnxTts>`_
 for on-device text-to-speech that runs on HarmonyOS.

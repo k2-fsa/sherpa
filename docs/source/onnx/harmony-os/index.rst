@@ -13,4 +13,5 @@ In this section, we describe how to build an HarmonyOS app with `sherpa-onnx`_.
 
    ./prebuilt-hap.rst
    ./tts.rst
+   ./vad-asr.rst
    ./how-to-build-har.rst
