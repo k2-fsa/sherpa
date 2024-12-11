@@ -80,7 +80,7 @@ Please check that your directory looks ``exactly`` like the following:
 
 .. figure:: ./pic/sid/4-check-model.jpg
    :alt: Screenshot of model file inside rawfile directory
-   :width: 600
+   :width: 400
 
    Step 4: Check that you have placed the model file inside the ``rawfile`` directory.
 
@@ -136,25 +136,25 @@ You should see something like below:
 
 .. figure:: ./pic/sid/11-home.jpg
    :alt: Screenshot of app running on the emulator
-   :width: 600
+   :width: 300
 
    Step 11: The home screen
 
 .. figure:: ./pic/sid/12-view.jpg
    :alt: Screenshot of app running on the emulator
-   :width: 600
+   :width: 300
 
    Step 12: View and manage registered speakers
 
 .. figure:: ./pic/sid/13-add.jpg
    :alt: Screenshot of app running on the emulator
-   :width: 600
+   :width: 300
 
    Step 13: Add new speakers
 
 .. figure:: ./pic/sid/14-help.jpg
    :alt: Screenshot of app running on the emulator
-   :width: 600
+   :width: 300
 
    Step 14: View help information
 
