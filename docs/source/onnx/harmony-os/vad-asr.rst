@@ -175,7 +175,7 @@ You should see something like below:
    :alt: Screenshot of app running on the emulator
    :width: 600
 
-   Step 10: Click Allow to allow the app accessing the microphone
+   Step 10: Click Allow to allow the app to access the microphone
 
 .. figure:: ./pic/vad-asr/11-select-file-moonshine.jpg
    :alt: Screenshot of selecting a file for recognition

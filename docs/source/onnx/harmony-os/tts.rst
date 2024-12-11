@@ -118,7 +118,7 @@ We need to change `NonStreamingTtsWorker.ets <https://github.com/k2-fsa/sherpa-o
 Finally, we can build the project. See the screenshot below:
 
 .. figure:: ./pic/tts/6-build-melo-tts.jpg
-   :alt: Screenshot of changing code for vits-melo-tts-zh_en
+   :alt: Screenshot of building the project
    :width: 600
 
    Step 6: Build the project
