@@ -1,0 +1,14 @@
+/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:375 ./build/bin/sherpa-onnx-offline --tokens=./sherpa-onnx-zipformer-zh-en-2023-11-22/tokens.txt --encoder=./sherpa-onnx-zipformer-zh-en-2023-11-22/encoder-epoch-34-avg-19.onnx --decoder=./sherpa-onnx-zipformer-zh-en-2023-11-22/decoder-epoch-34-avg-19.onnx --joiner=./sherpa-onnx-zipformer-zh-en-2023-11-22/joiner-epoch-34-avg-19.onnx --num-threads=1 ./sherpa-onnx-zipformer-zh-en-2023-11-22/test_wavs/0.wav 
+
+OfflineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80, low_freq=20, high_freq=-400, dither=0), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename="./sherpa-onnx-zipformer-zh-en-2023-11-22/encoder-epoch-34-avg-19.onnx", decoder_filename="./sherpa-onnx-zipformer-zh-en-2023-11-22/decoder-epoch-34-avg-19.onnx", joiner_filename="./sherpa-onnx-zipformer-zh-en-2023-11-22/joiner-epoch-34-avg-19.onnx"), paraformer=OfflineParaformerModelConfig(model=""), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=""), whisper=OfflineWhisperModelConfig(encoder="", decoder="", language="", task="transcribe", tail_paddings=-1), tdnn=OfflineTdnnModelConfig(model=""), zipformer_ctc=OfflineZipformerCtcModelConfig(model=""), wenet_ctc=OfflineWenetCtcModelConfig(model=""), sense_voice=OfflineSenseVoiceModelConfig(model="", language="auto", use_itn=False), moonshine=OfflineMoonshineModelConfig(preprocessor="", encoder="", uncached_decoder="", cached_decoder=""), telespeech_ctc="", tokens="./sherpa-onnx-zipformer-zh-en-2023-11-22/tokens.txt", num_threads=1, debug=False, provider="cpu", model_type="", modeling_unit="cjkchar", bpe_vocab=""), lm_config=OfflineLMConfig(model="", scale=0.5), ctc_fst_decoder_config=OfflineCtcFstDecoderConfig(graph="", max_active=3000), decoding_method="greedy_search", max_active_paths=4, hotwords_file="", hotwords_score=1.5, blank_penalty=0, rule_fsts="", rule_fars="")
+Creating recognizer ...
+Started
+Done!
+
+./sherpa-onnx-zipformer-zh-en-2023-11-22/test_wavs/0.wav
+{"lang": "", "emotion": "", "event": "", "text": "SPEND ON 在什么上面花费它不光是时间也可以是金钱", "timestamps": [0.00, 0.04, 0.32, 0.48, 0.64, 0.72, 0.88, 1.00, 1.24, 1.36, 1.60, 1.80, 1.96, 2.12, 2.32, 2.44, 2.60, 2.72, 2.80, 2.88, 3.00, 3.20], "tokens":["▁SP", "END", "▁ON", "▁ƌŁŎ", "▁Ƌšġ", "▁Ƌşĩ", "▁ƋŞī", "▁ƐłŇ", "▁Əīŗ", "▁ƏŚş", "▁ƌŔĤ", "▁ƋŞĮ", "▁ƌĦĪ", "▁ƍĻŕ", "▁ƍĺŜ", "▁ƐĺŚ", "▁Ƌşń", "▁ƌİŕ", "▁Ƌšŋ", "▁ƍĻŕ", "▁ƐĨĴ", "▁Ɛĵŗ"], "words": []}
+----
+num threads: 1
+decoding method: greedy_search
+Elapsed seconds: 0.183 s
+Real time factor (RTF): 0.183 / 3.380 = 0.054

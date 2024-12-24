@@ -8,6 +8,137 @@ Zipformer-transducer-based Models
    Please refer to :ref:`install_sherpa_onnx` to install `sherpa-onnx`
    before you read this section.
 
+sherpa-onnx-zipformer-zh-en-2023-11-22 (Chinese+English, 中英双语)
+------------------------------------------------------------------------------------------
+
+This model is from `<https://huggingface.co/zrjin/icefall-asr-zipformer-multi-zh-en-2023-11-22>`_.
+
+See `<https://github.com/k2-fsa/icefall/pull/1265>`_ if you want to learn
+how the model is trained.
+
+Note that this model uses byte-level BPE.
+
+In the following, we describe how to download it and use it with `sherpa-onnx`_.
+
+Download the model
+~~~~~~~~~~~~~~~~~~
+
+Please use the following commands to download it.
+
+.. code-block:: bash
+
+   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-zh-en-2023-11-22.tar.bz2
+   tar xvf sherpa-onnx-zipformer-zh-en-2023-11-22.tar.bz2
+   rm sherpa-onnx-zipformer-zh-en-2023-11-22.tar.bz2
+
+You should see something like below after downloading::
+
+  ls -lh sherpa-onnx-zipformer-zh-en-2023-11-22
+  total 710824
+  -rw-r--r--  1 fangjun  staff   264K Nov 22  2023 bbpe.model
+  -rw-r--r--  1 fangjun  staff   4.9M Nov 22  2023 decoder-epoch-34-avg-19.onnx
+  -rw-r--r--  1 fangjun  staff    66M Nov 22  2023 encoder-epoch-34-avg-19.int8.onnx
+  -rw-r--r--  1 fangjun  staff   248M Nov 22  2023 encoder-epoch-34-avg-19.onnx
+  -rw-r--r--  1 fangjun  staff   1.0M Nov 22  2023 joiner-epoch-34-avg-19.int8.onnx
+  -rw-r--r--  1 fangjun  staff   3.9M Nov 22  2023 joiner-epoch-34-avg-19.onnx
+  drwxr-xr-x  5 fangjun  staff   160B Dec 24 15:50 test_wavs
+  -rw-r--r--  1 fangjun  staff    25K Dec 24 15:49 tokens.txt
+
+Decode wave files
+~~~~~~~~~~~~~~~~~
+
+.. hint::
+
+   It supports decoding only wave files of a single channel with 16-bit
+   encoded samples, while the sampling rate does not need to be 16 kHz.
+
+fp32
+^^^^
+
+The following code shows how to use ``fp32`` models to decode wave files:
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  ./build/bin/sherpa-onnx-offline \
+    --tokens=./sherpa-onnx-zipformer-zh-en-2023-11-22/tokens.txt \
+    --encoder=./sherpa-onnx-zipformer-zh-en-2023-11-22/encoder-epoch-34-avg-19.onnx \
+    --decoder=./sherpa-onnx-zipformer-zh-en-2023-11-22/decoder-epoch-34-avg-19.onnx \
+    --joiner=./sherpa-onnx-zipformer-zh-en-2023-11-22/joiner-epoch-34-avg-19.onnx \
+    --num-threads=1 \
+    ./sherpa-onnx-zipformer-zh-en-2023-11-22/test_wavs/0.wav
+
+.. note::
+
+   Please use ``./build/bin/Release/sherpa-onnx-offline.exe`` for Windows.
+
+.. caution::
+
+   If you use Windows and get encoding issues, please run:
+
+      .. code-block:: bash
+
+          CHCP 65001
+
+   in your commandline.
+
+You should see the following output:
+
+.. literalinclude:: ./code-zipformer/sherpa-onnx-zipformer-zh-en-2023-11-22.txt
+
+int8
+^^^^
+
+The following code shows how to use ``int8`` models to decode wave files:
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  ./build/bin/sherpa-onnx-offline \
+    --tokens=./sherpa-onnx-zipformer-zh-en-2023-11-22/tokens.txt \
+    --encoder=./sherpa-onnx-zipformer-zh-en-2023-11-22/encoder-epoch-34-avg-19.int8.onnx \
+    --decoder=./sherpa-onnx-zipformer-zh-en-2023-11-22/decoder-epoch-34-avg-19.onnx \
+    --joiner=./sherpa-onnx-zipformer-zh-en-2023-11-22/joiner-epoch-34-avg-19.int8.onnx \
+    --num-threads=1 \
+    ./sherpa-onnx-zipformer-zh-en-2023-11-22/test_wavs/0.wav
+
+You should see the following output:
+
+.. literalinclude:: ./code-zipformer/sherpa-onnx-zipformer-zh-en-2023-11-22-int8.txt
+
+Speech recognition from a microphone
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  ./build/bin/sherpa-onnx-microphone-offline \
+    --tokens=./sherpa-onnx-zipformer-zh-en-2023-11-22/tokens.txt \ 
+    --encoder=./sherpa-onnx-zipformer-zh-en-2023-11-22/encoder-epoch-34-avg-19.int8.onnx \
+    --decoder=./sherpa-onnx-zipformer-zh-en-2023-11-22/decoder-epoch-34-avg-19.onnx \
+    --joiner=./sherpa-onnx-zipformer-zh-en-2023-11-22/joiner-epoch-34-avg-19.int8.onnx
+
+Speech recognition from a microphone with VAD
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/silero_vad.onnx
+
+  ./build/bin/sherpa-onnx-vad-microphone-offline-asr \
+    --silero-vad-model=./silero_vad.onnx \
+    --tokens=./sherpa-onnx-zipformer-zh-en-2023-11-22/tokens.txt \ 
+    --encoder=./sherpa-onnx-zipformer-zh-en-2023-11-22/encoder-epoch-34-avg-19.int8.onnx \
+    --decoder=./sherpa-onnx-zipformer-zh-en-2023-11-22/decoder-epoch-34-avg-19.onnx \
+    --joiner=./sherpa-onnx-zipformer-zh-en-2023-11-22/joiner-epoch-34-avg-19.int8.onnx
+
+
+
 sherpa-onnx-zipformer-ru-2024-09-18 (Russian, 俄语)
 ---------------------------------------------------
 
