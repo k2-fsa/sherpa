@@ -117,9 +117,9 @@ Speech recognition from a microphone
 
   ./build/bin/sherpa-onnx-microphone-offline \
     --tokens=./sherpa-onnx-zipformer-zh-en-2023-11-22/tokens.txt \ 
-    --encoder=./sherpa-onnx-zipformer-zh-en-2023-11-22/encoder-epoch-34-avg-19.int8.onnx \
+    --encoder=./sherpa-onnx-zipformer-zh-en-2023-11-22/encoder-epoch-34-avg-19.onnx \
     --decoder=./sherpa-onnx-zipformer-zh-en-2023-11-22/decoder-epoch-34-avg-19.onnx \
-    --joiner=./sherpa-onnx-zipformer-zh-en-2023-11-22/joiner-epoch-34-avg-19.int8.onnx
+    --joiner=./sherpa-onnx-zipformer-zh-en-2023-11-22/joiner-epoch-34-avg-19.onnx
 
 Speech recognition from a microphone with VAD
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -133,10 +133,9 @@ Speech recognition from a microphone with VAD
   ./build/bin/sherpa-onnx-vad-microphone-offline-asr \
     --silero-vad-model=./silero_vad.onnx \
     --tokens=./sherpa-onnx-zipformer-zh-en-2023-11-22/tokens.txt \ 
-    --encoder=./sherpa-onnx-zipformer-zh-en-2023-11-22/encoder-epoch-34-avg-19.int8.onnx \
+    --encoder=./sherpa-onnx-zipformer-zh-en-2023-11-22/encoder-epoch-34-avg-19.onnx \
     --decoder=./sherpa-onnx-zipformer-zh-en-2023-11-22/decoder-epoch-34-avg-19.onnx \
-    --joiner=./sherpa-onnx-zipformer-zh-en-2023-11-22/joiner-epoch-34-avg-19.int8.onnx
-
+    --joiner=./sherpa-onnx-zipformer-zh-en-2023-11-22/joiner-epoch-34-avg-19.onnx
 
 
 sherpa-onnx-zipformer-ru-2024-09-18 (Russian, 俄语)
