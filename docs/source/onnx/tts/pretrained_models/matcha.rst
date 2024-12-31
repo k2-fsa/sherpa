@@ -77,7 +77,7 @@ Generate speech with executable compiled from C++
 
   ./build/bin/sherpa-onnx-offline-tts \
     --matcha-acoustic-model=./matcha-icefall-zh-baker/model-steps-3.onnx \
-    --matcha-vocoder=./matcha/hifigan_v2.onnx \
+    --matcha-vocoder=./hifigan_v2.onnx \
     --matcha-lexicon=./matcha-icefall-zh-baker/lexicon.txt \
     --matcha-tokens=./matcha-icefall-zh-baker/tokens.txt \
     --matcha-dict-dir=./matcha-icefall-zh-baker/dict \
