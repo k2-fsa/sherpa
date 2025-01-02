@@ -158,8 +158,8 @@ the file sizes of ``*.onnx`` files below.
   -rw-r--r--  1 fangjun  staff    87K Jul 16 13:38 phone.fst
   -rw-r--r--  1 fangjun  staff   655B Jul 16 13:38 tokens.txt
 
-Generate speech with executable compiled from C++
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Generate speech with executables compiled from C++
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: bash
 
@@ -370,8 +370,8 @@ the file sizes of ``*.onnx`` files below.
     drwxr-xr-x  122 fangjun  staff   3.8K Dec 13  2023 espeak-ng-data
     -rw-r--r--    1 fangjun  staff   940B Dec 13  2023 tokens.txt
 
-Generate speech with executable compiled from C++
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Generate speech with executables compiled from C++
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: bash
 
@@ -603,8 +603,8 @@ the file sizes of ``*.onnx`` files below.
   -rwxr-xr-x    1 fangjun  staff   1.8K Nov 29  2023 vits-piper-en_US.py
   -rwxr-xr-x    1 fangjun  staff   730B Nov 29  2023 vits-piper-en_US.sh
 
-Generate speech with executable compiled from C++
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Generate speech with executables compiled from C++
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: bash
 
@@ -810,8 +810,8 @@ the file sizes of ``*.onnx`` files below.
 
   -rw-r--r-- 1 1001 127 109M Apr 22 02:38 vits-ljs/vits-ljs.onnx
 
-Generate speech with executable compiled from C++
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Generate speech with executables compiled from C++
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: bash
 
@@ -951,8 +951,8 @@ the file sizes of ``*.onnx`` files below.
   -rw-r--r--  1 fangjun  staff    37M Oct 16 10:57 vits-vctk.int8.onnx
   -rw-r--r--  1 fangjun  staff   116M Oct 16 10:57 vits-vctk.onnx
 
-Generate speech with executable compiled from C++
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Generate speech with executables compiled from C++
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Since there are 109 speakers available, we can choose a speaker from 0 to 198.
 The default speaker ID is 0.
@@ -1757,8 +1757,8 @@ the file sizes of ``*.onnx`` files below.
   vits-icefall-zh-aishell3 fangjun$ ls -lh *.onnx
   -rw-r--r--  1 fangjun  staff    29M Mar 20 22:50 model.onnx
 
-Generate speech with executable compiled from C++
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Generate speech with executables compiled from C++
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Since there are 174 speakers available, we can choose a speaker from 0 to 173.
 The default speaker ID is 0.
@@ -2018,8 +2018,8 @@ Please use the following commands to download it.
    You can find a lot of pre-trained models for over 40 languages at
    `<https://github.com/k2-fsa/sherpa-onnx/releases/tag/tts-models>`.
 
-Generate speech with executable compiled from C++
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Generate speech with executables compiled from C++
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: bash
 
