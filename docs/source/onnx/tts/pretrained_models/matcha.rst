@@ -10,8 +10,164 @@ This page lists pre-trained models using `Matcha-TTS <https://arxiv.org/abs/2309
 
    We don't support models from  `<https://github.com/shivammehta25/Matcha-TTS>`_.
 
+matcha-icefall-en_US-ljspeech (American English, 1 female speaker)
+------------------------------------------------------------------
+
+This model is trained using
+
+  `<https://github.com/k2-fsa/icefall/tree/master/egs/ljspeech/TTS#matcha>`_
+
+The dataset used to train the model is from
+
+  `<https://keithito.com/LJ-Speech-Dataset//>`_.
+
+In the following, we describe how to download it and use it with `sherpa-onnx`_.
+
+Download the model
+~~~~~~~~~~~~~~~~~~
+
+Please use the following commands to download it.
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/matcha-icefall-en_US-ljspeech.tar.bz2
+  tar xvf matcha-icefall-en_US-ljspeech.tar.bz2
+  rm matcha-icefall-en_US-ljspeech.tar.bz2
+
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/vocoder-models/hifigan_v2.onnx
+
+.. caution::
+
+   Remember to also download the vocoder model. We use `hifigan_v2 <https://github.com/k2-fsa/sherpa-onnx/releases/download/vocoder-models/hifigan_v2.onnx>`_ in the example.
+   You can also select `hifigan_v1 <https://github.com/k2-fsa/sherpa-onnx/releases/download/vocoder-models/hifigan_v1.onnx>`_ or
+   `hifigan_v3 <https://github.com/k2-fsa/sherpa-onnx/releases/download/vocoder-models/hifigan_v3.onnx>`_.
+
+Please check that the file sizes of the pre-trained models are correct. See
+the file sizes of ``*.onnx`` files below.
+
+.. code-block:: bash
+
+  ls -lh matcha-icefall-en_US-ljspeech/
+  total 144856
+  -rw-r--r--    1 fangjun  staff   251B Jan  2 11:05 README.md
+  drwxr-xr-x  122 fangjun  staff   3.8K Nov 28  2023 espeak-ng-data
+  -rw-r--r--@   1 fangjun  staff    71M Jan  2 04:04 model-steps-3.onnx
+  -rw-r--r--    1 fangjun  staff   954B Jan  2 11:05 tokens.txt
+
+  ls -lh hifigan_v2.onnx
+  -rw-r--r--  1 fangjun  staff   3.6M Dec 30 17:10 hifigan_v2.onnx
+
+Generate speech with executables compiled from C++
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  ./build/bin/sherpa-onnx-offline-tts \
+    --matcha-acoustic-model=./matcha-icefall-en_US-ljspeech/model-steps-3.onnx \
+    --matcha-vocoder=./hifigan_v2.onnx \
+    --matcha-tokens=./matcha-icefall-en_US-ljspeech/tokens.txt \
+    --matcha-data-dir=./matcha-icefall-en_US-ljspeech/espeak-ng-data \
+    --num-threads=2 \
+    --output-filename=./matcha-ljspeech-0.wav \
+    --debug=1 \
+    "Today as always, men fall into two groups: slaves and free men. Whoever does not have two-thirds of his day for himself, is a slave, whatever he may be: a statesman, a businessman, an official, or a scholar."
+
+After running, it will generate a file ``matcha-ljspeech-0.wav`` in the
+current directory.
+
+.. code-block:: bash
+
+  soxi ./matcha-ljspeech-0.wav
+
+  Input File     : './matcha-ljspeech-0.wav'
+  Channels       : 1
+  Sample Rate    : 22050
+  Precision      : 16-bit
+  Duration       : 00:00:15.06 = 332032 samples ~ 1129.36 CDDA sectors
+  File Size      : 664k
+  Bit Rate       : 353k
+  Sample Encoding: 16-bit Signed Integer PCM
+
+.. raw:: html
+
+  <table>
+    <tr>
+      <th>Wave filename</th>
+      <th>Content</th>
+      <th>Text</th>
+    </tr>
+    <tr>
+      <td>matcha-ljspeech-0.wav</td>
+      <td>
+       <audio title="Generated ./matcha-ljspeech-0.wav" controls="controls">
+             <source src="/sherpa/_static/matcha-icefall-en_US-ljspeech/matcha-ljspeech-0.wav" type="audio/wav">
+             Your browser does not support the <code>audio</code> element.
+       </audio>
+      </td>
+      <td>
+    "Today as always, men fall into two groups: slaves and free men. Whoever does not have two-thirds of his day for himself, is a slave, whatever he may be: a statesman, a businessman, an official, or a scholar."
+      </td>
+    </tr>
+  </table>
+
+Generate speech with Python script
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  python3 ./python-api-examples/offline-tts.py \
+    --matcha-acoustic-model=./matcha-icefall-en_US-ljspeech/model-steps-3.onnx \
+    --matcha-vocoder=./hifigan_v2.onnx \
+    --matcha-tokens=./matcha-icefall-en_US-ljspeech/tokens.txt \
+    --matcha-data-dir=./matcha-icefall-en_US-ljspeech/espeak-ng-data \
+    --num-threads=2 \
+    --output-filename=./matcha-ljspeech-1.wav \
+    --debug=1 \
+    "Friends fell out often because life was changing so fast. The easiest thing in the world was to lose touch with someone."
+
+.. code-block::
+
+  soxi ./matcha-ljspeech-1.wav
+
+  Input File     : './matcha-ljspeech-1.wav'
+  Channels       : 1
+  Sample Rate    : 22050
+  Precision      : 16-bit
+  Duration       : 00:00:07.92 = 174592 samples ~ 593.85 CDDA sectors
+  File Size      : 349k
+  Bit Rate       : 353k
+  Sample Encoding: 16-bit Signed Integer PCM
+
+.. raw:: html
+
+  <table>
+    <tr>
+      <th>Wave filename</th>
+      <th>Content</th>
+      <th>Text</th>
+    </tr>
+    <tr>
+      <td>matcha-ljspeech-1.wav</td>
+      <td>
+       <audio title="Generated ./matcha-ljspeech-1.wav" controls="controls">
+             <source src="/sherpa/_static/matcha-icefall-en_US-ljspeech/matcha-ljspeech-1.wav" type="audio/wav">
+             Your browser does not support the <code>audio</code> element.
+       </audio>
+      </td>
+      <td>
+    "Friends fell out often because life was changing so fast. The easiest thing in the world was to lose touch with someone."
+      </td>
+    </tr>
+  </table>
+
 matcha-icefall-zh-baker (Chinese, 1 female speaker)
-------------------------------------------------------------
+---------------------------------------------------
 
 This model is trained using
 
@@ -67,13 +223,12 @@ the file sizes of ``*.onnx`` files below.
   ls -lh hifigan_v2.onnx
   -rw-r--r--  1 fangjun  staff   3.6M Dec 30 17:10 hifigan_v2.onnx
 
-Generate speech with executable compiled from C++
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Generate speech with executables compiled from C++
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: bash
 
   cd /path/to/sherpa-onnx
-
 
   ./build/bin/sherpa-onnx-offline-tts \
     --matcha-acoustic-model=./matcha-icefall-zh-baker/model-steps-3.onnx \
