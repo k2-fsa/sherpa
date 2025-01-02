@@ -166,6 +166,8 @@ Generate speech with Python script
     </tr>
   </table>
 
+.. _matcha-icefall-zh-baker:
+
 matcha-icefall-zh-baker (Chinese, 1 female speaker)
 ---------------------------------------------------
 
@@ -368,3 +370,32 @@ After running, it will generate a file ``matcha-baker-zh-2.wav`` in the current 
       </td>
     </tr>
   </table>
+
+RTF on Raspberry Pi 4 Model B Rev 1.5
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+We use the following command to test the RTF of this model on Raspberry Pi 4 Model B Rev 1.5:
+
+.. code-block:: bash
+
+
+   for t in 1 2 3 4; do
+    build/bin/sherpa-onnx-offline-tts \
+      --num-threads=$t \
+      --matcha-acoustic-model=./matcha-icefall-zh-baker/model-steps-3.onnx \
+      --matcha-vocoder=./hifigan_v2.onnx \
+      --matcha-lexicon=./matcha-icefall-zh-baker/lexicon.txt \
+      --matcha-tokens=./matcha-icefall-zh-baker/tokens.txt \
+      --matcha-dict-dir=./matcha-icefall-zh-baker/dict \
+      --output-filename=./matcha-baker-0.wav \
+      "当夜幕降临，星光点点，伴随着微风拂面，我在静谧中感受着时光的流转，思念如涟漪荡漾，梦境如画卷展开，我与自然融为一体，沉静在这片宁静的美丽之中，感受 着生命的奇迹与温柔."
+   done
+
+The results are given below:
+
+  +-------------+-------+-------+-------+-------+
+  | num_threads | 1     | 2     | 3     | 4     |
+  +=============+=======+=======+=======+=======+
+  | RTF         | 0.892 | 0.536 | 0.432 | 0.391 |
+  +-------------+-------+-------+-------+-------+
+

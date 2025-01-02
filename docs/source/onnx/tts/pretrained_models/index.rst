@@ -14,5 +14,6 @@ This page list pre-trained models for text-to-speech.
 .. toctree::
    :maxdepth: 5
 
+   ./rtf
    ./matcha
    ./vits

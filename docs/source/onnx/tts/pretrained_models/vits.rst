@@ -17,7 +17,6 @@ The following table summarizes the information of all models in this page.
    You can try all the models at the following huggingface space.
    `<https://huggingface.co/spaces/k2-fsa/text-to-speech>`_.
 
-
 .. hint::
 
    You can find Android APKs for each model at the following page
@@ -328,6 +327,31 @@ After running, it will generate a file ``zh-en-3.wav`` in the current directory.
     </tr>
   </table>
 
+RTF on Raspberry Pi 4 Model B Rev 1.5
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+We use the following command to test the RTF of this model on Raspberry Pi 4 Model B Rev 1.5:
+
+.. code-block:: bash
+
+   for t in 1 2 3 4; do
+    ./build/bin/sherpa-onnx-offline-tts \
+      --num-threads=$t \
+      --vits-model=./vits-melo-tts-zh_en/model.onnx \
+      --vits-lexicon=./vits-melo-tts-zh_en/lexicon.txt \
+      --vits-tokens=./vits-melo-tts-zh_en/tokens.txt \
+      --vits-dict-dir=./vits-melo-tts-zh_en/dict \
+      "当夜幕降临，星光点点，伴随着微风拂面，我在静谧中感受着时光的流转，思念如涟漪荡漾，梦境如画卷展开，我与自然融为一体，沉静在这片宁静的美丽之中，感受着生命的奇迹与 温柔."
+   done
+
+The results are given below:
+
+  +-------------+-------+-------+-------+-------+
+  | num_threads | 1     | 2     | 3     | 4     |
+  +=============+=======+=======+=======+=======+
+  | RTF         | 6.727 | 3.877 | 2.914 | 2.518 |
+  +-------------+-------+-------+-------+-------+
+
 .. _vits-piper-en_US-glados:
 
 vits-piper-en_US-glados (English, 1 speaker)
@@ -565,6 +589,30 @@ and ``glados-bug.wav`` in the current directory.
     </tr>
   </table>
 
+RTF on Raspberry Pi 4 Model B Rev 1.5
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+We use the following command to test the RTF of this model on Raspberry Pi 4 Model B Rev 1.5:
+
+.. code-block:: bash
+
+   for t in 1 2 3 4; do
+    ./build/bin/sherpa-onnx-offline-tts \
+      --num-threads=$t \
+      --vits-model=./vits-piper-en_US-glados/en_US-glados.onnx\
+      --vits-tokens=./vits-piper-en_US-glados/tokens.txt \
+      --vits-data-dir=./vits-piper-en_US-glados/espeak-ng-data \
+      "Friends fell out often because life was changing so fast. The easiest thing in the world was to lose touch with someone."
+   done
+
+The results are given below:
+
+  +-------------+-------+-------+-------+-------+
+  | num_threads | 1     | 2     | 3     | 4     |
+  +=============+=======+=======+=======+=======+
+  | RTF         | 0.812 | 0.480 | 0.391 | 0.349 |
+  +-------------+-------+-------+-------+-------+
+
 .. _vits-piper-en_US-libritts_r-medium:
 
 vits-piper-en_US-libritts_r-medium (English, 904 speakers)
@@ -773,6 +821,29 @@ and ``libritts-armstrong-500.wav`` in the current directory.
     </tr>
   </table>
 
+RTF on Raspberry Pi 4 Model B Rev 1.5
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+We use the following command to test the RTF of this model on Raspberry Pi 4 Model B Rev 1.5:
+
+.. code-block:: bash
+
+   for t in 1 2 3 4; do
+    ./build/bin/sherpa-onnx-offline-tts \
+      --num-threads=$t \
+      --vits-model=./vits-piper-en_US-libritts_r-medium/en_US-libritts_r-medium.onnx \
+      --vits-tokens=./vits-piper-en_US-libritts_r-medium/tokens.txt \
+      --vits-data-dir=./vits-piper-en_US-libritts_r-medium/espeak-ng-data \
+      "Friends fell out often because life was changing so fast. The easiest thing in the world was to lose touch with someone."
+   done
+
+The results are given below:
+
+  +-------------+-------+-------+-------+-------+
+  | num_threads | 1     | 2     | 3     | 4     |
+  +=============+=======+=======+=======+=======+
+  | RTF         | 0.790 | 0.493 | 0.392 | 0.357 |
+  +-------------+-------+-------+-------+-------+
 
 .. _vits-model-vits-ljspeech:
 
@@ -911,6 +982,30 @@ After running, it will generate a file ``armstrong.wav`` in the current director
       </td>
     </tr>
   </table>
+
+RTF on Raspberry Pi 4 Model B Rev 1.5
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+We use the following command to test the RTF of this model on Raspberry Pi 4 Model B Rev 1.5:
+
+.. code-block:: bash
+
+   for t in 1 2 3 4; do
+    ./build/bin/sherpa-onnx-offline-tts \
+      --num-threads=$t \
+      --vits-model=./vits-ljs/vits-ljs.onnx \
+      --vits-lexicon=./vits-ljs/lexicon.txt \
+      --vits-tokens=./vits-ljs/tokens.txt \
+      "Friends fell out often because life was changing so fast. The easiest thing in the world was to lose touch with someone."
+   done
+
+The results are given below:
+
+  +-------------+-------+-------+-------+-------+
+  | num_threads | 1     | 2     | 3     | 4     |
+  +=============+=======+=======+=======+=======+
+  | RTF         | 6.057 | 3.517 | 2.535 | 2.206 |
+  +-------------+-------+-------+-------+-------+
 
 .. _vits-model-vits-vctk:
 
@@ -1116,6 +1211,30 @@ It will generate 3 files: ``einstein-30.wav``, ``franklin-66.wav``, and ``martin
     </tr>
   </table>
 
+RTF on Raspberry Pi 4 Model B Rev 1.5
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+We use the following command to test the RTF of this model on Raspberry Pi 4 Model B Rev 1.5:
+
+.. code-block:: bash
+
+   for t in 1 2 3 4; do
+    ./build/bin/sherpa-onnx-offline-tts \
+      --num-threads=$t \
+      --vits-model=./vits-vctk/vits-vctk.onnx \
+      --vits-lexicon=./vits-vctk/lexicon.txt \
+      --vits-tokens=./vits-vctk/tokens.txt \
+      "Friends fell out often because life was changing so fast. The easiest thing in the world was to lose touch with someone."
+   done
+
+The results are given below:
+
+  +-------------+-------+-------+-------+-------+
+  | num_threads | 1     | 2     | 3     | 4     |
+  +=============+=======+=======+=======+=======+
+  | RTF         | 6.079 | 3.483 | 2.537 | 2.226 |
+  +-------------+-------+-------+-------+-------+
+
 .. _sherpa-onnx-vits-zh-ll:
 
 csukuangfj/sherpa-onnx-vits-zh-ll (Chinese, 5 speakers)
@@ -1274,6 +1393,31 @@ Please check the file sizes of the downloaded model:
       </td>
     </tr>
   </table>
+
+RTF on Raspberry Pi 4 Model B Rev 1.5
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+We use the following command to test the RTF of this model on Raspberry Pi 4 Model B Rev 1.5:
+
+.. code-block:: bash
+
+   for t in 1 2 3 4; do
+    ./build/bin/sherpa-onnx-offline-tts \
+      --num-threads=$t \
+      --vits-model=./sherpa-onnx-vits-zh-ll/model.onnx \
+      --vits-dict-dir=./sherpa-onnx-vits-zh-ll/dict \
+      --vits-lexicon=./sherpa-onnx-vits-zh-ll/lexicon.txt \
+      --vits-tokens=./sherpa-onnx-vits-zh-ll/tokens.txt \
+      '当夜幕降临，星光点点，伴随着微风拂面，我在静谧中感受着时光的流转，思念如涟漪荡漾，梦境如画卷展开，我与自然融为一体，沉静在这片宁静的美丽之中，感受着生命的奇迹与温柔.'
+   done
+
+The results are given below:
+
+  +-------------+-------+-------+-------+-------+
+  | num_threads | 1     | 2     | 3     | 4     |
+  +=============+=======+=======+=======+=======+
+  | RTF         | 4.275 | 2.494 | 1.840 | 1.593 |
+  +-------------+-------+-------+-------+-------+
 
 .. _vits-zh-hf-fanchen-C:
 
@@ -1435,6 +1579,31 @@ You can download the model using the following commands::
     </tr>
   </table>
 
+RTF on Raspberry Pi 4 Model B Rev 1.5
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+We use the following command to test the RTF of this model on Raspberry Pi 4 Model B Rev 1.5:
+
+.. code-block:: bash
+
+   for t in 1 2 3 4; do
+    ./build/bin/sherpa-onnx-offline-tts \
+      --num-threads=$t \
+      --vits-model=./vits-zh-hf-fanchen-C/vits-zh-hf-fanchen-C.onnx \
+      --vits-dict-dir=./vits-zh-hf-fanchen-C/dict \
+      --vits-lexicon=./vits-zh-hf-fanchen-C/lexicon.txt \
+      --vits-tokens=./vits-zh-hf-fanchen-C/tokens.txt \
+      "当夜幕降临，星光点点，伴随着微风拂面，我在静谧中感受着时光的流转，思念如涟漪荡漾，梦境如画卷展开，我与自然融为一体，沉静在这片宁静的美丽之中，感受着生命的奇迹与 温柔."
+   done
+
+The results are given below:
+
+  +-------------+-------+-------+-------+-------+
+  | num_threads | 1     | 2     | 3     | 4     |
+  +=============+=======+=======+=======+=======+
+  | RTF         | 4.306 | 2.451 | 1.846 | 1.600 |
+  +-------------+-------+-------+-------+-------+
+
 .. _vits-zh-hf-fanchen-wnj:
 
 csukuangfj/vits-zh-hf-fanchen-wnj (Chinese, 1 male)
@@ -1522,6 +1691,31 @@ You can download the model using the following commands::
       </td>
     </tr>
   </table>
+
+RTF on Raspberry Pi 4 Model B Rev 1.5
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+We use the following command to test the RTF of this model on Raspberry Pi 4 Model B Rev 1.5:
+
+.. code-block:: bash
+
+   for t in 1 2 3 4; do
+    ./build/bin/sherpa-onnx-offline-tts \
+      --num-threads=$t \
+      --vits-model=./vits-zh-hf-fanchen-wnj/vits-zh-hf-fanchen-wnj.onnx \
+      --vits-dict-dir=./vits-zh-hf-fanchen-wnj/dict \
+      --vits-lexicon=./vits-zh-hf-fanchen-wnj/lexicon.txt \
+      --vits-tokens=./vits-zh-hf-fanchen-wnj/tokens.txt \
+      "当夜幕 降临，星光点点，伴随着微风拂面，我在静谧中感受着时光的流转，思念如涟漪荡漾，梦境如画卷展开，我与自然融为一体，沉静在这片宁静的美丽之中，感受着生命的 奇迹与温柔."
+   done
+
+The results are given below:
+
+  +-------------+-------+-------+-------+-------+
+  | num_threads | 1     | 2     | 3     | 4     |
+  +=============+=======+=======+=======+=======+
+  | RTF         | 4.276 | 2.505 | 1.827 | 1.608 |
+  +-------------+-------+-------+-------+-------+
 
 .. _vits-zh-hf-theresa:
 
@@ -1613,6 +1807,32 @@ You can download the model with the following commands::
       </td>
     </tr>
   </table>
+
+
+RTF on Raspberry Pi 4 Model B Rev 1.5
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+We use the following command to test the RTF of this model on Raspberry Pi 4 Model B Rev 1.5:
+
+.. code-block:: bash
+
+   for t in 1 2 3 4; do
+    ./build/bin/sherpa-onnx-offline-tts \
+      --num-threads=$t \
+      --vits-model=./vits-zh-hf-theresa/theresa.onnx \
+      --vits-dict-dir=./vits-zh-hf-theresa/dict \
+      --vits-lexicon=./vits-zh-hf-theresa/lexicon.txt \
+      --vits-tokens=./vits-zh-hf-theresa/tokens.txt \
+      "当夜幕降临，星光点点，伴随着微风拂面，我在静谧中感受着时光的流转，思念如涟漪荡漾，梦境如画卷展开，我与自然融为一体，沉静在这片宁静的美丽之中，感受着生命的奇迹与 温柔."
+   done
+
+The results are given below:
+
+  +-------------+-------+-------+-------+-------+
+  | num_threads | 1     | 2     | 3     | 4     |
+  +=============+=======+=======+=======+=======+
+  | RTF         | 6.032 | 3.448 | 2.566 | 2.210 |
+  +-------------+-------+-------+-------+-------+
 
 .. _vits-zh-hf-eula:
 
@@ -1706,6 +1926,30 @@ You can download the model using the following commands::
     </tr>
   </table>
 
+RTF on Raspberry Pi 4 Model B Rev 1.5
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+We use the following command to test the RTF of this model on Raspberry Pi 4 Model B Rev 1.5:
+
+.. code-block:: bash
+
+   for t in 1 2 3 4; do
+    ./build/bin/sherpa-onnx-offline-tts \
+      --num-threads=$t \
+      --vits-model=./vits-zh-hf-eula/eula.onnx \
+      --vits-dict-dir=./vits-zh-hf-eula/dict \
+      --vits-lexicon=./vits-zh-hf-eula/lexicon.txt \
+      --vits-tokens=./vits-zh-hf-eula/tokens.txt \
+      "当夜幕降临，星光点点，伴随着微风拂面，我在静谧中感受着时光的流转，思念如涟漪荡漾，梦境如画卷展开，我与自然融为一体，沉静在这片宁静的美丽之中，感受着生命的奇迹与 温柔."
+   done
+
+The results are given below:
+
+  +-------------+-------+-------+-------+-------+
+  | num_threads | 1     | 2     | 3     | 4     |
+  +=============+=======+=======+=======+=======+
+  | RTF         | 6.011 | 3.473 | 2.537 | 2.231 |
+  +-------------+-------+-------+-------+-------+
 
 .. _vits-model-aishell3:
 
@@ -1986,6 +2230,32 @@ The Python script also supports rule-based text normalization.
     </tr>
   </table>
 
+RTF on Raspberry Pi 4 Model B Rev 1.5
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+We use the following command to test the RTF of this model on Raspberry Pi 4 Model B Rev 1.5:
+
+.. code-block:: bash
+
+   for t in 1 2 3 4; do
+    build/bin/sherpa-onnx-offline-tts \
+      --num-threads=$t \
+      --vits-model=./vits-icefall-zh-aishell3/model.onnx \
+      --vits-lexicon=./vits-icefall-zh-aishell3/lexicon.txt \
+      --vits-tokens=./vits-icefall-zh-aishell3/tokens.txt \
+      --sid=66  \
+      "当夜幕降临，星光点点，伴随着微风拂面，我在静谧中感受着时光的流转，思念如涟漪荡漾，梦境如画卷展开，我与自然融为一体，沉静在这片宁静的美丽之中，感受着生命的奇迹与温柔."
+   done
+
+
+The results are given below:
+
+  +-------------+-------+-------+-------+-------+
+  | num_threads | 1     | 2     | 3     | 4     |
+  +=============+=======+=======+=======+=======+
+  | RTF         | 0.365 | 0.220 | 0.171 | 0.156 |
+  +-------------+-------+-------+-------+-------+
+
 .. _vits-model-en_US-lessac-medium:
 
 en_US-lessac-medium (English, single-speaker)
@@ -2154,3 +2424,27 @@ After running, it will generate a file ``armstrong-piper-en_US-lessac-medium.wav
       </td>
     </tr>
   </table>
+
+RTF on Raspberry Pi 4 Model B Rev 1.5
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+We use the following command to test the RTF of this model on Raspberry Pi 4 Model B Rev 1.5:
+
+.. code-block:: bash
+
+   for t in 1 2 3 4; do
+    ./build/bin/sherpa-onnx-offline-tts \
+      --num-threads=$t \
+      --vits-model=./vits-piper-en_US-lessac-medium/en_US-lessac-medium.onnx \
+      --vits-data-dir=./vits-piper-en_US-lessac-medium/espeak-ng-data \
+      --vits-tokens=./vits-piper-en_US-lessac-medium/tokens.txt \
+      "Friends fell out often because life was changing so fast. The easiest thing in the world was to lose touch with someone."
+   done
+
+The results are given below:
+
+  +-------------+-------+-------+-------+-------+
+  | num_threads | 1     | 2     | 3     | 4     |
+  +=============+=======+=======+=======+=======+
+  | RTF         | 0.774 | 0.482 | 0.390 | 0.357 |
+  +-------------+-------+-------+-------+-------+
