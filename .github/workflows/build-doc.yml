@@ -59,7 +59,6 @@ jobs:
       - name: Run docker
         uses: addnab/docker-run-action@v3
         with:
-            # image: reitzig/texlive-full:latest
             image: reitzig/texlive-base:latest
             # image: ghcr.io/xu-cheng/texlive-full:latest
             options: |
@@ -231,7 +230,6 @@ jobs:
               git diff
 
               make latex
-              make latexpdf
               mkdir -pv build/html/_static
               cd build/latex
               #latexmk -interaction=nonstopmode -f -pdf -dvi- -ps- sherpa.tex || true
