@@ -59,7 +59,8 @@ jobs:
       - name: Run docker
         uses: addnab/docker-run-action@v3
         with:
-            image: reitzig/texlive-full:latest
+            # image: reitzig/texlive-full:latest
+            image: reitzig/texlive-base:latest
             # image: ghcr.io/xu-cheng/texlive-full:latest
             options: |
               --volume ${{ github.workspace }}/:/workspace
