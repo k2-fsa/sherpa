@@ -18,6 +18,9 @@ Links for pre-built APKs can be found in the following table:
  * - Text-to-speech engine
    - `点这里 <https://k2-fsa.github.io/sherpa/onnx/tts/apk-engine-cn.html>`_
    - `<https://k2-fsa.github.io/sherpa/onnx/tts/apk-engine.html>`_
+ * - Text-to-speech
+   - `点这里 <https://k2-fsa.github.io/sherpa/onnx/tts/apk-cn.html>`_
+   - `<https://k2-fsa.github.io/sherpa/onnx/tts/apk.html>`_
  * - Voice activity detection (VAD)
    - `点这里 <https://k2-fsa.github.io/sherpa/onnx/vad/apk-cn.html>`_
    - `<https://k2-fsa.github.io/sherpa/onnx/vad/apk.html>`_

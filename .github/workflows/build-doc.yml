@@ -59,7 +59,7 @@ jobs:
       - name: Run docker
         uses: addnab/docker-run-action@v3
         with:
-            image: reitzig/texlive-full:latest
+            image: reitzig/texlive-base:latest
             # image: ghcr.io/xu-cheng/texlive-full:latest
             options: |
               --volume ${{ github.workspace }}/:/workspace
@@ -234,8 +234,12 @@ jobs:
               cd build/latex
               #latexmk -interaction=nonstopmode -f -pdf -dvi- -ps- sherpa.tex || true
               latexmk -interaction=nonstopmode -f -pdf -dvi- -ps- sherpa.tex >/dev/null 2>&1 || true
-              ls -lh sherpa.pdf
-              cp -v sherpa.pdf /workspace/
+              if [ -f sherpa.pdf ]; then
+                ls -lh sherpa.pdf
+                cp -v sherpa.pdf /workspace/
+              else
+                echo "skip copying pdf"
+              fi
 
       - name: View generated files
         shell: bash
@@ -277,7 +281,11 @@ jobs:
             git clone https://huggingface.co/csukuangfj/sherpa-doc huggingface
             cd huggingface
 
-            cp -v ../sherpa.pdf ./
+            if [ -f ../sherpa.pdf ]; then
+              cp -v ../sherpa.pdf ./
+            else
+              echo "skip copying pdf"
+            fi
             git status
             git lfs track "*.pdf"
             git add .
