@@ -1,0 +1,142 @@
+name: export-sense-voice
+
+on:
+  push:
+    branches:
+      - export-sense-voice
+  workflow_dispatch:
+
+concurrency:
+  group: export-sense-voice-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  export-sense-voice:
+    if: github.repository_owner == 'k2-fsa' || github.repository_owner == 'csukuangfj'
+    name: export sense voice
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest]
+        python-version: ["3.10"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        shell: bash
+        run: |
+          pip install torch==2.0.0 torchaudio==2.0.1 onnxruntime onnx kaldi-native-fbank funasr numpy==1.26.4
+
+          cd /tmp
+
+          pushd /tmp
+          git clone --depth 1 https://github.com/modelscope/FunASR
+          popd
+
+      - name: Export
+        shell: bash
+        run: |
+          pushd scripts/sense-voice
+          export PYTHONPATH=/tmp/FunASR/runtime/python/libtorch:PYTHONPATH
+          ./run.sh
+
+      - name: Collect results
+        shell: bash
+        run: |
+          d=sherpa-sense-voice-zh-en-ja-ko-yue-2025-01-06
+          mkdir $d
+          mv -v scripts/sense-voice/model.pt $d/
+          mv -v scripts/sense-voice/tokens.txt $d/
+          mv -v scripts/sense-voice/README.md $d/
+          mv -v scripts/sense-voice/bpe.model $d/
+
+          pushd $d
+          mkdir test_wavs
+          cd test_wavs
+          wget https://huggingface.co/csukuangfj/sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/resolve/main/test_wavs/en.wav
+          wget https://huggingface.co/csukuangfj/sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/resolve/main/test_wavs/ja.wav
+          wget https://huggingface.co/csukuangfj/sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/resolve/main/test_wavs/ko.wav
+          wget https://huggingface.co/csukuangfj/sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/resolve/main/test_wavs/yue.wav
+          wget https://huggingface.co/csukuangfj/sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/resolve/main/test_wavs/zh.wav
+          popd
+
+          ls -lh $d
+          tar cjvf $d.tar.bz2 $d
+
+      - name: Release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          file_glob: true
+          file: ./*.tar.bz2
+          overwrite: true
+          repo_name: k2-fsa/sherpa
+          repo_token: ${{ secrets.UPLOAD_GH_SHERPA_TOKEN }}
+          tag: asr-models
+
+      - name: Publish ${{ matrix.model }} to huggingface
+        shell: bash
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          src=sherpa-sense-voice-zh-en-ja-ko-yue-2025-01-06
+
+          git config --global user.email "csukuangfj@gmail.com"
+          git config --global user.name "Fangjun Kuang"
+
+          export GIT_CLONE_PROTECTION_ACTIVE=false
+
+          export GIT_LFS_SKIP_SMUDGE=1
+
+          rm -rf huggingface
+          git clone https://csukuangfj:$HF_TOKEN@huggingface.co/csukuangfj/$src huggingface
+
+          rm -rf huggingface/*
+
+          cp -av $src/* ./huggingface/
+
+          cd huggingface
+
+          git status
+          ls -lh
+          git lfs track "*.pt*"
+
+          git add .
+          git commit -m "upload $src" || true
+          git push https://csukuangfj:$HF_TOKEN@huggingface.co/csukuangfj/$src main || true
+
+      - name: Publish ${{ matrix.model }} to huggingface
+        shell: bash
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          src=sherpa-sense-voice-zh-en-ja-ko-yue-2025-01-06
+
+          git config --global user.email "csukuangfj@gmail.com"
+          git config --global user.name "Fangjun Kuang"
+
+          export GIT_CLONE_PROTECTION_ACTIVE=false
+
+          export GIT_LFS_SKIP_SMUDGE=1
+
+          rm -rf huggingface
+          git clone https://csukuangfj:$HF_TOKEN@huggingface.co/k2-fsa/sherpa-models huggingface
+
+          cp -av $src.tar.bz2 ./huggingface/non-streaming-asr
+
+          cd huggingface
+
+          git status
+          ls -lh
+          git lfs track "*.tar.bz2*"
+
+          git add .
+          git commit -m "upload $src" || true
+          git push https://csukuangfj:$HF_TOKEN@huggingface.co/k2-fsa/sherpa-models main || true
+
