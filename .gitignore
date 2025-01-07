@@ -22,3 +22,4 @@ sherpa-nemo-ctc*
 /.cache
 /.idea
 /.vscode
+*.pt
