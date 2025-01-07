@@ -138,7 +138,32 @@ class MultiHeadAttentionCross(nn.Module):
         mask: Optional[Tensor] = None,
     ):
         q = self.multiHeadAttention.query(x)
-        wv, qk = self.multiHeadAttention.qkv_attention(q, k, v, mask)
+
+        n_batch, n_ctx, n_state = q.shape
+        scale = (n_state // self.multiHeadAttention.n_head) ** -0.25
+        q = (
+            q.view(q.shape[0], q.shape[1], self.multiHeadAttention.n_head, -1).permute(
+                0, 2, 1, 3
+            )
+            * scale
+        )
+        k = (
+            k.view(k.shape[0], k.shape[1], self.multiHeadAttention.n_head, -1).permute(
+                0, 2, 3, 1
+            )
+            * scale
+        )
+        v = v.view(v.shape[0], v.shape[1], self.multiHeadAttention.n_head, -1).permute(
+            0, 2, 1, 3
+        )
+
+        qk = q @ k
+        if mask is not None:
+            qk = qk + mask[:n_ctx, :n_ctx]
+
+        w = F.softmax(qk, dim=-1).to(q.dtype)
+        wv = (w @ v).permute(0, 2, 1, 3).flatten(start_dim=2)
+
         return self.multiHeadAttention.out(wv)
 
 
@@ -161,7 +186,34 @@ class MultiHeadAttentionSelf(nn.Module):
         k_cache[:, -k.shape[1] :, :] = k  # (b, n_ctx_cache + n_ctx, n_state)
         v_cache[:, -v.shape[1] :, :] = v  # (b, n_ctx_cache + n_ctx, n_state)
 
-        wv, qk = self.multiHeadAttention.qkv_attention(q, k_cache, v_cache, mask)
+        k = k_cache
+        v = v_cache
+
+        n_batch, n_ctx, n_state = q.shape
+        scale = (n_state // self.multiHeadAttention.n_head) ** -0.25
+        q = (
+            q.view(q.shape[0], q.shape[1], self.multiHeadAttention.n_head, -1).permute(
+                0, 2, 1, 3
+            )
+            * scale
+        )
+        k = (
+            k_cache.view(
+                k.shape[0], k.shape[1], self.multiHeadAttention.n_head, -1
+            ).permute(0, 2, 3, 1)
+            * scale
+        )
+        v = v.view(v.shape[0], v.shape[1], self.multiHeadAttention.n_head, -1).permute(
+            0, 2, 1, 3
+        )
+
+        qk = q @ k
+        if mask is not None:
+            qk = qk + mask[:n_ctx, :n_ctx]
+
+        w = F.softmax(qk, dim=-1).to(q.dtype)
+        wv = (w @ v).permute(0, 2, 1, 3).flatten(start_dim=2)
+
         return self.multiHeadAttention.out(wv), k_cache, v_cache
 
 
@@ -190,7 +242,7 @@ class ResidualAttentionBlockTensorCache(nn.Module):
         )
         x = x + self_attn_x
 
-        if self.cross_attn:
+        if self.cross_attn is not None:
             x = x + self.cross_attn(
                 self.originalBlock.cross_attn_ln(x), cross_k, cross_v
             )
@@ -205,7 +257,7 @@ class TextDecoderTensorCache(nn.Module):
         self.textDecoder = inTextDecoder
         self.n_ctx = in_n_ctx
 
-        self.blocks = []
+        self.blocks = nn.ModuleList()
         for orginal_block in self.textDecoder.blocks:
             self.blocks.append(ResidualAttentionBlockTensorCache(orginal_block))
 
@@ -218,6 +270,7 @@ class TextDecoderTensorCache(nn.Module):
         n_layer_cross_v: Tensor,
         offset: Tensor,
     ):
+        offset = offset.int()
         x = (
             self.textDecoder.token_embedding(tokens)
             + self.textDecoder.positional_embedding[
@@ -318,6 +371,7 @@ class Whisper(torch.nn.Module):
     def __init__(self, whisper):
         super().__init__()
         self.encoder = AudioEncoderTensorCache(whisper.encoder, whisper.decoder)
+        self.decoder = TextDecoderTensorCache(whisper.decoder, whisper.dims.n_text_ctx)
 
     @torch.jit.ignore()
     def forward():
@@ -334,6 +388,39 @@ class Whisper(torch.nn.Module):
             - n_layer_cross_v: A 4-D tensor of shape (num_layers, batch_size, T, dim)
         """
         return self.encoder(x)
+
+    @torch.jit.export
+    def run_decoder(
+        self,
+        tokens: torch.Tensor,
+        n_layer_self_k_cache: torch.Tensor,
+        n_layer_self_v_cache: torch.Tensor,
+        n_layer_cross_k: torch.Tensor,
+        n_layer_cross_v: torch.Tensor,
+        offset: torch.Tensor,
+    ) -> Tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
+        """
+        Args:
+          tokens: A 2-D tensor of shape (batch_size, num_tokens)
+          n_layer_self_k_cache: A 4-D tensor of shape (num_layers, batch_size, T, dim)
+          n_layer_self_v_cache: A 4-D tensor of shape (num_layers, batch_size, T, dim)
+          n_layer_cross_k: A 4-D tensor of shape (num_layers, batch_size, T, dim)
+          n_layer_cross_v: A 4-D tensor of shape (num_layers, batch_size, T, dim)
+          offset: A 1-D tensor of shape (batch_size,)
+        Returns:
+          Return a tuple of 3 tensors:
+            - logits: A 3-D tensor of shape (batch_size, num_tokens, dim)
+            - next_n_layer_self_k_cache, same shape as n_layer_self_k_cache
+            - next_n_layer_self_v_cache, same shape as n_layer_self_v_cache
+        """
+        return self.decoder(
+            tokens,
+            n_layer_self_k_cache,
+            n_layer_self_v_cache,
+            n_layer_cross_k,
+            n_layer_cross_v,
+            offset,
+        )
 
 
 def main():
@@ -383,60 +470,8 @@ def main():
 
     w = Whisper(model)
 
-    to_delete = set()
-    # remove unused parameters
-    for name, m in w.named_modules():
-        if "audioEncoder" in name:
-            continue
-        if "textDecoder" in name and "cross_attn.key" in name:
-            continue
-
-        if "textDecoder" in name and "cross_attn.value" in name:
-            continue
-
-        if name == "encoder.textDecoder.blocks":
-            continue
-
-        if name == "encoder.textDecoder":
-            continue
-
-        if name != "encoder" and name != "":
-            to_delete.add(name)
-
-    for k in to_delete:
-        break
-        if "." in k:
-            parent, child = k.rsplit(".", maxsplit=1)
-            if parent == "encoder.textDecoder.blocks" and ord("0") <= ord(
-                child[0]
-            ) <= ord("9"):
-                continue
-            if "encoder.textDecoder.blocks" in parent and child == "cross_attn":
-                continue
-
-            if "encoder.textDecoder.blocks" in parent and child == "attn":
-                continue
-            if child in ("attn_ln", "layer", "mlp", "mlp_ln"):
-                print("skip", parent, child, k)
-                continue
-
-            if "encoder.textDecoder.blocks" in parent and child in (
-                "out",
-                "key",
-                "value",
-                "query",
-            ):
-                continue
-            try:
-                delattr(get_submodule(w, parent), child)
-                print("delete", parent, child, k)
-            except:
-                continue
-        elif k != "":
-            delattr(w, k)
-
     m = torch.jit.script(w)
-    m.save("encoder.pt")
+    m.save("model.pt")
 
     num_param = sum([p.numel() for p in w.parameters()])
     print(f"Number of model parameters: {num_param}")
