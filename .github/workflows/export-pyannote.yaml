@@ -1,0 +1,165 @@
+name: export-pyannote
+
+on:
+  push:
+    branches:
+      - export-pyannote
+  workflow_dispatch:
+
+concurrency:
+  group: export-pyannote-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  export-pyannote:
+    if: github.repository_owner == 'k2-fsa' || github.repository_owner == 'csukuangfj'
+    name: export ${{ matrix.model }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest]
+        python-version: ["3.10"]
+        model: ['pyannote']
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install pyannote
+        shell: bash
+        run: |
+          pip install torch==2.2.0 torchaudio==2.2.0 onnxruntime onnx kaldi-native-fbank funasr numpy==1.26.4 pyannote.audio==3.3.0
+
+      - name: Export ${{ matrix.model }}
+        shell: bash
+        run: |
+          pushd scripts/pyannote/segmentation
+          model=${{ matrix.model }}
+          if [[ $model == 'pyannote' ]]; then
+            curl -SL -O https://huggingface.co/csukuangfj/pyannote-models/resolve/main/segmentation-3.0/pytorch_model.bin
+          else
+            curl -SL -O https://huggingface.co/openspeech/revai-models/resolve/main/v1/pytorch_model.bin
+          fi
+
+          python3 ./export.py
+
+          ls -lh
+
+      - name: Test ${{ matrix.model }}
+        shell: bash
+        run: |
+          pushd scripts/pyannote/segmentation
+          curl -SL -O https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/lei-jun-test.wav
+
+          python3 ./vad.py --model ./model.pt --wav ./lei-jun-test.wav
+
+      - name: Collect results
+        shell: bash
+        run: |
+          model=${{ matrix.model }}
+          if [[ $model == 'pyannote' ]]; then
+            d=sherpa-pyannote-segmentation-3-0
+          else
+            d=sherpa-reverb-diarization-v1
+          fi
+          mkdir $d
+          mv -v scripts/pyannote/segmentation/model.pt $d/
+          mv -v scripts/pyannote/segmentation/README.md $d/
+          mv -v scripts/pyannote/segmentation/LICENSE $d/
+
+          if [[ $model == revai ]]; then
+            echo "Models in this folder are converted from https://huggingface.co/Revai/reverb-diarization-v1" > $d/README.md
+          fi
+
+          cat $d/README.md
+
+          ls -lh $d
+          tar cjvf $d.tar.bz2 $d
+
+      - name: Release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          file_glob: true
+          file: ./*.tar.bz2
+          overwrite: true
+          repo_name: k2-fsa/sherpa
+          repo_token: ${{ secrets.UPLOAD_GH_SHERPA_TOKEN }}
+          tag: speaker-segmentation-models
+
+      - name: Publish ${{ matrix.model }} to huggingface
+        shell: bash
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          model=${{ matrix.model }}
+          if [[ $model == 'pyannote' ]]; then
+            src=sherpa-pyannote-segmentation-3-0
+          else
+            src=sherpa-reverb-diarization-v1
+          fi
+
+          git config --global user.email "csukuangfj@gmail.com"
+          git config --global user.name "Fangjun Kuang"
+
+          export GIT_CLONE_PROTECTION_ACTIVE=false
+
+          export GIT_LFS_SKIP_SMUDGE=1
+
+          rm -rf huggingface
+          git clone https://csukuangfj:$HF_TOKEN@huggingface.co/csukuangfj/$src huggingface
+
+          rm -rf huggingface/*
+
+          cp -av $src/* ./huggingface/
+
+          cd huggingface
+
+          git status
+          ls -lh
+          git lfs track "*.pt*"
+
+          git add .
+          git commit -m "upload $src" || true
+          git push https://csukuangfj:$HF_TOKEN@huggingface.co/csukuangfj/$src main || true
+
+      - name: Publish ${{ matrix.model }} to huggingface
+        shell: bash
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          model=${{ matrix.model }}
+          if [[ $model == 'pyannote' ]]; then
+            src=sherpa-pyannote-segmentation-3-0
+          else
+            src=sherpa-reverb-diarization-v1
+          fi
+
+          git config --global user.email "csukuangfj@gmail.com"
+          git config --global user.name "Fangjun Kuang"
+
+          export GIT_CLONE_PROTECTION_ACTIVE=false
+
+          export GIT_LFS_SKIP_SMUDGE=1
+
+          rm -rf huggingface
+          git clone https://csukuangfj:$HF_TOKEN@huggingface.co/k2-fsa/sherpa-models huggingface
+
+          mkdir -p ./huggingface/speaker-segmentation
+
+          cp -av $src.tar.bz2 ./huggingface/speaker-segmentation
+
+          cd huggingface
+
+          git status
+          ls -lh
+          git lfs track "*.tar.bz2*"
+
+          git add .
+          git commit -m "upload $src" || true
+          git push https://csukuangfj:$HF_TOKEN@huggingface.co/k2-fsa/sherpa-models main || true
+

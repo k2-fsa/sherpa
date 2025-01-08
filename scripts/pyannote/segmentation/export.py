@@ -107,7 +107,29 @@ def main():
     assert torch.allclose(y1, y2), (y1.sum(), y2.sum())
 
     m = torch.jit.script(wrapper)
-    m.save("model.pt")
+
+    sample_rate = model.audio.sample_rate
+    assert sample_rate == 16000, sample_rate
+
+    window_size = int(model.specifications.duration) * 16000
+    receptive_field_size = int(model.receptive_field.duration * 16000)
+    receptive_field_shift = int(model.receptive_field.step * 16000)
+
+    meta_data = {
+        "num_speakers": str(len(model.specifications.classes)),
+        "powerset_max_classes": str(model.specifications.powerset_max_classes),
+        "num_classes": str(model.dimension),
+        "sample_rate": str(sample_rate),
+        "window_size": str(window_size),
+        "receptive_field_size": str(receptive_field_size),
+        "receptive_field_shift": str(receptive_field_shift),
+        "model_type": "pyannote-segmentation-3.0",
+        "version": "1",
+        "maintainer": "k2-fsa",
+    }
+
+    m.save("model.pt", _extra_files=meta_data)
+    print(meta_data)
 
 
 if __name__ == "__main__":
