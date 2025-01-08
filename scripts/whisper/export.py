@@ -19,6 +19,7 @@ ModelDimensions(n_mels=80, n_audio_ctx=1500, n_audio_state=384, n_audio_head=6, 
 """
 
 import argparse
+from pathlib import Path
 from typing import Optional, Tuple
 
 import torch
@@ -80,6 +81,25 @@ def get_submodule(model, target):
 
 
 class ModifiedConv1d(nn.Module):
+    """
+    This class is to fix the following error:
+
+    RuntimeError:
+    'Tensor' object has no attribute or method '_conv_forward'.:
+      File "/Users/fangjun/py38/lib/python3.8/site-packages/whisper/model.py", line 48
+            self, x: Tensor, weight: Tensor, bias: Optional[Tensor]
+        ) -> Tensor:
+            return super()._conv_forward(
+                   ~~~~~~~~~~~~~~~~~~~ <--- HERE
+                x, weight.to(x.dtype), None if bias is None else bias.to(x.dtype)
+            )
+    'Conv1d._conv_forward' is being compiled since it was called from 'Conv1d.forward'
+      File "/Users/fangjun/py38/lib/python3.8/site-packages/torch/nn/modules/conv.py", line 310
+        def forward(self, input: Tensor) -> Tensor:
+            return self._conv_forward(input, self.weight, self.bias)
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ <--- HERE
+    """
+
     def __init__(self, m):
         super().__init__()
         self.conv = nn.Conv1d(
@@ -97,6 +117,17 @@ class ModifiedConv1d(nn.Module):
 
 
 class ModifiedLayerNorm(torch.nn.Module):
+    """
+    This class is to fix the following error:
+
+    RuntimeError:
+    'Tensor' object has no attribute or method 'forward'.:
+      File "/Users/fangjun/py38/lib/python3.8/site-packages/whisper/model.py", line 32
+        def forward(self, x: Tensor) -> Tensor:
+            return super().forward(x.float()).type(x.dtype)
+                   ~~~~~~~~~~~~~ <--- HERE
+    """
+
     def __init__(self, m):
         super().__init__()
         self.layer = nn.LayerNorm(m.normalized_shape)
@@ -108,6 +139,13 @@ class ModifiedLayerNorm(torch.nn.Module):
 
 
 class AudioEncoderTensorCache(nn.Module):
+    """
+    It wraps the whisper encoder model.
+
+    The output from whisper encoder is used to pre-compute the cross_attn_key
+    and cross_attn_value.
+    """
+
     def __init__(self, inAudioEncoder: AudioEncoder, inTextDecoder: TextDecoder):
         super().__init__()
         self.audioEncoder = inAudioEncoder
@@ -138,6 +176,9 @@ class MultiHeadAttentionCross(nn.Module):
         mask: Optional[Tensor] = None,
     ):
         q = self.multiHeadAttention.query(x)
+        # Note that k and v are from self.multiHeadAttention.key(x)
+        # and self.multiHeadAttention.value(x), so there is no need
+        # to compute them here
 
         n_batch, n_ctx, n_state = q.shape
         scale = (n_state // self.multiHeadAttention.n_head) ** -0.25
@@ -297,25 +338,12 @@ class TextDecoderTensorCache(nn.Module):
 
         x = self.textDecoder.ln(x)
 
-        if False:
-            # x.shape (1, 3, 384)
-            # weight.shape (51684, 384)
+        # x.shape (1, 3, 384)
+        # weight.shape (51684, 384)
 
-            logits = (
-                x
-                @ torch.transpose(
-                    self.textDecoder.token_embedding.weight.to(x.dtype), 0, 1
-                )
-            ).float()
-        else:
-            logits = (
-                torch.matmul(
-                    self.textDecoder.token_embedding.weight.to(x.dtype),
-                    x.permute(0, 2, 1),
-                )
-                .permute(0, 2, 1)
-                .float()
-            )
+        logits = x @ torch.transpose(
+            self.textDecoder.token_embedding.weight.to(x.dtype), 0, 1
+        )
 
         return logits, n_layer_self_k_cache, n_layer_self_v_cache
 
@@ -423,17 +451,94 @@ class Whisper(torch.nn.Module):
         )
 
 
+# ref: https://github.com/ggerganov/whisper.cpp/blob/master/models/convert-pt-to-ggml.py#L232
+def generate_tokens(model):
+    whisper_dir = Path(whisper.__file__).parent
+    multilingual = model.is_multilingual
+    tokenizer = (
+        whisper_dir
+        / "assets"
+        / (multilingual and "multilingual.tiktoken" or "gpt2.tiktoken")
+    )
+    if not tokenizer.is_file():
+        raise ValueError(f"Cannot find {tokenizer}")
+
+    with open(tokenizer, "r") as f:
+        contents = f.read()
+        tokens = {
+            token: int(rank)
+            for token, rank in (line.split() for line in contents.splitlines() if line)
+        }
+
+    with open(f"tokens.txt", "w") as f:
+        for t, i in tokens.items():
+            f.write(f"{t} {i}\n")
+
+
 def main():
     args = get_args()
     name = args.model
     print(args)
     print(name)
-    model = whisper.load_model(name)
-    n = 0
-    for k, v in model.state_dict().items():
-        print(k)
-        n += v.numel()
-    print("n", n, n / 1024 / 1024)
+
+    if name == "distil-medium.en":
+        filename = "./distil-medium-en-original-model.bin"
+        if not Path(filename).is_file():
+            raise ValueError(
+                """
+                Please go to https://huggingface.co/distil-whisper/distil-medium.en
+                to download original-model.bin
+                You can use the following command to do that:
+
+                wget -O distil-medium-en-original-model.bin https://huggingface.co/distil-whisper/distil-medium.en/resolve/main/original-model.bin
+            """
+            )
+        model = whisper.load_model(filename)
+    elif name == "distil-large-v2":
+        filename = "./distil-large-v2-original-model.bin"
+        if not Path(filename).is_file():
+            raise ValueError(
+                """
+                Please go to https://huggingface.co/distil-whisper/distil-large-v2
+                to download original-model.bin
+                You can use the following command to do that:
+
+                wget -O distil-large-v2-original-model.bin https://huggingface.co/distil-whisper/distil-large-v2/resolve/main/original-model.bin
+            """
+            )
+        model = whisper.load_model(filename)
+    elif name == "distil-small.en":
+        filename = "./distil-small-en-original-model.bin"
+        if not Path(filename).is_file():
+            raise ValueError(
+                """
+                Please go to https://huggingface.co/distil-whisper/distil-small.en
+                to download original-model.bin
+                You can use the following command to do that:
+
+                wget -O distil-small-en-original-model.bin https://huggingface.co/distil-whisper/distil-small.en/resolve/main/original-model.bin
+            """
+            )
+        model = whisper.load_model(filename)
+    elif name == "medium-aishell":
+        filename = "./medium-aishell.pt"
+        if not Path(filename).is_file():
+            raise ValueError(
+                """
+                Please go to https://huggingface.co/yuekai/icefall_asr_aishell_whisper/tree/main/exp_medium
+                to download whisper-medium-aishell1-epoch-10-avg-4.pt
+                You can use the following command to do that:
+
+                wget -O medium-aishell.pt https://huggingface.co/yuekai/icefall_asr_aishell_whisper/resolve/main/exp_medium/whisper-medium-aishell1-epoch-10-avg-4.pt
+            """
+            )
+        model = whisper.load_model(filename)
+    else:
+        model = whisper.load_model(name)
+
+    print(model.dims)
+
+    generate_tokens(model)
 
     model.decoder.blocks[0].attn.__class__.forward = torch.jit.ignore(
         model.decoder.blocks[0].attn.__class__.forward
@@ -451,7 +556,6 @@ def main():
         model.encoder.blocks[0].__class__.forward
     )
 
-    #  model.encoder.__class__.forward = torch.jit.ignore(model.encoder.__class__.forward)
     model.decoder.__class__.forward = torch.jit.ignore(model.decoder.__class__.forward)
 
     d = {}
@@ -470,8 +574,50 @@ def main():
 
     w = Whisper(model)
 
+    tokenizer = whisper.tokenizer.get_tokenizer(
+        model.is_multilingual, num_languages=model.num_languages
+    )
+
+    meta_data = {
+        "model_type": "whisper",
+        "comment": f"whisper-{args.model}",
+        "version": "1",
+        "maintainer": "k2-fsa",
+        "n_mels": str(model.dims.n_mels),
+        "n_audio_ctx": str(model.dims.n_audio_ctx),
+        "n_audio_state": str(model.dims.n_audio_state),
+        "n_audio_head": str(model.dims.n_audio_head),
+        "n_audio_layer": str(model.dims.n_audio_layer),
+        "n_vocab": str(model.dims.n_vocab),
+        "n_text_ctx": str(model.dims.n_text_ctx),
+        "n_text_state": str(model.dims.n_text_state),
+        "n_text_head": str(model.dims.n_text_head),
+        "n_text_layer": str(model.dims.n_text_layer),
+        "sot_sequence": ",".join(list(map(str, tokenizer.sot_sequence))),
+        "all_language_tokens": ",".join(
+            list(map(str, tokenizer.all_language_tokens))
+        ),  # a list of ids
+        "all_language_codes": ",".join(
+            tokenizer.all_language_codes
+        ),  # e.g., en, de, zh, fr
+        "sot": str(tokenizer.sot),
+        "sot_index": str(tokenizer.sot_sequence.index(tokenizer.sot)),
+        "eot": str(tokenizer.eot),
+        "blank_id": str(tokenizer.encode(" ")[0]),
+        "is_multilingual": str(int(model.is_multilingual)),
+        "no_speech": str(tokenizer.no_speech),
+        "non_speech_tokens": ",".join(list(map(str, tokenizer.non_speech_tokens))),
+        "transcribe": str(tokenizer.transcribe),
+        "translate": str(tokenizer.translate),
+        "sot_prev": str(tokenizer.sot_prev),
+        "sot_lm": str(tokenizer.sot_lm),
+        "no_timestamps": str(tokenizer.no_timestamps),
+    }
+
     m = torch.jit.script(w)
-    m.save("model.pt")
+    m.save("model.pt", _extra_files=meta_data)
+
+    print(meta_data)
 
     num_param = sum([p.numel() for p in w.parameters()])
     print(f"Number of model parameters: {num_param}")
