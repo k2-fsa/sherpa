@@ -46,6 +46,9 @@ usage as follows:
 
 .. code-block::
 
+   # Note: You need to run pip install sherpa-onnx to get the commandline tool: sherpa-onnx-cli
+
+
    sherpa-onnx-cli text2token --help
    Usage: sherpa-onnx-cli text2token [OPTIONS] INPUT OUTPUT
 
@@ -88,7 +91,9 @@ usage as follows:
 .. note::
 
    If you install sherpa-onnx from sources (i.e. not by pip), you can use the
-   alternative script in `scripts`, the usage is almost the same as the command
+   `alternative script <https://github.com/k2-fsa/sherpa-onnx/blob/master/scripts/text2token.py>`_
+   in `scripts <https://github.com/k2-fsa/sherpa-onnx/tree/master/scripts>`_,
+   the usage is almost the same as the command
    line tool, read the help information by:
 
    .. code-block::

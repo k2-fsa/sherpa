@@ -57,9 +57,15 @@ from the following huggingface repositories:
  * - ``large-v3``
    - `<https://huggingface.co/csukuangfj/sherpa-onnx-whisper-large-v3>`_
    - `点此 <https://hf-mirror.com/csukuangfj/sherpa-onnx-whisper-large-v3>`_
+ * - ``turbo``
+   - `<https://huggingface.co/csukuangfj/sherpa-onnx-whisper-turbo>`_
+   - `点此 <https://hf-mirror.com/csukuangfj/sherpa-onnx-whisper-turbo>`_
  * - ``distil-large-v2``
    - `<https://huggingface.co/csukuangfj/sherpa-onnx-whisper-distil-large-v2>`_
    - `点此 <https://hf-mirror.com/csukuangfj/sherpa-onnx-whisper-distil-large-v2>`_
+ * - ``medium-aishell``
+   - `<https://huggingface.co/csukuangfj/sherpa-onnx-whisper-medium-aishell>`_
+   - `点此 <https://hf-mirror.com/csukuangfj/sherpa-onnx-whisper-medium-aishell2>`_
 
 .. note::
 
