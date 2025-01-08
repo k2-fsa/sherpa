@@ -8,14 +8,6 @@ https://github.com/TadaoYamaoka/whisper/blob/main/to_onnx.py
 
 Thanks to https://github.com/TadaoYamaoka
 for making the onnx export script public.
-
-Note that we have removed the 30 seconds constraint from whisper. You can
-use any T <= 30.
-"""
-
-"""
-tiny.en:
-ModelDimensions(n_mels=80, n_audio_ctx=1500, n_audio_state=384, n_audio_head=6, n_audio_layer=4, n_vocab=51864, n_text_ctx=448, n_text_state=384, n_text_head=6, n_text_layer=4)
 """
 
 import argparse
