@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# Copyright    2025  Xiaomi Corp.        (authors: Fangjun Kuang)
 
 import base64
 from typing import Tuple
