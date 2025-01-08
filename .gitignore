@@ -24,3 +24,4 @@ sherpa-nemo-ctc*
 /.vscode
 *.pt
 tokens.txt
+*.bin
