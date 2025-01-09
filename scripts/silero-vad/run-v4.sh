@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# Copyright    2025  Xiaomi Corp.        (authors: Fangjun Kuang)
+
 set -ex
 
 if [ ! -f ./silero_vad_v4.jit ]; then
