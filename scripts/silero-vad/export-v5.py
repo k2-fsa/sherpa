@@ -11,7 +11,7 @@ class Wrapper(torch.nn.Module):
 
     @torch.jit.export
     def audio_forward(self, x: torch.Tensor, sr: int, window_size: int = 512):
-        # window_size is ignore
+        # window_size is ignored
         # we wrap v5 so that it has the same interface as v4 for audio_forward
         return self.m.audio_forward(x, sr)
 

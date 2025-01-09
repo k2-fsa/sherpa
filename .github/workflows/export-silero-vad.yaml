@@ -33,7 +33,7 @@ jobs:
       - name: Install pyannote
         shell: bash
         run: |
-          pip install torch==1.13.0 torchaudio==0.13.0 soundfile librosa
+          pip install torch==1.13.0 torchaudio==0.13.0 soundfile librosa numpy==1.26.4
 
       - name: Export ${{ matrix.model }}
         shell: bash
@@ -52,6 +52,15 @@ jobs:
 
           model=${{ matrix.model }}
           python3 ./test-$model.py
+          ls -lh
+
+      - name: Test ${{ matrix.model }} batch
+        shell: bash
+        run: |
+          pushd scripts/silero-vad
+
+          model=${{ matrix.model }}
+          python3 ./test-$model-batch.py
           ls -lh
 
       - name: Collect results
@@ -88,7 +97,7 @@ jobs:
 
           mkdir -p ./huggingface/vad
 
-          cp -av $src.tar.bz2 ./huggingface/vad
+          cp -av *.pt ./huggingface/vad
 
           cd huggingface
 
