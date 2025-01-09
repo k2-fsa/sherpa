@@ -4,7 +4,7 @@ import torch
 
 
 def main():
-    m = torch.jit.load("./silero_vad.jit")
+    m = torch.jit.load("./silero_vad_v4.jit")
     meta_data = {
         "version": "4",
     }
