@@ -30,49 +30,52 @@ def main():
     m = torch.jit.load("./silero-vad-v4.pt")
     m.eval()
 
-    samples = load_audio("./lei-jun-test.wav")
-    #  samples = load_audio("./Obama.wav")
-    print(samples.shape)
+    filenames = ["./lei-jun-test.wav", "./Obama.wav"]
 
-    batch_size = 1
-    h = torch.zeros(2, batch_size, 64, dtype=torch.float32)
-    c = torch.zeros(2, batch_size, 64, dtype=torch.float32)
-    print(h.shape, c.shape)
+    samples1 = load_audio(filenames[0])
+    samples2 = load_audio(filenames[1])
+    print(samples1.shape)
+    print(samples2.shape)
+
+    samples = torch.nn.utils.rnn.pad_sequence(
+        [torch.from_numpy(samples1), torch.from_numpy(samples2)],
+        batch_first=True,
+        padding_value=0,
+    )
+    print(samples.shape)
 
     sample_rate = 16000
 
     start = 0
     window_size = 512
-    out = m.audio_forward(
-        torch.from_numpy(samples), torch.tensor([sample_rate]), window_size
-    )
+    out = m.audio_forward(samples, torch.tensor([sample_rate]), window_size)
     # out: (batch_size, num_frames)
-    assert out.shape[0] == batch_size, out.shape
+    assert out.shape[0] == samples.shape[0], out.shape
+    print(out.shape)
     threshold = 0.5
     out = out > threshold
     min_speech_duration = 0.25 * sample_rate / window_size
     min_silence_duration = 0.25 * sample_rate / window_size
-    print("min_speech_duration", min_speech_duration)
-    for i in range(batch_size):
-        w = out[i].tolist()
+
+    indexes = torch.nonzero(out, as_tuple=False)
+    duration = [samples1.shape[0] / sample_rate, samples2.shape[0] / sample_rate]
+
+    for i in range(samples.shape[0]):
+        w = indexes[indexes[:, 0] == i, 1].tolist()
 
         result = []
-        last = -1
-        for k, f in enumerate(w):
-            if f >= threshold:
-                if last == -1:
-                    last = k
-            elif last != -1:
-                if k - last > min_speech_duration:
-                    result.append((last, k))
-                last = -1
+        start = last = w[0]
+        for k in w[1:]:
+            if k - last < min_speech_duration:
+                last = k
+                continue
+            else:
+                if last - start > min_speech_duration:
+                    result.append((start, last))
+                start = last = k
 
-        if last != -1 and k - last > min_speech_duration:
-            result.append((last, k))
-
-        if not result:
-            continue
-        print(result)
+        if last - start > min_speech_duration:
+            result.append((start, last))
 
         final = [result[0]]
         for r in result[1:]:
@@ -82,9 +85,14 @@ def main():
             else:
                 final.append(r)
 
+        final = filter(lambda f: f[1] - f[0] > min_speech_duration, final)
+
+        print(f"----------{filenames[i]}----------")
         for f in final:
             start = f[0] * window_size / sample_rate
             end = f[1] * window_size / sample_rate
+            if start > duration[i] or end > duration[i]:
+                break
             print("{:.3f} -- {:.3f}".format(start, end))
 
 
