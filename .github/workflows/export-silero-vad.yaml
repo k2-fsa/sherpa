@@ -1,0 +1,111 @@
+name: export-silero-vad
+
+on:
+  push:
+    branches:
+      - export-silero-vad
+  workflow_dispatch:
+
+concurrency:
+  group: export-silero-vad-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  export-silero-vad:
+    if: github.repository_owner == 'k2-fsa' || github.repository_owner == 'csukuangfj'
+    name: export ${{ matrix.model }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest]
+        python-version: ["3.10"]
+        model: ['v4']
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install pyannote
+        shell: bash
+        run: |
+          pip install torch==1.13.0 torchaudio==0.13.0 soundfile librosa numpy==1.26.4
+
+      - name: Export ${{ matrix.model }}
+        shell: bash
+        run: |
+          pushd scripts/silero-vad
+          model=${{ matrix.model }}
+          ./run-$model.sh
+          python3 ./export-$model.py
+          ls -lh
+
+
+      - name: Test ${{ matrix.model }}
+        shell: bash
+        run: |
+          pushd scripts/silero-vad
+
+          model=${{ matrix.model }}
+          python3 ./test-$model.py
+          ls -lh
+
+      - name: Test ${{ matrix.model }} batch
+        shell: bash
+        run: |
+          pushd scripts/silero-vad
+
+          model=${{ matrix.model }}
+          python3 ./test-$model-batch.py
+          ls -lh
+
+      - name: Collect results
+        shell: bash
+        run: |
+          cp scripts/silero-vad/*.pt ./
+
+      - name: Release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          file_glob: true
+          file: ./*.pt
+          overwrite: true
+          repo_name: k2-fsa/sherpa
+          repo_token: ${{ secrets.UPLOAD_GH_SHERPA_TOKEN }}
+          tag: vad-models
+
+      - name: Publish ${{ matrix.model }} to huggingface
+        shell: bash
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          model=${{ matrix.model }}
+
+          git config --global user.email "csukuangfj@gmail.com"
+          git config --global user.name "Fangjun Kuang"
+
+          export GIT_CLONE_PROTECTION_ACTIVE=false
+
+          export GIT_LFS_SKIP_SMUDGE=1
+
+          rm -rf huggingface
+          git clone https://csukuangfj:$HF_TOKEN@huggingface.co/k2-fsa/sherpa-models huggingface
+
+          mkdir -p ./huggingface/vad
+
+          cp -av *.pt ./huggingface/vad
+
+          cd huggingface
+
+          git status
+          ls -lh
+          git lfs track "*.pt*"
+
+          git add .
+          git commit -m "upload $src" || true
+          git push https://csukuangfj:$HF_TOKEN@huggingface.co/k2-fsa/sherpa-models main || true
+
