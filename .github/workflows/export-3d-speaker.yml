@@ -1,0 +1,95 @@
+name: export-3d-speaker
+
+on:
+  push:
+    branches:
+      - export-3d-speaker
+  workflow_dispatch:
+
+concurrency:
+  group: export-3d-speaker-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  export-3d-speaker:
+    if: github.repository_owner == 'k2-fsa' || github.repository_owner == 'csukuangfj'
+    name: export 3d speaker
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest]
+        python-version: ["3.10"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        shell: bash
+        run: |
+          pip install torch==2.0.0 torchaudio==2.0.1 modelscope kaldi-native-fbank numpy==1.26.4 addict datasets librosa soundfile
+
+          cd /tmp
+
+          pushd /tmp
+          git clone https://github.com/alibaba-damo-academy/3D-Speaker
+          cd 3D-Speaker
+          pip install -r ./requirements.txt
+          popd
+
+      - name: Export
+        shell: bash
+        run: |
+          pushd scripts/3d-speaker
+          export PYTHONPATH=/tmp/3D-Speaker:PYTHONPATH
+          ./run.sh
+
+      - name: Collect results
+        shell: bash
+        run: |
+          mv -v scripts/3d-speaker/*.pt ./
+          ls -lh *.pt
+
+      - name: Release
+        uses: svenstaro/upload-release-action@v2
+        with:
+          file_glob: true
+          file: ./*.pt
+          overwrite: true
+          repo_name: k2-fsa/sherpa
+          repo_token: ${{ secrets.UPLOAD_GH_SHERPA_TOKEN }}
+          tag: speaker-recognition-models
+
+      - name: Publish ${{ matrix.model }} to huggingface
+        shell: bash
+        env:
+          HF_TOKEN: ${{ secrets.HF_TOKEN }}
+        run: |
+          git config --global user.email "csukuangfj@gmail.com"
+          git config --global user.name "Fangjun Kuang"
+
+          export GIT_CLONE_PROTECTION_ACTIVE=false
+
+          export GIT_LFS_SKIP_SMUDGE=1
+
+          rm -rf huggingface
+          git clone https://csukuangfj:$HF_TOKEN@huggingface.co/k2-fsa/sherpa-models huggingface
+
+          mkdir -p ./huggingface/speaker-recognition-models
+
+          cp -av ./*.pt ./huggingface/speaker-recognition-models
+
+          cd huggingface
+
+          git status
+          ls -lh
+          git lfs track "*.pt*"
+
+          git add .
+          git commit -m "add some models from 3d-speaker" || true
+          git push https://csukuangfj:$HF_TOKEN@huggingface.co/k2-fsa/sherpa-models main || true
