@@ -16,11 +16,15 @@ struct OfflineModelConfig {
 
   std::string tokens;
   bool debug = false;
+  bool use_gpu = false;
 
   OfflineModelConfig() = default;
   OfflineModelConfig(const OfflineSenseVoiceModelConfig &sense_voice,
-                     const std::string &tokens, bool debug)
-      : sense_voice(sense_voice), tokens(tokens), debug(debug), {}
+                     const std::string &tokens, bool debug, bool use_gpu)
+      : sense_voice(sense_voice),
+        tokens(tokens),
+        debug(debug),
+        use_gpu(use_gpu) {}
 
   void Register(ParseOptions *po);
   bool Validate() const;

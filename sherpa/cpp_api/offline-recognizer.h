@@ -79,7 +79,7 @@ struct OfflineRecognizerConfig {
 
   void Register(ParseOptions *po);
 
-  void Validate() const;
+  void Validate();
 
   /** A string representation for debugging purpose. */
   std::string ToString() const;

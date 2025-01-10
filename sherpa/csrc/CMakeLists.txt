@@ -30,6 +30,8 @@ set(sherpa_srcs
   resample.cc
   symbol-table.cc
   offline-sense-voice-model-config.cc
+  offline-sense-voice-model.cc
+  offline-sense-voice-model-meta-data.cc
   offline-model-config.cc
 )
 

@@ -18,6 +18,9 @@ void OfflineModelConfig::Register(ParseOptions *po) {
 
   po->Register("debug", &debug,
                "true to print model information while loading it.");
+
+  // TODO(fangjun): Enable it
+  // po->Register("use-gpu", &use_gpu "true to CUDA. false to use CPU.");
 }
 
 bool OfflineModelConfig::Validate() const {
@@ -39,7 +42,8 @@ std::string OfflineModelConfig::ToString() const {
   os << "OfflineModelConfig(";
   os << "sense_voice=" << sense_voice.ToString() << ", ";
   os << "tokens=\"" << tokens << "\", ";
-  os << "debug=" << (debug ? "True" : "False") << ")";
+  os << "debug=" << (debug ? "True" : "False") << ", ";
+  os << "use_gpu=" << (debug ? "True" : "False") << ")";
 
   return os.str();
 }
