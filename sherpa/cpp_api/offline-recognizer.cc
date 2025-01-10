@@ -89,6 +89,7 @@ void OfflineRecognizerConfig::Register(ParseOptions *po) {
   ctc_decoder_config.Register(po);
   feat_config.Register(po);
   fast_beam_search_config.Register(po);
+  mode.Register(po);
 
   po->Register("nn-model", &nn_model, "Path to the torchscript model");
 
@@ -123,15 +124,23 @@ void OfflineRecognizerConfig::Register(ParseOptions *po) {
 }
 
 void OfflineRecognizerConfig::Validate() const {
-  if (nn_model.empty()) {
-    SHERPA_LOG(FATAL) << "Please provide --nn-model";
-  }
-  AssertFileExists(nn_model);
-
   if (tokens.empty()) {
     SHERPA_LOG(FATAL) << "Please provide --tokens";
   }
   AssertFileExists(tokens);
+
+  if (!model.sense_voice.model.empty()) {
+    model.tokens = tokens;
+    if (!model.Validate()) {
+      SHERPA_LOG(FATAL) << "Errors in config.";
+    }
+  } else if (nn_model.empty()) {
+    SHERPA_LOG(FATAL) << "Please provide --nn-model";
+  }
+
+  if (!nn_model.empty()) {
+    AssertFileExists(nn_model);
+  }
 
   // TODO(fangjun): The following checks about decoding_method are
   // used only for transducer models. We should skip it for CTC models
@@ -156,6 +165,7 @@ std::string OfflineRecognizerConfig::ToString() const {
   os << "OfflineRecognizerConfig(";
   os << "ctc_decoder_config=" << ctc_decoder_config.ToString() << ", ";
   os << "feat_config=" << feat_config.ToString() << ", ";
+  os << "model=" << model.ToString() << ", ";
   os << "nn_model=\"" << nn_model << "\", ";
   os << "tokens=\"" << tokens << "\", ";
   os << "use_gpu=" << (use_gpu ? "True" : "False") << ", ";

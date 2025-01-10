@@ -29,6 +29,8 @@ set(sherpa_srcs
   parse-options.cc
   resample.cc
   symbol-table.cc
+  offline-sense-voice-model-config.cc
+  offline-model-config.cc
 )
 
 add_library(sherpa_core ${sherpa_srcs})
