@@ -3,6 +3,9 @@
 // Copyright (c)  2025  Xiaomi Corporation
 #include "sherpa/csrc/offline-sense-voice-model.h"
 
+#include <utility>
+
+#include "sherpa/cpp_api/macros.h"
 #include "sherpa/csrc/macros.h"
 
 namespace sherpa {
@@ -56,6 +59,22 @@ class OfflineSenseVoiceModel::Impl {
 
   torch::Device Device() const { return device_; }
 
+  std::pair<torch::Tensor, torch::Tensor> RunForward(
+      const torch::Tensor &features, const torch::Tensor &features_length,
+      const torch::Tensor &language, const torch::Tensor &use_itn) {
+    InferenceMode no_grad;
+
+    auto outputs =
+        model_
+            .run_method("forward", features, features_length, language, use_itn)
+            .toTuple();
+
+    auto logits = outputs->elements()[0].toTensor();
+    auto logits_length = outputs->elements()[1].toTensor();
+
+    return {logits, logits_length};
+  }
+
  private:
   void InitMetaData(const torch::jit::ExtraFilesMap &meta_data) {
     meta_data_.with_itn_id = atoi(meta_data.at("with_itn").c_str());
@@ -106,5 +125,11 @@ const OfflineSenseVoiceModelMetaData &OfflineSenseVoiceModel::GetModelMetadata()
 }
 
 torch::Device OfflineSenseVoiceModel::Device() const { return impl_->Device(); }
+
+std::pair<torch::Tensor, torch::Tensor> OfflineSenseVoiceModel::RunForward(
+    const torch::Tensor &features, const torch::Tensor &features_length,
+    const torch::Tensor &language, const torch::Tensor &use_itn) {
+  return impl_->RunForward(features, features_length, language, use_itn);
+}
 
 }  // namespace sherpa

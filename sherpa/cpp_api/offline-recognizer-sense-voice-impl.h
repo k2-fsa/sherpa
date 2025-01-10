@@ -6,10 +6,43 @@
 #define SHERPA_CPP_API_OFFLINE_RECOGNIZER_SENSE_VOICE_IMPL_H_
 
 #include "sherpa/csrc/macros.h"
+#include "sherpa/csrc/offline-ctc-decoder.h"
+#include "sherpa/csrc/offline-ctc-greedy-search-decoder.h"
 #include "sherpa/csrc/offline-sense-voice-model.h"
 #include "sherpa/csrc/symbol-table.h"
 
 namespace sherpa {
+
+static OfflineRecognitionResult ConvertSenseVoice(
+    const OfflineCtcDecoderResult &src, const SymbolTable &sym_table,
+    int32_t frame_shift_ms, int32_t subsampling_factor) {
+  OfflineRecognitionResult r;
+  r.tokens.reserve(src.tokens.size());
+  r.timestamps.reserve(src.timestamps.size());
+
+  std::string text;
+  int32_t k = 0;
+  for (auto i : src.tokens) {
+    k += 1;
+    if (k <= 4) {
+      // skip <|en|><|NEUTRAL|><|Speech|><|woitn|>
+      continue;
+    }
+    auto sym = sym_table[i];
+    text.append(sym);
+
+    r.tokens.push_back(std::move(sym));
+  }
+  r.text = std::move(text);
+
+  float frame_shift_s = frame_shift_ms / 1000. * subsampling_factor;
+  for (auto t : src.timestamps) {
+    float time = frame_shift_s * t;
+    r.timestamps.push_back(time);
+  }
+
+  return r;
+}
 
 class OfflineRecognizerSenseVoiceImpl : public OfflineRecognizerImpl {
  public:
@@ -24,6 +57,8 @@ class OfflineRecognizerSenseVoiceImpl : public OfflineRecognizerImpl {
 
     config_.feat_config.normalize_samples =
         model_->GetModelMetadata().normalize_samples;
+
+    decoder_ = std::make_unique<OfflineCtcGreedySearchDecoder>();
   }
 
   std::unique_ptr<OfflineStream> CreateStream() override {
@@ -36,7 +71,9 @@ class OfflineRecognizerSenseVoiceImpl : public OfflineRecognizerImpl {
     std::vector<torch::Tensor> features_vec(n);
     std::vector<int64_t> features_length_vec(n);
     for (int32_t i = 0; i != n; ++i) {
-      const auto &f = ss[i]->GetFeatures();
+      auto f = ss[i]->GetFeatures();
+      f = ApplyLFR(f);
+      f = ApplyCMVN(f);
       features_vec[i] = f;
       features_length_vec[i] = f.size(0);
     }
@@ -56,20 +93,62 @@ class OfflineRecognizerSenseVoiceImpl : public OfflineRecognizerImpl {
     {"auto": 0, "zh": 3, "en": 4, "yue": 7, "ja": 11, "ko": 12, "nospeech": 13}
     self.textnorm_dict = {"withitn": 14, "woitn": 15}
     */
-    std::vector<int32_t> language(n, 0);
-    std::vector<int32_t> use_itn(n,
-                                 config_.model.sense_voice.use_itn ? 14 : 15);
+
+    const auto &meta_data = model_->GetModelMetadata();
+    int32_t language_id = meta_data.lang2id.at("auto");
+    if (meta_data.lang2id.count(config_.model.sense_voice.language)) {
+      language_id = meta_data.lang2id.at(config_.model.sense_voice.language);
+    }
+    std::vector<int32_t> language(n, language_id);
+
+    std::vector<int32_t> use_itn(n, config_.model.sense_voice.use_itn
+                                        ? meta_data.with_itn_id
+                                        : meta_data.without_itn_id);
+
     auto language_tensor = torch::tensor(language, torch::kInt).to(device);
     auto use_itn_tensor = torch::tensor(use_itn, torch::kInt).to(device);
-    /*
-        auto outputs = model
-                           .run_method("forward", features, features_length,
-                                       language_tensor, use_itn_tensor)
-                           .toTuple();
 
-        auto logits = outputs->elements()[0];
-        auto logits_length = outputs->elements()[1].toTensor();
-    */
+    auto outputs = model_->RunForward(features, features_length,
+                                      language_tensor, use_itn_tensor);
+
+    auto logits = outputs.first;
+    auto logits_length = outputs.second;
+
+    auto results = decoder_->Decode(logits, logits_length);
+
+    for (int32_t i = 0; i != n; ++i) {
+      ss[i]->SetResult(ConvertSenseVoice(
+          results[i], symbol_table_,
+          config_.feat_config.fbank_opts.frame_opts.frame_shift_ms,
+          meta_data.window_shift));
+    }
+  }
+
+ private:
+  torch::Tensor ApplyLFR(torch::Tensor features) const {
+    const auto &meta_data = model_->GetModelMetadata();
+
+    int32_t lfr_window_size = meta_data.window_size;
+    int32_t lfr_window_shift = meta_data.window_shift;
+
+    int32_t num_frames = features.size(0);
+    int32_t feat_dim = features.size(1);
+
+    int32_t new_num_frames =
+        (num_frames - lfr_window_size) / lfr_window_shift + 1;
+
+    int32_t new_feat_dim = feat_dim * lfr_window_size;
+
+    return features
+        .as_strided({new_num_frames, new_feat_dim},
+                    {lfr_window_shift * feat_dim, 1})
+        .clone();
+  }
+
+  torch::Tensor ApplyCMVN(torch::Tensor features) const {
+    const auto &meta_data = model_->GetModelMetadata();
+
+    return (features + meta_data.neg_mean) * meta_data.inv_stddev;
   }
 
  private:

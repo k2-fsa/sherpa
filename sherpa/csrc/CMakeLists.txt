@@ -9,6 +9,7 @@ set(sherpa_srcs
   offline-conformer-ctc-model.cc
   offline-conformer-transducer-model.cc
   offline-ctc-one-best-decoder.cc
+  offline-ctc-greedy-search-decoder.cc
   offline-nemo-enc-dec-ctc-model-bpe.cc
   offline-stream.cc
   offline-transducer-fast-beam-search-decoder.cc
