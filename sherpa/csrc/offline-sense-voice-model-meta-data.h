@@ -8,6 +8,8 @@
 #include <unordered_map>
 #include <vector>
 
+#include "torch/script.h"
+
 namespace sherpa {
 
 struct OfflineSenseVoiceModelMetaData {
@@ -41,8 +43,8 @@ struct OfflineSenseVoiceModelMetaData {
   //  auto is to let the model recognize the language
   std::unordered_map<std::string, int32_t> lang2id;
 
-  std::vector<float> neg_mean;
-  std::vector<float> inv_stddev;
+  torch::Tensor neg_mean;    // 2-d float32, (1, feat_dim)
+  torch::Tensor inv_stddev;  // 2-d float32, (1, feat_dim)
 
   std::string ToString() const;
 };

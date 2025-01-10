@@ -73,8 +73,20 @@ class OfflineSenseVoiceModel::Impl {
     meta_data_.lang2id["ko"] = atoi(meta_data.at("lang_ko").c_str());
     meta_data_.lang2id["ja"] = atoi(meta_data.at("lang_ja").c_str());
 
-    meta_data_.neg_mean = ToFloat(meta_data.at("neg_mean"));
-    meta_data_.inv_stddev = ToFloat(meta_data.at("inv_stddev"));
+    auto neg_mean = ToFloat(meta_data.at("neg_mean"));
+    auto inv_stddev = ToFloat(meta_data.at("inv_stddev"));
+
+    meta_data_.neg_mean =
+        torch::from_blob(neg_mean.data(),
+                         {1, static_cast<int32_t>(neg_mean.size())},
+                         torch::kFloat32)
+            .clone();
+
+    meta_data_.inv_stddev =
+        torch::from_blob(inv_stddev.data(),
+                         {1, static_cast<int32_t>(inv_stddev.size())},
+                         torch::kFloat32)
+            .clone();
   }
 
  private:

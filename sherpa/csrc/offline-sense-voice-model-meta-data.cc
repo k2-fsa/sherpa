@@ -20,26 +20,18 @@ std::string OfflineSenseVoiceModelMetaData::ToString() const {
   for (const auto &p : lang2id) {
     os << " " << p.first << ": " << p.second << "\n";
   }
-  os << " neg_mean (" << neg_mean.size() << "): ";
-  int32_t i = 0;
-  for (auto f : neg_mean) {
-    os << f << ", ";
-    i += 1;
-    if (i > 10) {
-      break;
-    }
+  os << " neg_mean (" << neg_mean.size(1) << "): ";
+
+  auto p = neg_mean.data_ptr<float>();
+  for (int32_t i = 0; i < 10; ++i) {
+    os << p[i] << ", ";
   }
   os << "\n";
 
-  i = 0;
-
-  os << " inv_stddev (" << inv_stddev.size() << "): ";
-  for (auto f : inv_stddev) {
-    os << f << ", ";
-    i += 1;
-    if (i > 10) {
-      break;
-    }
+  os << " inv_stddev (" << inv_stddev.size(1) << "): ";
+  p = inv_stddev.data_ptr<float>();
+  for (int32_t i = 0; i < 10; ++i) {
+    os << p[i] << ", ";
   }
   os << "\n";
 
