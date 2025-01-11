@@ -11,6 +11,7 @@ on:
       - 'sherpa/csrc/**'
       - 'sherpa/cpp_api/**'
       - 'sherpa/python/**'
+  workflow_dispatch:
 
 concurrency:
   group: pypi-${{ github.ref }}

@@ -17,6 +17,8 @@
  */
 #include "sherpa/cpp_api/offline-recognizer.h"
 
+#include <chrono>  // NOLINT
+
 #include "kaldi_native_io/csrc/kaldi-table.h"
 #include "kaldi_native_io/csrc/text-utils.h"
 #include "kaldi_native_io/csrc/wave-reader.h"
@@ -123,7 +125,10 @@ int main(int argc, char *argv[]) {
       << "We don't support resample yet";
 
   SHERPA_LOG(INFO) << config.ToString();
+
+  SHERPA_LOG(INFO) << "Creating recognizer ...";
   sherpa::OfflineRecognizer recognizer(config);
+  SHERPA_LOG(INFO) << "Recognizer created.";
 
   if (use_wav_scp) {
     SHERPA_CHECK_EQ(po.NumArgs(), 2)
@@ -287,11 +292,20 @@ int main(int argc, char *argv[]) {
   }
 
   if (po.NumArgs() == 1) {
+    SHERPA_LOG(INFO) << "Started";
+    const auto begin = std::chrono::steady_clock::now();
     auto s = recognizer.CreateStream();
     s->AcceptWaveFile(po.GetArg(1));
     recognizer.DecodeStream(s.get());
 
     const auto &r = s->GetResult();
+    const auto end = std::chrono::steady_clock::now();
+
+    float elapsed_seconds =
+        std::chrono::duration_cast<std::chrono::milliseconds>(end - begin)
+            .count() /
+        1000.;
+    SHERPA_LOG(INFO) << "Done in " << elapsed_seconds << " seconds";
     std::cerr << "\nfilename: " << po.GetArg(1) << "\ntext: " << r.text
               << "\ntoken IDs: " << r.tokens
               << "\ntimestamps (after subsampling): " << r.timestamps << "\n";

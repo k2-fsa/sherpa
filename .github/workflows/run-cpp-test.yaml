@@ -20,11 +20,13 @@ on:
   push:
     branches:
       - master
+      - cpp-sense-voice
     paths:
       - '.github/workflows/run-cpp-test.yaml'
       - '.github/scripts/run-offline-transducer.sh'
       - '.github/scripts/run-online-transducer.sh'
       - '.github/scripts/run-offline-ctc.sh'
+      - '.github/scripts/run-offline-sense-voice.sh'
       - 'CMakeLists.txt'
       - 'cmake/**'
       - 'sherpa/csrc/**'
@@ -36,10 +38,12 @@ on:
       - '.github/scripts/run-offline-transducer.sh'
       - '.github/scripts/run-online-transducer.sh'
       - '.github/scripts/run-offline-ctc.sh'
+      - '.github/scripts/run-offline-sense-voice.sh'
       - 'CMakeLists.txt'
       - 'cmake/**'
       - 'sherpa/csrc/**'
       - 'sherpa/cpp_api/**'
+  workflow_dispatch:
 
 concurrency:
   group: run_cpp_tests-${{ github.ref }}
@@ -171,6 +175,11 @@ jobs:
           ./bin/sherpa-version
 
           ./bin/sherpa-offline --help
+
+      - name: Run offline sense-voice
+        shell: bash
+        run: |
+          .github/scripts/run-offline-sense-voice.sh
 
       - name: Run online transducer
         shell: bash
