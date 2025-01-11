@@ -59,6 +59,8 @@ class OfflineRecognizerSenseVoiceImpl : public OfflineRecognizerImpl {
         model_->GetModelMetadata().normalize_samples;
 
     decoder_ = std::make_unique<OfflineCtcGreedySearchDecoder>();
+
+    WarmUp();
   }
 
   std::unique_ptr<OfflineStream> CreateStream() override {
@@ -125,6 +127,41 @@ class OfflineRecognizerSenseVoiceImpl : public OfflineRecognizerImpl {
   }
 
  private:
+  void WarmUp() {
+    SHERPA_LOG(INFO) << "WarmUp begins";
+    auto s = CreateStream();
+    float sample_rate = fbank_.GetFrameOptions().samp_freq;
+    std::vector<float> samples(2 * sample_rate, 0);
+    s->AcceptSamples(samples.data(), samples.size());
+    auto features = s->GetFeatures();
+    features = ApplyLFR(features);
+    features = ApplyCMVN(features);
+    auto features_length = torch::tensor({features.size(0)});
+    features = features.unsqueeze(0);
+
+    auto device = model_->Device();
+
+    features = features.to(device);
+    features_length = features_length.to(device);
+
+    const auto &meta_data = model_->GetModelMetadata();
+    int32_t language_id = meta_data.lang2id.at("auto");
+
+    std::vector<int32_t> language(1, language_id);
+
+    std::vector<int32_t> use_itn(1, config_.model.sense_voice.use_itn
+                                        ? meta_data.with_itn_id
+                                        : meta_data.without_itn_id);
+
+    auto language_tensor = torch::tensor(language, torch::kInt).to(device);
+    auto use_itn_tensor = torch::tensor(use_itn, torch::kInt).to(device);
+
+    auto outputs = model_->RunForward(features, features_length,
+                                      language_tensor, use_itn_tensor);
+
+    SHERPA_LOG(INFO) << "WarmUp ended";
+  }
+
   torch::Tensor ApplyLFR(torch::Tensor features) const {
     const auto &meta_data = model_->GetModelMetadata();
 

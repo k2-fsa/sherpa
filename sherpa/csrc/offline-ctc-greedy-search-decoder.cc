@@ -26,7 +26,8 @@ std::vector<OfflineCtcDecoderResult> OfflineCtcGreedySearchDecoder::Decode(
   std::vector<OfflineCtcDecoderResult> results(batch_size);
 
   for (int32_t i = 0; i != batch_size; ++i) {
-    torch::Tensor this_indexes = indexes.slice(i, 0, p_len[i]);
+    torch::Tensor this_indexes = indexes.index({i}).slice(0, 0, p_len[i]);
+
     this_indexes = std::get<0>(torch::unique_consecutive(this_indexes));
 
     // assume that the blank id is 0
