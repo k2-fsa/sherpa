@@ -6,7 +6,9 @@ pybind11_add_module(_sherpa
   fast-beam-search-config.cc
   feature-config.cc
   offline-ctc-model.cc
+  offline-model-config.cc
   offline-recognizer.cc
+  offline-sense-voice-model-config.cc
   offline-stream.cc
   online-recognizer.cc
   online-stream.cc

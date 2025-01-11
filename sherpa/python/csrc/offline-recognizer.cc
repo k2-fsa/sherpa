@@ -8,6 +8,7 @@
 #include <string>
 #include <vector>
 
+#include "sherpa/python/csrc/offline-model-config.h"
 #include "sherpa/python/csrc/offline-recognizer.h"
 
 namespace sherpa {
@@ -151,8 +152,11 @@ static void PybindOfflineCtcDecoderConfig(py::module &m) {  // NOLINT
 
 static void PybindOfflineRecognizerConfig(py::module &m) {  // NOLINT
   using PyClass = OfflineRecognizerConfig;
+  PybindOfflineModelConfig(&m);
+
   py::class_<PyClass>(m, "OfflineRecognizerConfig")
-      .def(py::init([](const std::string &nn_model, const std::string &tokens,
+      .def(py::init([](const OfflineModelConfig &model,
+                       const std::string &nn_model, const std::string &tokens,
                        bool use_gpu = false, int32_t num_active_paths = 4,
                        float context_score = 1.5, bool use_bbpe = false,
                        float temperature = 1.0,
@@ -166,6 +170,7 @@ static void PybindOfflineRecognizerConfig(py::module &m) {  // NOLINT
              config->ctc_decoder_config = ctc_decoder_config;
              config->feat_config = feat_config;
              config->fast_beam_search_config = fast_beam_search_config;
+             config->model = model;
              config->nn_model = nn_model;
              config->tokens = tokens;
              config->use_gpu = use_gpu;
@@ -177,7 +182,8 @@ static void PybindOfflineRecognizerConfig(py::module &m) {  // NOLINT
 
              return config;
            }),
-           py::arg("nn_model"), py::arg("tokens"), py::arg("use_gpu") = false,
+           py::arg("model") = OfflineModelConfig{}, py::arg("nn_model") = "",
+           py::arg("tokens"), py::arg("use_gpu") = false,
            py::arg("num_active_paths") = 4, py::arg("context_score") = 1.5,
            py::arg("use_bbpe") = false, py::arg("temperature") = 1.0,
            py::arg("ctc_decoder_config") = OfflineCtcDecoderConfig(),

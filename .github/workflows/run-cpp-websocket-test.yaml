@@ -18,6 +18,7 @@ on:
       - 'cmake/**'
       - 'sherpa/csrc/**'
       - 'sherpa/cpp_api/**'
+  workflow_dispatch:
 
 concurrency:
   group: run_cpp_websocket_tests-${{ github.ref }}

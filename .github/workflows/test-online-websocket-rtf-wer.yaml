@@ -20,6 +20,7 @@ on:
       - 'cmake/**'
       - 'sherpa/csrc/**'
       - 'sherpa/cpp_api/**'
+  workflow_dispatch:
 
 concurrency:
   group: test_rtf_and_wer_cpp_online_websocket_server-${{ github.ref }}

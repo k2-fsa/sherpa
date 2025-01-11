@@ -31,6 +31,7 @@ on:
       - '.github/workflows/style_check.yml'
       - 'sherpa/bin/**'
       - 'sherpa/python/**'
+  workflow_dispatch:
 
 concurrency:
   group: cpp_style_check-${{ github.ref }}

@@ -13,6 +13,7 @@
 #include "sherpa/cpp_api/feature-config.h"
 #include "sherpa/cpp_api/macros.h"
 #include "sherpa/cpp_api/offline-stream.h"
+#include "sherpa/csrc/offline-model-config.h"
 
 namespace sherpa {
 
@@ -44,6 +45,9 @@ struct OfflineRecognizerConfig {
   FeatureConfig feat_config;
 
   FastBeamSearchConfig fast_beam_search_config;
+
+  // TODO(fangjun): We will remmove mutable later
+  mutable OfflineModelConfig model;
 
   /// Path to the torchscript model
   std::string nn_model;

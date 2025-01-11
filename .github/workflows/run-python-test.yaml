@@ -22,6 +22,7 @@ on:
       - 'sherpa/csrc/**'
       - 'sherpa/cpp_api/**'
       - 'sherpa/python/**'
+  workflow_dispatch:
 
 concurrency:
   group: run_python_tests-${{ github.ref }}

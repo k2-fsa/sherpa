@@ -1,6 +1,6 @@
 // sherpa/cpp_api/offline-recognizer.cc
 //
-// Copyright (c)  2022  Xiaomi Corporation
+// Copyright (c)  2022-2025  Xiaomi Corporation
 
 #include "sherpa/cpp_api/offline-recognizer.h"
 
@@ -9,6 +9,7 @@
 #include "sherpa/cpp_api/feature-config.h"
 #include "sherpa/cpp_api/offline-recognizer-ctc-impl.h"
 #include "sherpa/cpp_api/offline-recognizer-impl.h"
+#include "sherpa/cpp_api/offline-recognizer-sense-voice-impl.h"
 #include "sherpa/cpp_api/offline-recognizer-transducer-impl.h"
 #include "sherpa/csrc/file-utils.h"
 #include "sherpa/csrc/log.h"
@@ -89,6 +90,7 @@ void OfflineRecognizerConfig::Register(ParseOptions *po) {
   ctc_decoder_config.Register(po);
   feat_config.Register(po);
   fast_beam_search_config.Register(po);
+  model.Register(po);
 
   po->Register("nn-model", &nn_model, "Path to the torchscript model");
 
@@ -123,15 +125,24 @@ void OfflineRecognizerConfig::Register(ParseOptions *po) {
 }
 
 void OfflineRecognizerConfig::Validate() const {
-  if (nn_model.empty()) {
-    SHERPA_LOG(FATAL) << "Please provide --nn-model";
-  }
-  AssertFileExists(nn_model);
-
   if (tokens.empty()) {
     SHERPA_LOG(FATAL) << "Please provide --tokens";
   }
   AssertFileExists(tokens);
+
+  if (!model.sense_voice.model.empty()) {
+    model.tokens = tokens;
+    model.use_gpu = use_gpu;
+    if (!model.Validate()) {
+      SHERPA_LOG(FATAL) << "Errors in config.";
+    }
+  } else if (nn_model.empty()) {
+    SHERPA_LOG(FATAL) << "Please provide --nn-model";
+  }
+
+  if (!nn_model.empty()) {
+    AssertFileExists(nn_model);
+  }
 
   // TODO(fangjun): The following checks about decoding_method are
   // used only for transducer models. We should skip it for CTC models
@@ -156,6 +167,7 @@ std::string OfflineRecognizerConfig::ToString() const {
   os << "OfflineRecognizerConfig(";
   os << "ctc_decoder_config=" << ctc_decoder_config.ToString() << ", ";
   os << "feat_config=" << feat_config.ToString() << ", ";
+  os << "model=" << model.ToString() << ", ";
   os << "nn_model=\"" << nn_model << "\", ";
   os << "tokens=\"" << tokens << "\", ";
   os << "use_gpu=" << (use_gpu ? "True" : "False") << ", ";
@@ -177,6 +189,11 @@ std::ostream &operator<<(std::ostream &os,
 OfflineRecognizer::~OfflineRecognizer() = default;
 
 OfflineRecognizer::OfflineRecognizer(const OfflineRecognizerConfig &config) {
+  if (!config.model.sense_voice.model.empty()) {
+    impl_ = std::make_unique<OfflineRecognizerSenseVoiceImpl>(config);
+    return;
+  }
+
   if (!config.nn_model.empty()) {
     torch::jit::Module m = torch::jit::load(config.nn_model, torch::kCPU);
     if (!m.hasattr("joiner")) {

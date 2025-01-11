@@ -551,7 +551,7 @@ sherpa-onnx-zipformer-korean-2024-06-24 (Korean, 韩语)
 ------------------------------------------------------------
 
 PyTorch checkpoints of this model can be found at
-`<https://huggingface.co/johnBamma/icefall-asr-ksponspeech-zipformer-2024-06-24>`.
+`<https://huggingface.co/johnBamma/icefall-asr-ksponspeech-zipformer-2024-06-24>`_.
 
 The training dataset can be found at `<https://aihub.or.kr/aihubdata/data/view.do?currMenu=115&topMenu=100&aihubDataSe=realm&dataSetSn=123>`_.
 

@@ -16,6 +16,7 @@ from _sherpa import (
     FeatureConfig,
     LinearResample,
     OfflineCtcDecoderConfig,
+    OfflineModelConfig,
     OfflineRecognizer,
     OfflineRecognizerConfig,
     OfflineStream,

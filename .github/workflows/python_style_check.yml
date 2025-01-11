@@ -32,6 +32,8 @@ on:
       - 'sherpa/python/**'
       - 'sherpa/bin/**'
 
+  workflow_dispatch:
+
 concurrency:
   group: python_style_check-${{ github.ref }}
   cancel-in-progress: true

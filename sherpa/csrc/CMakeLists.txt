@@ -9,6 +9,7 @@ set(sherpa_srcs
   offline-conformer-ctc-model.cc
   offline-conformer-transducer-model.cc
   offline-ctc-one-best-decoder.cc
+  offline-ctc-greedy-search-decoder.cc
   offline-nemo-enc-dec-ctc-model-bpe.cc
   offline-stream.cc
   offline-transducer-fast-beam-search-decoder.cc
@@ -29,6 +30,10 @@ set(sherpa_srcs
   parse-options.cc
   resample.cc
   symbol-table.cc
+  offline-sense-voice-model-config.cc
+  offline-sense-voice-model.cc
+  offline-sense-voice-model-meta-data.cc
+  offline-model-config.cc
 )
 
 add_library(sherpa_core ${sherpa_srcs})
