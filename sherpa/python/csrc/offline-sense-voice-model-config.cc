@@ -20,6 +20,7 @@ void PybindOfflineSenseVoiceModelConfig(py::module *m) {
       .def_readwrite("model", &PyClass::model)
       .def_readwrite("language", &PyClass::language)
       .def_readwrite("use_itn", &PyClass::use_itn)
+      .def("validate", &PyClass::Validate)
       .def("__str__", &PyClass::ToString);
 }
 
