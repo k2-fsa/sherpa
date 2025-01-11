@@ -46,7 +46,8 @@ struct OfflineRecognizerConfig {
 
   FastBeamSearchConfig fast_beam_search_config;
 
-  OfflineModelConfig model;
+  // TODO(fangjun): We will remmove mutable later
+  mutable OfflineModelConfig model;
 
   /// Path to the torchscript model
   std::string nn_model;
@@ -79,7 +80,7 @@ struct OfflineRecognizerConfig {
 
   void Register(ParseOptions *po);
 
-  void Validate();
+  void Validate() const;
 
   /** A string representation for debugging purpose. */
   std::string ToString() const;

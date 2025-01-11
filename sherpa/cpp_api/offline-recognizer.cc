@@ -124,7 +124,7 @@ void OfflineRecognizerConfig::Register(ParseOptions *po) {
                "Used only when decoding_method is modified_beam_search.");
 }
 
-void OfflineRecognizerConfig::Validate() {
+void OfflineRecognizerConfig::Validate() const {
   if (tokens.empty()) {
     SHERPA_LOG(FATAL) << "Please provide --tokens";
   }
