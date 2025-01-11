@@ -50,4 +50,4 @@ struct OfflineSenseVoiceModelMetaData {
 };
 }  // namespace sherpa
 
-#endif  // SHERPA_CSRC_OFFLINE_SENSE_VOICE_MODEL_H_
+#endif  // SHERPA_CSRC_OFFLINE_SENSE_VOICE_MODEL_META_DATA_H_

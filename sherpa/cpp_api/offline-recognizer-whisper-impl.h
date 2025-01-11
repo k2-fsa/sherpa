@@ -5,6 +5,8 @@
 #ifndef SHERPA_CPP_API_OFFLINE_RECOGNIZER_WHISPER_IMPL_H_
 #define SHERPA_CPP_API_OFFLINE_RECOGNIZER_WHISPER_IMPL_H_
 
+#include <memory>
+
 #include "sherpa/csrc/macros.h"
 #include "sherpa/csrc/symbol-table.h"
 

@@ -4,6 +4,10 @@
 
 #ifndef SHERPA_CPP_API_OFFLINE_RECOGNIZER_SENSE_VOICE_IMPL_H_
 #define SHERPA_CPP_API_OFFLINE_RECOGNIZER_SENSE_VOICE_IMPL_H_
+#include <memory>
+#include <string>
+#include <utility>
+#include <vector>
 
 #include "sherpa/csrc/macros.h"
 #include "sherpa/csrc/offline-ctc-decoder.h"

@@ -37,7 +37,9 @@ class OnlineStream::OnlineStreamImpl {
  public:
   explicit OnlineStreamImpl(const FeatureConfig &feat_config,
                             ContextGraphPtr context_graph /*=nullptr*/)
-      : opts_(feat_config.fbank_opts), feat_config_(feat_config), context_graph_(context_graph) {
+      : opts_(feat_config.fbank_opts),
+        feat_config_(feat_config),
+        context_graph_(context_graph) {
     fbank_ = std::make_unique<kaldifeat::OnlineFbank>(opts_);
   }
 

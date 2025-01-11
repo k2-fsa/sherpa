@@ -68,7 +68,8 @@ std::vector<OfflineCtcDecoderResult> OfflineCtcOneBestDecoder::Decode(
       last_token_is_blank = true;
       continue;
     }
-    if (t != 0 && !p->tokens.empty() && token == p->tokens.back() && (!last_token_is_blank)) {
+    if (t != 0 && !p->tokens.empty() && token == p->tokens.back() &&
+        (!last_token_is_blank)) {
       // This is a repeat, skip it.
       ++t;
       continue;

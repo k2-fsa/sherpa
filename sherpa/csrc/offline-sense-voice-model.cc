@@ -3,7 +3,9 @@
 // Copyright (c)  2025  Xiaomi Corporation
 #include "sherpa/csrc/offline-sense-voice-model.h"
 
+#include <string>
 #include <utility>
+#include <vector>
 
 #include "sherpa/cpp_api/macros.h"
 #include "sherpa/csrc/macros.h"
@@ -20,7 +22,7 @@ static std::vector<float> ToFloat(const std::string &s) {
 
 class OfflineSenseVoiceModel::Impl {
  public:
-  Impl(const OfflineModelConfig &config) {
+  explicit Impl(const OfflineModelConfig &config) {
     torch::jit::ExtraFilesMap meta_data{
         {"model_type", ""},        {"lfr_window_size", ""},
         {"lfr_window_shift", ""},  {"neg_mean", ""},
