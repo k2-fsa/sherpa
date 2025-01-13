@@ -37,6 +37,7 @@ set(sherpa_srcs
   parse-options.cc
   resample.cc
   symbol-table.cc
+  text-utils.cc
 )
 
 add_library(sherpa_core ${sherpa_srcs})

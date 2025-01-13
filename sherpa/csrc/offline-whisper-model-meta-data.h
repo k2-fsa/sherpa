@@ -13,41 +13,36 @@
 namespace sherpa {
 
 struct OfflineWhisperModelMetaData {
-  // ID for using inverse text normalization
-  int32_t with_itn_id;
+  int32_t n_mels;
+  int32_t n_audio_ctx;
+  int32_t n_audio_state;
+  int32_t n_audio_head;
+  int32_t n_audio_layer;
+  int32_t n_vocab;
+  int32_t n_text_ctx;
+  int32_t n_text_state;
+  int32_t n_text_head;
+  int32_t n_text_layer;
+  int32_t sot;
+  int32_t sot_index;
+  int32_t eot;
+  int32_t blank_id;
+  int32_t is_multilingual;
+  int32_t no_speech;
+  int32_t non_speech_tokens;
+  int32_t transcribe;
+  int32_t translate;
+  int32_t sot_prev;
+  int32_t sot_lm;
+  int32_t no_timestamps;
 
-  // ID for not using inverse text normalization
-  int32_t without_itn_id;
-
-  int32_t window_size;   // lfr_m
-  int32_t window_shift;  // lfr_n
-  int32_t vocab_size;
-
-  int32_t subsampling_factor = 1;
-
-  // Usually 0 for SenseVoice models.
-  // 0 means samples are scaled to [-32768, 32767] before they are sent to the
-  // feature extractor
-  int32_t normalize_samples = 0;
-
-  int32_t blank_id = 0;
-
-  // possible values:
-  // zh, en, ja, ko, yue, auto
-  // where
-  //  zh is Chinese (Mandarin)
-  //  en is English
-  //  ja is Japanese
-  //  ko is Korean
-  //  yue is Cantonese
-  //  auto is to let the model recognize the language
+  std::string comment;
+  std::vector<int32_t> sot_sequence;
   std::unordered_map<std::string, int32_t> lang2id;
-
-  torch::Tensor neg_mean;    // 2-d float32, (1, feat_dim)
-  torch::Tensor inv_stddev;  // 2-d float32, (1, feat_dim)
 
   std::string ToString() const;
 };
+
 }  // namespace sherpa
 
 #endif  // SHERPA_CSRC_OFFLINE_WHISPER_MODEL_META_DATA_H_
