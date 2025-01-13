@@ -8,6 +8,7 @@
 #include <memory>
 
 #include "sherpa/csrc/macros.h"
+#include "sherpa/csrc/offline-whisper-model.h"
 #include "sherpa/csrc/symbol-table.h"
 
 namespace sherpa {
@@ -19,6 +20,7 @@ class OfflineRecognizerWhisperImpl : public OfflineRecognizerImpl {
         symbol_table_(config.model.tokens),
         fbank_(config.feat_config.fbank_opts) {
     SHERPA_LOG(INFO) << "called";
+    model_ = std::make_unique<OfflineWhisperModel>(config.model);
   }
 
   std::unique_ptr<OfflineStream> CreateStream() override {
@@ -40,6 +42,7 @@ class OfflineRecognizerWhisperImpl : public OfflineRecognizerImpl {
   OfflineRecognizerConfig config_;
   SymbolTable symbol_table_;
   kaldifeat::Fbank fbank_;
+  std::unique_ptr<OfflineWhisperModel> model_;
 };
 }  // namespace sherpa
 #endif  // SHERPA_CPP_API_OFFLINE_RECOGNIZER_WHISPER_IMPL_H_

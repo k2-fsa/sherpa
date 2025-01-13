@@ -22,6 +22,8 @@ set(sherpa_srcs
   offline-wav2vec2-ctc-model.cc
   offline-wenet-conformer-ctc-model.cc
   offline-whisper-model-config.cc
+  offline-whisper-model-meta-data.cc
+  offline-whisper-model.cc
   online-conformer-transducer-model.cc
   online-conv-emformer-transducer-model.cc
   online-emformer-transducer-model.cc

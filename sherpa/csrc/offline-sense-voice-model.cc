@@ -24,16 +24,16 @@ class OfflineSenseVoiceModel::Impl {
  public:
   explicit Impl(const OfflineModelConfig &config) {
     torch::jit::ExtraFilesMap meta_data{
-        {"model_type", ""},        {"lfr_window_size", ""},
-        {"lfr_window_shift", ""},  {"neg_mean", ""},
-        {"inv_stddev", ""},        {"vocab_size", ""},
-        {"normalize_samples", ""}, {"version", ""},
-        {"model_author", ""},      {"maintainer", ""},
-        {"lang_auto", ""},         {"lang_zh", ""},
-        {"lang_en", ""},           {"lang_yue", ""},
-        {"lang_ja", ""},           {"lang_ko", ""},
-        {"lang_nospeech", ""},     {"with_itn", ""},
-        {"without_itn", ""},       {"url", ""},
+        {"model_type", {}},        {"lfr_window_size", {}},
+        {"lfr_window_shift", {}},  {"neg_mean", {}},
+        {"inv_stddev", {}},        {"vocab_size", {}},
+        {"normalize_samples", {}}, {"version", {}},
+        {"model_author", {}},      {"maintainer", {}},
+        {"lang_auto", {}},         {"lang_zh", {}},
+        {"lang_en", {}},           {"lang_yue", {}},
+        {"lang_ja", {}},           {"lang_ko", {}},
+        {"lang_nospeech", {}},     {"with_itn", {}},
+        {"without_itn", {}},       {"url", {}},
     };
     if (config.use_gpu) {
       device_ = torch::Device{torch::kCUDA};
