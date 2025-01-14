@@ -10,6 +10,7 @@ pybind11_add_module(_sherpa
   offline-recognizer.cc
   offline-sense-voice-model-config.cc
   offline-stream.cc
+  offline-whisper-model-config.cc
   online-recognizer.cc
   online-stream.cc
   resample.cc

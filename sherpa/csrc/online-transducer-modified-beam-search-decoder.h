@@ -16,7 +16,9 @@ class OnlineTransducerModifiedBeamSearchDecoder
  public:
   explicit OnlineTransducerModifiedBeamSearchDecoder(
       OnlineTransducerModel *model, int32_t num_active_paths, float temperature)
-      : model_(model), num_active_paths_(num_active_paths), temperature_(temperature) {}
+      : model_(model),
+        num_active_paths_(num_active_paths),
+        temperature_(temperature) {}
 
   OnlineTransducerDecoderResult GetEmptyResult() override;
 

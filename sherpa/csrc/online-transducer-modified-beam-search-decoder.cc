@@ -232,7 +232,7 @@ void OnlineTransducerModifiedBeamSearchDecoder::Decode(
       }
       cur.push_back(std::move(hyps));
     }  // for (int32_t k = 0; k != N; ++k)
-  }    // for (int32_t t = 0; t != T; ++t)
+  }  // for (int32_t t = 0; t != T; ++t)
 
   for (int32_t i = 0; i != N; ++i) {
     (*results)[i].hyps = std::move(cur[i]);

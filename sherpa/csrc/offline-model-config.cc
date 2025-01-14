@@ -12,6 +12,7 @@ namespace sherpa {
 
 void OfflineModelConfig::Register(ParseOptions *po) {
   sense_voice.Register(po);
+  whisper.Register(po);
 
   // TODO(fangjun): enable it
   // po->Register("tokens", &tokens, "Path to tokens.txt");
@@ -33,6 +34,10 @@ bool OfflineModelConfig::Validate() const {
     return sense_voice.Validate();
   }
 
+  if (!whisper.model.empty()) {
+    return whisper.Validate();
+  }
+
   return true;
 }
 
@@ -41,6 +46,7 @@ std::string OfflineModelConfig::ToString() const {
 
   os << "OfflineModelConfig(";
   os << "sense_voice=" << sense_voice.ToString() << ", ";
+  os << "whisper=" << whisper.ToString() << ", ";
   os << "tokens=\"" << tokens << "\", ";
   os << "debug=" << (debug ? "True" : "False") << ", ";
   os << "use_gpu=" << (debug ? "True" : "False") << ")";

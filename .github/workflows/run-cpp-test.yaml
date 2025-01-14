@@ -49,18 +49,17 @@ concurrency:
 
 jobs:
   run_cpp_tests:
-    if: github.event.label.name == 'ready' || github.event.label.name == 'cpp' || github.event_name == 'push'
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
         os: [ubuntu-latest]
         torch: ["2.1.2"]
-        python-version: ["3.8"]
+        python-version: ["3.10"]
         build_type: ["Release", "Debug"]
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -70,7 +69,7 @@ jobs:
           key: ${{ matrix.os }}-${{ matrix.torch }}-${{ matrix.python-version }}-${{ matrix.build_type }}
 
       - name: Setup Python
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
 
@@ -173,6 +172,11 @@ jobs:
           ./bin/sherpa-version
 
           ./bin/sherpa-offline --help
+
+      - name: Run offline whisper
+        shell: bash
+        run: |
+          .github/scripts/run-offline-whisper.sh
 
       - name: Run offline sense-voice
         shell: bash

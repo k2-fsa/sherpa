@@ -1,5 +1,6 @@
 # Please sort the filenames alphabetically
 set(sherpa_srcs
+  base64-decode.cc
   byte_util.cc
   context-graph.cc
   fbank-features.cc
@@ -8,15 +9,22 @@ set(sherpa_srcs
   log.cc
   offline-conformer-ctc-model.cc
   offline-conformer-transducer-model.cc
-  offline-ctc-one-best-decoder.cc
   offline-ctc-greedy-search-decoder.cc
+  offline-ctc-one-best-decoder.cc
+  offline-model-config.cc
   offline-nemo-enc-dec-ctc-model-bpe.cc
+  offline-sense-voice-model-config.cc
+  offline-sense-voice-model-meta-data.cc
+  offline-sense-voice-model.cc
   offline-stream.cc
   offline-transducer-fast-beam-search-decoder.cc
   offline-transducer-greedy-search-decoder.cc
   offline-transducer-modified-beam-search-decoder.cc
   offline-wav2vec2-ctc-model.cc
   offline-wenet-conformer-ctc-model.cc
+  offline-whisper-model-config.cc
+  offline-whisper-model-meta-data.cc
+  offline-whisper-model.cc
   online-conformer-transducer-model.cc
   online-conv-emformer-transducer-model.cc
   online-emformer-transducer-model.cc
@@ -30,10 +38,7 @@ set(sherpa_srcs
   parse-options.cc
   resample.cc
   symbol-table.cc
-  offline-sense-voice-model-config.cc
-  offline-sense-voice-model.cc
-  offline-sense-voice-model-meta-data.cc
-  offline-model-config.cc
+  text-utils.cc
 )
 
 add_library(sherpa_core ${sherpa_srcs})

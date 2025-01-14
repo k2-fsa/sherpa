@@ -11,6 +11,7 @@
 #include "sherpa/cpp_api/offline-recognizer-impl.h"
 #include "sherpa/cpp_api/offline-recognizer-sense-voice-impl.h"
 #include "sherpa/cpp_api/offline-recognizer-transducer-impl.h"
+#include "sherpa/cpp_api/offline-recognizer-whisper-impl.h"
 #include "sherpa/csrc/file-utils.h"
 #include "sherpa/csrc/log.h"
 #include "torch/script.h"
@@ -130,7 +131,7 @@ void OfflineRecognizerConfig::Validate() const {
   }
   AssertFileExists(tokens);
 
-  if (!model.sense_voice.model.empty()) {
+  if (!model.sense_voice.model.empty() || !model.whisper.model.empty()) {
     model.tokens = tokens;
     model.use_gpu = use_gpu;
     if (!model.Validate()) {
@@ -191,6 +192,11 @@ OfflineRecognizer::~OfflineRecognizer() = default;
 OfflineRecognizer::OfflineRecognizer(const OfflineRecognizerConfig &config) {
   if (!config.model.sense_voice.model.empty()) {
     impl_ = std::make_unique<OfflineRecognizerSenseVoiceImpl>(config);
+    return;
+  }
+
+  if (!config.model.whisper.model.empty()) {
+    impl_ = std::make_unique<OfflineRecognizerWhisperImpl>(config);
     return;
   }
 

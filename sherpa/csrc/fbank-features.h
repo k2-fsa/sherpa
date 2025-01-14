@@ -23,7 +23,6 @@
 #include <utility>
 #include <vector>
 
-#include "kaldifeat/csrc/feature-fbank.h"
 #include "torch/script.h"
 
 namespace sherpa {
@@ -60,8 +59,9 @@ std::pair<torch::Tensor, float> ReadWave(const std::string &filename,
  *         number of feature frames and the number of columns equals to the
  *         feature dimension.
  */
+template <typename FbankComputer>
 std::vector<torch::Tensor> ComputeFeatures(
-    kaldifeat::Fbank &fbank,  // NOLINT
+    FbankComputer &fbank,  // NOLINT
     const std::vector<torch::Tensor> &wave_data,
     std::vector<int64_t> *num_frames = nullptr);
 }  // namespace sherpa

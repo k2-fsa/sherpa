@@ -49,10 +49,13 @@ class SymbolTable {
                const std::string &old_sym);
 
   /// Return true if there is a symbol with the given ID.
-  bool contains(int32_t id) const;
+  bool Contains(int32_t id) const;
 
   /// Return true if there is a given symbol in the symbol table.
-  bool contains(const std::string &sym) const;
+  bool Contains(const std::string &sym) const;
+
+  // for tokens.txt from Whisper
+  void ApplyBase64Decode();
 
  private:
   std::unordered_map<std::string, int32_t> sym2id_;
