@@ -63,7 +63,6 @@ class OfflineRecognizerWhisperImpl : public OfflineRecognizerImpl {
     torch::Tensor features = s->GetFeatures();
     features = PadOrTrimFeatures(features);
     features = features.t().unsqueeze(0);
-    std::cout << "features size " << features.sizes() << "\n";
 
     auto device = model_->Device();
     features = features.to(device);
@@ -72,11 +71,6 @@ class OfflineRecognizerWhisperImpl : public OfflineRecognizerImpl {
     torch::Tensor n_layer_cross_v_cache;
     std::tie(n_layer_cross_k_cache, n_layer_cross_v_cache) =
         model_->RunEncoder(features);
-
-    std::cout << "n_layer_cross_k_cache size " << n_layer_cross_k_cache.sizes()
-              << "\n";
-    std::cout << "n_layer_cross_v_cache size " << n_layer_cross_v_cache.sizes()
-              << "\n";
 
     auto meta_data = model_->GetModelMetadata();
     auto sot_sequence = meta_data.sot_sequence;
@@ -108,13 +102,6 @@ class OfflineRecognizerWhisperImpl : public OfflineRecognizerImpl {
                            n_layer_cross_k_cache, n_layer_cross_v_cache,
                            offset);
 
-    std::cout << "logits shape: " << logits.sizes() << ", " << logits.sum(-1)
-              << "\n";
-    std::cout << "n_layer_self_k_cache shape: " << n_layer_self_k_cache.sizes()
-              << "\n";
-    std::cout << "n_layer_self_v_cache shape: " << n_layer_self_v_cache.sizes()
-              << "\n";
-
     torch::Tensor eot = torch::tensor(
         {meta_data.eot}, torch::dtype(torch::kLong).device(device));
 
@@ -130,9 +117,6 @@ class OfflineRecognizerWhisperImpl : public OfflineRecognizerImpl {
       }
       results.slice(1, i, i + 1) = tokens;
       offset.add_(logits.size(1));
-
-      std::cout << "here " << i << ", " << tokens << "\n"
-                << "offset: " << offset << "\n";
 
       std::tie(logits, n_layer_self_k_cache, n_layer_self_v_cache) =
           model_->RunDecoder(tokens, n_layer_self_k_cache, n_layer_self_v_cache,
@@ -157,7 +141,6 @@ class OfflineRecognizerWhisperImpl : public OfflineRecognizerImpl {
 
   torch::Tensor PadOrTrimFeatures(const torch::Tensor &feat) {
     auto features = feat;
-    std::cout << "features size " << features.sizes() << "\n";
     int32_t target_len = 3000;
     int32_t src_len = features.size(0);
     if (src_len > target_len) {
@@ -173,8 +156,6 @@ class OfflineRecognizerWhisperImpl : public OfflineRecognizerImpl {
                         .mode(torch::kConstant)
                         .value(0));
     }
-
-    std::cout << "features size " << features.sizes() << "\n";
 
     return features;
   }

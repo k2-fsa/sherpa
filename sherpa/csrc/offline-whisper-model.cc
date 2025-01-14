@@ -94,37 +94,15 @@ class OfflineWhisperModel::Impl {
       torch::Tensor n_layer_cross_v_cache, const torch::Tensor &offset) {
     InferenceMode no_grad;
 
-    std::cout << "tokens: " << tokens.sizes() << "\n";
-    std::cout << "n_layer_self_k_cache: " << n_layer_self_k_cache.sizes()
-              << "\n";
-    std::cout << "n_layer_self_v_cache: " << n_layer_self_v_cache.sizes()
-              << "\n";
-    std::cout << "n_layer_cross_k_cache: " << n_layer_cross_k_cache.sizes()
-              << "\n";
-    std::cout << "n_layer_cross_v_cache: " << n_layer_cross_v_cache.sizes()
-              << "\n";
-    std::cout << "offset: " << offset.sizes() << "\n";
-
     auto outputs = model_
                        .run_method("run_decoder", tokens, n_layer_self_k_cache,
                                    n_layer_self_v_cache, n_layer_cross_k_cache,
                                    n_layer_cross_v_cache, offset)
                        .toTuple();
 
-    std::cout << "here: " << outputs->elements().size() << "\n";
     auto logits = outputs->elements().vec()[0].toTensor();
     n_layer_self_k_cache = outputs->elements().vec()[1].toTensor();
     n_layer_self_v_cache = outputs->elements().vec()[2].toTensor();
-
-    std::cout << "logits: " << logits.sizes() << "\n";
-    std::cout << "n_layer_self_k_cache: " << n_layer_self_k_cache.sizes()
-              << "\n";
-    std::cout << "n_layer_self_v_cache: " << n_layer_self_v_cache.sizes()
-              << "\n";
-    std::cout << "n_layer_cross_k_cache: " << n_layer_cross_k_cache.sizes()
-              << "\n";
-    std::cout << "n_layer_cross_v_cache: " << n_layer_cross_v_cache.sizes()
-              << "\n";
 
     return std::make_tuple(logits, n_layer_self_k_cache, n_layer_self_v_cache);
   }
