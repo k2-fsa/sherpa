@@ -13,22 +13,139 @@
 
 namespace sherpa {
 
+static OfflineRecognitionResult Convert(const std::vector<int32_t> &tokens,
+                                        const SymbolTable &sym_table) {
+  OfflineRecognitionResult r;
+  r.tokens.reserve(tokens.size());
+
+  std::string text;
+  for (auto i : tokens) {
+    auto sym = sym_table[i];
+    text.append(sym);
+
+    r.tokens.push_back(std::move(sym));
+  }
+  r.text = std::move(text);
+
+  return r;
+}
+
 class OfflineRecognizerWhisperImpl : public OfflineRecognizerImpl {
  public:
   explicit OfflineRecognizerWhisperImpl(const OfflineRecognizerConfig &config)
-      : config_(config),
-        symbol_table_(config.model.tokens),
-        fbank_(config.feat_config.fbank_opts) {
-    SHERPA_LOG(INFO) << "called";
+      : config_(config), symbol_table_(config.model.tokens) {
+    symbol_table_.ApplyBase64Decode();
+
     model_ = std::make_unique<OfflineWhisperModel>(config.model);
+
+    config_.feat_config.normalize_samples = true;
+
+    auto whisper_opts = kaldifeat::WhisperFbankOptions();
+    whisper_opts.num_mels = model_->GetModelMetadata().n_mels;
+
+    whisper_ = std::make_unique<kaldifeat::WhisperFbank>(whisper_opts);
   }
 
   std::unique_ptr<OfflineStream> CreateStream() override {
-    return std::make_unique<OfflineStream>(&fbank_, config_.feat_config);
+    return std::make_unique<OfflineStream>(whisper_.get(), config_.feat_config);
   }
 
   void DecodeStreams(OfflineStream **ss, int32_t n) override {
     InferenceMode no_grad;
+    if (n == 1) {
+      DecodeStream(ss[0]);
+      return;
+    }
+  }
+
+ private:
+  void DecodeStream(OfflineStream *s) {
+    torch::Tensor features = s->GetFeatures();
+    features = PadOrTrimFeatures(features);
+    features = features.t().unsqueeze(0);
+    std::cout << "features size " << features.sizes() << "\n";
+
+    auto device = model_->Device();
+    features = features.to(device);
+
+    torch::Tensor n_layer_cross_k_cache;
+    torch::Tensor n_layer_cross_v_cache;
+    std::tie(n_layer_cross_k_cache, n_layer_cross_v_cache) =
+        model_->RunEncoder(features);
+
+    std::cout << "n_layer_cross_k_cache size " << n_layer_cross_k_cache.sizes()
+              << "\n";
+    std::cout << "n_layer_cross_v_cache size " << n_layer_cross_v_cache.sizes()
+              << "\n";
+
+    auto meta_data = model_->GetModelMetadata();
+    auto sot_sequence = meta_data.sot_sequence;
+    sot_sequence.push_back(meta_data.no_timestamps);
+
+    torch::Tensor tokens =
+        torch::from_blob(sot_sequence.data(),
+                         {1, static_cast<int32_t>(sot_sequence.size())},
+                         torch::kLong)
+            .to(device);
+
+    torch::Tensor logits;
+
+    torch::Tensor n_layer_self_k_cache =
+        torch::zeros({meta_data.n_text_layer, 1, meta_data.n_text_ctx,
+                      meta_data.n_text_state},
+                     torch::dtype(torch::kFloat).device(device));
+
+    torch::Tensor n_layer_self_v_cache =
+        torch::zeros({meta_data.n_text_layer, 1, meta_data.n_text_ctx,
+                      meta_data.n_text_state},
+                     torch::dtype(torch::kFloat).device(device));
+
+    torch::Tensor offset =
+        torch::zeros({1}, torch::dtype(torch::kInt).device(device));
+
+    std::tie(logits, n_layer_self_k_cache, n_layer_self_v_cache) =
+        model_->RunDecoder(tokens, n_layer_self_k_cache, n_layer_self_v_cache,
+                           n_layer_cross_k_cache, n_layer_cross_v_cache,
+                           offset);
+
+    std::cout << "logits shape: " << logits.sizes() << ", " << logits.sum(-1)
+              << "\n";
+    std::cout << "n_layer_self_k_cache shape: " << n_layer_self_k_cache.sizes()
+              << "\n";
+    std::cout << "n_layer_self_v_cache shape: " << n_layer_self_v_cache.sizes()
+              << "\n";
+
+    torch::Tensor eot = torch::tensor(
+        {meta_data.eot}, torch::dtype(torch::kLong).device(device));
+
+    torch::Tensor results =
+        torch::full({1, meta_data.n_text_ctx}, meta_data.eot,
+                    torch::dtype(torch::kLong).device(device));
+
+    int32_t i;
+    for (i = 0; i < meta_data.n_text_ctx; ++i) {
+      tokens = logits.slice(1, -1).argmax(-1);
+      if ((tokens == eot).sum().item().toInt() == 1) {
+        break;
+      }
+      results.slice(1, i, i + 1) = tokens;
+      offset.add_(logits.size(1));
+
+      std::cout << "here " << i << ", " << tokens << "\n"
+                << "offset: " << offset << "\n";
+
+      std::tie(logits, n_layer_self_k_cache, n_layer_self_v_cache) =
+          model_->RunDecoder(tokens, n_layer_self_k_cache, n_layer_self_v_cache,
+                             n_layer_cross_k_cache, n_layer_cross_v_cache,
+                             offset);
+    }
+    results = results.slice(1, 0, i).cpu();
+
+    std::vector<int32_t> token_ids = {
+        results.data_ptr<int64_t>(),
+        results.data_ptr<int64_t>() + results.numel()};
+
+    s->SetResult(Convert(token_ids, symbol_table_));
   }
 
  private:
@@ -38,10 +155,34 @@ class OfflineRecognizerWhisperImpl : public OfflineRecognizerImpl {
     SHERPA_LOG(INFO) << "WarmUp ended";
   }
 
+  torch::Tensor PadOrTrimFeatures(const torch::Tensor &feat) {
+    auto features = feat;
+    std::cout << "features size " << features.sizes() << "\n";
+    int32_t target_len = 3000;
+    int32_t src_len = features.size(0);
+    if (src_len > target_len) {
+      SHERPA_LOGE(
+          "\nInput audio is too long (about %.3f seconds). Only the first %d "
+          "seconds are used.",
+          src_len * 0.01, static_cast<int32_t>(target_len * 0.01));
+      features = features.slice(0, 0, target_len);
+    } else if (src_len < target_len) {
+      int32_t padding = target_len - src_len;
+      features = torch::nn::functional::pad(
+          features, torch::nn::functional::PadFuncOptions({0, 0, 0, padding})
+                        .mode(torch::kConstant)
+                        .value(0));
+    }
+
+    std::cout << "features size " << features.sizes() << "\n";
+
+    return features;
+  }
+
  private:
   OfflineRecognizerConfig config_;
   SymbolTable symbol_table_;
-  kaldifeat::Fbank fbank_;
+  std::unique_ptr<kaldifeat::WhisperFbank> whisper_;
   std::unique_ptr<OfflineWhisperModel> model_;
 };
 }  // namespace sherpa

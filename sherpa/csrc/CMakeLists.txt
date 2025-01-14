@@ -1,5 +1,6 @@
 # Please sort the filenames alphabetically
 set(sherpa_srcs
+  base64-decode.cc
   byte_util.cc
   context-graph.cc
   fbank-features.cc

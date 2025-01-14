@@ -9,6 +9,7 @@
 #include <vector>
 
 #include "kaldifeat/csrc/feature-fbank.h"
+#include "kaldifeat/csrc/whisper-fbank.h"
 #include "sherpa/cpp_api/feature-config.h"
 #include "sherpa/csrc/context-graph.h"
 #include "torch/script.h"
@@ -53,6 +54,10 @@ class OfflineStream {
    * @param fbank Not owned by this class.
    */
   OfflineStream(kaldifeat::Fbank *fbank, const FeatureConfig &feat_config,
+                ContextGraphPtr context_graph = nullptr);
+
+  OfflineStream(kaldifeat::WhisperFbank *whisper,
+                const FeatureConfig &feat_config,
                 ContextGraphPtr context_graph = nullptr);
 
   /** Create a stream from a WAVE file.

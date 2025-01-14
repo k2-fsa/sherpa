@@ -5,6 +5,7 @@
 #define SHERPA_CSRC_OFFLINE_SENSE_VOICE_MODEL_H_
 
 #include <memory>
+#include <tuple>
 #include <utility>
 
 #include "sherpa/csrc/offline-model-config.h"

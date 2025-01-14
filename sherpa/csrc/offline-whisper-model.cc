@@ -8,6 +8,7 @@
 #include <utility>
 #include <vector>
 
+#include "sherpa/cpp_api/macros.h"
 #include "sherpa/csrc/macros.h"
 #include "sherpa/csrc/offline-whisper-model-meta-data.h"
 #include "sherpa/csrc/text-utils.h"
@@ -69,6 +70,65 @@ class OfflineWhisperModel::Impl {
     }
   }
 
+  const OfflineWhisperModelMetaData &GetModelMetadata() const {
+    return meta_data_;
+  }
+
+  torch::Device Device() const { return device_; }
+
+  std::pair<torch::Tensor, torch::Tensor> RunEncoder(
+      const torch::Tensor &features) {
+    InferenceMode no_grad;
+
+    auto outputs = model_.run_method("run_encoder", features).toTuple();
+
+    auto n_layer_cross_k_cache = outputs->elements()[0].toTensor();
+    auto n_layer_cross_v_cache = outputs->elements()[1].toTensor();
+
+    return {n_layer_cross_k_cache, n_layer_cross_v_cache};
+  }
+
+  std::tuple<torch::Tensor, torch::Tensor, torch::Tensor> RunDecoder(
+      const torch::Tensor &tokens, torch::Tensor n_layer_self_k_cache,
+      torch::Tensor n_layer_self_v_cache, torch::Tensor n_layer_cross_k_cache,
+      torch::Tensor n_layer_cross_v_cache, const torch::Tensor &offset) {
+    InferenceMode no_grad;
+
+    std::cout << "tokens: " << tokens.sizes() << "\n";
+    std::cout << "n_layer_self_k_cache: " << n_layer_self_k_cache.sizes()
+              << "\n";
+    std::cout << "n_layer_self_v_cache: " << n_layer_self_v_cache.sizes()
+              << "\n";
+    std::cout << "n_layer_cross_k_cache: " << n_layer_cross_k_cache.sizes()
+              << "\n";
+    std::cout << "n_layer_cross_v_cache: " << n_layer_cross_v_cache.sizes()
+              << "\n";
+    std::cout << "offset: " << offset.sizes() << "\n";
+
+    auto outputs = model_
+                       .run_method("run_decoder", tokens, n_layer_self_k_cache,
+                                   n_layer_self_v_cache, n_layer_cross_k_cache,
+                                   n_layer_cross_v_cache, offset)
+                       .toTuple();
+
+    std::cout << "here: " << outputs->elements().size() << "\n";
+    auto logits = outputs->elements().vec()[0].toTensor();
+    n_layer_self_k_cache = outputs->elements().vec()[1].toTensor();
+    n_layer_self_v_cache = outputs->elements().vec()[2].toTensor();
+
+    std::cout << "logits: " << logits.sizes() << "\n";
+    std::cout << "n_layer_self_k_cache: " << n_layer_self_k_cache.sizes()
+              << "\n";
+    std::cout << "n_layer_self_v_cache: " << n_layer_self_v_cache.sizes()
+              << "\n";
+    std::cout << "n_layer_cross_k_cache: " << n_layer_cross_k_cache.sizes()
+              << "\n";
+    std::cout << "n_layer_cross_v_cache: " << n_layer_cross_v_cache.sizes()
+              << "\n";
+
+    return std::make_tuple(logits, n_layer_self_k_cache, n_layer_self_v_cache);
+  }
+
  private:
   void InitMetaData(const torch::jit::ExtraFilesMap &meta_data) {
     meta_data_.comment = meta_data.at("comment");
@@ -124,5 +184,29 @@ OfflineWhisperModel::OfflineWhisperModel(const OfflineModelConfig &config)
     : impl_(std::make_unique<Impl>(config)) {}
 
 OfflineWhisperModel::~OfflineWhisperModel() = default;
+
+const OfflineWhisperModelMetaData &OfflineWhisperModel::GetModelMetadata()
+    const {
+  return impl_->GetModelMetadata();
+}
+
+torch::Device OfflineWhisperModel::Device() const { return impl_->Device(); }
+
+std::pair<torch::Tensor, torch::Tensor> OfflineWhisperModel::RunEncoder(
+    const torch::Tensor &features) const {
+  return impl_->RunEncoder(features);
+}
+
+std::tuple<torch::Tensor, torch::Tensor, torch::Tensor>
+OfflineWhisperModel::RunDecoder(const torch::Tensor &tokens,
+                                const torch::Tensor &n_layer_self_k_cache,
+                                const torch::Tensor &n_layer_self_v_cache,
+                                const torch::Tensor &n_layer_cross_k_cache,
+                                const torch::Tensor &n_layer_cross_v_cache,
+                                const torch::Tensor &offset) const {
+  return impl_->RunDecoder(tokens, n_layer_self_k_cache, n_layer_self_v_cache,
+                           n_layer_cross_k_cache, n_layer_cross_v_cache,
+                           offset);
+}
 
 }  // namespace sherpa

@@ -20,6 +20,8 @@
 
 #include "kaldi_native_io/csrc/kaldi-io.h"
 #include "kaldi_native_io/csrc/wave-reader.h"
+#include "kaldifeat/csrc/feature-fbank.h"
+#include "kaldifeat/csrc/whisper-fbank.h"
 #include "sherpa/csrc/log.h"
 #include "torch/script.h"
 
@@ -54,8 +56,9 @@ std::pair<torch::Tensor, float> ReadWave(const std::string &filename,
   return {tensor / 32768, wave_data.Duration()};
 }
 
+template <typename FbankComputer>
 std::vector<torch::Tensor> ComputeFeatures(
-    kaldifeat::Fbank &fbank,  // NOLINT
+    FbankComputer &fbank,  // NOLINT
     const std::vector<torch::Tensor> &wave_data,
     std::vector<int64_t> *num_frames /*=nullptr*/) {
   const auto &frame_opts = fbank.GetOptions().frame_opts;
@@ -83,5 +86,15 @@ std::vector<torch::Tensor> ComputeFeatures(
 
   return ans;
 }
+
+template std::vector<torch::Tensor> ComputeFeatures(
+    kaldifeat::Fbank &fbank,  // NOLINT
+    const std::vector<torch::Tensor> &wave_data,
+    std::vector<int64_t> *num_frames = nullptr);
+
+template std::vector<torch::Tensor> ComputeFeatures(
+    kaldifeat::WhisperFbank &fbank,  // NOLINT
+    const std::vector<torch::Tensor> &wave_data,
+    std::vector<int64_t> *num_frames = nullptr);
 
 }  // namespace sherpa

@@ -48,9 +48,27 @@ class OfflineStream::OfflineStreamImpl {
     }
   }
 
+  OfflineStreamImpl(kaldifeat::WhisperFbank *whisper,
+                    const FeatureConfig &feat_config,
+                    ContextGraphPtr context_graph)
+      : whisper_(whisper),
+        feat_config_(feat_config),
+        context_graph_(context_graph) {
+    if (!feat_config_.nemo_normalize.empty()) {
+      SHERPA_CHECK_EQ(feat_config_.nemo_normalize, "per_feature")
+          << "Only per_feature is implemented at present";
+    }
+  }
+
   void AcceptWaveFile(const std::string &wave_file) {
-    torch::Tensor samples =
-        ReadWave(wave_file, fbank_->GetFrameOptions().samp_freq).first;
+    torch::Tensor samples;
+    if (fbank_) {
+      samples = ReadWave(wave_file, fbank_->GetFrameOptions().samp_freq).first;
+    } else {
+      samples =
+          ReadWave(wave_file, whisper_->GetFrameOptions().samp_freq).first;
+    }
+
     if (!feat_config_.normalize_samples) {
       samples.mul_(32767);
     }
@@ -59,7 +77,11 @@ class OfflineStream::OfflineStreamImpl {
       // We return audio samples directly, e.g., for Wav2Vec2.0
       features_ = samples;
     } else {
-      features_ = ComputeFeatures(*fbank_, {samples})[0];
+      if (fbank_) {
+        features_ = ComputeFeatures(*fbank_, {samples})[0];
+      } else {
+        features_ = ComputeFeatures(*whisper_, {samples})[0];
+      }
       features_ = Normalize(features_);
     }
   }
@@ -76,7 +98,11 @@ class OfflineStream::OfflineStreamImpl {
       // We return audio samples directly, e.g., for Wav2Vec2.0
       features_ = tensor.clone();
     } else {
-      features_ = ComputeFeatures(*fbank_, {tensor})[0];
+      if (fbank_) {
+        features_ = ComputeFeatures(*fbank_, {tensor})[0];
+      } else {
+        features_ = ComputeFeatures(*whisper_, {tensor})[0];
+      }
       features_ = Normalize(features_);
     }
   }
@@ -117,7 +143,8 @@ class OfflineStream::OfflineStreamImpl {
  private:
   torch::Tensor features_;
   OfflineRecognitionResult result_;
-  kaldifeat::Fbank *fbank_ = nullptr;  // not owned
+  kaldifeat::Fbank *fbank_ = nullptr;           // not owned
+  kaldifeat::WhisperFbank *whisper_ = nullptr;  // not owned
   FeatureConfig feat_config_;
   ContextGraphPtr context_graph_;
 };
@@ -128,6 +155,12 @@ OfflineStream::OfflineStream(kaldifeat::Fbank *fbank,
                              const FeatureConfig &feat_config,
                              ContextGraphPtr context_graph /* nullptr */)
     : impl_(std::make_unique<OfflineStreamImpl>(fbank, feat_config,
+                                                context_graph)) {}
+
+OfflineStream::OfflineStream(kaldifeat::WhisperFbank *whisper,
+                             const FeatureConfig &feat_config,
+                             ContextGraphPtr context_graph /* nullptr */)
+    : impl_(std::make_unique<OfflineStreamImpl>(whisper, feat_config,
                                                 context_graph)) {}
 
 void OfflineStream::AcceptWaveFile(const std::string &filename) {

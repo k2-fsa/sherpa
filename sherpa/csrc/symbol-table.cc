@@ -21,6 +21,7 @@
 #include <fstream>
 #include <sstream>
 
+#include "sherpa/csrc/base64-decode.h"
 #include "sherpa/csrc/log.h"
 
 namespace sherpa {
@@ -66,9 +67,9 @@ int32_t SymbolTable::operator[](const std::string &sym) const {
   return sym2id_.at(sym);
 }
 
-bool SymbolTable::contains(int32_t id) const { return id2sym_.count(id) != 0; }
+bool SymbolTable::Contains(int32_t id) const { return id2sym_.count(id) != 0; }
 
-bool SymbolTable::contains(const std::string &sym) const {
+bool SymbolTable::Contains(const std::string &sym) const {
   return sym2id_.count(sym) != 0;
 }
 
@@ -82,6 +83,14 @@ void SymbolTable::Replace(int32_t id, const std::string &new_sym,
 
   id2sym_.at(id) = new_sym;
   sym2id_[new_sym] = id;
+}
+
+void SymbolTable::ApplyBase64Decode() {
+  sym2id_.clear();
+  for (auto &p : id2sym_) {
+    p.second = Base64Decode(p.second);
+    sym2id_[p.second] = p.first;
+  }
 }
 
 }  // namespace sherpa
