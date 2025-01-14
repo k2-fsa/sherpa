@@ -37,14 +37,14 @@ for m in ${model_list[@]}; do
   ./build/bin/sherpa-offline \
     --debug=1 \
     --whisper-model=./$d/model.pt \
-    --tokens=./$d/tokens.txt
+    --tokens=./$d/tokens.txt \
     ./$d/test_wavs/0.wav
 
   if [[ $d == *en ]]; then
     ./build/bin/sherpa-offline \
       --debug=1 \
       --whisper-model=./$d/model.pt \
-      --tokens=./$d/tokens.txt
+      --tokens=./$d/tokens.txt \
       ./zh.wav
   fi
   rm -rf $d
