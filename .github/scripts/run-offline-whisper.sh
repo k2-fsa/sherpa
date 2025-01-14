@@ -14,7 +14,7 @@ base
 base.en
 distil-large-v2
 distil-medium.en
-distil-small
+distil-small.en
 medium
 medium.en
 small
@@ -34,17 +34,50 @@ for m in ${model_list[@]}; do
   tar xvf $d.tar.bz2
   rm $d.tar.bz2
   ls -lh $d
-  ./build/bin/sherpa-offline \
-    --debug=1 \
-    --whisper-model=./$d/model.pt \
-    --tokens=./$d/tokens.txt \
-    ./$d/test_wavs/0.wav
 
   if [[ $d == *en ]]; then
+    log "decode a single file"
+
     ./build/bin/sherpa-offline \
       --debug=1 \
       --whisper-model=./$d/model.pt \
       --tokens=./$d/tokens.txt \
+      ./$d/test_wavs/0.wav
+
+    log "decode two files"
+    ./build/bin/sherpa-offline \
+      --debug=1 \
+      --whisper-model=./$d/model.pt \
+      --tokens=./$d/tokens.txt \
+      ./$d/test_wavs/0.wav \
+      ./$d/test_wavs/1.wav
+  fi
+
+  if [[ $d != *en ]]; then
+
+    log "decode a single file"
+
+    ./build/bin/sherpa-offline \
+      --debug=1 \
+      --whisper-model=./$d/model.pt \
+      --tokens=./$d/tokens.txt \
+      ./$d/test_wavs/0.wav
+
+    log "decode two files"
+    ./build/bin/sherpa-offline \
+      --debug=1 \
+      --whisper-model=./$d/model.pt \
+      --tokens=./$d/tokens.txt \
+      ./$d/test_wavs/0.wav \
+      ./$d/test_wavs/1.wav
+
+    log "decode three files"
+    ./build/bin/sherpa-offline \
+      --debug=1 \
+      --whisper-model=./$d/model.pt \
+      --tokens=./$d/tokens.txt \
+      ./$d/test_wavs/0.wav \
+      ./$d/test_wavs/1.wav \
       ./zh.wav
   fi
   rm -rf $d
