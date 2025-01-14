@@ -60,21 +60,47 @@ class OfflineRecognizerWhisperImpl : public OfflineRecognizerImpl {
 
  private:
   void DecodeStream(OfflineStream *s) {
+    auto device = model_->Device();
+
     torch::Tensor features = s->GetFeatures();
     features = PadOrTrimFeatures(features);
-    features = features.t().unsqueeze(0);
-
-    auto device = model_->Device();
-    features = features.to(device);
+    features = features.t().unsqueeze(0).to(device);
 
     torch::Tensor n_layer_cross_k_cache;
     torch::Tensor n_layer_cross_v_cache;
+
     std::tie(n_layer_cross_k_cache, n_layer_cross_v_cache) =
         model_->RunEncoder(features);
 
     auto meta_data = model_->GetModelMetadata();
     auto sot_sequence = meta_data.sot_sequence;
     sot_sequence.push_back(meta_data.no_timestamps);
+
+    if (meta_data.is_multilingual) {
+      // sot_sequence: [sot, language, task, notimestamp]
+      auto language = config_.model.whisper.language;
+      if (!language.empty()) {
+        if (!meta_data.lang2id.count(language)) {
+          SHERPA_LOG(FATAL) << "language '" << language << " is not valid";
+        }
+
+        sot_sequence[1] = meta_data.lang2id.at(language);
+      } else {
+        if (config_.model.debug) {
+          SHERPA_LOGE("Begin to detect language");
+        }
+        sot_sequence[1] = model_->DetectLanguage(n_layer_cross_k_cache,
+                                                 n_layer_cross_v_cache);
+        if (config_.model.debug) {
+          SHERPA_LOGE("Detected language: %s",
+                      meta_data.id2lang.at(sot_sequence[1]).c_str());
+        }
+      }
+
+      if (config_.model.whisper.task == "translate") {
+        sot_sequence[2] = meta_data.translate;
+      }
+    }
 
     torch::Tensor tokens =
         torch::from_blob(sot_sequence.data(),

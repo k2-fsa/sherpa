@@ -39,6 +39,8 @@ struct OfflineWhisperModelMetaData {
   std::string comment;
   std::vector<int64_t> sot_sequence;
   std::unordered_map<std::string, int32_t> lang2id;
+  std::unordered_map<int32_t, std::string> id2lang;
+  std::vector<int64_t> all_languages_id;
 
   std::string ToString() const;
 };

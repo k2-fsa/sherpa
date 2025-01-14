@@ -52,6 +52,9 @@ class OfflineWhisperModel {
       const torch::Tensor &n_layer_cross_v_cache,
       const torch::Tensor &offset) const;
 
+  int32_t DetectLanguage(const torch::Tensor &n_layer_cross_k_cache,
+                         const torch::Tensor &n_layer_cross_v_cache) const;
+
  private:
   class Impl;
   std::unique_ptr<Impl> impl_;

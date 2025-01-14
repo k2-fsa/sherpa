@@ -107,6 +107,46 @@ class OfflineWhisperModel::Impl {
     return std::make_tuple(logits, n_layer_self_k_cache, n_layer_self_v_cache);
   }
 
+  int32_t DetectLanguage(const torch::Tensor &n_layer_cross_k_cache,
+                         const torch::Tensor &n_layer_cross_v_cache) {
+    InferenceMode no_grad;
+
+    torch::Tensor tokens =
+        torch::tensor({meta_data_.sot},
+                      torch::dtype(torch::kInt).device(device_))
+            .unsqueeze(0);
+
+    torch::Tensor offset =
+        torch::zeros({1}, torch::dtype(torch::kInt).device(device_));
+
+    torch::Tensor n_layer_self_k_cache =
+        torch::zeros({meta_data_.n_text_layer, 1, meta_data_.n_text_ctx,
+                      meta_data_.n_text_state},
+                     torch::dtype(torch::kFloat).device(device_));
+
+    torch::Tensor n_layer_self_v_cache =
+        torch::zeros({meta_data_.n_text_layer, 1, meta_data_.n_text_ctx,
+                      meta_data_.n_text_state},
+                     torch::dtype(torch::kFloat).device(device_));
+
+    auto out = RunDecoder(tokens, n_layer_self_k_cache, n_layer_self_v_cache,
+                          n_layer_cross_k_cache, n_layer_cross_v_cache, offset);
+    auto logits = std::get<0>(out).squeeze();
+
+    torch::Tensor all_languages_id =
+        torch::tensor(meta_data_.all_languages_id,
+                      torch::dtype(torch::kLong).device(device_));
+    torch::Tensor mask =
+        torch::ones(logits.size(0), torch::dtype(torch::kLong).device(device_));
+    mask.index_put_({all_languages_id}, 0);
+
+    torch::Tensor non_language_indexes = mask.nonzero().squeeze();
+
+    logits.index_put_({non_language_indexes}, -1e30);
+
+    return logits.argmax(-1).item().toInt();
+  }
+
  private:
   void InitMetaData(const torch::jit::ExtraFilesMap &meta_data) {
     meta_data_.comment = meta_data.at("comment");
@@ -135,7 +175,6 @@ class OfflineWhisperModel::Impl {
     meta_data_.no_timestamps = atoi(meta_data.at("no_timestamps").c_str());
 
     std::vector<std::string> all_language_codes;
-    std::vector<int32_t> all_language_tokens;
     SplitStringToIntegers(meta_data.at("sot_sequence"), ",", true,
                           &meta_data_.sot_sequence);
 
@@ -143,12 +182,15 @@ class OfflineWhisperModel::Impl {
                         &all_language_codes);
 
     SplitStringToIntegers(meta_data.at("all_language_tokens"), ",", true,
-                          &all_language_tokens);
+                          &meta_data_.all_languages_id);
 
     for (int32_t i = 0; i < static_cast<int32_t>(all_language_codes.size());
          ++i) {
-      meta_data_.lang2id[std::move(all_language_codes[i])] =
-          all_language_tokens[i];
+      meta_data_.lang2id[all_language_codes[i]] =
+          meta_data_.all_languages_id[i];
+
+      meta_data_.id2lang[meta_data_.all_languages_id[i]] =
+          std::move(all_language_codes[i]);
     }
   }
 
@@ -185,6 +227,12 @@ OfflineWhisperModel::RunDecoder(const torch::Tensor &tokens,
   return impl_->RunDecoder(tokens, n_layer_self_k_cache, n_layer_self_v_cache,
                            n_layer_cross_k_cache, n_layer_cross_v_cache,
                            offset);
+}
+
+int32_t OfflineWhisperModel::DetectLanguage(
+    const torch::Tensor &n_layer_cross_k_cache,
+    const torch::Tensor &n_layer_cross_v_cache) const {
+  return impl_->DetectLanguage(n_layer_cross_k_cache, n_layer_cross_v_cache);
 }
 
 }  // namespace sherpa
