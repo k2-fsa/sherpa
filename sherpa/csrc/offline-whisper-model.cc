@@ -4,6 +4,7 @@
 
 #include "sherpa/csrc/offline-whisper-model.h"
 
+#include <limits>
 #include <string>
 #include <utility>
 #include <vector>
@@ -107,44 +108,48 @@ class OfflineWhisperModel::Impl {
     return std::make_tuple(logits, n_layer_self_k_cache, n_layer_self_v_cache);
   }
 
-  int32_t DetectLanguage(const torch::Tensor &n_layer_cross_k_cache,
-                         const torch::Tensor &n_layer_cross_v_cache) {
+  torch::Tensor DetectLanguage(const torch::Tensor &n_layer_cross_k_cache,
+                               const torch::Tensor &n_layer_cross_v_cache) {
     InferenceMode no_grad;
 
+    int32_t batch_size = n_layer_cross_v_cache.size(1);
     torch::Tensor tokens =
         torch::tensor({meta_data_.sot},
                       torch::dtype(torch::kInt).device(device_))
-            .unsqueeze(0);
+            .unsqueeze(0)
+            .repeat({batch_size, 1});
 
     torch::Tensor offset =
-        torch::zeros({1}, torch::dtype(torch::kInt).device(device_));
+        torch::zeros({batch_size}, torch::dtype(torch::kInt).device(device_));
 
     torch::Tensor n_layer_self_k_cache =
-        torch::zeros({meta_data_.n_text_layer, 1, meta_data_.n_text_ctx,
-                      meta_data_.n_text_state},
+        torch::zeros({meta_data_.n_text_layer, batch_size,
+                      meta_data_.n_text_ctx, meta_data_.n_text_state},
                      torch::dtype(torch::kFloat).device(device_));
 
     torch::Tensor n_layer_self_v_cache =
-        torch::zeros({meta_data_.n_text_layer, 1, meta_data_.n_text_ctx,
-                      meta_data_.n_text_state},
+        torch::zeros({meta_data_.n_text_layer, batch_size,
+                      meta_data_.n_text_ctx, meta_data_.n_text_state},
                      torch::dtype(torch::kFloat).device(device_));
 
     auto out = RunDecoder(tokens, n_layer_self_k_cache, n_layer_self_v_cache,
                           n_layer_cross_k_cache, n_layer_cross_v_cache, offset);
-    auto logits = std::get<0>(out).squeeze();
+    auto logits = std::get<0>(out);
 
     torch::Tensor all_languages_id =
         torch::tensor(meta_data_.all_languages_id,
                       torch::dtype(torch::kLong).device(device_));
     torch::Tensor mask =
-        torch::ones(logits.size(0), torch::dtype(torch::kLong).device(device_));
+        torch::ones(logits.size(2), torch::dtype(torch::kLong).device(device_));
+
     mask.index_put_({all_languages_id}, 0);
 
     torch::Tensor non_language_indexes = mask.nonzero().squeeze();
 
-    logits.index_put_({non_language_indexes}, -1e30);
+    logits.index_put_({"...", non_language_indexes},
+                      -std::numeric_limits<float>::infinity());
 
-    return logits.argmax(-1).item().toInt();
+    return logits.argmax(-1).squeeze();
   }
 
  private:
@@ -229,7 +234,7 @@ OfflineWhisperModel::RunDecoder(const torch::Tensor &tokens,
                            offset);
 }
 
-int32_t OfflineWhisperModel::DetectLanguage(
+torch::Tensor OfflineWhisperModel::DetectLanguage(
     const torch::Tensor &n_layer_cross_k_cache,
     const torch::Tensor &n_layer_cross_v_cache) const {
   return impl_->DetectLanguage(n_layer_cross_k_cache, n_layer_cross_v_cache);
