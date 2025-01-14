@@ -56,6 +56,14 @@ class OfflineRecognizerWhisperImpl : public OfflineRecognizerImpl {
       DecodeStream(ss[0]);
       return;
     }
+
+    std::vector<torch::Tensor> features_vec(n);
+    for (int32_t i = 0; i != n; ++i) {
+      auto features = ss[i]->GetFeatures();
+      features_vec[i] = PadOrTrimFeatures(features);
+    }
+
+    auto features = torch::stack(features_vec, 0);
   }
 
  private:
