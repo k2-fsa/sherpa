@@ -5,6 +5,8 @@
 #define SHERPA_CSRC_OFFLINE_WHISPER_MODEL_H_
 
 #include <memory>
+#include <tuple>
+#include <utility>
 
 #include "sherpa/csrc/offline-model-config.h"
 #include "sherpa/csrc/offline-whisper-model-meta-data.h"

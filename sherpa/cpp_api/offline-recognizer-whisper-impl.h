@@ -6,6 +6,9 @@
 #define SHERPA_CPP_API_OFFLINE_RECOGNIZER_WHISPER_IMPL_H_
 
 #include <memory>
+#include <string>
+#include <utility>
+#include <vector>
 
 #include "sherpa/csrc/macros.h"
 #include "sherpa/csrc/offline-whisper-model.h"
