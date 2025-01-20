@@ -90,5 +90,17 @@ The following table lists the RTF of pre-trained models on
    - 0.432
    - 0.391
    - 73 MB
+ * - :ref:`matcha-icefall-en_US-ljspeech`
+   - 0.941
+   - 0.561
+   - 0.451
+   - 0.411
+   - 71 MB
+ * - :ref:`kokoro-en-v0_19`
+   - 6.629
+   - 3.870
+   - 2.999
+   - 2.774
+   - 330 MB
 
 

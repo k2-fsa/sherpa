@@ -16,4 +16,5 @@ This page list pre-trained models for text-to-speech.
 
    ./rtf
    ./matcha
+   ./kokoro
    ./vits

@@ -1,7 +1,6 @@
 Matcha
 ======
 
-
 This page lists pre-trained models using `Matcha-TTS <https://arxiv.org/abs/2309.03199>`_.
 
 .. caution::
@@ -9,6 +8,8 @@ This page lists pre-trained models using `Matcha-TTS <https://arxiv.org/abs/2309
    Models are from `icefall <https://github.com/k2-fsa/icefall>`_.
 
    We don't support models from  `<https://github.com/shivammehta25/Matcha-TTS>`_.
+
+.. _matcha-icefall-en_US-ljspeech:
 
 matcha-icefall-en_US-ljspeech (American English, 1 female speaker)
 ------------------------------------------------------------------
@@ -165,6 +166,34 @@ Generate speech with Python script
       </td>
     </tr>
   </table>
+
+RTF on Raspberry Pi 4 Model B Rev 1.5
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+We use the following command to test the RTF of this model on Raspberry Pi 4 Model B Rev 1.5:
+
+.. code-block:: bash
+
+
+   for t in 1 2 3 4; do
+    build/bin/sherpa-onnx-offline-tts \
+      --num-threads=$t \
+      --matcha-acoustic-model=./matcha-icefall-en_US-ljspeech/model-steps-3.onnx \
+      --matcha-vocoder=./hifigan_v2.onnx \
+      --matcha-tokens=./matcha-icefall-en_US-ljspeech/tokens.txt \
+      --matcha-data-dir=./matcha-icefall-en_US-ljspeech/espeak-ng-data \
+      --output-filename=./matcha-ljspeech-1.wav \
+      "Friends fell out often because life was changing so fast. The easiest thing in the world was to lose touch with someone."
+   done
+
+The results are given below:
+
+  +-------------+-------+-------+-------+-------+
+  | num_threads | 1     | 2     | 3     | 4     |
+  +=============+=======+=======+=======+=======+
+  | RTF         | 0.941 | 0.561 | 0.451 | 0.411 |
+  +-------------+-------+-------+-------+-------+
+
 
 .. _matcha-icefall-zh-baker:
 
