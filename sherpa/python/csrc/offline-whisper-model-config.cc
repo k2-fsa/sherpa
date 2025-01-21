@@ -16,7 +16,8 @@ void PybindOfflineWhisperModelConfig(py::module *m) {
   py::class_<PyClass>(*m, "OfflineWhisperModelConfig")
       .def(py::init<const std::string &, const std::string &,
                     const std::string &>(),
-           py::arg("model"), py::arg("language"), py::arg("task"))
+           py::arg("model") = "", py::arg("language") = "",
+           py::arg("task") = "transcribe")
       .def_readwrite("model", &PyClass::model)
       .def_readwrite("language", &PyClass::language)
       .def_readwrite("task", &PyClass::task)

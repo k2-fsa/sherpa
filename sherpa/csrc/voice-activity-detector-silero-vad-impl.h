@@ -22,7 +22,7 @@ std::vector<SpeechSegment> MergeSegments(std::vector<SpeechSegment> segments) {
 
   ans.push_back(std::move(segments[0]));
   for (int32_t i = 1; i < static_cast<int32_t>(segments.size()); ++i) {
-    if (ans.back().end >= segments[i].start) {
+    if (ans.back().end + 0.1 >= segments[i].start) {
       ans.back().end = segments[i].end;
     } else {
       ans.push_back(std::move(segments[i]));
@@ -44,7 +44,7 @@ static std::vector<SpeechSegment> ProcessSegment(
   int32_t window_size = 512;
   float sr = 16000.0f;
 
-  float left_shift = 2 * window_size / sr;
+  float left_shift = 2 * window_size / sr + 0.15;
   float right_shift = 2 * window_size / sr;
 
   int32_t min_speech_samples = config.model.silero_vad.min_speech_duration *
@@ -135,9 +135,7 @@ class VoiceActivityDetectorSileroVadImpl : public VoiceActivityDetectorImpl {
   explicit VoiceActivityDetectorSileroVadImpl(
       const VoiceActivityDetectorConfig &config)
       : config_(config),
-        model_(std::make_unique<SileroVadModel>(config.model)) {
-    SHERPA_LOGE("initialized!");
-  }
+        model_(std::make_unique<SileroVadModel>(config.model)) {}
 
   const VoiceActivityDetectorConfig &GetConfig() const override {
     return config_;

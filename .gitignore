@@ -25,3 +25,5 @@ sherpa-nemo-ctc*
 *.pt
 tokens.txt
 *.bin
+sherpa-sense-voice-zh-en-ja-ko-yue-2025-01-06
+sherpa-whisper-tiny.en

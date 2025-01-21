@@ -183,7 +183,7 @@ static void PybindOfflineRecognizerConfig(py::module &m) {  // NOLINT
              return config;
            }),
            py::arg("model") = OfflineModelConfig{}, py::arg("nn_model") = "",
-           py::arg("tokens"), py::arg("use_gpu") = false,
+           py::arg("tokens") = "", py::arg("use_gpu") = false,
            py::arg("num_active_paths") = 4, py::arg("context_score") = 1.5,
            py::arg("use_bbpe") = false, py::arg("temperature") = 1.0,
            py::arg("ctc_decoder_config") = OfflineCtcDecoderConfig(),

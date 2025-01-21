@@ -21,12 +21,12 @@ void VoiceActivityDetectorConfig::Register(ParseOptions *po) {
 
 bool VoiceActivityDetectorConfig::Validate() const {
   if (segment_size < 0) {
-    SHERPA_LOGE("--vad-segment-size='%.3ff' is less than 0", segment_size);
+    SHERPA_LOGE("--vad-segment-size='%.3f' is less than 0", segment_size);
     return false;
   }
 
   if (batch_size < 1) {
-    SHERPA_LOGE("--vad-batch-size='%.3ff' is less than 1", segment_size);
+    SHERPA_LOGE("--vad-batch-size='%.3f' is less than 1", segment_size);
     return false;
   }
 

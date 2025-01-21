@@ -30,6 +30,7 @@
 #include "sherpa/python/csrc/online-recognizer.h"
 #include "sherpa/python/csrc/online-stream.h"
 #include "sherpa/python/csrc/resample.h"
+#include "sherpa/python/csrc/voice-activity-detector.h"
 
 namespace sherpa {
 
@@ -50,6 +51,7 @@ PYBIND11_MODULE(_sherpa, m) {
   PybindEndpoint(m);
   PybindOnlineStream(m);
   PybindOnlineRecognizer(m);
+  PybindVoiceActivityDetector(&m);
 }
 
 }  // namespace sherpa

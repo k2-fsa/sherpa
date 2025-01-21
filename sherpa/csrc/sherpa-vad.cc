@@ -2,6 +2,7 @@
 //
 // Copyright (c)  2025  Xiaomi Corporation
 
+#include <chrono>  // NOLINT
 #include <iostream>
 
 #include "sherpa/cpp_api/parse-options.h"
@@ -37,5 +38,25 @@ sherpa-vad \
 
   torch::Tensor samples = sherpa::ReadWave(po.GetArg(1), 16000).first;
 
-  vad.Process(samples);
+  const auto begin = std::chrono::steady_clock::now();
+
+  auto segments = vad.Process(samples);
+
+  const auto end = std::chrono::steady_clock::now();
+
+  const float elapsed_seconds =
+      std::chrono::duration_cast<std::chrono::milliseconds>(end - begin)
+          .count() /
+      1000.;
+  float duration = samples.size(0) / 16000.0f;
+
+  const float rtf = elapsed_seconds / duration;
+  for (const auto &s : segments) {
+    fprintf(stderr, "%.3f -- %.3f\n", s.start, s.end);
+  }
+
+  fprintf(stderr, "Elapsed seconds: %.3f\n", elapsed_seconds);
+  fprintf(stderr, "Audio duration: %.3f s\n", duration);
+  fprintf(stderr, "Real time factor (RTF): %.3f/%.3f = %.3f\n", elapsed_seconds,
+          duration, rtf);
 }

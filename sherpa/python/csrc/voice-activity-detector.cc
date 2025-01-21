@@ -7,6 +7,7 @@
 
 #include "sherpa/csrc/voice-activity-detector.h"
 #include "sherpa/python/csrc/voice-activity-detector-config.h"
+#include "torch/torch.h"
 
 namespace sherpa {
 
@@ -20,8 +21,8 @@ void PybindSpeechSegment(py::module *m) {
       .def("__str__", [](const PyClass &self) {
         std::ostringstream os;
         os << "SpeechSegment(";
-        os << std::setprecision(3) << self.start << ", ";
-        os << std::setprecision(3) << self.end << ")";
+        os << std::fixed << std::setprecision(3) << self.start << ", ";
+        os << std::fixed << std::setprecision(3) << self.end << ")";
         return os.str();
       });
 }
