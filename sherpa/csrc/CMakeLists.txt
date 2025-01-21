@@ -37,8 +37,13 @@ set(sherpa_srcs
   online-zipformer2-transducer-model.cc
   parse-options.cc
   resample.cc
+  silero-vad-model-config.cc
+  silero-vad-model.cc
   symbol-table.cc
   text-utils.cc
+  vad-model-config.cc
+  voice-activity-detector-impl.cc
+  voice-activity-detector.cc
 )
 
 add_library(sherpa_core ${sherpa_srcs})
@@ -121,11 +126,17 @@ message(STATUS "Generated ${CMAKE_CURRENT_BINARY_DIR}/version.h")
 add_executable(sherpa-version version.cc)
 target_include_directories(sherpa-version PRIVATE ${CMAKE_BINARY_DIR})
 
+add_executable(sherpa-vad sherpa-vad.cc)
+target_link_libraries(sherpa-vad sherpa_core)
+
 install(TARGETS
     sherpa_core
   DESTINATION lib
 )
 
-install(TARGETS sherpa-version
+install(
+  TARGETS
+   sherpa-version
+   sherpa-vad
   DESTINATION  bin
 )

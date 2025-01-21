@@ -9,29 +9,16 @@ if torch.__version__.split("+")[0] != sherpa_torch_version.split("+")[0]:
         f"But you are using PyTorch {torch.__version__} to run it"
     )
 
-from _sherpa import (
-    EndpointConfig,
-    EndpointRule,
-    FastBeamSearchConfig,
-    FeatureConfig,
-    LinearResample,
-    OfflineCtcDecoderConfig,
-    OfflineModelConfig,
-    OfflineRecognizer,
-    OfflineRecognizerConfig,
-    OfflineSenseVoiceModelConfig,
-    OfflineStream,
-    OfflineWhisperModelConfig,
-    OnlineRecognitionResult,
-    OnlineRecognizer,
-    OnlineRecognizerConfig,
-    OnlineStream,
-    cxx_flags,
-)
+from _sherpa import (EndpointConfig, EndpointRule, FastBeamSearchConfig,
+                     FeatureConfig, LinearResample, OfflineCtcDecoderConfig,
+                     OfflineModelConfig, OfflineRecognizer,
+                     OfflineRecognizerConfig, OfflineSenseVoiceModelConfig,
+                     OfflineStream, OfflineWhisperModelConfig,
+                     OnlineRecognitionResult, OnlineRecognizer,
+                     OnlineRecognizerConfig, OnlineStream,
+                     SileroVadModelConfig, VadModelConfig,
+                     VoiceActivityDetector, VoiceActivityDetectorConfig,
+                     cxx_flags)
 
 from .http_server import HttpServer
-from .utils import (
-    encode_contexts,
-    setup_logger,
-    str2bool,
-)
+from .utils import encode_contexts, setup_logger, str2bool

@@ -15,6 +15,10 @@ pybind11_add_module(_sherpa
   online-stream.cc
   resample.cc
   sherpa.cc
+  silero-vad-model-config.cc
+  vad-model-config.cc
+  voice-activity-detector-config.cc
+  voice-activity-detector.cc
 )
 
 if(APPLE)
