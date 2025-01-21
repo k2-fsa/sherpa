@@ -9,12 +9,13 @@ https://github.com/k2-fsa/sherpa/releases/tag/asr-models
 E.g.,
 wget https://github.com/k2-fsa/sherpa/releases/download/asr-models/sherpa-whisper-tiny.en.tar.bz2
 """
+import time
+from typing import Tuple
+
 import librosa
 import numpy as np
 import sherpa
 import soundfile as sf
-from typing import Tuple
-import time
 
 
 def load_audio(filename: str) -> Tuple[np.ndarray, int]:

@@ -4,6 +4,7 @@
 #ifndef SHERPA_CSRC_VOICE_ACTIVITY_DETECTOR_IMPL_H_
 #define SHERPA_CSRC_VOICE_ACTIVITY_DETECTOR_IMPL_H_
 #include <memory>
+#include <vector>
 
 #include "sherpa/csrc/voice-activity-detector.h"
 #include "torch/script.h"

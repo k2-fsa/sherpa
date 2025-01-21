@@ -4,6 +4,8 @@
 
 #include "sherpa/csrc/silero-vad-model-config.h"
 
+#include <string>
+
 #include "sherpa/csrc/file-utils.h"
 #include "sherpa/csrc/macros.h"
 

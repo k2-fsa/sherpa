@@ -4,6 +4,8 @@
 
 #include "sherpa/python/csrc/silero-vad-model-config.h"
 
+#include <string>
+
 #include "sherpa/csrc/silero-vad-model-config.h"
 
 namespace sherpa {

@@ -5,6 +5,8 @@
 #define SHERPA_CSRC_VOICE_ACTIVITY_DETECTOR_H_
 
 #include <memory>
+#include <string>
+#include <vector>
 
 #include "sherpa/cpp_api/parse-options.h"
 #include "sherpa/csrc/vad-model-config.h"
