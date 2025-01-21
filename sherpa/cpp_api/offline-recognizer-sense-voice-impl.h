@@ -52,15 +52,15 @@ class OfflineRecognizerSenseVoiceImpl : public OfflineRecognizerImpl {
  public:
   explicit OfflineRecognizerSenseVoiceImpl(
       const OfflineRecognizerConfig &config)
-      : config_(config),
-        symbol_table_(config.model.tokens),
-        fbank_(config.feat_config.fbank_opts) {
+      : config_(config), symbol_table_(config.model.tokens) {
     config.ctc_decoder_config.Validate();
 
     model_ = std::make_unique<OfflineSenseVoiceModel>(config.model);
 
+    config_.feat_config.fbank_opts.mel_opts.num_bins = 80;
     config_.feat_config.normalize_samples =
         model_->GetModelMetadata().normalize_samples;
+    fbank_ = std::make_unique<kaldifeat::Fbank>(config_.feat_config.fbank_opts);
 
     decoder_ = std::make_unique<OfflineCtcGreedySearchDecoder>();
 
@@ -68,7 +68,7 @@ class OfflineRecognizerSenseVoiceImpl : public OfflineRecognizerImpl {
   }
 
   std::unique_ptr<OfflineStream> CreateStream() override {
-    return std::make_unique<OfflineStream>(&fbank_, config_.feat_config);
+    return std::make_unique<OfflineStream>(fbank_.get(), config_.feat_config);
   }
 
   void DecodeStreams(OfflineStream **ss, int32_t n) override {
@@ -134,7 +134,7 @@ class OfflineRecognizerSenseVoiceImpl : public OfflineRecognizerImpl {
   void WarmUp() {
     SHERPA_LOG(INFO) << "WarmUp begins";
     auto s = CreateStream();
-    float sample_rate = fbank_.GetFrameOptions().samp_freq;
+    float sample_rate = fbank_->GetFrameOptions().samp_freq;
     std::vector<float> samples(2 * sample_rate, 0);
     s->AcceptSamples(samples.data(), samples.size());
     auto features = s->GetFeatures();
@@ -195,7 +195,7 @@ class OfflineRecognizerSenseVoiceImpl : public OfflineRecognizerImpl {
  private:
   OfflineRecognizerConfig config_;
   SymbolTable symbol_table_;
-  kaldifeat::Fbank fbank_;
+  std::unique_ptr<kaldifeat::Fbank> fbank_;
   std::unique_ptr<OfflineCtcDecoder> decoder_;
   std::unique_ptr<OfflineSenseVoiceModel> model_;
 };

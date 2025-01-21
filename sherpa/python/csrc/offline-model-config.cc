@@ -23,8 +23,9 @@ void PybindOfflineModelConfig(py::module *m) {
                     const OfflineWhisperModelConfig &, const std::string &,
                     bool, bool>(),
            py::arg("sense_voice") = OfflineSenseVoiceModelConfig(),
-           py::arg("whisper") = OfflineWhisperModelConfig(), py::arg("tokens"),
-           py::arg("debug") = false, py::arg("use_gpu") = false)
+           py::arg("whisper") = OfflineWhisperModelConfig(),
+           py::arg("tokens") = "", py::arg("debug") = false,
+           py::arg("use_gpu") = false)
       .def_readwrite("sense_voice", &PyClass::sense_voice)
       .def_readwrite("whisper", &PyClass::whisper)
       .def_readwrite("tokens", &PyClass::tokens)

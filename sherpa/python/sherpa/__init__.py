@@ -26,12 +26,12 @@ from _sherpa import (
     OnlineRecognizer,
     OnlineRecognizerConfig,
     OnlineStream,
+    SileroVadModelConfig,
+    VadModelConfig,
+    VoiceActivityDetector,
+    VoiceActivityDetectorConfig,
     cxx_flags,
 )
 
 from .http_server import HttpServer
-from .utils import (
-    encode_contexts,
-    setup_logger,
-    str2bool,
-)
+from .utils import encode_contexts, setup_logger, str2bool
