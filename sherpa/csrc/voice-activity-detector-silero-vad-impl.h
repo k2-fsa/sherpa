@@ -1,10 +1,13 @@
 // sherpa/csrc/voice-activity-detector-silero-vad-impl.h
 //
 // Copyright (c)  2025  Xiaomi Corporation
-#ifndef SHERPA_CSRC_VOICE_ACTIVITY_DETECTOR_IMPL_SILERO_VAD_H_
-#define SHERPA_CSRC_VOICE_ACTIVITY_DETECTOR_IMPL_SILERO_VAD_H_
+#ifndef SHERPA_CSRC_VOICE_ACTIVITY_DETECTOR_SILERO_VAD_IMPL_H_
+#define SHERPA_CSRC_VOICE_ACTIVITY_DETECTOR_SILERO_VAD_IMPL_H_
 
 #include <algorithm>
+#include <memory>
+#include <utility>
+#include <vector>
 
 #include "sherpa/csrc/macros.h"
 #include "sherpa/csrc/silero-vad-model.h"
@@ -196,4 +199,4 @@ class VoiceActivityDetectorSileroVadImpl : public VoiceActivityDetectorImpl {
 
 }  // namespace sherpa
 
-#endif  // SHERPA_CSRC_VOICE_ACTIVITY_DETECTOR_IMPL_SILERO_VAD_H_
+#endif  // SHERPA_CSRC_VOICE_ACTIVITY_DETECTOR_SILERO_VAD_IMPL_H_

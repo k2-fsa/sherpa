@@ -4,6 +4,9 @@
 
 #include "sherpa/csrc/voice-activity-detector.h"
 
+#include <string>
+#include <vector>
+
 #include "sherpa/csrc/macros.h"
 #include "sherpa/csrc/voice-activity-detector-impl.h"
 
