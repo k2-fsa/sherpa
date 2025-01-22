@@ -50,6 +50,13 @@ set(sherpa_srcs
   speaker-embedding-extractor-impl.cc
   #
   offline-speaker-diarization-result.cc
+  offline-speaker-segmentation-model-config.cc
+  offline-speaker-segmentation-pyannote-model-config.cc
+  fast-clustering-config.cc
+  fast-clustering.cc
+  offline-speaker-segmentation-pyannote-model.cc
+  ./offline-speaker-diarization-impl.cc
+  ./offline-speaker-diarization.cc
 )
 
 add_library(sherpa_core ${sherpa_srcs})
