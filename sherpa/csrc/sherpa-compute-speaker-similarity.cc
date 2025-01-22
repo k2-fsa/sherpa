@@ -41,6 +41,8 @@ sherpa-compute-speaker-similarity \
   int32_t sr = 16000;
   sherpa::SpeakerEmbeddingExtractor extractor(config);
 
+  const auto begin = std::chrono::steady_clock::now();
+
   torch::Tensor samples1 = sherpa::ReadWave(po.GetArg(1), sr).first;
 
   auto stream1 = extractor.CreateStream();
@@ -62,8 +64,6 @@ sherpa-compute-speaker-similarity \
 
     embedding1 = embeddings.index({0});
     embedding2 = embeddings.index({1});
-    std::cout << "embedding1.shape " << embedding1.sizes() << "\n";
-    std::cout << "embedding2.shape " << embedding2.sizes() << "\n";
   }
 
   auto score =
@@ -72,7 +72,22 @@ sherpa-compute-speaker-similarity \
           torch::nn::functional::CosineSimilarityFuncOptions{}.dim(0).eps(1e-6))
           .item()
           .toFloat();
+
+  const auto end = std::chrono::steady_clock::now();
+
+  const float elapsed_seconds =
+      std::chrono::duration_cast<std::chrono::milliseconds>(end - begin)
+          .count() /
+      1000.;
+  float duration = (samples1.size(0) + samples2.size(0)) / 16000.0f;
+  const float rtf = elapsed_seconds / duration;
+
   std::cout << "score: " << score << "\n";
+
+  fprintf(stderr, "Elapsed seconds: %.3f\n", elapsed_seconds);
+  fprintf(stderr, "Audio duration: %.3f s\n", duration);
+  fprintf(stderr, "Real time factor (RTF): %.3f/%.3f = %.3f\n", elapsed_seconds,
+          duration, rtf);
 
   return 0;
 }

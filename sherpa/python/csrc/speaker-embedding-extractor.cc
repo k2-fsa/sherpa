@@ -5,6 +5,7 @@
 #include "sherpa/python/csrc/speaker-embedding-extractor.h"
 
 #include <string>
+#include <vector>
 
 #include "sherpa/csrc/speaker-embedding-extractor.h"
 

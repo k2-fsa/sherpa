@@ -1,6 +1,6 @@
 // sherpa/csrc/speaker-embedding-extractor.cc
 //
-// Copyright (c)  2024  Xiaomi Corporation
+// Copyright (c)  2025  Xiaomi Corporation
 
 #include "sherpa/csrc/speaker-embedding-extractor.h"
 
