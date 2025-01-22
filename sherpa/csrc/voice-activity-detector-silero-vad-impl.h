@@ -154,6 +154,7 @@ class VoiceActivityDetectorSileroVadImpl : public VoiceActivityDetectorImpl {
     int32_t segment_size = config_.model.sample_rate * config_.segment_size;
 
     int32_t num_samples = samples.size(0);
+    float audio_duration = num_samples / 16000.0;
 
     bool need_pad =
         (num_samples > segment_size) && (num_samples % segment_size != 0);
@@ -188,6 +189,11 @@ class VoiceActivityDetectorSileroVadImpl : public VoiceActivityDetectorImpl {
     }
 
     segments = MergeSegments(std::move(segments));
+
+    for (auto &s : segments) {
+      s.start = std::min(s.start, audio_duration);
+      s.end = std::min(s.end, audio_duration);
+    }
 
     return segments;
   }
