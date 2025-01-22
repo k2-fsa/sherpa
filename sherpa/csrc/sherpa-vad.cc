@@ -8,8 +8,11 @@
 #include "sherpa/cpp_api/parse-options.h"
 #include "sherpa/csrc/fbank-features.h"
 #include "sherpa/csrc/voice-activity-detector.h"
+#include "torch/torch.h"
 
 int32_t main(int32_t argc, char *argv[]) {
+  torch::set_num_threads(1);
+  torch::set_num_interop_threads(1);
   const char *kUsageMessage = R"usage(
 This program uses a VAD models to add timestamps to a audio file
 Usage:
