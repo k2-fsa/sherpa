@@ -20,6 +20,7 @@
 
 #include "pybind11/pybind11.h"
 #include "pybind11/stl.h"
+#include "torch/torch.h"
 
 namespace py = pybind11;
 

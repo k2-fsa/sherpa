@@ -17,7 +17,7 @@ Usage:
 
 sherpa-vad \
   --silero-vad-model=/path/to/model.pt \
-  --use-gpu=false \
+  --vad-use-gpu=false \
   --num-threads=1 \
   ./foo.wav
 

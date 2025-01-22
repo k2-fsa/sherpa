@@ -44,6 +44,10 @@ set(sherpa_srcs
   vad-model-config.cc
   voice-activity-detector-impl.cc
   voice-activity-detector.cc
+  #
+  speaker-embedding-extractor-model.cc
+  speaker-embedding-extractor.cc
+  speaker-embedding-extractor-impl.cc
 )
 
 add_library(sherpa_core ${sherpa_srcs})
@@ -129,6 +133,9 @@ target_include_directories(sherpa-version PRIVATE ${CMAKE_BINARY_DIR})
 add_executable(sherpa-vad sherpa-vad.cc)
 target_link_libraries(sherpa-vad sherpa_core)
 
+add_executable(sherpa-compute-speaker-similarity sherpa-compute-speaker-similarity.cc)
+target_link_libraries(sherpa-compute-speaker-similarity sherpa_core)
+
 install(TARGETS
     sherpa_core
   DESTINATION lib
@@ -138,5 +145,6 @@ install(
   TARGETS
    sherpa-version
    sherpa-vad
+   sherpa-compute-speaker-similarity
   DESTINATION  bin
 )
