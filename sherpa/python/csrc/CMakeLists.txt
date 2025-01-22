@@ -16,6 +16,7 @@ pybind11_add_module(_sherpa
   resample.cc
   sherpa.cc
   silero-vad-model-config.cc
+  speaker-embedding-extractor.cc
   vad-model-config.cc
   voice-activity-detector-config.cc
   voice-activity-detector.cc

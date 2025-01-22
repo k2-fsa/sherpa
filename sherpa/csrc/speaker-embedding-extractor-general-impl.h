@@ -10,6 +10,7 @@
 #include <vector>
 
 #include "sherpa/cpp_api/feature-config.h"
+#include "sherpa/cpp_api/macros.h"
 #include "sherpa/cpp_api/offline-stream.h"
 #include "sherpa/csrc/speaker-embedding-extractor-impl.h"
 #include "sherpa/csrc/speaker-embedding-extractor-model.h"
@@ -41,6 +42,7 @@ class SpeakerEmbeddingExtractorGeneralImpl
   }
 
   torch::Tensor Compute(OfflineStream *s) const override {
+    InferenceMode no_grad;
     auto features = s->GetFeatures();
     features -= features.mean(0, true);
     features = features.unsqueeze(0);
@@ -49,6 +51,7 @@ class SpeakerEmbeddingExtractorGeneralImpl
   }
 
   torch::Tensor Compute(OfflineStream **ss, int32_t n) const override {
+    InferenceMode no_grad;
     if (n == 1) {
       return Compute(ss[0]);
     }
@@ -70,6 +73,7 @@ class SpeakerEmbeddingExtractorGeneralImpl
 
  private:
   void WarmUp() {
+    InferenceMode no_grad;
     SHERPA_LOG(INFO) << "WarmUp begins";
     auto s = CreateStream();
     float sample_rate = fbank_->GetFrameOptions().samp_freq;

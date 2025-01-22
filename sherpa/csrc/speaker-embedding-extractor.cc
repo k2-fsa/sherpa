@@ -6,6 +6,7 @@
 
 #include <vector>
 
+#include "sherpa/cpp_api/macros.h"
 #include "sherpa/csrc/file-utils.h"
 #include "sherpa/csrc/macros.h"
 #include "sherpa/csrc/speaker-embedding-extractor-impl.h"
@@ -59,11 +60,13 @@ std::unique_ptr<OfflineStream> SpeakerEmbeddingExtractor::CreateStream() const {
 }
 
 torch::Tensor SpeakerEmbeddingExtractor::Compute(OfflineStream *s) const {
+  InferenceMode no_grad;
   return impl_->Compute(s);
 }
 
 torch::Tensor SpeakerEmbeddingExtractor::Compute(OfflineStream **ss,
                                                  int32_t n) const {
+  InferenceMode no_grad;
   return impl_->Compute(ss, n);
 }
 

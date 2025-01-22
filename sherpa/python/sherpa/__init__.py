@@ -27,6 +27,8 @@ from _sherpa import (
     OnlineRecognizerConfig,
     OnlineStream,
     SileroVadModelConfig,
+    SpeakerEmbeddingExtractor,
+    SpeakerEmbeddingExtractorConfig,
     VadModelConfig,
     VoiceActivityDetector,
     VoiceActivityDetectorConfig,
