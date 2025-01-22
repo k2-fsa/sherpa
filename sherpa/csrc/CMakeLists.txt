@@ -48,6 +48,8 @@ set(sherpa_srcs
   speaker-embedding-extractor-model.cc
   speaker-embedding-extractor.cc
   speaker-embedding-extractor-impl.cc
+  #
+  offline-speaker-diarization-result.cc
 )
 
 add_library(sherpa_core ${sherpa_srcs})
