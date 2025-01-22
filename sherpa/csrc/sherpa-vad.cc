@@ -11,8 +11,6 @@
 #include "torch/torch.h"
 
 int32_t main(int32_t argc, char *argv[]) {
-  torch::set_num_threads(1);
-  torch::set_num_interop_threads(1);
   const char *kUsageMessage = R"usage(
 This program uses a VAD models to add timestamps to a audio file
 Usage:
@@ -20,13 +18,16 @@ Usage:
 sherpa-vad \
   --silero-vad-model=/path/to/model.pt \
   --use-gpu=false \
+  --num-threads=1 \
   ./foo.wav
 
 )usage";
 
+  int32_t num_threads = 1;
   sherpa::ParseOptions po(kUsageMessage);
   sherpa::VoiceActivityDetectorConfig config;
   config.Register(&po);
+  po.Register("num-threads", &num_threads, "Number of threads for PyTorch");
   po.Read(argc, argv);
 
   if (po.NumArgs() != 1) {
@@ -36,6 +37,9 @@ sherpa-vad \
 
   std::cerr << config.ToString() << "\n";
   config.Validate();
+
+  torch::set_num_threads(num_threads);
+  torch::set_num_interop_threads(num_threads);
 
   sherpa::VoiceActivityDetector vad(config);
 
@@ -58,6 +62,7 @@ sherpa-vad \
     fprintf(stderr, "%.3f -- %.3f\n", s.start, s.end);
   }
 
+  fprintf(stderr, "Number of threads: %d\n", num_threads);
   fprintf(stderr, "Elapsed seconds: %.3f\n", elapsed_seconds);
   fprintf(stderr, "Audio duration: %.3f s\n", duration);
   fprintf(stderr, "Real time factor (RTF): %.3f/%.3f = %.3f\n", elapsed_seconds,
