@@ -145,6 +145,9 @@ target_link_libraries(sherpa-vad sherpa_core)
 add_executable(sherpa-compute-speaker-similarity sherpa-compute-speaker-similarity.cc)
 target_link_libraries(sherpa-compute-speaker-similarity sherpa_core)
 
+add_executable(sherpa-speaker-diarization sherpa-speaker-diarization.cc)
+target_link_libraries(sherpa-speaker-diarization sherpa_core)
+
 install(TARGETS
     sherpa_core
   DESTINATION lib
@@ -155,5 +158,6 @@ install(
    sherpa-version
    sherpa-vad
    sherpa-compute-speaker-similarity
+   sherpa-speaker-diarization
   DESTINATION  bin
 )

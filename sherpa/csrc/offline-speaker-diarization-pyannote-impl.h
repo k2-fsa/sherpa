@@ -73,6 +73,96 @@ class OfflineSpeakerDiarizationPyannoteImpl
       torch::Tensor samples,
       OfflineSpeakerDiarizationProgressCallback callback = nullptr,
       void *callback_arg = nullptr) const override {
+    std::cout << "samples: " << samples.sizes() << "\n";
+    if (samples.dim() != 2) {
+      SHERPA_LOGE("Support only 2-d tensors. Given: %d",
+                  static_cast<int32_t>(samples.dim()));
+      return {};
+    }
+
+    if (samples.size(0) != 1) {
+      SHERPA_LOGE("Support only batch size == 1. Given: %d",
+                  static_cast<int32_t>(samples.size(0)));
+      return {};
+    }
+
+    std::cout << "samples.sizes: " << samples.sizes() << "\n";
+    RunSpeakerSegmentationModel(samples);
+    return {};
+  }
+
+  std::vector<torch::Tensor> RunSpeakerSegmentationModel(
+      torch::Tensor samples) const {
+    const auto &meta_data = segmentation_model_.GetModelMetaData();
+    int32_t window_size = meta_data.window_size;
+    int32_t window_shift = meta_data.window_shift;
+
+    int32_t batch_size = samples.size(0);
+    int32_t num_samples = samples.size(1);
+    int32_t need_pad = (num_samples < window_size) ||
+                       ((num_samples - window_size) % window_shift);
+    std::cout << "num_samples < window_size: " << (num_samples - window_size)
+              << "\n";
+    std::cout << "((num_samples - window_size) % window_shift): "
+              << ((num_samples - window_size) % window_shift) << "\n";
+    std::cout << "need pad: " << need_pad << "\n";
+
+    if (need_pad) {
+      int32_t padding = 0;
+      if (num_samples < window_size) {
+        padding = window_size - num_samples;
+      } else {
+        padding = window_shift - ((num_samples - window_size) % window_shift);
+      }
+      std::cout << "padding size: " << padding << "\n";
+      samples = torch::nn::functional::pad(
+          samples, torch::nn::functional::PadFuncOptions({0, padding, 0, 0})
+                       .mode(torch::kConstant)
+                       .value(0));
+    }
+    int32_t num_segments = (samples.size(1) - window_size) / window_shift + 1;
+
+    if (need_pad || num_segments > 1) {
+      samples = samples.as_strided({batch_size, num_segments, window_size},
+                                   {samples.size(1), window_shift, 1});
+    } else {
+      samples = samples.reshape({1, 1, -1});
+    }
+
+    samples = samples.reshape({-1, 1, window_size});
+    // e.g. samples.sizes: (264, 1, 160000)
+
+    int32_t max_batch_size = 2;
+    torch::Tensor log_probs;
+    if (samples.size(0) < max_batch_size) {
+      log_probs = segmentation_model_.Forward(samples);
+    } else {
+      std::vector<torch::Tensor> tmp;
+      int32_t n = samples.size(0) / max_batch_size;
+      for (int32_t i = 0; i < n; ++i) {
+        auto this_batch =
+            samples.slice(0, i * max_batch_size, (i + 1) * max_batch_size);
+        std::cout << i << "/" << n << " -> " << this_batch.sizes() << "\n";
+        auto this_log_prob = segmentation_model_.Forward(this_batch);
+        std::cout << "    " << this_log_prob.sizes() << "\n";
+        tmp.push_back(std::move(this_log_prob));
+      }
+
+      if (samples.size(0) % max_batch_size) {
+        auto this_batch = samples.slice(0, n * max_batch_size);
+        std::cout << n << " -> " << this_batch.sizes() << "\n";
+        auto this_log_prob = segmentation_model_.Forward(this_batch);
+        std::cout << "    " << this_log_prob.sizes() << "\n";
+        tmp.push_back(std::move(this_log_prob));
+      }
+
+      log_probs = torch::cat(tmp, 0);
+    }
+    // e.g. log_probs.sizes: (264, 589, 7)
+    std::cout << "log_probs.sizes: " << log_probs.sizes() << "\n";
+
+    // TODO(fangjun): Limit the batch size here
+
     return {};
   }
 
