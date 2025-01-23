@@ -52,7 +52,10 @@ class OfflineSpeakerDiarizationPyannoteImpl
       : config_(config),
         segmentation_model_(config_.segmentation),
         embedding_extractor_(config_.embedding),
-        clustering_(std::make_unique<FastClustering>(config_.clustering)) {}
+        clustering_(std::make_unique<FastClustering>(config_.clustering)) {
+    InitPowersetMapping();
+    std::cout << "powerset_mapping: " << powerset_mapping_ << "\n";
+  }
 
   int32_t SampleRate() const override {
     const auto &meta_data = segmentation_model_.GetModelMetaData();
@@ -87,12 +90,19 @@ class OfflineSpeakerDiarizationPyannoteImpl
     }
 
     std::cout << "samples.sizes: " << samples.sizes() << "\n";
-    RunSpeakerSegmentationModel(samples);
+    torch::Tensor log_probs = RunSpeakerSegmentationModel(samples);
+    std::cout << "log_probs.sizes: " << log_probs.sizes() << "\n";
+    // A chunk is a window_size samples
+    // log_probs: (num_chunks, num_frames, 7)
+    // where 7 is the num_powerset_classes
+
+    torch::Tensor labels = ToMultiLabel(log_probs);
+    std::cout << "labels.sizes: " << labels.sizes() << "\n";
+
     return {};
   }
 
-  std::vector<torch::Tensor> RunSpeakerSegmentationModel(
-      torch::Tensor samples) const {
+  torch::Tensor RunSpeakerSegmentationModel(torch::Tensor samples) const {
     const auto &meta_data = segmentation_model_.GetModelMetaData();
     int32_t window_size = meta_data.window_size;
     int32_t window_shift = meta_data.window_shift;
@@ -161,9 +171,51 @@ class OfflineSpeakerDiarizationPyannoteImpl
     // e.g. log_probs.sizes: (264, 589, 7)
     std::cout << "log_probs.sizes: " << log_probs.sizes() << "\n";
 
-    // TODO(fangjun): Limit the batch size here
+    return log_probs;
+  }
 
-    return {};
+  // see
+  // https://github.com/pyannote/pyannote-audio/blob/develop/pyannote/audio/utils/powerset.py#L103
+  torch::Tensor ToMultiLabel(torch::Tensor log_probs) const {
+    int32_t num_classes = powerset_mapping_.size(0);
+    auto powerset_probs = torch::nn::functional::one_hot(
+                              torch::argmax(log_probs, -1), num_classes)
+                              .to(torch::kFloat);
+    std::cout << "powerset_probs.sizes: " << powerset_probs.sizes() << "\n";
+    auto labels = torch::matmul(powerset_probs, powerset_mapping_);
+    std::cout << "labels.sizes: " << labels.sizes() << "\n";
+    return labels;
+  }
+
+ private:
+  void InitPowersetMapping() {
+    const auto &meta_data = segmentation_model_.GetModelMetaData();
+    int32_t num_classes = meta_data.num_classes;
+    int32_t powerset_max_classes = meta_data.powerset_max_classes;
+    int32_t num_speakers = meta_data.num_speakers;
+
+    powerset_mapping_ =
+        torch::zeros({num_classes, num_speakers}, torch::kFloat);
+    auto acc = powerset_mapping_.accessor<float, 2>();
+
+    int32_t k = 1;
+    for (int32_t i = 1; i <= powerset_max_classes; ++i) {
+      if (i == 1) {
+        for (int32_t j = 0; j != num_speakers; ++j, ++k) {
+          acc[k][j] = 1;
+        }
+      } else if (i == 2) {
+        for (int32_t j = 0; j != num_speakers; ++j) {
+          for (int32_t m = j + 1; m < num_speakers; ++m, ++k) {
+            acc[k][j] = 1;
+            acc[k][m] = 1;
+          }
+        }
+      } else {
+        SHERPA_LOGE("powerset_max_classes = %d is currently not supported!", i);
+        SHERPA_EXIT(-1);
+      }
+    }
   }
 
  private:
@@ -171,6 +223,16 @@ class OfflineSpeakerDiarizationPyannoteImpl
   OfflineSpeakerSegmentationPyannoteModel segmentation_model_;
   SpeakerEmbeddingExtractor embedding_extractor_;
   std::unique_ptr<FastClustering> clustering_;
+  torch::Tensor powerset_mapping_;  // 2-d float tensor
+  /*
+ 0  0  0   // 0
+ 1  0  0   // 1
+ 0  1  0   // 2
+ 0  0  1   // 3
+ 1  1  0   // 4
+ 1  0  1   // 5
+ 0  1  1   // 6
+ */
 };
 
 }  // namespace sherpa
