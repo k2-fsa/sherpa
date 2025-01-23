@@ -45,8 +45,11 @@ sherpa-speaker-diarization \
 
   int32_t sr = 16000;
   torch::Tensor samples = sherpa::ReadWave(po.GetArg(1), sr).first;
-  sd.Process(samples.unsqueeze(0));
-  std::cout << "here\n";
+  auto result = sd.Process(samples.unsqueeze(0)).SortByStartTime();
+
+  for (const auto &r : result) {
+    std::cout << r.ToString() << "\n";
+  }
 
   return 0;
 }
