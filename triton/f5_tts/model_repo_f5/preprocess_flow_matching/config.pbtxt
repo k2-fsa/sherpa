@@ -1,0 +1,84 @@
+# Copyright (c) 2025, NVIDIA CORPORATION.  All rights reserved.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+name: "preprocess_flow_matching"
+backend: "python"
+# max_batch_size: ${triton_max_batch_size}
+max_batch_size: 1
+#dynamic_batching {
+#    max_queue_delay_microseconds: ${max_queue_delay_microseconds}
+#}
+# value: { string_value: "${engine_dir}"}
+parameters [
+  {
+    key: "vocab_file"
+    value: { string_value: "./model_repo_f5/preprocess_flow_matching/1/vocab.txt"}
+  },
+  {
+   key: "n_mels", 
+   value: {string_value:"${n_mels}"} # 128 dim for large-v3, 80 dim for large-v2
+  },
+  {
+   key: "model_path", 
+   value: {string_value:"/home/scratch.yuekaiz_wwfo_1/tts/F5_TTS_Faster/F5_TTS/F5TTS_Base/model_1200000.pt"}
+  },
+  {
+   key: "tllm_model_dir", 
+   value: {string_value:"/home/scratch.yuekaiz_wwfo_1/tts/F5_TTS_Faster/ckpts/engine_outputs"}
+  }
+]
+
+input [
+  {
+    name: "reference_wav"
+    data_type: TYPE_FP32
+    dims: [-1]
+    optional: True
+  },
+  {
+    name: "reference_wav_len"
+    data_type: TYPE_INT32
+    dims: [1]
+    optional: True
+  },
+  {
+    name: "reference_text"
+    data_type: TYPE_STRING
+    dims: [1]
+  },
+  {
+    name: "target_text"
+    data_type: TYPE_STRING
+    dims: [1]
+  }
+]
+output [
+  {
+    name: "target_mel"
+    data_type: TYPE_FP32
+    dims: [-1, -1]
+  },
+  {
+    name: "target_mel_len"
+    data_type: TYPE_INT32
+    dims: [1]
+  }
+]
+
+instance_group [
+  {
+    count: 1
+    kind: KIND_GPU
+  }
+]
