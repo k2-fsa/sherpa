@@ -28,7 +28,7 @@ import torch
 from torch import nn
 from torch.nn.utils.rnn import pad_sequence
 import torch.nn.functional as F
-from torch.utils.dlpack import from_dlpack
+from torch.utils.dlpack import from_dlpack, to_dlpack
 import torchaudio
 import jieba
 import triton_python_backend_utils as pb_utils
@@ -49,53 +49,6 @@ from tensorrt_llm.runtime.session import Session
 import onnxruntime
 import numpy as np
 
-import matplotlib.pyplot as plt
-
-def save_spectrogram(spectrogram_tensor, filename="spectrogram.png", title="Spectrogram", db_scale=False):
-    """
-    将 PyTorch 张量转换为频谱图图像并保存到文件中。
-
-    Args:
-        spectrogram_tensor (torch.Tensor): 形状为 (1, time_frames, frequency_bins) 的 PyTorch 张量。
-        filename (str): 保存图像的文件名 (例如, "spectrogram.png")。
-        title (str):  频谱图的标题。
-        db_scale (bool): 是否使用分贝 (dB) 刻度。
-    """
-
-    # 检查输入张量的形状
-    if spectrogram_tensor.shape[0] != 1:
-        raise ValueError("输入张量的第一个维度必须为 1 (批次大小).")
-
-    # 将 PyTorch 张量转换为 NumPy 数组并移除批次维度
-    spectrogram_numpy = spectrogram_tensor.squeeze().numpy()
-
-    # 转置数组 (使时间在水平轴上，频率在垂直轴上)
-    spectrogram_numpy = np.transpose(spectrogram_numpy)
-
-    # 绘制频谱图
-    plt.figure(figsize=(10, 6))  # 可选：调整图像大小
-    if db_scale:
-        # 使用对数刻度 (分贝)
-        # 添加一个小的偏移量以避免 log(0) 错误
-        spectrogram_numpy = np.abs(spectrogram_numpy)  # 确保所有值都是正数
-        spectrogram_numpy = np.where(spectrogram_numpy == 0, 1e-6, spectrogram_numpy) # 将0替换成一个极小值
-        plt.imshow(10 * np.log10(spectrogram_numpy), aspect='auto', cmap='viridis', origin='lower')
-        plt.colorbar(label='Intensity (dB)')
-    else:
-        # 使用线性刻度 (可选: 归一化数据到 0-1 范围)
-        # spectrogram_numpy = (spectrogram_numpy - np.min(spectrogram_numpy)) / (np.max(spectrogram_numpy) - np.min(spectrogram_numpy))
-        plt.imshow(spectrogram_numpy, aspect='auto', cmap='viridis', origin='lower')
-        plt.colorbar(label='Intensity')
-
-    plt.xlabel('Time Frames')
-    plt.ylabel('Frequency Bins')
-    plt.title(title)
-    plt.tight_layout()  # 确保标签不重叠
-    plt.show()
-
-    # 保存图像
-    plt.savefig(filename)
-    plt.close() # 关闭图像，释放内存
 
 def get_vocos_mel_spectrogram(
     waveform, # B,T
@@ -286,7 +239,7 @@ class TextEmbedding(nn.Module):
 def lens_to_mask(
     t, length: int | None = None  # noqa: F722 F821
 ):  # noqa: F722 F821
-    if not exists(length):
+    if not length:
         length = t.amax()
 
     seq = torch.arange(length, device=t.device)
@@ -316,14 +269,9 @@ class F5TTS(object):
                                             gpus_per_node=1)
 
         local_rank = rank % self.mapping.gpus_per_node
-        # self.device = torch.device(device)
         self.device = torch.device(f"cuda:{local_rank}")
 
-        print("[DEBUG] torch.cuda.device_count(): ", torch.cuda.device_count())
-        print("[DEBUG] torch.cuda.is_available(): ", torch.cuda.is_available())
-
         torch.cuda.set_device(self.device)
-        # CUASSERT(cudart.cudaSetDevice(local_rank))
 
         self.stream = stream
         if self.stream is None:
@@ -475,7 +423,7 @@ in_name_C0 = in_name_C[0].name
 in_name_C1 = in_name_C[1].name
 out_name_C0 = out_name_C[0].name
 
-def decode(noise, ref_signal_len, audio_save_path = './trtllm_gen.wav'):
+def decode(noise, ref_signal_len):
 
     generated_signal = ort_session_C.run(
             [out_name_C0],
@@ -485,7 +433,7 @@ def decode(noise, ref_signal_len, audio_save_path = './trtllm_gen.wav'):
             })[0]
 
     audio_tensor = torch.tensor(generated_signal, dtype=torch.float32).squeeze(0)
-    torchaudio.save(audio_save_path, audio_tensor, 24000)
+    return audio_tensor
 
 def load_checkpoint(ckpt_path, use_ema=True):
     checkpoint = torch.load(ckpt_path, weights_only=True)
@@ -506,6 +454,9 @@ def load_checkpoint(ckpt_path, use_ema=True):
 
 class TritonPythonModel:
     def initialize(self, args):
+
+        self.reference_sample_rate = 16000
+
         parameters = json.loads(args['model_config'])['parameters']
         for key, value in parameters.items():
             parameters[key] = value["string_value"]
@@ -530,7 +481,7 @@ class TritonPythonModel:
         self.rope_sin = self.freqs.sin().half()
 
         # self.resampler = torchaudio.transforms.Resample(16000, 24000)
-        self.resampler = torchaudio.transforms.Resample(48000, 24000)
+        self.resampler = torchaudio.transforms.Resample(self.reference_sample_rate, 24000)
 
         self.tllm_model_dir = parameters["tllm_model_dir"]
 
@@ -546,7 +497,7 @@ class TritonPythonModel:
 
 
     def execute(self, requests):
-        responses, reference_target_texts_list, reference_wavs_tensor, estimated_reference_target_mel_len = [], [], [], []
+        reference_target_texts_list, reference_wavs_tensor, estimated_reference_target_mel_len, reference_mel_len = [], [], [], []
         max_wav_len = 0
         for request in requests:
             wav_tensor = pb_utils.get_input_tensor_by_name(request, "reference_wav")
@@ -560,7 +511,6 @@ class TritonPythonModel:
             target_text = target_text[0][0].decode('utf-8')
 
             text = reference_text + target_text
-            print(f"Text: {text}")
             reference_target_texts_list.append(text)
          
             # Move WAV data to GPU
@@ -569,7 +519,7 @@ class TritonPythonModel:
             wav_len = from_dlpack(wav_lens.to_dlpack())
             wav_len = wav_len.squeeze()
             # wav_len  = int(wav_len / 16000 * 24000)
-            wav_len  = int(wav_len / 48000 * 24000)
+            wav_len  = int(wav_len / self.reference_sample_rate * 24000)
             # Resample to 24kHz
             print(f"wav shape: {wav.shape}")
             wav = self.resampler(wav)
@@ -586,9 +536,10 @@ class TritonPythonModel:
             reference_wavs_tensor.append(wav)
             
             estimated_reference_target_mel_len.append(int(wav_len // 256) + int(wav_len // 256 * len(target_text) / len(reference_text)))
+            reference_mel_len.append(int(wav_len // 256))
         
         max_seq_len = max(estimated_reference_target_mel_len)
-        max_seq_len = 884
+        # max_seq_len = 884
         reference_wavs_tensor = torch.cat(
             [F.pad(wav, (0, max_wav_len - wav.shape[1]), mode='constant') for wav in reference_wavs_tensor]
         ).to(self.device)
@@ -606,7 +557,6 @@ class TritonPythonModel:
         print(f"shape of mel_features: {mel_features.shape}")
         print(f"shape of text_embedding: {text_embedding.shape}")
         # print(f"first column of text_embedding: {text_embedding[:, 0]}")
-        print(f"first column of mel_features: {mel_features[:, 0]}")
 
         # mask = lens_to_mask(torch.tensor(estimated_reference_target_mel_len))
 
@@ -617,18 +567,17 @@ class TritonPythonModel:
         print(f"shape of text_embedding: {text_embedding.shape}")
         cat_mel_text = torch.cat((mel_features, text_embedding), dim=-1)
 
-        print(cat_mel_text[0,0,:100])
 
+        batch = cat_mel_text.shape[0]
         assert mel_features.shape[0] == 1, "Only support batch size 1 for now."
-        cat_mel_text_drop = torch.cat((torch.zeros((1, max_seq_len, 100), dtype=torch.float32).to(self.device), self.text_embedding(torch.zeros((1, max_seq_len), dtype=torch.int32).to(self.device), max_seq_len)), dim=-1)
-        qk_rotated_empty = torch.zeros((2, max_seq_len, self.head_dim), dtype=torch.float32)    
+        cat_mel_text_drop = torch.cat((torch.zeros((batch, max_seq_len, 100), dtype=torch.float32).to(self.device), self.text_embedding(torch.zeros((batch, max_seq_len), dtype=torch.int32).to(self.device), max_seq_len)), dim=-1)
             
         t = torch.linspace(0, 1, 16 + 1, dtype=torch.float32)
         time_step = t + (-1.0) * (torch.cos(torch.pi * 0.5 * t) - 1 + t)
 
         delta_t = torch.diff(time_step)
         
-        time_expand = torch.zeros((1, 16, 256), dtype=torch.float32)
+        time_expand = torch.zeros((batch, 16, 256), dtype=torch.float32)
         half_dim = 256 // 2
         emb_factor = math.log(10000) / (half_dim - 1)
         emb_factor = 1000.0 * torch.exp(torch.arange(half_dim, dtype=torch.float32) * -emb_factor)
@@ -637,16 +586,20 @@ class TritonPythonModel:
             time_expand[:, i, :] = torch.cat((emb.sin(), emb.cos()), dim=-1)
 
         denoised = self.model.forward(noise.cuda(),cat_mel_text.cuda(), cat_mel_text_drop.cuda(), time_expand.cuda(), rope_cos.cuda(), rope_sin.cuda(), delta_t.cuda())
-        print(f"denoised shape: {denoised.shape}, ==============================")
-        # print(denoised[0,-1])
-        # save mel spectrogram
-        save_spectrogram(mel_features.cpu(), title="Mel Spectrogram", db_scale=True, filename="mel_spectrogram.png")
-        save_spectrogram(denoised.cpu(), title="Denoised Spectrogram", db_scale=True, filename="denoised_spectrogram.png")
-        
-        ref_signal_len = np.array(405, dtype=np.int64)
-        print(ref_signal_len, type(ref_signal_len), ref_signal_len.size)
 
-        print(f"decoding here")
-        decode(denoised.cpu().numpy().astype(np.float32), ref_signal_len)
+        ref_me_len = reference_mel_len[0]
+        ref_signal_len = np.array(ref_me_len, dtype=np.int64)
+        audios = decode(denoised.cpu().numpy().astype(np.float32), ref_signal_len)
 
+        responses = []
+        for i, item in enumerate(audios):
+
+
+
+            waveform = item.unsqueeze(0)
+            print(f"waveform shape: {waveform.shape}")
+            waveform = pb_utils.Tensor.from_dlpack("waveform", to_dlpack(waveform))
+            inference_response = pb_utils.InferenceResponse(output_tensors=[waveform])
+            responses.append(inference_response)
+                             
         return responses

@@ -20,81 +20,7 @@ This script supports to load manifest files in kaldi format and sends it to the 
 for decoding, in parallel.
 
 Usage:
-# For offline icefall server
-python3 client.py \
-    --compute-cer  # For Chinese, we use CER to evaluate the model 
-
-# For streaming icefall server
-python3 client.py \
-    --streaming \
-    --compute-cer
-
-# For simulate streaming mode icefall server
-python3 client.py \
-    --simulate-streaming \
-    --compute-cer
-
-# For offline wenet server
-python3 client.py \
-    --server-addr localhost \
-    --compute-cer \
-    --model-name attention_rescoring \
-    --num-tasks 300 \
-    --manifest-dir ./datasets/aishell1_test
-
-# For streaming wenet server
-python3 client.py \
-    --server-addr localhost \
-    --streaming \
-    --compute-cer \
-    --context 7 \
-    --model-name streaming_wenet \
-    --num-tasks 300 \
-    --manifest-dir ./datasets/aishell1_test
-
-# For simulate streaming mode wenet server
-python3 client.py \
-    --server-addr localhost \
-    --simulate-streaming \
-    --compute-cer \
-    --context 7 \
-    --model-name streaming_wenet \
-    --num-tasks 300 \
-    --manifest-dir ./datasets/aishell1_test
-
-# For offlien paraformer server
-python3 client.py \
-    --server-addr localhost \
-    --compute-cer \
-    --model-name infer_pipeline \
-    --num-tasks $num_task \
-    --manifest-dir ./datasets/aishell1_test
-
-# For offlien whisper server
-python3 client.py \
-    --server-addr localhost \
-    --model-name whisper \
-    --num-tasks $num_task \
-    --text-prompt "<|startoftranscript|><|en|><|transcribe|><|notimestamps|>" \
-    --manifest-dir ./datasets/mini_en
-
-# For offline sensevoice server
-python3 client.py \
-    --server-addr localhost \
-    --server-port 10086 \
-    --model-name sensevoice \
-    --num-tasks $num_task \
-    --batch-size $bach_size \
-    --manifest-dir ./datasets/mini_zh
-
-# For offline whisper_qwen2 server
-python3 client.py \
-    --server-addr localhost \
-    --model-name infer_bls \
-    --num-tasks $num_task \
-    --manifest-dir ./datasets/mini_zh \
-    --compute-cer
-
+# For offline F5-TTS
 # huggingface dataset
 dataset_name=yuekai/aishell
 subset_name=test
@@ -128,14 +54,73 @@ import tritonclient
 import tritonclient.grpc.aio as grpcclient
 from tritonclient.utils import np_to_triton_dtype
 
-from utils import (
-    download_and_extract,
-    store_transcripts,
-    write_error_stats,
-    write_triton_stats,
-)
 
-DEFAULT_MANIFEST_DIR = "./datasets/aishell1_test"
+
+def write_triton_stats(stats, summary_file):
+    with open(summary_file, "w") as summary_f:
+        model_stats = stats["model_stats"]
+        # write a note, the log is from triton_client.get_inference_statistics(), to better human readability
+        summary_f.write(
+            "The log is parsing from triton_client.get_inference_statistics(), to better human readability. \n"
+        )
+        summary_f.write("To learn more about the log, please refer to: \n")
+        summary_f.write(
+            "1. https://github.com/triton-inference-server/server/blob/main/docs/user_guide/metrics.md \n"
+        )
+        summary_f.write(
+            "2. https://github.com/triton-inference-server/server/issues/5374 \n\n"
+        )
+        summary_f.write(
+            "To better improve throughput, we always would like let requests wait in the queue for a while, and then execute them with a larger batch size. \n"
+        )
+        summary_f.write(
+            "However, there is a trade-off between the increased queue time and the increased batch size. \n"
+        )
+        summary_f.write(
+            "You may change 'max_queue_delay_microseconds' and 'preferred_batch_size' in the model configuration file to achieve this. \n"
+        )
+        summary_f.write(
+            "See https://github.com/triton-inference-server/server/blob/main/docs/user_guide/model_configuration.md#delayed-batching for more details. \n\n"
+        )
+        for model_state in model_stats:
+            if "last_inference" not in model_state:
+                continue
+            summary_f.write(f"model name is {model_state['name']} \n")
+            model_inference_stats = model_state["inference_stats"]
+            total_queue_time_s = int(model_inference_stats["queue"]["ns"]) / 1e9
+            total_infer_time_s = int(model_inference_stats["compute_infer"]["ns"]) / 1e9
+            total_input_time_s = int(model_inference_stats["compute_input"]["ns"]) / 1e9
+            total_output_time_s = (
+                int(model_inference_stats["compute_output"]["ns"]) / 1e9
+            )
+            summary_f.write(
+                f"queue time {total_queue_time_s:<5.2f} s, compute infer time {total_infer_time_s:<5.2f} s, compute input time {total_input_time_s:<5.2f} s, compute output time {total_output_time_s:<5.2f} s \n"  # noqa
+            )
+            model_batch_stats = model_state["batch_stats"]
+            for batch in model_batch_stats:
+                batch_size = int(batch["batch_size"])
+                compute_input = batch["compute_input"]
+                compute_output = batch["compute_output"]
+                compute_infer = batch["compute_infer"]
+                batch_count = int(compute_infer["count"])
+                assert (
+                    compute_infer["count"]
+                    == compute_output["count"]
+                    == compute_input["count"]
+                )
+                compute_infer_time_ms = int(compute_infer["ns"]) / 1e6
+                compute_input_time_ms = int(compute_input["ns"]) / 1e6
+                compute_output_time_ms = int(compute_output["ns"]) / 1e6
+                summary_f.write(
+                    f"execuate inference with batch_size {batch_size:<2} total {batch_count:<5} times, total_infer_time {compute_infer_time_ms:<9.2f} ms, avg_infer_time {compute_infer_time_ms:<9.2f}/{batch_count:<5}={compute_infer_time_ms/batch_count:.2f} ms, avg_infer_time_per_sample {compute_infer_time_ms:<9.2f}/{batch_count:<5}/{batch_size}={compute_infer_time_ms/batch_count/batch_size:.2f} ms \n"  # noqa
+                )
+                # summary_f.write(
+                #     f"input {compute_input_time_ms:<9.2f} ms, avg {compute_input_time_ms/batch_count:.2f} ms, "  # noqa
+                # )
+                # summary_f.write(
+                #     f"output {compute_output_time_ms:<9.2f} ms, avg {compute_output_time_ms/batch_count:.2f} ms \n"  # noqa
+                # )
+
 
 
 def get_args():
@@ -158,20 +143,28 @@ def get_args():
     )
 
     parser.add_argument(
-        "--manifest-dir",
+        "--manifest-path",
         type=str,
-        default=DEFAULT_MANIFEST_DIR,
+        default="/home/scratch.yuekaiz_wwfo_1/tts/valle_wenetspeech4tts_demo/wenetspeech4tts.txt",
         help="Path to the manifest dir which includes wav.scp trans.txt files.",
     )
 
     parser.add_argument(
-        "--audio-path",
+        "--reference-audio",
         type=str,
+        default=None,
         help="Path to a single audio file. It can't be specified at the same time with --manifest-dir",
     )
 
     parser.add_argument(
-        "--text-prompt",
+        "--reference-text",
+        type=str,
+        default="<|startoftranscript|><|en|><|transcribe|><|notimestamps|>",
+        help="e.g. <|startofprev|>My hot words<|startoftranscript|><|en|><|transcribe|><|notimestamps|>, please check https://arxiv.org/pdf/2305.11095.pdf also.",
+    )
+
+    parser.add_argument(
+        "--target-text",
         type=str,
         default="<|startoftranscript|><|en|><|transcribe|><|notimestamps|>",
         help="e.g. <|startofprev|>My hot words<|startoftranscript|><|en|><|transcribe|><|notimestamps|>, please check https://arxiv.org/pdf/2305.11095.pdf also.",
@@ -182,14 +175,6 @@ def get_args():
         type=str,
         default="preprocess_flow_matching",
         choices=[
-            "transducer",
-            "attention_rescoring",
-            "streaming_wenet",
-            "infer_pipeline",
-            "whisper",
-            "whisper_bls",
-            "sensevoice",
-            "infer_bls",
             "preprocess_flow_matching",
         ],
         help="triton model_repo module name to request: transducer for k2, attention_rescoring for wenet offline, streaming_wenet for wenet streaming, infer_pipeline for paraformer large offline",
@@ -216,55 +201,6 @@ def get_args():
         help="""True to compute CER, e.g., for Chinese.
         False to compute WER, e.g., for English words.
         """,
-    )
-
-    parser.add_argument(
-        "--streaming",
-        action="store_true",
-        default=False,
-        help="""True for streaming ASR.
-        """,
-    )
-
-    parser.add_argument(
-        "--simulate-streaming",
-        action="store_true",
-        default=False,
-        help="""True for strictly simulate streaming ASR.
-        Threads will sleep to simulate the real speaking scene.
-        """,
-    )
-
-    parser.add_argument(
-        "--chunk_size",
-        type=int,
-        required=False,
-        default=16,
-        help="Parameter for streaming ASR, chunk size default is 16",
-    )
-
-    parser.add_argument(
-        "--context",
-        type=int,
-        required=False,
-        default=-1,
-        help="subsampling context for wenet",
-    )
-
-    parser.add_argument(
-        "--encoder_right_context",
-        type=int,
-        required=False,
-        default=2,
-        help="encoder right context for k2 streaming",
-    )
-
-    parser.add_argument(
-        "--subsampling",
-        type=int,
-        required=False,
-        default=4,
-        help="subsampling rate",
     )
 
     parser.add_argument(
@@ -298,73 +234,60 @@ def get_args():
     return parser.parse_args()
 
 
-def load_audio(wav_path):
+def load_audio(wav_path, target_sample_rate=16000):
+    assert target_sample_rate == 16000, "hard coding in server"
     waveform, sample_rate = sf.read(wav_path)
-    return waveform, sample_rate
-    if sample_rate == 16000:
-        return waveform, sample_rate
-    elif sample_rate == 8000:
+    if sample_rate != target_sample_rate:
         from scipy.signal import resample
+        num_samples = int(len(waveform) * (target_sample_rate / sample_rate))
+        waveform = resample(waveform, num_samples)
+    return waveform, target_sample_rate
 
-        # Upsample from 8k to 16k
-        num_samples = int(len(waveform) * (16000 / 8000))
-        upsampled_waveform = resample(waveform, num_samples)
-        return upsampled_waveform, 16000
-    elif sample_rate == 48000:
-        from scipy.signal import resample
-
-        # Downsample from 48k to 16k
-        num_samples = int(len(waveform) * (16000 / 48000))
-        downsampled_waveform = resample(waveform, num_samples)
-        return downsampled_waveform, 16000
-    else:
-        raise ValueError(f"Only support 8k, 16k and 48k sample rates, but got {sample_rate}")
-
-
-async def send_whisper(
+async def send(
+    manifest_item_list: list,
     name: str,
     triton_client: tritonclient.grpc.aio.InferenceServerClient,
     protocol_client: types.ModuleType,
     log_interval: int,
-    compute_cer: bool,
     model_name: str,
-    padding_duration: int = 30,
-    whisper_prompt: str = "<|startoftranscript|><|en|><|transcribe|><|notimestamps|>",
+    padding_duration: int = None,
+    audio_save_dir: str = "./",
 ):
     total_duration = 0.0
     results = []
     latency_data = []
     task_id = int(name[5:])
 
-    audio_filepath='./assets/wgs-f5tts_mono.wav'
-    dps = [{"audio_filepath": audio_filepath}]
-    for i, dp in enumerate(dps):
+
+    for i, item in enumerate(manifest_item_list):
         if i % log_interval == 0:
-            print(f"{name}: {i}/{len(dps)}")
+            print(f"{name}: {i}/{len(manifest_item_list)}")
 
-        waveform, sample_rate = load_audio(dp["audio_filepath"])
+        waveform, sample_rate = load_audio(item["audio_filepath"], target_sample_rate=16000)
         duration = len(waveform) / sample_rate
-
-        reference_text = "那到时候再给你打电话，麻烦你注意接听。"
-        target_text = "这点请您放心，估计是我的号码被标记了，请问您是沈沈吗？"
-
-        # padding to nearset 10 seconds
-        # samples = np.zeros(
-        #     (
-        #         1,
-        #         padding_duration
-        #         * sample_rate
-        #         * ((int(duration) // padding_duration) + 1),
-        #     ),
-        #     dtype=np.float32,
-        # )
-
-        # samples[0, : len(waveform)] = waveform
-        # expand_dims
-        samples = waveform.reshape(1, -1).astype(np.float32)
-
         lengths = np.array([[len(waveform)]], dtype=np.int32)
-        # print(f"lengths: {lengths}")
+
+        reference_text, target_text = item["reference_text"], item["target_text"]
+
+        estimated_target_duration = duration / len(reference_text) * len(target_text)
+
+        if padding_duration:
+            # padding to nearset 10 seconds
+            samples = np.zeros(
+                (
+                    1,
+                    padding_duration
+                    * sample_rate
+                    * ((int(duration) // padding_duration) + 1),
+                ),
+                dtype=np.float32,
+            )
+
+            samples[0, : len(waveform)] = waveform
+        else:
+            samples = waveform
+            
+        samples = samples.reshape(1, -1).astype(np.float32)
 
         inputs = [
             protocol_client.InferInput(
@@ -387,24 +310,72 @@ async def send_whisper(
         input_data_numpy = input_data_numpy.reshape((1, 1))
         inputs[3].set_data_from_numpy(input_data_numpy)
 
-        outputs = [protocol_client.InferRequestedOutput("target_mel")]
+        outputs = [protocol_client.InferRequestedOutput("waveform")]
+
         sequence_id = 100000000 + i + task_id * 10
         start = time.time()
         response = await triton_client.infer(
             model_name, inputs, request_id=str(sequence_id), outputs=outputs
         )
 
-        # decoding_results = response.as_numpy("TRANSCRIPTS")[0]
-        # if type(decoding_results) == np.ndarray:
-        #     decoding_results = b" ".join(decoding_results).decode("utf-8")
-        # else:
-        #     # For wenet
-        #     decoding_results = decoding_results.decode("utf-8")
-        # end = time.time() - start
-        # latency_data.append((end, duration))
-        # total_duration += duration
+        audio = response.as_numpy("waveform").reshape(-1)
 
-    return total_duration, results, latency_data
+        end = time.time() - start
+
+        audio_save_path = os.path.join(
+            audio_save_dir, f"{item['target_audio_path']}.wav"
+        )
+        sf.write(audio_save_path, audio, 24000, "PCM_16")
+
+        latency_data.append((end, estimated_target_duration))
+        total_duration += estimated_target_duration
+
+    return total_duration, latency_data
+
+def load_manifests(manifest_path):
+    with open(manifest_path, "r") as f:
+        manifest_list = []
+        for line in f:
+            assert len(line.strip().split("|")) == 4
+            utt, prompt_text, prompt_wav, gt_text = line.strip().split("|")
+            utt = Path(utt).stem
+            # gt_wav = os.path.join(os.path.dirname(manifest_path), "wavs", utt + ".wav")
+            if not os.path.isabs(prompt_wav):
+                prompt_wav = os.path.join(os.path.dirname(manifest_path), prompt_wav)
+            manifest_list.append(
+                {
+                    "audio_filepath": prompt_wav,
+                    "reference_text": prompt_text,
+                    "target_text": gt_text,
+                    "target_audio_path": utt
+                }
+            )
+    return manifest_list
+
+
+def split_data(data, k):
+    n = len(data)
+    if n < k:
+        print(
+            f"Warning: the length of the input list ({n}) is less than k ({k}). Setting k to {n}."
+        )
+        k = n
+
+    quotient = n // k
+    remainder = n % k
+
+    result = []
+    start = 0
+    for i in range(k):
+        if i < remainder:
+            end = start + quotient + 1
+        else:
+            end = start + quotient
+
+        result.append(data[start:end])
+        start = end
+
+    return result
 
 
 async def main():
@@ -414,19 +385,64 @@ async def main():
     triton_client = grpcclient.InferenceServerClient(url=url, verbose=False)
     protocol_client = grpcclient
 
-   
+    if args.reference_audio:
+        args.num_tasks = 1
+        args.log_interval = 1
+        manifest_item_list = [
+            [
+                {
+                    "reference_text": args.reference_text,
+                    "target_text": args.target_text,
+                    "audio_filepath": args.reference_audio,
+                }
+            ]
+        ]
+    elif args.huggingface_dataset:
+        import datasets
+
+        dataset = datasets.load_dataset(
+            args.huggingface_dataset,
+            args.subset_name,
+            split=args.split_name,
+            trust_remote_code=True,
+        )
+        manifest_item_list = []
+        for i in range(len(dataset)):
+            print(dataset[i])
+            assert dataset[i]["audio"]["sampling_rate"] == 16000
+            manifest_item_list.append(
+                {
+                    "audio_filepath": dataset[i]["audio"]["path"],
+                    "text": dataset[i]["text"],
+                    "id": dataset[i]["segment_id"],
+                }
+            )
+        manifest_item_list = split_data(manifest_item_list, args.num_tasks)
+        args.num_tasks = min(args.num_tasks, len(manifest_item_list))
+    else:
+        # if not any(Path(args.manifest_dir).rglob("*.wav")):
+        #     if args.manifest_dir == DEFAULT_MANIFEST_DIR:
+        #         download_and_extract(args.manifest_dir)
+        #     raise ValueError(
+        #         f"manifest_dir {args.manifest_dir} should contain wav files"
+        #     )
+        dps = load_manifests(args.manifest_path)
+        manifest_item_list = split_data(dps, args.num_tasks)
+        args.num_tasks = min(args.num_tasks, len(manifest_item_list))
+
+    os.makedirs(args.log_dir, exist_ok=True)
     tasks = []
     start_time = time.time()
     for i in range(args.num_tasks):
         task = asyncio.create_task(
-            send_whisper(
+            send(
+                manifest_item_list[i],
                 name=f"task-{i}",
                 triton_client=triton_client,
                 protocol_client=protocol_client,
                 log_interval=args.log_interval,
-                compute_cer=args.compute_cer,
                 model_name=args.model_name,
-                whisper_prompt=args.text_prompt,
+                audio_save_dir=args.log_dir,
             )
         )
         tasks.append(task)
@@ -436,49 +452,41 @@ async def main():
     end_time = time.time()
     elapsed = end_time - start_time
 
-    # results = []
-    # total_duration = 0.0
-    # latency_data = []
-    # for ans in ans_list:
-    #     total_duration += ans[0]
-    #     results += ans[1]
-    #     latency_data += ans[2]
 
-    # rtf = elapsed / total_duration
+    total_duration = 0.0
+    latency_data = []
+    for ans in ans_list:
+        total_duration += ans[0]
+        latency_data += ans[1]
 
-    # s = f"RTF: {rtf:.4f}\n"
-    # s += f"total_duration: {total_duration:.3f} seconds\n"
-    # s += f"({total_duration/3600:.2f} hours)\n"
-    # s += f"processing time: {elapsed:.3f} seconds " f"({elapsed/3600:.2f} hours)\n"
+    rtf = elapsed / total_duration
 
-    # latency_list = [chunk_end for (chunk_end, chunk_duration) in latency_data]
-    # latency_ms = sum(latency_list) / float(len(latency_list)) * 1000.0
-    # latency_variance = np.var(latency_list, dtype=np.float64) * 1000.0
-    # s += f"latency_variance: {latency_variance:.2f}\n"
-    # s += f"latency_50_percentile_ms: {np.percentile(latency_list, 50) * 1000.0:.2f}\n"
-    # s += f"latency_90_percentile_ms: {np.percentile(latency_list, 90) * 1000.0:.2f}\n"
-    # s += f"latency_95_percentile_ms: {np.percentile(latency_list, 95) * 1000.0:.2f}\n"
-    # s += f"latency_99_percentile_ms: {np.percentile(latency_list, 99) * 1000.0:.2f}\n"
-    # s += f"average_latency_ms: {latency_ms:.2f}\n"
+    s = f"RTF: {rtf:.4f}\n"
+    s += f"total_duration: {total_duration:.3f} seconds\n"
+    s += f"({total_duration/3600:.2f} hours)\n"
+    s += f"processing time: {elapsed:.3f} seconds " f"({elapsed/3600:.2f} hours)\n"
 
-    # print(s)
-    # os.makedirs(args.log_dir, exist_ok=True)
-    # name = Path(args.manifest_dir).stem.split(".")[0]
-    # with open(f"{args.log_dir}/rtf-{name}.txt", "w") as f:
-    #     f.write(s)
-    # results = sorted(results)
-    # store_transcripts(filename=f"{args.log_dir}/recogs-{name}.txt", texts=results)
+    latency_list = [chunk_end for (chunk_end, chunk_duration) in latency_data]
+    latency_ms = sum(latency_list) / float(len(latency_list)) * 1000.0
+    latency_variance = np.var(latency_list, dtype=np.float64) * 1000.0
+    s += f"latency_variance: {latency_variance:.2f}\n"
+    s += f"latency_50_percentile_ms: {np.percentile(latency_list, 50) * 1000.0:.2f}\n"
+    s += f"latency_90_percentile_ms: {np.percentile(latency_list, 90) * 1000.0:.2f}\n"
+    s += f"latency_95_percentile_ms: {np.percentile(latency_list, 95) * 1000.0:.2f}\n"
+    s += f"latency_99_percentile_ms: {np.percentile(latency_list, 99) * 1000.0:.2f}\n"
+    s += f"average_latency_ms: {latency_ms:.2f}\n"
 
-    # with open(f"{args.log_dir}/errs-{name}.txt", "w") as f:
-    #     write_error_stats(f, "test-set", results, enable_log=True)
+    print(s)
 
-    # with open(f"{args.log_dir}/errs-{name}.txt", "r") as f:
-    #     print(f.readline())  # WER
-    #     print(f.readline())  # Detailed errors
+    name = Path(args.manifest_path).stem
+    with open(f"{args.log_dir}/rtf-{name}.txt", "w") as f:
+        f.write(s)
+    
+    stats = await triton_client.get_inference_statistics(model_name="", as_json=True)
+    write_triton_stats(stats, f"{args.log_dir}/stats_summary-{name}.txt")
 
-    #stats = await triton_client.get_inference_statistics(model_name="", as_json=True)
-    #write_triton_stats(stats, f"{args.log_dir}/stats_summary-{name}.txt")
-
-
+    metadata = await triton_client.get_model_config(model_name=args.model_name, as_json=True)
+    with open(f"{args.log_dir}/model_config-{name}.json", "w") as f:
+        json.dump(metadata, f, indent=4)
 if __name__ == "__main__":
     asyncio.run(main())
