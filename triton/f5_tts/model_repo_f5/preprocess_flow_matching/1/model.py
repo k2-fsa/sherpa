@@ -46,7 +46,7 @@ from tensorrt_llm.plugin.plugin import CustomAllReduceHelper
 from tensorrt_llm.runtime.session import Session
 
 
-import onnxruntime
+# import onnxruntime
 import numpy as np
 
 
@@ -189,16 +189,6 @@ class ConvNeXtV2Block(nn.Module):
         return residual + x
 
 
-def get_pos_embed_indices(start, length, max_pos, scale=1.):
-    # length = length if isinstance(length, int) else length.max()
-    scale = scale * torch.ones_like(start, dtype=torch.float32)  # in case scale is a scalar
-    pos = start.unsqueeze(1) + (
-            torch.arange(length, device=start.device, dtype=torch.float32).unsqueeze(0) *
-            scale.unsqueeze(1)).long()
-    # avoid extra long error.
-    pos = torch.where(pos < max_pos, pos, max_pos - 1)
-    return pos
-
 def precompute_freqs_cis(dim: int, end: int, theta: float = 10000.0, theta_rescale_factor=1.):
     # proposed by reddit user bloc97, to rescale rotary embeddings to longer sequence length without fine-tuning
     # has some connection to NTK literature
@@ -222,18 +212,9 @@ class TextEmbedding(nn.Module):
         self.text_blocks = nn.Sequential(*[ConvNeXtV2Block(text_dim, text_dim * conv_mult) for _ in range(conv_layers)])
 
     def forward(self, text, seq_len):
-        # text = text + 1 # use 0 as filler token. preprocess of batch pad -1, see list_str_to_idx()
-        # pad to seq_len
-        assert seq_len >= text.shape[1], f"seq_len must be greater than text length, got {seq_len} and {text.shape[1]}"
         text = F.pad(text, (0, seq_len - text.shape[1]), mode='constant')
         text = self.text_embed(text) # b n -> b n d
-        batch = text.shape[0]
-        batch_start = torch.zeros((batch,), dtype=torch.long)
-        # sinus pos emb
-        pos_idx = get_pos_embed_indices(batch_start, seq_len, max_pos=self.precompute_max_pos)
-        # convnextv2 blocks
-        text = self.text_blocks(text + self.freqs_cis[pos_idx])
-
+        text = self.text_blocks(text + self.freqs_cis[:text.shape[1], :])
         return text
 
 def lens_to_mask(
@@ -406,35 +387,6 @@ class F5TTS(object):
             i += 1
         return self.outputs["denoised"]
 
-onnx_model_C = "/home/scratch.yuekaiz_wwfo_1/tts/F5_TTS_Faster/ckpts/onnx_ckpt/F5_Decode.onnx"
-session_opts = onnxruntime.SessionOptions()
-session_opts.log_severity_level = 3  # error level, it a adjustable value.
-session_opts.inter_op_num_threads = 0  # Run different nodes with num_threads. Set 0 for auto.
-session_opts.intra_op_num_threads = 0  # Under the node, execute the operators with num_threads. Set 0 for auto.
-session_opts.enable_cpu_mem_arena = True  # True for execute speed; False for less memory usage.
-session_opts.execution_mode = onnxruntime.ExecutionMode.ORT_SEQUENTIAL
-session_opts.graph_optimization_level = onnxruntime.GraphOptimizationLevel.ORT_ENABLE_ALL
-session_opts.add_session_config_entry("session.intra_op.allow_spinning", "1")
-session_opts.add_session_config_entry("session.inter_op.allow_spinning", "1")
-ort_session_C = onnxruntime.InferenceSession(onnx_model_C, sess_options=session_opts, providers=['CPUExecutionProvider'])
-in_name_C = ort_session_C.get_inputs()
-out_name_C = ort_session_C.get_outputs()
-in_name_C0 = in_name_C[0].name
-in_name_C1 = in_name_C[1].name
-out_name_C0 = out_name_C[0].name
-
-def decode(noise, ref_signal_len):
-
-    generated_signal = ort_session_C.run(
-            [out_name_C0],
-            {
-                in_name_C0: noise,
-                in_name_C1: ref_signal_len
-            })[0]
-
-    audio_tensor = torch.tensor(generated_signal, dtype=torch.float32).squeeze(0)
-    return audio_tensor
-
 def load_checkpoint(ckpt_path, use_ema=True):
     checkpoint = torch.load(ckpt_path, weights_only=True)
     if use_ema:
@@ -512,23 +464,6 @@ class TritonPythonModel:
             waveform = torch.utils.dlpack.from_dlpack(waveform.to_dlpack()).cpu()
             return waveform
 
-    def forward_vocoder_onnx(self, mel):
-        input_tensor_0 = pb_utils.Tensor.from_dlpack("mel", to_dlpack(mel))
-    
-        inference_request = pb_utils.InferenceRequest(
-            model_name='vocoder_onnx',
-            requested_output_names=['waveform'],
-            inputs=[input_tensor_0])
-        inference_response = inference_request.exec()
-        if inference_response.has_error():
-            raise pb_utils.TritonModelException(inference_response.error().message())
-        else:
-            # Extract the output tensors from the inference response.
-            waveform = pb_utils.get_output_tensor_by_name(inference_response,
-                                                            'waveform')
-            waveform = torch.utils.dlpack.from_dlpack(waveform.to_dlpack()).cpu()
-            return waveform
-        
     def execute(self, requests):
         reference_target_texts_list, reference_wavs_tensor, estimated_reference_target_mel_len, reference_mel_len = [], [], [], []
         max_wav_len = 0
@@ -585,7 +520,13 @@ class TritonPythonModel:
         pinyin_list = convert_char_to_pinyin(reference_target_texts_list, polyphone=True)
         text_pad_sequence = list_str_to_idx(pinyin_list, self.vocab_char_map).to(self.device)
         text_pad_sequence += 1
-        text_embedding = self.text_embedding(text_pad_sequence, max_seq_len)
+
+        # text_pad_sequence B,T,D, now text_pad_sequence_drop B+1, T,D append torch.zeros(1, T, D) at the bottom
+        text_pad_sequence_drop = torch.cat((text_pad_sequence, torch.zeros((1, text_pad_sequence.shape[1]), dtype=torch.int32).to(self.device)), dim=0)
+        # text_embedding = self.text_embedding(text_pad_sequence, max_seq_len)
+        text_embedding_drop_condition = self.text_embedding(text_pad_sequence_drop, max_seq_len)
+        text_embedding = text_embedding_drop_condition[:-1]
+        text_embedding_drop = text_embedding_drop_condition[-1].unsqueeze(0)
 
 
         # mask = lens_to_mask(torch.tensor(estimated_reference_target_mel_len))
@@ -599,8 +540,8 @@ class TritonPythonModel:
 
         batch = cat_mel_text.shape[0]
         assert mel_features.shape[0] == 1, "Only support batch size 1 for now."
-        cat_mel_text_drop = torch.cat((torch.zeros((batch, max_seq_len, 100), dtype=torch.float32).to(self.device), self.text_embedding(torch.zeros((batch, max_seq_len), dtype=torch.int32).to(self.device), max_seq_len)), dim=-1)
-            
+        # cat_mel_text_drop = torch.cat((torch.zeros((batch, max_seq_len, 100), dtype=torch.float32).to(self.device), self.text_embedding(torch.zeros((batch, max_seq_len), dtype=torch.int32).to(self.device), max_seq_len)), dim=-1)
+        cat_mel_text_drop = torch.cat((torch.zeros((batch, max_seq_len, 100), dtype=torch.float32).to(self.device), text_embedding_drop), dim=-1)
         t = torch.linspace(0, 1, 16 + 1, dtype=torch.float32)
         time_step = t + (-1.0) * (torch.cos(torch.pi * 0.5 * t) - 1 + t)
 
@@ -617,28 +558,11 @@ class TritonPythonModel:
         denoised = self.model.forward(noise.cuda(),cat_mel_text.cuda(), cat_mel_text_drop.cuda(), time_expand.cuda(), rope_cos.cuda(), rope_sin.cuda(), delta_t.cuda())
 
         ref_me_len = reference_mel_len[0]
-        ref_signal_len = np.array(ref_me_len, dtype=np.int64)
-        
-        import time
-        start = time.time()
-        # audios = decode(denoised.cpu().numpy().astype(np.float32), ref_signal_len)
-        start2 = time.time()
-        print(f"onnx cpu vocoder time: {start2 - start}")
-
         denoised_bls = denoised[:, ref_me_len:, :].transpose(1, 2).to(torch.float32).contiguous().cpu()
-      
-        # audios = self.forward_vocoder_onnx(denoised_bls)
-        # rms = torch.sqrt(torch.mean(torch.square(audios)))
-        # audios = audios * self.target_rms / rms
-        # start3 = time.time()
-        # print(f"onnx gpu vocoder time: {start3 - start2}")
-
 
         audios = self.forward_vocoder(denoised_bls)
         rms = torch.sqrt(torch.mean(torch.square(audios)))
         audios = audios * self.target_rms / rms
-        print(f"trt vocoder time: {time.time() - start2}")
-        
 
         responses = []
         for i, item in enumerate(audios):
