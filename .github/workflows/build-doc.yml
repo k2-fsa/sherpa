@@ -56,10 +56,21 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Copy wave files
+        shell: bash
+        run: |
+          cd docs/source
+
+          git lfs install
+          git clone https://www.modelscope.cn/csukuangfj/sherpa-doc-files.git ms
+          ls -lh _static/*
+          cp -av ms/source/_static/* ./_static/
+          rm -rf ms
+
       - name: Run docker
         uses: addnab/docker-run-action@v3
         with:
-            image: reitzig/texlive-base:latest
+            image: reitzig/texlive-full:latest
             # image: ghcr.io/xu-cheng/texlive-full:latest
             options: |
               --volume ${{ github.workspace }}/:/workspace
@@ -245,17 +256,24 @@ jobs:
         shell: bash
         run: |
           cd docs/build/html
+
           ls -lh
 
           echo "-----_static-----"
           ls -lh _static
 
+          ls -lha _static/kokoro-multi-*/
+
+          rm -fv _static/kokoro-multi-*/.gitignore
+
+          echo "---"
+          ls -lha _static/kokoro-multi-*/
+
           echo "-----_static/sense-voice-----"
           ls -lh _static/sense-voice
 
       - name: Release sherpa.pdf
-        # if: (github.repository_owner == 'csukuangfj' || github.repository_owner == 'k2-fsa') && github.event_name == 'push'
-        if: false
+        if: (github.repository_owner == 'csukuangfj' || github.repository_owner == 'k2-fsa') && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
         uses: svenstaro/upload-release-action@v2
         with:
           file_glob: true

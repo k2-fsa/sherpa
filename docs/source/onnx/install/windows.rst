@@ -65,8 +65,14 @@ All you need is to run:
 
       .. hint::
 
-          You need to install CUDA toolkit. Otherwise, you would get
+          You need to install CUDA toolkit 11.8. Otherwise, you would get
           errors at runtime.
+
+          Caution: Please install cuda toolkit 11.8. Other versions do ``NOT`` work!
+
+          Caution: Please install cuda toolkit 11.8. Other versions do ``NOT`` work!
+
+          Caution: Please install cuda toolkit 11.8. Other versions do ``NOT`` work!
 
 After building, you will find an executable ``sherpa-onnx.exe`` inside the ``bin/Release`` directory.
 
