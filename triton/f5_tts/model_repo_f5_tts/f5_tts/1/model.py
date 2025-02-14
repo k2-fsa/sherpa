@@ -36,7 +36,6 @@ from pypinyin import Style, lazy_pinyin
 import math
 import os
 from functools import wraps
-from typing import List
 import tensorrt as trt
 
 import tensorrt_llm
@@ -45,38 +44,8 @@ from tensorrt_llm.logger import logger
 from tensorrt_llm.plugin.plugin import CustomAllReduceHelper
 from tensorrt_llm.runtime.session import Session
 
-
-# import onnxruntime
-import numpy as np
-
-
-def get_vocos_mel_spectrogram(
-    waveform, # B,T
-    n_fft=1024,
-    n_mel_channels=100,
-    target_sample_rate=24000,
-    hop_length=256,
-    win_length=1024,
-):
-    mel_stft = torchaudio.transforms.MelSpectrogram(
-        sample_rate=target_sample_rate,
-        n_fft=n_fft,
-        win_length=win_length,
-        hop_length=hop_length,
-        n_mels=n_mel_channels,
-        power=1,
-        center=True,
-        normalized=False,
-        norm=None,
-    ).to(waveform.device)
-    if len(waveform.shape) == 3:
-        waveform = waveform.squeeze(1)  # 'b 1 nw -> b nw'
-
-    assert len(waveform.shape) == 2
-
-    mel = mel_stft(waveform)
-    mel = mel.clamp(min=1e-5).log()
-    return mel
+tensorrt_llm.logger.set_level("info")
+torch.manual_seed(0)
 
 def get_tokenizer(vocab_file_path: str):
     """
@@ -93,7 +62,6 @@ def get_tokenizer(vocab_file_path: str):
         for i, char in enumerate(f):
             vocab_char_map[char[:-1]] = i
     vocab_size = len(vocab_char_map)
-
     return vocab_char_map, vocab_size
 
 def convert_char_to_pinyin(reference_target_texts_list, polyphone=True):
@@ -188,7 +156,6 @@ class ConvNeXtV2Block(nn.Module):
         x = self.pwconv2(x)
         return residual + x
 
-
 def precompute_freqs_cis(dim: int, end: int, theta: float = 10000.0, theta_rescale_factor=1.):
     # proposed by reddit user bloc97, to rescale rotary embeddings to longer sequence length without fine-tuning
     # has some connection to NTK literature
@@ -203,26 +170,22 @@ def precompute_freqs_cis(dim: int, end: int, theta: float = 10000.0, theta_resca
     return torch.cat([freqs_cos, freqs_sin], dim=-1)
 
 class TextEmbedding(nn.Module):
-    def __init__(self, text_num_embeds, text_dim, conv_layers = 0, conv_mult = 2):
+    def __init__(self, text_num_embeds, text_dim, conv_layers = 0, conv_mult = 2, precompute_max_pos = 4096):
         super().__init__()
         self.text_embed = nn.Embedding(text_num_embeds + 1, text_dim)  # use 0 as filler token
-
-        self.precompute_max_pos = 4096  # ~44s of 24khz audio
-        self.register_buffer("freqs_cis", precompute_freqs_cis(text_dim, self.precompute_max_pos), persistent=False)
+        self.register_buffer("freqs_cis", precompute_freqs_cis(text_dim, precompute_max_pos), persistent=False)
         self.text_blocks = nn.Sequential(*[ConvNeXtV2Block(text_dim, text_dim * conv_mult) for _ in range(conv_layers)])
 
-    def forward(self, text, seq_len):
-        text = F.pad(text, (0, seq_len - text.shape[1]), mode='constant')
-        text = self.text_embed(text) # b n -> b n d
+    def forward(self, text):
+        text = self.text_embed(text)
         text = self.text_blocks(text + self.freqs_cis[:text.shape[1], :])
         return text
 
 def lens_to_mask(
-    t, length: int | None = None  # noqa: F722 F821
-):  # noqa: F722 F821
+    t, length
+):
     if not length:
         length = t.amax()
-
     seq = torch.arange(length, device=t.device)
     return seq[None, :] < t[:, None]
 
@@ -395,7 +358,6 @@ def load_checkpoint(ckpt_path, use_ema=True):
             for k, v in checkpoint["ema_model_state_dict"].items()
             if k not in ["initted", "step"]
         }
-
     dict = checkpoint["model_state_dict"]
     text_embed_dict = {}
     for key in dict.keys():
@@ -407,45 +369,64 @@ def load_checkpoint(ckpt_path, use_ema=True):
 class TritonPythonModel:
     def initialize(self, args):
 
-        self.reference_sample_rate = 16000
+        self.device = torch.device("cuda")
+        self.target_audio_sample_rate = 24000
+        self.target_rms = 0.15 # target rms for audio
+        self.n_fft = 1024
+        self.win_length = 1024
+        self.hop_length = 256
+        self.n_mel_channels = 100
+        self.max_mel_len = 2000
+        self.head_dim = 64
+        self.base_rescale_factor = 1.0
+        self.interpolation_factor = 1.0
+        base = 10000.0 * self.base_rescale_factor ** (self.head_dim / (self.head_dim - 2))
+        inv_freq = 1.0 / (base ** (torch.arange(0, self.head_dim, 2).float() / self.head_dim))
+        freqs = torch.outer(torch.arange(self.max_mel_len, dtype=torch.float32), inv_freq) / self.interpolation_factor
+        self.freqs = freqs.repeat_interleave(2, dim=-1).unsqueeze(0)
+        self.rope_cos = self.freqs.cos().half()
+        self.rope_sin = self.freqs.sin().half()
+        self.nfe_steps = 16
 
         parameters = json.loads(args['model_config'])['parameters']
         for key, value in parameters.items():
             parameters[key] = value["string_value"]
-        self.vocab_char_map, self.vocab_size = get_tokenizer(parameters["vocab_file"])
 
-        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        self.text_embedding = TextEmbedding(text_num_embeds=self.vocab_size, text_dim=512, conv_layers=4).to(self.device)
-        # load weights from f5_model.transformer.text_embedding
+        self.vocab_char_map, self.vocab_size = get_tokenizer(parameters["vocab_file"])
+        self.reference_sample_rate = int(parameters["reference_audio_sample_rate"])
+        self.resampler = torchaudio.transforms.Resample(self.reference_sample_rate, self.target_audio_sample_rate)
+
+        self.text_embedding = TextEmbedding(text_num_embeds=self.vocab_size, text_dim=512, conv_layers=4, precompute_max_pos=self.max_mel_len).to(self.device)
         self.text_embedding.load_state_dict(load_checkpoint(parameters["model_path"]), strict=True)
 
-        self.target_rms = 0.15 # rms means root mean square
-
-        self.base_rescale_factor = 1.0
-        self.interpolation_factor = 1.0
-        self.head_dim = 64
-        MAX_SIGNAL_LENGTH = 2048 
-        base = 10000.0 * self.base_rescale_factor ** (self.head_dim / (self.head_dim - 2))
-        inv_freq = 1.0 / (base ** (torch.arange(0, self.head_dim, 2).float() / self.head_dim))
-        freqs = torch.outer(torch.arange(MAX_SIGNAL_LENGTH, dtype=torch.float32), inv_freq) / self.interpolation_factor
-        self.freqs = freqs.repeat_interleave(2, dim=-1).unsqueeze(0)
-        self.rope_cos = self.freqs.cos().half()
-        self.rope_sin = self.freqs.sin().half()
-
-        # self.resampler = torchaudio.transforms.Resample(16000, 24000)
-        self.resampler = torchaudio.transforms.Resample(self.reference_sample_rate, 24000)
-
         self.tllm_model_dir = parameters["tllm_model_dir"]
-
-        tensorrt_llm.logger.set_level("info")
-        torch.manual_seed(0)
-
-        # Load model:
         config_file = os.path.join(self.tllm_model_dir, 'config.json')
         with open(config_file) as f:
             config = json.load(f)
-
         self.model = F5TTS(config, debug_mode=False, tllm_model_dir=self.tllm_model_dir)
+
+        self.vocoder = parameters["vocoder"]
+        assert self.vocoder in ["vocos", "bigvgan"]
+        if self.vocoder == "vocos":
+            self.mel_stft = torchaudio.transforms.MelSpectrogram(
+                sample_rate=self.target_audio_sample_rate,
+                n_fft=self.n_fft,
+                win_length=self.win_length,
+                hop_length=self.hop_length,
+                n_mels=self.n_mel_channels,
+                power=1,
+                center=True,
+                normalized=False,
+                norm=None,
+            ).to(self.device)
+            self.compute_mel_fn = self.get_vocos_mel_spectrogram
+        elif self.vocoder == "bigvgan":
+            self.compute_mel_fn = self.get_bigvgan_mel_spectrogram
+
+    def get_vocos_mel_spectrogram(self, waveform):
+        mel = self.mel_stft(waveform)
+        mel = mel.clamp(min=1e-5).log()
+        return mel.transpose(1, 2)
 
     def forward_vocoder(self, mel):
         input_tensor_0 = pb_utils.Tensor.from_dlpack("mel", to_dlpack(mel))
@@ -458,160 +439,118 @@ class TritonPythonModel:
         if inference_response.has_error():
             raise pb_utils.TritonModelException(inference_response.error().message())
         else:
-            # Extract the output tensors from the inference response.
             waveform = pb_utils.get_output_tensor_by_name(inference_response,
                                                             'waveform')
             waveform = torch.utils.dlpack.from_dlpack(waveform.to_dlpack()).cpu()
             return waveform
-
-    def forward_text_embedding(self, text, audio):
-        input_tensor_0 = pb_utils.Tensor.from_dlpack("text", to_dlpack(text))
-        input_tensor_1 = pb_utils.Tensor.from_dlpack("audio", to_dlpack(audio))
-    
-        inference_request = pb_utils.InferenceRequest(
-            model_name='text_embedder_audio',
-            requested_output_names=['text_embedding', 'mel'],
-            inputs=[input_tensor_0, input_tensor_1])
-        inference_response = inference_request.exec()
-        if inference_response.has_error():
-            raise pb_utils.TritonModelException(inference_response.error().message())
-        else:
-            # Extract the output tensors from the inference response.
-            waveform = pb_utils.get_output_tensor_by_name(inference_response,
-                                                            'text_embedding')
-            waveform = torch.utils.dlpack.from_dlpack(waveform.to_dlpack())
-
-            audio = pb_utils.get_output_tensor_by_name(inference_response,
-                                                            'mel')
-            audio = torch.utils.dlpack.from_dlpack(audio.to_dlpack())
-            return waveform, audio
         
     def execute(self, requests):
-        reference_target_texts_list, reference_wavs_tensor, estimated_reference_target_mel_len, reference_mel_len = [], [], [], []
+        reference_text_list, target_text_list, reference_target_texts_list, reference_wavs_tensor, estimated_reference_target_mel_len, reference_mel_len = [], [], [], [], [], []
         max_wav_len = 0
+        mel_features_list = []
         for request in requests:
             wav_tensor = pb_utils.get_input_tensor_by_name(request, "reference_wav")
             wav_lens = pb_utils.get_input_tensor_by_name(
                 request, "reference_wav_len")
+            
             reference_text = pb_utils.get_input_tensor_by_name(
                 request, "reference_text").as_numpy()
             reference_text = reference_text[0][0].decode('utf-8')
+            reference_text_list.append(reference_text)
             target_text = pb_utils.get_input_tensor_by_name(
                 request, "target_text").as_numpy()
             target_text = target_text[0][0].decode('utf-8')
+            target_text_list.append(target_text)
 
             text = reference_text + target_text
             reference_target_texts_list.append(text)
          
-            # Move WAV data to GPU
             wav = from_dlpack(wav_tensor.to_dlpack())
-            assert wav.shape[0] == 1, "Only support batch size 1 for now."
             wav_len = from_dlpack(wav_lens.to_dlpack())
             wav_len = wav_len.squeeze()
-            # wav_len  = int(wav_len / 16000 * 24000)
-            wav_len  = int(wav_len / self.reference_sample_rate * 24000)
-
-            wav = self.resampler(wav)
-
+            assert wav.shape[0] == 1, "Only support batch size 1 for now."
             wav = wav[:, :wav_len]
 
             ref_rms = torch.sqrt(torch.mean(torch.square(wav)))
-
-            wav = wav * self.target_rms / ref_rms
-
-                
-
-            max_wav_len = max(max_wav_len, wav_len)
-            reference_wavs_tensor.append(wav)
+            if ref_rms < self.target_rms:
+                wav = wav * self.target_rms / ref_rms
+            if self.reference_sample_rate != self.target_audio_sample_rate:
+                wav = self.resampler(wav)
+            wav = wav.to(self.device)
+            mel_features = self.compute_mel_fn(wav)
+            mel_features_list.append(mel_features)
             
-            estimated_reference_target_mel_len.append(int(wav_len // 256) + int(wav_len // 256 * len(target_text) / len(reference_text)))
-            reference_mel_len.append(int(wav_len // 256))
+            reference_mel_len.append(mel_features.shape[1])
+            estimated_reference_target_mel_len.append(int(mel_features.shape[1] * (1 + len(target_text) / len(reference_text))))
+                
+        max_seq_len = min(max(estimated_reference_target_mel_len), self.max_mel_len)
+        # mask = lens_to_mask(torch.tensor(estimated_reference_target_mel_len))
+
+        batch = len(requests)
+        mel_features = torch.zeros((batch, max_seq_len, self.n_mel_channels), dtype=torch.float16).to(self.device)
+        for i, mel in enumerate(mel_features_list):
+            mel_features[i, :mel.shape[1], :] = mel
         
-        max_seq_len = max(estimated_reference_target_mel_len)
-
-        reference_wavs_tensor = torch.cat(
-            [F.pad(wav, (0, max_wav_len - wav.shape[1]), mode='constant') for wav in reference_wavs_tensor]
-        ).to(self.device)
-        print(f"reference_wavs_tensor shape: {reference_wavs_tensor.shape}")
-        print(reference_wavs_tensor[0,:100])
-
-
 
         pinyin_list = convert_char_to_pinyin(reference_target_texts_list, polyphone=True)
         text_pad_sequence = list_str_to_idx(pinyin_list, self.vocab_char_map).to(self.device)
-        text_pad_sequence += 1
-
-        # text_pad_sequence B,T,D, now text_pad_sequence_drop B+1, T append torch.zeros(1, T) at the bottom
+        text_pad_sequence += 1 # WAR: 0 is reserved for padding token, hard coding in F5-TTS
+        # text_pad_sequence B,T, now text_pad_sequence_drop B+1, T append torch.zeros(1, T) at the bottom for drop condition
         text_pad_sequence_drop = torch.cat((text_pad_sequence, torch.zeros((1, text_pad_sequence.shape[1]), dtype=torch.int32).to(self.device)), dim=0)
-
         text_pad_sequence_drop = F.pad(text_pad_sequence_drop, (0, max_seq_len - text_pad_sequence_drop.shape[1]), mode='constant')
-
-        import time
-        time0 = time.time()
-        # text_embedding_drop_condition = self.text_embedding(text_pad_sequence_drop, max_seq_len)
-        # print(f"shape of text_embedding_drop_condition: {text_embedding_drop_condition.shape}")
-        time1 = time.time()
-        print(f"Time for text_embedding: {time1 - time0}")
-        # pad extra one  to reference_wavs_tensor
-        reference_wavs_tensor2 = torch.cat((reference_wavs_tensor, torch.zeros((1, max_wav_len), dtype=torch.float32).to(self.device)), dim=0)
-        text_embedding_drop_condition, _ = self.forward_text_embedding(text_pad_sequence_drop, reference_wavs_tensor2.unsqueeze(1))
-        # mel_features = mel_features[:-1]
-        print(f"shape of text_embedding_drop_condition: {text_embedding_drop_condition.shape}")
-        time2 = time.time()
-        print(f"Time for forward_text_embedding: {time2 - time1}")
-
-
-        mel_features = get_vocos_mel_spectrogram(reference_wavs_tensor)
-        mel_features = mel_features.transpose(1, 2)
-        # pad to max_seq_len
-        mel_features = F.pad(mel_features, (0, 0, 0, max_seq_len - mel_features.shape[1]), mode='constant')
-
- 
+        text_embedding_drop_condition = self.text_embedding(text_pad_sequence_drop)
         text_embedding = text_embedding_drop_condition[:-1]
         text_embedding_drop = text_embedding_drop_condition[-1].unsqueeze(0)
 
-
-        # mask = lens_to_mask(torch.tensor(estimated_reference_target_mel_len))
-
         noise = torch.randn_like(mel_features).to(self.device)
-        rope_cos = self.rope_cos[:, :max_seq_len, :].float() 
-        rope_sin = self.rope_sin[:, :max_seq_len, :].float()
+        rope_cos = self.rope_cos[:, :max_seq_len, :].float().repeat(batch, 1, 1) 
+        rope_sin = self.rope_sin[:, :max_seq_len, :].float().repeat(batch, 1, 1)
 
         cat_mel_text = torch.cat((mel_features, text_embedding), dim=-1)
+        cat_mel_text_drop = torch.cat((torch.zeros((batch, max_seq_len, self.n_mel_channels), dtype=torch.float32).to(self.device), text_embedding_drop), dim=-1)
 
-
-        batch = cat_mel_text.shape[0]
-        assert mel_features.shape[0] == 1, "Only support batch size 1 for now."
-
-        cat_mel_text_drop = torch.cat((torch.zeros((batch, max_seq_len, 100), dtype=torch.float32).to(self.device), text_embedding_drop), dim=-1)
-        t = torch.linspace(0, 1, 16 + 1, dtype=torch.float32)
+        t = torch.linspace(0, 1, self.nfe_steps + 1, dtype=torch.float32)
         time_step = t + (-1.0) * (torch.cos(torch.pi * 0.5 * t) - 1 + t)
-
         delta_t = torch.diff(time_step)
-        
-        time_expand = torch.zeros((batch, 16, 256), dtype=torch.float32)
-        half_dim = 256 // 2
+        # WAR: hard coding 256 here
+        tmp_dim = 256
+        time_expand = torch.zeros((batch, self.nfe_steps, tmp_dim), dtype=torch.float32)
+        half_dim = tmp_dim // 2
         emb_factor = math.log(10000) / (half_dim - 1)
-        emb_factor = 1000.0 * torch.exp(torch.arange(half_dim, dtype=torch.float32) * -emb_factor)
-        for i in range(16):
+        emb_factor = 1000.0 * torch.exp(torch.arange(half_dim, dtype=torch.float32) * - emb_factor)
+        for i in range(self.nfe_steps):
             emb = time_step[i] * emb_factor
             time_expand[:, i, :] = torch.cat((emb.sin(), emb.cos()), dim=-1)
 
-        denoised = self.model.forward(noise.cuda(),cat_mel_text.cuda(), cat_mel_text_drop.cuda(), time_expand.cuda(), rope_cos.cuda(), rope_sin.cuda(), delta_t.cuda())
-
-        ref_me_len = reference_mel_len[0]
-        denoised_bls = denoised[:, ref_me_len:, :].transpose(1, 2).to(torch.float32).contiguous().cpu()
-
-        audios = self.forward_vocoder(denoised_bls)
-        rms = torch.sqrt(torch.mean(torch.square(audios)))
-        audios = audios * self.target_rms / rms
+ 
+        inputs = {
+            'noise': noise,
+            'cond': cat_mel_text,
+            'cond_drop': cat_mel_text_drop,
+            'time_expand': time_expand,
+            'rope_cos': rope_cos,
+            'rope_sin': rope_sin,
+            'delta_t': delta_t   # torch.Size([16])
+        }
+        for key in inputs:
+            inputs[key] = inputs[key].to(self.device)
+        denoised = self.model.forward(**inputs)
 
         responses = []
-        for i, item in enumerate(audios):
-            waveform = item.unsqueeze(0)
-            print(f"waveform shape: {waveform.shape}")
-            waveform = pb_utils.Tensor.from_dlpack("waveform", to_dlpack(waveform))
-            inference_response = pb_utils.InferenceResponse(output_tensors=[waveform])
+        for i in range(batch):
+            ref_me_len = reference_mel_len[i]
+            estimated_mel_len = estimated_reference_target_mel_len[i]
+            
+            denoised_one_item = denoised[i, ref_me_len:estimated_mel_len, :].unsqueeze(0).transpose(1, 2).to(torch.float32).contiguous().cpu()
+
+            audio = self.forward_vocoder(denoised_one_item)
+
+            rms = torch.sqrt(torch.mean(torch.square(audio)))
+            if rms < self.target_rms:
+                audio = audio * self.target_rms / rms
+            
+            audio = pb_utils.Tensor.from_dlpack("waveform", to_dlpack(audio))
+            inference_response = pb_utils.InferenceResponse(output_tensors=[audio])
             responses.append(inference_response)
                              
         return responses

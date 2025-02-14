@@ -12,10 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-name: "preprocess_flow_matching"
+name: "f5_tts"
 backend: "python"
 # max_batch_size: ${triton_max_batch_size}
-max_batch_size: 1
+max_batch_size: 4
 #dynamic_batching {
 #    max_queue_delay_microseconds: ${max_queue_delay_microseconds}
 #}
@@ -23,7 +23,7 @@ max_batch_size: 1
 parameters [
   {
     key: "vocab_file"
-    value: { string_value: "./model_repo_f5/preprocess_flow_matching/1/vocab.txt"}
+    value: { string_value: "./model_repo_f5_tts/f5_tts/1/vocab.txt"}
   },
   {
    key: "n_mels", 
@@ -36,6 +36,14 @@ parameters [
   {
    key: "tllm_model_dir", 
    value: {string_value:"/home/scratch.yuekaiz_wwfo_1/tts/F5_TTS_Faster/ckpts/engine_outputs"}
+  },
+  {
+   key: "reference_audio_sample_rate", 
+   value: {string_value:"16000"}
+  },
+  {
+   key: "vocoder", 
+   value: {string_value:"vocos"}
   }
 ]
 

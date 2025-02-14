@@ -173,9 +173,9 @@ def get_args():
     parser.add_argument(
         "--model-name",
         type=str,
-        default="preprocess_flow_matching",
+        default="f5_tts",
         choices=[
-            "preprocess_flow_matching",
+            "f5_tts",
         ],
         help="triton model_repo module name to request: transducer for k2, attention_rescoring for wenet offline, streaming_wenet for wenet streaming, infer_pipeline for paraformer large offline",
     )
