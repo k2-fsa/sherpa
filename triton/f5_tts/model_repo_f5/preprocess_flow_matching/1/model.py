@@ -464,6 +464,28 @@ class TritonPythonModel:
             waveform = torch.utils.dlpack.from_dlpack(waveform.to_dlpack()).cpu()
             return waveform
 
+    def forward_text_embedding(self, text, audio):
+        input_tensor_0 = pb_utils.Tensor.from_dlpack("text", to_dlpack(text))
+        input_tensor_1 = pb_utils.Tensor.from_dlpack("audio", to_dlpack(audio))
+    
+        inference_request = pb_utils.InferenceRequest(
+            model_name='text_embedder_audio',
+            requested_output_names=['text_embedding', 'mel'],
+            inputs=[input_tensor_0, input_tensor_1])
+        inference_response = inference_request.exec()
+        if inference_response.has_error():
+            raise pb_utils.TritonModelException(inference_response.error().message())
+        else:
+            # Extract the output tensors from the inference response.
+            waveform = pb_utils.get_output_tensor_by_name(inference_response,
+                                                            'text_embedding')
+            waveform = torch.utils.dlpack.from_dlpack(waveform.to_dlpack())
+
+            audio = pb_utils.get_output_tensor_by_name(inference_response,
+                                                            'mel')
+            audio = torch.utils.dlpack.from_dlpack(audio.to_dlpack())
+            return waveform, audio
+        
     def execute(self, requests):
         reference_target_texts_list, reference_wavs_tensor, estimated_reference_target_mel_len, reference_mel_len = [], [], [], []
         max_wav_len = 0
@@ -506,25 +528,45 @@ class TritonPythonModel:
             reference_mel_len.append(int(wav_len // 256))
         
         max_seq_len = max(estimated_reference_target_mel_len)
-        # max_seq_len = 884
+
         reference_wavs_tensor = torch.cat(
             [F.pad(wav, (0, max_wav_len - wav.shape[1]), mode='constant') for wav in reference_wavs_tensor]
         ).to(self.device)
         print(f"reference_wavs_tensor shape: {reference_wavs_tensor.shape}")
         print(reference_wavs_tensor[0,:100])
-        mel_features = get_vocos_mel_spectrogram(reference_wavs_tensor)
-        mel_features = mel_features.transpose(1, 2)
-        # pad to max_seq_len
-        mel_features = F.pad(mel_features, (0, 0, 0, max_seq_len - mel_features.shape[1]), mode='constant')
+
+
 
         pinyin_list = convert_char_to_pinyin(reference_target_texts_list, polyphone=True)
         text_pad_sequence = list_str_to_idx(pinyin_list, self.vocab_char_map).to(self.device)
         text_pad_sequence += 1
 
-        # text_pad_sequence B,T,D, now text_pad_sequence_drop B+1, T,D append torch.zeros(1, T, D) at the bottom
+        # text_pad_sequence B,T,D, now text_pad_sequence_drop B+1, T append torch.zeros(1, T) at the bottom
         text_pad_sequence_drop = torch.cat((text_pad_sequence, torch.zeros((1, text_pad_sequence.shape[1]), dtype=torch.int32).to(self.device)), dim=0)
-        # text_embedding = self.text_embedding(text_pad_sequence, max_seq_len)
-        text_embedding_drop_condition = self.text_embedding(text_pad_sequence_drop, max_seq_len)
+
+        text_pad_sequence_drop = F.pad(text_pad_sequence_drop, (0, max_seq_len - text_pad_sequence_drop.shape[1]), mode='constant')
+
+        import time
+        time0 = time.time()
+        # text_embedding_drop_condition = self.text_embedding(text_pad_sequence_drop, max_seq_len)
+        # print(f"shape of text_embedding_drop_condition: {text_embedding_drop_condition.shape}")
+        time1 = time.time()
+        print(f"Time for text_embedding: {time1 - time0}")
+        # pad extra one  to reference_wavs_tensor
+        reference_wavs_tensor2 = torch.cat((reference_wavs_tensor, torch.zeros((1, max_wav_len), dtype=torch.float32).to(self.device)), dim=0)
+        text_embedding_drop_condition, _ = self.forward_text_embedding(text_pad_sequence_drop, reference_wavs_tensor2.unsqueeze(1))
+        # mel_features = mel_features[:-1]
+        print(f"shape of text_embedding_drop_condition: {text_embedding_drop_condition.shape}")
+        time2 = time.time()
+        print(f"Time for forward_text_embedding: {time2 - time1}")
+
+
+        mel_features = get_vocos_mel_spectrogram(reference_wavs_tensor)
+        mel_features = mel_features.transpose(1, 2)
+        # pad to max_seq_len
+        mel_features = F.pad(mel_features, (0, 0, 0, max_seq_len - mel_features.shape[1]), mode='constant')
+
+ 
         text_embedding = text_embedding_drop_condition[:-1]
         text_embedding_drop = text_embedding_drop_condition[-1].unsqueeze(0)
 
@@ -532,7 +574,7 @@ class TritonPythonModel:
         # mask = lens_to_mask(torch.tensor(estimated_reference_target_mel_len))
 
         noise = torch.randn_like(mel_features).to(self.device)
-        rope_cos = self.rope_cos[:, :max_seq_len, :].float()
+        rope_cos = self.rope_cos[:, :max_seq_len, :].float() 
         rope_sin = self.rope_sin[:, :max_seq_len, :].float()
 
         cat_mel_text = torch.cat((mel_features, text_embedding), dim=-1)
@@ -540,7 +582,7 @@ class TritonPythonModel:
 
         batch = cat_mel_text.shape[0]
         assert mel_features.shape[0] == 1, "Only support batch size 1 for now."
-        # cat_mel_text_drop = torch.cat((torch.zeros((batch, max_seq_len, 100), dtype=torch.float32).to(self.device), self.text_embedding(torch.zeros((batch, max_seq_len), dtype=torch.int32).to(self.device), max_seq_len)), dim=-1)
+
         cat_mel_text_drop = torch.cat((torch.zeros((batch, max_seq_len, 100), dtype=torch.float32).to(self.device), text_embedding_drop), dim=-1)
         t = torch.linspace(0, 1, 16 + 1, dtype=torch.float32)
         time_step = t + (-1.0) * (torch.cos(torch.pi * 0.5 * t) - 1 + t)
