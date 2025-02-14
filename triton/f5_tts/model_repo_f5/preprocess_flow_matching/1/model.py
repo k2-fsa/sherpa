@@ -495,7 +495,40 @@ class TritonPythonModel:
 
         self.model = F5TTS(config, debug_mode=False, tllm_model_dir=self.tllm_model_dir)
 
+    def forward_vocoder(self, mel):
+        input_tensor_0 = pb_utils.Tensor.from_dlpack("mel", to_dlpack(mel))
+    
+        inference_request = pb_utils.InferenceRequest(
+            model_name='vocoder',
+            requested_output_names=['waveform'],
+            inputs=[input_tensor_0])
+        inference_response = inference_request.exec()
+        if inference_response.has_error():
+            raise pb_utils.TritonModelException(inference_response.error().message())
+        else:
+            # Extract the output tensors from the inference response.
+            waveform = pb_utils.get_output_tensor_by_name(inference_response,
+                                                            'waveform')
+            waveform = torch.utils.dlpack.from_dlpack(waveform.to_dlpack()).cpu()
+            return waveform
 
+    def forward_vocoder_onnx(self, mel):
+        input_tensor_0 = pb_utils.Tensor.from_dlpack("mel", to_dlpack(mel))
+    
+        inference_request = pb_utils.InferenceRequest(
+            model_name='vocoder_onnx',
+            requested_output_names=['waveform'],
+            inputs=[input_tensor_0])
+        inference_response = inference_request.exec()
+        if inference_response.has_error():
+            raise pb_utils.TritonModelException(inference_response.error().message())
+        else:
+            # Extract the output tensors from the inference response.
+            waveform = pb_utils.get_output_tensor_by_name(inference_response,
+                                                            'waveform')
+            waveform = torch.utils.dlpack.from_dlpack(waveform.to_dlpack()).cpu()
+            return waveform
+        
     def execute(self, requests):
         reference_target_texts_list, reference_wavs_tensor, estimated_reference_target_mel_len, reference_mel_len = [], [], [], []
         max_wav_len = 0
@@ -520,16 +553,15 @@ class TritonPythonModel:
             wav_len = wav_len.squeeze()
             # wav_len  = int(wav_len / 16000 * 24000)
             wav_len  = int(wav_len / self.reference_sample_rate * 24000)
-            # Resample to 24kHz
-            print(f"wav shape: {wav.shape}")
+
             wav = self.resampler(wav)
-            print(f"wav shape: {wav.shape}")
+
             wav = wav[:, :wav_len]
-            print(f"wav shape: {wav.shape}")
+
             ref_rms = torch.sqrt(torch.mean(torch.square(wav)))
-            print(f"ref_rms: {ref_rms}") 
+
             wav = wav * self.target_rms / ref_rms
-            # if ref_rms < self.target_rms:
+
                 
 
             max_wav_len = max(max_wav_len, wav_len)
@@ -554,17 +586,14 @@ class TritonPythonModel:
         text_pad_sequence = list_str_to_idx(pinyin_list, self.vocab_char_map).to(self.device)
         text_pad_sequence += 1
         text_embedding = self.text_embedding(text_pad_sequence, max_seq_len)
-        print(f"shape of mel_features: {mel_features.shape}")
-        print(f"shape of text_embedding: {text_embedding.shape}")
-        # print(f"first column of text_embedding: {text_embedding[:, 0]}")
+
 
         # mask = lens_to_mask(torch.tensor(estimated_reference_target_mel_len))
 
         noise = torch.randn_like(mel_features).to(self.device)
         rope_cos = self.rope_cos[:, :max_seq_len, :].float()
         rope_sin = self.rope_sin[:, :max_seq_len, :].float()
-        print(f"shape of mel_features: {mel_features.shape}")
-        print(f"shape of text_embedding: {text_embedding.shape}")
+
         cat_mel_text = torch.cat((mel_features, text_embedding), dim=-1)
 
 
@@ -589,13 +618,30 @@ class TritonPythonModel:
 
         ref_me_len = reference_mel_len[0]
         ref_signal_len = np.array(ref_me_len, dtype=np.int64)
-        audios = decode(denoised.cpu().numpy().astype(np.float32), ref_signal_len)
+        
+        import time
+        start = time.time()
+        # audios = decode(denoised.cpu().numpy().astype(np.float32), ref_signal_len)
+        start2 = time.time()
+        print(f"onnx cpu vocoder time: {start2 - start}")
+
+        denoised_bls = denoised[:, ref_me_len:, :].transpose(1, 2).to(torch.float32).contiguous().cpu()
+      
+        # audios = self.forward_vocoder_onnx(denoised_bls)
+        # rms = torch.sqrt(torch.mean(torch.square(audios)))
+        # audios = audios * self.target_rms / rms
+        # start3 = time.time()
+        # print(f"onnx gpu vocoder time: {start3 - start2}")
+
+
+        audios = self.forward_vocoder(denoised_bls)
+        rms = torch.sqrt(torch.mean(torch.square(audios)))
+        audios = audios * self.target_rms / rms
+        print(f"trt vocoder time: {time.time() - start2}")
+        
 
         responses = []
         for i, item in enumerate(audios):
-
-
-
             waveform = item.unsqueeze(0)
             print(f"waveform shape: {waveform.shape}")
             waveform = pb_utils.Tensor.from_dlpack("waveform", to_dlpack(waveform))
