@@ -102,5 +102,11 @@ The following table lists the RTF of pre-trained models on
    - 2.999
    - 2.774
    - 330 MB
+ * - :ref:`kokoro-multi-lang-v1_0`
+   - 7.635
+   - 4.470
+   - 3.430
+   - 3.191
+   - 311 MB
 
 
