@@ -1,6 +1,0 @@
-# python-dotenv
-# huggingface-hub==0.26.3
-jieba
-pypinyin
-librosa
-onnxruntime-gpu==1.20.1

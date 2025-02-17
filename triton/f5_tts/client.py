@@ -410,7 +410,6 @@ async def main():
         )
         manifest_item_list = []
         for i in range(len(dataset)):
-            print(dataset[i])
             manifest_item_list.append(
                 {
                     "audio_filepath": dataset[i]["prompt_audio"],

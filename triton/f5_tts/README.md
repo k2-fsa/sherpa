@@ -1,61 +1,43 @@
-## Triton Inference Serving Best Practice for Speech LLM
+## Triton Inference Serving Best Practice for F5 TTS
 
 ### Model Training
-See https://github.com/k2-fsa/icefall/tree/master/egs/speech_llm/ASR_LLM. 
+See [official F5-TTS](https://github.com/SWivid/F5-TTS) or [Icefall F5-TTS](https://github.com/k2-fsa/icefall/tree/master/egs/wenetspeech4tts/TTS#f5-tts).
 
 ### Quick Start
 Directly launch the service using docker compose.
 ```sh
-# MODEL_ID supports whisper_qwen_1.5B and whisper_qwen_7B
-MODEL_ID=whisper_qwen_1.5B docker compose up
+# VOCODER vocos or bigvgan
+VOCODER=vocos docker compose up
 ```
 
 ### Build Image
 Build the docker image from scratch. 
 ```sh
-# build from scratch, cd to the parent dir of Dockerfile.server
-docker build . -f Dockerfile.server -t soar97/triton-speech-llm:24.11
+docker build . -f Dockerfile.server -t soar97/triton-f5-tts:24.12
 ```
 
 ### Create Docker Container
 ```sh
 your_mount_dir=/mnt:/mnt
-docker run -it --name "whisper-server" --gpus all --net host -v $your_mount_dir --shm-size=2g soar97/triton-speech-llm:24.11
+docker run -it --name "f5-server" --gpus all --net host -v $your_mount_dir --shm-size=2g soar97/triton-f5-tts:24.12
 ```
 
 ### Export Models to TensorRT-LLM and Launch Server
 Inside docker container, we would follow the official guide of TensorRT-LLM to build qwen and whisper TensorRT-LLM engines. See [here](https://github.com/NVIDIA/TensorRT-LLM/tree/main/examples/whisper).
 
 ```sh
-bash build.sh
+bash build_server.sh
 ```
-<!-- ### Launch Gradio WebUI Client
-The gradio client supports text and speech as the inputs.
-
-```sh
-git-lfs install
-git clone https://huggingface.co/spaces/yuekai/triton-asr-client.git
-cd triton-asr-client
-pip3 install -r requirements.txt
-python3 app.py
-``` -->
 
 ### Benchmark using Dataset
 ```sh
-git clone https://github.com/yuekaizhang/Triton-ASR-Client.git
-cd Triton-ASR-Client
-num_task=16
-python3 client.py \
-    --server-addr localhost \
-    --model-name infer_bls \
-    --num-tasks $num_task \
-    --manifest-dir ./datasets/aishell1_test \
-    --compute-cer
+num_task=2
+python3 client.py --num-tasks $num_task --huggingface-dataset yuekai/seed_tts --split-name wenetspeech4tts
 ```
 
 ### Benchmark Results
-Decoding on a single A10 GPU, audios without padding, using aishell1 test set files
+Decoding on a single L20 GPU, using 26 different prompt_audio/target_text pairs.
 
-| Model | Backend   | Concurrency | RTFx     | RTF | 
+| Model | Note   | Concurrency | Avg Latency     | RTF | 
 |-------|-----------|-----------------------|---------|--|
-| Whisper Large-v2 Encoder + Qwen 1.5B | python backend speech encoder + trt-llm backend llm | 8                   | 156 | 0.0064|
+| F5-TTS Base (Vocos) | [Code Commit](https://github.com/yuekaizhang/sherpa/tree/329ab3c573252e835844bea38505c6b43e994cf4/triton/f5_tts) | 1                   | 253 ms | 0.0394|
