@@ -177,6 +177,7 @@ rst_epilog = """
 .. _Lazarus: https://www.lazarus-ide.org/
 .. _Moonshine: https://github.com/usefulsensors/moonshine
 .. _moonshine: https://github.com/usefulsensors/moonshine
+.. _FireRedAsr: https://github.com/FireRedTeam/FireRedASR
 """
 
 

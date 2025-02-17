@@ -1,0 +1,14 @@
+/star-fj/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:375 ./build/bin/sherpa-onnx-offline --tokens=./sherpa-onnx-fire-red-asr-large-zh_en-2025-02-16/tokens.txt --fire-red-asr-encoder=./sherpa-onnx-fire-red-asr-large-zh_en-2025-02-16/encoder.int8.onnx --fire-red-asr-decoder=./sherpa-onnx-fire-red-asr-large-zh_en-2025-02-16/decoder.int8.onnx --num-threads=1 ./sherpa-onnx-fire-red-asr-large-zh_en-2025-02-16/test_wavs/0.wav 
+
+OfflineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80, low_freq=20, high_freq=-400, dither=0), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename="", decoder_filename="", joiner_filename=""), paraformer=OfflineParaformerModelConfig(model=""), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=""), whisper=OfflineWhisperModelConfig(encoder="", decoder="", language="", task="transcribe", tail_paddings=-1), fire_red_asr=OfflineFireRedAsrModelConfig(encoder="./sherpa-onnx-fire-red-asr-large-zh_en-2025-02-16/encoder.int8.onnx", decoder="./sherpa-onnx-fire-red-asr-large-zh_en-2025-02-16/decoder.int8.onnx"), tdnn=OfflineTdnnModelConfig(model=""), zipformer_ctc=OfflineZipformerCtcModelConfig(model=""), wenet_ctc=OfflineWenetCtcModelConfig(model=""), sense_voice=OfflineSenseVoiceModelConfig(model="", language="auto", use_itn=False), moonshine=OfflineMoonshineModelConfig(preprocessor="", encoder="", uncached_decoder="", cached_decoder=""), telespeech_ctc="", tokens="./sherpa-onnx-fire-red-asr-large-zh_en-2025-02-16/tokens.txt", num_threads=1, debug=False, provider="cpu", model_type="", modeling_unit="cjkchar", bpe_vocab=""), lm_config=OfflineLMConfig(model="", scale=0.5), ctc_fst_decoder_config=OfflineCtcFstDecoderConfig(graph="", max_active=3000), decoding_method="greedy_search", max_active_paths=4, hotwords_file="", hotwords_score=1.5, blank_penalty=0, rule_fsts="", rule_fars="")
+Creating recognizer ...
+Started
+Done!
+
+./sherpa-onnx-fire-red-asr-large-zh_en-2025-02-16/test_wavs/0.wav
+{"lang": "", "emotion": "", "event": "", "text": "昨天是 MONDAY TODAY IS礼拜二 THE DAY AFTER TOMORROW是星期三", "timestamps": [], "tokens":["昨", "天", "是", " MO", "ND", "AY", " TO", "D", "AY", " IS", "礼", "拜", "二", " THE", " DAY", " AFTER", " TO", "M", "OR", "ROW", "是", "星", "期", "三"], "words": []}
+----
+num threads: 1
+decoding method: greedy_search
+Elapsed seconds: 19.555 s
+Real time factor (RTF): 19.555 / 10.053 = 1.945
