@@ -10,14 +10,15 @@ F5_TTS_TRT_LLM_ENGINE_PATH=./f5_trt_llm_engine
 python_package_path=/usr/local/lib/python3.12/dist-packages
 
 
-
 DIR=$python_package_path/tensorrt_llm/models/f5tts
 if [ -d "$DIR" ]; then
   echo "Directory '$DIR' exists."
 else
   echo "Directory '$DIR' does not exist."
-  git clone https://github.com/yuekaizhang/TensorRT-LLM.git -b f5
-  cp -r TensorRT-LLM/tensorrt_llm/models/* $python_package_path/tensorrt_llm/models
+  mkdir -p $python_package_path/tensorrt_llm/models/f5tts
+  wget https://raw.githubusercontent.com/yuekaizhang/TensorRT-LLM/f5/tensorrt_llm/models/__init__.py -O $python_package_path/tensorrt_llm/models/__init__.py
+  wget https://raw.githubusercontent.com/yuekaizhang/TensorRT-LLM/f5/tensorrt_llm/models/f5tts/model.py -O $python_package_path/tensorrt_llm/models/f5tts/model.py
+  wget https://raw.githubusercontent.com/yuekaizhang/TensorRT-LLM/f5/tensorrt_llm/models/f5tts/modules.py -O $python_package_path/tensorrt_llm/models/f5tts/modules.py
 fi
 
 huggingface-cli download SWivid/F5-TTS --local-dir $F5_TTS_HF_DOWNLOAD_PATH

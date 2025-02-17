@@ -17,4 +17,4 @@ services:
               device_ids: ['0']
               capabilities: [gpu]
     command: >
-      /bin/bash -c "git clone https://github.com/yuekaizhang/sherpa.git -b f5 && cd sherpa/triton/f5_tts/ && bash build_server.sh $VOCODER"
+      /bin/bash -c "rm -rf sherpa && git clone https://github.com/yuekaizhang/sherpa.git -b f5 && cd sherpa/triton/f5_tts/ && bash build_server.sh $VOCODER"
