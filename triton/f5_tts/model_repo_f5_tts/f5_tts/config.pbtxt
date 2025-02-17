@@ -14,28 +14,22 @@
 
 name: "f5_tts"
 backend: "python"
-# max_batch_size: ${triton_max_batch_size}
 max_batch_size: 4
-#dynamic_batching {
-#    max_queue_delay_microseconds: ${max_queue_delay_microseconds}
-#}
-# value: { string_value: "${engine_dir}"}
+dynamic_batching {
+    max_queue_delay_microseconds: 1
+}
 parameters [
   {
     key: "vocab_file"
-    value: { string_value: "./model_repo_f5_tts/f5_tts/1/vocab.txt"}
-  },
-  {
-   key: "n_mels", 
-   value: {string_value:"${n_mels}"} # 128 dim for large-v3, 80 dim for large-v2
+    value: { string_value: "${vocab}"}
   },
   {
    key: "model_path", 
-   value: {string_value:"/home/scratch.yuekaiz_wwfo_1/tts/F5_TTS_Faster/F5_TTS/F5TTS_Base/model_1200000.pt"}
+   value: {string_value:"${model}"}
   },
   {
    key: "tllm_model_dir", 
-   value: {string_value:"/home/scratch.yuekaiz_wwfo_1/tts/F5_TTS_Faster/ckpts/engine_outputs"}
+   value: {string_value:"${trtllm}"}
   },
   {
    key: "reference_audio_sample_rate", 
@@ -43,7 +37,7 @@ parameters [
   },
   {
    key: "vocoder", 
-   value: {string_value:"vocos"}
+   value: {string_value:"${vocoder}"}
   }
 ]
 
@@ -72,16 +66,6 @@ input [
   }
 ]
 output [
-  {
-    name: "target_mel"
-    data_type: TYPE_FP32
-    dims: [-1, -1]
-  },
-  {
-    name: "target_mel_len"
-    data_type: TYPE_INT32
-    dims: [1]
-  },
   {
     name: "waveform"
     data_type: TYPE_FP32

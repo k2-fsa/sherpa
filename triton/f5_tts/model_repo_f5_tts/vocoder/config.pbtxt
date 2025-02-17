@@ -1,6 +1,6 @@
 name: "vocoder"
 backend: "tensorrt"
-default_model_filename: "vocos_vocoder.plan"
+default_model_filename: "vocoder.plan"
 max_batch_size: 4
 
 input [

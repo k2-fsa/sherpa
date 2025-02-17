@@ -35,15 +35,13 @@ python3 client.py \
     --subset_name $subset_name \
     --split_name $split_name \
     --log-dir ./log_sherpa_multi_hans_whisper_large_ifb_$num_task \
-    --compute-cer
 """
 
 import argparse
 import asyncio
 import json
-import math
+
 import os
-import re
 import time
 import types
 from pathlib import Path
@@ -143,13 +141,6 @@ def get_args():
     )
 
     parser.add_argument(
-        "--manifest-path",
-        type=str,
-        default="/home/scratch.yuekaiz_wwfo_1/tts/valle_wenetspeech4tts_demo/wenetspeech4tts.txt",
-        help="Path to the manifest dir which includes wav.scp trans.txt files.",
-    )
-
-    parser.add_argument(
         "--reference-audio",
         type=str,
         default=None,
@@ -159,15 +150,37 @@ def get_args():
     parser.add_argument(
         "--reference-text",
         type=str,
-        default="<|startoftranscript|><|en|><|transcribe|><|notimestamps|>",
-        help="e.g. <|startofprev|>My hot words<|startoftranscript|><|en|><|transcribe|><|notimestamps|>, please check https://arxiv.org/pdf/2305.11095.pdf also.",
+        default="",
+        help="",
     )
 
     parser.add_argument(
         "--target-text",
         type=str,
-        default="<|startoftranscript|><|en|><|transcribe|><|notimestamps|>",
-        help="e.g. <|startofprev|>My hot words<|startoftranscript|><|en|><|transcribe|><|notimestamps|>, please check https://arxiv.org/pdf/2305.11095.pdf also.",
+        default="",
+        help="",
+    )
+
+    parser.add_argument(
+        "--huggingface-dataset",
+        type=str,
+        default="yuekai/seed_tts",
+        help="dataset name in huggingface dataset hub",
+    )
+
+    parser.add_argument(
+        "--split-name",
+        type=str,
+        default="wenetspeech4tts",
+        choices=["wenetspeech4tts", "test_zh", "test_en", "test_hard"],
+        help="dataset split name, default is 'test'",
+    )
+
+    parser.add_argument(
+        "--manifest-path",
+        type=str,
+        default=None,
+        help="Path to the manifest dir which includes wav.scp trans.txt files.",
     )
 
     parser.add_argument(
@@ -195,11 +208,10 @@ def get_args():
     )
 
     parser.add_argument(
-        "--compute-cer",
+        "--compute-wer",
         action="store_true",
         default=False,
-        help="""True to compute CER, e.g., for Chinese.
-        False to compute WER, e.g., for English words.
+        help="""True to compute WER.
         """,
     )
 
@@ -218,25 +230,16 @@ def get_args():
         help="Inference batch_size per request for offline mode.",
     )
 
-    parser.add_argument("--huggingface_dataset", type=str, default=None)
-    parser.add_argument(
-        "--subset_name",
-        type=str,
-        default=None,
-        help="dataset configuration name in the dataset, see https://huggingface.co/docs/datasets/v3.0.0/en/package_reference/loading_methods#datasets.load_dataset",
-    )
-    parser.add_argument(
-        "--split_name",
-        type=str,
-        default="test",
-        help="dataset split name, default is 'test'",
-    )
     return parser.parse_args()
 
 
 def load_audio(wav_path, target_sample_rate=16000):
     assert target_sample_rate == 16000, "hard coding in server"
-    waveform, sample_rate = sf.read(wav_path)
+    if isinstance(wav_path, dict):
+        waveform = wav_path["array"]
+        sample_rate = wav_path["sampling_rate"]
+    else:
+        waveform, sample_rate = sf.read(wav_path)
     if sample_rate != target_sample_rate:
         from scipy.signal import resample
         num_samples = int(len(waveform) * (target_sample_rate / sample_rate))
@@ -262,7 +265,6 @@ async def send(
     for i, item in enumerate(manifest_item_list):
         if i % log_interval == 0:
             print(f"{name}: {i}/{len(manifest_item_list)}")
-
         waveform, sample_rate = load_audio(item["audio_filepath"], target_sample_rate=16000)
         duration = len(waveform) / sample_rate
         lengths = np.array([[len(waveform)]], dtype=np.int32)
@@ -394,6 +396,7 @@ async def main():
                     "reference_text": args.reference_text,
                     "target_text": args.target_text,
                     "audio_filepath": args.reference_audio,
+                    "target_audio_path": "test.wav",
                 }
             ]
         ]
@@ -402,33 +405,25 @@ async def main():
 
         dataset = datasets.load_dataset(
             args.huggingface_dataset,
-            args.subset_name,
             split=args.split_name,
             trust_remote_code=True,
         )
         manifest_item_list = []
         for i in range(len(dataset)):
             print(dataset[i])
-            assert dataset[i]["audio"]["sampling_rate"] == 16000
             manifest_item_list.append(
                 {
-                    "audio_filepath": dataset[i]["audio"]["path"],
-                    "text": dataset[i]["text"],
-                    "id": dataset[i]["segment_id"],
+                    "audio_filepath": dataset[i]["prompt_audio"],
+                    "reference_text": dataset[i]["prompt_text"],
+                    "target_audio_path": dataset[i]["id"],
+                    "target_text": dataset[i]["target_text"],
                 }
             )
-        manifest_item_list = split_data(manifest_item_list, args.num_tasks)
-        args.num_tasks = min(args.num_tasks, len(manifest_item_list))
     else:
-        # if not any(Path(args.manifest_dir).rglob("*.wav")):
-        #     if args.manifest_dir == DEFAULT_MANIFEST_DIR:
-        #         download_and_extract(args.manifest_dir)
-        #     raise ValueError(
-        #         f"manifest_dir {args.manifest_dir} should contain wav files"
-        #     )
-        dps = load_manifests(args.manifest_path)
-        manifest_item_list = split_data(dps, args.num_tasks)
-        args.num_tasks = min(args.num_tasks, len(manifest_item_list))
+        manifest_item_list = load_manifests(args.manifest_path)
+        
+    args.num_tasks = min(args.num_tasks, len(manifest_item_list))
+    manifest_item_list = split_data(manifest_item_list, args.num_tasks)
 
     os.makedirs(args.log_dir, exist_ok=True)
     tasks = []
@@ -477,8 +472,10 @@ async def main():
     s += f"average_latency_ms: {latency_ms:.2f}\n"
 
     print(s)
-
-    name = Path(args.manifest_path).stem
+    if args.manifest_path:
+        name = Path(args.manifest_path).stem
+    elif args.split_name:
+        name = args.split_name
     with open(f"{args.log_dir}/rtf-{name}.txt", "w") as f:
         f.write(s)
     

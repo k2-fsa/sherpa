@@ -14,13 +14,25 @@
 
 import torch
 import torch.nn as nn
-import torch.nn.functional as F
-import numpy as np
-import os
-import argparse
+from huggingface_hub import hf_hub_download
 
 from conv_stft import STFT
 from vocos import Vocos
+import argparse
+opset_version = 17
+
+def get_args():
+    parser = argparse.ArgumentParser(
+        formatter_class=argparse.ArgumentDefaultsHelpFormatter
+    )
+    parser.add_argument(
+        "--vocoder",
+        type=str,
+        default="vocos",
+        choices=["vocos", "bigvgan"],
+        help="Vocoder to export",
+    )
+    return parser.parse_args()
 
 class ISTFTHead(nn.Module):
     
@@ -51,20 +63,16 @@ class VocosVocoder(nn.Module):
         self.vocos_vocoder.head = istft_head_for_export
     
     def forward(self, mel):
-        
         waveform = self.vocos_vocoder.decode(mel)
-        
         return waveform
 
-opset_version = 17
-
-def export_VocosVocoder(vocos_vocoder, output_dir, verbose):
+def export_VocosVocoder(vocos_vocoder, output_path, verbose):
+    vocos_vocoder = VocosVocoder(vocos_vocoder).cuda()
     vocos_vocoder.eval()
     
     dummy_batch_size = 8
     dummy_input_length = 500
     
-
     dummy_mel = torch.randn(dummy_batch_size, 100, dummy_input_length).cuda()
 
     with torch.no_grad():
@@ -72,8 +80,6 @@ def export_VocosVocoder(vocos_vocoder, output_dir, verbose):
             mel=dummy_mel
         )
         print(dummy_waveform.shape)
-
-    output_path = os.path.join(output_dir, "vocos_vocoder.onnx")
 
     dummy_input = (dummy_mel)
 
@@ -126,8 +132,8 @@ def load_vocoder(vocoder_name="vocos", is_local=False, local_path="", device="cp
     return vocoder
 
 if __name__ == "__main__":
-
-    vocoder = load_vocoder(vocoder_name="vocos", is_local=True, local_path="/home/scratch.yuekaiz_wwfo_1/tts/F5_TTS_Faster/vocos-mel-24khz", device="cpu", hf_cache_dir=None)
-    vocos_vocoder = VocosVocoder(vocoder).cuda()
-    
-    export_VocosVocoder(vocos_vocoder, ".", verbose=False)
+    args = get_args()
+    vocoder = load_vocoder(vocoder_name=args.vocoder, device="cpu", hf_cache_dir=None)
+    if args.vocoder == "vocos":
+        output_path = "./vocos_vocoder.onnx"
+        export_VocosVocoder(vocoder, output_path, verbose=False)
