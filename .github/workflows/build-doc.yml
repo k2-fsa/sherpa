@@ -161,8 +161,7 @@ jobs:
               git clone https://huggingface.co/csukuangfj/sherpa huggingface
               cd huggingface
               ./run.sh
-              cp cpu.html ../build/html
-              cp cuda.html ../build/html
+              cp *.html ../build/html
               cd ..
               rm -rf huggingface
 
