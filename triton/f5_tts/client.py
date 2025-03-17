@@ -437,6 +437,7 @@ async def main():
                 log_interval=args.log_interval,
                 model_name=args.model_name,
                 audio_save_dir=args.log_dir,
+                padding_duration=10,
             )
         )
         tasks.append(task)

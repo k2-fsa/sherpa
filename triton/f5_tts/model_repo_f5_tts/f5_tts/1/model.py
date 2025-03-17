@@ -182,7 +182,7 @@ class TextEmbedding(nn.Module):
         return text
 
 def lens_to_mask(
-    t, length
+    t, length=None
 ):
     if not length:
         length = t.amax()
@@ -237,7 +237,7 @@ class F5TTS(object):
         self.outputs = {}
         self.buffer_allocated = False
 
-        expected_tensor_names = ['noise', 'cond', 'cond_drop', 'time', 'rope_cos', 'rope_sin', 't_scale', 'denoised']
+        expected_tensor_names = ['noise', 'cond', 'time', 'rope_cos', 'rope_sin', 'mask', 'denoised']
 
         if self.mapping.tp_size > 1:
             self.buffer, self.all_reduce_workspace = CustomAllReduceHelper.allocate_workspace(
@@ -272,13 +272,14 @@ class F5TTS(object):
         dtype = trt_dtype_to_torch(self.session.engine.get_tensor_dtype(name))
         return dtype
 
-    def _setup(self, batch_size):
+    def _setup(self, batch_size, seq_len):
         for i in range(self.session.engine.num_io_tensors):
             name = self.session.engine.get_tensor_name(i)
             if self.session.engine.get_tensor_mode(
                     name) == trt.TensorIOMode.OUTPUT:
                 shape = list(self.session.engine.get_tensor_shape(name))
-                shape[1] = batch_size
+                shape[0] = batch_size
+                shape[1] = seq_len
                 self.outputs[name] = torch.empty(shape,
                                                  dtype=self._tensor_dtype(name),
                                                  device=self.device)
@@ -305,23 +306,21 @@ class F5TTS(object):
 
     @cuda_stream_guard
     def forward(self, noise: torch.Tensor, cond: torch.Tensor,
-                cond_drop: torch.Tensor, time_expand: torch.Tensor, rope_cos: torch.Tensor, rope_sin: torch.Tensor, delta_t: torch.Tensor):
-
-        self._setup(noise.shape[1])
+                time_expand: torch.Tensor, rope_cos: torch.Tensor, rope_sin: torch.Tensor, mask: torch.Tensor, delta_t: torch.Tensor):
+        cfg_strength = 2.0
+        self._setup(noise.shape[0], noise.shape[1])
         if not self.buffer_allocated:
             raise RuntimeError('Buffer not allocated, please call setup first!')
 
         time = time_expand[:, 0]
-        t_scale = delta_t[0].unsqueeze(0)
         input_type = str_dtype_to_torch(self.dtype)
         inputs = {
             'noise': noise.to(input_type),
             'cond': cond.to(input_type),
-            'cond_drop': cond_drop.to(input_type),
             'time': time.to(input_type),
             'rope_cos': rope_cos.to(input_type),
             'rope_sin': rope_sin.to(input_type),
-            't_scale': t_scale.to(input_type)
+            'mask': mask.to(str_dtype_to_torch("int32")),
         }
         self.inputs.update(**inputs)
         self.session.set_shapes(self.inputs)
@@ -336,19 +335,21 @@ class F5TTS(object):
             ptr = tensor.data_ptr() if isinstance(tensor,
                                                 torch.Tensor) else tensor
             self.session.context.set_tensor_address(tensor_name, ptr)
-
+        # noise = noise + (pred_cond + (pred_cond - pred_uncond) * cfg_strength) * t_scale
         i = 0
         while i < 16:
-            if 0 != i:
-                self.inputs['time'] = time_expand[:, i].to(input_type)
-                self.inputs['t_scale'] = delta_t[i].unsqueeze(0).to(input_type)
-                self.inputs['noise'] = self.outputs["denoised"]
-                self.session.context.set_tensor_address('time', self.inputs['time'].data_ptr())
-                self.session.context.set_tensor_address('t_scale', self.inputs['t_scale'].data_ptr())
-                self.session.context.set_tensor_address('noise', self.inputs['noise'].data_ptr())
             self.session.context.execute_async_v3(self.stream.cuda_stream)
+            t_scale = delta_t[i].unsqueeze(0).to(input_type)
+            pred_cond, pred_uncond = self.outputs["denoised"].chunk(2, dim=0)
+            noise_half = noise[:noise.shape[0] // 2] + (pred_cond + (pred_cond - pred_uncond) * cfg_strength) * t_scale
+            noise = torch.cat((noise_half, noise_half), dim=0).contiguous()
+            self.inputs['time'] = time_expand[:, i].to(input_type)
+            self.inputs['noise'] = noise
+            self.session.context.set_tensor_address('time', self.inputs['time'].data_ptr())
+            self.session.context.set_tensor_address('noise', self.inputs['noise'].data_ptr())
+
             i += 1
-        return self.outputs["denoised"]
+        return noise_half
 
 def load_checkpoint(ckpt_path, use_ema=True):
     checkpoint = torch.load(ckpt_path, weights_only=True)
@@ -376,7 +377,7 @@ class TritonPythonModel:
         self.win_length = 1024
         self.hop_length = 256
         self.n_mel_channels = 100
-        self.max_mel_len = 2000
+        self.max_mel_len = 3000
         self.head_dim = 64
         self.base_rescale_factor = 1.0
         self.interpolation_factor = 1.0
@@ -483,10 +484,22 @@ class TritonPythonModel:
             reference_mel_len.append(mel_features.shape[1])
             estimated_reference_target_mel_len.append(int(mel_features.shape[1] * (1 + len(target_text) / len(reference_text))))
                 
-        max_seq_len = min(max(estimated_reference_target_mel_len), self.max_mel_len)
-        # mask = lens_to_mask(torch.tensor(estimated_reference_target_mel_len))
+        # max_seq_len = min(max(estimated_reference_target_mel_len), self.max_mel_len)
+        max_seq_len = max(estimated_reference_target_mel_len)
+        max_seq_len += 200
+
+        # WAR: hard coding 1024 here, 2048 here, different inference throughput, difference audio quality
+        # batch=1, with mask, audio quality is bad, first address mask with batch=1 issue
+        # maybe try to verify with python script first
+        # 多 batch 推理，因为 padding 冗余，好像速度反而慢了
+        # max_seq_len = 2048
+        print(estimated_reference_target_mel_len, len(requests))
+
+        mask = lens_to_mask(torch.tensor(estimated_reference_target_mel_len), max_seq_len).int().to(self.device)
+        # print(mask.shape, "mask", mask[0])
 
         batch = len(requests)
+        print(f"The current batch is {batch}")
         mel_features = torch.zeros((batch, max_seq_len, self.n_mel_channels), dtype=torch.float16).to(self.device)
         for i, mel in enumerate(mel_features_list):
             mel_features[i, :mel.shape[1], :] = mel
@@ -500,7 +513,8 @@ class TritonPythonModel:
         text_pad_sequence_drop = F.pad(text_pad_sequence_drop, (0, max_seq_len - text_pad_sequence_drop.shape[1]), mode='constant')
         text_embedding_drop_condition = self.text_embedding(text_pad_sequence_drop)
         text_embedding = text_embedding_drop_condition[:-1]
-        text_embedding_drop = text_embedding_drop_condition[-1].unsqueeze(0)
+        # text_embedding_drop B,T,C batch should be the same
+        text_embedding_drop = text_embedding_drop_condition[-1].unsqueeze(0).repeat(batch, 1, 1)
 
         noise = torch.randn_like(mel_features).to(self.device)
         rope_cos = self.rope_cos[:, :max_seq_len, :].float().repeat(batch, 1, 1) 
@@ -508,7 +522,8 @@ class TritonPythonModel:
 
         cat_mel_text = torch.cat((mel_features, text_embedding), dim=-1)
         cat_mel_text_drop = torch.cat((torch.zeros((batch, max_seq_len, self.n_mel_channels), dtype=torch.float32).to(self.device), text_embedding_drop), dim=-1)
-
+        
+        # below could be reused
         t = torch.linspace(0, 1, self.nfe_steps + 1, dtype=torch.float32)
         time_step = t + (-1.0) * (torch.cos(torch.pi * 0.5 * t) - 1 + t)
         delta_t = torch.diff(time_step)
@@ -521,16 +536,15 @@ class TritonPythonModel:
         for i in range(self.nfe_steps):
             emb = time_step[i] * emb_factor
             time_expand[:, i, :] = torch.cat((emb.sin(), emb.cos()), dim=-1)
-
- 
+        # combine above along the batch dimension
         inputs = {
-            'noise': noise,
-            'cond': cat_mel_text,
-            'cond_drop': cat_mel_text_drop,
-            'time_expand': time_expand,
-            'rope_cos': rope_cos,
-            'rope_sin': rope_sin,
-            'delta_t': delta_t   # torch.Size([16])
+            'noise': torch.cat((noise, noise), dim=0).contiguous(),
+            'cond': torch.cat((cat_mel_text, cat_mel_text_drop), dim=0).contiguous(),
+            'time_expand': torch.cat((time_expand, time_expand), dim=0).contiguous(),
+            'rope_cos': torch.cat((rope_cos, rope_cos), dim=0).contiguous(),
+            'rope_sin': torch.cat((rope_sin, rope_sin), dim=0).contiguous(),
+            'mask': torch.cat((mask, mask), dim=0).contiguous(),
+            'delta_t': torch.cat((delta_t, delta_t), dim=0).contiguous()
         }
         for key in inputs:
             inputs[key] = inputs[key].to(self.device)
@@ -541,7 +555,8 @@ class TritonPythonModel:
             ref_me_len = reference_mel_len[i]
             estimated_mel_len = estimated_reference_target_mel_len[i]
             
-            denoised_one_item = denoised[i, ref_me_len:estimated_mel_len, :].unsqueeze(0).transpose(1, 2).to(torch.float32).contiguous().cpu()
+            # denoised_one_item = denoised[i, ref_me_len:estimated_mel_len, :].unsqueeze(0).transpose(1, 2).to(torch.float32).contiguous().cpu()
+            denoised_one_item = denoised[i, ref_me_len:, :].unsqueeze(0).transpose(1, 2).to(torch.float32).contiguous().cpu()
 
             audio = self.forward_vocoder(denoised_one_item)
 

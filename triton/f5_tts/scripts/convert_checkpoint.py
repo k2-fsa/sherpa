@@ -250,40 +250,41 @@ def convert_timm_dit(args, mapping, dtype='float32'):
 
     assert len(weights) == len(model_params)
 
-    new_prefix = 'f5_transformer.'
+    # new_prefix = 'f5_transformer.'
+    new_prefix = ''
     weights = {new_prefix+key:value for key, value in weights.items()}
     import math
     scale_factor = math.pow(64, -0.25)
     for k, v in weights.items():
-        if re.match('^f5_transformer.transformer_blocks.*.attn.to_k.weight$', k):
+        if re.match('^transformer_blocks.*.attn.to_k.weight$', k):
             weights[k] *= scale_factor
             weights[k] = split_q_tp(v, args.num_heads, args.hidden_size,
                                       tensor_parallel, mapping.tp_rank)
 
-        elif re.match('^f5_transformer.transformer_blocks.*.attn.to_k.bias$', k):
+        elif re.match('^transformer_blocks.*.attn.to_k.bias$', k):
             weights[k] *= scale_factor
             weights[k] = split_q_bias_tp(v, args.num_heads, args.hidden_size,
                                            tensor_parallel, mapping.tp_rank)
 
-        elif re.match('^f5_transformer.transformer_blocks.*.attn.to_q.weight$', k):
+        elif re.match('^transformer_blocks.*.attn.to_q.weight$', k):
             weights[k] = split_q_tp(v, args.num_heads, args.hidden_size,
                                       tensor_parallel, mapping.tp_rank)
             weights[k] *= scale_factor
 
-        elif re.match('^f5_transformer.transformer_blocks.*.attn.to_q.bias$', k):
+        elif re.match('^transformer_blocks.*.attn.to_q.bias$', k):
             weights[k] = split_q_bias_tp(v, args.num_heads, args.hidden_size,
                                            tensor_parallel, mapping.tp_rank)
             weights[k] *= scale_factor
 
-        elif re.match('^f5_transformer.transformer_blocks.*.attn.to_v.weight$', k):
+        elif re.match('^transformer_blocks.*.attn.to_v.weight$', k):
             weights[k] = split_q_tp(v, args.num_heads, args.hidden_size,
                                       tensor_parallel, mapping.tp_rank)
 
-        elif re.match('^f5_transformer.transformer_blocks.*.attn.to_v.bias$', k):
+        elif re.match('^transformer_blocks.*.attn.to_v.bias$', k):
             weights[k] = split_q_bias_tp(v, args.num_heads, args.hidden_size,
                                            tensor_parallel, mapping.tp_rank)
 
-        elif re.match('^f5_transformer.transformer_blocks.*.attn.to_out.weight$', k):
+        elif re.match('^transformer_blocks.*.attn.to_out.weight$', k):
             weights[k] = split_matrix_tp(v,
                                          tensor_parallel,
                                          mapping.tp_rank,
