@@ -37,12 +37,13 @@ Please use the following commands to download it.
   tar xvf matcha-icefall-en_US-ljspeech.tar.bz2
   rm matcha-icefall-en_US-ljspeech.tar.bz2
 
-  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/vocoder-models/hifigan_v2.onnx
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/vocoder-models/vocos-22khz-univ.onnx
 
 .. caution::
 
-   Remember to also download the vocoder model. We use `hifigan_v2 <https://github.com/k2-fsa/sherpa-onnx/releases/download/vocoder-models/hifigan_v2.onnx>`_ in the example.
-   You can also select `hifigan_v1 <https://github.com/k2-fsa/sherpa-onnx/releases/download/vocoder-models/hifigan_v1.onnx>`_ or
+   Remember to also download the vocoder model. We use `vocos-22khz-univ.onnx <https://github.com/k2-fsa/sherpa-onnx/releases/download/vocoder-models/vocos-22khz-univ.onnx>`_ in the example.
+   You can also select `hifigan_v1 <https://github.com/k2-fsa/sherpa-onnx/releases/download/vocoder-models/hifigan_v1.onnx>`_,
+   `hifigan_v2 <https://github.com/k2-fsa/sherpa-onnx/releases/download/vocoder-models/hifigan_v2.onnx>`_, or
    `hifigan_v3 <https://github.com/k2-fsa/sherpa-onnx/releases/download/vocoder-models/hifigan_v3.onnx>`_.
 
 Please check that the file sizes of the pre-trained models are correct. See
@@ -57,8 +58,8 @@ the file sizes of ``*.onnx`` files below.
   -rw-r--r--@   1 fangjun  staff    71M Jan  2 04:04 model-steps-3.onnx
   -rw-r--r--    1 fangjun  staff   954B Jan  2 11:05 tokens.txt
 
-  ls -lh hifigan_v2.onnx
-  -rw-r--r--  1 fangjun  staff   3.6M Dec 30 17:10 hifigan_v2.onnx
+  ls -lh vocos-22khz-univ.onnx
+  -rw-r--r--  1 fangjun  staff    51M Mar 17 15:28 vocos-22khz-univ.onnx
 
 Generate speech with executables compiled from C++
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -69,7 +70,7 @@ Generate speech with executables compiled from C++
 
   ./build/bin/sherpa-onnx-offline-tts \
     --matcha-acoustic-model=./matcha-icefall-en_US-ljspeech/model-steps-3.onnx \
-    --matcha-vocoder=./hifigan_v2.onnx \
+    --matcha-vocoder=./vocos-22khz-univ.onnx \
     --matcha-tokens=./matcha-icefall-en_US-ljspeech/tokens.txt \
     --matcha-data-dir=./matcha-icefall-en_US-ljspeech/espeak-ng-data \
     --num-threads=2 \
@@ -124,7 +125,7 @@ Generate speech with Python script
 
   python3 ./python-api-examples/offline-tts.py \
     --matcha-acoustic-model=./matcha-icefall-en_US-ljspeech/model-steps-3.onnx \
-    --matcha-vocoder=./hifigan_v2.onnx \
+    --matcha-vocoder=./vocos-22khz-univ.onnx \
     --matcha-tokens=./matcha-icefall-en_US-ljspeech/tokens.txt \
     --matcha-data-dir=./matcha-icefall-en_US-ljspeech/espeak-ng-data \
     --num-threads=2 \
@@ -179,7 +180,7 @@ We use the following command to test the RTF of this model on Raspberry Pi 4 Mod
     build/bin/sherpa-onnx-offline-tts \
       --num-threads=$t \
       --matcha-acoustic-model=./matcha-icefall-en_US-ljspeech/model-steps-3.onnx \
-      --matcha-vocoder=./hifigan_v2.onnx \
+      --matcha-vocoder=./vocos-22khz-univ.onnx \
       --matcha-tokens=./matcha-icefall-en_US-ljspeech/tokens.txt \
       --matcha-data-dir=./matcha-icefall-en_US-ljspeech/espeak-ng-data \
       --output-filename=./matcha-ljspeech-1.wav \
@@ -227,12 +228,13 @@ Please use the following commands to download it.
   tar xvf matcha-icefall-zh-baker.tar.bz2
   rm matcha-icefall-zh-baker.tar.bz2
 
-  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/vocoder-models/hifigan_v2.onnx
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/vocoder-models/vocos-22khz-univ.onnx
 
 .. caution::
 
-   Remember to also download the vocoder model. We use `hifigan_v2 <https://github.com/k2-fsa/sherpa-onnx/releases/download/vocoder-models/hifigan_v2.onnx>`_ in the example.
-   You can also select `hifigan_v1 <https://github.com/k2-fsa/sherpa-onnx/releases/download/vocoder-models/hifigan_v1.onnx>`_ or
+   Remember to also download the vocoder model. We use `vocos-22khz-univ.onnx <https://github.com/k2-fsa/sherpa-onnx/releases/download/vocoder-models/vocos-22khz-univ.onnx>`_ in the example.
+   You can also select `hifigan_v1 <https://github.com/k2-fsa/sherpa-onnx/releases/download/vocoder-models/hifigan_v1.onnx>`_,
+   `hifigan_v2 <https://github.com/k2-fsa/sherpa-onnx/releases/download/vocoder-models/hifigan_v2.onnx>`_, or
    `hifigan_v3 <https://github.com/k2-fsa/sherpa-onnx/releases/download/vocoder-models/hifigan_v3.onnx>`_.
 
 Please check that the file sizes of the pre-trained models are correct. See
@@ -251,8 +253,8 @@ the file sizes of ``*.onnx`` files below.
   -rw-r--r--  1 fangjun  staff    87K Dec 31 14:51 phone.fst
   -rw-r--r--  1 fangjun  staff    19K Dec 31 14:51 tokens.txt
 
-  ls -lh hifigan_v2.onnx
-  -rw-r--r--  1 fangjun  staff   3.6M Dec 30 17:10 hifigan_v2.onnx
+  ls -lh vocos-22khz-univ.onnx
+  -rw-r--r--  1 fangjun  staff    51M Mar 17 15:28 vocos-22khz-univ.onnx
 
 Generate speech with executables compiled from C++
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -263,7 +265,7 @@ Generate speech with executables compiled from C++
 
   ./build/bin/sherpa-onnx-offline-tts \
     --matcha-acoustic-model=./matcha-icefall-zh-baker/model-steps-3.onnx \
-    --matcha-vocoder=./hifigan_v2.onnx \
+    --matcha-vocoder=./vocos-22khz-univ.onnx \
     --matcha-lexicon=./matcha-icefall-zh-baker/lexicon.txt \
     --matcha-tokens=./matcha-icefall-zh-baker/tokens.txt \
     --matcha-dict-dir=./matcha-icefall-zh-baker/dict \
@@ -274,7 +276,7 @@ Generate speech with executables compiled from C++
 
   ./build/bin/sherpa-onnx-offline-tts \
      --matcha-acoustic-model=./matcha-icefall-zh-baker/model-steps-3.onnx \
-     --matcha-vocoder=./hifigan_v2.onnx \
+     --matcha-vocoder=./vocos-22khz-univ.onnx \
      --matcha-lexicon=./matcha-icefall-zh-baker/lexicon.txt \
      --matcha-tokens=./matcha-icefall-zh-baker/tokens.txt \
      --tts-rule-fsts=./matcha-icefall-zh-baker/phone.fst,./matcha-icefall-zh-baker/date.fst,./matcha-icefall-zh-baker/number.fst \
@@ -354,7 +356,7 @@ Generate speech with Python script
 
   python3 ./python-api-examples/offline-tts.py \
    --matcha-acoustic-model=./matcha-icefall-zh-baker/model-steps-3.onnx \
-   --matcha-vocoder=./hifigan_v2.onnx \
+   --matcha-vocoder=./vocos-22khz-univ.onnx \
    --matcha-lexicon=./matcha-icefall-zh-baker/lexicon.txt \
    --matcha-tokens=./matcha-icefall-zh-baker/tokens.txt \
    --tts-rule-fsts=./matcha-icefall-zh-baker/phone.fst,./matcha-icefall-zh-baker/date.fst,./matcha-icefall-zh-baker/number.fst \
@@ -412,7 +414,7 @@ We use the following command to test the RTF of this model on Raspberry Pi 4 Mod
     build/bin/sherpa-onnx-offline-tts \
       --num-threads=$t \
       --matcha-acoustic-model=./matcha-icefall-zh-baker/model-steps-3.onnx \
-      --matcha-vocoder=./hifigan_v2.onnx \
+      --matcha-vocoder=./vocos-22khz-univ.onnx \
       --matcha-lexicon=./matcha-icefall-zh-baker/lexicon.txt \
       --matcha-tokens=./matcha-icefall-zh-baker/tokens.txt \
       --matcha-dict-dir=./matcha-icefall-zh-baker/dict \
