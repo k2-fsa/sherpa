@@ -72,7 +72,7 @@ if [ $stage -le 4 ] && [ $stop_stage -ge 4 ]; then
 fi
 
 num_task=1
-log_dir=./log_${num_task}_test_input_lengths_bert_plugin
+log_dir=./offline_log_${num_task}_test_input_lengths_bert_plugin_test
 if [ $stage -le 5 ] && [ $stop_stage -ge 5 ]; then
     echo "Testing triton server"
     python3 client.py --num-tasks $num_task --huggingface-dataset yuekai/seed_tts --split-name wenetspeech4tts --log-dir $log_dir
@@ -80,4 +80,16 @@ fi
 
 if [ $stage -le 6 ] && [ $stop_stage -ge 6 ]; then
     bash scripts/compute_wer.sh $log_dir wenetspeech4tts
+fi
+
+
+
+if [ $stage -le 7 ] && [ $stop_stage -ge 7 ]; then
+    # pip install vocos
+    torchrun --nproc_per_node=1 \
+    run.py --output-dir $log_dir \
+    --batch-size $num_task \
+    --model-path $F5_TTS_HF_DOWNLOAD_PATH/F5TTS_Base/model_1200000.pt \
+    --vocab-file $F5_TTS_HF_DOWNLOAD_PATH/F5TTS_Base/vocab.txt \
+    --tllm-model-dir $F5_TTS_TRT_LLM_ENGINE_PATH
 fi
