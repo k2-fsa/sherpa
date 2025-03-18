@@ -113,8 +113,8 @@ def list_str_to_idx(
     list_idx_tensors = [
         torch.tensor([vocab_char_map.get(c, 0) for c in t]) for t in text
     ]  # pinyin or char style
-    text = pad_sequence(list_idx_tensors, padding_value=padding_value, batch_first=True)
-    return text
+    # text = pad_sequence(list_idx_tensors, padding_value=padding_value, batch_first=True)
+    return list_idx_tensors
 
 
 class GRN(nn.Module):
@@ -176,9 +176,40 @@ class TextEmbedding(nn.Module):
         self.register_buffer("freqs_cis", precompute_freqs_cis(text_dim, precompute_max_pos), persistent=False)
         self.text_blocks = nn.Sequential(*[ConvNeXtV2Block(text_dim, text_dim * conv_mult) for _ in range(conv_layers)])
 
+    # def forward(self, text):
+    #     text_mask = text != -1
+    #     # calculate the number of -1 and 0 in text[0]
+    #     # num_zero = (text[0] == 0).sum()
+    #     # num_minus_one = (text[0] == -1).sum()
+    #     # print(num_zero, num_minus_one, "num_zero, num_minus_one")
+    #     # print(text_mask.shape, "text_mask", text_mask[0])
+    #     # change all -1 to 0
+    #     text = text.masked_fill(text == -1, 0)
+    #     text = self.text_embed(text)
+    #     text = text + self.freqs_cis[:text.shape[1], :]
+    #     print(text.shape, "text")
+    #     print(text_mask.shape, "text_mask")
+    #     text = text.masked_fill(~text_mask.unsqueeze(-1).expand(-1, -1, text.shape[2]), 0)
+    #     for block in self.text_blocks:
+    #         text = block(text)
+    #         text = text.masked_fill(~text_mask.unsqueeze(-1).expand(-1, -1, text.shape[2]), 0)
+    #     return text
     def forward(self, text):
+        # only keep tensors with value not -1
+        text_mask = text != -1
+        text_pad_cut_off_index = text_mask.sum(dim=1).max()
+        print(text_pad_cut_off_index, "text_pad_cut_off_index", text.shape)
+        text = text[:, :text_pad_cut_off_index]
         text = self.text_embed(text)
-        text = self.text_blocks(text + self.freqs_cis[:text.shape[1], :])
+        text = text + self.freqs_cis[:text.shape[1], :]
+        for block in self.text_blocks:
+            text = block(text)
+        # padding text to the original length
+        # text shape: B,seq_len,C
+        # pad at the second dimension
+        print(text.shape, "text")
+        text = F.pad(text, (0, 0, 0, text_mask.shape[1] - text.shape[1], 0, 0), value=0)
+        print(text.shape, "text after padding")
         return text
 
 def lens_to_mask(
@@ -486,7 +517,7 @@ class TritonPythonModel:
                 
         # max_seq_len = min(max(estimated_reference_target_mel_len), self.max_mel_len)
         max_seq_len = max(estimated_reference_target_mel_len)
-        max_seq_len += 200
+        # max_seq_len += 200
 
         # WAR: hard coding 1024 here, 2048 here, different inference throughput, difference audio quality
         # batch=1, with mask, audio quality is bad, first address mask with batch=1 issue
@@ -506,12 +537,26 @@ class TritonPythonModel:
         
 
         pinyin_list = convert_char_to_pinyin(reference_target_texts_list, polyphone=True)
-        text_pad_sequence = list_str_to_idx(pinyin_list, self.vocab_char_map).to(self.device)
-        text_pad_sequence += 1 # WAR: 0 is reserved for padding token, hard coding in F5-TTS
+        text_pad_sequence = list_str_to_idx(pinyin_list, self.vocab_char_map)
+        
+        for i, item in enumerate(text_pad_sequence):
+            text_pad_sequence[i] = F.pad(item, (0, estimated_reference_target_mel_len[i] - len(item)), mode='constant', value=-1)
+            text_pad_sequence[i] += 1 # WAR: 0 is reserved for padding token, hard coding in F5-TTS
+        text_pad_sequence = pad_sequence(text_pad_sequence, padding_value=-1, batch_first=True).to(self.device)
         # text_pad_sequence B,T, now text_pad_sequence_drop B+1, T append torch.zeros(1, T) at the bottom for drop condition
-        text_pad_sequence_drop = torch.cat((text_pad_sequence, torch.zeros((1, text_pad_sequence.shape[1]), dtype=torch.int32).to(self.device)), dim=0)
-        text_pad_sequence_drop = F.pad(text_pad_sequence_drop, (0, max_seq_len - text_pad_sequence_drop.shape[1]), mode='constant')
-        text_embedding_drop_condition = self.text_embedding(text_pad_sequence_drop)
+        text_pad_sequence_drop = F.pad(text_pad_sequence, (0, max_seq_len - text_pad_sequence.shape[1]), mode='constant', value=-1)
+        text_pad_sequence_drop = torch.cat((text_pad_sequence_drop, torch.zeros((1, text_pad_sequence_drop.shape[1]), dtype=torch.int32).to(self.device)), dim=0)
+        
+        
+        
+        # text_embedding_drop_condition = self.text_embedding(text_pad_sequence_drop.to(self.device))
+        text_embedding_drop_list = []
+        for i in range(batch+1):
+            text_embedding_drop_list.append(self.text_embedding(text_pad_sequence_drop[i].unsqueeze(0).to(self.device)))
+        text_embedding_drop_condition = torch.cat(text_embedding_drop_list, dim=0)
+        
+        
+        
         text_embedding = text_embedding_drop_condition[:-1]
         # text_embedding_drop B,T,C batch should be the same
         text_embedding_drop = text_embedding_drop_condition[-1].unsqueeze(0).repeat(batch, 1, 1)
@@ -555,8 +600,8 @@ class TritonPythonModel:
             ref_me_len = reference_mel_len[i]
             estimated_mel_len = estimated_reference_target_mel_len[i]
             
-            # denoised_one_item = denoised[i, ref_me_len:estimated_mel_len, :].unsqueeze(0).transpose(1, 2).to(torch.float32).contiguous().cpu()
-            denoised_one_item = denoised[i, ref_me_len:, :].unsqueeze(0).transpose(1, 2).to(torch.float32).contiguous().cpu()
+            denoised_one_item = denoised[i, ref_me_len:estimated_mel_len, :].unsqueeze(0).transpose(1, 2).to(torch.float32).contiguous().cpu()
+            # denoised_one_item = denoised[i, ref_me_len:, :].unsqueeze(0).transpose(1, 2).to(torch.float32).contiguous().cpu()
 
             audio = self.forward_vocoder(denoised_one_item)
 
