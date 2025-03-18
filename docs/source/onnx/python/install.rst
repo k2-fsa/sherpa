@@ -76,24 +76,24 @@ This approach supports only Linux x64 and Windows x64.
 
 Please use the following command to install CUDA-enabled `sherpa-onnx`_::
 
-  # We use 1.10.16 here for demonstration.
+  # We use 1.11.1 here for demonstration.
   #
   # Please visit https://k2-fsa.github.io/sherpa/onnx/cuda.html
   # to find available versions
 
-  pip install sherpa-onnx==1.10.16+cuda -f https://k2-fsa.github.io/sherpa/onnx/cuda.html
+  pip install sherpa-onnx==1.11.1+cuda -f https://k2-fsa.github.io/sherpa/onnx/cuda.html
 
   # For Chinese users, please use
-  # pip install sherpa-onnx==1.10.16+cuda -f https://k2-fsa.github.io/sherpa/onnx/cuda-cn.html
+  # pip install sherpa-onnx==1.11.1+cuda -f https://k2-fsa.github.io/sherpa/onnx/cuda-cn.html
 
 The installation logs are given below::
 
   Looking in links: https://k2-fsa.github.io/sherpa/onnx/cuda.html
-  Collecting sherpa-onnx==1.10.16+cuda
-    Downloading https://huggingface.co/csukuangfj/sherpa-onnx-wheels/resolve/main/cuda/1.10.16/sherpa_onnx-1.10.16%2Bcuda-cp310-cp310-linux_x86_64.whl (183.3 MB)
+  Collecting sherpa-onnx==1.11.1+cuda
+    Downloading https://huggingface.co/csukuangfj/sherpa-onnx-wheels/resolve/main/cuda/1.11.1/sherpa_onnx-1.11.11%2Bcuda-cp310-cp310-linux_x86_64.whl (183.3 MB)
        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 183.3/183.3 MB 4.4 MB/s eta 0:00:00
   Installing collected packages: sherpa-onnx
-  Successfully installed sherpa-onnx-1.10.16+cuda
+  Successfully installed sherpa-onnx-1.11.1+cuda
 
 To check that you have installed `sherpa-onnx`_ successfully, please run::
 
@@ -101,7 +101,7 @@ To check that you have installed `sherpa-onnx`_ successfully, please run::
 
 which should print something like below::
 
-  1.10.16+cuda
+  1.11.1+cuda
 
 
 

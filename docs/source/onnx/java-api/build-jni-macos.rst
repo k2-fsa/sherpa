@@ -80,6 +80,7 @@ Please use the following commands to build `sherpa-onnx`_:
   rm lib/lib*.a
   rm lib/libcargs.dylib
   rm lib/libsherpa-onnx-c-api.dylib
+  rm lib/libsherpa-onnx-cxx-api.dylib
 
   ls -lh lib
 
@@ -110,14 +111,10 @@ Download pre-built JNI libs
 If you don't want to build ``JNI`` libs by yourself, please download pre-built ``JNI``
 libs from
 
-    `<https://huggingface.co/csukuangfj/sherpa-onnx-libs/tree/main/jni>`_
-
-For Chinese users, please use
-
-  `<https://hf-mirror.com/csukuangfj/sherpa-onnx-libs/tree/main/jni>`_
+    `<https://github.com/k2-fsa/sherpa-onnx/releases>`_
 
 Please always use the latest version. In the following, we describe how to download
-the version ``1.10.23``.
+the version `1.11.1 <https://github.com/k2-fsa/sherpa-onnx/releases/tag/v1.11.1>`_.
 
 .. tabs::
 
@@ -125,45 +122,33 @@ the version ``1.10.23``.
 
       .. code-block:: bash
 
-         wget https://huggingface.co/csukuangfj/sherpa-onnx-libs/resolve/main/jni/sherpa-onnx-v1.10.23-osx-x86_64-jni.tar.bz2
+         wget https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.11.1/sherpa-onnx-v1.11.1-osx-x86_64-jni.tar.bz2
 
-         # For Chinese users
-         # wget https://hf-mirror.com/csukuangfj/sherpa-onnx-libs/resolve/main/jni/sherpa-onnx-v1.10.23-osx-x86_64-jni.tar.bz2
-
-         tar xf sherpa-onnx-v1.10.23-osx-x86_64-jni.tar.bz2
-         rm sherpa-onnx-v1.10.23-osx-x86_64-jni.tar.bz2
+         tar xf sherpa-onnx-v1.11.1-osx-x86_64-jni.tar.bz2
+         rm sherpa-onnx-v1.11.1-osx-x86_64-jni.tar.bz2
 
    .. tab:: Apple Silicon (arm64)
 
       .. code-block:: bash
 
-         wget https://huggingface.co/csukuangfj/sherpa-onnx-libs/resolve/main/jni/sherpa-onnx-v1.10.23-osx-arm64-jni.tar.bz2
+         wget https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.11.1/sherpa-onnx-v1.11.1-osx-arm64-jni.tar.bz2
 
-         # For Chinese users
-         # wget https://hf-mirror.com/csukuangfj/sherpa-onnx-libs/resolve/main/jni/sherpa-onnx-v1.10.23-osx-arm64-jni.tar.bz2
-
-         tar xf sherpa-onnx-v1.10.23-osx-arm64-jni.tar.bz2
-         rm sherpa-onnx-v1.10.23-osx-arm64-jni.tar.bz2
-
-.. note::
-
-   You can also download it from
-
-    `<https://github.com/k2-fsa/sherpa-onnx/releases>`_
+         tar xf sherpa-onnx-v1.11.1-osx-arm64-jni.tar.bz2
+         rm sherpa-onnx-v1.11.1-osx-arm64-jni.tar.bz2
 
 After downloading, you should see the following files:
 
 .. code-block:: bash
 
   # For x86_64
-  ls -lh sherpa-onnx-v1.10.23-osx-x86_64-jni/lib
+  ls -lh sherpa-onnx-v1.11.1-osx-x86_64-jni/lib
   total 30M
   -rw-r--r-- 1 fangjun fangjun  26M Aug 25 00:31 libonnxruntime.1.17.1.dylib
   lrwxrwxrwx 1 fangjun fangjun   27 Aug 25 00:35 libonnxruntime.dylib -> libonnxruntime.1.17.1.dylib
   -rwxr-xr-x 1 fangjun fangjun 3.9M Aug 25 00:35 libsherpa-onnx-jni.dylib
 
   # For arm64
-  ls -lh sherpa-onnx-v1.10.23-osx-arm64-jni/lib/
+  ls -lh sherpa-onnx-v1.11.1-osx-arm64-jni/lib/
   total 27M
   -rw-r--r-- 1 fangjun fangjun  23M Aug 24 23:56 libonnxruntime.1.17.1.dylib
   lrwxrwxrwx 1 fangjun fangjun   27 Aug 24 23:59 libonnxruntime.dylib -> libonnxruntime.1.17.1.dylib
