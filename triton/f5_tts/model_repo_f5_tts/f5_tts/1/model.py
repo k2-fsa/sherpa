@@ -198,7 +198,7 @@ class TextEmbedding(nn.Module):
         # only keep tensors with value not -1
         text_mask = text != -1
         text_pad_cut_off_index = text_mask.sum(dim=1).max()
-        print(text_pad_cut_off_index, "text_pad_cut_off_index", text.shape)
+
         text = text[:, :text_pad_cut_off_index]
         text = self.text_embed(text)
         text = text + self.freqs_cis[:text.shape[1], :]
@@ -207,9 +207,9 @@ class TextEmbedding(nn.Module):
         # padding text to the original length
         # text shape: B,seq_len,C
         # pad at the second dimension
-        print(text.shape, "text")
+
         text = F.pad(text, (0, 0, 0, text_mask.shape[1] - text.shape[1], 0, 0), value=0)
-        print(text.shape, "text after padding")
+
         return text
 
 def lens_to_mask(
@@ -268,7 +268,7 @@ class F5TTS(object):
         self.outputs = {}
         self.buffer_allocated = False
 
-        expected_tensor_names = ['noise', 'cond', 'time', 'rope_cos', 'rope_sin', 'mask', 'denoised']
+        expected_tensor_names = ['noise', 'cond', 'time', 'rope_cos', 'rope_sin', 'input_lengths', 'denoised']
 
         if self.mapping.tp_size > 1:
             self.buffer, self.all_reduce_workspace = CustomAllReduceHelper.allocate_workspace(
@@ -337,7 +337,7 @@ class F5TTS(object):
 
     @cuda_stream_guard
     def forward(self, noise: torch.Tensor, cond: torch.Tensor,
-                time_expand: torch.Tensor, rope_cos: torch.Tensor, rope_sin: torch.Tensor, mask: torch.Tensor, delta_t: torch.Tensor):
+                time_expand: torch.Tensor, rope_cos: torch.Tensor, rope_sin: torch.Tensor, input_lengths: torch.Tensor, delta_t: torch.Tensor):
         cfg_strength = 2.0
         self._setup(noise.shape[0], noise.shape[1])
         if not self.buffer_allocated:
@@ -351,7 +351,7 @@ class F5TTS(object):
             'time': time.to(input_type),
             'rope_cos': rope_cos.to(input_type),
             'rope_sin': rope_sin.to(input_type),
-            'mask': mask.to(str_dtype_to_torch("int32")),
+            'input_lengths': input_lengths.to(str_dtype_to_torch("int32")),
         }
         self.inputs.update(**inputs)
         self.session.set_shapes(self.inputs)
@@ -524,9 +524,8 @@ class TritonPythonModel:
         # maybe try to verify with python script first
         # 多 batch 推理，因为 padding 冗余，好像速度反而慢了
         # max_seq_len = 2048
-        print(estimated_reference_target_mel_len, len(requests))
 
-        mask = lens_to_mask(torch.tensor(estimated_reference_target_mel_len), max_seq_len).int().to(self.device)
+        # mask = lens_to_mask(torch.tensor(estimated_reference_target_mel_len), max_seq_len).int().to(self.device)
         # print(mask.shape, "mask", mask[0])
 
         batch = len(requests)
@@ -588,7 +587,7 @@ class TritonPythonModel:
             'time_expand': torch.cat((time_expand, time_expand), dim=0).contiguous(),
             'rope_cos': torch.cat((rope_cos, rope_cos), dim=0).contiguous(),
             'rope_sin': torch.cat((rope_sin, rope_sin), dim=0).contiguous(),
-            'mask': torch.cat((mask, mask), dim=0).contiguous(),
+            'input_lengths': torch.cat((torch.tensor(estimated_reference_target_mel_len), torch.tensor(estimated_reference_target_mel_len)), dim=0).contiguous(),
             'delta_t': torch.cat((delta_t, delta_t), dim=0).contiguous()
         }
         for key in inputs:

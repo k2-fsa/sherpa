@@ -8,7 +8,7 @@ export CUDA_VISIBLE_DEVICES=0
 vocoder=vocos
 echo $vocoder || exit 1
 
-f5_trt_llm_local_dir=/workspace_yuekai/f5_dit/TensorRT-LLM
+f5_trt_llm_local_dir=/home/scratch.yuekaiz_wwfo_1/tts/TensorRT-LLM
 # prepare for f5 tts trtllm
 python_package_path=/usr/local/lib/python3.12/dist-packages
 mkdir -p $python_package_path/tensorrt_llm/models/f5tts
@@ -26,13 +26,13 @@ fi
 # F5_TTS_TRT_LLM_CHECKPOINT_PATH=./trtllm_ckpt
 # F5_TTS_TRT_LLM_ENGINE_PATH=./f5_trt_llm_engine
 
-F5_TTS_HF_DOWNLOAD_PATH=/workspace_yuekai/f5_dit/F5-TTS
-F5_TTS_TRT_LLM_CHECKPOINT_PATH=/workspace_yuekai/f5_dit/trtllm_ckpt_new
-F5_TTS_TRT_LLM_ENGINE_PATH=/workspace_yuekai/f5_dit/f5_trt_llm_engine_h20
+F5_TTS_HF_DOWNLOAD_PATH=/home/scratch.yuekaiz_wwfo_1/tts/F5_TTS_Faster/F5_TTS
+F5_TTS_TRT_LLM_CHECKPOINT_PATH=/home/scratch.yuekaiz_wwfo_1/tts/tmp/trtllm_ckpt_f5
+F5_TTS_TRT_LLM_ENGINE_PATH=/home/scratch.yuekaiz_wwfo_1/tts/tmp/f5_trt_llm_engine
 
 if [ $stage -le 10 ] && [ $stop_stage -ge 10 ]; then
     echo "Downloading f5 tts from huggingface"
-    trtllm-build --checkpoint_dir $F5_TTS_TRT_LLM_CHECKPOINT_PATH --output_dir $F5_TTS_TRT_LLM_ENGINE_PATH --bert_attention_plugin auto
+    trtllm-build --checkpoint_dir $F5_TTS_TRT_LLM_CHECKPOINT_PATH --output_dir $F5_TTS_TRT_LLM_ENGINE_PATH --max_batch_size 16 --remove_input_padding disable
 fi
 
 if [ $stage -le 1 ] && [ $stop_stage -ge 1 ]; then
@@ -71,8 +71,13 @@ if [ $stage -le 4 ] && [ $stop_stage -ge 4 ]; then
     tritonserver --model-repository=$model_repo
 fi
 
+num_task=1
+log_dir=./log_${num_task}_test_input_lengths_bert_plugin
 if [ $stage -le 5 ] && [ $stop_stage -ge 5 ]; then
     echo "Testing triton server"
-num_task=1
-python3 client.py --num-tasks $num_task --huggingface-dataset yuekai/seed_tts --split-name wenetspeech4tts --log-dir ./log_${num_task}_test_debug_save_no_extra
+    python3 client.py --num-tasks $num_task --huggingface-dataset yuekai/seed_tts --split-name wenetspeech4tts --log-dir $log_dir
+fi
+
+if [ $stage -le 6 ] && [ $stop_stage -ge 6 ]; then
+    bash scripts/compute_wer.sh $log_dir wenetspeech4tts
 fi
