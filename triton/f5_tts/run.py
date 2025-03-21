@@ -38,6 +38,7 @@ import argparse
 import json
 import os
 import math
+import time
 from pathlib import Path
 from functools import wraps
 from typing import List, Dict, Union, Optional
@@ -112,6 +113,7 @@ def get_args():
         type=str,
         help="vocoder name",
     )
+    parser.add_argument('--enable-warmup', action='store_true')
     # add_model_arguments(parser)
     args = parser.parse_args()
     return args
@@ -421,42 +423,22 @@ class F5TTS(object):
             pred_cond = self.outputs["denoised"][:half_batch]
             pred_uncond = self.outputs["denoised"][half_batch:]
             
-            # Debug info for first iterations
-            if i < 2:
-                print(f"Iteration {i}:")
-                print(f"  pred_cond shape: {pred_cond.shape}, has NaN: {torch.isnan(pred_cond).any()}")
-                print(f"  pred_uncond shape: {pred_uncond.shape}, has NaN: {torch.isnan(pred_uncond).any()}")
-                print(f"  t_scale: {t_scale}")
-            
             # Apply classifier-free guidance with safeguards
             guidance = pred_cond + (pred_cond - pred_uncond) * cfg_strength
-            
-            # Apply safety checks
-            if torch.isnan(guidance).any():
-                print(f"WARNING: NaNs in guidance at iteration {i}, applying recovery")
-                guidance = torch.nan_to_num(guidance, nan=0.0)
-            
             # Calculate update for noise
             noise_half = noise_half + guidance * t_scale
             
-            # Apply numerical safeguards
-            if torch.isnan(noise_half).any():
-                print(f"WARNING: NaNs in noise_half at iteration {i}, applying recovery")
-                noise_half = torch.nan_to_num(noise_half, nan=0.0)
-        
         return noise_half
 
     def sample(self, text_pad_sequence: torch.Tensor, ref_mel_batch: torch.Tensor, 
                ref_mel_len_batch: torch.Tensor, estimated_reference_target_mel_len: List[int]):
         batch = text_pad_sequence.shape[0]
         max_seq_len = ref_mel_batch.shape[1]
-        print(max_seq_len,"max_seq_len")
+        # max_seq_len,"max_seq_len")
         text_pad_sequence_drop = torch.cat(
             (text_pad_sequence, torch.zeros((1, text_pad_sequence.shape[1]), dtype=torch.int32).to(self.device)), 
             dim=0
         )
-        print(text_pad_sequence_drop.shape,"text_pad_sequence_drop")
-        print(text_pad_sequence.shape,"text_pad_sequence")
         
         # text_embedding_drop_condition = self.text_embedding(text_pad_sequence_drop.to(self.device))
         text_embedding_drop_list = []
@@ -506,8 +488,7 @@ class F5TTS(object):
         }
         for key in inputs:
             inputs[key] = inputs[key].to(self.device)
-            if key in ["cond", "noise"]:
-                print(inputs[key].shape, key, inputs[key][0][-1])
+
         denoised = self.forward(**inputs)
         return denoised
 
@@ -769,10 +750,8 @@ def main():
         split=args.split_name,
         trust_remote_code=True,
     )
-    # dataset = dataset.select(range(1))
 
     sampler = DistributedSampler(dataset, num_replicas=world_size, rank=rank)
-
 
     dataloader = DataLoader(
         dataset,
@@ -786,9 +765,18 @@ def main():
 
     total_steps = len(dataset)
 
+    if args.enable_warmup:
+        for batch in dataloader:
+            ref_mels, ref_mel_lens = batch["ref_mel_batch"].to(device), batch["ref_mel_len_batch"].to(device)
+            text_pad_seq = batch["text_pad_sequence"].to(device)
+            total_mel_lens = batch["estimated_reference_target_mel_len"]
+            model.sample(text_pad_seq, ref_mels, ref_mel_lens, total_mel_lens)
+
     if rank == 0:
         progress_bar = tqdm(total=total_steps, desc="Processing", unit="wavs")
 
+    decoding_time = 0
+    total_duration = 0
     for batch in dataloader:
         ref_mels, ref_mel_lens = batch["ref_mel_batch"].to(device), batch[
             "ref_mel_len_batch"
@@ -797,6 +785,7 @@ def main():
         total_mel_lens = batch["estimated_reference_target_mel_len"]
         # print(text_pad_seq.shape, ref_mels.shape, ref_mel_lens.shape)
         # print(total_mel_lens)
+        start_time = time.time()
         generated = model.sample(
             text_pad_seq,
             ref_mels,
@@ -807,11 +796,11 @@ def main():
             # sway_sampling_coef=-1,
             # seed=0,
         )
-
+        decoding_time += time.time() - start_time
         for i, gen in enumerate(generated):
             gen = gen[ref_mel_lens[i] : total_mel_lens[i], :].unsqueeze(0)
             gen_mel_spec = gen.permute(0, 2, 1).to(torch.float32)
-            print(gen_mel_spec.shape, gen_mel_spec[0])
+            # print(gen_mel_spec.shape, gen_mel_spec[0])
             if args.vocoder == "vocos":
                 generated_wave = vocoder.decode(gen_mel_spec).cpu()
             else:
@@ -829,12 +818,23 @@ def main():
                 generated_wave,
                 target_sample_rate,
             )
-
+            total_duration += generated_wave.shape[1] / target_sample_rate
         if rank == 0:
             progress_bar.update(world_size * len(batch["ids"]))
 
     if rank == 0:
         progress_bar.close()
+
+    rtf = decoding_time / total_duration
+    s = f"RTF: {rtf:.4f}\n"
+    s += f"total_duration: {total_duration:.3f} seconds\n"
+    s += f"({total_duration/3600:.2f} hours)\n"
+    s += f"processing time: {decoding_time:.3f} seconds " f"({decoding_time/3600:.2f} hours)\n"
+    s += f"batch size: {args.batch_size}\n"
+    print(s)
+
+    with open(f"{args.output_dir}/rtf.txt", "w") as f:
+        f.write(s)
 
     dist.barrier()
     dist.destroy_process_group()

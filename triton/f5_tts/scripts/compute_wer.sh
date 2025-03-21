@@ -10,7 +10,6 @@ model_path=$model_dir/sherpa-onnx-paraformer-zh-2023-09-14
 
 if [ ! -d $model_path ]; then
     mkdir -p $model_dir
-    pip install sherpa-onnx kaldialign
     wget -nc https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-paraformer-zh-2023-09-14.tar.bz2
     tar xvf sherpa-onnx-paraformer-zh-2023-09-14.tar.bz2 -C $model_dir
 fi
