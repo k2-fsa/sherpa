@@ -114,6 +114,8 @@ def get_args():
         help="vocoder name",
     )
     parser.add_argument('--enable-warmup', action='store_true')
+    parser.add_argument('--remove-input-padding', action='store_true')
+    parser.add_argument('--use-perf', action='store_true')
     # add_model_arguments(parser)
     args = parser.parse_args()
     return args
@@ -130,6 +132,9 @@ def padded_mel_batch(ref_mels, max_seq_len):
 
 
 def data_collator(batch, vocab_char_map, device="cuda"):
+    use_perf = True
+    if use_perf:
+        torch.cuda.nvtx.range_push("data_collator")
     target_sample_rate = 24000
     hop_length = 256
     target_rms = 0.1
@@ -159,7 +164,11 @@ def data_collator(batch, vocab_char_map, device="cuda"):
             ref_audio = ref_audio_org
 
         # to mel spectrogram
+        if use_perf:
+            torch.cuda.nvtx.range_push(f"mel_spectrogram {i}")
         ref_mel = mel_spectrogram(ref_audio, vocoder="vocos", device="cuda")
+        if use_perf:
+            torch.cuda.nvtx.range_pop()
         ref_mel = ref_mel.squeeze()
         ref_mel_len = ref_mel.shape[0]
         assert ref_mel.shape[1] == 100
@@ -181,6 +190,8 @@ def data_collator(batch, vocab_char_map, device="cuda"):
         text_pad_sequence[i] += 1  # WAR: 0 is reserved for padding token, hard coding in F5-TTS
     text_pad_sequence = pad_sequence(text_pad_sequence, padding_value=-1, batch_first=True).to(device)
     text_pad_sequence = F.pad(text_pad_sequence, (0, max_seq_len - text_pad_sequence.shape[1]), mode='constant', value=-1)
+    if use_perf:
+        torch.cuda.nvtx.range_pop()
     return {
         "ids": ids,
         "ref_mel_batch": ref_mel_batch,
@@ -353,7 +364,9 @@ class F5TTS(object):
     @cuda_stream_guard
     def forward(self, noise: torch.Tensor, cond: torch.Tensor,
                 time_expand: torch.Tensor, rope_cos: torch.Tensor, rope_sin: torch.Tensor, 
-                input_lengths: torch.Tensor, delta_t: torch.Tensor):
+                input_lengths: torch.Tensor, delta_t: torch.Tensor, use_perf: bool = False):
+        if use_perf:
+            torch.cuda.nvtx.range_push("flow matching")
         cfg_strength = 2.0
         batch_size = noise.shape[0]
         half_batch = batch_size // 2
@@ -371,7 +384,7 @@ class F5TTS(object):
         # we'll do a single forward pass for each iteration with fresh context setup
         for i in range(self.nfe_steps):
             # Synchronize before setting up for this iteration
-            torch.cuda.synchronize()
+            # torch.cuda.synchronize()
             
             # Re-setup the buffers for clean execution
             self._setup(batch_size, noise.shape[1])
@@ -411,10 +424,13 @@ class F5TTS(object):
                 self.session.context.set_tensor_address(tensor_name, ptr)
             
             # Execute the model
+            if use_perf:
+                torch.cuda.nvtx.range_push(f"execute {i}")
             self.session.context.execute_async_v3(self.stream.cuda_stream)
-            
+            if use_perf:
+                torch.cuda.nvtx.range_pop()
             # Synchronize to ensure completion
-            torch.cuda.synchronize()
+            # torch.cuda.synchronize()
             
             # Process results
             t_scale = delta_t[i].unsqueeze(0).to(input_type)
@@ -427,11 +443,14 @@ class F5TTS(object):
             guidance = pred_cond + (pred_cond - pred_uncond) * cfg_strength
             # Calculate update for noise
             noise_half = noise_half + guidance * t_scale
-            
+        if use_perf:
+            torch.cuda.nvtx.range_pop()
         return noise_half
 
     def sample(self, text_pad_sequence: torch.Tensor, ref_mel_batch: torch.Tensor, 
-               ref_mel_len_batch: torch.Tensor, estimated_reference_target_mel_len: List[int]):
+               ref_mel_len_batch: torch.Tensor, estimated_reference_target_mel_len: List[int], remove_input_padding: bool = False, use_perf: bool = False):
+        if use_perf:
+            torch.cuda.nvtx.range_push("text embedding")
         batch = text_pad_sequence.shape[0]
         max_seq_len = ref_mel_batch.shape[1]
         # max_seq_len,"max_seq_len")
@@ -486,12 +505,50 @@ class F5TTS(object):
             'input_lengths': torch.cat((input_lengths, input_lengths), dim=0).contiguous(),
             'delta_t': torch.cat((delta_t, delta_t), dim=0).contiguous()
         }
+        if remove_input_padding:
+            max_seq_len = inputs['cond'].shape[1]
+            inputs['noise'] = remove_tensor_padding(inputs['noise'], inputs['input_lengths'])
+            inputs['cond'] = remove_tensor_padding(inputs['cond'], inputs['input_lengths'])
+            # for time_expand, convert from B,D to B,T,D by repeat
+            inputs['time_expand'] = inputs['time_expand'].unsqueeze(1).repeat(1, max_seq_len, 1, 1)
+            inputs['time_expand'] = remove_tensor_padding(inputs['time_expand'], inputs['input_lengths'])
+            inputs['rope_cos'] = remove_tensor_padding(inputs['rope_cos'], inputs['input_lengths'])
+            inputs['rope_sin'] = remove_tensor_padding(inputs['rope_sin'], inputs['input_lengths'])
+
         for key in inputs:
             inputs[key] = inputs[key].to(self.device)
+            print(key, inputs[key].shape)
+        if use_perf:
+            torch.cuda.nvtx.range_pop()
+        start_time = time.time()
+        denoised = self.forward(**inputs, use_perf=use_perf)
+        cost_time = time.time() - start_time
+        print(f"cost time: {cost_time} seconds")
+        if remove_input_padding:
+            denoised_list = []
+            start_idx = 0
+            for i in range(batch):
+                denoised_list.append(denoised[start_idx:start_idx+inputs['input_lengths'][i]])
+                start_idx += inputs['input_lengths'][i]
+            return denoised_list, cost_time
+        return denoised, cost_time
 
-        denoised = self.forward(**inputs)
-        return denoised
+def remove_tensor_padding(input_tensor,
+                          input_tensor_lengths=None):
+    # Audio tensor case: batch, seq_len, feature_len
+    # position_ids case: batch, seq_len
+    assert input_tensor_lengths is not None, "input_tensor_lengths must be provided for 3D input_tensor"
 
+    # Initialize a list to collect valid sequences
+    valid_sequences = []
+
+    for i in range(input_tensor.shape[0]):
+        valid_length = input_tensor_lengths[i]
+        valid_sequences.append(input_tensor[i, :valid_length])
+
+    # Concatenate all valid sequences along the batch dimension
+    output_tensor = torch.cat(valid_sequences, dim=0).contiguous()
+    return output_tensor
 
 def get_tokenizer(vocab_file_path: str):
     """
@@ -750,6 +807,7 @@ def main():
         split=args.split_name,
         trust_remote_code=True,
     )
+    # dataset = dataset.select(range(8))
 
     sampler = DistributedSampler(dataset, num_replicas=world_size, rank=rank)
 
@@ -770,7 +828,7 @@ def main():
             ref_mels, ref_mel_lens = batch["ref_mel_batch"].to(device), batch["ref_mel_len_batch"].to(device)
             text_pad_seq = batch["text_pad_sequence"].to(device)
             total_mel_lens = batch["estimated_reference_target_mel_len"]
-            model.sample(text_pad_seq, ref_mels, ref_mel_lens, total_mel_lens)
+            model.sample(text_pad_seq, ref_mels, ref_mel_lens, total_mel_lens, remove_input_padding=args.remove_input_padding)
 
     if rank == 0:
         progress_bar = tqdm(total=total_steps, desc="Processing", unit="wavs")
@@ -778,6 +836,10 @@ def main():
     decoding_time = 0
     total_duration = 0
     for batch in dataloader:
+        if args.use_perf:
+            torch.cuda.cudart().cudaProfilerStart()
+        if args.use_perf:
+            torch.cuda.nvtx.range_push("data sample")
         ref_mels, ref_mel_lens = batch["ref_mel_batch"].to(device), batch[
             "ref_mel_len_batch"
         ].to(device)
@@ -785,24 +847,32 @@ def main():
         total_mel_lens = batch["estimated_reference_target_mel_len"]
         # print(text_pad_seq.shape, ref_mels.shape, ref_mel_lens.shape)
         # print(total_mel_lens)
-        start_time = time.time()
-        generated = model.sample(
+        if args.use_perf:
+            torch.cuda.nvtx.range_pop()
+        generated, cost_time = model.sample(
             text_pad_seq,
             ref_mels,
             ref_mel_lens,
             total_mel_lens,
+            remove_input_padding=args.remove_input_padding,
+            use_perf=args.use_perf,
             # steps=16,
             # cfg_strength=2.0,
             # sway_sampling_coef=-1,
             # seed=0,
         )
-        decoding_time += time.time() - start_time
+        decoding_time += cost_time
         for i, gen in enumerate(generated):
             gen = gen[ref_mel_lens[i] : total_mel_lens[i], :].unsqueeze(0)
             gen_mel_spec = gen.permute(0, 2, 1).to(torch.float32)
             # print(gen_mel_spec.shape, gen_mel_spec[0])
             if args.vocoder == "vocos":
+                if args.use_perf:
+                    torch.cuda.nvtx.range_push(f"vocoder decode")
                 generated_wave = vocoder.decode(gen_mel_spec).cpu()
+                print(2333333333333333333333333333333333333333333333)
+                if args.use_perf:
+                    torch.cuda.nvtx.range_pop()
             else:
                 generated_wave = vocoder(gen_mel_spec).squeeze(0).cpu()
             target_rms = 0.1
