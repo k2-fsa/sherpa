@@ -3,69 +3,15 @@ Frequently Asked Question (FAQs)
 
 This page contains frequently asked questions for `sherpa-onnx`_.
 
-在线、离线、流式、非流式的区别
-------------------------------
+.. toctree::
+   :maxdepth: 5
 
-此项目中，``在线`` 等同于流式，``离线`` 等同于非流式。
+   ./diff-online-offline.rst
+   ./change-kotlin-and-java-package-name.rst
+   ./fix-libasound-module-conf-pulse.rst
+   ./fix-tts-encoding-for-chinese-models.rst
+   ./fix-libtoolize.rst
 
-``在线`` 即流式，是边说边识别；响应速度快、延迟小。
-
-``离线`` 即非流式，是把所有待识别的数据，一次性送给模型；特点是需要
-等待所有的数据都到齐, 然后才能开始识别。
-
-不管是 ``离线`` 还是 ``在线``, 我们这个项目，都不需要访问网络，都可以在本地
-处理；即使断网，也能正常工作。
-
-Cannot open shared library libasound_module_conf_pulse.so
----------------------------------------------------------
-
-The detailed errors are given below:
-
-.. code-block::
-
-  Cannot open shared library libasound_module_conf_pulse.so
-  (/usr/lib64/alsa-lib/libasound_module_conf_pulse.so: cannot open shared object file: No such file or directory)
-  ALSA lib pcm.c:2722:(snd_pcm_open_noupdate) Unknown PCM
-
-If you use Linux and get the above error when trying to use the microphone, please do the following:
-
-  1. Locate where is the file ``libasound_module_conf_pulse.so`` on your system
-
-    .. code-block:: bash
-
-      find / -name libasound_module_conf_pulse.so 2>/dev/null
-
-  2. If the above search command prints::
-
-      /usr/lib/x86_64-linux-gnu/alsa-lib/libasound_module_conf_pulse.so
-      /usr/lib/i386-linux-gnu/alsa-lib/libasound_module_conf_pulse.so
-
-  3. Please run::
-
-      sudo mkdir -p /usr/lib64/alsa-lib
-      sudo ln -s /usr/lib/x86_64-linux-gnu/alsa-lib/libasound_module_conf_pulse.so /usr/lib64/alsa-lib
-
-  4. Now your issue should be fixed.
-
-
-TTS 中文模型没有声音
---------------------
-
-Please see :ref:`how_to_enable_utf8_on_windows`.
-You need to use ``UTF-8`` encoding for your system.
-
-./gitcompile: line 89: libtoolize: command not found
-----------------------------------------------------
-
-If you are using Linux and get the following error:
-
-.. code-block::
-
-   ./gitcompile: line 89: libtoolize: command not found
-
-Please run::
-
-  sudo apt-get install libtool
 
 OSError: PortAudio library not found
 ------------------------------------
