@@ -1,0 +1,324 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Build JNI interface (Linux) &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Build JNI interface (Windows)" href="build-jni-windows.html" />
+    <link rel="prev" title="Build JNI interface (macOS)" href="build-jni-macos.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">sherpa-onnx</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../install/index.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../faqs/index.html">Frequently Asked Question (FAQs)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python/index.html">Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../c-api/index.html">C API</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Java API</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="build-jni-macos.html">Build JNI interface (macOS)</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Build JNI interface (Linux)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#setup-the-environment">Setup the environment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#build-sherpa-onnx">Build sherpa-onnx</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#download-pre-built-jni-libs">Download pre-built JNI libs</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="build-jni-windows.html">Build JNI interface (Windows)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="build-jar.html">Build the jar package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples.html">Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../javascript-api/index.html">Javascript API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kotlin-api/index.html">Kotlin API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../swift-api/index.html">Swift API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../go-api/index.html">Go API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../csharp-api/index.html">C# API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pascal-api/index.html">Pascal API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lazarus/index.html">Lazarus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../wasm/index.html">WebAssembly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../android/index.html">Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../harmony-os/index.html">HarmonyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ios/index.html">iOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../flutter/index.html">Flutter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../websocket/index.html">WebSocket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../hotwords/index.html">Hotwords (Contextual biasing)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kws/index.html">Keyword spotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../punctuation/index.html">Punctuation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../audio-tagging/index.html">Audio tagging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spoken-language-identification/index.html">Spoken language identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vad/index.html">VAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/index.html">Pre-trained models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../moonshine/index.html">Moonshine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sense-voice/index.html">SenseVoice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../FireRedAsr/index.html">FireRedAsr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-diarization/index.html">Speaker Diarization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-identification/index.html">Speaker Identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speech-enhancment/index.html">Speech enhancement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rknn/index.html">rknn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tts/index.html">Text-to-speech (TTS)</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">sherpa-onnx</a> &raquo;</li>
+          <li><a href="index.html">Java API</a> &raquo;</li>
+      <li>Build JNI interface (Linux)</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/onnx/java-api/build-jni-linux.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="build-jni-interface-linux">
+<span id="sherpa-onnx-jni-linux-build"></span><h1>Build JNI interface (Linux)<a class="headerlink" href="#build-jni-interface-linux" title="Permalink to this heading"></a></h1>
+<p>In the following, we describe how to build the JNI interface for Linux.
+It is applicable for both Linux x64 and arm64.</p>
+<p>For macOS users, please refer to <a class="reference internal" href="build-jni-macos.html#sherpa-onnx-jni-macos-build"><span class="std std-ref">Build JNI interface (macOS)</span></a></p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>For Windows users, you have to modify the commands by yourself.</p>
+</div>
+<section id="setup-the-environment">
+<h2>Setup the environment<a class="headerlink" href="#setup-the-environment" title="Permalink to this heading"></a></h2>
+<p>Make sure you have the following two items ready:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>a working C/C++ compiler that supports C++17</p></li>
+<li><p>you are able to run <code class="docutils literal notranslate"><span class="pre">java</span></code> and <code class="docutils literal notranslate"><span class="pre">javac</span></code> commands in your terminal.</p></li>
+</ul>
+</div></blockquote>
+<p>To check your environment, please run:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>gcc<span class="w"> </span>--version
+java<span class="w"> </span>-version
+javac<span class="w"> </span>-version
+</pre></div>
+</div>
+<p>The above three commands print the following output on my computer. You don’t need
+to use the exact versions as I am using.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># output of gcc --version</span>
+
+<span class="n">gcc</span> <span class="p">(</span><span class="n">Ubuntu</span> <span class="mf">12.3.0</span><span class="o">-</span><span class="mi">1</span><span class="n">ubuntu1</span><span class="o">~</span><span class="mf">23.04</span><span class="p">)</span> <span class="mf">12.3.0</span>
+<span class="n">Copyright</span> <span class="p">(</span><span class="n">C</span><span class="p">)</span> <span class="mi">2022</span> <span class="n">Free</span> <span class="n">Software</span> <span class="n">Foundation</span><span class="p">,</span> <span class="n">Inc</span><span class="o">.</span>
+<span class="n">This</span> <span class="ow">is</span> <span class="n">free</span> <span class="n">software</span><span class="p">;</span> <span class="n">see</span> <span class="n">the</span> <span class="n">source</span> <span class="k">for</span> <span class="n">copying</span> <span class="n">conditions</span><span class="o">.</span>  <span class="n">There</span> <span class="ow">is</span> <span class="n">NO</span>
+<span class="n">warranty</span><span class="p">;</span> <span class="ow">not</span> <span class="n">even</span> <span class="k">for</span> <span class="n">MERCHANTABILITY</span> <span class="ow">or</span> <span class="n">FITNESS</span> <span class="n">FOR</span> <span class="n">A</span> <span class="n">PARTICULAR</span> <span class="n">PURPOSE</span><span class="o">.</span>
+
+<span class="c1"># output of java -version</span>
+
+<span class="n">java</span> <span class="n">version</span> <span class="s2">&quot;17.0.11&quot;</span> <span class="mi">2024</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">16</span> <span class="n">LTS</span>
+<span class="n">Java</span><span class="p">(</span><span class="n">TM</span><span class="p">)</span> <span class="n">SE</span> <span class="n">Runtime</span> <span class="n">Environment</span> <span class="p">(</span><span class="n">build</span> <span class="mf">17.0.11</span><span class="o">+</span><span class="mi">7</span><span class="o">-</span><span class="n">LTS</span><span class="o">-</span><span class="mi">207</span><span class="p">)</span>
+<span class="n">Java</span> <span class="n">HotSpot</span><span class="p">(</span><span class="n">TM</span><span class="p">)</span> <span class="mi">64</span><span class="o">-</span><span class="n">Bit</span> <span class="n">Server</span> <span class="n">VM</span> <span class="p">(</span><span class="n">build</span> <span class="mf">17.0.11</span><span class="o">+</span><span class="mi">7</span><span class="o">-</span><span class="n">LTS</span><span class="o">-</span><span class="mi">207</span><span class="p">,</span> <span class="n">mixed</span> <span class="n">mode</span><span class="p">,</span> <span class="n">sharing</span><span class="p">)</span>
+
+<span class="c1"># output of javac -version</span>
+
+<span class="n">javac</span> <span class="mf">17.0.11</span>
+</pre></div>
+</div>
+</section>
+<section id="build-sherpa-onnx">
+<h2>Build sherpa-onnx<a class="headerlink" href="#build-sherpa-onnx" title="Permalink to this heading"></a></h2>
+<p>Please use the following commands to build <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/k2-fsa/sherpa-onnx
+
+cd sherpa-onnx
+
+mkdir build
+
+cd build
+
+# If you want to enable GPU support, please
+# set OFF to ON
+SHERPA_ONNX_ENABLE_GPU=OFF
+
+cmake \
+  -DSHERPA_ONNX_ENABLE_GPU=$SHERPA_ONNX_ENABLE_GPU \
+  -DSHERPA_ONNX_ENABLE_PYTHON=OFF \
+  -DSHERPA_ONNX_ENABLE_TESTS=OFF \
+  -DSHERPA_ONNX_ENABLE_CHECK=OFF \
+  -DBUILD_SHARED_LIBS=ON \
+  -DSHERPA_ONNX_ENABLE_PORTAUDIO=OFF \
+  -DSHERPA_ONNX_ENABLE_JNI=ON \
+  ..
+
+make -j4
+
+# Remove unused libs
+rm lib/lib*.a
+rm lib/libcargs.so
+
+# You don&#39;t need it for jni
+rm lib/libsherpa-onnx-c-api.so
+
+ls -lh lib
+</pre></div>
+</div>
+<p>You should see the following output for <code class="docutils literal notranslate"><span class="pre">ls</span> <span class="pre">-lh</span> <span class="pre">lib</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">total</span> <span class="mf">4.0</span><span class="n">M</span>
+<span class="o">-</span><span class="n">rwxrwxr</span><span class="o">-</span><span class="n">x</span> <span class="mi">1</span> <span class="n">fangjun</span> <span class="n">fangjun</span> <span class="mf">4.0</span><span class="n">M</span> <span class="n">Aug</span> <span class="mi">29</span> <span class="mi">00</span><span class="p">:</span><span class="mi">56</span> <span class="n">libsherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">jni</span><span class="o">.</span><span class="n">so</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">libsherpa-onnx-jni.so</span></code> contains the JNI interface for <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>You can find <code class="docutils literal notranslate"><span class="pre">libonnxruntime.so</span></code> by running:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>fangjun@ubuntu23-04:~/sherpa-onnx/build$ ls _deps/onnxruntime-src/lib/
+libonnxruntime.so
+</pre></div>
+</div>
+</div>
+</section>
+<section id="download-pre-built-jni-libs">
+<h2>Download pre-built JNI libs<a class="headerlink" href="#download-pre-built-jni-libs" title="Permalink to this heading"></a></h2>
+<p>If you don’t want to build <code class="docutils literal notranslate"><span class="pre">JNI</span></code> libs by yourself, please download pre-built <code class="docutils literal notranslate"><span class="pre">JNI</span></code>
+libs from</p>
+<blockquote>
+<div><p><a class="reference external" href="https://huggingface.co/csukuangfj/sherpa-onnx-libs/tree/main/jni">https://huggingface.co/csukuangfj/sherpa-onnx-libs/tree/main/jni</a></p>
+</div></blockquote>
+<p>For Chinese users, please use</p>
+<blockquote>
+<div><p><a class="reference external" href="https://hf-mirror.com/csukuangfj/sherpa-onnx-libs/tree/main/jni">https://hf-mirror.com/csukuangfj/sherpa-onnx-libs/tree/main/jni</a></p>
+</div></blockquote>
+<p>Please always use the latest version. In the following, we describe how to download
+the version <code class="docutils literal notranslate"><span class="pre">1.10.23</span></code>.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget<span class="w"> </span>https://huggingface.co/csukuangfj/sherpa-onnx-libs/resolve/main/jni/sherpa-onnx-v1.10.23-linux-x64-jni.tar.bz2
+
+<span class="c1"># For Chinese users</span>
+<span class="c1"># wget https://hf-mirror.com/csukuangfj/sherpa-onnx-libs/resolve/main/jni/sherpa-onnx-v1.10.23-linux-x64-jni.tar.bz2</span>
+
+tar<span class="w"> </span>xf<span class="w"> </span>sherpa-onnx-v1.10.23-linux-x64-jni.tar.bz2
+rm<span class="w"> </span>sherpa-onnx-v1.10.23-linux-x64-jni.tar.bz2
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You can also download it from</p>
+<blockquote>
+<div><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases">https://github.com/k2-fsa/sherpa-onnx/releases</a></p>
+</div></blockquote>
+</div>
+<p>You should find the following files:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ls<span class="w"> </span>-lh<span class="w"> </span>sherpa-onnx-v1.10.23-linux-x64-jni/lib/
+
+total<span class="w"> </span>19M
+-rw-r--r--<span class="w"> </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w"> </span>fangjun<span class="w">  </span>15M<span class="w"> </span>Aug<span class="w"> </span><span class="m">24</span><span class="w"> </span><span class="m">22</span>:18<span class="w"> </span>libonnxruntime.so
+-rwxr-xr-x<span class="w"> </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w"> </span>fangjun<span class="w"> </span><span class="m">4</span>.2M<span class="w"> </span>Aug<span class="w"> </span><span class="m">24</span><span class="w"> </span><span class="m">22</span>:25<span class="w"> </span>libsherpa-onnx-jni.so
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="build-jni-macos.html" class="btn btn-neutral float-left" title="Build JNI interface (macOS)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="build-jni-windows.html" class="btn btn-neutral float-right" title="Build JNI interface (Windows)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2025, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>
