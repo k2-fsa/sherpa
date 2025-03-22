@@ -1,3 +1,6 @@
+
+.. _sherpa-onnx-linux-aarch64-cross-compiling:
+
 Embedded Linux (aarch64)
 ========================
 
@@ -64,6 +67,18 @@ with cross-compiling on an x64 machine with Ubuntu OS.
 
 Install toolchain
 -----------------
+
+.. warning::
+
+   The toolchains for dynamic linking and static linking are different.
+
+.. warning::
+
+   The toolchains for dynamic linking and static linking are different.
+
+.. warning::
+
+   The toolchains for dynamic linking and static linking are different.
 
 The first step is to install a toolchain for cross-compiling.
 
