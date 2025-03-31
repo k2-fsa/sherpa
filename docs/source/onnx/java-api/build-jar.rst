@@ -50,19 +50,41 @@ Download pre-built jar
 If you don't want to build ``jar`` by yourself, you can download pre-built ``jar`` from
 from
 
-    `<https://huggingface.co/csukuangfj/sherpa-onnx-libs/tree/main/jni>`_
-
-For Chinese users, please use
-
-  `<https://hf-mirror.com/csukuangfj/sherpa-onnx-libs/tree/main/jni>`_
+    `<https://github.com/k2-fsa/sherpa-onnx/releases>`_
 
 Please always use the latest version. In the following, we describe how to download
-the version ``1.10.2``.
+the version `1.11.1 <https://github.com/k2-fsa/sherpa-onnx/releases/tag/v1.11.1>`_.
 
 .. code-block:: bash
 
-   wget https://huggingface.co/csukuangfj/sherpa-onnx-libs/resolve/main/jni/sherpa-onnx-v1.10.2.jar
+  # For java 8 or java 1.8
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.11.1/sherpa-onnx-v1.11.1-java8.jar
 
-   # For Chinese users
-   # wget https://hf-mirror.com/csukuangfj/sherpa-onnx-libs/resolve/main/jni/sherpa-onnx-v1.10.2.jar
+  # For Java 11
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.11.1/sherpa-onnx-v1.11.1-java11.jar
+
+  # For Java 16
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.11.1/sherpa-onnx-v1.11.1-java16.jar
+
+  # For Java 17
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.11.1/sherpa-onnx-v1.11.1-java17.jar
+
+  # For Java 18
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.11.1/sherpa-onnx-v1.11.1-java18.jar
+
+  # For Java 19
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.11.1/sherpa-onnx-v1.11.1-java19.jar
+
+  # For Java 20
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.11.1/sherpa-onnx-v1.11.1-java20.jar
+
+  # For Java 21
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.11.1/sherpa-onnx-v1.11.1-java21.jar
+
+  # For Java 22
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.11.1/sherpa-onnx-v1.11.1-java22.jar
+
+  # For Java 23
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.11.1/sherpa-onnx-v1.11.1-java23.jar
+
 
