@@ -14,5 +14,6 @@ The following boards are known to work:
 .. toctree::
    :maxdepth: 5
 
+   ./tutorials.rst
    ./install.rst
    ./models.rst

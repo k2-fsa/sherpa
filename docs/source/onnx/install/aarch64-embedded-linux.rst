@@ -34,8 +34,6 @@ with cross-compiling on an x64 machine with Ubuntu OS.
       wget https://huggingface.co/csukuangfj/sherpa-onnx-libs/resolve/main/aarch64/sherpa-onnx-v1.9.12-linux-aarch64-static.tar.bz2
 
       # For users from China
-      # 中国国内用户，如果访问不了 huggingface, 请使用
-
       # binaries built with shared libraries
       wget https://hf-mirror.com/csukuangfj/sherpa-onnx-libs/resolve/main/aarch64/sherpa-onnx-v1.9.12-linux-aarch64-shared.tar.bz2
 
@@ -107,7 +105,6 @@ Assume you want to install it in the folder ``$HOME/software``:
    wget https://huggingface.co/csukuangfj/sherpa-ncnn-toolchains/resolve/main/gcc-linaro-7.5.0-2019.12-x86_64_aarch64-linux-gnu.tar.xz
 
    # For users from China
-   # 中国国内用户，如果访问不了 huggingface, 请使用
    # wget https://hf-mirror.com/csukuangfj/sherpa-ncnn-toolchains/resolve/main/gcc-linaro-7.5.0-2019.12-x86_64_aarch64-linux-gnu.tar.xz
 
    tar xvf gcc-linaro-7.5.0-2019.12-x86_64_aarch64-linux-gnu.tar.xz
@@ -257,7 +254,6 @@ download a cross compile toolchain with GCC >= 9.0. The following is an example:
    wget -q https://huggingface.co/csukuangfj/sherpa-ncnn-toolchains/resolve/main/gcc-arm-10.3-2021.07-x86_64-aarch64-none-linux-gnu.tar.xz
 
    # For users from China
-   # 中国国内用户，如果访问不了 huggingface, 请使用
    # wget -q https://hf-mirror.com/csukuangfj/sherpa-ncnn-toolchains/resolve/main/gcc-arm-10.3-2021.07-x86_64-aarch64-none-linux-gnu.tar.xz
 
    tar xf gcc-arm-10.3-2021.07-x86_64-aarch64-none-linux-gnu.tar.xz

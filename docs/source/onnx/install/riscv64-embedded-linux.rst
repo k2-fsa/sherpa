@@ -32,8 +32,6 @@ how to use ``qemu`` to run the compiled binaries.
       wget https://huggingface.co/csukuangfj/sherpa-onnx-libs/resolve/main/riscv64/sherpa-onnx-v1.9.12-linux-riscv64-shared.tar.bz2
 
       # For users from China
-      # 中国国内用户，如果访问不了 huggingface, 请使用
-
       # binaries built with shared libraries
       # wget https://hf-mirror.com/csukuangfj/sherpa-onnx-libs/resolve/main/riscv64/sherpa-onnx-v1.9.12-linux-riscv64-shared.tar.bz2
 

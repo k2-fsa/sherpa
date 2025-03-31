@@ -14,58 +14,58 @@ from the following huggingface repositories:
 
  * - Model type
    - Huggingface repo
-   - 国内用户
+   - Chinese users
  * - ``tiny.en``
    - `<https://huggingface.co/csukuangfj/sherpa-onnx-whisper-tiny.en>`_
-   - `点此 <https://hf-mirror.com/csukuangfj/sherpa-onnx-whisper-tiny.en>`_
+   - `Here <https://hf-mirror.com/csukuangfj/sherpa-onnx-whisper-tiny.en>`_
  * - ``base.en``
    - `<https://huggingface.co/csukuangfj/sherpa-onnx-whisper-base.en>`_
-   - `点此 <https://hf-mirror.com/csukuangfj/sherpa-onnx-whisper-base.en>`_
+   - `Here <https://hf-mirror.com/csukuangfj/sherpa-onnx-whisper-base.en>`_
  * - ``small.en``
    - `<https://huggingface.co/csukuangfj/sherpa-onnx-whisper-small.en>`_
-   - `点此 <https://hf-mirror.com/csukuangfj/sherpa-onnx-whisper-small.en>`_
+   - `Here <https://hf-mirror.com/csukuangfj/sherpa-onnx-whisper-small.en>`_
  * - ``distil-small.en``
    - `<https://huggingface.co/csukuangfj/sherpa-onnx-whisper-distil-small.en>`_
-   - `点此 <https://hf-mirror.com/csukuangfj/sherpa-onnx-whisper-distil-small.en>`_
+   - `Here <https://hf-mirror.com/csukuangfj/sherpa-onnx-whisper-distil-small.en>`_
  * - ``medium.en``
    - `<https://huggingface.co/csukuangfj/sherpa-onnx-whisper-medium.en>`_
-   - `点此 <https://hf-mirror.com/csukuangfj/sherpa-onnx-whisper-medium.en>`_
+   - `Here <https://hf-mirror.com/csukuangfj/sherpa-onnx-whisper-medium.en>`_
  * - ``distil-medium.en``
    - `<https://huggingface.co/csukuangfj/sherpa-onnx-whisper-distil-medium.en>`_
-   - `点此 <https://hf-mirror.com/csukuangfj/sherpa-onnx-whisper-distil-medium.en>`_
+   - `Here <https://hf-mirror.com/csukuangfj/sherpa-onnx-whisper-distil-medium.en>`_
  * - ``tiny``
    - `<https://huggingface.co/csukuangfj/sherpa-onnx-whisper-tiny>`_
-   - `点此 <https://hf-mirror.com/csukuangfj/sherpa-onnx-whisper-tiny>`_
+   - `Here <https://hf-mirror.com/csukuangfj/sherpa-onnx-whisper-tiny>`_
  * - ``base``
    - `<https://huggingface.co/csukuangfj/sherpa-onnx-whisper-base>`_
-   - `点此 <https://hf-mirror.com/csukuangfj/sherpa-onnx-whisper-base>`_
+   - `Here <https://hf-mirror.com/csukuangfj/sherpa-onnx-whisper-base>`_
  * - ``small``
    - `<https://huggingface.co/csukuangfj/sherpa-onnx-whisper-small>`_
-   - `点此 <https://hf-mirror.com/csukuangfj/sherpa-onnx-whisper-small>`_
+   - `Here <https://hf-mirror.com/csukuangfj/sherpa-onnx-whisper-small>`_
  * - ``medium``
    - `<https://huggingface.co/csukuangfj/sherpa-onnx-whisper-medium>`_
-   - `点此 <https://hf-mirror.com/csukuangfj/sherpa-onnx-whisper-medium>`_
+   - `Here <https://hf-mirror.com/csukuangfj/sherpa-onnx-whisper-medium>`_
  * - ``large``
    - `<https://huggingface.co/csukuangfj/sherpa-onnx-whisper-large>`_
-   - `点此 <https://hf-mirror.com/csukuangfj/sherpa-onnx-whisper-large>`_
+   - `Here <https://hf-mirror.com/csukuangfj/sherpa-onnx-whisper-large>`_
  * - ``large-v1``
    - `<https://huggingface.co/csukuangfj/sherpa-onnx-whisper-large-v1>`_
-   - `点此 <https://hf-mirror.com/csukuangfj/sherpa-onnx-whisper-large-v1>`_
+   - `Here <https://hf-mirror.com/csukuangfj/sherpa-onnx-whisper-large-v1>`_
  * - ``large-v2``
    - `<https://huggingface.co/csukuangfj/sherpa-onnx-whisper-large-v2>`_
-   - `点此 <https://hf-mirror.com/csukuangfj/sherpa-onnx-whisper-large-v2>`_
+   - `Here <https://hf-mirror.com/csukuangfj/sherpa-onnx-whisper-large-v2>`_
  * - ``large-v3``
    - `<https://huggingface.co/csukuangfj/sherpa-onnx-whisper-large-v3>`_
-   - `点此 <https://hf-mirror.com/csukuangfj/sherpa-onnx-whisper-large-v3>`_
+   - `Here <https://hf-mirror.com/csukuangfj/sherpa-onnx-whisper-large-v3>`_
  * - ``turbo``
    - `<https://huggingface.co/csukuangfj/sherpa-onnx-whisper-turbo>`_
-   - `点此 <https://hf-mirror.com/csukuangfj/sherpa-onnx-whisper-turbo>`_
+   - `Here <https://hf-mirror.com/csukuangfj/sherpa-onnx-whisper-turbo>`_
  * - ``distil-large-v2``
    - `<https://huggingface.co/csukuangfj/sherpa-onnx-whisper-distil-large-v2>`_
-   - `点此 <https://hf-mirror.com/csukuangfj/sherpa-onnx-whisper-distil-large-v2>`_
+   - `Here <https://hf-mirror.com/csukuangfj/sherpa-onnx-whisper-distil-large-v2>`_
  * - ``medium-aishell``
    - `<https://huggingface.co/csukuangfj/sherpa-onnx-whisper-medium-aishell>`_
-   - `点此 <https://hf-mirror.com/csukuangfj/sherpa-onnx-whisper-medium-aishell2>`_
+   - `Here <https://hf-mirror.com/csukuangfj/sherpa-onnx-whisper-medium-aishell2>`_
 
 .. note::
 
