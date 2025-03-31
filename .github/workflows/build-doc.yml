@@ -244,7 +244,7 @@ jobs:
               mkdir -pv build/html/_static
               cd build/latex
               #latexmk -interaction=nonstopmode -f -pdf -dvi- -ps- sherpa.tex || true
-              latexmk -interaction=nonstopmode -f -pdf -dvi- -ps- sherpa.tex >/dev/null 2>&1 || true
+              latexmk -interaction=nonstopmode -f -pdf -dvi- -ps- sherpa.tex >/dev/null
               if [ -f sherpa.pdf ]; then
                 ls -lh sherpa.pdf
                 cp -v sherpa.pdf /workspace/
@@ -273,7 +273,8 @@ jobs:
           ls -lh _static/sense-voice
 
       - name: Release sherpa.pdf
-        if: (github.repository_owner == 'csukuangfj' || github.repository_owner == 'k2-fsa') && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+        # if: (github.repository_owner == 'csukuangfj' || github.repository_owner == 'k2-fsa') && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+        if: false
         uses: svenstaro/upload-release-action@v2
         with:
           file_glob: true

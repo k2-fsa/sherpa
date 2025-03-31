@@ -43,8 +43,6 @@ with ``cross-compiling`` on an x86 machine with Ubuntu OS.
       wget https://huggingface.co/csukuangfj/sherpa-onnx-libs/resolve/main/arm32/sherpa-onnx-v1.9.12-linux-arm-gnueabihf-static.tar.bz2
 
       # For users from China
-      # 中国国内用户，如果访问不了 huggingface, 请使用
-
       # binaries built with shared libraries
       wget https://hf-mirror.com/csukuangfj/sherpa-onnx-libs/resolve/main/arm32/sherpa-onnx-v1.9.12-linux-arm-gnueabihf-shared.tar.bz2
 
@@ -96,7 +94,6 @@ Assume you want to install it in the folder ``$HOME/software``:
    wget -q https://huggingface.co/csukuangfj/sherpa-ncnn-toolchains/resolve/main/gcc-arm-10.3-2021.07-x86_64-arm-none-linux-gnueabihf.tar.xz
 
    # For users from China
-   # 中国国内用户，如果访问不了 huggingface, 请使用
    # wget -q https://hf-mirror.com/csukuangfj/sherpa-ncnn-toolchains/resolve/main/gcc-arm-10.3-2021.07-x86_64-arm-none-linux-gnueabihf.tar.xz
 
    tar xf gcc-arm-10.3-2021.07-x86_64-arm-none-linux-gnueabihf.tar.xz
@@ -262,7 +259,6 @@ download a cross compile toolchain with GCC >= 9.0. The following is an example:
    wget -q https://huggingface.co/csukuangfj/sherpa-ncnn-toolchains/resolve/main/gcc-arm-10.3-2021.07-x86_64-arm-none-linux-gnueabihf.tar.xz
 
    # For users from China
-   # 中国国内用户，如果访问不了 huggingface, 请使用
    wget -q https://hf-mirror.com/csukuangfj/sherpa-ncnn-toolchains/resolve/main/gcc-arm-10.3-2021.07-x86_64-arm-none-linux-gnueabihf.tar.xz
 
    tar xf gcc-arm-10.3-2021.07-x86_64-arm-none-linux-gnueabihf.tar.xz
