@@ -8,6 +8,191 @@ Zipformer-CTC-based Models
    Please refer to :ref:`install_sherpa_onnx` to install `sherpa-onnx`_
    before you read this section.
 
+.. _sherpa-onnx-streaming-zipformer-small-ctc-zh-int8-2025-04-01:
+
+sherpa-onnx-streaming-zipformer-small-ctc-zh-int8-2025-04-01 (Chinese)
+----------------------------------------------------------------------
+
+PyTorch checkpoint for this model can be found at
+`<https://huggingface.co/csukuangfj/icefall-streaming-zipformer-small-ctc-zh-2025-04-01>`_.
+
+It supports only Chinese and uses byte-BPE with vocab size ``1000``.
+
+In the following, we describe how to download it and use it with `sherpa-onnx`_.
+
+Download the model
+~~~~~~~~~~~~~~~~~~
+
+Please use the following commands to download it.
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-zipformer-small-ctc-zh-int8-2025-04-01.tar.bz2
+
+  tar xvf sherpa-onnx-streaming-zipformer-small-ctc-zh-int8-2025-04-01.tar.bz2
+  rm sherpa-onnx-streaming-zipformer-small-ctc-zh-int8-2025-04-01.tar.bz2
+  ls -lh sherpa-onnx-streaming-zipformer-small-ctc-zh-int8-2025-04-01
+
+The output is given below:
+
+.. code-block:: bash
+
+  ls -lh sherpa-onnx-streaming-zipformer-small-ctc-zh-int8-2025-04-01/
+  total 51992
+  -rw-r--r--  1 fangjun  staff   249K Apr  1 19:39 bbpe.model
+  -rw-r--r--  1 fangjun  staff    25M Apr  1 19:38 model.int8.onnx
+  drwxr-xr-x  5 fangjun  staff   160B Jan  3  2024 test_wavs
+  -rw-r--r--  1 fangjun  staff    13K Apr  1 19:39 tokens.txt
+
+Decode a single wave file
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. hint::
+
+   It supports decoding only wave files of a single channel with 16-bit
+   encoded samples, while the sampling rate does not need to be 16 kHz.
+
+The following code shows how to use ``fp32`` models to decode a wave file:
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  ./build/bin/sherpa-onnx \
+    --zipformer2-ctc-model=./sherpa-onnx-streaming-zipformer-small-ctc-zh-int8-2025-04-01/model.int8.onnx \
+    --tokens=./sherpa-onnx-streaming-zipformer-small-ctc-zh-int8-2025-04-01/tokens.txt \
+    ./sherpa-onnx-streaming-zipformer-small-ctc-zh-int8-2025-04-01/test_wavs/0.wav
+
+.. note::
+
+   Please use ``./build/bin/Release/sherpa-onnx.exe`` for Windows.
+
+.. caution::
+
+   If you use Windows and get encoding issues, please run:
+
+      .. code-block:: bash
+
+          CHCP 65001
+
+   in your commandline.
+
+You should see the following output:
+
+.. literalinclude:: ./code-zipformer/sherpa-onnx-streaming-zipformer-small-ctc-zh-int8-2025-04-01.txt
+
+Real-time speech recognition from a microphone
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  ./build/bin/sherpa-onnx-microphone \
+    --zipformer2-ctc-model=./sherpa-onnx-streaming-zipformer-small-ctc-zh-int8-2025-04-01/model.int8.onnx \
+    --tokens=./sherpa-onnx-streaming-zipformer-small-ctc-zh-int8-2025-04-01/tokens.txt
+
+.. hint::
+
+   If your system is Linux (including embedded Linux), you can also use
+   :ref:`sherpa-onnx-alsa` to do real-time speech recognition with your
+   microphone if ``sherpa-onnx-microphone`` does not work for you.
+
+.. _sherpa-onnx-streaming-zipformer-small-ctc-zh-2025-04-01:
+
+sherpa-onnx-streaming-zipformer-small-ctc-zh-2025-04-01 (Chinese)
+----------------------------------------------------------------------
+
+PyTorch checkpoint for this model can be found at
+`<https://huggingface.co/csukuangfj/icefall-streaming-zipformer-small-ctc-zh-2025-04-01>`_.
+
+It supports only Chinese and uses byte-BPE with vocab size ``1000``.
+
+In the following, we describe how to download it and use it with `sherpa-onnx`_.
+
+Download the model
+~~~~~~~~~~~~~~~~~~
+
+Please use the following commands to download it.
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-zipformer-small-ctc-zh-2025-04-01.tar.bz2
+
+  tar xvf sherpa-onnx-streaming-zipformer-small-ctc-zh-2025-04-01.tar.bz2
+  rm sherpa-onnx-streaming-zipformer-small-ctc-zh-2025-04-01.tar.bz2
+  ls -lh sherpa-onnx-streaming-zipformer-small-ctc-zh-2025-04-01
+
+The output is given below:
+
+.. code-block:: bash
+
+  ls -lh sherpa-onnx-streaming-zipformer-small-ctc-zh-2025-04-01/
+  total 179248
+  -rw-r--r--  1 fangjun  staff   249K Apr  1 19:39 bbpe.model
+  -rw-r--r--  1 fangjun  staff    87M Apr  1 19:39 model.onnx
+  drwxr-xr-x  5 fangjun  staff   160B Jan  3  2024 test_wavs
+  -rw-r--r--  1 fangjun  staff    13K Apr  1 19:39 tokens.txt
+
+Decode a single wave file
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. hint::
+
+   It supports decoding only wave files of a single channel with 16-bit
+   encoded samples, while the sampling rate does not need to be 16 kHz.
+
+The following code shows how to use ``fp32`` models to decode a wave file:
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  ./build/bin/sherpa-onnx \
+    --zipformer2-ctc-model=./sherpa-onnx-streaming-zipformer-small-ctc-zh-2025-04-01/model.onnx \
+    --tokens=./sherpa-onnx-streaming-zipformer-small-ctc-zh-2025-04-01/tokens.txt \
+    ./sherpa-onnx-streaming-zipformer-small-ctc-zh-2025-04-01/test_wavs/0.wav
+
+.. note::
+
+   Please use ``./build/bin/Release/sherpa-onnx.exe`` for Windows.
+
+.. caution::
+
+   If you use Windows and get encoding issues, please run:
+
+      .. code-block:: bash
+
+          CHCP 65001
+
+   in your commandline.
+
+You should see the following output:
+
+.. literalinclude:: ./code-zipformer/sherpa-onnx-streaming-zipformer-small-ctc-zh-2025-04-01.txt
+
+Real-time speech recognition from a microphone
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  ./build/bin/sherpa-onnx-microphone \
+    --zipformer2-ctc-model=./sherpa-onnx-streaming-zipformer-small-ctc-zh-2025-04-01/model.onnx \
+    --tokens=./sherpa-onnx-streaming-zipformer-small-ctc-zh-2025-04-01/tokens.txt
+
+.. hint::
+
+   If your system is Linux (including embedded Linux), you can also use
+   :ref:`sherpa-onnx-alsa` to do real-time speech recognition with your
+   microphone if ``sherpa-onnx-microphone`` does not work for you.
+
+
 sherpa-onnx-streaming-zipformer-ctc-multi-zh-hans-2023-12-13 (Chinese)
 ----------------------------------------------------------------------
 
