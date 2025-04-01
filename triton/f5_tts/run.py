@@ -56,6 +56,10 @@ from torch.utils.data import DataLoader, DistributedSampler
 from tqdm import tqdm
 from vocos import Vocos
 from f5_tts_trtllm import F5TTS
+import tensorrt as trt
+from tensorrt_llm.runtime.session import Session, TensorInfo
+from tensorrt_llm.logger import logger
+from tensorrt_llm._utils import str_dtype_to_torch, trt_dtype_to_torch
 
 torch.manual_seed(0)
 def get_args():
@@ -105,6 +109,12 @@ def get_args():
         default="vocos",
         type=str,
         help="vocoder name",
+    )
+    parser.add_argument(
+        "--vocoder-trt-engine-path",
+        default=None,
+        type=str,
+        help="vocoder trt engine path",
     )
     parser.add_argument('--enable-warmup', action='store_true')
     parser.add_argument('--remove-input-padding', action='store_true')
@@ -278,33 +288,36 @@ def list_str_to_idx(
     return list_idx_tensors
 
 
-def load_vocoder(vocoder_name="vocos", is_local=False, local_path="", device="cuda", hf_cache_dir=None):
+def load_vocoder(vocoder_name="vocos", is_local=False, local_path="", device="cuda", hf_cache_dir=None, vocoder_trt_engine_path=None):
     if vocoder_name == "vocos":
-        # vocoder = Vocos.from_pretrained("charactr/vocos-mel-24khz").to(device)
-        if is_local:
-            print(f"Load vocos from local path {local_path}")
-            config_path = f"{local_path}/config.yaml"
-            model_path = f"{local_path}/pytorch_model.bin"
+        if vocoder_trt_engine_path is not None:
+            vocoder = VocosTensorRT(engine_path=vocoder_trt_engine_path)
         else:
-            print("Download Vocos from huggingface charactr/vocos-mel-24khz")
-            repo_id = "charactr/vocos-mel-24khz"
-            config_path = hf_hub_download(repo_id=repo_id, cache_dir=hf_cache_dir, filename="config.yaml")
-            model_path = hf_hub_download(repo_id=repo_id, cache_dir=hf_cache_dir, filename="pytorch_model.bin")
-        vocoder = Vocos.from_hparams(config_path)
-        state_dict = torch.load(model_path, map_location="cpu", weights_only=True)
-        from vocos.feature_extractors import EncodecFeatures
+            # vocoder = Vocos.from_pretrained("charactr/vocos-mel-24khz").to(device)
+            if is_local:
+                print(f"Load vocos from local path {local_path}")
+                config_path = f"{local_path}/config.yaml"
+                model_path = f"{local_path}/pytorch_model.bin"
+            else:
+                print("Download Vocos from huggingface charactr/vocos-mel-24khz")
+                repo_id = "charactr/vocos-mel-24khz"
+                config_path = hf_hub_download(repo_id=repo_id, cache_dir=hf_cache_dir, filename="config.yaml")
+                model_path = hf_hub_download(repo_id=repo_id, cache_dir=hf_cache_dir, filename="pytorch_model.bin")
+            vocoder = Vocos.from_hparams(config_path)
+            state_dict = torch.load(model_path, map_location="cpu", weights_only=True)
+            from vocos.feature_extractors import EncodecFeatures
 
-        if isinstance(vocoder.feature_extractor, EncodecFeatures):
-            encodec_parameters = {
-                "feature_extractor.encodec." + key: value
-                for key, value in vocoder.feature_extractor.encodec.state_dict().items()
-            }
-            state_dict.update(encodec_parameters)
-        vocoder.load_state_dict(state_dict)
-        vocoder = vocoder.eval().to(device)
+            if isinstance(vocoder.feature_extractor, EncodecFeatures):
+                encodec_parameters = {
+                    "feature_extractor.encodec." + key: value
+                    for key, value in vocoder.feature_extractor.encodec.state_dict().items()
+                }
+                state_dict.update(encodec_parameters)
+            vocoder.load_state_dict(state_dict)
+            vocoder = vocoder.eval().to(device)
     elif vocoder_name == "bigvgan":
         vocoder = BigVGANInference.from_pretrained(args.vocoder_dir, use_cuda_kernel=False)
-    vocoder = vocoder.eval().to(device)
+        vocoder = vocoder.eval().to(device)
     return vocoder
 
 def mel_spectrogram(waveform, vocoder="vocos", device="cuda"):
@@ -324,6 +337,38 @@ def mel_spectrogram(waveform, vocoder="vocos", device="cuda"):
     mel = mel.clamp(min=1e-5).log()
     return mel.transpose(1, 2)
 
+
+class VocosTensorRT:
+    def __init__(self, engine_path=f"./vocos_vocoder.plan", stream=None):
+        TRT_LOGGER = trt.Logger(trt.Logger.WARNING)
+        trt.init_libnvinfer_plugins(TRT_LOGGER, namespace="")
+        logger.info(f'Loading vae engine from {engine_path}')
+        self.engine_path = engine_path
+        with open(engine_path, 'rb') as f:  
+            engine_buffer = f.read()
+        self.session = Session.from_serialized_engine(engine_buffer)
+        self.stream = stream if stream is not None else torch.cuda.current_stream().cuda_stream
+
+    def decode(self, mels):
+        print(f"mels dtype: {mels.dtype}")
+        mels = mels.contiguous()
+        inputs = {'mel': mels}
+        output_info = self.session.infer_shapes(
+            [TensorInfo('mel', trt.DataType.FLOAT, mels.shape)])
+        outputs = {
+            t.name:
+            torch.empty(tuple(t.shape),
+                        dtype=trt_dtype_to_torch(t.dtype),
+                        device='cuda')
+            for t in output_info
+        }
+        ok = self.session.run(inputs, outputs, self.stream)
+
+        assert ok, "Runtime execution failed for vae session"
+
+        samples = outputs['waveform']
+        return samples
+
 def main():
     args = get_args()
     os.makedirs(args.output_dir, exist_ok=True)
@@ -341,7 +386,7 @@ def main():
         config = json.load(f)
     model = F5TTS(config, debug_mode=False, tllm_model_dir=tllm_model_dir, model_path=args.model_path, vocab_size=vocab_size)
     
-    vocoder = load_vocoder(vocoder_name=args.vocoder, device=device)
+    vocoder = load_vocoder(vocoder_name=args.vocoder, device=device, vocoder_trt_engine_path=args.vocoder_trt_engine_path)
 
     dataset = load_dataset(
         "yuekai/seed_tts",

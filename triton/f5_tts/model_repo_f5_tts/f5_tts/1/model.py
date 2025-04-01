@@ -109,7 +109,7 @@ def list_str_to_idx(
 
 class TritonPythonModel:
     def initialize(self, args):
-
+        self.use_perf = True
         self.device = torch.device("cuda")
         self.target_audio_sample_rate = 24000
         self.target_rms = 0.15 # target rms for audio
@@ -159,6 +159,7 @@ class TritonPythonModel:
         return mel.transpose(1, 2)
 
     def forward_vocoder(self, mel):
+        mel = mel.to(torch.float32).contiguous()
         input_tensor_0 = pb_utils.Tensor.from_dlpack("mel", to_dlpack(mel))
     
         inference_request = pb_utils.InferenceRequest(
@@ -172,12 +173,15 @@ class TritonPythonModel:
             waveform = pb_utils.get_output_tensor_by_name(inference_response,
                                                             'waveform')
             waveform = torch.utils.dlpack.from_dlpack(waveform.to_dlpack()).cpu()
+
             return waveform
         
     def execute(self, requests):
         reference_text_list, target_text_list, reference_target_texts_list, reference_wavs_tensor, estimated_reference_target_mel_len, reference_mel_len = [], [], [], [], [], []
         max_wav_len = 0
         mel_features_list = []
+        if self.use_perf:
+            torch.cuda.nvtx.range_push("preprocess")
         for request in requests:
             wav_tensor = pb_utils.get_input_tensor_by_name(request, "reference_wav")
             wav_lens = pb_utils.get_input_tensor_by_name(
@@ -207,7 +211,11 @@ class TritonPythonModel:
             if self.reference_sample_rate != self.target_audio_sample_rate:
                 wav = self.resampler(wav)
             wav = wav.to(self.device)
+            if self.use_perf:
+                torch.cuda.nvtx.range_push("compute_mel")
             mel_features = self.compute_mel_fn(wav)
+            if self.use_perf:
+                torch.cuda.nvtx.range_pop()
             mel_features_list.append(mel_features)
             
             reference_mel_len.append(mel_features.shape[1])
@@ -231,7 +239,8 @@ class TritonPythonModel:
             text_pad_sequence[i] += 1 # WAR: 0 is reserved for padding token, hard coding in F5-TTS
         text_pad_sequence = pad_sequence(text_pad_sequence, padding_value=-1, batch_first=True).to(self.device)
         text_pad_sequence = F.pad(text_pad_sequence, (0, max_seq_len - text_pad_sequence.shape[1]), mode='constant', value=-1)
-        
+        if self.use_perf:
+            torch.cuda.nvtx.range_pop()
         
         denoised, cost_time = self.model.sample(
             text_pad_sequence,
@@ -239,14 +248,16 @@ class TritonPythonModel:
             reference_mel_len_tensor,
             estimated_reference_target_mel_len,
             remove_input_padding=False,
-            use_perf=False,
+            use_perf=self.use_perf,
         )
+        if self.use_perf:
+            torch.cuda.nvtx.range_push("vocoder")
 
         responses = []
         for i in range(batch):
             ref_me_len = reference_mel_len[i]
             estimated_mel_len = estimated_reference_target_mel_len[i]
-            denoised_one_item = denoised[i, ref_me_len:estimated_mel_len, :].unsqueeze(0).transpose(1, 2).to(torch.float32).contiguous().cpu()
+            denoised_one_item = denoised[i, ref_me_len:estimated_mel_len, :].unsqueeze(0).transpose(1, 2)
             audio = self.forward_vocoder(denoised_one_item)
             rms = torch.sqrt(torch.mean(torch.square(audio)))
             if rms < self.target_rms:
@@ -255,5 +266,6 @@ class TritonPythonModel:
             audio = pb_utils.Tensor.from_dlpack("waveform", to_dlpack(audio))
             inference_response = pb_utils.InferenceResponse(output_tensors=[audio])
             responses.append(inference_response)
-                             
+        if self.use_perf:
+            torch.cuda.nvtx.range_pop()
         return responses

@@ -202,13 +202,13 @@ class F5TTS(object):
 
         expected_tensor_names = ['noise', 'cond', 'time', 'rope_cos', 'rope_sin', 'input_lengths', 'denoised']
 
-        if self.mapping.tp_size > 1:
-            self.buffer, self.all_reduce_workspace = CustomAllReduceHelper.allocate_workspace(
-                self.mapping,
-                CustomAllReduceHelper.max_workspace_size_auto(
-                    self.mapping.tp_size))
-            self.inputs['all_reduce_workspace'] = self.all_reduce_workspace
-            expected_tensor_names += ['all_reduce_workspace']
+        # if self.mapping.tp_size > 1:
+        #     self.buffer, self.all_reduce_workspace = CustomAllReduceHelper.allocate_workspace(
+        #         self.mapping,
+        #         CustomAllReduceHelper.max_workspace_size_auto(
+        #             self.mapping.tp_size))
+        #     self.inputs['all_reduce_workspace'] = self.all_reduce_workspace
+        #     expected_tensor_names += ['all_reduce_workspace']
 
         found_tensor_names = [
             self.session.engine.get_tensor_name(i)
