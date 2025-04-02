@@ -1,13 +1,10 @@
 ## Triton Inference Serving Best Practice for F5 TTS
 
-### Model Training
-See [official F5-TTS](https://github.com/SWivid/F5-TTS) or [Icefall F5-TTS](https://github.com/k2-fsa/icefall/tree/master/egs/wenetspeech4tts/TTS#f5-tts).
-
 ### Quick Start
 Directly launch the service using docker compose.
 ```sh
-# VOCODER vocos or bigvgan
-VOCODER=vocos docker compose up
+# TODO: support F5TTS_v1_Base
+MODEL=F5TTS_Base docker compose up
 ```
 
 ### Build Image

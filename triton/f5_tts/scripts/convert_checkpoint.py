@@ -169,6 +169,12 @@ FACEBOOK_DIT_NAME_MAPPING = {
 
 def parse_arguments():
     parser = argparse.ArgumentParser()
+    parser.add_argument('--model_name',
+                        type=str,
+                        default="F5TTS_Base",
+                        choices=[
+                            "F5TTS_Base",
+                        ]) # TODO: support F5TTS_v1_Base
     parser.add_argument('--timm_ckpt',
                         type=str,
                         default="./ckpts/model_1200000.pt")

@@ -32,6 +32,12 @@ def get_args():
         choices=["vocos", "bigvgan"],
         help="Vocoder to export",
     )
+    parser.add_argument(
+        "--output-path",
+        type=str,
+        default="./vocos_vocoder.onnx",
+        help="Output path",
+    )
     return parser.parse_args()
 
 class ISTFTHead(nn.Module):
@@ -135,5 +141,4 @@ if __name__ == "__main__":
     args = get_args()
     vocoder = load_vocoder(vocoder_name=args.vocoder, device="cpu", hf_cache_dir=None)
     if args.vocoder == "vocos":
-        output_path = "./vocos_vocoder.onnx"
-        export_VocosVocoder(vocoder, output_path, verbose=False)
+        export_VocosVocoder(vocoder, args.output_path, verbose=False)
