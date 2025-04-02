@@ -148,6 +148,7 @@ def data_collator(batch, vocab_char_map, device="cuda", use_perf=False):
             item["target_text"],
         )
         ids.append(item_id)
+        print(item_id, "item_id")
         reference_target_texts_list.append(prompt_text + target_text)
 
         ref_audio_org, ref_sr = (
@@ -351,7 +352,6 @@ class VocosTensorRT:
         self.stream = stream if stream is not None else torch.cuda.current_stream().cuda_stream
 
     def decode(self, mels):
-        print(f"mels dtype: {mels.dtype}")
         mels = mels.contiguous()
         inputs = {'mel': mels}
         output_info = self.session.infer_shapes(
@@ -394,14 +394,25 @@ def main():
         split=args.split_name,
         trust_remote_code=True,
     )
+    def add_estimated_duration(example):
+        prompt_audio_len = example["prompt_audio"]["array"].shape[0]
+        scale_factor = 1 + len(example["target_text"]) / len(example["prompt_text"])
+        estimated_duration = prompt_audio_len * scale_factor
+        example["estimated_duration"] = estimated_duration / example["prompt_audio"]["sampling_rate"]
+        return example
+    dataset = dataset.map(add_estimated_duration)
+    dataset = dataset.sort("estimated_duration", reverse=True)
     if args.use_perf:
         # dataset_list = [dataset.select(range(1)) for i in range(16)]  # seq_len 1000
         dataset_list_short = [dataset.select([24]) for i in range(8)] # seq_len 719
         # dataset_list_long = [dataset.select([23]) for i in range(8)] # seq_len 2002
         # dataset = datasets.concatenate_datasets(dataset_list_short + dataset_list_long)
         dataset = datasets.concatenate_datasets(dataset_list_short)
-
-    sampler = DistributedSampler(dataset, num_replicas=world_size, rank=rank)
+    if world_size > 1:
+        sampler = DistributedSampler(dataset, num_replicas=world_size, rank=rank)
+    else:
+        # This would disable shuffling
+        sampler = None
 
     dataloader = DataLoader(
         dataset,

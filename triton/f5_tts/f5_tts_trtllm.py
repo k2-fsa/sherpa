@@ -40,24 +40,6 @@ class TextEmbedding(nn.Module):
         self.register_buffer("freqs_cis", precompute_freqs_cis(text_dim, precompute_max_pos), persistent=False)
         self.text_blocks = nn.Sequential(*[ConvNeXtV2Block(text_dim, text_dim * conv_mult) for _ in range(conv_layers)])
 
-    # def forward(self, text):
-    #     text_mask = text != -1
-    #     # calculate the number of -1 and 0 in text[0]
-    #     # num_zero = (text[0] == 0).sum()
-    #     # num_minus_one = (text[0] == -1).sum()
-    #     # print(num_zero, num_minus_one, "num_zero, num_minus_one")
-    #     # print(text_mask.shape, "text_mask", text_mask[0])
-    #     # change all -1 to 0
-    #     text = text.masked_fill(text == -1, 0)
-    #     text = self.text_embed(text)
-    #     text = text + self.freqs_cis[:text.shape[1], :]
-    #     print(text.shape, "text")
-    #     print(text_mask.shape, "text_mask")
-    #     text = text.masked_fill(~text_mask.unsqueeze(-1).expand(-1, -1, text.shape[2]), 0)
-    #     for block in self.text_blocks:
-    #         text = block(text)
-    #         text = text.masked_fill(~text_mask.unsqueeze(-1).expand(-1, -1, text.shape[2]), 0)
-    #     return text
     def forward(self, text):
         # only keep tensors with value not -1
         text_mask = text != -1
@@ -71,9 +53,7 @@ class TextEmbedding(nn.Module):
         # padding text to the original length
         # text shape: B,seq_len,C
         # pad at the second dimension
-
         text = F.pad(text, (0, 0, 0, text_mask.shape[1] - text.shape[1], 0, 0), value=0)
-
         return text
 
 
@@ -202,14 +182,6 @@ class F5TTS(object):
 
         expected_tensor_names = ['noise', 'cond', 'time', 'rope_cos', 'rope_sin', 'input_lengths', 'denoised']
 
-        # if self.mapping.tp_size > 1:
-        #     self.buffer, self.all_reduce_workspace = CustomAllReduceHelper.allocate_workspace(
-        #         self.mapping,
-        #         CustomAllReduceHelper.max_workspace_size_auto(
-        #             self.mapping.tp_size))
-        #     self.inputs['all_reduce_workspace'] = self.all_reduce_workspace
-        #     expected_tensor_names += ['all_reduce_workspace']
-
         found_tensor_names = [
             self.session.engine.get_tensor_name(i)
             for i in range(self.session.engine.num_io_tensors)
@@ -256,6 +228,20 @@ class F5TTS(object):
         self.rope_cos = self.freqs.cos().half()
         self.rope_sin = self.freqs.sin().half()
         self.nfe_steps = 16
+        t = torch.linspace(0, 1, self.nfe_steps + 1, dtype=torch.float32)
+        time_step = t + (-1.0) * (torch.cos(torch.pi * 0.5 * t) - 1 + t)
+        delta_t = torch.diff(time_step)
+        # WAR: hard coding 256 here
+        tmp_dim = 256
+        time_expand = torch.zeros((1, self.nfe_steps, tmp_dim), dtype=torch.float32)
+        half_dim = tmp_dim // 2
+        emb_factor = math.log(10000) / (half_dim - 1)
+        emb_factor = 1000.0 * torch.exp(torch.arange(half_dim, dtype=torch.float32) * -emb_factor)
+        for i in range(self.nfe_steps):
+            emb = time_step[i] * emb_factor
+            time_expand[:, i, :] = torch.cat((emb.sin(), emb.cos()), dim=-1)
+        self.time_expand = time_expand.to(self.device)
+        self.delta_t = torch.cat((delta_t, delta_t), dim=0).contiguous().to(self.device)
 
     def _tensor_dtype(self, name):
         # return torch dtype given tensor name for convenience
@@ -342,20 +328,6 @@ class F5TTS(object):
             self.inputs.update(**current_inputs)
             self.session.set_shapes(self.inputs)
 
-
-
-            # Set tensor addresses
-            # for tensor_name in self.inputs:
-            #     tensor = self.inputs[tensor_name]
-            #     ptr = tensor.data_ptr()
-            #     self.session.context.set_tensor_address(tensor_name, ptr)
-            
-            # for tensor_name in self.outputs:
-            #     tensor = self.outputs[tensor_name]
-            #     ptr = tensor.data_ptr() if isinstance(tensor, torch.Tensor) else tensor
-            #     self.session.context.set_tensor_address(tensor_name, ptr)
-            
-            # Execute the model
             if use_perf:
                 torch.cuda.nvtx.range_push(f"execute {i}")
             ok = self.session.run(self.inputs, self.outputs,
@@ -385,13 +357,12 @@ class F5TTS(object):
             torch.cuda.nvtx.range_push("text embedding")
         batch = text_pad_sequence.shape[0]
         max_seq_len = ref_mel_batch.shape[1]
-        # max_seq_len,"max_seq_len")
+
         text_pad_sequence_drop = torch.cat(
             (text_pad_sequence, torch.zeros((1, text_pad_sequence.shape[1]), dtype=torch.int32).to(self.device)), 
             dim=0
         )
         
-        # text_embedding_drop_condition = self.text_embedding(text_pad_sequence_drop.to(self.device))
         text_embedding_drop_list = []
         for i in range(batch+1):
             text_embedding_drop_list.append(self.text_embedding(text_pad_sequence_drop[i].unsqueeze(0).to(self.device)))
@@ -410,19 +381,8 @@ class F5TTS(object):
             (torch.zeros((batch, max_seq_len, self.n_mel_channels), dtype=torch.float32).to(self.device), text_embedding_drop), 
             dim=-1
         )
-        # below could be reused
-        t = torch.linspace(0, 1, self.nfe_steps + 1, dtype=torch.float32)
-        time_step = t + (-1.0) * (torch.cos(torch.pi * 0.5 * t) - 1 + t)
-        delta_t = torch.diff(time_step)
-        # WAR: hard coding 256 here
-        tmp_dim = 256
-        time_expand = torch.zeros((batch, self.nfe_steps, tmp_dim), dtype=torch.float32)
-        half_dim = tmp_dim // 2
-        emb_factor = math.log(10000) / (half_dim - 1)
-        emb_factor = 1000.0 * torch.exp(torch.arange(half_dim, dtype=torch.float32) * -emb_factor)
-        for i in range(self.nfe_steps):
-            emb = time_step[i] * emb_factor
-            time_expand[:, i, :] = torch.cat((emb.sin(), emb.cos()), dim=-1)
+
+        time_expand = self.time_expand.repeat(2 * batch, 1, 1).contiguous()
         
         # Convert estimated_reference_target_mel_len to tensor
         input_lengths = torch.tensor(estimated_reference_target_mel_len, dtype=torch.int32)
@@ -431,11 +391,11 @@ class F5TTS(object):
         inputs = {
             'noise': torch.cat((noise, noise), dim=0).contiguous(),
             'cond': torch.cat((cat_mel_text, cat_mel_text_drop), dim=0).contiguous(),
-            'time_expand': torch.cat((time_expand, time_expand), dim=0).contiguous(),
+            'time_expand': time_expand,
             'rope_cos': torch.cat((rope_cos, rope_cos), dim=0).contiguous(),
             'rope_sin': torch.cat((rope_sin, rope_sin), dim=0).contiguous(),
             'input_lengths': torch.cat((input_lengths, input_lengths), dim=0).contiguous(),
-            'delta_t': torch.cat((delta_t, delta_t), dim=0).contiguous()
+            'delta_t': self.delta_t
         }
         if use_perf and remove_input_padding:
             torch.cuda.nvtx.range_push("remove input padding")
