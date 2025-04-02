@@ -51,6 +51,7 @@ import torchaudio
 import jieba
 from pypinyin import Style, lazy_pinyin
 from datasets import load_dataset
+import datasets
 from huggingface_hub import hf_hub_download
 from torch.utils.data import DataLoader, DistributedSampler
 from tqdm import tqdm
@@ -393,7 +394,12 @@ def main():
         split=args.split_name,
         trust_remote_code=True,
     )
-    # dataset = dataset.select(range(8))
+    if args.use_perf:
+        # dataset_list = [dataset.select(range(1)) for i in range(16)]  # seq_len 1000
+        dataset_list_short = [dataset.select([24]) for i in range(8)] # seq_len 719
+        # dataset_list_long = [dataset.select([23]) for i in range(8)] # seq_len 2002
+        # dataset = datasets.concatenate_datasets(dataset_list_short + dataset_list_long)
+        dataset = datasets.concatenate_datasets(dataset_list_short)
 
     sampler = DistributedSampler(dataset, num_replicas=world_size, rank=rank)
 
@@ -422,10 +428,10 @@ def main():
     decoding_time = 0
     vocoder_time = 0
     total_duration = 0
+    if args.use_perf:
+        torch.cuda.cudart().cudaProfilerStart()
     total_decoding_time = time.time()
     for batch in dataloader:
-        if args.use_perf:
-            torch.cuda.cudart().cudaProfilerStart()
         if args.use_perf:
             torch.cuda.nvtx.range_push("data sample")
         ref_mels, ref_mel_lens = batch["ref_mel_batch"].to(device), batch[
@@ -478,11 +484,9 @@ def main():
         vocoder_time += time.time() - vocoder_start_time
         if rank == 0:
             progress_bar.update(world_size * len(batch["ids"]))
-
+    total_decoding_time = time.time() - total_decoding_time
     if rank == 0:
         progress_bar.close()
-
-    total_decoding_time = time.time() - total_decoding_time
     rtf = total_decoding_time / total_duration
     s = f"RTF: {rtf:.4f}\n"
     s += f"total_duration: {total_duration:.3f} seconds\n"

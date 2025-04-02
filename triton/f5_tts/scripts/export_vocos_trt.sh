@@ -15,9 +15,10 @@
 
 TRTEXEC="/usr/src/tensorrt/bin/trtexec"
 
-ONNX_PATH="./vocos_vocoder.onnx"
-ENGINE_PATH="./vocos_vocoder.plan"
-
+ONNX_PATH=$1
+ENGINE_PATH=$2
+echo "ONNX_PATH: $ONNX_PATH"
+echo "ENGINE_PATH: $ENGINE_PATH"
 PRECISION="fp32"
 
 

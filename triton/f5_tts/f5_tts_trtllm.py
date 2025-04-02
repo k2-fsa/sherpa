@@ -341,22 +341,27 @@ class F5TTS(object):
             self.inputs.clear()  # Clear previous inputs
             self.inputs.update(**current_inputs)
             self.session.set_shapes(self.inputs)
-            
+
+
+
             # Set tensor addresses
-            for tensor_name in self.inputs:
-                tensor = self.inputs[tensor_name]
-                ptr = tensor.data_ptr()
-                self.session.context.set_tensor_address(tensor_name, ptr)
+            # for tensor_name in self.inputs:
+            #     tensor = self.inputs[tensor_name]
+            #     ptr = tensor.data_ptr()
+            #     self.session.context.set_tensor_address(tensor_name, ptr)
             
-            for tensor_name in self.outputs:
-                tensor = self.outputs[tensor_name]
-                ptr = tensor.data_ptr() if isinstance(tensor, torch.Tensor) else tensor
-                self.session.context.set_tensor_address(tensor_name, ptr)
+            # for tensor_name in self.outputs:
+            #     tensor = self.outputs[tensor_name]
+            #     ptr = tensor.data_ptr() if isinstance(tensor, torch.Tensor) else tensor
+            #     self.session.context.set_tensor_address(tensor_name, ptr)
             
             # Execute the model
             if use_perf:
                 torch.cuda.nvtx.range_push(f"execute {i}")
-            self.session.context.execute_async_v3(self.stream.cuda_stream)
+            ok = self.session.run(self.inputs, self.outputs,
+                                self.stream.cuda_stream)
+            assert ok, "Failed to execute model"
+            # self.session.context.execute_async_v3(self.stream.cuda_stream)
             if use_perf:
                 torch.cuda.nvtx.range_pop()            
             # Process results
@@ -432,6 +437,8 @@ class F5TTS(object):
             'input_lengths': torch.cat((input_lengths, input_lengths), dim=0).contiguous(),
             'delta_t': torch.cat((delta_t, delta_t), dim=0).contiguous()
         }
+        if use_perf and remove_input_padding:
+            torch.cuda.nvtx.range_push("remove input padding")
         if remove_input_padding:
             max_seq_len = inputs['cond'].shape[1]
             inputs['noise'] = remove_tensor_padding(inputs['noise'], inputs['input_lengths'])
@@ -441,7 +448,8 @@ class F5TTS(object):
             inputs['time_expand'] = remove_tensor_padding(inputs['time_expand'], inputs['input_lengths'])
             inputs['rope_cos'] = remove_tensor_padding(inputs['rope_cos'], inputs['input_lengths'])
             inputs['rope_sin'] = remove_tensor_padding(inputs['rope_sin'], inputs['input_lengths'])
-
+        if use_perf and remove_input_padding:
+            torch.cuda.nvtx.range_pop()
         for key in inputs:
             inputs[key] = inputs[key].to(self.device)
         if use_perf:
@@ -449,11 +457,15 @@ class F5TTS(object):
         start_time = time.time()
         denoised = self.forward(**inputs, use_perf=use_perf)
         cost_time = time.time() - start_time
+        if use_perf and remove_input_padding:
+            torch.cuda.nvtx.range_push("remove input padding output")
         if remove_input_padding:
             denoised_list = []
             start_idx = 0
             for i in range(batch):
                 denoised_list.append(denoised[start_idx:start_idx+inputs['input_lengths'][i]])
                 start_idx += inputs['input_lengths'][i]
+            if use_perf and remove_input_padding:
+                torch.cuda.nvtx.range_pop()
             return denoised_list, cost_time
         return denoised, cost_time
