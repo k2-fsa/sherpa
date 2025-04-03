@@ -1176,7 +1176,7 @@ Speech recognition from a microphone
   ./build/bin/sherpa-onnx-microphone-offline \
     --tokens=./sherpa-onnx-zipformer-multi-zh-hans-2023-9-2/tokens.txt \
     --encoder=./sherpa-onnx-zipformer-multi-zh-hans-2023-9-2/encoder-epoch-20-avg-1.onnx \
-    --decoder=./sherpa-onnx-zipformer-multi-zh-hans-2023-9-2/decoder-epoch-0-avg-1.onnx \
+    --decoder=./sherpa-onnx-zipformer-multi-zh-hans-2023-9-2/decoder-epoch-20-avg-1.onnx \
     --joiner=./sherpa-onnx-zipformer-multi-zh-hans-2023-9-2/joiner-epoch-20-avg-1.onnx
 
 
