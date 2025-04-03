@@ -54,7 +54,7 @@ Decode a single wave file
    It supports decoding only wave files of a single channel with 16-bit
    encoded samples, while the sampling rate does not need to be 16 kHz.
 
-The following code shows how to use ``fp32`` models to decode a wave file:
+The following code shows how to use ``int8`` models to decode a wave file:
 
 .. code-block:: bash
 

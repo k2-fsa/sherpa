@@ -52,6 +52,7 @@ Also, we show how to use it for speech recognition with pre-trained models.
    ./moonshine/index
    ./sense-voice/index
    ./FireRedAsr/index
+   ./Dolphin/index
 
 .. toctree::
    :maxdepth: 5

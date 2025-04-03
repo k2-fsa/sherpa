@@ -178,6 +178,7 @@ rst_epilog = """
 .. _Moonshine: https://github.com/usefulsensors/moonshine
 .. _moonshine: https://github.com/usefulsensors/moonshine
 .. _FireRedAsr: https://github.com/FireRedTeam/FireRedASR
+.. _Dolphin: https://github.com/DataoceanAI/Dolphin
 """
 
 
