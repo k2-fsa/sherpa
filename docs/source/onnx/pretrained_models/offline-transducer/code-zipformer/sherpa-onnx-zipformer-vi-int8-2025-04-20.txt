@@ -1,0 +1,14 @@
+/project/sherpa-onnx/csrc/parse-options.cc:Read:375 sherpa-onnx-offline --tokens=./sherpa-onnx-zipformer-vi-int8-2025-04-20/tokens.txt --encoder=./sherpa-onnx-zipformer-vi-int8-2025-04-20/encoder-epoch-12-avg-8.int8.onnx --decoder=./sherpa-onnx-zipformer-vi-int8-2025-04-20/decoder-epoch-12-avg-8.onnx --joiner=./sherpa-onnx-zipformer-vi-int8-2025-04-20/joiner-epoch-12-avg-8.int8.onnx --num-threads=1 ./sherpa-onnx-zipformer-vi-int8-2025-04-20/test_wavs/0.wav
+
+OfflineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80, low_freq=20, high_freq=-400, dither=0, normalize_samples=True, snip_edges=False), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename="./sherpa-onnx-zipformer-vi-int8-2025-04-20/encoder-epoch-12-avg-8.int8.onnx", decoder_filename="./sherpa-onnx-zipformer-vi-int8-2025-04-20/decoder-epoch-12-avg-8.onnx", joiner_filename="./sherpa-onnx-zipformer-vi-int8-2025-04-20/joiner-epoch-12-avg-8.int8.onnx"), paraformer=OfflineParaformerModelConfig(model=""), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=""), whisper=OfflineWhisperModelConfig(encoder="", decoder="", language="", task="transcribe", tail_paddings=-1), fire_red_asr=OfflineFireRedAsrModelConfig(encoder="", decoder=""), tdnn=OfflineTdnnModelConfig(model=""), zipformer_ctc=OfflineZipformerCtcModelConfig(model=""), wenet_ctc=OfflineWenetCtcModelConfig(model=""), sense_voice=OfflineSenseVoiceModelConfig(model="", language="auto", use_itn=False), moonshine=OfflineMoonshineModelConfig(preprocessor="", encoder="", uncached_decoder="", cached_decoder=""), dolphin=OfflineDolphinModelConfig(model=""), telespeech_ctc="", tokens="./sherpa-onnx-zipformer-vi-int8-2025-04-20/tokens.txt", num_threads=1, debug=False, provider="cpu", model_type="", modeling_unit="cjkchar", bpe_vocab=""), lm_config=OfflineLMConfig(model="", scale=0.5), ctc_fst_decoder_config=OfflineCtcFstDecoderConfig(graph="", max_active=3000), decoding_method="greedy_search", max_active_paths=4, hotwords_file="", hotwords_score=1.5, blank_penalty=0, rule_fsts="", rule_fars="")
+Creating recognizer ...
+Started
+Done!
+
+./sherpa-onnx-zipformer-vi-int8-2025-04-20/test_wavs/0.wav
+{"lang": "", "emotion": "", "event": "", "text": " RỒI CŨNG HỖ TRỢ CHO LÂU LÂU CŨNG CHO GẠO CHO NÀY KIA", "timestamps": [0.00, 0.20, 0.52, 0.76, 1.00, 1.28, 1.52, 1.76, 1.96, 2.28, 2.60, 2.92, 3.28], "tokens":[" RỒI", " CŨNG", " HỖ", " TRỢ", " CHO", " LÂU", " LÂU", " CŨNG", " CHO", " GẠO", " CHO", " NÀY", " KIA"], "words": []}
+----
+num threads: 1
+decoding method: greedy_search
+Elapsed seconds: 0.229 s
+Real time factor (RTF): 0.229 / 3.740 = 0.061

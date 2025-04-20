@@ -8,6 +8,208 @@ Zipformer-transducer-based Models
    Please refer to :ref:`install_sherpa_onnx` to install `sherpa-onnx`
    before you read this section.
 
+sherpa-onnx-zipformer-vi-2025-04-20 (Vietnamese, 越南语)
+--------------------------------------------------------------------------------
+
+This model is from `<https://huggingface.co/zzasdf/viet_iter3_pseudo_label>`_, which is
+trained on about 70k hours of data.
+
+In the following, we describe how to download it and use it with `sherpa-onnx`_.
+
+Download the model
+~~~~~~~~~~~~~~~~~~
+
+Please use the following commands to download it.
+
+.. code-block:: bash
+
+   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-vi-2025-04-20.tar.bz2
+   tar xvf sherpa-onnx-zipformer-vi-2025-04-20.tar.bz2
+   rm sherpa-onnx-zipformer-vi-2025-04-20.tar.bz2
+
+You should see something like below after downloading::
+
+  ls -lh sherpa-onnx-zipformer-vi-2025-04-20
+
+  total 259M
+  -rw-r--r-- 1 1001 118 265K Apr 20 15:49 bpe.model
+  -rw-r--r-- 1 1001 118 5.0M Apr 20 15:49 decoder-epoch-12-avg-8.onnx
+  -rw-r--r-- 1 1001 118 249M Apr 20 15:49 encoder-epoch-12-avg-8.onnx
+  -rw-r--r-- 1 1001 118 4.0M Apr 20 15:49 joiner-epoch-12-avg-8.onnx
+  -rw-r--r-- 1 1001 118  149 Apr 20 15:49 README.md
+  drwxr-xr-x 2 1001 118 4.0K Apr 20 15:49 test_wavs
+  -rw-r--r-- 1 1001 118  26K Apr 20 15:49 tokens.txt
+
+Decode wave files
+~~~~~~~~~~~~~~~~~
+
+.. hint::
+
+   It supports decoding only wave files of a single channel with 16-bit
+   encoded samples, while the sampling rate does not need to be 16 kHz.
+
+The following code shows how to use ``float32`` models to decode wave files:
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  ./build/bin/sherpa-onnx-offline \
+    --tokens=./sherpa-onnx-zipformer-vi-2025-04-20/tokens.txt \
+    --encoder=./sherpa-onnx-zipformer-vi-2025-04-20/encoder-epoch-12-avg-8.onnx \
+    --decoder=./sherpa-onnx-zipformer-vi-2025-04-20/decoder-epoch-12-avg-8.onnx \
+    --joiner=./sherpa-onnx-zipformer-vi-2025-04-20/joiner-epoch-12-avg-8.onnx \
+    --num-threads=1 \
+    ./sherpa-onnx-zipformer-vi-2025-04-20/test_wavs/0.wav
+
+.. note::
+
+   Please use ``./build/bin/Release/sherpa-onnx-offline.exe`` for Windows.
+
+.. caution::
+
+   If you use Windows and get encoding issues, please run:
+
+      .. code-block:: bash
+
+          CHCP 65001
+
+   in your commandline.
+
+You should see the following output:
+
+.. literalinclude:: ./code-zipformer/sherpa-onnx-zipformer-vi-2025-04-20.txt
+
+Speech recognition from a microphone
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  ./build/bin/sherpa-onnx-microphone-offline \
+    --tokens=./sherpa-onnx-zipformer-vi-2025-04-20/tokens.txt \
+    --encoder=./sherpa-onnx-zipformer-vi-2025-04-20/encoder-epoch-12-avg-8.onnx \
+    --decoder=./sherpa-onnx-zipformer-vi-2025-04-20/decoder-epoch-12-avg-8.onnx \
+    --joiner=./sherpa-onnx-zipformer-vi-2025-04-20/joiner-epoch-12-avg-8.onnx
+
+Speech recognition from a microphone with VAD
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/silero_vad.onnx
+
+  ./build/bin/sherpa-onnx-vad-microphone-offline-asr \
+    --silero-vad-model=./silero_vad.onnx \
+    --tokens=./sherpa-onnx-zipformer-vi-2025-04-20/tokens.txt \
+    --encoder=./sherpa-onnx-zipformer-vi-2025-04-20/encoder-epoch-12-avg-8.onnx \
+    --decoder=./sherpa-onnx-zipformer-vi-2025-04-20/decoder-epoch-12-avg-8.onnx \
+    --joiner=./sherpa-onnx-zipformer-vi-2025-04-20/joiner-epoch-12-avg-8.onnx
+
+sherpa-onnx-zipformer-vi-int8-2025-04-20 (Vietnamese, 越南语)
+--------------------------------------------------------------------------------
+
+This model is from `<https://huggingface.co/zzasdf/viet_iter3_pseudo_label>`_, which is
+trained on about 70k hours of data.
+
+In the following, we describe how to download it and use it with `sherpa-onnx`_.
+
+Download the model
+~~~~~~~~~~~~~~~~~~
+
+Please use the following commands to download it.
+
+.. code-block:: bash
+
+   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-vi-int8-2025-04-20.tar.bz2
+   tar xvf sherpa-onnx-zipformer-vi-int8-2025-04-20.tar.bz2
+   rm sherpa-onnx-zipformer-vi-int8-2025-04-20.tar.bz2
+
+You should see something like below after downloading::
+
+  ls -lh sherpa-onnx-zipformer-vi-int8-2025-04-20
+
+  total 74M
+  -rw-r--r-- 1 1001 118  265K Apr 20 15:50 bpe.model
+  -rw-r--r-- 1 1001 118  5.0M Apr 20 15:50 decoder-epoch-12-avg-8.onnx
+  -rw-r--r-- 1 1001 118   68M Apr 20 15:50 encoder-epoch-12-avg-8.int8.onnx
+  -rw-r--r-- 1 1001 118 1010K Apr 20 15:50 joiner-epoch-12-avg-8.int8.onnx
+  -rw-r--r-- 1 1001 118   149 Apr 20 15:50 README.md
+  drwxr-xr-x 2 1001 118  4.0K Apr 20 15:49 test_wavs
+  -rw-r--r-- 1 1001 118   26K Apr 20 15:50 tokens.txt
+
+Decode wave files
+~~~~~~~~~~~~~~~~~
+
+.. hint::
+
+   It supports decoding only wave files of a single channel with 16-bit
+   encoded samples, while the sampling rate does not need to be 16 kHz.
+
+The following code shows how to use ``int8`` models to decode wave files:
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  ./build/bin/sherpa-onnx-offline \
+    --tokens=./sherpa-onnx-zipformer-vi-int8-2025-04-20/tokens.txt \
+    --encoder=./sherpa-onnx-zipformer-vi-int8-2025-04-20/encoder-epoch-12-avg-8.int8.onnx \
+    --decoder=./sherpa-onnx-zipformer-vi-int8-2025-04-20/decoder-epoch-12-avg-8.onnx \
+    --joiner=./sherpa-onnx-zipformer-vi-int8-2025-04-20/joiner-epoch-12-avg-8.int8.onnx \
+    --num-threads=1 \
+    ./sherpa-onnx-zipformer-vi-int8-2025-04-20/test_wavs/0.wav
+
+.. note::
+
+   Please use ``./build/bin/Release/sherpa-onnx-offline.exe`` for Windows.
+
+.. caution::
+
+   If you use Windows and get encoding issues, please run:
+
+      .. code-block:: bash
+
+          CHCP 65001
+
+   in your commandline.
+
+You should see the following output:
+
+.. literalinclude:: ./code-zipformer/sherpa-onnx-zipformer-vi-int8-2025-04-20.txt
+
+Speech recognition from a microphone
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  ./build/bin/sherpa-onnx-microphone-offline \
+    --tokens=./sherpa-onnx-zipformer-vi-int8-2025-04-20/tokens.txt \
+    --encoder=./sherpa-onnx-zipformer-vi-int8-2025-04-20/encoder-epoch-12-avg-8.int8.onnx \
+    --decoder=./sherpa-onnx-zipformer-vi-int8-2025-04-20/decoder-epoch-12-avg-8.onnx \
+    --joiner=./sherpa-onnx-zipformer-vi-int8-2025-04-20/joiner-epoch-12-avg-8.int8.onnx
+
+Speech recognition from a microphone with VAD
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/silero_vad.onnx
+
+  ./build/bin/sherpa-onnx-vad-microphone-offline-asr \
+    --silero-vad-model=./silero_vad.onnx \
+    --tokens=./sherpa-onnx-zipformer-vi-int8-2025-04-20/tokens.txt \
+    --encoder=./sherpa-onnx-zipformer-vi-int8-2025-04-20/encoder-epoch-12-avg-8.int8.onnx \
+    --decoder=./sherpa-onnx-zipformer-vi-int8-2025-04-20/decoder-epoch-12-avg-8.onnx \
+    --joiner=./sherpa-onnx-zipformer-vi-int8-2025-04-20/joiner-epoch-12-avg-8.int8.onnx
+
 sherpa-onnx-zipformer-zh-en-2023-11-22 (Chinese+English, 中英双语)
 ------------------------------------------------------------------------------------------
 

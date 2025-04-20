@@ -14,16 +14,18 @@ and ``text-to-speech`` (TTS).
    you can download pre-built shared libraries by visiting the release page
    `<https://github.com/k2-fsa/sherpa-onnx/releases/>`_
 
-   For instance, for the relase ``v1.11.1``, you can visit
-   `<https://github.com/k2-fsa/sherpa-onnx/releases/tag/v1.10.19>`_
-   and download the file ``sherpa-onnx-v1.11.1-android.tar.bz2``
+   For instance, for the relase ``v1.11.3``, you can visit
+   `<https://github.com/k2-fsa/sherpa-onnx/releases/tag/v1.11.3>`_
+   and download the file ``sherpa-onnx-v1.11.3-android.tar.bz2``
    using the following command:
 
     .. code-block:: bash
 
-      wget https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.11.1/sherpa-onnx-v1.11.1-android.tar.bz2
+      wget https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.11.3/sherpa-onnx-v1.11.3-android.tar.bz2
 
    Please always use the latest release.
+
+   If you use RK NPU for Android, please use instead ``sherpa-onnx-v1.11.3-android-rknn.tar.bz2``.
 
 .. hint::
 
