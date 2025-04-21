@@ -374,6 +374,13 @@ You should see something like below after downloading::
   drwxr-xr-x  4 fangjun  staff   128B Sep 18 12:01 test_wavs
   -rw-r--r--  1 fangjun  staff   6.2K Sep 18 12:01 tokens.txt
 
+.. hint::
+
+   An updated version can be found at:
+
+    - `sherpa-onnx-zipformer-ru-2025-04-20.tar.bz2 <https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-ru-2025-04-20.tar.bz2>`_
+    - `sherpa-onnx-zipformer-ru-int8-2025-04-20.tar.bz2 <https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-ru-int8-2025-04-20.tar.bz2>`_
+
 Decode wave files
 ~~~~~~~~~~~~~~~~~
 
