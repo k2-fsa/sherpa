@@ -153,6 +153,9 @@ sherpa-onnx-streaming-zipformer-multi-zh-hans-2023-12-12 (Chinese)
 Training code for this model can be found at `<https://github.com/k2-fsa/icefall/pull/1369>`_.
 It supports only Chinese.
 
+PyTorch checkpoint with optimizer state can be found at
+`<https://huggingface.co/zrjin/icefall-asr-multi-zh-hans-zipformer-ctc-streaming-2023-11-05>`_
+
 Please refer to `<https://github.com/k2-fsa/icefall/tree/master/egs/multi_zh-hans/ASR#included-training-sets>`_
 for the detailed information about the training data. In total, there are 14k hours of training data.
 
