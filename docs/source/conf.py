@@ -182,5 +182,13 @@ rst_epilog = """
 """
 
 
+# https://docs.readthedocs.com/platform/latest/guides/pdf-non-ascii-languages.html
+latex_engine = "xelatex"
+latex_use_xindy = False
+latex_elements = {
+    "preamble": "\\usepackage[UTF8]{ctex}\n",
+}
+
+
 def setup(app):
     app.add_css_file("custom.css")
