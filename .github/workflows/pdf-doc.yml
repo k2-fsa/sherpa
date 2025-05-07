@@ -70,10 +70,11 @@ jobs:
               cd docs
 
 
-              make latex
+              # make latex
+              make latexpdf
               cd build/latex
               #latexmk -interaction=nonstopmode -f -pdf -dvi- -ps- sherpa.tex || true
-              latexmk -interaction=nonstopmode -f -pdf -dvi- -ps- sherpa.tex >/dev/null
+              # latexmk -interaction=nonstopmode -f -pdf -dvi- -ps- sherpa.tex >/dev/null
 
               find . -name "*.pdf"
 
