@@ -531,5 +531,5 @@ We provide a colab notebook
 |Sherpa-onnx csharp api example colab notebook|
 for you to try the ``C#`` API examples of `sherpa-onnx`_.
 
-.. |Sherpa-onnx csharp api example colab notebook| image:: https://colab.research.google.com/assets/colab-badge.svg
+.. |Sherpa-onnx csharp api example colab notebook| image:: https://github.com/k2-fsa/sherpa/releases/download/doc/colab-badge.jpg
    :target: https://github.com/k2-fsa/colab/blob/master/sherpa-onnx/sherpa_onnx_csharp_api_example.ipynb

@@ -48,7 +48,7 @@ This page lists all available pre-trained models that you can download.
    It shows how to install sherpa and use it as offline recognizer,
    which supports the models from icefall, the `WeNet`_ framework and torchaudio.
 
-.. |Sherpa offline recognition python api colab notebook| image:: https://colab.research.google.com/assets/colab-badge.svg
+.. |Sherpa offline recognition python api colab notebook| image:: https://github.com/k2-fsa/sherpa/releases/download/doc/colab-badge.jpg
    :target: https://github.com/k2-fsa/colab/blob/master/sherpa/sherpa_offline_recognition_python_api_demo.ipynb
 
 .. toctree::

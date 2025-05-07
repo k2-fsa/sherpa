@@ -177,5 +177,5 @@ Colab demo
 We provide a colab notebook |build sherpa_onnx.har for HarmonyOS notebook| to show you how to build ``sherpa_onnx.har``
 from scratch.
 
-.. |build sherpa_onnx.har for HarmonyOS notebook| image:: https://colab.research.google.com/assets/colab-badge.svg
+.. |build sherpa_onnx.har for HarmonyOS notebook| image:: https://github.com/k2-fsa/sherpa/releases/download/doc/colab-badge.jpg
    :target: https://github.com/k2-fsa/colab/blob/master/sherpa-onnx/harmony-os/sherpa_onnx_harmonyos_build_har.ipynb

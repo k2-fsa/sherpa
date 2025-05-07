@@ -8,7 +8,7 @@ We provide a colab notebook
 |Sherpa-onnx offline recognition with whisper python api colab notebook|
 for you to try `Whisper`_ models with `sherpa-onnx`_ step by step.
 
-.. |Sherpa-onnx offline recognition with whisper python api colab notebook| image:: https://colab.research.google.com/assets/colab-badge.svg
+.. |Sherpa-onnx offline recognition with whisper python api colab notebook| image:: https://github.com/k2-fsa/sherpa/releases/download/doc/colab-badge.jpg
    :target: https://github.com/k2-fsa/colab/blob/master/sherpa-onnx/sherpa_onnx_whisper_models.ipynb
 
 .. image:: ./pic/whisper-colab.png
@@ -25,6 +25,6 @@ on CPU as well as on GPU.
 
 You will find the RTF on GPU (Tesla T4) is less than 1.
 
-.. |sherpa-onnx with whisper large-v3 colab notebook| image:: https://colab.research.google.com/assets/colab-badge.svg
+.. |sherpa-onnx with whisper large-v3 colab notebook| image:: https://github.com/k2-fsa/sherpa/releases/download/doc/colab-badge.jpg
    :target: https://github.com/k2-fsa/colab/blob/master/sherpa-onnx/sherpa_onnx_whisper_large_v3.ipynb
 
