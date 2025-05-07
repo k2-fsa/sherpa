@@ -88,7 +88,7 @@ class FeatureExtractor(torch.nn.Module):
         mel: [1, feature_dim, seq_len]
         """
         mel = log_mel_spectrogram(wav, self.filters)
-        assert padding_target_len <= 3000, f"padding must be less than 3000, got {padding}"
+        assert padding_target_len <= 3000, f"padding must be less than 3000, got {padding_target_len}"
         if mel.shape[1] < padding_target_len:
             mel = F.pad(mel, (0, padding_target_len - mel.shape[1]), mode='constant')
         if mel.shape[1] % 2:
