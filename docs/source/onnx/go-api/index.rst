@@ -425,5 +425,5 @@ We provide a colab notebook
 |Sherpa-onnx go api example colab notebook|
 for you to try the `Go`_ API examples of `sherpa-onnx`_.
 
-.. |Sherpa-onnx go api example colab notebook| image:: https://colab.research.google.com/assets/colab-badge.svg
+.. |Sherpa-onnx go api example colab notebook| image:: https://github.com/k2-fsa/sherpa/releases/download/doc/colab-badge.jpg
    :target: https://github.com/k2-fsa/colab/blob/master/sherpa-onnx/sherpa_onnx_go_api_example.ipynb

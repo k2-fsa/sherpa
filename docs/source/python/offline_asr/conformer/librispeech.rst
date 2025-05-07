@@ -175,5 +175,5 @@ It describes not only how to setup the environment, but it also
 shows you how to compute the ``WER`` and ``RTF`` of the `LibriSpeech`_
 **test-clean** dataset.
 
-.. |offline asr with librispeech colab notebook| image:: https://colab.research.google.com/assets/colab-badge.svg
+.. |offline asr with librispeech colab notebook| image:: https://github.com/k2-fsa/sherpa/releases/download/doc/colab-badge.jpg
    :target: https://colab.research.google.com/drive/1JX5Ph2onYm1ZjNP_94eGqZ-DIRMLlIca?usp=sharing

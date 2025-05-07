@@ -193,5 +193,5 @@ We provide a colab notebook
 |use sherpa-onnx for pascal colab notebook|
 for you to try this section step by step.
 
-.. |use sherpa-onnx for pascal colab notebook| image:: https://colab.research.google.com/assets/colab-badge.svg
+.. |use sherpa-onnx for pascal colab notebook| image:: https://github.com/k2-fsa/sherpa/releases/download/doc/colab-badge.jpg
    :target: https://github.com/k2-fsa/colab/blob/master/sherpa-onnx/sherpa_onnx_pascal_api_example.ipynb

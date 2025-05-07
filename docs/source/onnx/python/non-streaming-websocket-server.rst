@@ -330,5 +330,5 @@ We provide a colab notebook
 |Sherpa-onnx python non-streaming websocket example colab notebook|
 for you to try the Python non-streaming websocket server example of `sherpa-onnx`_.
 
-.. |Sherpa-onnx python non-streaming websocket example colab notebook| image:: https://colab.research.google.com/assets/colab-badge.svg
+.. |Sherpa-onnx python non-streaming websocket example colab notebook| image:: https://github.com/k2-fsa/sherpa/releases/download/doc/colab-badge.jpg
    :target: https://github.com/k2-fsa/colab/blob/master/sherpa-onnx/sherpa_onnx_python_non_streaming_websocket_server.ipynb

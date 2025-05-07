@@ -55,10 +55,10 @@ with cross-compiling on an x64 machine with Ubuntu OS.
    If you are using Windows/macOS or you don't want to setup your local environment
    for cross-compiling, please use the above colab notebooks.
 
-.. |build sherpa-onnx for aarch64 shared colab notebook| image:: https://colab.research.google.com/assets/colab-badge.svg
+.. |build sherpa-onnx for aarch64 shared colab notebook| image:: https://github.com/k2-fsa/sherpa/releases/download/doc/colab-badge.jpg
    :target: https://github.com/k2-fsa/colab/blob/master/sherpa-onnx/sherpa_onnx_aarch64_cross_compiling_shared_libs.ipynb
 
-.. |build sherpa-onnx for aarch64 static colab notebook| image:: https://colab.research.google.com/assets/colab-badge.svg
+.. |build sherpa-onnx for aarch64 static colab notebook| image:: https://github.com/k2-fsa/sherpa/releases/download/doc/colab-badge.jpg
    :target: https://github.com/k2-fsa/colab/blob/master/sherpa-onnx/sherpa_onnx_aarch64_cross_compiling_static_libs.ipynb
 
 .. _sherpa_onnx_install_for_aarch64_embedded_linux:

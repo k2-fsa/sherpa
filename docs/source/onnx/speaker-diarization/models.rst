@@ -15,7 +15,7 @@ We provide a colab notebook
 |speaker diarization with sherpa-onnx colab notebook|
 for you to try this section step by step.
 
-.. |speaker diarization with sherpa-onnx colab notebook| image:: https://colab.research.google.com/assets/colab-badge.svg
+.. |speaker diarization with sherpa-onnx colab notebook| image:: https://github.com/k2-fsa/sherpa/releases/download/doc/colab-badge.jpg
    :target: https://github.com/k2-fsa/colab/blob/master/sherpa-onnx/sherpa_onnx_speaker_diarization.ipynb
 
 sherpa-onnx-pyannote-segmentation-3-0

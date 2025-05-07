@@ -32,5 +32,5 @@ We provide a colab notebook
 |Sherpa-onnx wenet ctc colab notebook|
 for you to try the exported `WeNet`_ models with `sherpa-onnx`_.
 
-.. |Sherpa-onnx wenet ctc colab notebook| image:: https://colab.research.google.com/assets/colab-badge.svg
+.. |Sherpa-onnx wenet ctc colab notebook| image:: https://github.com/k2-fsa/sherpa/releases/download/doc/colab-badge.jpg
    :target: https://github.com/k2-fsa/colab/blob/master/sherpa-onnx/sherpa_onnx_with_models_from_wenet.ipynb

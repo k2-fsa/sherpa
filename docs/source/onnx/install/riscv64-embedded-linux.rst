@@ -14,7 +14,7 @@ how to use ``qemu`` to run the compiled binaries.
    If you are using Windows/macOS or you don't want to setup your local environment
    for cross-compiling, please use the above colab notebook.
 
-.. |build sherpa-onnx for risc-v colab notebook| image:: https://colab.research.google.com/assets/colab-badge.svg
+.. |build sherpa-onnx for risc-v colab notebook| image:: https://github.com/k2-fsa/sherpa/releases/download/doc/colab-badge.jpg
    :target: https://github.com/k2-fsa/colab/blob/master/sherpa-onnx/sherpa_onnx_RISC_V.ipynb
 
 .. note::

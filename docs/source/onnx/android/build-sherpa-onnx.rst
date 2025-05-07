@@ -186,7 +186,7 @@ Android ABIs:
    If you are using Windows or you don't want to setup your local environment
    to build the C++ libraries, please use the above colab notebook.
 
-.. |build sherpa-onnx for android colab notebook| image:: https://colab.research.google.com/assets/colab-badge.svg
+.. |build sherpa-onnx for android colab notebook| image:: https://github.com/k2-fsa/sherpa/releases/download/doc/colab-badge.jpg
    :target: https://github.com/k2-fsa/colab/blob/master/sherpa-onnx/build_sherpa_onnx_for_android.ipynb
 
 Build for arm64-v8a

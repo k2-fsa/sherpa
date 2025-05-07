@@ -13,7 +13,7 @@ with cross-compiling on an x64 machine with Ubuntu OS.
    If you are using Windows/macOS or you don't want to setup your local environment
    for cross-compiling, please use the above colab notebook.
 
-.. |build sherpa-ncnn for risc-v colab notebook| image:: https://colab.research.google.com/assets/colab-badge.svg
+.. |build sherpa-ncnn for risc-v colab notebook| image:: https://github.com/k2-fsa/sherpa/releases/download/doc/colab-badge.jpg
    :target: https://github.com/k2-fsa/colab/blob/master/sherpa-ncnn/sherpa_ncnn_RISC_V.ipynb
 
 

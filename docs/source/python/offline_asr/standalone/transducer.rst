@@ -13,7 +13,7 @@ models for offline (i.e., non-streaming) speech recognition.
 
    We have a colab notebook for this section: |sherpa python offline transducer standalone recognizer colab notebook|
 
-    .. |sherpa python offline transducer standalone recognizer colab notebook| image:: https://colab.research.google.com/assets/colab-badge.svg
+    .. |sherpa python offline transducer standalone recognizer colab notebook| image:: https://github.com/k2-fsa/sherpa/releases/download/doc/colab-badge.jpg
      :target: https://github.com/k2-fsa/colab/blob/master/sherpa/sherpa_standalone_offline_transducer_speech_recognition.ipynb
 
    You can find the following in the above colab notebook:
