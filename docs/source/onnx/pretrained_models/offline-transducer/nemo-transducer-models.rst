@@ -8,6 +8,183 @@ NeMo transducer-based Models
    Please refer to :ref:`install_sherpa_onnx` to install `sherpa-onnx`
    before you read this section.
 
+sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8 (English, 英语)
+----------------------------------------------------------------------
+
+This model is converted from
+
+  `<https://huggingface.co/nvidia/parakeet-tdt-0.6b-v2>`_
+
+You can find the conversion script at
+
+  `<https://github.com/k2-fsa/sherpa-onnx/tree/master/scripts/nemo/parakeet-tdt-0.6b-v2>`_
+
+In the following, we describe how to download it and use it with `sherpa-onnx`_.
+
+.. hint::
+
+   This model supports punctuations and cases.
+
+Download the model
+~~~~~~~~~~~~~~~~~~
+
+Please use the following commands to download it.
+
+.. code-block:: bash
+
+   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8.tar.bz2
+   tar xvf sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8.tar.bz2
+   rm sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8.tar.bz2
+
+.. hint::
+
+   If you want to try ``float16`` quantized model, please use  `sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-fp16.tar.bz2 <https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-fp16.tar.bz2>`_.
+
+   If you want to try ``non-quantized`` decoder and joiner models, please use `sherpa-onnx-nemo-parakeet-tdt-0.6b-v2.tar.bz2 <https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-nemo-parakeet-tdt-0.6b-v2.tar.bz2>`_
+
+You should see something like below after downloading::
+
+  ls -lh sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/
+  total 1295752
+  -rw-r--r--  1 fangjun  staff   6.9M May  6 16:24 decoder.int8.onnx
+  -rw-r--r--  1 fangjun  staff   622M May  6 16:24 encoder.int8.onnx
+  -rw-r--r--  1 fangjun  staff   1.7M May  6 16:24 joiner.int8.onnx
+  drwxr-xr-x  3 fangjun  staff    96B May  6 16:24 test_wavs
+  -rw-r--r--  1 fangjun  staff   9.2K May  6 16:24 tokens.txt
+
+Decode wave files
+~~~~~~~~~~~~~~~~~
+
+.. hint::
+
+   It supports decoding only wave files of a single channel with 16-bit
+   encoded samples, while the sampling rate does not need to be 16 kHz.
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  ./build/bin/sherpa-onnx-offline \
+    --encoder=./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/encoder.int8.onnx \
+    --decoder=./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/decoder.int8.onnx \
+    --joiner=./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/joiner.int8.onnx \
+    --tokens=./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/tokens.txt \
+    --model-type=nemo_transducer \
+    ./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/test_wavs/0.wav
+
+.. note::
+
+   Please use ``./build/bin/Release/sherpa-onnx-offline.exe`` for Windows.
+
+You should see the following output:
+
+.. literalinclude:: ./code-nemo/sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8.txt
+
+Speech recognition from a microphone
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  ./build/bin/sherpa-onnx-microphone-offline \
+    --encoder=./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/encoder.int8.onnx \
+    --decoder=./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/decoder.int8.onnx \
+    --joiner=./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/joiner.int8.onnx \
+    --tokens=./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/tokens.txt \
+    --model-type=nemo_transducer
+
+Speech recognition from a microphone with VAD
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/silero_vad.onnx
+
+  ./build/bin/sherpa-onnx-vad-microphone-offline-asr \
+    --silero-vad-model=./silero_vad.onnx \
+    --encoder=./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/encoder.int8.onnx \
+    --decoder=./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/decoder.int8.onnx \
+    --joiner=./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/joiner.int8.onnx \
+    --tokens=./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/tokens.txt \
+    --model-type=nemo_transducer
+
+RTF on RK3588 with Cortex A76 CPU
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In the following, we test this model on RK3588 with Cortex A76 CPU.
+
+Information about the CPUs on the board is given below:
+
+.. literalinclude:: ./code-nemo/rk3588-cpu.txt
+
+You can see that it has 8 CPUs: 4 Cortex A55 + 4 Cortex A76.
+
+We use ``taskset`` below to test the RTF on Cortex A76.
+
+.. code-block:: bash
+
+  taskset 0x80 sherpa-onnx-offline \
+    --num-threads=1 \
+    --encoder=./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/encoder.int8.onnx \
+    --decoder=./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/decoder.int8.onnx \
+    --joiner=./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/joiner.int8.onnx \
+    --tokens=./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/tokens.txt \
+    --model-type=nemo_transducer \
+    ./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/test_wavs/0.wav
+
+Its output is given below:
+
+.. literalinclude:: ./code-nemo/rk3588-a76-rtf.txt
+
+
+To test the RTF with different ``--num-threads``, we use::
+
+  taskset 0xc0 sherpa-onnx-offline \
+    --num-threads=2 \
+    --encoder=./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/encoder.int8.onnx \
+    --decoder=./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/decoder.int8.onnx \
+    --joiner=./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/joiner.int8.onnx \
+    --tokens=./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/tokens.txt \
+    --model-type=nemo_transducer \
+    ./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/test_wavs/0.wav
+
+  taskset 0xe0 sherpa-onnx-offline \
+    --num-threads=3 \
+    --encoder=./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/encoder.int8.onnx \
+    --decoder=./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/decoder.int8.onnx \
+    --joiner=./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/joiner.int8.onnx \
+    --tokens=./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/tokens.txt \
+    --model-type=nemo_transducer \
+    ./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/test_wavs/0.wav
+
+  taskset 0xf0 sherpa-onnx-offline \
+    --num-threads=4 \
+    --encoder=./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/encoder.int8.onnx \
+    --decoder=./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/decoder.int8.onnx \
+    --joiner=./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/joiner.int8.onnx \
+    --tokens=./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/tokens.txt \
+    --model-type=nemo_transducer \
+    ./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/test_wavs/0.wav
+
+The results are summarized below:
+
+.. list-table::
+
+ * - Number of threads
+   - 1
+   - 2
+   - 3
+   - 4
+ * - RTF on Cortex A76 CPU
+   - 0.220
+   - 0.142
+   - 0.118
+   - 0.088
+
+
 sherpa-onnx-nemo-transducer-giga-am-v2-russian-2025-04-19 (Russian, 俄语)
 --------------------------------------------------------------------------------
 
