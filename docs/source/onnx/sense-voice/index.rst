@@ -1,3 +1,5 @@
+.. _onnx-sense-voice:
+
 SenseVoice
 ==========
 

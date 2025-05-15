@@ -15,6 +15,9 @@ Links for pre-built APKs can be found in the following table:
  * - Streaming speech recognition
    - `Here <https://k2-fsa.github.io/sherpa/onnx/android/apk-cn.html>`_
    - `<https://k2-fsa.github.io/sherpa/onnx/android/apk.html>`_
+ * - Simulated streaming speech recognition
+   - `Here <https://k2-fsa.github.io/sherpa/onnx/android/apk-simulate-streaming-asr-cn.html>`_
+   - `<https://k2-fsa.github.io/sherpa/onnx/android/apk-simulate-streaming-asr.html>`_
  * - Text-to-speech engine
    - `Here <https://k2-fsa.github.io/sherpa/onnx/tts/apk-engine-cn.html>`_
    - `<https://k2-fsa.github.io/sherpa/onnx/tts/apk-engine.html>`_
@@ -45,3 +48,10 @@ Links for pre-built APKs can be found in the following table:
  * - Keyword spotting
    - `Here <https://k2-fsa.github.io/sherpa/onnx/kws/apk-cn.html>`_
    - `<https://k2-fsa.github.io/sherpa/onnx/kws/apk.html>`_
+
+.. note::
+
+   - ``Simulated streaming speech recognition``: It uses a non-streaming ASR model for real-time/streaming
+     speech recognition. For instance, use :ref:`onnx-whisper`, :ref:`onnx-moonshine`,
+     :ref:`onnx-sense-voice`, :ref:`nvidia/parakeet-tdt-0.6b-v2 <sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8>`, etc,
+     for real-time speech recognition.

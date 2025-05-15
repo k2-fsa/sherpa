@@ -8,6 +8,9 @@ NeMo transducer-based Models
    Please refer to :ref:`install_sherpa_onnx` to install `sherpa-onnx`
    before you read this section.
 
+
+.. _sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8:
+
 sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8 (English, 英语)
 ----------------------------------------------------------------------
 
