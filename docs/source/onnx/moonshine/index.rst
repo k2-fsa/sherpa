@@ -1,3 +1,5 @@
+.. _onnx-moonshine:
+
 Moonshine
 =========
 

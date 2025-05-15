@@ -109,6 +109,10 @@ jobs:
           ./generate-kws.py
           ./generate-vad.py
           ./generate-vad-asr.py
+          ./generate-vad-asr-simulated-streaming.py
+
+          mv -v apk-simulate-streaming-asr.html ../build/html/onnx/android/
+          mv -v apk-simulate-streaming-asr-cn.html ../build/html/onnx/android/
 
           mv -v apk-asr.html ../build/html/onnx/android/apk.html
           mv -v apk-asr-2pass.html ../build/html/onnx/android/apk-2pass.html
