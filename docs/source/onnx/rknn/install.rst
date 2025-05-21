@@ -47,6 +47,22 @@ with rknn support. In that case, please visit
 and download the ``whl`` file to your board and use ``pip install ./*.whl``
 to install from ``whl``. Remember to recheck with ``ldd $(which sherpa-onnx)``.
 
+**Caution**: Please use the following command to check the version of your ``librknnrt.so``:
+
+.. code-block:: bash
+
+  strings /lib/librknnrt.so | grep "librkrnnrt version"
+
+It should print something like below::
+
+  librknnrt version: 2.2.0 (c195366594@2024-09-14T12:18:56)
+
+``librknnrt.so`` ``2.2.0`` is known to work on rk3588.
+
+You can download ``librknnrt.so`` ``2.2.0`` from:
+
+  `<https://github.com/airockchip/rknn-toolkit2/blob/v2.2.0/rknpu2/runtime/Linux/librknn_api/aarch64/librknnrt.so>`_
+
 Build sherpa-onnx directly on your board
 ----------------------------------------
 
