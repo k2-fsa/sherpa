@@ -257,6 +257,58 @@ Output logs are given below::
 
   </table>
 
+RTF on RK3588
+~~~~~~~~~~~~~
+
+We use the following code to test the RTF of `Spleeter` on RK3588
+with Cortex ``A76`` CPU.
+
+.. code-block:: bash
+
+  # 1 thread
+  taskset 0x80  ./build/bin/sherpa-onnx-offline-source-separation \
+    --num-threads=1 \
+    --spleeter-vocals=sherpa-onnx-spleeter-2stems-fp16/vocals.fp16.onnx \
+    --spleeter-accompaniment=sherpa-onnx-spleeter-2stems-fp16/accompaniment.fp16.onnx \
+    --input-wav=./qi-feng-le-zh.wav \
+    --output-vocals-wav=spleeter_qi_feng_le_vocals.wav \
+    --output-accompaniment-wav=spleeter_qi_feng_le_non_vocals.wav
+
+  # 2 threads
+  taskset 0xc0  ./build/bin/sherpa-onnx-offline-source-separation \
+    --num-threads=2 \
+    --spleeter-vocals=sherpa-onnx-spleeter-2stems-fp16/vocals.fp16.onnx \
+    --spleeter-accompaniment=sherpa-onnx-spleeter-2stems-fp16/accompaniment.fp16.onnx \
+    --input-wav=./qi-feng-le-zh.wav \
+    --output-vocals-wav=spleeter_qi_feng_le_vocals.wav \
+    --output-accompaniment-wav=spleeter_qi_feng_le_non_vocals.wav
+
+  # 3 threads
+  taskset 0xe0  ./build/bin/sherpa-onnx-offline-source-separation \
+    --num-threads=3 \
+    --spleeter-vocals=sherpa-onnx-spleeter-2stems-fp16/vocals.fp16.onnx \
+    --spleeter-accompaniment=sherpa-onnx-spleeter-2stems-fp16/accompaniment.fp16.onnx \
+    --input-wav=./qi-feng-le-zh.wav \
+    --output-vocals-wav=spleeter_qi_feng_le_vocals.wav \
+    --output-accompaniment-wav=spleeter_qi_feng_le_non_vocals.wav
+
+  # 4 threads
+  taskset 0xf0  ./build/bin/sherpa-onnx-offline-source-separation \
+    --num-threads=4 \
+    --spleeter-vocals=sherpa-onnx-spleeter-2stems-fp16/vocals.fp16.onnx \
+    --spleeter-accompaniment=sherpa-onnx-spleeter-2stems-fp16/accompaniment.fp16.onnx \
+    --input-wav=./qi-feng-le-zh.wav \
+    --output-vocals-wav=spleeter_qi_feng_le_vocals.wav \
+    --output-accompaniment-wav=spleeter_qi_feng_le_non_vocals.wav
+
+The results are given below:
+
+  +------------------------+-------+-------+-------+-------+
+  | num_threads            | 1     | 2     | 3     | 4     |
+  +========================+=======+=======+=======+=======+
+  | RTF on Cortex A76 CPU  | 0.258 | 0.176 | 0.138 | 0.127 |
+  +------------------------+-------+-------+-------+-------+
+
 Python example
 ~~~~~~~~~~~~~~
 
