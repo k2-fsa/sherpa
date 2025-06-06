@@ -349,6 +349,69 @@ You should see the following output:
 
   -rw-r--r--  1 fangjun  staff    28M May 31 13:33 UVR_MDXNET_9482.onnx
 
+Download test files
+~~~~~~~~~~~~~~~~~~~
+
+We use the following two test wave files:
+
+.. code-block:: bash
+
+   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/source-separation-models/qi-feng-le-zh.wav
+
+   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/source-separation-models/audio_example.wav
+
+.. code-block:: bash
+
+  ls -lh audio_example.wav qi-feng-le-zh.wav
+
+  -rw-r--r--@ 1 fangjun  staff   1.8M May 23 15:59 audio_example.wav
+  -rw-r--r--@ 1 fangjun  staff   4.4M May 23 22:06 qi-feng-le-zh.wav
+
+.. hint::
+
+   To make things easier, we support only ``*.wav`` files. If you have other formats, e.g.,
+   ``*.mp3``, ``*.mp4``, or ``*.mov``, you can use
+
+    .. code-block:: bash
+
+      ffmpeg -i your.mp3 -vn -acodec pcm_s16le -ar 44100 -ac 2 your.wav
+      ffmpeg -i your.mp4 -vn -acodec pcm_s16le -ar 44100 -ac 2 your.wav
+      ffmpeg -i your.mov -vn -acodec pcm_s16le -ar 44100 -ac 2 your.wav
+
+   to convert them to ``*.wav`` files.
+
+The downloaded test files are given below.
+
+.. raw:: html
+
+  <table>
+    <tr>
+      <th>Wave filename</th>
+      <th>Content</th>
+    </tr>
+    <tr>
+      <td>qi-feng-le-zh.wav</td>
+      <td>
+       <audio title="qi-feng-le-zh.wav" controls="controls">
+             <source src="/sherpa/_static/source-separation/qi-feng-le-zh.wav" type="audio/wav">
+             Your browser does not support the <code>audio</code> element.
+       </audio>
+      </td>
+    </tr>
+
+    <tr>
+      <td>audio_example.wav</td>
+      <td>
+       <audio title="audio_example.wav" controls="controls">
+             <source src="/sherpa/_static/source-separation/audio_example.wav" type="audio/wav">
+             Your browser does not support the <code>audio</code> element.
+       </audio>
+      </td>
+    </tr>
+  </table>
+
+
+
 Example 1/2 with qi-feng-le-zh.wav
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
