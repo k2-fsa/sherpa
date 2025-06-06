@@ -22,3 +22,7 @@ Please visit
    :target: https://huggingface.co/spaces/k2-fsa/text-to-speech
 
 
+If you don't have access to huggingface, please try the following mirror
+
+  `<https://hf.qhduan.com/spaces/k2-fsa/text-to-speech>`_
+
