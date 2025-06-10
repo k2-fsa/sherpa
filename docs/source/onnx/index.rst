@@ -53,6 +53,7 @@ Also, we show how to use it for speech recognition with pre-trained models.
    ./sense-voice/index
    ./FireRedAsr/index
    ./Dolphin/index
+   ./homophone-replacer/index.rst
 
 .. toctree::
    :maxdepth: 5
