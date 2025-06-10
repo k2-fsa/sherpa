@@ -1,5 +1,5 @@
-拼音词组替换
-============
+拼音词组匹配替换
+=================
 
 .. hint::
 
@@ -256,3 +256,12 @@
    把 ``xuan2jie4xin1pian1`` 变成 ``玄戒芯片`` 。 添加的规则如下::
 
       rule7 = pynini.cross("xuan2jie4xin1pian1", "玄戒芯片")
+
+视频演示
+----------
+
+B 站视频演示如下:
+
+.. raw:: html
+
+  <iframe src="//player.bilibili.com/player.html?bvid=BV1ydTkz8ERB&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" width="600" height="600"> </iframe>
