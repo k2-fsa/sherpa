@@ -62,6 +62,40 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
+      - name: Install Python dependencies
+        shell: bash
+        run: |
+          python3 -m pip install --upgrade pip jinja2 iso639-lang
+          python3 -m pip install "numpy<2" soundfile
+
+      - uses: actions-rust-lang/setup-rust-toolchain@v1
+
+      - name: Instal mdbook
+        shell: bash
+        run: |
+          cargo install mdbook
+
+          which mdbook
+
+      - name: Build TTS samples
+        shell: bash
+        run: |
+          git clone https://huggingface.co/csukuangfj/sherpa-onnx-tts-samples
+          pushd sherpa-onnx-tts-samples
+          git lfs pull
+
+          cat ./piper/generate.py
+          echo "---"
+
+          python3 ./main.py
+
+          cd book
+          mdbook build
+
+          ls -lh book
+
+          popd
+
       - name: Copy wave files
         shell: bash
         run: |
@@ -224,6 +258,17 @@ jobs:
           popd
 
           git diff
+
+      - name: Copy tts samples
+        shell: bash
+        run: |
+          sudo chown -R $USER docs/build
+
+          sudo cp -a sherpa-onnx-tts-samples/book/book docs/build/html/onnx/tts/all
+          ls -lha docs/build/html/onnx/tts/all
+          rm -v docs/build/html/onnx/tts/all/.gitignore
+          echo "---"
+          ls -lha docs/build/html/onnx/tts/all
 
       - name: View generated files
         shell: bash
