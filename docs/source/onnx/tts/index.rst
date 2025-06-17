@@ -10,6 +10,7 @@ to install `sherpa-onnx`_ before you continue.
 .. toctree::
    :maxdepth: 5
 
+   ./all-in-one.rst
    ./hf-space.rst
    ./pretrained_models/index
    ./wasm/index
