@@ -80,11 +80,19 @@ jobs:
       - name: Build TTS samples
         shell: bash
         run: |
+          git clone https://github.com/k2-fsa/sherpa-onnx
+
+          SHERPA_ONNX_VERSION=$(grep "SHERPA_ONNX_VERSION" ./sherpa-onnx/CMakeLists.txt  | cut -d " " -f 2  | cut -d '"' -f 2)
+          export SHERPA_ONNX_VERSION
+
+          echo "SHERPA_ONNX_VERSION: $SHERPA_ONNX_VERSION"
+
+          rm -rf sherpa-onnx
+
           git clone https://huggingface.co/csukuangfj/sherpa-onnx-tts-samples
           pushd sherpa-onnx-tts-samples
           git lfs pull
 
-          cat ./piper/generate.py
           echo "---"
 
           python3 ./main.py
