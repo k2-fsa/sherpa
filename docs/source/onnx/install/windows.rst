@@ -6,8 +6,9 @@ This page describes how to build `sherpa-onnx`_ on Windows.
 
 .. hint::
 
-   MinGW is known not to work.
-   Please install ``Visual Studio`` before you continue.
+   MinGW is known not to work with `sherpa-onnx`_.
+
+   Please install ``Visual Studio 2022`` before you continue.
 
 .. note::
 
@@ -16,18 +17,18 @@ This page describes how to build `sherpa-onnx`_ on Windows.
 
    Please always download the latest version.
 
-   URLs to download the version ``1.9.12`` is given below.
+   URLs to download the version ``1.12.1`` is given below.
 
    .. list-table::
 
      * - 64-bit Windows (static lib)
-       - `<https://huggingface.co/csukuangfj/sherpa-onnx-libs/resolve/main/win64/sherpa-onnx-v1.9.12-win-x64-static.tar.bz2>`_
+       - `<https://huggingface.co/csukuangfj/sherpa-onnx-libs/resolve/main/win64/sherpa-onnx-v1.12.1-win-x64-static.tar.bz2>`_
      * - 64-bit Windows (shared lib)
-       - `<https://huggingface.co/csukuangfj/sherpa-onnx-libs/resolve/main/win64/sherpa-onnx-v1.9.12-win-x64-shared.tar.bz2>`_
+       - `<https://huggingface.co/csukuangfj/sherpa-onnx-libs/resolve/main/win64/sherpa-onnx-v1.12.1-win-x64-shared.tar.bz2>`_
      * - 32-bit Windows (static lib)
-       - `<https://huggingface.co/csukuangfj/sherpa-onnx-libs/resolve/main/win32/sherpa-onnx-v1.9.12-win-x86-static.tar.bz2>`_
+       - `<https://huggingface.co/csukuangfj/sherpa-onnx-libs/resolve/main/win32/sherpa-onnx-v1.12.1-win-x86-static.tar.bz2>`_
      * - 32-bit Windows (shared lib)
-       - `<https://huggingface.co/csukuangfj/sherpa-onnx-libs/resolve/main/win32/sherpa-onnx-v1.9.12-win-x86-shared.tar.bz2>`_
+       - `<https://huggingface.co/csukuangfj/sherpa-onnx-libs/resolve/main/win32/sherpa-onnx-v1.12.1-win-x86-shared.tar.bz2>`_
 
    If you cannot access ``huggingface.co``, then please replace ``huggingface.co`` with
    ``hf-mirror.com``.

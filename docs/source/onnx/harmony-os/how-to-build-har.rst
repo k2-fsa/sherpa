@@ -20,7 +20,7 @@ the following lines:
 
     "dependencies": {
        // please always use the latest version
-      "sherpa_onnx": "1.10.33",
+      "sherpa_onnx": "1.12.1",
     },
 
 or use:

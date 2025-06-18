@@ -114,7 +114,7 @@ libs from
     `<https://github.com/k2-fsa/sherpa-onnx/releases>`_
 
 Please always use the latest version. In the following, we describe how to download
-the version `1.11.1 <https://github.com/k2-fsa/sherpa-onnx/releases/tag/v1.11.1>`_.
+the version `1.12.1 <https://github.com/k2-fsa/sherpa-onnx/releases/tag/v1.12.1>`_.
 
 .. tabs::
 
@@ -122,23 +122,23 @@ the version `1.11.1 <https://github.com/k2-fsa/sherpa-onnx/releases/tag/v1.11.1>
 
       .. code-block:: bash
 
-         wget https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.11.1/sherpa-onnx-v1.11.1-linux-x64-jni.tar.bz2
-         tar xvf sherpa-onnx-v1.11.1-linux-x64-jni.tar.bz2
-         rm sherpa-onnx-v1.11.1-linux-x64-jni.tar.bz2
+         wget https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.12.1/sherpa-onnx-v1.12.1-linux-x64-jni.tar.bz2
+         tar xvf sherpa-onnx-v1.12.1-linux-x64-jni.tar.bz2
+         rm sherpa-onnx-v1.12.1-linux-x64-jni.tar.bz2
 
    .. tab:: Linux aarch64
 
       .. code-block:: bash
 
-         wget https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.11.1/sherpa-onnx-v1.11.1-linux-aarch64-jni.tar.bz2
-         tar xvf sherpa-onnx-v1.11.1-linux-aarch64-jni.tar.bz2
-         rm sherpa-onnx-v1.11.1-linux-aarch64-jni.tar.bz2
+         wget https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.12.1/sherpa-onnx-v1.12.1-linux-aarch64-jni.tar.bz2
+         tar xvf sherpa-onnx-v1.12.1-linux-aarch64-jni.tar.bz2
+         rm sherpa-onnx-v1.12.1-linux-aarch64-jni.tar.bz2
 
 You should find the following files:
 
 .. code-block:: bash
 
-  ls -lh sherpa-onnx-v1.11.1-linux-x64-jni/lib/
+  ls -lh sherpa-onnx-v1.12.1-linux-x64-jni/lib/
   total 40064
   -rw-r--r--  1 fangjun  staff    15M Mar 17 18:44 libonnxruntime.so
   -rwxr-xr-x  1 fangjun  staff   4.7M Mar 17 18:51 libsherpa-onnx-jni.so

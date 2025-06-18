@@ -32,22 +32,22 @@ with ``cross-compiling`` on an x86 machine with Ubuntu OS.
 
    Please always download the latest version.
 
-   Example command to download the version ``1.9.12``:
+   Example command to download the version ``1.12.1``:
 
     .. code-block:: bash
 
       # binaries built with shared libraries
-      wget https://huggingface.co/csukuangfj/sherpa-onnx-libs/resolve/main/arm32/sherpa-onnx-v1.9.12-linux-arm-gnueabihf-shared.tar.bz2
+      wget https://huggingface.co/csukuangfj/sherpa-onnx-libs/resolve/main/arm32/sherpa-onnx-v1.12.1-linux-arm-gnueabihf-shared.tar.bz2
 
       # binaries built with static link
-      wget https://huggingface.co/csukuangfj/sherpa-onnx-libs/resolve/main/arm32/sherpa-onnx-v1.9.12-linux-arm-gnueabihf-static.tar.bz2
+      wget https://huggingface.co/csukuangfj/sherpa-onnx-libs/resolve/main/arm32/sherpa-onnx-v1.12.1-linux-arm-gnueabihf-static.tar.bz2
 
       # For users from China
       # binaries built with shared libraries
-      wget https://hf-mirror.com/csukuangfj/sherpa-onnx-libs/resolve/main/arm32/sherpa-onnx-v1.9.12-linux-arm-gnueabihf-shared.tar.bz2
+      wget https://hf-mirror.com/csukuangfj/sherpa-onnx-libs/resolve/main/arm32/sherpa-onnx-v1.12.1-linux-arm-gnueabihf-shared.tar.bz2
 
       # binaries built with static link
-      wget https://hf-mirror.com/csukuangfj/sherpa-onnx-libs/resolve/main/arm32/sherpa-onnx-v1.9.12-linux-arm-gnueabihf-static.tar.bz2
+      wget https://hf-mirror.com/csukuangfj/sherpa-onnx-libs/resolve/main/arm32/sherpa-onnx-v1.12.1-linux-arm-gnueabihf-static.tar.bz2
 
 .. hint::
 

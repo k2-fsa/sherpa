@@ -20,20 +20,20 @@ libs from
     `<https://github.com/k2-fsa/sherpa-onnx/releases>`_
 
 Please always use the latest version. In the following, we describe how to download
-the version `1.11.1 <https://github.com/k2-fsa/sherpa-onnx/releases/tag/v1.11.1>`_.
+the version `1.12.1 <https://github.com/k2-fsa/sherpa-onnx/releases/tag/v1.12.1>`_.
 
 .. code-block:: bash
 
-   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.11.1/sherpa-onnx-v1.11.1-win-x64-jni.tar.bz2
+   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.12.1/sherpa-onnx-v1.12.1-win-x64-jni.tar.bz2
 
-   tar xf sherpa-onnx-v1.11.1-win-x64-jni.tar.bz2
-   rm sherpa-onnx-v1.11.1-win-x64-jni.tar.bz2
+   tar xf sherpa-onnx-v1.12.1-win-x64-jni.tar.bz2
+   rm sherpa-onnx-v1.12.1-win-x64-jni.tar.bz2
 
 You should find the following files:
 
 .. code-block:: bash
 
-  ls -lh  sherpa-onnx-v1.11.1-win-x64-jni/lib/
+  ls -lh  sherpa-onnx-v1.12.1-win-x64-jni/lib/
   total 14M
   -rwxr-xr-x 1 fangjun fangjun  11M Aug 24 15:41 onnxruntime.dll
   -rwxr-xr-x 1 fangjun fangjun  23K Aug 24 15:41 onnxruntime_providers_shared.dll
