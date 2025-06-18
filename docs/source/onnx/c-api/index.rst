@@ -85,6 +85,7 @@ You should find the following files inside ``/tmp/sherpa-onnx/shared``:
           │   ├── libonnxruntime.1.17.1.dylib
           │   ├── libonnxruntime.dylib -> libonnxruntime.1.17.1.dylib
           │   └── libsherpa-onnx-c-api.dylib
+          │   └── libsherpa-onnx-cxx-api.dylib
           └── sherpa-onnx.pc
 
           5 directories, 25 files
@@ -123,6 +124,7 @@ You should find the following files inside ``/tmp/sherpa-onnx/shared``:
           ├── lib
           │   ├── libonnxruntime.so
           │   └── libsherpa-onnx-c-api.so
+          │   └── libsherpa-onnx-cxx-api.so
           └── sherpa-onnx.pc
 
           6 directories, 23 files
@@ -194,6 +196,7 @@ You should find the following files in ``/tmp/sherpa-onnx/static``:
           │   ├── libonnxruntime.a
           │   ├── libpiper_phonemize.a
           │   ├── libsherpa-onnx-c-api.a
+          │   ├── libsherpa-onnx-cxx-api.a
           │   ├── libsherpa-onnx-core.a
           │   ├── libsherpa-onnx-fst.a
           │   ├── libsherpa-onnx-fstfar.a
@@ -251,6 +254,7 @@ You should find the following files in ``/tmp/sherpa-onnx/static``:
           │   ├── libonnxruntime.a
           │   ├── libpiper_phonemize.a
           │   ├── libsherpa-onnx-c-api.a
+          │   ├── libsherpa-onnx-cxx-api.a
           │   ├── libsherpa-onnx-core.a
           │   ├── libsherpa-onnx-fst.a
           │   ├── libsherpa-onnx-fstfar.a

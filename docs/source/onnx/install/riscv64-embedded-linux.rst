@@ -24,16 +24,16 @@ how to use ``qemu`` to run the compiled binaries.
 
    Please always download the latest version.
 
-   Example command to download the version ``1.9.12``:
+   Example command to download the version ``1.12.1``:
 
     .. code-block:: bash
 
       # binaries built with shared libraries
-      wget https://huggingface.co/csukuangfj/sherpa-onnx-libs/resolve/main/riscv64/sherpa-onnx-v1.9.12-linux-riscv64-shared.tar.bz2
+      wget https://huggingface.co/csukuangfj/sherpa-onnx-libs/resolve/main/riscv64/sherpa-onnx-v1.12.1-linux-riscv64-shared.tar.bz2
 
       # For users from China
       # binaries built with shared libraries
-      # wget https://hf-mirror.com/csukuangfj/sherpa-onnx-libs/resolve/main/riscv64/sherpa-onnx-v1.9.12-linux-riscv64-shared.tar.bz2
+      # wget https://hf-mirror.com/csukuangfj/sherpa-onnx-libs/resolve/main/riscv64/sherpa-onnx-v1.12.1-linux-riscv64-shared.tar.bz2
 
 Install toolchain
 -----------------

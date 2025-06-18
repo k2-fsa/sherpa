@@ -24,11 +24,8 @@ Install dependencies
 
 .. code-block:: bash
 
-   pip install onnx onnxruntime
+   pip install onnx==1.17.0 onnxruntime==1.17.1
 
-.. hint::
-
-   We suggest that you always use the latest version of onnxruntime.
 
 Find the pre-trained model from piper
 -------------------------------------

@@ -53,38 +53,41 @@ from
     `<https://github.com/k2-fsa/sherpa-onnx/releases>`_
 
 Please always use the latest version. In the following, we describe how to download
-the version `1.11.1 <https://github.com/k2-fsa/sherpa-onnx/releases/tag/v1.11.1>`_.
+the version `1.12.1 <https://github.com/k2-fsa/sherpa-onnx/releases/tag/v1.12.1>`_.
 
 .. code-block:: bash
 
   # For java 8 or java 1.8
-  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.11.1/sherpa-onnx-v1.11.1-java8.jar
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.12.1/sherpa-onnx-v1.12.1-java8.jar
 
   # For Java 11
-  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.11.1/sherpa-onnx-v1.11.1-java11.jar
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.12.1/sherpa-onnx-v1.12.1-java11.jar
 
   # For Java 16
-  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.11.1/sherpa-onnx-v1.11.1-java16.jar
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.12.1/sherpa-onnx-v1.12.1-java16.jar
 
   # For Java 17
-  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.11.1/sherpa-onnx-v1.11.1-java17.jar
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.12.1/sherpa-onnx-v1.12.1-java17.jar
 
   # For Java 18
-  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.11.1/sherpa-onnx-v1.11.1-java18.jar
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.12.1/sherpa-onnx-v1.12.1-java18.jar
 
   # For Java 19
-  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.11.1/sherpa-onnx-v1.11.1-java19.jar
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.12.1/sherpa-onnx-v1.12.1-java19.jar
 
   # For Java 20
-  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.11.1/sherpa-onnx-v1.11.1-java20.jar
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.12.1/sherpa-onnx-v1.12.1-java20.jar
 
   # For Java 21
-  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.11.1/sherpa-onnx-v1.11.1-java21.jar
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.12.1/sherpa-onnx-v1.12.1-java21.jar
 
   # For Java 22
-  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.11.1/sherpa-onnx-v1.11.1-java22.jar
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.12.1/sherpa-onnx-v1.12.1-java22.jar
 
   # For Java 23
-  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.11.1/sherpa-onnx-v1.11.1-java23.jar
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.12.1/sherpa-onnx-v1.12.1-java23.jar
+
+  # For Java 24
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.12.1/sherpa-onnx-v1.12.1-java24.jar
 
 

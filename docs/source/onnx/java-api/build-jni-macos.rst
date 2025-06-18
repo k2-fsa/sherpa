@@ -114,7 +114,7 @@ libs from
     `<https://github.com/k2-fsa/sherpa-onnx/releases>`_
 
 Please always use the latest version. In the following, we describe how to download
-the version `1.11.1 <https://github.com/k2-fsa/sherpa-onnx/releases/tag/v1.11.1>`_.
+the version `1.12.1 <https://github.com/k2-fsa/sherpa-onnx/releases/tag/v1.12.1>`_.
 
 .. tabs::
 
@@ -122,33 +122,33 @@ the version `1.11.1 <https://github.com/k2-fsa/sherpa-onnx/releases/tag/v1.11.1>
 
       .. code-block:: bash
 
-         wget https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.11.1/sherpa-onnx-v1.11.1-osx-x86_64-jni.tar.bz2
+         wget https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.12.1/sherpa-onnx-v1.12.1-osx-x86_64-jni.tar.bz2
 
-         tar xf sherpa-onnx-v1.11.1-osx-x86_64-jni.tar.bz2
-         rm sherpa-onnx-v1.11.1-osx-x86_64-jni.tar.bz2
+         tar xf sherpa-onnx-v1.12.1-osx-x86_64-jni.tar.bz2
+         rm sherpa-onnx-v1.12.1-osx-x86_64-jni.tar.bz2
 
    .. tab:: Apple Silicon (arm64)
 
       .. code-block:: bash
 
-         wget https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.11.1/sherpa-onnx-v1.11.1-osx-arm64-jni.tar.bz2
+         wget https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.12.1/sherpa-onnx-v1.12.1-osx-arm64-jni.tar.bz2
 
-         tar xf sherpa-onnx-v1.11.1-osx-arm64-jni.tar.bz2
-         rm sherpa-onnx-v1.11.1-osx-arm64-jni.tar.bz2
+         tar xf sherpa-onnx-v1.12.1-osx-arm64-jni.tar.bz2
+         rm sherpa-onnx-v1.12.1-osx-arm64-jni.tar.bz2
 
 After downloading, you should see the following files:
 
 .. code-block:: bash
 
   # For x86_64
-  ls -lh sherpa-onnx-v1.11.1-osx-x86_64-jni/lib
+  ls -lh sherpa-onnx-v1.12.1-osx-x86_64-jni/lib
   total 30M
   -rw-r--r-- 1 fangjun fangjun  26M Aug 25 00:31 libonnxruntime.1.17.1.dylib
   lrwxrwxrwx 1 fangjun fangjun   27 Aug 25 00:35 libonnxruntime.dylib -> libonnxruntime.1.17.1.dylib
   -rwxr-xr-x 1 fangjun fangjun 3.9M Aug 25 00:35 libsherpa-onnx-jni.dylib
 
   # For arm64
-  ls -lh sherpa-onnx-v1.11.1-osx-arm64-jni/lib/
+  ls -lh sherpa-onnx-v1.12.1-osx-arm64-jni/lib/
   total 27M
   -rw-r--r-- 1 fangjun fangjun  23M Aug 24 23:56 libonnxruntime.1.17.1.dylib
   lrwxrwxrwx 1 fangjun fangjun   27 Aug 24 23:59 libonnxruntime.dylib -> libonnxruntime.1.17.1.dylib
