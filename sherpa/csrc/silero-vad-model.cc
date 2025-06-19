@@ -3,6 +3,7 @@
 // Copyright (c)  2025  Xiaomi Corporation
 #include "sherpa/csrc/silero-vad-model.h"
 
+#include "sherpa/cpp_api/macros.h"
 #include "sherpa/csrc/macros.h"
 namespace sherpa {
 
@@ -38,6 +39,8 @@ class SileroVadModel::Impl {
   torch::Device Device() const { return device_; }
 
   torch::Tensor Run(torch::Tensor samples) {
+    InferenceMode no_grad;
+
     torch::Tensor sample_rate = torch::tensor(
         {config_.sample_rate}, torch::dtype(torch::kInt).device(device_));
 
