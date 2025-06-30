@@ -8,6 +8,208 @@ Zipformer-transducer-based Models
    Please refer to :ref:`install_sherpa_onnx` to install `sherpa-onnx`_
    before you read this section.
 
+.. _sherpa-onnx-streaming-zipformer-zh-xlarge-int8-2025-06-30:
+
+sherpa-onnx-streaming-zipformer-zh-xlarge-int8-2025-06-30 (Chinese)
+--------------------------------------------------------------------
+
+PyTorch checkpoint for this model can be found at
+`<https://huggingface.co/yuekai/icefall-asr-multi-zh-hans-zipformer-xl>`_.
+
+The training code can be found at
+`<https://github.com/k2-fsa/icefall/blob/master/egs/multi_zh-hans/ASR/RESULTS.md#multi-chinese-datasets-char-based-training-results-streaming-on-zipformer-xl-model>`_
+
+.. note::
+
+   We only show the ``int8`` quantized model here. You can also use
+
+    - ``fp16``: `sherpa-onnx-streaming-zipformer-zh-xlarge-fp16-2025-06-30.tar.bz2 <https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-zipformer-zh-xlarge-fp16-2025-06-30.tar.bz2>`_
+
+
+Download the model
+~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-zipformer-zh-xlarge-int8-2025-06-30.tar.bz2
+  tar xvf sherpa-onnx-streaming-zipformer-zh-xlarge-int8-2025-06-30.tar.bz2
+  rm sherpa-onnx-streaming-zipformer-zh-xlarge-int8-2025-06-30.tar.bz2
+
+  ls -lh sherpa-onnx-streaming-zipformer-zh-xlarge-int8-2025-06-30
+
+The output is given below:
+
+.. code-block:: bash
+
+  -rw-r--r--  1 fangjun  staff   311B Jun 30 18:28 README.md
+  -rw-r--r--  1 fangjun  staff   258K Jun 30 18:28 bpe.model
+  -rw-r--r--  1 fangjun  staff   8.1M Jun 30 18:28 decoder.onnx
+  -rw-r--r--  1 fangjun  staff   726M Jun 30 18:28 encoder.int8.onnx
+  -rw-r--r--  1 fangjun  staff   1.5M Jun 30 18:28 joiner.int8.onnx
+  drwxr-xr-x  5 fangjun  staff   160B Jun 30 18:28 test_wavs
+  -rw-r--r--  1 fangjun  staff    18K Jun 30 18:28 tokens.txt
+
+Decode a single wave file
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. hint::
+
+   It supports decoding only wave files of a single channel with 16-bit
+   encoded samples, while the sampling rate does not need to be 16 kHz.
+
+The following code shows how to use ``int8`` models to decode a wave file:
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  ./build/bin/sherpa-onnx \
+    --tokens=./sherpa-onnx-streaming-zipformer-zh-xlarge-int8-2025-06-30/tokens.txt \
+    --encoder=./sherpa-onnx-streaming-zipformer-zh-xlarge-int8-2025-06-30/encoder.int8.onnx \
+    --decoder=./sherpa-onnx-streaming-zipformer-zh-xlarge-int8-2025-06-30/decoder.onnx \
+    --joiner=./sherpa-onnx-streaming-zipformer-zh-xlarge-int8-2025-06-30/joiner.int8.onnx \
+    ./sherpa-onnx-streaming-zipformer-zh-xlarge-int8-2025-06-30/test_wavs/0.wav
+
+.. note::
+
+   Please use ``./build/bin/Release/sherpa-onnx.exe`` for Windows.
+
+.. caution::
+
+   If you use Windows and get encoding issues, please run:
+
+      .. code-block:: bash
+
+          CHCP 65001
+
+   in your commandline.
+
+You should see the following output:
+
+.. literalinclude:: ./code-zipformer/sherpa-onnx-streaming-zipformer-zh-xlarge-int8-2025-06-30.txt
+
+Real-time speech recognition from a microphone
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  ./build/bin/sherpa-onnx-microphone \
+    --tokens=./sherpa-onnx-streaming-zipformer-zh-xlarge-int8-2025-06-30/tokens.txt \
+    --encoder=./sherpa-onnx-streaming-zipformer-zh-xlarge-int8-2025-06-30/encoder.int8.onnx \
+    --decoder=./sherpa-onnx-streaming-zipformer-zh-xlarge-int8-2025-06-30/decoder.onnx \
+    --joiner=./sherpa-onnx-streaming-zipformer-zh-xlarge-int8-2025-06-30/joiner.int8.onnx
+
+.. hint::
+
+   If your system is Linux (including embedded Linux), you can also use
+   :ref:`sherpa-onnx-alsa` to do real-time speech recognition with your
+   microphone if ``sherpa-onnx-microphone`` does not work for you.
+
+.. _sherpa-onnx-streaming-zipformer-zh-int8-2025-06-30:
+
+sherpa-onnx-streaming-zipformer-zh-int8-2025-06-30 (Chinese)
+------------------------------------------------------------
+
+PyTorch checkpoint for this model can be found at
+`<https://huggingface.co/yuekai/icefall-asr-multi-zh-hans-zipformer-large>`_.
+
+The training code can be found at
+`<https://github.com/k2-fsa/icefall/blob/master/egs/multi_zh-hans/ASR/RESULTS.md#multi-chinese-datasets-char-based-training-results-streaming-on-zipformer-large-model>`_
+
+.. note::
+
+   We only show the ``int8`` quantized model here. You can also use
+
+    - ``fp32``: `sherpa-onnx-streaming-zipformer-zh-2025-06-30.tar.bz2 <https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-zipformer-zh-2025-06-30.tar.bz2>`_
+    - ``fp16``: `sherpa-onnx-streaming-zipformer-zh-fp16-2025-06-30.tar.bz2 <https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-zipformer-zh-fp16-2025-06-30.tar.bz2>`_
+
+Download the model
+~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-zipformer-zh-int8-2025-06-30.tar.bz2
+  tar xvf sherpa-onnx-streaming-zipformer-zh-int8-2025-06-30.tar.bz2
+  rm sherpa-onnx-streaming-zipformer-zh-int8-2025-06-30.tar.bz2
+
+  ls -lh sherpa-onnx-streaming-zipformer-zh-int8-2025-06-30
+
+The output is given below:
+
+.. code-block:: bash
+
+  -rw-r--r--  1 fangjun  staff   317B Jun 30 15:03 README.md
+  -rw-r--r--  1 fangjun  staff   4.9M Jun 30 15:03 decoder.onnx
+  -rw-r--r--  1 fangjun  staff   154M Jun 30 15:03 encoder.int8.onnx
+  -rw-r--r--  1 fangjun  staff   1.0M Jun 30 15:03 joiner.int8.onnx
+  drwxr-xr-x  5 fangjun  staff   160B Jun 30 15:03 test_wavs
+  -rw-r--r--  1 fangjun  staff    20K Jun 30 15:03 tokens.txt
+
+Decode a single wave file
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. hint::
+
+   It supports decoding only wave files of a single channel with 16-bit
+   encoded samples, while the sampling rate does not need to be 16 kHz.
+
+The following code shows how to use ``int8`` models to decode a wave file:
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  ./build/bin/sherpa-onnx \
+    --tokens=./sherpa-onnx-streaming-zipformer-zh-int8-2025-06-30/tokens.txt \
+    --encoder=./sherpa-onnx-streaming-zipformer-zh-int8-2025-06-30/encoder.int8.onnx \
+    --decoder=./sherpa-onnx-streaming-zipformer-zh-int8-2025-06-30/decoder.onnx \
+    --joiner=./sherpa-onnx-streaming-zipformer-zh-int8-2025-06-30/joiner.int8.onnx \
+    ./sherpa-onnx-streaming-zipformer-zh-int8-2025-06-30/test_wavs/0.wav
+
+.. note::
+
+   Please use ``./build/bin/Release/sherpa-onnx.exe`` for Windows.
+
+.. caution::
+
+   If you use Windows and get encoding issues, please run:
+
+      .. code-block:: bash
+
+          CHCP 65001
+
+   in your commandline.
+
+You should see the following output:
+
+.. literalinclude:: ./code-zipformer/sherpa-onnx-streaming-zipformer-zh-int8-2025-06-30.txt
+
+Real-time speech recognition from a microphone
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  ./build/bin/sherpa-onnx-microphone \
+    --tokens=./sherpa-onnx-streaming-zipformer-zh-int8-2025-06-30/tokens.txt \
+    --encoder=./sherpa-onnx-streaming-zipformer-zh-int8-2025-06-30/encoder.int8.onnx \
+    --decoder=./sherpa-onnx-streaming-zipformer-zh-int8-2025-06-30/decoder.onnx \
+    --joiner=./sherpa-onnx-streaming-zipformer-zh-int8-2025-06-30/joiner.int8.onnx
+
+.. hint::
+
+   If your system is Linux (including embedded Linux), you can also use
+   :ref:`sherpa-onnx-alsa` to do real-time speech recognition with your
+   microphone if ``sherpa-onnx-microphone`` does not work for you.
+
+
 sherpa-onnx-streaming-zipformer-korean-2024-06-16 (Korean)
 ----------------------------------------------------------
 
