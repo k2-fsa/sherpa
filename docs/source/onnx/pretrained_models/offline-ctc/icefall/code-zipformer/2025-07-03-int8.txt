@@ -1,0 +1,14 @@
+/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:372 ./build/bin/sherpa-onnx-offline --zipformer-ctc-model=./sherpa-onnx-zipformer-ctc-zh-int8-2025-07-03/model.int8.onnx --tokens=./sherpa-onnx-zipformer-ctc-zh-int8-2025-07-03/tokens.txt sherpa-onnx-zipformer-ctc-zh-int8-2025-07-03/test_wavs/0.wav 
+
+OfflineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80, low_freq=20, high_freq=-400, dither=0, normalize_samples=True, snip_edges=False), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename="", decoder_filename="", joiner_filename=""), paraformer=OfflineParaformerModelConfig(model=""), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=""), whisper=OfflineWhisperModelConfig(encoder="", decoder="", language="", task="transcribe", tail_paddings=-1), fire_red_asr=OfflineFireRedAsrModelConfig(encoder="", decoder=""), tdnn=OfflineTdnnModelConfig(model=""), zipformer_ctc=OfflineZipformerCtcModelConfig(model="./sherpa-onnx-zipformer-ctc-zh-int8-2025-07-03/model.int8.onnx"), wenet_ctc=OfflineWenetCtcModelConfig(model=""), sense_voice=OfflineSenseVoiceModelConfig(model="", language="auto", use_itn=False), moonshine=OfflineMoonshineModelConfig(preprocessor="", encoder="", uncached_decoder="", cached_decoder=""), dolphin=OfflineDolphinModelConfig(model=""), telespeech_ctc="", tokens="./sherpa-onnx-zipformer-ctc-zh-int8-2025-07-03/tokens.txt", num_threads=2, debug=False, provider="cpu", model_type="", modeling_unit="cjkchar", bpe_vocab=""), lm_config=OfflineLMConfig(model="", scale=0.5), ctc_fst_decoder_config=OfflineCtcFstDecoderConfig(graph="", max_active=3000), decoding_method="greedy_search", max_active_paths=4, hotwords_file="", hotwords_score=1.5, blank_penalty=0, rule_fsts="", rule_fars="", hr=HomophoneReplacerConfig(dict_dir="", lexicon="", rule_fsts=""))
+Creating recognizer ...
+Started
+Done!
+
+sherpa-onnx-zipformer-ctc-zh-int8-2025-07-03/test_wavs/0.wav
+{"lang": "", "emotion": "", "event": "", "text": "对我做了介绍那么我想说的是呢大家如果对我的研究感兴趣呢", "timestamps": [0.16, 0.32, 0.48, 0.64, 0.80, 0.96, 1.00, 1.08, 1.60, 1.76, 1.92, 2.08, 2.24, 2.40, 2.56, 2.72, 3.04, 3.20, 3.36, 3.52, 3.68, 3.76, 3.84, 3.92, 4.00, 4.16, 4.32, 4.48, 4.60, 4.68, 4.80], "tokens":["▁ƌŕş", "▁ƍĩĴ", "▁ƌĢĽ", "▁ƋŠħ", "▁ƋšĬ", "▁Ǝ", "š", "Į", "▁Ɛģň", "▁Ƌşĩ", "▁ƍĩĴ", "▁ƍĤř", "▁ƏŕŚ", "▁ƎĽĥ", "▁ƍĻŕ", "▁ƌĴŇ", "▁ƌŊō", "▁ƌŔŜ", "▁ƌŌģ", "▁ƍŃŁ", "▁ƌŕş", "▁ƍĩĴ", "▁ƎĽĥ", "▁ƎŅķ", "▁ƎŏŜ", "▁ƍĥń", "▁ƌĦŚ", "▁Ə", "Ŝ", "ň", "▁ƌĴŇ"], "words": []}
+----
+num threads: 2
+decoding method: greedy_search
+Elapsed seconds: 0.349 s
+Real time factor (RTF): 0.349 / 5.611 = 0.062
