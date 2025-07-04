@@ -22,6 +22,70 @@ is given below:
 
 In the following, we describe how to download it and use it with `sherpa-onnx`_.
 
+Pre-built Android APK
+~~~~~~~~~~~~~~~~~~~~~
+
+.. list-table::
+
+ * - APP
+   - Download (arm64-v8a)
+   - 国内镜像
+   - Source code
+ * - Simulated-streaming ASR
+   - `URL <https://huggingface.co/csukuangfj/sherpa-onnx-apk/resolve/main/vad-asr-simulated-streaming/1.12.3/sherpa-onnx-1.12.3-arm64-v8a-simulated_streaming_asr-zh-zipformer_2025_07_03.apk>`_
+   - `URL <https://hf-mirror.com/csukuangfj/sherpa-onnx-apk/blob/main/vad-asr-simulated-streaming/1.12.3/sherpa-onnx-1.12.3-arm64-v8a-simulated_streaming_asr-zh-zipformer_2025_07_03.apk>`_
+   - `URL <https://github.com/k2-fsa/sherpa-onnx/tree/master/android/SherpaOnnxSimulateStreamingAsr>`_
+ * - VAD + ASR
+   - `URL <https://huggingface.co/csukuangfj/sherpa-onnx-apk/resolve/main/vad-asr/1.12.3/sherpa-onnx-1.12.3-arm64-v8a-vad_asr-zh-zipformer_2025_07_03.apk>`_
+   - `URL <https://hf-mirror.com/csukuangfj/sherpa-onnx-apk/blob/main/vad-asr/1.12.3/sherpa-onnx-1.12.3-arm64-v8a-vad_asr-zh-zipformer_2025_07_03.apk>`_
+   - `URL <https://github.com/k2-fsa/sherpa-onnx/tree/master/android/SherpaOnnxVadAsr>`_
+
+.. hint::
+
+   Please always download the latest version. We use ``v1.12.3`` in the above table
+   as an example.
+
+See :ref:`sherpa-onnx-android-pre-built-apks` for more Android pre-built APKs.
+
+WebAssembly example (ASR from a microphone)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. list-table::
+
+ * -
+   - URL
+ * - Huggingface space
+   - `<https://huggingface.co/spaces/k2-fsa/web-assembly-vad-asr-sherpa-onnx-zh-zipformer-ctc>`_
+ * - 国内镜像
+   - `<https://hf.qhduan.com/spaces/k2-fsa/web-assembly-vad-asr-sherpa-onnx-zh-zipformer-ctc>`_
+ * - ModelScope space
+   - `<https://modelscope.cn/studios/csukuangfj/web-assembly-vad-asr-sherpa-onnx-zh-zipformer-ctc/summary>`_
+
+.. image:: ./pic/hf-wasm-07-03.jpg
+   :alt: screenshot
+   :width: 600
+
+.. hint::
+
+   Source code for the WebAssembly example can be found at
+
+    `<https://github.com/k2-fsa/sherpa-onnx/tree/master/wasm/vad-asr>`_
+
+Huggingface space (Decode a file)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. list-table::
+
+ * -
+   - URL
+ * - Huggingface space
+   - `<https://huggingface.co/spaces/k2-fsa/automatic-speech-recognition>`_
+ * - 国内镜像
+   - `<https://hf.qhduan.com/spaces/k2-fsa/automatic-speech-recognition>`_
+
+.. image:: ./pic/hf-zipformer-07-03.jpg
+   :alt: screenshot
+   :width: 600
 
 Download the model
 ~~~~~~~~~~~~~~~~~~

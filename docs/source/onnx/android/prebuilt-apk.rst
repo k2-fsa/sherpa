@@ -1,3 +1,5 @@
+.. _sherpa-onnx-android-pre-built-apks:
+
 Pre-built APKs
 ==============
 

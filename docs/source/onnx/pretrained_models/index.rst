@@ -39,7 +39,7 @@ available pre-trained models for speech recognition.
   Otherwise, you will be ``SAD`` later.
 
 .. toctree::
-   :maxdepth: 5
+   :maxdepth: 7
 
    online-transducer/index
    online-paraformer/index

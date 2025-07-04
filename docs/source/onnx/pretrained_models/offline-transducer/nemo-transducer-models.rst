@@ -5,7 +5,7 @@ NeMo transducer-based Models
 
 .. hint::
 
-   Please refer to :ref:`install_sherpa_onnx` to install `sherpa-onnx`
+   Please refer to :ref:`install_sherpa_onnx` to install `sherpa-onnx`_
    before you read this section.
 
 

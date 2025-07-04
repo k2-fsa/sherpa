@@ -4,7 +4,7 @@ Offline CTC models
 This section lists available offline CTC models.
 
 .. toctree::
-   :maxdepth: 5
+   :maxdepth: 7
 
    icefall/index
    nemo/index
