@@ -1,3 +1,5 @@
+.. _onnx-speaker-identification:
+
 Speaker Identification
 ======================
 

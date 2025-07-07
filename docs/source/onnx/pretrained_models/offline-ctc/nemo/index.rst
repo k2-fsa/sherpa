@@ -1,5 +1,7 @@
-NeMo
-====
+.. _nemo-offline-ctc:
+
+NeMo CTC-based models
+=====================
 
 This page lists all offline CTC models from `NeMo`_.
 
