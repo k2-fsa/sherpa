@@ -17,8 +17,8 @@ English
 
 This page lists offline CTC models from `NeMo`_ for English.
 
-sherpa-onnx-nemo-parakeet_tdt_ctc_110m-en-36000 (English, 英语)
-----------------------------------------------------------------
+sherpa-onnx-nemo-parakeet_tdt_ctc_110m-en-36000-int8 (English, 英语)
+--------------------------------------------------------------------------
 
 This model is converted from `<https://hugginface.co/nvidia/parakeet-tdt_ctc-110m>`_.
 
