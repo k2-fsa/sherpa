@@ -20,7 +20,7 @@ This page lists offline CTC models from `NeMo`_ for English.
 sherpa-onnx-nemo-parakeet_tdt_ctc_110m-en-36000-int8 (English, 英语)
 --------------------------------------------------------------------------
 
-This model is converted from `<https://hugginface.co/nvidia/parakeet-tdt_ctc-110m>`_.
+This model is converted from `<https://huggingface.co/nvidia/parakeet-tdt_ctc-110m>`_.
 
 You can find the code for exporting the model from `NeMo`_ to `sherpa-onnx`_
 `<https://github.com/k2-fsa/sherpa-onnx/tree/master/scripts/nemo/fast-conformer-hybrid-transducer-ctc>`_.
