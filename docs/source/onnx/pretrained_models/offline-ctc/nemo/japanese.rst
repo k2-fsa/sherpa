@@ -11,7 +11,7 @@ This page lists offline CTC models from `NeMo`_ for Japanese.
 sherpa-onnx-nemo-parakeet-tdt_ctc-0.6b-ja-35000-int8 (Japanese, 日语)
 ------------------------------------------------------------------------
 
-This model is converted from `<https://hugginface.co/nvidia/parakeet-tdt_ctc-0.6b-ja>`_.
+This model is converted from `<https://huggingface.co/nvidia/parakeet-tdt_ctc-0.6b-ja>`_.
 
 You can find the code for exporting the model from `NeMo`_ to `sherpa-onnx`_
 at `<https://github.com/k2-fsa/sherpa-onnx/tree/master/scripts/nemo/parakeet-tdt_ctc-0.6b-ja>`_.
