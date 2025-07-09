@@ -17,6 +17,89 @@ English
 
 This page lists offline CTC models from `NeMo`_ for English.
 
+sherpa-onnx-nemo-parakeet_tdt_ctc_110m-en-36000-int8 (English, 英语)
+--------------------------------------------------------------------------
+
+This model is converted from `<https://huggingface.co/nvidia/parakeet-tdt_ctc-110m>`_.
+
+You can find the code for exporting the model from `NeMo`_ to `sherpa-onnx`_
+`<https://github.com/k2-fsa/sherpa-onnx/tree/master/scripts/nemo/fast-conformer-hybrid-transducer-ctc>`_.
+
+It supports both punctuations and cases.
+
+In the following, we describe how to download it and use it with `sherpa-onnx`_.
+
+Download the model
+~~~~~~~~~~~~~~~~~~
+
+Please use the following commands to download it.
+
+.. code-block:: bash
+
+   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-nemo-parakeet_tdt_ctc_110m-en-36000-int8.tar.bz2
+   tar xvf sherpa-onnx-nemo-parakeet_tdt_ctc_110m-en-36000-int8.tar.bz2
+   rm sherpa-onnx-nemo-parakeet_tdt_ctc_110m-en-36000-int8.tar.bz2
+
+You should see something like below after downloading::
+
+  ls -lh sherpa-onnx-nemo-parakeet_tdt_ctc_110m-en-36000-int8
+
+  total 126M
+  -rw-r--r-- 1 501 staff 126M Jul  8 12:23 model.int8.onnx
+  drwxr-xr-x 2 501 staff 4.0K Jul  8 12:26 test_wavs
+  -rw-r--r-- 1 501 staff 9.8K Jul  8 12:22 tokens.txt
+
+Decode wave files
+~~~~~~~~~~~~~~~~~
+
+.. hint::
+
+   It supports decoding only wave files of a single channel with 16-bit
+   encoded samples, while the sampling rate does not need to be 16 kHz.
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  ./build/bin/sherpa-onnx-offline \
+    --nemo-ctc-model=./sherpa-onnx-nemo-parakeet_tdt_ctc_110m-en-36000-int8/model.int8.onnx \
+    --tokens=./sherpa-onnx-nemo-parakeet_tdt_ctc_110m-en-36000-int8/tokens.txt \
+    ./sherpa-onnx-nemo-parakeet_tdt_ctc_110m-en-36000-int8/test_wavs/0.wav
+
+.. note::
+
+   Please use ``./build/bin/Release/sherpa-onnx-offline.exe`` for Windows.
+
+You should see the following output:
+
+.. literalinclude:: ./code-english/tdt-ctc-110m-int8.txt
+
+Speech recognition from a microphone
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  ./build/bin/sherpa-onnx-microphone-offline \
+    --nemo-ctc-model=./sherpa-onnx-nemo-parakeet_tdt_ctc_110m-en-36000-int8/model.int8.onnx \
+    --tokens=./sherpa-onnx-nemo-parakeet_tdt_ctc_110m-en-36000-int8/tokens.txt
+
+Speech recognition from a microphone with VAD
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/silero_vad.onnx
+
+  ./build/bin/sherpa-onnx-vad-microphone-offline-asr \
+    --silero-vad-model=./silero_vad.onnx \
+    --nemo-ctc-model=./sherpa-onnx-nemo-parakeet_tdt_ctc_110m-en-36000-int8/model.int8.onnx \
+    --tokens=./sherpa-onnx-nemo-parakeet_tdt_ctc_110m-en-36000-int8/tokens.txt
+
+
 stt_en_citrinet_512
 -------------------
 

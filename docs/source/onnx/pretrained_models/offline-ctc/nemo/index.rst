@@ -11,8 +11,9 @@ This page lists all offline CTC models from `NeMo`_.
    for a list of pre-trained NeMo models.
 
 .. toctree::
-   :maxdepth: 5
+   :maxdepth: 7
 
    how-to-export
    english
    russian
+   japanese

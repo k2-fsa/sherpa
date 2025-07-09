@@ -1,0 +1,18 @@
+/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:372 ./build/bin/sherpa-onnx-offline --nemo-ctc-model=./sherpa-onnx-nemo-parakeet-tdt_ctc-0.6b-ja-35000-int8/model.int8.onnx --tokens=./sherpa-onnx-nemo-parakeet-tdt_ctc-0.6b-ja-35000-int8/tokens.txt ./sherpa-onnx-nemo-parakeet-tdt_ctc-0.6b-ja-35000-int8/test_wavs/test_ja_1.wav 
+
+OfflineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80, low_freq=20, high_freq=-400, dither=0, normalize_samples=True, snip_edges=False), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename="", decoder_filename="", joiner_filename=""), paraformer=OfflineParaformerModelConfig(model=""), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model="./sherpa-onnx-nemo-parakeet-tdt_ctc-0.6b-ja-35000-int8/model.int8.onnx"), whisper=OfflineWhisperModelConfig(encoder="", decoder="", language="", task="transcribe", tail_paddings=-1), fire_red_asr=OfflineFireRedAsrModelConfig(encoder="", decoder=""), tdnn=OfflineTdnnModelConfig(model=""), zipformer_ctc=OfflineZipformerCtcModelConfig(model=""), wenet_ctc=OfflineWenetCtcModelConfig(model=""), sense_voice=OfflineSenseVoiceModelConfig(model="", language="auto", use_itn=False), moonshine=OfflineMoonshineModelConfig(preprocessor="", encoder="", uncached_decoder="", cached_decoder=""), dolphin=OfflineDolphinModelConfig(model=""), canary=OfflineCanaryModelConfig(encoder="", decoder="", src_lang="", tgt_lang="", use_pnc=True), telespeech_ctc="", tokens="./sherpa-onnx-nemo-parakeet-tdt_ctc-0.6b-ja-35000-int8/tokens.txt", num_threads=2, debug=False, provider="cpu", model_type="", modeling_unit="cjkchar", bpe_vocab=""), lm_config=OfflineLMConfig(model="", scale=0.5), ctc_fst_decoder_config=OfflineCtcFstDecoderConfig(graph="", max_active=3000), decoding_method="greedy_search", max_active_paths=4, hotwords_file="", hotwords_score=1.5, blank_penalty=0, rule_fsts="", rule_fars="", hr=HomophoneReplacerConfig(dict_dir="", lexicon="", rule_fsts=""))
+Creating recognizer ...
+Started
+/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/offline-stream.cc:AcceptWaveformImpl:164 Creating a resampler:
+   in_sample_rate: 48000
+   output_sample_rate: 16000
+
+Done!
+
+./sherpa-onnx-nemo-parakeet-tdt_ctc-0.6b-ja-35000-int8/test_wavs/test_ja_1.wav
+{"lang": "", "emotion": "", "event": "", "text": " 日本語ちゃんと聞っとえてますか?ちゃんと聞こえてんの?ちゃんと聞こえてんの?ってマイクを持ってもらって", "timestamps": [0.00, 1.04, 1.36, 1.60, 1.68, 1.84, 2.08, 2.24, 2.48, 2.64, 4.72, 4.96, 5.20, 5.44, 5.60, 5.76, 6.00, 6.08, 8.08, 8.24, 8.48, 8.72, 8.88, 9.12, 9.36, 9.44, 10.80, 11.04, 11.36, 11.60, 11.68, 11.84, 12.00, 12.16, 12.24, 12.40, 12.56], "tokens":[" ", "日本", "語", "ちゃん", "と", "聞", "っと", "えて", "ます", "か", "?", "ちゃん", "と", "聞", "こ", "えて", "ん", "の", "?", "ちゃん", "と", "聞", "こ", "えて", "ん", "の", "?", "って", "マ", "イ", "ク", "を", "持", "って", "も", "ら", "って"], "words": []}
+----
+num threads: 2
+decoding method: greedy_search
+Elapsed seconds: 1.375 s
+Real time factor (RTF): 1.375 / 13.000 = 0.106
