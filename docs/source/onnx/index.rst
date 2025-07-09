@@ -51,6 +51,7 @@ Also, we show how to use it for speech recognition with pre-trained models.
    ./pretrained_models/index
    ./moonshine/index
    ./sense-voice/index
+   ./nemo/index
    ./FireRedAsr/index
    ./Dolphin/index
    ./homophone-replacer/index.rst
