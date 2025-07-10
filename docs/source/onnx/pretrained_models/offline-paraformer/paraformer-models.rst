@@ -347,7 +347,7 @@ csukuangfj/sherpa-onnx-paraformer-zh-2024-03-09 (Chinese + English)
 
 This model is converted from
 
-`<https://www.modelscope.cn/models/crazyant/speech_paraformer_asr_nat-zh-cn-16k-common-vocab8358-onnx/summary>`_
+`<https://www.modelscope.cn/models/iic/speech_paraformer-large_asr_nat-zh-cn-16k-common-vocab8358-tensorflow1/summary>`_
 
 In the following, we describe how to download it and use it with `sherpa-onnx`_.
 
