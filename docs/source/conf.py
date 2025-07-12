@@ -168,6 +168,8 @@ rst_epilog = """
 .. _emscripten: https://emscripten.org/index.html
 .. _audioset: https://research.google.com/audioset/
 .. _silero-vad: https://github.com/snakers4/silero-vad
+.. _silero_vad: https://github.com/snakers4/silero-vad
+.. _ten-vad: https://github.com/TEN-framework/ten-vad
 .. _Flutter: https://flutter.dev/
 .. _Dart: https://dart.dev/
 .. _Node: https://nodejs.org/en
@@ -179,6 +181,7 @@ rst_epilog = """
 .. _moonshine: https://github.com/usefulsensors/moonshine
 .. _FireRedAsr: https://github.com/FireRedTeam/FireRedASR
 .. _Dolphin: https://github.com/DataoceanAI/Dolphin
+.. _k2-fsa: https://github.com/k2-fsa
 """
 
 
