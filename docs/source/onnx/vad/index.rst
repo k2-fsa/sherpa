@@ -1,14 +1,16 @@
 VAD
 ===
 
-We support `silero-vad`_ for voice activity detection.
+We support `silero-vad`_ and `ten-vad`_ for voice activity detection.
 
-You can find pre-built Android APKs for VAD at:
+`silero-vad`_ uses `MIT license <https://github.com/snakers4/silero-vad/blob/master/LICENSE>`_ while `ten-vad`_ uses a
+`modified version <https://github.com/TEN-framework/ten-vad/blob/main/LICENSE>`_
+of Apache License 2.0
 
-  `<https://k2-fsa.github.io/sherpa/onnx/vad/apk.html>`_
+Please read the license of the model before you use it.
 
+.. toctree::
+   :maxdepth: 7
 
-APKs for VAD + speech recognition can be found at:
-
-  `<https://k2-fsa.github.io/sherpa/onnx/vad/apk-asr.html>`_
-
+   ./silero-vad.rst
+   ./ten-vad.rst
