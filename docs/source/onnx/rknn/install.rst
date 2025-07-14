@@ -51,7 +51,7 @@ to install from ``whl``. Remember to recheck with ``ldd $(which sherpa-onnx)``.
 
 .. code-block:: bash
 
-  strings /lib/librknnrt.so | grep "librkrnnrt version"
+  strings /lib/librknnrt.so | grep "librknnrt version"
 
 It should print something like below::
 
