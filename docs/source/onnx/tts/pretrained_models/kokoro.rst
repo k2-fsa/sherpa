@@ -6,7 +6,7 @@ This page lists pre-trained models from `<https://huggingface.co/hexgrad/Kokoro-
 .. _kokoro-multi-lang-v1_0:
 
 kokoro-multi-lang-v1_1 (Chinese + English, 103 speakers)
--------------------------------------------------------
+---------------------------------------------------------
 
 This model contains 103 speakers. Please see
 
@@ -22,9 +22,6 @@ for details.
    - ``int8`` quantization
  * - `kokoro-multi-lang-v1_1.tar.bz2 <https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/kokoro-multi-lang-v1_1.tar.bz2>`_
    - No quantization
-
-
-
 
 kokoro-multi-lang-v1_0 (Chinese + English, 53 speakers)
 -------------------------------------------------------

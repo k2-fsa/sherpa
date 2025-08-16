@@ -8,7 +8,7 @@ Please first follow :ref:`install_sherpa_onnx` and/or :ref:`install_sherpa_onnx_
 to install `sherpa-onnx`_ before you continue.
 
 .. toctree::
-   :maxdepth: 5
+   :maxdepth: 8
 
    ./all-in-one.rst
    ./hf-space.rst

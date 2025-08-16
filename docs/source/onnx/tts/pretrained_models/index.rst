@@ -12,9 +12,10 @@ This page list pre-trained models for text-to-speech.
   Otherwise, you will be ``SAD`` later.
 
 .. toctree::
-   :maxdepth: 5
+   :maxdepth: 8
 
    ./rtf
    ./matcha
    ./kokoro
+   ./kitten
    ./vits

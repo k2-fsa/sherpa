@@ -29,7 +29,7 @@ sherpa
    ./ncnn/index
 
 .. toctree::
-   :maxdepth: 5
+   :maxdepth: 8
    :caption: k2-fsa/sherpa-onnx
 
    ./onnx/index
