@@ -27,6 +27,17 @@ Download the model
    tar xf kitten-nano-en-v0_1-fp16.tar.bz2
    rm kitten-nano-en-v0_1-fp16.tar.bz2
 
+Huggingface space
+~~~~~~~~~~~~~~~~~~~~
+
+You can try this model by visiting
+
+  `<https://huggingface.co/spaces/k2-fsa/text-to-speech>`_
+
+First select English and then select ``kitten-nano-en-v0_1-fp16`` from the available models.
+
+You don't need to install anything to try it.
+
 Android TTS Engine APK
 ~~~~~~~~~~~~~~~~~~~~~~~~
 
