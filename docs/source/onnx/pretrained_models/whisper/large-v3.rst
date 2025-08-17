@@ -29,7 +29,7 @@ You can use the following commands to download the exported `onnx`_ models of ``
 .. hint::
 
    Please replace ``large-v3`` with
-   ``large``, ``large-v1``, ``large-v2``, and ``distil-large-v2``
+   ``large``, ``large-v1``, ``large-v2``, ``distil-large-v2``, ``distil-large-v3``, and ``distil-large-v3.5``
    if you want to try a different type of model.
 
 .. code-block:: bash
