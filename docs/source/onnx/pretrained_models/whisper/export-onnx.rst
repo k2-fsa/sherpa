@@ -63,6 +63,12 @@ from the following huggingface repositories:
  * - ``distil-large-v2``
    - `<https://huggingface.co/csukuangfj/sherpa-onnx-whisper-distil-large-v2>`_
    - `Here <https://hf-mirror.com/csukuangfj/sherpa-onnx-whisper-distil-large-v2>`_
+ * - ``distil-large-v3``
+   - `<https://huggingface.co/csukuangfj/sherpa-onnx-whisper-distil-large-v3>`_
+   - `Here <https://hf-mirror.com/csukuangfj/sherpa-onnx-whisper-distil-large-v3>`_
+ * - ``distil-large-v3.5``
+   - `<https://huggingface.co/csukuangfj/sherpa-onnx-whisper-distil-large-v3.5>`_
+   - `Here <https://hf-mirror.com/csukuangfj/sherpa-onnx-whisper-distil-large-v3.5>`_
  * - ``medium-aishell``
    - `<https://huggingface.co/csukuangfj/sherpa-onnx-whisper-medium-aishell>`_
    - `Here <https://hf-mirror.com/csukuangfj/sherpa-onnx-whisper-medium-aishell2>`_
@@ -104,11 +110,11 @@ It will print the following message:
 .. code-block:: bash
 
   usage: export-onnx.py [-h] --model
-                        {tiny,tiny.en,base,base.en,small,small.en,medium,medium.en,large,large-v1,large-v2,large-v3,distil-medium.en,distil-small.en,distil-large-v2,medium-aishell}
+                        {tiny,tiny.en,base,base.en,small,small.en,medium,medium.en,large,large-v1,large-v2,large-v3,distil-medium.en,distil-small.en,distil-large-v2,distil-large-v3,distil-large-v3.5,medium-aishell}
 
   optional arguments:
     -h, --help            show this help message and exit
-    --model {tiny,tiny.en,base,base.en,small,small.en,medium,medium.en,large,large-v1,large-v2,large-v3,distil-medium.en,distil-small.en,distil-large-v2,medium-aishell}
+    --model {tiny,tiny.en,base,base.en,small,small.en,medium,medium.en,large,large-v1,large-v2,large-v3,distil-medium.en,distil-small.en,distil-large-v2,distil-large-v3,distil-large-v3.5,medium-aishell}
 
 
 Example 1: Export tiny.en
