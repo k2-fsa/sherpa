@@ -274,6 +274,26 @@ jobs:
 
           sudo cp -a sherpa-onnx-tts-samples/book/book docs/build/html/onnx/tts/all
           ls -lha docs/build/html/onnx/tts/all
+
+          sudo rm -rf docs/build/html/onnx/tts/all/kokoro/v019
+          sudo rm -rf docs/build/html/onnx/tts/all/kokoro/v10
+          sudo rm -rf docs/build/html/onnx/tts/all/kokoro/v11_zh
+          sudo rm -rf docs/build/html/onnx/tts/all/kokoro/__pycache__
+          sudo rm -rf docs/build/html/onnx/tts/all/kokoro/*.py
+
+          sudo rm -rf docs/build/html/onnx/tts/all/matcha/__pycache__
+          sudo rm -rf docs/build/html/onnx/tts/all/matcha/zh
+          sudo rm -rf docs/build/html/onnx/tts/all/matcha/*.py
+
+          sudo rm -rf docs/build/html/onnx/tts/all/piper/__pycache__
+          sudo rm -rf docs/build/html/onnx/tts/all/piper/templates
+          sudo rm -rf docs/build/html/onnx/tts/all/piper/*.py
+          sudo rm -rf docs/build/html/onnx/tts/all/piper/*.sh
+
+          sudo rm -rf docs/build/html/onnx/tts/all/kitten/__pycache__
+          sudo rm -rf docs/build/html/onnx/tts/all/kitten/*.py
+          sudo rm -rf docs/build/html/onnx/tts/all/kitten/nano_v0_1
+
           rm -v docs/build/html/onnx/tts/all/.gitignore
           echo "---"
           ls -lha docs/build/html/onnx/tts/all
