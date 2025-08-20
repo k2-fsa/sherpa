@@ -102,6 +102,8 @@ jobs:
 
           ls -lh book
 
+          cp -av ../kitten ./book/
+
           popd
 
       - name: Copy wave files
