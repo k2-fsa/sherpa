@@ -14,6 +14,8 @@ This model contains 103 speakers. Please see
 
 for details.
 
+See also `<https://k2-fsa.github.io/sherpa/onnx/tts/all/Chinese-English/kokoro-multi-lang-v1_1.html>`_
+
 .. list-table::
 
  * - Model
@@ -41,6 +43,8 @@ In the following, we describe how to download it and use it with `sherpa-onnx`_.
 .. warning::
 
    It is a multi-lingual model, but we only add English and Chinese support for it.
+
+See also `<https://k2-fsa.github.io/sherpa/onnx/tts/all/Chinese-English/kokoro-multi-lang-v1_0.html>`_
 
 Download the model
 ~~~~~~~~~~~~~~~~~~
@@ -1171,6 +1175,8 @@ The script for adding meta data to the ONNX model can be found at
 `<https://github.com/k2-fsa/sherpa-onnx/tree/master/scripts/kokoro>`_
 
 In the following, we describe how to download it and use it with `sherpa-onnx`_.
+
+See also `<https://k2-fsa.github.io/sherpa/onnx/tts/all/English/kokoro-en-v0_19.html>`_
 
 Download the model
 ~~~~~~~~~~~~~~~~~~
