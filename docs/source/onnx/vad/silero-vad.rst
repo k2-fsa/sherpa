@@ -30,11 +30,11 @@ in `sherpa-onnx`_.
      | It is 8-bit quantized.
  * - silero_vad v4
    - 1.72 MB
-   - `Download <https://github.com/snakers4/silero-vad/blob/v4.0/files/silero_vad.onnx>`_
+   - `Download <https://github.com/snakers4/silero-vad/raw/refs/tags/v4.0/files/silero_vad.onnx>`_
    - It supports both 16kHz and 8kHz samples
  * - silero_vad v5
    - 2.22 MB
-   - `Download <https://github.com/snakers4/silero-vad/blob/master/src/silero_vad/data/silero_vad.onnx>`_
+   - `Download <https://github.com/snakers4/silero-vad/raw/refs/tags/v5.0/files/silero_vad.onnx>`_
    - It supports both 16kHz and 8kHz samples
 
 If you are curious about how we export the `silero-vad`_ v4 to onnx, you can have a look at

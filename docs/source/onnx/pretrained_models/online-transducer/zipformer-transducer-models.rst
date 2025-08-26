@@ -1137,7 +1137,7 @@ You should see the following output:
 int8
 ^^^^
 
-The following code shows how to use ``fp32`` models to decode a wave file:
+The following code shows how to use ``int8`` models to decode a wave file:
 
 .. code-block:: bash
 
