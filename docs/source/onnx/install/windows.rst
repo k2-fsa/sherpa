@@ -17,18 +17,18 @@ This page describes how to build `sherpa-onnx`_ on Windows.
 
    Please always download the latest version.
 
-   URLs to download the version ``1.12.1`` is given below.
+   URLs to download the version ``1.12.10`` is given below.
 
    .. list-table::
 
      * - 64-bit Windows (static lib)
-       - `<https://huggingface.co/csukuangfj/sherpa-onnx-libs/resolve/main/win64/sherpa-onnx-v1.12.1-win-x64-static.tar.bz2>`_
+       - `<https://huggingface.co/csukuangfj/sherpa-onnx-libs/resolve/main/win64/1.12.10/sherpa-onnx-v1.12.10-win-x64-static.tar.bz2>`_
      * - 64-bit Windows (shared lib)
-       - `<https://huggingface.co/csukuangfj/sherpa-onnx-libs/resolve/main/win64/sherpa-onnx-v1.12.1-win-x64-shared.tar.bz2>`_
+       - `<https://huggingface.co/csukuangfj/sherpa-onnx-libs/resolve/main/win64/1.12.10/sherpa-onnx-v1.12.10-win-x64-shared.tar.bz2>`_
      * - 32-bit Windows (static lib)
-       - `<https://huggingface.co/csukuangfj/sherpa-onnx-libs/resolve/main/win32/sherpa-onnx-v1.12.1-win-x86-static.tar.bz2>`_
+       - `<https://huggingface.co/csukuangfj/sherpa-onnx-libs/resolve/main/win32/1.12.10/sherpa-onnx-v1.12.10-win-x86-static.tar.bz2>`_
      * - 32-bit Windows (shared lib)
-       - `<https://huggingface.co/csukuangfj/sherpa-onnx-libs/resolve/main/win32/sherpa-onnx-v1.12.1-win-x86-shared.tar.bz2>`_
+       - `<https://huggingface.co/csukuangfj/sherpa-onnx-libs/resolve/main/win32/1.12.10/sherpa-onnx-v1.12.10-win-x86-shared.tar.bz2>`_
 
    If you cannot access ``huggingface.co``, then please replace ``huggingface.co`` with
    ``hf-mirror.com``.
@@ -74,6 +74,12 @@ All you need is to run:
           Caution: Please install cuda toolkit 11.8. Other versions do ``NOT`` work!
 
           Caution: Please install cuda toolkit 11.8. Other versions do ``NOT`` work!
+
+          If it crashes without any errors, please see
+
+            `<https://github.com/k2-fsa/sherpa-onnx/issues/2138>`_
+
+          You need to also install ``cudnn``.
 
 After building, you will find an executable ``sherpa-onnx.exe`` inside the ``bin/Release`` directory.
 
