@@ -9,3 +9,4 @@ This section lists available online CTC models.
    :maxdepth: 5
 
    zipformer-ctc-models
+   ./t-one-ctc-models.rst
