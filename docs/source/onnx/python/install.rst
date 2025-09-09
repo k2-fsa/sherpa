@@ -20,7 +20,7 @@ Method 1 (From pre-compiled wheels, CPU only)
 
 .. code-block:: bash
 
-  pip install sherpa-onnx
+  pip install sherpa-onnx sherpa-onnx-bin
 
 To check you have installed `sherpa-onnx`_ successfully, please run
 
@@ -43,12 +43,12 @@ To check you have installed `sherpa-onnx`_ successfully, please run
 
    You can use::
 
-    pip install sherpa-onnx -f https://k2-fsa.github.io/sherpa/onnx/cpu.html
+    pip install sherpa-onnx sherpa-onnx-bin -f https://k2-fsa.github.io/sherpa/onnx/cpu.html
 
    or::
 
     # For Chinese uers
-    pip install sherpa-onnx -f https://k2-fsa.github.io/sherpa/onnx/cpu-cn.html
+    pip install sherpa-onnx sherpa-onnx-bin -f https://k2-fsa.github.io/sherpa/onnx/cpu-cn.html
 
 Method 2 (From pre-compiled wheels, CPU + CUDA)
 ------------------------------------------------
