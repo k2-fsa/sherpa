@@ -12,7 +12,7 @@ This model provides 8 voices in total: 4 male and 4 female.
 
 Please see
 
-`<https://k2-fsa.github.io/sherpa/onnx/tts/all/English/kitten-en-v0_1.html>`_
+`<https://k2-fsa.github.io/sherpa/onnx/tts/all/English/kitten-nano-en-v0_1.html>`_
 
 for details. We have listed the voices of each speaker in the `page <https://k2-fsa.github.io/sherpa/onnx/tts/all/English/kitten-en-v0_1.html>`_.
 
@@ -144,6 +144,15 @@ Please see
 kitten-nano-en-v0_2-fp16
 ------------------------
 
-Its usage is the same as :ref:`kitten-nano-v02`.
+Its usage is the same as :ref:`kitten-nano-v01`.
 
-Please see also `<https://k2-fsa.github.io/sherpa/onnx/tts/all/English/kitten-en-v0_2.html>`_
+Please see also `<https://k2-fsa.github.io/sherpa/onnx/tts/all/English/kitten-nano-en-v0_2.html>`_
+
+.. _kitten-mini-v01:
+
+kitten-mini-en-v0_1-fp16
+------------------------
+
+Its usage is the same as :ref:`kitten-nano-v01`.
+
+Please see also `<https://k2-fsa.github.io/sherpa/onnx/tts/all/English/kitten-mini-en-v0_2.html>`_
