@@ -155,4 +155,4 @@ kitten-mini-en-v0_1-fp16
 
 Its usage is the same as :ref:`kitten-nano-v01`.
 
-Please see also `<https://k2-fsa.github.io/sherpa/onnx/tts/all/English/kitten-mini-en-v0_2.html>`_
+Please see also `<https://k2-fsa.github.io/sherpa/onnx/tts/all/English/kitten-mini-en-v0_1.html>`_
