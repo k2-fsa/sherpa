@@ -22,38 +22,7 @@ It supports the following 5 languages:
 
 In the following, we describe how to use it.
 
-Huggingface space
-^^^^^^^^^^^^^^^^^
 
-You can visit
-
-  `<https://huggingface.co/spaces/k2-fsa/automatic-speech-recognition>`_
-
-to try this model in your browser.
-
-.. hint::
-
-   You need to first select the language ``Chinese+English+Cantonese+Japanese+Korean``
-   and then select the model  ``csukuangfj/sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09``.
-
-
-Android APKs
-^^^^^^^^^^^^
-
-Real-time speech recognition Android APKs can be found at
-
-  `<https://k2-fsa.github.io/sherpa/onnx/android/apk-simulate-streaming-asr.html>`_
-
-Please always download the latest version.
-
-.. hint::
-
-   Please search for ``zh_en_ko_ja_yue-sense_voice_2025_09_09_int8.apk`` in the above page, e.g.,
-   ``sherpa-onnx-1.12.11-arm64-v8a-simulated_streaming_asr-zh_en_ko_ja_yue-sense_voice_2025_09_09_int8.apk``.
-
-.. hint::
-
-   For Chinese users, you can also visit `<https://k2-fsa.github.io/sherpa/onnx/android/apk-simulate-streaming-asr-cn.html>`_
 
 Download
 ^^^^^^^^
@@ -226,7 +195,40 @@ It supports the following 5 languages:
 
    If you want a ``Cantonese`` ASR model, please choose this model.
 
-In the following, we describe how to download it.
+In the following, we describe how to use it.
+
+Huggingface space
+^^^^^^^^^^^^^^^^^
+
+You can visit
+
+  `<https://huggingface.co/spaces/k2-fsa/automatic-speech-recognition>`_
+
+to try this model in your browser.
+
+.. hint::
+
+   You need to first select the language ``Chinese+English+Cantonese+Japanese+Korean``
+   and then select the model  ``csukuangfj/sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09``.
+
+
+Android APKs
+^^^^^^^^^^^^
+
+Real-time speech recognition Android APKs can be found at
+
+  `<https://k2-fsa.github.io/sherpa/onnx/android/apk-simulate-streaming-asr.html>`_
+
+Please always download the latest version.
+
+.. hint::
+
+   Please search for ``zh_en_ko_ja_yue-sense_voice_2025_09_09_int8.apk`` in the above page, e.g.,
+   ``sherpa-onnx-1.12.11-arm64-v8a-simulated_streaming_asr-zh_en_ko_ja_yue-sense_voice_2025_09_09_int8.apk``.
+
+.. hint::
+
+   For Chinese users, you can also visit `<https://k2-fsa.github.io/sherpa/onnx/android/apk-simulate-streaming-asr-cn.html>`_
 
 Download
 ^^^^^^^^
