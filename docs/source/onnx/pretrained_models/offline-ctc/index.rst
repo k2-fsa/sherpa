@@ -8,4 +8,5 @@ This section lists available offline CTC models.
 
    icefall/index
    nemo/index
+   wenet/index
    yesno/index

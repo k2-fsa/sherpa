@@ -1,236 +1,26 @@
-Pre-trained Models
-==================
+.. _wenet-offline-ctc:
 
-This page describes how to download pre-trained `SenseVoice`_ models.
+WeNet CTC-based models
+======================
 
+This page lists all offline CTC models from `WeNet`_.
 
-.. _sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17:
 
-sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17 (Chinese, English, Japanese, Korean, Cantonese, 中英日韩粤语)
-------------------------------------------------------------------------------------------------------------------------
+.. _sherpa-onnx-wenetspeech-yue-u2pp-conformer-ctc-zh-en-cantonese-int8-2025-09-10:
 
-This model is converted from `<https://www.modelscope.cn/models/iic/SenseVoiceSmall>`_
-using the script `export-onnx.py <https://github.com/k2-fsa/sherpa-onnx/blob/master/scripts/sense-voice/export-onnx.py>`_.
-
-It supports the following 5 languages:
-
-  - Chinese (Mandarin, 普通话)
-  - Cantonese (粤语, 广东话)
-  - English
-  - Japanese
-  - Korean
-
-In the following, we describe how to use it.
-
-
-Huggingface space
-^^^^^^^^^^^^^^^^^
-
-You can visit
-
-  `<https://huggingface.co/spaces/k2-fsa/automatic-speech-recognition>`_
-
-to try this model in your browser.
-
-.. hint::
-
-   You need to first select the language ``Chinese+English+Cantonese+Japanese+Korean``
-   and then select the model  ``csukuangfj/sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17``.
-
-
-Android APKs
-^^^^^^^^^^^^
-
-Real-time speech recognition Android APKs can be found at
-
-  `<https://k2-fsa.github.io/sherpa/onnx/android/apk-simulate-streaming-asr.html>`_
-
-Please always download the latest version.
-
-.. hint::
-
-   Please search for ``zh_en_ko_ja_yue-sense_voice_2024_07_17_int8.apk`` in the above page, e.g.,
-   ``sherpa-onnx-1.12.11-arm64-v8a-simulated_streaming_asr-zh_en_ko_ja_yue-sense_voice_2024_07_17_int8.apk``.
-
-.. hint::
-
-   For Chinese users, you can also visit `<https://k2-fsa.github.io/sherpa/onnx/android/apk-simulate-streaming-asr-cn.html>`_
-
-
-Download
-^^^^^^^^
-
-Please use the following commands to download it::
-
-  cd /path/to/sherpa-onnx
-
-  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17.tar.bz2
-
-  tar xvf sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17.tar.bz2
-  rm sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17.tar.bz2
-
-After downloading, you should find the following files::
-
-  ls -lh sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17
-
-  total 1.1G
-  -rw-r--r-- 1 runner docker   71 Jul 18 13:06 LICENSE
-  -rw-r--r-- 1 runner docker  104 Jul 18 13:06 README.md
-  -rwxr-xr-x 1 runner docker 5.8K Jul 18 13:06 export-onnx.py
-  -rw-r--r-- 1 runner docker 229M Jul 18 13:06 model.int8.onnx
-  -rw-r--r-- 1 runner docker 895M Jul 18 13:06 model.onnx
-  drwxr-xr-x 2 runner docker 4.0K Jul 18 13:06 test_wavs
-  -rw-r--r-- 1 runner docker 309K Jul 18 13:06 tokens.txt
-
-  ls -lh sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/test_wavs
-
-  total 940K
-  -rw-r--r-- 1 runner docker 224K Jul 18 13:06 en.wav
-  -rw-r--r-- 1 runner docker 226K Jul 18 13:06 ja.wav
-  -rw-r--r-- 1 runner docker 145K Jul 18 13:06 ko.wav
-  -rw-r--r-- 1 runner docker 161K Jul 18 13:06 yue.wav
-  -rw-r--r-- 1 runner docker 175K Jul 18 13:06 zh.wav
-
-.. hint::
-
-   If you only need the ``int8`` model file, please use::
-
-     wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17.tar.bz2
-     tar xvf sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17.tar.bz2
-     rm sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17.tar.bz2
-
-     ls -lh sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17
-
-  It prints::
-
-    total 229M
-    -rwxr-xr-x 1 1001 118 5.8K Jul 18  2024 export-onnx.py
-    -rw-r--r-- 1 1001 118   71 Jul 18  2024 LICENSE
-    -rw-r--r-- 1 1001 118 229M Jul 18  2024 model.int8.onnx
-    -rw-r--r-- 1 1001 118  104 Jul 18  2024 README.md
-    drwxr-xr-x 2 1001 118 4.0K Jul 18  2024 test_wavs
-    -rw-r--r-- 1 1001 118 309K Jul 18  2024 tokens.txt
-
-Decode a file with model.onnx
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-Without inverse text normalization
-::::::::::::::::::::::::::::::::::
-
-To decode a file without inverse text normalization, please use:
-
-.. code-block:: bash
-
-  ./build/bin/sherpa-onnx-offline \
-    --tokens=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/tokens.txt \
-    --sense-voice-model=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/model.onnx \
-    --num-threads=1 \
-    --debug=0 \
-    ./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/test_wavs/zh.wav \
-    ./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/test_wavs/en.wav
-
-You should see the following output:
-
-.. literalinclude:: ./code/2024-07-17.txt
-
-With inverse text normalization
-:::::::::::::::::::::::::::::::
-
-To decode a file with inverse text normalization, please use:
-
-.. code-block:: bash
-
-  ./build/bin/sherpa-onnx-offline \
-    --tokens=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/tokens.txt \
-    --sense-voice-model=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/model.onnx \
-    --num-threads=1 \
-    --sense-voice-use-itn=1 \
-    --debug=0 \
-    ./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/test_wavs/zh.wav \
-    ./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/test_wavs/en.wav
-
-You should see the following output:
-
-.. literalinclude:: ./code/2024-07-17-itn.txt
-
-.. hint::
-
-   When inverse text normalziation is enabled, the results also
-   punctuations.
-
-Specify a language
-::::::::::::::::::
-
-If you don't provide a language when decoding, it uses ``auto``.
-
-To specify the language when decoding, please use:
-
-.. code-block:: bash
-
-  ./build/bin/sherpa-onnx-offline \
-    --tokens=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/tokens.txt \
-    --sense-voice-model=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/model.onnx \
-    --num-threads=1 \
-    --sense-voice-language=zh \
-    --debug=0 \
-    ./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/test_wavs/zh.wav
-
-You should see the following output:
-
-.. literalinclude:: ./code/2024-07-17-lang.txt
-
-.. hint::
-
-   Valid values for ``--sense-voice-language`` are ``auto``, ``zh``, ``en``, ``ko``, ``ja``, and ``yue``.
-   where ``zh`` is for Chinese, ``en`` for English, ``ko`` for Korean, ``ja`` for Japanese, and
-   ``yue`` for ``Cantonese``.
-
-
-Speech recognition from a microphone
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. code-block:: bash
-
-  ./build/bin/sherpa-onnx-microphone-offline \
-    --tokens=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/tokens.txt \
-    --sense-voice-model=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/model.int8.onnx
-
-Speech recognition from a microphone with VAD
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. code-block:: bash
-
-  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/silero_vad.onnx
-
-  ./build/bin/sherpa-onnx-vad-microphone-offline-asr \
-    --silero-vad-model=./silero_vad.onnx \
-    --tokens=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/tokens.txt \
-    --sense-voice-model=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/model.int8.onnx
-
-.. _sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09:
-
-sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09 (Chinese, English, Japanese, Korean, Cantonese, 中英日韩粤语)
-----------------------------------------------------------------------------------------------------------------------------------------
+sherpa-onnx-wenetspeech-yue-u2pp-conformer-ctc-zh-en-cantonese-int8-2025-09-10 (Cantonese, 粤语)
+-------------------------------------------------------------------------------------------------------------
 
 This model is converted from
 
-  `<https://huggingface.co/ASLP-lab/WSYue-ASR/tree/main/sensevoice_small_yue>`_
+  `<https://huggingface.co/ASLP-lab/WSYue-ASR/tree/main/u2pp_conformer_yue>`_
 
-It is fine-tuned on :ref:`sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17` with 21.8k hours
-of ``Cantonese`` data.
-
-It supports the following 5 languages:
-
-  - Chinese (Mandarin, 普通话)
-  - Cantonese (粤语, 广东话)
-  - English
-  - Japanese
-  - Korean
+It uses 21.8k hours of training data.
 
 .. hint::
 
-   If you want a ``Cantonese`` ASR model, please choose this model or
-   :ref:`sherpa-onnx-wenetspeech-yue-u2pp-conformer-ctc-zh-en-cantonese-int8-2025-09-10`
+   If you want a ``Cantonese`` ASR model, please choose this model
+   or :ref:`sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09`
 
 In the following, we describe how to use it.
 
@@ -245,9 +35,8 @@ to try this model in your browser.
 
 .. hint::
 
-   You need to first select the language ``Chinese+English+Cantonese+Japanese+Korean``
-   and then select the model  ``csukuangfj/sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09``.
-
+   You need to first select the language ``Cantonese``
+   and then select the model  ``csukuangfj/sherpa-onnx-wenetspeech-yue-u2pp-conformer-ctc-zh-en-cantonese-int8-2025-09-10``.
 
 Android APKs
 ^^^^^^^^^^^^
@@ -260,8 +49,8 @@ Please always download the latest version.
 
 .. hint::
 
-   Please search for ``zh_en_ko_ja_yue-sense_voice_2025_09_09_int8.apk`` in the above page, e.g.,
-   ``sherpa-onnx-1.12.11-arm64-v8a-simulated_streaming_asr-zh_en_ko_ja_yue-sense_voice_2025_09_09_int8.apk``.
+   Please search for ``wenetspeech_yue_u2pconformer_ctc_2025_09_10_int8.apk`` in the above page, e.g.,
+   ``sherpa-onnx-1.12.11-arm64-v8a-simulated_streaming_asr-zh_en_yue-wenetspeech_yue_u2pconformer_ctc_2025_09_10_int8.apk``.
 
 .. hint::
 
@@ -274,29 +63,28 @@ Please use the following commands to download it::
 
   cd /path/to/sherpa-onnx
 
-  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09.tar.bz2
-  tar xvf sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09.tar.bz2
-  rm sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09.tar.bz2
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-wenetspeech-yue-u2pp-conformer-ctc-zh-en-cantonese-int8-2025-09-10.tar.bz2
+  tar xf sherpa-onnx-wenetspeech-yue-u2pp-conformer-ctc-zh-en-cantonese-int8-2025-09-10.tar.bz2
+  rm sherpa-onnx-wenetspeech-yue-u2pp-conformer-ctc-zh-en-cantonese-int8-2025-09-10.tar.bz2
 
 After downloading, you should find the following files::
 
-  ls -lh sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09
+  ls -lh sherpa-onnx-wenetspeech-yue-u2pp-conformer-ctc-zh-en-cantonese-int8-2025-09-10/
 
-  total 492952
-  -rw-r--r--   1 fangjun  staff   131B Sep  9 21:12 README.md
-  -rw-r--r--   1 fangjun  staff   226M Sep  9 21:12 model.int8.onnx
-  drwxr-xr-x  25 fangjun  staff   800B Sep  9 21:12 test_wavs
-  -rw-r--r--   1 fangjun  staff   308K Sep  9 21:12 tokens.txt
+  total 263264
+  -rw-r--r--   1 fangjun  staff   129B Sep 10 14:18 README.md
+  -rw-r--r--   1 fangjun  staff   128M Sep 10 14:18 model.int8.onnx
+  drwxr-xr-x  22 fangjun  staff   704B Sep 10 14:18 test_wavs
+  -rw-r--r--   1 fangjun  staff    83K Sep 10 14:18 tokens.txt
 
 .. code-block::
 
-  ls  sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/test_wavs/
+  ls  sherpa-onnx-wenetspeech-yue-u2pp-conformer-ctc-zh-en-cantonese-int8-2025-09-10/test_wavs/
 
-  en.wav     ko.wav     yue-1.wav  yue-11.wav yue-13.wav yue-15.wav yue-17.wav yue-3.wav  yue-5.wav  yue-7.wav  yue-9.wav  zh.wav
-  ja.wav     yue-0.wav  yue-10.wav yue-12.wav yue-14.wav yue-16.wav yue-2.wav  yue-4.wav  yue-6.wav  yue-8.wav  yue.wav
+  en.wav     yue-1.wav  yue-11.wav yue-13.wav yue-15.wav yue-17.wav yue-3.wav  yue-5.wav  yue-7.wav  yue-9.wav
+  yue-0.wav  yue-10.wav yue-12.wav yue-14.wav yue-16.wav yue-2.wav  yue-4.wav  yue-6.wav  yue-8.wav  zh.wav
 
-In the following, we show how to decode the files ``sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/test_wavs/yue-*.wav``.
-
+In the following, we show how to decode the files ``sherpa-onnx-wenetspeech-yue-u2pp-conformer-ctc-zh-en-cantonese-int8-2025-09-10/test_wavs/yue-*.wav``.
 
 yue-0.wav
 ^^^^^^^^^
@@ -326,10 +114,10 @@ yue-0.wav
 .. code-block:: bash
 
   ./build/bin/sherpa-onnx-offline \
-    --tokens=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/tokens.txt \
-    --sense-voice-model=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/model.int8.onnx \
+    --tokens=./sherpa-onnx-wenetspeech-yue-u2pp-conformer-ctc-zh-en-cantonese-int8-2025-09-10/tokens.txt \
+    --wenet-ctc-model=./sherpa-onnx-wenetspeech-yue-u2pp-conformer-ctc-zh-en-cantonese-int8-2025-09-10/model.int8.onnx \
     --num-threads=1 \
-    sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/test_wavs/yue-0.wav
+    sherpa-onnx-wenetspeech-yue-u2pp-conformer-ctc-zh-en-cantonese-int8-2025-09-10/test_wavs/yue-0.wav
 
 .. literalinclude:: ./code/yue-0.txt
 
@@ -361,10 +149,10 @@ yue-1.wav
 .. code-block:: bash
 
   ./build/bin/sherpa-onnx-offline \
-    --tokens=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/tokens.txt \
-    --sense-voice-model=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/model.int8.onnx \
+    --tokens=./sherpa-onnx-wenetspeech-yue-u2pp-conformer-ctc-zh-en-cantonese-int8-2025-09-10/tokens.txt \
+    --wenet-ctc-model=./sherpa-onnx-wenetspeech-yue-u2pp-conformer-ctc-zh-en-cantonese-int8-2025-09-10/model.int8.onnx \
     --num-threads=1 \
-    sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/test_wavs/yue-1.wav
+    sherpa-onnx-wenetspeech-yue-u2pp-conformer-ctc-zh-en-cantonese-int8-2025-09-10/test_wavs/yue-1.wav
 
 .. literalinclude:: ./code/yue-1.txt
 
@@ -396,10 +184,10 @@ yue-2.wav
 .. code-block:: bash
 
   ./build/bin/sherpa-onnx-offline \
-    --tokens=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/tokens.txt \
-    --sense-voice-model=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/model.int8.onnx \
+    --tokens=./sherpa-onnx-wenetspeech-yue-u2pp-conformer-ctc-zh-en-cantonese-int8-2025-09-10/tokens.txt \
+    --wenet-ctc-model=./sherpa-onnx-wenetspeech-yue-u2pp-conformer-ctc-zh-en-cantonese-int8-2025-09-10/model.int8.onnx \
     --num-threads=1 \
-    sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/test_wavs/yue-2.wav
+    sherpa-onnx-wenetspeech-yue-u2pp-conformer-ctc-zh-en-cantonese-int8-2025-09-10/test_wavs/yue-2.wav
 
 .. literalinclude:: ./code/yue-2.txt
 
@@ -431,10 +219,10 @@ yue-3.wav
 .. code-block:: bash
 
   ./build/bin/sherpa-onnx-offline \
-    --tokens=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/tokens.txt \
-    --sense-voice-model=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/model.int8.onnx \
+    --tokens=./sherpa-onnx-wenetspeech-yue-u2pp-conformer-ctc-zh-en-cantonese-int8-2025-09-10/tokens.txt \
+    --wenet-ctc-model=./sherpa-onnx-wenetspeech-yue-u2pp-conformer-ctc-zh-en-cantonese-int8-2025-09-10/model.int8.onnx \
     --num-threads=1 \
-    sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/test_wavs/yue-3.wav
+    sherpa-onnx-wenetspeech-yue-u2pp-conformer-ctc-zh-en-cantonese-int8-2025-09-10/test_wavs/yue-3.wav
 
 .. literalinclude:: ./code/yue-3.txt
 
@@ -466,10 +254,10 @@ yue-4.wav
 .. code-block:: bash
 
   ./build/bin/sherpa-onnx-offline \
-    --tokens=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/tokens.txt \
-    --sense-voice-model=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/model.int8.onnx \
+    --tokens=./sherpa-onnx-wenetspeech-yue-u2pp-conformer-ctc-zh-en-cantonese-int8-2025-09-10/tokens.txt \
+    --wenet-ctc-model=./sherpa-onnx-wenetspeech-yue-u2pp-conformer-ctc-zh-en-cantonese-int8-2025-09-10/model.int8.onnx \
     --num-threads=1 \
-    sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/test_wavs/yue-4.wav
+    sherpa-onnx-wenetspeech-yue-u2pp-conformer-ctc-zh-en-cantonese-int8-2025-09-10/test_wavs/yue-4.wav
 
 .. literalinclude:: ./code/yue-4.txt
 
@@ -501,10 +289,10 @@ yue-5.wav
 .. code-block:: bash
 
   ./build/bin/sherpa-onnx-offline \
-    --tokens=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/tokens.txt \
-    --sense-voice-model=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/model.int8.onnx \
+    --tokens=./sherpa-onnx-wenetspeech-yue-u2pp-conformer-ctc-zh-en-cantonese-int8-2025-09-10/tokens.txt \
+    --wenet-ctc-model=./sherpa-onnx-wenetspeech-yue-u2pp-conformer-ctc-zh-en-cantonese-int8-2025-09-10/model.int8.onnx \
     --num-threads=1 \
-    sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/test_wavs/yue-5.wav
+    sherpa-onnx-wenetspeech-yue-u2pp-conformer-ctc-zh-en-cantonese-int8-2025-09-10/test_wavs/yue-5.wav
 
 .. literalinclude:: ./code/yue-5.txt
 
@@ -536,10 +324,10 @@ yue-6.wav
 .. code-block:: bash
 
   ./build/bin/sherpa-onnx-offline \
-    --tokens=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/tokens.txt \
-    --sense-voice-model=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/model.int8.onnx \
+    --tokens=./sherpa-onnx-wenetspeech-yue-u2pp-conformer-ctc-zh-en-cantonese-int8-2025-09-10/tokens.txt \
+    --wenet-ctc-model=./sherpa-onnx-wenetspeech-yue-u2pp-conformer-ctc-zh-en-cantonese-int8-2025-09-10/model.int8.onnx \
     --num-threads=1 \
-    sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/test_wavs/yue-6.wav
+    sherpa-onnx-wenetspeech-yue-u2pp-conformer-ctc-zh-en-cantonese-int8-2025-09-10/test_wavs/yue-6.wav
 
 .. literalinclude:: ./code/yue-6.txt
 
@@ -571,10 +359,10 @@ yue-7.wav
 .. code-block:: bash
 
   ./build/bin/sherpa-onnx-offline \
-    --tokens=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/tokens.txt \
-    --sense-voice-model=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/model.int8.onnx \
+    --tokens=./sherpa-onnx-wenetspeech-yue-u2pp-conformer-ctc-zh-en-cantonese-int8-2025-09-10/tokens.txt \
+    --wenet-ctc-model=./sherpa-onnx-wenetspeech-yue-u2pp-conformer-ctc-zh-en-cantonese-int8-2025-09-10/model.int8.onnx \
     --num-threads=1 \
-    sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/test_wavs/yue-7.wav
+    sherpa-onnx-wenetspeech-yue-u2pp-conformer-ctc-zh-en-cantonese-int8-2025-09-10/test_wavs/yue-7.wav
 
 .. literalinclude:: ./code/yue-7.txt
 
@@ -606,10 +394,10 @@ yue-8.wav
 .. code-block:: bash
 
   ./build/bin/sherpa-onnx-offline \
-    --tokens=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/tokens.txt \
-    --sense-voice-model=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/model.int8.onnx \
+    --tokens=./sherpa-onnx-wenetspeech-yue-u2pp-conformer-ctc-zh-en-cantonese-int8-2025-09-10/tokens.txt \
+    --wenet-ctc-model=./sherpa-onnx-wenetspeech-yue-u2pp-conformer-ctc-zh-en-cantonese-int8-2025-09-10/model.int8.onnx \
     --num-threads=1 \
-    sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/test_wavs/yue-8.wav
+    sherpa-onnx-wenetspeech-yue-u2pp-conformer-ctc-zh-en-cantonese-int8-2025-09-10/test_wavs/yue-8.wav
 
 .. literalinclude:: ./code/yue-8.txt
 
@@ -641,10 +429,10 @@ yue-9.wav
 .. code-block:: bash
 
   ./build/bin/sherpa-onnx-offline \
-    --tokens=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/tokens.txt \
-    --sense-voice-model=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/model.int8.onnx \
+    --tokens=./sherpa-onnx-wenetspeech-yue-u2pp-conformer-ctc-zh-en-cantonese-int8-2025-09-10/tokens.txt \
+    --wenet-ctc-model=./sherpa-onnx-wenetspeech-yue-u2pp-conformer-ctc-zh-en-cantonese-int8-2025-09-10/model.int8.onnx \
     --num-threads=1 \
-    sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/test_wavs/yue-9.wav
+    sherpa-onnx-wenetspeech-yue-u2pp-conformer-ctc-zh-en-cantonese-int8-2025-09-10/test_wavs/yue-9.wav
 
 .. literalinclude:: ./code/yue-9.txt
 
@@ -676,10 +464,10 @@ yue-10.wav
 .. code-block:: bash
 
   ./build/bin/sherpa-onnx-offline \
-    --tokens=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/tokens.txt \
-    --sense-voice-model=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/model.int8.onnx \
+    --tokens=./sherpa-onnx-wenetspeech-yue-u2pp-conformer-ctc-zh-en-cantonese-int8-2025-09-10/tokens.txt \
+    --wenet-ctc-model=./sherpa-onnx-wenetspeech-yue-u2pp-conformer-ctc-zh-en-cantonese-int8-2025-09-10/model.int8.onnx \
     --num-threads=1 \
-    sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/test_wavs/yue-10.wav
+    sherpa-onnx-wenetspeech-yue-u2pp-conformer-ctc-zh-en-cantonese-int8-2025-09-10/test_wavs/yue-10.wav
 
 .. literalinclude:: ./code/yue-10.txt
 
@@ -711,10 +499,10 @@ yue-11.wav
 .. code-block:: bash
 
   ./build/bin/sherpa-onnx-offline \
-    --tokens=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/tokens.txt \
-    --sense-voice-model=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/model.int8.onnx \
+    --tokens=./sherpa-onnx-wenetspeech-yue-u2pp-conformer-ctc-zh-en-cantonese-int8-2025-09-10/tokens.txt \
+    --wenet-ctc-model=./sherpa-onnx-wenetspeech-yue-u2pp-conformer-ctc-zh-en-cantonese-int8-2025-09-10/model.int8.onnx \
     --num-threads=1 \
-    sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/test_wavs/yue-11.wav
+    sherpa-onnx-wenetspeech-yue-u2pp-conformer-ctc-zh-en-cantonese-int8-2025-09-10/test_wavs/yue-11.wav
 
 .. literalinclude:: ./code/yue-11.txt
 
@@ -746,10 +534,10 @@ yue-12.wav
 .. code-block:: bash
 
   ./build/bin/sherpa-onnx-offline \
-    --tokens=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/tokens.txt \
-    --sense-voice-model=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/model.int8.onnx \
+    --tokens=./sherpa-onnx-wenetspeech-yue-u2pp-conformer-ctc-zh-en-cantonese-int8-2025-09-10/tokens.txt \
+    --wenet-ctc-model=./sherpa-onnx-wenetspeech-yue-u2pp-conformer-ctc-zh-en-cantonese-int8-2025-09-10/model.int8.onnx \
     --num-threads=1 \
-    sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/test_wavs/yue-12.wav
+    sherpa-onnx-wenetspeech-yue-u2pp-conformer-ctc-zh-en-cantonese-int8-2025-09-10/test_wavs/yue-12.wav
 
 .. literalinclude:: ./code/yue-12.txt
 
@@ -781,10 +569,10 @@ yue-13.wav
 .. code-block:: bash
 
   ./build/bin/sherpa-onnx-offline \
-    --tokens=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/tokens.txt \
-    --sense-voice-model=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/model.int8.onnx \
+    --tokens=./sherpa-onnx-wenetspeech-yue-u2pp-conformer-ctc-zh-en-cantonese-int8-2025-09-10/tokens.txt \
+    --wenet-ctc-model=./sherpa-onnx-wenetspeech-yue-u2pp-conformer-ctc-zh-en-cantonese-int8-2025-09-10/model.int8.onnx \
     --num-threads=1 \
-    sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/test_wavs/yue-13.wav
+    sherpa-onnx-wenetspeech-yue-u2pp-conformer-ctc-zh-en-cantonese-int8-2025-09-10/test_wavs/yue-13.wav
 
 .. literalinclude:: ./code/yue-13.txt
 
@@ -816,10 +604,10 @@ yue-14.wav
 .. code-block:: bash
 
   ./build/bin/sherpa-onnx-offline \
-    --tokens=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/tokens.txt \
-    --sense-voice-model=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/model.int8.onnx \
+    --tokens=./sherpa-onnx-wenetspeech-yue-u2pp-conformer-ctc-zh-en-cantonese-int8-2025-09-10/tokens.txt \
+    --wenet-ctc-model=./sherpa-onnx-wenetspeech-yue-u2pp-conformer-ctc-zh-en-cantonese-int8-2025-09-10/model.int8.onnx \
     --num-threads=1 \
-    sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/test_wavs/yue-14.wav
+    sherpa-onnx-wenetspeech-yue-u2pp-conformer-ctc-zh-en-cantonese-int8-2025-09-10/test_wavs/yue-14.wav
 
 .. literalinclude:: ./code/yue-14.txt
 
@@ -851,10 +639,10 @@ yue-15.wav
 .. code-block:: bash
 
   ./build/bin/sherpa-onnx-offline \
-    --tokens=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/tokens.txt \
-    --sense-voice-model=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/model.int8.onnx \
+    --tokens=./sherpa-onnx-wenetspeech-yue-u2pp-conformer-ctc-zh-en-cantonese-int8-2025-09-10/tokens.txt \
+    --wenet-ctc-model=./sherpa-onnx-wenetspeech-yue-u2pp-conformer-ctc-zh-en-cantonese-int8-2025-09-10/model.int8.onnx \
     --num-threads=1 \
-    sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/test_wavs/yue-15.wav
+    sherpa-onnx-wenetspeech-yue-u2pp-conformer-ctc-zh-en-cantonese-int8-2025-09-10/test_wavs/yue-15.wav
 
 .. literalinclude:: ./code/yue-15.txt
 
@@ -886,10 +674,10 @@ yue-16.wav
 .. code-block:: bash
 
   ./build/bin/sherpa-onnx-offline \
-    --tokens=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/tokens.txt \
-    --sense-voice-model=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/model.int8.onnx \
+    --tokens=./sherpa-onnx-wenetspeech-yue-u2pp-conformer-ctc-zh-en-cantonese-int8-2025-09-10/tokens.txt \
+    --wenet-ctc-model=./sherpa-onnx-wenetspeech-yue-u2pp-conformer-ctc-zh-en-cantonese-int8-2025-09-10/model.int8.onnx \
     --num-threads=1 \
-    sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/test_wavs/yue-16.wav
+    sherpa-onnx-wenetspeech-yue-u2pp-conformer-ctc-zh-en-cantonese-int8-2025-09-10/test_wavs/yue-16.wav
 
 .. literalinclude:: ./code/yue-16.txt
 
@@ -921,9 +709,9 @@ yue-17.wav
 .. code-block:: bash
 
   ./build/bin/sherpa-onnx-offline \
-    --tokens=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/tokens.txt \
-    --sense-voice-model=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/model.int8.onnx \
+    --tokens=./sherpa-onnx-wenetspeech-yue-u2pp-conformer-ctc-zh-en-cantonese-int8-2025-09-10/tokens.txt \
+    --wenet-ctc-model=./sherpa-onnx-wenetspeech-yue-u2pp-conformer-ctc-zh-en-cantonese-int8-2025-09-10/model.int8.onnx \
     --num-threads=1 \
-    sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/test_wavs/yue-17.wav
+    sherpa-onnx-wenetspeech-yue-u2pp-conformer-ctc-zh-en-cantonese-int8-2025-09-10/test_wavs/yue-17.wav
 
 .. literalinclude:: ./code/yue-17.txt
