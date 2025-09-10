@@ -23,6 +23,39 @@ It supports the following 5 languages:
 In the following, we describe how to use it.
 
 
+Huggingface space
+^^^^^^^^^^^^^^^^^
+
+You can visit
+
+  `<https://huggingface.co/spaces/k2-fsa/automatic-speech-recognition>`_
+
+to try this model in your browser.
+
+.. hint::
+
+   You need to first select the language ``Chinese+English+Cantonese+Japanese+Korean``
+   and then select the model  ``csukuangfj/sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17``.
+
+
+Android APKs
+^^^^^^^^^^^^
+
+Real-time speech recognition Android APKs can be found at
+
+  `<https://k2-fsa.github.io/sherpa/onnx/android/apk-simulate-streaming-asr.html>`_
+
+Please always download the latest version.
+
+.. hint::
+
+   Please search for ``zh_en_ko_ja_yue-sense_voice_2024_07_17_int8.apk`` in the above page, e.g.,
+   ``sherpa-onnx-1.12.11-arm64-v8a-simulated_streaming_asr-zh_en_ko_ja_yue-sense_voice_2024_07_17_int8.apk``.
+
+.. hint::
+
+   For Chinese users, you can also visit `<https://k2-fsa.github.io/sherpa/onnx/android/apk-simulate-streaming-asr-cn.html>`_
+
 
 Download
 ^^^^^^^^
@@ -181,7 +214,8 @@ This model is converted from
 
   `<https://huggingface.co/ASLP-lab/WSYue-ASR/tree/main/sensevoice_small_yue>`_
 
-It is fine-tuned on :ref:`sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17` with 218k hours ``Cantonese`` data.
+It is fine-tuned on :ref:`sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17` with 21.8k hours
+of ``Cantonese`` data.
 
 It supports the following 5 languages:
 
