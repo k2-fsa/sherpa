@@ -1,0 +1,14 @@
+/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:372 ./build/bin/sherpa-onnx-offline --tokens=./sherpa-onnx-wenetspeech-yue-u2pp-conformer-ctc-zh-en-cantonese-int8-2025-09-10/tokens.txt --wenet-ctc-model=./sherpa-onnx-wenetspeech-yue-u2pp-conformer-ctc-zh-en-cantonese-int8-2025-09-10/model.int8.onnx --num-threads=1 sherpa-onnx-wenetspeech-yue-u2pp-conformer-ctc-zh-en-cantonese-int8-2025-09-10/test_wavs/yue-7.wav 
+
+OfflineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80, low_freq=20, high_freq=-400, dither=0, normalize_samples=True, snip_edges=False), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename="", decoder_filename="", joiner_filename=""), paraformer=OfflineParaformerModelConfig(model=""), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=""), whisper=OfflineWhisperModelConfig(encoder="", decoder="", language="", task="transcribe", tail_paddings=-1), fire_red_asr=OfflineFireRedAsrModelConfig(encoder="", decoder=""), tdnn=OfflineTdnnModelConfig(model=""), zipformer_ctc=OfflineZipformerCtcModelConfig(model=""), wenet_ctc=OfflineWenetCtcModelConfig(model="./sherpa-onnx-wenetspeech-yue-u2pp-conformer-ctc-zh-en-cantonese-int8-2025-09-10/model.int8.onnx"), sense_voice=OfflineSenseVoiceModelConfig(model="", language="auto", use_itn=False), moonshine=OfflineMoonshineModelConfig(preprocessor="", encoder="", uncached_decoder="", cached_decoder=""), dolphin=OfflineDolphinModelConfig(model=""), canary=OfflineCanaryModelConfig(encoder="", decoder="", src_lang="", tgt_lang="", use_pnc=True), telespeech_ctc="", tokens="./sherpa-onnx-wenetspeech-yue-u2pp-conformer-ctc-zh-en-cantonese-int8-2025-09-10/tokens.txt", num_threads=1, debug=False, provider="cpu", model_type="", modeling_unit="cjkchar", bpe_vocab=""), lm_config=OfflineLMConfig(model="", scale=0.5, lodr_scale=0.01, lodr_fst="", lodr_backoff_id=-1), ctc_fst_decoder_config=OfflineCtcFstDecoderConfig(graph="", max_active=3000), decoding_method="greedy_search", max_active_paths=4, hotwords_file="", hotwords_score=1.5, blank_penalty=0, rule_fsts="", rule_fars="", hr=HomophoneReplacerConfig(dict_dir="", lexicon="", rule_fsts=""))
+Creating recognizer ...
+Started
+Done!
+
+sherpa-onnx-wenetspeech-yue-u2pp-conformer-ctc-zh-en-cantonese-int8-2025-09-10/test_wavs/yue-7.wav
+{"lang": "", "emotion": "", "event": "", "text": "同意嘅累积唔系阴同阳嘅累积可以讲三既融合咗一同二融合咗阴同阳", "timestamps": [0.64, 0.92, 1.24, 1.40, 1.64, 2.60, 2.80, 3.04, 3.44, 3.76, 4.04, 4.20, 4.40, 5.60, 5.80, 6.08, 6.96, 8.00, 8.24, 8.48, 8.80, 9.36, 9.88, 10.16, 11.28, 11.48, 11.76, 12.16, 12.64, 12.88], "tokens":["同", "意", "嘅", "累", "积", "唔", "系", "阴", "同", "阳", "嘅", "累", "积", "可", "以", "讲", "三", "既", "融", "合", "咗", "一", "同", "二", "融", "合", "咗", "阴", "同", "阳"], "words": []}
+----
+num threads: 1
+decoding method: greedy_search
+Elapsed seconds: 1.078 s
+Real time factor (RTF): 1.078 / 13.900 = 0.078

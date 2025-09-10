@@ -56,6 +56,7 @@ extensions = [
     "sphinx_rtd_theme",
     "sphinx_tabs.tabs",
     "sphinxcontrib.youtube",
+    "sphinx_copybutton",  # https://sphinx-copybutton.readthedocs.io/en/latest/
 ]
 
 # Add any paths that contain templates here, relative to this directory.
