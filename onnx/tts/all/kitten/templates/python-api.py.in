@@ -1,0 +1,22 @@
+import sherpa_onnx
+import soundfile as sf
+
+config = sherpa_onnx.OfflineTtsConfig(
+    model=sherpa_onnx.OfflineTtsModelConfig(
+        kitten=sherpa_onnx.OfflineTtsKittenModelConfig(
+            model="{{model}}",
+            voices="{{voices}}",
+            tokens="{{tokens}}",
+            data_dir="{{data_dir}}",
+        ),
+        num_threads=2,
+    ),
+)
+
+if not config.validate():
+    raise ValueError("Please check your config")
+
+tts = sherpa_onnx.OfflineTts(config)
+audio = tts.generate(text="{{text}}", sid={{sid}}, speed=1.0)
+
+sf.write("test.mp3", audio.samples, samplerate=audio.sample_rate)

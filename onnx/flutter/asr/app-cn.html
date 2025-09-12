@@ -1,0 +1,137 @@
+
+<h1> Flutter Apps for streaming speech recognition </h1>
+This page lists the <strong>streaming speech recognition</strong> <a href="https://flutter.dev/">Flutter</a> Apps for
+<a href="http://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>,
+one of the deployment frameworks of <a href="https://github.com/k2-fsa">the Next-gen Kaldi project</a>.
+<br/>
+The name of an App has the following rule:
+<ul>
+ <li> sherpa-onnx-{version}-{os}-{arch}-asr-{lang}-{model}
+</ul>
+where
+<ul>
+ <li> version: It specifies the current version, e.g., 1.10.0
+ <li> os: It specifies the OS, e.g., osx for macOS, win for Windows
+ <li> arch: The architecture targeted by this App
+ <li> lang: The lang of the model used in the App, e.g., en for English, zh for Chinese
+ <li> model: The name of the model used in the App
+</ul>
+
+<br/>
+
+You can download all supported models from
+<a href="https://github.com/k2-fsa/sherpa-onnx/releases/tag/asr-models">https://github.com/k2-fsa/sherpa-onnx/releases/tag/asr-models</a>
+
+<br/>
+<br/>
+
+<!--
+see https://www.tablesgenerator.com/html_tables#
+-->
+
+<style type="text/css">
+.tg  {border-collapse:collapse;border-spacing:0;}
+.tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+  overflow:hidden;padding:10px 5px;word-break:normal;}
+.tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+  font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+.tg .tg-0pky{border-color:inherit;text-align:left;vertical-align:top}
+.tg .tg-0lax{text-align:left;vertical-align:top}
+</style>
+<table class="tg">
+<thead>
+  <tr>
+    <th class="tg-0pky">App</th>
+    <th class="tg-0lax">Comment</th>
+    <th class="tg-0pky">Model</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td class="tg-0pky">sherpa-onnx-x.y.z-osx-arm64-asr-bilingual_zh_en-zipformer.app.tar.bz2</td>
+    <td class="tg-0lax">It supports both English and Chinese.</td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20.tar.bz2">sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20.tar.bz2</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">sherpa-onnx-x.y.z-osx-arm64-asr-fr-zipformer.app.tar.bz2</td>
+    <td class="tg-0lax"><span style="font-weight:400;font-style:normal">It supports only French.</span></td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-zipformer-fr-2023-04-14.tar.bz2">sherpa-onnx-streaming-zipformer-fr-2023-04-14.tar.bz2</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">sherpa-onnx-x.y.z-osx-arm64-asr-zh-zipformer2.app.tar.bz2</td>
+    <td class="tg-0lax">It supports only Chinese.</td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/icefall-asr-zipformer-streaming-wenetspeech-20230615.tar.bz2">icefall-asr-zipformer-streaming-wenetspeech-20230615.tar.bz2</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">sherpa-onnx-x.y.z-osx-arm64-asr-en-zipformer2.app.tar.bz2</td>
+    <td class="tg-0lax">It supports only English.</td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-zipformer-en-2023-06-26.tar.bz2">sherpa-onnx-streaming-zipformer-en-2023-06-26.tar.bz2</a></td>
+  </tr>
+</tbody>
+</table>
+
+<br/>
+<br/>
+
+<div/>
+    
+<a href="https://hf-mirror.com/csukuangfj/sherpa-onnx-flutter/blob/main/flutter/asr/sherpa-onnx-1.10.11-win-x64-asr-zh-zipformer2.tar.bz2" />sherpa-onnx-1.10.11-win-x64-asr-zh-zipformer2.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj/sherpa-onnx-flutter/blob/main/flutter/asr/sherpa-onnx-1.10.11-win-x64-asr-fr-zipformer.tar.bz2" />sherpa-onnx-1.10.11-win-x64-asr-fr-zipformer.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj/sherpa-onnx-flutter/blob/main/flutter/asr/sherpa-onnx-1.10.11-win-x64-asr-en-zipformer2.tar.bz2" />sherpa-onnx-1.10.11-win-x64-asr-en-zipformer2.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj/sherpa-onnx-flutter/blob/main/flutter/asr/sherpa-onnx-1.10.11-win-x64-asr-bilingual_zh_en-zipformer.tar.bz2" />sherpa-onnx-1.10.11-win-x64-asr-bilingual_zh_en-zipformer.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj/sherpa-onnx-flutter/blob/main/flutter/asr/sherpa-onnx-1.10.11-osx-x86_64-asr-zh-zipformer2.app.tar.bz2" />sherpa-onnx-1.10.11-osx-x86_64-asr-zh-zipformer2.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj/sherpa-onnx-flutter/blob/main/flutter/asr/sherpa-onnx-1.10.11-osx-x86_64-asr-fr-zipformer.app.tar.bz2" />sherpa-onnx-1.10.11-osx-x86_64-asr-fr-zipformer.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj/sherpa-onnx-flutter/blob/main/flutter/asr/sherpa-onnx-1.10.11-osx-x86_64-asr-en-zipformer2.app.tar.bz2" />sherpa-onnx-1.10.11-osx-x86_64-asr-en-zipformer2.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj/sherpa-onnx-flutter/blob/main/flutter/asr/sherpa-onnx-1.10.11-osx-x86_64-asr-bilingual_zh_en-zipformer.app.tar.bz2" />sherpa-onnx-1.10.11-osx-x86_64-asr-bilingual_zh_en-zipformer.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj/sherpa-onnx-flutter/blob/main/flutter/asr/sherpa-onnx-1.10.11-osx-arm64-asr-zh-zipformer2.app.tar.bz2" />sherpa-onnx-1.10.11-osx-arm64-asr-zh-zipformer2.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj/sherpa-onnx-flutter/blob/main/flutter/asr/sherpa-onnx-1.10.11-osx-arm64-asr-fr-zipformer.app.tar.bz2" />sherpa-onnx-1.10.11-osx-arm64-asr-fr-zipformer.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj/sherpa-onnx-flutter/blob/main/flutter/asr/sherpa-onnx-1.10.11-osx-arm64-asr-en-zipformer2.app.tar.bz2" />sherpa-onnx-1.10.11-osx-arm64-asr-en-zipformer2.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj/sherpa-onnx-flutter/blob/main/flutter/asr/sherpa-onnx-1.10.11-osx-arm64-asr-bilingual_zh_en-zipformer.app.tar.bz2" />sherpa-onnx-1.10.11-osx-arm64-asr-bilingual_zh_en-zipformer.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj/sherpa-onnx-flutter/blob/main/flutter/asr/sherpa-onnx-1.10.10-win-x64-asr-zh-zipformer2.tar.bz2" />sherpa-onnx-1.10.10-win-x64-asr-zh-zipformer2.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj/sherpa-onnx-flutter/blob/main/flutter/asr/sherpa-onnx-1.10.10-win-x64-asr-fr-zipformer.tar.bz2" />sherpa-onnx-1.10.10-win-x64-asr-fr-zipformer.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj/sherpa-onnx-flutter/blob/main/flutter/asr/sherpa-onnx-1.10.10-win-x64-asr-en-zipformer2.tar.bz2" />sherpa-onnx-1.10.10-win-x64-asr-en-zipformer2.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj/sherpa-onnx-flutter/blob/main/flutter/asr/sherpa-onnx-1.10.10-win-x64-asr-bilingual_zh_en-zipformer.tar.bz2" />sherpa-onnx-1.10.10-win-x64-asr-bilingual_zh_en-zipformer.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj/sherpa-onnx-flutter/blob/main/flutter/asr/sherpa-onnx-1.10.10-osx-x86_64-asr-zh-zipformer2.app.tar.bz2" />sherpa-onnx-1.10.10-osx-x86_64-asr-zh-zipformer2.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj/sherpa-onnx-flutter/blob/main/flutter/asr/sherpa-onnx-1.10.10-osx-x86_64-asr-fr-zipformer.app.tar.bz2" />sherpa-onnx-1.10.10-osx-x86_64-asr-fr-zipformer.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj/sherpa-onnx-flutter/blob/main/flutter/asr/sherpa-onnx-1.10.10-osx-x86_64-asr-en-zipformer2.app.tar.bz2" />sherpa-onnx-1.10.10-osx-x86_64-asr-en-zipformer2.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj/sherpa-onnx-flutter/blob/main/flutter/asr/sherpa-onnx-1.10.10-osx-x86_64-asr-bilingual_zh_en-zipformer.app.tar.bz2" />sherpa-onnx-1.10.10-osx-x86_64-asr-bilingual_zh_en-zipformer.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj/sherpa-onnx-flutter/blob/main/flutter/asr/sherpa-onnx-1.10.10-osx-arm64-asr-zh-zipformer2.app.tar.bz2" />sherpa-onnx-1.10.10-osx-arm64-asr-zh-zipformer2.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj/sherpa-onnx-flutter/blob/main/flutter/asr/sherpa-onnx-1.10.10-osx-arm64-asr-fr-zipformer.app.tar.bz2" />sherpa-onnx-1.10.10-osx-arm64-asr-fr-zipformer.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj/sherpa-onnx-flutter/blob/main/flutter/asr/sherpa-onnx-1.10.10-osx-arm64-asr-en-zipformer2.app.tar.bz2" />sherpa-onnx-1.10.10-osx-arm64-asr-en-zipformer2.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj/sherpa-onnx-flutter/blob/main/flutter/asr/sherpa-onnx-1.10.10-osx-arm64-asr-bilingual_zh_en-zipformer.app.tar.bz2" />sherpa-onnx-1.10.10-osx-arm64-asr-bilingual_zh_en-zipformer.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj/sherpa-onnx-flutter/blob/main/flutter/asr/sherpa-onnx-1.10.6-win-x64-asr-zh-zipformer2.tar.bz2" />sherpa-onnx-1.10.6-win-x64-asr-zh-zipformer2.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj/sherpa-onnx-flutter/blob/main/flutter/asr/sherpa-onnx-1.10.6-win-x64-asr-fr-zipformer.tar.bz2" />sherpa-onnx-1.10.6-win-x64-asr-fr-zipformer.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj/sherpa-onnx-flutter/blob/main/flutter/asr/sherpa-onnx-1.10.6-win-x64-asr-en-zipformer2.tar.bz2" />sherpa-onnx-1.10.6-win-x64-asr-en-zipformer2.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj/sherpa-onnx-flutter/blob/main/flutter/asr/sherpa-onnx-1.10.6-win-x64-asr-bilingual_zh_en-zipformer.tar.bz2" />sherpa-onnx-1.10.6-win-x64-asr-bilingual_zh_en-zipformer.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj/sherpa-onnx-flutter/blob/main/flutter/asr/sherpa-onnx-1.10.6-osx-x86_64-asr-zh-zipformer2.app.tar.bz2" />sherpa-onnx-1.10.6-osx-x86_64-asr-zh-zipformer2.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj/sherpa-onnx-flutter/blob/main/flutter/asr/sherpa-onnx-1.10.6-osx-x86_64-asr-fr-zipformer.app.tar.bz2" />sherpa-onnx-1.10.6-osx-x86_64-asr-fr-zipformer.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj/sherpa-onnx-flutter/blob/main/flutter/asr/sherpa-onnx-1.10.6-osx-x86_64-asr-en-zipformer2.app.tar.bz2" />sherpa-onnx-1.10.6-osx-x86_64-asr-en-zipformer2.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj/sherpa-onnx-flutter/blob/main/flutter/asr/sherpa-onnx-1.10.6-osx-x86_64-asr-bilingual_zh_en-zipformer.app.tar.bz2" />sherpa-onnx-1.10.6-osx-x86_64-asr-bilingual_zh_en-zipformer.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj/sherpa-onnx-flutter/blob/main/flutter/asr/sherpa-onnx-1.10.6-osx-arm64-asr-zh-zipformer2.app.tar.bz2" />sherpa-onnx-1.10.6-osx-arm64-asr-zh-zipformer2.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj/sherpa-onnx-flutter/blob/main/flutter/asr/sherpa-onnx-1.10.6-osx-arm64-asr-fr-zipformer.app.tar.bz2" />sherpa-onnx-1.10.6-osx-arm64-asr-fr-zipformer.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj/sherpa-onnx-flutter/blob/main/flutter/asr/sherpa-onnx-1.10.6-osx-arm64-asr-en-zipformer2.app.tar.bz2" />sherpa-onnx-1.10.6-osx-arm64-asr-en-zipformer2.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj/sherpa-onnx-flutter/blob/main/flutter/asr/sherpa-onnx-1.10.6-osx-arm64-asr-bilingual_zh_en-zipformer.app.tar.bz2" />sherpa-onnx-1.10.6-osx-arm64-asr-bilingual_zh_en-zipformer.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj/sherpa-onnx-flutter/blob/main/flutter/asr/sherpa-onnx-1.10.2-win-x64-asr-zh-zipformer2.tar.bz2" />sherpa-onnx-1.10.2-win-x64-asr-zh-zipformer2.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj/sherpa-onnx-flutter/blob/main/flutter/asr/sherpa-onnx-1.10.2-win-x64-asr-fr-zipformer.tar.bz2" />sherpa-onnx-1.10.2-win-x64-asr-fr-zipformer.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj/sherpa-onnx-flutter/blob/main/flutter/asr/sherpa-onnx-1.10.2-win-x64-asr-en-zipformer2.tar.bz2" />sherpa-onnx-1.10.2-win-x64-asr-en-zipformer2.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj/sherpa-onnx-flutter/blob/main/flutter/asr/sherpa-onnx-1.10.2-win-x64-asr-bilingual_zh_en-zipformer.tar.bz2" />sherpa-onnx-1.10.2-win-x64-asr-bilingual_zh_en-zipformer.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj/sherpa-onnx-flutter/blob/main/flutter/asr/sherpa-onnx-1.10.2-osx-x86_64-asr-zh-zipformer2.app.tar.bz2" />sherpa-onnx-1.10.2-osx-x86_64-asr-zh-zipformer2.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj/sherpa-onnx-flutter/blob/main/flutter/asr/sherpa-onnx-1.10.2-osx-x86_64-asr-fr-zipformer.app.tar.bz2" />sherpa-onnx-1.10.2-osx-x86_64-asr-fr-zipformer.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj/sherpa-onnx-flutter/blob/main/flutter/asr/sherpa-onnx-1.10.2-osx-x86_64-asr-en-zipformer2.app.tar.bz2" />sherpa-onnx-1.10.2-osx-x86_64-asr-en-zipformer2.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj/sherpa-onnx-flutter/blob/main/flutter/asr/sherpa-onnx-1.10.2-osx-x86_64-asr-bilingual_zh_en-zipformer.app.tar.bz2" />sherpa-onnx-1.10.2-osx-x86_64-asr-bilingual_zh_en-zipformer.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj/sherpa-onnx-flutter/blob/main/flutter/asr/sherpa-onnx-1.10.2-osx-arm64-asr-zh-zipformer2.app.tar.bz2" />sherpa-onnx-1.10.2-osx-arm64-asr-zh-zipformer2.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj/sherpa-onnx-flutter/blob/main/flutter/asr/sherpa-onnx-1.10.2-osx-arm64-asr-fr-zipformer.app.tar.bz2" />sherpa-onnx-1.10.2-osx-arm64-asr-fr-zipformer.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj/sherpa-onnx-flutter/blob/main/flutter/asr/sherpa-onnx-1.10.2-osx-arm64-asr-en-zipformer2.app.tar.bz2" />sherpa-onnx-1.10.2-osx-arm64-asr-en-zipformer2.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj/sherpa-onnx-flutter/blob/main/flutter/asr/sherpa-onnx-1.10.2-osx-arm64-asr-bilingual_zh_en-zipformer.app.tar.bz2" />sherpa-onnx-1.10.2-osx-arm64-asr-bilingual_zh_en-zipformer.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj/sherpa-onnx-flutter/blob/main/flutter/asr/sherpa-onnx-1.10.0-win-x64-asr-zh-zipformer2.tar.bz2" />sherpa-onnx-1.10.0-win-x64-asr-zh-zipformer2.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj/sherpa-onnx-flutter/blob/main/flutter/asr/sherpa-onnx-1.10.0-win-x64-asr-fr-zipformer.tar.bz2" />sherpa-onnx-1.10.0-win-x64-asr-fr-zipformer.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj/sherpa-onnx-flutter/blob/main/flutter/asr/sherpa-onnx-1.10.0-win-x64-asr-en-zipformer2.tar.bz2" />sherpa-onnx-1.10.0-win-x64-asr-en-zipformer2.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj/sherpa-onnx-flutter/blob/main/flutter/asr/sherpa-onnx-1.10.0-win-x64-asr-bilingual_zh_en-zipformer.tar.bz2" />sherpa-onnx-1.10.0-win-x64-asr-bilingual_zh_en-zipformer.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj/sherpa-onnx-flutter/blob/main/flutter/asr/sherpa-onnx-1.10.0-osx-x86_64-asr-zh-zipformer2.app.tar.bz2" />sherpa-onnx-1.10.0-osx-x86_64-asr-zh-zipformer2.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj/sherpa-onnx-flutter/blob/main/flutter/asr/sherpa-onnx-1.10.0-osx-x86_64-asr-fr-zipformer.app.tar.bz2" />sherpa-onnx-1.10.0-osx-x86_64-asr-fr-zipformer.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj/sherpa-onnx-flutter/blob/main/flutter/asr/sherpa-onnx-1.10.0-osx-x86_64-asr-en-zipformer2.app.tar.bz2" />sherpa-onnx-1.10.0-osx-x86_64-asr-en-zipformer2.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj/sherpa-onnx-flutter/blob/main/flutter/asr/sherpa-onnx-1.10.0-osx-x86_64-asr-bilingual_zh_en-zipformer.app.tar.bz2" />sherpa-onnx-1.10.0-osx-x86_64-asr-bilingual_zh_en-zipformer.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj/sherpa-onnx-flutter/blob/main/flutter/asr/sherpa-onnx-1.10.0-osx-arm64-asr-zh-zipformer2.app.tar.bz2" />sherpa-onnx-1.10.0-osx-arm64-asr-zh-zipformer2.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj/sherpa-onnx-flutter/blob/main/flutter/asr/sherpa-onnx-1.10.0-osx-arm64-asr-fr-zipformer.app.tar.bz2" />sherpa-onnx-1.10.0-osx-arm64-asr-fr-zipformer.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj/sherpa-onnx-flutter/blob/main/flutter/asr/sherpa-onnx-1.10.0-osx-arm64-asr-en-zipformer2.app.tar.bz2" />sherpa-onnx-1.10.0-osx-arm64-asr-en-zipformer2.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj/sherpa-onnx-flutter/blob/main/flutter/asr/sherpa-onnx-1.10.0-osx-arm64-asr-bilingual_zh_en-zipformer.app.tar.bz2" />sherpa-onnx-1.10.0-osx-arm64-asr-bilingual_zh_en-zipformer.app.tar.bz2<br/>
