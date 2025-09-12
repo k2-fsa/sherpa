@@ -1,7 +1,6 @@
 Pre-trained models
 ==================
 
-
 You can download pre-trained models for RKNPU from `<https://github.com/k2-fsa/sherpa-onnx/releases/tag/asr-models>`_.
 
 In the following, we use models for ``rk3588`` as an example. You can replace
@@ -16,12 +15,14 @@ to install `sherpa-onnx`_. The following is an example of installing
 
   (py310) orangepi@orangepi5max:~/t$ uname -a
   Linux orangepi5max 6.1.43-rockchip-rk3588 #1.0.0 SMP Mon Jul  8 11:54:40 CST 2024 aarch64 aarch64 aarch64 GNU/Linux
-  (py310) orangepi@orangepi5max:~/t$ ls -lh sherpa_onnx-1.11.2-cp310-cp310-linux_aarch64.whl
-  -rw-r--r-- 1 orangepi orangepi 17M Mar  8 00:20 sherpa_onnx-1.11.2-cp310-cp310-linux_aarch64.whl
-  (py310) orangepi@orangepi5max:~/t$ pip install ./sherpa_onnx-1.11.2-cp310-cp310-linux_aarch64.whl
-  Processing ./sherpa_onnx-1.11.2-cp310-cp310-linux_aarch64.whl
+
+  (py310) orangepi@orangepi5max:~/t$ ls -lh sherpa_onnx-1.12.13-cp310-cp310-manylinux_2_27_aarch64.whl
+  -rw-r--r-- 1 orangepi orangepi 22M Mar 11 14:58 sherpa_onnx-1.12.13-cp310-cp310-manylinux_2_27_aarch64.whl
+
+  (py310) orangepi@orangepi5max:~/t$ pip install ./sherpa_onnx-1.12.13-cp310-cp310-manylinux_2_27_aarch64.whl
+  Processing ./sherpa_onnx-1.12.13-cp310-cp310-manylinux_2_27_aarch64.whl
   Installing collected packages: sherpa-onnx
-  Successfully installed sherpa-onnx-1.11.2
+  Successfully installed sherpa-onnx-1.12.13
 
   (py310) orangepi@orangepi5max:~/t$ which sherpa-onnx
   /home/orangepi/py310/bin/sherpa-onnx
@@ -274,3 +275,255 @@ You should see the following output::
   1:现在是星期六
   2:二零二五年三月二十二号
   3:下午六点四十四分
+
+.. _sherpa-onnx-rk3588-20-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17:
+
+sherpa-onnx-rk3588-20-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17 (Chinese, English, Japanese, Korean, Cantonese, 中英日韩粤语)
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+This model is converted from :ref:`sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17` using code from the following URL:
+
+  `<https://github.com/k2-fsa/sherpa-onnx/tree/master/scripts/sense-voice/rknn>`_
+
+.. hint::
+
+   You can find how to run the export code at
+
+      `<https://github.com/k2-fsa/sherpa-onnx/blob/master/.github/workflows/export-sense-voice-to-rknn.yaml>`_
+
+The original PyTorch checkpoint is available at
+
+  `<https://huggingface.co/FunAudioLLM/SenseVoiceSmall>`_
+
+Since the original `SenseVoice`_ model is a non-streaming model and RKNN does not support dynamic input shapes, we
+have to fix how long the model can process when exporting to RKNN.
+
+The ``20-seconds`` in the model name means the model can only handle audio of duration 20 seconds.
+
+  - If the input audio is less than 20 seconds, it is padded to 20 seconds in the code automatically.
+  - If the input audio is larger than 20 seconds, it is truncated to 20 seconds in the code automatically.
+
+We provide exported models of different input lengths. See the table below.
+
+.. list-table::
+
+ * - Max input lengths
+   - URL
+ * - 10 seconds
+   - `sherpa-onnx-rk3588-10-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17.tar.bz2 <https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-rk3588-10-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17.tar.bz2>`_
+ * - 15 seconds
+   - `sherpa-onnx-rk3588-15-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17.tar.bz2 <https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-rk3588-15-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17.tar.bz2>`_
+ * - 20 seconds
+   - `sherpa-onnx-rk3588-20-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17.tar.bz2 <https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-rk3588-20-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17.tar.bz2>`_
+ * - 25 seconds
+   - `sherpa-onnx-rk3588-25-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17.tar.bz2 <https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-rk3588-25-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17.tar.bz2>`_
+ * - 30 seconds
+   - `sherpa-onnx-rk3588-30-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17.tar.bz2 <https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-rk3588-30-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17.tar.bz2>`_
+
+.. hint::
+
+    The above table lists models foro ``rk3588``. You can replace
+    ``rk3588`` with ``rk3576``, ``rk3568``, ``rk3566`` or ``rk3562``.
+
+We suggest that you use a :ref:`sherpa_onnx_vad` to segment your input audio into short segments.
+
+.. note::
+
+   You can use::
+
+    watch -n 0.5 cat /sys/kernel/debug/rknpu/load
+
+   to watch the usage of NPU.
+
+   For the RK3588 board, you can use:
+
+    - ``--num-threads=1`` to select ``RKNN_NPU_CORE_AUTO``
+    - ``--num-threads=0`` to select ``RKNN_NPU_CORE_0``
+    - ``--num-threads=-1`` to select ``RKNN_NPU_CORE_1``
+    - ``--num-threads=-2`` to select ``RKNN_NPU_CORE_2``
+    - ``--num-threads=-3`` to select ``RKNN_NPU_CORE_0_1``
+    - ``--num-threads=-4`` to select ``RKNN_NPU_CORE_0_1_2``
+
+Decode long files with a VAD
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The following example demonstrates how to use a ``20-second`` model to decode a long wave file.
+
+.. code-block::
+
+   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/silero_vad.onnx
+
+   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/lei-jun-test.wav
+
+   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-rk3588-20-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17.tar.bz2
+   tar xvf sherpa-onnx-rk3588-20-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17.tar.bz2
+
+Then run:
+
+.. code-block:: bash
+
+  sherpa-onnx-vad-with-offline-asr \
+    --num-threads=-1 \
+    --provider=rknn \
+    --silero-vad-model=./silero_vad.onnx \
+    --silero-vad-threshold=0.4 \
+    --sense-voice-model=./sherpa-onnx-rk3588-20-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17/model.rknn \
+    --tokens=./sherpa-onnx-rk3588-20-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17/tokens.txt \
+    ./lei-jun-test.wav
+
+.. raw:: html
+
+  <table>
+    <tr>
+      <th>Wave filename</th>
+      <th>Content</th>
+    </tr>
+    <tr>
+      <td>lei-jun-test.wav</td>
+      <td>
+       <audio title="lei-jun-test.wav" controls="controls">
+             <source src="/sherpa/_static/sense-voice/lei-jun-test.wav" type="audio/wav">
+             Your browser does not support the <code>audio</code> element.
+       </audio>
+      </td>
+    </tr>
+  </table>
+
+The output is given below:
+
+
+.. container:: toggle
+
+    .. container:: header
+
+      Click ▶ to see the output
+
+    .. literalinclude:: ./code-sense-voice-2024-04-17/lei-jun-test.txt
+
+Decode a short file
+~~~~~~~~~~~~~~~~~~~
+
+The following example demonstrates how to use a ``10-second`` model to decode a short wave file.
+
+.. code-block::
+
+   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-rk3588-10-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17.tar.bz2
+   tar xvf sherpa-onnx-rk3588-10-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17.tar.bz2
+
+.. code-block:: bash
+
+  sherpa-onnx-offline \
+    --num-threads=-2 \
+    --provider=rknn \
+    --sense-voice-model=./sherpa-onnx-rk3588-10-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17/model.rknn \
+    --tokens=./sherpa-onnx-rk3588-10-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17/tokens.txt \
+    ./sherpa-onnx-rk3588-10-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17/test_wavs/zh.wav
+
+The output is given below:
+
+.. literalinclude:: ./code-sense-voice-2024-04-17/short.txt
+
+Speed test
+~~~~~~~~~~
+
+We compare the speed between the ``int8.onnx`` model and the ``10-second`` rknn model for
+
+  - 1 Cortex A55 CPU with ``int8.onnx``
+  - 1 Cortex A76 CPU with ``int8.onnx``
+  - 1 RK NPU on RK3588
+
+Please first use the following command to download the test model files:
+
+.. code-block:: bash
+
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17.tar.bz2
+  tar xvf sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17.tar.bz2
+
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-rk3588-10-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17.tar.bz2
+  tar xvf sherpa-onnx-rk3588-10-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17.tar.bz2
+
+The results are summarized in the following table. 
+
+
+.. list-table::
+
+ * -
+   - | 1 Cortex A55 CPU
+     | with ``int8 ONNX`` model
+   - | 1 Cortex A76 CPU
+     | with ``int8 ONNX`` model
+   - 1 RK3588 NPU
+ * - RTF
+   - 0.440
+   - 0.100
+   - 0.129
+
+You can find detailed test commands below.
+
+Sense-voice ``int8`` ONNX model on 1 Cortex A55 CPU
+:::::::::::::::::::::::::::::::::::::::::::::::::::
+
+.. code-block:: bash
+
+  taskset 0x01 sherpa-onnx-offline \
+    --num-threads=1 \
+    --sense-voice-model=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17/model.int8.onnx \
+    --tokens=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17/tokens.txt \
+    ./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17/test_wavs/zh.wav
+
+The output is given below:
+
+.. literalinclude:: ./code-sense-voice-2024-04-17/cortex-a55.txt
+
+Sense-voice ``int8`` ONNX model on 1 Cortex A76 CPU
+:::::::::::::::::::::::::::::::::::::::::::::::::::
+
+.. code-block:: bash
+
+  taskset 0x10 sherpa-onnx-offline \
+    --num-threads=1 \
+    --sense-voice-model=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17/model.int8.onnx \
+    --tokens=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17/tokens.txt \
+    ./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17/test_wavs/zh.wav
+
+The output is given below:
+
+.. literalinclude:: ./code-sense-voice-2024-04-17/cortex-a76.txt
+
+Sense-voice RKNN model on 1 RK3588 NPU
+::::::::::::::::::::::::::::::::::::::
+
+.. code-block:: bash
+
+  taskset 0x01 sherpa-onnx-offline \
+    --provider=rknn \
+    --num-threads=-1 \
+    --sense-voice-model=./sherpa-onnx-rk3588-10-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17/model.rknn \
+    --tokens=./sherpa-onnx-rk3588-10-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17/tokens.txt \
+    ./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17/test_wavs/zh.wav
+
+The output is given below:
+
+.. literalinclude:: ./code-sense-voice-2024-04-17/npu.txt
+
+
+.. _sherpa-onnx-rk3588-20-seconds-sense-voice-zh-en-ja-ko-yue-2025-09-09:
+
+sherpa-onnx-rk3588-20-seconds-sense-voice-zh-en-ja-ko-yue-2025-09-09 (Chinese, English, Japanese, Korean, Cantonese, 中英日韩粤语)
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+This model is converted from :ref:`sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09` using code from the following URL:
+
+  `<https://github.com/k2-fsa/sherpa-onnx/tree/master/scripts/sense-voice/rknn>`_
+
+.. hint::
+
+   You can find how to run the export code at
+
+      `<https://github.com/k2-fsa/sherpa-onnx/blob/master/.github/workflows/export-sense-voice-to-rknn.yaml>`_
+
+The original PyTorch checkpoint is available at
+
+  `<https://huggingface.co/ASLP-lab/WSYue-ASR/tree/main/sensevoice_small_yue>`_
+
+Please refer to :ref:`sherpa-onnx-rk3588-20-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17` for how to use this model.
