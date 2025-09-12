@@ -23,6 +23,10 @@ It supports the following 5 languages:
 In the following, we describe how to use it.
 
 
+.. hint::
+
+   For RKNN users, please refer to :ref:`sherpa-onnx-rk3588-20-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17`.
+
 Huggingface space
 ^^^^^^^^^^^^^^^^^
 
@@ -231,6 +235,10 @@ It supports the following 5 languages:
 
    If you want a ``Cantonese`` ASR model, please choose this model or
    :ref:`sherpa-onnx-wenetspeech-yue-u2pp-conformer-ctc-zh-en-cantonese-int8-2025-09-10`
+
+.. hint::
+
+   For RKNN users, please refer to :ref:`sherpa-onnx-rk3588-20-seconds-sense-voice-zh-en-ja-ko-yue-2025-09-09`.
 
 In the following, we describe how to use it.
 

@@ -12,7 +12,7 @@ The following boards are known to work:
   - RK3562
 
 .. toctree::
-   :maxdepth: 5
+   :maxdepth: 8
 
    ./tutorials.rst
    ./install.rst

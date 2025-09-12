@@ -1,3 +1,5 @@
+.. _sherpa_onnx_vad:
+
 VAD
 ===
 
