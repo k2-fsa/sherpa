@@ -1,0 +1,14 @@
+/Users/fangjun/open-source/sherpa-ncnn/sherpa-ncnn/csrc/parse-options.cc:Read:381 ./build/bin/sherpa-ncnn-offline --tokens=./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09/tokens.txt --sense-voice-model-dir=./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09 --num-threads=1 sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09/test_wavs/yue-8.wav 
+
+OfflineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80), model_config=OfflineModelConfig(sense_voice=OfflineSenseVoiceModelConfig(model_dir="./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09", language="auto", use_itn=False), tokens="./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09/tokens.txt", num_threads=1, debug=False), decoding_method="greedy_search", blank_penalty=0)
+Creating recognizer ...
+Started
+Done!
+
+sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09/test_wavs/yue-8.wav
+{"lang": "<|yue|>", "emotion": "<|NEUTRAL|>", "event": "<|Speech|>", "text": "而较早前已经复航嘅氹仔北安码头星期五开始增设夜间航班不过两个码头暂时都冇凌晨班次有旅客希望尽快恢复可以留喺澳门长啲时间", "timestamps": [0.30, 0.54, 0.72, 0.90, 1.14, 1.26, 1.50, 1.68, 1.86, 2.04, 2.28, 2.58, 2.70, 3.00, 3.12, 3.42, 3.60, 3.78, 4.02, 4.14, 4.44, 4.62, 4.92, 5.04, 5.28, 5.40, 6.12, 6.36, 6.60, 6.78, 6.96, 7.14, 7.44, 7.62, 7.80, 7.98, 8.16, 8.34, 8.58, 8.76, 9.54, 9.72, 9.90, 10.14, 10.26, 10.50, 10.62, 10.92, 11.10, 11.58, 11.70, 11.94, 12.06, 12.30, 12.48, 12.78, 12.96, 13.20, 13.44], "tokens":["而", "较", "早", "前", "已", "经", "复", "航", "嘅", "氹", "仔", "北", "安", "码", "头", "星", "期", "五", "开", "始", "增", "设", "夜", "间", "航", "班", "不", "过", "两", "个", "码", "头", "暂", "时", "都", "冇", "凌", "晨", "班", "次", "有", "旅", "客", "希", "望", "尽", "快", "恢", "复", "可", "以", "留", "喺", "澳", "门", "长", "啲", "时", "间"]}
+----
+num threads: 1
+decoding method: greedy_search
+Elapsed seconds: 1.655 s
+Real time factor (RTF): 1.655 / 14.080 = 0.118

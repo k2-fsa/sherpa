@@ -1,0 +1,14 @@
+/Users/fangjun/open-source/sherpa-ncnn/sherpa-ncnn/csrc/parse-options.cc:Read:381 ./build/bin/sherpa-ncnn-offline --tokens=./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09/tokens.txt --sense-voice-model-dir=./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09 --num-threads=1 sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09/test_wavs/yue-4.wav 
+
+OfflineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80), model_config=OfflineModelConfig(sense_voice=OfflineSenseVoiceModelConfig(model_dir="./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09", language="auto", use_itn=False), tokens="./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09/tokens.txt", num_threads=1, debug=False), decoding_method="greedy_search", blank_penalty=0)
+Creating recognizer ...
+Started
+Done!
+
+sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09/test_wavs/yue-4.wav
+{"lang": "<|yue|>", "emotion": "<|NEUTRAL|>", "event": "<|Speech|>", "text": "香港嘅消费市场从此不一样", "timestamps": [0.36, 0.54, 0.72, 0.90, 1.08, 1.38, 1.56, 1.92, 2.10, 2.40, 2.58, 2.76], "tokens":["香", "港", "嘅", "消", "费", "市", "场", "从", "此", "不", "一", "样"]}
+----
+num threads: 1
+decoding method: greedy_search
+Elapsed seconds: 0.398 s
+Real time factor (RTF): 0.398 / 3.200 = 0.124

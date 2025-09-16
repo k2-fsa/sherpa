@@ -1,0 +1,14 @@
+/Users/fangjun/open-source/sherpa-ncnn/sherpa-ncnn/csrc/parse-options.cc:Read:381 ./build/bin/sherpa-ncnn-offline --tokens=./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09/tokens.txt --sense-voice-model-dir=./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09 --num-threads=1 sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09/test_wavs/yue-9.wav 
+
+OfflineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80), model_config=OfflineModelConfig(sense_voice=OfflineSenseVoiceModelConfig(model_dir="./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09", language="auto", use_itn=False), tokens="./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09/tokens.txt", num_threads=1, debug=False), decoding_method="greedy_search", blank_penalty=0)
+Creating recognizer ...
+Started
+Done!
+
+sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09/test_wavs/yue-9.wav
+{"lang": "<|yue|>", "emotion": "<|NEUTRAL|>", "event": "<|Speech|>", "text": "刘备仲马鞭得指蜀兵一齐掩杀过去打到吴兵大败唉刘备八路兵马以雷霆万军之势啊杀到吴兵啊尸横遍野血流成河", "timestamps": [0.30, 0.48, 0.72, 0.90, 1.14, 1.32, 1.44, 2.22, 2.58, 2.88, 3.06, 3.42, 3.60, 3.90, 3.96, 4.32, 4.50, 4.68, 4.92, 5.28, 5.46, 6.06, 6.60, 6.84, 7.26, 7.56, 7.74, 7.98, 8.58, 8.88, 9.12, 9.36, 9.60, 9.84, 10.08, 10.26, 10.38, 10.56, 10.80, 10.98, 11.22, 11.52, 12.12, 12.36, 12.66, 12.90, 13.14, 13.32, 13.50], "tokens":["刘", "备", "仲", "马", "鞭", "得", "指", "蜀", "兵", "一", "齐", "掩", "杀", "过", "去", "打", "到", "吴", "兵", "大", "败", "唉", "刘", "备", "八", "路", "兵", "马", "以", "雷", "霆", "万", "军", "之", "势", "啊", "杀", "到", "吴", "兵", "啊", "尸", "横", "遍", "野", "血", "流", "成", "河"]}
+----
+num threads: 1
+decoding method: greedy_search
+Elapsed seconds: 1.663 s
+Real time factor (RTF): 1.663 / 14.336 = 0.116

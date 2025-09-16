@@ -1,0 +1,14 @@
+/Users/fangjun/open-source/sherpa-ncnn/sherpa-ncnn/csrc/parse-options.cc:Read:381 ./build/bin/sherpa-ncnn-offline --tokens=./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09/tokens.txt --sense-voice-model-dir=./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09 --num-threads=1 sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09/test_wavs/yue-1.wav 
+
+OfflineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80), model_config=OfflineModelConfig(sense_voice=OfflineSenseVoiceModelConfig(model_dir="./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09", language="auto", use_itn=False), tokens="./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09/tokens.txt", num_threads=1, debug=False), decoding_method="greedy_search", blank_penalty=0)
+Creating recognizer ...
+Started
+Done!
+
+sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09/test_wavs/yue-1.wav
+{"lang": "<|yue|>", "emotion": "<|NEUTRAL|>", "event": "<|Speech|>", "text": "叫做诶诶直入式你个脑部里边咧记得呢一个嘅以前香港有一个广告好出名嘅佢乜嘢都冇噶净系影住喺弥敦道佢哋间铺头嘅啫但系就不停有人嗌啦平平吧平吧", "timestamps": [0.06, 0.18, 0.36, 0.72, 1.08, 1.38, 1.56, 1.86, 1.98, 2.16, 2.52, 2.76, 2.88, 3.00, 3.24, 3.36, 3.60, 3.72, 3.84, 3.96, 4.20, 4.32, 4.44, 4.62, 4.74, 4.86, 4.92, 5.04, 5.16, 5.34, 5.46, 5.58, 5.88, 6.30, 6.60, 6.78, 6.90, 7.02, 7.20, 7.50, 7.68, 7.86, 7.98, 8.16, 8.28, 8.46, 8.64, 8.88, 8.94, 9.18, 9.30, 9.48, 9.66, 9.78, 10.08, 10.14, 10.26, 10.50, 10.62, 10.80, 10.92, 11.04, 11.22, 12.00, 12.72, 13.02, 13.92, 14.16], "tokens":["叫", "做", "诶", "诶", "直", "入", "式", "你", "个", "脑", "部", "里", "边", "咧", "记", "得", "呢", "一", "个", "嘅", "以", "前", "香", "港", "有", "一", "个", "广", "告", "好", "出", "名", "嘅", "佢", "乜", "嘢", "都", "冇", "噶", "净", "系", "影", "住", "喺", "弥", "敦", "道", "佢", "哋", "间", "铺", "头", "嘅", "啫", "但", "系", "就", "不", "停", "有", "人", "嗌", "啦", "平", "平", "吧", "平", "吧"]}
+----
+num threads: 1
+decoding method: greedy_search
+Elapsed seconds: 1.987 s
+Real time factor (RTF): 1.987 / 15.104 = 0.132

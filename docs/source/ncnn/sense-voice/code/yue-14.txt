@@ -1,0 +1,14 @@
+/Users/fangjun/open-source/sherpa-ncnn/sherpa-ncnn/csrc/parse-options.cc:Read:381 ./build/bin/sherpa-ncnn-offline --tokens=./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09/tokens.txt --sense-voice-model-dir=./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09 --num-threads=1 sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09/test_wavs/yue-14.wav 
+
+OfflineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80), model_config=OfflineModelConfig(sense_voice=OfflineSenseVoiceModelConfig(model_dir="./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09", language="auto", use_itn=False), tokens="./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09/tokens.txt", num_threads=1, debug=False), decoding_method="greedy_search", blank_penalty=0)
+Creating recognizer ...
+Started
+Done!
+
+sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09/test_wavs/yue-14.wav
+{"lang": "<|yue|>", "emotion": "<|NEUTRAL|>", "event": "<|Speech|>", "text": "就即刻会同贵正两位八代长老带埋五名七代弟子前啲灵蛇岛想话生擒谢信抢咗屠龙宝刀翻嚟献俾帮主嘅", "timestamps": [0.18, 0.36, 0.48, 0.72, 0.84, 1.20, 1.44, 1.74, 1.92, 2.10, 2.28, 2.52, 2.76, 3.60, 3.84, 4.14, 4.32, 4.56, 4.80, 5.04, 5.22, 5.88, 6.12, 6.24, 6.42, 6.78, 7.68, 7.92, 8.16, 8.52, 8.82, 9.18, 9.96, 10.26, 10.38, 10.62, 10.86, 11.10, 11.22, 11.40, 11.64, 11.88, 12.18, 12.30, 12.66], "tokens":["就", "即", "刻", "会", "同", "贵", "正", "两", "位", "八", "代", "长", "老", "带", "埋", "五", "名", "七", "代", "弟", "子", "前", "啲", "灵", "蛇", "岛", "想", "话", "生", "擒", "谢", "信", "抢", "咗", "屠", "龙", "宝", "刀", "翻", "嚟", "献", "俾", "帮", "主", "嘅"]}
+----
+num threads: 1
+decoding method: greedy_search
+Elapsed seconds: 1.577 s
+Real time factor (RTF): 1.577 / 13.056 = 0.121

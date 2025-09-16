@@ -1,0 +1,14 @@
+/Users/fangjun/open-source/sherpa-ncnn/sherpa-ncnn/csrc/parse-options.cc:Read:381 ./build/bin/sherpa-ncnn-offline --tokens=./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09/tokens.txt --sense-voice-model-dir=./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09 --num-threads=1 sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09/test_wavs/yue-17.wav 
+
+OfflineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80), model_config=OfflineModelConfig(sense_voice=OfflineSenseVoiceModelConfig(model_dir="./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09", language="auto", use_itn=False), tokens="./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09/tokens.txt", num_threads=1, debug=False), decoding_method="greedy_search", blank_penalty=0)
+Creating recognizer ...
+Started
+Done!
+
+sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09/test_wavs/yue-17.wav
+{"lang": "<|yue|>", "emotion": "<|NEUTRAL|>", "event": "<|Speech|>", "text": "如果东边道建成咁丹东呢就会成为最近嘅出海港同埋经过哈大线出海相比绥分河将会减少运渠三百五十六公里", "timestamps": [0.48, 0.60, 0.84, 0.96, 1.20, 1.50, 1.74, 2.58, 3.00, 3.18, 3.36, 3.78, 4.02, 4.20, 4.32, 4.56, 4.74, 4.86, 5.04, 5.22, 5.46, 6.36, 6.54, 6.78, 6.90, 7.08, 7.32, 7.50, 7.80, 7.92, 8.16, 8.34, 9.24, 9.54, 9.84, 10.26, 10.50, 10.74, 10.86, 11.22, 11.40, 11.82, 12.12, 12.30, 12.48, 12.60, 12.84, 13.02], "tokens":["如", "果", "东", "边", "道", "建", "成", "咁", "丹", "东", "呢", "就", "会", "成", "为", "最", "近", "嘅", "出", "海", "港", "同", "埋", "经", "过", "哈", "大", "线", "出", "海", "相", "比", "绥", "分", "河", "将", "会", "减", "少", "运", "渠", "三", "百", "五", "十", "六", "公", "里"]}
+----
+num threads: 1
+decoding method: greedy_search
+Elapsed seconds: 1.824 s
+Real time factor (RTF): 1.824 / 13.800 = 0.132

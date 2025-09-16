@@ -21,7 +21,7 @@ Windows, embedded systems, Android, and iOS.
 Also, we show how to use it for speech recognition with pre-trained models.
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 8
 
    ./tutorials/index
    ./install/index
@@ -33,4 +33,6 @@ Also, we show how to use it for speech recognition with pre-trained models.
    ./ios/index
    ./pretrained_models/index
    ./examples/index
+   ./vad/index
+   ./sense-voice/index
    ./faq
