@@ -50,8 +50,8 @@ To check you have installed `sherpa-onnx`_ successfully, please run
     # For Chinese uers
     pip install sherpa-onnx sherpa-onnx-bin -f https://k2-fsa.github.io/sherpa/onnx/cpu-cn.html
 
-Method 2 (From pre-compiled wheels, CPU + CUDA)
-------------------------------------------------
+Method 2 (From pre-compiled wheels, CPU + CUDA 11.8)
+----------------------------------------------------
 
 .. note::
 
@@ -76,24 +76,24 @@ This approach supports only Linux x64 and Windows x64.
 
 Please use the following command to install CUDA-enabled `sherpa-onnx`_::
 
-  # We use 1.11.1 here for demonstration.
+  # We use 1.12.13 here for demonstration.
   #
   # Please visit https://k2-fsa.github.io/sherpa/onnx/cuda.html
   # to find available versions
 
-  pip install sherpa-onnx==1.11.1+cuda -f https://k2-fsa.github.io/sherpa/onnx/cuda.html
+  pip install sherpa-onnx==1.12.13+cuda -f https://k2-fsa.github.io/sherpa/onnx/cuda.html
 
   # For Chinese users, please use
-  # pip install sherpa-onnx==1.11.1+cuda -f https://k2-fsa.github.io/sherpa/onnx/cuda-cn.html
+  # pip install sherpa-onnx==1.12.13+cuda -f https://k2-fsa.github.io/sherpa/onnx/cuda-cn.html
 
 The installation logs are given below::
 
   Looking in links: https://k2-fsa.github.io/sherpa/onnx/cuda.html
-  Collecting sherpa-onnx==1.11.1+cuda
-    Downloading https://huggingface.co/csukuangfj/sherpa-onnx-wheels/resolve/main/cuda/1.11.1/sherpa_onnx-1.11.11%2Bcuda-cp310-cp310-linux_x86_64.whl (183.3 MB)
+  Collecting sherpa-onnx==1.12.13+cuda
+    Downloading https://huggingface.co/csukuangfj/sherpa-onnx-wheels/resolve/main/cuda/1.12.13/sherpa_onnx-1.12.131%2Bcuda-cp310-cp310-linux_x86_64.whl (183.3 MB)
        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 183.3/183.3 MB 4.4 MB/s eta 0:00:00
   Installing collected packages: sherpa-onnx
-  Successfully installed sherpa-onnx-1.11.1+cuda
+  Successfully installed sherpa-onnx-1.12.13+cuda
 
 To check that you have installed `sherpa-onnx`_ successfully, please run::
 
@@ -101,11 +101,37 @@ To check that you have installed `sherpa-onnx`_ successfully, please run::
 
 which should print something like below::
 
-  1.11.1+cuda
+  1.12.13+cuda
 
 
+Method 3 (From pre-compiled wheels, CPU + CUDA 12.8 + CUDNN9)
+-------------------------------------------------------------
 
-Method 3 (From source)
+.. code-block::
+
+   pip install sherpa-onnx==1.12.13+cuda12.cudnn9 -f https://k2-fsa.github.io/sherpa/onnx/cuda.html
+
+   # For Chinese users, please use
+   pip install sherpa-onnx==1.12.13+cuda12.cudnn9 -f https://k2-fsa.github.io/sherpa/onnx/cuda-cn.html
+
+The installation logs are given below::
+
+  Looking in links: https://k2-fsa.github.io/sherpa/onnx/cuda.html
+  Collecting sherpa-onnx==1.12.13+cuda12.cudnn9
+    Downloading https://huggingface.co/csukuangfj/sherpa-onnx-wheels/resolve/main/cuda/1.12.13/sherpa_onnx-1.12.13%2Bcuda12.cudnn9-cp312-cp312-linux_x86_64.whl (245.8 MB)
+       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 245.8/245.8 MB 4.3 MB/s eta 0:00:00
+  Installing collected packages: sherpa-onnx
+  Successfully installed sherpa-onnx-1.12.13+cuda12.cudnn9
+
+To check that you have installed `sherpa-onnx`_ successfully, please run::
+
+  python3 -c "import sherpa_onnx; print(sherpa_onnx.__version__)"
+
+which should print something like below::
+
+  1.12.13+cuda12.cudnn9
+
+Method 4 (From source)
 ----------------------
 
 .. tabs::
@@ -127,7 +153,7 @@ Method 3 (From source)
         cd sherpa-onnx
         python3 setup.py install
 
-Method 4 (For developers)
+Method 5 (For developers)
 -------------------------
 
 .. tabs::
@@ -159,6 +185,43 @@ Method 4 (For developers)
 
         git clone https://github.com/k2-fsa/sherpa-onnx
         cd sherpa-onnx
+        mkdir build
+        cd build
+
+        cmake \
+          -DSHERPA_ONNX_ENABLE_PYTHON=ON \
+          -DBUILD_SHARED_LIBS=ON \
+          -DSHERPA_ONNX_ENABLE_CHECK=OFF \
+          -DSHERPA_ONNX_ENABLE_PORTAUDIO=OFF \
+          -DSHERPA_ONNX_ENABLE_C_API=OFF \
+          -DSHERPA_ONNX_ENABLE_WEBSOCKET=OFF \
+          -DSHERPA_ONNX_ENABLE_GPU=ON \
+          ..
+
+        make -j
+        export PYTHONPATH=$PWD/../sherpa-onnx/python/:$PWD/lib:$PYTHONPATH
+
+      .. hint::
+
+          You need to install CUDA toolkit. Otherwise, you would get
+          errors at runtime.
+
+          You can refer to `<https://k2-fsa.github.io/k2/installation/cuda-cudnn.html>`_
+          to install CUDA toolkit.
+
+   .. tab:: Nvidia GPU (CUDA 12.x, CUDNN 9)
+
+      .. code-block:: bash
+
+        git clone https://github.com/k2-fsa/sherpa-onnx
+        cd sherpa-onnx
+
+        wget https://github.com/csukuangfj/onnxruntime-libs/releases/download/v1.22.0/onnxruntime-linux-x64-gpu-1.22.0-patched.zip
+        unzip  onnxruntime-linux-x64-gpu-1.22.0-patched.zip
+
+        export SHERPA_ONNXRUNTIME_LIB_DIR=$PWD/onnxruntime-linux-x64-gpu-1.22.0-patched/lib
+        export SHERPA_ONNXRUNTIME_INCLUDE_DIR=$PWD/onnxruntime-linux-x64-gpu-1.22.0-patched/include
+
         mkdir build
         cd build
 
