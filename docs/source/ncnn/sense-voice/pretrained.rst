@@ -3,14 +3,13 @@ Pre-trained Models
 
 This page describes how to download pre-trained `SenseVoice`_ models.
 
+.. _sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2024-07-17:
 
-.. _sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17:
-
-sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17 (Chinese, English, Japanese, Korean, Cantonese, 中英日韩粤语)
+sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2024-07-17 (Chinese, English, Japanese, Korean, Cantonese, 中英日韩粤语)
 ------------------------------------------------------------------------------------------------------------------------
 
 This model is converted from `<https://www.modelscope.cn/models/iic/SenseVoiceSmall>`_
-using the script `export-onnx.py <https://github.com/k2-fsa/sherpa-onnx/blob/master/scripts/sense-voice/export-onnx.py>`_.
+using the script `export-ncnn.py <https://github.com/k2-fsa/sherpa-ncnn/blob/master/scripts/sense-voice/export-ncnn.py>`_.
 
 It supports the following 5 languages:
 
@@ -22,122 +21,54 @@ It supports the following 5 languages:
 
 In the following, we describe how to use it.
 
-
 .. hint::
 
    For ``RKNN`` users, please refer to :ref:`sherpa-onnx-rk3588-20-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17`.
 
-   For ``ncnn`` users, please refer to :ref:`sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2024-07-17`.
-
-Huggingface space
-^^^^^^^^^^^^^^^^^
-
-You can visit
-
-  `<https://huggingface.co/spaces/k2-fsa/automatic-speech-recognition>`_
-
-to try this model in your browser.
-
-.. hint::
-
-   You need to first select the language ``Chinese+English+Cantonese+Japanese+Korean``
-   and then select the model  ``csukuangfj/sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17``.
-
-
-Android APKs
-^^^^^^^^^^^^
-
-Real-time speech recognition Android APKs can be found at
-
-  `<https://k2-fsa.github.io/sherpa/onnx/android/apk-simulate-streaming-asr.html>`_
-
-Please always download the latest version.
-
-.. hint::
-
-   Please search for ``zh_en_ko_ja_yue-sense_voice_2024_07_17_int8.apk`` in the above page, e.g.,
-   ``sherpa-onnx-1.12.11-arm64-v8a-simulated_streaming_asr-zh_en_ko_ja_yue-sense_voice_2024_07_17_int8.apk``.
-
-.. hint::
-
-   For Chinese users, you can also visit `<https://k2-fsa.github.io/sherpa/onnx/android/apk-simulate-streaming-asr-cn.html>`_
-
+   For ``onnxruntime`` users, please refer to :ref:`sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17`.
 
 Download
 ^^^^^^^^
 
 Please use the following commands to download it::
 
-  cd /path/to/sherpa-onnx
+  cd /path/to/sherpa-ncnn
 
-  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17.tar.bz2
+  wget https://github.com/k2-fsa/sherpa-ncnn/releases/download/asr-models/sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2024-07-17.tar.bz2
+  tar xvf sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2024-07-17.tar.bz2
+  rm sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2024-07-17.tar.bz2
 
-  tar xvf sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17.tar.bz2
-  rm sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17.tar.bz2
+.. code-block:: bash
 
-After downloading, you should find the following files::
+  ls -lh  sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2024-07-17/
 
-  ls -lh sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17
+  total 907400
+  -rw-r--r--  1 fangjun  staff    71B Sep 13 19:17 LICENSE
+  -rw-r--r--  1 fangjun  staff   104B Sep 13 19:17 README.md
+  -rw-r--r--  1 fangjun  staff   443M Sep 13 19:17 model.ncnn.bin
+  -rw-r--r--  1 fangjun  staff   162K Sep 13 19:17 model.ncnn.param
+  drwxr-xr-x  7 fangjun  staff   224B Sep 13 19:17 test_wavs
+  -rw-r--r--  1 fangjun  staff   308K Sep 13 19:17 tokens.txt
 
-  total 1.1G
-  -rw-r--r-- 1 runner docker   71 Jul 18 13:06 LICENSE
-  -rw-r--r-- 1 runner docker  104 Jul 18 13:06 README.md
-  -rwxr-xr-x 1 runner docker 5.8K Jul 18 13:06 export-onnx.py
-  -rw-r--r-- 1 runner docker 229M Jul 18 13:06 model.int8.onnx
-  -rw-r--r-- 1 runner docker 895M Jul 18 13:06 model.onnx
-  drwxr-xr-x 2 runner docker 4.0K Jul 18 13:06 test_wavs
-  -rw-r--r-- 1 runner docker 309K Jul 18 13:06 tokens.txt
-
-  ls -lh sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/test_wavs
-
-  total 940K
-  -rw-r--r-- 1 runner docker 224K Jul 18 13:06 en.wav
-  -rw-r--r-- 1 runner docker 226K Jul 18 13:06 ja.wav
-  -rw-r--r-- 1 runner docker 145K Jul 18 13:06 ko.wav
-  -rw-r--r-- 1 runner docker 161K Jul 18 13:06 yue.wav
-  -rw-r--r-- 1 runner docker 175K Jul 18 13:06 zh.wav
-
-.. hint::
-
-   If you only need the ``int8`` model file, please use::
-
-     wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17.tar.bz2
-     tar xvf sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17.tar.bz2
-     rm sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17.tar.bz2
-
-     ls -lh sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17
-
-  It prints::
-
-    total 229M
-    -rwxr-xr-x 1 1001 118 5.8K Jul 18  2024 export-onnx.py
-    -rw-r--r-- 1 1001 118   71 Jul 18  2024 LICENSE
-    -rw-r--r-- 1 1001 118 229M Jul 18  2024 model.int8.onnx
-    -rw-r--r-- 1 1001 118  104 Jul 18  2024 README.md
-    drwxr-xr-x 2 1001 118 4.0K Jul 18  2024 test_wavs
-    -rw-r--r-- 1 1001 118 309K Jul 18  2024 tokens.txt
-
-Decode a file with model.onnx
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Decode a file
+^^^^^^^^^^^^^
 
 Without inverse text normalization
 ::::::::::::::::::::::::::::::::::
 
-To decode files without inverse text normalization, please use:
+To decode a file without inverse text normalization, please use:
 
 .. code-block:: bash
 
-  ./build/bin/sherpa-onnx-offline \
-    --tokens=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/tokens.txt \
-    --sense-voice-model=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/model.onnx \
+  ./build/bin/sherpa-ncnn-offline \
+    --tokens=./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2024-07-17/tokens.txt \
+    --sense-voice-model-dir=./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2024-07-17 \
     --num-threads=1 \
-    --debug=0 \
-    ./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/test_wavs/zh.wav \
-    ./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/test_wavs/en.wav
+    ./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2024-07-17/test_wavs/zh.wav
 
 You should see the following output:
 
-.. literalinclude:: ./code/2024-07-17.txt
+.. literalinclude:: ./code/2024-07-17-no-itn.txt
 
 With inverse text normalization
 :::::::::::::::::::::::::::::::
@@ -146,84 +77,168 @@ To decode a file with inverse text normalization, please use:
 
 .. code-block:: bash
 
-  ./build/bin/sherpa-onnx-offline \
-    --tokens=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/tokens.txt \
-    --sense-voice-model=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/model.onnx \
-    --num-threads=1 \
+  ./build/bin/sherpa-ncnn-offline \
+    --tokens=./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2024-07-17/tokens.txt \
+    --sense-voice-model-dir=./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2024-07-17 \
     --sense-voice-use-itn=1 \
-    --debug=0 \
-    ./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/test_wavs/zh.wav \
-    ./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/test_wavs/en.wav
+    --num-threads=1 \
+    ./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2024-07-17/test_wavs/zh.wav
 
 You should see the following output:
 
-.. literalinclude:: ./code/2024-07-17-itn.txt
+.. literalinclude:: ./code/2024-07-17-with-itn.txt
 
 .. hint::
 
    When inverse text normalziation is enabled, the results contain
    punctuations.
 
-Specify a language
-::::::::::::::::::
+Real-time Speech recognition from a microphone
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-If you don't provide a language when decoding, it uses ``auto``.
-
-To specify the language when decoding, please use:
+First, download a :ref:`sherpa_ncnn_vad` model
 
 .. code-block:: bash
 
-  ./build/bin/sherpa-onnx-offline \
-    --tokens=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/tokens.txt \
-    --sense-voice-model=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/model.onnx \
-    --num-threads=1 \
-    --sense-voice-language=zh \
-    --debug=0 \
-    ./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/test_wavs/zh.wav
+   cd /path/to/sherpa-ncnn
 
-You should see the following output:
+   wget https://github.com/k2-fsa/sherpa-ncnn/releases/download/models/sherpa-ncnn-silero-vad.tar.bz2
+   tar xvf sherpa-ncnn-silero-vad.tar.bz2
+   rm sherpa-ncnn-silero-vad.tar.bz2
 
-.. literalinclude:: ./code/2024-07-17-lang.txt
+Now, run it:
+
+.. code-block:: bash
+
+  ./build/bin/sherpa-ncnn-vad-microphone-simulated-streaming-asr \
+    --tokens=./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2024-07-17/tokens.txt \
+    --sense-voice-model-dir=./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2024-07-17 \
+    --silero-vad-model-dir=./sherpa-ncnn-silero-vad \
+    --num-threads=1
 
 .. hint::
 
-   Valid values for ``--sense-voice-language`` are ``auto``, ``zh``, ``en``, ``ko``, ``ja``, and ``yue``.
-   where ``zh`` is for Chinese, ``en`` for English, ``ko`` for Korean, ``ja`` for Japanese, and
-   ``yue`` for ``Cantonese``.
+   You can use ``./build/bin/sherpa-ncnn-pa-devs`` to list all microphone devices.
+
+   The output of the command::
+
+    ./build/bin/sherpa-ncnn-pa-devs
+
+   is given below:
+
+   .. literalinclude:: ./code/all-devices.txt
+
+.. hint::
+
+  If you want to use ``device #2`` with sample rate ``48000``, please run::
+
+    ./build/bin/sherpa-ncnn-vad-microphone-simulated-streaming-asr \
+      --mic-device-index=2 \
+      --mic-sample-rate=48000 \
+      --tokens=./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2024-07-17/tokens.txt \
+      --sense-voice-model-dir=./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2024-07-17 \
+      --silero-vad-model-dir=./sherpa-ncnn-silero-vad \
+      --num-threads=1
 
 
-Speech recognition from a microphone
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Speed test on RK3588 CPU
+^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. code-block:: bash
+.. list-table::
 
-  ./build/bin/sherpa-onnx-microphone-offline \
-    --tokens=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/tokens.txt \
-    --sense-voice-model=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/model.int8.onnx
+ * - | RTF of SenseVoice
+     | in sherpa-ncnn
+   - 1 thread
+   - 2 threads
+   - 3 threads
+   - 4 threads
+ * - Cortex A55
+   - 0.584
+   - 0.320
+   - 0.231
+   - 0.188
+ * - Cortex A76
+   - 0.142
+   - 0.079
+   - 0.063
+   - 0.049
 
-Speech recognition from a microphone with VAD
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Cortex A55
+:::::::::::
 
-.. code-block:: bash
+.. code-block::
 
-  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/silero_vad.onnx
+  # 1 cortex A55 CPU
+  taskset 0x01 ./build/bin/sherpa-ncnn-offline \
+    --num-threads=1 \
+    --tokens=./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2024-07-17/tokens.txt \
+    --sense-voice-model-dir=./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2024-07-17 \
+    ./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2024-07-17/test_wavs/zh.wav
 
-  ./build/bin/sherpa-onnx-vad-microphone-offline-asr \
-    --silero-vad-model=./silero_vad.onnx \
-    --tokens=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/tokens.txt \
-    --sense-voice-model=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/model.int8.onnx
+  # 2 cortex A55 CPUs
+  taskset 0x03 ./build/bin/sherpa-ncnn-offline \
+    --num-threads=2 \
+    --tokens=./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2024-07-17/tokens.txt \
+    --sense-voice-model-dir=./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2024-07-17 \
+    ./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2024-07-17/test_wavs/zh.wav
 
-.. _sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09:
+  # 3 cortex A55 CPUs
+  taskset 0x07 ./build/bin/sherpa-ncnn-offline \
+    --num-threads=3 \
+    --tokens=./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2024-07-17/tokens.txt \
+    --sense-voice-model-dir=./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2024-07-17 \
+    ./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2024-07-17/test_wavs/zh.wav
 
-sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09 (Chinese, English, Japanese, Korean, Cantonese, 中英日韩粤语)
-----------------------------------------------------------------------------------------------------------------------------------------
+  # 4 cortex A55 CPUs
+  taskset 0x0f ./build/bin/sherpa-ncnn-offline \
+    --num-threads=4 \
+    --tokens=./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2024-07-17/tokens.txt \
+    --sense-voice-model-dir=./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2024-07-17 \
+    ./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2024-07-17/test_wavs/zh.wav
+
+Cortex A76
+:::::::::::
+
+.. code-block::
+
+  # 1 cortex A76 CPU
+  taskset 0x10 ./build/bin/sherpa-ncnn-offline \
+    --num-threads=1 \
+    --tokens=./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2024-07-17/tokens.txt \
+    --sense-voice-model-dir=./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2024-07-17 \
+    ./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2024-07-17/test_wavs/zh.wav
+
+  # 2 cortex A76 CPUs
+  taskset 0x30 ./build/bin/sherpa-ncnn-offline \
+    --num-threads=2 \
+    --tokens=./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2024-07-17/tokens.txt \
+    --sense-voice-model-dir=./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2024-07-17 \
+    ./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2024-07-17/test_wavs/zh.wav
+
+  # 3 cortex A76 CPUs
+  taskset 0x70 ./build/bin/sherpa-ncnn-offline \
+    --num-threads=3 \
+    --tokens=./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2024-07-17/tokens.txt \
+    --sense-voice-model-dir=./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2024-07-17 \
+    ./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2024-07-17/test_wavs/zh.wav
+
+  # 4 cortex A76 CPUs
+  taskset 0xf0 ./build/bin/sherpa-ncnn-offline \
+    --num-threads=4 \
+    --tokens=./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2024-07-17/tokens.txt \
+    --sense-voice-model-dir=./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2024-07-17 \
+    ./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2024-07-17/test_wavs/zh.wav
+
+.. _sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09:
+
+sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09 (Chinese, English, Japanese, Korean, Cantonese, 中英日韩粤语)
+------------------------------------------------------------------------------------------------------------------------------
 
 This model is converted from
 
   `<https://huggingface.co/ASLP-lab/WSYue-ASR/tree/main/sensevoice_small_yue>`_
 
-It is fine-tuned on :ref:`sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17` with 21.8k hours
-of ``Cantonese`` data.
+It is fine-tuned on :ref:`sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2024-07-17` with 21.8k hours of ``Cantonese`` data.
 
 It supports the following 5 languages:
 
@@ -235,78 +250,46 @@ It supports the following 5 languages:
 
 .. hint::
 
-   If you want a ``Cantonese`` ASR model, please choose this model or
-   :ref:`sherpa-onnx-wenetspeech-yue-u2pp-conformer-ctc-zh-en-cantonese-int8-2025-09-10`
+   If you want a ``Cantonese`` ASR model, please choose this model.
 
 .. hint::
 
-   For RKNN users, please refer to :ref:`sherpa-onnx-rk3588-20-seconds-sense-voice-zh-en-ja-ko-yue-2025-09-09`.
+   For ``RKNN`` users, please refer to :ref:`sherpa-onnx-rk3588-20-seconds-sense-voice-zh-en-ja-ko-yue-2025-09-09`.
+
+   For ``onnxruntime`` users, please refer to :ref:`sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09`.
 
 In the following, we describe how to use it.
-
-Huggingface space
-^^^^^^^^^^^^^^^^^
-
-You can visit
-
-  `<https://huggingface.co/spaces/k2-fsa/automatic-speech-recognition>`_
-
-to try this model in your browser.
-
-.. hint::
-
-   You need to first select the language ``Chinese+English+Cantonese+Japanese+Korean``
-   and then select the model  ``csukuangfj/sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09``.
-
-
-Android APKs
-^^^^^^^^^^^^
-
-Real-time speech recognition Android APKs can be found at
-
-  `<https://k2-fsa.github.io/sherpa/onnx/android/apk-simulate-streaming-asr.html>`_
-
-Please always download the latest version.
-
-.. hint::
-
-   Please search for ``zh_en_ko_ja_yue-sense_voice_2025_09_09_int8.apk`` in the above page, e.g.,
-   ``sherpa-onnx-1.12.11-arm64-v8a-simulated_streaming_asr-zh_en_ko_ja_yue-sense_voice_2025_09_09_int8.apk``.
-
-.. hint::
-
-   For Chinese users, you can also visit `<https://k2-fsa.github.io/sherpa/onnx/android/apk-simulate-streaming-asr-cn.html>`_
 
 Download
 ^^^^^^^^
 
 Please use the following commands to download it::
 
-  cd /path/to/sherpa-onnx
+  wget https://github.com/k2-fsa/sherpa-ncnn/releases/download/asr-models/sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09.tar.bz2
+  tar xvf sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09.tar.bz2
+  rm sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09.tar.bz2
 
-  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09.tar.bz2
-  tar xvf sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09.tar.bz2
-  rm sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09.tar.bz2
+After downloading, you should find the following files:
 
-After downloading, you should find the following files::
+.. code-block:: bash
 
-  ls -lh sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09
+  ls -lh sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09/
 
-  total 492952
-  -rw-r--r--   1 fangjun  staff   131B Sep  9 21:12 README.md
-  -rw-r--r--   1 fangjun  staff   226M Sep  9 21:12 model.int8.onnx
-  drwxr-xr-x  25 fangjun  staff   800B Sep  9 21:12 test_wavs
-  -rw-r--r--   1 fangjun  staff   308K Sep  9 21:12 tokens.txt
+  total 918672
+  -rw-r--r--   1 fangjun  staff   131B Sep 13 19:17 README.md
+  -rw-r--r--   1 fangjun  staff   443M Sep 13 19:17 model.ncnn.bin
+  -rw-r--r--   1 fangjun  staff   162K Sep 13 19:17 model.ncnn.param
+  drwxr-xr-x  23 fangjun  staff   736B Sep 13 19:17 test_wavs
+  -rw-r--r--   1 fangjun  staff   308K Sep 13 19:17 tokens.txt
 
-.. code-block::
+.. code-block:: bash
 
-  ls  sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/test_wavs/
+  ls sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09/test_wavs/
 
-  en.wav     ko.wav     yue-1.wav  yue-11.wav yue-13.wav yue-15.wav yue-17.wav yue-3.wav  yue-5.wav  yue-7.wav  yue-9.wav  zh.wav
-  ja.wav     yue-0.wav  yue-10.wav yue-12.wav yue-14.wav yue-16.wav yue-2.wav  yue-4.wav  yue-6.wav  yue-8.wav  yue.wav
+  en.wav     yue-1.wav  yue-11.wav yue-13.wav yue-15.wav yue-17.wav yue-3.wav  yue-5.wav  yue-7.wav  yue-9.wav  zh.wav
+  yue-0.wav  yue-10.wav yue-12.wav yue-14.wav yue-16.wav yue-2.wav  yue-4.wav  yue-6.wav  yue-8.wav  yue.wav
 
-In the following, we show how to decode the files ``sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/test_wavs/yue-*.wav``.
-
+In the following, we show how to decode the files ``sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09/test_wavs/yue-*.wav``.
 
 yue-0.wav
 ^^^^^^^^^
@@ -335,11 +318,11 @@ yue-0.wav
 
 .. code-block:: bash
 
-  ./build/bin/sherpa-onnx-offline \
-    --tokens=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/tokens.txt \
-    --sense-voice-model=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/model.int8.onnx \
+  ./build/bin/sherpa-ncnn-offline \
+    --tokens=./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09/tokens.txt \
+    --sense-voice-model-dir=./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09 \
     --num-threads=1 \
-    sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/test_wavs/yue-0.wav
+    sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09/test_wavs/yue-0.wav
 
 .. literalinclude:: ./code/yue-0.txt
 
@@ -370,11 +353,11 @@ yue-1.wav
 
 .. code-block:: bash
 
-  ./build/bin/sherpa-onnx-offline \
-    --tokens=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/tokens.txt \
-    --sense-voice-model=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/model.int8.onnx \
+  ./build/bin/sherpa-ncnn-offline \
+    --tokens=./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09/tokens.txt \
+    --sense-voice-model-dir=./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09 \
     --num-threads=1 \
-    sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/test_wavs/yue-1.wav
+    sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09/test_wavs/yue-1.wav
 
 .. literalinclude:: ./code/yue-1.txt
 
@@ -405,11 +388,11 @@ yue-2.wav
 
 .. code-block:: bash
 
-  ./build/bin/sherpa-onnx-offline \
-    --tokens=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/tokens.txt \
-    --sense-voice-model=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/model.int8.onnx \
+  ./build/bin/sherpa-ncnn-offline \
+    --tokens=./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09/tokens.txt \
+    --sense-voice-model-dir=./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09 \
     --num-threads=1 \
-    sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/test_wavs/yue-2.wav
+    sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09/test_wavs/yue-2.wav
 
 .. literalinclude:: ./code/yue-2.txt
 
@@ -440,11 +423,11 @@ yue-3.wav
 
 .. code-block:: bash
 
-  ./build/bin/sherpa-onnx-offline \
-    --tokens=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/tokens.txt \
-    --sense-voice-model=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/model.int8.onnx \
+  ./build/bin/sherpa-ncnn-offline \
+    --tokens=./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09/tokens.txt \
+    --sense-voice-model-dir=./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09 \
     --num-threads=1 \
-    sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/test_wavs/yue-3.wav
+    sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09/test_wavs/yue-3.wav
 
 .. literalinclude:: ./code/yue-3.txt
 
@@ -475,11 +458,11 @@ yue-4.wav
 
 .. code-block:: bash
 
-  ./build/bin/sherpa-onnx-offline \
-    --tokens=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/tokens.txt \
-    --sense-voice-model=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/model.int8.onnx \
+  ./build/bin/sherpa-ncnn-offline \
+    --tokens=./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09/tokens.txt \
+    --sense-voice-model-dir=./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09 \
     --num-threads=1 \
-    sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/test_wavs/yue-4.wav
+    sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09/test_wavs/yue-4.wav
 
 .. literalinclude:: ./code/yue-4.txt
 
@@ -510,11 +493,11 @@ yue-5.wav
 
 .. code-block:: bash
 
-  ./build/bin/sherpa-onnx-offline \
-    --tokens=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/tokens.txt \
-    --sense-voice-model=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/model.int8.onnx \
+  ./build/bin/sherpa-ncnn-offline \
+    --tokens=./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09/tokens.txt \
+    --sense-voice-model-dir=./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09 \
     --num-threads=1 \
-    sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/test_wavs/yue-5.wav
+    sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09/test_wavs/yue-5.wav
 
 .. literalinclude:: ./code/yue-5.txt
 
@@ -545,11 +528,11 @@ yue-6.wav
 
 .. code-block:: bash
 
-  ./build/bin/sherpa-onnx-offline \
-    --tokens=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/tokens.txt \
-    --sense-voice-model=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/model.int8.onnx \
+  ./build/bin/sherpa-ncnn-offline \
+    --tokens=./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09/tokens.txt \
+    --sense-voice-model-dir=./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09 \
     --num-threads=1 \
-    sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/test_wavs/yue-6.wav
+    sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09/test_wavs/yue-6.wav
 
 .. literalinclude:: ./code/yue-6.txt
 
@@ -580,11 +563,11 @@ yue-7.wav
 
 .. code-block:: bash
 
-  ./build/bin/sherpa-onnx-offline \
-    --tokens=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/tokens.txt \
-    --sense-voice-model=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/model.int8.onnx \
+  ./build/bin/sherpa-ncnn-offline \
+    --tokens=./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09/tokens.txt \
+    --sense-voice-model-dir=./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09 \
     --num-threads=1 \
-    sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/test_wavs/yue-7.wav
+    sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09/test_wavs/yue-7.wav
 
 .. literalinclude:: ./code/yue-7.txt
 
@@ -615,11 +598,11 @@ yue-8.wav
 
 .. code-block:: bash
 
-  ./build/bin/sherpa-onnx-offline \
-    --tokens=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/tokens.txt \
-    --sense-voice-model=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/model.int8.onnx \
+  ./build/bin/sherpa-ncnn-offline \
+    --tokens=./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09/tokens.txt \
+    --sense-voice-model-dir=./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09 \
     --num-threads=1 \
-    sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/test_wavs/yue-8.wav
+    sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09/test_wavs/yue-8.wav
 
 .. literalinclude:: ./code/yue-8.txt
 
@@ -650,11 +633,11 @@ yue-9.wav
 
 .. code-block:: bash
 
-  ./build/bin/sherpa-onnx-offline \
-    --tokens=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/tokens.txt \
-    --sense-voice-model=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/model.int8.onnx \
+  ./build/bin/sherpa-ncnn-offline \
+    --tokens=./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09/tokens.txt \
+    --sense-voice-model-dir=./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09 \
     --num-threads=1 \
-    sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/test_wavs/yue-9.wav
+    sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09/test_wavs/yue-9.wav
 
 .. literalinclude:: ./code/yue-9.txt
 
@@ -685,11 +668,11 @@ yue-10.wav
 
 .. code-block:: bash
 
-  ./build/bin/sherpa-onnx-offline \
-    --tokens=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/tokens.txt \
-    --sense-voice-model=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/model.int8.onnx \
+  ./build/bin/sherpa-ncnn-offline \
+    --tokens=./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09/tokens.txt \
+    --sense-voice-model-dir=./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09 \
     --num-threads=1 \
-    sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/test_wavs/yue-10.wav
+    sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09/test_wavs/yue-10.wav
 
 .. literalinclude:: ./code/yue-10.txt
 
@@ -720,11 +703,11 @@ yue-11.wav
 
 .. code-block:: bash
 
-  ./build/bin/sherpa-onnx-offline \
-    --tokens=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/tokens.txt \
-    --sense-voice-model=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/model.int8.onnx \
+  ./build/bin/sherpa-ncnn-offline \
+    --tokens=./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09/tokens.txt \
+    --sense-voice-model-dir=./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09 \
     --num-threads=1 \
-    sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/test_wavs/yue-11.wav
+    sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09/test_wavs/yue-11.wav
 
 .. literalinclude:: ./code/yue-11.txt
 
@@ -755,11 +738,11 @@ yue-12.wav
 
 .. code-block:: bash
 
-  ./build/bin/sherpa-onnx-offline \
-    --tokens=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/tokens.txt \
-    --sense-voice-model=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/model.int8.onnx \
+  ./build/bin/sherpa-ncnn-offline \
+    --tokens=./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09/tokens.txt \
+    --sense-voice-model-dir=./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09 \
     --num-threads=1 \
-    sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/test_wavs/yue-12.wav
+    sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09/test_wavs/yue-12.wav
 
 .. literalinclude:: ./code/yue-12.txt
 
@@ -790,11 +773,11 @@ yue-13.wav
 
 .. code-block:: bash
 
-  ./build/bin/sherpa-onnx-offline \
-    --tokens=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/tokens.txt \
-    --sense-voice-model=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/model.int8.onnx \
+  ./build/bin/sherpa-ncnn-offline \
+    --tokens=./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09/tokens.txt \
+    --sense-voice-model-dir=./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09 \
     --num-threads=1 \
-    sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/test_wavs/yue-13.wav
+    sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09/test_wavs/yue-13.wav
 
 .. literalinclude:: ./code/yue-13.txt
 
@@ -825,11 +808,11 @@ yue-14.wav
 
 .. code-block:: bash
 
-  ./build/bin/sherpa-onnx-offline \
-    --tokens=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/tokens.txt \
-    --sense-voice-model=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/model.int8.onnx \
+  ./build/bin/sherpa-ncnn-offline \
+    --tokens=./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09/tokens.txt \
+    --sense-voice-model-dir=./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09 \
     --num-threads=1 \
-    sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/test_wavs/yue-14.wav
+    sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09/test_wavs/yue-14.wav
 
 .. literalinclude:: ./code/yue-14.txt
 
@@ -860,11 +843,11 @@ yue-15.wav
 
 .. code-block:: bash
 
-  ./build/bin/sherpa-onnx-offline \
-    --tokens=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/tokens.txt \
-    --sense-voice-model=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/model.int8.onnx \
+  ./build/bin/sherpa-ncnn-offline \
+    --tokens=./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09/tokens.txt \
+    --sense-voice-model-dir=./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09 \
     --num-threads=1 \
-    sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/test_wavs/yue-15.wav
+    sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09/test_wavs/yue-15.wav
 
 .. literalinclude:: ./code/yue-15.txt
 
@@ -895,11 +878,11 @@ yue-16.wav
 
 .. code-block:: bash
 
-  ./build/bin/sherpa-onnx-offline \
-    --tokens=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/tokens.txt \
-    --sense-voice-model=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/model.int8.onnx \
+  ./build/bin/sherpa-ncnn-offline \
+    --tokens=./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09/tokens.txt \
+    --sense-voice-model-dir=./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09 \
     --num-threads=1 \
-    sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/test_wavs/yue-16.wav
+    sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09/test_wavs/yue-16.wav
 
 .. literalinclude:: ./code/yue-16.txt
 
@@ -930,10 +913,11 @@ yue-17.wav
 
 .. code-block:: bash
 
-  ./build/bin/sherpa-onnx-offline \
-    --tokens=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/tokens.txt \
-    --sense-voice-model=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/model.int8.onnx \
+  ./build/bin/sherpa-ncnn-offline \
+    --tokens=./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09/tokens.txt \
+    --sense-voice-model-dir=./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09 \
     --num-threads=1 \
-    sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/test_wavs/yue-17.wav
+    sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09/test_wavs/yue-17.wav
 
 .. literalinclude:: ./code/yue-17.txt
+

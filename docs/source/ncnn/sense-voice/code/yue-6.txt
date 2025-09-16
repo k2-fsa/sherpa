@@ -1,0 +1,14 @@
+/Users/fangjun/open-source/sherpa-ncnn/sherpa-ncnn/csrc/parse-options.cc:Read:381 ./build/bin/sherpa-ncnn-offline --tokens=./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09/tokens.txt --sense-voice-model-dir=./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09 --num-threads=1 sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09/test_wavs/yue-6.wav 
+
+OfflineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80), model_config=OfflineModelConfig(sense_voice=OfflineSenseVoiceModelConfig(model_dir="./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09", language="auto", use_itn=False), tokens="./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09/tokens.txt", num_threads=1, debug=False), decoding_method="greedy_search", blank_penalty=0)
+Creating recognizer ...
+Started
+Done!
+
+sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09/test_wavs/yue-6.wav
+{"lang": "<|yue|>", "emotion": "<|NEUTRAL|>", "event": "<|Speech|>", "text": "六个星期嘅课程包括六堂课同两个测验你只掌握到基本嘅十九个声母五十六个韵母同九个声调我哋仲针对咗广东话学习者会遇到嘅大樽颈啊以国语为母语人士最难掌握嘅五大韵母教课书唔会教你嘅七种变音同十种变调说话生硬唔自然嘅根本性问题提供全新嘅学习方向等你突破难关", "timestamps": [0.36, 0.66, 0.84, 1.08, 1.26, 1.44, 1.68, 2.16, 2.34, 2.58, 2.76, 2.94, 3.36, 3.60, 3.78, 4.02, 4.26, 4.80, 5.16, 5.40, 5.52, 5.70, 5.94, 6.06, 6.30, 6.54, 6.78, 6.96, 7.08, 7.32, 7.68, 7.80, 7.98, 8.10, 8.28, 8.52, 8.88, 9.12, 9.36, 9.54, 9.72, 10.14, 10.26, 10.44, 10.56, 10.74, 10.92, 11.22, 11.34, 11.52, 11.70, 11.82, 12.00, 12.42, 12.66, 12.84, 13.02, 13.44, 13.74, 13.98, 14.22, 14.52, 14.82, 15.00, 15.24, 15.42, 15.60, 15.84, 15.90, 16.32, 16.62, 16.86, 17.10, 17.28, 17.64, 17.82, 18.06, 18.30, 18.78, 19.02, 19.20, 19.50, 19.62, 19.80, 19.98, 20.16, 20.34, 20.58, 20.82, 21.00, 21.30, 21.54, 21.78, 22.02, 22.20, 22.98, 23.28, 23.52, 23.70, 24.18, 24.36, 24.60, 24.78, 25.14, 25.38, 25.68, 25.92, 26.04, 26.52, 26.70, 27.00, 27.18, 27.42, 27.60, 27.72, 27.90, 28.08, 28.50, 28.74, 29.28, 29.46, 29.76, 29.94], "tokens":["六", "个", "星", "期", "嘅", "课", "程", "包", "括", "六", "堂", "课", "同", "两", "个", "测", "验", "你", "只", "掌", "握", "到", "基", "本", "嘅", "十", "九", "个", "声", "母", "五", "十", "六", "个", "韵", "母", "同", "九", "个", "声", "调", "我", "哋", "仲", "针", "对", "咗", "广", "东", "话", "学", "习", "者", "会", "遇", "到", "嘅", "大", "樽", "颈", "啊", "以", "国", "语", "为", "母", "语", "人", "士", "最", "难", "掌", "握", "嘅", "五", "大", "韵", "母", "教", "课", "书", "唔", "会", "教", "你", "嘅", "七", "种", "变", "音", "同", "十", "种", "变", "调", "说", "话", "生", "硬", "唔", "自", "然", "嘅", "根", "本", "性", "问", "题", "提", "供", "全", "新", "嘅", "学", "习", "方", "向", "等", "你", "突", "破", "难", "关"]}
+----
+num threads: 1
+decoding method: greedy_search
+Elapsed seconds: 3.758 s
+Real time factor (RTF): 3.758 / 30.592 = 0.123

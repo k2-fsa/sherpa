@@ -1,0 +1,14 @@
+/Users/fangjun/open-source/sherpa-ncnn/sherpa-ncnn/csrc/parse-options.cc:Read:381 ./build/bin/sherpa-ncnn-offline --tokens=./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09/tokens.txt --sense-voice-model-dir=./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09 --num-threads=1 sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09/test_wavs/yue-7.wav 
+
+OfflineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80), model_config=OfflineModelConfig(sense_voice=OfflineSenseVoiceModelConfig(model_dir="./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09", language="auto", use_itn=False), tokens="./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09/tokens.txt", num_threads=1, debug=False), decoding_method="greedy_search", blank_penalty=0)
+Creating recognizer ...
+Started
+Done!
+
+sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09/test_wavs/yue-7.wav
+{"lang": "<|yue|>", "emotion": "<|NEUTRAL|>", "event": "<|Speech|>", "text": "同二嘅累积唔系阴同阳嘅累积可以讲三既融合咗一同二融合咗阴同阳", "timestamps": [0.48, 0.84, 1.20, 1.38, 1.56, 2.52, 2.70, 3.00, 3.42, 3.66, 3.96, 4.20, 4.38, 5.40, 5.76, 6.00, 6.78, 7.86, 8.28, 8.46, 8.70, 9.24, 9.72, 10.08, 11.28, 11.46, 11.70, 12.12, 12.54, 12.78], "tokens":["同", "二", "嘅", "累", "积", "唔", "系", "阴", "同", "阳", "嘅", "累", "积", "可", "以", "讲", "三", "既", "融", "合", "咗", "一", "同", "二", "融", "合", "咗", "阴", "同", "阳"]}
+----
+num threads: 1
+decoding method: greedy_search
+Elapsed seconds: 1.642 s
+Real time factor (RTF): 1.642 / 13.900 = 0.118

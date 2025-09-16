@@ -1,0 +1,117 @@
+PortAudio version: 0x00130700
+Version text: 'PortAudio V19.7.0-devel, revision 147dd722548358763a8b649b3e4b41dfffbcfbb6'
+Number of devices = 5
+--------------------------------------- device #0
+Name                        = Background Music
+Host API                    = Core Audio
+Max inputs = 2, Max outputs = 2
+Default low input latency   =   0.0100
+Default low output latency  =   0.0015
+Default high input latency  =   0.1000
+Default high output latency =   0.0116
+Default sample rate         = 44100.00
+Supported standard sample rates
+ for half-duplex 16 bit 2 channel input = 
+	 8000.00,  9600.00, 11025.00, 12000.00,
+	16000.00, 22050.00, 24000.00, 32000.00,
+	44100.00, 48000.00, 88200.00, 96000.00,
+	192000.00
+Supported standard sample rates
+ for half-duplex 16 bit 2 channel output = 
+	 8000.00,  9600.00, 11025.00, 12000.00,
+	16000.00, 22050.00, 24000.00, 32000.00,
+	44100.00, 48000.00, 88200.00, 96000.00,
+	192000.00
+Supported standard sample rates
+ for full-duplex 16 bit 2 channel input, 2 channel output = 
+	 8000.00,  9600.00, 11025.00, 12000.00,
+	16000.00, 22050.00, 24000.00, 32000.00,
+	44100.00, 48000.00, 88200.00, 96000.00,
+	192000.00
+--------------------------------------- device #1
+Name                        = Background Music (UI Sounds)
+Host API                    = Core Audio
+Max inputs = 2, Max outputs = 2
+Default low input latency   =   0.0100
+Default low output latency  =   0.0015
+Default high input latency  =   0.1000
+Default high output latency =   0.0116
+Default sample rate         = 44100.00
+Supported standard sample rates
+ for half-duplex 16 bit 2 channel input = 
+	 8000.00,  9600.00, 11025.00, 12000.00,
+	16000.00, 22050.00, 24000.00, 32000.00,
+	44100.00, 48000.00, 88200.00, 96000.00,
+	192000.00
+Supported standard sample rates
+ for half-duplex 16 bit 2 channel output = 
+	 8000.00,  9600.00, 11025.00, 12000.00,
+	16000.00, 22050.00, 24000.00, 32000.00,
+	44100.00, 48000.00, 88200.00, 96000.00,
+	192000.00
+Supported standard sample rates
+ for full-duplex 16 bit 2 channel input, 2 channel output = 
+	 8000.00,  9600.00, 11025.00, 12000.00,
+	16000.00, 22050.00, 24000.00, 32000.00,
+	44100.00, 48000.00, 88200.00, 96000.00,
+	192000.00
+--------------------------------------- device #2
+[ Default Input ]
+Name                        = MacBook Pro Microphone
+Host API                    = Core Audio
+Max inputs = 1, Max outputs = 0
+Default low input latency   =   0.0345
+Default low output latency  =   0.0100
+Default high input latency  =   0.0439
+Default high output latency =   0.1000
+Default sample rate         = 48000.00
+Supported standard sample rates
+ for half-duplex 16 bit 1 channel input = 
+	 8000.00,  9600.00, 11025.00, 12000.00,
+	16000.00, 22050.00, 24000.00, 32000.00,
+	44100.00, 48000.00, 88200.00, 96000.00,
+	192000.00
+--------------------------------------- device #3
+[ Default Output ]
+Name                        = MacBook Pro Speakers
+Host API                    = Core Audio
+Max inputs = 0, Max outputs = 2
+Default low input latency   =   0.0100
+Default low output latency  =   0.0120
+Default high input latency  =   0.1000
+Default high output latency =   0.0214
+Default sample rate         = 48000.00
+Supported standard sample rates
+ for half-duplex 16 bit 2 channel output = 
+	 8000.00,  9600.00, 11025.00, 12000.00,
+	16000.00, 22050.00, 24000.00, 32000.00,
+	44100.00, 48000.00, 88200.00, 96000.00,
+	192000.00
+--------------------------------------- device #4
+Name                        = WeMeet Audio Device
+Host API                    = Core Audio
+Max inputs = 2, Max outputs = 2
+Default low input latency   =   0.0100
+Default low output latency  =   0.0013
+Default high input latency  =   0.1000
+Default high output latency =   0.0107
+Default sample rate         = 48000.00
+Supported standard sample rates
+ for half-duplex 16 bit 2 channel input = 
+	 8000.00,  9600.00, 11025.00, 12000.00,
+	16000.00, 22050.00, 24000.00, 32000.00,
+	44100.00, 48000.00, 88200.00, 96000.00,
+	192000.00
+Supported standard sample rates
+ for half-duplex 16 bit 2 channel output = 
+	 8000.00,  9600.00, 11025.00, 12000.00,
+	16000.00, 22050.00, 24000.00, 32000.00,
+	44100.00, 48000.00, 88200.00, 96000.00,
+	192000.00
+Supported standard sample rates
+ for full-duplex 16 bit 2 channel input, 2 channel output = 
+	 8000.00,  9600.00, 11025.00, 12000.00,
+	16000.00, 22050.00, 24000.00, 32000.00,
+	44100.00, 48000.00, 88200.00, 96000.00,
+	192000.00
+----------------------------------------------

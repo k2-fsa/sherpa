@@ -29,7 +29,7 @@ Method 1
 
 .. code-block:: bash
 
-  pip install sherpa-ncnn
+  pip install sherpa-ncnn sherpa-ncnn-bin
 
 
 If you use ``Method 1``, it will install pre-compiled libraries.

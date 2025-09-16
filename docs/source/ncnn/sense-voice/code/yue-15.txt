@@ -1,0 +1,14 @@
+/Users/fangjun/open-source/sherpa-ncnn/sherpa-ncnn/csrc/parse-options.cc:Read:381 ./build/bin/sherpa-ncnn-offline --tokens=./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09/tokens.txt --sense-voice-model-dir=./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09 --num-threads=1 sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09/test_wavs/yue-15.wav 
+
+OfflineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80), model_config=OfflineModelConfig(sense_voice=OfflineSenseVoiceModelConfig(model_dir="./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09", language="auto", use_itn=False), tokens="./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09/tokens.txt", num_threads=1, debug=False), decoding_method="greedy_search", blank_penalty=0)
+Creating recognizer ...
+Started
+Done!
+
+sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09/test_wavs/yue-15.wav
+{"lang": "<|yue|>", "emotion": "<|NEUTRAL|>", "event": "<|Speech|>", "text": "我知道我嘅观众大部分都系对广东话有兴趣想学广东话嘅人", "timestamps": [0.42, 0.54, 0.66, 0.84, 1.02, 1.20, 1.38, 1.98, 2.22, 2.40, 2.64, 2.76, 2.88, 3.12, 3.24, 3.42, 3.60, 3.78, 4.02, 4.62, 4.92, 5.16, 5.34, 5.52, 5.70, 5.94], "tokens":["我", "知", "道", "我", "嘅", "观", "众", "大", "部", "分", "都", "系", "对", "广", "东", "话", "有", "兴", "趣", "想", "学", "广", "东", "话", "嘅", "人"]}
+----
+num threads: 1
+decoding method: greedy_search
+Elapsed seconds: 0.753 s
+Real time factor (RTF): 0.753 / 6.400 = 0.118

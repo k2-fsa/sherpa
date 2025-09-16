@@ -20,14 +20,14 @@ The differences are compared below:
 
 .. list-table::
 
- * - ****
+ * -
    - `k2-fsa/sherpa`_
    - `k2-fsa/sherpa-onnx`_
    - `k2-fsa/sherpa-ncnn`_
  * - Installation difficulty
    - **hard**
    - ``easy``
-   - ``easy``
+   - ``super easy``
  * - NN lib
    - `PyTorch`_
    - `onnxruntime`_
@@ -36,15 +36,18 @@ The differences are compared below:
    - x86, x86_64
    - | x86, x86_64,
      | ``arm32``, ``arm64``
+     | ``**RISC-V**``
    - | x86, x86_64,
      | ``arm32``, ``arm64``,
      | ``**RISC-V**``
  * - GPU Support
    - | Yes
-     | (with ``CUDA`` for NVIDIA GPUs)
+     | (with ``CUDA``
+     | for NVIDIA GPUs)
    - Yes
    - | Yes
-     | (with ``Vulkan`` for ARM GPUs)
+     | (with ``Vulkan``
+     | for ARM GPUs)
  * - OS Support
    - | Linux, Windows,
      | macOS
@@ -54,10 +57,15 @@ The differences are compared below:
    - | Linux, Windows,
      | macOS, ``iOS``,
      | ``Android``
- * - Support batch_size > 1
+ * - | Support
+     | batch_size > 1
    - Yes
    - Yes
    - ``No``
+ * - Support RKNN
+   - No
+   - ``Yes``
+   - ``Yes``
  * - Provided APIs
    - C++, Python
    - | C, C++, Python,
@@ -69,19 +77,24 @@ The differences are compared below:
      | C#, Kotlin,
      | Swift, Go
  * - Supported functions
-   - | streaming speech recognition,
-     | non-streaming speech recognition
-   - | streaming speech recognition,
-     | non-streaming speech recognition,
+   - | streaming ASR
+     | non-streaming ASR
+   - | streaming ASR,
+     | non-streaming ASR,
      | text-to-speech,
      | speaker diarization,
      | speaker identification,
      | speaker verification,
-     | spoken language identification,
+     | spoken language
+     | identification,
+     | speech denoising,
+     | speech enhancement,
      | audio tagging,
      | VAD,
      | keyword spotting,
-   - | streaming speech recognition,
+   - | streaming ASR,
+     | non-streaming ASR,
+     | text-to-speech,
      | VAD,
 
 
