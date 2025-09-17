@@ -213,6 +213,52 @@ Speech recognition from a microphone with VAD
     --tokens=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/tokens.txt \
     --sense-voice-model=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/model.int8.onnx
 
+.. _sherpa-onnx-sense-voice-int8-RTF:
+
+Speed test on RK3588 CPU
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+We test the RTF of `sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17.tar.bz2 <https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17.tar.bz2>`_ on RK3588 CPU.
+
+.. list-table::
+
+ * - | RTF of SenseVoice
+     | in ``sherpa-onnx``
+   - 1 thread
+   - 2 threads
+   - 3 threads
+   - 4 threads
+ * - | Cortex A55
+     | (int8 quantization)
+   - 0.436
+   - 0.260
+   - 0.208
+   - 0.175
+ * - | Cortex A76
+     | (int8 quantization)
+   - 0.099
+   - 0.065
+   - 0.049
+   - 0.049
+
+See also :ref:`sherpa-ncnn-sense-voice-int8-RTF` for `sherpa-ncnn`_.
+
+.. code-block::
+
+    # 1 Cortex A55 CPU
+    taskset 0x01 ./build/bin/sherpa-onnx-offline \
+      --num-threads=1 \
+      --tokens=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17/tokens.txt \
+      --sense-voice-model=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17/model.int8.onnx \
+      ./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17/test_wavs/zh.wav
+
+    # 1 Cortex A76 CPU
+    taskset 0x10 ./build/bin/sherpa-onnx-offline \
+      --num-threads=1 \
+      --tokens=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17/tokens.txt \
+      --sense-voice-model=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17/model.int8.onnx \
+      ./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17/test_wavs/zh.wav
+
 .. _sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09:
 
 sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09 (Chinese, English, Japanese, Korean, Cantonese, 中英日韩粤语)

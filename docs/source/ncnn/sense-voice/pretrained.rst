@@ -50,6 +50,26 @@ Please use the following commands to download it::
   drwxr-xr-x  7 fangjun  staff   224B Sep 13 19:17 test_wavs
   -rw-r--r--  1 fangjun  staff   308K Sep 13 19:17 tokens.txt
 
+.. hint::
+
+   If you want to use the ``int8`` quantized model, please run::
+
+    wget https://github.com/k2-fsa/sherpa-ncnn/releases/download/asr-models/sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17.tar.bz2
+    tar xvf sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17.tar.bz2
+    rm sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17.tar.bz2
+
+  .. code-block:: bash
+
+    ls -lh sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17/
+
+    total 460696
+    -rw-r--r--  1 fangjun  staff    71B Sep 17 14:26 LICENSE
+    -rw-r--r--  1 fangjun  staff   104B Sep 17 14:26 README.md
+    -rw-r--r--  1 fangjun  staff   222M Sep 17 14:28 model.ncnn.bin
+    -rw-r--r--  1 fangjun  staff   158K Sep 17 14:28 model.ncnn.param
+    drwxr-xr-x  7 fangjun  staff   224B Sep 17 14:26 test_wavs
+    -rw-r--r--  1 fangjun  staff   308K Sep 17 14:26 tokens.txt
+
 Decode a file
 ^^^^^^^^^^^^^
 
@@ -140,6 +160,7 @@ Now, run it:
       --silero-vad-model-dir=./sherpa-ncnn-silero-vad \
       --num-threads=1
 
+.. _sherpa-ncnn-sense-voice-int8-RTF:
 
 Speed test on RK3588 CPU
 ^^^^^^^^^^^^^^^^^^^^^^^^
@@ -147,21 +168,38 @@ Speed test on RK3588 CPU
 .. list-table::
 
  * - | RTF of SenseVoice
-     | in sherpa-ncnn
+     | in ``sherpa-ncnn``
    - 1 thread
    - 2 threads
    - 3 threads
    - 4 threads
- * - Cortex A55
+ * - | Cortex A55
+     | (fp16 quantization)
    - 0.584
    - 0.320
    - 0.231
    - 0.188
- * - Cortex A76
+ * - | Cortex A55
+     | (int8 quantization)
+   - 0.346
+   - 0.202
+   - 0.152
+   - 0.126
+ * - | Cortex A76
+     | (fp16 quantization)
    - 0.142
    - 0.079
    - 0.063
    - 0.049
+ * - | Cortex A76
+     | (int8 quantization)
+   - 0.097
+   - 0.062
+   - 0.045
+   - 0.035
+
+See also :ref:`sherpa-onnx-sense-voice-int8-RTF` for `sherpa-onnx`_.
+
 
 Cortex A55
 :::::::::::
@@ -195,6 +233,13 @@ Cortex A55
     --tokens=./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2024-07-17/tokens.txt \
     --sense-voice-model-dir=./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2024-07-17 \
     ./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2024-07-17/test_wavs/zh.wav
+
+  # For int8 models, please use
+  taskset 0x01 ./build/bin/sherpa-ncnn-offline \
+    --num-threads=1 \
+    --tokens=./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17/tokens.txt \
+    --sense-voice-model-dir=./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17 \
+    ./sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17/test_wavs/zh.wav
 
 Cortex A76
 :::::::::::
@@ -288,6 +333,25 @@ After downloading, you should find the following files:
 
   en.wav     yue-1.wav  yue-11.wav yue-13.wav yue-15.wav yue-17.wav yue-3.wav  yue-5.wav  yue-7.wav  yue-9.wav  zh.wav
   yue-0.wav  yue-10.wav yue-12.wav yue-14.wav yue-16.wav yue-2.wav  yue-4.wav  yue-6.wav  yue-8.wav  yue.wav
+
+.. hint::
+
+   If you want to use the ``int8`` quantized model, please run::
+
+      wget https://github.com/k2-fsa/sherpa-ncnn/releases/download/asr-models/sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09.tar.bz2
+      tar xvf sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09.tar.bz2
+      rm sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09.tar.bz2
+
+   .. code-block:: bash
+
+      ls -lh sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09
+
+      total 461200
+      -rw-r--r--   1 fangjun  staff   131B Sep 17 14:25 README.md
+      -rw-r--r--   1 fangjun  staff   222M Sep 17 14:26 model.ncnn.bin
+      -rw-r--r--   1 fangjun  staff   158K Sep 17 14:26 model.ncnn.param
+      drwxr-xr-x  23 fangjun  staff   736B Sep 17 14:25 test_wavs
+      -rw-r--r--   1 fangjun  staff   308K Sep 17 14:25 tokens.txt
 
 In the following, we show how to decode the files ``sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09/test_wavs/yue-*.wav``.
 
