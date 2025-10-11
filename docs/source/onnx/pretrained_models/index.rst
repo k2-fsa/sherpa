@@ -51,3 +51,4 @@ available pre-trained models for speech recognition.
    whisper/index
    wenet/index
    small-online-models
+   ../sense-voice/index.rst
