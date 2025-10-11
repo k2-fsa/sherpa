@@ -309,6 +309,8 @@ We provide exported models of different input lengths. See the table below.
 
  * - Max input lengths
    - URL
+ * - 5 seconds
+   - `sherpa-onnx-rk3588-5-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17.tar.bz2 <https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-rk3588-5-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17.tar.bz2>`_
  * - 10 seconds
    - `sherpa-onnx-rk3588-10-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17.tar.bz2 <https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-rk3588-10-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17.tar.bz2>`_
  * - 15 seconds

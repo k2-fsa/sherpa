@@ -199,9 +199,8 @@ jobs:
           cd huggingface
           ./generate-asr.py
           ./generate-tts.py
-          mkdir -p ../build/html/onnx/flutter/asr
-          mv -v app-asr.html ../build/html/onnx/flutter/asr/app.html
-          mv -v app-asr-cn.html ../build/html/onnx/flutter/asr/app-cn.html
+          mkdir -p ../build/html/onnx/flutter
+          mv -v asr*.html ../build/html/onnx/flutter/
           mv -v tts*.html ../build/html/onnx/flutter/
           cd ..
           rm -rf huggingface
