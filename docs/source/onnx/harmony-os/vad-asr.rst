@@ -1,5 +1,5 @@
-On-device VAD + ASR
-===================
+On-device VAD + ASR (本地非流式语音识别)
+===========================================================
 
 This page describes how to build `SherpaOnnxVadAsr <https://github.com/k2-fsa/sherpa-onnx/tree/master/harmony-os/SherpaOnnxVadAsr>`_
 for on-device non-streaming speech recognition that runs on HarmonyOS.

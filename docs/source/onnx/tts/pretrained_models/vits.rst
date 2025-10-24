@@ -168,7 +168,6 @@ Generate speech with executables compiled from C++
    --vits-model=./vits-melo-tts-zh_en/model.onnx \
    --vits-lexicon=./vits-melo-tts-zh_en/lexicon.txt \
    --vits-tokens=./vits-melo-tts-zh_en/tokens.txt \
-   --vits-dict-dir=./vits-melo-tts-zh_en/dict \
    --output-filename=./zh-en-0.wav \
    "This is a 中英文的 text to speech 测试例子。"
 
@@ -176,7 +175,6 @@ Generate speech with executables compiled from C++
    --vits-model=./vits-melo-tts-zh_en/model.onnx \
    --vits-lexicon=./vits-melo-tts-zh_en/lexicon.txt \
    --vits-tokens=./vits-melo-tts-zh_en/tokens.txt \
-   --vits-dict-dir=./vits-melo-tts-zh_en/dict \
    --output-filename=./zh-en-1.wav \
    "我最近在学习machine learning，希望能够在未来的artificial intelligence领域有所建树。"
 
@@ -185,7 +183,6 @@ Generate speech with executables compiled from C++
    --vits-lexicon=./vits-melo-tts-zh_en/lexicon.txt \
    --vits-tokens=./vits-melo-tts-zh_en/tokens.txt \
    --tts-rule-fsts="./vits-melo-tts-zh_en/date.fst,./vits-melo-tts-zh_en/number.fst" \
-   --vits-dict-dir=./vits-melo-tts-zh_en/dict \
    --output-filename=./zh-en-2.wav \
    "Are you ok 是雷军2015年4月小米在印度举行新品发布会时说的。他还说过 I am very happy to be in China.雷军事后在微博上表示「万万没想到，视频火速传到国内，全国人民都笑了」、「现在国际米粉越来越多，我的确应该把英文学好，不让大家失望！加油！」"
 
@@ -286,7 +283,6 @@ Generate speech with Python script
    --vits-model=./vits-melo-tts-zh_en/model.onnx \
    --vits-lexicon=./vits-melo-tts-zh_en/lexicon.txt \
    --vits-tokens=./vits-melo-tts-zh_en/tokens.txt \
-   --vits-dict-dir=./vits-melo-tts-zh_en/dict \
    --output-filename=./zh-en-3.wav \
    "它也支持繁体字. 我相信你們一定聽過愛迪生說過的這句話Genius is one percent inspiration and ninety-nine percent perspiration. "
 
@@ -340,7 +336,6 @@ We use the following command to test the RTF of this model on Raspberry Pi 4 Mod
       --vits-model=./vits-melo-tts-zh_en/model.onnx \
       --vits-lexicon=./vits-melo-tts-zh_en/lexicon.txt \
       --vits-tokens=./vits-melo-tts-zh_en/tokens.txt \
-      --vits-dict-dir=./vits-melo-tts-zh_en/dict \
       "当夜幕降临，星光点点，伴随着微风拂面，我在静谧中感受着时光的流转，思念如涟漪荡漾，梦境如画卷展开，我与自然融为一体，沉静在这片宁静的美丽之中，感受着生命的奇迹与 温柔."
    done
 
@@ -1276,7 +1271,6 @@ Please check the file sizes of the downloaded model:
 
   sherpa-onnx-offline-tts \
     --vits-model=./sherpa-onnx-vits-zh-ll/model.onnx \
-    --vits-dict-dir=./sherpa-onnx-vits-zh-ll/dict \
     --vits-lexicon=./sherpa-onnx-vits-zh-ll/lexicon.txt \
     --vits-tokens=./sherpa-onnx-vits-zh-ll/tokens.txt \
     --vits-length-scale=0.5 \
@@ -1287,7 +1281,6 @@ Please check the file sizes of the downloaded model:
 
   sherpa-onnx-offline-tts \
     --vits-model=./sherpa-onnx-vits-zh-ll/model.onnx \
-    --vits-dict-dir=./sherpa-onnx-vits-zh-ll/dict \
     --vits-lexicon=./sherpa-onnx-vits-zh-ll/lexicon.txt \
     --vits-tokens=./sherpa-onnx-vits-zh-ll/tokens.txt \
     --sid=1 \
@@ -1297,7 +1290,6 @@ Please check the file sizes of the downloaded model:
 
   sherpa-onnx-offline-tts \
     --vits-model=./sherpa-onnx-vits-zh-ll/model.onnx \
-    --vits-dict-dir=./sherpa-onnx-vits-zh-ll/dict \
     --vits-lexicon=./sherpa-onnx-vits-zh-ll/lexicon.txt \
     --vits-tokens=./sherpa-onnx-vits-zh-ll/tokens.txt \
     --tts-rule-fsts=./sherpa-onnx-vits-zh-ll/phone.fst,./sherpa-onnx-vits-zh-ll/number.fst \
@@ -1307,7 +1299,6 @@ Please check the file sizes of the downloaded model:
 
   sherpa-onnx-offline-tts \
     --vits-model=./sherpa-onnx-vits-zh-ll/model.onnx \
-    --vits-dict-dir=./sherpa-onnx-vits-zh-ll/dict \
     --vits-lexicon=./sherpa-onnx-vits-zh-ll/lexicon.txt \
     --vits-tokens=./sherpa-onnx-vits-zh-ll/tokens.txt \
     --sid=3 \
@@ -1316,7 +1307,6 @@ Please check the file sizes of the downloaded model:
 
   sherpa-onnx-offline-tts \
     --vits-model=./sherpa-onnx-vits-zh-ll/model.onnx \
-    --vits-dict-dir=./sherpa-onnx-vits-zh-ll/dict \
     --vits-lexicon=./sherpa-onnx-vits-zh-ll/lexicon.txt \
     --vits-tokens=./sherpa-onnx-vits-zh-ll/tokens.txt \
     --tts-rule-fsts=./sherpa-onnx-vits-zh-ll/number.fst \
@@ -1405,7 +1395,6 @@ We use the following command to test the RTF of this model on Raspberry Pi 4 Mod
     ./build/bin/sherpa-onnx-offline-tts \
       --num-threads=$t \
       --vits-model=./sherpa-onnx-vits-zh-ll/model.onnx \
-      --vits-dict-dir=./sherpa-onnx-vits-zh-ll/dict \
       --vits-lexicon=./sherpa-onnx-vits-zh-ll/lexicon.txt \
       --vits-tokens=./sherpa-onnx-vits-zh-ll/tokens.txt \
       '当夜幕降临，星光点点，伴随着微风拂面，我在静谧中感受着时光的流转，思念如涟漪荡漾，梦境如画卷展开，我与自然融为一体，沉静在这片宁静的美丽之中，感受着生命的奇迹与温柔.'
@@ -1459,7 +1448,6 @@ You can download the model using the following commands::
 
   sherpa-onnx-offline-tts \
     --vits-model=./vits-zh-hf-fanchen-C/vits-zh-hf-fanchen-C.onnx \
-    --vits-dict-dir=./vits-zh-hf-fanchen-C/dict \
     --vits-lexicon=./vits-zh-hf-fanchen-C/lexicon.txt \
     --vits-tokens=./vits-zh-hf-fanchen-C/tokens.txt \
     --vits-length-scale=0.5 \
@@ -1469,7 +1457,6 @@ You can download the model using the following commands::
 
   sherpa-onnx-offline-tts \
     --vits-model=./vits-zh-hf-fanchen-C/vits-zh-hf-fanchen-C.onnx \
-    --vits-dict-dir=./vits-zh-hf-fanchen-C/dict \
     --vits-lexicon=./vits-zh-hf-fanchen-C/lexicon.txt \
     --vits-tokens=./vits-zh-hf-fanchen-C/tokens.txt \
     --vits-length-scale=1.0 \
@@ -1480,7 +1467,6 @@ You can download the model using the following commands::
   sherpa-onnx-offline-tts \
     --sid=100 \
     --vits-model=./vits-zh-hf-fanchen-C/vits-zh-hf-fanchen-C.onnx \
-    --vits-dict-dir=./vits-zh-hf-fanchen-C/dict \
     --vits-lexicon=./vits-zh-hf-fanchen-C/lexicon.txt \
     --vits-tokens=./vits-zh-hf-fanchen-C/tokens.txt \
     --vits-length-scale=1.0 \
@@ -1491,7 +1477,6 @@ You can download the model using the following commands::
   sherpa-onnx-offline-tts \
     --sid=14 \
     --vits-model=./vits-zh-hf-fanchen-C/vits-zh-hf-fanchen-C.onnx \
-    --vits-dict-dir=./vits-zh-hf-fanchen-C/dict \
     --vits-lexicon=./vits-zh-hf-fanchen-C/lexicon.txt \
     --vits-tokens=./vits-zh-hf-fanchen-C/tokens.txt \
     --vits-length-scale=1.0 \
@@ -1501,7 +1486,6 @@ You can download the model using the following commands::
   sherpa-onnx-offline-tts \
     --sid=102 \
     --vits-model=./vits-zh-hf-fanchen-C/vits-zh-hf-fanchen-C.onnx \
-    --vits-dict-dir=./vits-zh-hf-fanchen-C/dict \
     --vits-lexicon=./vits-zh-hf-fanchen-C/lexicon.txt \
     --vits-tokens=./vits-zh-hf-fanchen-C/tokens.txt \
     --tts-rule-fsts=./vits-zh-hf-fanchen-C/number.fst \
@@ -1590,7 +1574,6 @@ We use the following command to test the RTF of this model on Raspberry Pi 4 Mod
     ./build/bin/sherpa-onnx-offline-tts \
       --num-threads=$t \
       --vits-model=./vits-zh-hf-fanchen-C/vits-zh-hf-fanchen-C.onnx \
-      --vits-dict-dir=./vits-zh-hf-fanchen-C/dict \
       --vits-lexicon=./vits-zh-hf-fanchen-C/lexicon.txt \
       --vits-tokens=./vits-zh-hf-fanchen-C/tokens.txt \
       "当夜幕降临，星光点点，伴随着微风拂面，我在静谧中感受着时光的流转，思念如涟漪荡漾，梦境如画卷展开，我与自然融为一体，沉静在这片宁静的美丽之中，感受着生命的奇迹与 温柔."
@@ -1643,7 +1626,6 @@ You can download the model using the following commands::
 
   sherpa-onnx-offline-tts \
     --vits-model=./vits-zh-hf-fanchen-wnj/vits-zh-hf-fanchen-wnj.onnx \
-    --vits-dict-dir=./vits-zh-hf-fanchen-wnj/dict \
     --vits-lexicon=./vits-zh-hf-fanchen-wnj/lexicon.txt \
     --vits-tokens=./vits-zh-hf-fanchen-wnj/tokens.txt \
     --output-filename="./kuayue.wav" \
@@ -1651,7 +1633,6 @@ You can download the model using the following commands::
 
   sherpa-onnx-offline-tts \
     --vits-model=./vits-zh-hf-fanchen-wnj/vits-zh-hf-fanchen-wnj.onnx \
-    --vits-dict-dir=./vits-zh-hf-fanchen-wnj/dict \
     --vits-lexicon=./vits-zh-hf-fanchen-wnj/lexicon.txt \
     --vits-tokens=./vits-zh-hf-fanchen-wnj/tokens.txt \
     --tts-rule-fsts=./vits-zh-hf-fanchen-wnj/number.fst \
@@ -1703,7 +1684,6 @@ We use the following command to test the RTF of this model on Raspberry Pi 4 Mod
     ./build/bin/sherpa-onnx-offline-tts \
       --num-threads=$t \
       --vits-model=./vits-zh-hf-fanchen-wnj/vits-zh-hf-fanchen-wnj.onnx \
-      --vits-dict-dir=./vits-zh-hf-fanchen-wnj/dict \
       --vits-lexicon=./vits-zh-hf-fanchen-wnj/lexicon.txt \
       --vits-tokens=./vits-zh-hf-fanchen-wnj/tokens.txt \
       "当夜幕 降临，星光点点，伴随着微风拂面，我在静谧中感受着时光的流转，思念如涟漪荡漾，梦境如画卷展开，我与自然融为一体，沉静在这片宁静的美丽之中，感受着生命的 奇迹与温柔."
@@ -1756,7 +1736,6 @@ You can download the model with the following commands::
 
   sherpa-onnx-offline-tts \
     --vits-model=./vits-zh-hf-theresa/theresa.onnx \
-    --vits-dict-dir=./vits-zh-hf-theresa/dict \
     --vits-lexicon=./vits-zh-hf-theresa/lexicon.txt \
     --vits-tokens=./vits-zh-hf-theresa/tokens.txt \
     --sid=0 \
@@ -1765,7 +1744,6 @@ You can download the model with the following commands::
 
   sherpa-onnx-offline-tts \
     --vits-model=./vits-zh-hf-theresa/theresa.onnx \
-    --vits-dict-dir=./vits-zh-hf-theresa/dict \
     --vits-lexicon=./vits-zh-hf-theresa/lexicon.txt \
     --vits-tokens=./vits-zh-hf-theresa/tokens.txt \
     --tts-rule-fsts=./vits-zh-hf-theresa/number.fst \
@@ -1820,7 +1798,6 @@ We use the following command to test the RTF of this model on Raspberry Pi 4 Mod
     ./build/bin/sherpa-onnx-offline-tts \
       --num-threads=$t \
       --vits-model=./vits-zh-hf-theresa/theresa.onnx \
-      --vits-dict-dir=./vits-zh-hf-theresa/dict \
       --vits-lexicon=./vits-zh-hf-theresa/lexicon.txt \
       --vits-tokens=./vits-zh-hf-theresa/tokens.txt \
       "当夜幕降临，星光点点，伴随着微风拂面，我在静谧中感受着时光的流转，思念如涟漪荡漾，梦境如画卷展开，我与自然融为一体，沉静在这片宁静的美丽之中，感受着生命的奇迹与 温柔."
@@ -1874,7 +1851,6 @@ You can download the model using the following commands::
 
   sherpa-onnx-offline-tts \
     --vits-model=./vits-zh-hf-eula/eula.onnx \
-    --vits-dict-dir=./vits-zh-hf-eula/dict \
     --vits-lexicon=./vits-zh-hf-eula/lexicon.txt \
     --vits-tokens=./vits-zh-hf-eula/tokens.txt \
     --debug=1 \
@@ -1884,7 +1860,6 @@ You can download the model using the following commands::
 
   sherpa-onnx-offline-tts \
     --vits-model=./vits-zh-hf-eula/eula.onnx \
-    --vits-dict-dir=./vits-zh-hf-eula/dict \
     --vits-lexicon=./vits-zh-hf-eula/lexicon.txt \
     --vits-tokens=./vits-zh-hf-eula/tokens.txt \
     --tts-rule-fsts=./vits-zh-hf-eula/number.fst \
@@ -1937,7 +1912,6 @@ We use the following command to test the RTF of this model on Raspberry Pi 4 Mod
     ./build/bin/sherpa-onnx-offline-tts \
       --num-threads=$t \
       --vits-model=./vits-zh-hf-eula/eula.onnx \
-      --vits-dict-dir=./vits-zh-hf-eula/dict \
       --vits-lexicon=./vits-zh-hf-eula/lexicon.txt \
       --vits-tokens=./vits-zh-hf-eula/tokens.txt \
       "当夜幕降临，星光点点，伴随着微风拂面，我在静谧中感受着时光的流转，思念如涟漪荡漾，梦境如画卷展开，我与自然融为一体，沉静在这片宁静的美丽之中，感受着生命的奇迹与 温柔."

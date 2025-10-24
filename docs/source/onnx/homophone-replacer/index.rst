@@ -59,7 +59,7 @@
 使用方法
 --------
 
-需要用到3个文件。
+需要用到2个文件。
 
 
 .. list-table::
@@ -67,11 +67,6 @@
  * - 文件名
    - 说明
    - 下载地址
- * - ``dict.tar.bz2``
-   - | 用于jieba 分词
-     | ``通用``
-     | 请解压，得到 dict 文件夹
-   - `<https://github.com/k2-fsa/sherpa-onnx/releases/tag/hr-files>`_
  * - ``lexicon.txt``
    - | 用于汉字转拼音
      | ``通用``
@@ -169,16 +164,14 @@
     --sense-voice-model=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/model.int8.onnx \
     --debug=0 \
     --hr-lexicon=./lexicon.txt \
-    --hr-dict-dir=./dict \
     --hr-rule-fsts=./hr-xuan-jie-replace.fst \
     ./hr-xuan-jie-test.wav
 
 .. hint::
 
-   上述命令行工具，指定了3个参数:
+   上述命令行工具，指定了2个参数:
 
      - ``--hr-lexicon``: 通用。`下载地址 <https://github.com/k2-fsa/sherpa-onnx/releases/tag/hr-files>`_
-     - ``--hr-dict-dir``: 通用。`下载地址 <https://github.com/k2-fsa/sherpa-onnx/releases/tag/hr-files>`_
      - ``--hr-rule-fsts``: 为我们自己生成的规则文件。不通用。
 
    如果你是通过调用 API 的方式使用，请设置 ``OfflineRecongizerConfig`` 或者
@@ -211,7 +204,6 @@
     --sense-voice-model=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/model.int8.onnx \
     --debug=1 \
     --hr-lexicon=./lexicon.txt \
-    --hr-dict-dir=./dict \
     --hr-rule-fsts=./hr-xuan-jie-replace.fst \
     ./hr-xuan-jie-test.wav
 
