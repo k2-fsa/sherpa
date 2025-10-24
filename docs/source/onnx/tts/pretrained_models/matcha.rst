@@ -268,7 +268,6 @@ Generate speech with executables compiled from C++
     --matcha-vocoder=./vocos-22khz-univ.onnx \
     --matcha-lexicon=./matcha-icefall-zh-baker/lexicon.txt \
     --matcha-tokens=./matcha-icefall-zh-baker/tokens.txt \
-    --matcha-dict-dir=./matcha-icefall-zh-baker/dict \
     --num-threads=2 \
     --output-filename=./matcha-baker-0.wav \
     --debug=1 \
@@ -280,7 +279,6 @@ Generate speech with executables compiled from C++
      --matcha-lexicon=./matcha-icefall-zh-baker/lexicon.txt \
      --matcha-tokens=./matcha-icefall-zh-baker/tokens.txt \
      --tts-rule-fsts=./matcha-icefall-zh-baker/phone.fst,./matcha-icefall-zh-baker/date.fst,./matcha-icefall-zh-baker/number.fst \
-     --matcha-dict-dir=./matcha-icefall-zh-baker/dict \
      --output-filename=./matcha-baker-1.wav \
      "某某银行的副行长和一些行政领导表示，他们去过长江和长白山; 经济不断增长。2024年12月31号，拨打110或者18920240511。123456块钱。"
 
@@ -360,7 +358,6 @@ Generate speech with Python script
    --matcha-lexicon=./matcha-icefall-zh-baker/lexicon.txt \
    --matcha-tokens=./matcha-icefall-zh-baker/tokens.txt \
    --tts-rule-fsts=./matcha-icefall-zh-baker/phone.fst,./matcha-icefall-zh-baker/date.fst,./matcha-icefall-zh-baker/number.fst \
-   --matcha-dict-dir=./matcha-icefall-zh-baker/dict \
    --output-filename=./matcha-baker-2.wav \
    --debug=1 \
    "三百六十行，行行出状元。你行的！明天就是 2025年1月1号啦！银行卡被卡住了，你帮个忙，行不行？"
@@ -417,7 +414,6 @@ We use the following command to test the RTF of this model on Raspberry Pi 4 Mod
       --matcha-vocoder=./vocos-22khz-univ.onnx \
       --matcha-lexicon=./matcha-icefall-zh-baker/lexicon.txt \
       --matcha-tokens=./matcha-icefall-zh-baker/tokens.txt \
-      --matcha-dict-dir=./matcha-icefall-zh-baker/dict \
       --output-filename=./matcha-baker-0.wav \
       "当夜幕降临，星光点点，伴随着微风拂面，我在静谧中感受着时光的流转，思念如涟漪荡漾，梦境如画卷展开，我与自然融为一体，沉静在这片宁静的美丽之中，感受 着生命的奇迹与温柔."
    done

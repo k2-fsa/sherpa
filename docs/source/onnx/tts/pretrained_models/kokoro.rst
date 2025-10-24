@@ -144,7 +144,6 @@ Generate speech with executables compiled from C++
           --kokoro-voices=./kokoro-multi-lang-v1_0/voices.bin \
           --kokoro-tokens=./kokoro-multi-lang-v1_0/tokens.txt \
           --kokoro-data-dir=./kokoro-multi-lang-v1_0/espeak-ng-data \
-          --kokoro-dict-dir=./kokoro-multi-lang-v1_0/dict \
           --kokoro-lexicon=./kokoro-multi-lang-v1_0/lexicon-us-en.txt,./kokoro-multi-lang-v1_0/lexicon-zh.txt \
           --num-threads=2 \
           --sid=$sid \
@@ -159,7 +158,6 @@ Generate speech with executables compiled from C++
           --kokoro-voices=./kokoro-multi-lang-v1_0/voices.bin \
           --kokoro-tokens=./kokoro-multi-lang-v1_0/tokens.txt \
           --kokoro-data-dir=./kokoro-multi-lang-v1_0/espeak-ng-data \
-          --kokoro-dict-dir=./kokoro-multi-lang-v1_0/dict \
           --kokoro-lexicon=./kokoro-multi-lang-v1_0/lexicon-us-en.txt,./kokoro-multi-lang-v1_0/lexicon-zh.txt \
           --num-threads=2 \
           --sid=$sid \
@@ -174,7 +172,6 @@ Generate speech with executables compiled from C++
         --kokoro-voices=./kokoro-multi-lang-v1_0/voices.bin \
         --kokoro-tokens=./kokoro-multi-lang-v1_0/tokens.txt \
         --kokoro-data-dir=./kokoro-multi-lang-v1_0/espeak-ng-data \
-        --kokoro-dict-dir=./kokoro-multi-lang-v1_0/dict \
         --kokoro-lexicon=./kokoro-multi-lang-v1_0/lexicon-us-en.txt,./kokoro-multi-lang-v1_0/lexicon-zh.txt \
         --num-threads=2 \
         --sid=23 \
@@ -187,7 +184,6 @@ Generate speech with executables compiled from C++
         --kokoro-voices=./kokoro-multi-lang-v1_0/voices.bin \
         --kokoro-tokens=./kokoro-multi-lang-v1_0/tokens.txt \
         --kokoro-data-dir=./kokoro-multi-lang-v1_0/espeak-ng-data \
-        --kokoro-dict-dir=./kokoro-multi-lang-v1_0/dict \
         --kokoro-lexicon=./kokoro-multi-lang-v1_0/lexicon-us-en.txt,./kokoro-multi-lang-v1_0/lexicon-zh.txt \
         --num-threads=2 \
         --sid=24 \
@@ -200,7 +196,6 @@ Generate speech with executables compiled from C++
         --kokoro-voices=./kokoro-multi-lang-v1_0/voices.bin \
         --kokoro-tokens=./kokoro-multi-lang-v1_0/tokens.txt \
         --kokoro-data-dir=./kokoro-multi-lang-v1_0/espeak-ng-data \
-        --kokoro-dict-dir=./kokoro-multi-lang-v1_0/dict \
         --kokoro-lexicon=./kokoro-multi-lang-v1_0/lexicon-us-en.txt,./kokoro-multi-lang-v1_0/lexicon-zh.txt \
         --num-threads=2 \
         --sid=45 \
@@ -213,7 +208,6 @@ Generate speech with executables compiled from C++
         --kokoro-voices=./kokoro-multi-lang-v1_0/voices.bin \
         --kokoro-tokens=./kokoro-multi-lang-v1_0/tokens.txt \
         --kokoro-data-dir=./kokoro-multi-lang-v1_0/espeak-ng-data \
-        --kokoro-dict-dir=./kokoro-multi-lang-v1_0/dict \
         --kokoro-lexicon=./kokoro-multi-lang-v1_0/lexicon-us-en.txt,./kokoro-multi-lang-v1_0/lexicon-zh.txt \
         --num-threads=2 \
         --sid=45 \
@@ -226,7 +220,6 @@ Generate speech with executables compiled from C++
         --kokoro-voices=./kokoro-multi-lang-v1_0/voices.bin \
         --kokoro-tokens=./kokoro-multi-lang-v1_0/tokens.txt \
         --kokoro-data-dir=./kokoro-multi-lang-v1_0/espeak-ng-data \
-        --kokoro-dict-dir=./kokoro-multi-lang-v1_0/dict \
         --kokoro-lexicon=./kokoro-multi-lang-v1_0/lexicon-us-en.txt,./kokoro-multi-lang-v1_0/lexicon-zh.txt \
         --num-threads=2 \
         --sid=46 \
@@ -239,7 +232,6 @@ Generate speech with executables compiled from C++
         --kokoro-voices=./kokoro-multi-lang-v1_0/voices.bin \
         --kokoro-tokens=./kokoro-multi-lang-v1_0/tokens.txt \
         --kokoro-data-dir=./kokoro-multi-lang-v1_0/espeak-ng-data \
-        --kokoro-dict-dir=./kokoro-multi-lang-v1_0/dict \
         --kokoro-lexicon=./kokoro-multi-lang-v1_0/lexicon-us-en.txt,./kokoro-multi-lang-v1_0/lexicon-zh.txt \
         --num-threads=2 \
         --sid=46 \
@@ -252,7 +244,6 @@ Generate speech with executables compiled from C++
         --kokoro-voices=./kokoro-multi-lang-v1_0/voices.bin \
         --kokoro-tokens=./kokoro-multi-lang-v1_0/tokens.txt \
         --kokoro-data-dir=./kokoro-multi-lang-v1_0/espeak-ng-data \
-        --kokoro-dict-dir=./kokoro-multi-lang-v1_0/dict \
         --kokoro-lexicon=./kokoro-multi-lang-v1_0/lexicon-us-en.txt,./kokoro-multi-lang-v1_0/lexicon-zh.txt \
         --tts-rule-fsts=./kokoro-multi-lang-v1_0/number-zh.fst \
         --num-threads=2 \
@@ -266,7 +257,6 @@ Generate speech with executables compiled from C++
         --kokoro-voices=./kokoro-multi-lang-v1_0/voices.bin \
         --kokoro-tokens=./kokoro-multi-lang-v1_0/tokens.txt \
         --kokoro-data-dir=./kokoro-multi-lang-v1_0/espeak-ng-data \
-        --kokoro-dict-dir=./kokoro-multi-lang-v1_0/dict \
         --kokoro-lexicon=./kokoro-multi-lang-v1_0/lexicon-us-en.txt,./kokoro-multi-lang-v1_0/lexicon-zh.txt \
         --num-threads=2 \
         --sid=47 \
@@ -280,7 +270,6 @@ Generate speech with executables compiled from C++
         --kokoro-voices=./kokoro-multi-lang-v1_0/voices.bin \
         --kokoro-tokens=./kokoro-multi-lang-v1_0/tokens.txt \
         --kokoro-data-dir=./kokoro-multi-lang-v1_0/espeak-ng-data \
-        --kokoro-dict-dir=./kokoro-multi-lang-v1_0/dict \
         --kokoro-lexicon=./kokoro-multi-lang-v1_0/lexicon-us-en.txt,./kokoro-multi-lang-v1_0/lexicon-zh.txt \
         --tts-rule-fsts=./kokoro-multi-lang-v1_0/phone-zh.fst,./kokoro-multi-lang-v1_0/number-zh.fst \
         --num-threads=2 \
@@ -294,7 +283,6 @@ Generate speech with executables compiled from C++
         --kokoro-voices=./kokoro-multi-lang-v1_0/voices.bin \
         --kokoro-tokens=./kokoro-multi-lang-v1_0/tokens.txt \
         --kokoro-data-dir=./kokoro-multi-lang-v1_0/espeak-ng-data \
-        --kokoro-dict-dir=./kokoro-multi-lang-v1_0/dict \
         --kokoro-lexicon=./kokoro-multi-lang-v1_0/lexicon-us-en.txt,./kokoro-multi-lang-v1_0/lexicon-zh.txt \
         --num-threads=2 \
         --sid=48 \
@@ -308,7 +296,6 @@ Generate speech with executables compiled from C++
         --kokoro-voices=./kokoro-multi-lang-v1_0/voices.bin \
         --kokoro-tokens=./kokoro-multi-lang-v1_0/tokens.txt \
         --kokoro-data-dir=./kokoro-multi-lang-v1_0/espeak-ng-data \
-        --kokoro-dict-dir=./kokoro-multi-lang-v1_0/dict \
         --kokoro-lexicon=./kokoro-multi-lang-v1_0/lexicon-us-en.txt,./kokoro-multi-lang-v1_0/lexicon-zh.txt \
         --tts-rule-fsts=./kokoro-multi-lang-v1_0/date-zh.fst,./kokoro-multi-lang-v1_0/number-zh.fst \
         --num-threads=2 \
@@ -322,7 +309,6 @@ Generate speech with executables compiled from C++
         --kokoro-voices=./kokoro-multi-lang-v1_0/voices.bin \
         --kokoro-tokens=./kokoro-multi-lang-v1_0/tokens.txt \
         --kokoro-data-dir=./kokoro-multi-lang-v1_0/espeak-ng-data \
-        --kokoro-dict-dir=./kokoro-multi-lang-v1_0/dict \
         --kokoro-lexicon=./kokoro-multi-lang-v1_0/lexicon-us-en.txt,./kokoro-multi-lang-v1_0/lexicon-zh.txt \
         --tts-rule-fsts=./kokoro-multi-lang-v1_0/date-zh.fst,./kokoro-multi-lang-v1_0/phone-zh.fst,./kokoro-multi-lang-v1_0/number-zh.fst \
         --num-threads=2 \
@@ -336,7 +322,6 @@ Generate speech with executables compiled from C++
         --kokoro-voices=./kokoro-multi-lang-v1_0/voices.bin \
         --kokoro-tokens=./kokoro-multi-lang-v1_0/tokens.txt \
         --kokoro-data-dir=./kokoro-multi-lang-v1_0/espeak-ng-data \
-        --kokoro-dict-dir=./kokoro-multi-lang-v1_0/dict \
         --kokoro-lexicon=./kokoro-multi-lang-v1_0/lexicon-us-en.txt,./kokoro-multi-lang-v1_0/lexicon-zh.txt \
         --num-threads=2 \
         --sid=49 \
@@ -350,7 +335,6 @@ Generate speech with executables compiled from C++
         --kokoro-voices=./kokoro-multi-lang-v1_0/voices.bin \
         --kokoro-tokens=./kokoro-multi-lang-v1_0/tokens.txt \
         --kokoro-data-dir=./kokoro-multi-lang-v1_0/espeak-ng-data \
-        --kokoro-dict-dir=./kokoro-multi-lang-v1_0/dict \
         --kokoro-lexicon=./kokoro-multi-lang-v1_0/lexicon-us-en.txt,./kokoro-multi-lang-v1_0/lexicon-zh.txt \
         --num-threads=2 \
         --sid=50 \
@@ -363,7 +347,6 @@ Generate speech with executables compiled from C++
         --kokoro-voices=./kokoro-multi-lang-v1_0/voices.bin \
         --kokoro-tokens=./kokoro-multi-lang-v1_0/tokens.txt \
         --kokoro-data-dir=./kokoro-multi-lang-v1_0/espeak-ng-data \
-        --kokoro-dict-dir=./kokoro-multi-lang-v1_0/dict \
         --kokoro-lexicon=./kokoro-multi-lang-v1_0/lexicon-us-en.txt,./kokoro-multi-lang-v1_0/lexicon-zh.txt \
         --num-threads=2 \
         --sid=50 \
@@ -376,7 +359,6 @@ Generate speech with executables compiled from C++
         --kokoro-voices=./kokoro-multi-lang-v1_0/voices.bin \
         --kokoro-tokens=./kokoro-multi-lang-v1_0/tokens.txt \
         --kokoro-data-dir=./kokoro-multi-lang-v1_0/espeak-ng-data \
-        --kokoro-dict-dir=./kokoro-multi-lang-v1_0/dict \
         --kokoro-lexicon=./kokoro-multi-lang-v1_0/lexicon-us-en.txt,./kokoro-multi-lang-v1_0/lexicon-zh.txt \
         --num-threads=2 \
         --sid=51 \
@@ -389,7 +371,6 @@ Generate speech with executables compiled from C++
         --kokoro-voices=./kokoro-multi-lang-v1_0/voices.bin \
         --kokoro-tokens=./kokoro-multi-lang-v1_0/tokens.txt \
         --kokoro-data-dir=./kokoro-multi-lang-v1_0/espeak-ng-data \
-        --kokoro-dict-dir=./kokoro-multi-lang-v1_0/dict \
         --kokoro-lexicon=./kokoro-multi-lang-v1_0/lexicon-us-en.txt,./kokoro-multi-lang-v1_0/lexicon-zh.txt \
         --num-threads=2 \
         --sid=52 \
@@ -402,7 +383,6 @@ Generate speech with executables compiled from C++
         --kokoro-voices=./kokoro-multi-lang-v1_0/voices.bin \
         --kokoro-tokens=./kokoro-multi-lang-v1_0/tokens.txt \
         --kokoro-data-dir=./kokoro-multi-lang-v1_0/espeak-ng-data \
-        --kokoro-dict-dir=./kokoro-multi-lang-v1_0/dict \
         --kokoro-lexicon=./kokoro-multi-lang-v1_0/lexicon-us-en.txt,./kokoro-multi-lang-v1_0/lexicon-zh.txt \
         --tts-rule-fsts=./kokoro-multi-lang-v1_0/date-zh.fst,./kokoro-multi-lang-v1_0/number-zh.fst \
         --num-threads=2 \
@@ -416,7 +396,6 @@ Generate speech with executables compiled from C++
         --kokoro-voices=./kokoro-multi-lang-v1_0/voices.bin \
         --kokoro-tokens=./kokoro-multi-lang-v1_0/tokens.txt \
         --kokoro-data-dir=./kokoro-multi-lang-v1_0/espeak-ng-data \
-        --kokoro-dict-dir=./kokoro-multi-lang-v1_0/dict \
         --kokoro-lexicon=./kokoro-multi-lang-v1_0/lexicon-us-en.txt,./kokoro-multi-lang-v1_0/lexicon-zh.txt \
         --tts-rule-fsts=./kokoro-multi-lang-v1_0/date-zh.fst,./kokoro-multi-lang-v1_0/number-zh.fst \
         --num-threads=2 \
@@ -430,7 +409,6 @@ Generate speech with executables compiled from C++
         --kokoro-voices=./kokoro-multi-lang-v1_0/voices.bin \
         --kokoro-tokens=./kokoro-multi-lang-v1_0/tokens.txt \
         --kokoro-data-dir=./kokoro-multi-lang-v1_0/espeak-ng-data \
-        --kokoro-dict-dir=./kokoro-multi-lang-v1_0/dict \
         --kokoro-lexicon=./kokoro-multi-lang-v1_0/lexicon-us-en.txt,./kokoro-multi-lang-v1_0/lexicon-zh.txt \
         --tts-rule-fsts=./kokoro-multi-lang-v1_0/date-zh.fst,./kokoro-multi-lang-v1_0/number-zh.fst \
         --num-threads=2 \
@@ -1147,7 +1125,6 @@ We use the following command to test the RTF of this model on Raspberry Pi 4 Mod
       --kokoro-voices=./kokoro-multi-lang-v1_0/voices.bin \
       --kokoro-tokens=./kokoro-multi-lang-v1_0/tokens.txt \
       --kokoro-data-dir=./kokoro-multi-lang-v1_0/espeak-ng-data \
-      --kokoro-dict-dir=./kokoro-multi-lang-v1_0/dict \
       --kokoro-lexicon=./kokoro-multi-lang-v1_0/lexicon-us-en.txt,./kokoro-multi-lang-v1_0/lexicon-zh.txt \
       --tts-rule-fsts=./kokoro-multi-lang-v1_0/date-zh.fst,./kokoro-multi-lang-v1_0/number-zh.fst \
       --sid=1 \
