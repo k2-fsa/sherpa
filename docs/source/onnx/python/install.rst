@@ -178,6 +178,8 @@ Method 5 (For developers)
 
       make -j
       export PYTHONPATH=$PWD/../sherpa-onnx/python/:$PWD/lib:$PYTHONPATH
+      mkdir -p ../sherpa-onnx/python/sherpa_onnx/lib/
+      cp -v lib/_sherpa_onnx* ../sherpa-onnx/python/sherpa_onnx/lib/
 
    .. tab:: Nvidia GPU (CUDA)
 
@@ -200,6 +202,8 @@ Method 5 (For developers)
 
         make -j
         export PYTHONPATH=$PWD/../sherpa-onnx/python/:$PWD/lib:$PYTHONPATH
+        mkdir -p ../sherpa-onnx/python/sherpa_onnx/lib/
+        cp -v lib/_sherpa_onnx* ../sherpa-onnx/python/sherpa_onnx/lib/
 
       .. hint::
 
@@ -237,6 +241,8 @@ Method 5 (For developers)
 
         make -j
         export PYTHONPATH=$PWD/../sherpa-onnx/python/:$PWD/lib:$PYTHONPATH
+        mkdir -p ../sherpa-onnx/python/sherpa_onnx/lib/
+        cp -v lib/_sherpa_onnx* ../sherpa-onnx/python/sherpa_onnx/lib/
 
       .. hint::
 
