@@ -1,0 +1,14 @@
+/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:372 ./build/bin/sherpa-onnx-offline --tokens=./sherpa-onnx-paraformer-zh-int8-2025-10-07/tokens.txt --paraformer=./sherpa-onnx-paraformer-zh-int8-2025-10-07/model.int8.onnx --num-threads=1 sherpa-onnx-paraformer-zh-int8-2025-10-07/test_wavs/12.wav 
+
+OfflineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80, low_freq=20, high_freq=-400, dither=0, normalize_samples=True, snip_edges=False), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename="", decoder_filename="", joiner_filename=""), paraformer=OfflineParaformerModelConfig(model="./sherpa-onnx-paraformer-zh-int8-2025-10-07/model.int8.onnx"), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=""), whisper=OfflineWhisperModelConfig(encoder="", decoder="", language="", task="transcribe", tail_paddings=-1), fire_red_asr=OfflineFireRedAsrModelConfig(encoder="", decoder=""), tdnn=OfflineTdnnModelConfig(model=""), zipformer_ctc=OfflineZipformerCtcModelConfig(model=""), wenet_ctc=OfflineWenetCtcModelConfig(model=""), sense_voice=OfflineSenseVoiceModelConfig(model="", language="auto", use_itn=False), moonshine=OfflineMoonshineModelConfig(preprocessor="", encoder="", uncached_decoder="", cached_decoder=""), dolphin=OfflineDolphinModelConfig(model=""), canary=OfflineCanaryModelConfig(encoder="", decoder="", src_lang="", tgt_lang="", use_pnc=True), telespeech_ctc="", tokens="./sherpa-onnx-paraformer-zh-int8-2025-10-07/tokens.txt", num_threads=1, debug=False, provider="cpu", model_type="", modeling_unit="cjkchar", bpe_vocab=""), lm_config=OfflineLMConfig(model="", scale=0.5, lodr_scale=0.01, lodr_fst="", lodr_backoff_id=-1), ctc_fst_decoder_config=OfflineCtcFstDecoderConfig(graph="", max_active=3000), decoding_method="greedy_search", max_active_paths=4, hotwords_file="", hotwords_score=1.5, blank_penalty=0, rule_fsts="", rule_fars="", hr=HomophoneReplacerConfig(lexicon="", rule_fsts=""))
+Creating recognizer ...
+Started
+Done!
+
+sherpa-onnx-paraformer-zh-int8-2025-10-07/test_wavs/12.wav
+{"lang": "", "emotion": "", "event": "", "text": "腔溃疡两周以上都应该及时就医据了解啊小云平时呢都喜欢吃比较烫的饭菜也喜欢吃麻辣烫火锅之类的高温食物", "timestamps": [], "durations": [], "tokens":["腔", "溃", "疡", "两", "周", "以", "上", "都", "应", "该", "及", "时", "就", "医", "据", "了", "解", "啊", "小", "云", "平", "时", "呢", "都", "喜", "欢", "吃", "比", "较", "烫", "的", "饭", "菜", "也", "喜", "欢", "吃", "麻", "辣", "烫", "火", "锅", "之", "类", "的", "高", "温", "食", "物"], "words": []}
+----
+num threads: 1
+decoding method: greedy_search
+Elapsed seconds: 0.818 s
+Real time factor (RTF): 0.818 / 10.880 = 0.075

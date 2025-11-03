@@ -304,7 +304,6 @@ to try this model in your browser.
    You need to first select the language ``Chinese+English+Cantonese+Japanese+Korean``
    and then select the model  ``csukuangfj/sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09``.
 
-
 Android APKs
 ^^^^^^^^^^^^
 
@@ -317,7 +316,7 @@ Please always download the latest version.
 .. hint::
 
    Please search for ``zh_en_ko_ja_yue-sense_voice_2025_09_09_int8.apk`` in the above page, e.g.,
-   ``sherpa-onnx-1.12.11-arm64-v8a-simulated_streaming_asr-zh_en_ko_ja_yue-sense_voice_2025_09_09_int8.apk``.
+   ``sherpa-onnx-1.12.15-arm64-v8a-simulated_streaming_asr-zh_en_ko_ja_yue-sense_voice_2025_09_09_int8.apk``.
 
 .. hint::
 
@@ -346,13 +345,12 @@ After downloading, you should find the following files::
 
 .. code-block::
 
-  ls  sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/test_wavs/
+  ls sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/test_wavs/
 
   en.wav     ko.wav     yue-1.wav  yue-11.wav yue-13.wav yue-15.wav yue-17.wav yue-3.wav  yue-5.wav  yue-7.wav  yue-9.wav  zh.wav
   ja.wav     yue-0.wav  yue-10.wav yue-12.wav yue-14.wav yue-16.wav yue-2.wav  yue-4.wav  yue-6.wav  yue-8.wav  yue.wav
 
 In the following, we show how to decode the files ``sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09/test_wavs/yue-*.wav``.
-
 
 yue-0.wav
 ^^^^^^^^^

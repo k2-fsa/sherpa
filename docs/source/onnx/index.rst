@@ -73,7 +73,7 @@ Also, we show how to use it for speech recognition with pre-trained models.
    :maxdepth: 5
    :caption: Speech enhancement
 
-   ./speech-enhancment/index
+   ./speech-enhancement/index
 
 .. toctree::
    :maxdepth: 5

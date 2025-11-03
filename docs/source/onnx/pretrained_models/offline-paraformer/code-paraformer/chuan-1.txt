@@ -1,0 +1,14 @@
+/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:372 ./build/bin/sherpa-onnx-offline --tokens=./sherpa-onnx-paraformer-zh-int8-2025-10-07/tokens.txt --paraformer=./sherpa-onnx-paraformer-zh-int8-2025-10-07/model.int8.onnx --num-threads=1 sherpa-onnx-paraformer-zh-int8-2025-10-07/test_wavs/1.wav 
+
+OfflineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80, low_freq=20, high_freq=-400, dither=0, normalize_samples=True, snip_edges=False), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename="", decoder_filename="", joiner_filename=""), paraformer=OfflineParaformerModelConfig(model="./sherpa-onnx-paraformer-zh-int8-2025-10-07/model.int8.onnx"), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=""), whisper=OfflineWhisperModelConfig(encoder="", decoder="", language="", task="transcribe", tail_paddings=-1), fire_red_asr=OfflineFireRedAsrModelConfig(encoder="", decoder=""), tdnn=OfflineTdnnModelConfig(model=""), zipformer_ctc=OfflineZipformerCtcModelConfig(model=""), wenet_ctc=OfflineWenetCtcModelConfig(model=""), sense_voice=OfflineSenseVoiceModelConfig(model="", language="auto", use_itn=False), moonshine=OfflineMoonshineModelConfig(preprocessor="", encoder="", uncached_decoder="", cached_decoder=""), dolphin=OfflineDolphinModelConfig(model=""), canary=OfflineCanaryModelConfig(encoder="", decoder="", src_lang="", tgt_lang="", use_pnc=True), telespeech_ctc="", tokens="./sherpa-onnx-paraformer-zh-int8-2025-10-07/tokens.txt", num_threads=1, debug=False, provider="cpu", model_type="", modeling_unit="cjkchar", bpe_vocab=""), lm_config=OfflineLMConfig(model="", scale=0.5, lodr_scale=0.01, lodr_fst="", lodr_backoff_id=-1), ctc_fst_decoder_config=OfflineCtcFstDecoderConfig(graph="", max_active=3000), decoding_method="greedy_search", max_active_paths=4, hotwords_file="", hotwords_score=1.5, blank_penalty=0, rule_fsts="", rule_fars="", hr=HomophoneReplacerConfig(lexicon="", rule_fsts=""))
+Creating recognizer ...
+Started
+Done!
+
+sherpa-onnx-paraformer-zh-int8-2025-10-07/test_wavs/1.wav
+{"lang": "", "emotion": "", "event": "", "text": "来哥哥再给你唱首歌二哎呦把伴奏给我放起来放就放嘛还要多人家钩子", "timestamps": [], "durations": [], "tokens":["来", "哥", "哥", "再", "给", "你", "唱", "首", "歌", "二", "哎", "呦", "把", "伴", "奏", "给", "我", "放", "起", "来", "放", "就", "放", "嘛", "还", "要", "多", "人", "家", "钩", "子"], "words": []}
+----
+num threads: 1
+decoding method: greedy_search
+Elapsed seconds: 0.573 s
+Real time factor (RTF): 0.573 / 7.808 = 0.073

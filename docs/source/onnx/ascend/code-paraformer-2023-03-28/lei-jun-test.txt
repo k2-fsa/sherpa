@@ -1,0 +1,55 @@
+/root/open-source/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:372 ./bin/sherpa-onnx-vad-with-offline-asr --provider=ascend --silero-vad-model=./silero_vad.onnx --silero-vad-threshold=0.4 --paraformer=sherpa-onnx-ascend-910B-paraformer-zh-2023-03-28/encoder.om,sherpa-onnx-ascend-910B-paraformer-zh-2023-03-28/predictor.om,sherpa-onnx-ascend-910B-paraformer-zh-2023-03-28/decoder.om --tokens=sherpa-onnx-ascend-910B-paraformer-zh-2023-03-28/tokens.txt ./lei-jun-test.wav 
+
+VadModelConfig(silero_vad=SileroVadModelConfig(model="./silero_vad.onnx", threshold=0.4, min_silence_duration=0.5, min_speech_duration=0.25, max_speech_duration=20, window_size=512), ten_vad=TenVadModelConfig(model="", threshold=0.5, min_silence_duration=0.5, min_speech_duration=0.25, max_speech_duration=20, window_size=256), sample_rate=16000, num_threads=1, provider="cpu", debug=False)
+OfflineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80, low_freq=20, high_freq=-400, dither=0, normalize_samples=True, snip_edges=False), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename="", decoder_filename="", joiner_filename=""), paraformer=OfflineParaformerModelConfig(model="sherpa-onnx-ascend-910B-paraformer-zh-2023-03-28/encoder.om,sherpa-onnx-ascend-910B-paraformer-zh-2023-03-28/predictor.om,sherpa-onnx-ascend-910B-paraformer-zh-2023-03-28/decoder.om"), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=""), whisper=OfflineWhisperModelConfig(encoder="", decoder="", language="", task="transcribe", tail_paddings=-1), fire_red_asr=OfflineFireRedAsrModelConfig(encoder="", decoder=""), tdnn=OfflineTdnnModelConfig(model=""), zipformer_ctc=OfflineZipformerCtcModelConfig(model=""), wenet_ctc=OfflineWenetCtcModelConfig(model=""), sense_voice=OfflineSenseVoiceModelConfig(model="", language="auto", use_itn=False), moonshine=OfflineMoonshineModelConfig(preprocessor="", encoder="", uncached_decoder="", cached_decoder=""), dolphin=OfflineDolphinModelConfig(model=""), canary=OfflineCanaryModelConfig(encoder="", decoder="", src_lang="", tgt_lang="", use_pnc=True), telespeech_ctc="", tokens="sherpa-onnx-ascend-910B-paraformer-zh-2023-03-28/tokens.txt", num_threads=2, debug=False, provider="ascend", model_type="", modeling_unit="cjkchar", bpe_vocab=""), lm_config=OfflineLMConfig(model="", scale=0.5, lodr_scale=0.01, lodr_fst="", lodr_backoff_id=-1), ctc_fst_decoder_config=OfflineCtcFstDecoderConfig(graph="", max_active=3000), decoding_method="greedy_search", max_active_paths=4, hotwords_file="", hotwords_score=1.5, blank_penalty=0, rule_fsts="", rule_fars="", hr=HomophoneReplacerConfig(lexicon="", rule_fsts=""))
+Creating recognizer ...
+Recognizer created!
+Started
+Reading: ./lei-jun-test.wav
+Started!
+28.934 -- 36.140: 朋友们晚上好欢迎大家来参加今天晚上的活动谢谢大家
+42.118 -- 57.676: 这是我第四次办年度演讲前三次呢因为疫情的原因都在小米科技园内举办现场的人很少这是四次
+58.182 -- 67.020: 我们仔细想了想我们孩子想办一个比较大的聚会然后呢让我们的新朋友老朋友一起聚一聚
+67.718 -- 71.084: 今天的话呢我们就在北京的
+71.654 -- 91.580: 国家会议中心呢举办了这么一个活动现场呢来了很多人大概有三千五百人还有很多很多的朋友呢通过观看直播的方式来参与再一次呢对大家的参加表示感谢谢谢大家
+98.470 -- 104.780: 两个月前我参加了今年武汉大学的毕业典礼
+105.894 -- 110.892: 今年呢是武汉大学建校一百三十周年
+111.750 -- 117.388: 作为校友被母校邀请在毕业典礼上致辞
+117.990 -- 122.892: 这对我来说是至高无上的荣誉
+123.654 -- 134.380: 站在讲台的那一刻面对全校师生关于武大的所有的记忆一下子涌现在脑海里
+134.950 -- 139.660: 今天呢我就先和大家聊聊五大往事
+141.830 -- 144.012: 那还是三十六年前
+145.926 -- 147.724: 一九八七年
+148.678 -- 151.724: 我呢考上了武汉大学的计算机系
+152.646 -- 156.908: 在武汉大学的图书馆里看了一本书
+157.574 -- 158.796: 硅谷之火
+159.302 -- 161.708: 建立了我一生的梦想
+163.206 -- 164.492: 看完书以后
+165.286 -- 166.508: 热血沸腾
+167.590 -- 169.356: 激动的睡不着觉
+170.406 -- 171.244: 我还记得
+172.006 -- 174.764: 那天晚上星光很亮
+175.398 -- 177.868: 我就在武大的操场上
+178.342 -- 179.948: 就是屏幕上这个操场
+180.774 -- 185.388: 走了一圈又一圈走了整整一个晚上
+186.470 -- 187.788: 我心里有火
+188.934 -- 191.884: 我也想办一个伟大公司
+193.958 -- 194.860: 就是这样
+197.574 -- 202.540: 梦想之火在我心里彻底点燃了
+209.734 -- 212.716: 但是一个大一的新生
+220.230 -- 222.828: 但是一个大一的新生
+223.782 -- 227.244: 一个从县城里出来的年轻人
+228.134 -- 230.764: 什么也不会什么也没有
+231.526 -- 236.460: 就想创办一家伟大的公司这不就是天方夜谭吗
+237.574 -- 242.476: 这么离谱的一个梦想该如何实现呢
+243.846 -- 246.988: 那天晚上我想了一整晚上
+247.942 -- 249.068: 说实话
+250.342 -- 253.900: 越想越糊涂完全理不清头绪
+254.982 -- 261.516: 后来我在想哎干脆别想了把书练好是正事
+262.150 -- 265.900: 所以呢我就下定决心认认真真读书
+266.630 -- 267.340: 那么
+268.486 -- 271.692: 我怎么能够把书读的不同反响
+num threads: 2
+decoding method: greedy_search
+Elapsed seconds: 5.856 s
+Real time factor (RTF): 5.856 / 272.448 = 0.021
