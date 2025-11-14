@@ -1,7 +1,7 @@
 Huggingface space
 =================
 
-You can try `Moonshine`_ in `sherpa-onnx`_ with the following huggingface spaces
+You can try `Omnilingual ASR`_ in `sherpa-onnx`_ with the following huggingface spaces
 
   - For short audio: `<https://huggingface.co/spaces/k2-fsa/automatic-speech-recognition>`_
   - For generating subtitles (support very long audio/video files): `<https://huggingface.co/spaces/k2-fsa/generate-subtitles-for-videos>`_
@@ -12,17 +12,17 @@ You can try `Moonshine`_ in `sherpa-onnx`_ with the following huggingface spaces
 
    You can even run it on your phone or tablet.
 
-.. figure:: ./pic/moonshine-hf-space-1.jpg
-   :alt: screenshot of hf space for Moonshine
+.. figure:: ./pic/omni-hf.jpg
+   :alt: screenshot of hf space for Omnilingual ASR
    :align: center
    :width: 600
 
-   Try `Moonshine`_ in our Huggingface space with `sherpa-onnx`_ for short audio
+   Try `Omnilingual ASR`_ in our Huggingface space with `sherpa-onnx`_ for short audio
 
 
-.. figure:: ./pic/moonshine-hf-space-2.jpg
-   :alt: screenshot of hf space for Moonshine about generating subtitles
+.. figure:: ./pic/omni-hf-2.jpg
+   :alt: screenshot of hf space for Omnilingual ASR about generating subtitles
    :align: center
    :width: 600
 
-   Try `Moonshine`_ in our Huggingface space with `sherpa-onnx`_ for generating subtitles
+   Try `Omnilingual ASR`_ in our Huggingface space with `sherpa-onnx`_ for generating subtitles

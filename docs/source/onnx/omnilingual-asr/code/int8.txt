@@ -1,0 +1,19 @@
+/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:373 ./build/bin/sherpa-onnx-offline --omnilingual-asr-model=./sherpa-onnx-omnilingual-asr-1600-languages-300M-ctc-int8-2025-11-12/model.int8.onnx --tokens=./sherpa-onnx-omnilingual-asr-1600-languages-300M-ctc-int8-2025-11-12/tokens.txt ./sherpa-onnx-omnilingual-asr-1600-languages-300M-ctc-int8-2025-11-12/test_wavs/en.wav 
+
+OfflineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80, low_freq=20, high_freq=-400, dither=0, normalize_samples=True, snip_edges=False), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename="", decoder_filename="", joiner_filename=""), paraformer=OfflineParaformerModelConfig(model=""), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=""), whisper=OfflineWhisperModelConfig(encoder="", decoder="", language="", task="transcribe", tail_paddings=-1), fire_red_asr=OfflineFireRedAsrModelConfig(encoder="", decoder=""), tdnn=OfflineTdnnModelConfig(model=""), zipformer_ctc=OfflineZipformerCtcModelConfig(model=""), wenet_ctc=OfflineWenetCtcModelConfig(model=""), sense_voice=OfflineSenseVoiceModelConfig(model="", language="auto", use_itn=False), moonshine=OfflineMoonshineModelConfig(preprocessor="", encoder="", uncached_decoder="", cached_decoder=""), dolphin=OfflineDolphinModelConfig(model=""), canary=OfflineCanaryModelConfig(encoder="", decoder="", src_lang="", tgt_lang="", use_pnc=True), omnilingual=OfflineOmnilingualAsrCtcModelConfig(model="./sherpa-onnx-omnilingual-asr-1600-languages-300M-ctc-int8-2025-11-12/model.int8.onnx"), telespeech_ctc="", tokens="./sherpa-onnx-omnilingual-asr-1600-languages-300M-ctc-int8-2025-11-12/tokens.txt", num_threads=2, debug=False, provider="cpu", model_type="", modeling_unit="cjkchar", bpe_vocab=""), lm_config=OfflineLMConfig(model="", scale=0.5, lodr_scale=0.01, lodr_fst="", lodr_backoff_id=-1), ctc_fst_decoder_config=OfflineCtcFstDecoderConfig(graph="", max_active=3000), decoding_method="greedy_search", max_active_paths=4, hotwords_file="", hotwords_score=1.5, blank_penalty=0, rule_fsts="", rule_fars="", hr=HomophoneReplacerConfig(lexicon="", rule_fsts=""))
+Creating recognizer ...
+recognizer created in 0.360 s
+Started
+/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/offline-stream.cc:AcceptWaveformImpl:171 Creating a resampler:
+   in_sample_rate: 24000
+   output_sample_rate: 16000
+
+Done!
+
+./sherpa-onnx-omnilingual-asr-1600-languages-300M-ctc-int8-2025-11-12/test_wavs/en.wav
+{"lang": "", "emotion": "", "event": "", "text": "ask not what your country can do for you ask what you can do for your country", "timestamps": [0.14, 0.28, 0.36, 0.46, 0.50, 0.54, 0.58, 0.62, 0.64, 0.66, 0.70, 0.72, 0.74, 0.76, 0.78, 0.80, 0.84, 0.88, 0.94, 0.96, 0.98, 1.02, 1.06, 1.12, 1.16, 1.24, 1.28, 1.30, 1.34, 1.40, 1.44, 1.48, 1.58, 1.60, 1.64, 1.68, 1.70, 1.74, 1.78, 1.80, 2.04, 2.12, 2.26, 2.34, 2.40, 2.44, 2.46, 2.48, 2.50, 2.52, 2.56, 2.58, 2.60, 2.66, 2.70, 2.72, 2.76, 2.82, 2.86, 2.90, 2.98, 3.00, 3.04, 3.06, 3.10, 3.12, 3.16, 3.18, 3.20, 3.24, 3.30, 3.34, 3.36, 3.40, 3.46, 3.54, 3.62], "durations": [], "tokens":["a", "s", "k", " ", "n", "o", "t", " ", "w", "h", "a", "t", " ", "y", "o", "u", "r", " ", "c", "o", "u", "n", "t", "r", "y", " ", "c", "a", "n", " ", "d", "o", " ", "f", "o", "r", " ", "y", "o", "u", " ", "a", "s", "k", " ", "w", "h", "a", "t", " ", "y", "o", "u", " ", "c", "a", "n", " ", "d", "o", " ", "f", "o", "r", " ", "y", "o", "u", "r", " ", "c", "o", "u", "n", "t", "r", "y"], "words": []}
+----
+num threads: 2
+decoding method: greedy_search
+Elapsed seconds: 0.867 s
+Real time factor (RTF): 0.867 / 3.845 = 0.225

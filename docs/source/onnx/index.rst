@@ -49,7 +49,9 @@ Also, we show how to use it for speech recognition with pre-trained models.
    ./spoken-language-identification/index
    ./vad/index
    ./pretrained_models/index
+   ./pretrained_models/whisper/index
    ./moonshine/index
+   ./omnilingual-asr/index
    ./sense-voice/index
    ./paraformer/index
    ./nemo/index
