@@ -180,6 +180,7 @@ rst_epilog = """
 .. _Lazarus: https://www.lazarus-ide.org/
 .. _Moonshine: https://github.com/usefulsensors/moonshine
 .. _moonshine: https://github.com/usefulsensors/moonshine
+.. _Omnilingual ASR: https://github.com/facebookresearch/omnilingual-asr
 .. _FireRedAsr: https://github.com/FireRedTeam/FireRedASR
 .. _Dolphin: https://github.com/DataoceanAI/Dolphin
 .. _k2-fsa: https://github.com/k2-fsa

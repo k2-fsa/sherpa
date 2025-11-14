@@ -1060,7 +1060,7 @@ This model is converted from
 `<https://huggingface.co/csukuangfj/k2fsa-zipformer-chinese-english-mixed>`_
 
 which supports both Chinese and English. The model is contributed by the community
-and is trained on tens of thousands of some internal dataset.
+and is trained on tens of thousands hours of some internal dataset.
 
 In the following, we describe how to download it and use it with `sherpa-onnx`_.
 
@@ -1337,7 +1337,7 @@ This model is converted from
 `<https://huggingface.co/csukuangfj/k2fsa-zipformer-bilingual-zh-en-t>`_
 
 which supports both Chinese and English. The model is contributed by the community
-and is trained on tens of thousands of some internal dataset.
+and is trained on tens of thousands hours of some internal dataset.
 
 In the following, we describe how to download it and use it with `sherpa-onnx`_.
 
