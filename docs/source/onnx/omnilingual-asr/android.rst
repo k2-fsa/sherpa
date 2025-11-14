@@ -1,7 +1,7 @@
 Android APKs for Omnilingual ASR
 ================================
 
-You can find Android APKs for `Moonshine`_ with VAD at the following page
+You can find Android APKs for `Omnilingual ASR`_ with VAD at the following page
 
   `<https://k2-fsa.github.io/sherpa/onnx/vad/apk-asr.html>`_
 
