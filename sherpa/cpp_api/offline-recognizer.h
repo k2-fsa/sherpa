@@ -64,6 +64,10 @@ struct OfflineRecognizerConfig {
   /// GPU for computation
   bool use_gpu = false;
 
+  // true to use automatic-mixed-precision (amp) in neural
+  // network computation.
+  bool use_amp = false;
+
   std::string decoding_method = "greedy_search";
 
   /// used only for modified_beam_search
