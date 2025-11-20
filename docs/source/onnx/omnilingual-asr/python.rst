@@ -10,4 +10,4 @@ Please see
 
   - `<https://github.com/k2-fsa/sherpa-onnx/blob/master/python-api-examples/offline-omnilingual-asr-ctc-decode-files.py>`_
 
-for usages.
+for usage.

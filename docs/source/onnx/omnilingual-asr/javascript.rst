@@ -31,7 +31,7 @@ Please see
 
 for installation.
 
-The example for `Omnilingual`_ can be found at
+The example for `Omnilingual ASR`_ can be found at
 
   - `<https://github.com/k2-fsa/sherpa-onnx/blob/master/nodejs-addon-examples/test_asr_non_streaming_omnilingual_asr_ctc.js>`_
 
