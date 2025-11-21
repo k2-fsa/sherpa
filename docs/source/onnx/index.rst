@@ -85,6 +85,12 @@ Also, we show how to use it for speech recognition with pre-trained models.
 
 .. toctree::
    :maxdepth: 5
+   :caption: Qualcomm NPU (qnn, HTP)
+
+   ./qnn/index
+
+.. toctree::
+   :maxdepth: 5
    :caption: RKNN
 
    ./rknn/index
