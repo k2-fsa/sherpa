@@ -3,7 +3,7 @@
 Run executables on your phone with adb
 ======================================
 
-In :ref:`build-sherpa-onx-for-qualcomm-npu`, we have described how to generate
+In :ref:`build-sherpa-onnx-for-qualcomm-npu`, we have described how to generate
 executable files. This section describes how to run them with QNN models on your
 phone with adb.
 
@@ -94,9 +94,9 @@ Copy QNN library files
 ::::::::::::::::::::::
 
 Before you continue, we assume you have followed :ref:`onnx-download-qnn`
-to download QNN SDK and setup the environment variable ``QNN_SDK_ROOT``.
+to download QNN SDK and set up the environment variable ``QNN_SDK_ROOT``.
 
-You shoud run::
+You should run::
 
   echo $QNN_SDK_ROOT
 

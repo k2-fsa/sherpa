@@ -32,7 +32,7 @@ with QNN support.
 1. Build shared libraries
 :::::::::::::::::::::::::
 
-Please follow :ref:`build-sherpa-onx-for-qualcomm-npu`.
+Please follow :ref:`build-sherpa-onnx-for-qualcomm-npu`.
 
 In the end, you should get :ref:`qnn-build-shared-libs`. Copy them to
 the `jniLibs/arm64-v8a <https://github.com/k2-fsa/sherpa-onnx/tree/master/android/SherpaOnnxSimulateStreamingAsr/app/src/main/jniLibs/arm64-v8a>`_ directory.
@@ -70,15 +70,15 @@ the `jniLibs/arm64-v8a <https://github.com/k2-fsa/sherpa-onnx/tree/master/androi
    For instance, if you are using Xiaomi 17 Pro, you only need to copy ``libQnnHtpV81Stub.so``
    and ``libQnnHtpV81Skel.so`` to your phone.
 
-In the end, you should have the following files in side
+In the end, you should have the following files inside
 the `jniLibs/arm64-v8a <https://github.com/k2-fsa/sherpa-onnx/tree/master/android/SherpaOnnxSimulateStreamingAsr/app/src/main/jniLibs/arm64-v8a>`_ directory.
 
 .. code-block::
 
-  (py312) loaclhost:arm64-v8a fangjun$ pwd
+  (py312) localhost:arm64-v8a fangjun$ pwd
   /Users/fangjun/open-source/sherpa-onnx/android/SherpaOnnxSimulateStreamingAsr/app/src/main/jniLibs/arm64-v8a
 
-  (py312) loaclhost:arm64-v8a fangjun$ ls -lh
+  (py312) localhost:arm64-v8a fangjun$ ls -lh
   total 329768
   -rw-r--r--@ 1 fangjun  staff    15M 20 Nov 17:05 libonnxruntime.so
   -rw-r--r--@ 1 fangjun  staff   6.1M 20 Nov 13:32 libQnnCpu.so
@@ -116,15 +116,15 @@ You should see the following files in the end:
 
 .. code-block::
 
-  loaclhost:assets fangjun$ pwd
+  localhost:assets fangjun$ pwd
   /Users/fangjun/open-source/sherpa-onnx/android/SherpaOnnxSimulateStreamingAsr/app/src/main/assets
 
-  loaclhost:assets fangjun$ ls -lh
+  localhost:assets fangjun$ ls -lh
   total 3536
   drwxr-xr-x@ 8 fangjun  staff   256B 21 Nov 22:42 sherpa-onnx-qnn-10-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17-int8-android-aarch64
   -rw-r--r--@ 1 fangjun  staff   1.7M 13 Aug  2024 silero_vad.onnx
 
-  loaclhost:assets fangjun$ ls -lh sherpa-onnx-qnn-10-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17-int8-android-aarch64/
+  localhost:assets fangjun$ ls -lh sherpa-onnx-qnn-10-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17-int8-android-aarch64/
   total 466184
   -rw-r--r--@ 1 fangjun  staff    38B 10 Nov 11:03 info.txt
   -rw-r--r--@ 1 fangjun  staff   227M 18 Nov 17:21 libmodel.so
