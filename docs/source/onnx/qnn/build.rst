@@ -1,18 +1,18 @@
-.. _build-sherpa-onx-for-qualcomm-npu:
+.. _build-sherpa-onnx-for-qualcomm-npu:
 
 Build sherpa-onnx for Qualcomm NPU
 ==================================
 
 Before you continue, we assume you have followed :ref:`onnx-download-qnn`
-to download QNN SDK and setup the environment variable ``QNN_SDK_ROOT``.
+to download QNN SDK and set up the environment variable ``QNN_SDK_ROOT``.
 
-You shoud run::
+You should run::
 
   echo $QNN_SDK_ROOT
 
 to check that it points to the QNN SDK directory.
 
-Also, we assume you have installed Android NDK and setup the environment variable ``ANDROID_NDK``.
+Also, we assume you have installed Android NDK and set up the environment variable ``ANDROID_NDK``.
 
 You can use the following commands to build `sherpa-onnx`_ for Qualcomm NPU.
 
