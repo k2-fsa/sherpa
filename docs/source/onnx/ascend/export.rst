@@ -3,7 +3,9 @@
 Export models to Ascend NPU
 ==============================
 
-Note that in the following examples, we use ``CANN 8.0.0`` for Ascend 910B and 310P3.
+Note that in the following examples, we use
+``CANN 7.0``, ``CANN 8.0``, and ``CANN 8.2`` for
+Ascend 910B, 910B2, 910B3, and 310P3.
 
 You can change it according to your environment.
 

@@ -3,6 +3,8 @@ Zipformer CTC models
 
 This page lists non-streaming Zipformer CTC models from `icefall`_.
 
+.. _sherpa-onnx-zipformer-ctc-zh-int8-2025-07-03:
+
 sherpa-onnx-zipformer-ctc-zh-int8-2025-07-03 (Chinese)
 ------------------------------------------------------------
 
@@ -21,6 +23,10 @@ is given below:
    - 7.75
 
 In the following, we describe how to download it and use it with `sherpa-onnx`_.
+
+.. hint::
+
+   To use ``Ascend NPU`` with this model, please see :ref:`sherpa-onnx-ascend-910B-cann-7.0-5-seconds-zipformer-ctc-zh-2025-07-03`.
 
 Pre-built Android APK
 ~~~~~~~~~~~~~~~~~~~~~
