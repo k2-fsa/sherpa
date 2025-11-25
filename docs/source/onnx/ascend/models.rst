@@ -179,7 +179,7 @@ The following example demonstrates how to use the model to decode a long wave fi
 
    wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/lei-jun-test.wav
 
-   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-ascend-910B-cann-8.0-paraformer-zh-2023-03-28.tar.bz2
+   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models-ascend/sherpa-onnx-ascend-910B-cann-8.0-paraformer-zh-2023-03-28.tar.bz2
    tar xvf sherpa-onnx-ascend-910B-cann-8.0-paraformer-zh-2023-03-28.tar.bz2
    rm sherpa-onnx-ascend-910B-cann-8.0-paraformer-zh-2023-03-28.tar.bz2
 
