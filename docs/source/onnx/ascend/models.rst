@@ -1,17 +1,18 @@
 Pre-trained models
 ==================
 
-You can download pre-trained models for Ascend NPU from `<https://github.com/k2-fsa/sherpa-onnx/releases/tag/asr-models>`_.
+You can download pre-trained models for Ascend NPU from `<https://github.com/k2-fsa/sherpa-onnx/releases/tag/asr-models-ascend>`_.
 
-We provide exported ``*.om`` models for 910B, 910B2, and 310P3 with CANN 8.0.0 on Linux aarch64.
+We provide exported ``*.om`` models for 910B, 910B2, and 310P3 with
+CANN ``7.0``, ``8.0``, ``8.2`` on Linux aarch64.
 
 If you need models for other types of NPU or for a different version of CANN, please
 see :ref:`export-models-to-ascend-npu-onnx`.
 
-.. _sherpa-onnx-ascend-910B-sense-voice-zh-en-ja-ko-yue-2024-07-17:
+.. _sherpa-onnx-ascend-910B-cann-8.0-sense-voice-zh-en-ja-ko-yue-2024-07-17:
 
-sherpa-onnx-ascend-910B-sense-voice-zh-en-ja-ko-yue-2024-07-17 (Chinese, English, Japanese, Korean, Cantonese, 中英日韩粤语)
--------------------------------------------------------------------------------------------------------------------------------------
+sherpa-onnx-ascend-910B-cann-8.0-sense-voice-zh-en-ja-ko-yue-2024-07-17 (Chinese, English, Japanese, Korean, Cantonese, 中英日韩粤语)
+------------------------------------------------------------------------------------------------------------------------------------------
 
 This model is converted from :ref:`sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17` using code from the following URL:
 
@@ -42,15 +43,15 @@ The following example demonstrates how to use the model to decode a long wave fi
 
    wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/lei-jun-test.wav
 
-   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-ascend-910B-sense-voice-zh-en-ja-ko-yue-2024-07-17.tar.bz2
-   tar xvf sherpa-onnx-ascend-910B-sense-voice-zh-en-ja-ko-yue-2024-07-17.tar.bz2
-   rm sherpa-onnx-ascend-910B-sense-voice-zh-en-ja-ko-yue-2024-07-17.tar.bz2
+   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models-ascend/sherpa-onnx-ascend-910B-cann-8.0-sense-voice-zh-en-ja-ko-yue-2024-07-17.tar.bz2
+   tar xvf sherpa-onnx-ascend-910B-cann-8.0-sense-voice-zh-en-ja-ko-yue-2024-07-17.tar.bz2
+   rm sherpa-onnx-ascend-910B-cann-8.0-sense-voice-zh-en-ja-ko-yue-2024-07-17.tar.bz2
 
-   ls -lh sherpa-onnx-ascend-910B-sense-voice-zh-en-ja-ko-yue-2024-07-17
+   ls -lh sherpa-onnx-ascend-910B-cann-8.0-sense-voice-zh-en-ja-ko-yue-2024-07-17
 
 You should see the following output::
 
-  ls -lh sherpa-onnx-ascend-910B-sense-voice-zh-en-ja-ko-yue-2024-07-17/
+  ls -lh sherpa-onnx-ascend-910B-cann-8.0-sense-voice-zh-en-ja-ko-yue-2024-07-17/
   total 999M
   -rw-r--r-- 1 root root 204K Oct 23 21:43 features.bin
   -rw-r--r-- 1 root root   71 Oct 23 13:52 LICENSE
@@ -75,8 +76,8 @@ Then run:
     --provider=ascend \
     --silero-vad-model=./silero_vad.onnx \
     --silero-vad-threshold=0.4 \
-    --sense-voice-model=./sherpa-onnx-ascend-910B-sense-voice-zh-en-ja-ko-yue-2024-07-17/model.om \
-    --tokens=./sherpa-onnx-ascend-910B-sense-voice-zh-en-ja-ko-yue-2024-07-17/tokens.txt \
+    --sense-voice-model=./sherpa-onnx-ascend-910B-cann-8.0-sense-voice-zh-en-ja-ko-yue-2024-07-17/model.om \
+    --tokens=./sherpa-onnx-ascend-910B-cann-8.0-sense-voice-zh-en-ja-ko-yue-2024-07-17/tokens.txt \
     ./lei-jun-test.wav
 
 .. raw:: html
@@ -119,18 +120,18 @@ The following example demonstrates how to use the model to decode a short wave f
 
   ./bin/sherpa-onnx-offline \
     --provider=ascend \
-    --sense-voice-model=./sherpa-onnx-ascend-910B-sense-voice-zh-en-ja-ko-yue-2024-07-17/model.om \
-    --tokens=./sherpa-onnx-ascend-910B-sense-voice-zh-en-ja-ko-yue-2024-07-17/tokens.txt \
-    ./sherpa-onnx-ascend-910B-sense-voice-zh-en-ja-ko-yue-2024-07-17/test_wavs/zh.wav
+    --sense-voice-model=./sherpa-onnx-ascend-910B-cann-8.0-sense-voice-zh-en-ja-ko-yue-2024-07-17/model.om \
+    --tokens=./sherpa-onnx-ascend-910B-cann-8.0-sense-voice-zh-en-ja-ko-yue-2024-07-17/tokens.txt \
+    ./sherpa-onnx-ascend-910B-cann-8.0-sense-voice-zh-en-ja-ko-yue-2024-07-17/test_wavs/zh.wav
 
 The output is given below:
 
 .. literalinclude:: ./code-sense-voice-2024-04-17/short.txt
 
-.. _sherpa-onnx-ascend-910B-sense-voice-zh-en-ja-ko-yue-2025-09-09:
+.. _sherpa-onnx-ascend-910B-cann-8.0-sense-voice-zh-en-ja-ko-yue-2025-09-09:
 
-sherpa-onnx-ascend-910B-sense-voice-zh-en-ja-ko-yue-2025-09-09 (Chinese, English, Japanese, Korean, Cantonese, 中英日韩粤语)
-----------------------------------------------------------------------------------------------------------------------------------
+sherpa-onnx-ascend-910B-cann-8.0-sense-voice-zh-en-ja-ko-yue-2025-09-09 (Chinese, English, Japanese, Korean, Cantonese, 中英日韩粤语)
+---------------------------------------------------------------------------------------------------------------------------------------
 
 This model is converted from :ref:`sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09` using code from the following URL:
 
@@ -146,11 +147,11 @@ The original PyTorch checkpoint is available at
 
   `<https://huggingface.co/ASLP-lab/WSYue-ASR/tree/main/sensevoice_small_yue>`_
 
-Please refer to :ref:`sherpa-onnx-ascend-910B-sense-voice-zh-en-ja-ko-yue-2024-07-17` for how to use this model.
+Please refer to :ref:`sherpa-onnx-ascend-910B-cann-8.0-sense-voice-zh-en-ja-ko-yue-2024-07-17` for how to use this model.
 
-.. _sherpa-onnx-ascend-910B-paraformer-zh-2023-03-28:
+.. _sherpa-onnx-ascend-910B-cann-8.0-paraformer-zh-2023-03-28:
 
-sherpa-onnx-ascend-910B-paraformer-zh-2023-03-28 (Chinese + English)
+sherpa-onnx-ascend-910B-cann-8.0-paraformer-zh-2023-03-28 (Chinese + English)
 --------------------------------------------------------------------------------
 
 This model is converted from :ref:`sherpa_onnx_offline_paraformer_zh_2023_03_28_chinese` using code from the following URL:
@@ -178,16 +179,16 @@ The following example demonstrates how to use the model to decode a long wave fi
 
    wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/lei-jun-test.wav
 
-   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-ascend-910B-paraformer-zh-2023-03-28.tar.bz2
-   tar xvf sherpa-onnx-ascend-910B-paraformer-zh-2023-03-28.tar.bz2
-   rm sherpa-onnx-ascend-910B-paraformer-zh-2023-03-28.tar.bz2
+   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-ascend-910B-cann-8.0-paraformer-zh-2023-03-28.tar.bz2
+   tar xvf sherpa-onnx-ascend-910B-cann-8.0-paraformer-zh-2023-03-28.tar.bz2
+   rm sherpa-onnx-ascend-910B-cann-8.0-paraformer-zh-2023-03-28.tar.bz2
 
-   ls -lh sherpa-onnx-ascend-910B-paraformer-zh-2023-03-28
+   ls -lh sherpa-onnx-ascend-910B-cann-8.0-paraformer-zh-2023-03-28
 
 
 You should see the following output::
 
-  ls -lh sherpa-onnx-ascend-910B-paraformer-zh-2023-03-28
+  ls -lh sherpa-onnx-ascend-910B-cann-8.0-paraformer-zh-2023-03-28
   total 1.1G
   -rw------- 1 root root 291M Oct 17 23:39 decoder.om
   -rw------- 1 root root 701M Oct 17 23:39 encoder.om
@@ -212,8 +213,8 @@ Then run:
     --provider=ascend \
     --silero-vad-model=./silero_vad.onnx \
     --silero-vad-threshold=0.4 \
-    --paraformer="sherpa-onnx-ascend-910B-paraformer-zh-2023-03-28/encoder.om,sherpa-onnx-ascend-910B-paraformer-zh-2023-03-28/predictor.om,sherpa-onnx-ascend-910B-paraformer-zh-2023-03-28/decoder.om" \
-    --tokens=sherpa-onnx-ascend-910B-paraformer-zh-2023-03-28/tokens.txt \
+    --paraformer="sherpa-onnx-ascend-910B-cann-8.0-paraformer-zh-2023-03-28/encoder.om,sherpa-onnx-ascend-910B-cann-8.0-paraformer-zh-2023-03-28/predictor.om,sherpa-onnx-ascend-910B-cann-8.0-paraformer-zh-2023-03-28/decoder.om" \
+    --tokens=sherpa-onnx-ascend-910B-cann-8.0-paraformer-zh-2023-03-28/tokens.txt \
     ./lei-jun-test.wav
 
 .. raw:: html
@@ -256,18 +257,18 @@ The following example demonstrates how to use the model to decode a short wave f
 
   ./bin/sherpa-onnx-offline \
     --provider=ascend \
-    --paraformer="sherpa-onnx-ascend-910B-paraformer-zh-2023-03-28/encoder.om,sherpa-onnx-ascend-910B-paraformer-zh-2023-03-28/predictor.om,sherpa-onnx-ascend-910B-paraformer-zh-2023-03-28/decoder.om" \
-    --tokens=sherpa-onnx-ascend-910B-paraformer-zh-2023-03-28/tokens.txt \
-    sherpa-onnx-ascend-910B-paraformer-zh-2023-03-28/test_wavs/1.wav \
+    --paraformer="sherpa-onnx-ascend-910B-cann-8.0-paraformer-zh-2023-03-28/encoder.om,sherpa-onnx-ascend-910B-cann-8.0-paraformer-zh-2023-03-28/predictor.om,sherpa-onnx-ascend-910B-cann-8.0-paraformer-zh-2023-03-28/decoder.om" \
+    --tokens=sherpa-onnx-ascend-910B-cann-8.0-paraformer-zh-2023-03-28/tokens.txt \
+    sherpa-onnx-ascend-910B-cann-8.0-paraformer-zh-2023-03-28/test_wavs/1.wav \
 
 The output is given below:
 
 .. literalinclude:: ./code-paraformer-2023-03-28/short.txt
 
 
-.. _sherpa-onnx-ascend-910B2-paraformer-zh-2025-10-07:
+.. _sherpa-onnx-ascend-910B2-cann-8.0-paraformer-zh-2025-10-07:
 
-sherpa-onnx-ascend-910B2-paraformer-zh-2025-10-07 (四川话、重庆话、川渝方言)
+sherpa-onnx-ascend-910B2-cann-8.0-paraformer-zh-2025-10-07 (四川话、重庆话、川渝方言)
 ----------------------------------------------------------------------------------------------------
 
 This model is converted from :ref:`sherpa-onnx-paraformer-zh-int8-2025-10-07` using code from the following URL:
@@ -289,4 +290,50 @@ The original PyTorch checkpoint is available at
    It supports dynamic input shapes, but the batch size is fixed to 1 at present.
 
 
-Please refer to :ref:`sherpa-onnx-ascend-910B-paraformer-zh-2023-03-28` for how to use this model.
+Please refer to :ref:`sherpa-onnx-ascend-910B-cann-8.0-paraformer-zh-2023-03-28` for how to use this model.
+
+.. _sherpa-onnx-ascend-910B-cann-7.0-5-seconds-zipformer-ctc-zh-2025-07-03:
+
+sherpa-onnx-ascend-910B-cann-7.0-5-seconds-zipformer-ctc-zh-2025-07-03 (中文)
+----------------------------------------------------------------------------------------------------
+
+This model is converted from :ref:`sherpa-onnx-zipformer-ctc-zh-int8-2025-07-03` and supports only Chinese.
+
+This model only accepts input audio up to ``5`` seconds. Audio shorter than ``5`` seconds is internally padded,
+and audio longer than ``5`` seconds is truncated.
+
+You can select a model that accepts longer input. For instance,
+`sherpa-onnx-ascend-910B-cann-7.0-10-seconds-zipformer-ctc-zh-2025-07-03 <https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models-ascend/sherpa-onnx-ascend-910B-cann-7.0-10-seconds-zipformer-ctc-zh-2025-07-03.tar.bz2>`_ can accept input audio up to ``10`` seconds.
+
+We provide models for accepting input ranging from 5 seconds to 30 seconds. See
+`<https://github.com/k2-fsa/sherpa-onnx/releases/tag/asr-models-ascend>`_ for more details.
+
+.. hint::
+
+   You can find how to run the export code at
+
+      `<https://github.com/k2-fsa/sherpa-onnx/blob/master/.github/workflows/export-zipformer-ctc-to-ascend-20250703.yaml>`_
+
+Decode a short file
+~~~~~~~~~~~~~~~~~~~
+
+The following example demonstrates how to use the model to decode a short wave file.
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx/build
+
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models-ascend/sherpa-onnx-ascend-910B-cann-7.0-5-seconds-zipformer-ctc-zh-2025-07-03.tar.bz2
+
+  tar xvf sherpa-onnx-ascend-910B-cann-7.0-5-seconds-zipformer-ctc-zh-2025-07-03.tar.bz2
+  rm sherpa-onnx-ascend-910B-cann-7.0-5-seconds-zipformer-ctc-zh-2025-07-03.tar.bz2
+
+  ./bin/sherpa-onnx-offline \
+    --provider=ascend \
+    --zipformer-ctc-model=./sherpa-onnx-ascend-910B-cann-7.0-5-seconds-zipformer-ctc-zh-2025-07-03/model.om \
+    --tokens=./sherpa-onnx-ascend-910B-cann-7.0-5-seconds-zipformer-ctc-zh-2025-07-03/tokens.txt \
+    ./sherpa-onnx-ascend-910B-cann-7.0-5-seconds-zipformer-ctc-zh-2025-07-03/test_wavs/0.wav
+
+The output is given below:
+
+.. literalinclude:: ./code-zipformer-20250703/short.txt
