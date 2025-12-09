@@ -1,18 +1,39 @@
 .. _run-exe-on-your-phone-with-qnn:
 
-Run executables on your phone with adb
-======================================
+Run executables on your phone with adb (using libmodel.so)
+==========================================================
 
 In :ref:`build-sherpa-onnx-for-qualcomm-npu`, we have described how to generate
-executable files. This section describes how to run them with QNN models on your
+executable files. This section describes how to run them with QNN models (``libmodel.so``) on your
 phone with adb.
+
+.. hint::
+
+   ``libmodel.so`` is **OS-dependent**, **QNN-SDK-independent**, but **SoC-independent**.
+
+    - **OS-dependent**: a ``libmodel.so`` built for Android/arm64 cannot run on Linux/arm64, and vice-versa.
+    - **QNN-SDK-independent**: Once built, ``libmodel.so`` does not depend on the version of the QNN SDK installed on the target device.
+    - **SoC-independent**: the same ``libmodel.so`` can run on multiple Qualcomm chips such as SM8850, SA8259, QCS9100, and others.
+
+   The trade-off is that the first-run initialization is slow, because the context has to be generated at runtime.
+
+   If you want faster startup, use an SoC-specific but OS-independent context binary (``model.bin``).
+   For guidance, see :ref:`run-exe-on-your-phone-with-qnn-binary`.
+
+   .. include:: qnn_model_comparison.rst
 
 Download a QNN model
 --------------------
 
-You can find available QNN models at
+You can find available QNN models (``libmodel.so``) at
 
   `<https://github.com/k2-fsa/sherpa-onnx/releases/tag/asr-models-qnn>`_
+
+.. hint::
+
+   For ``model.bin``, please see
+
+    `<https://github.com/k2-fsa/sherpa-onnx/releases/tag/asr-models-qnn-binary>`_
 
 Since QNN does not support dynamic input shapes, we limit the maximum duration the model can handle.
 For example, if the limit is 10 seconds, any input shorter than 10 seconds will be padded to 10 seconds,
