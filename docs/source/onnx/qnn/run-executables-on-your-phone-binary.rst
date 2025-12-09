@@ -75,7 +75,7 @@ You should see the following files:
 Copy files to your phone
 ------------------------
 
-We assume you put files in the directory ``/data/local/tmp/sherpa-onnx`` on your phone.
+We assume you put files in the directory ``/data/local/tmp/binary`` on your phone.
 
 .. code-block::
 
@@ -137,18 +137,18 @@ to check that it points to the QNN SDK directory.
 
   # Run on your computer
 
-  adb push $QNN_SDK_ROOT/lib/aarch64-android/libQnnHtp.so /data/local/tmp/sherpa-onnx/
-  adb push $QNN_SDK_ROOT/lib/aarch64-android/libQnnHtpPrepare.so /data/local/tmp/sherpa-onnx/
-  adb push $QNN_SDK_ROOT/lib/aarch64-android/libQnnSystem.so /data/local/tmp/sherpa-onnx/
+  adb push $QNN_SDK_ROOT/lib/aarch64-android/libQnnHtp.so /data/local/tmp/binary/
+  adb push $QNN_SDK_ROOT/lib/aarch64-android/libQnnHtpPrepare.so /data/local/tmp/binary/
+  adb push $QNN_SDK_ROOT/lib/aarch64-android/libQnnSystem.so /data/local/tmp/binary/
 
   # Since my Xiami 17 Pro is SM8850, which corresponds to Htp Arch 81, so I choose
   # libQnnHtpV81Stub.so and libQnnHtpV81Skel.so
   #
   # Please udpate it accordingly to match your device
   #
-  adb push $QNN_SDK_ROOT/lib/aarch64-android/libQnnHtpV81Stub.so /data/local/tmp/sherpa-onnx/
+  adb push $QNN_SDK_ROOT/lib/aarch64-android/libQnnHtpV81Stub.so /data/local/tmp/binary/
 
-  adb push $QNN_SDK_ROOT/lib/hexagon-v81/unsigned/libQnnHtpV81Skel.so /data/local/tmp/sherpa-onnx/
+  adb push $QNN_SDK_ROOT/lib/hexagon-v81/unsigned/libQnnHtpV81Skel.so /data/local/tmp/binary/
 
 Run it !
 --------
