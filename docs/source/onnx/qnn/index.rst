@@ -14,5 +14,6 @@ and so on.
 
    ./download-qnn.rst
    ./build.rst
+   ./run-executables-on-your-phone-binary.rst
    ./run-executables-on-your-phone.rst
    ./build-android-demo.rst
