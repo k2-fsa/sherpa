@@ -127,6 +127,12 @@ You should run::
 
 to check that it points to the QNN SDK directory.
 
+.. warning::
+
+   We use QNN SDK ``v2.40.0.251030`` to generate ``model.bin``.
+
+   If you change the QNN SDK version, please re-generate the ``model.bin`` by yourself.
+
 .. code-block::
 
   # Run on your computer
