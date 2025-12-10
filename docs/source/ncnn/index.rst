@@ -4,7 +4,7 @@ sherpa-ncnn
 .. hint::
 
   During speech recognition, it does not need to access the Internet.
-  Everyting is processed locally on your device.
+  Everything is processed locally on your device.
 
 
 We support using `ncnn`_ to replace PyTorch for neural network computation.
