@@ -10,7 +10,7 @@ run it on you iPhone or iPad.
 .. hint::
 
   During speech recognition, it does not need to access the Internet.
-  Everyting is processed locally on your device.
+  Everything is processed locally on your device.
 
 .. toctree::
    :maxdepth: 3

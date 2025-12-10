@@ -4,7 +4,7 @@ sherpa
 .. hint::
 
   During speech recognition, it does not need to access the Internet.
-  Everyting is processed locally on your device.
+  Everything is processed locally on your device.
 
 `k2-fsa/sherpa`_ use `PyTorch`_ for neural network computation.
 

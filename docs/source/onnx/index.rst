@@ -4,7 +4,7 @@ sherpa-onnx
 .. hint::
 
   During speech recognition, it does not need to access the Internet.
-  Everyting is processed locally on your device.
+  Everything is processed locally on your device.
 
 We support using `onnx`_ with `onnxruntime`_ to replace `PyTorch`_ for neural
 network computation. The code is put in a separate repository `sherpa-onnx`_.

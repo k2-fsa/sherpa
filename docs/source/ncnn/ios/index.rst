@@ -12,7 +12,7 @@ We also provide video demos for real-time speech recognition.
 .. hint::
 
   During speech recognition, it does not need to access the Internet.
-  Everyting is processed locally on your iPhone or iPad.
+  Everything is processed locally on your iPhone or iPad.
 
 .. toctree::
    :maxdepth: 3

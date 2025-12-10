@@ -10,7 +10,7 @@ video demos.
 .. hint::
 
   During speech recognition, it does not need to access the Internet.
-  Everyting is processed locally on your phone.
+  Everything is processed locally on your phone.
 
 .. toctree::
    :maxdepth: 2
