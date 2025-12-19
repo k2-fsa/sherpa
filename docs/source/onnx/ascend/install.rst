@@ -23,7 +23,9 @@ Build sherpa-onnx
   cd sherpa-onnx
   mkdir build
   cd build
-  cmake -DSHERPA_ONNX_ENABLE_ASCEND_NPU=ON ..
+  cmake -DSHERPA_ONNX_ENABLE_ASCEND_NPU=ON \
+        -DBUILD_SHARED_LIBS=ON \
+        ..
 
   make
 
