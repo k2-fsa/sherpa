@@ -139,6 +139,11 @@ This model is converted from :ref:`sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-
 
 .. hint::
 
+  The output of this model does not include punctuation marks. If you need output with punctuation, please use sherpa-onnx-ascend-910B-cann-8.0-sense-voice-zh-en-ja-ko-yue-2024-07-17.
+
+
+.. hint::
+
    You can find how to run the export code at
 
       `<https://github.com/k2-fsa/sherpa-onnx/blob/master/.github/workflows/export-sense-voice-to-ascend-npu.yaml>`_
