@@ -82,11 +82,11 @@ The following code shows how to use ``fp32`` and ``chunk=16`` models:
     --joiner=sherpa-onnx-kws-zipformer-zh-en-3M-2025-12-20/joiner-epoch-13-avg-2-chunk-16-left-64.onnx \
     --tokens=sherpa-onnx-kws-zipformer-zh-en-3M-2025-12-20/tokens.txt \
     --keywords-file=sherpa-onnx-kws-zipformer-zh-en-3M-2025-12-20/test_wavs/keywords.txt  \
-    sherpa-onnx-kws-zipformer-zh-en-3M-2025-12.20/test_wavs/zh_3.wav \
-    sherpa-onnx-kws-zipformer-zh-en-3M-2025-12.20/test_wavs/zh_4.wav \
-    sherpa-onnx-kws-zipformer-zh-en-3M-2025-12.20/test_wavs/zh_5.wav \
-    sherpa-onnx-kws-zipformer-zh-en-3M-2025-12.20/test_wavs/en_0.wav \
-    sherpa-onnx-kws-zipformer-zh-en-3M-2025-12.20/test_wavs/en_1.wav
+    sherpa-onnx-kws-zipformer-zh-en-3M-2025-12-20/test_wavs/zh_3.wav \
+    sherpa-onnx-kws-zipformer-zh-en-3M-2025-12-20/test_wavs/zh_4.wav \
+    sherpa-onnx-kws-zipformer-zh-en-3M-2025-12-20/test_wavs/zh_5.wav \
+    sherpa-onnx-kws-zipformer-zh-en-3M-2025-12-20/test_wavs/en_0.wav \
+    sherpa-onnx-kws-zipformer-zh-en-3M-2025-12-20/test_wavs/en_1.wav
 
 .. note::
 
