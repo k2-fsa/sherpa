@@ -236,7 +236,7 @@ You can also find the log below:
 
 .. hint::
 
-   The model actually has processed 10 seconds of audio, so the RTF is even smaller.
+   The model actually processed 10 seconds of audio, so the RTF is even smaller.
 
 Congratulations
 ---------------

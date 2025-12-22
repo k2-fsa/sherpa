@@ -1,0 +1,21 @@
+/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:373 ./sherpa-onnx-offline --provider=qnn --tokens=./sherpa-onnx-qnn-SM8850-binary-5-seconds-zipformer-ctc-zh-2025-12-22-int8/tokens.txt --zipformer-ctc.qnn-backend-lib=./libQnnHtp.so --zipformer-ctc.qnn-system-lib=./libQnnSystem.so --zipformer-ctc.qnn-context-binary=./sherpa-onnx-qnn-SM8850-binary-5-seconds-zipformer-ctc-zh-2025-12-22-int8/model.bin ./sherpa-onnx-qnn-SM8850-binary-5-seconds-zipformer-ctc-zh-2025-12-22-int8/test_wavs/0.wav 
+
+OfflineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80, low_freq=20, high_freq=-400, dither=0, normalize_samples=True, snip_edges=False), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename="", decoder_filename="", joiner_filename=""), paraformer=OfflineParaformerModelConfig(model=""), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=""), whisper=OfflineWhisperModelConfig(encoder="", decoder="", language="", task="transcribe", tail_paddings=-1), fire_red_asr=OfflineFireRedAsrModelConfig(encoder="", decoder=""), tdnn=OfflineTdnnModelConfig(model=""), zipformer_ctc=OfflineZipformerCtcModelConfig(model="", qnn_config=QnnConfig(backend_lib="./libQnnHtp.so", context_binary="./sherpa-onnx-qnn-SM8850-binary-5-seconds-zipformer-ctc-zh-2025-12-22-int8/model.bin", system_lib="./libQnnSystem.so"), ), wenet_ctc=OfflineWenetCtcModelConfig(model=""), sense_voice=OfflineSenseVoiceModelConfig(model="", language="auto", use_itn=False), moonshine=OfflineMoonshineModelConfig(preprocessor="", encoder="", uncached_decoder="", cached_decoder=""), dolphin=OfflineDolphinModelConfig(model=""), canary=OfflineCanaryModelConfig(encoder="", decoder="", src_lang="", tgt_lang="", use_pnc=True), omnilingual=OfflineOmnilingualAsrCtcModelConfig(model=""), telespeech_ctc="", tokens="./sherpa-onnx-qnn-SM8850-binary-5-seconds-zipformer-ctc-zh-2025-12-22-int8/tokens.txt", num_threads=2, debug=False, provider="qnn", model_type="", modeling_unit="cjkchar", bpe_vocab=""), lm_config=OfflineLMConfig(model="", scale=0.5, lodr_scale=0.01, lodr_fst="", lodr_backoff_id=-1), ctc_fst_decoder_config=OfflineCtcFstDecoderConfig(graph="", max_active=3000), decoding_method="greedy_search", max_active_paths=4, hotwords_file="", hotwords_score=1.5, blank_penalty=0, rule_fsts="", rule_fars="", hr=HomophoneReplacerConfig(lexicon="", rule_fsts=""))
+Creating recognizer ...
+/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/qnn/utils.cc:CopyGraphsInfo:465 version: 3
+recognizer created in 0.583 s
+Started
+/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/qnn/offline-zipformer-ctc-model-qnn.cc:Run:89 Number of input frames 561 is too large. Truncate it to 500 frames.
+/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/qnn/offline-zipformer-ctc-model-qnn.cc:Run:93 Recognition result may be truncated/incomplete. Please select a model accepting longer audios.
+Done!
+
+./sherpa-onnx-qnn-SM8850-binary-5-seconds-zipformer-ctc-zh-2025-12-22-int8/test_wavs/0.wav
+{"lang": "", "emotion": "", "event": "", "text": "", "timestamps": [], "durations": [], "tokens":[], "ys_log_probs": [], "words": []}
+----
+num threads: 2
+decoding method: greedy_search
+Elapsed seconds: 0.306 s
+Real time factor (RTF): 0.306 / 5.611 = 0.055
+     0.0ms [WARN   ] QnnDsp <W> Initializing HtpProvider
+     0.0ms [WARN   ] QnnDsp <W> m_CFBCallbackInfoObj is not initialized, return emptyList
+     0.0ms [WARN   ] QnnDsp <W> m_CFBCallbackInfoObj is not initialized, return emptyList
