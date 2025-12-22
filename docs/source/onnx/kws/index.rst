@@ -78,15 +78,16 @@ usage as follows:
                              ▁HE Y ▁S I RI #0.35
 
      --tokens TEXT       The path to tokens.txt.
-     --tokens-type TEXT  The type of modeling units, should be cjkchar, bpe, cjkchar+bpe, fpinyin or ppinyin.
-                         fpinyin means full pinyin, each cjkchar has a pinyin(with tone). ppinyin
-                         means partial pinyin, it splits pinyin into initial and final,
+     --tokens-type {cjkchar,bpe,cjkchar+bpe,fpinyin,ppinyin,phone+ppinyin}
+                         The type of modeling units, should be cjkchar, bpe, cjkchar+bpe, fpinyin ppinyin or phone+ppinyin. fpinyin means full pinyin, each cjkchar has a pinyin(with tone). ppinyin means partial pinyin, it splits pinyin into initial and final, phone means English phonemes in CMU dictionary format.
+     --lexicon LEXICON     The path to lexicon.txt. Only required when tokens-type is phone+ppinyin.
      --bpe-model TEXT    The path to bpe.model. Only required when tokens-type is bpe or cjkchar+bpe.
      --help              Show this message and exit.
 
 .. note::
 
-   If the tokens-type is ``fpinyin`` or ``ppinyin``, you MUST provide the original keyword (starting with ``@``).
+   If the tokens-type is ``fpinyin``, ``ppinyin`` or ``phone+ppinyin``, you MUST provide the original keyword (starting with ``@``)
+   and the original keyword CAN NOT contain spaces, please replace spaces with underscores (``_``).
 
 .. note::
 
@@ -132,4 +133,8 @@ Here is a demo video (Note: It is in Chinese).
 Pretrained models
 -----------------
 
-You can find the pre-trained models in :ref:`sherpa-onnx-kws-pre-trained-models`.
+.. toctree::
+   :maxdepth: 5
+
+   pretrained_models/index
+ 
