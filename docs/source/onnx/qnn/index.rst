@@ -17,3 +17,4 @@ and so on.
    ./run-executables-on-your-phone-binary.rst
    ./run-executables-on-your-phone.rst
    ./build-android-demo.rst
+   ./models.rst

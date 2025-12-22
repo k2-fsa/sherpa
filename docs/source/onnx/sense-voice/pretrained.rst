@@ -6,8 +6,12 @@ This page describes how to download pre-trained `SenseVoice`_ models.
 
 .. _sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17:
 
-sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17 (Chinese, English, Japanese, Korean, Cantonese, 中英日韩粤语)
+sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17-int8 (Chinese, English, Japanese, Korean, Cantonese, 中英日韩粤语)
 ------------------------------------------------------------------------------------------------------------------------
+
+.. hint::
+
+   This model supports punctuations if you set ``use_itn`` to 1.
 
 This model is converted from `<https://www.modelscope.cn/models/iic/SenseVoiceSmall>`_
 using the script `export-onnx.py <https://github.com/k2-fsa/sherpa-onnx/blob/master/scripts/sense-voice/export-onnx.py>`_.
@@ -70,55 +74,57 @@ Please use the following commands to download it::
 
   cd /path/to/sherpa-onnx
 
-  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17.tar.bz2
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17.tar.bz2
 
-  tar xvf sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17.tar.bz2
-  rm sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17.tar.bz2
+  tar xvf sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17.tar.bz2
+  rm sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17.tar.bz2
 
 After downloading, you should find the following files::
 
-  ls -lh sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17
+  ls -lh sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17
 
-  total 1.1G
-  -rw-r--r-- 1 runner docker   71 Jul 18 13:06 LICENSE
-  -rw-r--r-- 1 runner docker  104 Jul 18 13:06 README.md
-  -rwxr-xr-x 1 runner docker 5.8K Jul 18 13:06 export-onnx.py
-  -rw-r--r-- 1 runner docker 229M Jul 18 13:06 model.int8.onnx
-  -rw-r--r-- 1 runner docker 895M Jul 18 13:06 model.onnx
-  drwxr-xr-x 2 runner docker 4.0K Jul 18 13:06 test_wavs
-  -rw-r--r-- 1 runner docker 309K Jul 18 13:06 tokens.txt
+  total 494168
+  -rwxr-xr-x@ 1 fangjun  staff   5.8K 18 Jul  2024 export-onnx.py
+  -rw-r--r--@ 1 fangjun  staff    71B 18 Jul  2024 LICENSE
+  -rw-r--r--@ 1 fangjun  staff   228M 18 Jul  2024 model.int8.onnx
+  -rw-r--r--@ 1 fangjun  staff   104B 18 Jul  2024 README.md
+  drwxr-xr-x@ 7 fangjun  staff   224B 18 Jul  2024 test_wavs
+  -rw-r--r--@ 1 fangjun  staff   308K 18 Jul  2024 tokens.txt
 
-  ls -lh sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/test_wavs
+  ls -lh sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17/test_wavs
 
-  total 940K
-  -rw-r--r-- 1 runner docker 224K Jul 18 13:06 en.wav
-  -rw-r--r-- 1 runner docker 226K Jul 18 13:06 ja.wav
-  -rw-r--r-- 1 runner docker 145K Jul 18 13:06 ko.wav
-  -rw-r--r-- 1 runner docker 161K Jul 18 13:06 yue.wav
-  -rw-r--r-- 1 runner docker 175K Jul 18 13:06 zh.wav
+  total 1880
+  -rw-r--r--@ 1 fangjun  staff   224K 18 Jul  2024 en.wav
+  -rw-r--r--@ 1 fangjun  staff   225K 18 Jul  2024 ja.wav
+  -rw-r--r--@ 1 fangjun  staff   144K 18 Jul  2024 ko.wav
+  -rw-r--r--@ 1 fangjun  staff   161K 18 Jul  2024 yue.wav
+  -rw-r--r--@ 1 fangjun  staff   175K 18 Jul  2024 zh.wav
 
 .. hint::
 
-   If you only need the ``int8`` model file, please use::
+   If you need the ``float32`` model file, please use::
 
-     wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17.tar.bz2
-     tar xvf sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17.tar.bz2
-     rm sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17.tar.bz2
+     wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17.tar.bz2
+     tar xvf sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17.tar.bz2
+     rm sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17.tar.bz2
 
-     ls -lh sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17
+     ls -lh sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17
 
   It prints::
 
-    total 229M
-    -rwxr-xr-x 1 1001 118 5.8K Jul 18  2024 export-onnx.py
-    -rw-r--r-- 1 1001 118   71 Jul 18  2024 LICENSE
-    -rw-r--r-- 1 1001 118 229M Jul 18  2024 model.int8.onnx
-    -rw-r--r-- 1 1001 118  104 Jul 18  2024 README.md
-    drwxr-xr-x 2 1001 118 4.0K Jul 18  2024 test_wavs
-    -rw-r--r-- 1 1001 118 309K Jul 18  2024 tokens.txt
+    ls -lh sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/
+    total 2299200
+    -rwxr-xr-x@ 1 fangjun  staff   5.8K 18 Jul  2024 export-onnx.py
+    -rw-r--r--@ 1 fangjun  staff    71B 18 Jul  2024 LICENSE
+    -rw-r--r--@ 1 fangjun  staff   228M 18 Jul  2024 model.int8.onnx
+    -rw-r--r--@ 1 fangjun  staff   894M 18 Jul  2024 model.onnx
+    -rw-r--r--@ 1 fangjun  staff   104B 18 Jul  2024 README.md
+    drwxr-xr-x@ 7 fangjun  staff   224B 18 Jul  2024 test_wavs
+    -rw-r--r--@ 1 fangjun  staff   308K 18 Jul  2024 tokens.txt
 
-Decode a file with model.onnx
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Decode a file with model.int8.onnx
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Without inverse text normalization
 ::::::::::::::::::::::::::::::::::
@@ -128,12 +134,12 @@ To decode files without inverse text normalization, please use:
 .. code-block:: bash
 
   ./build/bin/sherpa-onnx-offline \
-    --tokens=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/tokens.txt \
-    --sense-voice-model=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/model.onnx \
+    --tokens=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17/tokens.txt \
+    --sense-voice-model=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17/model.int8.onnx \
     --num-threads=1 \
     --debug=0 \
-    ./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/test_wavs/zh.wav \
-    ./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/test_wavs/en.wav
+    ./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17/test_wavs/zh.wav \
+    ./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17/test_wavs/en.wav
 
 You should see the following output:
 
@@ -147,13 +153,13 @@ To decode a file with inverse text normalization, please use:
 .. code-block:: bash
 
   ./build/bin/sherpa-onnx-offline \
-    --tokens=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/tokens.txt \
-    --sense-voice-model=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/model.onnx \
+    --tokens=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17/tokens.txt \
+    --sense-voice-model=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17/model.int8.onnx \
     --num-threads=1 \
     --sense-voice-use-itn=1 \
     --debug=0 \
-    ./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/test_wavs/zh.wav \
-    ./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/test_wavs/en.wav
+    ./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17/test_wavs/zh.wav \
+    ./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17/test_wavs/en.wav
 
 You should see the following output:
 
@@ -174,12 +180,12 @@ To specify the language when decoding, please use:
 .. code-block:: bash
 
   ./build/bin/sherpa-onnx-offline \
-    --tokens=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/tokens.txt \
-    --sense-voice-model=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/model.onnx \
+    --tokens=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17/tokens.txt \
+    --sense-voice-model=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17/model.int8.onnx \
     --num-threads=1 \
     --sense-voice-language=zh \
     --debug=0 \
-    ./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/test_wavs/zh.wav
+    ./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17/test_wavs/zh.wav
 
 You should see the following output:
 
@@ -192,14 +198,27 @@ You should see the following output:
    ``yue`` for ``Cantonese``.
 
 
+Real-time/Streaming Speech recognition from a microphone with VAD
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. code-block:: bash
+
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/silero_vad.onnx
+
+  ./build/bin/sherpa-onnx-vad-microphone-simulated-streaming-asr \
+    --silero-vad-model=./silero_vad.onnx \
+    --tokens=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17/tokens.txt \
+    --sense-voice-model=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17/model.int8.onnx \
+    --sense-voice-use-itn=1
+
 Speech recognition from a microphone
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. code-block:: bash
 
   ./build/bin/sherpa-onnx-microphone-offline \
-    --tokens=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/tokens.txt \
-    --sense-voice-model=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/model.int8.onnx
+    --tokens=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17/tokens.txt \
+    --sense-voice-model=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17/model.int8.onnx
 
 Speech recognition from a microphone with VAD
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -210,8 +229,8 @@ Speech recognition from a microphone with VAD
 
   ./build/bin/sherpa-onnx-vad-microphone-offline-asr \
     --silero-vad-model=./silero_vad.onnx \
-    --tokens=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/tokens.txt \
-    --sense-voice-model=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/model.int8.onnx
+    --tokens=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17/tokens.txt \
+    --sense-voice-model=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17/model.int8.onnx
 
 .. _sherpa-onnx-sense-voice-int8-RTF:
 
@@ -263,6 +282,10 @@ See also :ref:`sherpa-ncnn-sense-voice-int8-RTF` for `sherpa-ncnn`_.
 
 sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09 (Chinese, English, Japanese, Korean, Cantonese, 中英日韩粤语)
 ----------------------------------------------------------------------------------------------------------------------------------------
+
+.. hint::
+
+   This model does not support punctuations.
 
 This model is converted from
 
