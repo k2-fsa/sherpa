@@ -1044,7 +1044,7 @@ the file sizes of ``*.onnx`` files below.
 Generate speech with executables compiled from C++
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Since there are 109 speakers available, we can choose a speaker from 0 to 198.
+Since there are 109 speakers available, we can choose a speaker from 0 to 108.
 The default speaker ID is 0.
 
 We use speaker ID 0, 10, and 108 below to generate audio for the same text.
