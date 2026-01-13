@@ -26,7 +26,6 @@ It supports the following 5 languages:
 
 In the following, we describe how to use it.
 
-
 .. hint::
 
    For ``RKNN`` users, please refer to :ref:`sherpa-onnx-rk3588-20-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17`.

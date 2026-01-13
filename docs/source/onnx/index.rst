@@ -53,6 +53,7 @@ Also, we show how to use it for speech recognition with pre-trained models.
    ./moonshine/index
    ./omnilingual-asr/index
    ./sense-voice/index
+   ./funasr-nano/index
    ./paraformer/index
    ./nemo/index
    ./FireRedAsr/index

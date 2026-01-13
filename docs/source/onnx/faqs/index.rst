@@ -11,6 +11,7 @@ This page contains frequently asked questions for `sherpa-onnx`_.
    ./fix-libasound-module-conf-pulse.rst
    ./fix-tts-encoding-for-chinese-models.rst
    ./fix-libtoolize.rst
+   ./static-onnxruntime-linux-x64.rst
 
 
 OSError: PortAudio library not found
