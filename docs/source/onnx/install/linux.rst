@@ -28,13 +28,20 @@ CPU (Linux x64 or Linux arm64)
   #
   make -j6
 
-GPU (CUDA 11.8, Linux x64)
---------------------------
+GPU (CUDA 11.8, CUDNN 8, Linux x64)
+------------------------------------
 
 .. code-block:: bash
 
   git clone https://github.com/k2-fsa/sherpa-onnx
   cd sherpa-onnx
+
+  wget https://github.com/csukuangfj/onnxruntime-libs/releases/download/v1.17.1/onnxruntime-linux-x64-gpu-1.17.1-patched.zip
+  unzip  onnxruntime-linux-x64-gpu-1.17.1-patched.zip
+
+  export SHERPA_ONNXRUNTIME_LIB_DIR=$PWD/onnxruntime-linux-x64-gpu-1.17.1-patched/lib
+  export SHERPA_ONNXRUNTIME_INCLUDE_DIR=$PWD/onnxruntime-linux-x64-gpu-1.17.1-patched/include
+
   mkdir build
   cd build
   cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON -DSHERPA_ONNX_ENABLE_GPU=ON ..
@@ -48,14 +55,6 @@ GPU (CUDA 11.8, Linux x64)
     You can refer to `<https://k2-fsa.github.io/k2/installation/cuda-cudnn.html>`_
     to install CUDA toolkit.
 
-.. note::
-
-    You can download pre-build libraries and executables of sherpa-onnx for CUDA 11.8
-    at `<https://github.com/k2-fsa/sherpa-onnx/releases>`_. Please always use the latest version.
-    For instance, for the version ``1.12.13``, you can use::
-
-      wget https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.12.13/sherpa-onnx-v1.12.13-linux-x64-gpu.tar.bz2
-
 GPU (CUDA 12.8, CUDNN 9, Linux x64)
 -----------------------------------
 
@@ -63,13 +62,6 @@ GPU (CUDA 12.8, CUDNN 9, Linux x64)
 
   git clone https://github.com/k2-fsa/sherpa-onnx
   cd sherpa-onnx
-
-  wget https://github.com/csukuangfj/onnxruntime-libs/releases/download/v1.22.0/onnxruntime-linux-x64-gpu-1.22.0-patched.zip
-  unzip  onnxruntime-linux-x64-gpu-1.22.0-patched.zip
-
-  export SHERPA_ONNXRUNTIME_LIB_DIR=$PWD/onnxruntime-linux-x64-gpu-1.22.0-patched/lib
-  export SHERPA_ONNXRUNTIME_INCLUDE_DIR=$PWD/onnxruntime-linux-x64-gpu-1.22.0-patched/include
-
   mkdir build
   cd build
   cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON -DSHERPA_ONNX_ENABLE_GPU=ON ..

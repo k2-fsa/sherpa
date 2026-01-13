@@ -58,6 +58,13 @@ GPU (CUDA 11.8)
 
   git clone https://github.com/k2-fsa/sherpa-onnx
   cd sherpa-onnx
+
+  curl -SL -O https://github.com/microsoft/onnxruntime/releases/download/v1.17.1/onnxruntime-win-x64-gpu-1.17.1.zip
+  unzip onnxruntime-win-x64-gpu-1.17.1.zip
+
+  export SHERPA_ONNXRUNTIME_LIB_DIR=$PWD/onnxruntime-win-x64-gpu-1.17.1/lib
+  export SHERPA_ONNXRUNTIME_INCLUDE_DIR=$PWD/onnxruntime-win-x64-gpu-1.17.1/include
+
   mkdir build
   cd build
   cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON -DSHERPA_ONNX_ENABLE_GPU=ON ..
@@ -90,13 +97,6 @@ GPU (CUDA 12.x)
 
   git clone https://github.com/k2-fsa/sherpa-onnx
   cd sherpa-onnx
-
-  curl -SL -O https://github.com/microsoft/onnxruntime/releases/download/v1.22.0/onnxruntime-win-x64-gpu-1.22.0.zip
-  unzip onnxruntime-win-x64-gpu-1.22.0.zip
-
-  export SHERPA_ONNXRUNTIME_LIB_DIR=$PWD/onnxruntime-win-x64-gpu-1.22.0/lib
-  export SHERPA_ONNXRUNTIME_INCLUDE_DIR=$PWD/onnxruntime-win-x64-gpu-1.22.0/include
-
   mkdir build
   cd build
   cmake -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON -DSHERPA_ONNX_ENABLE_GPU=ON ..

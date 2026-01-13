@@ -184,6 +184,7 @@ rst_epilog = """
 .. _FireRedAsr: https://github.com/FireRedTeam/FireRedASR
 .. _Dolphin: https://github.com/DataoceanAI/Dolphin
 .. _k2-fsa: https://github.com/k2-fsa
+.. _Fun-ASR-Nano-2512: https://www.modelscope.cn/models/FunAudioLLM/Fun-ASR-Nano-2512
 """
 
 
