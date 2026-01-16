@@ -108,7 +108,7 @@ jobs:
             export GIT_LFS_SKIP_SMUDGE=1
             export GIT_CLONE_PROTECTION_ACTIVE=false
 
-            git clone https://huggingface.co/csukuangfj/sherpa-doc huggingface
+            git clone https://huggingface.co/csukuangfj2/sherpa-doc huggingface
             cd huggingface
 
             cp -v ../sherpa.pdf ./
@@ -116,4 +116,4 @@ jobs:
             git lfs track "*.pdf"
             git add .
             git commit -m "update doc"
-            git push https://csukuangfj:$HF_TOKEN@huggingface.co/csukuangfj/sherpa-doc main
+            git push https://csukuangfj2:$HF_TOKEN@huggingface.co/csukuangfj2/sherpa-doc main

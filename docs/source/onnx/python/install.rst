@@ -43,12 +43,31 @@ To check you have installed `sherpa-onnx`_ successfully, please run
 
    You can use::
 
-    pip install sherpa-onnx sherpa-onnx-bin -f https://k2-fsa.github.io/sherpa/onnx/cpu.html
+    pip install --verbose sherpa_onnx_bin sherpa_onnx_core sherpa_onnx --no-index -f https://k2-fsa.github.io/sherpa/onnx/cpu.html
 
    or::
 
     # For Chinese uers
-    pip install sherpa-onnx sherpa-onnx-bin -f https://k2-fsa.github.io/sherpa/onnx/cpu-cn.html
+    pip install --verbose sherpa_onnx_bin sherpa_onnx_core sherpa_onnx --no-index -f https://k2-fsa.github.io/sherpa/onnx/cpu-cn.html
+
+
+  .. hint::
+
+    Make sure the logs contain information that it is downloading files from ``huggingface.co`` or ``hf-mirror.com``.
+
+    The installation logs are shown below::
+
+      Looking in links: https://k2-fsa.github.io/sherpa/onnx/cpu.html
+      Collecting sherpa_onnx_bin
+        Downloading https://huggingface.co/csukuangfj2/sherpa-onnx-wheels/resolve/main/cpu/1.12.23/sherpa_onnx_bin-1.12.23-py3-none-manylinux2014_x86_64.whl (21.6 MB)
+           ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 21.6/21.6 MB 244.9 MB/s eta 0:00:00
+      Collecting sherpa_onnx_core
+        Downloading https://huggingface.co/csukuangfj2/sherpa-onnx-wheels/resolve/main/cpu/1.12.23/sherpa_onnx_core-1.12.23-py3-none-manylinux2014_x86_64.whl (9.5 MB)
+           ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 9.5/9.5 MB 207.6 MB/s eta 0:00:00
+      Collecting sherpa_onnx
+        Downloading https://huggingface.co/csukuangfj2/sherpa-onnx-wheels/resolve/main/cpu/1.12.23/sherpa_onnx-1.12.23-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (4.1 MB)
+           ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.1/4.1 MB 149.8 MB/s eta 0:00:00
+      Installing collected packages: sherpa_onnx_core, sherpa_onnx_bin, sherpa_onnx
 
 Method 2 (From pre-compiled wheels, CPU + CUDA 11.8)
 ----------------------------------------------------
@@ -76,24 +95,23 @@ This approach supports only Linux x64 and Windows x64.
 
 Please use the following command to install CUDA-enabled `sherpa-onnx`_::
 
-  # We use 1.12.13 here for demonstration.
+  # We use 1.12.23 here for demonstration.
   #
   # Please visit https://k2-fsa.github.io/sherpa/onnx/cuda.html
   # to find available versions
 
-  pip install sherpa-onnx==1.12.13+cuda -f https://k2-fsa.github.io/sherpa/onnx/cuda.html
+  pip install --verbose sherpa-onnx=="1.12.23+cuda" --no-index -f https://k2-fsa.github.io/sherpa/onnx/cuda.html
 
   # For Chinese users, please use
-  # pip install sherpa-onnx==1.12.13+cuda -f https://k2-fsa.github.io/sherpa/onnx/cuda-cn.html
+  # pip install --verbose sherpa-onnx=="1.12.23+cuda" --no-index -f https://k2-fsa.github.io/sherpa/onnx/cuda-cn.html
 
 The installation logs are given below::
 
   Looking in links: https://k2-fsa.github.io/sherpa/onnx/cuda.html
-  Collecting sherpa-onnx==1.12.13+cuda
-    Downloading https://huggingface.co/csukuangfj/sherpa-onnx-wheels/resolve/main/cuda/1.12.13/sherpa_onnx-1.12.131%2Bcuda-cp310-cp310-linux_x86_64.whl (183.3 MB)
-       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 183.3/183.3 MB 4.4 MB/s eta 0:00:00
+  Collecting sherpa-onnx==1.12.23+cuda
+    Downloading https://huggingface.co/csukuangfj2/sherpa-onnx-wheels/resolve/main/cuda/1.12.23/sherpa_onnx-1.12.23%2Bcuda-cp312-cp312-linux_x86_64.whl (190.3 MB)
+       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 190.3/190.3 MB 9.2 MB/s eta 0:00:00
   Installing collected packages: sherpa-onnx
-  Successfully installed sherpa-onnx-1.12.13+cuda
 
 To check that you have installed `sherpa-onnx`_ successfully, please run::
 
