@@ -1,0 +1,1032 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hotwords (Contextual biasing) &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Keyword spotting" href="../kws/index.html" />
+    <link rel="prev" title="Non-streaming WebSocket server and client" href="../websocket/offline-websocket.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">sherpa-onnx</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../install/index.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../faqs/index.html">Frequently Asked Question (FAQs)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python/index.html">Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../c-api/index.html">C API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../java-api/index.html">Java API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../javascript-api/index.html">Javascript API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kotlin-api/index.html">Kotlin API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../swift-api/index.html">Swift API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../go-api/index.html">Go API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../csharp-api/index.html">C# API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pascal-api/index.html">Pascal API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lazarus/index.html">Lazarus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../wasm/index.html">WebAssembly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../android/index.html">Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../harmony-os/index.html">HarmonyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ios/index.html">iOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../flutter/index.html">Flutter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../websocket/index.html">WebSocket</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Hotwords (Contextual biasing)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#what-are-hotwords">What are hotwords</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#how-do-we-implement-it-with-an-aho-corasick">How do we implement it with an Aho-corasick</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#how-to-use-hotwords-in-sherpa-onnx">How to use hotwords in sherpa-onnx</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#modeling-unit-is-bpe">Modeling unit is bpe</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#modeling-unit-is-cjkchar">Modeling unit is cjkchar</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#modeling-unit-is-cjkchar-bpe">Modeling unit is cjkchar+bpe</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../kws/index.html">Keyword spotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../punctuation/index.html">Punctuation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../audio-tagging/index.html">Audio tagging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spoken-language-identification/index.html">Spoken language identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vad/index.html">VAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/index.html">Pre-trained models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/whisper/index.html">Whisper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../moonshine/index.html">Moonshine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../omnilingual-asr/index.html">Omnilingual ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sense-voice/index.html">SenseVoice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../funasr-nano/index.html">FunASR Nano</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../paraformer/index.html">Paraformer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nemo/index.html">NeMo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../FireRedAsr/index.html">FireRedAsr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Dolphin/index.html">Dolphin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../homophone-replacer/index.html">拼音词组匹配替换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-diarization/index.html">Speaker Diarization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-identification/index.html">Speaker Identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speech-enhancement/index.html">Speech enhancement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../source-separation/index.html">Source separation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qnn/index.html">Qualcomm NPU (QNN, HTP)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rknn/index.html">rknn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ascend/index.html">Ascend NPU (昇腾 NPU)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tts/index.html">Text-to-speech (TTS)</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">sherpa-onnx</a> &raquo;</li>
+      <li>Hotwords (Contextual biasing)</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/onnx/hotwords/index.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="hotwords-contextual-biasing">
+<span id="sherpa-onnx-hotwords"></span><h1>Hotwords (Contextual biasing)<a class="headerlink" href="#hotwords-contextual-biasing" title="Permalink to this heading"></a></h1>
+<p>In this section, we describe how we implement the hotwords (aka contextual biasing)
+feature with an Aho-corasick automaton and how to use it in <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>.</p>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>Only transducer models support hotwords in <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>.
+That is, only models from <a class="reference internal" href="../pretrained_models/offline-transducer/index.html#sherpa-onnx-offline-transducer-models"><span class="std std-ref">Offline transducer models</span></a>
+and <a class="reference internal" href="../pretrained_models/online-transducer/index.html#onnx-online-transducer-models"><span class="std std-ref">Online transducer models</span></a> support hotwords.</p>
+<p>All other models don’t support hotwords.</p>
+<p>Also, you have to change the decoding method to <code class="docutils literal notranslate"><span class="pre">modified_beam_search</span></code>
+to use hotwords. The default decoding method <code class="docutils literal notranslate"><span class="pre">greedy_search</span></code> does not
+support hotwords.</p>
+</div>
+<section id="what-are-hotwords">
+<h2>What are hotwords<a class="headerlink" href="#what-are-hotwords" title="Permalink to this heading"></a></h2>
+<p>Current ASR systems work very well for general cases, but they sometimes fail to
+recognize special words/phrases (aka hotwords) like rare words, personalized
+information etc. Usually, those words/phrases will be recognized as the words/phrases
+that pronounce similar to them (for example, recognize <code class="docutils literal notranslate"><span class="pre">LOUIS</span> <span class="pre">FOURTEEN</span></code> as <code class="docutils literal notranslate"><span class="pre">LEWIS</span> <span class="pre">FOURTEEN</span></code>).
+So we have to provide some kind of contexts information (for example, the <code class="docutils literal notranslate"><span class="pre">LOUIS</span> <span class="pre">FOURTEEN</span></code>)
+to the ASR systems to boost those words/phrases. Normally, we call this kind of
+boosting task contextual biasing (aka hotwords recognition).</p>
+</section>
+<section id="how-do-we-implement-it-with-an-aho-corasick">
+<h2>How do we implement it with an Aho-corasick<a class="headerlink" href="#how-do-we-implement-it-with-an-aho-corasick" title="Permalink to this heading"></a></h2>
+<p>We first construct an Aho-corasick automaton on those given hotwords (after tokenizing
+into tokens). Please refer to <a class="reference external" href="https://en.wikipedia.org/wiki/Aho%E2%80%93Corasick_algorithm">https://en.wikipedia.org/wiki/Aho%E2%80%93Corasick_algorithm</a>
+for the construction details of Aho-corasick.</p>
+<p>The figure below is the aho-corasick on “HE/SHE/SHELL/HIS/THIS” with <code class="docutils literal notranslate"><span class="pre">hotwords-score==1</span></code>.</p>
+<blockquote>
+<div><figure class="align-default" id="id7">
+<a class="reference internal image-reference" href="../../_images/context_graph.png"><img alt="The aho-corasick for &quot;HE/SHE/SHELL/HIS/THIS&quot;" src="../../_images/context_graph.png" style="width: 600px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 124 </span><span class="caption-text">The Aho-corasick for “HE/SHE/SHELL/HIS/THIS”</span><a class="headerlink" href="#id7" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+</div></blockquote>
+<p>The <code class="docutils literal notranslate"><span class="pre">black</span></code> arrows in the graph are the goto arcs, the <code class="docutils literal notranslate"><span class="pre">red</span></code> arrows are the
+failure arcs, the <code class="docutils literal notranslate"><span class="pre">green</span></code> arrows are the output arcs. On each goto arc, there
+are token and boosting score (<strong>Note: we will boost the path when any partial
+sequence is matched, if the path finally fails to full match any hotwords, the boosted
+score will be canceled</strong>). Currentlly, the boosting score distributes on the arcs
+evenly along the path. On each state, there are two scores, the first one is the
+node score (mainly used to cancel score) the second one is output score, the output
+score is the total scores of the full matched hotwords of this state.</p>
+<p>The following are several matching examples of the graph above.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For simplicity, we assume that the system emits a token each frame.</p>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>We have an extra <code class="docutils literal notranslate"><span class="pre">finalize</span></code> step to force the graph state to go back to
+the root state.</p>
+</div>
+<p><strong>The path is “SHELF”</strong></p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>Frame</p></td>
+<td><p>Boost score</p></td>
+<td><p>Total boost score</p></td>
+<td><p>Graph state</p></td>
+<td><p>Matched hotwords</p></td>
+</tr>
+<tr class="row-even"><td><p>init</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>3</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>2</p></td>
+<td><p>1</p></td>
+<td><p>2</p></td>
+<td><p>4</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>3</p></td>
+<td><p>1 + 5</p></td>
+<td><p>8</p></td>
+<td><p>5</p></td>
+<td><p>HE, SHE</p></td>
+</tr>
+<tr class="row-even"><td><p>4</p></td>
+<td><p>1</p></td>
+<td><p>9</p></td>
+<td><p>6</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>5</p></td>
+<td><p>-4</p></td>
+<td><p>5</p></td>
+<td><p>0</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>finalize</p></td>
+<td><p>0</p></td>
+<td><p>5</p></td>
+<td><p>0</p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>At <code class="docutils literal notranslate"><span class="pre">frame</span> <span class="pre">3</span></code> we reach <code class="docutils literal notranslate"><span class="pre">state</span> <span class="pre">5</span></code> and match <code class="docutils literal notranslate"><span class="pre">HE,</span> <span class="pre">SHE</span></code>, so we get a boosting
+score <code class="docutils literal notranslate"><span class="pre">1</span> <span class="pre">+</span> <span class="pre">5</span></code>, the score <code class="docutils literal notranslate"><span class="pre">1</span></code> here because the <code class="docutils literal notranslate"><span class="pre">SHEL</span></code> still might be the prefix
+of other hotwords.
+At <code class="docutils literal notranslate"><span class="pre">frame</span> <span class="pre">5</span></code> <code class="docutils literal notranslate"><span class="pre">F</span></code> can not match any tokens and fail back to root, so we cancel
+the score for <code class="docutils literal notranslate"><span class="pre">SHEL</span></code> which is <code class="docutils literal notranslate"><span class="pre">4</span></code> (the node score of <code class="docutils literal notranslate"><span class="pre">state</span> <span class="pre">6</span></code>).</p>
+<p><strong>The path is “HI”</strong></p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>Frame</p></td>
+<td><p>Boost score</p></td>
+<td><p>Total boost score</p></td>
+<td><p>Graph state</p></td>
+<td><p>Matched hotwords</p></td>
+</tr>
+<tr class="row-even"><td><p>init</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>2</p></td>
+<td><p>1</p></td>
+<td><p>2</p></td>
+<td><p>8</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>finalize</p></td>
+<td><p>-2</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><code class="docutils literal notranslate"><span class="pre">H</span></code> and <code class="docutils literal notranslate"><span class="pre">I</span></code> all match the tokens in the graph, unfortunately, we have to go
+back to root state when finishing matching a path, so we cancel the boosting score
+of <code class="docutils literal notranslate"><span class="pre">HI</span></code> which is <code class="docutils literal notranslate"><span class="pre">2</span></code> (the node score of <code class="docutils literal notranslate"><span class="pre">state</span> <span class="pre">8</span></code>).</p>
+<p><strong>The path is “THE”</strong></p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>Frame</p></td>
+<td><p>Boost score</p></td>
+<td><p>Total boost score</p></td>
+<td><p>Graph state</p></td>
+<td><p>Matched hotwords</p></td>
+</tr>
+<tr class="row-even"><td><p>init</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>1</p></td>
+<td><p>10</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>2</p></td>
+<td><p>1</p></td>
+<td><p>2</p></td>
+<td><p>11</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>3</p></td>
+<td><p>0 + 2</p></td>
+<td><p>4</p></td>
+<td><p>2</p></td>
+<td><p>HE</p></td>
+</tr>
+<tr class="row-even"><td><p>finalize</p></td>
+<td><p>-2</p></td>
+<td><p>3</p></td>
+<td><p>0</p></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>At <code class="docutils literal notranslate"><span class="pre">frame</span> <span class="pre">3</span></code> we jump from <code class="docutils literal notranslate"><span class="pre">state</span> <span class="pre">11</span></code> to <code class="docutils literal notranslate"><span class="pre">state</span> <span class="pre">2</span></code> and get a boosting score
+of <code class="docutils literal notranslate"><span class="pre">0</span> <span class="pre">+</span> <span class="pre">2</span></code>, <code class="docutils literal notranslate"><span class="pre">0</span></code> because the node score of <code class="docutils literal notranslate"><span class="pre">state</span> <span class="pre">2</span></code> is the same as <code class="docutils literal notranslate"><span class="pre">state</span> <span class="pre">11</span></code>
+so we don’t get score by partial match (the prefix of <code class="docutils literal notranslate"><span class="pre">state</span> <span class="pre">11</span></code> is <code class="docutils literal notranslate"><span class="pre">TH</span></code> has
+the same length of the prefix of <code class="docutils literal notranslate"><span class="pre">state</span> <span class="pre">2</span></code> which is <code class="docutils literal notranslate"><span class="pre">HE</span></code>), but we do get the
+output score (at <code class="docutils literal notranslate"><span class="pre">state</span> <span class="pre">2</span></code> it outputs <code class="docutils literal notranslate"><span class="pre">HE</span></code>).</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>We implement the hotwords feature during inference time, you don’t have to
+re-train the models to use this feature.</p>
+</div>
+</section>
+<section id="how-to-use-hotwords-in-sherpa-onnx">
+<h2>How to use hotwords in sherpa-onnx<a class="headerlink" href="#how-to-use-hotwords-in-sherpa-onnx" title="Permalink to this heading"></a></h2>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>Currentlly, the hotwords feature is only supported in the
+<code class="docutils literal notranslate"><span class="pre">modified_beam_search</span></code> decoding method of the <strong>transducer models</strong>
+(both streaming and non-streaming).</p>
+</div>
+<p>The use of the hotwords is no different for streaming and non-streaming models,
+and in fact it is even no different for all the API supported by sherpa onnx.
+We add <strong>FOUR</strong> extra arguments for hotwords:</p>
+<blockquote>
+<div><ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">hotwords-file</span></code></p>
+<p>The file path of the hotwords, one hotwords per line. They could be Chinese
+words, English words or both according to the modeling units used to train
+the model. Here are some examples:</p>
+<p>For Chinese models trained on <code class="docutils literal notranslate"><span class="pre">cjkchar</span></code> it looks like:</p>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">语音识别</span>
+<span class="n">深度学习</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>For English like language models trained on <code class="docutils literal notranslate"><span class="pre">bpe</span></code> it looks like:</p>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">SPEECH</span> <span class="n">RECOGNITION</span>
+<span class="n">DEEP</span> <span class="n">LEARNING</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>For multilingual models trained on <code class="docutils literal notranslate"><span class="pre">cjkchar+bpe</span></code> (Chinese + English) it looks like:</p>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">SPEECH</span> <span class="n">识别</span>
+<span class="n">SPEECH</span> <span class="n">RECOGNITION</span>
+<span class="n">深度学习</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>You can also specify the boosting score for each hotword, the score should follow the
+predefined character <cite>:</cite>, for example:</p>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">语音识别</span> <span class="p">:</span><span class="mf">3.5</span>
+<span class="n">深度学习</span> <span class="p">:</span><span class="mf">2.0</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>It means, hotword <cite>语音识别</cite> will have a boosting score of 3.5, hotword <cite>深度学习</cite> will have a boosting score of 2.0.
+For those hotwords that don’t have specific scores, they will use the global score provided by <cite>hotword-score</cite> below.</p>
+<blockquote>
+<div><div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>The specific score MUST BE the last item of each hotword (i.e You shouldn’t break the hotword into two parts by the score).
+SPEECH :2.0 识别   # This is invalid</p>
+</div>
+</div></blockquote>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">hotwords-score</span></code></p>
+<p>The boosting score for each matched token.</p>
+<blockquote>
+<div><div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>We match the hotwords at token level, so the <code class="docutils literal notranslate"><span class="pre">hotwords-score</span></code> is applied
+at token level.</p>
+</div>
+</div></blockquote>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">modeling-unit</span></code></p>
+<p>The modeling unit of the used model, currently support <cite>cjkchar</cite> (for Chinese), <cite>bpe</cite> (for English like languages)
+and <cite>cjkchar+bpe</cite> (for multilingual models). We need this modeling-unit to select tokenizer to encode words/phrases
+into tokens, so <strong>do provide correct modeling-unit according to your model</strong>.</p>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">bpe-vocab</span></code></p>
+<p>The bpe vocabulary generated by sentencepiece toolkit, it also can be exported from <cite>bpe.model</cite> (see <cite>script/export_bpe_vocab.py</cite> for details).
+This vocabulary is used to tokenize words/phrases into bpe units. It is only used when <cite>modeling-unit</cite> is <cite>bpe</cite> or  <cite>cjkchar+bpe</cite>.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>We need <cite>bpe.vocab</cite> rather than <cite>bpe.model</cite>, because we don’t introduce sentencepiece c++ codebase into <cite>sherpa-onnx</cite> (which
+has a depandancy issue of protobuf) , we implement a simple sentencepiece encoder and decoder which takes <cite>bpe.vocab</cite> as input.</p>
+</div>
+</li>
+</ul>
+</div></blockquote>
+<p>The main difference of using hotwords feature is about the modeling units.
+The following shows how to use it for different modeling units.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>You can use any transducer models here <a class="reference external" href="https://k2-fsa.github.io/sherpa/onnx/pretrained_models/index.html">https://k2-fsa.github.io/sherpa/onnx/pretrained_models/index.html</a>,
+we just choose three of them randomly for the following examples.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In the following example, we use a non-streaming model, if you are using a
+streaming model, you should use <code class="docutils literal notranslate"><span class="pre">sherpa-onnx</span></code>. <code class="docutils literal notranslate"><span class="pre">sherpa-onnx-alsa</span></code>,
+<code class="docutils literal notranslate"><span class="pre">sherpa-onnx-microphone</span></code>, <code class="docutils literal notranslate"><span class="pre">sherpa-onnx-microphone-offline</span></code>,
+<code class="docutils literal notranslate"><span class="pre">sherpa-onnx-online-websocket-server</span></code> and <code class="docutils literal notranslate"><span class="pre">sherpa-onnx-offline-websocket-server</span></code>
+all support hotwords.</p>
+</div>
+<section id="modeling-unit-is-bpe">
+<h3>Modeling unit is bpe<a class="headerlink" href="#modeling-unit-is-bpe" title="Permalink to this heading"></a></h3>
+<p><strong>Download the model</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-en-2023-04-01.tar.bz2
+tar<span class="w"> </span>xvf<span class="w"> </span>sherpa-onnx-zipformer-en-2023-04-01.tar.bz2
+rm<span class="w"> </span>sherpa-onnx-zipformer-en-2023-04-01.tar.bz2
+ln<span class="w"> </span>-s<span class="w"> </span>sherpa-onnx-zipformer-en-2023-04-01<span class="w"> </span>exp
+</pre></div>
+</div>
+<p>Export bpe.vocab if you can’t find bpe.vocab in the model directory.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">script</span><span class="o">/</span><span class="n">export_bpe_vocab</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">bpe</span><span class="o">-</span><span class="n">model</span> <span class="n">exp</span><span class="o">/</span><span class="n">bpe</span><span class="o">.</span><span class="n">model</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">hotwords_en.txt</span></code> contains:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">QUARTERS</span>
+<span class="n">FOREVER</span>
+</pre></div>
+</div>
+<section id="c-api">
+<h4>C++ api<a class="headerlink" href="#c-api" title="Permalink to this heading"></a></h4>
+<p><strong>Decoding without hotwords</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">build</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">offline</span> \
+  <span class="o">--</span><span class="n">encoder</span><span class="o">=</span><span class="n">exp</span><span class="o">/</span><span class="n">encoder</span><span class="o">-</span><span class="n">epoch</span><span class="o">-</span><span class="mi">99</span><span class="o">-</span><span class="n">avg</span><span class="o">-</span><span class="mf">1.</span><span class="n">onnx</span> \
+  <span class="o">--</span><span class="n">decoder</span><span class="o">=</span><span class="n">exp</span><span class="o">/</span><span class="n">decoder</span><span class="o">-</span><span class="n">epoch</span><span class="o">-</span><span class="mi">99</span><span class="o">-</span><span class="n">avg</span><span class="o">-</span><span class="mf">1.</span><span class="n">onnx</span> \
+  <span class="o">--</span><span class="n">joiner</span><span class="o">=</span><span class="n">exp</span><span class="o">/</span><span class="n">joiner</span><span class="o">-</span><span class="n">epoch</span><span class="o">-</span><span class="mi">99</span><span class="o">-</span><span class="n">avg</span><span class="o">-</span><span class="mf">1.</span><span class="n">onnx</span> \
+  <span class="o">--</span><span class="n">decoding</span><span class="o">-</span><span class="n">method</span><span class="o">=</span><span class="n">modified_beam_search</span> \
+  <span class="o">--</span><span class="n">tokens</span><span class="o">=</span><span class="n">exp</span><span class="o">/</span><span class="n">tokens</span><span class="o">.</span><span class="n">txt</span> \
+  <span class="n">exp</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">0.</span><span class="n">wav</span> <span class="n">exp</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">1.</span><span class="n">wav</span>
+</pre></div>
+</div>
+<p>The output is:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/star-kw/kangwei/code/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:361 ./build/bin/sherpa-onnx-offline --encoder=exp/encoder-epoch-99-avg-1.onnx --decoder=exp/decoder-epoch-99-avg-1.onnx --joiner=exp/joiner-epoch-99-avg-1.onnx --decoding-method=modified_beam_search --tokens=exp/tokens.txt exp/test_wavs/0.wav exp/test_wavs/1.wav
+
+OfflineRecognizerConfig(feat_config=OfflineFeatureExtractorConfig(sampling_rate=16000, feature_dim=80), model_config=OfflineModelConfig(transducer=OfflineTran$ducerModelConfig(encoder_filename=&quot;exp/encoder-epoch-99-avg-1.onnx&quot;, decoder_filename=&quot;exp/decoder-epoch-99-avg-1.onnx&quot;, joiner_filename=&quot;exp/joiner-epoch-99-$vg-1.onnx&quot;), paraformer=OfflineParaformerModelConfig(model=&quot;&quot;), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=&quot;&quot;), whisper=OfflineWhisperModelConfig(encoder=$&quot;, decoder=&quot;&quot;, language=&quot;&quot;, task=&quot;transcribe&quot;), tdnn=OfflineTdnnModelConfig(model=&quot;&quot;), tokens=&quot;exp/tokens.txt&quot;, num_threads$2, debug=False, provider=&quot;cpu&quot;, model_type=&quot;&quot;), lm_config=OfflineLMConfig(model=&quot;&quot;, scale=0.5), decoding_method=&quot;modified_beam_search&quot;, max_active_paths=4, ho$words_file=, hotwords_score=1.5)
+Creating recognizer ...
+Started
+Done!
+
+exp/test_wavs/0.wav
+{&quot;text&quot;:&quot;ALL THE YELLOW LAMPS WOULD LIGHT UP HERE AND THERE THE SQUALID QUARTER OF THE BROTHELS&quot;,&quot;timestamps&quot;:&quot;[1.44, 1.48, 1.56, 1.72, 1.88, 1.96, 2.16, 2.28$ 2.36, 2.48, 2.60, 2.80, 3.08, 3.28, 3.40, 3.60, 3.80, 4.08, 4.24, 4.32, 4.48, 4.64, 4.84, 4.88, 5.00, 5.08, 5.32, 5.48, 5.60, 5.68, 5.84, 6.04, 6.24]&quot;,&quot;token$&quot;:[&quot;A&quot;,&quot;LL&quot;,&quot; THE&quot;,&quot; YE&quot;,&quot;LL&quot;,&quot;OW&quot;,&quot; LA&quot;,&quot;M&quot;,&quot;P&quot;,&quot;S&quot;,&quot; WOULD&quot;,&quot; LIGHT&quot;,&quot; UP&quot;,&quot; HE&quot;,&quot;RE&quot;,&quot; AND&quot;,&quot; THERE&quot;,&quot; THE&quot;,&quot; S&quot;,&quot;QUA&quot;,&quot;LI&quot;,&quot;D&quot;,&quot; &quot;,&quot;QUA&quot;,&quot;R&quot;,&quot;TER&quot;,&quot; OF&quot;,&quot;THE&quot;,&quot; B&quot;,&quot;RO&quot;,&quot;TH&quot;,&quot;EL&quot;,&quot;S&quot;]}
+----
+exp/test_wavs/1.wav
+{&quot;text&quot;:&quot;IN WHICH MAN THUS PUNISHED HAD GIVEN HER A LOVELY CHILD WHOSE PLACE WAS ON THAT SAME DISHONOURED BOSOM TO CONNECT HER PARENT FOR EVER WITH THE RACE AN
+D DESCENT OF MORTALS AND TO BE FINALLY A BLESSED SOUL IN HEAVEN&quot;,&quot;timestamps&quot;:&quot;[2.44, 2.64, 2.88, 3.16, 3.28, 3.48, 3.60, 3.80, 3.96, 4.12, 4.36, 4.52, 4.72, 4
+.92, 5.16, 5.44, 5.68, 6.04, 6.24, 6.48, 6.84, 7.08, 7.32, 7.56, 7.84, 8.12, 8.24, 8.32, 8.44, 8.60, 8.76, 8.88, 9.08, 9.28, 9.44, 9.56, 9.64, 9.76, 9.96, 10.0
+4, 10.20, 10.40, 10.64, 10.76, 11.04, 11.20, 11.36, 11.60, 11.80, 12.00, 12.12, 12.28, 12.32, 12.52, 12.72, 12.84, 12.96, 13.04, 13.24, 13.40, 13.60, 13.76, 13
+.96, 14.12, 14.24, 14.36, 14.52, 14.68, 14.76, 15.04, 15.28, 15.52, 15.76, 16.00, 16.16, 16.24, 16.32]&quot;,&quot;tokens&quot;:[&quot;IN&quot;,&quot; WHICH&quot;,&quot; MAN&quot;,&quot; TH&quot;,&quot;US&quot;,&quot; P&quot;,&quot;UN&quot;,&quot;IS
+H&quot;,&quot;ED&quot;,&quot; HAD&quot;,&quot; GIVE&quot;,&quot;N&quot;,&quot; HER&quot;,&quot; A&quot;,&quot; LOVE&quot;,&quot;LY&quot;,&quot; CHILD&quot;,&quot; WHO&quot;,&quot;SE&quot;,&quot; PLACE&quot;,&quot; WAS&quot;,&quot; ON&quot;,&quot; THAT&quot;,&quot; SAME&quot;,&quot; DIS&quot;,&quot;HO&quot;,&quot;N&quot;,&quot;OUR&quot;,&quot;ED&quot;,&quot; BO&quot;,&quot;S&quot;,&quot;OM&quot;,&quot; TO&quot;,
+&quot; CON&quot;,&quot;NE&quot;,&quot;C&quot;,&quot;T&quot;,&quot; HER&quot;,&quot; P&quot;,&quot;AR&quot;,&quot;ENT&quot;,&quot; FOR&quot;,&quot; E&quot;,&quot;VER&quot;,&quot; WITH&quot;,&quot; THE&quot;,&quot; RA&quot;,&quot;CE&quot;,&quot; AND&quot;,&quot; DE&quot;,&quot;S&quot;,&quot;C&quot;,&quot;ENT&quot;,&quot; OF&quot;,&quot; MO&quot;,&quot;R&quot;,&quot;T&quot;,&quot;AL&quot;,&quot;S&quot;,&quot; AND&quot;,&quot; TO&quot;,&quot; B
+E&quot;,&quot; FI&quot;,&quot;N&quot;,&quot;AL&quot;,&quot;LY&quot;,&quot; A&quot;,&quot; B&quot;,&quot;LESS&quot;,&quot;ED&quot;,&quot; SO&quot;,&quot;UL&quot;,&quot; IN&quot;,&quot; HE&quot;,&quot;A&quot;,&quot;VE&quot;,&quot;N&quot;]}
+----
+num threads: 2
+decoding method: modified_beam_search
+max active paths: 4
+Elapsed seconds: 1.775 s
+Real time factor (RTF): 1.775 / 23.340 = 0.076
+</pre></div>
+</div>
+<p><strong>Decoding with hotwords</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">build</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">offline</span> \
+    <span class="o">--</span><span class="n">encoder</span><span class="o">=</span><span class="n">exp</span><span class="o">/</span><span class="n">encoder</span><span class="o">-</span><span class="n">epoch</span><span class="o">-</span><span class="mi">99</span><span class="o">-</span><span class="n">avg</span><span class="o">-</span><span class="mf">1.</span><span class="n">onnx</span> \
+    <span class="o">--</span><span class="n">decoder</span><span class="o">=</span><span class="n">exp</span><span class="o">/</span><span class="n">decoder</span><span class="o">-</span><span class="n">epoch</span><span class="o">-</span><span class="mi">99</span><span class="o">-</span><span class="n">avg</span><span class="o">-</span><span class="mf">1.</span><span class="n">onnx</span> \
+    <span class="o">--</span><span class="n">joiner</span><span class="o">=</span><span class="n">exp</span><span class="o">/</span><span class="n">joiner</span><span class="o">-</span><span class="n">epoch</span><span class="o">-</span><span class="mi">99</span><span class="o">-</span><span class="n">avg</span><span class="o">-</span><span class="mf">1.</span><span class="n">onnx</span> \
+    <span class="o">--</span><span class="n">decoding</span><span class="o">-</span><span class="n">method</span><span class="o">=</span><span class="n">modified_beam_search</span> \
+    <span class="o">--</span><span class="n">tokens</span><span class="o">=</span><span class="n">exp</span><span class="o">/</span><span class="n">tokens</span><span class="o">.</span><span class="n">txt</span> \
+    <span class="o">--</span><span class="n">modeling</span><span class="o">-</span><span class="n">unit</span><span class="o">=</span><span class="n">bpe</span> \
+    <span class="o">--</span><span class="n">bpe</span><span class="o">-</span><span class="n">vocab</span><span class="o">=</span><span class="n">exp</span><span class="o">/</span><span class="n">bpe</span><span class="o">.</span><span class="n">vocab</span> \
+    <span class="o">--</span><span class="n">hotwords</span><span class="o">-</span><span class="n">file</span><span class="o">=</span><span class="n">hotwords_en</span><span class="o">.</span><span class="n">txt</span> \
+    <span class="o">--</span><span class="n">hotwords</span><span class="o">-</span><span class="n">score</span><span class="o">=</span><span class="mf">2.0</span> \
+    <span class="n">exp</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">0.</span><span class="n">wav</span> <span class="n">exp</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">1.</span><span class="n">wav</span>
+</pre></div>
+</div>
+<p>The output is:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/star-kw/kangwei/code/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:361 ./build/bin/sherpa-onnx-offline --encoder=exp/encoder-epoch-99-avg-1.onnx --decoder=exp/decoder-epoch-99-avg-1.onnx --joiner=exp/joiner-epoch-99-avg-1.onnx --decoding-method=modified_beam_search --tokens=exp/tokens.txt --hotwords-file=hotwords_en.txt --hotwords-score=2.0 exp/test_wavs/0.wav exp/test_wavs/1.wav
+
+OfflineRecognizerConfig(feat_config=OfflineFeatureExtractorConfig(sampling_rate=16000, feature_dim=80), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename=&quot;exp/encoder-epoch-99-avg-1.onnx&quot;, decoder_filename=&quot;exp/decoder-epoch-99-avg-1.onnx&quot;, joiner_filename=&quot;exp/joiner-epoch-99-avg-1.onnx&quot;), paraformer=OfflineParaformerModelConfig(model=&quot;&quot;), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=&quot;&quot;), whisper=OfflineWhisperModelConfig(encoder=&quot;
+&quot;, decoder=&quot;&quot;, language=&quot;&quot;, task=&quot;transcribe&quot;), tdnn=OfflineTdnnModelConfig(model=&quot;&quot;), tokens=&quot;exp/tokens.txt&quot;, num_threads=2, debug=False, provider=&quot;cpu&quot;, model_type=&quot;&quot;), lm_config=OfflineLMConfig(model=&quot;&quot;, scale=0.5), decoding_method=&quot;modified_beam_search&quot;, max_active_paths=4, hotwords_file=hotwords_en.txt, hotwords_score=2)
+Creating recognizer ...
+Started
+Done!
+
+exp/test_wavs/0.wav
+{&quot;text&quot;:&quot;ALL THE YELLOW LAMPS WOULD LIGHT UP HERE AND THERE THE SQUALID QUARTERS OF THE BROTHELS&quot;,&quot;timestamps&quot;:&quot;[1.44, 1.48, 1.56, 1.72, 1.88, 1.96, 2.16, 2.28
+, 2.36, 2.48, 2.60, 2.80, 3.08, 3.28, 3.40, 3.60, 3.80, 4.08, 4.24, 4.32, 4.48, 4.64, 4.84, 4.88, 5.00, 5.08, 5.12, 5.36, 5.48, 5.60, 5.68, 5.84, 6.04, 6.24]&quot;,
+&quot;tokens&quot;:[&quot;A&quot;,&quot;LL&quot;,&quot; THE&quot;,&quot; YE&quot;,&quot;LL&quot;,&quot;OW&quot;,&quot; LA&quot;,&quot;M&quot;,&quot;P&quot;,&quot;S&quot;,&quot; WOULD&quot;,&quot; LIGHT&quot;,&quot; UP&quot;,&quot; HE&quot;,&quot;RE&quot;,&quot; AND&quot;,&quot; THERE&quot;,&quot; THE&quot;,&quot; S&quot;,&quot;QUA&quot;,&quot;LI&quot;,&quot;D&quot;,&quot; &quot;,&quot;QUA&quot;,&quot;R&quot;,&quot;TER&quot;,$
+S&quot;,&quot; OF&quot;,&quot; THE&quot;,&quot; B&quot;,&quot;RO&quot;,&quot;TH&quot;,&quot;EL&quot;,&quot;S&quot;]}
+----
+exp/test_wavs/1.wav
+{&quot;text&quot;:&quot;IN WHICH MAN THUS PUNISHED HAD GIVEN HER A LOVELY CHILD WHOSE PLACE WAS ON THAT SAME DISHONOURED BOSOM TO CONNECT HER PARENT FOREVER WITH THE RACE AN$
+ DESCENT OF MORTALS AND TO BE FINALLY A BLESSED SOUL IN HEAVEN&quot;,&quot;timestamps&quot;:&quot;[2.44, 2.64, 2.88, 3.16, 3.28, 3.48, 3.60, 3.80, 3.96, 4.12, 4.36, 4.52, 4.72, 4$
+92, 5.16, 5.44, 5.68, 6.04, 6.24, 6.48, 6.84, 7.08, 7.32, 7.56, 7.84, 8.12, 8.24, 8.32, 8.44, 8.60, 8.76, 8.88, 9.08, 9.28, 9.44, 9.56, 9.64, 9.76, 9.96, 10.0$
+, 10.20, 10.40, 10.68, 10.76, 11.04, 11.20, 11.36, 11.60, 11.80, 12.00, 12.12, 12.28, 12.32, 12.52, 12.72, 12.84, 12.96, 13.04, 13.24, 13.40, 13.60, 13.76, 13$
+96, 14.12, 14.24, 14.36, 14.52, 14.68, 14.76, 15.04, 15.28, 15.52, 15.76, 16.00, 16.16, 16.24, 16.32]&quot;,&quot;tokens&quot;:[&quot;IN&quot;,&quot; WHICH&quot;,&quot; MAN&quot;,&quot; TH&quot;,&quot;US&quot;,&quot; P&quot;,&quot;UN&quot;,&quot;IS$
+&quot;,&quot;ED&quot;,&quot; HAD&quot;,&quot; GIVE&quot;,&quot;N&quot;,&quot; HER&quot;,&quot; A&quot;,&quot; LOVE&quot;,&quot;LY&quot;,&quot; CHILD&quot;,&quot; WHO&quot;,&quot;SE&quot;,&quot; PLACE&quot;,&quot; WAS&quot;,&quot; ON&quot;,&quot; THAT&quot;,&quot; SAME&quot;,&quot; DIS&quot;,&quot;HO&quot;,&quot;N&quot;,&quot;OUR&quot;,&quot;ED&quot;,&quot; BO&quot;,&quot;S&quot;,&quot;OM&quot;,&quot; TO&quot;,$
+ CON&quot;,&quot;NE&quot;,&quot;C&quot;,&quot;T&quot;,&quot; HER&quot;,&quot; P&quot;,&quot;AR&quot;,&quot;ENT&quot;,&quot; FOR&quot;,&quot;E&quot;,&quot;VER&quot;,&quot; WITH&quot;,&quot; THE&quot;,&quot; RA&quot;,&quot;CE&quot;,&quot; AND&quot;,&quot; DE&quot;,&quot;S&quot;,&quot;C&quot;,&quot;ENT&quot;,&quot; OF&quot;,&quot; MO&quot;,&quot;R&quot;,&quot;T&quot;,&quot;AL&quot;,&quot;S&quot;,&quot; AND&quot;,&quot; TO&quot;,&quot; BE$
+,&quot; FI&quot;,&quot;N&quot;,&quot;AL&quot;,&quot;LY&quot;,&quot; A&quot;,&quot; B&quot;,&quot;LESS&quot;,&quot;ED&quot;,&quot; SO&quot;,&quot;UL&quot;,&quot; IN&quot;,&quot; HE&quot;,&quot;A&quot;,&quot;VE&quot;,&quot;N&quot;]}
+----
+num threads: 2
+decoding method: modified_beam_search
+max active paths: 4
+Elapsed seconds: 1.522 s
+Real time factor (RTF): 1.522 / 23.340 = 0.065
+</pre></div>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p><code class="docutils literal notranslate"><span class="pre">QUARTER</span></code>  -&gt;  <code class="docutils literal notranslate"><span class="pre">QUARTERS</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">FOR</span> <span class="pre">EVER</span></code>  -&gt;  <code class="docutils literal notranslate"><span class="pre">FOREVER</span></code></p>
+</div>
+</section>
+<section id="python-api">
+<h4>Python api<a class="headerlink" href="#python-api" title="Permalink to this heading"></a></h4>
+<p><strong>Decoding without hotwords</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">python</span><span class="o">-</span><span class="n">api</span><span class="o">-</span><span class="n">examples</span><span class="o">/</span><span class="n">offline</span><span class="o">-</span><span class="n">decode</span><span class="o">-</span><span class="n">files</span><span class="o">.</span><span class="n">py</span> \
+    <span class="o">--</span><span class="n">encoder</span> <span class="n">exp</span><span class="o">/</span><span class="n">encoder</span><span class="o">-</span><span class="n">epoch</span><span class="o">-</span><span class="mi">99</span><span class="o">-</span><span class="n">avg</span><span class="o">-</span><span class="mf">1.</span><span class="n">onnx</span> \
+    <span class="o">--</span><span class="n">decoder</span> <span class="n">exp</span><span class="o">/</span><span class="n">decoder</span><span class="o">-</span><span class="n">epoch</span><span class="o">-</span><span class="mi">99</span><span class="o">-</span><span class="n">avg</span><span class="o">-</span><span class="mf">1.</span><span class="n">onnx</span> \
+    <span class="o">--</span><span class="n">joiner</span> <span class="n">exp</span><span class="o">/</span><span class="n">joiner</span><span class="o">-</span><span class="n">epoch</span><span class="o">-</span><span class="mi">99</span><span class="o">-</span><span class="n">avg</span><span class="o">-</span><span class="mf">1.</span><span class="n">onnx</span> \
+    <span class="o">--</span><span class="n">decoding</span> <span class="n">modified_beam_search</span> \
+    <span class="o">--</span><span class="n">tokens</span> <span class="n">exp</span><span class="o">/</span><span class="n">tokens</span><span class="o">.</span><span class="n">txt</span> \
+    <span class="n">exp</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">0.</span><span class="n">wav</span> <span class="n">exp</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">1.</span><span class="n">wav</span>
+</pre></div>
+</div>
+<p>The output is:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Started!
+Done!
+exp/test_wavs/0.wav
+ALL THE YELLOW LAMPS WOULD LIGHT UP HERE AND THERE THE SQUALID QUARTER OF THE BROTHELS
+----------
+exp/test_wavs/1.wav
+IN WHICH MAN THUS PUNISHED HAD GIVEN HER A LOVELY CHILD WHOSE PLACE WAS ON THAT SAME DISHONOURED BOSOM TO CONNECT HER PARENT FOR EVER WITH THE RACE AND DESCENT OF MORTALS AND TO BE FINALLY A BLESSED SOUL IN HEAVEN
+----------
+num_threads: 1
+decoding_method: modified_beam_search
+Wave duration: 23.340 s
+Elapsed time: 2.546 s
+Real time factor (RTF): 2.546/23.340 = 0.109
+</pre></div>
+</div>
+<p><strong>Decoding with hotwords</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">python</span><span class="o">-</span><span class="n">api</span><span class="o">-</span><span class="n">examples</span><span class="o">/</span><span class="n">offline</span><span class="o">-</span><span class="n">decode</span><span class="o">-</span><span class="n">files</span><span class="o">.</span><span class="n">py</span> \
+    <span class="o">--</span><span class="n">encoder</span> <span class="n">exp</span><span class="o">/</span><span class="n">encoder</span><span class="o">-</span><span class="n">epoch</span><span class="o">-</span><span class="mi">99</span><span class="o">-</span><span class="n">avg</span><span class="o">-</span><span class="mf">1.</span><span class="n">onnx</span> \
+    <span class="o">--</span><span class="n">decoder</span> <span class="n">exp</span><span class="o">/</span><span class="n">decoder</span><span class="o">-</span><span class="n">epoch</span><span class="o">-</span><span class="mi">99</span><span class="o">-</span><span class="n">avg</span><span class="o">-</span><span class="mf">1.</span><span class="n">onnx</span> \
+    <span class="o">--</span><span class="n">joiner</span> <span class="n">exp</span><span class="o">/</span><span class="n">joiner</span><span class="o">-</span><span class="n">epoch</span><span class="o">-</span><span class="mi">99</span><span class="o">-</span><span class="n">avg</span><span class="o">-</span><span class="mf">1.</span><span class="n">onnx</span> \
+    <span class="o">--</span><span class="n">decoding</span> <span class="n">modified_beam_search</span> \
+    <span class="o">--</span><span class="n">tokens</span> <span class="n">exp</span><span class="o">/</span><span class="n">tokens</span><span class="o">.</span><span class="n">txt</span> \
+    <span class="o">--</span><span class="n">modeling</span><span class="o">-</span><span class="n">unit</span> <span class="n">bpe</span> \
+    <span class="o">--</span><span class="n">bpe</span><span class="o">-</span><span class="n">vocab</span> <span class="n">exp</span><span class="o">/</span><span class="n">bpe</span><span class="o">.</span><span class="n">vocab</span> \
+    <span class="o">--</span><span class="n">hotwords</span><span class="o">-</span><span class="n">file</span> <span class="n">hotwords_en</span><span class="o">.</span><span class="n">txt</span> \
+    <span class="o">--</span><span class="n">hotwords</span><span class="o">-</span><span class="n">score</span> <span class="mf">2.0</span> \
+    <span class="n">exp</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">0.</span><span class="n">wav</span> <span class="n">exp</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">1.</span><span class="n">wav</span>
+</pre></div>
+</div>
+<p>The output is:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Started!
+Done!
+exp/test_wavs/0.wav
+ALL THE YELLOW LAMPS WOULD LIGHT UP HERE AND THERE THE SQUALID QUARTERS OF THE BROTHELS
+----------
+exp/test_wavs/1.wav
+IN WHICH MAN THUS PUNISHED HAD GIVEN HER A LOVELY CHILD WHOSE PLACE WAS ON THAT SAME DISHONOURED BOSOM TO CONNECT HER PARENT FOREVER WITH THE RACE AND DESCENTOF MORTALS AND TO BE FINALLY A BLESSED SOUL IN HEAVEN
+----------
+num_threads: 1
+decoding_method: modified_beam_search
+Wave duration: 23.340 s
+Elapsed time: 2.463 s
+Real time factor (RTF): 2.463/23.340 = 0.106
+</pre></div>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p><code class="docutils literal notranslate"><span class="pre">QUARTER</span></code>  -&gt;  <code class="docutils literal notranslate"><span class="pre">QUARTERS</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">FOR</span> <span class="pre">EVER</span></code>  -&gt;  <code class="docutils literal notranslate"><span class="pre">FOREVER</span></code></p>
+</div>
+</section>
+</section>
+<section id="modeling-unit-is-cjkchar">
+<h3>Modeling unit is cjkchar<a class="headerlink" href="#modeling-unit-is-cjkchar" title="Permalink to this heading"></a></h3>
+<p><strong>Download the model</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-conformer-zh-stateless2-2023-05-23.tar.bz2
+tar<span class="w"> </span>xvf<span class="w"> </span>sherpa-onnx-conformer-zh-stateless2-2023-05-23.tar.bz2
+rm<span class="w"> </span>sherpa-onnx-conformer-zh-stateless2-2023-05-23.tar.bz2
+
+ln<span class="w"> </span>-s<span class="w"> </span>sherpa-onnx-conformer-zh-stateless2-2023-05-23<span class="w"> </span>exp-zh
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">hotwords_cn.txt</span></code> contains:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">文森特卡索</span>
+<span class="n">周望君</span>
+<span class="n">朱丽楠</span>
+<span class="n">蒋有伯</span>
+</pre></div>
+</div>
+<section id="id1">
+<h4>C++ api<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h4>
+<p><strong>Decoding without hotwords</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">build</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">offline</span> \
+    <span class="o">--</span><span class="n">encoder</span><span class="o">=</span><span class="n">exp</span><span class="o">-</span><span class="n">zh</span><span class="o">/</span><span class="n">encoder</span><span class="o">-</span><span class="n">epoch</span><span class="o">-</span><span class="mi">99</span><span class="o">-</span><span class="n">avg</span><span class="o">-</span><span class="mf">1.</span><span class="n">onnx</span> \
+    <span class="o">--</span><span class="n">decoder</span><span class="o">=</span><span class="n">exp</span><span class="o">-</span><span class="n">zh</span><span class="o">/</span><span class="n">decoder</span><span class="o">-</span><span class="n">epoch</span><span class="o">-</span><span class="mi">99</span><span class="o">-</span><span class="n">avg</span><span class="o">-</span><span class="mf">1.</span><span class="n">onnx</span> \
+    <span class="o">--</span><span class="n">joiner</span><span class="o">=</span><span class="n">exp</span><span class="o">-</span><span class="n">zh</span><span class="o">/</span><span class="n">joiner</span><span class="o">-</span><span class="n">epoch</span><span class="o">-</span><span class="mi">99</span><span class="o">-</span><span class="n">avg</span><span class="o">-</span><span class="mf">1.</span><span class="n">onnx</span> \
+    <span class="o">--</span><span class="n">tokens</span><span class="o">=</span><span class="n">exp</span><span class="o">-</span><span class="n">zh</span><span class="o">/</span><span class="n">tokens</span><span class="o">.</span><span class="n">txt</span> \
+    <span class="o">--</span><span class="n">decoding</span><span class="o">-</span><span class="n">method</span><span class="o">=</span><span class="n">modified_beam_search</span> \
+    <span class="n">exp</span><span class="o">-</span><span class="n">zh</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">3.</span><span class="n">wav</span> <span class="n">exp</span><span class="o">-</span><span class="n">zh</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">4.</span><span class="n">wav</span> <span class="n">exp</span><span class="o">-</span><span class="n">zh</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">5.</span><span class="n">wav</span> <span class="n">exp</span><span class="o">-</span><span class="n">zh</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">6.</span><span class="n">wav</span>
+</pre></div>
+</div>
+<p>The output is:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/star-kw/kangwei/code/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:361 ./build/bin/sherpa-onnx-offline --encoder=exp-zh/encoder-epoch-99-avg-1.onnx --decoder=exp-zh/decoder-epoch-99-avg-1.onnx --joiner=exp-zh/joiner-epoch-99-avg-1.onnx --tokens=exp-zh/tokens.txt --decoding-method=modified_beam_search exp-zh/test_wavs/3.wav exp-zh/test_wavs/4.wav exp-zh/test_wavs/5.wav exp-zh/test_wavs/6.wav
+
+OfflineRecognizerConfig(feat_config=OfflineFeatureExtractorConfig(sampling_rate=16000, feature_dim=80), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename=&quot;exp-zh/encoder-epoch-99-avg-1.onnx&quot;, decoder_filename=&quot;exp-zh/decoder-epoch-99-avg-1.onnx&quot;, joiner_filename=&quot;exp-zh/joiner-$poch-99-avg-1.onnx&quot;), paraformer=OfflineParaformerModelConfig(model=&quot;&quot;), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=&quot;&quot;), whisper=OfflineWhisperModelConfig$encoder=&quot;&quot;, decoder=&quot;&quot;, language=&quot;&quot;, task=&quot;transcribe&quot;), tdnn=OfflineTdnnModelConfig(model=&quot;&quot;), tokens=&quot;exp-zh/tokens.txt&quot;, num_threads=2, debug=False, provider=&quot;cpu&quot;, model_type=&quot;&quot;), lm_config=OfflineLMConfig(model=&quot;&quot;, scale=0.5), decoding_method=&quot;modified_beam_search&quot;, max_active$paths=4, hotwords_file=, hotwords_score=1.5)
+Creating recognizer ...
+Started
+Done!
+
+exp-zh/test_wavs/3.wav
+{&quot;text&quot;:&quot;文森特卡所是全球知名的法国性格派演员&quot;,&quot;timestamps&quot;:&quot;[0.00, 0.16, 0.68, 1.32, 1.72, 2.08, 2.60, 2.88, 3.20, 3.52, 3.92, 4.40, 4.68, 5.12, 5.44, 6.36, $.96, 7.32]&quot;,&quot;tokens&quot;:[&quot;文&quot;,&quot;森&quot;,&quot;特&quot;,&quot;卡&quot;,&quot;所&quot;,&quot;是&quot;,&quot;全&quot;,&quot;球&quot;,&quot;知&quot;,&quot;名&quot;,&quot;的&quot;,&quot;法&quot;,&quot;国&quot;,&quot;性&quot;,&quot;格&quot;,&quot;派&quot;,&quot;演&quot;,&quot;员&quot;]}
+----
+exp-zh/test_wavs/4.wav
+{&quot;text&quot;:&quot;蒋友伯被拍到带着女儿出游&quot;,&quot;timestamps&quot;:&quot;[0.00, 0.20, 0.88, 1.36, 1.76, 2.08, 2.28, 2.68, 2.92, 3.16, 3.44, 3.80]&quot;,&quot;tokens&quot;:[&quot;蒋&quot;,&quot;友&quot;,&quot;伯&quot;,&quot;被&quot;,&quot;拍&quot;,$
+到&quot;,&quot;带&quot;,&quot;着&quot;,&quot;女&quot;,&quot;儿&quot;,&quot;出&quot;,&quot;游&quot;]}
+----
+exp-zh/test_wavs/5.wav
+{&quot;text&quot;:&quot;周望军就落实控物价&quot;,&quot;timestamps&quot;:&quot;[0.00, 0.16, 0.88, 1.24, 1.64, 1.96, 2.76, 3.04, 3.32]&quot;,&quot;tokens&quot;:[&quot;周&quot;,&quot;望&quot;,&quot;军&quot;,&quot;就&quot;,&quot;落&quot;,&quot;实&quot;,&quot;控&quot;,&quot;物&quot;,&quot;价&quot;]}
+----
+exp-zh/test_wavs/6.wav
+{&quot;text&quot;:&quot;朱立南在上市见面会上表示&quot;,&quot;timestamps&quot;:&quot;[0.00, 0.16, 0.80, 1.12, 1.44, 1.68, 1.92, 2.16, 2.36, 2.60, 2.84, 3.12]&quot;,&quot;tokens&quot;:[&quot;朱&quot;,&quot;立&quot;,&quot;南&quot;,&quot;在&quot;,&quot;上&quot;,$
+市&quot;,&quot;见&quot;,&quot;面&quot;,&quot;会&quot;,&quot;上&quot;,&quot;表&quot;,&quot;示&quot;]}
+----
+num threads: 2
+decoding method: modified_beam_search
+max active paths: 4
+Elapsed seconds: 1.883 s
+Real time factor (RTF): 1.883 / 20.328 = 0.093
+</pre></div>
+</div>
+<p><strong>Decoding with hotwords</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>./build/bin/sherpa-onnx-offline \
+  --encoder=exp-zh/encoder-epoch-99-avg-1.onnx \
+  --decoder=exp-zh/decoder-epoch-99-avg-1.onnx \
+  --joiner=exp-zh/joiner-epoch-99-avg-1.onnx \
+  --tokens=exp-zh/tokens.txt \
+  --decoding-method=modified_beam_search \
+  --modeling-unit=cjkchar \
+  --hotwords-file=hotwords_cn.txt \
+  --hotwords-score=2.0 \
+  exp-zh/test_wavs/3.wav exp-zh/test_wavs/4.wav exp-zh/test_wavs/5.wav exp-zh/test_wavs/6.wav
+
+OfflineRecognizerConfig(feat_config=OfflineFeatureExtractorConfig(sampling_rate=16000, feature_dim=80), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename=&quot;exp-zh/encoder-epoch-99-avg-1.onnx&quot;, decoder_filename=&quot;exp-zh/decoder-epoch-99-avg-1.onnx&quot;, joiner_filename=&quot;exp-zh/joiner-$poch-99-avg-1.onnx&quot;), paraformer=OfflineParaformerModelConfig(model=&quot;&quot;), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=&quot;&quot;), whisper=OfflineWhisperModelConfig$encoder=&quot;&quot;, decoder=&quot;&quot;, language=&quot;&quot;, task=&quot;transcribe&quot;), tdnn=OfflineTdnnModelConfig(model=&quot;&quot;), tokens=&quot;exp-zh/tokens.txt&quot;, num_threads=2, debug=False, provider=&quot;cpu&quot;, model_type=&quot;&quot;), lm_config=OfflineLMConfig(model=&quot;&quot;, scale=0.5), decoding_method=&quot;modified_beam_search&quot;, max_active$paths=4, hotwords_file=hotwords_cn.txt, hotwords_score=2)
+Creating recognizer ...
+Started
+Done!
+
+exp-zh/test_wavs/3.wav
+{&quot;text&quot;:&quot;文森特卡索是全球知名的法国性格派演员&quot;,&quot;timestamps&quot;:&quot;[0.00, 0.16, 0.64, 1.28, 1.64, 2.04, 2.60, 2.88, 3.20, 3.52, 3.92, 4.40, 4.68, 5.12, 5.44, 6.36, $.96, 7.32]&quot;,&quot;tokens&quot;:[&quot;文&quot;,&quot;森&quot;,&quot;特&quot;,&quot;卡&quot;,&quot;索&quot;,&quot;是&quot;,&quot;全&quot;,&quot;球&quot;,&quot;知&quot;,&quot;名&quot;,&quot;的&quot;,&quot;法&quot;,&quot;国&quot;,&quot;性&quot;,&quot;格&quot;,&quot;派&quot;,&quot;演&quot;,&quot;员&quot;]}
+----
+exp-zh/test_wavs/4.wav
+{&quot;text&quot;:&quot;蒋有伯被拍到带着女儿出游&quot;,&quot;timestamps&quot;:&quot;[0.00, 0.12, 0.80, 1.36, 1.76, 2.08, 2.28, 2.68, 2.92, 3.16, 3.44, 3.80]&quot;,&quot;tokens&quot;:[&quot;蒋&quot;,&quot;有&quot;,&quot;伯&quot;,&quot;被&quot;,&quot;拍&quot;,$
+到&quot;,&quot;带&quot;,&quot;着&quot;,&quot;女&quot;,&quot;儿&quot;,&quot;出&quot;,&quot;游&quot;]}
+----
+exp-zh/test_wavs/5.wav
+{&quot;text&quot;:&quot;周望君就落实空物价&quot;,&quot;timestamps&quot;:&quot;[0.00, 0.12, 0.80, 1.24, 1.56, 1.96, 2.68, 3.08, 3.32]&quot;,&quot;tokens&quot;:[&quot;周&quot;,&quot;望&quot;,&quot;君&quot;,&quot;就&quot;,&quot;落&quot;,&quot;实&quot;,&quot;空&quot;,&quot;物&quot;,&quot;价&quot;]}
+----
+exp-zh/test_wavs/6.wav
+{&quot;text&quot;:&quot;朱丽楠在上市见面会上表示&quot;,&quot;timestamps&quot;:&quot;[0.00, 0.12, 0.80, 1.12, 1.44, 1.68, 1.92, 2.16, 2.36, 2.60, 2.84, 3.12]&quot;,&quot;tokens&quot;:[&quot;朱&quot;,&quot;丽&quot;,&quot;楠&quot;,&quot;在&quot;,&quot;上&quot;,$
+市&quot;,&quot;见&quot;,&quot;面&quot;,&quot;会&quot;,&quot;上&quot;,&quot;表&quot;,&quot;示&quot;]}
+----
+num threads: 2
+decoding method: modified_beam_search
+max active paths: 4
+Elapsed seconds: 1.810 s
+Real time factor (RTF): 1.810 / 20.328 = 0.089
+</pre></div>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p><code class="docutils literal notranslate"><span class="pre">文森特卡所</span></code>  -&gt;  <code class="docutils literal notranslate"><span class="pre">文森特卡索</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">周望军</span></code>  -&gt;  <code class="docutils literal notranslate"><span class="pre">周望君</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">朱立南</span></code>  -&gt;  <code class="docutils literal notranslate"><span class="pre">朱丽楠</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">蒋友伯</span></code>  -&gt;  <code class="docutils literal notranslate"><span class="pre">蒋有伯</span></code></p>
+</div>
+</section>
+<section id="id2">
+<h4>Python api<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h4>
+<p><strong>Decoding without hotwords</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">python</span><span class="o">-</span><span class="n">api</span><span class="o">-</span><span class="n">examples</span><span class="o">/</span><span class="n">offline</span><span class="o">-</span><span class="n">decode</span><span class="o">-</span><span class="n">files</span><span class="o">.</span><span class="n">py</span> \
+<span class="o">--</span><span class="n">encoder</span> <span class="n">exp</span><span class="o">-</span><span class="n">zh</span><span class="o">/</span><span class="n">encoder</span><span class="o">-</span><span class="n">epoch</span><span class="o">-</span><span class="mi">99</span><span class="o">-</span><span class="n">avg</span><span class="o">-</span><span class="mf">1.</span><span class="n">onnx</span> \
+<span class="o">--</span><span class="n">decoder</span> <span class="n">exp</span><span class="o">-</span><span class="n">zh</span><span class="o">/</span><span class="n">decoder</span><span class="o">-</span><span class="n">epoch</span><span class="o">-</span><span class="mi">99</span><span class="o">-</span><span class="n">avg</span><span class="o">-</span><span class="mf">1.</span><span class="n">onnx</span> \
+<span class="o">--</span><span class="n">joiner</span> <span class="n">exp</span><span class="o">-</span><span class="n">zh</span><span class="o">/</span><span class="n">joiner</span><span class="o">-</span><span class="n">epoch</span><span class="o">-</span><span class="mi">99</span><span class="o">-</span><span class="n">avg</span><span class="o">-</span><span class="mf">1.</span><span class="n">onnx</span> \
+<span class="o">--</span><span class="n">tokens</span> <span class="n">exp</span><span class="o">-</span><span class="n">zh</span><span class="o">/</span><span class="n">tokens</span><span class="o">.</span><span class="n">txt</span> \
+<span class="o">--</span><span class="n">decoding</span><span class="o">-</span><span class="n">method</span> <span class="n">modified_beam_search</span> \
+<span class="n">exp</span><span class="o">-</span><span class="n">zh</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">3.</span><span class="n">wav</span> <span class="n">exp</span><span class="o">-</span><span class="n">zh</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">4.</span><span class="n">wav</span> <span class="n">exp</span><span class="o">-</span><span class="n">zh</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">5.</span><span class="n">wav</span> <span class="n">exp</span><span class="o">-</span><span class="n">zh</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">6.</span><span class="n">wav</span>
+</pre></div>
+</div>
+<p>The output is:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Started!
+Done!
+exp-zh/test_wavs/3.wav
+文森特卡所是全球知名的法国性格派演员
+----------
+exp-zh/test_wavs/4.wav
+蒋友伯被拍到带着女儿出游
+----------
+exp-zh/test_wavs/5.wav
+周望军就落实控物价
+----------
+exp-zh/test_wavs/6.wav
+朱立南在上市见面会上表示
+----------
+num_threads: 1
+decoding_method: modified_beam_search
+Wave duration: 20.328 s
+Elapsed time: 2.653 s
+Real time factor (RTF): 2.653/20.328 = 0.131
+</pre></div>
+</div>
+<p><strong>Decoding with hotwords</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">python</span><span class="o">-</span><span class="n">api</span><span class="o">-</span><span class="n">examples</span><span class="o">/</span><span class="n">offline</span><span class="o">-</span><span class="n">decode</span><span class="o">-</span><span class="n">files</span><span class="o">.</span><span class="n">py</span> \
+    <span class="o">--</span><span class="n">encoder</span> <span class="n">exp</span><span class="o">-</span><span class="n">zh</span><span class="o">/</span><span class="n">encoder</span><span class="o">-</span><span class="n">epoch</span><span class="o">-</span><span class="mi">99</span><span class="o">-</span><span class="n">avg</span><span class="o">-</span><span class="mf">1.</span><span class="n">onnx</span> \
+    <span class="o">--</span><span class="n">decoder</span> <span class="n">exp</span><span class="o">-</span><span class="n">zh</span><span class="o">/</span><span class="n">decoder</span><span class="o">-</span><span class="n">epoch</span><span class="o">-</span><span class="mi">99</span><span class="o">-</span><span class="n">avg</span><span class="o">-</span><span class="mf">1.</span><span class="n">onnx</span> \
+    <span class="o">--</span><span class="n">joiner</span> <span class="n">exp</span><span class="o">-</span><span class="n">zh</span><span class="o">/</span><span class="n">joiner</span><span class="o">-</span><span class="n">epoch</span><span class="o">-</span><span class="mi">99</span><span class="o">-</span><span class="n">avg</span><span class="o">-</span><span class="mf">1.</span><span class="n">onnx</span> \
+    <span class="o">--</span><span class="n">tokens</span> <span class="n">exp</span><span class="o">-</span><span class="n">zh</span><span class="o">/</span><span class="n">tokens</span><span class="o">.</span><span class="n">txt</span> \
+    <span class="o">--</span><span class="n">decoding</span><span class="o">-</span><span class="n">method</span> <span class="n">modified_beam_search</span> \
+    <span class="o">--</span><span class="n">modeling</span><span class="o">-</span><span class="n">unit</span><span class="o">=</span><span class="n">cjkchar</span> \
+    <span class="o">--</span><span class="n">hotwords</span><span class="o">-</span><span class="n">file</span> <span class="n">hotwords_cn</span><span class="o">.</span><span class="n">txt</span> \
+    <span class="o">--</span><span class="n">hotwords</span><span class="o">-</span><span class="n">score</span> <span class="mf">2.0</span> \
+    <span class="n">exp</span><span class="o">-</span><span class="n">zh</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">3.</span><span class="n">wav</span> <span class="n">exp</span><span class="o">-</span><span class="n">zh</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">4.</span><span class="n">wav</span> <span class="n">exp</span><span class="o">-</span><span class="n">zh</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">5.</span><span class="n">wav</span> <span class="n">exp</span><span class="o">-</span><span class="n">zh</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">6.</span><span class="n">wav</span>
+</pre></div>
+</div>
+<p>The output is:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Started!
+Done!
+exp-zh/test_wavs/3.wav
+文森特卡索是全球知名的法国性格派演员
+----------
+exp-zh/test_wavs/4.wav
+蒋有伯被拍到带着女儿出游
+----------
+exp-zh/test_wavs/5.wav
+周望君就落实空物价
+----------
+exp-zh/test_wavs/6.wav
+朱丽楠在上市见面会上表示
+----------
+num_threads: 1
+decoding_method: modified_beam_search
+Wave duration: 20.328 s
+Elapsed time: 2.636 s
+Real time factor (RTF): 2.636/20.328 = 0.130
+</pre></div>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p><code class="docutils literal notranslate"><span class="pre">文森特卡所</span></code>  -&gt;  <code class="docutils literal notranslate"><span class="pre">文森特卡索</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">周望军</span></code>  -&gt;  <code class="docutils literal notranslate"><span class="pre">周望君</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">朱立南</span></code>  -&gt;  <code class="docutils literal notranslate"><span class="pre">朱丽楠</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">蒋友伯</span></code>  -&gt;  <code class="docutils literal notranslate"><span class="pre">蒋有伯</span></code></p>
+</div>
+</section>
+</section>
+<section id="modeling-unit-is-cjkchar-bpe">
+<h3>Modeling unit is cjkchar+bpe<a class="headerlink" href="#modeling-unit-is-cjkchar-bpe" title="Permalink to this heading"></a></h3>
+<p><strong>Download the model</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20.tar.bz2
+tar<span class="w"> </span>xvf<span class="w"> </span>sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20.tar.bz2
+rm<span class="w"> </span>sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20.tar.bz2
+
+ln<span class="w"> </span>-s<span class="w"> </span>sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20<span class="w"> </span>exp-mixed
+</pre></div>
+</div>
+<p>Export bpe.vocab if you can’t find bpe.vocab in the model directory.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">script</span><span class="o">/</span><span class="n">export_bpe_vocab</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">bpe</span><span class="o">-</span><span class="n">model</span> <span class="n">exp</span><span class="o">/</span><span class="n">bpe</span><span class="o">.</span><span class="n">model</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">hotwords_mix.txt</span></code> contains:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">礼拜二</span>
+<span class="n">频繁</span>
+</pre></div>
+</div>
+<section id="id3">
+<h4>C++ api<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h4>
+<p><strong>Decoding without hotwords</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">build</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span> \
+    <span class="o">--</span><span class="n">encoder</span><span class="o">=</span><span class="n">exp</span><span class="o">-</span><span class="n">mixed</span><span class="o">/</span><span class="n">encoder</span><span class="o">-</span><span class="n">epoch</span><span class="o">-</span><span class="mi">99</span><span class="o">-</span><span class="n">avg</span><span class="o">-</span><span class="mf">1.</span><span class="n">onnx</span> \
+    <span class="o">--</span><span class="n">decoder</span><span class="o">=</span><span class="n">exp</span><span class="o">-</span><span class="n">mixed</span><span class="o">/</span><span class="n">decoder</span><span class="o">-</span><span class="n">epoch</span><span class="o">-</span><span class="mi">99</span><span class="o">-</span><span class="n">avg</span><span class="o">-</span><span class="mf">1.</span><span class="n">onnx</span> \
+    <span class="o">--</span><span class="n">joiner</span><span class="o">=</span><span class="n">exp</span><span class="o">-</span><span class="n">mixed</span><span class="o">/</span><span class="n">joiner</span><span class="o">-</span><span class="n">epoch</span><span class="o">-</span><span class="mi">99</span><span class="o">-</span><span class="n">avg</span><span class="o">-</span><span class="mf">1.</span><span class="n">onnx</span> \
+    <span class="o">--</span><span class="n">decoding</span><span class="o">-</span><span class="n">method</span><span class="o">=</span><span class="n">modified_beam_search</span> \
+    <span class="o">--</span><span class="n">tokens</span><span class="o">=</span><span class="n">exp</span><span class="o">-</span><span class="n">mixed</span><span class="o">/</span><span class="n">tokens</span><span class="o">.</span><span class="n">txt</span> \
+    <span class="n">exp</span><span class="o">-</span><span class="n">mixed</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">0.</span><span class="n">wav</span> <span class="n">exp</span><span class="o">-</span><span class="n">mixed</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">2.</span><span class="n">wav</span>
+</pre></div>
+</div>
+<p>The output is:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">star</span><span class="o">-</span><span class="n">kw</span><span class="o">/</span><span class="n">kangwei</span><span class="o">/</span><span class="n">code</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">csrc</span><span class="o">/</span><span class="n">parse</span><span class="o">-</span><span class="n">options</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="n">Read</span><span class="p">:</span><span class="mi">361</span> <span class="o">./</span><span class="n">build</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span> <span class="o">--</span><span class="n">encoder</span><span class="o">=</span><span class="n">exp</span><span class="o">-</span><span class="n">mixed</span><span class="o">/</span><span class="n">encoder</span><span class="o">-</span><span class="n">epoch</span><span class="o">-</span><span class="mi">99</span><span class="o">-</span><span class="n">avg</span><span class="o">-</span><span class="mf">1.</span><span class="n">onnx</span> <span class="o">--</span><span class="n">decoder</span><span class="o">=</span><span class="n">exp</span><span class="o">-</span><span class="n">mixed</span><span class="o">/</span><span class="n">decoder</span><span class="o">-</span><span class="n">epoch</span><span class="o">-</span><span class="mi">99</span><span class="o">-</span><span class="n">avg</span><span class="o">-</span><span class="mf">1.</span><span class="n">onnx</span> <span class="o">--</span><span class="n">joiner</span><span class="o">=</span><span class="n">exp</span><span class="o">-</span><span class="n">mixed</span><span class="o">/</span><span class="n">joiner</span><span class="o">-</span><span class="n">epoch</span><span class="o">-</span><span class="mi">99</span><span class="o">-</span><span class="n">avg</span><span class="o">-</span><span class="mf">1.</span><span class="n">onnx</span> <span class="o">--</span><span class="n">decoding</span><span class="o">-</span><span class="n">method</span><span class="o">=</span><span class="n">modified_beam_search</span> <span class="o">--</span><span class="n">tokens</span><span class="o">=</span><span class="n">exp</span><span class="o">-</span><span class="n">mixed</span><span class="o">/</span><span class="n">tokens</span><span class="o">.</span><span class="n">txt</span> <span class="n">exp</span><span class="o">-</span><span class="n">mixed</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">0.</span><span class="n">wav</span> <span class="n">exp</span><span class="o">-</span><span class="n">mixed</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">2.</span><span class="n">wav</span>
+<span class="n">OnlineRecognizerConfig</span><span class="p">(</span><span class="n">feat_config</span><span class="o">=</span><span class="n">FeatureExtractorConfig</span><span class="p">(</span><span class="n">sampling_rate</span><span class="o">=</span><span class="mi">16000</span><span class="p">,</span> <span class="n">feature_dim</span><span class="o">=</span><span class="mi">80</span><span class="p">),</span> <span class="n">model_config</span><span class="o">=</span><span class="n">OnlineModelConfig</span><span class="p">(</span><span class="n">transducer</span><span class="o">=</span><span class="n">OnlineTransducerModelConfig</span><span class="p">(</span><span class="n">encoder</span><span class="o">=</span><span class="s2">&quot;exp-mixed/encoder-epoch-99-avg-1.onnx&quot;</span><span class="p">,</span> <span class="n">decoder</span><span class="o">=</span><span class="s2">&quot;exp-mixed/decoder-epoch-99-avg-1.onnx&quot;</span><span class="p">,</span> <span class="n">joiner</span><span class="o">=</span><span class="s2">&quot;exp-mixed/joiner-epoch-99-avg-1.onnx&quot;</span><span class="p">),</span> <span class="n">paraformer</span><span class="o">=</span><span class="n">OnlineParaformerModelConfig</span><span class="p">(</span><span class="n">encoder</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">decoder</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">),</span> <span class="n">tokens</span><span class="o">=</span><span class="s2">&quot;exp-mixed/tokens.txt&quot;</span><span class="p">,</span> <span class="n">num_threads</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">provider</span><span class="o">=</span><span class="s2">&quot;cpu&quot;</span><span class="p">,</span> <span class="n">model_type</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">),</span> <span class="n">lm_config</span><span class="o">=</span><span class="n">OnlineLMConfig</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">0.5</span><span class="p">),</span> <span class="n">endpoint_config</span><span class="o">=</span><span class="n">EndpointConfig</span><span class="p">(</span><span class="n">rule1</span><span class="o">=</span><span class="n">EndpointRule</span><span class="p">(</span><span class="n">must_contain_nonsilence</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">min_trailing_silence</span><span class="o">=</span><span class="mf">2.4</span><span class="p">,</span> <span class="n">min_utterance_length</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">rule2</span><span class="o">=</span><span class="n">EndpointRule</span><span class="p">(</span><span class="n">must_contain_nonsilence</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">min_trailing_silence</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span> <span class="n">min_utterance_length</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">rule3</span><span class="o">=</span><span class="n">EndpointRule</span><span class="p">(</span><span class="n">must_contain_nonsilence</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">min_trailing_silence</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">min_utterance_length</span><span class="o">=</span><span class="mi">20</span><span class="p">)),</span> <span class="n">enable_endpoint</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">max_active_paths</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">hotwords_score</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">hotwords_file</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">decoding_method</span><span class="o">=</span><span class="s2">&quot;modified_beam_search&quot;</span><span class="p">)</span>
+
+<span class="n">exp</span><span class="o">-</span><span class="n">mixed</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">0.</span><span class="n">wav</span>
+<span class="n">Elapsed</span> <span class="n">seconds</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="n">Real</span> <span class="n">time</span> <span class="n">factor</span> <span class="p">(</span><span class="n">RTF</span><span class="p">):</span> <span class="mf">0.3</span>
+<span class="n">昨天是</span> <span class="n">MONDAY</span> <span class="n">TODAY</span> <span class="n">IS</span> <span class="n">LIBR</span> <span class="n">THE</span> <span class="n">DAY</span> <span class="n">AFTER</span> <span class="n">TOMORROW是星期三</span>
+<span class="p">{</span><span class="s2">&quot;is_final&quot;</span><span class="p">:</span><span class="n">false</span><span class="p">,</span><span class="s2">&quot;segment&quot;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="s2">&quot;start_time&quot;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="s2">&quot;text&quot;</span><span class="p">:</span><span class="s2">&quot;昨天是 MONDAY TODAY IS LIBR THE DAY AFTER TOMORROW是星期三&quot;</span><span class="p">,</span><span class="s2">&quot;timestamps&quot;</span><span class="p">:</span><span class="s2">&quot;[0.64, 1.04, 1.60, 2.08, 2.20, 2.40, 4.16, 4.40, 4.88, 5.56, 5.80, 6.16, 6.84, 7.12, 7.44, 8.04, 8.16, 8.24, 8.28, 9.04, 9.40, 9.64, 9.88]&quot;</span><span class="p">,</span><span class="s2">&quot;tokens&quot;</span><span class="p">:[</span><span class="s2">&quot;昨&quot;</span><span class="p">,</span><span class="s2">&quot;天&quot;</span><span class="p">,</span><span class="s2">&quot;是&quot;</span><span class="p">,</span><span class="s2">&quot; MO&quot;</span><span class="p">,</span><span class="s2">&quot;N&quot;</span><span class="p">,</span><span class="s2">&quot;DAY&quot;</span><span class="p">,</span><span class="s2">&quot; TO&quot;</span><span class="p">,</span><span class="s2">&quot;DAY&quot;</span><span class="p">,</span><span class="s2">&quot; IS&quot;</span><span class="p">,</span><span class="s2">&quot; LI&quot;</span><span class="p">,</span><span class="s2">&quot;B&quot;</span><span class="p">,</span><span class="s2">&quot;R&quot;</span><span class="p">,</span><span class="s2">&quot; THE&quot;</span><span class="p">,</span><span class="s2">&quot; DAY&quot;</span><span class="p">,</span><span class="s2">&quot; AFTER&quot;</span><span class="p">,</span><span class="s2">&quot; TO&quot;</span><span class="p">,</span><span class="s2">&quot;M&quot;</span><span class="p">,</span><span class="s2">&quot;OR&quot;</span><span class="p">,</span><span class="s2">&quot;ROW&quot;</span><span class="p">,</span><span class="s2">&quot;是&quot;</span><span class="p">,</span><span class="s2">&quot;星&quot;</span><span class="p">,</span><span class="s2">&quot;期&quot;</span><span class="p">,</span><span class="s2">&quot;三&quot;</span><span class="p">]}</span>
+
+<span class="n">exp</span><span class="o">-</span><span class="n">mixed</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">2.</span><span class="n">wav</span>
+<span class="n">Elapsed</span> <span class="n">seconds</span><span class="p">:</span> <span class="mf">1.7</span><span class="p">,</span> <span class="n">Real</span> <span class="n">time</span> <span class="n">factor</span> <span class="p">(</span><span class="n">RTF</span><span class="p">):</span> <span class="mf">0.37</span>
+<span class="n">是不是平凡的啊不认识记下来</span> <span class="n">FREQUENTLY频繁的</span>
+<span class="p">{</span><span class="s2">&quot;is_final&quot;</span><span class="p">:</span><span class="n">false</span><span class="p">,</span><span class="s2">&quot;segment&quot;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="s2">&quot;start_time&quot;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="s2">&quot;text&quot;</span><span class="p">:</span><span class="s2">&quot;是不是平凡的啊不认识记下来 FREQUENTLY频繁的&quot;</span><span class="p">,</span><span class="s2">&quot;timestamps&quot;</span><span class="p">:</span><span class="s2">&quot;[0.00, 0.40, 0.52, 0.96, 1.08, 1.28, 1.48, 1.68, 1.84, 2.00, 2.24, 2.36, 2.52, 2.68, 2.92, 3.00, 3.12, 3.32, 3.64, 3.96, 4.36]&quot;</span><span class="p">,</span><span class="s2">&quot;tokens&quot;</span><span class="p">:[</span><span class="s2">&quot;是&quot;</span><span class="p">,</span><span class="s2">&quot;不&quot;</span><span class="p">,</span><span class="s2">&quot;是&quot;</span><span class="p">,</span><span class="s2">&quot;平&quot;</span><span class="p">,</span><span class="s2">&quot;凡&quot;</span><span class="p">,</span><span class="s2">&quot;的&quot;</span><span class="p">,</span><span class="s2">&quot;啊&quot;</span><span class="p">,</span><span class="s2">&quot;不&quot;</span><span class="p">,</span><span class="s2">&quot;认&quot;</span><span class="p">,</span><span class="s2">&quot;识&quot;</span><span class="p">,</span><span class="s2">&quot;记&quot;</span><span class="p">,</span><span class="s2">&quot;下&quot;</span><span class="p">,</span><span class="s2">&quot;来&quot;</span><span class="p">,</span><span class="s2">&quot; F&quot;</span><span class="p">,</span><span class="s2">&quot;RE&quot;</span><span class="p">,</span><span class="s2">&quot;QU&quot;</span><span class="p">,</span><span class="s2">&quot;ENT&quot;</span><span class="p">,</span><span class="s2">&quot;LY&quot;</span><span class="p">,</span><span class="s2">&quot;频&quot;</span><span class="p">,</span><span class="s2">&quot;繁&quot;</span><span class="p">,</span><span class="s2">&quot;的&quot;</span><span class="p">]}</span>
+</pre></div>
+</div>
+<p><strong>Decoding with hotwords</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./build/bin/sherpa-onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--encoder<span class="o">=</span>exp-mixed/encoder-epoch-99-avg-1.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--decoder<span class="o">=</span>exp-mixed/decoder-epoch-99-avg-1.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--joiner<span class="o">=</span>exp-mixed/joiner-epoch-99-avg-1.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--decoding-method<span class="o">=</span>modified_beam_search<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--tokens<span class="o">=</span>exp-mixed/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--modeling-unit<span class="o">=</span>cjkchar+bpe<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--bpe-vocab<span class="o">=</span>exp/bpe.vocab<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--hotwords-file<span class="o">=</span>hotwords_mix.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--hotwords-score<span class="o">=</span><span class="m">2</span>.0<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>exp-mixed/test_wavs/0.wav<span class="w"> </span>exp-mixed/test_wavs/2.wav
+</pre></div>
+</div>
+<p>The output is:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">star</span><span class="o">-</span><span class="n">kw</span><span class="o">/</span><span class="n">kangwei</span><span class="o">/</span><span class="n">code</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">csrc</span><span class="o">/</span><span class="n">parse</span><span class="o">-</span><span class="n">options</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="n">Read</span><span class="p">:</span><span class="mi">361</span> <span class="o">./</span><span class="n">build</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span> <span class="o">--</span><span class="n">encoder</span><span class="o">=</span><span class="n">exp</span><span class="o">-</span><span class="n">mixed</span><span class="o">/</span><span class="n">encoder</span><span class="o">-</span><span class="n">epoch</span><span class="o">-</span><span class="mi">99</span><span class="o">-</span><span class="n">avg</span><span class="o">-</span><span class="mf">1.</span><span class="n">onnx</span> <span class="o">--</span><span class="n">decoder</span><span class="o">=</span><span class="n">exp</span><span class="o">-</span><span class="n">mixed</span><span class="o">/</span><span class="n">decoder</span><span class="o">-</span><span class="n">epoch</span><span class="o">-</span><span class="mi">99</span><span class="o">-</span><span class="n">avg</span><span class="o">-</span><span class="mf">1.</span><span class="n">onnx</span> <span class="o">--</span><span class="n">joiner</span><span class="o">=</span><span class="n">exp</span><span class="o">-</span><span class="n">mixed</span><span class="o">/</span><span class="n">joiner</span><span class="o">-</span><span class="n">epoch</span><span class="o">-</span><span class="mi">99</span><span class="o">-</span><span class="n">avg</span><span class="o">-</span><span class="mf">1.</span><span class="n">onnx</span> <span class="o">--</span><span class="n">decoding</span><span class="o">-</span><span class="n">method</span><span class="o">=</span><span class="n">modified_beam_search</span> <span class="o">--</span><span class="n">tokens</span><span class="o">=</span><span class="n">exp</span><span class="o">-</span><span class="n">mixed</span><span class="o">/</span><span class="n">tokens</span><span class="o">.</span><span class="n">txt</span> <span class="o">--</span><span class="n">tokens</span><span class="o">-</span><span class="nb">type</span><span class="o">=</span><span class="n">cjkchar</span><span class="o">+</span><span class="n">bpe</span> <span class="o">--</span><span class="n">bpe</span><span class="o">-</span><span class="n">model</span><span class="o">=</span><span class="n">exp</span><span class="o">-</span><span class="n">mixed</span><span class="o">/</span><span class="n">bpe</span><span class="o">.</span><span class="n">model</span> <span class="o">--</span><span class="n">hotwords</span><span class="o">-</span><span class="n">file</span><span class="o">=</span><span class="n">hotwords_mix</span><span class="o">.</span><span class="n">txt</span> <span class="o">--</span><span class="n">hotwords</span><span class="o">-</span><span class="n">score</span><span class="o">=</span><span class="mf">2.0</span> <span class="n">exp</span><span class="o">-</span><span class="n">mixed</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">0.</span><span class="n">wav</span> <span class="n">exp</span><span class="o">-</span><span class="n">mixed</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">2.</span><span class="n">wav</span>
+
+<span class="n">OnlineRecognizerConfig</span><span class="p">(</span><span class="n">feat_config</span><span class="o">=</span><span class="n">FeatureExtractorConfig</span><span class="p">(</span><span class="n">sampling_rate</span><span class="o">=</span><span class="mi">16000</span><span class="p">,</span> <span class="n">feature_dim</span><span class="o">=</span><span class="mi">80</span><span class="p">),</span> <span class="n">model_config</span><span class="o">=</span><span class="n">OnlineModelConfig</span><span class="p">(</span><span class="n">transducer</span><span class="o">=</span><span class="n">OnlineTransducerModelConfig</span><span class="p">(</span><span class="n">encoder</span><span class="o">=</span><span class="s2">&quot;exp-mixed/encoder-epoch-99-avg-1.onnx&quot;</span><span class="p">,</span> <span class="n">decoder</span><span class="o">=</span><span class="s2">&quot;exp-mixed/decoder-epoch-99-avg-1.onnx&quot;</span><span class="p">,</span> <span class="n">joiner</span><span class="o">=</span><span class="s2">&quot;exp-mixed/joiner-epoch-99-avg-1.onnx&quot;</span><span class="p">),</span> <span class="n">paraformer</span><span class="o">=</span><span class="n">OnlineParaformerModelConfig</span><span class="p">(</span><span class="n">encoder</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">decoder</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">),</span> <span class="n">tokens</span><span class="o">=</span><span class="s2">&quot;exp-mixed/tokens.txt&quot;</span><span class="p">,</span> <span class="n">num_threads</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">provider</span><span class="o">=</span><span class="s2">&quot;cpu&quot;</span><span class="p">,</span> <span class="n">model_type</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">),</span> <span class="n">lm_config</span><span class="o">=</span><span class="n">OnlineLMConfig</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">0.5</span><span class="p">),</span> <span class="n">endpoint_config</span><span class="o">=</span><span class="n">EndpointConfig</span><span class="p">(</span><span class="n">rule1</span><span class="o">=</span><span class="n">EndpointRule</span><span class="p">(</span><span class="n">must_contain_nonsilence</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">min_trailing_silence</span><span class="o">=</span><span class="mf">2.4</span><span class="p">,</span> <span class="n">min_utterance_length</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">rule2</span><span class="o">=</span><span class="n">EndpointRule</span><span class="p">(</span><span class="n">must_contain_nonsilence</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">min_trailing_silence</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span> <span class="n">min_utterance_length</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">rule3</span><span class="o">=</span><span class="n">EndpointRule</span><span class="p">(</span><span class="n">must_contain_nonsilence</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">min_trailing_silence</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">min_utterance_length</span><span class="o">=</span><span class="mi">20</span><span class="p">)),</span> <span class="n">enable_endpoint</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">max_active_paths</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">hotwords_score</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">hotwords_file</span><span class="o">=</span><span class="s2">&quot;hotwords_mix.txt&quot;</span><span class="p">,</span> <span class="n">decoding_method</span><span class="o">=</span><span class="s2">&quot;modified_beam_search&quot;</span><span class="p">)</span>
+
+<span class="n">exp</span><span class="o">-</span><span class="n">mixed</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">0.</span><span class="n">wav</span>
+<span class="n">Elapsed</span> <span class="n">seconds</span><span class="p">:</span> <span class="mf">3.2</span><span class="p">,</span> <span class="n">Real</span> <span class="n">time</span> <span class="n">factor</span> <span class="p">(</span><span class="n">RTF</span><span class="p">):</span> <span class="mf">0.32</span>
+<span class="n">昨天是</span> <span class="n">MONDAY</span> <span class="n">TODAY</span> <span class="n">IS礼拜二</span> <span class="n">THE</span> <span class="n">DAY</span> <span class="n">AFTER</span> <span class="n">TOMORROW是星期三</span>
+<span class="p">{</span><span class="s2">&quot;is_final&quot;</span><span class="p">:</span><span class="n">false</span><span class="p">,</span><span class="s2">&quot;segment&quot;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="s2">&quot;start_time&quot;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="s2">&quot;text&quot;</span><span class="p">:</span><span class="s2">&quot;昨天是 MONDAY TODAY IS礼拜二 THE DAY AFTER TOMORROW是星期三&quot;</span><span class="p">,</span><span class="s2">&quot;timestamps&quot;</span><span class="p">:</span><span class="s2">&quot;[0.64, 1.04, 1.60, 2.08, 2.20, 2.40, 4.16, 4.40, 4.88, 5.56, 5.68, 6.00, 6.84, 7.12, 7.44, 8.04, 8.16, 8.24, 8.28, 9.04, 9.40, 9.64, 9.88]&quot;</span><span class="p">,</span><span class="s2">&quot;tokens&quot;</span><span class="p">:[</span><span class="s2">&quot;昨&quot;</span><span class="p">,</span><span class="s2">&quot;天&quot;</span><span class="p">,</span><span class="s2">&quot;是&quot;</span><span class="p">,</span><span class="s2">&quot; MO&quot;</span><span class="p">,</span><span class="s2">&quot;N&quot;</span><span class="p">,</span><span class="s2">&quot;DAY&quot;</span><span class="p">,</span><span class="s2">&quot; TO&quot;</span><span class="p">,</span><span class="s2">&quot;DAY&quot;</span><span class="p">,</span><span class="s2">&quot; IS&quot;</span><span class="p">,</span><span class="s2">&quot;礼&quot;</span><span class="p">,</span><span class="s2">&quot;拜&quot;</span><span class="p">,</span><span class="s2">&quot;二&quot;</span><span class="p">,</span><span class="s2">&quot; THE&quot;</span><span class="p">,</span><span class="s2">&quot; DAY&quot;</span><span class="p">,</span><span class="s2">&quot; AFTER&quot;</span><span class="p">,</span><span class="s2">&quot; TO&quot;</span><span class="p">,</span><span class="s2">&quot;M&quot;</span><span class="p">,</span><span class="s2">&quot;OR&quot;</span><span class="p">,</span><span class="s2">&quot;ROW&quot;</span><span class="p">,</span><span class="s2">&quot;是&quot;</span><span class="p">,</span><span class="s2">&quot;星&quot;</span><span class="p">,</span><span class="s2">&quot;期&quot;</span><span class="p">,</span><span class="s2">&quot;三&quot;</span><span class="p">]}</span>
+
+<span class="n">exp</span><span class="o">-</span><span class="n">mixed</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">2.</span><span class="n">wav</span>
+<span class="n">Elapsed</span> <span class="n">seconds</span><span class="p">:</span> <span class="mf">1.9</span><span class="p">,</span> <span class="n">Real</span> <span class="n">time</span> <span class="n">factor</span> <span class="p">(</span><span class="n">RTF</span><span class="p">):</span> <span class="mf">0.4</span>
+<span class="n">是不是频繁的啊不认识记下来</span> <span class="n">FREQUENTLY频繁的</span>
+<span class="p">{</span><span class="s2">&quot;is_final&quot;</span><span class="p">:</span><span class="n">false</span><span class="p">,</span><span class="s2">&quot;segment&quot;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="s2">&quot;start_time&quot;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="s2">&quot;text&quot;</span><span class="p">:</span><span class="s2">&quot;是不是频繁的啊不认识记下来 FREQUENTLY频繁的&quot;</span><span class="p">,</span><span class="s2">&quot;timestamps&quot;</span><span class="p">:</span><span class="s2">&quot;[0.00, 0.40, 0.52, 0.96, 1.08, 1.28, 1.48, 1.68, 1.84, 2.00, 2.24, 2.36, 2.52, 2.68, 2.92, 3.00, 3.12, 3.32, 3.64, 3.96, 4.36]&quot;</span><span class="p">,</span><span class="s2">&quot;tokens&quot;</span><span class="p">:[</span><span class="s2">&quot;是&quot;</span><span class="p">,</span><span class="s2">&quot;不&quot;</span><span class="p">,</span><span class="s2">&quot;是&quot;</span><span class="p">,</span><span class="s2">&quot;频&quot;</span><span class="p">,</span><span class="s2">&quot;繁&quot;</span><span class="p">,</span><span class="s2">&quot;的&quot;</span><span class="p">,</span><span class="s2">&quot;啊&quot;</span><span class="p">,</span><span class="s2">&quot;不&quot;</span><span class="p">,</span><span class="s2">&quot;认&quot;</span><span class="p">,</span><span class="s2">&quot;识&quot;</span><span class="p">,</span><span class="s2">&quot;记&quot;</span><span class="p">,</span><span class="s2">&quot;下&quot;</span><span class="p">,</span><span class="s2">&quot;来&quot;</span><span class="p">,</span><span class="s2">&quot; F&quot;</span><span class="p">,</span><span class="s2">&quot;RE&quot;</span><span class="p">,</span><span class="s2">&quot;QU&quot;</span><span class="p">,</span><span class="s2">&quot;ENT&quot;</span><span class="p">,</span><span class="s2">&quot;LY&quot;</span><span class="p">,</span><span class="s2">&quot;频&quot;</span><span class="p">,</span><span class="s2">&quot;繁&quot;</span><span class="p">,</span><span class="s2">&quot;的&quot;</span><span class="p">]}</span>
+</pre></div>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p><code class="docutils literal notranslate"><span class="pre">LIBR</span></code>  -&gt;  <code class="docutils literal notranslate"><span class="pre">礼拜二</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">平凡</span></code> -&gt;  <code class="docutils literal notranslate"><span class="pre">频繁</span></code></p>
+</div>
+</section>
+<section id="id4">
+<h4>Python api<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h4>
+<p><strong>Decoding without hotwords</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">python</span><span class="o">-</span><span class="n">api</span><span class="o">-</span><span class="n">examples</span><span class="o">/</span><span class="n">online</span><span class="o">-</span><span class="n">decode</span><span class="o">-</span><span class="n">files</span><span class="o">.</span><span class="n">py</span> \
+  <span class="o">--</span><span class="n">encoderexp</span><span class="o">-</span><span class="n">mixed</span><span class="o">/</span><span class="n">encoder</span><span class="o">-</span><span class="n">epoch</span><span class="o">-</span><span class="mi">99</span><span class="o">-</span><span class="n">avg</span><span class="o">-</span><span class="mf">1.</span><span class="n">onnx</span> \
+  <span class="o">--</span><span class="n">decoder</span> <span class="n">exp</span><span class="o">-</span><span class="n">mixed</span><span class="o">/</span><span class="n">decoder</span><span class="o">-</span><span class="n">epoch</span><span class="o">-</span><span class="mi">99</span><span class="o">-</span><span class="n">avg</span><span class="o">-</span><span class="mf">1.</span><span class="n">onnx</span> \
+  <span class="o">--</span><span class="n">joiner</span> <span class="n">exp</span><span class="o">-</span><span class="n">mixed</span><span class="o">/</span><span class="n">joiner</span><span class="o">-</span><span class="n">epoch</span><span class="o">-</span><span class="mi">99</span><span class="o">-</span><span class="n">avg</span><span class="o">-</span><span class="mf">1.</span><span class="n">onnx</span> \
+  <span class="o">--</span><span class="n">decoding</span><span class="o">-</span><span class="n">method</span> <span class="n">modified_beam_search</span> \
+  <span class="o">--</span><span class="n">tokens</span> <span class="n">exp</span><span class="o">-</span><span class="n">mixed</span><span class="o">/</span><span class="n">tokens</span><span class="o">.</span><span class="n">txt</span>
+  <span class="n">exp</span><span class="o">-</span><span class="n">mixed</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">0.</span><span class="n">wav</span> <span class="n">exp</span><span class="o">-</span><span class="n">mixed</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">2.</span><span class="n">wav</span>
+</pre></div>
+</div>
+<p>The output is:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Started!
+Done!
+exp-mixed/test_wavs/0.wav
+昨天是 MONDAY TODAY IS LIBR THE DAY AFTER TOMORROW是星期三
+----------
+exp-mixed/test_wavs/2.wav
+是不是平凡的啊不认识记下来 FREQUENTLY频繁的
+----------
+num_threads: 1
+decoding_method: modified_beam_search
+Wave duration: 14.743 s
+Elapsed time: 3.052 s
+Real time factor (RTF): 3.052/14.743 = 0.207
+</pre></div>
+</div>
+<p><strong>Decoding with hotwords</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">python</span><span class="o">-</span><span class="n">api</span><span class="o">-</span><span class="n">examples</span><span class="o">/</span><span class="n">online</span><span class="o">-</span><span class="n">decode</span><span class="o">-</span><span class="n">files</span><span class="o">.</span><span class="n">py</span> \
+    <span class="o">--</span><span class="n">encoder</span> <span class="n">exp</span><span class="o">-</span><span class="n">mixed</span><span class="o">/</span><span class="n">encoder</span><span class="o">-</span><span class="n">epoch</span><span class="o">-</span><span class="mi">99</span><span class="o">-</span><span class="n">avg</span><span class="o">-</span><span class="mf">1.</span><span class="n">onnx</span> \
+    <span class="o">--</span><span class="n">decoder</span> <span class="n">exp</span><span class="o">-</span><span class="n">mixed</span><span class="o">/</span><span class="n">decoder</span><span class="o">-</span><span class="n">epoch</span><span class="o">-</span><span class="mi">99</span><span class="o">-</span><span class="n">avg</span><span class="o">-</span><span class="mf">1.</span><span class="n">onnx</span> \
+    <span class="o">--</span><span class="n">joiner</span> <span class="n">exp</span><span class="o">-</span><span class="n">mixed</span><span class="o">/</span><span class="n">joiner</span><span class="o">-</span><span class="n">epoch</span><span class="o">-</span><span class="mi">99</span><span class="o">-</span><span class="n">avg</span><span class="o">-</span><span class="mf">1.</span><span class="n">onnx</span> \
+    <span class="o">--</span><span class="n">decoding</span><span class="o">-</span><span class="n">method</span> <span class="n">modified_beam_search</span> \
+    <span class="o">--</span><span class="n">tokens</span> <span class="n">exp</span><span class="o">-</span><span class="n">mixed</span><span class="o">/</span><span class="n">tokens</span><span class="o">.</span><span class="n">txt</span> \
+    <span class="o">--</span><span class="n">modeling</span><span class="o">-</span><span class="n">unit</span> <span class="n">cjkchar</span><span class="o">+</span><span class="n">bpe</span> \
+    <span class="o">--</span><span class="n">bpe</span><span class="o">-</span><span class="n">vocab</span> <span class="n">exp</span><span class="o">-</span><span class="n">mixed</span><span class="o">/</span><span class="n">bpe</span><span class="o">.</span><span class="n">vocab</span> \
+    <span class="o">--</span><span class="n">hotwords</span><span class="o">-</span><span class="n">file</span> <span class="n">hotwords_mix</span><span class="o">.</span><span class="n">txt</span> \
+    <span class="o">--</span><span class="n">hotwords</span><span class="o">-</span><span class="n">score</span> <span class="mf">2.0</span> \
+    <span class="n">exp</span><span class="o">-</span><span class="n">mixed</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">0.</span><span class="n">wav</span> <span class="n">exp</span><span class="o">-</span><span class="n">mixed</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">2.</span><span class="n">wav</span>
+</pre></div>
+</div>
+<p>The output is:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Started!
+Done!
+exp-mixed/test_wavs/0.wav
+昨天是 MONDAY TODAY IS礼拜二 THE DAY AFTER TOMORROW是星期三
+----------
+exp-mixed/test_wavs/2.wav
+是不是频繁的啊不认识记下来 FREQUENTLY频繁的
+----------
+num_threads: 1
+decoding_method: modified_beam_search
+Wave duration: 14.743 s
+Elapsed time: 3.060 s
+Real time factor (RTF): 3.060/14.743 = 0.208
+</pre></div>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p><code class="docutils literal notranslate"><span class="pre">LIBR</span></code>  -&gt;  <code class="docutils literal notranslate"><span class="pre">礼拜二</span></code></p>
+<p><code class="docutils literal notranslate"><span class="pre">平凡</span></code> -&gt;  <code class="docutils literal notranslate"><span class="pre">频繁</span></code></p>
+</div>
+</section>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../websocket/offline-websocket.html" class="btn btn-neutral float-left" title="Non-streaming WebSocket server and client" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../kws/index.html" class="btn btn-neutral float-right" title="Keyword spotting" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

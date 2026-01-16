@@ -1,0 +1,503 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Run executables on your phone with adb (using model.bin) &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Run executables on your phone with adb (using libmodel.so)" href="run-executables-on-your-phone.html" />
+    <link rel="prev" title="Build sherpa-onnx for Qualcomm NPU" href="build.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">sherpa-onnx</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../install/index.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../faqs/index.html">Frequently Asked Question (FAQs)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python/index.html">Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../c-api/index.html">C API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../java-api/index.html">Java API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../javascript-api/index.html">Javascript API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kotlin-api/index.html">Kotlin API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../swift-api/index.html">Swift API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../go-api/index.html">Go API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../csharp-api/index.html">C# API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pascal-api/index.html">Pascal API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lazarus/index.html">Lazarus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../wasm/index.html">WebAssembly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../android/index.html">Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../harmony-os/index.html">HarmonyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ios/index.html">iOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../flutter/index.html">Flutter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../websocket/index.html">WebSocket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../hotwords/index.html">Hotwords (Contextual biasing)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kws/index.html">Keyword spotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../punctuation/index.html">Punctuation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../audio-tagging/index.html">Audio tagging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spoken-language-identification/index.html">Spoken language identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vad/index.html">VAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/index.html">Pre-trained models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/whisper/index.html">Whisper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../moonshine/index.html">Moonshine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../omnilingual-asr/index.html">Omnilingual ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sense-voice/index.html">SenseVoice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../funasr-nano/index.html">FunASR Nano</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../paraformer/index.html">Paraformer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nemo/index.html">NeMo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../FireRedAsr/index.html">FireRedAsr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Dolphin/index.html">Dolphin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../homophone-replacer/index.html">拼音词组匹配替换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-diarization/index.html">Speaker Diarization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-identification/index.html">Speaker Identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speech-enhancement/index.html">Speech enhancement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../source-separation/index.html">Source separation</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Qualcomm NPU (QNN, HTP)</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="download-qnn.html">Download QNN SDK</a></li>
+<li class="toctree-l3"><a class="reference internal" href="build.html">Build sherpa-onnx for Qualcomm NPU</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Run executables on your phone with adb (using model.bin)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#download-a-qnn-model">Download a QNN model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#copy-files-to-your-phone">Copy files to your phone</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#run-it">Run it !</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#congratulations">Congratulations</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="run-executables-on-your-phone.html">Run executables on your phone with adb (using libmodel.so)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="build-android-demo.html">Build Android examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="models.html">Models for QNN</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../rknn/index.html">rknn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ascend/index.html">Ascend NPU (昇腾 NPU)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tts/index.html">Text-to-speech (TTS)</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">sherpa-onnx</a> &raquo;</li>
+          <li><a href="index.html">Qualcomm NPU (QNN, HTP)</a> &raquo;</li>
+      <li>Run executables on your phone with adb (using model.bin)</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/onnx/qnn/run-executables-on-your-phone-binary.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="run-executables-on-your-phone-with-adb-using-model-bin">
+<span id="run-exe-on-your-phone-with-qnn-binary"></span><h1>Run executables on your phone with adb (using model.bin)<a class="headerlink" href="#run-executables-on-your-phone-with-adb-using-model-bin" title="Permalink to this heading"></a></h1>
+<p>In <a class="reference internal" href="build.html#build-sherpa-onnx-for-qualcomm-npu"><span class="std std-ref">Build sherpa-onnx for Qualcomm NPU</span></a>, we have described how to generate
+executable files. This section describes how to run them with QNN models (<code class="docutils literal notranslate"><span class="pre">model.bin</span></code>) on your
+phone with adb.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p><code class="docutils literal notranslate"><span class="pre">model.bin</span></code> is <strong>OS-independent</strong>, but <strong>QNN-SDK-dependent</strong> and <strong>SoC-dependent</strong>.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>OS-independent</strong>: A <code class="docutils literal notranslate"><span class="pre">model.bin</span></code> can run on both Android/arm64 and Linux/arm64.</p></li>
+<li><p><strong>QNN-SDK-dependent</strong>: Once built, <code class="docutils literal notranslate"><span class="pre">model.bin</span></code> depends on the version of the QNN SDK used during its creation.</p></li>
+<li><p><strong>SoC-dependent</strong>: A <code class="docutils literal notranslate"><span class="pre">model.bin</span></code> built for SM8850 cannot be used on SA8259, and vice versa.</p></li>
+<li><p><strong>Trade-off</strong>: The first-run initialization is extremely fast because the context is pre-generated.</p></li>
+<li><p><strong>Alternative</strong>: If you need <strong>SoC-independence</strong> or <strong>QNN-SDK-independence</strong>, use <code class="docutils literal notranslate"><span class="pre">libmodel.so</span></code>.
+For guidance, see <a class="reference internal" href="run-executables-on-your-phone.html#run-exe-on-your-phone-with-qnn"><span class="std std-ref">Run executables on your phone with adb (using libmodel.so)</span></a>.</p></li>
+</ul>
+</div></blockquote>
+<table class="docutils align-default" id="id3">
+<caption><span class="caption-number">Table 1 </span><span class="caption-text">Comparison of <code class="docutils literal notranslate"><span class="pre">libmodel.so</span></code> and <code class="docutils literal notranslate"><span class="pre">model.bin</span></code></span><a class="headerlink" href="#id3" title="Permalink to this table"></a></caption>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Feature</p></th>
+<th class="head"><p>libmodel.so</p></th>
+<th class="head"><p>model.bin</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>OS Dependency</p></td>
+<td><div class="line-block">
+<div class="line"><strong>OS-dependent</strong>: cannot run across</div>
+<div class="line">different OS/arch</div>
+<div class="line">(e.g., Android/arm64</div>
+<div class="line">vs Linux/arm64)</div>
+</div>
+</td>
+<td><div class="line-block">
+<div class="line"><strong>OS-independent</strong>: can run on</div>
+<div class="line">multiple OS/arch</div>
+<div class="line">(e.g., Android/arm64</div>
+<div class="line">and Linux/arm64)</div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p>SoC Dependency</p></td>
+<td><div class="line-block">
+<div class="line"><strong>SoC-independent</strong>: can run</div>
+<div class="line">on multiple Qualcomm chips</div>
+<div class="line">(e.g., SM8850, SA8259, QCS9100)</div>
+</div>
+</td>
+<td><div class="line-block">
+<div class="line"><strong>SoC-dependent</strong>: built for</div>
+<div class="line">a specific chip;</div>
+<div class="line">cannot run on a different SoC</div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p>QNN-SDK Dependency</p></td>
+<td><div class="line-block">
+<div class="line"><strong>QNN-SDK-independent</strong>: works</div>
+<div class="line">with any QNN SDK version</div>
+</div>
+</td>
+<td><div class="line-block">
+<div class="line"><strong>QNN-SDK-dependent</strong>: depends</div>
+<div class="line">on the QNN SDK version</div>
+<div class="line">used to build it</div>
+</div>
+</td>
+</tr>
+<tr class="row-odd"><td><p>First-Run Initialization</p></td>
+<td><div class="line-block">
+<div class="line"><strong>Slow</strong>: context must be</div>
+<div class="line">generated at runtime</div>
+</div>
+</td>
+<td><div class="line-block">
+<div class="line"><strong>Fast</strong>: context is</div>
+<div class="line">pre-generated</div>
+</div>
+</td>
+</tr>
+<tr class="row-even"><td><p>Recommended Use</p></td>
+<td><div class="line-block">
+<div class="line">When SoC-independence or</div>
+<div class="line">SDK-independence is needed</div>
+</div>
+</td>
+<td><p>When fastest startup is required</p></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Note:</strong> Choose <code class="docutils literal notranslate"><span class="pre">libmodel.so</span></code> if you need flexibility across SoCs or
+QNN SDK versions. Use <code class="docutils literal notranslate"><span class="pre">model.bin</span></code> if you want the fastest possible
+first-run initialization on a specific SoC.</p>
+</div>
+<section id="download-a-qnn-model">
+<h2>Download a QNN model<a class="headerlink" href="#download-a-qnn-model" title="Permalink to this heading"></a></h2>
+<p>You can find available QNN models at</p>
+<blockquote>
+<div><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/tag/asr-models-qnn-binary">https://github.com/k2-fsa/sherpa-onnx/releases/tag/asr-models-qnn-binary</a></p>
+</div></blockquote>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>For <code class="docutils literal notranslate"><span class="pre">libmodel.so</span></code>, please see</p>
+<blockquote>
+<div><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/tag/asr-models-qnn">https://github.com/k2-fsa/sherpa-onnx/releases/tag/asr-models-qnn</a></p>
+</div></blockquote>
+</div>
+<p>Since QNN does not support dynamic input shapes, we limit the maximum duration the model can handle.
+For example, if the limit is 10 seconds, any input shorter than 10 seconds will be padded to 10 seconds,
+and inputs longer than 10 seconds will be truncated to that length.</p>
+<p>The model name indicates the maximum duration the model can handle.</p>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<ul class="simple">
+<li><p>I am using a Xiaomi 17 Pro for testing, so I selected a model with SM8850 in its name.</p></li>
+<li><p>Make sure to select a model that matches your own device.</p></li>
+<li><p>Suppose you are testing on a Samsung Galaxy S23 Ultra, which uses the SM8550 SoC;
+In this case, you should select a model with SM8550 in its name instead of SM8850.</p></li>
+</ul>
+</div>
+<p>We use <code class="docutils literal notranslate"><span class="pre">sherpa-onnx-qnn-SM8850-binary-10-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17-int8.tar.bz2</span></code>
+as an example below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">wget</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">k2</span><span class="o">-</span><span class="n">fsa</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="n">download</span><span class="o">/</span><span class="n">asr</span><span class="o">-</span><span class="n">models</span><span class="o">-</span><span class="n">qnn</span><span class="o">-</span><span class="n">binary</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">qnn</span><span class="o">-</span><span class="n">SM8850</span><span class="o">-</span><span class="n">binary</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="n">seconds</span><span class="o">-</span><span class="n">sense</span><span class="o">-</span><span class="n">voice</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="n">ja</span><span class="o">-</span><span class="n">ko</span><span class="o">-</span><span class="n">yue</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">17</span><span class="o">-</span><span class="n">int8</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">bz2</span>
+<span class="n">tar</span> <span class="n">xvf</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">qnn</span><span class="o">-</span><span class="n">SM8850</span><span class="o">-</span><span class="n">binary</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="n">seconds</span><span class="o">-</span><span class="n">sense</span><span class="o">-</span><span class="n">voice</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="n">ja</span><span class="o">-</span><span class="n">ko</span><span class="o">-</span><span class="n">yue</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">17</span><span class="o">-</span><span class="n">int8</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">bz2</span>
+<span class="n">rm</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">qnn</span><span class="o">-</span><span class="n">SM8850</span><span class="o">-</span><span class="n">binary</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="n">seconds</span><span class="o">-</span><span class="n">sense</span><span class="o">-</span><span class="n">voice</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="n">ja</span><span class="o">-</span><span class="n">ko</span><span class="o">-</span><span class="n">yue</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">17</span><span class="o">-</span><span class="n">int8</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">bz2</span>
+</pre></div>
+</div>
+<p>You should see the following files:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ls</span> <span class="o">-</span><span class="n">lh</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">qnn</span><span class="o">-</span><span class="n">SM8850</span><span class="o">-</span><span class="n">binary</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="n">seconds</span><span class="o">-</span><span class="n">sense</span><span class="o">-</span><span class="n">voice</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="n">ja</span><span class="o">-</span><span class="n">ko</span><span class="o">-</span><span class="n">yue</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">17</span><span class="o">-</span><span class="n">int8</span><span class="o">/</span>
+<span class="n">total</span> <span class="mi">526984</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--@</span> <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>    <span class="mi">23</span><span class="n">B</span>  <span class="mi">9</span> <span class="n">Dec</span> <span class="mi">16</span><span class="p">:</span><span class="mi">40</span> <span class="n">info</span><span class="o">.</span><span class="n">txt</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--@</span> <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>    <span class="mi">71</span><span class="n">B</span>  <span class="mi">9</span> <span class="n">Dec</span> <span class="mi">16</span><span class="p">:</span><span class="mi">40</span> <span class="n">LICENSE</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--@</span> <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">242</span><span class="n">M</span>  <span class="mi">9</span> <span class="n">Dec</span> <span class="mi">16</span><span class="p">:</span><span class="mi">40</span> <span class="n">model</span><span class="o">.</span><span class="n">bin</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--@</span> <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">104</span><span class="n">B</span>  <span class="mi">9</span> <span class="n">Dec</span> <span class="mi">16</span><span class="p">:</span><span class="mi">40</span> <span class="n">README</span><span class="o">.</span><span class="n">md</span>
+<span class="n">drwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span><span class="o">@</span> <span class="mi">7</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">224</span><span class="n">B</span>  <span class="mi">9</span> <span class="n">Dec</span> <span class="mi">16</span><span class="p">:</span><span class="mi">40</span> <span class="n">test_wavs</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--@</span> <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">308</span><span class="n">K</span>  <span class="mi">9</span> <span class="n">Dec</span> <span class="mi">16</span><span class="p">:</span><span class="mi">40</span> <span class="n">tokens</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
+</div>
+</section>
+<section id="copy-files-to-your-phone">
+<h2>Copy files to your phone<a class="headerlink" href="#copy-files-to-your-phone" title="Permalink to this heading"></a></h2>
+<p>We assume you put files in the directory <code class="docutils literal notranslate"><span class="pre">/data/local/tmp/binary</span></code> on your phone.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Run on your computer</span>
+
+<span class="n">adb</span> <span class="n">shell</span> <span class="n">mkdir</span> <span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">binary</span>
+</pre></div>
+</div>
+<section id="copy-model-files">
+<h3>Copy model files<a class="headerlink" href="#copy-model-files" title="Permalink to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Run on your computer</span>
+
+<span class="n">adb</span> <span class="n">push</span> <span class="o">./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">qnn</span><span class="o">-</span><span class="n">SM8850</span><span class="o">-</span><span class="n">binary</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="n">seconds</span><span class="o">-</span><span class="n">sense</span><span class="o">-</span><span class="n">voice</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="n">ja</span><span class="o">-</span><span class="n">ko</span><span class="o">-</span><span class="n">yue</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">17</span><span class="o">-</span><span class="n">int8</span> <span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">binary</span><span class="o">/</span>
+</pre></div>
+</div>
+</section>
+<section id="copy-sherpa-onnx-executable-files">
+<h3>Copy sherpa-onnx executable files<a class="headerlink" href="#copy-sherpa-onnx-executable-files" title="Permalink to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Run on your computer</span>
+
+<span class="n">adb</span> <span class="n">push</span> <span class="o">./</span><span class="n">build</span><span class="o">-</span><span class="n">android</span><span class="o">-</span><span class="n">arm64</span><span class="o">-</span><span class="n">v8a</span><span class="o">/</span><span class="n">install</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">offline</span> <span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">binary</span><span class="o">/</span>
+</pre></div>
+</div>
+</section>
+<section id="copy-sherpa-onnx-library-files">
+<h3>Copy sherpa-onnx library files<a class="headerlink" href="#copy-sherpa-onnx-library-files" title="Permalink to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Run on your computer</span>
+
+<span class="n">adb</span> <span class="n">push</span> <span class="o">./</span><span class="n">build</span><span class="o">-</span><span class="n">android</span><span class="o">-</span><span class="n">arm64</span><span class="o">-</span><span class="n">v8a</span><span class="o">/</span><span class="n">install</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libonnxruntime</span><span class="o">.</span><span class="n">so</span> <span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">binary</span><span class="o">/</span>
+</pre></div>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>You don’t need to copy <code class="docutils literal notranslate"><span class="pre">libsherpa-onnx-jni.so</span></code> in this case.</p>
+</div>
+</section>
+<section id="copy-qnn-library-files">
+<h3>Copy QNN library files<a class="headerlink" href="#copy-qnn-library-files" title="Permalink to this heading"></a></h3>
+<p>Before you continue, we assume you have followed <a class="reference internal" href="download-qnn.html#onnx-download-qnn"><span class="std std-ref">Download QNN SDK</span></a>
+to download QNN SDK and set up the environment variable <code class="docutils literal notranslate"><span class="pre">QNN_SDK_ROOT</span></code>.</p>
+<p>You should run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>echo $QNN_SDK_ROOT
+</pre></div>
+</div>
+<p>to check that it points to the QNN SDK directory.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>We use QNN SDK <code class="docutils literal notranslate"><span class="pre">v2.40.0.251030</span></code> to generate <code class="docutils literal notranslate"><span class="pre">model.bin</span></code>.</p>
+<p>If you change the QNN SDK version, please re-generate the <code class="docutils literal notranslate"><span class="pre">model.bin</span></code> by yourself.</p>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># Run on your computer
+
+adb push $QNN_SDK_ROOT/lib/aarch64-android/libQnnHtp.so /data/local/tmp/binary/
+adb push $QNN_SDK_ROOT/lib/aarch64-android/libQnnHtpPrepare.so /data/local/tmp/binary/
+adb push $QNN_SDK_ROOT/lib/aarch64-android/libQnnSystem.so /data/local/tmp/binary/
+
+# Since my Xiami 17 Pro is SM8850, which corresponds to Htp Arch 81, so I choose
+# libQnnHtpV81Stub.so and libQnnHtpV81Skel.so
+#
+# Please udpate it accordingly to match your device
+#
+adb push $QNN_SDK_ROOT/lib/aarch64-android/libQnnHtpV81Stub.so /data/local/tmp/binary/
+
+adb push $QNN_SDK_ROOT/lib/hexagon-v81/unsigned/libQnnHtpV81Skel.so /data/local/tmp/binary/
+</pre></div>
+</div>
+</section>
+</section>
+<section id="run-it">
+<h2>Run it !<a class="headerlink" href="#run-it" title="Permalink to this heading"></a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">adb</span> <span class="n">shell</span>
+</pre></div>
+</div>
+<p>The following commands are run on your phone.</p>
+<section id="check-files">
+<h3>Check files<a class="headerlink" href="#check-files" title="Permalink to this heading"></a></h3>
+<p>First, check that you have followed above commands to copy files:</p>
+<a class="reference internal image-reference" href="../../_images/qnn-adb-files-binary.jpg"><img alt="screenshot of expected files on your phone" class="align-center" src="../../_images/qnn-adb-files-binary.jpg" style="width: 600px;" /></a>
+<a class="reference internal image-reference" href="../../_images/model-files-binary.png"><img alt="screenshot of expected models files on your phone" class="align-center" src="../../_images/model-files-binary.png" style="width: 600px;" /></a>
+</section>
+<section id="set-environment-variable-adsp-library-path">
+<h3>Set environment variable ADSP_LIBRARY_PATH<a class="headerlink" href="#set-environment-variable-adsp-library-path" title="Permalink to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">export</span> <span class="n">ADSP_LIBRARY_PATH</span><span class="o">=</span><span class="s2">&quot;$PWD;$ADSP_LIBRARY_PATH&quot;</span>
+</pre></div>
+</div>
+<p>where <code class="docutils literal notranslate"><span class="pre">$PWD</span></code> is <code class="docutils literal notranslate"><span class="pre">/data/local/tmp/binary</span></code> in this case.</p>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>Please use <code class="docutils literal notranslate"><span class="pre">;</span></code>, not <code class="docutils literal notranslate"><span class="pre">:</span></code>.</p>
+<p>It is an <code class="docutils literal notranslate"><span class="pre">error</span></code> to use <code class="docutils literal notranslate"><span class="pre">export</span> <span class="pre">ADSP_LIBRARY_PATH=&quot;$PWD:$ADSP_LIBRARY_PATH&quot;</span></code></p>
+<p>It is an <code class="docutils literal notranslate"><span class="pre">error</span></code> to use <code class="docutils literal notranslate"><span class="pre">export</span> <span class="pre">ADSP_LIBRARY_PATH=&quot;$PWD:$ADSP_LIBRARY_PATH&quot;</span></code></p>
+<p>It is an <code class="docutils literal notranslate"><span class="pre">error</span></code> to use <code class="docutils literal notranslate"><span class="pre">export</span> <span class="pre">ADSP_LIBRARY_PATH=&quot;$PWD:$ADSP_LIBRARY_PATH&quot;</span></code></p>
+</div>
+<a class="reference internal image-reference" href="../../_images/adsp-path-binary.jpg"><img alt="screenshot of setting ``ADSP_LIBRARY_PATH``" class="align-center" src="../../_images/adsp-path-binary.jpg" style="width: 600px;" /></a>
+</section>
+<section id="run-sherpa-onnx-offline">
+<h3>Run sherpa-onnx-offline<a class="headerlink" href="#run-sherpa-onnx-offline" title="Permalink to this heading"></a></h3>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>You would be sad if you did not set the environment variable <code class="docutils literal notranslate"><span class="pre">ADSP_LIBRARY_PATH</span></code>.</p>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">offline</span> \
+  <span class="o">--</span><span class="n">provider</span><span class="o">=</span><span class="n">qnn</span> \
+  <span class="o">--</span><span class="n">tokens</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">qnn</span><span class="o">-</span><span class="n">SM8850</span><span class="o">-</span><span class="n">binary</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="n">seconds</span><span class="o">-</span><span class="n">sense</span><span class="o">-</span><span class="n">voice</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="n">ja</span><span class="o">-</span><span class="n">ko</span><span class="o">-</span><span class="n">yue</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">17</span><span class="o">-</span><span class="n">int8</span><span class="o">/</span><span class="n">tokens</span><span class="o">.</span><span class="n">txt</span> \
+  <span class="o">--</span><span class="n">sense</span><span class="o">-</span><span class="n">voice</span><span class="o">.</span><span class="n">qnn</span><span class="o">-</span><span class="n">backend</span><span class="o">-</span><span class="n">lib</span><span class="o">=./</span><span class="n">libQnnHtp</span><span class="o">.</span><span class="n">so</span> \
+  <span class="o">--</span><span class="n">sense</span><span class="o">-</span><span class="n">voice</span><span class="o">.</span><span class="n">qnn</span><span class="o">-</span><span class="n">system</span><span class="o">-</span><span class="n">lib</span><span class="o">=./</span><span class="n">libQnnSystem</span><span class="o">.</span><span class="n">so</span> \
+  <span class="o">--</span><span class="n">sense</span><span class="o">-</span><span class="n">voice</span><span class="o">.</span><span class="n">qnn</span><span class="o">-</span><span class="n">context</span><span class="o">-</span><span class="n">binary</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">qnn</span><span class="o">-</span><span class="n">SM8850</span><span class="o">-</span><span class="n">binary</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="n">seconds</span><span class="o">-</span><span class="n">sense</span><span class="o">-</span><span class="n">voice</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="n">ja</span><span class="o">-</span><span class="n">ko</span><span class="o">-</span><span class="n">yue</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">17</span><span class="o">-</span><span class="n">int8</span><span class="o">/</span><span class="n">model</span><span class="o">.</span><span class="n">bin</span> \
+  <span class="o">./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">qnn</span><span class="o">-</span><span class="n">SM8850</span><span class="o">-</span><span class="n">binary</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="n">seconds</span><span class="o">-</span><span class="n">sense</span><span class="o">-</span><span class="n">voice</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="n">ja</span><span class="o">-</span><span class="n">ko</span><span class="o">-</span><span class="n">yue</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">17</span><span class="o">-</span><span class="n">int8</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="n">zh</span><span class="o">.</span><span class="n">wav</span>
+</pre></div>
+</div>
+<p>or write it in a single line:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">offline</span> <span class="o">--</span><span class="n">provider</span><span class="o">=</span><span class="n">qnn</span> <span class="o">--</span><span class="n">tokens</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">qnn</span><span class="o">-</span><span class="n">SM8850</span><span class="o">-</span><span class="n">binary</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="n">seconds</span><span class="o">-</span><span class="n">sense</span><span class="o">-</span><span class="n">voice</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="n">ja</span><span class="o">-</span><span class="n">ko</span><span class="o">-</span><span class="n">yue</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">17</span><span class="o">-</span><span class="n">int8</span><span class="o">/</span><span class="n">tokens</span><span class="o">.</span><span class="n">txt</span> <span class="o">--</span><span class="n">sense</span><span class="o">-</span><span class="n">voice</span><span class="o">.</span><span class="n">qnn</span><span class="o">-</span><span class="n">backend</span><span class="o">-</span><span class="n">lib</span><span class="o">=./</span><span class="n">libQnnHtp</span><span class="o">.</span><span class="n">so</span> <span class="o">--</span><span class="n">sense</span><span class="o">-</span><span class="n">voice</span><span class="o">.</span><span class="n">qnn</span><span class="o">-</span><span class="n">system</span><span class="o">-</span><span class="n">lib</span><span class="o">=./</span><span class="n">libQnnSystem</span><span class="o">.</span><span class="n">so</span> <span class="o">--</span><span class="n">sense</span><span class="o">-</span><span class="n">voice</span><span class="o">.</span><span class="n">qnn</span><span class="o">-</span><span class="n">context</span><span class="o">-</span><span class="n">binary</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">qnn</span><span class="o">-</span><span class="n">SM8850</span><span class="o">-</span><span class="n">binary</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="n">seconds</span><span class="o">-</span><span class="n">sense</span><span class="o">-</span><span class="n">voice</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="n">ja</span><span class="o">-</span><span class="n">ko</span><span class="o">-</span><span class="n">yue</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">17</span><span class="o">-</span><span class="n">int8</span><span class="o">/</span><span class="n">model</span><span class="o">.</span><span class="n">bin</span> <span class="o">./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">qnn</span><span class="o">-</span><span class="n">SM8850</span><span class="o">-</span><span class="n">binary</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="n">seconds</span><span class="o">-</span><span class="n">sense</span><span class="o">-</span><span class="n">voice</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="n">ja</span><span class="o">-</span><span class="n">ko</span><span class="o">-</span><span class="n">yue</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">17</span><span class="o">-</span><span class="n">int8</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="n">zh</span><span class="o">.</span><span class="n">wav</span>
+</pre></div>
+</div>
+<p>You can also find the log below:</p>
+<div class="toggle docutils container">
+<div class="header docutils container">
+<p>Click ▶ to see the log .</p>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:373 ./sherpa-onnx-offline --provider=qnn --tokens=./sherpa-onnx-qnn-SM8850-binary-10-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17-int8/tokens.txt --sense-voice.qnn-backend-lib=./libQnnHtp.so --sense-voice.qnn-system-lib=./libQnnSystem.so --sense-voice.qnn-context-binary=./sherpa-onnx-qnn-SM8850-binary-10-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17-int8/model.bin ./sherpa-onnx-qnn-SM8850-binary-10-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17-int8/test_wavs/zh.wav 
+
+OfflineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80, low_freq=20, high_freq=-400, dither=0, normalize_samples=True, snip_edges=False), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename=&quot;&quot;, decoder_filename=&quot;&quot;, joiner_filename=&quot;&quot;), paraformer=OfflineParaformerModelConfig(model=&quot;&quot;), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=&quot;&quot;), whisper=OfflineWhisperModelConfig(encoder=&quot;&quot;, decoder=&quot;&quot;, language=&quot;&quot;, task=&quot;transcribe&quot;, tail_paddings=-1), fire_red_asr=OfflineFireRedAsrModelConfig(encoder=&quot;&quot;, decoder=&quot;&quot;), tdnn=OfflineTdnnModelConfig(model=&quot;&quot;), zipformer_ctc=OfflineZipformerCtcModelConfig(model=&quot;&quot;), wenet_ctc=OfflineWenetCtcModelConfig(model=&quot;&quot;), sense_voice=OfflineSenseVoiceModelConfig(model=&quot;&quot;, qnn_config=QnnConfig(backend_lib=&quot;./libQnnHtp.so&quot;, context_binary=&quot;./sherpa-onnx-qnn-SM8850-binary-10-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17-int8/model.bin&quot;, system_lib=&quot;./libQnnSystem.so&quot;), language=&quot;auto&quot;, use_itn=False), moonshine=OfflineMoonshineModelConfig(preprocessor=&quot;&quot;, encoder=&quot;&quot;, uncached_decoder=&quot;&quot;, cached_decoder=&quot;&quot;), dolphin=OfflineDolphinModelConfig(model=&quot;&quot;), canary=OfflineCanaryModelConfig(encoder=&quot;&quot;, decoder=&quot;&quot;, src_lang=&quot;&quot;, tgt_lang=&quot;&quot;, use_pnc=True), omnilingual=OfflineOmnilingualAsrCtcModelConfig(model=&quot;&quot;), telespeech_ctc=&quot;&quot;, tokens=&quot;./sherpa-onnx-qnn-SM8850-binary-10-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17-int8/tokens.txt&quot;, num_threads=2, debug=False, provider=&quot;qnn&quot;, model_type=&quot;&quot;, modeling_unit=&quot;cjkchar&quot;, bpe_vocab=&quot;&quot;), lm_config=OfflineLMConfig(model=&quot;&quot;, scale=0.5, lodr_scale=0.01, lodr_fst=&quot;&quot;, lodr_backoff_id=-1), ctc_fst_decoder_config=OfflineCtcFstDecoderConfig(graph=&quot;&quot;, max_active=3000), decoding_method=&quot;greedy_search&quot;, max_active_paths=4, hotwords_file=&quot;&quot;, hotwords_score=1.5, blank_penalty=0, rule_fsts=&quot;&quot;, rule_fars=&quot;&quot;, hr=HomophoneReplacerConfig(lexicon=&quot;&quot;, rule_fsts=&quot;&quot;))
+Creating recognizer ...
+/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/qnn/utils.cc:CopyGraphsInfo:465 version: 3
+recognizer created in 1.214 s
+Started
+Done!
+
+./sherpa-onnx-qnn-SM8850-binary-10-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17-int8/test_wavs/zh.wav
+{&quot;lang&quot;: &quot;&lt;|zh|&gt;&quot;, &quot;emotion&quot;: &quot;&lt;|NEUTRAL|&gt;&quot;, &quot;event&quot;: &quot;&lt;|Speech|&gt;&quot;, &quot;text&quot;: &quot;开饭时间早上九点至下午五点&quot;, &quot;timestamps&quot;: [0.72, 0.96, 1.26, 1.44, 1.92, 2.10, 2.58, 2.82, 3.30, 3.90, 4.20, 4.56, 4.74], &quot;durations&quot;: [], &quot;tokens&quot;:[&quot;开&quot;, &quot;饭&quot;, &quot;时&quot;, &quot;间&quot;, &quot;早&quot;, &quot;上&quot;, &quot;九&quot;, &quot;点&quot;, &quot;至&quot;, &quot;下&quot;, &quot;午&quot;, &quot;五&quot;, &quot;点&quot;], &quot;ys_log_probs&quot;: [], &quot;words&quot;: []}
+----
+num threads: 2
+decoding method: greedy_search
+Elapsed seconds: 0.290 s
+Real time factor (RTF): 0.290 / 5.592 = 0.052
+     0.0ms [WARN   ] QnnDsp &lt;W&gt; Initializing HtpProvider
+     0.0ms [WARN   ] QnnDsp &lt;W&gt; m_CFBCallbackInfoObj is not initialized, return emptyList
+     0.0ms [WARN   ] QnnDsp &lt;W&gt; m_CFBCallbackInfoObj is not initialized, return emptyList
+</pre></div>
+</div>
+<p>Please ignore the <code class="docutils literal notranslate"><span class="pre">num_threads</span></code> information in the log. It is not used by qnn.</p>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>The model actually processed 10 seconds of audio, so the RTF is even smaller.</p>
+</div>
+</section>
+</section>
+<section id="congratulations">
+<h2>Congratulations<a class="headerlink" href="#congratulations" title="Permalink to this heading"></a></h2>
+<p>Congratulations! You have successfully launched sherpa-onnx on your phone,
+leveraging Qualcomm NPU via QNN with the HTP backend.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="build.html" class="btn btn-neutral float-left" title="Build sherpa-onnx for Qualcomm NPU" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="run-executables-on-your-phone.html" class="btn btn-neutral float-right" title="Run executables on your phone with adb (using libmodel.so)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

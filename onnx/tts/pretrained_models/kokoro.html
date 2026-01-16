@@ -1,0 +1,1703 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kokoro &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/clipboard.min.js"></script>
+        <script src="../../../_static/copybutton.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="KittenTTS" href="kitten.html" />
+    <link rel="prev" title="Matcha" href="matcha.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">sherpa-onnx</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../install/index.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../faqs/index.html">Frequently Asked Question (FAQs)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../python/index.html">Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../c-api/index.html">C API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../java-api/index.html">Java API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../javascript-api/index.html">Javascript API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../kotlin-api/index.html">Kotlin API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../swift-api/index.html">Swift API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../go-api/index.html">Go API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../csharp-api/index.html">C# API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../pascal-api/index.html">Pascal API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../lazarus/index.html">Lazarus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../wasm/index.html">WebAssembly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../android/index.html">Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../harmony-os/index.html">HarmonyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ios/index.html">iOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../flutter/index.html">Flutter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../websocket/index.html">WebSocket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../hotwords/index.html">Hotwords (Contextual biasing)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../kws/index.html">Keyword spotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../punctuation/index.html">Punctuation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../audio-tagging/index.html">Audio tagging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../spoken-language-identification/index.html">Spoken language identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../vad/index.html">VAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../pretrained_models/index.html">Pre-trained models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../pretrained_models/whisper/index.html">Whisper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../moonshine/index.html">Moonshine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../omnilingual-asr/index.html">Omnilingual ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../sense-voice/index.html">SenseVoice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../funasr-nano/index.html">FunASR Nano</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../paraformer/index.html">Paraformer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../nemo/index.html">NeMo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../FireRedAsr/index.html">FireRedAsr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Dolphin/index.html">Dolphin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../homophone-replacer/index.html">拼音词组匹配替换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../speaker-diarization/index.html">Speaker Diarization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../speaker-identification/index.html">Speaker Identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../speech-enhancement/index.html">Speech enhancement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../source-separation/index.html">Source separation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../qnn/index.html">Qualcomm NPU (QNN, HTP)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../rknn/index.html">rknn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ascend/index.html">Ascend NPU (昇腾 NPU)</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">Text-to-speech (TTS)</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../all-in-one.html">All-in-one</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../hf-space.html">Huggingface space</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">Pre-trained models</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="rtf.html">RTF of pre-trained models</a></li>
+<li class="toctree-l4"><a class="reference internal" href="matcha.html">Matcha</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Kokoro</a></li>
+<li class="toctree-l4"><a class="reference internal" href="kitten.html">KittenTTS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="vits.html">vits</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../wasm/index.html">WebAssembly</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../piper.html">Piper</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../mms.html">MMS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../faq.html">Frequently Asked Question (FAQs)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html">sherpa-onnx</a> &raquo;</li>
+          <li><a href="../index.html">Text-to-speech (TTS)</a> &raquo;</li>
+          <li><a href="index.html">Pre-trained models</a> &raquo;</li>
+      <li>Kokoro</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/onnx/tts/pretrained_models/kokoro.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="kokoro">
+<h1>Kokoro<a class="headerlink" href="#kokoro" title="Permalink to this heading"></a></h1>
+<p>This page lists pre-trained models from <a class="reference external" href="https://huggingface.co/hexgrad/Kokoro-82M">https://huggingface.co/hexgrad/Kokoro-82M</a>.</p>
+<section id="kokoro-multi-lang-v1-1-chinese-english-103-speakers">
+<span id="kokoro-multi-lang-v1-0"></span><h2>kokoro-multi-lang-v1_1 (Chinese + English, 103 speakers)<a class="headerlink" href="#kokoro-multi-lang-v1-1-chinese-english-103-speakers" title="Permalink to this heading"></a></h2>
+<p>This model contains 103 speakers. Please see</p>
+<blockquote>
+<div><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/pull/1942">https://github.com/k2-fsa/sherpa-onnx/pull/1942</a></p>
+</div></blockquote>
+<p>for details.</p>
+<p>See also <a class="reference external" href="https://k2-fsa.github.io/sherpa/onnx/tts/all/Chinese-English/kokoro-multi-lang-v1_1.html">https://k2-fsa.github.io/sherpa/onnx/tts/all/Chinese-English/kokoro-multi-lang-v1_1.html</a></p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>Model</p></td>
+<td><p>Comment</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/kokoro-int8-multi-lang-v1_1.tar.bz2">kokoro-int8-multi-lang-v1_1.tar.bz2</a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">int8</span></code> quantization</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/kokoro-multi-lang-v1_1.tar.bz2">kokoro-multi-lang-v1_1.tar.bz2</a></p></td>
+<td><p>No quantization</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="kokoro-multi-lang-v1-0-chinese-english-53-speakers">
+<h2>kokoro-multi-lang-v1_0 (Chinese + English, 53 speakers)<a class="headerlink" href="#kokoro-multi-lang-v1-0-chinese-english-53-speakers" title="Permalink to this heading"></a></h2>
+<p>This model contains 53 speakers. The ONNX model is from
+<a class="reference external" href="https://github.com/taylorchu/kokoro-onnx/releases/tag/v0.2.0">https://github.com/taylorchu/kokoro-onnx/releases/tag/v0.2.0</a></p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>If you want to convert the kokoro 1.0 onnx model to sherpa-onnx, please
+see <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/blob/master/scripts/kokoro/v1.0/run.sh">https://github.com/k2-fsa/sherpa-onnx/blob/master/scripts/kokoro/v1.0/run.sh</a></p>
+</div>
+<p>This model in sherpa-onnx supports both English and Chinese.</p>
+<p>In the following, we describe how to download it and use it with <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>It is a multi-lingual model, but we only add English and Chinese support for it.</p>
+</div>
+<p>See also <a class="reference external" href="https://k2-fsa.github.io/sherpa/onnx/tts/all/Chinese-English/kokoro-multi-lang-v1_0.html">https://k2-fsa.github.io/sherpa/onnx/tts/all/Chinese-English/kokoro-multi-lang-v1_0.html</a></p>
+<section id="download-the-model">
+<h3>Download the model<a class="headerlink" href="#download-the-model" title="Permalink to this heading"></a></h3>
+<p>Please use the following commands to download it.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/kokoro-multi-lang-v1_0.tar.bz2
+tar<span class="w"> </span>xf<span class="w"> </span>kokoro-multi-lang-v1_0.tar.bz2
+rm<span class="w"> </span>kokoro-multi-lang-v1_0.tar.bz2
+</pre></div>
+</div>
+<p>Please check that the file sizes of the pre-trained models are correct. See
+the file sizes of <code class="docutils literal notranslate"><span class="pre">*.onnx</span></code> files below.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ls</span> <span class="o">-</span><span class="n">lh</span> <span class="n">kokoro</span><span class="o">-</span><span class="n">multi</span><span class="o">-</span><span class="n">lang</span><span class="o">-</span><span class="n">v1_0</span><span class="o">/</span>
+<span class="n">total</span> <span class="mi">718872</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>    <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>    <span class="mi">11</span><span class="n">K</span> <span class="n">Feb</span>  <span class="mi">7</span> <span class="mi">10</span><span class="p">:</span><span class="mi">16</span> <span class="n">LICENSE</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>    <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>    <span class="mi">50</span><span class="n">B</span> <span class="n">Feb</span>  <span class="mi">7</span> <span class="mi">10</span><span class="p">:</span><span class="mi">18</span> <span class="n">README</span><span class="o">.</span><span class="n">md</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>    <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>    <span class="mi">58</span><span class="n">K</span> <span class="n">Feb</span>  <span class="mi">7</span> <span class="mi">10</span><span class="p">:</span><span class="mi">18</span> <span class="n">date</span><span class="o">-</span><span class="n">zh</span><span class="o">.</span><span class="n">fst</span>
+<span class="n">drwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span>    <span class="mi">9</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">288</span><span class="n">B</span> <span class="n">Apr</span> <span class="mi">19</span>  <span class="mi">2024</span> <span class="nb">dict</span>
+<span class="n">drwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span>  <span class="mi">122</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mf">3.8</span><span class="n">K</span> <span class="n">Nov</span> <span class="mi">28</span>  <span class="mi">2023</span> <span class="n">espeak</span><span class="o">-</span><span class="n">ng</span><span class="o">-</span><span class="n">data</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>    <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mf">6.0</span><span class="n">M</span> <span class="n">Feb</span>  <span class="mi">7</span> <span class="mi">10</span><span class="p">:</span><span class="mi">18</span> <span class="n">lexicon</span><span class="o">-</span><span class="n">gb</span><span class="o">-</span><span class="n">en</span><span class="o">.</span><span class="n">txt</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>    <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mf">5.6</span><span class="n">M</span> <span class="n">Feb</span>  <span class="mi">7</span> <span class="mi">10</span><span class="p">:</span><span class="mi">18</span> <span class="n">lexicon</span><span class="o">-</span><span class="n">us</span><span class="o">-</span><span class="n">en</span><span class="o">.</span><span class="n">txt</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>    <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mf">2.3</span><span class="n">M</span> <span class="n">Feb</span>  <span class="mi">7</span> <span class="mi">10</span><span class="p">:</span><span class="mi">18</span> <span class="n">lexicon</span><span class="o">-</span><span class="n">zh</span><span class="o">.</span><span class="n">txt</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>    <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">310</span><span class="n">M</span> <span class="n">Feb</span>  <span class="mi">7</span> <span class="mi">10</span><span class="p">:</span><span class="mi">18</span> <span class="n">model</span><span class="o">.</span><span class="n">onnx</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>    <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>    <span class="mi">63</span><span class="n">K</span> <span class="n">Feb</span>  <span class="mi">7</span> <span class="mi">10</span><span class="p">:</span><span class="mi">18</span> <span class="n">number</span><span class="o">-</span><span class="n">zh</span><span class="o">.</span><span class="n">fst</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>    <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>    <span class="mi">87</span><span class="n">K</span> <span class="n">Feb</span>  <span class="mi">7</span> <span class="mi">10</span><span class="p">:</span><span class="mi">18</span> <span class="n">phone</span><span class="o">-</span><span class="n">zh</span><span class="o">.</span><span class="n">fst</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>    <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">687</span><span class="n">B</span> <span class="n">Feb</span>  <span class="mi">7</span> <span class="mi">10</span><span class="p">:</span><span class="mi">18</span> <span class="n">tokens</span><span class="o">.</span><span class="n">txt</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>    <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>    <span class="mi">26</span><span class="n">M</span> <span class="n">Feb</span>  <span class="mi">7</span> <span class="mi">10</span><span class="p">:</span><span class="mi">18</span> <span class="n">voices</span><span class="o">.</span><span class="n">bin</span>
+</pre></div>
+</div>
+</section>
+<section id="map-between-speaker-id-and-speaker-name">
+<h3>Map between speaker ID and speaker name<a class="headerlink" href="#map-between-speaker-id-and-speaker-name" title="Permalink to this heading"></a></h3>
+<p>This model contains 53 speakers and we use integer IDs <code class="docutils literal notranslate"><span class="pre">0-52</span></code> to represent
+each speaker.</p>
+<p>Please visit <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/pull/1795">https://github.com/k2-fsa/sherpa-onnx/pull/1795</a> to listen to
+audio samples from different speakers.</p>
+<p>The map is given below:</p>
+<blockquote>
+<div><ul>
+<li><p><strong>ID to Speaker</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">0</span><span class="o">-&gt;</span><span class="n">af_alloy</span><span class="p">,</span> <span class="mi">1</span><span class="o">-&gt;</span><span class="n">af_aoede</span><span class="p">,</span> <span class="mi">2</span><span class="o">-&gt;</span><span class="n">af_bella</span><span class="p">,</span> <span class="mi">3</span><span class="o">-&gt;</span><span class="n">af_heart</span><span class="p">,</span> <span class="mi">4</span><span class="o">-&gt;</span><span class="n">af_jessica</span><span class="p">,</span>
+<span class="mi">5</span><span class="o">-&gt;</span><span class="n">af_kore</span><span class="p">,</span> <span class="mi">6</span><span class="o">-&gt;</span><span class="n">af_nicole</span><span class="p">,</span> <span class="mi">7</span><span class="o">-&gt;</span><span class="n">af_nova</span><span class="p">,</span> <span class="mi">8</span><span class="o">-&gt;</span><span class="n">af_river</span><span class="p">,</span> <span class="mi">9</span><span class="o">-&gt;</span><span class="n">af_sarah</span><span class="p">,</span>
+<span class="mi">10</span><span class="o">-&gt;</span><span class="n">af_sky</span><span class="p">,</span> <span class="mi">11</span><span class="o">-&gt;</span><span class="n">am_adam</span><span class="p">,</span> <span class="mi">12</span><span class="o">-&gt;</span><span class="n">am_echo</span><span class="p">,</span> <span class="mi">13</span><span class="o">-&gt;</span><span class="n">am_eric</span><span class="p">,</span> <span class="mi">14</span><span class="o">-&gt;</span><span class="n">am_fenrir</span><span class="p">,</span>
+<span class="mi">15</span><span class="o">-&gt;</span><span class="n">am_liam</span><span class="p">,</span> <span class="mi">16</span><span class="o">-&gt;</span><span class="n">am_michael</span><span class="p">,</span> <span class="mi">17</span><span class="o">-&gt;</span><span class="n">am_onyx</span><span class="p">,</span> <span class="mi">18</span><span class="o">-&gt;</span><span class="n">am_puck</span><span class="p">,</span> <span class="mi">19</span><span class="o">-&gt;</span><span class="n">am_santa</span><span class="p">,</span>
+<span class="mi">20</span><span class="o">-&gt;</span><span class="n">bf_alice</span><span class="p">,</span> <span class="mi">21</span><span class="o">-&gt;</span><span class="n">bf_emma</span><span class="p">,</span> <span class="mi">22</span><span class="o">-&gt;</span><span class="n">bf_isabella</span><span class="p">,</span> <span class="mi">23</span><span class="o">-&gt;</span><span class="n">bf_lily</span><span class="p">,</span> <span class="mi">24</span><span class="o">-&gt;</span><span class="n">bm_daniel</span><span class="p">,</span>
+<span class="mi">25</span><span class="o">-&gt;</span><span class="n">bm_fable</span><span class="p">,</span> <span class="mi">26</span><span class="o">-&gt;</span><span class="n">bm_george</span><span class="p">,</span> <span class="mi">27</span><span class="o">-&gt;</span><span class="n">bm_lewis</span><span class="p">,</span> <span class="mi">28</span><span class="o">-&gt;</span><span class="n">ef_dora</span><span class="p">,</span> <span class="mi">29</span><span class="o">-&gt;</span><span class="n">em_alex</span><span class="p">,</span>
+<span class="mi">30</span><span class="o">-&gt;</span><span class="n">ff_siwis</span><span class="p">,</span> <span class="mi">31</span><span class="o">-&gt;</span><span class="n">hf_alpha</span><span class="p">,</span> <span class="mi">32</span><span class="o">-&gt;</span><span class="n">hf_beta</span><span class="p">,</span> <span class="mi">33</span><span class="o">-&gt;</span><span class="n">hm_omega</span><span class="p">,</span> <span class="mi">34</span><span class="o">-&gt;</span><span class="n">hm_psi</span><span class="p">,</span>
+<span class="mi">35</span><span class="o">-&gt;</span><span class="n">if_sara</span><span class="p">,</span> <span class="mi">36</span><span class="o">-&gt;</span><span class="n">im_nicola</span><span class="p">,</span> <span class="mi">37</span><span class="o">-&gt;</span><span class="n">jf_alpha</span><span class="p">,</span> <span class="mi">38</span><span class="o">-&gt;</span><span class="n">jf_gongitsune</span><span class="p">,</span>
+<span class="mi">39</span><span class="o">-&gt;</span><span class="n">jf_nezumi</span><span class="p">,</span> <span class="mi">40</span><span class="o">-&gt;</span><span class="n">jf_tebukuro</span><span class="p">,</span> <span class="mi">41</span><span class="o">-&gt;</span><span class="n">jm_kumo</span><span class="p">,</span>
+<span class="mi">42</span><span class="o">-&gt;</span><span class="n">pf_dora</span><span class="p">,</span> <span class="mi">43</span><span class="o">-&gt;</span><span class="n">pm_alex</span><span class="p">,</span> <span class="mi">44</span><span class="o">-&gt;</span><span class="n">pm_santa</span><span class="p">,</span> <span class="mi">45</span><span class="o">-&gt;</span><span class="n">zf_xiaobei</span><span class="p">,</span> <span class="mi">46</span><span class="o">-&gt;</span><span class="n">zf_xiaoni</span><span class="p">,</span>
+<span class="mi">47</span><span class="o">-&gt;</span><span class="n">zf_xiaoxiao</span><span class="p">,</span> <span class="mi">48</span><span class="o">-&gt;</span><span class="n">zf_xiaoyi</span><span class="p">,</span><span class="mi">49</span><span class="o">-&gt;</span><span class="n">zm_yunjian</span><span class="p">,</span> <span class="mi">50</span><span class="o">-&gt;</span><span class="n">zm_yunxi</span><span class="p">,</span>
+<span class="mi">51</span><span class="o">-&gt;</span><span class="n">zm_yunxia</span><span class="p">,</span> <span class="mi">52</span><span class="o">-&gt;</span><span class="n">zm_yunyang</span><span class="p">,</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Speaker to ID</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">af_alloy</span><span class="o">-&gt;</span><span class="mi">0</span><span class="p">,</span> <span class="n">af_aoede</span><span class="o">-&gt;</span><span class="mi">1</span><span class="p">,</span> <span class="n">af_bella</span><span class="o">-&gt;</span><span class="mi">2</span><span class="p">,</span> <span class="n">af_heart</span><span class="o">-&gt;</span><span class="mi">3</span><span class="p">,</span> <span class="n">af_jessica</span><span class="o">-&gt;</span><span class="mi">4</span><span class="p">,</span>
+<span class="n">af_kore</span><span class="o">-&gt;</span><span class="mi">5</span><span class="p">,</span> <span class="n">af_nicole</span><span class="o">-&gt;</span><span class="mi">6</span><span class="p">,</span> <span class="n">af_nova</span><span class="o">-&gt;</span><span class="mi">7</span><span class="p">,</span> <span class="n">af_river</span><span class="o">-&gt;</span><span class="mi">8</span><span class="p">,</span> <span class="n">af_sarah</span><span class="o">-&gt;</span><span class="mi">9</span><span class="p">,</span>
+<span class="n">af_sky</span><span class="o">-&gt;</span><span class="mi">10</span><span class="p">,</span> <span class="n">am_adam</span><span class="o">-&gt;</span><span class="mi">11</span><span class="p">,</span> <span class="n">am_echo</span><span class="o">-&gt;</span><span class="mi">12</span><span class="p">,</span> <span class="n">am_eric</span><span class="o">-&gt;</span><span class="mi">13</span><span class="p">,</span> <span class="n">am_fenrir</span><span class="o">-&gt;</span><span class="mi">14</span><span class="p">,</span>
+<span class="n">am_liam</span><span class="o">-&gt;</span><span class="mi">15</span><span class="p">,</span> <span class="n">am_michael</span><span class="o">-&gt;</span><span class="mi">16</span><span class="p">,</span> <span class="n">am_onyx</span><span class="o">-&gt;</span><span class="mi">17</span><span class="p">,</span> <span class="n">am_puck</span><span class="o">-&gt;</span><span class="mi">18</span><span class="p">,</span> <span class="n">am_santa</span><span class="o">-&gt;</span><span class="mi">19</span><span class="p">,</span>
+<span class="n">bf_alice</span><span class="o">-&gt;</span><span class="mi">20</span><span class="p">,</span> <span class="n">bf_emma</span><span class="o">-&gt;</span><span class="mi">21</span><span class="p">,</span> <span class="n">bf_isabella</span><span class="o">-&gt;</span><span class="mi">22</span><span class="p">,</span> <span class="n">bf_lily</span><span class="o">-&gt;</span><span class="mi">23</span><span class="p">,</span> <span class="n">bm_daniel</span><span class="o">-&gt;</span><span class="mi">24</span><span class="p">,</span>
+<span class="n">bm_fable</span><span class="o">-&gt;</span><span class="mi">25</span><span class="p">,</span> <span class="n">bm_george</span><span class="o">-&gt;</span><span class="mi">26</span><span class="p">,</span> <span class="n">bm_lewis</span><span class="o">-&gt;</span><span class="mi">27</span><span class="p">,</span> <span class="n">ef_dora</span><span class="o">-&gt;</span><span class="mi">28</span><span class="p">,</span> <span class="n">em_alex</span><span class="o">-&gt;</span><span class="mi">29</span><span class="p">,</span>
+<span class="n">ff_siwis</span><span class="o">-&gt;</span><span class="mi">30</span><span class="p">,</span> <span class="n">hf_alpha</span><span class="o">-&gt;</span><span class="mi">31</span><span class="p">,</span> <span class="n">hf_beta</span><span class="o">-&gt;</span><span class="mi">32</span><span class="p">,</span> <span class="n">hm_omega</span><span class="o">-&gt;</span><span class="mi">33</span><span class="p">,</span> <span class="n">hm_psi</span><span class="o">-&gt;</span><span class="mi">34</span><span class="p">,</span>
+<span class="n">if_sara</span><span class="o">-&gt;</span><span class="mi">35</span><span class="p">,</span> <span class="n">im_nicola</span><span class="o">-&gt;</span><span class="mi">36</span><span class="p">,</span> <span class="n">jf_alpha</span><span class="o">-&gt;</span><span class="mi">37</span><span class="p">,</span> <span class="n">jf_gongitsune</span><span class="o">-&gt;</span><span class="mi">38</span><span class="p">,</span>
+<span class="n">jf_nezumi</span><span class="o">-&gt;</span><span class="mi">39</span><span class="p">,</span> <span class="n">jf_tebukuro</span><span class="o">-&gt;</span><span class="mi">40</span><span class="p">,</span> <span class="n">jm_kumo</span><span class="o">-&gt;</span><span class="mi">41</span><span class="p">,</span> <span class="n">pf_dora</span><span class="o">-&gt;</span><span class="mi">42</span><span class="p">,</span> <span class="n">pm_alex</span><span class="o">-&gt;</span><span class="mi">43</span><span class="p">,</span>
+<span class="n">pm_santa</span><span class="o">-&gt;</span><span class="mi">44</span><span class="p">,</span> <span class="n">zf_xiaobei</span><span class="o">-&gt;</span><span class="mi">45</span><span class="p">,</span> <span class="n">zf_xiaoni</span><span class="o">-&gt;</span><span class="mi">46</span><span class="p">,</span> <span class="n">zf_xiaoxiao</span><span class="o">-&gt;</span><span class="mi">47</span><span class="p">,</span>
+<span class="n">zf_xiaoyi</span><span class="o">-&gt;</span><span class="mi">48</span><span class="p">,</span> <span class="n">zm_yunjian</span><span class="o">-&gt;</span><span class="mi">49</span><span class="p">,</span> <span class="n">zm_yunxi</span><span class="o">-&gt;</span><span class="mi">50</span><span class="p">,</span> <span class="n">zm_yunxia</span><span class="o">-&gt;</span><span class="mi">51</span><span class="p">,</span>
+<span class="n">zm_yunyang</span><span class="o">-&gt;</span><span class="mi">52</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div></blockquote>
+</section>
+<section id="generate-speech-with-executables-compiled-from-c">
+<h3>Generate speech with executables compiled from C++<a class="headerlink" href="#generate-speech-with-executables-compiled-from-c" title="Permalink to this heading"></a></h3>
+<div class="toggle docutils container">
+<div class="header docutils container">
+<p>Click ▶ to see it.</p>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+<span class="k">for</span><span class="w"> </span>sid<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="k">$(</span>seq<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">19</span><span class="k">)</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">  </span>build/bin/sherpa-onnx-offline-tts<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--debug<span class="o">=</span><span class="m">0</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--kokoro-model<span class="o">=</span>./kokoro-multi-lang-v1_0/model.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--kokoro-voices<span class="o">=</span>./kokoro-multi-lang-v1_0/voices.bin<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--kokoro-tokens<span class="o">=</span>./kokoro-multi-lang-v1_0/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--kokoro-data-dir<span class="o">=</span>./kokoro-multi-lang-v1_0/espeak-ng-data<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--kokoro-lexicon<span class="o">=</span>./kokoro-multi-lang-v1_0/lexicon-us-en.txt,./kokoro-multi-lang-v1_0/lexicon-zh.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--num-threads<span class="o">=</span><span class="m">2</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--sid<span class="o">=</span><span class="nv">$sid</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--output-filename<span class="o">=</span><span class="s2">&quot;./kokoro-1.0-sid-</span><span class="nv">$sid</span><span class="s2">-en-us.wav&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="s2">&quot;Friends fell out often because life was changing so fast. The easiest thing in the world was to lose touch with someone.&quot;</span>
+<span class="k">done</span>
+
+<span class="k">for</span><span class="w"> </span>sid<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="k">$(</span>seq<span class="w"> </span><span class="m">20</span><span class="w"> </span><span class="m">27</span><span class="k">)</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">  </span>build/bin/sherpa-onnx-offline-tts<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--debug<span class="o">=</span><span class="m">0</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--kokoro-model<span class="o">=</span>./kokoro-multi-lang-v1_0/model.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--kokoro-voices<span class="o">=</span>./kokoro-multi-lang-v1_0/voices.bin<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--kokoro-tokens<span class="o">=</span>./kokoro-multi-lang-v1_0/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--kokoro-data-dir<span class="o">=</span>./kokoro-multi-lang-v1_0/espeak-ng-data<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--kokoro-lexicon<span class="o">=</span>./kokoro-multi-lang-v1_0/lexicon-us-en.txt,./kokoro-multi-lang-v1_0/lexicon-zh.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--num-threads<span class="o">=</span><span class="m">2</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--sid<span class="o">=</span><span class="nv">$sid</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--output-filename<span class="o">=</span><span class="s2">&quot;./kokoro-1.0-sid-</span><span class="nv">$sid</span><span class="s2">-en-gb.wav&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="s2">&quot;Friends fell out often because life was changing so fast. The easiest thing in the world was to lose touch with someone.&quot;</span>
+<span class="k">done</span>
+
+
+build/bin/sherpa-onnx-offline-tts<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--debug<span class="o">=</span><span class="m">0</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-model<span class="o">=</span>./kokoro-multi-lang-v1_0/model.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-voices<span class="o">=</span>./kokoro-multi-lang-v1_0/voices.bin<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-tokens<span class="o">=</span>./kokoro-multi-lang-v1_0/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-data-dir<span class="o">=</span>./kokoro-multi-lang-v1_0/espeak-ng-data<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-lexicon<span class="o">=</span>./kokoro-multi-lang-v1_0/lexicon-us-en.txt,./kokoro-multi-lang-v1_0/lexicon-zh.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--num-threads<span class="o">=</span><span class="m">2</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--sid<span class="o">=</span><span class="m">23</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--output-filename<span class="o">=</span><span class="s2">&quot;./kokoro-1.0-sid-23-en-gb.wav&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;Liliana, the most beautiful and lovely assistant of our team&quot;</span>
+
+build/bin/sherpa-onnx-offline-tts<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--debug<span class="o">=</span><span class="m">0</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-model<span class="o">=</span>./kokoro-multi-lang-v1_0/model.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-voices<span class="o">=</span>./kokoro-multi-lang-v1_0/voices.bin<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-tokens<span class="o">=</span>./kokoro-multi-lang-v1_0/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-data-dir<span class="o">=</span>./kokoro-multi-lang-v1_0/espeak-ng-data<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-lexicon<span class="o">=</span>./kokoro-multi-lang-v1_0/lexicon-us-en.txt,./kokoro-multi-lang-v1_0/lexicon-zh.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--num-threads<span class="o">=</span><span class="m">2</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--sid<span class="o">=</span><span class="m">24</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--output-filename<span class="o">=</span><span class="s2">&quot;./kokoro-1.0-sid-24-en-gb.wav&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;Liliana, the most beautiful and lovely assistant of our team&quot;</span>
+
+build/bin/sherpa-onnx-offline-tts<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--debug<span class="o">=</span><span class="m">0</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-model<span class="o">=</span>./kokoro-multi-lang-v1_0/model.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-voices<span class="o">=</span>./kokoro-multi-lang-v1_0/voices.bin<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-tokens<span class="o">=</span>./kokoro-multi-lang-v1_0/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-data-dir<span class="o">=</span>./kokoro-multi-lang-v1_0/espeak-ng-data<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-lexicon<span class="o">=</span>./kokoro-multi-lang-v1_0/lexicon-us-en.txt,./kokoro-multi-lang-v1_0/lexicon-zh.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--num-threads<span class="o">=</span><span class="m">2</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--sid<span class="o">=</span><span class="m">45</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--output-filename<span class="o">=</span><span class="s2">&quot;./kokoro-1.0-sid-45-zh.wav&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;小米的核心价值观是什么？答案是真诚热爱！&quot;</span>
+
+build/bin/sherpa-onnx-offline-tts<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--debug<span class="o">=</span><span class="m">0</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-model<span class="o">=</span>./kokoro-multi-lang-v1_0/model.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-voices<span class="o">=</span>./kokoro-multi-lang-v1_0/voices.bin<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-tokens<span class="o">=</span>./kokoro-multi-lang-v1_0/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-data-dir<span class="o">=</span>./kokoro-multi-lang-v1_0/espeak-ng-data<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-lexicon<span class="o">=</span>./kokoro-multi-lang-v1_0/lexicon-us-en.txt,./kokoro-multi-lang-v1_0/lexicon-zh.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--num-threads<span class="o">=</span><span class="m">2</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--sid<span class="o">=</span><span class="m">45</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--output-filename<span class="o">=</span><span class="s2">&quot;./kokoro-1.0-sid-45-zh-1.wav&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;当夜幕降临，星光点点，伴随着微风拂面，我在静谧中感受着时光的流转，思念如涟漪荡漾，梦境如画卷展开，我与自然融为一体，沉静在这片宁静的美丽之中，感受着生命的奇迹与温柔.&quot;</span>
+
+build/bin/sherpa-onnx-offline-tts<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--debug<span class="o">=</span><span class="m">0</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-model<span class="o">=</span>./kokoro-multi-lang-v1_0/model.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-voices<span class="o">=</span>./kokoro-multi-lang-v1_0/voices.bin<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-tokens<span class="o">=</span>./kokoro-multi-lang-v1_0/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-data-dir<span class="o">=</span>./kokoro-multi-lang-v1_0/espeak-ng-data<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-lexicon<span class="o">=</span>./kokoro-multi-lang-v1_0/lexicon-us-en.txt,./kokoro-multi-lang-v1_0/lexicon-zh.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--num-threads<span class="o">=</span><span class="m">2</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--sid<span class="o">=</span><span class="m">46</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--output-filename<span class="o">=</span><span class="s2">&quot;./kokoro-1.0-sid-46-zh.wav&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;小米的使命是，始终坚持做感动人心、价格厚道的好产品，让全球每个人都能享受科技带来的美好生活。&quot;</span>
+
+build/bin/sherpa-onnx-offline-tts<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--debug<span class="o">=</span><span class="m">0</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-model<span class="o">=</span>./kokoro-multi-lang-v1_0/model.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-voices<span class="o">=</span>./kokoro-multi-lang-v1_0/voices.bin<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-tokens<span class="o">=</span>./kokoro-multi-lang-v1_0/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-data-dir<span class="o">=</span>./kokoro-multi-lang-v1_0/espeak-ng-data<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-lexicon<span class="o">=</span>./kokoro-multi-lang-v1_0/lexicon-us-en.txt,./kokoro-multi-lang-v1_0/lexicon-zh.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--num-threads<span class="o">=</span><span class="m">2</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--sid<span class="o">=</span><span class="m">46</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--output-filename<span class="o">=</span><span class="s2">&quot;./kokoro-1.0-sid-46-zh-1.wav&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;当夜幕降临，星光点点，伴随着微风拂面，我在静谧中感受着时光的流转，思念如涟漪荡漾，梦境如画卷展开，我与自然融为一体，沉静在这片宁静的美丽之中，感受着生命的奇迹与温柔.&quot;</span>
+
+build/bin/sherpa-onnx-offline-tts<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--debug<span class="o">=</span><span class="m">0</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-model<span class="o">=</span>./kokoro-multi-lang-v1_0/model.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-voices<span class="o">=</span>./kokoro-multi-lang-v1_0/voices.bin<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-tokens<span class="o">=</span>./kokoro-multi-lang-v1_0/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-data-dir<span class="o">=</span>./kokoro-multi-lang-v1_0/espeak-ng-data<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-lexicon<span class="o">=</span>./kokoro-multi-lang-v1_0/lexicon-us-en.txt,./kokoro-multi-lang-v1_0/lexicon-zh.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tts-rule-fsts<span class="o">=</span>./kokoro-multi-lang-v1_0/number-zh.fst<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--num-threads<span class="o">=</span><span class="m">2</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--sid<span class="o">=</span><span class="m">47</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--output-filename<span class="o">=</span><span class="s2">&quot;./kokoro-1.0-sid-47-zh.wav&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;35年前，他于长沙出生, 在长白山长大。9年前他当上了银行的领导，主管行政。&quot;</span>
+
+build/bin/sherpa-onnx-offline-tts<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--debug<span class="o">=</span><span class="m">0</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-model<span class="o">=</span>./kokoro-multi-lang-v1_0/model.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-voices<span class="o">=</span>./kokoro-multi-lang-v1_0/voices.bin<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-tokens<span class="o">=</span>./kokoro-multi-lang-v1_0/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-data-dir<span class="o">=</span>./kokoro-multi-lang-v1_0/espeak-ng-data<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-lexicon<span class="o">=</span>./kokoro-multi-lang-v1_0/lexicon-us-en.txt,./kokoro-multi-lang-v1_0/lexicon-zh.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--num-threads<span class="o">=</span><span class="m">2</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--sid<span class="o">=</span><span class="m">47</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--output-filename<span class="o">=</span><span class="s2">&quot;./kokoro-1.0-sid-47-zh-1.wav&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;当夜幕降临，星光点点，伴随着微风拂面，我在静谧中感受着时光的流转，思念如涟漪荡漾，梦境如画卷展开，我与自然融为一体，沉静在这片宁静的美丽之中，感受着生命的奇迹与温柔.&quot;</span>
+
+
+build/bin/sherpa-onnx-offline-tts<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--debug<span class="o">=</span><span class="m">0</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-model<span class="o">=</span>./kokoro-multi-lang-v1_0/model.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-voices<span class="o">=</span>./kokoro-multi-lang-v1_0/voices.bin<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-tokens<span class="o">=</span>./kokoro-multi-lang-v1_0/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-data-dir<span class="o">=</span>./kokoro-multi-lang-v1_0/espeak-ng-data<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-lexicon<span class="o">=</span>./kokoro-multi-lang-v1_0/lexicon-us-en.txt,./kokoro-multi-lang-v1_0/lexicon-zh.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tts-rule-fsts<span class="o">=</span>./kokoro-multi-lang-v1_0/phone-zh.fst,./kokoro-multi-lang-v1_0/number-zh.fst<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--num-threads<span class="o">=</span><span class="m">2</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--sid<span class="o">=</span><span class="m">48</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--output-filename<span class="o">=</span><span class="s2">&quot;./kokoro-1.0-sid-48-zh-1.wav&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;有困难，请拨打110 或者18601200909&quot;</span>
+
+build/bin/sherpa-onnx-offline-tts<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--debug<span class="o">=</span><span class="m">0</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-model<span class="o">=</span>./kokoro-multi-lang-v1_0/model.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-voices<span class="o">=</span>./kokoro-multi-lang-v1_0/voices.bin<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-tokens<span class="o">=</span>./kokoro-multi-lang-v1_0/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-data-dir<span class="o">=</span>./kokoro-multi-lang-v1_0/espeak-ng-data<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-lexicon<span class="o">=</span>./kokoro-multi-lang-v1_0/lexicon-us-en.txt,./kokoro-multi-lang-v1_0/lexicon-zh.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--num-threads<span class="o">=</span><span class="m">2</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--sid<span class="o">=</span><span class="m">48</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--output-filename<span class="o">=</span><span class="s2">&quot;./kokoro-1.0-sid-48-zh-2.wav&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;当夜幕降临，星光点点，伴随着微风拂面，我在静谧中感受着时光的流转，思念如涟漪荡漾，梦境如画卷展开，我与自然融为一体，沉静在这片宁静的美丽之中，感受着生命的奇迹与温柔.&quot;</span>
+
+
+build/bin/sherpa-onnx-offline-tts<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--debug<span class="o">=</span><span class="m">0</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-model<span class="o">=</span>./kokoro-multi-lang-v1_0/model.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-voices<span class="o">=</span>./kokoro-multi-lang-v1_0/voices.bin<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-tokens<span class="o">=</span>./kokoro-multi-lang-v1_0/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-data-dir<span class="o">=</span>./kokoro-multi-lang-v1_0/espeak-ng-data<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-lexicon<span class="o">=</span>./kokoro-multi-lang-v1_0/lexicon-us-en.txt,./kokoro-multi-lang-v1_0/lexicon-zh.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tts-rule-fsts<span class="o">=</span>./kokoro-multi-lang-v1_0/date-zh.fst,./kokoro-multi-lang-v1_0/number-zh.fst<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--num-threads<span class="o">=</span><span class="m">2</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--sid<span class="o">=</span><span class="m">48</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--output-filename<span class="o">=</span><span class="s2">&quot;./kokoro-1.0-sid-48-zh.wav&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;现在是2025年12点55分, 星期5。明天是周6，不用上班, 太棒啦！&quot;</span>
+
+build/bin/sherpa-onnx-offline-tts<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--debug<span class="o">=</span><span class="m">0</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-model<span class="o">=</span>./kokoro-multi-lang-v1_0/model.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-voices<span class="o">=</span>./kokoro-multi-lang-v1_0/voices.bin<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-tokens<span class="o">=</span>./kokoro-multi-lang-v1_0/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-data-dir<span class="o">=</span>./kokoro-multi-lang-v1_0/espeak-ng-data<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-lexicon<span class="o">=</span>./kokoro-multi-lang-v1_0/lexicon-us-en.txt,./kokoro-multi-lang-v1_0/lexicon-zh.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tts-rule-fsts<span class="o">=</span>./kokoro-multi-lang-v1_0/date-zh.fst,./kokoro-multi-lang-v1_0/phone-zh.fst,./kokoro-multi-lang-v1_0/number-zh.fst<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--num-threads<span class="o">=</span><span class="m">2</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--sid<span class="o">=</span><span class="m">49</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--output-filename<span class="o">=</span><span class="s2">&quot;./kokoro-1.0-sid-49-zh.wav&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;根据第7次全国人口普查结果表明，我国总人口有1443497378人。普查登记的大陆31个省、自治区、直辖市和现役军人的人口共1411778724人。电话号码是110。手机号是13812345678&quot;</span>
+
+build/bin/sherpa-onnx-offline-tts<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--debug<span class="o">=</span><span class="m">0</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-model<span class="o">=</span>./kokoro-multi-lang-v1_0/model.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-voices<span class="o">=</span>./kokoro-multi-lang-v1_0/voices.bin<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-tokens<span class="o">=</span>./kokoro-multi-lang-v1_0/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-data-dir<span class="o">=</span>./kokoro-multi-lang-v1_0/espeak-ng-data<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-lexicon<span class="o">=</span>./kokoro-multi-lang-v1_0/lexicon-us-en.txt,./kokoro-multi-lang-v1_0/lexicon-zh.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--num-threads<span class="o">=</span><span class="m">2</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--sid<span class="o">=</span><span class="m">49</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--output-filename<span class="o">=</span><span class="s2">&quot;./kokoro-1.0-sid-49-zh-1.wav&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;当夜幕降临，星光点点，伴随着微风拂面，我在静谧中感受着时光的流转，思念如涟漪荡漾，梦境如画卷展开，我与自然融为一体，沉静在这片宁静的美丽之中，感受着生命的奇迹与温柔.&quot;</span>
+
+
+build/bin/sherpa-onnx-offline-tts<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--debug<span class="o">=</span><span class="m">0</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-model<span class="o">=</span>./kokoro-multi-lang-v1_0/model.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-voices<span class="o">=</span>./kokoro-multi-lang-v1_0/voices.bin<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-tokens<span class="o">=</span>./kokoro-multi-lang-v1_0/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-data-dir<span class="o">=</span>./kokoro-multi-lang-v1_0/espeak-ng-data<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-lexicon<span class="o">=</span>./kokoro-multi-lang-v1_0/lexicon-us-en.txt,./kokoro-multi-lang-v1_0/lexicon-zh.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--num-threads<span class="o">=</span><span class="m">2</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--sid<span class="o">=</span><span class="m">50</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--output-filename<span class="o">=</span><span class="s2">&quot;./kokoro-1.0-sid-50-zh.wav&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;林美丽最美丽、最漂亮、最可爱！&quot;</span>
+
+build/bin/sherpa-onnx-offline-tts<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--debug<span class="o">=</span><span class="m">0</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-model<span class="o">=</span>./kokoro-multi-lang-v1_0/model.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-voices<span class="o">=</span>./kokoro-multi-lang-v1_0/voices.bin<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-tokens<span class="o">=</span>./kokoro-multi-lang-v1_0/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-data-dir<span class="o">=</span>./kokoro-multi-lang-v1_0/espeak-ng-data<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-lexicon<span class="o">=</span>./kokoro-multi-lang-v1_0/lexicon-us-en.txt,./kokoro-multi-lang-v1_0/lexicon-zh.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--num-threads<span class="o">=</span><span class="m">2</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--sid<span class="o">=</span><span class="m">50</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--output-filename<span class="o">=</span><span class="s2">&quot;./kokoro-1.0-sid-50-zh-1.wav&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;当夜幕降临，星光点点，伴随着微风拂面，我在静谧中感受着时光的流转，思念如涟漪荡漾，梦境如画卷展开，我与自然融为一体，沉静在这片宁静的美丽之中，感受着生命的奇迹与温柔.&quot;</span>
+
+build/bin/sherpa-onnx-offline-tts<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--debug<span class="o">=</span><span class="m">0</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-model<span class="o">=</span>./kokoro-multi-lang-v1_0/model.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-voices<span class="o">=</span>./kokoro-multi-lang-v1_0/voices.bin<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-tokens<span class="o">=</span>./kokoro-multi-lang-v1_0/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-data-dir<span class="o">=</span>./kokoro-multi-lang-v1_0/espeak-ng-data<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-lexicon<span class="o">=</span>./kokoro-multi-lang-v1_0/lexicon-us-en.txt,./kokoro-multi-lang-v1_0/lexicon-zh.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--num-threads<span class="o">=</span><span class="m">2</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--sid<span class="o">=</span><span class="m">51</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--output-filename<span class="o">=</span><span class="s2">&quot;./kokoro-1.0-sid-51-zh.wav&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;当夜幕降临，星光点点，伴随着微风拂面，我在静谧中感受着时光的流转，思念如涟漪荡漾，梦境如画卷展开，我与自然融为一体，沉静在这片宁静的美丽之中，感受着生命的奇迹与温柔.&quot;</span>
+
+build/bin/sherpa-onnx-offline-tts<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--debug<span class="o">=</span><span class="m">0</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-model<span class="o">=</span>./kokoro-multi-lang-v1_0/model.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-voices<span class="o">=</span>./kokoro-multi-lang-v1_0/voices.bin<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-tokens<span class="o">=</span>./kokoro-multi-lang-v1_0/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-data-dir<span class="o">=</span>./kokoro-multi-lang-v1_0/espeak-ng-data<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-lexicon<span class="o">=</span>./kokoro-multi-lang-v1_0/lexicon-us-en.txt,./kokoro-multi-lang-v1_0/lexicon-zh.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--num-threads<span class="o">=</span><span class="m">2</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--sid<span class="o">=</span><span class="m">52</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--output-filename<span class="o">=</span><span class="s2">&quot;./kokoro-1.0-sid-52-zh.wav&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;当夜幕降临，星光点点，伴随着微风拂面，我在静谧中感受着时光的流转，思念如涟漪荡漾，梦境如画卷展开，我与自然融为一体，沉静在这片宁静的美丽之中，感受着生命的奇迹与温柔.&quot;</span>
+
+build/bin/sherpa-onnx-offline-tts<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--debug<span class="o">=</span><span class="m">0</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-model<span class="o">=</span>./kokoro-multi-lang-v1_0/model.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-voices<span class="o">=</span>./kokoro-multi-lang-v1_0/voices.bin<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-tokens<span class="o">=</span>./kokoro-multi-lang-v1_0/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-data-dir<span class="o">=</span>./kokoro-multi-lang-v1_0/espeak-ng-data<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-lexicon<span class="o">=</span>./kokoro-multi-lang-v1_0/lexicon-us-en.txt,./kokoro-multi-lang-v1_0/lexicon-zh.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tts-rule-fsts<span class="o">=</span>./kokoro-multi-lang-v1_0/date-zh.fst,./kokoro-multi-lang-v1_0/number-zh.fst<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--num-threads<span class="o">=</span><span class="m">2</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--sid<span class="o">=</span><span class="m">52</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--output-filename<span class="o">=</span><span class="s2">&quot;./kokoro-1.0-sid-52-zh-en.wav&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;Are you ok 是雷军2015年4月小米在印度举行新品发布会时说的。他还说过, I am very happy to be in China. 雷军事后在微博上表示 “万万没想到，视频火速传到国内，全国人民都笑了”. 现在国际米粉越来越多，我的确应该把英文学好，不让大家失望！加油！&quot;</span>
+
+build/bin/sherpa-onnx-offline-tts<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--debug<span class="o">=</span><span class="m">0</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-model<span class="o">=</span>./kokoro-multi-lang-v1_0/model.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-voices<span class="o">=</span>./kokoro-multi-lang-v1_0/voices.bin<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-tokens<span class="o">=</span>./kokoro-multi-lang-v1_0/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-data-dir<span class="o">=</span>./kokoro-multi-lang-v1_0/espeak-ng-data<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-lexicon<span class="o">=</span>./kokoro-multi-lang-v1_0/lexicon-us-en.txt,./kokoro-multi-lang-v1_0/lexicon-zh.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tts-rule-fsts<span class="o">=</span>./kokoro-multi-lang-v1_0/date-zh.fst,./kokoro-multi-lang-v1_0/number-zh.fst<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--num-threads<span class="o">=</span><span class="m">2</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--sid<span class="o">=</span><span class="m">1</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--output-filename<span class="o">=</span><span class="s2">&quot;./kokoro-1.0-sid-1-zh-en.wav&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;Are you ok 是雷军2015年4月小米在印度举行新品发布会时说的。他还说过, I am very happy to be in China. 雷军事后在微博上表示 “万万没想到，视频火速传到国内，全国人民都笑了”. 现在国际米粉越来越多，我的确应该把英文学好，不让大家失望！加油！&quot;</span>
+
+build/bin/sherpa-onnx-offline-tts<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--debug<span class="o">=</span><span class="m">0</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-model<span class="o">=</span>./kokoro-multi-lang-v1_0/model.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-voices<span class="o">=</span>./kokoro-multi-lang-v1_0/voices.bin<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-tokens<span class="o">=</span>./kokoro-multi-lang-v1_0/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-data-dir<span class="o">=</span>./kokoro-multi-lang-v1_0/espeak-ng-data<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-lexicon<span class="o">=</span>./kokoro-multi-lang-v1_0/lexicon-us-en.txt,./kokoro-multi-lang-v1_0/lexicon-zh.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tts-rule-fsts<span class="o">=</span>./kokoro-multi-lang-v1_0/date-zh.fst,./kokoro-multi-lang-v1_0/number-zh.fst<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--num-threads<span class="o">=</span><span class="m">2</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--sid<span class="o">=</span><span class="m">18</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--output-filename<span class="o">=</span><span class="s2">&quot;./kokoro-1.0-sid-18-zh-en.wav&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;Are you ok 是雷军2015年4月小米在印度举行新品发布会时说的。他还说过, I am very happy to be in China. 雷军事后在微博上表示 “万万没想到，视频火速传到国内，全国人民都笑了”. 现在国际米粉越来越多，我的确应该把英文学好，不让大家失望！加油！&quot;</span>
+</pre></div>
+</div>
+</div>
+<p>After running, it will generate many <code class="docutils literal notranslate"><span class="pre">.wav</span></code> files in the
+current directory.</p>
+<section id="audio-samples">
+<h4>Audio samples<a class="headerlink" href="#audio-samples" title="Permalink to this heading"></a></h4>
+<p>An example is given below:</p>
+<div class="toggle docutils container">
+<div class="header docutils container">
+<p>Click ▶ to see it.</p>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">soxi</span> <span class="o">./</span><span class="n">kokoro</span><span class="o">-</span><span class="mf">1.0</span><span class="o">-</span><span class="n">sid</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">.</span><span class="n">wav</span>
+
+<span class="n">Input</span> <span class="n">File</span>     <span class="p">:</span> <span class="s1">&#39;./kokoro-1.0-sid-1-zh-en.wav&#39;</span>
+<span class="n">Channels</span>       <span class="p">:</span> <span class="mi">1</span>
+<span class="n">Sample</span> <span class="n">Rate</span>    <span class="p">:</span> <span class="mi">24000</span>
+<span class="n">Precision</span>      <span class="p">:</span> <span class="mi">16</span><span class="o">-</span><span class="n">bit</span>
+<span class="n">Duration</span>       <span class="p">:</span> <span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mf">26.00</span> <span class="o">=</span> <span class="mi">624008</span> <span class="n">samples</span> <span class="o">~</span> <span class="mf">1950.02</span> <span class="n">CDDA</span> <span class="n">sectors</span>
+<span class="n">File</span> <span class="n">Size</span>      <span class="p">:</span> <span class="mf">1.25</span><span class="n">M</span>
+<span class="n">Bit</span> <span class="n">Rate</span>       <span class="p">:</span> <span class="mi">384</span><span class="n">k</span>
+<span class="n">Sample</span> <span class="n">Encoding</span><span class="p">:</span> <span class="mi">16</span><span class="o">-</span><span class="n">bit</span> <span class="n">Signed</span> <span class="n">Integer</span> <span class="n">PCM</span>
+</pre></div>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>Sample rate of this model is fixed to <code class="docutils literal notranslate"><span class="pre">24000</span> <span class="pre">Hz</span></code>.</p>
+</div>
+<table>
+  <tr>
+    <th>Wave filename</th>
+    <th>Content</th>
+    <th>Text</th>
+  </tr>
+
+  <tr>
+    <td>kokoro-1.0-sid-0-en-us.wav</td>
+    <td>
+     <audio title="Generated ./kokoro-1.0-sid-0-en-us.wav" controls="controls">
+           <source src="/sherpa/_static/kokoro-multi-lang-v1_0/kokoro-1.0-sid-0-en-us.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+    <td>
+      "Friends fell out often because life was changing so fast. The easiest thing in the world was to lose touch with someone."
+    </td>
+  </tr>
+
+  <tr>
+    <td>kokoro-1.0-sid-1-en-us.wav</td>
+    <td>
+     <audio title="Generated ./kokoro-1.0-sid-1-en-us.wav" controls="controls">
+           <source src="/sherpa/_static/kokoro-multi-lang-v1_0/kokoro-1.0-sid-1-en-us.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+    <td>
+      "Friends fell out often because life was changing so fast. The easiest thing in the world was to lose touch with someone."
+    </td>
+  </tr>
+
+  <tr>
+    <td>kokoro-1.0-sid-2-en-us.wav</td>
+    <td>
+     <audio title="Generated ./kokoro-1.0-sid-2-en-us.wav" controls="controls">
+           <source src="/sherpa/_static/kokoro-multi-lang-v1_0/kokoro-1.0-sid-2-en-us.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+    <td>
+      "Friends fell out often because life was changing so fast. The easiest thing in the world was to lose touch with someone."
+    </td>
+  </tr>
+
+  <tr>
+    <td>kokoro-1.0-sid-3-en-us.wav</td>
+    <td>
+     <audio title="Generated ./kokoro-1.0-sid-3-en-us.wav" controls="controls">
+           <source src="/sherpa/_static/kokoro-multi-lang-v1_0/kokoro-1.0-sid-3-en-us.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+    <td>
+      "Friends fell out often because life was changing so fast. The easiest thing in the world was to lose touch with someone."
+    </td>
+  </tr>
+
+  <tr>
+    <td>kokoro-1.0-sid-4-en-us.wav</td>
+    <td>
+     <audio title="Generated ./kokoro-1.0-sid-4-en-us.wav" controls="controls">
+           <source src="/sherpa/_static/kokoro-multi-lang-v1_0/kokoro-1.0-sid-4-en-us.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+    <td>
+      "Friends fell out often because life was changing so fast. The easiest thing in the world was to lose touch with someone."
+    </td>
+  </tr>
+
+  <tr>
+    <td>kokoro-1.0-sid-5-en-us.wav</td>
+    <td>
+     <audio title="Generated ./kokoro-1.0-sid-5-en-us.wav" controls="controls">
+           <source src="/sherpa/_static/kokoro-multi-lang-v1_0/kokoro-1.0-sid-5-en-us.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+    <td>
+      "Friends fell out often because life was changing so fast. The easiest thing in the world was to lose touch with someone."
+    </td>
+  </tr>
+
+  <tr>
+    <td>kokoro-1.0-sid-6-en-us.wav</td>
+    <td>
+     <audio title="Generated ./kokoro-1.0-sid-6-en-us.wav" controls="controls">
+           <source src="/sherpa/_static/kokoro-multi-lang-v1_0/kokoro-1.0-sid-6-en-us.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+    <td>
+      "Friends fell out often because life was changing so fast. The easiest thing in the world was to lose touch with someone."
+    </td>
+  </tr>
+
+  <tr>
+    <td>kokoro-1.0-sid-7-en-us.wav</td>
+    <td>
+     <audio title="Generated ./kokoro-1.0-sid-7-en-us.wav" controls="controls">
+           <source src="/sherpa/_static/kokoro-multi-lang-v1_0/kokoro-1.0-sid-7-en-us.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+    <td>
+      "Friends fell out often because life was changing so fast. The easiest thing in the world was to lose touch with someone."
+    </td>
+  </tr>
+
+  <tr>
+    <td>kokoro-1.0-sid-8-en-us.wav</td>
+    <td>
+     <audio title="Generated ./kokoro-1.0-sid-8-en-us.wav" controls="controls">
+           <source src="/sherpa/_static/kokoro-multi-lang-v1_0/kokoro-1.0-sid-8-en-us.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+    <td>
+      "Friends fell out often because life was changing so fast. The easiest thing in the world was to lose touch with someone."
+    </td>
+  </tr>
+
+  <tr>
+    <td>kokoro-1.0-sid-9-en-us.wav</td>
+    <td>
+     <audio title="Generated ./kokoro-1.0-sid-9-en-us.wav" controls="controls">
+           <source src="/sherpa/_static/kokoro-multi-lang-v1_0/kokoro-1.0-sid-9-en-us.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+    <td>
+      "Friends fell out often because life was changing so fast. The easiest thing in the world was to lose touch with someone."
+    </td>
+  </tr>
+
+  <tr>
+    <td>kokoro-1.0-sid-10-en-us.wav</td>
+    <td>
+     <audio title="Generated ./kokoro-1.0-sid-10-en-us.wav" controls="controls">
+           <source src="/sherpa/_static/kokoro-multi-lang-v1_0/kokoro-1.0-sid-10-en-us.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+    <td>
+      "Friends fell out often because life was changing so fast. The easiest thing in the world was to lose touch with someone."
+    </td>
+  </tr>
+
+  <tr>
+    <td>kokoro-1.0-sid-11-en-us.wav</td>
+    <td>
+     <audio title="Generated ./kokoro-1.0-sid-11-en-us.wav" controls="controls">
+           <source src="/sherpa/_static/kokoro-multi-lang-v1_0/kokoro-1.0-sid-11-en-us.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+    <td>
+      "Friends fell out often because life was changing so fast. The easiest thing in the world was to lose touch with someone."
+    </td>
+  </tr>
+
+  <tr>
+    <td>kokoro-1.0-sid-12-en-us.wav</td>
+    <td>
+     <audio title="Generated ./kokoro-1.0-sid-12-en-us.wav" controls="controls">
+           <source src="/sherpa/_static/kokoro-multi-lang-v1_0/kokoro-1.0-sid-12-en-us.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+    <td>
+      "Friends fell out often because life was changing so fast. The easiest thing in the world was to lose touch with someone."
+    </td>
+  </tr>
+
+  <tr>
+    <td>kokoro-1.0-sid-13-en-us.wav</td>
+    <td>
+     <audio title="Generated ./kokoro-1.0-sid-13-en-us.wav" controls="controls">
+           <source src="/sherpa/_static/kokoro-multi-lang-v1_0/kokoro-1.0-sid-13-en-us.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+    <td>
+      "Friends fell out often because life was changing so fast. The easiest thing in the world was to lose touch with someone."
+    </td>
+  </tr>
+
+  <tr>
+    <td>kokoro-1.0-sid-14-en-us.wav</td>
+    <td>
+     <audio title="Generated ./kokoro-1.0-sid-14-en-us.wav" controls="controls">
+           <source src="/sherpa/_static/kokoro-multi-lang-v1_0/kokoro-1.0-sid-14-en-us.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+    <td>
+      "Friends fell out often because life was changing so fast. The easiest thing in the world was to lose touch with someone."
+    </td>
+  </tr>
+
+  <tr>
+    <td>kokoro-1.0-sid-15-en-us.wav</td>
+    <td>
+     <audio title="Generated ./kokoro-1.0-sid-15-en-us.wav" controls="controls">
+           <source src="/sherpa/_static/kokoro-multi-lang-v1_0/kokoro-1.0-sid-15-en-us.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+    <td>
+      "Friends fell out often because life was changing so fast. The easiest thing in the world was to lose touch with someone."
+    </td>
+  </tr>
+
+  <tr>
+    <td>kokoro-1.0-sid-16-en-us.wav</td>
+    <td>
+     <audio title="Generated ./kokoro-1.0-sid-16-en-us.wav" controls="controls">
+           <source src="/sherpa/_static/kokoro-multi-lang-v1_0/kokoro-1.0-sid-16-en-us.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+    <td>
+      "Friends fell out often because life was changing so fast. The easiest thing in the world was to lose touch with someone."
+    </td>
+  </tr>
+
+  <tr>
+    <td>kokoro-1.0-sid-17-en-us.wav</td>
+    <td>
+     <audio title="Generated ./kokoro-1.0-sid-17-en-us.wav" controls="controls">
+           <source src="/sherpa/_static/kokoro-multi-lang-v1_0/kokoro-1.0-sid-17-en-us.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+    <td>
+      "Friends fell out often because life was changing so fast. The easiest thing in the world was to lose touch with someone."
+    </td>
+  </tr>
+
+  <tr>
+    <td>kokoro-1.0-sid-18-en-us.wav</td>
+    <td>
+     <audio title="Generated ./kokoro-1.0-sid-18-en-us.wav" controls="controls">
+           <source src="/sherpa/_static/kokoro-multi-lang-v1_0/kokoro-1.0-sid-18-en-us.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+    <td>
+      "Friends fell out often because life was changing so fast. The easiest thing in the world was to lose touch with someone."
+    </td>
+  </tr>
+
+  <tr>
+    <td>kokoro-1.0-sid-19-en-us.wav</td>
+    <td>
+     <audio title="Generated ./kokoro-1.0-sid-19-en-us.wav" controls="controls">
+           <source src="/sherpa/_static/kokoro-multi-lang-v1_0/kokoro-1.0-sid-19-en-us.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+    <td>
+      "Friends fell out often because life was changing so fast. The easiest thing in the world was to lose touch with someone."
+    </td>
+  </tr>
+
+  <tr>
+    <td>kokoro-1.0-sid-20-en-gb.wav</td>
+    <td>
+     <audio title="Generated ./kokoro-1.0-sid-20-en-gb.wav" controls="controls">
+           <source src="/sherpa/_static/kokoro-multi-lang-v1_0/kokoro-1.0-sid-20-en-gb.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+    <td>
+      "Friends fell out often because life was changing so fast. The easiest thing in the world was to lose touch with someone."
+    </td>
+  </tr>
+
+  <tr>
+    <td>kokoro-1.0-sid-21-en-gb.wav</td>
+    <td>
+     <audio title="Generated ./kokoro-1.0-sid-21-en-gb.wav" controls="controls">
+           <source src="/sherpa/_static/kokoro-multi-lang-v1_0/kokoro-1.0-sid-21-en-gb.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+    <td>
+      "Friends fell out often because life was changing so fast. The easiest thing in the world was to lose touch with someone."
+    </td>
+  </tr>
+
+  <tr>
+    <td>kokoro-1.0-sid-22-en-gb.wav</td>
+    <td>
+     <audio title="Generated ./kokoro-1.0-sid-22-en-gb.wav" controls="controls">
+           <source src="/sherpa/_static/kokoro-multi-lang-v1_0/kokoro-1.0-sid-22-en-gb.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+    <td>
+      "Friends fell out often because life was changing so fast. The easiest thing in the world was to lose touch with someone."
+    </td>
+  </tr>
+
+  <tr>
+    <td>kokoro-1.0-sid-23-en-gb.wav</td>
+    <td>
+     <audio title="Generated ./kokoro-1.0-sid-23-en-gb.wav" controls="controls">
+           <source src="/sherpa/_static/kokoro-multi-lang-v1_0/kokoro-1.0-sid-23-en-gb.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+    <td>
+      "Friends fell out often because life was changing so fast. The easiest thing in the world was to lose touch with someone."
+    </td>
+  </tr>
+
+  <tr>
+    <td>kokoro-1.0-sid-24-en-gb.wav</td>
+    <td>
+     <audio title="Generated ./kokoro-1.0-sid-24-en-gb.wav" controls="controls">
+           <source src="/sherpa/_static/kokoro-multi-lang-v1_0/kokoro-1.0-sid-24-en-gb.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+    <td>
+      "Friends fell out often because life was changing so fast. The easiest thing in the world was to lose touch with someone."
+    </td>
+  </tr>
+
+  <tr>
+    <td>kokoro-1.0-sid-25-en-gb.wav</td>
+    <td>
+     <audio title="Generated ./kokoro-1.0-sid-25-en-gb.wav" controls="controls">
+           <source src="/sherpa/_static/kokoro-multi-lang-v1_0/kokoro-1.0-sid-25-en-gb.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+    <td>
+      "Friends fell out often because life was changing so fast. The easiest thing in the world was to lose touch with someone."
+    </td>
+  </tr>
+
+  <tr>
+    <td>kokoro-1.0-sid-23-en-gb.wav</td>
+    <td>
+     <audio title="Generated ./kokoro-1.0-sid-23-en-gb.wav" controls="controls">
+           <source src="/sherpa/_static/kokoro-multi-lang-v1_0/kokoro-1.0-sid-23-en-gb.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+    <td>
+      "Friends fell out often because life was changing so fast. The easiest thing in the world was to lose touch with someone."
+    </td>
+  </tr>
+
+  <tr>
+    <td>kokoro-1.0-sid-24-en-gb.wav</td>
+    <td>
+     <audio title="Generated ./kokoro-1.0-sid-24-en-gb.wav" controls="controls">
+           <source src="/sherpa/_static/kokoro-multi-lang-v1_0/kokoro-1.0-sid-24-en-gb.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+    <td>
+      "Friends fell out often because life was changing so fast. The easiest thing in the world was to lose touch with someone."
+    </td>
+  </tr>
+
+  <tr>
+    <td>kokoro-1.0-sid-25-en-gb.wav</td>
+    <td>
+     <audio title="Generated ./kokoro-1.0-sid-25-en-gb.wav" controls="controls">
+           <source src="/sherpa/_static/kokoro-multi-lang-v1_0/kokoro-1.0-sid-25-en-gb.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+    <td>
+      "Friends fell out often because life was changing so fast. The easiest thing in the world was to lose touch with someone."
+    </td>
+  </tr>
+
+  <tr>
+    <td>kokoro-1.0-sid-26-en-gb.wav</td>
+    <td>
+     <audio title="Generated ./kokoro-1.0-sid-26-en-gb.wav" controls="controls">
+           <source src="/sherpa/_static/kokoro-multi-lang-v1_0/kokoro-1.0-sid-26-en-gb.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+    <td>
+      "Friends fell out often because life was changing so fast. The easiest thing in the world was to lose touch with someone."
+    </td>
+  </tr>
+
+  <tr>
+    <td>kokoro-1.0-sid-27-en-gb.wav</td>
+    <td>
+     <audio title="Generated ./kokoro-1.0-sid-27-en-gb.wav" controls="controls">
+           <source src="/sherpa/_static/kokoro-multi-lang-v1_0/kokoro-1.0-sid-27-en-gb.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+    <td>
+      "Friends fell out often because life was changing so fast. The easiest thing in the world was to lose touch with someone."
+    </td>
+  </tr>
+
+  <tr>
+    <td>kokoro-1.0-sid-45-zh.wav</td>
+    <td>
+     <audio title="Generated ./kokoro-1.0-sid-45-zh.wav" controls="controls">
+           <source src="/sherpa/_static/kokoro-multi-lang-v1_0/kokoro-1.0-sid-45-zh.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+    <td>
+      "小米的核心价值观是什么？答案是真诚热爱！"
+    </td>
+  </tr>
+
+  <tr>
+    <td>kokoro-1.0-sid-45-zh-1.wav</td>
+    <td>
+     <audio title="Generated ./kokoro-1.0-sid-45-zh-1.wav" controls="controls">
+           <source src="/sherpa/_static/kokoro-multi-lang-v1_0/kokoro-1.0-sid-45-zh-1.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+    <td>
+      "当夜幕降临，星光点点，伴随着微风拂面，我在静谧中感受着时光的流转，思念如涟漪荡漾，梦境如画卷展开，我与自然融为一体，沉静在这片宁静的美丽之中，感受着生命的奇迹与温柔."
+    </td>
+  </tr>
+
+  <tr>
+    <td>kokoro-1.0-sid-46-zh.wav</td>
+    <td>
+     <audio title="Generated ./kokoro-1.0-sid-46-zh.wav" controls="controls">
+           <source src="/sherpa/_static/kokoro-multi-lang-v1_0/kokoro-1.0-sid-46-zh.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+    <td>
+       "小米的使命是，始终坚持做感动人心、价格厚道的好产品，让全球每个人都能享受科技带来的美好生活。"
+    </td>
+  </tr>
+
+  <tr>
+    <td>kokoro-1.0-sid-46-zh-1.wav</td>
+    <td>
+     <audio title="Generated ./kokoro-1.0-sid-46-zh-1.wav" controls="controls">
+           <source src="/sherpa/_static/kokoro-multi-lang-v1_0/kokoro-1.0-sid-46-zh-1.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+    <td>
+      "当夜幕降临，星光点点，伴随着微风拂面，我在静谧中感受着时光的流转，思念如涟漪荡漾，梦境如画卷展开，我与自然融为一体，沉静在这片宁静的美丽之中，感受着生命的奇迹与温柔."
+    </td>
+  </tr>
+
+  <tr>
+    <td>kokoro-1.0-sid-47-zh.wav</td>
+    <td>
+     <audio title="Generated ./kokoro-1.0-sid-47-zh.wav" controls="controls">
+           <source src="/sherpa/_static/kokoro-multi-lang-v1_0/kokoro-1.0-sid-47-zh.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+    <td>
+      "35年前，他于长沙出生, 在长白山长大。9年前他当上了银行的领导，主管行政。"
+    </td>
+  </tr>
+
+  <tr>
+    <td>kokoro-1.0-sid-47-zh-1.wav</td>
+    <td>
+     <audio title="Generated ./kokoro-1.0-sid-47-zh-1.wav" controls="controls">
+           <source src="/sherpa/_static/kokoro-multi-lang-v1_0/kokoro-1.0-sid-47-zh-1.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+    <td>
+      "当夜幕降临，星光点点，伴随着微风拂面，我在静谧中感受着时光的流转，思念如涟漪荡漾，梦境如画卷展开，我与自然融为一体，沉静在这片宁静的美丽之中，感受着生命的奇迹与温柔."
+    </td>
+  </tr>
+
+  <tr>
+    <td>kokoro-1.0-sid-48-zh-1.wav</td>
+    <td>
+     <audio title="Generated ./kokoro-1.0-sid-48-zh-1.wav" controls="controls">
+           <source src="/sherpa/_static/kokoro-multi-lang-v1_0/kokoro-1.0-sid-48-zh-1.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+    <td>
+      "有困难，请拨打110 或者18601200909"
+    </td>
+  </tr>
+
+  <tr>
+    <td>kokoro-1.0-sid-48-zh-2.wav</td>
+    <td>
+     <audio title="Generated ./kokoro-1.0-sid-48-zh-2.wav" controls="controls">
+           <source src="/sherpa/_static/kokoro-multi-lang-v1_0/kokoro-1.0-sid-48-zh-2.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+    <td>
+      "当夜幕降临，星光点点，伴随着微风拂面，我在静谧中感受着时光的流转，思念如涟漪荡漾，梦境如画卷展开，我与自然融为一体，沉静在这片宁静的美丽之中，感受着生命的奇迹与温柔."
+    </td>
+  </tr>
+
+  <tr>
+    <td>kokoro-1.0-sid-48-zh.wav</td>
+    <td>
+     <audio title="Generated ./kokoro-1.0-sid-48-zh.wav" controls="controls">
+           <source src="/sherpa/_static/kokoro-multi-lang-v1_0/kokoro-1.0-sid-48-zh.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+    <td>
+      "现在是2025年12点55分, 星期5。明天是周6，不用上班, 太棒啦！"
+    </td>
+  </tr>
+
+  <tr>
+    <td>kokoro-1.0-sid-49-zh.wav</td>
+    <td>
+     <audio title="Generated ./kokoro-1.0-sid-49-zh.wav" controls="controls">
+           <source src="/sherpa/_static/kokoro-multi-lang-v1_0/kokoro-1.0-sid-49-zh.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+    <td>
+      "根据第7次全国人口普查结果表明，我国总人口有1443497378人。普查登记的大陆31个省、自治区、直辖市和现役军人的人口共1411778724人。电话号码是110。手机号是13812345678"
+
+    </td>
+  </tr>
+
+  <tr>
+    <td>kokoro-1.0-sid-49-zh-1.wav</td>
+    <td>
+     <audio title="Generated ./kokoro-1.0-sid-49-zh-1.wav" controls="controls">
+           <source src="/sherpa/_static/kokoro-multi-lang-v1_0/kokoro-1.0-sid-49-zh-1.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+    <td>
+      "当夜幕降临，星光点点，伴随着微风拂面，我在静谧中感受着时光的流转，思念如涟漪荡漾，梦境如画卷展开，我与自然融为一体，沉静在这片宁静的美丽之中，感受着生命的奇迹与温柔."
+    </td>
+  </tr>
+
+  <tr>
+    <td>kokoro-1.0-sid-50-zh.wav</td>
+    <td>
+     <audio title="Generated ./kokoro-1.0-sid-50-zh.wav" controls="controls">
+           <source src="/sherpa/_static/kokoro-multi-lang-v1_0/kokoro-1.0-sid-50-zh.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+    <td>
+      "林美丽最美丽、最漂亮、最可爱！"
+    </td>
+  </tr>
+
+  <tr>
+    <td>kokoro-1.0-sid-50-zh-1.wav</td>
+    <td>
+     <audio title="Generated ./kokoro-1.0-sid-50-zh-1.wav" controls="controls">
+           <source src="/sherpa/_static/kokoro-multi-lang-v1_0/kokoro-1.0-sid-50-zh-1.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+    <td>
+      "当夜幕降临，星光点点，伴随着微风拂面，我在静谧中感受着时光的流转，思念如涟漪荡漾，梦境如画卷展开，我与自然融为一体，沉静在这片宁静的美丽之中，感受着生命的奇迹与温柔."
+    </td>
+  </tr>
+
+  <tr>
+    <td>kokoro-1.0-sid-51-zh.wav</td>
+    <td>
+     <audio title="Generated ./kokoro-1.0-sid-51-zh.wav" controls="controls">
+           <source src="/sherpa/_static/kokoro-multi-lang-v1_0/kokoro-1.0-sid-51-zh.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+    <td>
+      "当夜幕降临，星光点点，伴随着微风拂面，我在静谧中感受着时光的流转，思念如涟漪荡漾，梦境如画卷展开，我与自然融为一体，沉静在这片宁静的美丽之中，感受着生命的奇迹与温柔."
+    </td>
+  </tr>
+
+  <tr>
+    <td>kokoro-1.0-sid-52-zh.wav</td>
+    <td>
+     <audio title="Generated ./kokoro-1.0-sid-52-zh.wav" controls="controls">
+           <source src="/sherpa/_static/kokoro-multi-lang-v1_0/kokoro-1.0-sid-52-zh.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+    <td>
+      "当夜幕降临，星光点点，伴随着微风拂面，我在静谧中感受着时光的流转，思念如涟漪荡漾，梦境如画卷展开，我与自然融为一体，沉静在这片宁静的美丽之中，感受着生命的奇迹与温柔."
+    </td>
+  </tr>
+
+  <tr>
+    <td>kokoro-1.0-sid-52-zh-en.wav</td>
+    <td>
+     <audio title="Generated ./kokoro-1.0-sid-52-zh-en.wav" controls="controls">
+           <source src="/sherpa/_static/kokoro-multi-lang-v1_0/kokoro-1.0-sid-52-zh-en.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+    <td>
+     "Are you ok 是雷军2015年4月小米在印度举行新品发布会时说的。他还说过, I am very happy to be in China. 雷军事后在微博上表示 “万万没想到，视频火速传到国内，全国人民都笑了”. 现在国际米粉越来越多，我的确应该把英文学好，不让大家失望！加油！"
+    </td>
+  </tr>
+
+  <tr>
+    <td>kokoro-1.0-sid-1-zh-en.wav</td>
+    <td>
+     <audio title="Generated ./kokoro-1.0-sid-1-zh-en.wav" controls="controls">
+           <source src="/sherpa/_static/kokoro-multi-lang-v1_0/kokoro-1.0-sid-1-zh-en.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+    <td>
+     "Are you ok 是雷军2015年4月小米在印度举行新品发布会时说的。他还说过, I am very happy to be in China. 雷军事后在微博上表示 “万万没想到，视频火速传到国内，全国人民都笑了”. 现在国际米粉越来越多，我的确应该把英文学好，不让大家失望！加油！"
+
+    </td>
+  </tr>
+
+  <tr>
+    <td>kokoro-1.0-sid-18-zh-en.wav</td>
+    <td>
+     <audio title="Generated ./kokoro-1.0-sid-18-zh-en.wav" controls="controls">
+           <source src="/sherpa/_static/kokoro-multi-lang-v1_0/kokoro-1.0-sid-18-zh-en.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+    <td>
+     "Are you ok 是雷军2015年4月小米在印度举行新品发布会时说的。他还说过, I am very happy to be in China. 雷军事后在微博上表示 “万万没想到，视频火速传到国内，全国人民都笑了”. 现在国际米粉越来越多，我的确应该把英文学好，不让大家失望！加油！"
+
+    </td>
+  </tr>
+
+</table></div>
+</section>
+</section>
+<section id="generate-speech-with-python-script">
+<h3>Generate speech with Python script<a class="headerlink" href="#generate-speech-with-python-script" title="Permalink to this heading"></a></h3>
+<p>Please replace <code class="docutils literal notranslate"><span class="pre">build/bin/sherpa-onnx-offline-tts</span></code> in the above examples
+with <code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">./python-api-examples/offline-tts.py</span></code>.
+or with <code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">./python-api-examples/offline-tts-play.py</span></code>.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<ul class="simple">
+<li><p>Download <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/blob/master/python-api-examples/offline-tts.py">offline-tts.py</a></p></li>
+<li><p>Download <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/blob/master/python-api-examples/offline-tts-play.py">offline-tts-play.py</a></p></li>
+</ul>
+</div>
+</section>
+<section id="rtf-on-raspberry-pi-4-model-b-rev-1-5">
+<h3>RTF on Raspberry Pi 4 Model B Rev 1.5<a class="headerlink" href="#rtf-on-raspberry-pi-4-model-b-rev-1-5" title="Permalink to this heading"></a></h3>
+<p>We use the following command to test the RTF of this model on Raspberry Pi 4 Model B Rev 1.5:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="k">for</span><span class="w"> </span>t<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="m">3</span><span class="w"> </span><span class="m">4</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w"> </span>build/bin/sherpa-onnx-offline-tts<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--num-threads<span class="o">=</span><span class="nv">$t</span><span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--kokoro-model<span class="o">=</span>./kokoro-multi-lang-v1_0/model.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--kokoro-voices<span class="o">=</span>./kokoro-multi-lang-v1_0/voices.bin<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--kokoro-tokens<span class="o">=</span>./kokoro-multi-lang-v1_0/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--kokoro-data-dir<span class="o">=</span>./kokoro-multi-lang-v1_0/espeak-ng-data<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--kokoro-lexicon<span class="o">=</span>./kokoro-multi-lang-v1_0/lexicon-us-en.txt,./kokoro-multi-lang-v1_0/lexicon-zh.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--tts-rule-fsts<span class="o">=</span>./kokoro-multi-lang-v1_0/date-zh.fst,./kokoro-multi-lang-v1_0/number-zh.fst<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--sid<span class="o">=</span><span class="m">1</span><span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--output-filename<span class="o">=</span><span class="s2">&quot;./kokoro-1.0-sid-1-en.wav&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">   </span><span class="s2">&quot;你好吗？Friends fell out often because life was changing so fast. The easiest thing in the world was to lose touch with someone.&quot;</span>
+<span class="k">done</span>
+</pre></div>
+</div>
+<p>The results are given below:</p>
+<blockquote>
+<div><table class="docutils align-default">
+<colgroup>
+<col style="width: 32%" />
+<col style="width: 17%" />
+<col style="width: 17%" />
+<col style="width: 17%" />
+<col style="width: 17%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>num_threads</p></th>
+<th class="head"><p>1</p></th>
+<th class="head"><p>2</p></th>
+<th class="head"><p>3</p></th>
+<th class="head"><p>4</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>RTF</p></td>
+<td><p>7.635</p></td>
+<td><p>4.470</p></td>
+<td><p>3.430</p></td>
+<td><p>3.191</p></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</section>
+</section>
+<section id="kokoro-en-v0-19-english-11-speakers">
+<span id="kokoro-en-v0-19"></span><h2>kokoro-en-v0_19 (English, 11 speakers)<a class="headerlink" href="#kokoro-en-v0-19-english-11-speakers" title="Permalink to this heading"></a></h2>
+<p>This model contains 11 speakers. The ONNX model is from
+<a class="reference external" href="https://github.com/thewh1teagle/kokoro-onnx/releases/tag/model-files">https://github.com/thewh1teagle/kokoro-onnx/releases/tag/model-files</a></p>
+<p>The script for adding meta data to the ONNX model can be found at
+<a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/tree/master/scripts/kokoro">https://github.com/k2-fsa/sherpa-onnx/tree/master/scripts/kokoro</a></p>
+<p>In the following, we describe how to download it and use it with <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>.</p>
+<p>See also <a class="reference external" href="https://k2-fsa.github.io/sherpa/onnx/tts/all/English/kokoro-en-v0_19.html">https://k2-fsa.github.io/sherpa/onnx/tts/all/English/kokoro-en-v0_19.html</a></p>
+<section id="id1">
+<h3>Download the model<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h3>
+<p>Please use the following commands to download it.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/kokoro-en-v0_19.tar.bz2
+tar<span class="w"> </span>xf<span class="w"> </span>kokoro-en-v0_19.tar.bz2
+rm<span class="w"> </span>kokoro-en-v0_19.tar.bz2
+</pre></div>
+</div>
+<p>Please check that the file sizes of the pre-trained models are correct. See
+the file sizes of <code class="docutils literal notranslate"><span class="pre">*.onnx</span></code> files below.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ls</span> <span class="o">-</span><span class="n">lh</span> <span class="n">kokoro</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="n">v0_19</span><span class="o">/</span>
+
+<span class="n">total</span> <span class="mi">686208</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>    <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>    <span class="mi">11</span><span class="n">K</span> <span class="n">Jan</span> <span class="mi">15</span> <span class="mi">16</span><span class="p">:</span><span class="mi">23</span> <span class="n">LICENSE</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>    <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">235</span><span class="n">B</span> <span class="n">Jan</span> <span class="mi">15</span> <span class="mi">16</span><span class="p">:</span><span class="mi">25</span> <span class="n">README</span><span class="o">.</span><span class="n">md</span>
+<span class="n">drwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span>  <span class="mi">122</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mf">3.8</span><span class="n">K</span> <span class="n">Nov</span> <span class="mi">28</span>  <span class="mi">2023</span> <span class="n">espeak</span><span class="o">-</span><span class="n">ng</span><span class="o">-</span><span class="n">data</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>    <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">330</span><span class="n">M</span> <span class="n">Jan</span> <span class="mi">15</span> <span class="mi">16</span><span class="p">:</span><span class="mi">25</span> <span class="n">model</span><span class="o">.</span><span class="n">onnx</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>    <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mf">1.1</span><span class="n">K</span> <span class="n">Jan</span> <span class="mi">15</span> <span class="mi">16</span><span class="p">:</span><span class="mi">25</span> <span class="n">tokens</span><span class="o">.</span><span class="n">txt</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>    <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mf">5.5</span><span class="n">M</span> <span class="n">Jan</span> <span class="mi">15</span> <span class="mi">16</span><span class="p">:</span><span class="mi">25</span> <span class="n">voices</span><span class="o">.</span><span class="n">bin</span>
+</pre></div>
+</div>
+</section>
+<section id="id2">
+<h3>Map between speaker ID and speaker name<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h3>
+<p>The model contains 11 speakers and we use integer IDs <code class="docutils literal notranslate"><span class="pre">0-10</span></code> to represent.
+each speaker.</p>
+<p>The map is given below:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 8%" />
+<col style="width: 8%" />
+<col style="width: 8%" />
+<col style="width: 8%" />
+<col style="width: 8%" />
+<col style="width: 8%" />
+<col style="width: 8%" />
+<col style="width: 8%" />
+<col style="width: 8%" />
+<col style="width: 8%" />
+<col style="width: 8%" />
+<col style="width: 8%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>Speaker ID</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>2</p></td>
+<td><p>3</p></td>
+<td><p>4</p></td>
+<td><p>5</p></td>
+<td><p>6</p></td>
+<td><p>7</p></td>
+<td><p>8</p></td>
+<td><p>9</p></td>
+<td><p>10</p></td>
+</tr>
+<tr class="row-even"><td><p>Speaker Name</p></td>
+<td><p>af</p></td>
+<td><p>af_bella</p></td>
+<td><p>af_nicole</p></td>
+<td><p>af_sarah</p></td>
+<td><p>af_sky</p></td>
+<td><p>am_adam</p></td>
+<td><p>am_michael</p></td>
+<td><p>bf_emma</p></td>
+<td><p>bf_isabella</p></td>
+<td><p>bm_george</p></td>
+<td><p>bm_lewis</p></td>
+</tr>
+</tbody>
+</table>
+<table>
+  <tr>
+    <th>ID</th>
+    <th>name</th>
+    <th>Test wave</th>
+  </tr>
+
+  <tr>
+    <td>0</td>
+    <td>af</td>
+    <td>
+     <audio title="./0-af.wav" controls="controls">
+           <source src="/sherpa/_static/kokoro-en-v0_19/sid/0-af.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+  </tr>
+
+  <tr>
+    <td>1</td>
+    <td>af_bella</td>
+    <td>
+     <audio title="./1-af_bella.wav" controls="controls">
+           <source src="/sherpa/_static/kokoro-en-v0_19/sid/1-af_bella.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+  </tr>
+
+  <tr>
+    <td>2</td>
+    <td>af_nicole</td>
+    <td>
+     <audio title="./2-af_nicole.wav" controls="controls">
+           <source src="/sherpa/_static/kokoro-en-v0_19/sid/2-af_nicole.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+  </tr>
+
+  <tr>
+    <td>3</td>
+    <td>af_sarah</td>
+    <td>
+     <audio title="./3-af_sarah.wav" controls="controls">
+           <source src="/sherpa/_static/kokoro-en-v0_19/sid/3-af_sarah.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+  </tr>
+
+  <tr>
+    <td>4</td>
+    <td>af_sky</td>
+    <td>
+     <audio title="./4-af_sky.wav" controls="controls">
+           <source src="/sherpa/_static/kokoro-en-v0_19/sid/4-af_sky.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+  </tr>
+
+  <tr>
+    <td>5</td>
+    <td>am_adam</td>
+    <td>
+     <audio title="./5-am_adam.wav" controls="controls">
+           <source src="/sherpa/_static/kokoro-en-v0_19/sid/5-am_adam.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+  </tr>
+
+  <tr>
+    <td>6</td>
+    <td>am_michael</td>
+    <td>
+     <audio title="./6-am_michael.wav" controls="controls">
+           <source src="/sherpa/_static/kokoro-en-v0_19/sid/6-am_michael.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+  </tr>
+
+  <tr>
+    <td>7</td>
+    <td>bf_emma</td>
+    <td>
+     <audio title="./7-bf_emma.wav" controls="controls">
+           <source src="/sherpa/_static/kokoro-en-v0_19/sid/7-bf_emma.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+  </tr>
+
+  <tr>
+    <td>8</td>
+    <td>bf_isabella</td>
+    <td>
+     <audio title="./8-bf_isabella.wav" controls="controls">
+           <source src="/sherpa/_static/kokoro-en-v0_19/sid/8-bf_isabella.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+  </tr>
+
+  <tr>
+    <td>9</td>
+    <td>bm_george</td>
+    <td>
+     <audio title="./9-bm_george.wav" controls="controls">
+           <source src="/sherpa/_static/kokoro-en-v0_19/sid/9-bm_george.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+  </tr>
+
+  <tr>
+    <td>10</td>
+    <td>bm_lewis</td>
+    <td>
+     <audio title="./10-bm_lewis.wav" controls="controls">
+           <source src="/sherpa/_static/kokoro-en-v0_19/sid/10-bm_lewis.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+  </tr>
+
+</table></section>
+<section id="id3">
+<h3>Generate speech with executables compiled from C++<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+./build/bin/sherpa-onnx-offline-tts<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-model<span class="o">=</span>./kokoro-en-v0_19/model.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-voices<span class="o">=</span>./kokoro-en-v0_19/voices.bin<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-tokens<span class="o">=</span>./kokoro-en-v0_19/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-data-dir<span class="o">=</span>./kokoro-en-v0_19/espeak-ng-data<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--num-threads<span class="o">=</span><span class="m">2</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--sid<span class="o">=</span><span class="m">10</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--output-filename<span class="o">=</span><span class="s2">&quot;./10-bm_lewis.wav&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;Today as always, men fall into two groups: slaves and free men. Whoever does not have two-thirds of his day for himself, is a slave, whatever he may be, a statesman, a businessman, an official, or a scholar.&quot;</span>
+</pre></div>
+</div>
+<p>After running, it will generate a file <code class="docutils literal notranslate"><span class="pre">10-bm_lewis</span></code> in the
+current directory.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>soxi<span class="w"> </span>./10-bm_lewis.wav
+
+Input<span class="w"> </span>File<span class="w">     </span>:<span class="w"> </span><span class="s1">&#39;./10-bm_lewis.wav&#39;</span>
+Channels<span class="w">       </span>:<span class="w"> </span><span class="m">1</span>
+Sample<span class="w"> </span>Rate<span class="w">    </span>:<span class="w"> </span><span class="m">24000</span>
+Precision<span class="w">      </span>:<span class="w"> </span><span class="m">16</span>-bit
+Duration<span class="w">       </span>:<span class="w"> </span><span class="m">00</span>:00:15.80<span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">379200</span><span class="w"> </span>samples<span class="w"> </span>~<span class="w"> </span><span class="m">1185</span><span class="w"> </span>CDDA<span class="w"> </span>sectors
+File<span class="w"> </span>Size<span class="w">      </span>:<span class="w"> </span>758k
+Bit<span class="w"> </span>Rate<span class="w">       </span>:<span class="w"> </span>384k
+Sample<span class="w"> </span>Encoding:<span class="w"> </span><span class="m">16</span>-bit<span class="w"> </span>Signed<span class="w"> </span>Integer<span class="w"> </span>PCM
+</pre></div>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>Sample rate of this model is fixed to <code class="docutils literal notranslate"><span class="pre">24000</span> <span class="pre">Hz</span></code>.</p>
+</div>
+<table>
+  <tr>
+    <th>Wave filename</th>
+    <th>Content</th>
+    <th>Text</th>
+  </tr>
+  <tr>
+    <td>10-bm_lewis.wav</td>
+    <td>
+     <audio title="Generated ./10-bm_lewis.wav" controls="controls">
+           <source src="/sherpa/_static/kokoro-en-v0_19/10-bm_lewis.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+    <td>
+  "Today as always, men fall into two groups: slaves and free men. Whoever does not have two-thirds of his day for himself, is a slave, whatever he may be, a statesman, a businessman, an official, or a scholar."
+    </td>
+  </tr>
+</table></section>
+<section id="id4">
+<h3>Generate speech with Python script<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+python3<span class="w"> </span>./python-api-examples/offline-tts.py<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-model<span class="o">=</span>./kokoro-en-v0_19/model.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-voices<span class="o">=</span>./kokoro-en-v0_19/voices.bin<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-tokens<span class="o">=</span>./kokoro-en-v0_19/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--kokoro-data-dir<span class="o">=</span>./kokoro-en-v0_19/espeak-ng-data<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--num-threads<span class="o">=</span><span class="m">2</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--sid<span class="o">=</span><span class="m">2</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--output-filename<span class="o">=</span>./2-af_nicole.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;Friends fell out often because life was changing so fast. The easiest thing in the world was to lose touch with someone.&quot;</span>
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>soxi<span class="w"> </span>./2-af_nicole.wav
+
+Input<span class="w"> </span>File<span class="w">     </span>:<span class="w"> </span><span class="s1">&#39;./2-af_nicole.wav&#39;</span>
+Channels<span class="w">       </span>:<span class="w"> </span><span class="m">1</span>
+Sample<span class="w"> </span>Rate<span class="w">    </span>:<span class="w"> </span><span class="m">24000</span>
+Precision<span class="w">      </span>:<span class="w"> </span><span class="m">16</span>-bit
+Duration<span class="w">       </span>:<span class="w"> </span><span class="m">00</span>:00:11.45<span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">274800</span><span class="w"> </span>samples<span class="w"> </span>~<span class="w"> </span><span class="m">858</span>.75<span class="w"> </span>CDDA<span class="w"> </span>sectors
+File<span class="w"> </span>Size<span class="w">      </span>:<span class="w"> </span>550k
+Bit<span class="w"> </span>Rate<span class="w">       </span>:<span class="w"> </span>384k
+Sample<span class="w"> </span>Encoding:<span class="w"> </span><span class="m">16</span>-bit<span class="w"> </span>Signed<span class="w"> </span>Integer<span class="w"> </span>PCM
+</pre></div>
+</div>
+<table>
+  <tr>
+    <th>Wave filename</th>
+    <th>Content</th>
+    <th>Text</th>
+  </tr>
+  <tr>
+    <td>2-af_nicole.wav</td>
+    <td>
+     <audio title="Generated ./2-af_nicole.wav" controls="controls">
+           <source src="/sherpa/_static/kokoro-en-v0_19/2-af_nicole.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+    <td>
+  "Friends fell out often because life was changing so fast. The easiest thing in the world was to lose touch with someone."
+    </td>
+  </tr>
+</table></section>
+<section id="id5">
+<h3>RTF on Raspberry Pi 4 Model B Rev 1.5<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h3>
+<p>We use the following command to test the RTF of this model on Raspberry Pi 4 Model B Rev 1.5:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="k">for</span><span class="w"> </span>t<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="m">3</span><span class="w"> </span><span class="m">4</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w"> </span>build/bin/sherpa-onnx-offline-tts<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--num-threads<span class="o">=</span><span class="nv">$t</span><span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--kokoro-model<span class="o">=</span>./kokoro-en-v0_19/model.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--kokoro-voices<span class="o">=</span>./kokoro-en-v0_19/voices.bin<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--kokoro-tokens<span class="o">=</span>./kokoro-en-v0_19/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--kokoro-data-dir<span class="o">=</span>./kokoro-en-v0_19/espeak-ng-data<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--sid<span class="o">=</span><span class="m">2</span><span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--output-filename<span class="o">=</span>./2-af_nicole.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span><span class="s2">&quot;Friends fell out often because life was changing so fast. The easiest thing in the world was to lose touch with someone.&quot;</span>
+<span class="k">done</span>
+</pre></div>
+</div>
+<p>The results are given below:</p>
+<blockquote>
+<div><table class="docutils align-default">
+<colgroup>
+<col style="width: 32%" />
+<col style="width: 17%" />
+<col style="width: 17%" />
+<col style="width: 17%" />
+<col style="width: 17%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>num_threads</p></th>
+<th class="head"><p>1</p></th>
+<th class="head"><p>2</p></th>
+<th class="head"><p>3</p></th>
+<th class="head"><p>4</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>RTF</p></td>
+<td><p>6.629</p></td>
+<td><p>3.870</p></td>
+<td><p>2.999</p></td>
+<td><p>2.774</p></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="matcha.html" class="btn btn-neutral float-left" title="Matcha" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="kitten.html" class="btn btn-neutral float-right" title="KittenTTS" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>
