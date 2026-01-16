@@ -5,13 +5,13 @@ We provide a single pdf file containing all the documentation.
 
 Please download it from the following address:
 
-  `<https://huggingface.co/csukuangfj/sherpa-doc/blob/main/sherpa.pdf>`_
+  `<https://huggingface.co/csukuangfj2/sherpa-doc/blob/main/sherpa.pdf>`_
 
 .. note::
 
    For Chinese users, you can use the following mirror:
 
-      `<https://hf-mirror.com/csukuangfj/sherpa-doc/blob/main/sherpa.pdf>`_
+      `<https://hf-mirror.com/csukuangfj2/sherpa-doc/blob/main/sherpa.pdf>`_
 
    You can also download the pdf from
 
