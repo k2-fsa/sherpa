@@ -216,10 +216,11 @@ jobs:
           cd ..
           rm -rf huggingface
 
-          git clone https://huggingface.co/csukuangfj/sherpa-onnx-wheels huggingface
+          git clone https://huggingface.co/csukuangfj2/sherpa-onnx-doc huggingface
           cd huggingface
-          ./run.sh
+          python3 ./wheel/generate.py
           mv -v *.html ../build/html/onnx/
+          rm -rf tmp
           cd ..
           rm -rf huggingface
 
