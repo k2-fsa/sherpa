@@ -1,0 +1,656 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Python API &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/tabs.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+        <script src="../../_static/tabs.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="WebAssembly" href="../wasm/index.html" />
+    <link rel="prev" title="Embedded Linux (riscv64)" href="../install/riscv64-embedded-linux.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">sherpa-ncnn</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../install/index.html">Installation</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Python API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#installation">Installation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#method-1">Method 1</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#method-2">Method 2</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#method-3">Method 3</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#method-4-for-developers-and-embedded-boards">Method 4 (For developers and embedded boards)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#real-time-recognition-with-a-microphone">Real-time recognition with a microphone</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#import-the-required-packages">1. Import the required packages</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#create-the-recognizer">2. Create the recognizer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#start-recording">3. Start recording</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#read-audio-samples-from-the-microphone">4. Read audio samples from the microphone</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#invoke-the-recognizer-with-audio-samples">5. Invoke the recognizer with audio samples</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#get-the-recognition-result">6. Get the recognition result</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#summary">Summary</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#recognize-a-file">Recognize a file</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../wasm/index.html">WebAssembly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../c-api/index.html">C API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../endpoint.html">Endpointing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../android/index.html">Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ios/index.html">iOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/index.html">Pre-trained models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/index.html">Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vad/index.html">VAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sense-voice/index.html">SenseVoice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../faq.html">FAQs</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../onnx/index.html">sherpa-onnx</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">sherpa-ncnn</a> &raquo;</li>
+      <li>Python API</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/ncnn/python/index.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="python-api">
+<span id="sherpa-ncnn-python-api"></span><h1>Python API<a class="headerlink" href="#python-api" title="Permalink to this heading"></a></h1>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>It is known to work for <code class="docutils literal notranslate"><span class="pre">Python</span> <span class="pre">&gt;=</span> <span class="pre">3.6</span></code> on Linux, macOS, and Windows.</p>
+</div>
+<p>In this section, we describe</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>How to install the Python package <a class="reference external" href="https://github.com/k2-fsa/sherpa-ncnn">sherpa-ncnn</a></p></li>
+<li><p>How to use <a class="reference external" href="https://github.com/k2-fsa/sherpa-ncnn">sherpa-ncnn</a> Python API for real-time speech recognition with
+a microphone</p></li>
+<li><p>How to use <a class="reference external" href="https://github.com/k2-fsa/sherpa-ncnn">sherpa-ncnn</a> Python API to recognize a single file</p></li>
+</ol>
+</div></blockquote>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this heading"></a></h2>
+<p>You can use <code class="docutils literal notranslate"><span class="pre">1</span></code> of the  <code class="docutils literal notranslate"><span class="pre">4</span></code> methods below to install the Python package <a class="reference external" href="https://github.com/k2-fsa/sherpa-ncnn">sherpa-ncnn</a>:</p>
+<section id="method-1">
+<h3>Method 1<a class="headerlink" href="#method-1" title="Permalink to this heading"></a></h3>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>This method supports <code class="docutils literal notranslate"><span class="pre">x86_64</span></code>, <code class="docutils literal notranslate"><span class="pre">arm64</span></code> (e.g., Mac M1, 64-bit Raspberry Pi),
+and <code class="docutils literal notranslate"><span class="pre">arm32</span></code> (e.g., 32-bit Raspberry Pi).</p>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>sherpa-ncnn<span class="w"> </span>sherpa-ncnn-bin
+</pre></div>
+</div>
+<p>If you use <code class="docutils literal notranslate"><span class="pre">Method</span> <span class="pre">1</span></code>, it will install pre-compiled libraries.
+The <code class="docutils literal notranslate"><span class="pre">disadvantage</span></code> is that it may <code class="docutils literal notranslate"><span class="pre">not</span> <span class="pre">be</span> <span class="pre">optimized</span></code> for your platform,
+while the <code class="docutils literal notranslate"><span class="pre">advantage</span></code> is that you don’t need to install <code class="docutils literal notranslate"><span class="pre">cmake</span></code> or a
+C++ compiler.</p>
+<p>For the following methods, you have to first install:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">cmake</span></code>, which can be installed using <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">cmake</span></code></p></li>
+<li><p>A C++ compiler, e.g., GCC on Linux and macOS, Visual Studio on Windows</p></li>
+</ul>
+</section>
+<section id="method-2">
+<h3>Method 2<a class="headerlink" href="#method-2" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/k2-fsa/sherpa-ncnn
+<span class="nb">cd</span><span class="w"> </span>sherpa-ncnn
+python3<span class="w"> </span>setup.py<span class="w"> </span>install
+</pre></div>
+</div>
+</section>
+<section id="method-3">
+<h3>Method 3<a class="headerlink" href="#method-3" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>git+https://github.com/k2-fsa/sherpa-ncnn
+</pre></div>
+</div>
+</section>
+<section id="method-4-for-developers-and-embedded-boards">
+<h3>Method 4 (For developers and embedded boards)<a class="headerlink" href="#method-4-for-developers-and-embedded-boards" title="Permalink to this heading"></a></h3>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-0-0-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-0-0-0" name="0-0" role="tab" tabindex="0">x86/x86_64</button><button aria-controls="panel-0-0-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-0-0-1" name="0-1" role="tab" tabindex="-1">32-bit ARM</button><button aria-controls="panel-0-0-2" aria-selected="false" class="sphinx-tabs-tab" id="tab-0-0-2" name="0-2" role="tab" tabindex="-1">64-bit ARM</button></div><div aria-labelledby="tab-0-0-0" class="sphinx-tabs-panel" id="panel-0-0-0" name="0-0" role="tabpanel" tabindex="0"><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/k2-fsa/sherpa-ncnn
+<span class="nb">cd</span><span class="w"> </span>sherpa-ncnn
+mkdir<span class="w"> </span>build
+<span class="nb">cd</span><span class="w"> </span>build
+
+cmake<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-D<span class="w"> </span><span class="nv">SHERPA_NCNN_ENABLE_PYTHON</span><span class="o">=</span>ON<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-D<span class="w"> </span><span class="nv">SHERPA_NCNN_ENABLE_PORTAUDIO</span><span class="o">=</span>OFF<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-D<span class="w"> </span><span class="nv">BUILD_SHARED_LIBS</span><span class="o">=</span>ON<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>..
+
+make<span class="w"> </span>-j6
+
+<span class="nb">export</span><span class="w"> </span><span class="nv">PYTHONPATH</span><span class="o">=</span><span class="nv">$PWD</span>/lib:<span class="nv">$PWD</span>/../sherpa-ncnn/python:<span class="nv">$PYTHONPATH</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-0-0-1" class="sphinx-tabs-panel" hidden="true" id="panel-0-0-1" name="0-1" role="tabpanel" tabindex="0"><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/k2-fsa/sherpa-ncnn
+<span class="nb">cd</span><span class="w"> </span>sherpa-ncnn
+mkdir<span class="w"> </span>build
+<span class="nb">cd</span><span class="w"> </span>build
+
+cmake<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-D<span class="w"> </span><span class="nv">SHERPA_NCNN_ENABLE_PYTHON</span><span class="o">=</span>ON<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-D<span class="w"> </span><span class="nv">SHERPA_NCNN_ENABLE_PORTAUDIO</span><span class="o">=</span>OFF<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-D<span class="w"> </span><span class="nv">BUILD_SHARED_LIBS</span><span class="o">=</span>ON<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-DCMAKE_C_FLAGS<span class="o">=</span><span class="s2">&quot;-march=armv7-a -mfloat-abi=hard -mfpu=neon&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-DCMAKE_CXX_FLAGS<span class="o">=</span><span class="s2">&quot;-march=armv7-a -mfloat-abi=hard -mfpu=neon&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>..
+
+make<span class="w"> </span>-j6
+
+<span class="nb">export</span><span class="w"> </span><span class="nv">PYTHONPATH</span><span class="o">=</span><span class="nv">$PWD</span>/lib:<span class="nv">$PWD</span>/../sherpa-ncnn/python:<span class="nv">$PYTHONPATH</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-0-0-2" class="sphinx-tabs-panel" hidden="true" id="panel-0-0-2" name="0-2" role="tabpanel" tabindex="0"><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/k2-fsa/sherpa-ncnn
+<span class="nb">cd</span><span class="w"> </span>sherpa-ncnn
+mkdir<span class="w"> </span>build
+<span class="nb">cd</span><span class="w"> </span>build
+
+cmake<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-D<span class="w"> </span><span class="nv">SHERPA_NCNN_ENABLE_PYTHON</span><span class="o">=</span>ON<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-D<span class="w"> </span><span class="nv">SHERPA_NCNN_ENABLE_PORTAUDIO</span><span class="o">=</span>OFF<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-D<span class="w"> </span><span class="nv">BUILD_SHARED_LIBS</span><span class="o">=</span>ON<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-DCMAKE_C_FLAGS<span class="o">=</span><span class="s2">&quot;-march=armv8-a&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-DCMAKE_CXX_FLAGS<span class="o">=</span><span class="s2">&quot;-march=armv8-a&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>..
+
+make<span class="w"> </span>-j6
+
+<span class="nb">export</span><span class="w"> </span><span class="nv">PYTHONPATH</span><span class="o">=</span><span class="nv">$PWD</span>/lib:<span class="nv">$PWD</span>/../sherpa-ncnn/python:<span class="nv">$PYTHONPATH</span>
+</pre></div>
+</div>
+</div></div>
+<p>Let us check whether <a class="reference external" href="https://github.com/k2-fsa/sherpa-ncnn">sherpa-ncnn</a> was installed successfully:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;import sherpa_ncnn; print(sherpa_ncnn.__file__)&quot;</span>
+python3<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;import _sherpa_ncnn; print(_sherpa_ncnn.__file__)&quot;</span>
+</pre></div>
+</div>
+<p>They should print the location of <code class="docutils literal notranslate"><span class="pre">sherpa_ncnn</span></code> and <code class="docutils literal notranslate"><span class="pre">_sherpa_ncnn</span></code>.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>If you use <code class="docutils literal notranslate"><span class="pre">Method</span> <span class="pre">1</span></code>, <code class="docutils literal notranslate"><span class="pre">Method</span> <span class="pre">2</span></code>, and <code class="docutils literal notranslate"><span class="pre">Method</span> <span class="pre">3</span></code>, you can also use</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;import sherpa_ncnn; print(sherpa_ncnn.__version__)&quot;</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>It should print the version of <a class="reference external" href="https://github.com/k2-fsa/sherpa-ncnn">sherpa-ncnn</a>, e.g., <code class="docutils literal notranslate"><span class="pre">1.1</span></code>.</p>
+</div>
+<p>Next, we describe how to use <a class="reference external" href="https://github.com/k2-fsa/sherpa-ncnn">sherpa-ncnn</a> Python API for speech recognition:</p>
+<blockquote>
+<div><ul class="simple">
+<li><ol class="arabic simple">
+<li><p>Real-time speech recognition with a microphone</p></li>
+</ol>
+</li>
+<li><ol class="arabic simple" start="2">
+<li><p>Recognize a file</p></li>
+</ol>
+</li>
+</ul>
+</div></blockquote>
+</section>
+</section>
+<section id="real-time-recognition-with-a-microphone">
+<h2>Real-time recognition with a microphone<a class="headerlink" href="#real-time-recognition-with-a-microphone" title="Permalink to this heading"></a></h2>
+<p>The following Python code shows how to use <a class="reference external" href="https://github.com/k2-fsa/sherpa-ncnn">sherpa-ncnn</a> Python API for
+real-time speech recognition with a microphone.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>We use <a class="reference external" href="https://python-sounddevice.readthedocs.io/en/0.4.5/">sounddevice</a>
+for recording. Please run <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">sounddevice</span></code> before you run the
+code below.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You can download the code from</p>
+<blockquote>
+<div><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-ncnn/blob/master/python-api-examples/speech-recognition-from-microphone.py">https://github.com/k2-fsa/sherpa-ncnn/blob/master/python-api-examples/speech-recognition-from-microphone.py</a></p>
+</div></blockquote>
+</div>
+<div class="literal-block-wrapper docutils container" id="id4">
+<div class="code-block-caption"><span class="caption-number">Listing 1 </span><span class="caption-text">Real-time speech recognition with a microphone using <a class="reference external" href="https://github.com/k2-fsa/sherpa-ncnn">sherpa-ncnn</a> Python API</span><a class="headerlink" href="#id4" title="Permalink to this code"></a></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">sounddevice</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sd</span>
+<span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Please install sounddevice first. You can use&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  pip install sounddevice&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;to install it&quot;</span><span class="p">)</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">sherpa_ncnn</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">create_recognizer</span><span class="p">():</span>
+    <span class="c1"># Please replace the model files if needed.</span>
+    <span class="c1"># See https://k2-fsa.github.io/sherpa/ncnn/pretrained_models/index.html</span>
+    <span class="c1"># for download links.</span>
+    <span class="n">recognizer</span> <span class="o">=</span> <span class="n">sherpa_ncnn</span><span class="o">.</span><span class="n">Recognizer</span><span class="p">(</span>
+        <span class="n">tokens</span><span class="o">=</span><span class="s2">&quot;./sherpa-ncnn-conv-emformer-transducer-2022-12-06/tokens.txt&quot;</span><span class="p">,</span>
+        <span class="n">encoder_param</span><span class="o">=</span><span class="s2">&quot;./sherpa-ncnn-conv-emformer-transducer-2022-12-06/encoder_jit_trace-pnnx.ncnn.param&quot;</span><span class="p">,</span>
+        <span class="n">encoder_bin</span><span class="o">=</span><span class="s2">&quot;./sherpa-ncnn-conv-emformer-transducer-2022-12-06/encoder_jit_trace-pnnx.ncnn.bin&quot;</span><span class="p">,</span>
+        <span class="n">decoder_param</span><span class="o">=</span><span class="s2">&quot;./sherpa-ncnn-conv-emformer-transducer-2022-12-06/decoder_jit_trace-pnnx.ncnn.param&quot;</span><span class="p">,</span>
+        <span class="n">decoder_bin</span><span class="o">=</span><span class="s2">&quot;./sherpa-ncnn-conv-emformer-transducer-2022-12-06/decoder_jit_trace-pnnx.ncnn.bin&quot;</span><span class="p">,</span>
+        <span class="n">joiner_param</span><span class="o">=</span><span class="s2">&quot;./sherpa-ncnn-conv-emformer-transducer-2022-12-06/joiner_jit_trace-pnnx.ncnn.param&quot;</span><span class="p">,</span>
+        <span class="n">joiner_bin</span><span class="o">=</span><span class="s2">&quot;./sherpa-ncnn-conv-emformer-transducer-2022-12-06/joiner_jit_trace-pnnx.ncnn.bin&quot;</span><span class="p">,</span>
+        <span class="n">num_threads</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">recognizer</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Started! Please speak&quot;</span><span class="p">)</span>
+    <span class="n">recognizer</span> <span class="o">=</span> <span class="n">create_recognizer</span><span class="p">()</span>
+    <span class="n">sample_rate</span> <span class="o">=</span> <span class="n">recognizer</span><span class="o">.</span><span class="n">sample_rate</span>
+    <span class="n">samples_per_read</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mf">0.1</span> <span class="o">*</span> <span class="n">sample_rate</span><span class="p">)</span>  <span class="c1"># 0.1 second = 100 ms</span>
+    <span class="n">last_result</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="k">with</span> <span class="n">sd</span><span class="o">.</span><span class="n">InputStream</span><span class="p">(</span>
+        <span class="n">channels</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;float32&quot;</span><span class="p">,</span> <span class="n">samplerate</span><span class="o">=</span><span class="n">sample_rate</span>
+    <span class="p">)</span> <span class="k">as</span> <span class="n">s</span><span class="p">:</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">samples</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">samples_per_read</span><span class="p">)</span>  <span class="c1"># a blocking read</span>
+            <span class="n">samples</span> <span class="o">=</span> <span class="n">samples</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">recognizer</span><span class="o">.</span><span class="n">accept_waveform</span><span class="p">(</span><span class="n">sample_rate</span><span class="p">,</span> <span class="n">samples</span><span class="p">)</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">recognizer</span><span class="o">.</span><span class="n">text</span>
+            <span class="k">if</span> <span class="n">last_result</span> <span class="o">!=</span> <span class="n">result</span><span class="p">:</span>
+                <span class="n">last_result</span> <span class="o">=</span> <span class="n">result</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">devices</span> <span class="o">=</span> <span class="n">sd</span><span class="o">.</span><span class="n">query_devices</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">devices</span><span class="p">)</span>
+    <span class="n">default_input_device_idx</span> <span class="o">=</span> <span class="n">sd</span><span class="o">.</span><span class="n">default</span><span class="o">.</span><span class="n">device</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Use default device: </span><span class="si">{</span><span class="n">devices</span><span class="p">[</span><span class="n">default_input_device_idx</span><span class="p">][</span><span class="s2">&quot;name&quot;</span><span class="p">]</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<p><strong>Code explanation</strong>:</p>
+<section id="import-the-required-packages">
+<h3>1. Import the required packages<a class="headerlink" href="#import-the-required-packages" title="Permalink to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">sounddevice</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sd</span>
+<span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Please install sounddevice first. You can use&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;  pip install sounddevice&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;to install it&quot;</span><span class="p">)</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">sherpa_ncnn</span>
+</pre></div>
+</div>
+<p>Two packages are imported:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><a class="reference external" href="https://python-sounddevice.readthedocs.io/en/0.4.5/">sounddevice</a>, for recording with a microphone</p></li>
+<li><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-ncnn">sherpa-ncnn</a>, for real-time speech recognition</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="create-the-recognizer">
+<h3>2. Create the recognizer<a class="headerlink" href="#create-the-recognizer" title="Permalink to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">create_recognizer</span><span class="p">():</span>
+    <span class="c1"># Please replace the model files if needed.</span>
+    <span class="c1"># See https://k2-fsa.github.io/sherpa/ncnn/pretrained_models/index.html</span>
+    <span class="c1"># for download links.</span>
+    <span class="n">recognizer</span> <span class="o">=</span> <span class="n">sherpa_ncnn</span><span class="o">.</span><span class="n">Recognizer</span><span class="p">(</span>
+        <span class="n">tokens</span><span class="o">=</span><span class="s2">&quot;./sherpa-ncnn-conv-emformer-transducer-2022-12-06/tokens.txt&quot;</span><span class="p">,</span>
+        <span class="n">encoder_param</span><span class="o">=</span><span class="s2">&quot;./sherpa-ncnn-conv-emformer-transducer-2022-12-06/encoder_jit_trace-pnnx.ncnn.param&quot;</span><span class="p">,</span>
+        <span class="n">encoder_bin</span><span class="o">=</span><span class="s2">&quot;./sherpa-ncnn-conv-emformer-transducer-2022-12-06/encoder_jit_trace-pnnx.ncnn.bin&quot;</span><span class="p">,</span>
+        <span class="n">decoder_param</span><span class="o">=</span><span class="s2">&quot;./sherpa-ncnn-conv-emformer-transducer-2022-12-06/decoder_jit_trace-pnnx.ncnn.param&quot;</span><span class="p">,</span>
+        <span class="n">decoder_bin</span><span class="o">=</span><span class="s2">&quot;./sherpa-ncnn-conv-emformer-transducer-2022-12-06/decoder_jit_trace-pnnx.ncnn.bin&quot;</span><span class="p">,</span>
+        <span class="n">joiner_param</span><span class="o">=</span><span class="s2">&quot;./sherpa-ncnn-conv-emformer-transducer-2022-12-06/joiner_jit_trace-pnnx.ncnn.param&quot;</span><span class="p">,</span>
+        <span class="n">joiner_bin</span><span class="o">=</span><span class="s2">&quot;./sherpa-ncnn-conv-emformer-transducer-2022-12-06/joiner_jit_trace-pnnx.ncnn.bin&quot;</span><span class="p">,</span>
+        <span class="n">num_threads</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">recognizer</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Started! Please speak&quot;</span><span class="p">)</span>
+    <span class="n">recognizer</span> <span class="o">=</span> <span class="n">create_recognizer</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>We use the model <a class="reference internal" href="../pretrained_models/conv-emformer-transducer-models.html#sherpa-ncnn-mixed-english-chinese-conv-emformer-model"><span class="std std-ref">csukuangfj/sherpa-ncnn-conv-emformer-transducer-2022-12-06 (Chinese + English)</span></a>
+as an example, which is able to recognize both English and Chinese.
+You can replace it with other pre-trained models.</p>
+<p>Please refer to <a class="reference internal" href="../pretrained_models/index.html#sherpa-ncnn-pre-trained-models"><span class="std std-ref">Pre-trained models</span></a> for more models.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>The above example uses a <code class="docutils literal notranslate"><span class="pre">float16</span></code> encoder and joiner. You can also use
+the following code to switch to <code class="docutils literal notranslate"><span class="pre">8-bit</span></code> (i.e., <code class="docutils literal notranslate"><span class="pre">int8</span></code>) quantized encoder
+and joiner.</p>
+<blockquote>
+<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">recognizer</span> <span class="o">=</span> <span class="n">sherpa_ncnn</span><span class="o">.</span><span class="n">Recognizer</span><span class="p">(</span>
+    <span class="n">tokens</span><span class="o">=</span><span class="s2">&quot;./sherpa-ncnn-conv-emformer-transducer-2022-12-06/tokens.txt&quot;</span><span class="p">,</span>
+    <span class="n">encoder_param</span><span class="o">=</span><span class="s2">&quot;./sherpa-ncnn-conv-emformer-transducer-2022-12-06/encoder_jit_trace-pnnx.ncnn.int8.param&quot;</span><span class="p">,</span>
+    <span class="n">encoder_bin</span><span class="o">=</span><span class="s2">&quot;./sherpa-ncnn-conv-emformer-transducer-2022-12-06/encoder_jit_trace-pnnx.ncnn.int8.bin&quot;</span><span class="p">,</span>
+    <span class="n">decoder_param</span><span class="o">=</span><span class="s2">&quot;./sherpa-ncnn-conv-emformer-transducer-2022-12-06/decoder_jit_trace-pnnx.ncnn.param&quot;</span><span class="p">,</span>
+    <span class="n">decoder_bin</span><span class="o">=</span><span class="s2">&quot;./sherpa-ncnn-conv-emformer-transducer-2022-12-06/decoder_jit_trace-pnnx.ncnn.bin&quot;</span><span class="p">,</span>
+    <span class="n">joiner_param</span><span class="o">=</span><span class="s2">&quot;./sherpa-ncnn-conv-emformer-transducer-2022-12-06/joiner_jit_trace-pnnx.ncnn.int8.param&quot;</span><span class="p">,</span>
+    <span class="n">joiner_bin</span><span class="o">=</span><span class="s2">&quot;./sherpa-ncnn-conv-emformer-transducer-2022-12-06/joiner_jit_trace-pnnx.ncnn.int8.bin&quot;</span><span class="p">,</span>
+    <span class="n">num_threads</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+</section>
+<section id="start-recording">
+<h3>3. Start recording<a class="headerlink" href="#start-recording" title="Permalink to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="n">sample_rate</span> <span class="o">=</span> <span class="n">recognizer</span><span class="o">.</span><span class="n">sample_rate</span>
+    <span class="k">with</span> <span class="n">sd</span><span class="o">.</span><span class="n">InputStream</span><span class="p">(</span>
+</pre></div>
+</div>
+<p><strong>Note that</strong>:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>We set channel to 1 since the model supports only a single channel</p></li>
+<li><p>We use dtype <code class="docutils literal notranslate"><span class="pre">float32</span></code> so that the resulting audio samples are normalized
+to the range <code class="docutils literal notranslate"><span class="pre">[-1,</span> <span class="pre">1]</span></code>.</p></li>
+<li><p>The sampling rate has to be <code class="docutils literal notranslate"><span class="pre">recognizer.sample_rate</span></code>, which is 16 kHz for
+all models at present.</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="read-audio-samples-from-the-microphone">
+<h3>4. Read audio samples from the microphone<a class="headerlink" href="#read-audio-samples-from-the-microphone" title="Permalink to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>    <span class="n">samples_per_read</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mf">0.1</span> <span class="o">*</span> <span class="n">sample_rate</span><span class="p">)</span>  <span class="c1"># 0.1 second = 100 ms</span>
+    <span class="p">)</span> <span class="k">as</span> <span class="n">s</span><span class="p">:</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+</pre></div>
+</div>
+<p><strong>Note that</strong>:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>It reads <code class="docutils literal notranslate"><span class="pre">100</span> <span class="pre">ms</span></code> of audio samples at a time. You can choose a larger
+value, e.g., <code class="docutils literal notranslate"><span class="pre">200</span> <span class="pre">ms</span></code>.</p></li>
+<li><p>No queue or callback is used. Instead, we use a blocking read here.</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">samples</span></code> array is reshaped to a <code class="docutils literal notranslate"><span class="pre">1-D</span></code> array</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="invoke-the-recognizer-with-audio-samples">
+<h3>5. Invoke the recognizer with audio samples<a class="headerlink" href="#invoke-the-recognizer-with-audio-samples" title="Permalink to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>            <span class="n">samples</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">samples_per_read</span><span class="p">)</span>  <span class="c1"># a blocking read</span>
+</pre></div>
+</div>
+<p><strong>Note that</strong>:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">samples</span></code> has to be a 1-D tensor and should be normalized to the range
+<code class="docutils literal notranslate"><span class="pre">[-1,</span> <span class="pre">1]</span></code>.</p></li>
+<li><p>Upon accepting the audio samples, the recognizer starts the decoding
+automatically. There is no separate call for decoding.</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="get-the-recognition-result">
+<h3>6. Get the recognition result<a class="headerlink" href="#get-the-recognition-result" title="Permalink to this heading"></a></h3>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span>            <span class="n">samples</span> <span class="o">=</span> <span class="n">samples</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">recognizer</span><span class="o">.</span><span class="n">accept_waveform</span><span class="p">(</span><span class="n">sample_rate</span><span class="p">,</span> <span class="n">samples</span><span class="p">)</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">recognizer</span><span class="o">.</span><span class="n">text</span>
+            <span class="k">if</span> <span class="n">last_result</span> <span class="o">!=</span> <span class="n">result</span><span class="p">:</span>
+</pre></div>
+</div>
+<p>We use <code class="docutils literal notranslate"><span class="pre">recognizer.text</span></code> to get the recognition result. To avoid
+unnecessary output, we compare whether there is new result in <code class="docutils literal notranslate"><span class="pre">recognizer.text</span></code>
+and don’t print to the console if there is nothing new recognized.</p>
+<p>That’s it!</p>
+</section>
+<section id="summary">
+<h3>Summary<a class="headerlink" href="#summary" title="Permalink to this heading"></a></h3>
+<p>In summary, you need to:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>Create the recognizer</p></li>
+<li><p>Start recording</p></li>
+<li><p>Read audio samples</p></li>
+<li><p>Call <code class="docutils literal notranslate"><span class="pre">recognizer.accept_waveform(sample_rate,</span> <span class="pre">samples)</span></code></p></li>
+<li><p>Call <code class="docutils literal notranslate"><span class="pre">recognizer.text</span></code> to get the recognition result</p></li>
+</ol>
+</div></blockquote>
+<p>The following is a YouTube video for demonstration.</p>
+<div class="video_wrapper" style="padding-bottom: 67.500000%; padding-top: 30px; position: relative; width: 120%">
+<iframe allowfullscreen="true" src="https://www.youtube.com/embed/74SxVueROok" style="border: 0; height: 100%; left: 0; position: absolute; top: 0; width: 100%">
+</iframe></div><div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>If you don’t have access to YouTube, please see the following video from bilibili:</p>
+<iframe src="//player.bilibili.com/player.html?bvid=BV1K44y197Fg&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" width="800" height="600"> </iframe></div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><a class="reference external" href="https://github.com/k2-fsa/sherpa-ncnn/blob/master/python-api-examples/speech-recognition-from-microphone-with-endpoint-detection.py">https://github.com/k2-fsa/sherpa-ncnn/blob/master/python-api-examples/speech-recognition-from-microphone-with-endpoint-detection.py</a> supports endpoint detection.</p>
+<p>Please see the following video for its usage:</p>
+<iframe src="//player.bilibili.com/player.html?bvid=BV1eK411y788&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" width="800" height="600"> </iframe></div>
+</section>
+</section>
+<section id="recognize-a-file">
+<h2>Recognize a file<a class="headerlink" href="#recognize-a-file" title="Permalink to this heading"></a></h2>
+<p>The following Python code shows how to use <a class="reference external" href="https://github.com/k2-fsa/sherpa-ncnn">sherpa-ncnn</a> Python API to
+recognize a wave file.</p>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>The sampling rate of the wave file has to be 16 kHz. Also, it should
+contain only a single channel and samples should be 16-bit (i.e., int16)
+encoded.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You can download the code from</p>
+<blockquote>
+<div><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-ncnn/blob/master/python-api-examples/decode-file.py">https://github.com/k2-fsa/sherpa-ncnn/blob/master/python-api-examples/decode-file.py</a></p>
+</div></blockquote>
+</div>
+<div class="literal-block-wrapper docutils container" id="id5">
+<div class="code-block-caption"><span class="caption-number">Listing 2 </span><span class="caption-text">Decode a file with <a class="reference external" href="https://github.com/k2-fsa/sherpa-ncnn">sherpa-ncnn</a> Python API</span><a class="headerlink" href="#id5" title="Permalink to this code"></a></div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">wave</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sherpa_ncnn</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+    <span class="n">recognizer</span> <span class="o">=</span> <span class="n">sherpa_ncnn</span><span class="o">.</span><span class="n">Recognizer</span><span class="p">(</span>
+        <span class="n">tokens</span><span class="o">=</span><span class="s2">&quot;./sherpa-ncnn-conv-emformer-transducer-2022-12-06/tokens.txt&quot;</span><span class="p">,</span>
+        <span class="n">encoder_param</span><span class="o">=</span><span class="s2">&quot;./sherpa-ncnn-conv-emformer-transducer-2022-12-06/encoder_jit_trace-pnnx.ncnn.param&quot;</span><span class="p">,</span>
+        <span class="n">encoder_bin</span><span class="o">=</span><span class="s2">&quot;./sherpa-ncnn-conv-emformer-transducer-2022-12-06/encoder_jit_trace-pnnx.ncnn.bin&quot;</span><span class="p">,</span>
+        <span class="n">decoder_param</span><span class="o">=</span><span class="s2">&quot;./sherpa-ncnn-conv-emformer-transducer-2022-12-06/decoder_jit_trace-pnnx.ncnn.param&quot;</span><span class="p">,</span>
+        <span class="n">decoder_bin</span><span class="o">=</span><span class="s2">&quot;./sherpa-ncnn-conv-emformer-transducer-2022-12-06/decoder_jit_trace-pnnx.ncnn.bin&quot;</span><span class="p">,</span>
+        <span class="n">joiner_param</span><span class="o">=</span><span class="s2">&quot;./sherpa-ncnn-conv-emformer-transducer-2022-12-06/joiner_jit_trace-pnnx.ncnn.param&quot;</span><span class="p">,</span>
+        <span class="n">joiner_bin</span><span class="o">=</span><span class="s2">&quot;./sherpa-ncnn-conv-emformer-transducer-2022-12-06/joiner_jit_trace-pnnx.ncnn.bin&quot;</span><span class="p">,</span>
+        <span class="n">num_threads</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">filename</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="s2">&quot;./sherpa-ncnn-conv-emformer-transducer-2022-12-06/test_wavs/1.wav&quot;</span>
+    <span class="p">)</span>
+    <span class="k">with</span> <span class="n">wave</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="n">f</span><span class="o">.</span><span class="n">getframerate</span><span class="p">()</span> <span class="o">==</span> <span class="n">recognizer</span><span class="o">.</span><span class="n">sample_rate</span><span class="p">,</span> <span class="p">(</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">getframerate</span><span class="p">(),</span>
+            <span class="n">recognizer</span><span class="o">.</span><span class="n">sample_rate</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">assert</span> <span class="n">f</span><span class="o">.</span><span class="n">getnchannels</span><span class="p">()</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="n">f</span><span class="o">.</span><span class="n">getnchannels</span><span class="p">()</span>
+        <span class="k">assert</span> <span class="n">f</span><span class="o">.</span><span class="n">getsampwidth</span><span class="p">()</span> <span class="o">==</span> <span class="mi">2</span><span class="p">,</span> <span class="n">f</span><span class="o">.</span><span class="n">getsampwidth</span><span class="p">()</span>  <span class="c1"># it is in bytes</span>
+        <span class="n">num_samples</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">getnframes</span><span class="p">()</span>
+        <span class="n">samples</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">readframes</span><span class="p">(</span><span class="n">num_samples</span><span class="p">)</span>
+        <span class="n">samples_int16</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">)</span>
+        <span class="n">samples_float32</span> <span class="o">=</span> <span class="n">samples_int16</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+
+        <span class="n">samples_float32</span> <span class="o">=</span> <span class="n">samples_float32</span> <span class="o">/</span> <span class="mi">32768</span>
+
+    <span class="n">recognizer</span><span class="o">.</span><span class="n">accept_waveform</span><span class="p">(</span><span class="n">recognizer</span><span class="o">.</span><span class="n">sample_rate</span><span class="p">,</span> <span class="n">samples_float32</span><span class="p">)</span>
+
+    <span class="n">tail_paddings</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span>
+        <span class="nb">int</span><span class="p">(</span><span class="n">recognizer</span><span class="o">.</span><span class="n">sample_rate</span> <span class="o">*</span> <span class="mf">0.5</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span>
+    <span class="p">)</span>
+    <span class="n">recognizer</span><span class="o">.</span><span class="n">accept_waveform</span><span class="p">(</span><span class="n">recognizer</span><span class="o">.</span><span class="n">sample_rate</span><span class="p">,</span> <span class="n">tail_paddings</span><span class="p">)</span>
+
+    <span class="n">recognizer</span><span class="o">.</span><span class="n">input_finished</span><span class="p">()</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="n">recognizer</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<p>We use the model <a class="reference internal" href="../pretrained_models/conv-emformer-transducer-models.html#sherpa-ncnn-mixed-english-chinese-conv-emformer-model"><span class="std std-ref">csukuangfj/sherpa-ncnn-conv-emformer-transducer-2022-12-06 (Chinese + English)</span></a>
+as an example, which is able to recognize both English and Chinese.
+You can replace it with other pre-trained models.</p>
+<p>Please refer to <a class="reference internal" href="../pretrained_models/index.html#sherpa-ncnn-pre-trained-models"><span class="std std-ref">Pre-trained models</span></a> for more models.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>The above example uses a <code class="docutils literal notranslate"><span class="pre">float16</span></code> encoder and joiner. You can also use
+the following code to switch to <code class="docutils literal notranslate"><span class="pre">8-bit</span></code> (i.e., <code class="docutils literal notranslate"><span class="pre">int8</span></code>) quantized encoder
+and joiner.</p>
+<blockquote>
+<div><div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">recognizer</span> <span class="o">=</span> <span class="n">sherpa_ncnn</span><span class="o">.</span><span class="n">Recognizer</span><span class="p">(</span>
+    <span class="n">tokens</span><span class="o">=</span><span class="s2">&quot;./sherpa-ncnn-conv-emformer-transducer-2022-12-06/tokens.txt&quot;</span><span class="p">,</span>
+    <span class="n">encoder_param</span><span class="o">=</span><span class="s2">&quot;./sherpa-ncnn-conv-emformer-transducer-2022-12-06/encoder_jit_trace-pnnx.ncnn.int8.param&quot;</span><span class="p">,</span>
+    <span class="n">encoder_bin</span><span class="o">=</span><span class="s2">&quot;./sherpa-ncnn-conv-emformer-transducer-2022-12-06/encoder_jit_trace-pnnx.ncnn.int8.bin&quot;</span><span class="p">,</span>
+    <span class="n">decoder_param</span><span class="o">=</span><span class="s2">&quot;./sherpa-ncnn-conv-emformer-transducer-2022-12-06/decoder_jit_trace-pnnx.ncnn.param&quot;</span><span class="p">,</span>
+    <span class="n">decoder_bin</span><span class="o">=</span><span class="s2">&quot;./sherpa-ncnn-conv-emformer-transducer-2022-12-06/decoder_jit_trace-pnnx.ncnn.bin&quot;</span><span class="p">,</span>
+    <span class="n">joiner_param</span><span class="o">=</span><span class="s2">&quot;./sherpa-ncnn-conv-emformer-transducer-2022-12-06/joiner_jit_trace-pnnx.ncnn.int8.param&quot;</span><span class="p">,</span>
+    <span class="n">joiner_bin</span><span class="o">=</span><span class="s2">&quot;./sherpa-ncnn-conv-emformer-transducer-2022-12-06/joiner_jit_trace-pnnx.ncnn.int8.bin&quot;</span><span class="p">,</span>
+    <span class="n">num_threads</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../install/riscv64-embedded-linux.html" class="btn btn-neutral float-left" title="Embedded Linux (riscv64)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../wasm/index.html" class="btn btn-neutral float-right" title="WebAssembly" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

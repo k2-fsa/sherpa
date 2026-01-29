@@ -1,0 +1,624 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Matcha &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/clipboard.min.js"></script>
+        <script src="../../../_static/copybutton.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Kokoro" href="kokoro.html" />
+    <link rel="prev" title="RTF of pre-trained models" href="rtf.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">sherpa-onnx</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../install/index.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../faqs/index.html">Frequently Asked Question (FAQs)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../python/index.html">Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../c-api/index.html">C API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../java-api/index.html">Java API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../javascript-api/index.html">Javascript API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../kotlin-api/index.html">Kotlin API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../swift-api/index.html">Swift API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../go-api/index.html">Go API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../csharp-api/index.html">C# API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../pascal-api/index.html">Pascal API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../lazarus/index.html">Lazarus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../wasm/index.html">WebAssembly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../android/index.html">Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../harmony-os/index.html">HarmonyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ios/index.html">iOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../flutter/index.html">Flutter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../websocket/index.html">WebSocket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../hotwords/index.html">Hotwords (Contextual biasing)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../kws/index.html">Keyword spotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../punctuation/index.html">Punctuation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../audio-tagging/index.html">Audio tagging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../spoken-language-identification/index.html">Spoken language identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../vad/index.html">VAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../pretrained_models/index.html">Pre-trained models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../pretrained_models/whisper/index.html">Whisper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../moonshine/index.html">Moonshine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../omnilingual-asr/index.html">Omnilingual ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../sense-voice/index.html">SenseVoice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../funasr-nano/index.html">FunASR Nano</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../paraformer/index.html">Paraformer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../nemo/index.html">NeMo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../FireRedAsr/index.html">FireRedAsr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Dolphin/index.html">Dolphin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../homophone-replacer/index.html">拼音词组匹配替换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../speaker-diarization/index.html">Speaker Diarization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../speaker-identification/index.html">Speaker Identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../speech-enhancement/index.html">Speech enhancement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../source-separation/index.html">Source separation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../qnn/index.html">Qualcomm NPU (QNN, HTP)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../rknn/index.html">rknn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ascend/index.html">Ascend NPU (昇腾 NPU)</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">Text-to-speech (TTS)</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../all-in-one.html">All-in-one</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../hf-space.html">Huggingface space</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">Pre-trained models</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="rtf.html">RTF of pre-trained models</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Matcha</a></li>
+<li class="toctree-l4"><a class="reference internal" href="kokoro.html">Kokoro</a></li>
+<li class="toctree-l4"><a class="reference internal" href="kitten.html">KittenTTS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="vits.html">vits</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../wasm/index.html">WebAssembly</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../piper.html">Piper</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../mms.html">MMS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../faq.html">Frequently Asked Question (FAQs)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html">sherpa-onnx</a> &raquo;</li>
+          <li><a href="../index.html">Text-to-speech (TTS)</a> &raquo;</li>
+          <li><a href="index.html">Pre-trained models</a> &raquo;</li>
+      <li>Matcha</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/onnx/tts/pretrained_models/matcha.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="matcha">
+<h1>Matcha<a class="headerlink" href="#matcha" title="Permalink to this heading"></a></h1>
+<p>This page lists pre-trained models using <a class="reference external" href="https://arxiv.org/abs/2309.03199">Matcha-TTS</a>.</p>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>Models are from <a class="reference external" href="https://github.com/k2-fsa/icefall">icefall</a>.</p>
+<p>We don’t support models from  <a class="reference external" href="https://github.com/shivammehta25/Matcha-TTS">https://github.com/shivammehta25/Matcha-TTS</a>.</p>
+</div>
+<section id="matcha-icefall-en-us-ljspeech-american-english-1-female-speaker">
+<span id="matcha-icefall-en-us-ljspeech"></span><h2>matcha-icefall-en_US-ljspeech (American English, 1 female speaker)<a class="headerlink" href="#matcha-icefall-en-us-ljspeech-american-english-1-female-speaker" title="Permalink to this heading"></a></h2>
+<p>This model is trained using</p>
+<blockquote>
+<div><p><a class="reference external" href="https://github.com/k2-fsa/icefall/tree/master/egs/ljspeech/TTS#matcha">https://github.com/k2-fsa/icefall/tree/master/egs/ljspeech/TTS#matcha</a></p>
+</div></blockquote>
+<p>The dataset used to train the model is from</p>
+<blockquote>
+<div><p><a class="reference external" href="https://keithito.com/LJ-Speech-Dataset//">https://keithito.com/LJ-Speech-Dataset//</a>.</p>
+</div></blockquote>
+<p>In the following, we describe how to download it and use it with <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>.</p>
+<section id="download-the-model">
+<h3>Download the model<a class="headerlink" href="#download-the-model" title="Permalink to this heading"></a></h3>
+<p>Please use the following commands to download it.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/matcha-icefall-en_US-ljspeech.tar.bz2
+tar<span class="w"> </span>xvf<span class="w"> </span>matcha-icefall-en_US-ljspeech.tar.bz2
+rm<span class="w"> </span>matcha-icefall-en_US-ljspeech.tar.bz2
+
+wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/vocoder-models/vocos-22khz-univ.onnx
+</pre></div>
+</div>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>Remember to also download the vocoder model. We use <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/download/vocoder-models/vocos-22khz-univ.onnx">vocos-22khz-univ.onnx</a> in the example.
+You can also select <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/download/vocoder-models/hifigan_v1.onnx">hifigan_v1</a>,
+<a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/download/vocoder-models/hifigan_v2.onnx">hifigan_v2</a>, or
+<a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/download/vocoder-models/hifigan_v3.onnx">hifigan_v3</a>.</p>
+</div>
+<p>Please check that the file sizes of the pre-trained models are correct. See
+the file sizes of <code class="docutils literal notranslate"><span class="pre">*.onnx</span></code> files below.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ls<span class="w"> </span>-lh<span class="w"> </span>matcha-icefall-en_US-ljspeech/
+total<span class="w"> </span><span class="m">144856</span>
+-rw-r--r--<span class="w">    </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">   </span>251B<span class="w"> </span>Jan<span class="w">  </span><span class="m">2</span><span class="w"> </span><span class="m">11</span>:05<span class="w"> </span>README.md
+drwxr-xr-x<span class="w">  </span><span class="m">122</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">   </span><span class="m">3</span>.8K<span class="w"> </span>Nov<span class="w"> </span><span class="m">28</span><span class="w">  </span><span class="m">2023</span><span class="w"> </span>espeak-ng-data
+-rw-r--r--@<span class="w">   </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">    </span>71M<span class="w"> </span>Jan<span class="w">  </span><span class="m">2</span><span class="w"> </span><span class="m">04</span>:04<span class="w"> </span>model-steps-3.onnx
+-rw-r--r--<span class="w">    </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">   </span>954B<span class="w"> </span>Jan<span class="w">  </span><span class="m">2</span><span class="w"> </span><span class="m">11</span>:05<span class="w"> </span>tokens.txt
+
+ls<span class="w"> </span>-lh<span class="w"> </span>vocos-22khz-univ.onnx
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">    </span>51M<span class="w"> </span>Mar<span class="w"> </span><span class="m">17</span><span class="w"> </span><span class="m">15</span>:28<span class="w"> </span>vocos-22khz-univ.onnx
+</pre></div>
+</div>
+</section>
+<section id="generate-speech-with-executables-compiled-from-c">
+<h3>Generate speech with executables compiled from C++<a class="headerlink" href="#generate-speech-with-executables-compiled-from-c" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+./build/bin/sherpa-onnx-offline-tts<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--matcha-acoustic-model<span class="o">=</span>./matcha-icefall-en_US-ljspeech/model-steps-3.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--matcha-vocoder<span class="o">=</span>./vocos-22khz-univ.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--matcha-tokens<span class="o">=</span>./matcha-icefall-en_US-ljspeech/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--matcha-data-dir<span class="o">=</span>./matcha-icefall-en_US-ljspeech/espeak-ng-data<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--num-threads<span class="o">=</span><span class="m">2</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--output-filename<span class="o">=</span>./matcha-ljspeech-0.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--debug<span class="o">=</span><span class="m">1</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;Today as always, men fall into two groups: slaves and free men. Whoever does not have two-thirds of his day for himself, is a slave, whatever he may be: a statesman, a businessman, an official, or a scholar.&quot;</span>
+</pre></div>
+</div>
+<p>After running, it will generate a file <code class="docutils literal notranslate"><span class="pre">matcha-ljspeech-0.wav</span></code> in the
+current directory.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>soxi<span class="w"> </span>./matcha-ljspeech-0.wav
+
+Input<span class="w"> </span>File<span class="w">     </span>:<span class="w"> </span><span class="s1">&#39;./matcha-ljspeech-0.wav&#39;</span>
+Channels<span class="w">       </span>:<span class="w"> </span><span class="m">1</span>
+Sample<span class="w"> </span>Rate<span class="w">    </span>:<span class="w"> </span><span class="m">22050</span>
+Precision<span class="w">      </span>:<span class="w"> </span><span class="m">16</span>-bit
+Duration<span class="w">       </span>:<span class="w"> </span><span class="m">00</span>:00:15.06<span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">332032</span><span class="w"> </span>samples<span class="w"> </span>~<span class="w"> </span><span class="m">1129</span>.36<span class="w"> </span>CDDA<span class="w"> </span>sectors
+File<span class="w"> </span>Size<span class="w">      </span>:<span class="w"> </span>664k
+Bit<span class="w"> </span>Rate<span class="w">       </span>:<span class="w"> </span>353k
+Sample<span class="w"> </span>Encoding:<span class="w"> </span><span class="m">16</span>-bit<span class="w"> </span>Signed<span class="w"> </span>Integer<span class="w"> </span>PCM
+</pre></div>
+</div>
+<table>
+  <tr>
+    <th>Wave filename</th>
+    <th>Content</th>
+    <th>Text</th>
+  </tr>
+  <tr>
+    <td>matcha-ljspeech-0.wav</td>
+    <td>
+     <audio title="Generated ./matcha-ljspeech-0.wav" controls="controls">
+           <source src="/sherpa/_static/matcha-icefall-en_US-ljspeech/matcha-ljspeech-0.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+    <td>
+  "Today as always, men fall into two groups: slaves and free men. Whoever does not have two-thirds of his day for himself, is a slave, whatever he may be: a statesman, a businessman, an official, or a scholar."
+    </td>
+  </tr>
+</table></section>
+<section id="generate-speech-with-python-script">
+<h3>Generate speech with Python script<a class="headerlink" href="#generate-speech-with-python-script" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+python3<span class="w"> </span>./python-api-examples/offline-tts.py<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--matcha-acoustic-model<span class="o">=</span>./matcha-icefall-en_US-ljspeech/model-steps-3.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--matcha-vocoder<span class="o">=</span>./vocos-22khz-univ.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--matcha-tokens<span class="o">=</span>./matcha-icefall-en_US-ljspeech/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--matcha-data-dir<span class="o">=</span>./matcha-icefall-en_US-ljspeech/espeak-ng-data<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--num-threads<span class="o">=</span><span class="m">2</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--output-filename<span class="o">=</span>./matcha-ljspeech-1.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--debug<span class="o">=</span><span class="m">1</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;Friends fell out often because life was changing so fast. The easiest thing in the world was to lose touch with someone.&quot;</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">soxi</span> <span class="o">./</span><span class="n">matcha</span><span class="o">-</span><span class="n">ljspeech</span><span class="o">-</span><span class="mf">1.</span><span class="n">wav</span>
+
+<span class="n">Input</span> <span class="n">File</span>     <span class="p">:</span> <span class="s1">&#39;./matcha-ljspeech-1.wav&#39;</span>
+<span class="n">Channels</span>       <span class="p">:</span> <span class="mi">1</span>
+<span class="n">Sample</span> <span class="n">Rate</span>    <span class="p">:</span> <span class="mi">22050</span>
+<span class="n">Precision</span>      <span class="p">:</span> <span class="mi">16</span><span class="o">-</span><span class="n">bit</span>
+<span class="n">Duration</span>       <span class="p">:</span> <span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mf">07.92</span> <span class="o">=</span> <span class="mi">174592</span> <span class="n">samples</span> <span class="o">~</span> <span class="mf">593.85</span> <span class="n">CDDA</span> <span class="n">sectors</span>
+<span class="n">File</span> <span class="n">Size</span>      <span class="p">:</span> <span class="mi">349</span><span class="n">k</span>
+<span class="n">Bit</span> <span class="n">Rate</span>       <span class="p">:</span> <span class="mi">353</span><span class="n">k</span>
+<span class="n">Sample</span> <span class="n">Encoding</span><span class="p">:</span> <span class="mi">16</span><span class="o">-</span><span class="n">bit</span> <span class="n">Signed</span> <span class="n">Integer</span> <span class="n">PCM</span>
+</pre></div>
+</div>
+<table>
+  <tr>
+    <th>Wave filename</th>
+    <th>Content</th>
+    <th>Text</th>
+  </tr>
+  <tr>
+    <td>matcha-ljspeech-1.wav</td>
+    <td>
+     <audio title="Generated ./matcha-ljspeech-1.wav" controls="controls">
+           <source src="/sherpa/_static/matcha-icefall-en_US-ljspeech/matcha-ljspeech-1.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+    <td>
+  "Friends fell out often because life was changing so fast. The easiest thing in the world was to lose touch with someone."
+    </td>
+  </tr>
+</table></section>
+<section id="rtf-on-raspberry-pi-4-model-b-rev-1-5">
+<h3>RTF on Raspberry Pi 4 Model B Rev 1.5<a class="headerlink" href="#rtf-on-raspberry-pi-4-model-b-rev-1-5" title="Permalink to this heading"></a></h3>
+<p>We use the following command to test the RTF of this model on Raspberry Pi 4 Model B Rev 1.5:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="k">for</span><span class="w"> </span>t<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="m">3</span><span class="w"> </span><span class="m">4</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w"> </span>build/bin/sherpa-onnx-offline-tts<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--num-threads<span class="o">=</span><span class="nv">$t</span><span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--matcha-acoustic-model<span class="o">=</span>./matcha-icefall-en_US-ljspeech/model-steps-3.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--matcha-vocoder<span class="o">=</span>./vocos-22khz-univ.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--matcha-tokens<span class="o">=</span>./matcha-icefall-en_US-ljspeech/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--matcha-data-dir<span class="o">=</span>./matcha-icefall-en_US-ljspeech/espeak-ng-data<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--output-filename<span class="o">=</span>./matcha-ljspeech-1.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span><span class="s2">&quot;Friends fell out often because life was changing so fast. The easiest thing in the world was to lose touch with someone.&quot;</span>
+<span class="k">done</span>
+</pre></div>
+</div>
+<p>The results are given below:</p>
+<blockquote>
+<div><table class="docutils align-default">
+<colgroup>
+<col style="width: 32%" />
+<col style="width: 17%" />
+<col style="width: 17%" />
+<col style="width: 17%" />
+<col style="width: 17%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>num_threads</p></th>
+<th class="head"><p>1</p></th>
+<th class="head"><p>2</p></th>
+<th class="head"><p>3</p></th>
+<th class="head"><p>4</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>RTF</p></td>
+<td><p>0.941</p></td>
+<td><p>0.561</p></td>
+<td><p>0.451</p></td>
+<td><p>0.411</p></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</section>
+</section>
+<section id="matcha-icefall-zh-baker-chinese-1-female-speaker">
+<span id="matcha-icefall-zh-baker"></span><h2>matcha-icefall-zh-baker (Chinese, 1 female speaker)<a class="headerlink" href="#matcha-icefall-zh-baker-chinese-1-female-speaker" title="Permalink to this heading"></a></h2>
+<p>This model is trained using</p>
+<blockquote>
+<div><p><a class="reference external" href="https://github.com/k2-fsa/icefall/tree/master/egs/baker_zh/TTS#matcha">https://github.com/k2-fsa/icefall/tree/master/egs/baker_zh/TTS#matcha</a></p>
+</div></blockquote>
+<p>The dataset used to train the model is from</p>
+<blockquote>
+<div><p><a class="reference external" href="https://en.data-baker.com/datasets/freeDatasets/">https://en.data-baker.com/datasets/freeDatasets/</a>.</p>
+</div></blockquote>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>The dataset is for <code class="docutils literal notranslate"><span class="pre">non-commercial</span></code> use only.</p>
+</div>
+<p>In the following, we describe how to download it and use it with <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>.</p>
+<section id="id1">
+<h3>Download the model<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h3>
+<p>Please use the following commands to download it.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/matcha-icefall-zh-baker.tar.bz2
+tar<span class="w"> </span>xvf<span class="w"> </span>matcha-icefall-zh-baker.tar.bz2
+rm<span class="w"> </span>matcha-icefall-zh-baker.tar.bz2
+
+wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/vocoder-models/vocos-22khz-univ.onnx
+</pre></div>
+</div>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>Remember to also download the vocoder model. We use <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/download/vocoder-models/vocos-22khz-univ.onnx">vocos-22khz-univ.onnx</a> in the example.
+You can also select <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/download/vocoder-models/hifigan_v1.onnx">hifigan_v1</a>,
+<a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/download/vocoder-models/hifigan_v2.onnx">hifigan_v2</a>, or
+<a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/download/vocoder-models/hifigan_v3.onnx">hifigan_v3</a>.</p>
+</div>
+<p>Please check that the file sizes of the pre-trained models are correct. See
+the file sizes of <code class="docutils literal notranslate"><span class="pre">*.onnx</span></code> files below.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ls<span class="w"> </span>-lh<span class="w"> </span>matcha-icefall-zh-baker/
+total<span class="w"> </span><span class="m">167344</span>
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">   </span>370B<span class="w"> </span>Dec<span class="w"> </span><span class="m">31</span><span class="w"> </span><span class="m">14</span>:51<span class="w"> </span>README.md
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">    </span>58K<span class="w"> </span>Dec<span class="w"> </span><span class="m">31</span><span class="w"> </span><span class="m">14</span>:51<span class="w"> </span>date.fst
+drwxr-xr-x<span class="w">  </span><span class="m">9</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">   </span>288B<span class="w"> </span>Apr<span class="w"> </span><span class="m">19</span><span class="w">  </span><span class="m">2024</span><span class="w"> </span>dict
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">   </span><span class="m">1</span>.3M<span class="w"> </span>Dec<span class="w"> </span><span class="m">31</span><span class="w"> </span><span class="m">14</span>:51<span class="w"> </span>lexicon.txt
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">    </span>72M<span class="w"> </span>Dec<span class="w"> </span><span class="m">31</span><span class="w"> </span><span class="m">14</span>:51<span class="w"> </span>model-steps-3.onnx
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">    </span>63K<span class="w"> </span>Dec<span class="w"> </span><span class="m">31</span><span class="w"> </span><span class="m">14</span>:51<span class="w"> </span>number.fst
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">    </span>87K<span class="w"> </span>Dec<span class="w"> </span><span class="m">31</span><span class="w"> </span><span class="m">14</span>:51<span class="w"> </span>phone.fst
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">    </span>19K<span class="w"> </span>Dec<span class="w"> </span><span class="m">31</span><span class="w"> </span><span class="m">14</span>:51<span class="w"> </span>tokens.txt
+
+ls<span class="w"> </span>-lh<span class="w"> </span>vocos-22khz-univ.onnx
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">    </span>51M<span class="w"> </span>Mar<span class="w"> </span><span class="m">17</span><span class="w"> </span><span class="m">15</span>:28<span class="w"> </span>vocos-22khz-univ.onnx
+</pre></div>
+</div>
+</section>
+<section id="id6">
+<h3>Generate speech with executables compiled from C++<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+./build/bin/sherpa-onnx-offline-tts<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--matcha-acoustic-model<span class="o">=</span>./matcha-icefall-zh-baker/model-steps-3.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--matcha-vocoder<span class="o">=</span>./vocos-22khz-univ.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--matcha-lexicon<span class="o">=</span>./matcha-icefall-zh-baker/lexicon.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--matcha-tokens<span class="o">=</span>./matcha-icefall-zh-baker/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--num-threads<span class="o">=</span><span class="m">2</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--output-filename<span class="o">=</span>./matcha-baker-0.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--debug<span class="o">=</span><span class="m">1</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;当夜幕降临，星光点点，伴随着微风拂面，我在静谧中感受着时光的流转，思念如涟漪荡漾，梦境如画卷展开，我与自然融为一体，沉静在这片宁静的美丽之中，感受着生命的奇迹与温柔.&quot;</span>
+
+./build/bin/sherpa-onnx-offline-tts<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--matcha-acoustic-model<span class="o">=</span>./matcha-icefall-zh-baker/model-steps-3.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--matcha-vocoder<span class="o">=</span>./vocos-22khz-univ.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--matcha-lexicon<span class="o">=</span>./matcha-icefall-zh-baker/lexicon.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--matcha-tokens<span class="o">=</span>./matcha-icefall-zh-baker/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--tts-rule-fsts<span class="o">=</span>./matcha-icefall-zh-baker/phone.fst,./matcha-icefall-zh-baker/date.fst,./matcha-icefall-zh-baker/number.fst<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--output-filename<span class="o">=</span>./matcha-baker-1.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span><span class="s2">&quot;某某银行的副行长和一些行政领导表示，他们去过长江和长白山; 经济不断增长。2024年12月31号，拨打110或者18920240511。123456块钱。&quot;</span>
+</pre></div>
+</div>
+<p>After running, it will generate two files, <code class="docutils literal notranslate"><span class="pre">matcha-baker-0.wav</span></code> and
+<code class="docutils literal notranslate"><span class="pre">matcha-baker-1.wav</span></code>, in the current directory.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>soxi<span class="w"> </span>matcha-baker-*.wav
+
+Input<span class="w"> </span>File<span class="w">     </span>:<span class="w"> </span><span class="s1">&#39;matcha-baker-0.wav&#39;</span>
+Channels<span class="w">       </span>:<span class="w"> </span><span class="m">1</span>
+Sample<span class="w"> </span>Rate<span class="w">    </span>:<span class="w"> </span><span class="m">22050</span>
+Precision<span class="w">      </span>:<span class="w"> </span><span class="m">16</span>-bit
+Duration<span class="w">       </span>:<span class="w"> </span><span class="m">00</span>:00:22.65<span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">499456</span><span class="w"> </span>samples<span class="w"> </span>~<span class="w"> </span><span class="m">1698</span>.83<span class="w"> </span>CDDA<span class="w"> </span>sectors
+File<span class="w"> </span>Size<span class="w">      </span>:<span class="w"> </span>999k
+Bit<span class="w"> </span>Rate<span class="w">       </span>:<span class="w"> </span>353k
+Sample<span class="w"> </span>Encoding:<span class="w"> </span><span class="m">16</span>-bit<span class="w"> </span>Signed<span class="w"> </span>Integer<span class="w"> </span>PCM
+
+
+Input<span class="w"> </span>File<span class="w">     </span>:<span class="w"> </span><span class="s1">&#39;matcha-baker-1.wav&#39;</span>
+Channels<span class="w">       </span>:<span class="w"> </span><span class="m">1</span>
+Sample<span class="w"> </span>Rate<span class="w">    </span>:<span class="w"> </span><span class="m">22050</span>
+Precision<span class="w">      </span>:<span class="w"> </span><span class="m">16</span>-bit
+Duration<span class="w">       </span>:<span class="w"> </span><span class="m">00</span>:00:22.65<span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">499456</span><span class="w"> </span>samples<span class="w"> </span>~<span class="w"> </span><span class="m">1698</span>.83<span class="w"> </span>CDDA<span class="w"> </span>sectors
+File<span class="w"> </span>Size<span class="w">      </span>:<span class="w"> </span>999k
+Bit<span class="w"> </span>Rate<span class="w">       </span>:<span class="w"> </span>353k
+Sample<span class="w"> </span>Encoding:<span class="w"> </span><span class="m">16</span>-bit<span class="w"> </span>Signed<span class="w"> </span>Integer<span class="w"> </span>PCM
+
+Total<span class="w"> </span>Duration<span class="w"> </span>of<span class="w"> </span><span class="m">2</span><span class="w"> </span>files:<span class="w"> </span><span class="m">00</span>:00:45.30
+</pre></div>
+</div>
+<table>
+  <tr>
+    <th>Wave filename</th>
+    <th>Content</th>
+    <th>Text</th>
+  </tr>
+  <tr>
+    <td>matcha-baker-0.wav</td>
+    <td>
+     <audio title="Generated ./matcha-baker-0.wav" controls="controls">
+           <source src="/sherpa/_static/matcha-icefall-baker-zh/matcha-baker-0.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+    <td>
+  "当夜幕降临，星光点点，伴随着微风拂面，我在静谧中感受着时光的流转，思念如涟漪荡漾，梦境如画卷展开，我与自然融为一体，沉静在这片宁静的美丽之中，感受着生命的奇迹与温柔."
+    </td>
+  </tr>
+
+  <tr>
+    <td>matcha-baker-1.wav</td>
+    <td>
+     <audio title="Generated ./matcha-baker-1.wav" controls="controls">
+           <source src="/sherpa/_static/matcha-icefall-baker-zh/matcha-baker-1.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+    <td>
+   "某某银行的副行长和一些行政领导表示，他们去过长江和长白山; 经济不断增长。2024年12月31号，拨打110或者18920240511。123456块钱。"
+    </td>
+  </tr>
+</table></section>
+<section id="id7">
+<h3>Generate speech with Python script<a class="headerlink" href="#id7" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+python3<span class="w"> </span>./python-api-examples/offline-tts.py<span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>--matcha-acoustic-model<span class="o">=</span>./matcha-icefall-zh-baker/model-steps-3.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>--matcha-vocoder<span class="o">=</span>./vocos-22khz-univ.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>--matcha-lexicon<span class="o">=</span>./matcha-icefall-zh-baker/lexicon.txt<span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>--matcha-tokens<span class="o">=</span>./matcha-icefall-zh-baker/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>--tts-rule-fsts<span class="o">=</span>./matcha-icefall-zh-baker/phone.fst,./matcha-icefall-zh-baker/date.fst,./matcha-icefall-zh-baker/number.fst<span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>--output-filename<span class="o">=</span>./matcha-baker-2.wav<span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>--debug<span class="o">=</span><span class="m">1</span><span class="w"> </span><span class="se">\</span>
+<span class="w"> </span><span class="s2">&quot;三百六十行，行行出状元。你行的！明天就是 2025年1月1号啦！银行卡被卡住了，你帮个忙，行不行？&quot;</span>
+</pre></div>
+</div>
+<p>After running, it will generate a file <code class="docutils literal notranslate"><span class="pre">matcha-baker-zh-2.wav</span></code> in the current directory.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>soxi<span class="w"> </span>matcha-baker-2.wav
+
+Input<span class="w"> </span>File<span class="w">     </span>:<span class="w"> </span><span class="s1">&#39;matcha-baker-2.wav&#39;</span>
+Channels<span class="w">       </span>:<span class="w"> </span><span class="m">1</span>
+Sample<span class="w"> </span>Rate<span class="w">    </span>:<span class="w"> </span><span class="m">22050</span>
+Precision<span class="w">      </span>:<span class="w"> </span><span class="m">16</span>-bit
+Duration<span class="w">       </span>:<span class="w"> </span><span class="m">00</span>:00:12.71<span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">280320</span><span class="w"> </span>samples<span class="w"> </span>~<span class="w"> </span><span class="m">953</span>.469<span class="w"> </span>CDDA<span class="w"> </span>sectors
+File<span class="w"> </span>Size<span class="w">      </span>:<span class="w"> </span>561k
+Bit<span class="w"> </span>Rate<span class="w">       </span>:<span class="w"> </span>353k
+Sample<span class="w"> </span>Encoding:<span class="w"> </span><span class="m">16</span>-bit<span class="w"> </span>Signed<span class="w"> </span>Integer<span class="w"> </span>PCM
+</pre></div>
+</div>
+<table>
+  <tr>
+    <th>Wave filename</th>
+    <th>Content</th>
+    <th>Text</th>
+  </tr>
+  <tr>
+    <td>matcha-baker-2.wav</td>
+    <td>
+     <audio title="Generated ./matcha-baker-2.wav" controls="controls">
+           <source src="/sherpa/_static/matcha-icefall-baker-zh/matcha-baker-2.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+    <td>
+      "三百六十行，行行出状元。你行的！明天就是 2025年1月1号啦！银行卡被卡住了，你帮个忙，行不行？"
+    </td>
+  </tr>
+</table></section>
+<section id="id8">
+<h3>RTF on Raspberry Pi 4 Model B Rev 1.5<a class="headerlink" href="#id8" title="Permalink to this heading"></a></h3>
+<p>We use the following command to test the RTF of this model on Raspberry Pi 4 Model B Rev 1.5:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="k">for</span><span class="w"> </span>t<span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="m">3</span><span class="w"> </span><span class="m">4</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w"> </span>build/bin/sherpa-onnx-offline-tts<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--num-threads<span class="o">=</span><span class="nv">$t</span><span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--matcha-acoustic-model<span class="o">=</span>./matcha-icefall-zh-baker/model-steps-3.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--matcha-vocoder<span class="o">=</span>./vocos-22khz-univ.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--matcha-lexicon<span class="o">=</span>./matcha-icefall-zh-baker/lexicon.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--matcha-tokens<span class="o">=</span>./matcha-icefall-zh-baker/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--output-filename<span class="o">=</span>./matcha-baker-0.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span><span class="s2">&quot;当夜幕降临，星光点点，伴随着微风拂面，我在静谧中感受着时光的流转，思念如涟漪荡漾，梦境如画卷展开，我与自然融为一体，沉静在这片宁静的美丽之中，感受 着生命的奇迹与温柔.&quot;</span>
+<span class="k">done</span>
+</pre></div>
+</div>
+<p>The results are given below:</p>
+<blockquote>
+<div><table class="docutils align-default">
+<colgroup>
+<col style="width: 32%" />
+<col style="width: 17%" />
+<col style="width: 17%" />
+<col style="width: 17%" />
+<col style="width: 17%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>num_threads</p></th>
+<th class="head"><p>1</p></th>
+<th class="head"><p>2</p></th>
+<th class="head"><p>3</p></th>
+<th class="head"><p>4</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>RTF</p></td>
+<td><p>0.892</p></td>
+<td><p>0.536</p></td>
+<td><p>0.432</p></td>
+<td><p>0.391</p></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="rtf.html" class="btn btn-neutral float-left" title="RTF of pre-trained models" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="kokoro.html" class="btn btn-neutral float-right" title="Kokoro" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,366 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Decode files &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Real-time speech recognition from a microphone" href="real-time-speech-recongition-from-a-microphone.html" />
+    <link rel="prev" title="Install the Python Package" href="install.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">sherpa-onnx</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../install/index.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../faqs/index.html">Frequently Asked Question (FAQs)</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Python</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="install.html">Install the Python Package</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Decode files</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#streaming-zipformer">Streaming zipformer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#non-streaming-zipformer">Non-streaming zipformer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#non-streaming-paraformer">Non-streaming paraformer</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="real-time-speech-recongition-from-a-microphone.html">Real-time speech recognition from a microphone</a></li>
+<li class="toctree-l3"><a class="reference internal" href="speech-recognition-from-urls.html">Speech recognition from URLs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="streaming-websocket-server.html">Streaming WebSocket Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="non-streaming-websocket-server.html">Non-Streaming WebSocket Server</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../c-api/index.html">C API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../java-api/index.html">Java API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../javascript-api/index.html">Javascript API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kotlin-api/index.html">Kotlin API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../swift-api/index.html">Swift API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../go-api/index.html">Go API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../csharp-api/index.html">C# API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pascal-api/index.html">Pascal API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lazarus/index.html">Lazarus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../wasm/index.html">WebAssembly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../android/index.html">Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../harmony-os/index.html">HarmonyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ios/index.html">iOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../flutter/index.html">Flutter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../websocket/index.html">WebSocket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../hotwords/index.html">Hotwords (Contextual biasing)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kws/index.html">Keyword spotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../punctuation/index.html">Punctuation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../audio-tagging/index.html">Audio tagging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spoken-language-identification/index.html">Spoken language identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vad/index.html">VAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/index.html">Pre-trained models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/whisper/index.html">Whisper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../moonshine/index.html">Moonshine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../omnilingual-asr/index.html">Omnilingual ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sense-voice/index.html">SenseVoice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../funasr-nano/index.html">FunASR Nano</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../paraformer/index.html">Paraformer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nemo/index.html">NeMo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../FireRedAsr/index.html">FireRedAsr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Dolphin/index.html">Dolphin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../homophone-replacer/index.html">拼音词组匹配替换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-diarization/index.html">Speaker Diarization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-identification/index.html">Speaker Identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speech-enhancement/index.html">Speech enhancement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../source-separation/index.html">Source separation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qnn/index.html">Qualcomm NPU (QNN, HTP)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rknn/index.html">rknn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ascend/index.html">Ascend NPU (昇腾 NPU)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tts/index.html">Text-to-speech (TTS)</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">sherpa-onnx</a> &raquo;</li>
+          <li><a href="index.html">Python</a> &raquo;</li>
+      <li>Decode files</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/onnx/python/decode-files.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="decode-files">
+<h1>Decode files<a class="headerlink" href="#decode-files" title="Permalink to this heading"></a></h1>
+<p>In this section, we demonstrate how to use the Python API of <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>
+to decode files.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>We only support WAVE files of single channel and each sample should have
+16-bit, while the sample rate of the file can be arbitrary and it does
+not need to be 16 kHz</p>
+</div>
+<section id="streaming-zipformer">
+<h2>Streaming zipformer<a class="headerlink" href="#streaming-zipformer" title="Permalink to this heading"></a></h2>
+<p>We use <a class="reference internal" href="../pretrained_models/online-transducer/zipformer-transducer-models.html#sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20"><span class="std std-ref">csukuangfj/sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20 (Bilingual, Chinese + English)</span></a> as
+an example below.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+python3<span class="w"> </span>./python-api-examples/online-decode-files.py<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span>./sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--encoder<span class="o">=</span>./sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20/encoder-epoch-99-avg-1.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--decoder<span class="o">=</span>./sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20/decoder-epoch-99-avg-1.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--joiner<span class="o">=</span>./sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20/joiner-epoch-99-avg-1.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20/test_wavs/0.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20/test_wavs/1.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20/test_wavs/2.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20/test_wavs/3.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20/test_wavs/8k.wav
+</pre></div>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p><code class="docutils literal notranslate"><span class="pre">online-decode-files.py</span></code> is from <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/blob/master/python-api-examples/online-decode-files.py">https://github.com/k2-fsa/sherpa-onnx/blob/master/python-api-examples/online-decode-files.py</a></p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You can replace <code class="docutils literal notranslate"><span class="pre">encoder-epoch-99-avg-1.onnx</span></code> with <code class="docutils literal notranslate"><span class="pre">encoder-epoch-99-avg-1.int8.onnx</span></code>
+to use <code class="docutils literal notranslate"><span class="pre">int8</span></code> models for decoding.</p>
+</div>
+<p>The output is given below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Creating a resampler:
+   in_sample_rate: 8000
+   output_sample_rate: 16000
+
+Started!
+Done!
+./sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20/test_wavs/0.wav
+昨天是 MONDAY TODAY IS LIBR THE DAY AFTER TOMORROW是星期三
+----------
+./sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20/test_wavs/1.wav
+这是第一种第二种叫呃与 ALWAYS ALWAYS什么意思啊
+----------
+./sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20/test_wavs/2.wav
+这个是频繁的啊不认识记下来 FREQUENTLY频繁的
+----------
+./sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20/test_wavs/3.wav
+第一句是个什么时态加了 ES是一般现在时对后面还有时态写上
+----------
+./sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20/test_wavs/8k.wav
+嗯太不要准时 IN TIME是及时叫他总是准时教他的作业那用一般现在时是没有什么感情色彩的陈述一个事实下一句话为什么要用现在进行时它的意思并不是说说他现在正在教他的
+----------
+num_threads: 1
+decoding_method: greedy_search
+Wave duration: 17.640 s
+Elapsed time: 3.907 s
+Real time factor (RTF): 3.907/17.640 = 0.221
+</pre></div>
+</div>
+</section>
+<section id="non-streaming-zipformer">
+<h2>Non-streaming zipformer<a class="headerlink" href="#non-streaming-zipformer" title="Permalink to this heading"></a></h2>
+<p>We use <a class="reference internal" href="../pretrained_models/offline-transducer/zipformer-transducer-models.html#sherpa-onnx-zipformer-en-2023-04-01"><span class="std std-ref">csukuangfj/sherpa-onnx-zipformer-en-2023-04-01 (English)</span></a> as
+an example below.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+python3<span class="w"> </span>./python-api-examples/offline-decode-files.py<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--tokens<span class="o">=</span>./sherpa-onnx-zipformer-en-2023-04-01/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--encoder<span class="o">=</span>./sherpa-onnx-zipformer-en-2023-04-01/encoder-epoch-99-avg-1.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--decoder<span class="o">=</span>./sherpa-onnx-zipformer-en-2023-04-01/decoder-epoch-99-avg-1.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--joiner<span class="o">=</span>./sherpa-onnx-zipformer-en-2023-04-01/joiner-epoch-99-avg-1.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>./sherpa-onnx-zipformer-en-2023-04-01/test_wavs/0.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>./sherpa-onnx-zipformer-en-2023-04-01/test_wavs/1.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>./sherpa-onnx-zipformer-en-2023-04-01/test_wavs/8k.wav
+</pre></div>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p><code class="docutils literal notranslate"><span class="pre">offline-decode-files.py</span></code> is from <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/blob/master/python-api-examples/offline-decode-files.py">https://github.com/k2-fsa/sherpa-onnx/blob/master/python-api-examples/offline-decode-files.py</a></p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You can replace <code class="docutils literal notranslate"><span class="pre">encoder-epoch-99-avg-1.onnx</span></code> with <code class="docutils literal notranslate"><span class="pre">encoder-epoch-99-avg-1.int8.onnx</span></code>
+to use <code class="docutils literal notranslate"><span class="pre">int8</span></code> models for decoding.</p>
+</div>
+<p>The output is given below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Creating a resampler:
+   in_sample_rate: 8000
+   output_sample_rate: 16000
+
+Started!
+Done!
+./sherpa-onnx-zipformer-en-2023-04-01/test_wavs/0.wav
+ AFTER EARLY NIGHTFALL THE YELLOW LAMPS WOULD LIGHT UP HERE AND THERE THE SQUALID QUARTER OF THE BROTHELS
+----------
+./sherpa-onnx-zipformer-en-2023-04-01/test_wavs/1.wav
+ GOD AS A DIRECT CONSEQUENCE OF THE SIN WHICH MAN THUS PUNISHED HAD GIVEN HER A LOVELY CHILD WHOSE PLACE WAS ON THAT SAME DISHONOURED BOSOM TO CONNECT HER PARENT FOR EVER WITH THE RACE AND DESCENT OF MORTALS AND TO BE FINALLY A BLESSED SOUL IN HEAVEN
+----------
+./sherpa-onnx-zipformer-en-2023-04-01/test_wavs/8k.wav
+ YET THESE THOUGHTS AFFECTED HESTER PRYNNE LESS WITH HOPE THAN APPREHENSION
+----------
+num_threads: 1
+decoding_method: greedy_search
+Wave duration: 4.825 s
+Elapsed time: 2.567 s
+Real time factor (RTF): 2.567/4.825 = 0.532
+</pre></div>
+</div>
+</section>
+<section id="non-streaming-paraformer">
+<h2>Non-streaming paraformer<a class="headerlink" href="#non-streaming-paraformer" title="Permalink to this heading"></a></h2>
+<p>We use <a class="reference internal" href="../pretrained_models/offline-paraformer/paraformer-models.html#sherpa-onnx-offline-paraformer-zh-2023-03-28-chinese"><span class="std std-ref">csukuangfj/sherpa-onnx-paraformer-zh-2023-03-28 (Chinese + English)</span></a> as
+an example below.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+python3<span class="w"> </span>./python-api-examples/offline-decode-files.py<span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>--tokens<span class="o">=</span>./sherpa-onnx-paraformer-zh-2023-03-28/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>--paraformer<span class="o">=</span>./sherpa-onnx-paraformer-zh-2023-03-28/model.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>./sherpa-onnx-paraformer-zh-2023-03-28/test_wavs/0.wav<span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>./sherpa-onnx-paraformer-zh-2023-03-28/test_wavs/1.wav<span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>./sherpa-onnx-paraformer-zh-2023-03-28/test_wavs/2.wav<span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>./sherpa-onnx-paraformer-zh-2023-03-28/test_wavs/8k.wav
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You can replace <code class="docutils literal notranslate"><span class="pre">model.onnx</span></code> with <code class="docutils literal notranslate"><span class="pre">model.int8.onnx</span></code>
+to use <code class="docutils literal notranslate"><span class="pre">int8</span></code> models for decoding.</p>
+</div>
+<p>The output is given below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Creating a resampler:
+   in_sample_rate: 8000
+   output_sample_rate: 16000
+
+Started!
+Done!
+./sherpa-onnx-paraformer-zh-2023-03-28/test_wavs/0.wav
+对我做了介绍啊那么我想说的是呢大家如果对我的研究感兴趣呢你
+----------
+./sherpa-onnx-paraformer-zh-2023-03-28/test_wavs/1.wav
+重点呢想谈三个问题首先呢就是这一轮全球金融动荡的表现
+----------
+./sherpa-onnx-paraformer-zh-2023-03-28/test_wavs/2.wav
+深入的分析这一次全球金融动荡背后的根源
+----------
+./sherpa-onnx-paraformer-zh-2023-03-28/test_wavs/8k.wav
+甚至出现交易几乎停滞的情况
+----------
+num_threads: 1
+decoding_method: greedy_search
+Wave duration: 4.204 s
+Elapsed time: 1.663 s
+Real time factor (RTF): 1.663/4.204 = 0.396
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="install.html" class="btn btn-neutral float-left" title="Install the Python Package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="real-time-speech-recongition-from-a-microphone.html" class="btn btn-neutral float-right" title="Real-time speech recognition from a microphone" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>
