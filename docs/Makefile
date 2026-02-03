@@ -27,7 +27,7 @@ prebuild:
 	    dir=$$(dirname $$script); \
 	    file=$$(basename $$script); \
 	    echo "Running $$file in $$dir..."; \
-			pushd $$dir && echo "PWD: $$PWD" ./$$file && popd; \
+			cd $$dir && echo "PWD: $$PWD" ./$$file && cd -; \
 	done
 
 # Catch-all target: route all unknown targets to Sphinx using the new
