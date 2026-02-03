@@ -11,8 +11,7 @@ BUILDDIR      = build
 # List all scripts to run before HTML build, with their paths
 SCRIPTS = \
     source/onnx/install/windows/run.sh \
-    source/onnx/install/windows/run.sh
-
+		source/onnx/pretrained_models/offline-ctc/wenet/run.sh
 
 
 # Put it first so that "make" without argument is like "make help".
@@ -27,7 +26,7 @@ prebuild:
 	    dir=$$(dirname $$script); \
 	    file=$$(basename $$script); \
 	    echo "Running $$file in $$dir..."; \
-			cd $$dir && echo "PWD: $$PWD" ./$$file && cd -; \
+			cd $$dir && ./$$file && cd -; \
 	done
 
 # Catch-all target: route all unknown targets to Sphinx using the new

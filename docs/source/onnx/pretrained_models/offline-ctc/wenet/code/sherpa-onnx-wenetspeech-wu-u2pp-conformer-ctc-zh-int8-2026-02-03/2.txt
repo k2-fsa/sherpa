@@ -1,0 +1,15 @@
+/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:373 ./build/bin/sherpa-onnx-offline --tokens=./sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/tokens.txt --wenet-ctc-model=./sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/model.int8.onnx --num-threads=1 ./sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/test_wavs/2.wav 
+
+OfflineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80, low_freq=20, high_freq=-400, dither=0, normalize_samples=True, snip_edges=False), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename="", decoder_filename="", joiner_filename=""), paraformer=OfflineParaformerModelConfig(model=""), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=""), whisper=OfflineWhisperModelConfig(encoder="", decoder="", language="", task="transcribe", tail_paddings=-1), fire_red_asr=OfflineFireRedAsrModelConfig(encoder="", decoder=""), tdnn=OfflineTdnnModelConfig(model=""), zipformer_ctc=OfflineZipformerCtcModelConfig(model=""), wenet_ctc=OfflineWenetCtcModelConfig(model="./sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/model.int8.onnx"), sense_voice=OfflineSenseVoiceModelConfig(model="", language="auto", use_itn=False), moonshine=OfflineMoonshineModelConfig(preprocessor="", encoder="", uncached_decoder="", cached_decoder=""), dolphin=OfflineDolphinModelConfig(model=""), canary=OfflineCanaryModelConfig(encoder="", decoder="", src_lang="", tgt_lang="", use_pnc=True), omnilingual=OfflineOmnilingualAsrCtcModelConfig(model=""), funasr_nano=OfflineFunASRNanoModelConfig(encoder_adaptor="", llm="", embedding="", tokenizer="", system_prompt="You are a helpful assistant.", user_prompt="语音转写：", max_new_tokens=512, temperature=1e-06, top_p=0.8, seed=42), medasr=OfflineMedAsrCtcModelConfig(model=""), telespeech_ctc="", tokens="./sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/tokens.txt", num_threads=1, debug=False, provider="cpu", model_type="", modeling_unit="cjkchar", bpe_vocab=""), lm_config=OfflineLMConfig(model="", scale=0.5, lodr_scale=0.01, lodr_fst="", lodr_backoff_id=-1), ctc_fst_decoder_config=OfflineCtcFstDecoderConfig(graph="", max_active=3000), decoding_method="greedy_search", max_active_paths=4, hotwords_file="", hotwords_score=1.5, blank_penalty=0, rule_fsts="", rule_fars="", hr=HomophoneReplacerConfig(lexicon="", rule_fsts=""))
+Creating recognizer ...
+recognizer created in 0.166 s
+Started
+Done!
+
+./sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/test_wavs/2.wav
+{"lang": "", "emotion": "", "event": "", "text": "借搿个机会纷纷响应搿个辰光奥地利的老皇帝已经死脱了", "timestamps": [0.52, 0.72, 0.84, 0.96, 1.12, 1.32, 1.52, 1.72, 1.92, 3.00, 3.16, 3.24, 3.36, 3.52, 3.68, 3.84, 3.96, 4.12, 4.28, 4.44, 4.56, 4.64, 4.80, 4.96, 5.12], "durations": [], "tokens":["借", "搿", "个", "机", "会", "纷", "纷", "响", "应", "搿", "个", "辰", "光", "奥", "地", "利", "的", "老", "皇", "帝", "已", "经", "死", "脱", "了"], "ys_log_probs": [], "words": []}
+----
+num threads: 1
+decoding method: greedy_search
+Elapsed seconds: 0.234 s
+Real time factor (RTF): 0.234 / 5.860 = 0.040
