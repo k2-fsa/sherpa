@@ -130,10 +130,6 @@ jobs:
           python3 -m pip install -r ./docs/requirements.txt
           cd docs
 
-          pushd source/onnx/install/windows
-          ./run.sh
-          popd
-
           # Download test wave files for SenseVoice
           mkdir -p source/_static/sense-voice
           pushd source/_static/sense-voice
