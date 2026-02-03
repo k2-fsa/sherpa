@@ -151,6 +151,9 @@ jobs:
 
           export GIT_LFS_SKIP_SMUDGE=1
           git clone https://huggingface.co/csukuangfj/sherpa-onnx-apk huggingface
+          git clone https://huggingface.co/csukuangfj2/sherpa-onnx-apk huggingface2
+          cp -a huggingface2/* huggingface
+          rm -rf huggingface2
           cd huggingface
           ./generate-asr.py
           ./generate-asr-2pass.py
