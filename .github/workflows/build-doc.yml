@@ -120,8 +120,10 @@ jobs:
       - name: Build doc
         shell: bash
         run: |
+          git clone https://github.com/k2-fsa/sherpa-onnx
           SHERPA_ONNX_VERSION=$(grep "SHERPA_ONNX_VERSION" ./sherpa-onnx/CMakeLists.txt  | cut -d " " -f 2  | cut -d '"' -f 2)
           export SHERPA_ONNX_VERSION
+          rm -rf sherpa-onnx
 
           echo "SHERPA_ONNX_VERSION: $SHERPA_ONNX_VERSION"
 
