@@ -15,7 +15,7 @@ In this section, we describe how to install `sherpa-onnx`_ on various platforms.
    You can use ``pip install cmake`` to install the latest cmake.
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 5
 
    ./linux.rst
    ./macos.rst
