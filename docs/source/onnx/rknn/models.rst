@@ -122,6 +122,55 @@ The output is given below::
     - ``--num-threads=-3`` to select ``RKNN_NPU_CORE_0_1``
     - ``--num-threads=-4`` to select ``RKNN_NPU_CORE_0_1_2``
 
+
+sherpa-onnx-rk3588-15-seconds-paraformer-zh-2025-10-07
+-----------------------------------------------------------------------
+
+This model is converted from :ref:`sherpa-onnx-paraformer-zh-int8-2025-10-07`.
+
+Please use the following commands to download it.
+
+.. code-block:: bash
+
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-rk3588-15-seconds-paraformer-zh-2025-10-07.tar.bz2
+  tar xvf sherpa-onnx-rk3588-15-seconds-paraformer-zh-2025-10-07.tar.bz2
+  rm sherpa-onnx-rk3588-15-seconds-paraformer-zh-2025-10-07.tar.bz2
+
+After downloading, you can check the file size::
+
+  ls -lh sherpa-onnx-rk3588-15-seconds-paraformer-zh-2025-10-07
+  total 432M
+  -rw-r--r-- 1 1001 freeswitch 116M Oct 15 16:13 decoder.rknn
+  -rw-r--r-- 1 1001 freeswitch 315M Oct 15 16:13 encoder.rknn
+  -rw-r--r-- 1 1001 freeswitch 1.8M Oct 15 16:13 predictor.rknn
+  -rw-r--r-- 1 1001 freeswitch  337 Oct 15 16:13 README.md
+  -rwxr-xr-x 2 1001 freeswitch 1.0K Oct 15 16:13 test_wavs
+  -rw-r--r-- 1 1001 freeswitch  74K Oct 15 16:13 tokens.txt
+
+Decode files
+~~~~~~~~~~~~
+
+You can use the following command to decode files with the downloaded model files::
+
+  cd sherpa-onnx-rk3588-15-seconds-paraformer-zh-2025-10-07
+  ../bin/sherpa-onnx-offline --provider=rknn --paraformer="./encoder.rknn,./predictor.rknn,./decoder.rknn" --tokens=./tokens.txt ./test_wavs/1.wav
+
+The output is given below::
+
+  OfflineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80, low_freq=20, high_freq=-400, dither=0, normalize_samples=True, snip_edges=False), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename="", decoder_filename="", joiner_filename=""), paraformer=OfflineParaformerModelConfig(model="./encoder.rknn,./predictor.rknn,./decoder.rknn"), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=""), whisper=OfflineWhisperModelConfig(encoder="", decoder="", language="", task="transcribe", tail_paddings=-1, enable_token_timestamps=False, enable_segment_timestamps=False), fire_red_asr=OfflineFireRedAsrModelConfig(encoder="", decoder=""), tdnn=OfflineTdnnModelConfig(model=""), zipformer_ctc=OfflineZipformerCtcModelConfig(model=""), wenet_ctc=OfflineWenetCtcModelConfig(model=""), sense_voice=OfflineSenseVoiceModelConfig(model="", language="auto", use_itn=False), moonshine=OfflineMoonshineModelConfig(preprocessor="", encoder="", uncached_decoder="", cached_decoder=""), dolphin=OfflineDolphinModelConfig(model=""), canary=OfflineCanaryModelConfig(encoder="", decoder="", src_lang="", tgt_lang="", use_pnc=True), omnilingual=OfflineOmnilingualAsrCtcModelConfig(model=""), funasr_nano=OfflineFunASRNanoModelConfig(encoder_adaptor="", llm="", embedding="", tokenizer="", system_prompt="You are a helpful assistant.", user_prompt="语音转写：", max_new_tokens=512, temperature=1e-06, top_p=0.8, seed=42, language="", itn=True, hotwords=""), medasr=OfflineMedAsrCtcModelConfig(model=""), telespeech_ctc="", tokens="./tokens.txt", num_threads=2, debug=False, provider="rknn", model_type="", modeling_unit="cjkchar", bpe_vocab=""), lm_config=OfflineLMConfig(model="", scale=0.5, lodr_scale=0.01, lodr_fst="", lodr_backoff_id=-1), ctc_fst_decoder_config=OfflineCtcFstDecoderConfig(graph="", max_active=3000), decoding_method="greedy_search", max_active_paths=4, hotwords_file="", hotwords_score=1.5, blank_penalty=0, rule_fsts="", rule_fars="", hr=HomophoneReplacerConfig(lexicon="", rule_fsts=""))
+  Creating recognizer ...
+  recognizer created in 1.173 s
+  Started
+  Done!
+
+  ./test_wavs/1.wav
+  {"lang": "", "emotion": "", "event": "", "text": "来哥哥再给你唱首歌儿哎呦把伴奏给我放起来放就放嘛还要多人家钩子", "timestamps": [], "durations": [], "tokens":["来", "哥", "哥", "再", "给", "你", "唱", "首", "歌", "儿", "哎", "呦", "把", "伴", "奏", "给", "我", "放", "起", "来", "放", "就", "放", "嘛", "还", "要", "多", "人", "家", "钩", "子"], "ys_log_probs": [], "words": []}
+  ----
+  num threads: 2
+  decoding method: greedy_search
+  Elapsed seconds: 0.588 s
+  Real time factor (RTF): 0.588 / 7.808 = 0.075
+
 Real-time speech recognition from a microphone
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
