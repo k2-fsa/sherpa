@@ -105,7 +105,7 @@ The output is given below::
 
       ldd $(which sherpa-onnx)
 
-  If the example crashes, your ``librknnrt.so`` version might be too new. ``2.3.x`` and ``2.4.x`` might causing crash, `librknnrt version: 2.2.0 (c195366594@2024-09-14T12:18:56)` is known working. See `<https://github.com/k2-fsa/sherpa-onnx/issues/3154>` for more information.
+  If the example crashes, your ``librknnrt.so`` version might be too new. Versions ``2.3.x`` and ``2.4.x`` may cause crashes, while `librknnrt version: 2.2.0 (c195366594@2024-09-14T12:18:56)` is known to work. See <https://github.com/k2-fsa/sherpa-onnx/issues/3154> for more information.
 
 .. note::
 
