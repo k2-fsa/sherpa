@@ -1,0 +1,707 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pre-trained models &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Android" href="android.html" />
+    <link rel="prev" title="Audio tagging" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">sherpa-onnx</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../install/index.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../faqs/index.html">Frequently Asked Question (FAQs)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python/index.html">Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../c-api/index.html">C API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../java-api/index.html">Java API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../javascript-api/index.html">Javascript API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kotlin-api/index.html">Kotlin API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../swift-api/index.html">Swift API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../go-api/index.html">Go API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../csharp-api/index.html">C# API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pascal-api/index.html">Pascal API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lazarus/index.html">Lazarus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../wasm/index.html">WebAssembly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../android/index.html">Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../harmony-os/index.html">HarmonyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ios/index.html">iOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../flutter/index.html">Flutter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../websocket/index.html">WebSocket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../hotwords/index.html">Hotwords (Contextual biasing)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kws/index.html">Keyword spotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../punctuation/index.html">Punctuation</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Audio tagging</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Pre-trained models</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#sherpa-onnx-zipformer-small-audio-tagging-2024-04-15">sherpa-onnx-zipformer-small-audio-tagging-2024-04-15</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="android.html">Android</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wearos.html">WearOS</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../spoken-language-identification/index.html">Spoken language identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vad/index.html">VAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/index.html">Pre-trained models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/whisper/index.html">Whisper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../moonshine/index.html">Moonshine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../omnilingual-asr/index.html">Omnilingual ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sense-voice/index.html">SenseVoice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../funasr-nano/index.html">FunASR Nano</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../paraformer/index.html">Paraformer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nemo/index.html">NeMo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../FireRedAsr/index.html">FireRedAsr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Dolphin/index.html">Dolphin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../homophone-replacer/index.html">拼音词组匹配替换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-diarization/index.html">Speaker Diarization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-identification/index.html">Speaker Identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speech-enhancement/index.html">Speech enhancement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../source-separation/index.html">Source separation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qnn/index.html">Qualcomm NPU (QNN, HTP)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rknn/index.html">rknn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ascend/index.html">Ascend NPU (昇腾 NPU)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tts/index.html">Text-to-speech (TTS)</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">sherpa-onnx</a> &raquo;</li>
+          <li><a href="index.html">Audio tagging</a> &raquo;</li>
+      <li>Pre-trained models</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/onnx/audio-tagging/pretrained_models.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="pre-trained-models">
+<h1>Pre-trained models<a class="headerlink" href="#pre-trained-models" title="Permalink to this heading"></a></h1>
+<p>This section lists pre-trained models for audio tagging.</p>
+<p>You can find all models at the following URL:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/tag/audio-tagging-models">https://github.com/k2-fsa/sherpa-onnx/releases/tag/audio-tagging-models</a></p>
+</div></blockquote>
+<section id="sherpa-onnx-zipformer-small-audio-tagging-2024-04-15">
+<h2>sherpa-onnx-zipformer-small-audio-tagging-2024-04-15<a class="headerlink" href="#sherpa-onnx-zipformer-small-audio-tagging-2024-04-15" title="Permalink to this heading"></a></h2>
+<p>This model is trained by <a class="reference external" href="https://github.com/k2-fsa/icefall/pull/1421">https://github.com/k2-fsa/icefall/pull/1421</a>
+using the dataset <a class="reference external" href="https://research.google.com/audioset/">audioset</a>.</p>
+<p>In the following, we describe how to download and use it with <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>.</p>
+<section id="download-the-model">
+<h3>Download the model<a class="headerlink" href="#download-the-model" title="Permalink to this heading"></a></h3>
+<p>Please use the following commands to download it:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">wget</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">k2</span><span class="o">-</span><span class="n">fsa</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="n">download</span><span class="o">/</span><span class="n">audio</span><span class="o">-</span><span class="n">tagging</span><span class="o">-</span><span class="n">models</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">small</span><span class="o">-</span><span class="n">audio</span><span class="o">-</span><span class="n">tagging</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mf">15.</span><span class="n">tar</span><span class="o">.</span><span class="n">bz2</span>
+
+<span class="n">tar</span> <span class="n">xvf</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">small</span><span class="o">-</span><span class="n">audio</span><span class="o">-</span><span class="n">tagging</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mf">15.</span><span class="n">tar</span><span class="o">.</span><span class="n">bz2</span>
+<span class="n">rm</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">small</span><span class="o">-</span><span class="n">audio</span><span class="o">-</span><span class="n">tagging</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mf">15.</span><span class="n">tar</span><span class="o">.</span><span class="n">bz2</span>
+</pre></div>
+</div>
+<p>You will find the following files after unzipping:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>   <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">243</span><span class="n">B</span> <span class="n">Apr</span> <span class="mi">15</span> <span class="mi">16</span><span class="p">:</span><span class="mi">14</span> <span class="n">README</span><span class="o">.</span><span class="n">md</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>   <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>    <span class="mi">14</span><span class="n">K</span> <span class="n">Apr</span> <span class="mi">15</span> <span class="mi">16</span><span class="p">:</span><span class="mi">14</span> <span class="n">class_labels_indices</span><span class="o">.</span><span class="n">csv</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>   <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>    <span class="mi">26</span><span class="n">M</span> <span class="n">Apr</span> <span class="mi">15</span> <span class="mi">16</span><span class="p">:</span><span class="mi">14</span> <span class="n">model</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>   <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>    <span class="mi">88</span><span class="n">M</span> <span class="n">Apr</span> <span class="mi">15</span> <span class="mi">16</span><span class="p">:</span><span class="mi">14</span> <span class="n">model</span><span class="o">.</span><span class="n">onnx</span>
+<span class="n">drwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span>  <span class="mi">15</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">480</span><span class="n">B</span> <span class="n">Apr</span> <span class="mi">15</span> <span class="mi">16</span><span class="p">:</span><span class="mi">14</span> <span class="n">test_wavs</span>
+</pre></div>
+</div>
+</section>
+<section id="c-binary-examples">
+<h3>C++ binary examples<a class="headerlink" href="#c-binary-examples" title="Permalink to this heading"></a></h3>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>You can find the binary executable file <code class="docutils literal notranslate"><span class="pre">sherpa-onnx-offline-audio-tagging</span></code>
+after installing <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a> either from source or using <a href="#id1"><span class="problematic" id="id2">``</span></a>pip install sherpa-onnx``_.</p>
+</div>
+<section id="cat">
+<h4>Cat<a class="headerlink" href="#cat" title="Permalink to this heading"></a></h4>
+<p>For the following test wave,</p>
+<table>
+  <tr>
+    <th>Wave filename</th>
+    <th>Wave</th>
+  </tr>
+  <tr>
+    <td>1.wav</td>
+    <td>
+     <audio title="./1.wav" controls="controls">
+           <source src="/sherpa/_static/audio-tagging/zipformer-small/1.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+  </tr>
+</table><p>the command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="nb">bin</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">offline</span><span class="o">-</span><span class="n">audio</span><span class="o">-</span><span class="n">tagging</span> \
+  <span class="o">--</span><span class="n">zipformer</span><span class="o">-</span><span class="n">model</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">small</span><span class="o">-</span><span class="n">audio</span><span class="o">-</span><span class="n">tagging</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">15</span><span class="o">/</span><span class="n">model</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span> \
+  <span class="o">--</span><span class="n">labels</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">small</span><span class="o">-</span><span class="n">audio</span><span class="o">-</span><span class="n">tagging</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">15</span><span class="o">/</span><span class="n">class_labels_indices</span><span class="o">.</span><span class="n">csv</span> \
+  <span class="o">./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">small</span><span class="o">-</span><span class="n">audio</span><span class="o">-</span><span class="n">tagging</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">15</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">1.</span><span class="n">wav</span>
+</pre></div>
+</div>
+<p>prints the following:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">0</span><span class="p">:</span> <span class="n">AudioEvent</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Animal&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">72</span><span class="p">,</span> <span class="n">prob</span><span class="o">=</span><span class="mf">0.947886</span><span class="p">)</span>
+<span class="mi">1</span><span class="p">:</span> <span class="n">AudioEvent</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Cat&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">81</span><span class="p">,</span> <span class="n">prob</span><span class="o">=</span><span class="mf">0.938876</span><span class="p">)</span>
+<span class="mi">2</span><span class="p">:</span> <span class="n">AudioEvent</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Domestic animals, pets&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">73</span><span class="p">,</span> <span class="n">prob</span><span class="o">=</span><span class="mf">0.931975</span><span class="p">)</span>
+<span class="mi">3</span><span class="p">:</span> <span class="n">AudioEvent</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Caterwaul&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">85</span><span class="p">,</span> <span class="n">prob</span><span class="o">=</span><span class="mf">0.178876</span><span class="p">)</span>
+<span class="mi">4</span><span class="p">:</span> <span class="n">AudioEvent</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Meow&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">83</span><span class="p">,</span> <span class="n">prob</span><span class="o">=</span><span class="mf">0.176177</span><span class="p">)</span>
+<span class="n">Num</span> <span class="n">threads</span><span class="p">:</span> <span class="mi">1</span>
+<span class="n">Wave</span> <span class="n">duration</span><span class="p">:</span> <span class="mf">10.000</span>
+<span class="n">Elapsed</span> <span class="n">seconds</span><span class="p">:</span> <span class="mf">0.297</span> <span class="n">s</span>
+<span class="n">Real</span> <span class="n">time</span> <span class="n">factor</span> <span class="p">(</span><span class="n">RTF</span><span class="p">):</span> <span class="mf">0.297</span> <span class="o">/</span> <span class="mf">10.000</span> <span class="o">=</span> <span class="mf">0.030</span>
+</pre></div>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>By default, it outputs the top 5 events. The first event has the
+largest probability.</p>
+</div>
+</section>
+<section id="whistle">
+<h4>Whistle<a class="headerlink" href="#whistle" title="Permalink to this heading"></a></h4>
+<p>For the following test wave,</p>
+<table>
+  <tr>
+    <th>Wave filename</th>
+    <th>Wave</th>
+  </tr>
+  <tr>
+    <td>2.wav</td>
+    <td>
+     <audio title="./2.wav" controls="controls">
+           <source src="/sherpa/_static/audio-tagging/zipformer-small/2.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+  </tr>
+</table><p>the command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="nb">bin</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">offline</span><span class="o">-</span><span class="n">audio</span><span class="o">-</span><span class="n">tagging</span> \
+  <span class="o">--</span><span class="n">zipformer</span><span class="o">-</span><span class="n">model</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">small</span><span class="o">-</span><span class="n">audio</span><span class="o">-</span><span class="n">tagging</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">15</span><span class="o">/</span><span class="n">model</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span> \
+  <span class="o">--</span><span class="n">labels</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">small</span><span class="o">-</span><span class="n">audio</span><span class="o">-</span><span class="n">tagging</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">15</span><span class="o">/</span><span class="n">class_labels_indices</span><span class="o">.</span><span class="n">csv</span> \
+  <span class="o">./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">small</span><span class="o">-</span><span class="n">audio</span><span class="o">-</span><span class="n">tagging</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">15</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">2.</span><span class="n">wav</span>
+</pre></div>
+</div>
+<p>prints the following:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">0</span><span class="p">:</span> <span class="n">AudioEvent</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Whistling&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">prob</span><span class="o">=</span><span class="mf">0.804928</span><span class="p">)</span>
+<span class="mi">1</span><span class="p">:</span> <span class="n">AudioEvent</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Music&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">137</span><span class="p">,</span> <span class="n">prob</span><span class="o">=</span><span class="mf">0.27548</span><span class="p">)</span>
+<span class="mi">2</span><span class="p">:</span> <span class="n">AudioEvent</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Piano&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">153</span><span class="p">,</span> <span class="n">prob</span><span class="o">=</span><span class="mf">0.135418</span><span class="p">)</span>
+<span class="mi">3</span><span class="p">:</span> <span class="n">AudioEvent</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Keyboard (musical)&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">152</span><span class="p">,</span> <span class="n">prob</span><span class="o">=</span><span class="mf">0.0580414</span><span class="p">)</span>
+<span class="mi">4</span><span class="p">:</span> <span class="n">AudioEvent</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Musical instrument&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">138</span><span class="p">,</span> <span class="n">prob</span><span class="o">=</span><span class="mf">0.0400399</span><span class="p">)</span>
+<span class="n">Num</span> <span class="n">threads</span><span class="p">:</span> <span class="mi">1</span>
+<span class="n">Wave</span> <span class="n">duration</span><span class="p">:</span> <span class="mf">10.000</span>
+<span class="n">Elapsed</span> <span class="n">seconds</span><span class="p">:</span> <span class="mf">0.289</span> <span class="n">s</span>
+<span class="n">Real</span> <span class="n">time</span> <span class="n">factor</span> <span class="p">(</span><span class="n">RTF</span><span class="p">):</span> <span class="mf">0.289</span> <span class="o">/</span> <span class="mf">10.000</span> <span class="o">=</span> <span class="mf">0.029</span>
+</pre></div>
+</div>
+</section>
+<section id="music">
+<h4>Music<a class="headerlink" href="#music" title="Permalink to this heading"></a></h4>
+<p>For the following test wave,</p>
+<table>
+  <tr>
+    <th>Wave filename</th>
+    <th>Wave</th>
+  </tr>
+  <tr>
+    <td>3.wav</td>
+    <td>
+     <audio title="./3.wav" controls="controls">
+           <source src="/sherpa/_static/audio-tagging/zipformer-small/3.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+  </tr>
+</table><p>the command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="nb">bin</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">offline</span><span class="o">-</span><span class="n">audio</span><span class="o">-</span><span class="n">tagging</span> \
+  <span class="o">--</span><span class="n">zipformer</span><span class="o">-</span><span class="n">model</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">small</span><span class="o">-</span><span class="n">audio</span><span class="o">-</span><span class="n">tagging</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">15</span><span class="o">/</span><span class="n">model</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span> \
+  <span class="o">--</span><span class="n">labels</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">small</span><span class="o">-</span><span class="n">audio</span><span class="o">-</span><span class="n">tagging</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">15</span><span class="o">/</span><span class="n">class_labels_indices</span><span class="o">.</span><span class="n">csv</span> \
+  <span class="o">./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">small</span><span class="o">-</span><span class="n">audio</span><span class="o">-</span><span class="n">tagging</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">15</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">3.</span><span class="n">wav</span>
+</pre></div>
+</div>
+<p>prints the following:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">0</span><span class="p">:</span> <span class="n">AudioEvent</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Music&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">137</span><span class="p">,</span> <span class="n">prob</span><span class="o">=</span><span class="mf">0.79673</span><span class="p">)</span>
+<span class="mi">1</span><span class="p">:</span> <span class="n">AudioEvent</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;A capella&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">255</span><span class="p">,</span> <span class="n">prob</span><span class="o">=</span><span class="mf">0.765521</span><span class="p">)</span>
+<span class="mi">2</span><span class="p">:</span> <span class="n">AudioEvent</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Singing&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">27</span><span class="p">,</span> <span class="n">prob</span><span class="o">=</span><span class="mf">0.473899</span><span class="p">)</span>
+<span class="mi">3</span><span class="p">:</span> <span class="n">AudioEvent</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Vocal music&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">254</span><span class="p">,</span> <span class="n">prob</span><span class="o">=</span><span class="mf">0.459337</span><span class="p">)</span>
+<span class="mi">4</span><span class="p">:</span> <span class="n">AudioEvent</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Choir&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">28</span><span class="p">,</span> <span class="n">prob</span><span class="o">=</span><span class="mf">0.458174</span><span class="p">)</span>
+<span class="n">Num</span> <span class="n">threads</span><span class="p">:</span> <span class="mi">1</span>
+<span class="n">Wave</span> <span class="n">duration</span><span class="p">:</span> <span class="mf">10.000</span>
+<span class="n">Elapsed</span> <span class="n">seconds</span><span class="p">:</span> <span class="mf">0.279</span> <span class="n">s</span>
+<span class="n">Real</span> <span class="n">time</span> <span class="n">factor</span> <span class="p">(</span><span class="n">RTF</span><span class="p">):</span> <span class="mf">0.279</span> <span class="o">/</span> <span class="mf">10.000</span> <span class="o">=</span> <span class="mf">0.028</span>
+</pre></div>
+</div>
+</section>
+<section id="laughter">
+<h4>Laughter<a class="headerlink" href="#laughter" title="Permalink to this heading"></a></h4>
+<p>For the following test wave,</p>
+<table>
+  <tr>
+    <th>Wave filename</th>
+    <th>Wave</th>
+  </tr>
+  <tr>
+    <td>4.wav</td>
+    <td>
+     <audio title="./4.wav" controls="controls">
+           <source src="/sherpa/_static/audio-tagging/zipformer-small/4.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+  </tr>
+</table><p>the command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="nb">bin</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">offline</span><span class="o">-</span><span class="n">audio</span><span class="o">-</span><span class="n">tagging</span> \
+  <span class="o">--</span><span class="n">zipformer</span><span class="o">-</span><span class="n">model</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">small</span><span class="o">-</span><span class="n">audio</span><span class="o">-</span><span class="n">tagging</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">15</span><span class="o">/</span><span class="n">model</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span> \
+  <span class="o">--</span><span class="n">labels</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">small</span><span class="o">-</span><span class="n">audio</span><span class="o">-</span><span class="n">tagging</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">15</span><span class="o">/</span><span class="n">class_labels_indices</span><span class="o">.</span><span class="n">csv</span> \
+  <span class="o">./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">small</span><span class="o">-</span><span class="n">audio</span><span class="o">-</span><span class="n">tagging</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">15</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">4.</span><span class="n">wav</span>
+</pre></div>
+</div>
+<p>prints the following:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">0</span><span class="p">:</span> <span class="n">AudioEvent</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Laughter&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">prob</span><span class="o">=</span><span class="mf">0.929239</span><span class="p">)</span>
+<span class="mi">1</span><span class="p">:</span> <span class="n">AudioEvent</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Snicker&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">19</span><span class="p">,</span> <span class="n">prob</span><span class="o">=</span><span class="mf">0.321969</span><span class="p">)</span>
+<span class="mi">2</span><span class="p">:</span> <span class="n">AudioEvent</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Giggle&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">18</span><span class="p">,</span> <span class="n">prob</span><span class="o">=</span><span class="mf">0.149667</span><span class="p">)</span>
+<span class="mi">3</span><span class="p">:</span> <span class="n">AudioEvent</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Inside, small room&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">506</span><span class="p">,</span> <span class="n">prob</span><span class="o">=</span><span class="mf">0.119332</span><span class="p">)</span>
+<span class="mi">4</span><span class="p">:</span> <span class="n">AudioEvent</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Belly laugh&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">prob</span><span class="o">=</span><span class="mf">0.100728</span><span class="p">)</span>
+<span class="n">Num</span> <span class="n">threads</span><span class="p">:</span> <span class="mi">1</span>
+<span class="n">Wave</span> <span class="n">duration</span><span class="p">:</span> <span class="mf">10.000</span>
+<span class="n">Elapsed</span> <span class="n">seconds</span><span class="p">:</span> <span class="mf">0.314</span> <span class="n">s</span>
+<span class="n">Real</span> <span class="n">time</span> <span class="n">factor</span> <span class="p">(</span><span class="n">RTF</span><span class="p">):</span> <span class="mf">0.314</span> <span class="o">/</span> <span class="mf">10.000</span> <span class="o">=</span> <span class="mf">0.031</span>
+</pre></div>
+</div>
+</section>
+<section id="finger-snapping">
+<h4>Finger snapping<a class="headerlink" href="#finger-snapping" title="Permalink to this heading"></a></h4>
+<p>For the following test wave,</p>
+<table>
+  <tr>
+    <th>Wave filename</th>
+    <th>Wave</th>
+  </tr>
+  <tr>
+    <td>5.wav</td>
+    <td>
+     <audio title="./5.wav" controls="controls">
+           <source src="/sherpa/_static/audio-tagging/zipformer-small/5.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+  </tr>
+</table><p>the command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="nb">bin</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">offline</span><span class="o">-</span><span class="n">audio</span><span class="o">-</span><span class="n">tagging</span> \
+  <span class="o">--</span><span class="n">zipformer</span><span class="o">-</span><span class="n">model</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">small</span><span class="o">-</span><span class="n">audio</span><span class="o">-</span><span class="n">tagging</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">15</span><span class="o">/</span><span class="n">model</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span> \
+  <span class="o">--</span><span class="n">labels</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">small</span><span class="o">-</span><span class="n">audio</span><span class="o">-</span><span class="n">tagging</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">15</span><span class="o">/</span><span class="n">class_labels_indices</span><span class="o">.</span><span class="n">csv</span> \
+  <span class="o">./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">small</span><span class="o">-</span><span class="n">audio</span><span class="o">-</span><span class="n">tagging</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">15</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">5.</span><span class="n">wav</span>
+</pre></div>
+</div>
+<p>prints the following:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">0</span><span class="p">:</span> <span class="n">AudioEvent</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Finger snapping&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">62</span><span class="p">,</span> <span class="n">prob</span><span class="o">=</span><span class="mf">0.690543</span><span class="p">)</span>
+<span class="mi">1</span><span class="p">:</span> <span class="n">AudioEvent</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Slap, smack&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">467</span><span class="p">,</span> <span class="n">prob</span><span class="o">=</span><span class="mf">0.452133</span><span class="p">)</span>
+<span class="mi">2</span><span class="p">:</span> <span class="n">AudioEvent</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Clapping&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">63</span><span class="p">,</span> <span class="n">prob</span><span class="o">=</span><span class="mf">0.179213</span><span class="p">)</span>
+<span class="mi">3</span><span class="p">:</span> <span class="n">AudioEvent</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Sound effect&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">504</span><span class="p">,</span> <span class="n">prob</span><span class="o">=</span><span class="mf">0.101151</span><span class="p">)</span>
+<span class="mi">4</span><span class="p">:</span> <span class="n">AudioEvent</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Whack, thwack&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">468</span><span class="p">,</span> <span class="n">prob</span><span class="o">=</span><span class="mf">0.0294559</span><span class="p">)</span>
+<span class="n">Num</span> <span class="n">threads</span><span class="p">:</span> <span class="mi">1</span>
+<span class="n">Wave</span> <span class="n">duration</span><span class="p">:</span> <span class="mf">8.284</span>
+<span class="n">Elapsed</span> <span class="n">seconds</span><span class="p">:</span> <span class="mf">0.225</span> <span class="n">s</span>
+<span class="n">Real</span> <span class="n">time</span> <span class="n">factor</span> <span class="p">(</span><span class="n">RTF</span><span class="p">):</span> <span class="mf">0.225</span> <span class="o">/</span> <span class="mf">8.284</span> <span class="o">=</span> <span class="mf">0.027</span>
+</pre></div>
+</div>
+</section>
+<section id="baby-cry">
+<h4>Baby cry<a class="headerlink" href="#baby-cry" title="Permalink to this heading"></a></h4>
+<p>For the following test wave,</p>
+<table>
+  <tr>
+    <th>Wave filename</th>
+    <th>Wave</th>
+  </tr>
+  <tr>
+    <td>6.wav</td>
+    <td>
+     <audio title="./6.wav" controls="controls">
+           <source src="/sherpa/_static/audio-tagging/zipformer-small/6.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+  </tr>
+</table><p>the command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="nb">bin</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">offline</span><span class="o">-</span><span class="n">audio</span><span class="o">-</span><span class="n">tagging</span> \
+  <span class="o">--</span><span class="n">zipformer</span><span class="o">-</span><span class="n">model</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">small</span><span class="o">-</span><span class="n">audio</span><span class="o">-</span><span class="n">tagging</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">15</span><span class="o">/</span><span class="n">model</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span> \
+  <span class="o">--</span><span class="n">labels</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">small</span><span class="o">-</span><span class="n">audio</span><span class="o">-</span><span class="n">tagging</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">15</span><span class="o">/</span><span class="n">class_labels_indices</span><span class="o">.</span><span class="n">csv</span> \
+  <span class="o">./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">small</span><span class="o">-</span><span class="n">audio</span><span class="o">-</span><span class="n">tagging</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">15</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">6.</span><span class="n">wav</span>
+</pre></div>
+</div>
+<p>prints the following:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">0</span><span class="p">:</span> <span class="n">AudioEvent</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Baby cry, infant cry&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">23</span><span class="p">,</span> <span class="n">prob</span><span class="o">=</span><span class="mf">0.912273</span><span class="p">)</span>
+<span class="mi">1</span><span class="p">:</span> <span class="n">AudioEvent</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Crying, sobbing&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">22</span><span class="p">,</span> <span class="n">prob</span><span class="o">=</span><span class="mf">0.670927</span><span class="p">)</span>
+<span class="mi">2</span><span class="p">:</span> <span class="n">AudioEvent</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Whimper&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">24</span><span class="p">,</span> <span class="n">prob</span><span class="o">=</span><span class="mf">0.187221</span><span class="p">)</span>
+<span class="mi">3</span><span class="p">:</span> <span class="n">AudioEvent</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Inside, small room&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">506</span><span class="p">,</span> <span class="n">prob</span><span class="o">=</span><span class="mf">0.0314955</span><span class="p">)</span>
+<span class="mi">4</span><span class="p">:</span> <span class="n">AudioEvent</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Sound effect&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">504</span><span class="p">,</span> <span class="n">prob</span><span class="o">=</span><span class="mf">0.0118726</span><span class="p">)</span>
+<span class="n">Num</span> <span class="n">threads</span><span class="p">:</span> <span class="mi">1</span>
+<span class="n">Wave</span> <span class="n">duration</span><span class="p">:</span> <span class="mf">8.719</span>
+<span class="n">Elapsed</span> <span class="n">seconds</span><span class="p">:</span> <span class="mf">0.232</span> <span class="n">s</span>
+<span class="n">Real</span> <span class="n">time</span> <span class="n">factor</span> <span class="p">(</span><span class="n">RTF</span><span class="p">):</span> <span class="mf">0.232</span> <span class="o">/</span> <span class="mf">8.719</span> <span class="o">=</span> <span class="mf">0.027</span>
+</pre></div>
+</div>
+</section>
+<section id="smoke-alarm">
+<h4>Smoke alarm<a class="headerlink" href="#smoke-alarm" title="Permalink to this heading"></a></h4>
+<p>For the following test wave,</p>
+<table>
+  <tr>
+    <th>Wave filename</th>
+    <th>Wave</th>
+  </tr>
+  <tr>
+    <td>7.wav</td>
+    <td>
+     <audio title="./7.wav" controls="controls">
+           <source src="/sherpa/_static/audio-tagging/zipformer-small/7.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+  </tr>
+</table><p>the command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="nb">bin</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">offline</span><span class="o">-</span><span class="n">audio</span><span class="o">-</span><span class="n">tagging</span> \
+  <span class="o">--</span><span class="n">zipformer</span><span class="o">-</span><span class="n">model</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">small</span><span class="o">-</span><span class="n">audio</span><span class="o">-</span><span class="n">tagging</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">15</span><span class="o">/</span><span class="n">model</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span> \
+  <span class="o">--</span><span class="n">labels</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">small</span><span class="o">-</span><span class="n">audio</span><span class="o">-</span><span class="n">tagging</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">15</span><span class="o">/</span><span class="n">class_labels_indices</span><span class="o">.</span><span class="n">csv</span> \
+  <span class="o">./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">small</span><span class="o">-</span><span class="n">audio</span><span class="o">-</span><span class="n">tagging</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">15</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">7.</span><span class="n">wav</span>
+</pre></div>
+</div>
+<p>prints the following:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">0</span><span class="p">:</span> <span class="n">AudioEvent</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Smoke detector, smoke alarm&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">399</span><span class="p">,</span> <span class="n">prob</span><span class="o">=</span><span class="mf">0.781478</span><span class="p">)</span>
+<span class="mi">1</span><span class="p">:</span> <span class="n">AudioEvent</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Beep, bleep&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">481</span><span class="p">,</span> <span class="n">prob</span><span class="o">=</span><span class="mf">0.641056</span><span class="p">)</span>
+<span class="mi">2</span><span class="p">:</span> <span class="n">AudioEvent</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Buzzer&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">398</span><span class="p">,</span> <span class="n">prob</span><span class="o">=</span><span class="mf">0.218576</span><span class="p">)</span>
+<span class="mi">3</span><span class="p">:</span> <span class="n">AudioEvent</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Fire alarm&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">400</span><span class="p">,</span> <span class="n">prob</span><span class="o">=</span><span class="mf">0.140145</span><span class="p">)</span>
+<span class="mi">4</span><span class="p">:</span> <span class="n">AudioEvent</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Alarm&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">388</span><span class="p">,</span> <span class="n">prob</span><span class="o">=</span><span class="mf">0.012525</span><span class="p">)</span>
+<span class="n">Num</span> <span class="n">threads</span><span class="p">:</span> <span class="mi">1</span>
+<span class="n">Wave</span> <span class="n">duration</span><span class="p">:</span> <span class="mf">2.819</span>
+<span class="n">Elapsed</span> <span class="n">seconds</span><span class="p">:</span> <span class="mf">0.080</span> <span class="n">s</span>
+<span class="n">Real</span> <span class="n">time</span> <span class="n">factor</span> <span class="p">(</span><span class="n">RTF</span><span class="p">):</span> <span class="mf">0.080</span> <span class="o">/</span> <span class="mf">2.819</span> <span class="o">=</span> <span class="mf">0.028</span>
+</pre></div>
+</div>
+</section>
+<section id="siren">
+<h4>Siren<a class="headerlink" href="#siren" title="Permalink to this heading"></a></h4>
+<p>For the following test wave,</p>
+<table>
+  <tr>
+    <th>Wave filename</th>
+    <th>Wave</th>
+  </tr>
+  <tr>
+    <td>8.wav</td>
+    <td>
+     <audio title="./8.wav" controls="controls">
+           <source src="/sherpa/_static/audio-tagging/zipformer-small/8.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+  </tr>
+</table><p>the command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="nb">bin</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">offline</span><span class="o">-</span><span class="n">audio</span><span class="o">-</span><span class="n">tagging</span> \
+  <span class="o">--</span><span class="n">zipformer</span><span class="o">-</span><span class="n">model</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">small</span><span class="o">-</span><span class="n">audio</span><span class="o">-</span><span class="n">tagging</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">15</span><span class="o">/</span><span class="n">model</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span> \
+  <span class="o">--</span><span class="n">labels</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">small</span><span class="o">-</span><span class="n">audio</span><span class="o">-</span><span class="n">tagging</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">15</span><span class="o">/</span><span class="n">class_labels_indices</span><span class="o">.</span><span class="n">csv</span> \
+  <span class="o">./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">small</span><span class="o">-</span><span class="n">audio</span><span class="o">-</span><span class="n">tagging</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">15</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">8.</span><span class="n">wav</span>
+</pre></div>
+</div>
+<p>prints the following:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">0</span><span class="p">:</span> <span class="n">AudioEvent</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Siren&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">396</span><span class="p">,</span> <span class="n">prob</span><span class="o">=</span><span class="mf">0.877108</span><span class="p">)</span>
+<span class="mi">1</span><span class="p">:</span> <span class="n">AudioEvent</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Civil defense siren&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">397</span><span class="p">,</span> <span class="n">prob</span><span class="o">=</span><span class="mf">0.732789</span><span class="p">)</span>
+<span class="mi">2</span><span class="p">:</span> <span class="n">AudioEvent</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Vehicle&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">prob</span><span class="o">=</span><span class="mf">0.0113797</span><span class="p">)</span>
+<span class="mi">3</span><span class="p">:</span> <span class="n">AudioEvent</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Inside, small room&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">506</span><span class="p">,</span> <span class="n">prob</span><span class="o">=</span><span class="mf">0.00537381</span><span class="p">)</span>
+<span class="mi">4</span><span class="p">:</span> <span class="n">AudioEvent</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Outside, urban or manmade&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">509</span><span class="p">,</span> <span class="n">prob</span><span class="o">=</span><span class="mf">0.00261939</span><span class="p">)</span>
+<span class="n">Num</span> <span class="n">threads</span><span class="p">:</span> <span class="mi">1</span>
+<span class="n">Wave</span> <span class="n">duration</span><span class="p">:</span> <span class="mf">7.721</span>
+<span class="n">Elapsed</span> <span class="n">seconds</span><span class="p">:</span> <span class="mf">0.220</span> <span class="n">s</span>
+<span class="n">Real</span> <span class="n">time</span> <span class="n">factor</span> <span class="p">(</span><span class="n">RTF</span><span class="p">):</span> <span class="mf">0.220</span> <span class="o">/</span> <span class="mf">7.721</span> <span class="o">=</span> <span class="mf">0.028</span>
+</pre></div>
+</div>
+</section>
+<section id="stream-water">
+<h4>Stream water<a class="headerlink" href="#stream-water" title="Permalink to this heading"></a></h4>
+<p>For the following test wave,</p>
+<table>
+  <tr>
+    <th>Wave filename</th>
+    <th>Wave</th>
+  </tr>
+  <tr>
+    <td>10.wav</td>
+    <td>
+     <audio title="./10.wav" controls="controls">
+           <source src="/sherpa/_static/audio-tagging/zipformer-small/10.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+  </tr>
+</table><p>the command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="nb">bin</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">offline</span><span class="o">-</span><span class="n">audio</span><span class="o">-</span><span class="n">tagging</span> \
+  <span class="o">--</span><span class="n">zipformer</span><span class="o">-</span><span class="n">model</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">small</span><span class="o">-</span><span class="n">audio</span><span class="o">-</span><span class="n">tagging</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">15</span><span class="o">/</span><span class="n">model</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span> \
+  <span class="o">--</span><span class="n">labels</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">small</span><span class="o">-</span><span class="n">audio</span><span class="o">-</span><span class="n">tagging</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">15</span><span class="o">/</span><span class="n">class_labels_indices</span><span class="o">.</span><span class="n">csv</span> \
+  <span class="o">./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">small</span><span class="o">-</span><span class="n">audio</span><span class="o">-</span><span class="n">tagging</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">15</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">10.</span><span class="n">wav</span>
+</pre></div>
+</div>
+<p>prints the following:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">0</span><span class="p">:</span> <span class="n">AudioEvent</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Stream&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">292</span><span class="p">,</span> <span class="n">prob</span><span class="o">=</span><span class="mf">0.247785</span><span class="p">)</span>
+<span class="mi">1</span><span class="p">:</span> <span class="n">AudioEvent</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Water&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">288</span><span class="p">,</span> <span class="n">prob</span><span class="o">=</span><span class="mf">0.231587</span><span class="p">)</span>
+<span class="mi">2</span><span class="p">:</span> <span class="n">AudioEvent</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Gurgling&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">297</span><span class="p">,</span> <span class="n">prob</span><span class="o">=</span><span class="mf">0.170981</span><span class="p">)</span>
+<span class="mi">3</span><span class="p">:</span> <span class="n">AudioEvent</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Trickle, dribble&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">450</span><span class="p">,</span> <span class="n">prob</span><span class="o">=</span><span class="mf">0.108859</span><span class="p">)</span>
+<span class="mi">4</span><span class="p">:</span> <span class="n">AudioEvent</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Liquid&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">444</span><span class="p">,</span> <span class="n">prob</span><span class="o">=</span><span class="mf">0.0693812</span><span class="p">)</span>
+<span class="n">Num</span> <span class="n">threads</span><span class="p">:</span> <span class="mi">1</span>
+<span class="n">Wave</span> <span class="n">duration</span><span class="p">:</span> <span class="mf">7.837</span>
+<span class="n">Elapsed</span> <span class="n">seconds</span><span class="p">:</span> <span class="mf">0.212</span> <span class="n">s</span>
+<span class="n">Real</span> <span class="n">time</span> <span class="n">factor</span> <span class="p">(</span><span class="n">RTF</span><span class="p">):</span> <span class="mf">0.212</span> <span class="o">/</span> <span class="mf">7.837</span> <span class="o">=</span> <span class="mf">0.027</span>
+</pre></div>
+</div>
+</section>
+<section id="meow">
+<h4>Meow<a class="headerlink" href="#meow" title="Permalink to this heading"></a></h4>
+<p>For the following test wave,</p>
+<table>
+  <tr>
+    <th>Wave filename</th>
+    <th>Wave</th>
+  </tr>
+  <tr>
+    <td>11.wav</td>
+    <td>
+     <audio title="./11.wav" controls="controls">
+           <source src="/sherpa/_static/audio-tagging/zipformer-small/11.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+  </tr>
+</table><p>the command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="nb">bin</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">offline</span><span class="o">-</span><span class="n">audio</span><span class="o">-</span><span class="n">tagging</span> \
+  <span class="o">--</span><span class="n">zipformer</span><span class="o">-</span><span class="n">model</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">small</span><span class="o">-</span><span class="n">audio</span><span class="o">-</span><span class="n">tagging</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">15</span><span class="o">/</span><span class="n">model</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span> \
+  <span class="o">--</span><span class="n">labels</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">small</span><span class="o">-</span><span class="n">audio</span><span class="o">-</span><span class="n">tagging</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">15</span><span class="o">/</span><span class="n">class_labels_indices</span><span class="o">.</span><span class="n">csv</span> \
+  <span class="o">./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">small</span><span class="o">-</span><span class="n">audio</span><span class="o">-</span><span class="n">tagging</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">15</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">11.</span><span class="n">wav</span>
+</pre></div>
+</div>
+<p>prints the following:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">0</span><span class="p">:</span> <span class="n">AudioEvent</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Meow&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">83</span><span class="p">,</span> <span class="n">prob</span><span class="o">=</span><span class="mf">0.814944</span><span class="p">)</span>
+<span class="mi">1</span><span class="p">:</span> <span class="n">AudioEvent</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Cat&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">81</span><span class="p">,</span> <span class="n">prob</span><span class="o">=</span><span class="mf">0.698858</span><span class="p">)</span>
+<span class="mi">2</span><span class="p">:</span> <span class="n">AudioEvent</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Domestic animals, pets&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">73</span><span class="p">,</span> <span class="n">prob</span><span class="o">=</span><span class="mf">0.564516</span><span class="p">)</span>
+<span class="mi">3</span><span class="p">:</span> <span class="n">AudioEvent</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Animal&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">72</span><span class="p">,</span> <span class="n">prob</span><span class="o">=</span><span class="mf">0.535303</span><span class="p">)</span>
+<span class="mi">4</span><span class="p">:</span> <span class="n">AudioEvent</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Music&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">137</span><span class="p">,</span> <span class="n">prob</span><span class="o">=</span><span class="mf">0.105332</span><span class="p">)</span>
+<span class="n">Num</span> <span class="n">threads</span><span class="p">:</span> <span class="mi">1</span>
+<span class="n">Wave</span> <span class="n">duration</span><span class="p">:</span> <span class="mf">11.483</span>
+<span class="n">Elapsed</span> <span class="n">seconds</span><span class="p">:</span> <span class="mf">0.361</span> <span class="n">s</span>
+<span class="n">Real</span> <span class="n">time</span> <span class="n">factor</span> <span class="p">(</span><span class="n">RTF</span><span class="p">):</span> <span class="mf">0.361</span> <span class="o">/</span> <span class="mf">11.483</span> <span class="o">=</span> <span class="mf">0.031</span>
+</pre></div>
+</div>
+</section>
+<section id="dog-bark">
+<h4>Dog bark<a class="headerlink" href="#dog-bark" title="Permalink to this heading"></a></h4>
+<p>For the following test wave,</p>
+<table>
+  <tr>
+    <th>Wave filename</th>
+    <th>Wave</th>
+  </tr>
+  <tr>
+    <td>12.wav</td>
+    <td>
+     <audio title="./12.wav" controls="controls">
+           <source src="/sherpa/_static/audio-tagging/zipformer-small/12.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+  </tr>
+</table><p>the command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="nb">bin</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">offline</span><span class="o">-</span><span class="n">audio</span><span class="o">-</span><span class="n">tagging</span> \
+  <span class="o">--</span><span class="n">zipformer</span><span class="o">-</span><span class="n">model</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">small</span><span class="o">-</span><span class="n">audio</span><span class="o">-</span><span class="n">tagging</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">15</span><span class="o">/</span><span class="n">model</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span> \
+  <span class="o">--</span><span class="n">labels</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">small</span><span class="o">-</span><span class="n">audio</span><span class="o">-</span><span class="n">tagging</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">15</span><span class="o">/</span><span class="n">class_labels_indices</span><span class="o">.</span><span class="n">csv</span> \
+  <span class="o">./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">small</span><span class="o">-</span><span class="n">audio</span><span class="o">-</span><span class="n">tagging</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">15</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">12.</span><span class="n">wav</span>
+</pre></div>
+</div>
+<p>prints the following:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">0</span><span class="p">:</span> <span class="n">AudioEvent</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Animal&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">72</span><span class="p">,</span> <span class="n">prob</span><span class="o">=</span><span class="mf">0.688237</span><span class="p">)</span>
+<span class="mi">1</span><span class="p">:</span> <span class="n">AudioEvent</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Dog&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">74</span><span class="p">,</span> <span class="n">prob</span><span class="o">=</span><span class="mf">0.637803</span><span class="p">)</span>
+<span class="mi">2</span><span class="p">:</span> <span class="n">AudioEvent</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Bark&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">75</span><span class="p">,</span> <span class="n">prob</span><span class="o">=</span><span class="mf">0.608597</span><span class="p">)</span>
+<span class="mi">3</span><span class="p">:</span> <span class="n">AudioEvent</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Bow-wow&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">78</span><span class="p">,</span> <span class="n">prob</span><span class="o">=</span><span class="mf">0.515501</span><span class="p">)</span>
+<span class="mi">4</span><span class="p">:</span> <span class="n">AudioEvent</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Domestic animals, pets&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">73</span><span class="p">,</span> <span class="n">prob</span><span class="o">=</span><span class="mf">0.495074</span><span class="p">)</span>
+<span class="n">Num</span> <span class="n">threads</span><span class="p">:</span> <span class="mi">1</span>
+<span class="n">Wave</span> <span class="n">duration</span><span class="p">:</span> <span class="mf">8.974</span>
+<span class="n">Elapsed</span> <span class="n">seconds</span><span class="p">:</span> <span class="mf">0.261</span> <span class="n">s</span>
+<span class="n">Real</span> <span class="n">time</span> <span class="n">factor</span> <span class="p">(</span><span class="n">RTF</span><span class="p">):</span> <span class="mf">0.261</span> <span class="o">/</span> <span class="mf">8.974</span> <span class="o">=</span> <span class="mf">0.029</span>
+</pre></div>
+</div>
+</section>
+<section id="oink-pig">
+<h4>Oink (pig)<a class="headerlink" href="#oink-pig" title="Permalink to this heading"></a></h4>
+<p>For the following test wave,</p>
+<table>
+  <tr>
+    <th>Wave filename</th>
+    <th>Wave</th>
+  </tr>
+  <tr>
+    <td>13.wav</td>
+    <td>
+     <audio title="./13.wav" controls="controls">
+           <source src="/sherpa/_static/audio-tagging/zipformer-small/13.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+  </tr>
+</table><p>the command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="nb">bin</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">offline</span><span class="o">-</span><span class="n">audio</span><span class="o">-</span><span class="n">tagging</span> \
+  <span class="o">--</span><span class="n">zipformer</span><span class="o">-</span><span class="n">model</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">small</span><span class="o">-</span><span class="n">audio</span><span class="o">-</span><span class="n">tagging</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">15</span><span class="o">/</span><span class="n">model</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span> \
+  <span class="o">--</span><span class="n">labels</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">small</span><span class="o">-</span><span class="n">audio</span><span class="o">-</span><span class="n">tagging</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">15</span><span class="o">/</span><span class="n">class_labels_indices</span><span class="o">.</span><span class="n">csv</span> \
+  <span class="o">./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">small</span><span class="o">-</span><span class="n">audio</span><span class="o">-</span><span class="n">tagging</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">15</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">13.</span><span class="n">wav</span>
+</pre></div>
+</div>
+<p>prints the following:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">0</span><span class="p">:</span> <span class="n">AudioEvent</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Oink&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">94</span><span class="p">,</span> <span class="n">prob</span><span class="o">=</span><span class="mf">0.888416</span><span class="p">)</span>
+<span class="mi">1</span><span class="p">:</span> <span class="n">AudioEvent</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Pig&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">93</span><span class="p">,</span> <span class="n">prob</span><span class="o">=</span><span class="mf">0.164295</span><span class="p">)</span>
+<span class="mi">2</span><span class="p">:</span> <span class="n">AudioEvent</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Animal&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">72</span><span class="p">,</span> <span class="n">prob</span><span class="o">=</span><span class="mf">0.160802</span><span class="p">)</span>
+<span class="mi">3</span><span class="p">:</span> <span class="n">AudioEvent</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Speech&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">prob</span><span class="o">=</span><span class="mf">0.0276513</span><span class="p">)</span>
+<span class="mi">4</span><span class="p">:</span> <span class="n">AudioEvent</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;Snort&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="mi">46</span><span class="p">,</span> <span class="n">prob</span><span class="o">=</span><span class="mf">0.0201952</span><span class="p">)</span>
+<span class="n">Num</span> <span class="n">threads</span><span class="p">:</span> <span class="mi">1</span>
+<span class="n">Wave</span> <span class="n">duration</span><span class="p">:</span> <span class="mf">9.067</span>
+<span class="n">Elapsed</span> <span class="n">seconds</span><span class="p">:</span> <span class="mf">0.261</span> <span class="n">s</span>
+<span class="n">Real</span> <span class="n">time</span> <span class="n">factor</span> <span class="p">(</span><span class="n">RTF</span><span class="p">):</span> <span class="mf">0.261</span> <span class="o">/</span> <span class="mf">9.067</span> <span class="o">=</span> <span class="mf">0.029</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="python-api-examples">
+<h3>Python API examples<a class="headerlink" href="#python-api-examples" title="Permalink to this heading"></a></h3>
+<p>Please see</p>
+<blockquote>
+<div><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/blob/master/python-api-examples/audio-tagging-from-a-file.py">https://github.com/k2-fsa/sherpa-onnx/blob/master/python-api-examples/audio-tagging-from-a-file.py</a></p>
+</div></blockquote>
+</section>
+<section id="huggingface-space">
+<h3>Huggingface space<a class="headerlink" href="#huggingface-space" title="Permalink to this heading"></a></h3>
+<p>You can try audio tagging with <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a> from within you browser by visiting the following URL:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://huggingface.co/spaces/k2-fsa/audio-tagging">https://huggingface.co/spaces/k2-fsa/audio-tagging</a></p>
+</div></blockquote>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For Chinese users, please use</p>
+<blockquote>
+<div><p><a class="reference external" href="https://hf-mirror.com/spaces/k2-fsa/audio-tagging">https://hf-mirror.com/spaces/k2-fsa/audio-tagging</a></p>
+</div></blockquote>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Audio tagging" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="android.html" class="btn btn-neutral float-right" title="Android" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

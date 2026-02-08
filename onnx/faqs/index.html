@@ -1,0 +1,282 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Frequently Asked Question (FAQs) &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="在线、离线、流式、非流式的区别" href="diff-online-offline.html" />
+    <link rel="prev" title="Embedded Linux (riscv64)" href="../install/riscv64-embedded-linux.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">sherpa-onnx</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../install/index.html">Installation</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Frequently Asked Question (FAQs)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="diff-online-offline.html">在线、离线、流式、非流式的区别</a></li>
+<li class="toctree-l3"><a class="reference internal" href="change-kotlin-and-java-package-name.html">How to change the package name of our kotlin and/or java API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fix-libasound-module-conf-pulse.html">Cannot open shared library libasound_module_conf_pulse.so</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fix-tts-encoding-for-chinese-models.html">TTS 中文模型没有声音</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fix-libtoolize.html">./gitcompile: line 89: libtoolize: command not found</a></li>
+<li class="toctree-l3"><a class="reference internal" href="static-onnxruntime-linux-x64.html">undefined reference to `std::__throw_bad_array_new_length()’</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cann.html">error while loading shared libraries: libascendcl.so</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#oserror-portaudio-library-not-found">OSError: PortAudio library not found</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#imports-github-com-k2-fsa-sherpa-onnx-go-linux-build-constraints-exclude-all-go-files">imports github.com/k2-fsa/sherpa-onnx-go-linux: build constraints exclude all Go files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#external-buffers-are-not-allowed">External buffers are not allowed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#the-given-version-17-is-not-supported-only-version-1-to-10-is-supported-in-this-build">The given version [17] is not supported, only version 1 to 10 is supported in this build</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../python/index.html">Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../c-api/index.html">C API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../java-api/index.html">Java API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../javascript-api/index.html">Javascript API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kotlin-api/index.html">Kotlin API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../swift-api/index.html">Swift API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../go-api/index.html">Go API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../csharp-api/index.html">C# API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pascal-api/index.html">Pascal API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lazarus/index.html">Lazarus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../wasm/index.html">WebAssembly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../android/index.html">Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../harmony-os/index.html">HarmonyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ios/index.html">iOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../flutter/index.html">Flutter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../websocket/index.html">WebSocket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../hotwords/index.html">Hotwords (Contextual biasing)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kws/index.html">Keyword spotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../punctuation/index.html">Punctuation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../audio-tagging/index.html">Audio tagging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spoken-language-identification/index.html">Spoken language identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vad/index.html">VAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/index.html">Pre-trained models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/whisper/index.html">Whisper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../moonshine/index.html">Moonshine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../omnilingual-asr/index.html">Omnilingual ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sense-voice/index.html">SenseVoice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../funasr-nano/index.html">FunASR Nano</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../paraformer/index.html">Paraformer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nemo/index.html">NeMo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../FireRedAsr/index.html">FireRedAsr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Dolphin/index.html">Dolphin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../homophone-replacer/index.html">拼音词组匹配替换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-diarization/index.html">Speaker Diarization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-identification/index.html">Speaker Identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speech-enhancement/index.html">Speech enhancement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../source-separation/index.html">Source separation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qnn/index.html">Qualcomm NPU (QNN, HTP)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rknn/index.html">rknn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ascend/index.html">Ascend NPU (昇腾 NPU)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tts/index.html">Text-to-speech (TTS)</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">sherpa-onnx</a> &raquo;</li>
+      <li>Frequently Asked Question (FAQs)</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/onnx/faqs/index.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="frequently-asked-question-faqs">
+<h1>Frequently Asked Question (FAQs)<a class="headerlink" href="#frequently-asked-question-faqs" title="Permalink to this heading"></a></h1>
+<p>This page contains frequently asked questions for <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="diff-online-offline.html">在线、离线、流式、非流式的区别</a></li>
+<li class="toctree-l1"><a class="reference internal" href="change-kotlin-and-java-package-name.html">How to change the package name of our kotlin and/or java API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fix-libasound-module-conf-pulse.html">Cannot open shared library libasound_module_conf_pulse.so</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fix-tts-encoding-for-chinese-models.html">TTS 中文模型没有声音</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fix-libtoolize.html">./gitcompile: line 89: libtoolize: command not found</a></li>
+<li class="toctree-l1"><a class="reference internal" href="static-onnxruntime-linux-x64.html">undefined reference to `std::__throw_bad_array_new_length()’</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cann.html">error while loading shared libraries: libascendcl.so</a></li>
+</ul>
+</div>
+<section id="oserror-portaudio-library-not-found">
+<h2>OSError: PortAudio library not found<a class="headerlink" href="#oserror-portaudio-library-not-found" title="Permalink to this heading"></a></h2>
+<p>If you have the following error on Linux (Ubuntu),</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Traceback<span class="w"> </span><span class="o">(</span>most<span class="w"> </span>recent<span class="w"> </span>call<span class="w"> </span>last<span class="o">)</span>:
+<span class="w">  </span>File<span class="w"> </span><span class="s2">&quot;/mnt/sdb/shared/sherpa-onnx/./python-api-examples/vad-microphone.py&quot;</span>,<span class="w"> </span>line<span class="w"> </span><span class="m">8</span>,<span class="w"> </span><span class="k">in</span><span class="w"> </span>&lt;module&gt;
+<span class="w">    </span>import<span class="w"> </span>sounddevice<span class="w"> </span>as<span class="w"> </span>sd
+<span class="w">  </span>File<span class="w"> </span><span class="s2">&quot;/mnt/sdb/shared/py311/lib/python3.11/site-packages/sounddevice.py&quot;</span>,<span class="w"> </span>line<span class="w"> </span><span class="m">71</span>,<span class="w"> </span><span class="k">in</span><span class="w"> </span>&lt;module&gt;
+<span class="w">    </span>raise<span class="w"> </span>OSError<span class="o">(</span><span class="s1">&#39;PortAudio library not found&#39;</span><span class="o">)</span>
+OSError:<span class="w"> </span>PortAudio<span class="w"> </span>library<span class="w"> </span>not<span class="w"> </span>found
+</pre></div>
+</div>
+<p>Then please run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">libportaudio2</span>
+</pre></div>
+</div>
+<p>and then re-try.</p>
+</section>
+<section id="imports-github-com-k2-fsa-sherpa-onnx-go-linux-build-constraints-exclude-all-go-files">
+<h2>imports github.com/k2-fsa/sherpa-onnx-go-linux: build constraints exclude all Go files<a class="headerlink" href="#imports-github-com-k2-fsa-sherpa-onnx-go-linux-build-constraints-exclude-all-go-files" title="Permalink to this heading"></a></h2>
+<p>If you have the following output when running <code class="docutils literal notranslate"><span class="pre">go</span> <span class="pre">build</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">root</span><span class="nd">@VM</span><span class="o">-</span><span class="mi">0</span><span class="o">-</span><span class="mi">3</span><span class="o">-</span><span class="n">centos</span> <span class="n">non</span><span class="o">-</span><span class="n">streaming</span><span class="o">-</span><span class="n">decode</span><span class="o">-</span><span class="n">files</span><span class="p">]</span><span class="c1"># go build</span>
+<span class="n">package</span> <span class="n">non</span><span class="o">-</span><span class="n">streaming</span><span class="o">-</span><span class="n">decode</span><span class="o">-</span><span class="n">files</span>
+ <span class="n">imports</span> <span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">k2</span><span class="o">-</span><span class="n">fsa</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">go</span><span class="o">/</span><span class="n">sherpa_onnx</span>
+ <span class="n">imports</span> <span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">k2</span><span class="o">-</span><span class="n">fsa</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">go</span><span class="o">-</span><span class="n">linux</span><span class="p">:</span> <span class="n">build</span> <span class="n">constraints</span> <span class="n">exclude</span> <span class="nb">all</span> <span class="n">Go</span> <span class="n">files</span> <span class="ow">in</span> <span class="o">/</span><span class="n">root</span><span class="o">/</span><span class="n">go</span><span class="o">/</span><span class="n">pkg</span><span class="o">/</span><span class="n">mod</span><span class="o">/</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">k2</span><span class="o">-</span><span class="n">fsa</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">go</span><span class="o">-</span><span class="n">linux</span><span class="nd">@v1</span><span class="mf">.9.21</span>
+</pre></div>
+</div>
+<p>Please first run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">go</span> <span class="n">env</span> <span class="o">-</span><span class="n">w</span> <span class="n">CGO_ENABLED</span><span class="o">=</span><span class="mi">1</span>
+</pre></div>
+</div>
+<p>And then re-run <code class="docutils literal notranslate"><span class="pre">go</span> <span class="pre">build</span></code>.</p>
+</section>
+<section id="external-buffers-are-not-allowed">
+<h2>External buffers are not allowed<a class="headerlink" href="#external-buffers-are-not-allowed" title="Permalink to this heading"></a></h2>
+<p>If you are using <code class="docutils literal notranslate"><span class="pre">electron</span> <span class="pre">&gt;=</span> <span class="pre">21</span></code> and get the following error:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">External</span> <span class="n">buffers</span> <span class="n">are</span> <span class="ow">not</span> <span class="n">allowed</span>
+</pre></div>
+</div>
+<p>Then please set <code class="docutils literal notranslate"><span class="pre">enableExternalBuffer</span></code> to <code class="docutils literal notranslate"><span class="pre">false</span></code>.</p>
+<p>Specifically,</p>
+<blockquote>
+<div><ul>
+<li><p>For reading wave files, please use <code class="docutils literal notranslate"><span class="pre">sherpa_onnx.readWave(filename,</span> <span class="pre">false);</span></code>,
+where the second argument <code class="docutils literal notranslate"><span class="pre">false</span></code> means to not use external buffers</p></li>
+<li><p>For VAD, please use <code class="docutils literal notranslate"><span class="pre">vad.get(startIndex,</span> <span class="pre">n,</span> <span class="pre">false)</span></code> and <code class="docutils literal notranslate"><span class="pre">vad.front(false)</span></code></p></li>
+<li><p>For speaker identification, please use <code class="docutils literal notranslate"><span class="pre">extractor.compute(stream,</span> <span class="pre">false)</span></code></p></li>
+<li><p>For TTS, please use:</p>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="kd">const</span><span class="w"> </span><span class="nx">audio</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">tts</span><span class="p">.</span><span class="nx">generate</span><span class="p">({</span>
+<span class="w">  </span><span class="nx">text</span><span class="o">:</span><span class="w"> </span><span class="nx">text</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">sid</span><span class="o">:</span><span class="w"> </span><span class="mf">0</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">speed</span><span class="o">:</span><span class="w"> </span><span class="mf">1.0</span><span class="p">,</span>
+<span class="w">  </span><span class="nx">enableExternalBuffer</span><span class="o">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="p">});</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div></blockquote>
+</section>
+<section id="the-given-version-17-is-not-supported-only-version-1-to-10-is-supported-in-this-build">
+<h2>The given version [17] is not supported, only version 1 to 10 is supported in this build<a class="headerlink" href="#the-given-version-17-is-not-supported-only-version-1-to-10-is-supported-in-this-build" title="Permalink to this heading"></a></h2>
+<p>If you have such an error, please find the file <code class="docutils literal notranslate"><span class="pre">onnxruntime.dll</span></code> in your <code class="docutils literal notranslate"><span class="pre">C</span></code> drive
+and try to remove it.</p>
+<p>The reason is that you have two <code class="docutils literal notranslate"><span class="pre">onnxruntime.dll</span></code> on your computer and the one
+in your <code class="docutils literal notranslate"><span class="pre">C</span></code> drive is outdated.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../install/riscv64-embedded-linux.html" class="btn btn-neutral float-left" title="Embedded Linux (riscv64)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="diff-online-offline.html" class="btn btn-neutral float-right" title="在线、离线、流式、非流式的区别" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

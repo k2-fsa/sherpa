@@ -1,0 +1,710 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>sherpa-onnx-kws-zipformer-zh-en-3M-2025-12-20 (Chinese &amp; English) &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/tabs.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/clipboard.min.js"></script>
+        <script src="../../../_static/copybutton.js"></script>
+        <script src="../../../_static/tabs.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Punctuation" href="../../punctuation/index.html" />
+    <link rel="prev" title="Keyword spotting" href="../index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">sherpa-onnx</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../install/index.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../faqs/index.html">Frequently Asked Question (FAQs)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../python/index.html">Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../c-api/index.html">C API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../java-api/index.html">Java API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../javascript-api/index.html">Javascript API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../kotlin-api/index.html">Kotlin API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../swift-api/index.html">Swift API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../go-api/index.html">Go API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../csharp-api/index.html">C# API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../pascal-api/index.html">Pascal API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../lazarus/index.html">Lazarus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../wasm/index.html">WebAssembly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../android/index.html">Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../harmony-os/index.html">HarmonyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ios/index.html">iOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../flutter/index.html">Flutter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../websocket/index.html">WebSocket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../hotwords/index.html">Hotwords (Contextual biasing)</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">Keyword spotting</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../index.html#what-is-open-vocabulary-keyword-spotting">What is open vocabulary keyword spotting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#decoder-for-open-vocabulary-keyword-spotting">Decoder for open vocabulary keyword spotting</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#keywords-file">Keywords file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#how-to-use-keyword-spotting-in-sherpa-onnx">How to use keyword spotting in sherpa-onnx</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../index.html#android-application">Android application</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../index.html#pretrained-models">Pretrained models</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">sherpa-onnx-kws-zipformer-zh-en-3M-2025-12-20 (Chinese &amp; English)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sherpa-onnx-kws-zipformer-wenetspeech-3-3m-2024-01-01-chinese">sherpa-onnx-kws-zipformer-wenetspeech-3.3M-2024-01-01 (Chinese)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sherpa-onnx-kws-zipformer-gigaspeech-3-3m-2024-01-01-english">sherpa-onnx-kws-zipformer-gigaspeech-3.3M-2024-01-01 (English)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../punctuation/index.html">Punctuation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../audio-tagging/index.html">Audio tagging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../spoken-language-identification/index.html">Spoken language identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../vad/index.html">VAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../pretrained_models/index.html">Pre-trained models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../pretrained_models/whisper/index.html">Whisper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../moonshine/index.html">Moonshine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../omnilingual-asr/index.html">Omnilingual ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../sense-voice/index.html">SenseVoice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../funasr-nano/index.html">FunASR Nano</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../paraformer/index.html">Paraformer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../nemo/index.html">NeMo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../FireRedAsr/index.html">FireRedAsr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Dolphin/index.html">Dolphin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../homophone-replacer/index.html">拼音词组匹配替换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../speaker-diarization/index.html">Speaker Diarization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../speaker-identification/index.html">Speaker Identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../speech-enhancement/index.html">Speech enhancement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../source-separation/index.html">Source separation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../qnn/index.html">Qualcomm NPU (QNN, HTP)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../rknn/index.html">rknn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ascend/index.html">Ascend NPU (昇腾 NPU)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tts/index.html">Text-to-speech (TTS)</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html">sherpa-onnx</a> &raquo;</li>
+          <li><a href="../index.html">Keyword spotting</a> &raquo;</li>
+      <li>sherpa-onnx-kws-zipformer-zh-en-3M-2025-12-20 (Chinese &amp; English)</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/onnx/kws/pretrained_models/index.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <p id="sherpa-onnx-kws-pre-trained-models">In this section, we describe how to download and use all
+available keyword spotting pre-trained models.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>Please refer to <a class="reference internal" href="../../install/index.html#install-sherpa-onnx"><span class="std std-ref">Installation</span></a> to install <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>
+before you read this section.</p>
+</div>
+<section id="sherpa-onnx-kws-zipformer-zh-en-3m-2025-12-20-chinese-english">
+<h1>sherpa-onnx-kws-zipformer-zh-en-3M-2025-12-20 (Chinese &amp; English)<a class="headerlink" href="#sherpa-onnx-kws-zipformer-zh-en-3m-2025-12-20-chinese-english" title="Permalink to this heading"></a></h1>
+<p>In the following, we describe how to download it and use it with <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>.</p>
+<section id="download-the-model">
+<h2>Download the model<a class="headerlink" href="#download-the-model" title="Permalink to this heading"></a></h2>
+<p>Please use the following commands to download it.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/kws-models/sherpa-onnx-kws-zipformer-zh-en-3M-2025-12-20.tar.bz2
+tar<span class="w"> </span>xf<span class="w"> </span>sherpa-onnx-kws-zipformer-zh-en-3M-2025-12-20.tar.bz2
+rm<span class="w"> </span>sherpa-onnx-kws-zipformer-zh-en-3M-2025-12-20.tar.bz2
+ls<span class="w"> </span>-lh<span class="w"> </span>sherpa-onnx-kws-zipformer-zh-en-3M-2025-12-20
+</pre></div>
+</div>
+<p>The output is given below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ ls -lh sherpa-onnx-kws-zipformer-zh-en-3M-2025-12-20
+total 38M
+-rw-r--r--  1 kangwei root 743K 12月 22 17:14 decoder-epoch-13-avg-2-chunk-16-left-64.onnx
+-rw-r--r--  1 kangwei root 743K 12月 22 17:14 decoder-epoch-13-avg-2-chunk-8-left-64.onnx
+-rw-r--r--  1 kangwei root 4.4M 12月 22 17:14 encoder-epoch-13-avg-2-chunk-16-left-64.int8.onnx
+-rw-r--r--  1 kangwei root  12M 12月 22 17:14 encoder-epoch-13-avg-2-chunk-16-left-64.onnx
+-rw-r--r--  1 kangwei root 4.4M 12月 22 17:14 encoder-epoch-13-avg-2-chunk-8-left-64.int8.onnx
+-rw-r--r--  1 kangwei root  12M 12月 22 17:14 encoder-epoch-13-avg-2-chunk-8-left-64.onnx
+-rw-r--r--  1 kangwei root 3.2M 12月 22 17:15 en.phone
+-rw-r--r--  1 kangwei root  85K 12月 22 17:14 joiner-epoch-13-avg-2-chunk-16-left-64.int8.onnx
+-rw-r--r--  1 kangwei root 331K 12月 22 17:14 joiner-epoch-13-avg-2-chunk-16-left-64.onnx
+-rw-r--r--  1 kangwei root  85K 12月 22 17:14 joiner-epoch-13-avg-2-chunk-8-left-64.int8.onnx
+-rw-r--r--  1 kangwei root 331K 12月 22 17:14 joiner-epoch-13-avg-2-chunk-8-left-64.onnx
+drwxr-xr-x 14 kangwei root    0 12月 22 18:46 test_wavs
+-rw-r--r--  1 kangwei root 1.9K 12月 22 17:15 tokens.txt
+</pre></div>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>The models with <code class="docutils literal notranslate"><span class="pre">chunk-16</span></code> in their names are exported for
+<code class="docutils literal notranslate"><span class="pre">chunk_size=16</span></code>, while those with <code class="docutils literal notranslate"><span class="pre">chunk-8</span></code> in their names are for
+<code class="docutils literal notranslate"><span class="pre">chunk_size=8</span></code>. The <code class="docutils literal notranslate"><span class="pre">chunk_size=8</span></code> model has a latency of 160ms, while
+the <code class="docutils literal notranslate"><span class="pre">chunk_size=16</span></code> model has a latency of 320ms, please choose the right
+models according to your needs (lower latency usually means lower accuracy).</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">int8</span></code> models are quantized from <code class="docutils literal notranslate"><span class="pre">fp32</span></code> models using ONNX Runtime, decoder
+does not benefit much from quantization, so we only provide <code class="docutils literal notranslate"><span class="pre">fp32</span></code> versions, you
+can use <code class="docutils literal notranslate"><span class="pre">int8</span></code> encoder and joiner and <code class="docutils literal notranslate"><span class="pre">fp32</span></code> decoder together.</p>
+</div>
+</section>
+<section id="test-the-model">
+<h2>Test the model<a class="headerlink" href="#test-the-model" title="Permalink to this heading"></a></h2>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>It supports decoding only wave files of a single channel with 16-bit
+encoded samples, while the sampling rate does not need to be 16 kHz.</p>
+</div>
+<p>The following code shows how to use <code class="docutils literal notranslate"><span class="pre">fp32</span></code> and <code class="docutils literal notranslate"><span class="pre">chunk=16</span></code> models:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+./build/bin/sherpa-onnx-keyword-spotter<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--encoder<span class="o">=</span>sherpa-onnx-kws-zipformer-zh-en-3M-2025-12-20/encoder-epoch-13-avg-2-chunk-16-left-64.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--decoder<span class="o">=</span>sherpa-onnx-kws-zipformer-zh-en-3M-2025-12-20/decoder-epoch-13-avg-2-chunk-16-left-64.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--joiner<span class="o">=</span>sherpa-onnx-kws-zipformer-zh-en-3M-2025-12-20/joiner-epoch-13-avg-2-chunk-16-left-64.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span>sherpa-onnx-kws-zipformer-zh-en-3M-2025-12-20/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--keywords-file<span class="o">=</span>sherpa-onnx-kws-zipformer-zh-en-3M-2025-12-20/test_wavs/keywords.txt<span class="w">  </span><span class="se">\</span>
+<span class="w">  </span>sherpa-onnx-kws-zipformer-zh-en-3M-2025-12-20/test_wavs/zh_3.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>sherpa-onnx-kws-zipformer-zh-en-3M-2025-12-20/test_wavs/zh_4.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>sherpa-onnx-kws-zipformer-zh-en-3M-2025-12-20/test_wavs/zh_5.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>sherpa-onnx-kws-zipformer-zh-en-3M-2025-12-20/test_wavs/en_0.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>sherpa-onnx-kws-zipformer-zh-en-3M-2025-12-20/test_wavs/en_1.wav
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Please use <code class="docutils literal notranslate"><span class="pre">./build/bin/Release/sherpa-onnx-keyword-spotter.exe</span></code> for Windows.</p>
+</div>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>If you use Windows and get encoding issues, please run:</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>CHCP<span class="w"> </span><span class="m">65001</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>in your commandline.</p>
+</div>
+<p>You should see the following output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">KeywordSpotterConfig</span><span class="p">(</span><span class="n">feat_config</span><span class="o">=</span><span class="n">FeatureExtractorConfig</span><span class="p">(</span><span class="n">sampling_rate</span><span class="o">=</span><span class="mi">16000</span><span class="p">,</span> <span class="n">feature_dim</span><span class="o">=</span><span class="mi">80</span><span class="p">,</span> <span class="n">low_freq</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">high_freq</span><span class="o">=-</span><span class="mi">400</span><span class="p">,</span> <span class="n">dither</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">normalize_samples</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">snip_edges</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span> <span class="n">model_config</span><span class="o">=</span><span class="n">OnlineModelConfig</span><span class="p">(</span><span class="n">transducer</span><span class="o">=</span><span class="n">OnlineTransducerModelConfig</span><span class="p">(</span><span class="n">encoder</span><span class="o">=</span><span class="s2">&quot;sherpa-onnx-kws-zipformer-zh-en-3M-2025-12-20/encoder-epoch-13-avg-2-chunk-16-left-64.onnx&quot;</span><span class="p">,</span> <span class="n">decoder</span><span class="o">=</span><span class="s2">&quot;sherpa-onnx-kws-zipformer-zh-en-3M-2025-12-20/decoder-epoch-13-avg-2-chunk-16-left-64.onnx&quot;</span><span class="p">,</span> <span class="n">joiner</span><span class="o">=</span><span class="s2">&quot;sherpa-onnx-kws-zipformer-zh-en-3M-2025-12-20/joiner-epoch-13-avg-2-chunk-16-left-64.onnx&quot;</span><span class="p">),</span> <span class="n">paraformer</span><span class="o">=</span><span class="n">OnlineParaformerModelConfig</span><span class="p">(</span><span class="n">encoder</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">decoder</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">),</span> <span class="n">wenet_ctc</span><span class="o">=</span><span class="n">OnlineWenetCtcModelConfig</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">chunk_size</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">num_left_chunks</span><span class="o">=</span><span class="mi">4</span><span class="p">),</span> <span class="n">zipformer2_ctc</span><span class="o">=</span><span class="n">OnlineZipformer2CtcModelConfig</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">),</span> <span class="n">nemo_ctc</span><span class="o">=</span><span class="n">OnlineNeMoCtcModelConfig</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">),</span> <span class="n">t_one_ctc</span><span class="o">=</span><span class="n">OnlineToneCtcModelConfig</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">),</span> <span class="n">provider_config</span><span class="o">=</span><span class="n">ProviderConfig</span><span class="p">(</span><span class="n">device</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">provider</span><span class="o">=</span><span class="s2">&quot;cpu&quot;</span><span class="p">,</span> <span class="n">cuda_config</span><span class="o">=</span><span class="n">CudaConfig</span><span class="p">(</span><span class="n">cudnn_conv_algo_search</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">trt_config</span><span class="o">=</span><span class="n">TensorrtConfig</span><span class="p">(</span><span class="n">trt_max_workspace_size</span><span class="o">=</span><span class="mi">2147483647</span><span class="p">,</span> <span class="n">trt_max_partition_iterations</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">trt_min_subgraph_size</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">trt_fp16_enable</span><span class="o">=</span><span class="s2">&quot;True&quot;</span><span class="p">,</span> <span class="n">trt_detailed_build_log</span><span class="o">=</span><span class="s2">&quot;False&quot;</span><span class="p">,</span> <span class="n">trt_engine_cache_enable</span><span class="o">=</span><span class="s2">&quot;True&quot;</span><span class="p">,</span> <span class="n">trt_engine_cache_path</span><span class="o">=</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="n">trt_timing_cache_enable</span><span class="o">=</span><span class="s2">&quot;True&quot;</span><span class="p">,</span> <span class="n">trt_timing_cache_path</span><span class="o">=</span><span class="s2">&quot;.&quot;</span><span class="p">,</span><span class="n">trt_dump_subgraphs</span><span class="o">=</span><span class="s2">&quot;False&quot;</span> <span class="p">)),</span> <span class="n">tokens</span><span class="o">=</span><span class="s2">&quot;sherpa-onnx-kws-zipformer-zh-en-3M-2025-12-20/tokens.txt&quot;</span><span class="p">,</span> <span class="n">num_threads</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">warm_up</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">model_type</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">modeling_unit</span><span class="o">=</span><span class="s2">&quot;cjkchar&quot;</span><span class="p">,</span> <span class="n">bpe_vocab</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">),</span> <span class="n">max_active_paths</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">num_trailing_blanks</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keywords_score</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keywords_threshold</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">keywords_file</span><span class="o">=</span><span class="s2">&quot;sherpa-onnx-kws-zipformer-zh-en-3M-2025-12-20/test_wavs/keywords.txt&quot;</span><span class="p">)</span>
+
+<span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">kws</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="mi">3</span><span class="n">M</span><span class="o">-</span><span class="mi">2025</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">20</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="n">zh_5</span><span class="o">.</span><span class="n">wav</span>
+<span class="p">{</span><span class="s2">&quot;start_time&quot;</span><span class="p">:</span><span class="mf">0.00</span><span class="p">,</span> <span class="s2">&quot;keyword&quot;</span><span class="p">:</span> <span class="s2">&quot;周望军&quot;</span><span class="p">,</span> <span class="s2">&quot;timestamps&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.64</span><span class="p">,</span> <span class="mf">0.72</span><span class="p">,</span> <span class="mf">0.80</span><span class="p">,</span> <span class="mf">0.84</span><span class="p">,</span> <span class="mf">1.04</span><span class="p">,</span> <span class="mf">1.08</span><span class="p">],</span> <span class="s2">&quot;tokens&quot;</span><span class="p">:[</span><span class="s2">&quot;zh&quot;</span><span class="p">,</span> <span class="s2">&quot;ōu&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="s2">&quot;àng&quot;</span><span class="p">,</span> <span class="s2">&quot;j&quot;</span><span class="p">,</span> <span class="s2">&quot;ūn&quot;</span><span class="p">]}</span>
+
+<span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">kws</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="mi">3</span><span class="n">M</span><span class="o">-</span><span class="mi">2025</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">20</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="n">zh_4</span><span class="o">.</span><span class="n">wav</span>
+<span class="p">{</span><span class="s2">&quot;start_time&quot;</span><span class="p">:</span><span class="mf">0.00</span><span class="p">,</span> <span class="s2">&quot;keyword&quot;</span><span class="p">:</span> <span class="s2">&quot;蒋友伯&quot;</span><span class="p">,</span> <span class="s2">&quot;timestamps&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.64</span><span class="p">,</span> <span class="mf">0.72</span><span class="p">,</span> <span class="mf">0.84</span><span class="p">,</span> <span class="mf">1.00</span><span class="p">,</span> <span class="mf">1.12</span><span class="p">,</span> <span class="mf">1.20</span><span class="p">],</span> <span class="s2">&quot;tokens&quot;</span><span class="p">:[</span><span class="s2">&quot;j&quot;</span><span class="p">,</span> <span class="s2">&quot;iǎng&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;ǒu&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;ó&quot;</span><span class="p">]}</span>
+
+<span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">kws</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="mi">3</span><span class="n">M</span><span class="o">-</span><span class="mi">2025</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">20</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="n">zh_3</span><span class="o">.</span><span class="n">wav</span>
+<span class="p">{</span><span class="s2">&quot;start_time&quot;</span><span class="p">:</span><span class="mf">0.00</span><span class="p">,</span> <span class="s2">&quot;keyword&quot;</span><span class="p">:</span> <span class="s2">&quot;文森特卡索&quot;</span><span class="p">,</span> <span class="s2">&quot;timestamps&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.64</span><span class="p">,</span> <span class="mf">0.76</span><span class="p">,</span> <span class="mf">0.96</span><span class="p">,</span> <span class="mf">1.04</span><span class="p">,</span> <span class="mf">1.28</span><span class="p">,</span> <span class="mf">1.36</span><span class="p">,</span> <span class="mf">1.52</span><span class="p">,</span> <span class="mf">1.64</span><span class="p">,</span> <span class="mf">1.84</span><span class="p">,</span> <span class="mf">1.96</span><span class="p">],</span> <span class="s2">&quot;tokens&quot;</span><span class="p">:[</span><span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="s2">&quot;én&quot;</span><span class="p">,</span> <span class="s2">&quot;s&quot;</span><span class="p">,</span> <span class="s2">&quot;ēn&quot;</span><span class="p">,</span> <span class="s2">&quot;t&quot;</span><span class="p">,</span> <span class="s2">&quot;è&quot;</span><span class="p">,</span> <span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="s2">&quot;ǎ&quot;</span><span class="p">,</span> <span class="s2">&quot;s&quot;</span><span class="p">,</span> <span class="s2">&quot;uǒ&quot;</span><span class="p">]}</span>
+
+<span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">kws</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="mi">3</span><span class="n">M</span><span class="o">-</span><span class="mi">2025</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">20</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="n">zh_5</span><span class="o">.</span><span class="n">wav</span>
+<span class="p">{</span><span class="s2">&quot;start_time&quot;</span><span class="p">:</span><span class="mf">0.00</span><span class="p">,</span> <span class="s2">&quot;keyword&quot;</span><span class="p">:</span> <span class="s2">&quot;落实&quot;</span><span class="p">,</span> <span class="s2">&quot;timestamps&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.80</span><span class="p">,</span> <span class="mf">1.92</span><span class="p">,</span> <span class="mf">2.12</span><span class="p">,</span> <span class="mf">2.20</span><span class="p">],</span> <span class="s2">&quot;tokens&quot;</span><span class="p">:[</span><span class="s2">&quot;l&quot;</span><span class="p">,</span> <span class="s2">&quot;uò&quot;</span><span class="p">,</span> <span class="s2">&quot;sh&quot;</span><span class="p">,</span> <span class="s2">&quot;í&quot;</span><span class="p">]}</span>
+
+<span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">kws</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="mi">3</span><span class="n">M</span><span class="o">-</span><span class="mi">2025</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">20</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="n">zh_4</span><span class="o">.</span><span class="n">wav</span>
+<span class="p">{</span><span class="s2">&quot;start_time&quot;</span><span class="p">:</span><span class="mf">0.00</span><span class="p">,</span> <span class="s2">&quot;keyword&quot;</span><span class="p">:</span> <span class="s2">&quot;女儿&quot;</span><span class="p">,</span> <span class="s2">&quot;timestamps&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">3.04</span><span class="p">,</span> <span class="mf">3.20</span><span class="p">,</span> <span class="mf">3.24</span><span class="p">],</span> <span class="s2">&quot;tokens&quot;</span><span class="p">:[</span><span class="s2">&quot;n&quot;</span><span class="p">,</span> <span class="s2">&quot;ǚ&quot;</span><span class="p">,</span> <span class="s2">&quot;ér&quot;</span><span class="p">]}</span>
+
+<span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">kws</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="mi">3</span><span class="n">M</span><span class="o">-</span><span class="mi">2025</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">20</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="n">en_0</span><span class="o">.</span><span class="n">wav</span>
+<span class="p">{</span><span class="s2">&quot;start_time&quot;</span><span class="p">:</span><span class="mf">0.00</span><span class="p">,</span> <span class="s2">&quot;keyword&quot;</span><span class="p">:</span> <span class="s2">&quot;LIGHT_UP&quot;</span><span class="p">,</span> <span class="s2">&quot;timestamps&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">2.92</span><span class="p">,</span> <span class="mf">2.96</span><span class="p">,</span> <span class="mf">3.04</span><span class="p">,</span> <span class="mf">3.20</span><span class="p">,</span> <span class="mf">3.28</span><span class="p">],</span> <span class="s2">&quot;tokens&quot;</span><span class="p">:[</span><span class="s2">&quot;L&quot;</span><span class="p">,</span> <span class="s2">&quot;AY1&quot;</span><span class="p">,</span> <span class="s2">&quot;T&quot;</span><span class="p">,</span> <span class="s2">&quot;AH1&quot;</span><span class="p">,</span> <span class="s2">&quot;P&quot;</span><span class="p">]}</span>
+
+<span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">kws</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="mi">3</span><span class="n">M</span><span class="o">-</span><span class="mi">2025</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">20</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="n">zh_3</span><span class="o">.</span><span class="n">wav</span>
+<span class="p">{</span><span class="s2">&quot;start_time&quot;</span><span class="p">:</span><span class="mf">0.00</span><span class="p">,</span> <span class="s2">&quot;keyword&quot;</span><span class="p">:</span> <span class="s2">&quot;法国&quot;</span><span class="p">,</span> <span class="s2">&quot;timestamps&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">4.52</span><span class="p">,</span> <span class="mf">4.68</span><span class="p">,</span> <span class="mf">4.84</span><span class="p">,</span> <span class="mf">4.92</span><span class="p">],</span> <span class="s2">&quot;tokens&quot;</span><span class="p">:[</span><span class="s2">&quot;f&quot;</span><span class="p">,</span> <span class="s2">&quot;ǎ&quot;</span><span class="p">,</span> <span class="s2">&quot;g&quot;</span><span class="p">,</span> <span class="s2">&quot;uó&quot;</span><span class="p">]}</span>
+
+<span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">kws</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="mi">3</span><span class="n">M</span><span class="o">-</span><span class="mi">2025</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">20</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="n">en_1</span><span class="o">.</span><span class="n">wav</span>
+<span class="p">{</span><span class="s2">&quot;start_time&quot;</span><span class="p">:</span><span class="mf">0.00</span><span class="p">,</span> <span class="s2">&quot;keyword&quot;</span><span class="p">:</span> <span class="s2">&quot;LOVELY_CHILD&quot;</span><span class="p">,</span> <span class="s2">&quot;timestamps&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">5.24</span><span class="p">,</span> <span class="mf">5.32</span><span class="p">,</span> <span class="mf">5.40</span><span class="p">,</span> <span class="mf">5.48</span><span class="p">,</span> <span class="mf">5.56</span><span class="p">,</span> <span class="mf">5.68</span><span class="p">,</span> <span class="mf">5.84</span><span class="p">,</span> <span class="mf">5.92</span><span class="p">,</span> <span class="mf">5.96</span><span class="p">],</span> <span class="s2">&quot;tokens&quot;</span><span class="p">:[</span><span class="s2">&quot;L&quot;</span><span class="p">,</span> <span class="s2">&quot;AH1&quot;</span><span class="p">,</span> <span class="s2">&quot;V&quot;</span><span class="p">,</span> <span class="s2">&quot;L&quot;</span><span class="p">,</span> <span class="s2">&quot;IY0&quot;</span><span class="p">,</span> <span class="s2">&quot;CH&quot;</span><span class="p">,</span> <span class="s2">&quot;AY1&quot;</span><span class="p">,</span> <span class="s2">&quot;L&quot;</span><span class="p">,</span> <span class="s2">&quot;D&quot;</span><span class="p">]}</span>
+</pre></div>
+</div>
+</section>
+<section id="customize-your-own-keywords">
+<h2>Customize your own keywords<a class="headerlink" href="#customize-your-own-keywords" title="Permalink to this heading"></a></h2>
+<p>To customize your own keywords, the only thing you need to do is replacing the <code class="docutils literal notranslate"><span class="pre">--keywords-file</span></code>. The keywords file is generated as follows:</p>
+<p>For example your keywords are (keywords_raw.txt):</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Each line contains a keyword, you MUST provide the original keyword (starting with <code class="docutils literal notranslate"><span class="pre">&#64;</span></code>)
+and the original keyword CAN NOT contain spaces, please replace spaces with underscores (<code class="docutils literal notranslate"><span class="pre">_</span></code>).</p>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">LIGHT</span> <span class="n">UP</span> <span class="nd">@LIGHT_UP</span>
+<span class="n">LOVELY</span> <span class="n">CHILD</span> <span class="nd">@LOVELY_CHILD</span>
+<span class="n">文森特卡索</span> <span class="nd">@文森特卡索</span>
+<span class="n">周望军</span> <span class="nd">@周望军</span>
+<span class="n">朱丽楠</span> <span class="nd">@朱丽楠</span>
+<span class="n">蒋友伯</span> <span class="nd">@蒋友伯</span>
+<span class="n">女儿</span> <span class="nd">@女儿</span>
+<span class="n">法国</span> <span class="nd">@法国</span>
+<span class="n">见面会</span> <span class="nd">@见面会</span>
+<span class="n">落实</span> <span class="nd">@落实</span>
+</pre></div>
+</div>
+<p>Run the following command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">cli</span> <span class="n">text2token</span> \
+  <span class="o">--</span><span class="n">tokens</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">kws</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="mi">3</span><span class="n">M</span><span class="o">-</span><span class="mi">2025</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">20</span><span class="o">/</span><span class="n">tokens</span><span class="o">.</span><span class="n">txt</span> \
+  <span class="o">--</span><span class="n">tokens</span><span class="o">-</span><span class="nb">type</span> <span class="n">phone</span><span class="o">+</span><span class="n">ppinyin</span> \
+  <span class="o">--</span><span class="n">lexicon</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">kws</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="mi">3</span><span class="n">M</span><span class="o">-</span><span class="mi">2025</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">20</span><span class="o">/</span><span class="n">en</span><span class="o">.</span><span class="n">phone</span> \
+  <span class="n">keywords_raw</span><span class="o">.</span><span class="n">txt</span> <span class="n">keywords</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">keywords.txt</span></code> looks like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">L</span> <span class="n">AY1</span> <span class="n">T</span> <span class="n">AH1</span> <span class="n">P</span> <span class="nd">@LIGHT_UP</span>
+<span class="n">L</span> <span class="n">AH1</span> <span class="n">V</span> <span class="n">L</span> <span class="n">IY0</span> <span class="n">CH</span> <span class="n">AY1</span> <span class="n">L</span> <span class="n">D</span> <span class="nd">@LOVELY_CHILD</span>
+<span class="n">w</span> <span class="n">én</span> <span class="n">s</span> <span class="n">ēn</span> <span class="n">t</span> <span class="n">è</span> <span class="n">k</span> <span class="n">ǎ</span> <span class="n">s</span> <span class="n">uǒ</span> <span class="nd">@文森特卡索</span>
+<span class="n">zh</span> <span class="n">ōu</span> <span class="n">w</span> <span class="n">àng</span> <span class="n">j</span> <span class="n">ūn</span> <span class="nd">@周望军</span>
+<span class="n">zh</span> <span class="n">ū</span> <span class="n">l</span> <span class="n">ì</span> <span class="n">n</span> <span class="n">án</span> <span class="nd">@朱丽楠</span>
+<span class="n">j</span> <span class="n">iǎng</span> <span class="n">y</span> <span class="n">ǒu</span> <span class="n">b</span> <span class="n">ó</span> <span class="nd">@蒋友伯</span>
+<span class="n">n</span> <span class="n">ǚ</span> <span class="n">ér</span> <span class="nd">@女儿</span>
+<span class="n">f</span> <span class="n">ǎ</span> <span class="n">g</span> <span class="n">uó</span> <span class="nd">@法国</span>
+<span class="n">j</span> <span class="n">iàn</span> <span class="n">m</span> <span class="n">iàn</span> <span class="n">h</span> <span class="n">uì</span> <span class="nd">@见面会</span>
+<span class="n">l</span> <span class="n">uò</span> <span class="n">sh</span> <span class="n">í</span> <span class="nd">@落实</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you install sherpa-onnx from sources (i.e. not by pip), you can use the
+alternative script in <cite>scripts</cite>, the usage is almost the same as the command
+line tool, read the help information by:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python3</span> <span class="n">scripts</span><span class="o">/</span><span class="n">text2token</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">help</span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+<section id="sherpa-onnx-kws-zipformer-wenetspeech-3-3m-2024-01-01-chinese">
+<h1>sherpa-onnx-kws-zipformer-wenetspeech-3.3M-2024-01-01 (Chinese)<a class="headerlink" href="#sherpa-onnx-kws-zipformer-wenetspeech-3-3m-2024-01-01-chinese" title="Permalink to this heading"></a></h1>
+<p>Training code for this model can be found at <a class="reference external" href="https://github.com/k2-fsa/icefall/pull/1428">https://github.com/k2-fsa/icefall/pull/1428</a>.
+The model is trained on WenetSpeech L subset (10000 hours), it supports only Chinese.</p>
+<p>In the following, we describe how to download it and use it with <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>.</p>
+<section id="id1">
+<h2>Download the model<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h2>
+<p>Please use the following commands to download it.</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-0-0-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-0-0-0" name="0-0" role="tab" tabindex="0">Github</button><button aria-controls="panel-0-0-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-0-0-1" name="0-1" role="tab" tabindex="-1">ModelScope</button></div><div aria-labelledby="tab-0-0-0" class="sphinx-tabs-panel" id="panel-0-0-0" name="0-0" role="tabpanel" tabindex="0"><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/kws-models/sherpa-onnx-kws-zipformer-wenetspeech-3.3M-2024-01-01.tar.bz2
+tar<span class="w"> </span>xf<span class="w"> </span>sherpa-onnx-kws-zipformer-wenetspeech-3.3M-2024-01-01.tar.bz2
+rm<span class="w"> </span>sherpa-onnx-kws-zipformer-wenetspeech-3.3M-2024-01-01.tar.bz2
+ls<span class="w"> </span>-lh<span class="w"> </span>sherpa-onnx-kws-zipformer-wenetspeech-3.3M-2024-01-01
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-0-0-1" class="sphinx-tabs-panel" hidden="true" id="panel-0-0-1" name="0-1" role="tabpanel" tabindex="0"><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+git<span class="w"> </span>lfs<span class="w"> </span>install
+git<span class="w"> </span>clone<span class="w"> </span>https://www.modelscope.cn/pkufool/sherpa-onnx-kws-zipformer-wenetspeech-3.3M-2024-01-01.git
+ls<span class="w"> </span>-lh<span class="w"> </span>sherpa-onnx-kws-zipformer-wenetspeech-3.3M-2024-01-01
+</pre></div>
+</div>
+</div></div>
+<p>The output is given below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ ls -lh sherpa-onnx-kws-zipformer-wenetspeech-3.3M-2024-01-01
+total 18M
+-rw-r--r--  1 kangwei root   48 Jan  1 21:45 configuration.json
+-rw-r--r--  1 kangwei root 177K Jan 17 11:38 decoder-epoch-12-avg-2-chunk-16-left-64.int8.onnx
+-rw-r--r--  1 kangwei root 660K Jan  1 21:45 decoder-epoch-12-avg-2-chunk-16-left-64.onnx
+-rw-r--r--  1 kangwei root 4.6M Jan 17 11:38 encoder-epoch-12-avg-2-chunk-16-left-64.int8.onnx
+-rw-r--r--  1 kangwei root  12M Jan  1 21:45 encoder-epoch-12-avg-2-chunk-16-left-64.onnx
+-rw-r--r--  1 kangwei root  64K Jan 17 11:38 joiner-epoch-12-avg-2-chunk-16-left-64.int8.onnx
+-rw-r--r--  1 kangwei root 248K Jan  1 21:45 joiner-epoch-12-avg-2-chunk-16-left-64.onnx
+-rw-r--r--  1 kangwei root  101 Jan  8 17:14 keywords_raw.txt
+-rw-r--r--  1 kangwei root  286 Jan  8 17:14 keywords.txt
+-rw-r--r--  1 kangwei root  750 Jan  8 17:14 README.md
+drwxr-xr-x 10 kangwei root    0 Jan 15 22:52 test_wavs
+-rw-r--r--  1 kangwei root 1.6K Jan  1 21:45 tokens.txt
+</pre></div>
+</div>
+</section>
+<section id="id2">
+<h2>Test the model<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h2>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>It supports decoding only wave files of a single channel with 16-bit
+encoded samples, while the sampling rate does not need to be 16 kHz.</p>
+</div>
+<section id="fp32">
+<h3>fp32<a class="headerlink" href="#fp32" title="Permalink to this heading"></a></h3>
+<p>The following code shows how to use <code class="docutils literal notranslate"><span class="pre">fp32</span></code> models:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+./build/bin/sherpa-onnx-keyword-spotter<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--encoder<span class="o">=</span>sherpa-onnx-kws-zipformer-wenetspeech-3.3M-2024-01-01/encoder-epoch-12-avg-2-chunk-16-left-64.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--decoder<span class="o">=</span>sherpa-onnx-kws-zipformer-wenetspeech-3.3M-2024-01-01/decoder-epoch-12-avg-2-chunk-16-left-64.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--joiner<span class="o">=</span>sherpa-onnx-kws-zipformer-wenetspeech-3.3M-2024-01-01/joiner-epoch-12-avg-2-chunk-16-left-64.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span>sherpa-onnx-kws-zipformer-wenetspeech-3.3M-2024-01-01/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--keywords-file<span class="o">=</span>sherpa-onnx-kws-zipformer-wenetspeech-3.3M-2024-01-01/test_wavs/test_keywords.txt<span class="w">  </span><span class="se">\</span>
+<span class="w">  </span>sherpa-onnx-kws-zipformer-wenetspeech-3.3M-2024-01-01/test_wavs/3.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>sherpa-onnx-kws-zipformer-wenetspeech-3.3M-2024-01-01/test_wavs/4.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>sherpa-onnx-kws-zipformer-wenetspeech-3.3M-2024-01-01/test_wavs/5.wav
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Please use <code class="docutils literal notranslate"><span class="pre">./build/bin/Release/sherpa-onnx-keyword-spotter.exe</span></code> for Windows.</p>
+</div>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>If you use Windows and get encoding issues, please run:</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>CHCP<span class="w"> </span><span class="m">65001</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>in your commandline.</p>
+</div>
+<p>You should see the following output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>KeywordSpotterConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80), model_config=OnlineModelConfig(transducer=OnlineTransducerModelConfig(encoder=&quot;sherpa-on$x-kws-zipformer-wenetspeech-3.3M-2024-01-01/encoder-epoch-12-avg-2-chunk-16-left-64.onnx&quot;, decoder=&quot;sherpa-onnx-kws-zipformer-wenetspeech-3.3M-2024-01-01/decoder-epoch-12-avg-2-chunk$16-left-64.onnx&quot;, joiner=&quot;sherpa-onnx-kws-zipformer-wenetspeech-3.3M-2024-01-01/joiner-epoch-12-avg-2-chunk-16-left-64.onnx&quot;), paraformer=OnlineParaformerModelConfig(encoder=&quot;&quot;, deco$er=&quot;&quot;), wenet_ctc=OnlineWenetCtcModelConfig(model=&quot;&quot;, chunk_size=16, num_left_chunks=4), zipformer2_ctc=OnlineZipformer2CtcModelConfig(model=&quot;&quot;), tokens=&quot;sherpa-onnx-kws-zipformer-we$etspeech-3.3M-2024-01-01/tokens.txt&quot;, num_threads=1, debug=False, provider=&quot;cpu&quot;, model_type=&quot;&quot;), max_active_paths=4, num_trailing_blanks=1, keywords_score=1, keywords_threshold=0.25 keywords_file=&quot;sherpa-onnx-kws-zipformer-wenetspeech-3.3M-2024-01-01/test_wavs/test_keywords.txt&quot;)
+
+2024-01-19 12:32:29.983790275 [E:onnxruntime:, env.cc:254 ThreadMain] pthread_setaffinity_np failed for thread: 3385848, index: 15, mask: {16, 52, }, error code: 22 error msg: Invali$
+ argument. Specify the number of threads explicitly so the affinity is not set.
+2024-01-19 12:32:29.983792055 [E:onnxruntime:, env.cc:254 ThreadMain] pthread_setaffinity_np failed for thread: 3385849, index: 16, mask: {17, 53, }, error code: 22 error msg: Invali$
+ argument. Specify the number of threads explicitly so the affinity is not set.
+sherpa-onnx-kws-zipformer-wenetspeech-3.3M-2024-01-01/test_wavs/4.wav
+{&quot;start_time&quot;:0.00, &quot;keyword&quot;: &quot;蒋友伯&quot;, &quot;timestamps&quot;: [0.64, 0.68, 0.84, 0.96, 1.12, 1.16], &quot;tokens&quot;:[&quot;j&quot;, &quot;iǎng&quot;, &quot;y&quot;, &quot;ǒu&quot;, &quot;b&quot;, &quot;ó&quot;]}
+
+sherpa-onnx-kws-zipformer-wenetspeech-3.3M-2024-01-01/test_wavs/5.wav
+{&quot;start_time&quot;:0.00, &quot;keyword&quot;: &quot;周望军&quot;, &quot;timestamps&quot;: [0.64, 0.68, 0.76, 0.84, 1.00, 1.04], &quot;tokens&quot;:[&quot;zh&quot;, &quot;ōu&quot;, &quot;w&quot;, &quot;àng&quot;, &quot;j&quot;, &quot;ūn&quot;]}
+
+sherpa-onnx-kws-zipformer-wenetspeech-3.3M-2024-01-01/test_wavs/3.wav
+{&quot;start_time&quot;:0.00, &quot;keyword&quot;: &quot;文森特卡索&quot;, &quot;timestamps&quot;: [0.32, 0.72, 0.96, 1.00, 1.20, 1.32, 1.48, 1.60, 1.88, 1.92], &quot;tokens&quot;:[&quot;w&quot;, &quot;én&quot;, &quot;s&quot;, &quot;ēn&quot;, &quot;t&quot;, &quot;è&quot;, &quot;k&quot;, &quot;ǎ&quot;, &quot;s&quot;, &quot;uǒ&quot;$
+}
+
+sherpa-onnx-kws-zipformer-wenetspeech-3.3M-2024-01-01/test_wavs/5.wav
+{&quot;start_time&quot;:0.00, &quot;keyword&quot;: &quot;落实&quot;, &quot;timestamps&quot;: [1.76, 1.92, 2.12, 2.20], &quot;tokens&quot;:[&quot;l&quot;, &quot;uò&quot;, &quot;sh&quot;, &quot;í&quot;]}
+
+sherpa-onnx-kws-zipformer-wenetspeech-3.3M-2024-01-01/test_wavs/4.wav
+{&quot;start_time&quot;:0.00, &quot;keyword&quot;: &quot;女儿&quot;, &quot;timestamps&quot;: [3.08, 3.20, 3.24], &quot;tokens&quot;:[&quot;n&quot;, &quot;ǚ&quot;, &quot;ér&quot;]}
+
+sherpa-onnx-kws-zipformer-wenetspeech-3.3M-2024-01-01/test_wavs/3.wav
+{&quot;start_time&quot;:0.00, &quot;keyword&quot;: &quot;法国&quot;, &quot;timestamps&quot;: [4.56, 4.64, 4.80, 4.88], &quot;tokens&quot;:[&quot;f&quot;, &quot;ǎ&quot;, &quot;g&quot;, &quot;uó&quot;]}
+</pre></div>
+</div>
+</section>
+<section id="int8">
+<h3>int8<a class="headerlink" href="#int8" title="Permalink to this heading"></a></h3>
+<p>The following code shows how to use <code class="docutils literal notranslate"><span class="pre">int8</span></code> models:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+./build/bin/sherpa-onnx-keyword-spotter<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--encoder<span class="o">=</span>sherpa-onnx-kws-zipformer-wenetspeech-3.3M-2024-01-01/encoder-epoch-12-avg-2-chunk-16-left-64.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--decoder<span class="o">=</span>sherpa-onnx-kws-zipformer-wenetspeech-3.3M-2024-01-01/decoder-epoch-12-avg-2-chunk-16-left-64.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--joiner<span class="o">=</span>sherpa-onnx-kws-zipformer-wenetspeech-3.3M-2024-01-01/joiner-epoch-12-avg-2-chunk-16-left-64.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span>sherpa-onnx-kws-zipformer-wenetspeech-3.3M-2024-01-01/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--keywords-file<span class="o">=</span>sherpa-onnx-kws-zipformer-wenetspeech-3.3M-2024-01-01/test_wavs/test_keywords.txt<span class="w">  </span><span class="se">\</span>
+<span class="w">  </span>sherpa-onnx-kws-zipformer-wenetspeech-3.3M-2024-01-01/test_wavs/3.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>sherpa-onnx-kws-zipformer-wenetspeech-3.3M-2024-01-01/test_wavs/4.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>sherpa-onnx-kws-zipformer-wenetspeech-3.3M-2024-01-01/test_wavs/5.wav
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">KeywordSpotterConfig</span><span class="p">(</span><span class="n">feat_config</span><span class="o">=</span><span class="n">FeatureExtractorConfig</span><span class="p">(</span><span class="n">sampling_rate</span><span class="o">=</span><span class="mi">16000</span><span class="p">,</span> <span class="n">feature_dim</span><span class="o">=</span><span class="mi">80</span><span class="p">),</span> <span class="n">model_config</span><span class="o">=</span><span class="n">OnlineModelConfig</span><span class="p">(</span><span class="n">transducer</span><span class="o">=</span><span class="n">OnlineTransducerModelConfig</span><span class="p">(</span><span class="n">encoder</span><span class="o">=</span><span class="s2">&quot;sherpa-onnx-kws-zipformer-wenetspeech-3.3M-2024-01-01/encoder-epoch-12-avg-2-chunk-16-left-64.int8.onnx&quot;</span><span class="p">,</span> <span class="n">decoder</span><span class="o">=</span><span class="s2">&quot;sherpa-onnx-kws-zipformer-wenetspeech-3.3M-2024-01-01/decoder-epoch-12-avg-2-chunk-16-left-64.int8.onnx&quot;</span><span class="p">,</span> <span class="n">joiner</span><span class="o">=</span><span class="s2">&quot;sherpa-onnx-kws-zipformer-wenetspeech-3.3M-2024-01-01/joiner-epoch-12-avg-2-chunk-16-left-64.int8.onnx&quot;</span><span class="p">),</span> <span class="n">paraformer</span><span class="o">=</span><span class="n">OnlineParaformerModelConfig</span><span class="p">(</span><span class="n">encoder</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">decoder</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">),</span> <span class="n">wenet_ctc</span><span class="o">=</span><span class="n">OnlineWenetCtcModelConfig</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">chunk_size</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">num_left_chunks</span><span class="o">=</span><span class="mi">4</span><span class="p">),</span> <span class="n">zipformer2_ctc</span><span class="o">=</span><span class="n">OnlineZipformer2CtcModelConfig</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">),</span> <span class="n">tokens</span><span class="o">=</span><span class="s2">&quot;sherpa-onnx-kws-zipformer-wenetspeech-3.3M-2024-01-01/tokens.txt&quot;</span><span class="p">,</span> <span class="n">num_threads</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">provider</span><span class="o">=</span><span class="s2">&quot;cpu&quot;</span><span class="p">,</span> <span class="n">model_type</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">),</span> <span class="n">max_active_paths</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">num_trailing_blanks</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keywords_score</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keywords_threshold</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">keywords_file</span><span class="o">=</span><span class="s2">&quot;sherpa-onnx-kws-zipformer-wenetspeech-3.3M-2024-01-01/test_wavs/test_keywords.txt&quot;</span><span class="p">)</span>
+
+<span class="mi">2024</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">19</span> <span class="mi">12</span><span class="p">:</span><span class="mi">36</span><span class="p">:</span><span class="mf">44.635979490</span> <span class="p">[</span><span class="n">E</span><span class="p">:</span><span class="n">onnxruntime</span><span class="p">:,</span> <span class="n">env</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="mi">254</span> <span class="n">ThreadMain</span><span class="p">]</span> <span class="n">pthread_setaffinity_np</span> <span class="n">failed</span> <span class="k">for</span> <span class="n">thread</span><span class="p">:</span> <span class="mi">3391918</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="mi">15</span><span class="p">,</span> <span class="n">mask</span><span class="p">:</span> <span class="p">{</span><span class="mi">16</span><span class="p">,</span> <span class="mi">52</span><span class="p">,</span> <span class="p">},</span> <span class="n">error</span> <span class="n">code</span><span class="p">:</span> <span class="mi">22</span> <span class="n">error</span> <span class="n">msg</span><span class="p">:</span> <span class="n">Invalid</span> <span class="n">argument</span><span class="o">.</span> <span class="n">Specify</span> <span class="n">the</span> <span class="n">number</span> <span class="n">of</span> <span class="n">threads</span> <span class="n">explicitly</span> <span class="n">so</span> <span class="n">the</span> <span class="n">affinity</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">set</span><span class="o">.</span>
+<span class="mi">2024</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">19</span> <span class="mi">12</span><span class="p">:</span><span class="mi">36</span><span class="p">:</span><span class="mf">44.635981379</span> <span class="p">[</span><span class="n">E</span><span class="p">:</span><span class="n">onnxruntime</span><span class="p">:,</span> <span class="n">env</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="mi">254</span> <span class="n">ThreadMain</span><span class="p">]</span> <span class="n">pthread_setaffinity_np</span> <span class="n">failed</span> <span class="k">for</span> <span class="n">thread</span><span class="p">:</span> <span class="mi">3391919</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="mi">16</span><span class="p">,</span> <span class="n">mask</span><span class="p">:</span> <span class="p">{</span><span class="mi">17</span><span class="p">,</span> <span class="mi">53</span><span class="p">,</span> <span class="p">},</span> <span class="n">error</span> <span class="n">code</span><span class="p">:</span> <span class="mi">22</span> <span class="n">error</span> <span class="n">msg</span><span class="p">:</span> <span class="n">Invalid</span> <span class="n">argument</span><span class="o">.</span> <span class="n">Specify</span> <span class="n">the</span> <span class="n">number</span> <span class="n">of</span> <span class="n">threads</span> <span class="n">explicitly</span> <span class="n">so</span> <span class="n">the</span> <span class="n">affinity</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">set</span><span class="o">.</span>
+<span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">kws</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">wenetspeech</span><span class="o">-</span><span class="mf">3.3</span><span class="n">M</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">01</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">4.</span><span class="n">wav</span>
+<span class="p">{</span><span class="s2">&quot;start_time&quot;</span><span class="p">:</span><span class="mf">0.00</span><span class="p">,</span> <span class="s2">&quot;keyword&quot;</span><span class="p">:</span> <span class="s2">&quot;蒋友伯&quot;</span><span class="p">,</span> <span class="s2">&quot;timestamps&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.64</span><span class="p">,</span> <span class="mf">0.68</span><span class="p">,</span> <span class="mf">0.84</span><span class="p">,</span> <span class="mf">0.96</span><span class="p">,</span> <span class="mf">1.12</span><span class="p">,</span> <span class="mf">1.16</span><span class="p">],</span> <span class="s2">&quot;tokens&quot;</span><span class="p">:[</span><span class="s2">&quot;j&quot;</span><span class="p">,</span> <span class="s2">&quot;iǎng&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;ǒu&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;ó&quot;</span><span class="p">]}</span>
+
+<span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">kws</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">wenetspeech</span><span class="o">-</span><span class="mf">3.3</span><span class="n">M</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">01</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">5.</span><span class="n">wav</span>
+<span class="p">{</span><span class="s2">&quot;start_time&quot;</span><span class="p">:</span><span class="mf">0.00</span><span class="p">,</span> <span class="s2">&quot;keyword&quot;</span><span class="p">:</span> <span class="s2">&quot;周望军&quot;</span><span class="p">,</span> <span class="s2">&quot;timestamps&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.64</span><span class="p">,</span> <span class="mf">0.68</span><span class="p">,</span> <span class="mf">0.76</span><span class="p">,</span> <span class="mf">0.84</span><span class="p">,</span> <span class="mf">1.00</span><span class="p">,</span> <span class="mf">1.08</span><span class="p">],</span> <span class="s2">&quot;tokens&quot;</span><span class="p">:[</span><span class="s2">&quot;zh&quot;</span><span class="p">,</span> <span class="s2">&quot;ōu&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="s2">&quot;àng&quot;</span><span class="p">,</span> <span class="s2">&quot;j&quot;</span><span class="p">,</span> <span class="s2">&quot;ūn&quot;</span><span class="p">]}</span>
+
+<span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">kws</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">wenetspeech</span><span class="o">-</span><span class="mf">3.3</span><span class="n">M</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">01</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">3.</span><span class="n">wav</span>
+<span class="p">{</span><span class="s2">&quot;start_time&quot;</span><span class="p">:</span><span class="mf">0.00</span><span class="p">,</span> <span class="s2">&quot;keyword&quot;</span><span class="p">:</span> <span class="s2">&quot;文森特卡索&quot;</span><span class="p">,</span> <span class="s2">&quot;timestamps&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.32</span><span class="p">,</span> <span class="mf">0.72</span><span class="p">,</span> <span class="mf">0.96</span><span class="p">,</span> <span class="mf">1.04</span><span class="p">,</span> <span class="mf">1.28</span><span class="p">,</span> <span class="mf">1.32</span><span class="p">,</span> <span class="mf">1.52</span><span class="p">,</span> <span class="mf">1.60</span><span class="p">,</span> <span class="mf">1.92</span><span class="p">,</span> <span class="mf">1.96</span><span class="p">],</span> <span class="s2">&quot;tokens&quot;</span><span class="p">:[</span><span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="s2">&quot;én&quot;</span><span class="p">,</span> <span class="s2">&quot;s&quot;</span><span class="p">,</span> <span class="s2">&quot;ēn&quot;</span><span class="p">,</span> <span class="s2">&quot;t&quot;</span><span class="p">,</span> <span class="s2">&quot;è&quot;</span><span class="p">,</span> <span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="s2">&quot;ǎ&quot;</span><span class="p">,</span> <span class="s2">&quot;s&quot;</span><span class="p">,</span> <span class="s2">&quot;uǒ&quot;</span><span class="p">]}</span>
+
+<span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">kws</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">wenetspeech</span><span class="o">-</span><span class="mf">3.3</span><span class="n">M</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">01</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">5.</span><span class="n">wav</span>
+<span class="p">{</span><span class="s2">&quot;start_time&quot;</span><span class="p">:</span><span class="mf">0.00</span><span class="p">,</span> <span class="s2">&quot;keyword&quot;</span><span class="p">:</span> <span class="s2">&quot;落实&quot;</span><span class="p">,</span> <span class="s2">&quot;timestamps&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">1.80</span><span class="p">,</span> <span class="mf">1.92</span><span class="p">,</span> <span class="mf">2.12</span><span class="p">,</span> <span class="mf">2.20</span><span class="p">],</span> <span class="s2">&quot;tokens&quot;</span><span class="p">:[</span><span class="s2">&quot;l&quot;</span><span class="p">,</span> <span class="s2">&quot;uò&quot;</span><span class="p">,</span> <span class="s2">&quot;sh&quot;</span><span class="p">,</span> <span class="s2">&quot;í&quot;</span><span class="p">]}</span>
+
+<span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">kws</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">wenetspeech</span><span class="o">-</span><span class="mf">3.3</span><span class="n">M</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">01</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">4.</span><span class="n">wav</span>
+<span class="p">{</span><span class="s2">&quot;start_time&quot;</span><span class="p">:</span><span class="mf">0.00</span><span class="p">,</span> <span class="s2">&quot;keyword&quot;</span><span class="p">:</span> <span class="s2">&quot;女儿&quot;</span><span class="p">,</span> <span class="s2">&quot;timestamps&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">3.08</span><span class="p">,</span> <span class="mf">3.20</span><span class="p">,</span> <span class="mf">3.24</span><span class="p">],</span> <span class="s2">&quot;tokens&quot;</span><span class="p">:[</span><span class="s2">&quot;n&quot;</span><span class="p">,</span> <span class="s2">&quot;ǚ&quot;</span><span class="p">,</span> <span class="s2">&quot;ér&quot;</span><span class="p">]}</span>
+
+<span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">kws</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">wenetspeech</span><span class="o">-</span><span class="mf">3.3</span><span class="n">M</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">01</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">3.</span><span class="n">wav</span>
+<span class="p">{</span><span class="s2">&quot;start_time&quot;</span><span class="p">:</span><span class="mf">0.00</span><span class="p">,</span> <span class="s2">&quot;keyword&quot;</span><span class="p">:</span> <span class="s2">&quot;法国&quot;</span><span class="p">,</span> <span class="s2">&quot;timestamps&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">4.56</span><span class="p">,</span> <span class="mf">4.64</span><span class="p">,</span> <span class="mf">4.80</span><span class="p">,</span> <span class="mf">4.88</span><span class="p">],</span> <span class="s2">&quot;tokens&quot;</span><span class="p">:[</span><span class="s2">&quot;f&quot;</span><span class="p">,</span> <span class="s2">&quot;ǎ&quot;</span><span class="p">,</span> <span class="s2">&quot;g&quot;</span><span class="p">,</span> <span class="s2">&quot;uó&quot;</span><span class="p">]}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id3">
+<h2>Customize your own keywords<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h2>
+<p>To customize your own keywords, the only thing you need to do is replacing the <code class="docutils literal notranslate"><span class="pre">--keywords-file</span></code>. The keywords file is generated as follows:</p>
+<p>For example your keywords are (keywords_raw.txt):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">你好军哥</span> <span class="nd">@你好军哥</span>
+<span class="n">你好问问</span> <span class="nd">@你好问问</span>
+<span class="n">小爱同学</span> <span class="nd">@小爱同学</span>
+</pre></div>
+</div>
+<p>Run the following command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">cli</span> <span class="n">text2token</span> \
+  <span class="o">--</span><span class="n">tokens</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">kws</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">wenetspeech</span><span class="o">-</span><span class="mf">3.3</span><span class="n">M</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">01</span><span class="o">/</span><span class="n">tokens</span><span class="o">.</span><span class="n">txt</span> \
+  <span class="o">--</span><span class="n">tokens</span><span class="o">-</span><span class="nb">type</span> <span class="n">ppinyin</span> \
+  <span class="n">keywords_raw</span><span class="o">.</span><span class="n">txt</span> <span class="n">keywords</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">keywords.txt</span></code> looks like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">n</span> <span class="n">ǐ</span> <span class="n">h</span> <span class="n">ǎo</span> <span class="n">j</span> <span class="n">ūn</span> <span class="n">g</span> <span class="n">ē</span> <span class="nd">@你好军哥</span>
+<span class="n">n</span> <span class="n">ǐ</span> <span class="n">h</span> <span class="n">ǎo</span> <span class="n">w</span> <span class="n">èn</span> <span class="n">w</span> <span class="n">èn</span> <span class="nd">@你好问问</span>
+<span class="n">x</span> <span class="n">iǎo</span> <span class="n">ài</span> <span class="n">t</span> <span class="n">óng</span> <span class="n">x</span> <span class="n">ué</span> <span class="nd">@小爱同学</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you install sherpa-onnx from sources (i.e. not by pip), you can use the
+alternative script in <cite>scripts</cite>, the usage is almost the same as the command
+line tool, read the help information by:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python3</span> <span class="n">scripts</span><span class="o">/</span><span class="n">text2token</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">help</span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+<section id="sherpa-onnx-kws-zipformer-gigaspeech-3-3m-2024-01-01-english">
+<h1>sherpa-onnx-kws-zipformer-gigaspeech-3.3M-2024-01-01 (English)<a class="headerlink" href="#sherpa-onnx-kws-zipformer-gigaspeech-3-3m-2024-01-01-english" title="Permalink to this heading"></a></h1>
+<p>Training code for this model can be found at <a class="reference external" href="https://github.com/k2-fsa/icefall/pull/1428">https://github.com/k2-fsa/icefall/pull/1428</a>.
+The model is trained on GigaSpeech XL subset (10000 hours), it supports only English.</p>
+<p>In the following, we describe how to download it and use it with <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>.</p>
+<section id="id5">
+<h2>Download the model<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h2>
+<p>Please use the following commands to download it.</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-1-1-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-1-1-0" name="1-0" role="tab" tabindex="0">Github</button><button aria-controls="panel-1-1-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-1-1-1" name="1-1" role="tab" tabindex="-1">ModelScope</button></div><div aria-labelledby="tab-1-1-0" class="sphinx-tabs-panel" id="panel-1-1-0" name="1-0" role="tabpanel" tabindex="0"><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/kws-models/sherpa-onnx-kws-zipformer-gigaspeech-3.3M-2024-01-01.tar.bz2
+tar<span class="w"> </span>xvf<span class="w"> </span>sherpa-onnx-kws-zipformer-gigaspeech-3.3M-2024-01-01.tar.bz2
+rm<span class="w"> </span>sherpa-onnx-kws-zipformer-gigaspeech-3.3M-2024-01-01.tar.bz2
+ls<span class="w"> </span>-lh<span class="w"> </span>sherpa-onnx-kws-zipformer-gigaspeech-3.3M-2024-01-01
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-1-1-1" class="sphinx-tabs-panel" hidden="true" id="panel-1-1-1" name="1-1" role="tabpanel" tabindex="0"><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+git<span class="w"> </span>lfs<span class="w"> </span>install
+git<span class="w"> </span>clone<span class="w"> </span>https://www.modelscope.cn/pkufool/sherpa-onnx-kws-zipformer-gigaspeech-3.3M-2024-01-01.git
+ls<span class="w"> </span>-lh<span class="w"> </span>sherpa-onnx-kws-zipformer-gigaspeech-3.3M-2024-01-01
+</pre></div>
+</div>
+</div></div>
+<p>The output is given below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ ls -lh sherpa-onnx-kws-zipformer-gigaspeech-3.3M-2024-01-01
+total 19M
+-rw-r--r-- 1 kangwei root 240K Jan 19 15:25 bpe.model
+-rw-r--r-- 1 kangwei root   48 Jan 19 15:25 configuration.json
+-rw-r--r-- 1 kangwei root 272K Jan 19 15:25 decoder-epoch-12-avg-2-chunk-16-left-64.int8.onnx
+-rw-r--r-- 1 kangwei root 1.1M Jan 19 15:25 decoder-epoch-12-avg-2-chunk-16-left-64.onnx
+-rw-r--r-- 1 kangwei root 4.6M Jan 19 15:25 encoder-epoch-12-avg-2-chunk-16-left-64.int8.onnx
+-rw-r--r-- 1 kangwei root  12M Jan 19 15:25 encoder-epoch-12-avg-2-chunk-16-left-64.onnx
+-rw-r--r-- 1 kangwei root 160K Jan 19 15:25 joiner-epoch-12-avg-2-chunk-16-left-64.int8.onnx
+-rw-r--r-- 1 kangwei root 628K Jan 19 15:25 joiner-epoch-12-avg-2-chunk-16-left-64.onnx
+-rw-r--r-- 1 kangwei root  102 Jan 19 15:25 keywords_raw.txt
+-rw-r--r-- 1 kangwei root  184 Jan 19 15:25 keywords.txt
+-rw-r--r-- 1 kangwei root  743 Jan 19 15:25 README.md
+drwxr-xr-x 6 kangwei root    0 Jan 19 15:25 test_wavs
+-rw-r--r-- 1 kangwei root 4.9K Jan 19 15:25 tokens.txt
+</pre></div>
+</div>
+</section>
+<section id="id6">
+<h2>Test the model<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h2>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>It supports decoding only wave files of a single channel with 16-bit
+encoded samples, while the sampling rate does not need to be 16 kHz.</p>
+</div>
+<section id="id7">
+<h3>fp32<a class="headerlink" href="#id7" title="Permalink to this heading"></a></h3>
+<p>The following code shows how to use <code class="docutils literal notranslate"><span class="pre">fp32</span></code> models:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+./build/bin/sherpa-onnx-keyword-spotter<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--encoder<span class="o">=</span>sherpa-onnx-kws-zipformer-gigaspeech-3.3M-2024-01-01/encoder-epoch-12-avg-2-chunk-16-left-64.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--decoder<span class="o">=</span>sherpa-onnx-kws-zipformer-gigaspeech-3.3M-2024-01-01/decoder-epoch-12-avg-2-chunk-16-left-64.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--joiner<span class="o">=</span>sherpa-onnx-kws-zipformer-gigaspeech-3.3M-2024-01-01/joiner-epoch-12-avg-2-chunk-16-left-64.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span>sherpa-onnx-kws-zipformer-gigaspeech-3.3M-2024-01-01/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--keywords-file<span class="o">=</span>sherpa-onnx-kws-zipformer-gigaspeech-3.3M-2024-01-01/test_wavs/test_keywords.txt<span class="w">  </span><span class="se">\</span>
+<span class="w">  </span>sherpa-onnx-kws-zipformer-gigaspeech-3.3M-2024-01-01/test_wavs/0.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>sherpa-onnx-kws-zipformer-gigaspeech-3.3M-2024-01-01/test_wavs/1.wav
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Please use <code class="docutils literal notranslate"><span class="pre">./build/bin/Release/sherpa-onnx-keyword-spotter.exe</span></code> for Windows.</p>
+</div>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>If you use Windows and get encoding issues, please run:</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>CHCP<span class="w"> </span><span class="m">65001</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>in your commandline.</p>
+</div>
+<p>You should see the following output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">KeywordSpotterConfig</span><span class="p">(</span><span class="n">feat_config</span><span class="o">=</span><span class="n">FeatureExtractorConfig</span><span class="p">(</span><span class="n">sampling_rate</span><span class="o">=</span><span class="mi">16000</span><span class="p">,</span> <span class="n">feature_dim</span><span class="o">=</span><span class="mi">80</span><span class="p">),</span> <span class="n">model_config</span><span class="o">=</span><span class="n">OnlineModelConfig</span><span class="p">(</span><span class="n">transducer</span><span class="o">=</span><span class="n">OnlineTransducerModelConfig</span><span class="p">(</span><span class="n">encoder</span><span class="o">=</span><span class="s2">&quot;sherpa-onnx-kws-zipformer-gigaspeech-3.3M-2024-01-01/encoder-epoch-12-avg-2-chunk-16-left-64.onnx&quot;</span><span class="p">,</span> <span class="n">decoder</span><span class="o">=</span><span class="s2">&quot;sherpa-onnx-kws-zipformer-gigaspeech-3.3M-2024-01-01/decoder-epoch-12-avg-2-chunk-16-left-64.onnx&quot;</span><span class="p">,</span> <span class="n">joiner</span><span class="o">=</span><span class="s2">&quot;sherpa-onnx-kws-zipformer-gigaspeech-3.3M-2024-01-01/joiner-epoch-12-avg-2-chunk-16-left-64.onnx&quot;</span><span class="p">),</span> <span class="n">paraformer</span><span class="o">=</span><span class="n">OnlineParaformerModelConfig</span><span class="p">(</span><span class="n">encoder</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">decoder</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">),</span> <span class="n">wenet_ctc</span><span class="o">=</span><span class="n">OnlineWenetCtcModelConfig</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">chunk_size</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">num_left_chunks</span><span class="o">=</span><span class="mi">4</span><span class="p">),</span> <span class="n">zipformer2_ctc</span><span class="o">=</span><span class="n">OnlineZipformer2CtcModelConfig</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">),</span> <span class="n">tokens</span><span class="o">=</span><span class="s2">&quot;sherpa-onnx-kws-zipformer-gigaspeech-3.3M-2024-01-01/tokens.txt&quot;</span><span class="p">,</span> <span class="n">num_threads</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">provider</span><span class="o">=</span><span class="s2">&quot;cpu&quot;</span><span class="p">,</span> <span class="n">model_type</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">),</span> <span class="n">max_active_paths</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">num_trailing_blanks</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keywords_score</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keywords_threshold</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">keywords_file</span><span class="o">=</span><span class="s2">&quot;sherpa-onnx-kws-zipformer-gigaspeech-3.3M-2024-01-01/test_wavs/test_keywords.txt&quot;</span><span class="p">)</span>
+<span class="mi">2024</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">19</span> <span class="mi">15</span><span class="p">:</span><span class="mi">32</span><span class="p">:</span><span class="mf">46.420331393</span> <span class="p">[</span><span class="n">E</span><span class="p">:</span><span class="n">onnxruntime</span><span class="p">:,</span> <span class="n">env</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="mi">254</span> <span class="n">ThreadMain</span><span class="p">]</span> <span class="n">pthread_setaffinity_np</span> <span class="n">failed</span> <span class="k">for</span> <span class="n">thread</span><span class="p">:</span> <span class="mi">3492733</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="mi">16</span><span class="p">,</span> <span class="n">mask</span><span class="p">:</span> <span class="p">{</span><span class="mi">17</span><span class="p">,</span> <span class="mi">53</span><span class="p">,</span> <span class="p">},</span> <span class="n">error</span> <span class="n">code</span><span class="p">:</span> <span class="mi">22</span> <span class="n">error</span> <span class="n">msg</span><span class="p">:</span> <span class="n">Invalid</span> <span class="n">argument</span><span class="o">.</span> <span class="n">Specify</span> <span class="n">the</span> <span class="n">number</span> <span class="n">of</span> <span class="n">threads</span> <span class="n">explicitly</span> <span class="n">so</span> <span class="n">the</span> <span class="n">affinity</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">set</span><span class="o">.</span>
+<span class="mi">2024</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">19</span> <span class="mi">15</span><span class="p">:</span><span class="mi">32</span><span class="p">:</span><span class="mf">46.420332978</span> <span class="p">[</span><span class="n">E</span><span class="p">:</span><span class="n">onnxruntime</span><span class="p">:,</span> <span class="n">env</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="mi">254</span> <span class="n">ThreadMain</span><span class="p">]</span> <span class="n">pthread_setaffinity_np</span> <span class="n">failed</span> <span class="k">for</span> <span class="n">thread</span><span class="p">:</span> <span class="mi">3492732</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="mi">15</span><span class="p">,</span> <span class="n">mask</span><span class="p">:</span> <span class="p">{</span><span class="mi">16</span><span class="p">,</span> <span class="mi">52</span><span class="p">,</span> <span class="p">},</span> <span class="n">error</span> <span class="n">code</span><span class="p">:</span> <span class="mi">22</span> <span class="n">error</span> <span class="n">msg</span><span class="p">:</span> <span class="n">Invalid</span> <span class="n">argument</span><span class="o">.</span> <span class="n">Specify</span> <span class="n">the</span> <span class="n">number</span> <span class="n">of</span> <span class="n">threads</span> <span class="n">explicitly</span> <span class="n">so</span> <span class="n">the</span> <span class="n">affinity</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">set</span><span class="o">.</span>
+<span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">kws</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">gigaspeech</span><span class="o">-</span><span class="mf">3.3</span><span class="n">M</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">01</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">0.</span><span class="n">wav</span>
+<span class="p">{</span><span class="s2">&quot;start_time&quot;</span><span class="p">:</span><span class="mf">0.00</span><span class="p">,</span> <span class="s2">&quot;keyword&quot;</span><span class="p">:</span> <span class="s2">&quot;LIGHT UP&quot;</span><span class="p">,</span> <span class="s2">&quot;timestamps&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">3.04</span><span class="p">,</span> <span class="mf">3.08</span><span class="p">,</span> <span class="mf">3.12</span><span class="p">,</span> <span class="mf">3.20</span><span class="p">],</span> <span class="s2">&quot;tokens&quot;</span><span class="p">:[</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;L&quot;</span><span class="p">,</span> <span class="s2">&quot;IGHT&quot;</span><span class="p">,</span> <span class="s2">&quot; UP&quot;</span><span class="p">]}</span>
+
+<span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">kws</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">gigaspeech</span><span class="o">-</span><span class="mf">3.3</span><span class="n">M</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">01</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">1.</span><span class="n">wav</span>
+<span class="p">{</span><span class="s2">&quot;start_time&quot;</span><span class="p">:</span><span class="mf">0.00</span><span class="p">,</span> <span class="s2">&quot;keyword&quot;</span><span class="p">:</span> <span class="s2">&quot;LOVELY CHILD&quot;</span><span class="p">,</span> <span class="s2">&quot;timestamps&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">5.44</span><span class="p">,</span> <span class="mf">5.56</span><span class="p">,</span> <span class="mf">5.84</span><span class="p">,</span> <span class="mf">6.00</span><span class="p">,</span> <span class="mf">6.04</span><span class="p">],</span> <span class="s2">&quot;tokens&quot;</span><span class="p">:[</span><span class="s2">&quot; LOVE&quot;</span><span class="p">,</span> <span class="s2">&quot;LY&quot;</span><span class="p">,</span> <span class="s2">&quot; CHI&quot;</span><span class="p">,</span> <span class="s2">&quot;L&quot;</span><span class="p">,</span> <span class="s2">&quot;D&quot;</span><span class="p">]}</span>
+
+<span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">kws</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">gigaspeech</span><span class="o">-</span><span class="mf">3.3</span><span class="n">M</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">01</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">1.</span><span class="n">wav</span>
+<span class="p">{</span><span class="s2">&quot;start_time&quot;</span><span class="p">:</span><span class="mf">0.00</span><span class="p">,</span> <span class="s2">&quot;keyword&quot;</span><span class="p">:</span> <span class="s2">&quot;FOREVER&quot;</span><span class="p">,</span> <span class="s2">&quot;timestamps&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">10.88</span><span class="p">,</span> <span class="mf">11.04</span><span class="p">,</span> <span class="mf">11.08</span><span class="p">],</span> <span class="s2">&quot;tokens&quot;</span><span class="p">:[</span><span class="s2">&quot; FOR&quot;</span><span class="p">,</span> <span class="s2">&quot;E&quot;</span><span class="p">,</span> <span class="s2">&quot;VER&quot;</span><span class="p">]}</span>
+</pre></div>
+</div>
+</section>
+<section id="id8">
+<h3>int8<a class="headerlink" href="#id8" title="Permalink to this heading"></a></h3>
+<p>The following code shows how to use <code class="docutils literal notranslate"><span class="pre">int8</span></code> models:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+./build/bin/sherpa-onnx-keyword-spotter<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--encoder<span class="o">=</span>sherpa-onnx-kws-zipformer-gigaspeech-3.3M-2024-01-01/encoder-epoch-12-avg-2-chunk-16-left-64.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--decoder<span class="o">=</span>sherpa-onnx-kws-zipformer-gigaspeech-3.3M-2024-01-01/decoder-epoch-12-avg-2-chunk-16-left-64.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--joiner<span class="o">=</span>sherpa-onnx-kws-zipformer-gigaspeech-3.3M-2024-01-01/joiner-epoch-12-avg-2-chunk-16-left-64.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span>sherpa-onnx-kws-zipformer-gigaspeech-3.3M-2024-01-01/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--keywords-file<span class="o">=</span>sherpa-onnx-kws-zipformer-gigaspeech-3.3M-2024-01-01/test_wavs/test_keywords.txt<span class="w">  </span><span class="se">\</span>
+<span class="w">  </span>sherpa-onnx-kws-zipformer-gigaspeech-3.3M-2024-01-01/test_wavs/0.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>sherpa-onnx-kws-zipformer-gigaspeech-3.3M-2024-01-01/test_wavs/1.wav
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">KeywordSpotterConfig</span><span class="p">(</span><span class="n">feat_config</span><span class="o">=</span><span class="n">FeatureExtractorConfig</span><span class="p">(</span><span class="n">sampling_rate</span><span class="o">=</span><span class="mi">16000</span><span class="p">,</span> <span class="n">feature_dim</span><span class="o">=</span><span class="mi">80</span><span class="p">),</span> <span class="n">model_config</span><span class="o">=</span><span class="n">OnlineModelConfig</span><span class="p">(</span><span class="n">transducer</span><span class="o">=</span><span class="n">OnlineTransducerModelConfig</span><span class="p">(</span><span class="n">encoder</span><span class="o">=</span><span class="s2">&quot;sherpa-onnx-kws-zipformer-gigaspeech-3.3M-2024-01-01/encoder-epoch-12-avg-2-chunk-16-left-64.int8.onnx&quot;</span><span class="p">,</span> <span class="n">decoder</span><span class="o">=</span><span class="s2">&quot;sherpa-onnx-kws-zipformer-gigaspeech-3.3M-2024-01-01/decoder-epoch-12-avg-2-chunk-16-left-64.int8.onnx&quot;</span><span class="p">,</span> <span class="n">joiner</span><span class="o">=</span><span class="s2">&quot;sherpa-onnx-kws-zipformer-gigaspeech-3.3M-2024-01-01/joiner-epoch-12-avg-2-chunk-16-left-64.int8.onnx&quot;</span><span class="p">),</span> <span class="n">paraformer</span><span class="o">=</span><span class="n">OnlineParaformerModelConfig</span><span class="p">(</span><span class="n">encoder</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">decoder</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">),</span> <span class="n">wenet_ctc</span><span class="o">=</span><span class="n">OnlineWenetCtcModelConfig</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">chunk_size</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">num_left_chunks</span><span class="o">=</span><span class="mi">4</span><span class="p">),</span> <span class="n">zipformer2_ctc</span><span class="o">=</span><span class="n">OnlineZipformer2CtcModelConfig</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">),</span> <span class="n">tokens</span><span class="o">=</span><span class="s2">&quot;sherpa-onnx-kws-zipformer-gigaspeech-3.3M-2024-01-01/tokens.txt&quot;</span><span class="p">,</span> <span class="n">num_threads</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">provider</span><span class="o">=</span><span class="s2">&quot;cpu&quot;</span><span class="p">,</span> <span class="n">model_type</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">),</span> <span class="n">max_active_paths</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">num_trailing_blanks</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keywords_score</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">keywords_threshold</span><span class="o">=</span><span class="mf">0.25</span><span class="p">,</span> <span class="n">keywords_file</span><span class="o">=</span><span class="s2">&quot;sherpa-onnx-kws-zipformer-gigaspeech-3.3M-2024-01-01/test_wavs/test_keywords.txt&quot;</span><span class="p">)</span>
+<span class="mi">2024</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">19</span> <span class="mi">15</span><span class="p">:</span><span class="mi">31</span><span class="p">:</span><span class="mf">39.743344642</span> <span class="p">[</span><span class="n">E</span><span class="p">:</span><span class="n">onnxruntime</span><span class="p">:,</span> <span class="n">env</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="mi">254</span> <span class="n">ThreadMain</span><span class="p">]</span> <span class="n">pthread_setaffinity_np</span> <span class="n">failed</span> <span class="k">for</span> <span class="n">thread</span><span class="p">:</span> <span class="mi">3492115</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="mi">15</span><span class="p">,</span> <span class="n">mask</span><span class="p">:</span> <span class="p">{</span><span class="mi">16</span><span class="p">,</span> <span class="mi">52</span><span class="p">,</span> <span class="p">},</span> <span class="n">error</span> <span class="n">code</span><span class="p">:</span> <span class="mi">22</span> <span class="n">error</span> <span class="n">msg</span><span class="p">:</span> <span class="n">Invalid</span> <span class="n">argument</span><span class="o">.</span> <span class="n">Specify</span> <span class="n">the</span> <span class="n">number</span> <span class="n">of</span> <span class="n">threads</span> <span class="n">explicitly</span> <span class="n">so</span> <span class="n">the</span> <span class="n">affinity</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">set</span><span class="o">.</span>
+<span class="mi">2024</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">19</span> <span class="mi">15</span><span class="p">:</span><span class="mi">31</span><span class="p">:</span><span class="mf">39.743346583</span> <span class="p">[</span><span class="n">E</span><span class="p">:</span><span class="n">onnxruntime</span><span class="p">:,</span> <span class="n">env</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="mi">254</span> <span class="n">ThreadMain</span><span class="p">]</span> <span class="n">pthread_setaffinity_np</span> <span class="n">failed</span> <span class="k">for</span> <span class="n">thread</span><span class="p">:</span> <span class="mi">3492116</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="mi">16</span><span class="p">,</span> <span class="n">mask</span><span class="p">:</span> <span class="p">{</span><span class="mi">17</span><span class="p">,</span> <span class="mi">53</span><span class="p">,</span> <span class="p">},</span> <span class="n">error</span> <span class="n">code</span><span class="p">:</span> <span class="mi">22</span> <span class="n">error</span> <span class="n">msg</span><span class="p">:</span> <span class="n">Invalid</span> <span class="n">argument</span><span class="o">.</span> <span class="n">Specify</span> <span class="n">the</span> <span class="n">number</span> <span class="n">of</span> <span class="n">threads</span> <span class="n">explicitly</span> <span class="n">so</span> <span class="n">the</span> <span class="n">affinity</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">set</span><span class="o">.</span>
+<span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">kws</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">gigaspeech</span><span class="o">-</span><span class="mf">3.3</span><span class="n">M</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">01</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">0.</span><span class="n">wav</span>
+<span class="p">{</span><span class="s2">&quot;start_time&quot;</span><span class="p">:</span><span class="mf">0.00</span><span class="p">,</span> <span class="s2">&quot;keyword&quot;</span><span class="p">:</span> <span class="s2">&quot;LIGHT UP&quot;</span><span class="p">,</span> <span class="s2">&quot;timestamps&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">3.04</span><span class="p">,</span> <span class="mf">3.08</span><span class="p">,</span> <span class="mf">3.12</span><span class="p">,</span> <span class="mf">3.16</span><span class="p">],</span> <span class="s2">&quot;tokens&quot;</span><span class="p">:[</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;L&quot;</span><span class="p">,</span> <span class="s2">&quot;IGHT&quot;</span><span class="p">,</span> <span class="s2">&quot; UP&quot;</span><span class="p">]}</span>
+
+<span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">kws</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">gigaspeech</span><span class="o">-</span><span class="mf">3.3</span><span class="n">M</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">01</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">1.</span><span class="n">wav</span>
+<span class="p">{</span><span class="s2">&quot;start_time&quot;</span><span class="p">:</span><span class="mf">0.00</span><span class="p">,</span> <span class="s2">&quot;keyword&quot;</span><span class="p">:</span> <span class="s2">&quot;LOVELY CHILD&quot;</span><span class="p">,</span> <span class="s2">&quot;timestamps&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">5.36</span><span class="p">,</span> <span class="mf">5.60</span><span class="p">,</span> <span class="mf">5.84</span><span class="p">,</span> <span class="mf">6.00</span><span class="p">,</span> <span class="mf">6.04</span><span class="p">],</span> <span class="s2">&quot;tokens&quot;</span><span class="p">:[</span><span class="s2">&quot; LOVE&quot;</span><span class="p">,</span> <span class="s2">&quot;LY&quot;</span><span class="p">,</span> <span class="s2">&quot; CHI&quot;</span><span class="p">,</span> <span class="s2">&quot;L&quot;</span><span class="p">,</span> <span class="s2">&quot;D&quot;</span><span class="p">]}</span>
+
+<span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">kws</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">gigaspeech</span><span class="o">-</span><span class="mf">3.3</span><span class="n">M</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">01</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">1.</span><span class="n">wav</span>
+<span class="p">{</span><span class="s2">&quot;start_time&quot;</span><span class="p">:</span><span class="mf">0.00</span><span class="p">,</span> <span class="s2">&quot;keyword&quot;</span><span class="p">:</span> <span class="s2">&quot;FOREVER&quot;</span><span class="p">,</span> <span class="s2">&quot;timestamps&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">10.88</span><span class="p">,</span> <span class="mf">11.04</span><span class="p">,</span> <span class="mf">11.08</span><span class="p">],</span> <span class="s2">&quot;tokens&quot;</span><span class="p">:[</span><span class="s2">&quot; FOR&quot;</span><span class="p">,</span> <span class="s2">&quot;E&quot;</span><span class="p">,</span> <span class="s2">&quot;VER&quot;</span><span class="p">]}</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id9">
+<h2>Customize your own keywords<a class="headerlink" href="#id9" title="Permalink to this heading"></a></h2>
+<p>To customize your own keywords, the only thing you need to do is replacing the <code class="docutils literal notranslate"><span class="pre">--keywords-file</span></code>. The keywords file is generated as follows:</p>
+<p>For example your keywords are (keywords_raw.txt):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">HELLO</span> <span class="n">WORLD</span>
+<span class="n">HI</span> <span class="n">GOOGLE</span>
+<span class="n">HEY</span> <span class="n">SIRI</span>
+</pre></div>
+</div>
+<p>Run the following command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">cli</span> <span class="n">text2token</span> \
+  <span class="o">--</span><span class="n">tokens</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">kws</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">gigaspeech</span><span class="o">-</span><span class="mf">3.3</span><span class="n">M</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">01</span><span class="o">/</span><span class="n">tokens</span><span class="o">.</span><span class="n">txt</span> \
+  <span class="o">--</span><span class="n">tokens</span><span class="o">-</span><span class="nb">type</span> <span class="n">bpe</span> \
+  <span class="o">--</span><span class="n">bpe</span><span class="o">-</span><span class="n">model</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">kws</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">gigaspeech</span><span class="o">-</span><span class="mf">3.3</span><span class="n">M</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">01</span><span class="o">-</span><span class="mi">01</span><span class="o">/</span><span class="n">bpe</span><span class="o">.</span><span class="n">model</span> \
+  <span class="n">keywords_raw</span><span class="o">.</span><span class="n">txt</span> <span class="n">keywords</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">keywords.txt</span></code> looks like:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>▁HE LL O ▁WORLD
+▁HI ▁GO O G LE
+▁HE Y ▁S I RI
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you install sherpa-onnx from sources (i.e. not by pip), you can use the
+alternative script in <cite>scripts</cite>, the usage is almost the same as the command
+line tool, read the help information by:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python3</span> <span class="n">scripts</span><span class="o">/</span><span class="n">text2token</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">help</span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../index.html" class="btn btn-neutral float-left" title="Keyword spotting" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../../punctuation/index.html" class="btn btn-neutral float-right" title="Punctuation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

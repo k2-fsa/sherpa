@@ -1,0 +1,518 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Non-streaming Canary models &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="FireRedAsr" href="../FireRedAsr/index.html" />
+    <link rel="prev" title="NeMo" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">sherpa-onnx</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../install/index.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../faqs/index.html">Frequently Asked Question (FAQs)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python/index.html">Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../c-api/index.html">C API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../java-api/index.html">Java API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../javascript-api/index.html">Javascript API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kotlin-api/index.html">Kotlin API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../swift-api/index.html">Swift API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../go-api/index.html">Go API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../csharp-api/index.html">C# API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pascal-api/index.html">Pascal API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lazarus/index.html">Lazarus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../wasm/index.html">WebAssembly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../android/index.html">Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../harmony-os/index.html">HarmonyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ios/index.html">iOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../flutter/index.html">Flutter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../websocket/index.html">WebSocket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../hotwords/index.html">Hotwords (Contextual biasing)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kws/index.html">Keyword spotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../punctuation/index.html">Punctuation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../audio-tagging/index.html">Audio tagging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spoken-language-identification/index.html">Spoken language identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vad/index.html">VAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/index.html">Pre-trained models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/whisper/index.html">Whisper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../moonshine/index.html">Moonshine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../omnilingual-asr/index.html">Omnilingual ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sense-voice/index.html">SenseVoice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../funasr-nano/index.html">FunASR Nano</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../paraformer/index.html">Paraformer</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">NeMo</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="index.html#speech-recognition-models">Speech Recognition models</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../pretrained_models/offline-ctc/nemo/index.html">NeMo CTC-based models</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pretrained_models/offline-transducer/nemo-transducer-models.html">NeMo transducer-based Models</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Non-streaming Canary models</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#speaker-embedding-models">Speaker Embedding models</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../FireRedAsr/index.html">FireRedAsr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Dolphin/index.html">Dolphin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../homophone-replacer/index.html">拼音词组匹配替换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-diarization/index.html">Speaker Diarization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-identification/index.html">Speaker Identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speech-enhancement/index.html">Speech enhancement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../source-separation/index.html">Source separation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qnn/index.html">Qualcomm NPU (QNN, HTP)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rknn/index.html">rknn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ascend/index.html">Ascend NPU (昇腾 NPU)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tts/index.html">Text-to-speech (TTS)</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">sherpa-onnx</a> &raquo;</li>
+          <li><a href="index.html">NeMo</a> &raquo;</li>
+      <li>Non-streaming Canary models</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/onnx/nemo/canary.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="non-streaming-canary-models">
+<span id="nemo-non-streaming-canary-models"></span><h1>Non-streaming Canary models<a class="headerlink" href="#non-streaming-canary-models" title="Permalink to this heading"></a></h1>
+<section id="sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8-english-spanish-german-french">
+<h2>sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8 (English + Spanish + German + French, 英语+西班牙语+德语+法语)<a class="headerlink" href="#sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8-english-spanish-german-french" title="Permalink to this heading"></a></h2>
+<p>This model is converted from <a class="reference external" href="https://huggingface.co/nvidia/canary-180m-flash">https://huggingface.co/nvidia/canary-180m-flash</a>.</p>
+<p>As described in its huggingface model repo:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">It</span> <span class="n">supports</span> <span class="n">automatic</span> <span class="n">speech</span><span class="o">-</span><span class="n">to</span><span class="o">-</span><span class="n">text</span> <span class="n">recognition</span> <span class="p">(</span><span class="n">ASR</span><span class="p">)</span> <span class="ow">in</span> <span class="mi">4</span> <span class="n">languages</span>
+<span class="p">(</span><span class="n">English</span><span class="p">,</span> <span class="n">German</span><span class="p">,</span> <span class="n">French</span><span class="p">,</span> <span class="n">Spanish</span><span class="p">)</span> <span class="ow">and</span> <span class="n">translation</span> <span class="kn">from</span><span class="w"> </span><span class="nn">English</span> <span class="n">to</span>
+<span class="n">German</span><span class="o">/</span><span class="n">French</span><span class="o">/</span><span class="n">Spanish</span> <span class="ow">and</span> <span class="kn">from</span><span class="w"> </span><span class="nn">German</span><span class="o">/</span><span class="n">French</span><span class="o">/</span><span class="n">Spanish</span> <span class="n">to</span> <span class="n">English</span> <span class="k">with</span> <span class="ow">or</span>
+<span class="n">without</span> <span class="n">punctuation</span> <span class="ow">and</span> <span class="n">capitalization</span> <span class="p">(</span><span class="n">PnC</span><span class="p">)</span><span class="o">.</span>
+</pre></div>
+</div>
+<p>You can find the conversion script at</p>
+<blockquote>
+<div><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/tree/master/scripts/nemo/canary">https://github.com/k2-fsa/sherpa-onnx/tree/master/scripts/nemo/canary</a></p>
+</div></blockquote>
+<p>In the following, we describe how to download it and use it with <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>.</p>
+<section id="download-the-model">
+<h3>Download the model<a class="headerlink" href="#download-the-model" title="Permalink to this heading"></a></h3>
+<p>Please use the following commands to download it.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8.tar.bz2
+tar<span class="w"> </span>xvf<span class="w"> </span>sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8.tar.bz2
+rm<span class="w"> </span>sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8.tar.bz2
+</pre></div>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>If you want to try the non-quantized model, please use <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr.tar.bz2">sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr.tar.bz2</a></p>
+</div>
+<p>You should see something like below after downloading:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ls</span> <span class="o">-</span><span class="n">lh</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">nemo</span><span class="o">-</span><span class="n">canary</span><span class="o">-</span><span class="mi">180</span><span class="n">m</span><span class="o">-</span><span class="n">flash</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="n">es</span><span class="o">-</span><span class="n">de</span><span class="o">-</span><span class="n">fr</span><span class="o">-</span><span class="n">int8</span><span class="o">/</span>
+<span class="n">total</span> <span class="mi">428208</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>    <span class="mi">71</span><span class="n">M</span> <span class="n">Jul</span>  <span class="mi">7</span> <span class="mi">16</span><span class="p">:</span><span class="mi">03</span> <span class="n">decoder</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">127</span><span class="n">M</span> <span class="n">Jul</span>  <span class="mi">7</span> <span class="mi">16</span><span class="p">:</span><span class="mi">03</span> <span class="n">encoder</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span>
+<span class="n">drwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span>  <span class="mi">4</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">128</span><span class="n">B</span> <span class="n">Jul</span>  <span class="mi">7</span> <span class="mi">16</span><span class="p">:</span><span class="mi">03</span> <span class="n">test_wavs</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>    <span class="mi">52</span><span class="n">K</span> <span class="n">Jul</span>  <span class="mi">7</span> <span class="mi">16</span><span class="p">:</span><span class="mi">03</span> <span class="n">tokens</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
+</div>
+</section>
+<section id="decode-wave-files">
+<h3>Decode wave files<a class="headerlink" href="#decode-wave-files" title="Permalink to this heading"></a></h3>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>It supports decoding only wave files of a single channel with 16-bit
+encoded samples, while the sampling rate does not need to be 16 kHz.</p>
+</div>
+<section id="input-english-output-english">
+<h4>Input English, output English<a class="headerlink" href="#input-english-output-english" title="Permalink to this heading"></a></h4>
+<p>We use <code class="docutils literal notranslate"><span class="pre">--canary-src-lang=en</span></code> to indicate that the input audio contains
+English speech. <code class="docutils literal notranslate"><span class="pre">--canary-tgt-lang=en</span></code> means the recognition result should
+be in English.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>If the input audio is English, we can select whether to output English,
+French, German, or Spanish.</p>
+<p>If the input audio is German, we can select whether to output English
+or German.</p>
+<p>If the input audio is French, we can select whether to output English
+or French.</p>
+<p>If the input audio is Spanish, we can select whether to output English
+or Spanish.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p><code class="docutils literal notranslate"><span class="pre">--src-lang</span></code> and <code class="docutils literal notranslate"><span class="pre">--tgt-lang</span></code> have the same default value <code class="docutils literal notranslate"><span class="pre">en</span></code>.</p>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+./build/bin/sherpa-onnx-offline<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--canary-encoder<span class="o">=</span>./sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8/encoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--canary-decoder<span class="o">=</span>./sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8/decoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span>./sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--canary-src-lang<span class="o">=</span>en<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--canary-tgt-lang<span class="o">=</span>en<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8/test_wavs/en.wav
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Please use <code class="docutils literal notranslate"><span class="pre">./build/bin/Release/sherpa-onnx-offline.exe</span></code> for Windows.</p>
+</div>
+<p>You should see the following output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:372 ./build/bin/sherpa-onnx-offline --canary-encoder=./sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8/encoder.int8.onnx --canary-decoder=./sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8/decoder.int8.onnx --tokens=./sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8/tokens.txt --canary-src-lang=en --canary-tgt-lang=en ./sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8/test_wavs/en.wav 
+
+OfflineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80, low_freq=20, high_freq=-400, dither=0, normalize_samples=True, snip_edges=False), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename=&quot;&quot;, decoder_filename=&quot;&quot;, joiner_filename=&quot;&quot;), paraformer=OfflineParaformerModelConfig(model=&quot;&quot;), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=&quot;&quot;), whisper=OfflineWhisperModelConfig(encoder=&quot;&quot;, decoder=&quot;&quot;, language=&quot;&quot;, task=&quot;transcribe&quot;, tail_paddings=-1), fire_red_asr=OfflineFireRedAsrModelConfig(encoder=&quot;&quot;, decoder=&quot;&quot;), tdnn=OfflineTdnnModelConfig(model=&quot;&quot;), zipformer_ctc=OfflineZipformerCtcModelConfig(model=&quot;&quot;), wenet_ctc=OfflineWenetCtcModelConfig(model=&quot;&quot;), sense_voice=OfflineSenseVoiceModelConfig(model=&quot;&quot;, language=&quot;auto&quot;, use_itn=False), moonshine=OfflineMoonshineModelConfig(preprocessor=&quot;&quot;, encoder=&quot;&quot;, uncached_decoder=&quot;&quot;, cached_decoder=&quot;&quot;), dolphin=OfflineDolphinModelConfig(model=&quot;&quot;), canary=OfflineCanaryModelConfig(encoder=&quot;./sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8/encoder.int8.onnx&quot;, decoder=&quot;./sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8/decoder.int8.onnx&quot;, src_lang=&quot;en&quot;, tgt_lang=&quot;en&quot;, use_pnc=True), telespeech_ctc=&quot;&quot;, tokens=&quot;./sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8/tokens.txt&quot;, num_threads=2, debug=False, provider=&quot;cpu&quot;, model_type=&quot;&quot;, modeling_unit=&quot;cjkchar&quot;, bpe_vocab=&quot;&quot;), lm_config=OfflineLMConfig(model=&quot;&quot;, scale=0.5), ctc_fst_decoder_config=OfflineCtcFstDecoderConfig(graph=&quot;&quot;, max_active=3000), decoding_method=&quot;greedy_search&quot;, max_active_paths=4, hotwords_file=&quot;&quot;, hotwords_score=1.5, blank_penalty=0, rule_fsts=&quot;&quot;, rule_fars=&quot;&quot;, hr=HomophoneReplacerConfig(dict_dir=&quot;&quot;, lexicon=&quot;&quot;, rule_fsts=&quot;&quot;))
+Creating recognizer ...
+Started
+/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/offline-stream.cc:AcceptWaveformImpl:164 Creating a resampler:
+   in_sample_rate: 24000
+   output_sample_rate: 16000
+
+Done!
+
+./sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8/test_wavs/en.wav
+{&quot;lang&quot;: &quot;&quot;, &quot;emotion&quot;: &quot;&quot;, &quot;event&quot;: &quot;&quot;, &quot;text&quot;: &quot; Ask not what your country can do for you. Ask what you can do for your country.&quot;, &quot;timestamps&quot;: [], &quot;tokens&quot;:[&quot; A&quot;, &quot;s&quot;, &quot;k&quot;, &quot; not&quot;, &quot; wh&quot;, &quot;at&quot;, &quot; y&quot;, &quot;our&quot;, &quot; co&quot;, &quot;un&quot;, &quot;tr&quot;, &quot;y&quot;, &quot; can&quot;, &quot; do&quot;, &quot; for&quot;, &quot; you&quot;, &quot;.&quot;, &quot; A&quot;, &quot;s&quot;, &quot;k&quot;, &quot; wh&quot;, &quot;at&quot;, &quot; you&quot;, &quot; can&quot;, &quot; do&quot;, &quot; for&quot;, &quot; y&quot;, &quot;our&quot;, &quot; co&quot;, &quot;un&quot;, &quot;tr&quot;, &quot;y&quot;, &quot;.&quot;], &quot;words&quot;: []}
+----
+num threads: 2
+decoding method: greedy_search
+Elapsed seconds: 0.601 s
+Real time factor (RTF): 0.601 / 3.845 = 0.156
+</pre></div>
+</div>
+</section>
+<section id="input-english-output-german">
+<h4>Input English, output German<a class="headerlink" href="#input-english-output-german" title="Permalink to this heading"></a></h4>
+<p>We use <code class="docutils literal notranslate"><span class="pre">--canary-src-lang=en</span></code> to indicate that the input audio contains
+English speech. <code class="docutils literal notranslate"><span class="pre">--canary-tgt-lang=de</span></code> means the recognition result should
+be in German.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+./build/bin/sherpa-onnx-offline<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--canary-encoder<span class="o">=</span>./sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8/encoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--canary-decoder<span class="o">=</span>./sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8/decoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span>./sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--canary-src-lang<span class="o">=</span>en<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--canary-tgt-lang<span class="o">=</span>de<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8/test_wavs/en.wav
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Please use <code class="docutils literal notranslate"><span class="pre">./build/bin/Release/sherpa-onnx-offline.exe</span></code> for Windows.</p>
+</div>
+<p>You should see the following output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:372 ./build/bin/sherpa-onnx-offline --canary-encoder=./sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8/encoder.int8.onnx --canary-decoder=./sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8/decoder.int8.onnx --tokens=./sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8/tokens.txt --canary-src-lang=en --canary-tgt-lang=de ./sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8/test_wavs/en.wav 
+
+OfflineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80, low_freq=20, high_freq=-400, dither=0, normalize_samples=True, snip_edges=False), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename=&quot;&quot;, decoder_filename=&quot;&quot;, joiner_filename=&quot;&quot;), paraformer=OfflineParaformerModelConfig(model=&quot;&quot;), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=&quot;&quot;), whisper=OfflineWhisperModelConfig(encoder=&quot;&quot;, decoder=&quot;&quot;, language=&quot;&quot;, task=&quot;transcribe&quot;, tail_paddings=-1), fire_red_asr=OfflineFireRedAsrModelConfig(encoder=&quot;&quot;, decoder=&quot;&quot;), tdnn=OfflineTdnnModelConfig(model=&quot;&quot;), zipformer_ctc=OfflineZipformerCtcModelConfig(model=&quot;&quot;), wenet_ctc=OfflineWenetCtcModelConfig(model=&quot;&quot;), sense_voice=OfflineSenseVoiceModelConfig(model=&quot;&quot;, language=&quot;auto&quot;, use_itn=False), moonshine=OfflineMoonshineModelConfig(preprocessor=&quot;&quot;, encoder=&quot;&quot;, uncached_decoder=&quot;&quot;, cached_decoder=&quot;&quot;), dolphin=OfflineDolphinModelConfig(model=&quot;&quot;), canary=OfflineCanaryModelConfig(encoder=&quot;./sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8/encoder.int8.onnx&quot;, decoder=&quot;./sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8/decoder.int8.onnx&quot;, src_lang=&quot;en&quot;, tgt_lang=&quot;de&quot;, use_pnc=True), telespeech_ctc=&quot;&quot;, tokens=&quot;./sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8/tokens.txt&quot;, num_threads=2, debug=False, provider=&quot;cpu&quot;, model_type=&quot;&quot;, modeling_unit=&quot;cjkchar&quot;, bpe_vocab=&quot;&quot;), lm_config=OfflineLMConfig(model=&quot;&quot;, scale=0.5), ctc_fst_decoder_config=OfflineCtcFstDecoderConfig(graph=&quot;&quot;, max_active=3000), decoding_method=&quot;greedy_search&quot;, max_active_paths=4, hotwords_file=&quot;&quot;, hotwords_score=1.5, blank_penalty=0, rule_fsts=&quot;&quot;, rule_fars=&quot;&quot;, hr=HomophoneReplacerConfig(dict_dir=&quot;&quot;, lexicon=&quot;&quot;, rule_fsts=&quot;&quot;))
+Creating recognizer ...
+Started
+/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/offline-stream.cc:AcceptWaveformImpl:164 Creating a resampler:
+   in_sample_rate: 24000
+   output_sample_rate: 16000
+
+Done!
+
+./sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8/test_wavs/en.wav
+{&quot;lang&quot;: &quot;&quot;, &quot;emotion&quot;: &quot;&quot;, &quot;event&quot;: &quot;&quot;, &quot;text&quot;: &quot; Fragen Sie nicht, was Ihr Land für Sie tun kann. Fragen Sie, was Sie für Ihr Land tun können.&quot;, &quot;timestamps&quot;: [], &quot;tokens&quot;:[&quot; F&quot;, &quot;ra&quot;, &quot;gen&quot;, &quot; Sie&quot;, &quot; n&quot;, &quot;icht&quot;, &quot;,&quot;, &quot; was&quot;, &quot; I&quot;, &quot;hr&quot;, &quot; L&quot;, &quot;and&quot;, &quot; für&quot;, &quot; Sie&quot;, &quot; t&quot;, &quot;un&quot;, &quot; k&quot;, &quot;ann&quot;, &quot;.&quot;, &quot; F&quot;, &quot;ra&quot;, &quot;gen&quot;, &quot; Sie&quot;, &quot;,&quot;, &quot; was&quot;, &quot; Sie&quot;, &quot; für&quot;, &quot; I&quot;, &quot;hr&quot;, &quot; L&quot;, &quot;and&quot;, &quot; t&quot;, &quot;un&quot;, &quot; kön&quot;, &quot;nen&quot;, &quot;.&quot;], &quot;words&quot;: []}
+----
+num threads: 2
+decoding method: greedy_search
+Elapsed seconds: 0.659 s
+Real time factor (RTF): 0.659 / 3.845 = 0.171
+</pre></div>
+</div>
+</section>
+<section id="input-english-output-spanish">
+<h4>Input English, output Spanish<a class="headerlink" href="#input-english-output-spanish" title="Permalink to this heading"></a></h4>
+<p>We use <code class="docutils literal notranslate"><span class="pre">--canary-src-lang=en</span></code> to indicate that the input audio contains
+English speech. <code class="docutils literal notranslate"><span class="pre">--canary-tgt-lang=es</span></code> means the recognition result should
+be in Spanish.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+./build/bin/sherpa-onnx-offline<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--canary-encoder<span class="o">=</span>./sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8/encoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--canary-decoder<span class="o">=</span>./sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8/decoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span>./sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--canary-src-lang<span class="o">=</span>en<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--canary-tgt-lang<span class="o">=</span>es<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8/test_wavs/en.wav
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Please use <code class="docutils literal notranslate"><span class="pre">./build/bin/Release/sherpa-onnx-offline.exe</span></code> for Windows.</p>
+</div>
+<p>You should see the following output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:372 ./build/bin/sherpa-onnx-offline --canary-encoder=./sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8/encoder.int8.onnx --canary-decoder=./sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8/decoder.int8.onnx --tokens=./sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8/tokens.txt --canary-src-lang=en --canary-tgt-lang=es ./sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8/test_wavs/en.wav 
+
+OfflineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80, low_freq=20, high_freq=-400, dither=0, normalize_samples=True, snip_edges=False), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename=&quot;&quot;, decoder_filename=&quot;&quot;, joiner_filename=&quot;&quot;), paraformer=OfflineParaformerModelConfig(model=&quot;&quot;), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=&quot;&quot;), whisper=OfflineWhisperModelConfig(encoder=&quot;&quot;, decoder=&quot;&quot;, language=&quot;&quot;, task=&quot;transcribe&quot;, tail_paddings=-1), fire_red_asr=OfflineFireRedAsrModelConfig(encoder=&quot;&quot;, decoder=&quot;&quot;), tdnn=OfflineTdnnModelConfig(model=&quot;&quot;), zipformer_ctc=OfflineZipformerCtcModelConfig(model=&quot;&quot;), wenet_ctc=OfflineWenetCtcModelConfig(model=&quot;&quot;), sense_voice=OfflineSenseVoiceModelConfig(model=&quot;&quot;, language=&quot;auto&quot;, use_itn=False), moonshine=OfflineMoonshineModelConfig(preprocessor=&quot;&quot;, encoder=&quot;&quot;, uncached_decoder=&quot;&quot;, cached_decoder=&quot;&quot;), dolphin=OfflineDolphinModelConfig(model=&quot;&quot;), canary=OfflineCanaryModelConfig(encoder=&quot;./sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8/encoder.int8.onnx&quot;, decoder=&quot;./sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8/decoder.int8.onnx&quot;, src_lang=&quot;en&quot;, tgt_lang=&quot;es&quot;, use_pnc=True), telespeech_ctc=&quot;&quot;, tokens=&quot;./sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8/tokens.txt&quot;, num_threads=2, debug=False, provider=&quot;cpu&quot;, model_type=&quot;&quot;, modeling_unit=&quot;cjkchar&quot;, bpe_vocab=&quot;&quot;), lm_config=OfflineLMConfig(model=&quot;&quot;, scale=0.5), ctc_fst_decoder_config=OfflineCtcFstDecoderConfig(graph=&quot;&quot;, max_active=3000), decoding_method=&quot;greedy_search&quot;, max_active_paths=4, hotwords_file=&quot;&quot;, hotwords_score=1.5, blank_penalty=0, rule_fsts=&quot;&quot;, rule_fars=&quot;&quot;, hr=HomophoneReplacerConfig(dict_dir=&quot;&quot;, lexicon=&quot;&quot;, rule_fsts=&quot;&quot;))
+Creating recognizer ...
+Started
+/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/offline-stream.cc:AcceptWaveformImpl:164 Creating a resampler:
+   in_sample_rate: 24000
+   output_sample_rate: 16000
+
+Done!
+
+./sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8/test_wavs/en.wav
+{&quot;lang&quot;: &quot;&quot;, &quot;emotion&quot;: &quot;&quot;, &quot;event&quot;: &quot;&quot;, &quot;text&quot;: &quot; No preguntes qué puede hacer tu país por ti. Pregúntale qué puedes hacer por tu país.&quot;, &quot;timestamps&quot;: [], &quot;tokens&quot;:[&quot; No&quot;, &quot; pre&quot;, &quot;g&quot;, &quot;unt&quot;, &quot;es&quot;, &quot; qué&quot;, &quot; pue&quot;, &quot;de&quot;, &quot; ha&quot;, &quot;cer&quot;, &quot; tu&quot;, &quot; pa&quot;, &quot;ís&quot;, &quot; por&quot;, &quot; ti&quot;, &quot;.&quot;, &quot; P&quot;, &quot;re&quot;, &quot;g&quot;, &quot;ún&quot;, &quot;t&quot;, &quot;al&quot;, &quot;e&quot;, &quot; qué&quot;, &quot; pue&quot;, &quot;d&quot;, &quot;es&quot;, &quot; ha&quot;, &quot;cer&quot;, &quot; por&quot;, &quot; tu&quot;, &quot; pa&quot;, &quot;ís&quot;, &quot;.&quot;], &quot;words&quot;: []}
+----
+num threads: 2
+decoding method: greedy_search
+Elapsed seconds: 0.602 s
+Real time factor (RTF): 0.602 / 3.845 = 0.157
+</pre></div>
+</div>
+</section>
+<section id="input-english-output-french">
+<h4>Input English, output French<a class="headerlink" href="#input-english-output-french" title="Permalink to this heading"></a></h4>
+<p>We use <code class="docutils literal notranslate"><span class="pre">--canary-src-lang=en</span></code> to indicate that the input audio contains
+English speech. <code class="docutils literal notranslate"><span class="pre">--canary-tgt-lang=fr</span></code> means the recognition result should
+be in French.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+./build/bin/sherpa-onnx-offline<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--canary-encoder<span class="o">=</span>./sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8/encoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--canary-decoder<span class="o">=</span>./sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8/decoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span>./sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--canary-src-lang<span class="o">=</span>en<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--canary-tgt-lang<span class="o">=</span>fr<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8/test_wavs/en.wav
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Please use <code class="docutils literal notranslate"><span class="pre">./build/bin/Release/sherpa-onnx-offline.exe</span></code> for Windows.</p>
+</div>
+<p>You should see the following output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:372 ./build/bin/sherpa-onnx-offline --canary-encoder=./sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8/encoder.int8.onnx --canary-decoder=./sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8/decoder.int8.onnx --tokens=./sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8/tokens.txt --canary-src-lang=en --canary-tgt-lang=fr ./sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8/test_wavs/en.wav 
+
+OfflineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80, low_freq=20, high_freq=-400, dither=0, normalize_samples=True, snip_edges=False), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename=&quot;&quot;, decoder_filename=&quot;&quot;, joiner_filename=&quot;&quot;), paraformer=OfflineParaformerModelConfig(model=&quot;&quot;), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=&quot;&quot;), whisper=OfflineWhisperModelConfig(encoder=&quot;&quot;, decoder=&quot;&quot;, language=&quot;&quot;, task=&quot;transcribe&quot;, tail_paddings=-1), fire_red_asr=OfflineFireRedAsrModelConfig(encoder=&quot;&quot;, decoder=&quot;&quot;), tdnn=OfflineTdnnModelConfig(model=&quot;&quot;), zipformer_ctc=OfflineZipformerCtcModelConfig(model=&quot;&quot;), wenet_ctc=OfflineWenetCtcModelConfig(model=&quot;&quot;), sense_voice=OfflineSenseVoiceModelConfig(model=&quot;&quot;, language=&quot;auto&quot;, use_itn=False), moonshine=OfflineMoonshineModelConfig(preprocessor=&quot;&quot;, encoder=&quot;&quot;, uncached_decoder=&quot;&quot;, cached_decoder=&quot;&quot;), dolphin=OfflineDolphinModelConfig(model=&quot;&quot;), canary=OfflineCanaryModelConfig(encoder=&quot;./sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8/encoder.int8.onnx&quot;, decoder=&quot;./sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8/decoder.int8.onnx&quot;, src_lang=&quot;en&quot;, tgt_lang=&quot;fr&quot;, use_pnc=True), telespeech_ctc=&quot;&quot;, tokens=&quot;./sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8/tokens.txt&quot;, num_threads=2, debug=False, provider=&quot;cpu&quot;, model_type=&quot;&quot;, modeling_unit=&quot;cjkchar&quot;, bpe_vocab=&quot;&quot;), lm_config=OfflineLMConfig(model=&quot;&quot;, scale=0.5), ctc_fst_decoder_config=OfflineCtcFstDecoderConfig(graph=&quot;&quot;, max_active=3000), decoding_method=&quot;greedy_search&quot;, max_active_paths=4, hotwords_file=&quot;&quot;, hotwords_score=1.5, blank_penalty=0, rule_fsts=&quot;&quot;, rule_fars=&quot;&quot;, hr=HomophoneReplacerConfig(dict_dir=&quot;&quot;, lexicon=&quot;&quot;, rule_fsts=&quot;&quot;))
+Creating recognizer ...
+Started
+/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/offline-stream.cc:AcceptWaveformImpl:164 Creating a resampler:
+   in_sample_rate: 24000
+   output_sample_rate: 16000
+
+Done!
+
+./sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8/test_wavs/en.wav
+{&quot;lang&quot;: &quot;&quot;, &quot;emotion&quot;: &quot;&quot;, &quot;event&quot;: &quot;&quot;, &quot;text&quot;: &quot; Demandez-vous ce que votre pays peut faire pour vous. Demandez ce que vous pouvez faire pour votre pays.&quot;, &quot;timestamps&quot;: [], &quot;tokens&quot;:[&quot; D&quot;, &quot;em&quot;, &quot;and&quot;, &quot;ez&quot;, &quot;-&quot;, &quot;v&quot;, &quot;ous&quot;, &quot; ce&quot;, &quot; que&quot;, &quot; vot&quot;, &quot;re&quot;, &quot; p&quot;, &quot;ays&quot;, &quot; pe&quot;, &quot;ut&quot;, &quot; f&quot;, &quot;aire&quot;, &quot; p&quot;, &quot;our&quot;, &quot; v&quot;, &quot;ous&quot;, &quot;.&quot;, &quot; D&quot;, &quot;em&quot;, &quot;and&quot;, &quot;ez&quot;, &quot; ce&quot;, &quot; que&quot;, &quot; v&quot;, &quot;ous&quot;, &quot; p&quot;, &quot;ouve&quot;, &quot;z&quot;, &quot; f&quot;, &quot;aire&quot;, &quot; p&quot;, &quot;our&quot;, &quot; vot&quot;, &quot;re&quot;, &quot; p&quot;, &quot;ays&quot;, &quot;.&quot;], &quot;words&quot;: []}
+----
+num threads: 2
+decoding method: greedy_search
+Elapsed seconds: 0.692 s
+Real time factor (RTF): 0.692 / 3.845 = 0.180
+</pre></div>
+</div>
+</section>
+<section id="input-german-output-english">
+<h4>Input German, output English<a class="headerlink" href="#input-german-output-english" title="Permalink to this heading"></a></h4>
+<p>We use <code class="docutils literal notranslate"><span class="pre">--canary-src-lang=de</span></code> to indicate that the input audio contains
+German speech. <code class="docutils literal notranslate"><span class="pre">--canary-tgt-lang=en</span></code> means the recognition result should
+be in English.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+./build/bin/sherpa-onnx-offline<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--canary-encoder<span class="o">=</span>./sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8/encoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--canary-decoder<span class="o">=</span>./sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8/decoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span>./sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--canary-src-lang<span class="o">=</span>de<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--canary-tgt-lang<span class="o">=</span>en<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8/test_wavs/de.wav
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Please use <code class="docutils literal notranslate"><span class="pre">./build/bin/Release/sherpa-onnx-offline.exe</span></code> for Windows.</p>
+</div>
+<p>You should see the following output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:372 ./build/bin/sherpa-onnx-offline --canary-encoder=./sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8/encoder.int8.onnx --canary-decoder=./sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8/decoder.int8.onnx --tokens=./sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8/tokens.txt --canary-src-lang=de --canary-tgt-lang=en ./sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8/test_wavs/de.wav 
+
+OfflineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80, low_freq=20, high_freq=-400, dither=0, normalize_samples=True, snip_edges=False), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename=&quot;&quot;, decoder_filename=&quot;&quot;, joiner_filename=&quot;&quot;), paraformer=OfflineParaformerModelConfig(model=&quot;&quot;), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=&quot;&quot;), whisper=OfflineWhisperModelConfig(encoder=&quot;&quot;, decoder=&quot;&quot;, language=&quot;&quot;, task=&quot;transcribe&quot;, tail_paddings=-1), fire_red_asr=OfflineFireRedAsrModelConfig(encoder=&quot;&quot;, decoder=&quot;&quot;), tdnn=OfflineTdnnModelConfig(model=&quot;&quot;), zipformer_ctc=OfflineZipformerCtcModelConfig(model=&quot;&quot;), wenet_ctc=OfflineWenetCtcModelConfig(model=&quot;&quot;), sense_voice=OfflineSenseVoiceModelConfig(model=&quot;&quot;, language=&quot;auto&quot;, use_itn=False), moonshine=OfflineMoonshineModelConfig(preprocessor=&quot;&quot;, encoder=&quot;&quot;, uncached_decoder=&quot;&quot;, cached_decoder=&quot;&quot;), dolphin=OfflineDolphinModelConfig(model=&quot;&quot;), canary=OfflineCanaryModelConfig(encoder=&quot;./sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8/encoder.int8.onnx&quot;, decoder=&quot;./sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8/decoder.int8.onnx&quot;, src_lang=&quot;de&quot;, tgt_lang=&quot;en&quot;, use_pnc=True), telespeech_ctc=&quot;&quot;, tokens=&quot;./sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8/tokens.txt&quot;, num_threads=2, debug=False, provider=&quot;cpu&quot;, model_type=&quot;&quot;, modeling_unit=&quot;cjkchar&quot;, bpe_vocab=&quot;&quot;), lm_config=OfflineLMConfig(model=&quot;&quot;, scale=0.5), ctc_fst_decoder_config=OfflineCtcFstDecoderConfig(graph=&quot;&quot;, max_active=3000), decoding_method=&quot;greedy_search&quot;, max_active_paths=4, hotwords_file=&quot;&quot;, hotwords_score=1.5, blank_penalty=0, rule_fsts=&quot;&quot;, rule_fars=&quot;&quot;, hr=HomophoneReplacerConfig(dict_dir=&quot;&quot;, lexicon=&quot;&quot;, rule_fsts=&quot;&quot;))
+Creating recognizer ...
+Started
+/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/offline-stream.cc:AcceptWaveformImpl:164 Creating a resampler:
+   in_sample_rate: 22050
+   output_sample_rate: 16000
+
+Done!
+
+./sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8/test_wavs/de.wav
+{&quot;lang&quot;: &quot;&quot;, &quot;emotion&quot;: &quot;&quot;, &quot;event&quot;: &quot;&quot;, &quot;text&quot;: &quot; Everything has an end. Only the sausage has two&quot;, &quot;timestamps&quot;: [], &quot;tokens&quot;:[&quot; E&quot;, &quot;ver&quot;, &quot;y&quot;, &quot;th&quot;, &quot;ing&quot;, &quot; has&quot;, &quot; an&quot;, &quot; en&quot;, &quot;d&quot;, &quot;.&quot;, &quot; O&quot;, &quot;n&quot;, &quot;ly&quot;, &quot; the&quot;, &quot; sa&quot;, &quot;us&quot;, &quot;age&quot;, &quot; has&quot;, &quot; two&quot;], &quot;words&quot;: []}
+----
+num threads: 2
+decoding method: greedy_search
+Elapsed seconds: 0.351 s
+Real time factor (RTF): 0.351 / 2.752 = 0.128
+</pre></div>
+</div>
+</section>
+<section id="input-german-output-german">
+<h4>Input German, output German<a class="headerlink" href="#input-german-output-german" title="Permalink to this heading"></a></h4>
+<p>We use <code class="docutils literal notranslate"><span class="pre">--canary-src-lang=de</span></code> to indicate that the input audio contains
+German speech. <code class="docutils literal notranslate"><span class="pre">--canary-tgt-lang=de</span></code> means the recognition result should
+be in German.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+./build/bin/sherpa-onnx-offline<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--canary-encoder<span class="o">=</span>./sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8/encoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--canary-decoder<span class="o">=</span>./sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8/decoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span>./sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--canary-src-lang<span class="o">=</span>de<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--canary-tgt-lang<span class="o">=</span>de<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8/test_wavs/de.wav
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Please use <code class="docutils literal notranslate"><span class="pre">./build/bin/Release/sherpa-onnx-offline.exe</span></code> for Windows.</p>
+</div>
+<p>You should see the following output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:372 ./build/bin/sherpa-onnx-offline --canary-encoder=./sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8/encoder.int8.onnx --canary-decoder=./sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8/decoder.int8.onnx --tokens=./sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8/tokens.txt --canary-src-lang=de --canary-tgt-lang=de ./sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8/test_wavs/de.wav 
+
+OfflineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80, low_freq=20, high_freq=-400, dither=0, normalize_samples=True, snip_edges=False), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename=&quot;&quot;, decoder_filename=&quot;&quot;, joiner_filename=&quot;&quot;), paraformer=OfflineParaformerModelConfig(model=&quot;&quot;), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=&quot;&quot;), whisper=OfflineWhisperModelConfig(encoder=&quot;&quot;, decoder=&quot;&quot;, language=&quot;&quot;, task=&quot;transcribe&quot;, tail_paddings=-1), fire_red_asr=OfflineFireRedAsrModelConfig(encoder=&quot;&quot;, decoder=&quot;&quot;), tdnn=OfflineTdnnModelConfig(model=&quot;&quot;), zipformer_ctc=OfflineZipformerCtcModelConfig(model=&quot;&quot;), wenet_ctc=OfflineWenetCtcModelConfig(model=&quot;&quot;), sense_voice=OfflineSenseVoiceModelConfig(model=&quot;&quot;, language=&quot;auto&quot;, use_itn=False), moonshine=OfflineMoonshineModelConfig(preprocessor=&quot;&quot;, encoder=&quot;&quot;, uncached_decoder=&quot;&quot;, cached_decoder=&quot;&quot;), dolphin=OfflineDolphinModelConfig(model=&quot;&quot;), canary=OfflineCanaryModelConfig(encoder=&quot;./sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8/encoder.int8.onnx&quot;, decoder=&quot;./sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8/decoder.int8.onnx&quot;, src_lang=&quot;de&quot;, tgt_lang=&quot;de&quot;, use_pnc=True), telespeech_ctc=&quot;&quot;, tokens=&quot;./sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8/tokens.txt&quot;, num_threads=2, debug=False, provider=&quot;cpu&quot;, model_type=&quot;&quot;, modeling_unit=&quot;cjkchar&quot;, bpe_vocab=&quot;&quot;), lm_config=OfflineLMConfig(model=&quot;&quot;, scale=0.5), ctc_fst_decoder_config=OfflineCtcFstDecoderConfig(graph=&quot;&quot;, max_active=3000), decoding_method=&quot;greedy_search&quot;, max_active_paths=4, hotwords_file=&quot;&quot;, hotwords_score=1.5, blank_penalty=0, rule_fsts=&quot;&quot;, rule_fars=&quot;&quot;, hr=HomophoneReplacerConfig(dict_dir=&quot;&quot;, lexicon=&quot;&quot;, rule_fsts=&quot;&quot;))
+Creating recognizer ...
+Started
+/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/offline-stream.cc:AcceptWaveformImpl:164 Creating a resampler:
+   in_sample_rate: 22050
+   output_sample_rate: 16000
+
+Done!
+
+./sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8/test_wavs/de.wav
+{&quot;lang&quot;: &quot;&quot;, &quot;emotion&quot;: &quot;&quot;, &quot;event&quot;: &quot;&quot;, &quot;text&quot;: &quot; Alles hat ein Ende, nur die Wurst hat zwei.&quot;, &quot;timestamps&quot;: [], &quot;tokens&quot;:[&quot; All&quot;, &quot;es&quot;, &quot; hat&quot;, &quot; ein&quot;, &quot; E&quot;, &quot;nd&quot;, &quot;e&quot;, &quot;,&quot;, &quot; nur&quot;, &quot; die&quot;, &quot; W&quot;, &quot;ur&quot;, &quot;st&quot;, &quot; hat&quot;, &quot; zwe&quot;, &quot;i&quot;, &quot;.&quot;], &quot;words&quot;: []}
+----
+num threads: 2
+decoding method: greedy_search
+Elapsed seconds: 0.338 s
+Real time factor (RTF): 0.338 / 2.752 = 0.123
+</pre></div>
+</div>
+</section>
+</section>
+<section id="python-api-examples">
+<h3>Python API examples<a class="headerlink" href="#python-api-examples" title="Permalink to this heading"></a></h3>
+<p>Please see <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/blob/master/python-api-examples/offline-nemo-canary-decode-files.py">https://github.com/k2-fsa/sherpa-onnx/blob/master/python-api-examples/offline-nemo-canary-decode-files.py</a></p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="NeMo" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../FireRedAsr/index.html" class="btn btn-neutral float-right" title="FireRedAsr" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

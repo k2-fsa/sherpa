@@ -1,0 +1,498 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pre-trained models &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Audio tagging" href="../audio-tagging/index.html" />
+    <link rel="prev" title="Punctuation" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">sherpa-onnx</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../install/index.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../faqs/index.html">Frequently Asked Question (FAQs)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python/index.html">Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../c-api/index.html">C API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../java-api/index.html">Java API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../javascript-api/index.html">Javascript API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kotlin-api/index.html">Kotlin API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../swift-api/index.html">Swift API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../go-api/index.html">Go API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../csharp-api/index.html">C# API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pascal-api/index.html">Pascal API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lazarus/index.html">Lazarus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../wasm/index.html">WebAssembly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../android/index.html">Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../harmony-os/index.html">HarmonyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ios/index.html">iOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../flutter/index.html">Flutter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../websocket/index.html">WebSocket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../hotwords/index.html">Hotwords (Contextual biasing)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kws/index.html">Keyword spotting</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Punctuation</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Pre-trained models</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#sherpa-onnx-online-punct-en-2024-08-06">sherpa-onnx-online-punct-en-2024-08-06</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sherpa-onnx-punct-ct-transformer-zh-en-vocab272727-2024-04-12-int8">sherpa-onnx-punct-ct-transformer-zh-en-vocab272727-2024-04-12-int8</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sherpa-onnx-punct-ct-transformer-zh-en-vocab272727-2024-04-12">sherpa-onnx-punct-ct-transformer-zh-en-vocab272727-2024-04-12</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../audio-tagging/index.html">Audio tagging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spoken-language-identification/index.html">Spoken language identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vad/index.html">VAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/index.html">Pre-trained models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/whisper/index.html">Whisper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../moonshine/index.html">Moonshine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../omnilingual-asr/index.html">Omnilingual ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sense-voice/index.html">SenseVoice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../funasr-nano/index.html">FunASR Nano</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../paraformer/index.html">Paraformer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nemo/index.html">NeMo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../FireRedAsr/index.html">FireRedAsr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Dolphin/index.html">Dolphin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../homophone-replacer/index.html">拼音词组匹配替换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-diarization/index.html">Speaker Diarization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-identification/index.html">Speaker Identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speech-enhancement/index.html">Speech enhancement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../source-separation/index.html">Source separation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qnn/index.html">Qualcomm NPU (QNN, HTP)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rknn/index.html">rknn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ascend/index.html">Ascend NPU (昇腾 NPU)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tts/index.html">Text-to-speech (TTS)</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">sherpa-onnx</a> &raquo;</li>
+          <li><a href="index.html">Punctuation</a> &raquo;</li>
+      <li>Pre-trained models</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/onnx/punctuation/pretrained_models.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="pre-trained-models">
+<h1>Pre-trained models<a class="headerlink" href="#pre-trained-models" title="Permalink to this heading"></a></h1>
+<p>This section lists pre-trained models for adding punctuations to text.</p>
+<p>You can find all models at the following URL:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/tag/punctuation-models">https://github.com/k2-fsa/sherpa-onnx/releases/tag/punctuation-models</a></p>
+</div></blockquote>
+<section id="sherpa-onnx-online-punct-en-2024-08-06">
+<h2>sherpa-onnx-online-punct-en-2024-08-06<a class="headerlink" href="#sherpa-onnx-online-punct-en-2024-08-06" title="Permalink to this heading"></a></h2>
+<p>This model is from <a class="reference external" href="https://github.com/frankyoujian/Edge-Punct-Casing">https://github.com/frankyoujian/Edge-Punct-Casing</a>
+and it supports only English.</p>
+<p>Please see its paper at <a class="reference external" href="https://arxiv.org/abs/2407.13142">https://arxiv.org/abs/2407.13142</a> for more details.</p>
+<p>In the following, we describe how to download and use it with <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>.</p>
+<section id="download-the-model">
+<h3>Download the model<a class="headerlink" href="#download-the-model" title="Permalink to this heading"></a></h3>
+<p>Please use the following commands to download it:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">wget</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">k2</span><span class="o">-</span><span class="n">fsa</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="n">download</span><span class="o">/</span><span class="n">punctuation</span><span class="o">-</span><span class="n">models</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">online</span><span class="o">-</span><span class="n">punct</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">08</span><span class="o">-</span><span class="mf">06.</span><span class="n">tar</span><span class="o">.</span><span class="n">bz2</span>
+<span class="n">tar</span> <span class="n">xvf</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">online</span><span class="o">-</span><span class="n">punct</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">08</span><span class="o">-</span><span class="mf">06.</span><span class="n">tar</span><span class="o">.</span><span class="n">bz2</span>
+<span class="n">rm</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">online</span><span class="o">-</span><span class="n">punct</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">08</span><span class="o">-</span><span class="mf">06.</span><span class="n">tar</span><span class="o">.</span><span class="n">bz2</span>
+</pre></div>
+</div>
+<p>You will find the following files after unzipping:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ls</span> <span class="o">-</span><span class="n">lh</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">online</span><span class="o">-</span><span class="n">punct</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">08</span><span class="o">-</span><span class="mi">06</span><span class="o">/</span>
+<span class="n">total</span> <span class="mi">74416</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">244</span><span class="n">B</span> <span class="n">Aug</span>  <span class="mi">6</span>  <span class="mi">2024</span> <span class="n">README</span><span class="o">.</span><span class="n">md</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">146</span><span class="n">K</span> <span class="n">Aug</span>  <span class="mi">5</span>  <span class="mi">2024</span> <span class="n">bpe</span><span class="o">.</span><span class="n">vocab</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mf">7.1</span><span class="n">M</span> <span class="n">Aug</span>  <span class="mi">5</span>  <span class="mi">2024</span> <span class="n">model</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>    <span class="mi">28</span><span class="n">M</span> <span class="n">Aug</span>  <span class="mi">5</span>  <span class="mi">2024</span> <span class="n">model</span><span class="o">.</span><span class="n">onnx</span>
+</pre></div>
+</div>
+<p>Note you only need two files:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">model.onnx</span></code> + <code class="docutils literal notranslate"><span class="pre">bpe.vocab</span></code></p></li>
+<li><p>or <code class="docutils literal notranslate"><span class="pre">model.int8.onnx</span></code> + <code class="docutils literal notranslate"><span class="pre">bpe.vocab</span></code></p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="c-binary-examples">
+<h3>C++ binary examples<a class="headerlink" href="#c-binary-examples" title="Permalink to this heading"></a></h3>
+<p>After installing <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>, you can use the following command to add punctuations to text
+with the <code class="docutils literal notranslate"><span class="pre">model.onnx</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="nb">bin</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">online</span><span class="o">-</span><span class="n">punctuation</span> \
+  <span class="o">--</span><span class="n">cnn</span><span class="o">-</span><span class="n">bilstm</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">online</span><span class="o">-</span><span class="n">punct</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">08</span><span class="o">-</span><span class="mi">06</span><span class="o">/</span><span class="n">model</span><span class="o">.</span><span class="n">onnx</span> \
+  <span class="o">--</span><span class="n">bpe</span><span class="o">-</span><span class="n">vocab</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">online</span><span class="o">-</span><span class="n">punct</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">08</span><span class="o">-</span><span class="mi">06</span><span class="o">/</span><span class="n">bpe</span><span class="o">.</span><span class="n">vocab</span> \
+  <span class="s2">&quot;how are you i am fine thank you&quot;</span>
+</pre></div>
+</div>
+<p>The output is given below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>OnlinePunctuationConfig(model=OnlinePunctuationModelConfig(cnn_bilstm=&quot;./sherpa-onnx-online-punct-en-2024-08-06/model.onnx&quot;, bpe_vocab=&quot;./sherpa-onnx-online-punct-en-2024-08-06/bpe.vocab&quot;, num_threads=1, debug=False, provider=&quot;cpu&quot;))
+Creating OnlinePunctuation ...
+Started
+Done
+Num threads: 1
+Elapsed seconds: 0.030 s
+Input text: how are you i am fine thank you
+Output text: How are you? I am fine. Thank you.
+</pre></div>
+</div>
+<p>To use the <code class="docutils literal notranslate"><span class="pre">model.int8.onnx</span></code>, you can run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="nb">bin</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">online</span><span class="o">-</span><span class="n">punctuation</span> \
+  <span class="o">--</span><span class="n">cnn</span><span class="o">-</span><span class="n">bilstm</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">online</span><span class="o">-</span><span class="n">punct</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">08</span><span class="o">-</span><span class="mi">06</span><span class="o">/</span><span class="n">model</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span> \
+  <span class="o">--</span><span class="n">bpe</span><span class="o">-</span><span class="n">vocab</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">online</span><span class="o">-</span><span class="n">punct</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">08</span><span class="o">-</span><span class="mi">06</span><span class="o">/</span><span class="n">bpe</span><span class="o">.</span><span class="n">vocab</span> \
+  <span class="s2">&quot;how are you i am fine thank you&quot;</span>
+</pre></div>
+</div>
+<p>The output is given below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>OnlinePunctuationConfig(model=OnlinePunctuationModelConfig(cnn_bilstm=&quot;./sherpa-onnx-online-punct-en-2024-08-06/model.int8.onnx&quot;, bpe_vocab=&quot;./sherpa-onnx-online-punct-en-2024-08-06/bpe.vocab&quot;, num_threads=1, debug=False, provider=&quot;cpu&quot;))
+Creating OnlinePunctuation ...
+Started
+Done
+Num threads: 1
+Elapsed seconds: 0.013 s
+Input text: how are you i am fine thank you
+Output text: How are you? I am fine. Thank you.
+</pre></div>
+</div>
+</section>
+</section>
+<section id="sherpa-onnx-punct-ct-transformer-zh-en-vocab272727-2024-04-12-int8">
+<h2>sherpa-onnx-punct-ct-transformer-zh-en-vocab272727-2024-04-12-int8<a class="headerlink" href="#sherpa-onnx-punct-ct-transformer-zh-en-vocab272727-2024-04-12-int8" title="Permalink to this heading"></a></h2>
+<p>This model is converted from</p>
+<blockquote>
+<div><p><a class="reference external" href="https://modelscope.cn/models/iic/punc_ct-transformer_zh-cn-common-vocab272727-pytorch/summary">https://modelscope.cn/models/iic/punc_ct-transformer_zh-cn-common-vocab272727-pytorch/summary</a></p>
+</div></blockquote>
+<p>and it supports both Chinese and English.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>If you want to know how the model is converted to <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>, please download
+it and you can find related scripts in the downloaded model directory.</p>
+</div>
+<p>In the following, we describe how to download and use it with <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>.</p>
+<section id="id1">
+<h3>Download the model<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h3>
+<p>Please use the following commands to download it:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">wget</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">k2</span><span class="o">-</span><span class="n">fsa</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="n">download</span><span class="o">/</span><span class="n">punctuation</span><span class="o">-</span><span class="n">models</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">punct</span><span class="o">-</span><span class="n">ct</span><span class="o">-</span><span class="n">transformer</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="n">vocab272727</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="n">int8</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">bz2</span>
+
+<span class="n">tar</span> <span class="n">xvf</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">punct</span><span class="o">-</span><span class="n">ct</span><span class="o">-</span><span class="n">transformer</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="n">vocab272727</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="n">int8</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">bz2</span>
+<span class="n">rm</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">punct</span><span class="o">-</span><span class="n">ct</span><span class="o">-</span><span class="n">transformer</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="n">vocab272727</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="n">int8</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">bz2</span>
+</pre></div>
+</div>
+<p>You will find the following files after unzipping:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">total</span> <span class="mi">155776</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mf">1.5</span><span class="n">K</span> <span class="n">Jun</span> <span class="mi">18</span> <span class="mi">10</span><span class="p">:</span><span class="mi">34</span> <span class="n">README</span><span class="o">.</span><span class="n">md</span>
+<span class="o">-</span><span class="n">rwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mf">1.6</span><span class="n">K</span> <span class="n">Apr</span> <span class="mi">12</span>  <span class="mi">2024</span> <span class="n">add</span><span class="o">-</span><span class="n">model</span><span class="o">-</span><span class="n">metadata</span><span class="o">.</span><span class="n">py</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">810</span><span class="n">B</span> <span class="n">Apr</span> <span class="mi">12</span>  <span class="mi">2024</span> <span class="n">config</span><span class="o">.</span><span class="n">yaml</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>    <span class="mi">72</span><span class="n">M</span> <span class="n">Jun</span> <span class="mi">18</span> <span class="mi">10</span><span class="p">:</span><span class="mi">33</span> <span class="n">model</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span>
+<span class="o">-</span><span class="n">rwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">745</span><span class="n">B</span> <span class="n">Apr</span> <span class="mi">12</span>  <span class="mi">2024</span> <span class="n">show</span><span class="o">-</span><span class="n">model</span><span class="o">-</span><span class="nb">input</span><span class="o">-</span><span class="n">output</span><span class="o">.</span><span class="n">py</span>
+<span class="o">-</span><span class="n">rwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mf">4.6</span><span class="n">K</span> <span class="n">Apr</span> <span class="mi">12</span>  <span class="mi">2024</span> <span class="n">test</span><span class="o">.</span><span class="n">py</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mf">4.0</span><span class="n">M</span> <span class="n">Apr</span> <span class="mi">12</span>  <span class="mi">2024</span> <span class="n">tokens</span><span class="o">.</span><span class="n">json</span>
+</pre></div>
+</div>
+<p>Only <code class="docutils literal notranslate"><span class="pre">model.int8.onnx</span></code> is needed in <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>. All other files are for your information about
+how the model is converted to <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>.</p>
+</section>
+<section id="id2">
+<h3>C++ binary examples<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h3>
+<p>After installing <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>, you can use the following command to add punctuations to text:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="nb">bin</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">offline</span><span class="o">-</span><span class="n">punctuation</span> \
+  <span class="o">--</span><span class="n">ct</span><span class="o">-</span><span class="n">transformer</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">punct</span><span class="o">-</span><span class="n">ct</span><span class="o">-</span><span class="n">transformer</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="n">vocab272727</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="n">int8</span><span class="o">/</span><span class="n">model</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span> \
+  <span class="s2">&quot;我们都是木头人不会说话不会动&quot;</span>
+</pre></div>
+</div>
+<p>The output is given below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:372 ./bin/sherpa-onnx-offline-punctuation --ct-transformer=./sherpa-onnx-punct-ct-transformer-zh-en-vocab272727-2024-04-12-int8/model.int8.onnx &#39;我们都是木头人不会说话不会动&#39;
+
+OfflinePunctuationConfig(model=OfflinePunctuationModelConfig(ct_transformer=&quot;./sherpa-onnx-punct-ct-transformer-zh-en-vocab272727-2024-04-12-int8/model.int8.onnx&quot;, num_threads=1, debug=False, provider=&quot;cpu&quot;))
+Creating OfflinePunctuation ...
+Started
+Done
+Num threads: 1
+Elapsed seconds: 0.014 s
+Input text: 我们都是木头人不会说话不会动
+Output text: 我们都是木头人，不会说话，不会动。
+</pre></div>
+</div>
+<p>The second example is for text containing both Chinese and English:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="nb">bin</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">offline</span><span class="o">-</span><span class="n">punctuation</span> \
+  <span class="o">--</span><span class="n">ct</span><span class="o">-</span><span class="n">transformer</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">punct</span><span class="o">-</span><span class="n">ct</span><span class="o">-</span><span class="n">transformer</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="n">vocab272727</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="n">int8</span><span class="o">/</span><span class="n">model</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span> \
+  <span class="s2">&quot;这是一个测试你好吗How are you我很好thank you are you ok谢谢你&quot;</span>
+</pre></div>
+</div>
+<p>Its output is given below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>OfflinePunctuationConfig(model=OfflinePunctuationModelConfig(ct_transformer=&quot;./sherpa-onnx-punct-ct-transformer-zh-en-vocab272727-2024-04-12-int8/model.int8.onnx&quot;, num_threads=1, debug=False, provider=&quot;cpu&quot;))
+Creating OfflinePunctuation ...
+Started
+Done
+Num threads: 1
+Elapsed seconds: 0.010 s
+Input text: 这是一个测试你好吗How are you我很好thank you are you ok谢谢你
+Output text: 这是一个测试你好吗？How are you？我很好？thank you，are you ok，谢谢你。
+</pre></div>
+</div>
+<p>The last example is for text containing only English:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="nb">bin</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">offline</span><span class="o">-</span><span class="n">punctuation</span> \
+  <span class="o">--</span><span class="n">ct</span><span class="o">-</span><span class="n">transformer</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">punct</span><span class="o">-</span><span class="n">ct</span><span class="o">-</span><span class="n">transformer</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="n">vocab272727</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="n">int8</span><span class="o">/</span><span class="n">model</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span> \
+  <span class="s2">&quot;The African blogosphere is rapidly expanding bringing more voices online in the form of commentaries opinions analyses rants and poetry&quot;</span>
+</pre></div>
+</div>
+<p>The last example is for text containing only English:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>OfflinePunctuationConfig(model=OfflinePunctuationModelConfig(ct_transformer=&quot;./sherpa-onnx-punct-ct-transformer-zh-en-vocab272727-2024-04-12-int8/model.int8.onnx&quot;, num_threads=1, debug=False, provider=&quot;cpu&quot;))
+Creating OfflinePunctuation ...
+Started
+Done
+Num threads: 1
+Elapsed seconds: 0.007 s
+Input text: The African blogosphere is rapidly expanding bringing more voices online in the form of commentaries opinions analyses rants and poetry
+Output text: The African blogosphere is rapidly expanding，bringing more voices online in the form of commentaries，opinions，analyses，rants and poetry。
+</pre></div>
+</div>
+</section>
+</section>
+<section id="sherpa-onnx-punct-ct-transformer-zh-en-vocab272727-2024-04-12">
+<h2>sherpa-onnx-punct-ct-transformer-zh-en-vocab272727-2024-04-12<a class="headerlink" href="#sherpa-onnx-punct-ct-transformer-zh-en-vocab272727-2024-04-12" title="Permalink to this heading"></a></h2>
+<p>This model is converted from</p>
+<blockquote>
+<div><p><a class="reference external" href="https://modelscope.cn/models/iic/punc_ct-transformer_zh-cn-common-vocab272727-pytorch/summary">https://modelscope.cn/models/iic/punc_ct-transformer_zh-cn-common-vocab272727-pytorch/summary</a></p>
+</div></blockquote>
+<p>and it supports both Chinese and English.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>If you want to know how the model is converted to <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>, please download
+it and you can find related scripts in the downloaded model directory.</p>
+</div>
+<p>In the following, we describe how to download and use it with <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>.</p>
+<section id="id4">
+<h3>Download the model<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h3>
+<p>Please use the following commands to download it:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">wget</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">k2</span><span class="o">-</span><span class="n">fsa</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="n">download</span><span class="o">/</span><span class="n">punctuation</span><span class="o">-</span><span class="n">models</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">punct</span><span class="o">-</span><span class="n">ct</span><span class="o">-</span><span class="n">transformer</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="n">vocab272727</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mf">12.</span><span class="n">tar</span><span class="o">.</span><span class="n">bz2</span>
+
+<span class="n">tar</span> <span class="n">xvf</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">punct</span><span class="o">-</span><span class="n">ct</span><span class="o">-</span><span class="n">transformer</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="n">vocab272727</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mf">12.</span><span class="n">tar</span><span class="o">.</span><span class="n">bz2</span>
+<span class="n">rm</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">punct</span><span class="o">-</span><span class="n">ct</span><span class="o">-</span><span class="n">transformer</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="n">vocab272727</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mf">12.</span><span class="n">tar</span><span class="o">.</span><span class="n">bz2</span>
+</pre></div>
+</div>
+<p>You will find the following files after unzipping:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mf">1.4</span><span class="n">K</span> <span class="n">Apr</span> <span class="mi">12</span> <span class="mi">12</span><span class="p">:</span><span class="mi">32</span> <span class="n">README</span><span class="o">.</span><span class="n">md</span>
+<span class="o">-</span><span class="n">rwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mf">1.6</span><span class="n">K</span> <span class="n">Apr</span> <span class="mi">12</span> <span class="mi">14</span><span class="p">:</span><span class="mi">40</span> <span class="n">add</span><span class="o">-</span><span class="n">model</span><span class="o">-</span><span class="n">metadata</span><span class="o">.</span><span class="n">py</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">810</span><span class="n">B</span> <span class="n">Apr</span> <span class="mi">12</span> <span class="mi">11</span><span class="p">:</span><span class="mi">56</span> <span class="n">config</span><span class="o">.</span><span class="n">yaml</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>    <span class="mi">42</span><span class="n">B</span> <span class="n">Apr</span> <span class="mi">12</span> <span class="mi">11</span><span class="p">:</span><span class="mi">45</span> <span class="n">configuration</span><span class="o">.</span><span class="n">json</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">281</span><span class="n">M</span> <span class="n">Apr</span> <span class="mi">12</span> <span class="mi">14</span><span class="p">:</span><span class="mi">40</span> <span class="n">model</span><span class="o">.</span><span class="n">onnx</span>
+<span class="o">-</span><span class="n">rwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">745</span><span class="n">B</span> <span class="n">Apr</span> <span class="mi">12</span> <span class="mi">11</span><span class="p">:</span><span class="mi">53</span> <span class="n">show</span><span class="o">-</span><span class="n">model</span><span class="o">-</span><span class="nb">input</span><span class="o">-</span><span class="n">output</span><span class="o">.</span><span class="n">py</span>
+<span class="o">-</span><span class="n">rwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mf">4.9</span><span class="n">K</span> <span class="n">Apr</span> <span class="mi">13</span> <span class="mi">18</span><span class="p">:</span><span class="mi">45</span> <span class="n">test</span><span class="o">.</span><span class="n">py</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mf">4.0</span><span class="n">M</span> <span class="n">Apr</span> <span class="mi">12</span> <span class="mi">11</span><span class="p">:</span><span class="mi">56</span> <span class="n">tokens</span><span class="o">.</span><span class="n">json</span>
+</pre></div>
+</div>
+<p>Only <code class="docutils literal notranslate"><span class="pre">model.onnx</span></code> is needed in <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>. All other files are for your information about
+how the model is converted to <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>.</p>
+</section>
+<section id="id5">
+<h3>C++ binary examples<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h3>
+<p>After installing <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>, you can use the following command to add punctuations to text:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="nb">bin</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">offline</span><span class="o">-</span><span class="n">punctuation</span> \
+  <span class="o">--</span><span class="n">ct</span><span class="o">-</span><span class="n">transformer</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">punct</span><span class="o">-</span><span class="n">ct</span><span class="o">-</span><span class="n">transformer</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="n">vocab272727</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">12</span><span class="o">/</span><span class="n">model</span><span class="o">.</span><span class="n">onnx</span> \
+  <span class="s2">&quot;我们都是木头人不会说话不会动&quot;</span>
+</pre></div>
+</div>
+<p>The output is given below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:361 ./bin/sherpa-onnx-offline-punctuation --ct-transformer=./sherpa-onnx-punct-ct-transformer-zh-en-vocab272727-2024-04-12/model.onnx &#39;我们都是木头人不会说话不会动&#39;
+
+OfflinePunctuationConfig(model=OfflinePunctuationModelConfig(ct_transformer=&quot;./sherpa-onnx-punct-ct-transformer-zh-en-vocab272727-2024-04-12/model.onnx&quot;, num_threads=1, debug=False, provider=&quot;cpu&quot;))
+Creating OfflinePunctuation ...
+Started
+Done
+Num threads: 1
+Elapsed seconds: 0.007 s
+Input text: 我们都是木头人不会说话不会动
+Output text: 我们都是木头人，不会说话不会动。
+</pre></div>
+</div>
+<p>The second example is for text containing both Chinese and English:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="nb">bin</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">offline</span><span class="o">-</span><span class="n">punctuation</span> \
+  <span class="o">--</span><span class="n">ct</span><span class="o">-</span><span class="n">transformer</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">punct</span><span class="o">-</span><span class="n">ct</span><span class="o">-</span><span class="n">transformer</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="n">vocab272727</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">12</span><span class="o">/</span><span class="n">model</span><span class="o">.</span><span class="n">onnx</span> \
+  <span class="s2">&quot;这是一个测试你好吗How are you我很好thank you are you ok谢谢你&quot;</span>
+</pre></div>
+</div>
+<p>Its output is given below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:361 ./bin/sherpa-onnx-offline-punctuation --ct-transformer=./sherpa-onnx-punct-ct-transformer-zh-en-vocab272727-2024-04-12/model.onnx &#39;这是一个测试你好吗How are you我很好thank you are you ok谢谢你&#39;
+
+OfflinePunctuationConfig(model=OfflinePunctuationModelConfig(ct_transformer=&quot;./sherpa-onnx-punct-ct-transformer-zh-en-vocab272727-2024-04-12/model.onnx&quot;, num_threads=1, debug=False, provider=&quot;cpu&quot;))
+Creating OfflinePunctuation ...
+Started
+Done
+Num threads: 1
+Elapsed seconds: 0.005 s
+Input text: 这是一个测试你好吗How are you我很好thank you are you ok谢谢你
+Output text: 这是一个测试，你好吗？How are you？我很好？thank you，are you ok，谢谢你。
+</pre></div>
+</div>
+<p>The last example is for text containing only English:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="nb">bin</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">offline</span><span class="o">-</span><span class="n">punctuation</span> \
+  <span class="o">--</span><span class="n">ct</span><span class="o">-</span><span class="n">transformer</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">punct</span><span class="o">-</span><span class="n">ct</span><span class="o">-</span><span class="n">transformer</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="n">vocab272727</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">12</span><span class="o">/</span><span class="n">model</span><span class="o">.</span><span class="n">onnx</span> \
+  <span class="s2">&quot;The African blogosphere is rapidly expanding bringing more voices online in the form of commentaries opinions analyses rants and poetry&quot;</span>
+</pre></div>
+</div>
+<p>Its output is given below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:361 ./bin/sherpa-onnx-offline-punctuation --ct-transformer=./sherpa-onnx-punct-ct-transformer-zh-en-vocab272727-2024-04-12/model.onnx &#39;The African blogosphere is rapidly expanding bringing more voices online in the form of commentaries opinions analyses rants and poetry&#39;
+
+OfflinePunctuationConfig(model=OfflinePunctuationModelConfig(ct_transformer=&quot;./sherpa-onnx-punct-ct-transformer-zh-en-vocab272727-2024-04-12/model.onnx&quot;, num_threads=1, debug=False, provider=&quot;cpu&quot;))
+Creating OfflinePunctuation ...
+Started
+Done
+Num threads: 1
+Elapsed seconds: 0.003 s
+Input text: The African blogosphere is rapidly expanding bringing more voices online in the form of commentaries opinions analyses rants and poetry
+Output text: The African blogosphere is rapidly expanding，bringing more voices online in the form of commentaries，opinions，analyses，rants and poetry。
+</pre></div>
+</div>
+</section>
+<section id="python-api-examples">
+<h3>Python API examples<a class="headerlink" href="#python-api-examples" title="Permalink to this heading"></a></h3>
+<p>Please see</p>
+<blockquote>
+<div><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/blob/master/python-api-examples/add-punctuation.py">https://github.com/k2-fsa/sherpa-onnx/blob/master/python-api-examples/add-punctuation.py</a></p>
+</div></blockquote>
+</section>
+<section id="huggingface-space-examples">
+<h3>Huggingface space examples<a class="headerlink" href="#huggingface-space-examples" title="Permalink to this heading"></a></h3>
+<p>Please see</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><a class="reference external" href="https://huggingface.co/spaces/k2-fsa/generate-subtitles-for-videos">https://huggingface.co/spaces/k2-fsa/generate-subtitles-for-videos</a></p></li>
+<li><p><a class="reference external" href="https://huggingface.co/spaces/k2-fsa/automatic-speech-recognition">https://huggingface.co/spaces/k2-fsa/automatic-speech-recognition</a></p></li>
+</ul>
+</div></blockquote>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>For Chinese users, please visit the following mirrors:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><a class="reference external" href="https://hf-mirror.com/spaces/k2-fsa/generate-subtitles-for-videos">https://hf-mirror.com/spaces/k2-fsa/generate-subtitles-for-videos</a></p></li>
+<li><p><a class="reference external" href="https://hf-mirror.com/spaces/k2-fsa/automatic-speech-recognition">https://hf-mirror.com/spaces/k2-fsa/automatic-speech-recognition</a></p></li>
+</ul>
+</div></blockquote>
+</div>
+</section>
+<section id="video-demos">
+<h3>Video demos<a class="headerlink" href="#video-demos" title="Permalink to this heading"></a></h3>
+<p>The following <a class="reference external" href="https://www.bilibili.com/video/BV1Tm421j7K3/">video</a> is in Chinese.</p>
+<iframe src="//player.bilibili.com/player.html?bvid=BV1Tm421j7K3&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" width="600" height="600"> </iframe></section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Punctuation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../audio-tagging/index.html" class="btn btn-neutral float-right" title="Audio tagging" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

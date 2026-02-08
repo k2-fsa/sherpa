@@ -1,0 +1,1079 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Python API for SenseVoice &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Moonshine" href="../moonshine/index.html" />
+    <link rel="prev" title="Dart API for SenseVoice" href="dart-api.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">sherpa-onnx</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../install/index.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../faqs/index.html">Frequently Asked Question (FAQs)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python/index.html">Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../c-api/index.html">C API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../java-api/index.html">Java API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../javascript-api/index.html">Javascript API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kotlin-api/index.html">Kotlin API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../swift-api/index.html">Swift API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../go-api/index.html">Go API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../csharp-api/index.html">C# API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pascal-api/index.html">Pascal API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lazarus/index.html">Lazarus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../wasm/index.html">WebAssembly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../android/index.html">Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../harmony-os/index.html">HarmonyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ios/index.html">iOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../flutter/index.html">Flutter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../websocket/index.html">WebSocket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../hotwords/index.html">Hotwords (Contextual biasing)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kws/index.html">Keyword spotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../punctuation/index.html">Punctuation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../audio-tagging/index.html">Audio tagging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spoken-language-identification/index.html">Spoken language identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vad/index.html">VAD</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../pretrained_models/index.html">Pre-trained models</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/online-transducer/index.html">Online transducer models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/online-paraformer/index.html">Online paraformer models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/online-ctc/index.html">Online CTC models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/offline-transducer/index.html">Offline transducer models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/offline-paraformer/index.html">Offline paraformer models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/offline-ctc/index.html">Offline CTC models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/telespeech/index.html">TeleSpeech</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/whisper/index.html">Whisper</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/wenet/index.html">WeNet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/small-online-models.html">Small models</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">SenseVoice</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="huggingface-space.html">Huggingface space</a></li>
+<li class="toctree-l4"><a class="reference internal" href="export.html">Export SenseVoice to sherpa-onnx</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pretrained.html">Pre-trained Models</a></li>
+<li class="toctree-l4"><a class="reference internal" href="c-api.html">C API for SenseVoice</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dart-api.html">Dart API for SenseVoice</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Python API for SenseVoice</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/whisper/index.html">Whisper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../moonshine/index.html">Moonshine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../omnilingual-asr/index.html">Omnilingual ASR</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">SenseVoice</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="huggingface-space.html">Huggingface space</a></li>
+<li class="toctree-l3"><a class="reference internal" href="export.html">Export SenseVoice to sherpa-onnx</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pretrained.html">Pre-trained Models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c-api.html">C API for SenseVoice</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dart-api.html">Dart API for SenseVoice</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Python API for SenseVoice</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#decode-a-file">Decode a file</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#speech-recognition-from-a-microphone">Speech recognition from a microphone</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#generate-subtitles">Generate subtitles</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#websocket-server-and-client-example">WebSocket server and client example</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../funasr-nano/index.html">FunASR Nano</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../paraformer/index.html">Paraformer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nemo/index.html">NeMo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../FireRedAsr/index.html">FireRedAsr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Dolphin/index.html">Dolphin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../homophone-replacer/index.html">拼音词组匹配替换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-diarization/index.html">Speaker Diarization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-identification/index.html">Speaker Identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speech-enhancement/index.html">Speech enhancement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../source-separation/index.html">Source separation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qnn/index.html">Qualcomm NPU (QNN, HTP)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rknn/index.html">rknn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ascend/index.html">Ascend NPU (昇腾 NPU)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tts/index.html">Text-to-speech (TTS)</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">sherpa-onnx</a> &raquo;</li>
+          <li><a href="../pretrained_models/index.html">Pre-trained models</a> &raquo;</li>
+          <li><a href="index.html">SenseVoice</a> &raquo;</li>
+      <li>Python API for SenseVoice</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/onnx/sense-voice/python-api.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="python-api-for-sensevoice">
+<h1>Python API for SenseVoice<a class="headerlink" href="#python-api-for-sensevoice" title="Permalink to this heading"></a></h1>
+<p>This page describes how to use the Python API for <a class="reference external" href="https://github.com/FunAudioLLM/SenseVoice">SenseVoice</a>.</p>
+<p>Please refer to <a class="reference internal" href="../python/install.html#install-sherpa-onnx-python"><span class="std std-ref">Install the Python Package</span></a> for how to install the Python package
+of <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>.</p>
+<p>The following is a quick way to do that:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span>
+</pre></div>
+</div>
+<section id="decode-a-file">
+<h2>Decode a file<a class="headerlink" href="#decode-a-file" title="Permalink to this heading"></a></h2>
+<p>After installing the Python package, you can download the Python example code and run it with
+the following commands:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">/</span><span class="n">tmp</span>
+<span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">k2</span><span class="o">-</span><span class="n">fsa</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">.</span><span class="n">git</span><span class="o">/</span>
+<span class="n">cd</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span>
+
+<span class="n">curl</span> <span class="o">-</span><span class="n">SL</span> <span class="o">-</span><span class="n">O</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">k2</span><span class="o">-</span><span class="n">fsa</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="n">download</span><span class="o">/</span><span class="n">asr</span><span class="o">-</span><span class="n">models</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">sense</span><span class="o">-</span><span class="n">voice</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="n">ja</span><span class="o">-</span><span class="n">ko</span><span class="o">-</span><span class="n">yue</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mf">17.</span><span class="n">tar</span><span class="o">.</span><span class="n">bz2</span>
+<span class="n">tar</span> <span class="n">xvf</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">sense</span><span class="o">-</span><span class="n">voice</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="n">ja</span><span class="o">-</span><span class="n">ko</span><span class="o">-</span><span class="n">yue</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mf">17.</span><span class="n">tar</span><span class="o">.</span><span class="n">bz2</span>
+<span class="n">rm</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">sense</span><span class="o">-</span><span class="n">voice</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="n">ja</span><span class="o">-</span><span class="n">ko</span><span class="o">-</span><span class="n">yue</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mf">17.</span><span class="n">tar</span><span class="o">.</span><span class="n">bz2</span>
+
+<span class="n">python3</span> <span class="o">./</span><span class="n">python</span><span class="o">-</span><span class="n">api</span><span class="o">-</span><span class="n">examples</span><span class="o">/</span><span class="n">offline</span><span class="o">-</span><span class="n">sense</span><span class="o">-</span><span class="n">voice</span><span class="o">-</span><span class="n">ctc</span><span class="o">-</span><span class="n">decode</span><span class="o">-</span><span class="n">files</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+<p>You should see something like below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/test_wavs/zh.wav
+{&quot;text&quot;: &quot;开放时间早上9点至下午5点。&quot;, &quot;timestamps&quot;: [0.72, 0.96, 1.26, 1.44, 1.92, 2.10, 2.58, 2.82, 3.30, 3.90, 4.20, 4.56, 4.74, 5.46], &quot;tokens&quot;:[&quot;开&quot;, &quot;放&quot;, &quot;时&quot;, &quot;间&quot;, &quot;早&quot;, &quot;上&quot;, &quot;9&quot;, &quot;点&quot;, &quot;至&quot;, &quot;下&quot;, &quot;午&quot;, &quot;5&quot;, &quot;点&quot;, &quot;。&quot;], &quot;words&quot;: []}
+
+(py38) fangjuns-MacBook-Pro:sherpa-onnx fangjun$ #python3 ./python-api-examples/offline-sense-voice-ctc-decode-files.py
+</pre></div>
+</div>
+<table>
+  <tr>
+    <th>Wave filename</th>
+    <th>Content</th>
+  </tr>
+  <tr>
+    <td>zh.wav</td>
+    <td>
+     <audio title="zh.wav" controls="controls">
+           <source src="/sherpa/_static/sense-voice/zh.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+  </tr>
+</table><p>You can find <code class="docutils literal notranslate"><span class="pre">offline-sense-voice-ctc-decode-files.py</span></code> at the following address:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/blob/master/python-api-examples/offline-sense-voice-ctc-decode-files.py">https://github.com/k2-fsa/sherpa-onnx/blob/master/python-api-examples/offline-sense-voice-ctc-decode-files.py</a></p>
+</div></blockquote>
+</section>
+<section id="speech-recognition-from-a-microphone">
+<h2>Speech recognition from a microphone<a class="headerlink" href="#speech-recognition-from-a-microphone" title="Permalink to this heading"></a></h2>
+<p>The following example shows how to use a microphone with <a class="reference external" href="https://github.com/FunAudioLLM/SenseVoice">SenseVoice</a> and <a class="reference external" href="https://github.com/snakers4/silero-vad">silero-vad</a>
+for speech recognition:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span>
+
+<span class="c1"># Assuem you have downloaded the SenseVoice model</span>
+
+<span class="n">wget</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">k2</span><span class="o">-</span><span class="n">fsa</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="n">download</span><span class="o">/</span><span class="n">asr</span><span class="o">-</span><span class="n">models</span><span class="o">/</span><span class="n">silero_vad</span><span class="o">.</span><span class="n">onnx</span>
+
+<span class="n">python3</span> <span class="o">./</span><span class="n">python</span><span class="o">-</span><span class="n">api</span><span class="o">-</span><span class="n">examples</span><span class="o">/</span><span class="n">vad</span><span class="o">-</span><span class="k">with</span><span class="o">-</span><span class="n">non</span><span class="o">-</span><span class="n">streaming</span><span class="o">-</span><span class="n">asr</span><span class="o">.</span><span class="n">py</span>  \
+  <span class="o">--</span><span class="n">silero</span><span class="o">-</span><span class="n">vad</span><span class="o">-</span><span class="n">model</span><span class="o">=./</span><span class="n">silero_vad</span><span class="o">.</span><span class="n">onnx</span> \
+  <span class="o">--</span><span class="n">sense</span><span class="o">-</span><span class="n">voice</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">sense</span><span class="o">-</span><span class="n">voice</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="n">ja</span><span class="o">-</span><span class="n">ko</span><span class="o">-</span><span class="n">yue</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">17</span><span class="o">/</span><span class="n">model</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span> \
+  <span class="o">--</span><span class="n">tokens</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">sense</span><span class="o">-</span><span class="n">voice</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="n">ja</span><span class="o">-</span><span class="n">ko</span><span class="o">-</span><span class="n">yue</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">17</span><span class="o">/</span><span class="n">tokens</span><span class="o">.</span><span class="n">txt</span> \
+  <span class="o">--</span><span class="n">num</span><span class="o">-</span><span class="n">threads</span><span class="o">=</span><span class="mi">2</span>
+</pre></div>
+</div>
+<p>You should see something like below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>  0 Background Music, Core Audio (2 in, 2 out)
+  1 Background Music (UI Sounds), Core Audio (2 in, 2 out)
+&gt; 2 MacBook Pro Microphone, Core Audio (1 in, 0 out)
+&lt; 3 MacBook Pro Speakers, Core Audio (0 in, 2 out)
+  4 WeMeet Audio Device, Core Audio (2 in, 2 out)
+Use default device: MacBook Pro Microphone
+Creating recognizer. Please wait...
+Started! Please speak
+</pre></div>
+</div>
+<p>If you start speaking, you should see some output after you stop speaking.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>It starts speech recognition after <a class="reference external" href="https://github.com/snakers4/silero-vad">silero-vad</a> detects a pause.</p>
+</div>
+</section>
+<section id="generate-subtitles">
+<h2>Generate subtitles<a class="headerlink" href="#generate-subtitles" title="Permalink to this heading"></a></h2>
+<p>This section describes how to use <a class="reference external" href="https://github.com/FunAudioLLM/SenseVoice">SenseVoice</a> and  <a class="reference external" href="https://github.com/snakers4/silero-vad">silero-vad</a>
+to generate subtitles.</p>
+<section id="chinese">
+<h3>Chinese<a class="headerlink" href="#chinese" title="Permalink to this heading"></a></h3>
+<p>Test with a wave file containing Chinese:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/tmp/sherpa-onnx
+
+<span class="c1"># Assuem you have downloaded the SenseVoice model</span>
+
+wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/silero_vad.onnx
+wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/lei-jun-test.wav
+
+python3<span class="w"> </span>./python-api-examples/generate-subtitles.py<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--silero-vad-model<span class="o">=</span>./silero_vad.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--sense-voice<span class="o">=</span>./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/model.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span>./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--num-threads<span class="o">=</span><span class="m">2</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./lei-jun-test.wav
+</pre></div>
+</div>
+<table>
+  <tr>
+    <th>Wave filename</th>
+    <th>Content</th>
+  </tr>
+  <tr>
+    <td>lei-jun-test.wav</td>
+    <td>
+     <audio title="lei-jun-test.wav" controls="controls">
+           <source src="/sherpa/_static/sense-voice/lei-jun-test.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+  </tr>
+</table><p>It will generate a text file <code class="docutils literal notranslate"><span class="pre">lei-jun-test.srt</span></code>, which is given below:</p>
+<div class="toggle docutils container">
+<div class="header docutils container">
+<p>Click ▶ to see <code class="docutils literal notranslate"><span class="pre">lei-jun-test.srt</span></code>.</p>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>1
+0:00:28,934 --&gt; 0:00:36,006
+朋友们晚上好，欢迎大家来参加今天晚上的活动，谢谢大家。
+
+2
+0:00:42,118 --&gt; 0:00:46,374
+这是我第四次颁年度演讲。
+
+3
+0:00:46,918 --&gt; 0:00:50,118
+前三次呢，因为疫情的原因。
+
+4
+0:00:50,406 --&gt; 0:00:55,750
+都在小米科技园内举办，现场的人很少。
+
+5
+0:00:56,134 --&gt; 0:00:57,574
+这是第四次。
+
+6
+0:00:58,182 --&gt; 0:01:06,854
+我们仔细想了想，我们还是想办一个比较大的聚会，然后呢让我们的新朋友老朋友一起聚一聚。
+
+7
+0:01:07,718 --&gt; 0:01:10,886
+今天的话呢我们就在北京的。
+
+8
+0:01:11,654 --&gt; 0:01:15,142
+国家会议中心呢举办了这么一个活动。
+
+9
+0:01:15,430 --&gt; 0:01:19,526
+现场呢来了很多人，大概有3500人。
+
+10
+0:01:19,942 --&gt; 0:01:22,278
+还有很多很多的朋友呢。
+
+11
+0:01:22,694 --&gt; 0:01:25,798
+通过观看直播的方式来参与。
+
+12
+0:01:26,342 --&gt; 0:01:30,886
+再一次呢对大家的参加表示感谢，谢谢大家。
+
+13
+0:01:38,470 --&gt; 0:01:39,910
+两个月前。
+
+14
+0:01:40,358 --&gt; 0:01:44,486
+我参加了今年武汉大学的毕业典礼。
+
+15
+0:01:45,926 --&gt; 0:01:47,334
+今年呢是。
+
+16
+0:01:47,910 --&gt; 0:01:50,694
+武汉大学建校130周年。
+
+17
+0:01:51,750 --&gt; 0:01:52,838
+作为校友。
+
+18
+0:01:53,350 --&gt; 0:01:54,886
+被母校邀请。
+
+19
+0:01:55,206 --&gt; 0:01:57,222
+在毕业典礼上致辞。
+
+20
+0:01:58,054 --&gt; 0:01:59,558
+这对我来说。
+
+21
+0:01:59,814 --&gt; 0:02:02,598
+是至高无上的荣誉。
+
+22
+0:02:03,654 --&gt; 0:02:05,670
+站在讲台的那一刻。
+
+23
+0:02:06,246 --&gt; 0:02:08,614
+面对全校师生。
+
+24
+0:02:09,190 --&gt; 0:02:11,462
+关于武大的所有的记忆。
+
+25
+0:02:11,686 --&gt; 0:02:14,182
+一下子涌现在脑海里。
+
+26
+0:02:14,982 --&gt; 0:02:17,670
+今天呢我就先和大家聊聊。
+
+27
+0:02:18,278 --&gt; 0:02:19,494
+大往事。
+
+28
+0:02:21,830 --&gt; 0:02:23,814
+那还是36年前。
+
+29
+0:02:25,926 --&gt; 0:02:27,654
+1987年。
+
+30
+0:02:28,678 --&gt; 0:02:31,622
+我呢考上了武汉大学的计算机系。
+
+31
+0:02:32,678 --&gt; 0:02:35,174
+在武汉大学的图书馆里。
+
+32
+0:02:35,398 --&gt; 0:02:36,710
+看了一本书。
+
+33
+0:02:37,574 --&gt; 0:02:38,630
+硅谷之火。
+
+34
+0:02:39,334 --&gt; 0:02:41,638
+建立了我一生的梦想。
+
+35
+0:02:43,302 --&gt; 0:02:44,454
+看完书以后。
+
+36
+0:02:45,286 --&gt; 0:02:46,438
+热血沸腾。
+
+37
+0:02:47,590 --&gt; 0:02:49,318
+激动的睡不着觉。
+
+38
+0:02:50,406 --&gt; 0:02:51,238
+我还记得。
+
+39
+0:02:52,006 --&gt; 0:02:52,966
+那天晚上。
+
+40
+0:02:53,318 --&gt; 0:02:54,662
+星光很亮。
+
+41
+0:02:55,398 --&gt; 0:02:57,670
+我就在五大的操场上。
+
+42
+0:02:58,342 --&gt; 0:02:59,782
+就是屏幕上这个超场。
+
+43
+0:03:00,774 --&gt; 0:03:02,470
+走了一圈又一圈。
+
+44
+0:03:02,950 --&gt; 0:03:05,222
+走了整整一个晚上。
+
+45
+0:03:06,470 --&gt; 0:03:07,750
+我心里有团火。
+
+46
+0:03:08,934 --&gt; 0:03:10,310
+我也想搬一个。
+
+47
+0:03:10,598 --&gt; 0:03:11,814
+伟大的公司。
+
+48
+0:03:13,958 --&gt; 0:03:14,822
+就是这样。
+
+49
+0:03:17,606 --&gt; 0:03:18,822
+梦想之火。
+
+50
+0:03:19,270 --&gt; 0:03:22,502
+在我心里彻底点燃了。
+
+51
+0:03:29,766 --&gt; 0:03:30,534
+但是。
+
+52
+0:03:30,758 --&gt; 0:03:32,550
+一个大一的新生。
+
+53
+0:03:40,326 --&gt; 0:03:42,726
+是一个大一的新生。
+
+54
+0:03:43,814 --&gt; 0:03:47,046
+一个从县城里出来的年轻人。
+
+55
+0:03:48,134 --&gt; 0:03:50,630
+什么也不会，什么也没有。
+
+56
+0:03:51,526 --&gt; 0:03:56,326
+就想创办一家伟大的公司，这不就是天方夜谭吗？
+
+57
+0:03:57,574 --&gt; 0:04:00,102
+这么离谱的一个梦想。
+
+58
+0:04:00,358 --&gt; 0:04:02,278
+该如何实现呢？
+
+59
+0:04:03,846 --&gt; 0:04:04,934
+那天晚上。
+
+60
+0:04:05,190 --&gt; 0:04:06,918
+我想了一整晚上。
+
+61
+0:04:07,974 --&gt; 0:04:08,966
+说实话。
+
+62
+0:04:10,342 --&gt; 0:04:13,798
+越想越糊涂，完全理不清头绪。
+
+63
+0:04:14,982 --&gt; 0:04:16,102
+后来我在想。
+
+64
+0:04:16,774 --&gt; 0:04:18,022
+干脆别想了。
+
+65
+0:04:18,342 --&gt; 0:04:19,878
+把书练好。
+
+66
+0:04:20,422 --&gt; 0:04:21,382
+是正慑。
+
+67
+0:04:22,150 --&gt; 0:04:22,982
+所以呢。
+
+68
+0:04:23,366 --&gt; 0:04:25,670
+我就下定决心认认真真读书。
+
+69
+0:04:26,662 --&gt; 0:04:27,174
+那么。
+
+70
+0:04:28,486 --&gt; 0:04:31,398
+我怎么能够把书读的不同凡响呢？
+
+</pre></div>
+</div>
+</div>
+</section>
+<section id="english">
+<h3>English<a class="headerlink" href="#english" title="Permalink to this heading"></a></h3>
+<p>Test with a wave file containing English:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/tmp/sherpa-onnx
+
+<span class="c1"># Assuem you have downloaded the SenseVoice model</span>
+
+wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/silero_vad.onnx
+wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/Obama.wav
+
+python3<span class="w"> </span>./python-api-examples/generate-subtitles.py<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--silero-vad-model<span class="o">=</span>./silero_vad.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--sense-voice<span class="o">=</span>./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/model.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span>./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--num-threads<span class="o">=</span><span class="m">2</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./Obama.wav
+</pre></div>
+</div>
+<table>
+  <tr>
+    <th>Wave filename</th>
+    <th>Content</th>
+  </tr>
+  <tr>
+    <td>Obama.wav</td>
+    <td>
+     <audio title="Obama.wav" controls="controls">
+           <source src="/sherpa/_static/sense-voice/Obama.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+  </tr>
+</table><p>It will generate a text file <code class="docutils literal notranslate"><span class="pre">Obama.srt</span></code>, which is given below:</p>
+<div class="toggle docutils container">
+<div class="header docutils container">
+<p>Click ▶ to see <code class="docutils literal notranslate"><span class="pre">Obama.srt</span></code>.</p>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>1
+0:00:09,286 --&gt; 0:00:12,486
+Everybody, all right, everybody, go ahead and have a seat.
+
+2
+0:00:13,094 --&gt; 0:00:15,014
+How&#39;s everybody doing today?
+
+3
+0:00:18,694 --&gt; 0:00:20,742
+How about Tim Sper.
+
+4
+0:00:25,894 --&gt; 0:00:31,942
+I am here with students at Wakefield High School in Arlington, Virginia.
+
+5
+0:00:32,710 --&gt; 0:00:48,326
+And we&#39;ve got students tuning in from all across America, from kindergarten through 12th grade. And I am just so glad that all could join us today. And I want to thank Wakefield for being such an outstanding host. Give yourselves a big line.
+
+6
+0:00:54,406 --&gt; 0:00:59,238
+Now I know that for many of you, today is the first day of school.
+
+7
+0:00:59,590 --&gt; 0:01:09,798
+And for those of you in kindergarten or starting middle or high school, it&#39;s your first day in a new school, so it&#39;s understandable if you&#39;re a little nervous.
+
+8
+0:01:10,630 --&gt; 0:01:16,006
+I imagine there&#39;s some seniors out there who are feeling pretty good right now with just one more year to go.
+
+9
+0:01:18,790 --&gt; 0:01:27,142
+And no matter what grade you&#39;re in, some of you are probably wishing it we&#39;re still summer, and you could have stayed in bed just a little bit longer this morning.
+
+10
+0:01:27,942 --&gt; 0:01:29,414
+I know that field.
+
+11
+0:01:31,654 --&gt; 0:01:51,708
+When I was young, my family lived overseas, I lived in Indonesia for a few years and my mother, she didn&#39;t have the money to send me where all the American kids went to school, but she thought it was important for me to keep up with American education, so she decided to teach me extra lessons herself.
+
+12
+0:01:52,230 --&gt; 0:01:58,790
+Monday through Friday, but because she had to go to work, the only time she could do it was at 430 in the morning.
+
+13
+0:02:00,038 --&gt; 0:02:03,750
+Now as you might imagine, I wasn&#39;t too happy about getting up that early.
+
+14
+0:02:04,102 --&gt; 0:02:07,302
+A lot of times I&#39;d fall asleep right there at the kitchen table.
+
+15
+0:02:08,262 --&gt; 0:02:15,014
+But whenever I&#39;d complained, my mother would just give me one of those looks and she&#39;d say, this is no picnic for me either, Buster.
+
+16
+0:02:17,094 --&gt; 0:02:25,382
+So I know that some of you are still adjusting to being back at school, but I&#39;m here today because I have something important to discuss with you.
+
+17
+0:02:25,798 --&gt; 0:02:33,798
+I&#39;m here because I want to talk with you about your education and what&#39;s expected of all of you in this new school year.
+
+18
+0:02:34,470 --&gt; 0:02:40,422
+I&#39;ve given a lot of speeches about education, and I&#39;ve talked about responsibility a lot.
+
+19
+0:02:40,806 --&gt; 0:02:47,174
+I&#39;ve talked about teachers responsibility for inspiring students and pushing you to learn.
+
+20
+0:02:47,430 --&gt; 0:02:58,726
+I talked about your parents&#39; responsibility for making sure you stay on track and you get your homework done and don&#39;t spend every waking hour in front of the TV or with the Xbox.
+
+21
+0:02:59,078 --&gt; 0:03:00,774
+I&#39;ve talked a lot about.
+
+22
+0:03:01,350 --&gt; 0:03:13,286
+Your government&#39;s responsibility for setting high standards and supporting teachers and principals and turning around schools that aren&#39;t working where students aren&#39;t getting the opportunities that they deserve.
+
+23
+0:03:13,990 --&gt; 0:03:15,366
+But at the end of the day.
+
+24
+0:03:16,006 --&gt; 0:03:26,054
+We can have the most dedicated teachers, the most supportive parents, the best schools in the world, and none of it will make a difference, none of it will matter.
+
+25
+0:03:26,694 --&gt; 0:03:30,694
+Unless all of you fulfill your responsibilities.
+
+26
+0:03:31,238 --&gt; 0:03:43,814
+Unless you show up to those schools, unless you pay attention to those teachers, unless you listen to your parents and grandparents and other adults and put in the hard work it takes to succeed.
+
+27
+0:03:44,646 --&gt; 0:03:46,598
+That&#39;s what I want to focus on today.
+
+28
+0:03:47,110 --&gt; 0:03:50,918
+The responsibility each of you has for your education.
+
+29
+0:03:51,718 --&gt; 0:03:54,854
+I want to start with the responsibility you have to yourself.
+
+30
+0:03:55,654 --&gt; 0:03:59,078
+Every single one of you has something that you&#39;re good at.
+
+31
+0:03:59,782 --&gt; 0:04:02,406
+Every single one of you has something to offer.
+
+32
+0:04:02,982 --&gt; 0:04:07,590
+And you have a responsibility to yourself to discover what that is.
+
+33
+0:04:08,326 --&gt; 0:04:11,494
+That&#39;s the opportunity an education can provide.
+
+34
+0:04:12,326 --&gt; 0:04:22,598
+Maybe you could be a great writer, maybe even good enough to write a book or articles in a newspaper, but you might not know it until you write that English paper.
+
+35
+0:04:23,078 --&gt; 0:04:25,894
+That English class paper that&#39;s assigned to you.
+
+36
+0:04:26,694 --&gt; 0:04:38,726
+Maybe you could be an innovator or an inventor, maybe even good enough to come up with the next iPhone or the new medicine or a vaccine, but you might not know it until you do your project for your science class.
+
+37
+0:04:39,814 --&gt; 0:04:44,838
+Maybe you could be a mayor or a senator or a Supreme Court justice.
+
+38
+0:04:45,350 --&gt; 0:04:50,182
+But you might not know that until you join student government or the debate team.
+
+39
+0:04:51,558 --&gt; 0:04:56,774
+And no matter what you want to do with your life, I guarantee that you&#39;ll need an education to do it.
+
+40
+0:04:57,318 --&gt; 0:05:00,710
+You want to be a doctor or a teacher or a police officer?
+
+41
+0:05:00,998 --&gt; 0:05:09,702
+You want to be a nurse or an architect, a lawyer or a member of our military, you&#39;re going to need a good education for every single one of those careers.
+
+42
+0:05:10,054 --&gt; 0:05:14,278
+You cannot drop out of school and just drop into a good job.
+
+43
+0:05:15,174 --&gt; 0:05:19,846
+You&#39;ve got to train for it and work for it and learn for it.
+
+44
+0:05:20,518 --&gt; 0:05:23,654
+And this isn&#39;t just important for your own life and your own future.
+
+45
+0:05:24,678 --&gt; 0:05:29,670
+What you make of your education will decide nothing less than the future of this country.
+
+46
+0:05:29,958 --&gt; 0:05:32,998
+The future of America depends on you.
+
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+<section id="websocket-server-and-client-example">
+<h2>WebSocket server and client example<a class="headerlink" href="#websocket-server-and-client-example" title="Permalink to this heading"></a></h2>
+<p>This example shows how to use a WebSocket server with <a class="reference external" href="https://github.com/FunAudioLLM/SenseVoice">SenseVoice</a> for speech recognition.</p>
+<section id="start-the-server">
+<h3>1. Start the server<a class="headerlink" href="#start-the-server" title="Permalink to this heading"></a></h3>
+<p>Please run</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/tmp/sherpa-onnx
+
+<span class="c1"># Assuem you have downloaded the SenseVoice model</span>
+
+python3<span class="w"> </span>./python-api-examples/non_streaming_server.py<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--sense-voice<span class="o">=</span>./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/model.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span>./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/tokens.txt
+</pre></div>
+</div>
+<p>You should see the following output after starting the server:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">2024</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">28</span> <span class="mi">20</span><span class="p">:</span><span class="mi">22</span><span class="p">:</span><span class="mi">38</span><span class="p">,</span><span class="mi">389</span> <span class="n">INFO</span> <span class="p">[</span><span class="n">non_streaming_server</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">1001</span><span class="p">]</span> <span class="p">{</span><span class="s1">&#39;encoder&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;decoder&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;joiner&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;paraformer&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;sense_voice&#39;</span><span class="p">:</span> <span class="s1">&#39;./sherpa-o</span>
+<span class="n">nnx</span><span class="o">-</span><span class="n">sense</span><span class="o">-</span><span class="n">voice</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="n">ja</span><span class="o">-</span><span class="n">ko</span><span class="o">-</span><span class="n">yue</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">17</span><span class="o">/</span><span class="n">model</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span><span class="s1">&#39;, &#39;</span><span class="n">nemo_ctc</span><span class="s1">&#39;: &#39;&#39;, &#39;</span><span class="n">wenet_ctc</span><span class="s1">&#39;: &#39;&#39;, &#39;</span><span class="n">tdnn_model</span><span class="s1">&#39;: &#39;&#39;, &#39;</span><span class="n">whisper_encoder</span><span class="s1">&#39;: &#39;&#39;, &#39;</span><span class="n">whisper_decod</span>
+<span class="n">er</span><span class="s1">&#39;: &#39;&#39;, &#39;</span><span class="n">whisper_language</span><span class="s1">&#39;: &#39;&#39;, &#39;</span><span class="n">whisper_task</span><span class="s1">&#39;: &#39;</span><span class="n">transcribe</span><span class="s1">&#39;, &#39;</span><span class="n">whisper_tail_paddings</span><span class="s1">&#39;: -1, &#39;</span><span class="n">tokens</span><span class="s1">&#39;: &#39;</span><span class="o">./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">sense</span><span class="o">-</span><span class="n">voice</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="n">ja</span><span class="o">-</span><span class="n">ko</span><span class="o">-</span><span class="n">yue</span><span class="o">-</span><span class="mi">2024</span>
+<span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">17</span><span class="o">/</span><span class="n">tokens</span><span class="o">.</span><span class="n">txt</span><span class="s1">&#39;, &#39;</span><span class="n">num_threads</span><span class="s1">&#39;: 2, &#39;</span><span class="n">provider</span><span class="s1">&#39;: &#39;</span><span class="n">cpu</span><span class="s1">&#39;, &#39;</span><span class="n">sample_rate</span><span class="s1">&#39;: 16000, &#39;</span><span class="n">feat_dim</span><span class="s1">&#39;: 80, &#39;</span><span class="n">decoding_method</span><span class="s1">&#39;: &#39;</span><span class="n">greedy_search</span><span class="s1">&#39;, &#39;</span><span class="n">max_active_paths</span><span class="s1">&#39;</span>
+<span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;hotwords_file&#39;</span><span class="p">:</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;hotwords_score&#39;</span><span class="p">:</span> <span class="mf">1.5</span><span class="p">,</span> <span class="s1">&#39;blank_penalty&#39;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span> <span class="s1">&#39;port&#39;</span><span class="p">:</span> <span class="mi">6006</span><span class="p">,</span> <span class="s1">&#39;max_batch_size&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s1">&#39;max_wait_ms&#39;</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span> <span class="s1">&#39;nn_pool_size&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s1">&#39;max_m</span>
+<span class="n">essage_size</span><span class="s1">&#39;: 1048576, &#39;</span><span class="n">max_queue_size</span><span class="s1">&#39;: 32, &#39;</span><span class="n">max_active_connections</span><span class="s1">&#39;: 200, &#39;</span><span class="n">certificate</span><span class="s1">&#39;: None, &#39;</span><span class="n">doc_root</span><span class="s1">&#39;: &#39;</span><span class="o">./</span><span class="n">python</span><span class="o">-</span><span class="n">api</span><span class="o">-</span><span class="n">examples</span><span class="o">/</span><span class="n">web</span><span class="s1">&#39;}</span>
+<span class="mi">2024</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">28</span> <span class="mi">20</span><span class="p">:</span><span class="mi">22</span><span class="p">:</span><span class="mi">41</span><span class="p">,</span><span class="mi">861</span> <span class="n">INFO</span> <span class="p">[</span><span class="n">non_streaming_server</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">647</span><span class="p">]</span> <span class="n">started</span>
+<span class="mi">2024</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">28</span> <span class="mi">20</span><span class="p">:</span><span class="mi">22</span><span class="p">:</span><span class="mi">41</span><span class="p">,</span><span class="mi">861</span> <span class="n">INFO</span> <span class="p">[</span><span class="n">non_streaming_server</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">659</span><span class="p">]</span> <span class="n">No</span> <span class="n">certificate</span> <span class="n">provided</span>
+<span class="mi">2024</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">28</span> <span class="mi">20</span><span class="p">:</span><span class="mi">22</span><span class="p">:</span><span class="mi">41</span><span class="p">,</span><span class="mi">866</span> <span class="n">INFO</span> <span class="p">[</span><span class="n">server</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">707</span><span class="p">]</span> <span class="n">server</span> <span class="n">listening</span> <span class="n">on</span> <span class="mf">0.0.0.0</span><span class="p">:</span><span class="mi">6006</span>
+<span class="mi">2024</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">28</span> <span class="mi">20</span><span class="p">:</span><span class="mi">22</span><span class="p">:</span><span class="mi">41</span><span class="p">,</span><span class="mi">866</span> <span class="n">INFO</span> <span class="p">[</span><span class="n">server</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">707</span><span class="p">]</span> <span class="n">server</span> <span class="n">listening</span> <span class="n">on</span> <span class="p">[::]:</span><span class="mi">6006</span>
+<span class="mi">2024</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">28</span> <span class="mi">20</span><span class="p">:</span><span class="mi">22</span><span class="p">:</span><span class="mi">41</span><span class="p">,</span><span class="mi">866</span> <span class="n">INFO</span> <span class="p">[</span><span class="n">non_streaming_server</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">679</span><span class="p">]</span> <span class="n">Please</span> <span class="n">visit</span> <span class="n">one</span> <span class="n">of</span> <span class="n">the</span> <span class="n">following</span> <span class="n">addresses</span><span class="p">:</span>
+
+  <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">localhost</span><span class="p">:</span><span class="mi">6006</span>
+</pre></div>
+</div>
+<p>You can either visit the address <a class="reference external" href="http://localhost:6006">http://localhost:6006</a> or write code to interact with the server.</p>
+<p>In the following, we describe possible approaches for interacting with the WebSocket server.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>The WebSocket server is able to handle multiple clients/connections at the same time.</p>
+</div>
+</section>
+<section id="start-the-client-decode-files-sequentially">
+<h3>2. Start the client (decode files sequentially)<a class="headerlink" href="#start-the-client-decode-files-sequentially" title="Permalink to this heading"></a></h3>
+<p>The following code sends the files in sequential one by one to the server for decoding.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/tmp/sherpa-onnx
+
+python3<span class="w"> </span>./python-api-examples/offline-websocket-client-decode-files-sequential.py<span class="w"> </span>./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/test_wavs/zh.wav<span class="w">  </span>./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/test_wavs/en.wav
+</pre></div>
+</div>
+<table>
+  <tr>
+    <th>Wave filename</th>
+    <th>Content</th>
+  </tr>
+  <tr>
+    <td>zh.wav</td>
+    <td>
+     <audio title="zh.wav" controls="controls">
+           <source src="/sherpa/_static/sense-voice/zh.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+  </tr>
+  <tr>
+    <td>en.wav</td>
+    <td>
+     <audio title="en.wav" controls="controls">
+           <source src="/sherpa/_static/sense-voice/en.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+  </tr>
+</table><p>You should see something like below on the server side:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>2024-07-28 20:28:15,749 INFO [server.py:642] connection open
+2024-07-28 20:28:15,749 INFO [non_streaming_server.py:835] Connected: (&#39;::1&#39;, 53252, 0, 0). Number of connections: 1/200
+2024-07-28 20:28:15,933 INFO [non_streaming_server.py:851] result: 开放时间早上9点至下午5点。
+2024-07-28 20:28:16,194 INFO [non_streaming_server.py:851] result: The tribal chieftain called for the boy and presented him with 50 pieces of gold.
+2024-07-28 20:28:16,195 INFO [non_streaming_server.py:819] Disconnected: (&#39;::1&#39;, 53252, 0, 0). Number of connections: 0/200
+2024-07-28 20:28:16,196 INFO [server.py:260] connection closed
+</pre></div>
+</div>
+<p>You should see something like below on the client side:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>2024-07-28 20:28:15,750 INFO [offline-websocket-client-decode-files-sequential.py:114] Sending ./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/test_wavs/zh.wav
+开放时间早上9点至下午5点。
+2024-07-28 20:28:15,934 INFO [offline-websocket-client-decode-files-sequential.py:114] Sending ./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/test_wavs/en.wav
+The tribal chieftain called for the boy and presented him with 50 pieces of gold.
+</pre></div>
+</div>
+</section>
+<section id="start-the-client-decode-files-in-parallel">
+<h3>3. Start the client (decode files in parallel)<a class="headerlink" href="#start-the-client-decode-files-in-parallel" title="Permalink to this heading"></a></h3>
+<p>The following code sends the files in parallel at the same time to the server for decoding.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/tmp/sherpa-onnx
+
+python3<span class="w"> </span>./python-api-examples/offline-websocket-client-decode-files-paralell.py<span class="w"> </span>./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/test_wavs/zh.wav<span class="w">  </span>./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/test_wavs/en.wav
+</pre></div>
+</div>
+<table>
+  <tr>
+    <th>Wave filename</th>
+    <th>Content</th>
+  </tr>
+  <tr>
+    <td>zh.wav</td>
+    <td>
+     <audio title="zh.wav" controls="controls">
+           <source src="/sherpa/_static/sense-voice/zh.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+  </tr>
+  <tr>
+    <td>en.wav</td>
+    <td>
+     <audio title="en.wav" controls="controls">
+           <source src="/sherpa/_static/sense-voice/en.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+  </tr>
+</table><p>You should see something like below on the server side:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>2024-07-28 20:31:10,147 INFO [server.py:642] connection open
+2024-07-28 20:31:10,148 INFO [non_streaming_server.py:835] Connected: (&#39;::1&#39;, 53436, 0, 0). Number of connections: 1/200
+2024-07-28 20:31:10,149 INFO [server.py:642] connection open
+2024-07-28 20:31:10,149 INFO [non_streaming_server.py:835] Connected: (&#39;::1&#39;, 53437, 0, 0). Number of connections: 2/200
+2024-07-28 20:31:10,353 INFO [non_streaming_server.py:851] result: 开放时间早上9点至下午5点。
+2024-07-28 20:31:10,354 INFO [non_streaming_server.py:819] Disconnected: (&#39;::1&#39;, 53436, 0, 0). Number of connections: 1/200
+2024-07-28 20:31:10,356 INFO [server.py:260] connection closed
+2024-07-28 20:31:10,541 INFO [non_streaming_server.py:851] result: The tribal chieftain called for the boy and presented him with 50 pieces of gold.
+2024-07-28 20:31:10,542 INFO [non_streaming_server.py:819] Disconnected: (&#39;::1&#39;, 53437, 0, 0). Number of connections: 0/200
+2024-07-28 20:31:10,544 INFO [server.py:260] connection closed
+</pre></div>
+</div>
+<p>You should see something like below on the client side:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>2024-07-28 20:31:10,112 INFO [offline-websocket-client-decode-files-paralell.py:139] {&#39;server_addr&#39;: &#39;localhost&#39;, &#39;server_port&#39;: 6006, &#39;sound_files&#39;: [&#39;./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/test_wavs/zh.wav&#39;, &#39;./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/test_wavs/en.wav&#39;]}
+2024-07-28 20:31:10,148 INFO [offline-websocket-client-decode-files-paralell.py:113] Sending ./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/test_wavs/zh.wav
+2024-07-28 20:31:10,191 INFO [offline-websocket-client-decode-files-paralell.py:113] Sending ./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/test_wavs/en.wav
+2024-07-28 20:31:10,353 INFO [offline-websocket-client-decode-files-paralell.py:131] ./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/test_wavs/zh.wav
+开放时间早上9点至下午5点。
+2024-07-28 20:31:10,542 INFO [offline-websocket-client-decode-files-paralell.py:131] ./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/test_wavs/en.wav
+The tribal chieftain called for the boy and presented him with 50 pieces of gold.
+</pre></div>
+</div>
+</section>
+<section id="start-the-web-browser-client">
+<h3>4. Start the  Web browser client<a class="headerlink" href="#start-the-web-browser-client" title="Permalink to this heading"></a></h3>
+<p>You can also start a browser to interact with the WebSocket server.</p>
+<p>Please visit <a class="reference external" href="http://localhost:6006">http://localhost:6006</a>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>We are not using a certificate to start the server, so the only
+<code class="docutils literal notranslate"><span class="pre">correct</span></code> URL is <a class="reference external" href="http://localhost:6006">http://localhost:6006</a>.</p>
+<p>All of the following addresses are <code class="docutils literal notranslate"><span class="pre">incorrect</span></code>:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Incorrect/Wrong address: <a class="reference external" href="https://localhost:6006">https://localhost:6006</a></p></li>
+<li><p>Incorrect/Wrong address: <a class="reference external" href="http://127.0.0.1:6006">http://127.0.0.1:6006</a></p></li>
+<li><p>Incorrect/Wrong address: <a class="reference external" href="https://127.0.0.1:6006">https://127.0.0.1:6006</a></p></li>
+<li><p>Incorrect/Wrong address: <a class="reference external" href="http://a.b.c.d:6006">http://a.b.c.d:6006</a></p></li>
+<li><p>Incorrect/Wrong address: <a class="reference external" href="https://a.b.c.d:6006">https://a.b.c.d:6006</a></p></li>
+</ul>
+</div></blockquote>
+</div>
+<p>After starting the browser, you should see the following page:</p>
+<blockquote>
+<div><a class="reference internal image-reference" href="../../_images/client-1.jpg"><img alt="../../_images/client-1.jpg" class="align-center" src="../../_images/client-1.jpg" style="width: 600px;" /></a>
+</div></blockquote>
+<section id="upload-a-file-for-recognition">
+<h4>Upload a file for recognition<a class="headerlink" href="#upload-a-file-for-recognition" title="Permalink to this heading"></a></h4>
+<p>If we click <code class="docutils literal notranslate"><span class="pre">Upload</span></code>, we will see the following page:</p>
+<blockquote>
+<div><a class="reference internal image-reference" href="../../_images/client-2.jpg"><img alt="../../_images/client-2.jpg" class="align-center" src="../../_images/client-2.jpg" style="width: 600px;" /></a>
+</div></blockquote>
+<p>After clicking <code class="docutils literal notranslate"><span class="pre">Click</span> <span class="pre">me</span> <span class="pre">to</span> <span class="pre">connect</span></code> and <code class="docutils literal notranslate"><span class="pre">Choose</span> <span class="pre">File</span></code>, you will
+see the recognition result returned from the server:</p>
+<blockquote>
+<div><a class="reference internal image-reference" href="../../_images/client-3.jpg"><img alt="../../_images/client-3.jpg" class="align-center" src="../../_images/client-3.jpg" style="width: 600px;" /></a>
+</div></blockquote>
+</section>
+<section id="record-your-speech-with-a-microphone-for-recognition">
+<h4>Record your speech with a microphone for recognition<a class="headerlink" href="#record-your-speech-with-a-microphone-for-recognition" title="Permalink to this heading"></a></h4>
+<p>If you click <code class="docutils literal notranslate"><span class="pre">Offline-Record</span></code>, you should see the following page:</p>
+<blockquote>
+<div><a class="reference internal image-reference" href="../../_images/client-4.jpg"><img alt="../../_images/client-4.jpg" class="align-center" src="../../_images/client-4.jpg" style="width: 600px;" /></a>
+</div></blockquote>
+<p>Please click the button <code class="docutils literal notranslate"><span class="pre">Click</span> <span class="pre">me</span> <span class="pre">to</span> <span class="pre">connect</span></code>, and then click the button
+<code class="docutils literal notranslate"><span class="pre">Offline-Record</span></code>, then speak, finally, click the button <code class="docutils literal notranslate"><span class="pre">Offline-Stop</span></code>;</p>
+<p>you should see the results from the server. A screenshot is given below:</p>
+<blockquote>
+<div><a class="reference internal image-reference" href="../../_images/client-5.jpg"><img alt="../../_images/client-5.jpg" class="align-center" src="../../_images/client-5.jpg" style="width: 600px;" /></a>
+</div></blockquote>
+<p>Note that you can save the recorded audio into a wave file for debugging.</p>
+<p>The recorded audio from the above screenshot is saved to <code class="docutils literal notranslate"><span class="pre">test.wav</span></code> and
+is given below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Input</span> <span class="n">File</span>     <span class="p">:</span> <span class="s1">&#39;test.wav&#39;</span>
+<span class="n">Channels</span>       <span class="p">:</span> <span class="mi">1</span>
+<span class="n">Sample</span> <span class="n">Rate</span>    <span class="p">:</span> <span class="mi">16000</span>
+<span class="n">Precision</span>      <span class="p">:</span> <span class="mi">16</span><span class="o">-</span><span class="n">bit</span>
+<span class="n">Duration</span>       <span class="p">:</span> <span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mf">07.00</span> <span class="o">=</span> <span class="mi">112012</span> <span class="n">samples</span> <span class="o">~</span> <span class="mf">525.056</span> <span class="n">CDDA</span> <span class="n">sectors</span>
+<span class="n">File</span> <span class="n">Size</span>      <span class="p">:</span> <span class="mi">224</span><span class="n">k</span>
+<span class="n">Bit</span> <span class="n">Rate</span>       <span class="p">:</span> <span class="mi">256</span><span class="n">k</span>
+<span class="n">Sample</span> <span class="n">Encoding</span><span class="p">:</span> <span class="mi">16</span><span class="o">-</span><span class="n">bit</span> <span class="n">Signed</span> <span class="n">Integer</span> <span class="n">PCM</span>
+</pre></div>
+</div>
+<table>
+  <tr>
+    <th>Wave filename</th>
+    <th>Content</th>
+  </tr>
+  <tr>
+    <td>test.wav</td>
+    <td>
+     <audio title="test.wav" controls="controls">
+           <source src="/sherpa/_static/sense-voice/python-websocket/test.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+  </tr>
+</table></section>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="dart-api.html" class="btn btn-neutral float-left" title="Dart API for SenseVoice" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../moonshine/index.html" class="btn btn-neutral float-right" title="Moonshine" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

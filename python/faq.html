@@ -1,0 +1,229 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Frequently asked questions &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../onnx/index.html">sherpa-onnx</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Frequently asked questions</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/python/faq.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="frequently-asked-questions">
+<h1>Frequently asked questions<a class="headerlink" href="#frequently-asked-questions" title="Permalink to this heading"></a></h1>
+<section id="where-to-ask-for-help">
+<h2>Where to ask for help<a class="headerlink" href="#where-to-ask-for-help" title="Permalink to this heading"></a></h2>
+<p>Please create a new issue at <a class="reference external" href="https://github.com/k2-fsa/sherpa/issues">https://github.com/k2-fsa/sherpa/issues</a>.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>Please search for existing issues, if there are any, before creating
+a new one.</p>
+</div>
+</section>
+<section id="how-to-install-a-cpu-version-of-sherpa">
+<h2>How to install a CPU version of sherpa<a class="headerlink" href="#how-to-install-a-cpu-version-of-sherpa" title="Permalink to this heading"></a></h2>
+<p>All you need to do is to install a CPU version of PyTorch before
+installing <code class="docutils literal notranslate"><span class="pre">sherpa</span></code>.</p>
+</section>
+<section id="how-to-install-sherpa-with-cuda-support">
+<h2>How to install sherpa with CUDA support<a class="headerlink" href="#how-to-install-sherpa-with-cuda-support" title="Permalink to this heading"></a></h2>
+<p>All you need to do is to install a CUDA version of PyTorch before
+installing <code class="docutils literal notranslate"><span class="pre">sherpa</span></code></p>
+</section>
+<section id="could-not-find-pytorch">
+<h2>Could not find PyTorch<a class="headerlink" href="#could-not-find-pytorch" title="Permalink to this heading"></a></h2>
+<p>If you have the following error while installing <code class="docutils literal notranslate"><span class="pre">sherpa</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">CMake</span> <span class="n">Error</span> <span class="n">at</span> <span class="n">cmake</span><span class="o">/</span><span class="n">torch</span><span class="o">.</span><span class="n">cmake</span><span class="p">:</span><span class="mi">14</span> <span class="p">(</span><span class="n">find_package</span><span class="p">):</span>
+  <span class="n">By</span> <span class="ow">not</span> <span class="n">providing</span> <span class="s2">&quot;FindTorch.cmake&quot;</span> <span class="ow">in</span> <span class="n">CMAKE_MODULE_PATH</span> <span class="n">this</span> <span class="n">project</span> <span class="n">has</span>
+  <span class="n">asked</span> <span class="n">CMake</span> <span class="n">to</span> <span class="n">find</span> <span class="n">a</span> <span class="n">package</span> <span class="n">configuration</span> <span class="n">file</span> <span class="n">provided</span> <span class="n">by</span> <span class="s2">&quot;Torch&quot;</span><span class="p">,</span> <span class="n">but</span>
+  <span class="n">CMake</span> <span class="n">did</span> <span class="ow">not</span> <span class="n">find</span> <span class="n">one</span><span class="o">.</span>
+
+  <span class="n">Could</span> <span class="ow">not</span> <span class="n">find</span> <span class="n">a</span> <span class="n">package</span> <span class="n">configuration</span> <span class="n">file</span> <span class="n">provided</span> <span class="n">by</span> <span class="s2">&quot;Torch&quot;</span> <span class="k">with</span> <span class="nb">any</span> <span class="n">of</span>
+  <span class="n">the</span> <span class="n">following</span> <span class="n">names</span><span class="p">:</span>
+
+    <span class="n">TorchConfig</span><span class="o">.</span><span class="n">cmake</span>
+    <span class="n">torch</span><span class="o">-</span><span class="n">config</span><span class="o">.</span><span class="n">cmake</span>
+
+  <span class="n">Add</span> <span class="n">the</span> <span class="n">installation</span> <span class="n">prefix</span> <span class="n">of</span> <span class="s2">&quot;Torch&quot;</span> <span class="n">to</span> <span class="n">CMAKE_PREFIX_PATH</span> <span class="ow">or</span> <span class="nb">set</span>
+  <span class="s2">&quot;Torch_DIR&quot;</span> <span class="n">to</span> <span class="n">a</span> <span class="n">directory</span> <span class="n">containing</span> <span class="n">one</span> <span class="n">of</span> <span class="n">the</span> <span class="n">above</span> <span class="n">files</span><span class="o">.</span>  <span class="n">If</span> <span class="s2">&quot;Torch&quot;</span>
+  <span class="n">provides</span> <span class="n">a</span> <span class="n">separate</span> <span class="n">development</span> <span class="n">package</span> <span class="ow">or</span> <span class="n">SDK</span><span class="p">,</span> <span class="n">be</span> <span class="n">sure</span> <span class="n">it</span> <span class="n">has</span> <span class="n">been</span>
+  <span class="n">installed</span><span class="o">.</span>
+<span class="n">Call</span> <span class="n">Stack</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">first</span><span class="p">):</span>
+  <span class="n">CMakeLists</span><span class="o">.</span><span class="n">txt</span><span class="p">:</span><span class="mi">120</span> <span class="p">(</span><span class="n">include</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The fix is to install <code class="docutils literal notranslate"><span class="pre">PyTorch</span></code> first and retry.</p>
+<p>If it still does not work, please make sure you have used the same
+(virtual) environment where <code class="docutils literal notranslate"><span class="pre">PyTorch</span></code> is installed to compile <code class="docutils literal notranslate"><span class="pre">sherpa</span></code>.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>You can look for the path to the <code class="docutils literal notranslate"><span class="pre">python3</span></code> executable in the output of
+cmake to find out which environment <code class="docutils literal notranslate"><span class="pre">cmake</span></code> is using.</p>
+</div>
+</section>
+<section id="how-to-fix-caffe2-cannot-find-cudnn-library">
+<span id="fix-cudnn-not-found"></span><h2>How to fix <cite>Caffe2: Cannot find cuDNN library</cite><a class="headerlink" href="#how-to-fix-caffe2-cannot-find-cudnn-library" title="Permalink to this heading"></a></h2>
+<p>This issue happens only when you have installed a CUDA version of PyTorch but
+without installing cuDNN.</p>
+<p>The fix is to install cuDNN.</p>
+<p>If you have installed cuDNN and it still does not help, you can do</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">export</span> <span class="n">SHERPA_CMAKE_ARGS</span><span class="o">=</span><span class="s2">&quot;-DCMAKE_BUILD_TYPE=Release -DCUDNN_LIBRARY_PATH=/path/to/cudnn/lib/libcudnn.so -DCUDNN_INCLUDE_PATH=/path/to/cudnn/include&quot;</span>
+</pre></div>
+</div>
+<p>before running <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">--verbose</span> <span class="pre">k2-sherpa</span></code> or <code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">setup.py</span> <span class="pre">install</span></code>.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>The above command assumes that you have installed cuDNN to <code class="docutils literal notranslate"><span class="pre">/path/to/cudnn</span></code>
+and you can find the following files:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">/path/to/cudnn/lib/libcudnn.so</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">/path/to/cudnn/include/cudnn.h</span></code></p></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>If you are using <code class="docutils literal notranslate"><span class="pre">conda</span></code>, you can use:</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>install<span class="w"> </span>cudnn
+</pre></div>
+</div>
+</div></blockquote>
+<p>to install <code class="docutils literal notranslate"><span class="pre">cudnn</span></code>. And possibly you don’t need to set the above
+environment variable <code class="docutils literal notranslate"><span class="pre">SHERPA_CMAKE_ARGS</span></code> after you ran
+<code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">install</span> <span class="pre">cudnn</span></code>.</p>
+</div>
+</section>
+<section id="how-to-uninstall-sherpa">
+<h2>How to uninstall sherpa<a class="headerlink" href="#how-to-uninstall-sherpa" title="Permalink to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>uninstall<span class="w"> </span>k2-sherpa
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

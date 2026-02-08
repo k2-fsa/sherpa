@@ -1,0 +1,470 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Models for QNN &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="rknn" href="../rknn/index.html" />
+    <link rel="prev" title="Build Android examples" href="build-android-demo.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">sherpa-onnx</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../install/index.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../faqs/index.html">Frequently Asked Question (FAQs)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python/index.html">Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../c-api/index.html">C API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../java-api/index.html">Java API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../javascript-api/index.html">Javascript API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kotlin-api/index.html">Kotlin API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../swift-api/index.html">Swift API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../go-api/index.html">Go API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../csharp-api/index.html">C# API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pascal-api/index.html">Pascal API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lazarus/index.html">Lazarus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../wasm/index.html">WebAssembly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../android/index.html">Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../harmony-os/index.html">HarmonyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ios/index.html">iOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../flutter/index.html">Flutter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../websocket/index.html">WebSocket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../hotwords/index.html">Hotwords (Contextual biasing)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kws/index.html">Keyword spotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../punctuation/index.html">Punctuation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../audio-tagging/index.html">Audio tagging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spoken-language-identification/index.html">Spoken language identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vad/index.html">VAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/index.html">Pre-trained models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/whisper/index.html">Whisper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../moonshine/index.html">Moonshine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../omnilingual-asr/index.html">Omnilingual ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sense-voice/index.html">SenseVoice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../funasr-nano/index.html">FunASR Nano</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../paraformer/index.html">Paraformer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nemo/index.html">NeMo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../FireRedAsr/index.html">FireRedAsr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Dolphin/index.html">Dolphin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../homophone-replacer/index.html">拼音词组匹配替换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-diarization/index.html">Speaker Diarization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-identification/index.html">Speaker Identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speech-enhancement/index.html">Speech enhancement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../source-separation/index.html">Source separation</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Qualcomm NPU (QNN, HTP)</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="download-qnn.html">Download QNN SDK</a></li>
+<li class="toctree-l3"><a class="reference internal" href="build.html">Build sherpa-onnx for Qualcomm NPU</a></li>
+<li class="toctree-l3"><a class="reference internal" href="run-executables-on-your-phone-binary.html">Run executables on your phone with adb (using model.bin)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="run-executables-on-your-phone.html">Run executables on your phone with adb (using libmodel.so)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="build-android-demo.html">Build Android examples</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Models for QNN</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#sherpa-onnx-qnn-sm8850-binary-5-seconds-zipformer-ctc-zh-2025-12-22-int8-chinese">sherpa-onnx-qnn-SM8850-binary-5-seconds-zipformer-ctc-zh-2025-12-22-int8 (Chinese)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sherpa-onnx-qnn-sm8850-binary-5-seconds-zipformer-ctc-zh-2025-07-03-int8-chinese">sherpa-onnx-qnn-SM8850-binary-5-seconds-zipformer-ctc-zh-2025-07-03-int8 (Chinese)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sherpa-onnx-qnn-sm8850-binary-5-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17-int8-chinese-english-japanese-korean-cantonese">sherpa-onnx-qnn-SM8850-binary-5-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17-int8 (Chinese, English, Japanese, Korean, Cantonese, 中英日韩粤语)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../rknn/index.html">rknn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ascend/index.html">Ascend NPU (昇腾 NPU)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tts/index.html">Text-to-speech (TTS)</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">sherpa-onnx</a> &raquo;</li>
+          <li><a href="index.html">Qualcomm NPU (QNN, HTP)</a> &raquo;</li>
+      <li>Models for QNN</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/onnx/qnn/models.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="models-for-qnn">
+<h1>Models for QNN<a class="headerlink" href="#models-for-qnn" title="Permalink to this heading"></a></h1>
+<p>We assume you have already read <a class="reference internal" href="run-executables-on-your-phone-binary.html#run-exe-on-your-phone-with-qnn-binary"><span class="std std-ref">Run executables on your phone with adb (using model.bin)</span></a>
+and are familiar with setting up the environment.</p>
+<p>This section provides a list of the models supported by QNN in <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>.</p>
+<p>It only shows the usage of models from</p>
+<blockquote>
+<div><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/tag/asr-models-qnn-binary">https://github.com/k2-fsa/sherpa-onnx/releases/tag/asr-models-qnn-binary</a></p>
+</div></blockquote>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>Please see <a class="reference internal" href="run-executables-on-your-phone.html#run-exe-on-your-phone-with-qnn"><span class="std std-ref">Run executables on your phone with adb (using libmodel.so)</span></a> for models from</p>
+<blockquote>
+<div><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/tag/asr-models-qnn">https://github.com/k2-fsa/sherpa-onnx/releases/tag/asr-models-qnn</a></p>
+</div></blockquote>
+</div>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<ul class="simple">
+<li><p>I am using a Xiaomi 17 Pro for testing, so I selected a model with SM8850 in its name in this section.</p></li>
+<li><p>Make sure to select a model that matches your own device.</p></li>
+<li><p>Suppose you are testing on a Samsung Galaxy S23 Ultra, which uses the SM8550 SoC;
+In this case, you should select a model with SM8550 in its name instead of SM8850.</p></li>
+</ul>
+</div>
+<p>Since QNN does not support dynamic input shapes, we limit the maximum duration the model can handle.
+For example, if the limit is 10 seconds, any input shorter than 10 seconds will be padded to 10 seconds,
+and inputs longer than 10 seconds will be truncated to that length.</p>
+<p>The model name indicates the maximum duration the model can handle. We use <code class="docutils literal notranslate"><span class="pre">5-seconds</span></code>
+in this section as an example.</p>
+<section id="sherpa-onnx-qnn-sm8850-binary-5-seconds-zipformer-ctc-zh-2025-12-22-int8-chinese">
+<h2>sherpa-onnx-qnn-SM8850-binary-5-seconds-zipformer-ctc-zh-2025-12-22-int8 (Chinese)<a class="headerlink" href="#sherpa-onnx-qnn-sm8850-binary-5-seconds-zipformer-ctc-zh-2025-12-22-int8-chinese" title="Permalink to this heading"></a></h2>
+<p>This model is converted from <span class="xref std std-ref">sherpa-onnx-zipformer-ctc-zh-int8-2025-12-22</span>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">wget</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">k2</span><span class="o">-</span><span class="n">fsa</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="n">download</span><span class="o">/</span><span class="n">asr</span><span class="o">-</span><span class="n">models</span><span class="o">-</span><span class="n">qnn</span><span class="o">-</span><span class="n">binary</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">qnn</span><span class="o">-</span><span class="n">SM8850</span><span class="o">-</span><span class="n">binary</span><span class="o">-</span><span class="mi">5</span><span class="o">-</span><span class="n">seconds</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">ctc</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="mi">2025</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">22</span><span class="o">-</span><span class="n">int8</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">bz2</span>
+<span class="n">tar</span> <span class="n">xvf</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">qnn</span><span class="o">-</span><span class="n">SM8850</span><span class="o">-</span><span class="n">binary</span><span class="o">-</span><span class="mi">5</span><span class="o">-</span><span class="n">seconds</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">ctc</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="mi">2025</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">22</span><span class="o">-</span><span class="n">int8</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">bz2</span>
+<span class="n">rm</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">qnn</span><span class="o">-</span><span class="n">SM8850</span><span class="o">-</span><span class="n">binary</span><span class="o">-</span><span class="mi">5</span><span class="o">-</span><span class="n">seconds</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">ctc</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="mi">2025</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">22</span><span class="o">-</span><span class="n">int8</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">bz2</span>
+</pre></div>
+</div>
+<p>Now copy them to your Qualcomm device. Make sure you have read <a class="reference internal" href="run-executables-on-your-phone-binary.html#run-exe-on-your-phone-with-qnn-binary"><span class="std std-ref">Run executables on your phone with adb (using model.bin)</span></a>
+to copy required <code class="docutils literal notranslate"><span class="pre">*.so</span></code> files from QNN SDK <code class="docutils literal notranslate"><span class="pre">2.40.0.251030</span></code> and setup the environment variable <code class="docutils literal notranslate"><span class="pre">ADSP_LIBRARY_PATH</span></code>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>pandora:/data/local/tmp $ ls -lh
+total 104K
+-rw-rw-rw- 1 shell shell 2.3M 2025-11-20 11:05 libQnnHtp.so
+-rw-rw-rw- 1 shell shell  71M 2025-11-20 11:05 libQnnHtpPrepare.so
+-rw-rw-rw- 1 shell shell  10M 2025-11-20 11:10 libQnnHtpV81Skel.so
+-rw-rw-rw- 1 shell shell 618K 2025-11-20 11:06 libQnnHtpV81Stub.so
+-rw-rw-rw- 1 shell shell 2.4M 2025-11-20 11:06 libQnnSystem.so
+-rw-rw-rw- 1 shell shell  15M 2025-12-10 11:43 libonnxruntime.so
+-rwxrwxrwx 1 shell shell 2.1M 2025-12-22 17:31 sherpa-onnx-offline
+drwxrwxr-x 3 shell shell 3.3K 2025-12-22 17:45 sherpa-onnx-qnn-SM8850-binary-5-seconds-zipformer-ctc-zh-2025-12-22-int8
+pandora:/data/local/tmp $ ls -lh sherpa-onnx-qnn-SM8850-binary-5-seconds-zipformer-ctc-zh-2025-12-22-int8
+total 351K
+-rw-rw-rw- 1 shell shell   15 2025-12-22 17:29 info.txt
+-rw-rw-rw- 1 shell shell 351M 2025-12-22 17:29 model.bin
+drwxrwxr-x 2 shell shell 3.3K 2025-12-22 17:45 test_wavs
+-rw-rw-rw- 1 shell shell  13K 2025-12-22 17:29 tokens.txt
+pandora:/data/local/tmp $ export ADSP_LIBRARY_PATH=&quot;$PWD;$ADSP_LIBRARY_PATH&quot;
+pandora:/data/local/tmp $
+</pre></div>
+</div>
+<p>Run it on your device:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">offline</span> \
+  <span class="o">--</span><span class="n">provider</span><span class="o">=</span><span class="n">qnn</span> \
+  <span class="o">--</span><span class="n">tokens</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">qnn</span><span class="o">-</span><span class="n">SM8850</span><span class="o">-</span><span class="n">binary</span><span class="o">-</span><span class="mi">5</span><span class="o">-</span><span class="n">seconds</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">ctc</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="mi">2025</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">22</span><span class="o">-</span><span class="n">int8</span><span class="o">/</span><span class="n">tokens</span><span class="o">.</span><span class="n">txt</span> \
+  <span class="o">--</span><span class="n">zipformer</span><span class="o">-</span><span class="n">ctc</span><span class="o">.</span><span class="n">qnn</span><span class="o">-</span><span class="n">backend</span><span class="o">-</span><span class="n">lib</span><span class="o">=./</span><span class="n">libQnnHtp</span><span class="o">.</span><span class="n">so</span> \
+  <span class="o">--</span><span class="n">zipformer</span><span class="o">-</span><span class="n">ctc</span><span class="o">.</span><span class="n">qnn</span><span class="o">-</span><span class="n">system</span><span class="o">-</span><span class="n">lib</span><span class="o">=./</span><span class="n">libQnnSystem</span><span class="o">.</span><span class="n">so</span> \
+  <span class="o">--</span><span class="n">zipformer</span><span class="o">-</span><span class="n">ctc</span><span class="o">.</span><span class="n">qnn</span><span class="o">-</span><span class="n">context</span><span class="o">-</span><span class="n">binary</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">qnn</span><span class="o">-</span><span class="n">SM8850</span><span class="o">-</span><span class="n">binary</span><span class="o">-</span><span class="mi">5</span><span class="o">-</span><span class="n">seconds</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">ctc</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="mi">2025</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">22</span><span class="o">-</span><span class="n">int8</span><span class="o">/</span><span class="n">model</span><span class="o">.</span><span class="n">bin</span> \
+  <span class="o">./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">qnn</span><span class="o">-</span><span class="n">SM8850</span><span class="o">-</span><span class="n">binary</span><span class="o">-</span><span class="mi">5</span><span class="o">-</span><span class="n">seconds</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">ctc</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="mi">2025</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">22</span><span class="o">-</span><span class="n">int8</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">0.</span><span class="n">wav</span>
+</pre></div>
+</div>
+<p>or write it in a single line:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">offline</span> <span class="o">--</span><span class="n">provider</span><span class="o">=</span><span class="n">qnn</span> <span class="o">--</span><span class="n">tokens</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">qnn</span><span class="o">-</span><span class="n">SM8850</span><span class="o">-</span><span class="n">binary</span><span class="o">-</span><span class="mi">5</span><span class="o">-</span><span class="n">seconds</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">ctc</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="mi">2025</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">22</span><span class="o">-</span><span class="n">int8</span><span class="o">/</span><span class="n">tokens</span><span class="o">.</span><span class="n">txt</span> <span class="o">--</span><span class="n">zipformer</span><span class="o">-</span><span class="n">ctc</span><span class="o">.</span><span class="n">qnn</span><span class="o">-</span><span class="n">backend</span><span class="o">-</span><span class="n">lib</span><span class="o">=./</span><span class="n">libQnnHtp</span><span class="o">.</span><span class="n">so</span> <span class="o">--</span><span class="n">zipformer</span><span class="o">-</span><span class="n">ctc</span><span class="o">.</span><span class="n">qnn</span><span class="o">-</span><span class="n">system</span><span class="o">-</span><span class="n">lib</span><span class="o">=./</span><span class="n">libQnnSystem</span><span class="o">.</span><span class="n">so</span> <span class="o">--</span><span class="n">zipformer</span><span class="o">-</span><span class="n">ctc</span><span class="o">.</span><span class="n">qnn</span><span class="o">-</span><span class="n">context</span><span class="o">-</span><span class="n">binary</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">qnn</span><span class="o">-</span><span class="n">SM8850</span><span class="o">-</span><span class="n">binary</span><span class="o">-</span><span class="mi">5</span><span class="o">-</span><span class="n">seconds</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">ctc</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="mi">2025</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">22</span><span class="o">-</span><span class="n">int8</span><span class="o">/</span><span class="n">model</span><span class="o">.</span><span class="n">bin</span> <span class="o">./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">qnn</span><span class="o">-</span><span class="n">SM8850</span><span class="o">-</span><span class="n">binary</span><span class="o">-</span><span class="mi">5</span><span class="o">-</span><span class="n">seconds</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">ctc</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="mi">2025</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">22</span><span class="o">-</span><span class="n">int8</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">0.</span><span class="n">wav</span>
+</pre></div>
+</div>
+<p>You can find the output log below:</p>
+<div class="toggle docutils container">
+<div class="header docutils container">
+<p>Click ▶ to see the log .</p>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:373 ./sherpa-onnx-offline --provider=qnn --tokens=./sherpa-onnx-qnn-SM8850-binary-5-seconds-zipformer-ctc-zh-2025-12-22-int8/tokens.txt --zipformer-ctc.qnn-backend-lib=./libQnnHtp.so --zipformer-ctc.qnn-system-lib=./libQnnSystem.so --zipformer-ctc.qnn-context-binary=./sherpa-onnx-qnn-SM8850-binary-5-seconds-zipformer-ctc-zh-2025-12-22-int8/model.bin ./sherpa-onnx-qnn-SM8850-binary-5-seconds-zipformer-ctc-zh-2025-12-22-int8/test_wavs/0.wav 
+
+OfflineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80, low_freq=20, high_freq=-400, dither=0, normalize_samples=True, snip_edges=False), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename=&quot;&quot;, decoder_filename=&quot;&quot;, joiner_filename=&quot;&quot;), paraformer=OfflineParaformerModelConfig(model=&quot;&quot;), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=&quot;&quot;), whisper=OfflineWhisperModelConfig(encoder=&quot;&quot;, decoder=&quot;&quot;, language=&quot;&quot;, task=&quot;transcribe&quot;, tail_paddings=-1), fire_red_asr=OfflineFireRedAsrModelConfig(encoder=&quot;&quot;, decoder=&quot;&quot;), tdnn=OfflineTdnnModelConfig(model=&quot;&quot;), zipformer_ctc=OfflineZipformerCtcModelConfig(model=&quot;&quot;, qnn_config=QnnConfig(backend_lib=&quot;./libQnnHtp.so&quot;, context_binary=&quot;./sherpa-onnx-qnn-SM8850-binary-5-seconds-zipformer-ctc-zh-2025-12-22-int8/model.bin&quot;, system_lib=&quot;./libQnnSystem.so&quot;), ), wenet_ctc=OfflineWenetCtcModelConfig(model=&quot;&quot;), sense_voice=OfflineSenseVoiceModelConfig(model=&quot;&quot;, language=&quot;auto&quot;, use_itn=False), moonshine=OfflineMoonshineModelConfig(preprocessor=&quot;&quot;, encoder=&quot;&quot;, uncached_decoder=&quot;&quot;, cached_decoder=&quot;&quot;), dolphin=OfflineDolphinModelConfig(model=&quot;&quot;), canary=OfflineCanaryModelConfig(encoder=&quot;&quot;, decoder=&quot;&quot;, src_lang=&quot;&quot;, tgt_lang=&quot;&quot;, use_pnc=True), omnilingual=OfflineOmnilingualAsrCtcModelConfig(model=&quot;&quot;), telespeech_ctc=&quot;&quot;, tokens=&quot;./sherpa-onnx-qnn-SM8850-binary-5-seconds-zipformer-ctc-zh-2025-12-22-int8/tokens.txt&quot;, num_threads=2, debug=False, provider=&quot;qnn&quot;, model_type=&quot;&quot;, modeling_unit=&quot;cjkchar&quot;, bpe_vocab=&quot;&quot;), lm_config=OfflineLMConfig(model=&quot;&quot;, scale=0.5, lodr_scale=0.01, lodr_fst=&quot;&quot;, lodr_backoff_id=-1), ctc_fst_decoder_config=OfflineCtcFstDecoderConfig(graph=&quot;&quot;, max_active=3000), decoding_method=&quot;greedy_search&quot;, max_active_paths=4, hotwords_file=&quot;&quot;, hotwords_score=1.5, blank_penalty=0, rule_fsts=&quot;&quot;, rule_fars=&quot;&quot;, hr=HomophoneReplacerConfig(lexicon=&quot;&quot;, rule_fsts=&quot;&quot;))
+Creating recognizer ...
+/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/qnn/utils.cc:CopyGraphsInfo:465 version: 3
+recognizer created in 0.583 s
+Started
+/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/qnn/offline-zipformer-ctc-model-qnn.cc:Run:89 Number of input frames 561 is too large. Truncate it to 500 frames.
+/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/qnn/offline-zipformer-ctc-model-qnn.cc:Run:93 Recognition result may be truncated/incomplete. Please select a model accepting longer audios.
+Done!
+
+./sherpa-onnx-qnn-SM8850-binary-5-seconds-zipformer-ctc-zh-2025-12-22-int8/test_wavs/0.wav
+{&quot;lang&quot;: &quot;&quot;, &quot;emotion&quot;: &quot;&quot;, &quot;event&quot;: &quot;&quot;, &quot;text&quot;: &quot;&quot;, &quot;timestamps&quot;: [], &quot;durations&quot;: [], &quot;tokens&quot;:[], &quot;ys_log_probs&quot;: [], &quot;words&quot;: []}
+----
+num threads: 2
+decoding method: greedy_search
+Elapsed seconds: 0.306 s
+Real time factor (RTF): 0.306 / 5.611 = 0.055
+     0.0ms [WARN   ] QnnDsp &lt;W&gt; Initializing HtpProvider
+     0.0ms [WARN   ] QnnDsp &lt;W&gt; m_CFBCallbackInfoObj is not initialized, return emptyList
+     0.0ms [WARN   ] QnnDsp &lt;W&gt; m_CFBCallbackInfoObj is not initialized, return emptyList
+</pre></div>
+</div>
+<p>Please ignore the <code class="docutils literal notranslate"><span class="pre">num_threads</span></code> information in the log. It is not used by qnn.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>The model actually processed only <code class="docutils literal notranslate"><span class="pre">5</span></code> seconds of audio, not <code class="docutils literal notranslate"><span class="pre">5.592</span></code> seconds.</p>
+</div>
+</div>
+</section>
+<section id="sherpa-onnx-qnn-sm8850-binary-5-seconds-zipformer-ctc-zh-2025-07-03-int8-chinese">
+<h2>sherpa-onnx-qnn-SM8850-binary-5-seconds-zipformer-ctc-zh-2025-07-03-int8 (Chinese)<a class="headerlink" href="#sherpa-onnx-qnn-sm8850-binary-5-seconds-zipformer-ctc-zh-2025-07-03-int8-chinese" title="Permalink to this heading"></a></h2>
+<p>This model is converted from <a class="reference internal" href="../pretrained_models/offline-ctc/icefall/zipformer.html#sherpa-onnx-zipformer-ctc-zh-int8-2025-07-03"><span class="std std-ref">sherpa-onnx-zipformer-ctc-zh-int8-2025-07-03 (Chinese)</span></a>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">wget</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">k2</span><span class="o">-</span><span class="n">fsa</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="n">download</span><span class="o">/</span><span class="n">asr</span><span class="o">-</span><span class="n">models</span><span class="o">-</span><span class="n">qnn</span><span class="o">-</span><span class="n">binary</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">qnn</span><span class="o">-</span><span class="n">SM8850</span><span class="o">-</span><span class="n">binary</span><span class="o">-</span><span class="mi">5</span><span class="o">-</span><span class="n">seconds</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">ctc</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="mi">2025</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">03</span><span class="o">-</span><span class="n">int8</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">bz2</span>
+<span class="n">tar</span> <span class="n">xvf</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">qnn</span><span class="o">-</span><span class="n">SM8850</span><span class="o">-</span><span class="n">binary</span><span class="o">-</span><span class="mi">5</span><span class="o">-</span><span class="n">seconds</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">ctc</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="mi">2025</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">03</span><span class="o">-</span><span class="n">int8</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">bz2</span>
+<span class="n">rm</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">qnn</span><span class="o">-</span><span class="n">SM8850</span><span class="o">-</span><span class="n">binary</span><span class="o">-</span><span class="mi">5</span><span class="o">-</span><span class="n">seconds</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">ctc</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="mi">2025</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">03</span><span class="o">-</span><span class="n">int8</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">bz2</span>
+</pre></div>
+</div>
+<p>Now copy them to your Qualcomm device. Make sure you have read <a class="reference internal" href="run-executables-on-your-phone-binary.html#run-exe-on-your-phone-with-qnn-binary"><span class="std std-ref">Run executables on your phone with adb (using model.bin)</span></a>
+to copy required <code class="docutils literal notranslate"><span class="pre">*.so</span></code> files from QNN SDK <code class="docutils literal notranslate"><span class="pre">2.40.0.251030</span></code> and setup the environment variable <code class="docutils literal notranslate"><span class="pre">ADSP_LIBRARY_PATH</span></code>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>pandora:/data/local/tmp $ ls -lh
+total 104K
+-rw-rw-rw- 1 shell shell 2.3M 2025-11-20 11:05 libQnnHtp.so
+-rw-rw-rw- 1 shell shell  71M 2025-11-20 11:05 libQnnHtpPrepare.so
+-rw-rw-rw- 1 shell shell  10M 2025-11-20 11:10 libQnnHtpV81Skel.so
+-rw-rw-rw- 1 shell shell 618K 2025-11-20 11:06 libQnnHtpV81Stub.so
+-rw-rw-rw- 1 shell shell 2.4M 2025-11-20 11:06 libQnnSystem.so
+-rw-rw-rw- 1 shell shell  15M 2025-12-10 11:43 libonnxruntime.so
+-rwxrwxrwx 1 shell shell 2.1M 2025-12-10 11:42 sherpa-onnx-offline
+drwxrwxr-x 3 shell shell 3.3K 2025-12-22 17:19 sherpa-onnx-qnn-SM8850-binary-5-seconds-zipformer-ctc-zh-2025-07-03-int8
+pandora:/data/local/tmp $ ls -lh sherpa-onnx-qnn-SM8850-binary-5-seconds-zipformer-ctc-zh-2025-07-03-int8
+total 72K
+-rw-rw-rw- 1 shell shell   15 2025-12-22 17:15 info.txt
+-rw-rw-rw- 1 shell shell  72M 2025-12-22 17:15 model.bin
+drwxrwxr-x 2 shell shell 3.3K 2025-12-22 17:19 test_wavs
+-rw-rw-rw- 1 shell shell  13K 2025-12-22 17:15 tokens.txt
+pandora:/data/local/tmp $ export ADSP_LIBRARY_PATH=&quot;$PWD;$ADSP_LIBRARY_PATH&quot;
+pandora:/data/local/tmp $
+</pre></div>
+</div>
+<p>Run it on your device:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">offline</span> \
+  <span class="o">--</span><span class="n">provider</span><span class="o">=</span><span class="n">qnn</span> \
+  <span class="o">--</span><span class="n">tokens</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">qnn</span><span class="o">-</span><span class="n">SM8850</span><span class="o">-</span><span class="n">binary</span><span class="o">-</span><span class="mi">5</span><span class="o">-</span><span class="n">seconds</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">ctc</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="mi">2025</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">03</span><span class="o">-</span><span class="n">int8</span><span class="o">/</span><span class="n">tokens</span><span class="o">.</span><span class="n">txt</span> \
+  <span class="o">--</span><span class="n">zipformer</span><span class="o">-</span><span class="n">ctc</span><span class="o">.</span><span class="n">qnn</span><span class="o">-</span><span class="n">backend</span><span class="o">-</span><span class="n">lib</span><span class="o">=./</span><span class="n">libQnnHtp</span><span class="o">.</span><span class="n">so</span> \
+  <span class="o">--</span><span class="n">zipformer</span><span class="o">-</span><span class="n">ctc</span><span class="o">.</span><span class="n">qnn</span><span class="o">-</span><span class="n">system</span><span class="o">-</span><span class="n">lib</span><span class="o">=./</span><span class="n">libQnnSystem</span><span class="o">.</span><span class="n">so</span> \
+  <span class="o">--</span><span class="n">zipformer</span><span class="o">-</span><span class="n">ctc</span><span class="o">.</span><span class="n">qnn</span><span class="o">-</span><span class="n">context</span><span class="o">-</span><span class="n">binary</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">qnn</span><span class="o">-</span><span class="n">SM8850</span><span class="o">-</span><span class="n">binary</span><span class="o">-</span><span class="mi">5</span><span class="o">-</span><span class="n">seconds</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">ctc</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="mi">2025</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">03</span><span class="o">-</span><span class="n">int8</span><span class="o">/</span><span class="n">model</span><span class="o">.</span><span class="n">bin</span> \
+  <span class="o">./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">qnn</span><span class="o">-</span><span class="n">SM8850</span><span class="o">-</span><span class="n">binary</span><span class="o">-</span><span class="mi">5</span><span class="o">-</span><span class="n">seconds</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">ctc</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="mi">2025</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">03</span><span class="o">-</span><span class="n">int8</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">0.</span><span class="n">wav</span>
+</pre></div>
+</div>
+<p>or write it in a single line:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">offline</span> <span class="o">--</span><span class="n">provider</span><span class="o">=</span><span class="n">qnn</span> <span class="o">--</span><span class="n">tokens</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">qnn</span><span class="o">-</span><span class="n">SM8850</span><span class="o">-</span><span class="n">binary</span><span class="o">-</span><span class="mi">5</span><span class="o">-</span><span class="n">seconds</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">ctc</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="mi">2025</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">03</span><span class="o">-</span><span class="n">int8</span><span class="o">/</span><span class="n">tokens</span><span class="o">.</span><span class="n">txt</span> <span class="o">--</span><span class="n">zipformer</span><span class="o">-</span><span class="n">ctc</span><span class="o">.</span><span class="n">qnn</span><span class="o">-</span><span class="n">backend</span><span class="o">-</span><span class="n">lib</span><span class="o">=./</span><span class="n">libQnnHtp</span><span class="o">.</span><span class="n">so</span> <span class="o">--</span><span class="n">zipformer</span><span class="o">-</span><span class="n">ctc</span><span class="o">.</span><span class="n">qnn</span><span class="o">-</span><span class="n">system</span><span class="o">-</span><span class="n">lib</span><span class="o">=./</span><span class="n">libQnnSystem</span><span class="o">.</span><span class="n">so</span> <span class="o">--</span><span class="n">zipformer</span><span class="o">-</span><span class="n">ctc</span><span class="o">.</span><span class="n">qnn</span><span class="o">-</span><span class="n">context</span><span class="o">-</span><span class="n">binary</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">qnn</span><span class="o">-</span><span class="n">SM8850</span><span class="o">-</span><span class="n">binary</span><span class="o">-</span><span class="mi">5</span><span class="o">-</span><span class="n">seconds</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">ctc</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="mi">2025</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">03</span><span class="o">-</span><span class="n">int8</span><span class="o">/</span><span class="n">model</span><span class="o">.</span><span class="n">bin</span> <span class="o">./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">qnn</span><span class="o">-</span><span class="n">SM8850</span><span class="o">-</span><span class="n">binary</span><span class="o">-</span><span class="mi">5</span><span class="o">-</span><span class="n">seconds</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">ctc</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="mi">2025</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">03</span><span class="o">-</span><span class="n">int8</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">0.</span><span class="n">wav</span>
+</pre></div>
+</div>
+<p>You can find the output log below:</p>
+<div class="toggle docutils container">
+<div class="header docutils container">
+<p>Click ▶ to see the log .</p>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:373 ./sherpa-onnx-offline --provider=qnn --tokens=./sherpa-onnx-qnn-SM8850-binary-5-seconds-zipformer-ctc-zh-2025-07-03-int8/tokens.txt --zipformer-ctc.qnn-backend-lib=./libQnnHtp.so --zipformer-ctc.qnn-system-lib=./libQnnSystem.so --zipformer-ctc.qnn-context-binary=./sherpa-onnx-qnn-SM8850-binary-5-seconds-zipformer-ctc-zh-2025-07-03-int8/model.bin ./sherpa-onnx-qnn-SM8850-binary-5-seconds-zipformer-ctc-zh-2025-07-03-int8/test_wavs/0.wav 
+
+OfflineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80, low_freq=20, high_freq=-400, dither=0, normalize_samples=True, snip_edges=False), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename=&quot;&quot;, decoder_filename=&quot;&quot;, joiner_filename=&quot;&quot;), paraformer=OfflineParaformerModelConfig(model=&quot;&quot;), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=&quot;&quot;), whisper=OfflineWhisperModelConfig(encoder=&quot;&quot;, decoder=&quot;&quot;, language=&quot;&quot;, task=&quot;transcribe&quot;, tail_paddings=-1), fire_red_asr=OfflineFireRedAsrModelConfig(encoder=&quot;&quot;, decoder=&quot;&quot;), tdnn=OfflineTdnnModelConfig(model=&quot;&quot;), zipformer_ctc=OfflineZipformerCtcModelConfig(model=&quot;&quot;, qnn_config=QnnConfig(backend_lib=&quot;./libQnnHtp.so&quot;, context_binary=&quot;./sherpa-onnx-qnn-SM8850-binary-5-seconds-zipformer-ctc-zh-2025-07-03-int8/model.bin&quot;, system_lib=&quot;./libQnnSystem.so&quot;), ), wenet_ctc=OfflineWenetCtcModelConfig(model=&quot;&quot;), sense_voice=OfflineSenseVoiceModelConfig(model=&quot;&quot;, language=&quot;auto&quot;, use_itn=False), moonshine=OfflineMoonshineModelConfig(preprocessor=&quot;&quot;, encoder=&quot;&quot;, uncached_decoder=&quot;&quot;, cached_decoder=&quot;&quot;), dolphin=OfflineDolphinModelConfig(model=&quot;&quot;), canary=OfflineCanaryModelConfig(encoder=&quot;&quot;, decoder=&quot;&quot;, src_lang=&quot;&quot;, tgt_lang=&quot;&quot;, use_pnc=True), omnilingual=OfflineOmnilingualAsrCtcModelConfig(model=&quot;&quot;), telespeech_ctc=&quot;&quot;, tokens=&quot;./sherpa-onnx-qnn-SM8850-binary-5-seconds-zipformer-ctc-zh-2025-07-03-int8/tokens.txt&quot;, num_threads=2, debug=False, provider=&quot;qnn&quot;, model_type=&quot;&quot;, modeling_unit=&quot;cjkchar&quot;, bpe_vocab=&quot;&quot;), lm_config=OfflineLMConfig(model=&quot;&quot;, scale=0.5, lodr_scale=0.01, lodr_fst=&quot;&quot;, lodr_backoff_id=-1), ctc_fst_decoder_config=OfflineCtcFstDecoderConfig(graph=&quot;&quot;, max_active=3000), decoding_method=&quot;greedy_search&quot;, max_active_paths=4, hotwords_file=&quot;&quot;, hotwords_score=1.5, blank_penalty=0, rule_fsts=&quot;&quot;, rule_fars=&quot;&quot;, hr=HomophoneReplacerConfig(lexicon=&quot;&quot;, rule_fsts=&quot;&quot;))
+Creating recognizer ...
+/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/qnn/utils.cc:CopyGraphsInfo:465 version: 3
+recognizer created in 0.234 s
+Started
+/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/qnn/offline-zipformer-ctc-model-qnn.cc:Run:89 Number of input frames 561 is too large. Truncate it to 500 frames.
+/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/qnn/offline-zipformer-ctc-model-qnn.cc:Run:93 Recognition result may be truncated/incomplete. Please select a model accepting longer audios.
+Done!
+
+./sherpa-onnx-qnn-SM8850-binary-5-seconds-zipformer-ctc-zh-2025-07-03-int8/test_wavs/0.wav
+{&quot;lang&quot;: &quot;&quot;, &quot;emotion&quot;: &quot;&quot;, &quot;event&quot;: &quot;&quot;, &quot;text&quot;: &quot;对我做了介绍那么我想说的是呢大家如果对我的研究感兴趣呢&quot;, &quot;timestamps&quot;: [0.00, 0.32, 0.48, 0.64, 0.80, 0.96, 1.08, 1.16, 1.60, 1.76, 1.92, 2.08, 2.24, 2.40, 2.56, 2.72, 3.04, 3.20, 3.36, 3.44, 3.52, 3.68, 3.76, 3.84, 4.00, 4.16, 4.32, 4.48, 4.60, 4.68, 4.80], &quot;durations&quot;: [], &quot;tokens&quot;:[&quot;▁ƌŕş&quot;, &quot;▁ƍĩĴ&quot;, &quot;▁ƌĢĽ&quot;, &quot;▁ƋŠħ&quot;, &quot;▁ƋšĬ&quot;, &quot;▁Ǝ&quot;, &quot;š&quot;, &quot;Į&quot;, &quot;▁Ɛģň&quot;, &quot;▁Ƌşĩ&quot;, &quot;▁ƍĩĴ&quot;, &quot;▁ƍĤř&quot;, &quot;▁ƏŕŚ&quot;, &quot;▁ƎĽĥ&quot;, &quot;▁ƍĻŕ&quot;, &quot;▁ƌĴŇ&quot;, &quot;▁ƌŊō&quot;, &quot;▁ƌŔŜ&quot;, &quot;▁ƌŌģ&quot;, &quot;▁ƍŃŁ&quot;, &quot;▁ƌŕş&quot;, &quot;▁ƍĩĴ&quot;, &quot;▁ƎĽĥ&quot;, &quot;▁ƎŅķ&quot;, &quot;▁ƎŏŜ&quot;, &quot;▁ƍĥń&quot;, &quot;▁ƌĦŚ&quot;, &quot;▁Ə&quot;, &quot;Ŝ&quot;, &quot;ň&quot;, &quot;▁ƌĴŇ&quot;], &quot;ys_log_probs&quot;: [], &quot;words&quot;: []}
+----
+num threads: 2
+decoding method: greedy_search
+Elapsed seconds: 0.150 s
+Real time factor (RTF): 0.150 / 5.611 = 0.027
+     0.0ms [WARN   ] QnnDsp &lt;W&gt; Initializing HtpProvider
+     0.0ms [WARN   ] QnnDsp &lt;W&gt; m_CFBCallbackInfoObj is not initialized, return emptyList
+     0.0ms [WARN   ] QnnDsp &lt;W&gt; m_CFBCallbackInfoObj is not initialized, return emptyList
+</pre></div>
+</div>
+<p>Please ignore the <code class="docutils literal notranslate"><span class="pre">num_threads</span></code> information in the log. It is not used by qnn.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>The model actually processed only <code class="docutils literal notranslate"><span class="pre">5</span></code> seconds of audio, not <code class="docutils literal notranslate"><span class="pre">5.592</span></code> seconds.</p>
+</div>
+</div>
+</section>
+<section id="sherpa-onnx-qnn-sm8850-binary-5-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17-int8-chinese-english-japanese-korean-cantonese">
+<h2>sherpa-onnx-qnn-SM8850-binary-5-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17-int8 (Chinese, English, Japanese, Korean, Cantonese, 中英日韩粤语)<a class="headerlink" href="#sherpa-onnx-qnn-sm8850-binary-5-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17-int8-chinese-english-japanese-korean-cantonese" title="Permalink to this heading"></a></h2>
+<p>This model is converted from <a class="reference internal" href="../sense-voice/pretrained.html#sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17"><span class="std std-ref">sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17-int8 (Chinese, English, Japanese, Korean, Cantonese, 中英日韩粤语)</span></a>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">wget</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">k2</span><span class="o">-</span><span class="n">fsa</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="n">download</span><span class="o">/</span><span class="n">asr</span><span class="o">-</span><span class="n">models</span><span class="o">-</span><span class="n">qnn</span><span class="o">-</span><span class="n">binary</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">qnn</span><span class="o">-</span><span class="n">SM8850</span><span class="o">-</span><span class="n">binary</span><span class="o">-</span><span class="mi">5</span><span class="o">-</span><span class="n">seconds</span><span class="o">-</span><span class="n">sense</span><span class="o">-</span><span class="n">voice</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="n">ja</span><span class="o">-</span><span class="n">ko</span><span class="o">-</span><span class="n">yue</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">17</span><span class="o">-</span><span class="n">int8</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">bz2</span>
+<span class="n">tar</span> <span class="n">xvf</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">qnn</span><span class="o">-</span><span class="n">SM8850</span><span class="o">-</span><span class="n">binary</span><span class="o">-</span><span class="mi">5</span><span class="o">-</span><span class="n">seconds</span><span class="o">-</span><span class="n">sense</span><span class="o">-</span><span class="n">voice</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="n">ja</span><span class="o">-</span><span class="n">ko</span><span class="o">-</span><span class="n">yue</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">17</span><span class="o">-</span><span class="n">int8</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">bz2</span>
+<span class="n">rm</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">qnn</span><span class="o">-</span><span class="n">SM8850</span><span class="o">-</span><span class="n">binary</span><span class="o">-</span><span class="mi">5</span><span class="o">-</span><span class="n">seconds</span><span class="o">-</span><span class="n">sense</span><span class="o">-</span><span class="n">voice</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="n">ja</span><span class="o">-</span><span class="n">ko</span><span class="o">-</span><span class="n">yue</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">17</span><span class="o">-</span><span class="n">int8</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">bz2</span>
+</pre></div>
+</div>
+<p>Now copy them to your Qualcomm device. Make sure you have read <a class="reference internal" href="run-executables-on-your-phone-binary.html#run-exe-on-your-phone-with-qnn-binary"><span class="std std-ref">Run executables on your phone with adb (using model.bin)</span></a>
+to copy required <code class="docutils literal notranslate"><span class="pre">*.so</span></code> files from QNN SDK <code class="docutils literal notranslate"><span class="pre">2.40.0.251030</span></code> and setup the environment variable <code class="docutils literal notranslate"><span class="pre">ADSP_LIBRARY_PATH</span></code>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>pandora:/data/local/tmp $ ls -lh
+total 104K
+-rw-rw-rw- 1 shell shell 2.3M 2025-11-20 11:05 libQnnHtp.so
+-rw-rw-rw- 1 shell shell  71M 2025-11-20 11:05 libQnnHtpPrepare.so
+-rw-rw-rw- 1 shell shell  10M 2025-11-20 11:10 libQnnHtpV81Skel.so
+-rw-rw-rw- 1 shell shell 618K 2025-11-20 11:06 libQnnHtpV81Stub.so
+-rw-rw-rw- 1 shell shell 2.4M 2025-11-20 11:06 libQnnSystem.so
+-rw-rw-rw- 1 shell shell  15M 2025-12-10 11:43 libonnxruntime.so
+-rwxrwxrwx 1 shell shell 2.1M 2025-12-10 11:42 sherpa-onnx-offline
+drwxrwxr-x 3 shell shell 3.3K 2025-12-22 16:46 sherpa-onnx-qnn-SM8850-binary-5-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17-int8
+pandora:/data/local/tmp $ ls -lh sherpa-onnx-qnn-SM8850-binary-5-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17-int8
+total 242K
+-rw-rw-rw- 1 shell shell   71 2025-12-09 16:05 LICENSE
+-rw-rw-rw- 1 shell shell  104 2025-12-09 16:05 README.md
+-rw-rw-rw- 1 shell shell   22 2025-12-09 16:05 info.txt
+-rw-rw-rw- 1 shell shell 241M 2025-12-09 16:05 model.bin
+drwxrwxr-x 2 shell shell 3.3K 2025-12-22 16:46 test_wavs
+-rw-rw-rw- 1 shell shell 308K 2025-12-09 16:05 tokens.txt
+</pre></div>
+</div>
+<p>Run it on your device:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">offline</span> \
+  <span class="o">--</span><span class="n">provider</span><span class="o">=</span><span class="n">qnn</span> \
+  <span class="o">--</span><span class="n">tokens</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">qnn</span><span class="o">-</span><span class="n">SM8850</span><span class="o">-</span><span class="n">binary</span><span class="o">-</span><span class="mi">5</span><span class="o">-</span><span class="n">seconds</span><span class="o">-</span><span class="n">sense</span><span class="o">-</span><span class="n">voice</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="n">ja</span><span class="o">-</span><span class="n">ko</span><span class="o">-</span><span class="n">yue</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">17</span><span class="o">-</span><span class="n">int8</span><span class="o">/</span><span class="n">tokens</span><span class="o">.</span><span class="n">txt</span> \
+  <span class="o">--</span><span class="n">sense</span><span class="o">-</span><span class="n">voice</span><span class="o">.</span><span class="n">qnn</span><span class="o">-</span><span class="n">backend</span><span class="o">-</span><span class="n">lib</span><span class="o">=./</span><span class="n">libQnnHtp</span><span class="o">.</span><span class="n">so</span> \
+  <span class="o">--</span><span class="n">sense</span><span class="o">-</span><span class="n">voice</span><span class="o">.</span><span class="n">qnn</span><span class="o">-</span><span class="n">system</span><span class="o">-</span><span class="n">lib</span><span class="o">=./</span><span class="n">libQnnSystem</span><span class="o">.</span><span class="n">so</span> \
+  <span class="o">--</span><span class="n">sense</span><span class="o">-</span><span class="n">voice</span><span class="o">.</span><span class="n">qnn</span><span class="o">-</span><span class="n">context</span><span class="o">-</span><span class="n">binary</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">qnn</span><span class="o">-</span><span class="n">SM8850</span><span class="o">-</span><span class="n">binary</span><span class="o">-</span><span class="mi">5</span><span class="o">-</span><span class="n">seconds</span><span class="o">-</span><span class="n">sense</span><span class="o">-</span><span class="n">voice</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="n">ja</span><span class="o">-</span><span class="n">ko</span><span class="o">-</span><span class="n">yue</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">17</span><span class="o">-</span><span class="n">int8</span><span class="o">/</span><span class="n">model</span><span class="o">.</span><span class="n">bin</span> \
+  <span class="o">./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">qnn</span><span class="o">-</span><span class="n">SM8850</span><span class="o">-</span><span class="n">binary</span><span class="o">-</span><span class="mi">5</span><span class="o">-</span><span class="n">seconds</span><span class="o">-</span><span class="n">sense</span><span class="o">-</span><span class="n">voice</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="n">ja</span><span class="o">-</span><span class="n">ko</span><span class="o">-</span><span class="n">yue</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">17</span><span class="o">-</span><span class="n">int8</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="n">zh</span><span class="o">.</span><span class="n">wav</span>
+</pre></div>
+</div>
+<p>or write it in a single line:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">offline</span> <span class="o">--</span><span class="n">provider</span><span class="o">=</span><span class="n">qnn</span> <span class="o">--</span><span class="n">tokens</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">qnn</span><span class="o">-</span><span class="n">SM8850</span><span class="o">-</span><span class="n">binary</span><span class="o">-</span><span class="mi">5</span><span class="o">-</span><span class="n">seconds</span><span class="o">-</span><span class="n">sense</span><span class="o">-</span><span class="n">voice</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="n">ja</span><span class="o">-</span><span class="n">ko</span><span class="o">-</span><span class="n">yue</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">17</span><span class="o">-</span><span class="n">int8</span><span class="o">/</span><span class="n">tokens</span><span class="o">.</span><span class="n">txt</span> <span class="o">--</span><span class="n">sense</span><span class="o">-</span><span class="n">voice</span><span class="o">.</span><span class="n">qnn</span><span class="o">-</span><span class="n">backend</span><span class="o">-</span><span class="n">lib</span><span class="o">=./</span><span class="n">libQnnHtp</span><span class="o">.</span><span class="n">so</span> <span class="o">--</span><span class="n">sense</span><span class="o">-</span><span class="n">voice</span><span class="o">.</span><span class="n">qnn</span><span class="o">-</span><span class="n">system</span><span class="o">-</span><span class="n">lib</span><span class="o">=./</span><span class="n">libQnnSystem</span><span class="o">.</span><span class="n">so</span> <span class="o">--</span><span class="n">sense</span><span class="o">-</span><span class="n">voice</span><span class="o">.</span><span class="n">qnn</span><span class="o">-</span><span class="n">context</span><span class="o">-</span><span class="n">binary</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">qnn</span><span class="o">-</span><span class="n">SM8850</span><span class="o">-</span><span class="n">binary</span><span class="o">-</span><span class="mi">5</span><span class="o">-</span><span class="n">seconds</span><span class="o">-</span><span class="n">sense</span><span class="o">-</span><span class="n">voice</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="n">ja</span><span class="o">-</span><span class="n">ko</span><span class="o">-</span><span class="n">yue</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">17</span><span class="o">-</span><span class="n">int8</span><span class="o">/</span><span class="n">model</span><span class="o">.</span><span class="n">bin</span> <span class="o">./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">qnn</span><span class="o">-</span><span class="n">SM8850</span><span class="o">-</span><span class="n">binary</span><span class="o">-</span><span class="mi">5</span><span class="o">-</span><span class="n">seconds</span><span class="o">-</span><span class="n">sense</span><span class="o">-</span><span class="n">voice</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="n">ja</span><span class="o">-</span><span class="n">ko</span><span class="o">-</span><span class="n">yue</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">17</span><span class="o">-</span><span class="n">int8</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="n">zh</span><span class="o">.</span><span class="n">wav</span>
+</pre></div>
+</div>
+<p>You can find the output log below:</p>
+<div class="toggle docutils container">
+<div class="header docutils container">
+<p>Click ▶ to see the log .</p>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:373 ./sherpa-onnx-offline --provider=qnn --tokens=./sherpa-onnx-qnn-SM8850-binary-5-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17-int8/tokens.txt --sense-voice.qnn-backend-lib=./libQnnHtp.so --sense-voice.qnn-system-lib=./libQnnSystem.so --sense-voice.qnn-context-binary=./sherpa-onnx-qnn-SM8850-binary-5-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17-int8/model.bin ./sherpa-onnx-qnn-SM8850-binary-5-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17-int8/test_wavs/zh.wav 
+
+OfflineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80, low_freq=20, high_freq=-400, dither=0, normalize_samples=True, snip_edges=False), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename=&quot;&quot;, decoder_filename=&quot;&quot;, joiner_filename=&quot;&quot;), paraformer=OfflineParaformerModelConfig(model=&quot;&quot;), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=&quot;&quot;), whisper=OfflineWhisperModelConfig(encoder=&quot;&quot;, decoder=&quot;&quot;, language=&quot;&quot;, task=&quot;transcribe&quot;, tail_paddings=-1), fire_red_asr=OfflineFireRedAsrModelConfig(encoder=&quot;&quot;, decoder=&quot;&quot;), tdnn=OfflineTdnnModelConfig(model=&quot;&quot;), zipformer_ctc=OfflineZipformerCtcModelConfig(model=&quot;&quot;), wenet_ctc=OfflineWenetCtcModelConfig(model=&quot;&quot;), sense_voice=OfflineSenseVoiceModelConfig(model=&quot;&quot;, qnn_config=QnnConfig(backend_lib=&quot;./libQnnHtp.so&quot;, context_binary=&quot;./sherpa-onnx-qnn-SM8850-binary-5-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17-int8/model.bin&quot;, system_lib=&quot;./libQnnSystem.so&quot;), language=&quot;auto&quot;, use_itn=False), moonshine=OfflineMoonshineModelConfig(preprocessor=&quot;&quot;, encoder=&quot;&quot;, uncached_decoder=&quot;&quot;, cached_decoder=&quot;&quot;), dolphin=OfflineDolphinModelConfig(model=&quot;&quot;), canary=OfflineCanaryModelConfig(encoder=&quot;&quot;, decoder=&quot;&quot;, src_lang=&quot;&quot;, tgt_lang=&quot;&quot;, use_pnc=True), omnilingual=OfflineOmnilingualAsrCtcModelConfig(model=&quot;&quot;), telespeech_ctc=&quot;&quot;, tokens=&quot;./sherpa-onnx-qnn-SM8850-binary-5-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17-int8/tokens.txt&quot;, num_threads=2, debug=False, provider=&quot;qnn&quot;, model_type=&quot;&quot;, modeling_unit=&quot;cjkchar&quot;, bpe_vocab=&quot;&quot;), lm_config=OfflineLMConfig(model=&quot;&quot;, scale=0.5, lodr_scale=0.01, lodr_fst=&quot;&quot;, lodr_backoff_id=-1), ctc_fst_decoder_config=OfflineCtcFstDecoderConfig(graph=&quot;&quot;, max_active=3000), decoding_method=&quot;greedy_search&quot;, max_active_paths=4, hotwords_file=&quot;&quot;, hotwords_score=1.5, blank_penalty=0, rule_fsts=&quot;&quot;, rule_fars=&quot;&quot;, hr=HomophoneReplacerConfig(lexicon=&quot;&quot;, rule_fsts=&quot;&quot;))
+Creating recognizer ...
+/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/qnn/utils.cc:CopyGraphsInfo:465 version: 3
+recognizer created in 0.535 s
+Started
+/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/qnn/offline-sense-voice-model-qnn.cc:ApplyLFR:216 Number of input frames 92 is too large. Truncate it to 83 frames.
+/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/qnn/offline-sense-voice-model-qnn.cc:ApplyLFR:220 Recognition result may be truncated/incomplete. Please select a model accepting longer audios.
+Done!
+
+./sherpa-onnx-qnn-SM8850-binary-5-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17-int8/test_wavs/zh.wav
+{&quot;lang&quot;: &quot;&lt;|zh|&gt;&quot;, &quot;emotion&quot;: &quot;&lt;|NEUTRAL|&gt;&quot;, &quot;event&quot;: &quot;&lt;|Speech|&gt;&quot;, &quot;text&quot;: &quot;开饭时间早上九点至下午五点&quot;, &quot;timestamps&quot;: [0.72, 0.96, 1.26, 1.44, 1.92, 2.10, 2.58, 2.82, 3.24, 3.90, 4.20, 4.50, 4.68], &quot;durations&quot;: [], &quot;tokens&quot;:[&quot;开&quot;, &quot;饭&quot;, &quot;时&quot;, &quot;间&quot;, &quot;早&quot;, &quot;上&quot;, &quot;九&quot;, &quot;点&quot;, &quot;至&quot;, &quot;下&quot;, &quot;午&quot;, &quot;五&quot;, &quot;点&quot;], &quot;ys_log_probs&quot;: [], &quot;words&quot;: []}
+----
+num threads: 2
+decoding method: greedy_search
+Elapsed seconds: 0.052 s
+Real time factor (RTF): 0.052 / 5.592 = 0.009
+     0.0ms [WARN   ] QnnDsp &lt;W&gt; Initializing HtpProvider
+     0.0ms [WARN   ] QnnDsp &lt;W&gt; m_CFBCallbackInfoObj is not initialized, return emptyList
+     0.0ms [WARN   ] QnnDsp &lt;W&gt; m_CFBCallbackInfoObj is not initialized, return emptyList
+</pre></div>
+</div>
+<p>Please ignore the <code class="docutils literal notranslate"><span class="pre">num_threads</span></code> information in the log. It is not used by qnn.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>The model actually processed only <code class="docutils literal notranslate"><span class="pre">5</span></code> seconds of audio, not <code class="docutils literal notranslate"><span class="pre">5.592</span></code> seconds.</p>
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="build-android-demo.html" class="btn btn-neutral float-left" title="Build Android examples" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../rknn/index.html" class="btn btn-neutral float-right" title="rknn" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

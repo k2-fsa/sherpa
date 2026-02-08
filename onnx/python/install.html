@@ -1,0 +1,468 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Install the Python Package &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/tabs.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+        <script src="../../_static/tabs.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Decode files" href="decode-files.html" />
+    <link rel="prev" title="Python" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">sherpa-onnx</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../install/index.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../faqs/index.html">Frequently Asked Question (FAQs)</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Python</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Install the Python Package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#method-1-from-pre-compiled-wheels-cpu-only">Method 1 (From pre-compiled wheels, CPU only)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#method-2-from-pre-compiled-wheels-cpu-cuda-11-8">Method 2 (From pre-compiled wheels, CPU + CUDA 11.8)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#method-3-from-pre-compiled-wheels-cpu-cuda-12-8-cudnn9">Method 3 (From pre-compiled wheels, CPU + CUDA 12.8 + CUDNN9)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#method-4-from-source">Method 4 (From source)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#method-5-for-developers">Method 5 (For developers)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#check-your-installation">Check your installation</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="decode-files.html">Decode files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="real-time-speech-recongition-from-a-microphone.html">Real-time speech recognition from a microphone</a></li>
+<li class="toctree-l3"><a class="reference internal" href="speech-recognition-from-urls.html">Speech recognition from URLs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="streaming-websocket-server.html">Streaming WebSocket Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="non-streaming-websocket-server.html">Non-Streaming WebSocket Server</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../c-api/index.html">C API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../java-api/index.html">Java API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../javascript-api/index.html">Javascript API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kotlin-api/index.html">Kotlin API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../swift-api/index.html">Swift API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../go-api/index.html">Go API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../csharp-api/index.html">C# API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pascal-api/index.html">Pascal API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lazarus/index.html">Lazarus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../wasm/index.html">WebAssembly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../android/index.html">Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../harmony-os/index.html">HarmonyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ios/index.html">iOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../flutter/index.html">Flutter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../websocket/index.html">WebSocket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../hotwords/index.html">Hotwords (Contextual biasing)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kws/index.html">Keyword spotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../punctuation/index.html">Punctuation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../audio-tagging/index.html">Audio tagging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spoken-language-identification/index.html">Spoken language identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vad/index.html">VAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/index.html">Pre-trained models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/whisper/index.html">Whisper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../moonshine/index.html">Moonshine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../omnilingual-asr/index.html">Omnilingual ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sense-voice/index.html">SenseVoice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../funasr-nano/index.html">FunASR Nano</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../paraformer/index.html">Paraformer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nemo/index.html">NeMo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../FireRedAsr/index.html">FireRedAsr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Dolphin/index.html">Dolphin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../homophone-replacer/index.html">拼音词组匹配替换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-diarization/index.html">Speaker Diarization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-identification/index.html">Speaker Identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speech-enhancement/index.html">Speech enhancement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../source-separation/index.html">Source separation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qnn/index.html">Qualcomm NPU (QNN, HTP)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rknn/index.html">rknn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ascend/index.html">Ascend NPU (昇腾 NPU)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tts/index.html">Text-to-speech (TTS)</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">sherpa-onnx</a> &raquo;</li>
+          <li><a href="index.html">Python</a> &raquo;</li>
+      <li>Install the Python Package</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/onnx/python/install.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="install-the-python-package">
+<span id="install-sherpa-onnx-python"></span><h1>Install the Python Package<a class="headerlink" href="#install-the-python-package" title="Permalink to this heading"></a></h1>
+<p>You can select one of the following methods to install the Python package.</p>
+<section id="method-1-from-pre-compiled-wheels-cpu-only">
+<h2>Method 1 (From pre-compiled wheels, CPU only)<a class="headerlink" href="#method-1-from-pre-compiled-wheels-cpu-only" title="Permalink to this heading"></a></h2>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>This method supports the following platfroms:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Linux (<code class="docutils literal notranslate"><span class="pre">x64</span></code>, <code class="docutils literal notranslate"><span class="pre">aarch64</span></code>, <code class="docutils literal notranslate"><span class="pre">armv7l</span></code>),</p></li>
+<li><p>macOS (<code class="docutils literal notranslate"><span class="pre">x64</span></code>, <code class="docutils literal notranslate"><span class="pre">arm64</span></code>)</p></li>
+<li><p>Windows (<code class="docutils literal notranslate"><span class="pre">x64</span></code>, <code class="docutils literal notranslate"><span class="pre">x86</span></code>)</p></li>
+</ul>
+</div></blockquote>
+<p>Note that this method installs a CPU-only version of <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>.</p>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>sherpa-onnx<span class="w"> </span>sherpa-onnx-bin
+</pre></div>
+</div>
+<p>To check you have installed <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a> successfully, please run</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;import sherpa_onnx; print(sherpa_onnx.__file__)&quot;</span>
+
+which<span class="w"> </span>sherpa-onnx
+sherpa-onnx<span class="w"> </span>--help
+
+ls<span class="w"> </span>-lh<span class="w"> </span><span class="k">$(</span>dirname<span class="w"> </span><span class="k">$(</span>which<span class="w"> </span>sherpa-onnx<span class="k">))</span>/sherpa-onnx*
+</pre></div>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<blockquote>
+<div><p>You can find previous releases at
+<a class="reference external" href="https://k2-fsa.github.io/sherpa/onnx/cpu.html">https://k2-fsa.github.io/sherpa/onnx/cpu.html</a></p>
+<p>For Chinese users and users who have no access to huggingface, please visit
+<a class="reference external" href="https://k2-fsa.github.io/sherpa/onnx/cpu-cn.html">https://k2-fsa.github.io/sherpa/onnx/cpu-cn.html</a>.</p>
+<p>You can use:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="o">--</span><span class="n">verbose</span> <span class="n">sherpa_onnx_bin</span> <span class="n">sherpa_onnx_core</span> <span class="n">sherpa_onnx</span> <span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">index</span> <span class="o">-</span><span class="n">f</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">k2</span><span class="o">-</span><span class="n">fsa</span><span class="o">.</span><span class="n">github</span><span class="o">.</span><span class="n">io</span><span class="o">/</span><span class="n">sherpa</span><span class="o">/</span><span class="n">onnx</span><span class="o">/</span><span class="n">cpu</span><span class="o">.</span><span class="n">html</span>
+</pre></div>
+</div>
+<p>or:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># For Chinese uers</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="o">--</span><span class="n">verbose</span> <span class="n">sherpa_onnx_bin</span> <span class="n">sherpa_onnx_core</span> <span class="n">sherpa_onnx</span> <span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">index</span> <span class="o">-</span><span class="n">f</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">k2</span><span class="o">-</span><span class="n">fsa</span><span class="o">.</span><span class="n">github</span><span class="o">.</span><span class="n">io</span><span class="o">/</span><span class="n">sherpa</span><span class="o">/</span><span class="n">onnx</span><span class="o">/</span><span class="n">cpu</span><span class="o">-</span><span class="n">cn</span><span class="o">.</span><span class="n">html</span>
+</pre></div>
+</div>
+</div></blockquote>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>Make sure the logs contain information that it is downloading files from <code class="docutils literal notranslate"><span class="pre">huggingface.co</span></code> or <code class="docutils literal notranslate"><span class="pre">hf-mirror.com</span></code>.</p>
+<p>The installation logs are shown below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Looking in links: https://k2-fsa.github.io/sherpa/onnx/cpu.html
+Collecting sherpa_onnx_bin
+  Downloading https://huggingface.co/csukuangfj2/sherpa-onnx-wheels/resolve/main/cpu/1.12.23/sherpa_onnx_bin-1.12.23-py3-none-manylinux2014_x86_64.whl (21.6 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 21.6/21.6 MB 244.9 MB/s eta 0:00:00
+Collecting sherpa_onnx_core
+  Downloading https://huggingface.co/csukuangfj2/sherpa-onnx-wheels/resolve/main/cpu/1.12.23/sherpa_onnx_core-1.12.23-py3-none-manylinux2014_x86_64.whl (9.5 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 9.5/9.5 MB 207.6 MB/s eta 0:00:00
+Collecting sherpa_onnx
+  Downloading https://huggingface.co/csukuangfj2/sherpa-onnx-wheels/resolve/main/cpu/1.12.23/sherpa_onnx-1.12.23-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (4.1 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.1/4.1 MB 149.8 MB/s eta 0:00:00
+Installing collected packages: sherpa_onnx_core, sherpa_onnx_bin, sherpa_onnx
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="method-2-from-pre-compiled-wheels-cpu-cuda-11-8">
+<h2>Method 2 (From pre-compiled wheels, CPU + CUDA 11.8)<a class="headerlink" href="#method-2-from-pre-compiled-wheels-cpu-cuda-11-8" title="Permalink to this heading"></a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This method installs a version of <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a> supporting both <code class="docutils literal notranslate"><span class="pre">CUDA</span></code>
+and <code class="docutils literal notranslate"><span class="pre">CPU</span></code>. You need to pass the argument <code class="docutils literal notranslate"><span class="pre">provider=cuda</span></code> to use
+NVIDIA GPU, which always uses GPU 0. Otherwise, it uses <code class="docutils literal notranslate"><span class="pre">CPU</span></code> by default.</p>
+<p>Please use the environment variable <code class="docutils literal notranslate"><span class="pre">CUDA_VISIBLE_DEVICES</span></code> to control
+which GPU is mapped to GPU 0.</p>
+<p>By default, <code class="docutils literal notranslate"><span class="pre">provider</span></code> is set to <code class="docutils literal notranslate"><span class="pre">cpu</span></code>.</p>
+<p>Remeber to follow <a class="reference external" href="https://onnxruntime.ai/docs/execution-providers/CUDA-ExecutionProvider.html#requirements">https://onnxruntime.ai/docs/execution-providers/CUDA-ExecutionProvider.html#requirements</a>
+to install CUDA 11.8.</p>
+<p>If you have issues about installing CUDA 11.8, please have a look at
+<a class="reference external" href="https://k2-fsa.github.io/k2/installation/cuda-cudnn.html#cuda-11-8">https://k2-fsa.github.io/k2/installation/cuda-cudnn.html#cuda-11-8</a>.</p>
+<p>Note that you don’t need to have <code class="docutils literal notranslate"><span class="pre">sudo</span></code> permission to install CUDA 11.8</p>
+</div>
+<p>This approach supports only Linux x64 and Windows x64.</p>
+<p>Please use the following command to install CUDA-enabled <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># We use 1.12.23 here for demonstration.</span>
+<span class="c1">#</span>
+<span class="c1"># Please visit https://k2-fsa.github.io/sherpa/onnx/cuda.html</span>
+<span class="c1"># to find available versions</span>
+
+<span class="n">pip</span> <span class="n">install</span> <span class="o">--</span><span class="n">verbose</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">==</span><span class="s2">&quot;1.12.23+cuda&quot;</span> <span class="o">--</span><span class="n">no</span><span class="o">-</span><span class="n">index</span> <span class="o">-</span><span class="n">f</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">k2</span><span class="o">-</span><span class="n">fsa</span><span class="o">.</span><span class="n">github</span><span class="o">.</span><span class="n">io</span><span class="o">/</span><span class="n">sherpa</span><span class="o">/</span><span class="n">onnx</span><span class="o">/</span><span class="n">cuda</span><span class="o">.</span><span class="n">html</span>
+
+<span class="c1"># For Chinese users, please use</span>
+<span class="c1"># pip install --verbose sherpa-onnx==&quot;1.12.23+cuda&quot; --no-index -f https://k2-fsa.github.io/sherpa/onnx/cuda-cn.html</span>
+</pre></div>
+</div>
+<p>The installation logs are given below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Looking in links: https://k2-fsa.github.io/sherpa/onnx/cuda.html
+Collecting sherpa-onnx==1.12.23+cuda
+  Downloading https://huggingface.co/csukuangfj2/sherpa-onnx-wheels/resolve/main/cuda/1.12.23/sherpa_onnx-1.12.23%2Bcuda-cp312-cp312-linux_x86_64.whl (190.3 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 190.3/190.3 MB 9.2 MB/s eta 0:00:00
+Installing collected packages: sherpa-onnx
+</pre></div>
+</div>
+<p>To check that you have installed <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a> successfully, please run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python3</span> <span class="o">-</span><span class="n">c</span> <span class="s2">&quot;import sherpa_onnx; print(sherpa_onnx.__version__)&quot;</span>
+</pre></div>
+</div>
+<p>which should print something like below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">1.12.13</span><span class="o">+</span><span class="n">cuda</span>
+</pre></div>
+</div>
+</section>
+<section id="method-3-from-pre-compiled-wheels-cpu-cuda-12-8-cudnn9">
+<h2>Method 3 (From pre-compiled wheels, CPU + CUDA 12.8 + CUDNN9)<a class="headerlink" href="#method-3-from-pre-compiled-wheels-cpu-cuda-12-8-cudnn9" title="Permalink to this heading"></a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">==</span><span class="mf">1.12.13</span><span class="o">+</span><span class="n">cuda12</span><span class="o">.</span><span class="n">cudnn9</span> <span class="o">-</span><span class="n">f</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">k2</span><span class="o">-</span><span class="n">fsa</span><span class="o">.</span><span class="n">github</span><span class="o">.</span><span class="n">io</span><span class="o">/</span><span class="n">sherpa</span><span class="o">/</span><span class="n">onnx</span><span class="o">/</span><span class="n">cuda</span><span class="o">.</span><span class="n">html</span>
+
+<span class="c1"># For Chinese users, please use</span>
+<span class="n">pip</span> <span class="n">install</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">==</span><span class="mf">1.12.13</span><span class="o">+</span><span class="n">cuda12</span><span class="o">.</span><span class="n">cudnn9</span> <span class="o">-</span><span class="n">f</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">k2</span><span class="o">-</span><span class="n">fsa</span><span class="o">.</span><span class="n">github</span><span class="o">.</span><span class="n">io</span><span class="o">/</span><span class="n">sherpa</span><span class="o">/</span><span class="n">onnx</span><span class="o">/</span><span class="n">cuda</span><span class="o">-</span><span class="n">cn</span><span class="o">.</span><span class="n">html</span>
+</pre></div>
+</div>
+<p>The installation logs are given below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Looking in links: https://k2-fsa.github.io/sherpa/onnx/cuda.html
+Collecting sherpa-onnx==1.12.13+cuda12.cudnn9
+  Downloading https://huggingface.co/csukuangfj/sherpa-onnx-wheels/resolve/main/cuda/1.12.13/sherpa_onnx-1.12.13%2Bcuda12.cudnn9-cp312-cp312-linux_x86_64.whl (245.8 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 245.8/245.8 MB 4.3 MB/s eta 0:00:00
+Installing collected packages: sherpa-onnx
+Successfully installed sherpa-onnx-1.12.13+cuda12.cudnn9
+</pre></div>
+</div>
+<p>To check that you have installed <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a> successfully, please run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python3</span> <span class="o">-</span><span class="n">c</span> <span class="s2">&quot;import sherpa_onnx; print(sherpa_onnx.__version__)&quot;</span>
+</pre></div>
+</div>
+<p>which should print something like below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mf">1.12.13</span><span class="o">+</span><span class="n">cuda12</span><span class="o">.</span><span class="n">cudnn9</span>
+</pre></div>
+</div>
+</section>
+<section id="method-4-from-source">
+<h2>Method 4 (From source)<a class="headerlink" href="#method-4-from-source" title="Permalink to this heading"></a></h2>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-0-0-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-0-0-0" name="0-0" role="tab" tabindex="0">CPU</button><button aria-controls="panel-0-0-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-0-0-1" name="0-1" role="tab" tabindex="-1">Nvidia GPU (CUDA)</button></div><div aria-labelledby="tab-0-0-0" class="sphinx-tabs-panel" id="panel-0-0-0" name="0-0" role="tabpanel" tabindex="0"><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx
+<span class="nb">cd</span><span class="w"> </span>sherpa-onnx
+python3<span class="w"> </span>setup.py<span class="w"> </span>install
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-0-0-1" class="sphinx-tabs-panel" hidden="true" id="panel-0-0-1" name="0-1" role="tabpanel" tabindex="0"><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx
+<span class="nb">export</span><span class="w"> </span><span class="nv">SHERPA_ONNX_CMAKE_ARGS</span><span class="o">=</span><span class="s2">&quot;-DSHERPA_ONNX_ENABLE_GPU=ON&quot;</span>
+<span class="nb">cd</span><span class="w"> </span>sherpa-onnx
+python3<span class="w"> </span>setup.py<span class="w"> </span>install
+</pre></div>
+</div>
+</div></div>
+</section>
+<section id="method-5-for-developers">
+<h2>Method 5 (For developers)<a class="headerlink" href="#method-5-for-developers" title="Permalink to this heading"></a></h2>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-1-1-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-1-1-0" name="1-0" role="tab" tabindex="0">CPU</button><button aria-controls="panel-1-1-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-1-1-1" name="1-1" role="tab" tabindex="-1">Nvidia GPU (CUDA)</button><button aria-controls="panel-1-1-2" aria-selected="false" class="sphinx-tabs-tab" id="tab-1-1-2" name="1-2" role="tab" tabindex="-1">Nvidia GPU (CUDA 12.x, CUDNN 9)</button></div><div aria-labelledby="tab-1-1-0" class="sphinx-tabs-panel" id="panel-1-1-0" name="1-0" role="tabpanel" tabindex="0"><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx
+<span class="nb">cd</span><span class="w"> </span>sherpa-onnx
+mkdir<span class="w"> </span>build
+<span class="nb">cd</span><span class="w"> </span>build
+
+cmake<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-DSHERPA_ONNX_ENABLE_PYTHON<span class="o">=</span>ON<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-DBUILD_SHARED_LIBS<span class="o">=</span>ON<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-DSHERPA_ONNX_ENABLE_CHECK<span class="o">=</span>OFF<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-DSHERPA_ONNX_ENABLE_PORTAUDIO<span class="o">=</span>OFF<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-DSHERPA_ONNX_ENABLE_C_API<span class="o">=</span>OFF<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-DSHERPA_ONNX_ENABLE_WEBSOCKET<span class="o">=</span>OFF<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>..
+
+make<span class="w"> </span>-j
+<span class="nb">export</span><span class="w"> </span><span class="nv">PYTHONPATH</span><span class="o">=</span><span class="nv">$PWD</span>/../sherpa-onnx/python/:<span class="nv">$PWD</span>/lib:<span class="nv">$PYTHONPATH</span>
+mkdir<span class="w"> </span>-p<span class="w"> </span>../sherpa-onnx/python/sherpa_onnx/lib/
+cp<span class="w"> </span>-v<span class="w"> </span>lib/_sherpa_onnx*<span class="w"> </span>../sherpa-onnx/python/sherpa_onnx/lib/
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-1-1-1" class="sphinx-tabs-panel" hidden="true" id="panel-1-1-1" name="1-1" role="tabpanel" tabindex="0"><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx
+<span class="nb">cd</span><span class="w"> </span>sherpa-onnx
+mkdir<span class="w"> </span>build
+<span class="nb">cd</span><span class="w"> </span>build
+
+cmake<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-DSHERPA_ONNX_ENABLE_PYTHON<span class="o">=</span>ON<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-DBUILD_SHARED_LIBS<span class="o">=</span>ON<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-DSHERPA_ONNX_ENABLE_CHECK<span class="o">=</span>OFF<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-DSHERPA_ONNX_ENABLE_PORTAUDIO<span class="o">=</span>OFF<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-DSHERPA_ONNX_ENABLE_C_API<span class="o">=</span>OFF<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-DSHERPA_ONNX_ENABLE_WEBSOCKET<span class="o">=</span>OFF<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-DSHERPA_ONNX_ENABLE_GPU<span class="o">=</span>ON<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>..
+
+make<span class="w"> </span>-j
+<span class="nb">export</span><span class="w"> </span><span class="nv">PYTHONPATH</span><span class="o">=</span><span class="nv">$PWD</span>/../sherpa-onnx/python/:<span class="nv">$PWD</span>/lib:<span class="nv">$PYTHONPATH</span>
+mkdir<span class="w"> </span>-p<span class="w"> </span>../sherpa-onnx/python/sherpa_onnx/lib/
+cp<span class="w"> </span>-v<span class="w"> </span>lib/_sherpa_onnx*<span class="w"> </span>../sherpa-onnx/python/sherpa_onnx/lib/
+</pre></div>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>You need to install CUDA toolkit. Otherwise, you would get
+errors at runtime.</p>
+<p>You can refer to <a class="reference external" href="https://k2-fsa.github.io/k2/installation/cuda-cudnn.html">https://k2-fsa.github.io/k2/installation/cuda-cudnn.html</a>
+to install CUDA toolkit.</p>
+</div>
+</div><div aria-labelledby="tab-1-1-2" class="sphinx-tabs-panel" hidden="true" id="panel-1-1-2" name="1-2" role="tabpanel" tabindex="0"><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx
+<span class="nb">cd</span><span class="w"> </span>sherpa-onnx
+
+wget<span class="w"> </span>https://github.com/csukuangfj/onnxruntime-libs/releases/download/v1.22.0/onnxruntime-linux-x64-gpu-1.22.0-patched.zip
+unzip<span class="w">  </span>onnxruntime-linux-x64-gpu-1.22.0-patched.zip
+
+<span class="nb">export</span><span class="w"> </span><span class="nv">SHERPA_ONNXRUNTIME_LIB_DIR</span><span class="o">=</span><span class="nv">$PWD</span>/onnxruntime-linux-x64-gpu-1.22.0-patched/lib
+<span class="nb">export</span><span class="w"> </span><span class="nv">SHERPA_ONNXRUNTIME_INCLUDE_DIR</span><span class="o">=</span><span class="nv">$PWD</span>/onnxruntime-linux-x64-gpu-1.22.0-patched/include
+
+mkdir<span class="w"> </span>build
+<span class="nb">cd</span><span class="w"> </span>build
+
+cmake<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-DSHERPA_ONNX_ENABLE_PYTHON<span class="o">=</span>ON<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-DBUILD_SHARED_LIBS<span class="o">=</span>ON<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-DSHERPA_ONNX_ENABLE_CHECK<span class="o">=</span>OFF<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-DSHERPA_ONNX_ENABLE_PORTAUDIO<span class="o">=</span>OFF<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-DSHERPA_ONNX_ENABLE_C_API<span class="o">=</span>OFF<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-DSHERPA_ONNX_ENABLE_WEBSOCKET<span class="o">=</span>OFF<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-DSHERPA_ONNX_ENABLE_GPU<span class="o">=</span>ON<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>..
+
+make<span class="w"> </span>-j
+<span class="nb">export</span><span class="w"> </span><span class="nv">PYTHONPATH</span><span class="o">=</span><span class="nv">$PWD</span>/../sherpa-onnx/python/:<span class="nv">$PWD</span>/lib:<span class="nv">$PYTHONPATH</span>
+mkdir<span class="w"> </span>-p<span class="w"> </span>../sherpa-onnx/python/sherpa_onnx/lib/
+cp<span class="w"> </span>-v<span class="w"> </span>lib/_sherpa_onnx*<span class="w"> </span>../sherpa-onnx/python/sherpa_onnx/lib/
+</pre></div>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>You need to install CUDA toolkit. Otherwise, you would get
+errors at runtime.</p>
+<p>You can refer to <a class="reference external" href="https://k2-fsa.github.io/k2/installation/cuda-cudnn.html">https://k2-fsa.github.io/k2/installation/cuda-cudnn.html</a>
+to install CUDA toolkit.</p>
+</div>
+</div></div>
+</section>
+<section id="check-your-installation">
+<h2>Check your installation<a class="headerlink" href="#check-your-installation" title="Permalink to this heading"></a></h2>
+<p>To check that <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a> has been successfully installed, please use:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;import sherpa_onnx; print(sherpa_onnx.__file__)&quot;</span>
+</pre></div>
+</div>
+<p>It should print some output like below:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>/Users/fangjun/py38/lib/python3.8/site-packages/sherpa_onnx/__init__.py
+</pre></div>
+</div>
+<p>Please refer to:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/tree/master/python-api-examples">https://github.com/k2-fsa/sherpa-onnx/tree/master/python-api-examples</a></p>
+</div></blockquote>
+<p>for usages.</p>
+<p>Please refer to <a class="reference internal" href="../pretrained_models/index.html#sherpa-onnx-pre-trained-models"><span class="std std-ref">Pre-trained models</span></a> for a list of pre-trained
+models.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Python" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="decode-files.html" class="btn btn-neutral float-right" title="Decode files" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

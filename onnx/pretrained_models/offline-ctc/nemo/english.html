@@ -1,0 +1,656 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>English &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/clipboard.min.js"></script>
+        <script src="../../../../_static/copybutton.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+    <link rel="next" title="Russian" href="russian.html" />
+    <link rel="prev" title="How to export models from NeMo to sherpa-onnx" href="how-to-export.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../../index.html">sherpa-onnx</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../install/index.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../faqs/index.html">Frequently Asked Question (FAQs)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../python/index.html">Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../c-api/index.html">C API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../java-api/index.html">Java API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../javascript-api/index.html">Javascript API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../kotlin-api/index.html">Kotlin API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../swift-api/index.html">Swift API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../go-api/index.html">Go API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../csharp-api/index.html">C# API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../pascal-api/index.html">Pascal API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../lazarus/index.html">Lazarus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../wasm/index.html">WebAssembly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../android/index.html">Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../harmony-os/index.html">HarmonyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../ios/index.html">iOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../flutter/index.html">Flutter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../websocket/index.html">WebSocket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../hotwords/index.html">Hotwords (Contextual biasing)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../kws/index.html">Keyword spotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../punctuation/index.html">Punctuation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../audio-tagging/index.html">Audio tagging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../spoken-language-identification/index.html">Spoken language identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../vad/index.html">VAD</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../index.html">Pre-trained models</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../../online-transducer/index.html">Online transducer models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../online-paraformer/index.html">Online paraformer models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../online-ctc/index.html">Online CTC models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../offline-transducer/index.html">Offline transducer models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../offline-paraformer/index.html">Offline paraformer models</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../index.html">Offline CTC models</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../icefall/index.html">icefall</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="index.html">NeMo CTC-based models</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../wenet/index.html">WeNet CTC-based models</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../yesno/index.html">yesno</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../telespeech/index.html">TeleSpeech</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../whisper/index.html">Whisper</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../wenet/index.html">WeNet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../small-online-models.html">Small models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../sense-voice/index.html">SenseVoice</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../whisper/index.html">Whisper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../moonshine/index.html">Moonshine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../omnilingual-asr/index.html">Omnilingual ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../sense-voice/index.html">SenseVoice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../funasr-nano/index.html">FunASR Nano</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../paraformer/index.html">Paraformer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../nemo/index.html">NeMo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../FireRedAsr/index.html">FireRedAsr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Dolphin/index.html">Dolphin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../homophone-replacer/index.html">拼音词组匹配替换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../speaker-diarization/index.html">Speaker Diarization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../speaker-identification/index.html">Speaker Identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../speech-enhancement/index.html">Speech enhancement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../source-separation/index.html">Source separation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../qnn/index.html">Qualcomm NPU (QNN, HTP)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../rknn/index.html">rknn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../ascend/index.html">Ascend NPU (昇腾 NPU)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tts/index.html">Text-to-speech (TTS)</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../../index.html">sherpa-onnx</a> &raquo;</li>
+          <li><a href="../../index.html">Pre-trained models</a> &raquo;</li>
+          <li><a href="../index.html">Offline CTC models</a> &raquo;</li>
+          <li><a href="index.html">NeMo CTC-based models</a> &raquo;</li>
+      <li>English</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/onnx/pretrained_models/offline-ctc/nemo/english.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="english">
+<h1>English<a class="headerlink" href="#english" title="Permalink to this heading"></a></h1>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>Please refer to <a class="reference internal" href="../../../install/index.html#install-sherpa-onnx"><span class="std std-ref">Installation</span></a> to install <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>
+before you read this section.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>We use <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/blob/master/sherpa-onnx/csrc/sherpa-onnx-offline.cc">./build/bin/sherpa-offline</a>
+as an example in this section. You can use other scripts such as</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/blob/master/sherpa-onnx/csrc/sherpa-onnx-microphone-offline.cc">./build/bin/sherpa-onnx-microphone-offline</a></p></li>
+<li><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/blob/master/sherpa-onnx/csrc/offline-websocket-server.cc">./build/bin/sherpa-onnx-offline-websocket-server</a></p></li>
+<li><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/blob/master/python-api-examples/offline-decode-files.py">python-api-examples/offline-decode-files.py</a></p></li>
+</ul>
+</div></blockquote>
+</div>
+<p>This page lists offline CTC models from <a class="reference external" href="https://github.com/NVIDIA/NeMo">NeMo</a> for English.</p>
+<section id="sherpa-onnx-nemo-parakeet-tdt-ctc-110m-en-36000-int8-english">
+<h2>sherpa-onnx-nemo-parakeet_tdt_ctc_110m-en-36000-int8 (English, 英语)<a class="headerlink" href="#sherpa-onnx-nemo-parakeet-tdt-ctc-110m-en-36000-int8-english" title="Permalink to this heading"></a></h2>
+<p>This model is converted from <a class="reference external" href="https://huggingface.co/nvidia/parakeet-tdt_ctc-110m">https://huggingface.co/nvidia/parakeet-tdt_ctc-110m</a>.</p>
+<p>You can find the code for exporting the model from <a class="reference external" href="https://github.com/NVIDIA/NeMo">NeMo</a> to <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>
+<a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/tree/master/scripts/nemo/fast-conformer-hybrid-transducer-ctc">https://github.com/k2-fsa/sherpa-onnx/tree/master/scripts/nemo/fast-conformer-hybrid-transducer-ctc</a>.</p>
+<p>It supports both punctuations and cases.</p>
+<p>In the following, we describe how to download it and use it with <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>.</p>
+<section id="download-the-model">
+<h3>Download the model<a class="headerlink" href="#download-the-model" title="Permalink to this heading"></a></h3>
+<p>Please use the following commands to download it.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-nemo-parakeet_tdt_ctc_110m-en-36000-int8.tar.bz2
+tar<span class="w"> </span>xvf<span class="w"> </span>sherpa-onnx-nemo-parakeet_tdt_ctc_110m-en-36000-int8.tar.bz2
+rm<span class="w"> </span>sherpa-onnx-nemo-parakeet_tdt_ctc_110m-en-36000-int8.tar.bz2
+</pre></div>
+</div>
+<p>You should see something like below after downloading:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ls</span> <span class="o">-</span><span class="n">lh</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">nemo</span><span class="o">-</span><span class="n">parakeet_tdt_ctc_110m</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="mi">36000</span><span class="o">-</span><span class="n">int8</span>
+
+<span class="n">total</span> <span class="mi">126</span><span class="n">M</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="mi">501</span> <span class="n">staff</span> <span class="mi">126</span><span class="n">M</span> <span class="n">Jul</span>  <span class="mi">8</span> <span class="mi">12</span><span class="p">:</span><span class="mi">23</span> <span class="n">model</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span>
+<span class="n">drwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span> <span class="mi">2</span> <span class="mi">501</span> <span class="n">staff</span> <span class="mf">4.0</span><span class="n">K</span> <span class="n">Jul</span>  <span class="mi">8</span> <span class="mi">12</span><span class="p">:</span><span class="mi">26</span> <span class="n">test_wavs</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="mi">501</span> <span class="n">staff</span> <span class="mf">9.8</span><span class="n">K</span> <span class="n">Jul</span>  <span class="mi">8</span> <span class="mi">12</span><span class="p">:</span><span class="mi">22</span> <span class="n">tokens</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
+</div>
+</section>
+<section id="decode-wave-files">
+<h3>Decode wave files<a class="headerlink" href="#decode-wave-files" title="Permalink to this heading"></a></h3>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>It supports decoding only wave files of a single channel with 16-bit
+encoded samples, while the sampling rate does not need to be 16 kHz.</p>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+./build/bin/sherpa-onnx-offline<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--nemo-ctc-model<span class="o">=</span>./sherpa-onnx-nemo-parakeet_tdt_ctc_110m-en-36000-int8/model.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span>./sherpa-onnx-nemo-parakeet_tdt_ctc_110m-en-36000-int8/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-nemo-parakeet_tdt_ctc_110m-en-36000-int8/test_wavs/0.wav
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Please use <code class="docutils literal notranslate"><span class="pre">./build/bin/Release/sherpa-onnx-offline.exe</span></code> for Windows.</p>
+</div>
+<p>You should see the following output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/project/sherpa-onnx/csrc/parse-options.cc:Read:372 sherpa-onnx-offline --nemo-ctc-model=./sherpa-onnx-nemo-parakeet_tdt_ctc_110m-en-36000-int8/model.int8.onnx --tokens=./sherpa-onnx-nemo-parakeet_tdt_ctc_110m-en-36000-int8/tokens.txt ./sherpa-onnx-nemo-parakeet_tdt_ctc_110m-en-36000-int8/test_wavs/0.wav 
+
+OfflineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80, low_freq=20, high_freq=-400, dither=0, normalize_samples=True, snip_edges=False), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename=&quot;&quot;, decoder_filename=&quot;&quot;, joiner_filename=&quot;&quot;), paraformer=OfflineParaformerModelConfig(model=&quot;&quot;), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=&quot;./sherpa-onnx-nemo-parakeet_tdt_ctc_110m-en-36000-int8/model.int8.onnx&quot;), whisper=OfflineWhisperModelConfig(encoder=&quot;&quot;, decoder=&quot;&quot;, language=&quot;&quot;, task=&quot;transcribe&quot;, tail_paddings=-1), fire_red_asr=OfflineFireRedAsrModelConfig(encoder=&quot;&quot;, decoder=&quot;&quot;), tdnn=OfflineTdnnModelConfig(model=&quot;&quot;), zipformer_ctc=OfflineZipformerCtcModelConfig(model=&quot;&quot;), wenet_ctc=OfflineWenetCtcModelConfig(model=&quot;&quot;), sense_voice=OfflineSenseVoiceModelConfig(model=&quot;&quot;, language=&quot;auto&quot;, use_itn=False), moonshine=OfflineMoonshineModelConfig(preprocessor=&quot;&quot;, encoder=&quot;&quot;, uncached_decoder=&quot;&quot;, cached_decoder=&quot;&quot;), dolphin=OfflineDolphinModelConfig(model=&quot;&quot;), telespeech_ctc=&quot;&quot;, tokens=&quot;./sherpa-onnx-nemo-parakeet_tdt_ctc_110m-en-36000-int8/tokens.txt&quot;, num_threads=2, debug=False, provider=&quot;cpu&quot;, model_type=&quot;&quot;, modeling_unit=&quot;cjkchar&quot;, bpe_vocab=&quot;&quot;), lm_config=OfflineLMConfig(model=&quot;&quot;, scale=0.5), ctc_fst_decoder_config=OfflineCtcFstDecoderConfig(graph=&quot;&quot;, max_active=3000), decoding_method=&quot;greedy_search&quot;, max_active_paths=4, hotwords_file=&quot;&quot;, hotwords_score=1.5, blank_penalty=0, rule_fsts=&quot;&quot;, rule_fars=&quot;&quot;, hr=HomophoneReplacerConfig(dict_dir=&quot;&quot;, lexicon=&quot;&quot;, rule_fsts=&quot;&quot;))
+Creating recognizer ...
+Started
+Done!
+
+./sherpa-onnx-nemo-parakeet_tdt_ctc_110m-en-36000-int8/test_wavs/0.wav
+{&quot;lang&quot;: &quot;&quot;, &quot;emotion&quot;: &quot;&quot;, &quot;event&quot;: &quot;&quot;, &quot;text&quot;: &quot; Well, I don&#39;t wish to see it any more, observed Phoebe, turning away her eyes. It is certainly very like the old portrait.&quot;, &quot;timestamps&quot;: [0.48, 0.64, 0.80, 0.88, 0.96, 1.04, 1.12, 1.20, 1.36, 1.44, 1.60, 1.76, 1.92, 2.08, 2.24, 2.32, 2.40, 2.56, 2.64, 2.80, 2.88, 2.96, 3.04, 3.28, 3.44, 3.60, 3.76, 4.00, 4.16, 4.24, 4.40, 4.80, 5.04, 5.20, 5.36, 5.52, 5.68, 5.84, 6.08, 6.32, 6.48, 6.72, 6.80, 6.88, 7.04, 7.36], &quot;tokens&quot;:[&quot; Well&quot;, &quot;,&quot;, &quot; I&quot;, &quot; don&quot;, &quot;&#39;&quot;, &quot;t&quot;, &quot; w&quot;, &quot;ish&quot;, &quot; to&quot;, &quot; see&quot;, &quot; it&quot;, &quot; any&quot;, &quot; more&quot;, &quot;,&quot;, &quot; o&quot;, &quot;bs&quot;, &quot;er&quot;, &quot;ved&quot;, &quot; P&quot;, &quot;h&quot;, &quot;o&quot;, &quot;e&quot;, &quot;be&quot;, &quot;,&quot;, &quot; turn&quot;, &quot;ing&quot;, &quot; away&quot;, &quot; her&quot;, &quot; e&quot;, &quot;y&quot;, &quot;es&quot;, &quot;.&quot;, &quot; It&quot;, &quot; is&quot;, &quot; c&quot;, &quot;ertain&quot;, &quot;ly&quot;, &quot; very&quot;, &quot; like&quot;, &quot; the&quot;, &quot; old&quot;, &quot; p&quot;, &quot;ort&quot;, &quot;ra&quot;, &quot;it&quot;, &quot;.&quot;], &quot;words&quot;: []}
+----
+num threads: 2
+decoding method: greedy_search
+Elapsed seconds: 0.487 s
+Real time factor (RTF): 0.487 / 7.435 = 0.066
+</pre></div>
+</div>
+</section>
+<section id="speech-recognition-from-a-microphone">
+<h3>Speech recognition from a microphone<a class="headerlink" href="#speech-recognition-from-a-microphone" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+./build/bin/sherpa-onnx-microphone-offline<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--nemo-ctc-model<span class="o">=</span>./sherpa-onnx-nemo-parakeet_tdt_ctc_110m-en-36000-int8/model.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span>./sherpa-onnx-nemo-parakeet_tdt_ctc_110m-en-36000-int8/tokens.txt
+</pre></div>
+</div>
+</section>
+<section id="speech-recognition-from-a-microphone-with-vad">
+<h3>Speech recognition from a microphone with VAD<a class="headerlink" href="#speech-recognition-from-a-microphone-with-vad" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/silero_vad.onnx
+
+./build/bin/sherpa-onnx-vad-microphone-offline-asr<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--silero-vad-model<span class="o">=</span>./silero_vad.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--nemo-ctc-model<span class="o">=</span>./sherpa-onnx-nemo-parakeet_tdt_ctc_110m-en-36000-int8/model.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span>./sherpa-onnx-nemo-parakeet_tdt_ctc_110m-en-36000-int8/tokens.txt
+</pre></div>
+</div>
+</section>
+</section>
+<section id="stt-en-citrinet-512">
+<h2>stt_en_citrinet_512<a class="headerlink" href="#stt-en-citrinet-512" title="Permalink to this heading"></a></h2>
+<p>This model is converted from</p>
+<blockquote>
+<div><p><a class="reference external" href="https://catalog.ngc.nvidia.com/orgs/nvidia/teams/nemo/models/stt_en_citrinet_512">https://catalog.ngc.nvidia.com/orgs/nvidia/teams/nemo/models/stt_en_citrinet_512</a></p>
+</div></blockquote>
+<p>Citrinet-512 model which has been trained on the ASR Set dataset
+with over 7000 hours of english speech.</p>
+<p>In the following, we describe how to download it and use it with <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>.</p>
+<section id="id1">
+<h3>Download the model<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h3>
+<p>Please use the following commands to download it.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-nemo-ctc-en-citrinet-512.tar.bz2
+
+tar<span class="w"> </span>xvf<span class="w"> </span>sherpa-onnx-nemo-ctc-en-citrinet-512.tar.bz2
+rm<span class="w"> </span>sherpa-onnx-nemo-ctc-en-citrinet-512.tar.bz2
+</pre></div>
+</div>
+<p>Please check that the file sizes of the pre-trained models are correct. See
+the file sizes of <code class="docutils literal notranslate"><span class="pre">*.onnx</span></code> files below.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sherpa-onnx-nemo-ctc-en-citrinet-512<span class="w"> </span>fangjun$<span class="w"> </span>ls<span class="w"> </span>-lh<span class="w"> </span>*.onnx
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">    </span>36M<span class="w"> </span>Apr<span class="w">  </span><span class="m">7</span><span class="w"> </span><span class="m">16</span>:10<span class="w"> </span>model.int8.onnx
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">   </span>142M<span class="w"> </span>Apr<span class="w">  </span><span class="m">7</span><span class="w"> </span><span class="m">14</span>:24<span class="w"> </span>model.onnx
+</pre></div>
+</div>
+</section>
+<section id="id2">
+<h3>Decode wave files<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h3>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>It supports decoding only wave files of a single channel with 16-bit
+encoded samples, while the sampling rate does not need to be 16 kHz.</p>
+</div>
+<p>The following code shows how to use <code class="docutils literal notranslate"><span class="pre">fp32</span></code> models to decode wave files.
+Please replace <code class="docutils literal notranslate"><span class="pre">model.onnx</span></code> with <code class="docutils literal notranslate"><span class="pre">model.int8.onnx</span></code> to use <code class="docutils literal notranslate"><span class="pre">int8</span></code>
+quantized model.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+./build/bin/sherpa-onnx-offline<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span>./sherpa-onnx-nemo-ctc-en-citrinet-512/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--nemo-ctc-model<span class="o">=</span>./sherpa-onnx-nemo-ctc-en-citrinet-512/model.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--num-threads<span class="o">=</span><span class="m">2</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--decoding-method<span class="o">=</span>greedy_search<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--debug<span class="o">=</span><span class="nb">false</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-nemo-ctc-en-citrinet-512/test_wavs/0.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-nemo-ctc-en-citrinet-512/test_wavs/1.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-nemo-ctc-en-citrinet-512/test_wavs/8k.wav
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Please use <code class="docutils literal notranslate"><span class="pre">./build/bin/Release/sherpa-onnx-offline.exe</span></code> for Windows.</p>
+</div>
+<p>You should see the following output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:361 ./build/bin/sherpa-onnx-offline --tokens=./sherpa-onnx-nemo-ctc-en-citrinet-512/tokens.txt --nemo-ctc-model=./sherpa-onnx-nemo-ctc-en-citrinet-512/model.onnx --num-threads=2 --decoding-method=greedy_search --debug=false ./sherpa-onnx-nemo-ctc-en-citrinet-512/test_wavs/0.wav ./sherpa-onnx-nemo-ctc-en-citrinet-512/test_wavs/1.wav ./sherpa-onnx-nemo-ctc-en-citrinet-512/test_wavs/8k.wav 
+
+OfflineRecognizerConfig(feat_config=OfflineFeatureExtractorConfig(sampling_rate=16000, feature_dim=80), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename=&quot;&quot;, decoder_filename=&quot;&quot;, joiner_filename=&quot;&quot;), paraformer=OfflineParaformerModelConfig(model=&quot;&quot;), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=&quot;./sherpa-onnx-nemo-ctc-en-citrinet-512/model.onnx&quot;), tokens=&quot;./sherpa-onnx-nemo-ctc-en-citrinet-512/tokens.txt&quot;, num_threads=2, debug=False), decoding_method=&quot;greedy_search&quot;)
+Creating recognizer ...
+Started
+/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/offline-stream.cc:AcceptWaveformImpl:105 Creating a resampler:
+   in_sample_rate: 8000
+   output_sample_rate: 16000
+
+Done!
+
+./sherpa-onnx-nemo-ctc-en-citrinet-512/test_wavs/0.wav
+ after early nightfall the yellow lamps would light up here and there the squalid quarter of the brothels
+----
+./sherpa-onnx-nemo-ctc-en-citrinet-512/test_wavs/1.wav
+ god as a direct consequence of the sin which man thus punished had given her a lovely child whose place was on that same dishonoured bosom to connect her parent for ever with the race and descent of mortals and to be finally a blessed soul in heaven
+----
+./sherpa-onnx-nemo-ctc-en-citrinet-512/test_wavs/8k.wav
+ yet these thoughts affected hester prynne less with hope than apprehension
+----
+num threads: 2
+decoding method: greedy_search
+Elapsed seconds: 4.963 s
+Real time factor (RTF): 4.963 / 28.165 = 0.176
+</pre></div>
+</div>
+</section>
+</section>
+<section id="stt-en-conformer-ctc-small">
+<h2>stt_en_conformer_ctc_small<a class="headerlink" href="#stt-en-conformer-ctc-small" title="Permalink to this heading"></a></h2>
+<p>This model is converted from</p>
+<blockquote>
+<div><p><a class="reference external" href="https://registry.ngc.nvidia.com/orgs/nvidia/teams/nemo/models/stt_en_conformer_ctc_small">https://registry.ngc.nvidia.com/orgs/nvidia/teams/nemo/models/stt_en_conformer_ctc_small</a></p>
+</div></blockquote>
+<p>It contains small size versions of Conformer-CTC (13M parameters) trained on
+NeMo ASRSet with around 16000 hours of english speech. The model transcribes
+speech in lower case english alphabet along with spaces and apostrophes.</p>
+<p>In the following, we describe how to download it and use it with <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>.</p>
+<section id="id3">
+<h3>Download the model<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h3>
+<p>Please use the following commands to download it.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-nemo-ctc-en-conformer-small.tar.bz2
+
+tar<span class="w"> </span>xvf<span class="w"> </span>sherpa-onnx-nemo-ctc-en-conformer-small.tar.bz2
+rm<span class="w"> </span>sherpa-onnx-nemo-ctc-en-conformer-small.tar.bz2
+</pre></div>
+</div>
+<p>Please check that the file sizes of the pre-trained models are correct. See
+the file sizes of <code class="docutils literal notranslate"><span class="pre">*.onnx</span></code> files below.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sherpa-onnx-nemo-ctc-en-conformer-small<span class="w"> </span>fangjun$<span class="w"> </span>ls<span class="w"> </span>-lh<span class="w"> </span>*.onnx
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">    </span>44M<span class="w"> </span>Apr<span class="w">  </span><span class="m">7</span><span class="w"> </span><span class="m">20</span>:24<span class="w"> </span>model.int8.onnx
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">    </span>81M<span class="w"> </span>Apr<span class="w">  </span><span class="m">7</span><span class="w"> </span><span class="m">18</span>:56<span class="w"> </span>model.onnx
+</pre></div>
+</div>
+</section>
+<section id="id4">
+<h3>Decode wave files<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h3>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>It supports decoding only wave files of a single channel with 16-bit
+encoded samples, while the sampling rate does not need to be 16 kHz.</p>
+</div>
+<p>The following code shows how to use <code class="docutils literal notranslate"><span class="pre">fp32</span></code> models to decode wave files.
+Please replace <code class="docutils literal notranslate"><span class="pre">model.onnx</span></code> with <code class="docutils literal notranslate"><span class="pre">model.int8.onnx</span></code> to use <code class="docutils literal notranslate"><span class="pre">int8</span></code>
+quantized model.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+./build/bin/sherpa-onnx-offline<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span>./sherpa-onnx-nemo-ctc-en-conformer-small/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--nemo-ctc-model<span class="o">=</span>./sherpa-onnx-nemo-ctc-en-conformer-small/model.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--num-threads<span class="o">=</span><span class="m">2</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--decoding-method<span class="o">=</span>greedy_search<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--debug<span class="o">=</span><span class="nb">false</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-nemo-ctc-en-conformer-small/test_wavs/0.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-nemo-ctc-en-conformer-small/test_wavs/1.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-nemo-ctc-en-conformer-small/test_wavs/8k.wav
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Please use <code class="docutils literal notranslate"><span class="pre">./build/bin/Release/sherpa-onnx-offline.exe</span></code> for Windows.</p>
+</div>
+<p>You should see the following output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:361 ./build/bin/sherpa-onnx-offline --tokens=./sherpa-onnx-nemo-ctc-en-conformer-small/tokens.txt --nemo-ctc-model=./sherpa-onnx-nemo-ctc-en-conformer-small/model.onnx --num-threads=2 --decoding-method=greedy_search --debug=false ./sherpa-onnx-nemo-ctc-en-conformer-small/test_wavs/0.wav ./sherpa-onnx-nemo-ctc-en-conformer-small/test_wavs/1.wav ./sherpa-onnx-nemo-ctc-en-conformer-small/test_wavs/8k.wav 
+
+OfflineRecognizerConfig(feat_config=OfflineFeatureExtractorConfig(sampling_rate=16000, feature_dim=80), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename=&quot;&quot;, decoder_filename=&quot;&quot;, joiner_filename=&quot;&quot;), paraformer=OfflineParaformerModelConfig(model=&quot;&quot;), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=&quot;./sherpa-onnx-nemo-ctc-en-conformer-small/model.onnx&quot;), tokens=&quot;./sherpa-onnx-nemo-ctc-en-conformer-small/tokens.txt&quot;, num_threads=2, debug=False), decoding_method=&quot;greedy_search&quot;)
+Creating recognizer ...
+Started
+/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/offline-stream.cc:AcceptWaveformImpl:105 Creating a resampler:
+   in_sample_rate: 8000
+   output_sample_rate: 16000
+
+Done!
+
+./sherpa-onnx-nemo-ctc-en-conformer-small/test_wavs/0.wav
+ after early nightfall the yellow lamps would light up here and there the squalid quarter of the brothels
+----
+./sherpa-onnx-nemo-ctc-en-conformer-small/test_wavs/1.wav
+ god as a direct consequence of the sin which man thus punished had given her a lovely child whose place was on that same dishonoured bosom to connect her parent for ever with the race and descent of mortals and to be finally a blessed soul in heaven
+----
+./sherpa-onnx-nemo-ctc-en-conformer-small/test_wavs/8k.wav
+ yet these thoughts affected hester prin less with hope than apprehension
+----
+num threads: 2
+decoding method: greedy_search
+Elapsed seconds: 0.665 s
+Real time factor (RTF): 0.665 / 28.165 = 0.024
+</pre></div>
+</div>
+</section>
+</section>
+<section id="stt-en-conformer-ctc-medium">
+<span id="stt-en-conformer-ctc-medium-nemo-sherpa-onnx"></span><h2>stt_en_conformer_ctc_medium<a class="headerlink" href="#stt-en-conformer-ctc-medium" title="Permalink to this heading"></a></h2>
+<p>This model is converted from</p>
+<blockquote>
+<div><p><a class="reference external" href="https://registry.ngc.nvidia.com/orgs/nvidia/teams/nemo/models/stt_en_conformer_ctc_medium">https://registry.ngc.nvidia.com/orgs/nvidia/teams/nemo/models/stt_en_conformer_ctc_medium</a></p>
+</div></blockquote>
+<p>It contains medium size versions of Conformer-CTC (around 30M parameters)
+trained on NeMo ASRSet with around 16000 hours of english speech. The model
+transcribes speech in lower case english alphabet along with spaces and apostrophes.</p>
+<p>In the following, we describe how to download it and use it with <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>.</p>
+<section id="id5">
+<h3>Download the model<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h3>
+<p>Please use the following commands to download it.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-nemo-ctc-en-conformer-medium.tar.bz2
+
+tar<span class="w"> </span>xvf<span class="w"> </span>sherpa-onnx-nemo-ctc-en-conformer-medium.tar.bz2
+rm<span class="w"> </span>sherpa-onnx-nemo-ctc-en-conformer-medium.tar.bz2
+</pre></div>
+</div>
+<p>Please check that the file sizes of the pre-trained models are correct. See
+the file sizes of <code class="docutils literal notranslate"><span class="pre">*.onnx</span></code> files below.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sherpa-onnx-nemo-ctc-en-conformer-medium<span class="w"> </span>fangjun$<span class="w"> </span>ls<span class="w"> </span>-lh<span class="w"> </span>*.onnx
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">    </span>64M<span class="w"> </span>Apr<span class="w">  </span><span class="m">7</span><span class="w"> </span><span class="m">20</span>:44<span class="w"> </span>model.int8.onnx
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">   </span>152M<span class="w"> </span>Apr<span class="w">  </span><span class="m">7</span><span class="w"> </span><span class="m">20</span>:43<span class="w"> </span>model.onnx
+</pre></div>
+</div>
+</section>
+<section id="id6">
+<h3>Decode wave files<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h3>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>It supports decoding only wave files of a single channel with 16-bit
+encoded samples, while the sampling rate does not need to be 16 kHz.</p>
+</div>
+<p>The following code shows how to use <code class="docutils literal notranslate"><span class="pre">fp32</span></code> models to decode wave files.
+Please replace <code class="docutils literal notranslate"><span class="pre">model.onnx</span></code> with <code class="docutils literal notranslate"><span class="pre">model.int8.onnx</span></code> to use <code class="docutils literal notranslate"><span class="pre">int8</span></code>
+quantized model.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+./build/bin/sherpa-onnx-offline<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span>./sherpa-onnx-nemo-ctc-en-conformer-medium/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--nemo-ctc-model<span class="o">=</span>./sherpa-onnx-nemo-ctc-en-conformer-medium/model.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--num-threads<span class="o">=</span><span class="m">2</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--decoding-method<span class="o">=</span>greedy_search<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--debug<span class="o">=</span><span class="nb">false</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-nemo-ctc-en-conformer-medium/test_wavs/0.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-nemo-ctc-en-conformer-medium/test_wavs/1.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-nemo-ctc-en-conformer-medium/test_wavs/8k.wav
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Please use <code class="docutils literal notranslate"><span class="pre">./build/bin/Release/sherpa-onnx-offline.exe</span></code> for Windows.</p>
+</div>
+<p>You should see the following output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:361 ./build/bin/sherpa-onnx-offline --tokens=./sherpa-onnx-nemo-ctc-en-conformer-medium/tokens.txt --nemo-ctc-model=./sherpa-onnx-nemo-ctc-en-conformer-medium/model.onnx --num-threads=2 --decoding-method=greedy_search --debug=false ./sherpa-onnx-nemo-ctc-en-conformer-medium/test_wavs/0.wav ./sherpa-onnx-nemo-ctc-en-conformer-medium/test_wavs/1.wav ./sherpa-onnx-nemo-ctc-en-conformer-medium/test_wavs/8k.wav 
+
+OfflineRecognizerConfig(feat_config=OfflineFeatureExtractorConfig(sampling_rate=16000, feature_dim=80), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename=&quot;&quot;, decoder_filename=&quot;&quot;, joiner_filename=&quot;&quot;), paraformer=OfflineParaformerModelConfig(model=&quot;&quot;), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=&quot;./sherpa-onnx-nemo-ctc-en-conformer-medium/model.onnx&quot;), tokens=&quot;./sherpa-onnx-nemo-ctc-en-conformer-medium/tokens.txt&quot;, num_threads=2, debug=False), decoding_method=&quot;greedy_search&quot;)
+Creating recognizer ...
+Started
+/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/offline-stream.cc:AcceptWaveformImpl:105 Creating a resampler:
+   in_sample_rate: 8000
+   output_sample_rate: 16000
+
+Done!
+
+./sherpa-onnx-nemo-ctc-en-conformer-medium/test_wavs/0.wav
+ after early nightfall the yellow lamps would light up here and there the squalid quarter of the brothels
+----
+./sherpa-onnx-nemo-ctc-en-conformer-medium/test_wavs/1.wav
+ god as a direct consequence of the sin which man thus punished had given her a lovely child whose place was on that same dishonored bosom to connect her parent for ever with the race and descent of mortals and to be finally a blessed soul in heaven
+----
+./sherpa-onnx-nemo-ctc-en-conformer-medium/test_wavs/8k.wav
+ yet these thoughts affected hester pryne less with hope than apprehension
+----
+num threads: 2
+decoding method: greedy_search
+Elapsed seconds: 1.184 s
+Real time factor (RTF): 1.184 / 28.165 = 0.042
+</pre></div>
+</div>
+</section>
+</section>
+<section id="stt-en-conformer-ctc-large">
+<h2>stt_en_conformer_ctc_large<a class="headerlink" href="#stt-en-conformer-ctc-large" title="Permalink to this heading"></a></h2>
+<p>This model is converted from</p>
+<blockquote>
+<div><p><a class="reference external" href="https://registry.ngc.nvidia.com/orgs/nvidia/teams/nemo/models/stt_en_conformer_ctc_large">https://registry.ngc.nvidia.com/orgs/nvidia/teams/nemo/models/stt_en_conformer_ctc_large</a></p>
+</div></blockquote>
+<p>It contains large size versions of Conformer-CTC (around 120M parameters)
+trained on NeMo ASRSet with around 24500 hours of english speech. The model
+transcribes speech in lower case english alphabet along with spaces and apostrophes</p>
+<p>In the following, we describe how to download it and use it with <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>.</p>
+<section id="id7">
+<h3>Download the model<a class="headerlink" href="#id7" title="Permalink to this heading"></a></h3>
+<p>Please use the following commands to download it.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-nemo-ctc-en-conformer-large.tar.bz2
+
+tar<span class="w"> </span>xvf<span class="w"> </span>sherpa-onnx-nemo-ctc-en-conformer-large.tar.bz2
+rm<span class="w"> </span>sherpa-onnx-nemo-ctc-en-conformer-large.tar.bz2
+</pre></div>
+</div>
+<p>Please check that the file sizes of the pre-trained models are correct. See
+the file sizes of <code class="docutils literal notranslate"><span class="pre">*.onnx</span></code> files below.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sherpa-onnx-nemo-ctc-en-conformer-large<span class="w"> </span>fangjun$<span class="w"> </span>ls<span class="w"> </span>-lh<span class="w"> </span>*.onnx
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">   </span>162M<span class="w"> </span>Apr<span class="w">  </span><span class="m">7</span><span class="w"> </span><span class="m">22</span>:01<span class="w"> </span>model.int8.onnx
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">   </span>508M<span class="w"> </span>Apr<span class="w">  </span><span class="m">7</span><span class="w"> </span><span class="m">22</span>:01<span class="w"> </span>model.onnx
+</pre></div>
+</div>
+</section>
+<section id="id8">
+<h3>Decode wave files<a class="headerlink" href="#id8" title="Permalink to this heading"></a></h3>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>It supports decoding only wave files of a single channel with 16-bit
+encoded samples, while the sampling rate does not need to be 16 kHz.</p>
+</div>
+<p>The following code shows how to use <code class="docutils literal notranslate"><span class="pre">fp32</span></code> models to decode wave files.
+Please replace <code class="docutils literal notranslate"><span class="pre">model.onnx</span></code> with <code class="docutils literal notranslate"><span class="pre">model.int8.onnx</span></code> to use <code class="docutils literal notranslate"><span class="pre">int8</span></code>
+quantized model.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+./build/bin/sherpa-onnx-offline<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span>./sherpa-onnx-nemo-ctc-en-conformer-large/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--nemo-ctc-model<span class="o">=</span>./sherpa-onnx-nemo-ctc-en-conformer-large/model.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--num-threads<span class="o">=</span><span class="m">2</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--decoding-method<span class="o">=</span>greedy_search<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--debug<span class="o">=</span><span class="nb">false</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-nemo-ctc-en-conformer-large/test_wavs/0.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-nemo-ctc-en-conformer-large/test_wavs/1.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-nemo-ctc-en-conformer-large/test_wavs/8k.wav
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Please use <code class="docutils literal notranslate"><span class="pre">./build/bin/Release/sherpa-onnx-offline.exe</span></code> for Windows.</p>
+</div>
+<p>You should see the following output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:361 ./build/bin/sherpa-onnx-offline --tokens=./sherpa-onnx-nemo-ctc-en-conformer-large/tokens.txt --nemo-ctc-model=./sherpa-onnx-nemo-ctc-en-conformer-large/model.onnx --num-threads=2 --decoding-method=greedy_search --debug=false ./sherpa-onnx-nemo-ctc-en-conformer-large/test_wavs/0.wav ./sherpa-onnx-nemo-ctc-en-conformer-large/test_wavs/1.wav ./sherpa-onnx-nemo-ctc-en-conformer-large/test_wavs/8k.wav 
+
+OfflineRecognizerConfig(feat_config=OfflineFeatureExtractorConfig(sampling_rate=16000, feature_dim=80), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename=&quot;&quot;, decoder_filename=&quot;&quot;, joiner_filename=&quot;&quot;), paraformer=OfflineParaformerModelConfig(model=&quot;&quot;), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=&quot;./sherpa-onnx-nemo-ctc-en-conformer-large/model.onnx&quot;), tokens=&quot;./sherpa-onnx-nemo-ctc-en-conformer-large/tokens.txt&quot;, num_threads=2, debug=False), decoding_method=&quot;greedy_search&quot;)
+Creating recognizer ...
+Started
+/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/offline-stream.cc:AcceptWaveformImpl:105 Creating a resampler:
+   in_sample_rate: 8000
+   output_sample_rate: 16000
+
+Done!
+
+./sherpa-onnx-nemo-ctc-en-conformer-large/test_wavs/0.wav
+ after early nightfall the yellow lamps would light up here and there the squalid quarter of the brothels
+----
+./sherpa-onnx-nemo-ctc-en-conformer-large/test_wavs/1.wav
+ god as a direct consequence of the sin which man thus punished had given her a lovely child whose place was on that same dishonored bosom to connect her parent for ever with the race and descent of mortals and to be finally a blesed soul in heaven
+----
+./sherpa-onnx-nemo-ctc-en-conformer-large/test_wavs/8k.wav
+ yet these thoughts afected hester pryne les with hope than aprehension
+----
+num threads: 2
+decoding method: greedy_search
+Elapsed seconds: 3.553 s
+Real time factor (RTF): 3.553 / 28.165 = 0.126
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="how-to-export.html" class="btn btn-neutral float-left" title="How to export models from NeMo to sherpa-onnx" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="russian.html" class="btn btn-neutral float-right" title="Russian" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>
