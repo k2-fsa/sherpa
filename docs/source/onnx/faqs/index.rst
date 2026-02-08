@@ -12,6 +12,7 @@ This page contains frequently asked questions for `sherpa-onnx`_.
    ./fix-tts-encoding-for-chinese-models.rst
    ./fix-libtoolize.rst
    ./static-onnxruntime-linux-x64.rst
+   ./cann.rst
 
 
 OSError: PortAudio library not found
