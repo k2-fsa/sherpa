@@ -19,13 +19,17 @@ Build sherpa-onnx
 
 .. code-block:: bash
 
+  source /usr/local/Ascend/ascend-toolkit/set_env.sh
+
   git clone https://github.com/k2-fsa/sherpa-onnx
   cd sherpa-onnx
   mkdir build
   cd build
-  cmake -DSHERPA_ONNX_ENABLE_ASCEND_NPU=ON \
-        -DBUILD_SHARED_LIBS=ON \
-        ..
+
+  cmake \
+    -DSHERPA_ONNX_ENABLE_ASCEND_NPU=ON \
+    -DBUILD_SHARED_LIBS=ON \
+    ..
 
   make
 
@@ -35,3 +39,4 @@ After building, check that the generated binaries depend on ``libascendcl.so``
    :align: center
    :alt: screenshot of checking generated binaries
    :width: 600
+
