@@ -8,6 +8,125 @@ Zipformer-transducer-based Models
    Please refer to :ref:`install_sherpa_onnx` to install `sherpa-onnx`
    before you read this section.
 
+.. _sherpa-onnx-zipformer-vi-30M-int8-2026-02-09:
+
+sherpa-onnx-zipformer-vi-30M-int8-2026-02-09 (Vietnamese, 越南语)
+------------------------------------------------------------------------------------------
+
+This model is from `<https://huggingface.co/hynt/Zipformer-30M-RNNT-6000h>`_
+
+The model is trained on approximately 6000 hours of high-quality Vietnamese speech data.
+
+In the following, we describe how to download it and use it with `sherpa-onnx`_.
+
+Download the model
+~~~~~~~~~~~~~~~~~~
+
+Please use the following commands to download it.
+
+.. code-block:: bash
+
+   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-vi-30M-int8-2026-02-09.tar.bz2
+   tar xvf sherpa-onnx-zipformer-vi-30M-int8-2026-02-09.tar.bz2
+   rm sherpa-onnx-zipformer-vi-30M-int8-2026-02-09.tar.bz2
+
+You should see something like below after downloading::
+
+  ls -lh sherpa-onnx-zipformer-vi-30M-int8-2026-02-09/
+  total 66808
+  -rw-r--r--@ 1 fangjun  staff   262K  9 Feb 11:29 bpe.model
+  -rw-r--r--@ 1 fangjun  staff   4.9M  9 Feb 11:29 decoder.onnx
+  -rw-r--r--@ 1 fangjun  staff    26M  9 Feb 11:29 encoder.int8.onnx
+  -rw-r--r--@ 1 fangjun  staff   1.0M  9 Feb 11:29 joiner.int8.onnx
+  -rw-r--r--@ 1 fangjun  staff    89B  9 Feb 11:29 README.md
+  drwxr-xr-x@ 6 fangjun  staff   192B  9 Feb 11:29 test_wavs
+  -rw-r--r--@ 1 fangjun  staff    23K  9 Feb 11:29 tokens.txt
+
+Decode wave files
+~~~~~~~~~~~~~~~~~
+
+.. hint::
+
+   It supports decoding only wave files of a single channel with 16-bit
+   encoded samples, while the sampling rate does not need to be 16 kHz.
+
+The following code shows how to use the model to decode wave files:
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  ./build/bin/sherpa-onnx-offline \
+    --tokens=./sherpa-onnx-zipformer-vi-30M-int8-2026-02-09/tokens.txt \
+    --encoder=./sherpa-onnx-zipformer-vi-30M-int8-2026-02-09/encoder.int8.onnx \
+    --decoder=./sherpa-onnx-zipformer-vi-30M-int8-2026-02-09/decoder.onnx \
+    --joiner=./sherpa-onnx-zipformer-vi-30M-int8-2026-02-09/joiner.int8.onnx \
+    --num-threads=1 \
+    ./sherpa-onnx-zipformer-vi-30M-int8-2026-02-09/test_wavs/0.wav
+
+.. note::
+
+   Please use ``./build/bin/Release/sherpa-onnx-offline.exe`` for Windows.
+
+.. caution::
+
+   If you use Windows and get encoding issues, please run:
+
+      .. code-block:: bash
+
+          CHCP 65001
+
+   in your commandline.
+
+You should see the following output:
+
+.. literalinclude:: ./code-zipformer/sherpa-onnx-zipformer-vi-30M-int8-2026-02-09.txt
+
+Real-time/Streaming Speech recognition from a microphone with VAD
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block::
+
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/silero_vad.onnx
+
+  ./build/bin/sherpa-onnx-vad-microphone-simulated-streaming-asr \
+    --silero-vad-model=./silero_vad.onnx \
+    --tokens=./sherpa-onnx-zipformer-vi-30M-int8-2026-02-09/tokens.txt \
+    --encoder=./sherpa-onnx-zipformer-vi-30M-int8-2026-02-09/encoder.int8.onnx \
+    --decoder=./sherpa-onnx-zipformer-vi-30M-int8-2026-02-09/decoder.onnx \
+    --joiner=./sherpa-onnx-zipformer-vi-30M-int8-2026-02-09/joiner.int8.onnx
+
+
+Speech recognition from a microphone
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  ./build/bin/sherpa-onnx-microphone-offline \
+    --tokens=./sherpa-onnx-zipformer-vi-30M-int8-2026-02-09/tokens.txt \
+    --encoder=./sherpa-onnx-zipformer-vi-30M-int8-2026-02-09/encoder.int8.onnx \
+    --decoder=./sherpa-onnx-zipformer-vi-30M-int8-2026-02-09/decoder.onnx \
+    --joiner=./sherpa-onnx-zipformer-vi-30M-int8-2026-02-09/joiner.int8.onnx
+
+Speech recognition from a microphone with VAD
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/silero_vad.onnx
+
+  ./build/bin/sherpa-onnx-vad-microphone-offline-asr \
+    --silero-vad-model=./silero_vad.onnx \
+    --tokens=./sherpa-onnx-zipformer-vi-30M-int8-2026-02-09/tokens.txt \
+    --encoder=./sherpa-onnx-zipformer-vi-30M-int8-2026-02-09/encoder.int8.onnx \
+    --decoder=./sherpa-onnx-zipformer-vi-30M-int8-2026-02-09/decoder.onnx \
+    --joiner=./sherpa-onnx-zipformer-vi-30M-int8-2026-02-09/joiner.int8.onnx
+
+
 sherpa-onnx-zipformer-vi-2025-04-20 (Vietnamese, 越南语)
 --------------------------------------------------------------------------------
 
@@ -79,6 +198,20 @@ The following code shows how to use ``float32`` models to decode wave files:
 You should see the following output:
 
 .. literalinclude:: ./code-zipformer/sherpa-onnx-zipformer-vi-2025-04-20.txt
+
+Real-time/Streaming Speech recognition from a microphone with VAD
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block::
+
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/silero_vad.onnx
+
+  ./build/bin/sherpa-onnx-vad-microphone-simulated-streaming-asr \
+    --silero-vad-model=./silero_vad.onnx \
+    --tokens=./sherpa-onnx-zipformer-vi-2025-04-20/tokens.txt \
+    --encoder=./sherpa-onnx-zipformer-vi-2025-04-20/encoder-epoch-12-avg-8.onnx \
+    --decoder=./sherpa-onnx-zipformer-vi-2025-04-20/decoder-epoch-12-avg-8.onnx \
+    --joiner=./sherpa-onnx-zipformer-vi-2025-04-20/joiner-epoch-12-avg-8.onnx
 
 Speech recognition from a microphone
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -180,6 +313,20 @@ The following code shows how to use ``int8`` models to decode wave files:
 You should see the following output:
 
 .. literalinclude:: ./code-zipformer/sherpa-onnx-zipformer-vi-int8-2025-04-20.txt
+
+Real-time/Streaming Speech recognition from a microphone with VAD
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block::
+
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/silero_vad.onnx
+
+  ./build/bin/sherpa-onnx-vad-microphone-simulated-streaming-asr \
+    --silero-vad-model=./silero_vad.onnx \
+    --tokens=./sherpa-onnx-zipformer-vi-int8-2025-04-20/tokens.txt \
+    --encoder=./sherpa-onnx-zipformer-vi-int8-2025-04-20/encoder-epoch-12-avg-8.int8.onnx \
+    --decoder=./sherpa-onnx-zipformer-vi-int8-2025-04-20/decoder-epoch-12-avg-8.onnx \
+    --joiner=./sherpa-onnx-zipformer-vi-int8-2025-04-20/joiner-epoch-12-avg-8.int8.onnx
 
 Speech recognition from a microphone
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -309,6 +456,20 @@ The following code shows how to use ``int8`` models to decode wave files:
 You should see the following output:
 
 .. literalinclude:: ./code-zipformer/sherpa-onnx-zipformer-zh-en-2023-11-22-int8.txt
+
+Real-time/Streaming Speech recognition from a microphone with VAD
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block::
+
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/silero_vad.onnx
+
+  ./build/bin/sherpa-onnx-vad-microphone-simulated-streaming-asr \
+    --silero-vad-model=./silero_vad.onnx \
+    --tokens=./sherpa-onnx-zipformer-zh-en-2023-11-22/tokens.txt \ 
+    --encoder=./sherpa-onnx-zipformer-zh-en-2023-11-22/encoder-epoch-34-avg-19.onnx \
+    --decoder=./sherpa-onnx-zipformer-zh-en-2023-11-22/decoder-epoch-34-avg-19.onnx \
+    --joiner=./sherpa-onnx-zipformer-zh-en-2023-11-22/joiner-epoch-34-avg-19.onnx
 
 Speech recognition from a microphone
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -445,6 +606,20 @@ You should see the following output:
 
 .. literalinclude:: ./code-zipformer/sherpa-onnx-zipformer-ru-2024-09-18.int8.txt
 
+Real-time/Streaming Speech recognition from a microphone with VAD
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block::
+
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/silero_vad.onnx
+
+  ./build/bin/sherpa-onnx-vad-microphone-simulated-streaming-asr \
+    --silero-vad-model=./silero_vad.onnx \
+    --tokens=./sherpa-onnx-zipformer-ru-2024-09-18/tokens.txt \
+    --encoder=./sherpa-onnx-zipformer-ru-2024-09-18/encoder.int8.onnx \
+    --decoder=./sherpa-onnx-zipformer-ru-2024-09-18/decoder.onnx \
+    --joiner=./sherpa-onnx-zipformer-ru-2024-09-18/joiner.int8.onnx
+
 Speech recognition from a microphone
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -571,6 +746,20 @@ The following code shows how to use ``int8`` models to decode wave files:
 You should see the following output:
 
 .. literalinclude:: ./code-zipformer/sherpa-onnx-small-zipformer-ru-2024-09-18.int8.txt
+
+Real-time/Streaming Speech recognition from a microphone with VAD
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block::
+
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/silero_vad.onnx
+
+  ./build/bin/sherpa-onnx-vad-microphone-simulated-streaming-asr \
+    --silero-vad-model=./silero_vad.onnx \
+    --tokens=./sherpa-onnx-small-zipformer-ru-2024-09-18/tokens.txt \
+    --encoder=./sherpa-onnx-small-zipformer-ru-2024-09-18/encoder.int8.onnx \
+    --decoder=./sherpa-onnx-small-zipformer-ru-2024-09-18/decoder.onnx \
+    --joiner=./sherpa-onnx-small-zipformer-ru-2024-09-18/joiner.int8.onnx
 
 Speech recognition from a microphone
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -727,6 +916,20 @@ You should see the following output:
 
 .. literalinclude:: ./code-zipformer/sherpa-onnx-zipformer-ja-reazonspeech-2024-08-01-int8.txt
 
+Real-time/Streaming Speech recognition from a microphone with VAD
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block::
+
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/silero_vad.onnx
+
+  ./build/bin/sherpa-onnx-vad-microphone-simulated-streaming-asr \
+    --silero-vad-model=./silero_vad.onnx \
+    --tokens=./sherpa-onnx-zipformer-ja-reazonspeech-2024-08-01/tokens.txt \
+    --encoder=./sherpa-onnx-zipformer-ja-reazonspeech-2024-08-01/encoder-epoch-99-avg-1.int8.onnx \
+    --decoder=./sherpa-onnx-zipformer-ja-reazonspeech-2024-08-01/decoder-epoch-99-avg-1.onnx \
+    --joiner=./sherpa-onnx-zipformer-ja-reazonspeech-2024-08-01/joiner-epoch-99-avg-1.int8.onnx
+
 Speech recognition from a microphone
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -871,6 +1074,20 @@ The following code shows how to use ``int8`` models to decode wave files:
 You should see the following output:
 
 .. literalinclude:: ./code-zipformer/sherpa-onnx-zipformer-korean-2024-06-24-int8.txt
+
+Real-time/Streaming Speech recognition from a microphone with VAD
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block::
+
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/silero_vad.onnx
+
+  ./build/bin/sherpa-onnx-vad-microphone-simulated-streaming-asr \
+    --silero-vad-model=./silero_vad.onnx \
+    --tokens=./sherpa-onnx-zipformer-korean-2024-06-24/tokens.txt \
+    --encoder=./sherpa-onnx-zipformer-korean-2024-06-24/encoder-epoch-99-avg-1.int8.onnx \
+    --decoder=./sherpa-onnx-zipformer-korean-2024-06-24/decoder-epoch-99-avg-1.onnx \
+    --joiner=./sherpa-onnx-zipformer-korean-2024-06-24/joiner-epoch-99-avg-1.int8.onnx
 
 Speech recognition from a microphone
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
