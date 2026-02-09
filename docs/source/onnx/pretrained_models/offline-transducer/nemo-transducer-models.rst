@@ -95,6 +95,21 @@ You should see the following output:
 
 .. literalinclude:: ./code-nemo/sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8.txt
 
+Real-time/Streaming Speech recognition from a microphone with VAD
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block::
+
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/silero_vad.onnx
+
+  ./build/bin/sherpa-onnx-vad-microphone-simulated-streaming-asr \
+    --silero-vad-model=./silero_vad.onnx \
+    --encoder=./sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8/encoder.int8.onnx \
+    --decoder=./sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8/decoder.int8.onnx \
+    --joiner=./sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8/joiner.int8.onnx \
+    --tokens=./sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8/tokens.txt \
+    --model-type=nemo_transducer
+
 Speech recognition from a microphone
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -199,6 +214,21 @@ Decode wave files
 You should see the following output:
 
 .. literalinclude:: ./code-nemo/sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8.txt
+
+Real-time/Streaming Speech recognition from a microphone with VAD
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block::
+
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/silero_vad.onnx
+
+  ./build/bin/sherpa-onnx-vad-microphone-simulated-streaming-asr \
+    --silero-vad-model=./silero_vad.onnx \
+    --encoder=./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/encoder.int8.onnx \
+    --decoder=./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/decoder.int8.onnx \
+    --joiner=./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/joiner.int8.onnx \
+    --tokens=./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/tokens.txt \
+    --model-type=nemo_transducer
 
 Speech recognition from a microphone
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -383,6 +413,21 @@ You should see the following output:
 
 .. literalinclude:: ./code-nemo/sherpa-onnx-nemo-transducer-giga-am-v2-russian-2025-04-19.txt
 
+Real-time/Streaming Speech recognition from a microphone with VAD
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block::
+
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/silero_vad.onnx
+
+  ./build/bin/sherpa-onnx-vad-microphone-simulated-streaming-asr \
+    --silero-vad-model=./silero_vad.onnx \
+    --encoder=./sherpa-onnx-nemo-transducer-giga-am-v2-russian-2025-04-19/encoder.int8.onnx \
+    --decoder=./sherpa-onnx-nemo-transducer-giga-am-v2-russian-2025-04-19/decoder.onnx \
+    --joiner=./sherpa-onnx-nemo-transducer-giga-am-v2-russian-2025-04-19/joiner.onnx \
+    --tokens=./sherpa-onnx-nemo-transducer-giga-am-v2-russian-2025-04-19/tokens.txt \
+    --model-type=nemo_transducer
+
 Speech recognition from a microphone
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -497,6 +542,21 @@ Decode wave files
 You should see the following output:
 
 .. literalinclude:: ./code-nemo/sherpa-onnx-nemo-transducer-giga-am-russian-2024-10-24.int8.txt
+
+Real-time/Streaming Speech recognition from a microphone with VAD
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block::
+
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/silero_vad.onnx
+
+  ./build/bin/sherpa-onnx-vad-microphone-simulated-streaming-asr \
+    --silero-vad-model=./silero_vad.onnx \
+    --encoder=./sherpa-onnx-nemo-transducer-giga-am-russian-2024-10-24/encoder.int8.onnx \
+    --decoder=./sherpa-onnx-nemo-transducer-giga-am-russian-2024-10-24/decoder.onnx \
+    --joiner=./sherpa-onnx-nemo-transducer-giga-am-russian-2024-10-24/joiner.onnx \
+    --tokens=./sherpa-onnx-nemo-transducer-giga-am-russian-2024-10-24/tokens.txt \
+    --model-type=nemo_transducer
 
 Speech recognition from a microphone
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

@@ -8,7 +8,94 @@ Zipformer-transducer-based Models
    Please refer to :ref:`install_sherpa_onnx` to install `sherpa-onnx`_
    before you read this section.
 
+.. _sherpa-onnx-streaming-zipformer-bn-vosk-2026-02-09:
+
+sherpa-onnx-streaming-zipformer-bn-vosk-2026-02-09 (Bengali)
+------------------------------------------------------------
+
+This model is from `<https://huggingface.co/alphacep/vosk-model-small-streaming-bn>`_
+
+It supports Bengali.
+
+Download the model
+~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-zipformer-bn-vosk-2026-02-09.tar.bz2
+  tar xvf sherpa-onnx-streaming-zipformer-bn-vosk-2026-02-09.tar.bz2
+  rm sherpa-onnx-streaming-zipformer-bn-vosk-2026-02-09.tar.bz2
+
+  ls -lh sherpa-onnx-streaming-zipformer-bn-vosk-2026-02-09/
+
+The output is given below::
+
+  total 202992
+  -rw-r--r--@ 1 fangjun  staff   8.3K  9 Feb 10:38 bpe.model
+  -rw-r--r--@ 1 fangjun  staff   2.0M  9 Feb 10:38 decoder.onnx
+  -rw-r--r--@ 1 fangjun  staff    87M  9 Feb 10:38 encoder.onnx
+  -rw-r--r--@ 1 fangjun  staff   1.0M  9 Feb 10:38 joiner.onnx
+  -rw-r--r--@ 1 fangjun  staff    98B  9 Feb 10:38 README.md
+  drwxr-xr-x@ 4 fangjun  staff   128B  9 Feb 10:52 test_wavs
+  -rw-r--r--@ 1 fangjun  staff   6.1K  9 Feb 10:38 tokens.txt
+  -rw-r--r--@ 1 fangjun  staff   8.6K  9 Feb 10:38 unigram_500.vocab
+
+Decode a single wave file
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. hint::
+
+   It supports decoding only wave files of a single channel with 16-bit
+   encoded samples, while the sampling rate does not need to be 16 kHz.
+
+The following code shows how to use the model to decode a wave file:
+
+.. code-block::
+
+  cd /path/to/sherpa-onnx
+
+  ./build/bin/sherpa-onnx \
+    --encoder=./sherpa-onnx-streaming-zipformer-bn-vosk-2026-02-09/encoder.onnx \
+    --decoder=./sherpa-onnx-streaming-zipformer-bn-vosk-2026-02-09/decoder.onnx \
+    --joiner=./sherpa-onnx-streaming-zipformer-bn-vosk-2026-02-09/joiner.onnx \
+    --tokens=./sherpa-onnx-streaming-zipformer-bn-vosk-2026-02-09/tokens.txt \
+    --model-type=zipformer2 \
+    ./sherpa-onnx-streaming-zipformer-bn-vosk-2026-02-09/test_wavs/0.wav \
+    ./sherpa-onnx-streaming-zipformer-bn-vosk-2026-02-09/test_wavs/1.wav
+
+.. note::
+
+   Please use ``./build/bin/Release/sherpa-onnx.exe`` for Windows.
+
+You should see the following output:
+
+.. literalinclude:: ./code-zipformer/sherpa-onnx-streaming-zipformer-bn-vosk-2026-02-09.txt
+
+Real-time speech recognition from a microphone
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx
+
+  ./build/bin/sherpa-onnx-microphone \
+    --encoder=./sherpa-onnx-streaming-zipformer-bn-vosk-2026-02-09/encoder.onnx \
+    --decoder=./sherpa-onnx-streaming-zipformer-bn-vosk-2026-02-09/decoder.onnx \
+    --joiner=./sherpa-onnx-streaming-zipformer-bn-vosk-2026-02-09/joiner.onnx \
+    --tokens=./sherpa-onnx-streaming-zipformer-bn-vosk-2026-02-09/tokens.txt \
+    --model-type=zipformer2
+
+.. hint::
+
+   If your system is Linux (including embedded Linux), you can also use
+   :ref:`sherpa-onnx-alsa` to do real-time speech recognition with your
+   microphone if ``sherpa-onnx-microphone`` does not work for you.
+
+
 .. _sherpa-onnx-streaming-zipformer-zh-xlarge-int8-2025-06-30:
+
 
 sherpa-onnx-streaming-zipformer-zh-xlarge-int8-2025-06-30 (Chinese)
 --------------------------------------------------------------------
