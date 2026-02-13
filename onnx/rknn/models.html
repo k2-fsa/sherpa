@@ -1,0 +1,884 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pre-trained models &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Ascend NPU (昇腾 NPU)" href="../ascend/index.html" />
+    <link rel="prev" title="Install" href="install.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">sherpa-onnx</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../install/index.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../faqs/index.html">Frequently Asked Question (FAQs)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python/index.html">Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../c-api/index.html">C API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../java-api/index.html">Java API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../javascript-api/index.html">Javascript API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kotlin-api/index.html">Kotlin API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../swift-api/index.html">Swift API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../go-api/index.html">Go API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../csharp-api/index.html">C# API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pascal-api/index.html">Pascal API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lazarus/index.html">Lazarus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../wasm/index.html">WebAssembly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../android/index.html">Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../harmony-os/index.html">HarmonyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ios/index.html">iOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../flutter/index.html">Flutter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../websocket/index.html">WebSocket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../hotwords/index.html">Hotwords (Contextual biasing)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kws/index.html">Keyword spotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../punctuation/index.html">Punctuation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../audio-tagging/index.html">Audio tagging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spoken-language-identification/index.html">Spoken language identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vad/index.html">VAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/index.html">Pre-trained models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/whisper/index.html">Whisper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../moonshine/index.html">Moonshine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../omnilingual-asr/index.html">Omnilingual ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sense-voice/index.html">SenseVoice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../funasr-nano/index.html">FunASR Nano</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../paraformer/index.html">Paraformer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nemo/index.html">NeMo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../FireRedAsr/index.html">FireRedAsr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Dolphin/index.html">Dolphin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../homophone-replacer/index.html">拼音词组匹配替换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-diarization/index.html">Speaker Diarization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-identification/index.html">Speaker Identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speech-enhancement/index.html">Speech enhancement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../source-separation/index.html">Source separation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qnn/index.html">Qualcomm NPU (QNN, HTP)</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">rknn</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="tutorials.html">Tutorials</a></li>
+<li class="toctree-l3"><a class="reference internal" href="install.html">Install</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Pre-trained models</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#sherpa-onnx-rk3588-streaming-zipformer-small-bilingual-zh-en-2023-02-16">sherpa-onnx-rk3588-streaming-zipformer-small-bilingual-zh-en-2023-02-16</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sherpa-onnx-rk3588-streaming-zipformer-bilingual-zh-en-2023-02-20">sherpa-onnx-rk3588-streaming-zipformer-bilingual-zh-en-2023-02-20</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sherpa-onnx-rk3588-20-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17-chinese-english-japanese-korean-cantonese">sherpa-onnx-rk3588-20-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17 (Chinese, English, Japanese, Korean, Cantonese, 中英日韩粤语)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sherpa-onnx-rk3588-20-seconds-sense-voice-zh-en-ja-ko-yue-2025-09-09-chinese-english-japanese-korean-cantonese">sherpa-onnx-rk3588-20-seconds-sense-voice-zh-en-ja-ko-yue-2025-09-09 (Chinese, English, Japanese, Korean, Cantonese, 中英日韩粤语)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sherpa-onnx-rk3588-15-seconds-paraformer-zh-2025-10-07">sherpa-onnx-rk3588-15-seconds-paraformer-zh-2025-10-07</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../ascend/index.html">Ascend NPU (昇腾 NPU)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tts/index.html">Text-to-speech (TTS)</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">sherpa-onnx</a> &raquo;</li>
+          <li><a href="index.html">rknn</a> &raquo;</li>
+      <li>Pre-trained models</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/onnx/rknn/models.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="pre-trained-models">
+<h1>Pre-trained models<a class="headerlink" href="#pre-trained-models" title="Permalink to this heading"></a></h1>
+<p>You can download pre-trained models for RKNPU from <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/tag/asr-models">https://github.com/k2-fsa/sherpa-onnx/releases/tag/asr-models</a>.</p>
+<p>In the following, we use models for <code class="docutils literal notranslate"><span class="pre">rk3588</span></code> as an example. You can replace
+<code class="docutils literal notranslate"><span class="pre">rk3588</span></code> with <code class="docutils literal notranslate"><span class="pre">rk3576</span></code>, <code class="docutils literal notranslate"><span class="pre">rk3568</span></code>, <code class="docutils literal notranslate"><span class="pre">rk3566</span></code> or <code class="docutils literal notranslate"><span class="pre">rk3562</span></code>.</p>
+<p>Before you continue, we assume you have followed <a class="reference internal" href="install.html#sherpa-onnx-rknn-install"><span class="std std-ref">Install</span></a>
+to install <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>. The following is an example of installing
+<a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a> with RKNN support on OrangePi 5 max.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(py310) orangepi@orangepi5max:~/t$ uname -a
+Linux orangepi5max 6.1.43-rockchip-rk3588 #1.0.0 SMP Mon Jul  8 11:54:40 CST 2024 aarch64 aarch64 aarch64 GNU/Linux
+
+(py310) orangepi@orangepi5max:~/t$ ls -lh sherpa_onnx-1.12.13-cp310-cp310-manylinux_2_27_aarch64.whl
+-rw-r--r-- 1 orangepi orangepi 22M Mar 11 14:58 sherpa_onnx-1.12.13-cp310-cp310-manylinux_2_27_aarch64.whl
+
+(py310) orangepi@orangepi5max:~/t$ pip install ./sherpa_onnx-1.12.13-cp310-cp310-manylinux_2_27_aarch64.whl
+Processing ./sherpa_onnx-1.12.13-cp310-cp310-manylinux_2_27_aarch64.whl
+Installing collected packages: sherpa-onnx
+Successfully installed sherpa-onnx-1.12.13
+
+(py310) orangepi@orangepi5max:~/t$ which sherpa-onnx
+/home/orangepi/py310/bin/sherpa-onnx
+
+(py310) orangepi@orangepi5max:~/t$ ldd $(which sherpa-onnx)
+  linux-vdso.so.1 (0x0000007f9fd93000)
+  librknnrt.so =&gt; /lib/librknnrt.so (0x0000007f9f480000)
+  libonnxruntime.so =&gt; /home/orangepi/py310/bin/../lib/python3.10/site-packages/sherpa_onnx/lib/libonnxruntime.so (0x0000007f9e7f0000)
+  libm.so.6 =&gt; /lib/aarch64-linux-gnu/libm.so.6 (0x0000007f9e750000)
+  libstdc++.so.6 =&gt; /lib/aarch64-linux-gnu/libstdc++.so.6 (0x0000007f9e520000)
+  libgcc_s.so.1 =&gt; /lib/aarch64-linux-gnu/libgcc_s.so.1 (0x0000007f9e4f0000)
+  libc.so.6 =&gt; /lib/aarch64-linux-gnu/libc.so.6 (0x0000007f9e340000)
+  /lib/ld-linux-aarch64.so.1 (0x0000007f9fd5a000)
+  libpthread.so.0 =&gt; /lib/aarch64-linux-gnu/libpthread.so.0 (0x0000007f9e320000)
+  libdl.so.2 =&gt; /lib/aarch64-linux-gnu/libdl.so.2 (0x0000007f9e300000)
+  librt.so.1 =&gt; /lib/aarch64-linux-gnu/librt.so.1 (0x0000007f9e2e0000)
+
+(py310) orangepi@orangepi5max:~/t$ strings /lib/librknnrt.so | grep &quot;librknnrt version&quot;
+librknnrt version: 2.1.0 (967d001cc8@2024-08-07T19:28:19)
+</pre></div>
+</div>
+<section id="sherpa-onnx-rk3588-streaming-zipformer-small-bilingual-zh-en-2023-02-16">
+<h2>sherpa-onnx-rk3588-streaming-zipformer-small-bilingual-zh-en-2023-02-16<a class="headerlink" href="#sherpa-onnx-rk3588-streaming-zipformer-small-bilingual-zh-en-2023-02-16" title="Permalink to this heading"></a></h2>
+<p>This model is converted from <a class="reference internal" href="../pretrained_models/online-transducer/zipformer-transducer-models.html#sherpa-onnx-streaming-zipformer-small-bilingual-zh-en-2023-02-16"><span class="std std-ref">sherpa-onnx-streaming-zipformer-small-bilingual-zh-en-2023-02-16 (Bilingual, Chinese + English)</span></a>.</p>
+<p>Please use the following commands to download it.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-rk3588-streaming-zipformer-small-bilingual-zh-en-2023-02-16.tar.bz2
+tar<span class="w"> </span>xvf<span class="w"> </span>sherpa-onnx-rk3588-streaming-zipformer-small-bilingual-zh-en-2023-02-16.tar.bz2
+rm<span class="w"> </span>sherpa-onnx-rk3588-streaming-zipformer-small-bilingual-zh-en-2023-02-16.tar.bz2
+</pre></div>
+</div>
+<p>After downloading, you can check the file size:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ls</span> <span class="o">-</span><span class="n">lh</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">rk3588</span><span class="o">-</span><span class="n">streaming</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">small</span><span class="o">-</span><span class="n">bilingual</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="mi">2023</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">16</span><span class="o">/</span>
+<span class="n">total</span> <span class="mi">58</span><span class="n">M</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="n">orangepi</span> <span class="n">orangepi</span> <span class="mf">7.7</span><span class="n">M</span> <span class="n">Mar</span> <span class="mi">19</span>  <span class="mi">2025</span> <span class="n">decoder</span><span class="o">.</span><span class="n">rknn</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="n">orangepi</span> <span class="n">orangepi</span>  <span class="mi">44</span><span class="n">M</span> <span class="n">Mar</span> <span class="mi">19</span>  <span class="mi">2025</span> <span class="n">encoder</span><span class="o">.</span><span class="n">rknn</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="n">orangepi</span> <span class="n">orangepi</span> <span class="mf">6.2</span><span class="n">M</span> <span class="n">Mar</span> <span class="mi">19</span>  <span class="mi">2025</span> <span class="n">joiner</span><span class="o">.</span><span class="n">rknn</span>
+<span class="n">drwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span> <span class="mi">2</span> <span class="n">orangepi</span> <span class="n">orangepi</span> <span class="mf">4.0</span><span class="n">K</span> <span class="n">Mar</span> <span class="mi">19</span>  <span class="mi">2025</span> <span class="n">test_wavs</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="n">orangepi</span> <span class="n">orangepi</span>  <span class="mi">55</span><span class="n">K</span> <span class="n">Mar</span> <span class="mi">19</span>  <span class="mi">2025</span> <span class="n">tokens</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
+</div>
+<section id="decode-files">
+<h3>Decode files<a class="headerlink" href="#decode-files" title="Permalink to this heading"></a></h3>
+<p>You can use the following command to decode files with the downloaded model files:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span> \
+  <span class="o">--</span><span class="n">provider</span><span class="o">=</span><span class="n">rknn</span> \
+  <span class="o">--</span><span class="n">encoder</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">rk3588</span><span class="o">-</span><span class="n">streaming</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">small</span><span class="o">-</span><span class="n">bilingual</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="mi">2023</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">16</span><span class="o">/</span><span class="n">encoder</span><span class="o">.</span><span class="n">rknn</span> \
+  <span class="o">--</span><span class="n">decoder</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">rk3588</span><span class="o">-</span><span class="n">streaming</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">small</span><span class="o">-</span><span class="n">bilingual</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="mi">2023</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">16</span><span class="o">/</span><span class="n">decoder</span><span class="o">.</span><span class="n">rknn</span> \
+  <span class="o">--</span><span class="n">joiner</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">rk3588</span><span class="o">-</span><span class="n">streaming</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">small</span><span class="o">-</span><span class="n">bilingual</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="mi">2023</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">16</span><span class="o">/</span><span class="n">joiner</span><span class="o">.</span><span class="n">rknn</span> \
+  <span class="o">--</span><span class="n">tokens</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">rk3588</span><span class="o">-</span><span class="n">streaming</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">small</span><span class="o">-</span><span class="n">bilingual</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="mi">2023</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">16</span><span class="o">/</span><span class="n">tokens</span><span class="o">.</span><span class="n">txt</span> \
+  <span class="o">./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">rk3588</span><span class="o">-</span><span class="n">streaming</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">small</span><span class="o">-</span><span class="n">bilingual</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="mi">2023</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">16</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">4.</span><span class="n">wav</span>
+</pre></div>
+</div>
+<p>The output is given below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">OnlineRecognizerConfig</span><span class="p">(</span><span class="n">feat_config</span><span class="o">=</span><span class="n">FeatureExtractorConfig</span><span class="p">(</span><span class="n">sampling_rate</span><span class="o">=</span><span class="mi">16000</span><span class="p">,</span> <span class="n">feature_dim</span><span class="o">=</span><span class="mi">80</span><span class="p">,</span> <span class="n">low_freq</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">high_freq</span><span class="o">=-</span><span class="mi">400</span><span class="p">,</span> <span class="n">dither</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">normalize_samples</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">snip_edges</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span> <span class="n">model_config</span><span class="o">=</span><span class="n">OnlineModelConfig</span><span class="p">(</span><span class="n">transducer</span><span class="o">=</span><span class="n">OnlineTransducerModelConfig</span><span class="p">(</span><span class="n">encoder</span><span class="o">=</span><span class="s2">&quot;./sherpa-onnx-rk3588-streaming-zipformer-small-bilingual-zh-en-2023-02-16/encoder.rknn&quot;</span><span class="p">,</span> <span class="n">decoder</span><span class="o">=</span><span class="s2">&quot;./sherpa-onnx-rk3588-streaming-zipformer-small-bilingual-zh-en-2023-02-16/decoder.rknn&quot;</span><span class="p">,</span> <span class="n">joiner</span><span class="o">=</span><span class="s2">&quot;./sherpa-onnx-rk3588-streaming-zipformer-small-bilingual-zh-en-2023-02-16/joiner.rknn&quot;</span><span class="p">),</span> <span class="n">paraformer</span><span class="o">=</span><span class="n">OnlineParaformerModelConfig</span><span class="p">(</span><span class="n">encoder</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">decoder</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">),</span> <span class="n">wenet_ctc</span><span class="o">=</span><span class="n">OnlineWenetCtcModelConfig</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">chunk_size</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">num_left_chunks</span><span class="o">=</span><span class="mi">4</span><span class="p">),</span> <span class="n">zipformer2_ctc</span><span class="o">=</span><span class="n">OnlineZipformer2CtcModelConfig</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">),</span> <span class="n">nemo_ctc</span><span class="o">=</span><span class="n">OnlineNeMoCtcModelConfig</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">),</span> <span class="n">provider_config</span><span class="o">=</span><span class="n">ProviderConfig</span><span class="p">(</span><span class="n">device</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">provider</span><span class="o">=</span><span class="s2">&quot;rknn&quot;</span><span class="p">,</span> <span class="n">cuda_config</span><span class="o">=</span><span class="n">CudaConfig</span><span class="p">(</span><span class="n">cudnn_conv_algo_search</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">trt_config</span><span class="o">=</span><span class="n">TensorrtConfig</span><span class="p">(</span><span class="n">trt_max_workspace_size</span><span class="o">=</span><span class="mi">2147483647</span><span class="p">,</span> <span class="n">trt_max_partition_iterations</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">trt_min_subgraph_size</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">trt_fp16_enable</span><span class="o">=</span><span class="s2">&quot;True&quot;</span><span class="p">,</span> <span class="n">trt_detailed_build_log</span><span class="o">=</span><span class="s2">&quot;False&quot;</span><span class="p">,</span> <span class="n">trt_engine_cache_enable</span><span class="o">=</span><span class="s2">&quot;True&quot;</span><span class="p">,</span> <span class="n">trt_engine_cache_path</span><span class="o">=</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="n">trt_timing_cache_enable</span><span class="o">=</span><span class="s2">&quot;True&quot;</span><span class="p">,</span> <span class="n">trt_timing_cache_path</span><span class="o">=</span><span class="s2">&quot;.&quot;</span><span class="p">,</span><span class="n">trt_dump_subgraphs</span><span class="o">=</span><span class="s2">&quot;False&quot;</span> <span class="p">)),</span> <span class="n">tokens</span><span class="o">=</span><span class="s2">&quot;./sherpa-onnx-rk3588-streaming-zipformer-small-bilingual-zh-en-2023-02-16/tokens.txt&quot;</span><span class="p">,</span> <span class="n">num_threads</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">warm_up</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">model_type</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">modeling_unit</span><span class="o">=</span><span class="s2">&quot;cjkchar&quot;</span><span class="p">,</span> <span class="n">bpe_vocab</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">),</span> <span class="n">lm_config</span><span class="o">=</span><span class="n">OnlineLMConfig</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">shallow_fusion</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span> <span class="n">endpoint_config</span><span class="o">=</span><span class="n">EndpointConfig</span><span class="p">(</span><span class="n">rule1</span><span class="o">=</span><span class="n">EndpointRule</span><span class="p">(</span><span class="n">must_contain_nonsilence</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">min_trailing_silence</span><span class="o">=</span><span class="mf">2.4</span><span class="p">,</span> <span class="n">min_utterance_length</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">rule2</span><span class="o">=</span><span class="n">EndpointRule</span><span class="p">(</span><span class="n">must_contain_nonsilence</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">min_trailing_silence</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span> <span class="n">min_utterance_length</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">rule3</span><span class="o">=</span><span class="n">EndpointRule</span><span class="p">(</span><span class="n">must_contain_nonsilence</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">min_trailing_silence</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">min_utterance_length</span><span class="o">=</span><span class="mi">20</span><span class="p">)),</span> <span class="n">ctc_fst_decoder_config</span><span class="o">=</span><span class="n">OnlineCtcFstDecoderConfig</span><span class="p">(</span><span class="n">graph</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">max_active</span><span class="o">=</span><span class="mi">3000</span><span class="p">),</span> <span class="n">enable_endpoint</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">max_active_paths</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">hotwords_score</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">hotwords_file</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">decoding_method</span><span class="o">=</span><span class="s2">&quot;greedy_search&quot;</span><span class="p">,</span> <span class="n">blank_penalty</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">temperature_scale</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">rule_fsts</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">rule_fars</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="o">./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">rk3588</span><span class="o">-</span><span class="n">streaming</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">small</span><span class="o">-</span><span class="n">bilingual</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="mi">2023</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">16</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">4.</span><span class="n">wav</span>
+<span class="n">Number</span> <span class="n">of</span> <span class="n">threads</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Elapsed</span> <span class="n">seconds</span><span class="p">:</span> <span class="mf">3.5</span><span class="p">,</span> <span class="n">Audio</span> <span class="n">duration</span> <span class="p">(</span><span class="n">s</span><span class="p">):</span> <span class="mi">18</span><span class="p">,</span> <span class="n">Real</span> <span class="n">time</span> <span class="n">factor</span> <span class="p">(</span><span class="n">RTF</span><span class="p">)</span> <span class="o">=</span> <span class="mf">3.5</span><span class="o">/</span><span class="mi">18</span> <span class="o">=</span> <span class="mf">0.2</span>
+<span class="n">嗯</span> <span class="n">ON</span> <span class="n">TIME比较准时</span> <span class="n">IN</span> <span class="n">TIME是及时叫他总是准时教他的作业那用一般现在时是没有什么感情色彩的陈述一个事实下一句话为什么要用现在进行时它的意思并不是说说他现在正在教他的</span>
+<span class="p">{</span> <span class="s2">&quot;text&quot;</span><span class="p">:</span> <span class="s2">&quot;嗯 ON TIME比较准时 IN TIME是及时叫他总是准时教他的作业那用一般现在时是没有什么感情色彩的陈述一个事实下一句话为什么要用现在进行时它的意思并不是说说他现在正在教他的&quot;</span><span class="p">,</span> <span class="s2">&quot;tokens&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;嗯&quot;</span><span class="p">,</span> <span class="s2">&quot; ON&quot;</span><span class="p">,</span> <span class="s2">&quot; TIME&quot;</span><span class="p">,</span> <span class="s2">&quot;比&quot;</span><span class="p">,</span> <span class="s2">&quot;较&quot;</span><span class="p">,</span> <span class="s2">&quot;准&quot;</span><span class="p">,</span> <span class="s2">&quot;时&quot;</span><span class="p">,</span> <span class="s2">&quot; IN&quot;</span><span class="p">,</span> <span class="s2">&quot; TIME&quot;</span><span class="p">,</span> <span class="s2">&quot;是&quot;</span><span class="p">,</span> <span class="s2">&quot;及&quot;</span><span class="p">,</span> <span class="s2">&quot;时&quot;</span><span class="p">,</span> <span class="s2">&quot;叫&quot;</span><span class="p">,</span> <span class="s2">&quot;他&quot;</span><span class="p">,</span> <span class="s2">&quot;总&quot;</span><span class="p">,</span> <span class="s2">&quot;是&quot;</span><span class="p">,</span> <span class="s2">&quot;准&quot;</span><span class="p">,</span> <span class="s2">&quot;时&quot;</span><span class="p">,</span> <span class="s2">&quot;教&quot;</span><span class="p">,</span> <span class="s2">&quot;他&quot;</span><span class="p">,</span> <span class="s2">&quot;的&quot;</span><span class="p">,</span> <span class="s2">&quot;作&quot;</span><span class="p">,</span> <span class="s2">&quot;业&quot;</span><span class="p">,</span> <span class="s2">&quot;那&quot;</span><span class="p">,</span> <span class="s2">&quot;用&quot;</span><span class="p">,</span> <span class="s2">&quot;一&quot;</span><span class="p">,</span> <span class="s2">&quot;般&quot;</span><span class="p">,</span> <span class="s2">&quot;现&quot;</span><span class="p">,</span> <span class="s2">&quot;在&quot;</span><span class="p">,</span> <span class="s2">&quot;时&quot;</span><span class="p">,</span> <span class="s2">&quot;是&quot;</span><span class="p">,</span> <span class="s2">&quot;没&quot;</span><span class="p">,</span> <span class="s2">&quot;有&quot;</span><span class="p">,</span> <span class="s2">&quot;什&quot;</span><span class="p">,</span> <span class="s2">&quot;么&quot;</span><span class="p">,</span> <span class="s2">&quot;感&quot;</span><span class="p">,</span> <span class="s2">&quot;情&quot;</span><span class="p">,</span> <span class="s2">&quot;色&quot;</span><span class="p">,</span> <span class="s2">&quot;彩&quot;</span><span class="p">,</span> <span class="s2">&quot;的&quot;</span><span class="p">,</span> <span class="s2">&quot;陈&quot;</span><span class="p">,</span> <span class="s2">&quot;述&quot;</span><span class="p">,</span> <span class="s2">&quot;一&quot;</span><span class="p">,</span> <span class="s2">&quot;个&quot;</span><span class="p">,</span> <span class="s2">&quot;事&quot;</span><span class="p">,</span> <span class="s2">&quot;实&quot;</span><span class="p">,</span> <span class="s2">&quot;下&quot;</span><span class="p">,</span> <span class="s2">&quot;一&quot;</span><span class="p">,</span> <span class="s2">&quot;句&quot;</span><span class="p">,</span> <span class="s2">&quot;话&quot;</span><span class="p">,</span> <span class="s2">&quot;为&quot;</span><span class="p">,</span> <span class="s2">&quot;什&quot;</span><span class="p">,</span> <span class="s2">&quot;么&quot;</span><span class="p">,</span> <span class="s2">&quot;要&quot;</span><span class="p">,</span> <span class="s2">&quot;用&quot;</span><span class="p">,</span> <span class="s2">&quot;现&quot;</span><span class="p">,</span> <span class="s2">&quot;在&quot;</span><span class="p">,</span> <span class="s2">&quot;进&quot;</span><span class="p">,</span> <span class="s2">&quot;行&quot;</span><span class="p">,</span> <span class="s2">&quot;时&quot;</span><span class="p">,</span> <span class="s2">&quot;它&quot;</span><span class="p">,</span> <span class="s2">&quot;的&quot;</span><span class="p">,</span> <span class="s2">&quot;意&quot;</span><span class="p">,</span> <span class="s2">&quot;思&quot;</span><span class="p">,</span> <span class="s2">&quot;并&quot;</span><span class="p">,</span> <span class="s2">&quot;不&quot;</span><span class="p">,</span> <span class="s2">&quot;是&quot;</span><span class="p">,</span> <span class="s2">&quot;说&quot;</span><span class="p">,</span> <span class="s2">&quot;说&quot;</span><span class="p">,</span> <span class="s2">&quot;他&quot;</span><span class="p">,</span> <span class="s2">&quot;现&quot;</span><span class="p">,</span> <span class="s2">&quot;在&quot;</span><span class="p">,</span> <span class="s2">&quot;正&quot;</span><span class="p">,</span> <span class="s2">&quot;在&quot;</span><span class="p">,</span> <span class="s2">&quot;教&quot;</span><span class="p">,</span> <span class="s2">&quot;他&quot;</span><span class="p">,</span> <span class="s2">&quot;的&quot;</span><span class="p">],</span> <span class="s2">&quot;timestamps&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.00</span><span class="p">,</span> <span class="mf">0.64</span><span class="p">,</span> <span class="mf">0.80</span><span class="p">,</span> <span class="mf">1.12</span><span class="p">,</span> <span class="mf">1.16</span><span class="p">,</span> <span class="mf">1.36</span><span class="p">,</span> <span class="mf">1.64</span><span class="p">,</span> <span class="mf">2.00</span><span class="p">,</span> <span class="mf">2.16</span><span class="p">,</span> <span class="mf">2.52</span><span class="p">,</span> <span class="mf">2.80</span><span class="p">,</span> <span class="mf">2.92</span><span class="p">,</span> <span class="mf">3.28</span><span class="p">,</span> <span class="mf">3.64</span><span class="p">,</span> <span class="mf">3.92</span><span class="p">,</span> <span class="mf">4.16</span><span class="p">,</span> <span class="mf">4.48</span><span class="p">,</span> <span class="mf">4.60</span><span class="p">,</span> <span class="mf">4.84</span><span class="p">,</span> <span class="mf">5.12</span><span class="p">,</span> <span class="mf">5.28</span><span class="p">,</span> <span class="mf">5.52</span><span class="p">,</span> <span class="mf">5.72</span><span class="p">,</span> <span class="mf">6.20</span><span class="p">,</span> <span class="mf">6.52</span><span class="p">,</span> <span class="mf">6.80</span><span class="p">,</span> <span class="mf">7.04</span><span class="p">,</span> <span class="mf">7.28</span><span class="p">,</span> <span class="mf">7.52</span><span class="p">,</span> <span class="mf">7.72</span><span class="p">,</span> <span class="mf">7.84</span><span class="p">,</span> <span class="mf">8.08</span><span class="p">,</span> <span class="mf">8.24</span><span class="p">,</span> <span class="mf">8.40</span><span class="p">,</span> <span class="mf">8.44</span><span class="p">,</span> <span class="mf">8.68</span><span class="p">,</span> <span class="mf">8.92</span><span class="p">,</span> <span class="mf">9.00</span><span class="p">,</span> <span class="mf">9.24</span><span class="p">,</span> <span class="mf">9.48</span><span class="p">,</span> <span class="mf">9.80</span><span class="p">,</span> <span class="mf">9.92</span><span class="p">,</span> <span class="mf">10.16</span><span class="p">,</span> <span class="mf">10.32</span><span class="p">,</span> <span class="mf">10.56</span><span class="p">,</span> <span class="mf">10.80</span><span class="p">,</span> <span class="mf">11.52</span><span class="p">,</span> <span class="mf">11.60</span><span class="p">,</span> <span class="mf">11.80</span><span class="p">,</span> <span class="mf">11.96</span><span class="p">,</span> <span class="mf">12.20</span><span class="p">,</span> <span class="mf">12.32</span><span class="p">,</span> <span class="mf">12.40</span><span class="p">,</span> <span class="mf">12.56</span><span class="p">,</span> <span class="mf">12.80</span><span class="p">,</span> <span class="mf">13.12</span><span class="p">,</span> <span class="mf">13.32</span><span class="p">,</span> <span class="mf">13.56</span><span class="p">,</span> <span class="mf">13.76</span><span class="p">,</span> <span class="mf">13.92</span><span class="p">,</span> <span class="mf">14.24</span><span class="p">,</span> <span class="mf">14.36</span><span class="p">,</span> <span class="mf">14.52</span><span class="p">,</span> <span class="mf">14.68</span><span class="p">,</span> <span class="mf">14.92</span><span class="p">,</span> <span class="mf">15.04</span><span class="p">,</span> <span class="mf">15.16</span><span class="p">,</span> <span class="mf">15.32</span><span class="p">,</span> <span class="mf">15.72</span><span class="p">,</span> <span class="mf">16.12</span><span class="p">,</span> <span class="mf">16.36</span><span class="p">,</span> <span class="mf">16.48</span><span class="p">,</span> <span class="mf">16.68</span><span class="p">,</span> <span class="mf">16.88</span><span class="p">,</span> <span class="mf">17.08</span><span class="p">,</span> <span class="mf">17.24</span><span class="p">,</span> <span class="mf">17.84</span><span class="p">],</span> <span class="s2">&quot;ys_probs&quot;</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">&quot;lm_probs&quot;</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">&quot;context_scores&quot;</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">&quot;segment&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;words&quot;</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">&quot;start_time&quot;</span><span class="p">:</span> <span class="mf">0.00</span><span class="p">,</span> <span class="s2">&quot;is_final&quot;</span><span class="p">:</span> <span class="n">false</span><span class="p">}</span>
+</pre></div>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>If you get the following errors:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>E RKNN: [01:24:27.170] 6, 1
+E RKNN: [01:24:27.170] Invalid RKNN model version 6
+E RKNN: [01:24:27.171] rknn_init, load model failed!
+/home/runner/work/sherpa-onnx/sherpa-onnx/sherpa-onnx/csrc/rknn/online-zipformer-transducer-model-rknn.cc:InitEncoder:330 Return code is: -1
+/home/runner/work/sherpa-onnx/sherpa-onnx/sherpa-onnx/csrc/rknn/online-zipformer-transducer-model-rknn.cc:InitEncoder:330 Failed to init encoder &#39;./sherpa-onnx-rk3588-streaming-zipformer-small-bilingual-zh-en-2023-02-16/encoder.rknn&#39;
+</pre></div>
+</div>
+<p>Please update your <code class="docutils literal notranslate"><span class="pre">/lib/librknnrt.so</span></code> or <code class="docutils literal notranslate"><span class="pre">/usr/lib/librknnrt.so</span></code> with the
+one from <a class="reference external" href="https://github.com/airockchip/rknn-toolkit2/blob/master/rknpu2/runtime/Linux/librknn_api/aarch64/librknnrt.so">https://github.com/airockchip/rknn-toolkit2/blob/master/rknpu2/runtime/Linux/librknn_api/aarch64/librknnrt.so</a>.</p>
+<p>Note that you can locate where your <code class="docutils literal notranslate"><span class="pre">librknnrt.so</span></code> is by:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>ldd $(which sherpa-onnx)
+</pre></div>
+</div>
+<p>If the example crashes, your <code class="docutils literal notranslate"><span class="pre">librknnrt.so</span></code> version might be too new. Versions <code class="docutils literal notranslate"><span class="pre">2.3.x</span></code> and <code class="docutils literal notranslate"><span class="pre">2.4.x</span></code> may cause crashes, while <cite>librknnrt version: 2.2.0 (c195366594&#64;2024-09-14T12:18:56)</cite> is known to work. See &lt;<a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/issues/3154">https://github.com/k2-fsa/sherpa-onnx/issues/3154</a>&gt; for more information.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You can use:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">watch</span> <span class="o">-</span><span class="n">n</span> <span class="mf">0.5</span> <span class="n">cat</span> <span class="o">/</span><span class="n">sys</span><span class="o">/</span><span class="n">kernel</span><span class="o">/</span><span class="n">debug</span><span class="o">/</span><span class="n">rknpu</span><span class="o">/</span><span class="n">load</span>
+</pre></div>
+</div>
+<p>to watch the usage of NPU.</p>
+<p>For the RK3588 board, you can use:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">--num-threads=1</span></code> to select <code class="docutils literal notranslate"><span class="pre">RKNN_NPU_CORE_AUTO</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--num-threads=0</span></code> to select <code class="docutils literal notranslate"><span class="pre">RKNN_NPU_CORE_0</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--num-threads=-1</span></code> to select <code class="docutils literal notranslate"><span class="pre">RKNN_NPU_CORE_1</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--num-threads=-2</span></code> to select <code class="docutils literal notranslate"><span class="pre">RKNN_NPU_CORE_2</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--num-threads=-3</span></code> to select <code class="docutils literal notranslate"><span class="pre">RKNN_NPU_CORE_0_1</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--num-threads=-4</span></code> to select <code class="docutils literal notranslate"><span class="pre">RKNN_NPU_CORE_0_1_2</span></code></p></li>
+</ul>
+</div></blockquote>
+</div>
+</section>
+<section id="real-time-speech-recognition-from-a-microphone">
+<h3>Real-time speech recognition from a microphone<a class="headerlink" href="#real-time-speech-recognition-from-a-microphone" title="Permalink to this heading"></a></h3>
+<p>First, we need to get the name of the microphone on the board:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">arecord</span> <span class="o">-</span><span class="n">l</span>
+<span class="o">****</span> <span class="n">List</span> <span class="n">of</span> <span class="n">CAPTURE</span> <span class="n">Hardware</span> <span class="n">Devices</span> <span class="o">****</span>
+<span class="n">card</span> <span class="mi">2</span><span class="p">:</span> <span class="n">rockchipes8388</span> <span class="p">[</span><span class="n">rockchip</span><span class="p">,</span><span class="n">es8388</span><span class="p">],</span> <span class="n">device</span> <span class="mi">0</span><span class="p">:</span> <span class="n">dailink</span><span class="o">-</span><span class="n">multicodecs</span> <span class="n">ES8323</span> <span class="n">HiFi</span><span class="o">-</span><span class="mi">0</span> <span class="p">[</span><span class="n">dailink</span><span class="o">-</span><span class="n">multicodecs</span> <span class="n">ES8323</span> <span class="n">HiFi</span><span class="o">-</span><span class="mi">0</span><span class="p">]</span>
+  <span class="n">Subdevices</span><span class="p">:</span> <span class="mi">1</span><span class="o">/</span><span class="mi">1</span>
+  <span class="n">Subdevice</span> <span class="c1">#0: subdevice #0</span>
+<span class="n">card</span> <span class="mi">3</span><span class="p">:</span> <span class="n">UACDemoV10</span> <span class="p">[</span><span class="n">UACDemoV1</span><span class="mf">.0</span><span class="p">],</span> <span class="n">device</span> <span class="mi">0</span><span class="p">:</span> <span class="n">USB</span> <span class="n">Audio</span> <span class="p">[</span><span class="n">USB</span> <span class="n">Audio</span><span class="p">]</span>
+  <span class="n">Subdevices</span><span class="p">:</span> <span class="mi">1</span><span class="o">/</span><span class="mi">1</span>
+  <span class="n">Subdevice</span> <span class="c1">#0: subdevice #0</span>
+</pre></div>
+</div>
+<p>We will use <code class="docutils literal notranslate"><span class="pre">card</span> <span class="pre">3</span></code> <code class="docutils literal notranslate"><span class="pre">device</span> <span class="pre">0</span></code>, so the name is <code class="docutils literal notranslate"><span class="pre">plughw:3,0</span></code>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">alsa</span> \
+  <span class="o">--</span><span class="n">provider</span><span class="o">=</span><span class="n">rknn</span> \
+  <span class="o">--</span><span class="n">encoder</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">rk3588</span><span class="o">-</span><span class="n">streaming</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">small</span><span class="o">-</span><span class="n">bilingual</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="mi">2023</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">16</span><span class="o">/</span><span class="n">encoder</span><span class="o">.</span><span class="n">rknn</span> \
+  <span class="o">--</span><span class="n">decoder</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">rk3588</span><span class="o">-</span><span class="n">streaming</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">small</span><span class="o">-</span><span class="n">bilingual</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="mi">2023</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">16</span><span class="o">/</span><span class="n">decoder</span><span class="o">.</span><span class="n">rknn</span> \
+  <span class="o">--</span><span class="n">joiner</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">rk3588</span><span class="o">-</span><span class="n">streaming</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">small</span><span class="o">-</span><span class="n">bilingual</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="mi">2023</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">16</span><span class="o">/</span><span class="n">joiner</span><span class="o">.</span><span class="n">rknn</span> \
+  <span class="o">--</span><span class="n">tokens</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">rk3588</span><span class="o">-</span><span class="n">streaming</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">small</span><span class="o">-</span><span class="n">bilingual</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="mi">2023</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">16</span><span class="o">/</span><span class="n">tokens</span><span class="o">.</span><span class="n">txt</span> \
+  <span class="n">plughw</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span><span class="mi">0</span>
+</pre></div>
+</div>
+<p>You should see the following output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/home/runner/work/sherpa-onnx/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:375 sherpa-onnx-alsa --provider=rknn --encoder=./sherpa-onnx-rk3588-streaming-zipformer-small-bilingual-zh-en-2023-02-16/encoder.rknn --decoder=./sherpa-onnx-rk3588-streaming-zipformer-small-bilingual-zh-en-2023-02-16/decoder.rknn --joiner=./sherpa-onnx-rk3588-streaming-zipformer-small-bilingual-zh-en-2023-02-16/joiner.rknn --tokens=./sherpa-onnx-rk3588-streaming-zipformer-small-bilingual-zh-en-2023-02-16/tokens.txt plughw:3,0
+
+OnlineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80, low_freq=20, high_freq=-400, dither=0, normalize_samples=True, snip_edges=False), model_config=OnlineModelConfig(transducer=OnlineTransducerModelConfig(encoder=&quot;./sherpa-onnx-rk3588-streaming-zipformer-small-bilingual-zh-en-2023-02-16/encoder.rknn&quot;, decoder=&quot;./sherpa-onnx-rk3588-streaming-zipformer-small-bilingual-zh-en-2023-02-16/decoder.rknn&quot;, joiner=&quot;./sherpa-onnx-rk3588-streaming-zipformer-small-bilingual-zh-en-2023-02-16/joiner.rknn&quot;), paraformer=OnlineParaformerModelConfig(encoder=&quot;&quot;, decoder=&quot;&quot;), wenet_ctc=OnlineWenetCtcModelConfig(model=&quot;&quot;, chunk_size=16, num_left_chunks=4), zipformer2_ctc=OnlineZipformer2CtcModelConfig(model=&quot;&quot;), nemo_ctc=OnlineNeMoCtcModelConfig(model=&quot;&quot;), provider_config=ProviderConfig(device=0, provider=&quot;rknn&quot;, cuda_config=CudaConfig(cudnn_conv_algo_search=1), trt_config=TensorrtConfig(trt_max_workspace_size=2147483647, trt_max_partition_iterations=10, trt_min_subgraph_size=5, trt_fp16_enable=&quot;True&quot;, trt_detailed_build_log=&quot;False&quot;, trt_engine_cache_enable=&quot;True&quot;, trt_engine_cache_path=&quot;.&quot;, trt_timing_cache_enable=&quot;True&quot;, trt_timing_cache_path=&quot;.&quot;,trt_dump_subgraphs=&quot;False&quot; )), tokens=&quot;./sherpa-onnx-rk3588-streaming-zipformer-small-bilingual-zh-en-2023-02-16/tokens.txt&quot;, num_threads=1, warm_up=0, debug=False, model_type=&quot;&quot;, modeling_unit=&quot;cjkchar&quot;, bpe_vocab=&quot;&quot;), lm_config=OnlineLMConfig(model=&quot;&quot;, scale=0.5, shallow_fusion=True), endpoint_config=EndpointConfig(rule1=EndpointRule(must_contain_nonsilence=False, min_trailing_silence=2.4, min_utterance_length=0), rule2=EndpointRule(must_contain_nonsilence=True, min_trailing_silence=1.2, min_utterance_length=0), rule3=EndpointRule(must_contain_nonsilence=False, min_trailing_silence=0, min_utterance_length=20)), ctc_fst_decoder_config=OnlineCtcFstDecoderConfig(graph=&quot;&quot;, max_active=3000), enable_endpoint=True, max_active_paths=4, hotwords_score=1.5, hotwords_file=&quot;&quot;, decoding_method=&quot;greedy_search&quot;, blank_penalty=0, temperature_scale=2, rule_fsts=&quot;&quot;, rule_fars=&quot;&quot;)
+Current sample rate: 16000
+Recording started!
+Use recording device: plughw:3,0
+Started! Please speak
+0:这是一个实时的语音识别
+1:今天是二零二五年三月二十二号
+</pre></div>
+</div>
+</section>
+</section>
+<section id="sherpa-onnx-rk3588-streaming-zipformer-bilingual-zh-en-2023-02-20">
+<h2>sherpa-onnx-rk3588-streaming-zipformer-bilingual-zh-en-2023-02-20<a class="headerlink" href="#sherpa-onnx-rk3588-streaming-zipformer-bilingual-zh-en-2023-02-20" title="Permalink to this heading"></a></h2>
+<p>This model is converted from <a class="reference internal" href="../pretrained_models/online-transducer/zipformer-transducer-models.html#sherpa-onnx-streaming-zipformer-small-bilingual-zh-en-2023-02-16"><span class="std std-ref">sherpa-onnx-streaming-zipformer-small-bilingual-zh-en-2023-02-16 (Bilingual, Chinese + English)</span></a>.</p>
+<p>Please use the following commands to download it.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-rk3588-streaming-zipformer-bilingual-zh-en-2023-02-20.tar.bz2
+tar<span class="w"> </span>xvf<span class="w"> </span>sherpa-onnx-rk3588-streaming-zipformer-bilingual-zh-en-2023-02-20.tar.bz2
+rm<span class="w"> </span>sherpa-onnx-rk3588-streaming-zipformer-bilingual-zh-en-2023-02-20.tar.bz2
+</pre></div>
+</div>
+<p>After downloading, you can check the file size:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ls</span> <span class="o">-</span><span class="n">lh</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">rk3588</span><span class="o">-</span><span class="n">streaming</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">bilingual</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="mi">2023</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">20</span><span class="o">/</span>
+<span class="n">total</span> <span class="mi">146</span><span class="n">M</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="n">orangepi</span> <span class="n">orangepi</span> <span class="mf">7.7</span><span class="n">M</span> <span class="n">Mar</span> <span class="mi">19</span>  <span class="mi">2025</span> <span class="n">decoder</span><span class="o">.</span><span class="n">rknn</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="n">orangepi</span> <span class="n">orangepi</span> <span class="mi">132</span><span class="n">M</span> <span class="n">Mar</span> <span class="mi">19</span>  <span class="mi">2025</span> <span class="n">encoder</span><span class="o">.</span><span class="n">rknn</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="n">orangepi</span> <span class="n">orangepi</span> <span class="mf">6.2</span><span class="n">M</span> <span class="n">Mar</span> <span class="mi">19</span>  <span class="mi">2025</span> <span class="n">joiner</span><span class="o">.</span><span class="n">rknn</span>
+<span class="n">drwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span> <span class="mi">2</span> <span class="n">orangepi</span> <span class="n">orangepi</span> <span class="mf">4.0</span><span class="n">K</span> <span class="n">Mar</span> <span class="mi">19</span>  <span class="mi">2025</span> <span class="n">test_wavs</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="n">orangepi</span> <span class="n">orangepi</span>  <span class="mi">55</span><span class="n">K</span> <span class="n">Mar</span> <span class="mi">19</span>  <span class="mi">2025</span> <span class="n">tokens</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
+</div>
+<section id="id1">
+<h3>Decode files<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h3>
+<p>You can use the following command to decode files with the downloaded model files:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span> \
+  <span class="o">--</span><span class="n">provider</span><span class="o">=</span><span class="n">rknn</span> \
+  <span class="o">--</span><span class="n">encoder</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">rk3588</span><span class="o">-</span><span class="n">streaming</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">bilingual</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="mi">2023</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">20</span><span class="o">/</span><span class="n">encoder</span><span class="o">.</span><span class="n">rknn</span> \
+  <span class="o">--</span><span class="n">decoder</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">rk3588</span><span class="o">-</span><span class="n">streaming</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">bilingual</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="mi">2023</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">20</span><span class="o">/</span><span class="n">decoder</span><span class="o">.</span><span class="n">rknn</span> \
+  <span class="o">--</span><span class="n">joiner</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">rk3588</span><span class="o">-</span><span class="n">streaming</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">bilingual</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="mi">2023</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">20</span><span class="o">/</span><span class="n">joiner</span><span class="o">.</span><span class="n">rknn</span> \
+  <span class="o">--</span><span class="n">tokens</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">rk3588</span><span class="o">-</span><span class="n">streaming</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">bilingual</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="mi">2023</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">20</span><span class="o">/</span><span class="n">tokens</span><span class="o">.</span><span class="n">txt</span> \
+  <span class="o">./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">rk3588</span><span class="o">-</span><span class="n">streaming</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">bilingual</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="mi">2023</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">20</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">4.</span><span class="n">wav</span>
+</pre></div>
+</div>
+<p>The output is given below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">OnlineRecognizerConfig</span><span class="p">(</span><span class="n">feat_config</span><span class="o">=</span><span class="n">FeatureExtractorConfig</span><span class="p">(</span><span class="n">sampling_rate</span><span class="o">=</span><span class="mi">16000</span><span class="p">,</span> <span class="n">feature_dim</span><span class="o">=</span><span class="mi">80</span><span class="p">,</span> <span class="n">low_freq</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">high_freq</span><span class="o">=-</span><span class="mi">400</span><span class="p">,</span> <span class="n">dither</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">normalize_samples</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">snip_edges</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span> <span class="n">model_config</span><span class="o">=</span><span class="n">OnlineModelConfig</span><span class="p">(</span><span class="n">transducer</span><span class="o">=</span><span class="n">OnlineTransducerModelConfig</span><span class="p">(</span><span class="n">encoder</span><span class="o">=</span><span class="s2">&quot;./sherpa-onnx-rk3588-streaming-zipformer-bilingual-zh-en-2023-02-20/encoder.rknn&quot;</span><span class="p">,</span> <span class="n">decoder</span><span class="o">=</span><span class="s2">&quot;./sherpa-onnx-rk3588-streaming-zipformer-bilingual-zh-en-2023-02-20/decoder.rknn&quot;</span><span class="p">,</span> <span class="n">joiner</span><span class="o">=</span><span class="s2">&quot;./sherpa-onnx-rk3588-streaming-zipformer-bilingual-zh-en-2023-02-20/joiner.rknn&quot;</span><span class="p">),</span> <span class="n">paraformer</span><span class="o">=</span><span class="n">OnlineParaformerModelConfig</span><span class="p">(</span><span class="n">encoder</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">decoder</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">),</span> <span class="n">wenet_ctc</span><span class="o">=</span><span class="n">OnlineWenetCtcModelConfig</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">chunk_size</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">num_left_chunks</span><span class="o">=</span><span class="mi">4</span><span class="p">),</span> <span class="n">zipformer2_ctc</span><span class="o">=</span><span class="n">OnlineZipformer2CtcModelConfig</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">),</span> <span class="n">nemo_ctc</span><span class="o">=</span><span class="n">OnlineNeMoCtcModelConfig</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">),</span> <span class="n">provider_config</span><span class="o">=</span><span class="n">ProviderConfig</span><span class="p">(</span><span class="n">device</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">provider</span><span class="o">=</span><span class="s2">&quot;rknn&quot;</span><span class="p">,</span> <span class="n">cuda_config</span><span class="o">=</span><span class="n">CudaConfig</span><span class="p">(</span><span class="n">cudnn_conv_algo_search</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">trt_config</span><span class="o">=</span><span class="n">TensorrtConfig</span><span class="p">(</span><span class="n">trt_max_workspace_size</span><span class="o">=</span><span class="mi">2147483647</span><span class="p">,</span> <span class="n">trt_max_partition_iterations</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">trt_min_subgraph_size</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">trt_fp16_enable</span><span class="o">=</span><span class="s2">&quot;True&quot;</span><span class="p">,</span> <span class="n">trt_detailed_build_log</span><span class="o">=</span><span class="s2">&quot;False&quot;</span><span class="p">,</span> <span class="n">trt_engine_cache_enable</span><span class="o">=</span><span class="s2">&quot;True&quot;</span><span class="p">,</span> <span class="n">trt_engine_cache_path</span><span class="o">=</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="n">trt_timing_cache_enable</span><span class="o">=</span><span class="s2">&quot;True&quot;</span><span class="p">,</span> <span class="n">trt_timing_cache_path</span><span class="o">=</span><span class="s2">&quot;.&quot;</span><span class="p">,</span><span class="n">trt_dump_subgraphs</span><span class="o">=</span><span class="s2">&quot;False&quot;</span> <span class="p">)),</span> <span class="n">tokens</span><span class="o">=</span><span class="s2">&quot;./sherpa-onnx-rk3588-streaming-zipformer-bilingual-zh-en-2023-02-20/tokens.txt&quot;</span><span class="p">,</span> <span class="n">num_threads</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">warm_up</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">model_type</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">modeling_unit</span><span class="o">=</span><span class="s2">&quot;cjkchar&quot;</span><span class="p">,</span> <span class="n">bpe_vocab</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">),</span> <span class="n">lm_config</span><span class="o">=</span><span class="n">OnlineLMConfig</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">shallow_fusion</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span> <span class="n">endpoint_config</span><span class="o">=</span><span class="n">EndpointConfig</span><span class="p">(</span><span class="n">rule1</span><span class="o">=</span><span class="n">EndpointRule</span><span class="p">(</span><span class="n">must_contain_nonsilence</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">min_trailing_silence</span><span class="o">=</span><span class="mf">2.4</span><span class="p">,</span> <span class="n">min_utterance_length</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">rule2</span><span class="o">=</span><span class="n">EndpointRule</span><span class="p">(</span><span class="n">must_contain_nonsilence</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">min_trailing_silence</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span> <span class="n">min_utterance_length</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">rule3</span><span class="o">=</span><span class="n">EndpointRule</span><span class="p">(</span><span class="n">must_contain_nonsilence</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">min_trailing_silence</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">min_utterance_length</span><span class="o">=</span><span class="mi">20</span><span class="p">)),</span> <span class="n">ctc_fst_decoder_config</span><span class="o">=</span><span class="n">OnlineCtcFstDecoderConfig</span><span class="p">(</span><span class="n">graph</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">max_active</span><span class="o">=</span><span class="mi">3000</span><span class="p">),</span> <span class="n">enable_endpoint</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">max_active_paths</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">hotwords_score</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">hotwords_file</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">decoding_method</span><span class="o">=</span><span class="s2">&quot;greedy_search&quot;</span><span class="p">,</span> <span class="n">blank_penalty</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">temperature_scale</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">rule_fsts</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">rule_fars</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+<span class="o">./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">rk3588</span><span class="o">-</span><span class="n">streaming</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">bilingual</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="mi">2023</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">20</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">2.</span><span class="n">wav</span>
+<span class="n">Number</span> <span class="n">of</span> <span class="n">threads</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Elapsed</span> <span class="n">seconds</span><span class="p">:</span> <span class="mf">1.8</span><span class="p">,</span> <span class="n">Audio</span> <span class="n">duration</span> <span class="p">(</span><span class="n">s</span><span class="p">):</span> <span class="mf">4.7</span><span class="p">,</span> <span class="n">Real</span> <span class="n">time</span> <span class="n">factor</span> <span class="p">(</span><span class="n">RTF</span><span class="p">)</span> <span class="o">=</span> <span class="mf">1.8</span><span class="o">/</span><span class="mf">4.7</span> <span class="o">=</span> <span class="mf">0.38</span>
+<span class="n">这个是频繁的啊不认识记下来</span> <span class="n">FREQUENTLY频繁的</span>
+<span class="p">{</span> <span class="s2">&quot;text&quot;</span><span class="p">:</span> <span class="s2">&quot;这个是频繁的啊不认识记下来 FREQUENTLY频繁的&quot;</span><span class="p">,</span> <span class="s2">&quot;tokens&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;这&quot;</span><span class="p">,</span> <span class="s2">&quot;个&quot;</span><span class="p">,</span> <span class="s2">&quot;是&quot;</span><span class="p">,</span> <span class="s2">&quot;频&quot;</span><span class="p">,</span> <span class="s2">&quot;繁&quot;</span><span class="p">,</span> <span class="s2">&quot;的&quot;</span><span class="p">,</span> <span class="s2">&quot;啊&quot;</span><span class="p">,</span> <span class="s2">&quot;不&quot;</span><span class="p">,</span> <span class="s2">&quot;认&quot;</span><span class="p">,</span> <span class="s2">&quot;识&quot;</span><span class="p">,</span> <span class="s2">&quot;记&quot;</span><span class="p">,</span> <span class="s2">&quot;下&quot;</span><span class="p">,</span> <span class="s2">&quot;来&quot;</span><span class="p">,</span> <span class="s2">&quot; F&quot;</span><span class="p">,</span> <span class="s2">&quot;RE&quot;</span><span class="p">,</span> <span class="s2">&quot;QU&quot;</span><span class="p">,</span> <span class="s2">&quot;ENT&quot;</span><span class="p">,</span> <span class="s2">&quot;LY&quot;</span><span class="p">,</span> <span class="s2">&quot;频&quot;</span><span class="p">,</span> <span class="s2">&quot;繁&quot;</span><span class="p">,</span> <span class="s2">&quot;的&quot;</span><span class="p">],</span> <span class="s2">&quot;timestamps&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.00</span><span class="p">,</span> <span class="mf">0.36</span><span class="p">,</span> <span class="mf">0.52</span><span class="p">,</span> <span class="mf">0.80</span><span class="p">,</span> <span class="mf">1.00</span><span class="p">,</span> <span class="mf">1.16</span><span class="p">,</span> <span class="mf">1.44</span><span class="p">,</span> <span class="mf">1.64</span><span class="p">,</span> <span class="mf">1.92</span><span class="p">,</span> <span class="mf">2.00</span><span class="p">,</span> <span class="mf">2.20</span><span class="p">,</span> <span class="mf">2.36</span><span class="p">,</span> <span class="mf">2.52</span><span class="p">,</span> <span class="mf">2.64</span><span class="p">,</span> <span class="mf">2.88</span><span class="p">,</span> <span class="mf">2.96</span><span class="p">,</span> <span class="mf">3.08</span><span class="p">,</span> <span class="mf">3.32</span><span class="p">,</span> <span class="mf">3.60</span><span class="p">,</span> <span class="mf">3.80</span><span class="p">,</span> <span class="mf">4.40</span><span class="p">],</span> <span class="s2">&quot;ys_probs&quot;</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">&quot;lm_probs&quot;</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">&quot;context_scores&quot;</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">&quot;segment&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;words&quot;</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">&quot;start_time&quot;</span><span class="p">:</span> <span class="mf">0.00</span><span class="p">,</span> <span class="s2">&quot;is_final&quot;</span><span class="p">:</span> <span class="n">false</span><span class="p">}</span>
+</pre></div>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>If you get the following errors:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>E RKNN: [01:24:27.170] 6, 1
+E RKNN: [01:24:27.170] Invalid RKNN model version 6
+E RKNN: [01:24:27.171] rknn_init, load model failed!
+/home/runner/work/sherpa-onnx/sherpa-onnx/sherpa-onnx/csrc/rknn/online-zipformer-transducer-model-rknn.cc:InitEncoder:330 Return code is: -1
+/home/runner/work/sherpa-onnx/sherpa-onnx/sherpa-onnx/csrc/rknn/online-zipformer-transducer-model-rknn.cc:InitEncoder:330 Failed to init encoder &#39;./sherpa-onnx-rk3588-streaming-zipformer-bilingual-zh-en-2023-02-20/encoder.rknn&#39;
+</pre></div>
+</div>
+<p>Please update your <code class="docutils literal notranslate"><span class="pre">/lib/librknnrt.so</span></code> or <code class="docutils literal notranslate"><span class="pre">/usr/lib/librknnrt.so</span></code> with the
+one from <a class="reference external" href="https://github.com/airockchip/rknn-toolkit2/blob/master/rknpu2/runtime/Linux/librknn_api/aarch64/librknnrt.so">https://github.com/airockchip/rknn-toolkit2/blob/master/rknpu2/runtime/Linux/librknn_api/aarch64/librknnrt.so</a>.</p>
+<p>Note that you can locate where your <code class="docutils literal notranslate"><span class="pre">librknnrt.so</span></code> is by:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>ldd $(which sherpa-onnx)
+</pre></div>
+</div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You can use:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">watch</span> <span class="o">-</span><span class="n">n</span> <span class="mf">0.5</span> <span class="n">cat</span> <span class="o">/</span><span class="n">sys</span><span class="o">/</span><span class="n">kernel</span><span class="o">/</span><span class="n">debug</span><span class="o">/</span><span class="n">rknpu</span><span class="o">/</span><span class="n">load</span>
+</pre></div>
+</div>
+<p>to watch the usage of NPU.</p>
+<p>For the RK3588 board, you can use:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">--num-threads=1</span></code> to select <code class="docutils literal notranslate"><span class="pre">RKNN_NPU_CORE_AUTO</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--num-threads=0</span></code> to select <code class="docutils literal notranslate"><span class="pre">RKNN_NPU_CORE_0</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--num-threads=-1</span></code> to select <code class="docutils literal notranslate"><span class="pre">RKNN_NPU_CORE_1</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--num-threads=-2</span></code> to select <code class="docutils literal notranslate"><span class="pre">RKNN_NPU_CORE_2</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--num-threads=-3</span></code> to select <code class="docutils literal notranslate"><span class="pre">RKNN_NPU_CORE_0_1</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--num-threads=-4</span></code> to select <code class="docutils literal notranslate"><span class="pre">RKNN_NPU_CORE_0_1_2</span></code></p></li>
+</ul>
+</div></blockquote>
+</div>
+</section>
+<section id="id3">
+<h3>Real-time speech recognition from a microphone<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h3>
+<p>First, we need to get the name of the microphone on the board:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">arecord</span> <span class="o">-</span><span class="n">l</span>
+<span class="o">****</span> <span class="n">List</span> <span class="n">of</span> <span class="n">CAPTURE</span> <span class="n">Hardware</span> <span class="n">Devices</span> <span class="o">****</span>
+<span class="n">card</span> <span class="mi">2</span><span class="p">:</span> <span class="n">rockchipes8388</span> <span class="p">[</span><span class="n">rockchip</span><span class="p">,</span><span class="n">es8388</span><span class="p">],</span> <span class="n">device</span> <span class="mi">0</span><span class="p">:</span> <span class="n">dailink</span><span class="o">-</span><span class="n">multicodecs</span> <span class="n">ES8323</span> <span class="n">HiFi</span><span class="o">-</span><span class="mi">0</span> <span class="p">[</span><span class="n">dailink</span><span class="o">-</span><span class="n">multicodecs</span> <span class="n">ES8323</span> <span class="n">HiFi</span><span class="o">-</span><span class="mi">0</span><span class="p">]</span>
+  <span class="n">Subdevices</span><span class="p">:</span> <span class="mi">1</span><span class="o">/</span><span class="mi">1</span>
+  <span class="n">Subdevice</span> <span class="c1">#0: subdevice #0</span>
+<span class="n">card</span> <span class="mi">3</span><span class="p">:</span> <span class="n">UACDemoV10</span> <span class="p">[</span><span class="n">UACDemoV1</span><span class="mf">.0</span><span class="p">],</span> <span class="n">device</span> <span class="mi">0</span><span class="p">:</span> <span class="n">USB</span> <span class="n">Audio</span> <span class="p">[</span><span class="n">USB</span> <span class="n">Audio</span><span class="p">]</span>
+  <span class="n">Subdevices</span><span class="p">:</span> <span class="mi">1</span><span class="o">/</span><span class="mi">1</span>
+  <span class="n">Subdevice</span> <span class="c1">#0: subdevice #0</span>
+</pre></div>
+</div>
+<p>We will use <code class="docutils literal notranslate"><span class="pre">card</span> <span class="pre">3</span></code> <code class="docutils literal notranslate"><span class="pre">device</span> <span class="pre">0</span></code>, so the name is <code class="docutils literal notranslate"><span class="pre">plughw:3,0</span></code>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">alsa</span> \
+  <span class="o">--</span><span class="n">provider</span><span class="o">=</span><span class="n">rknn</span> \
+  <span class="o">--</span><span class="n">encoder</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">rk3588</span><span class="o">-</span><span class="n">streaming</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">bilingual</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="mi">2023</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">20</span><span class="o">/</span><span class="n">encoder</span><span class="o">.</span><span class="n">rknn</span> \
+  <span class="o">--</span><span class="n">decoder</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">rk3588</span><span class="o">-</span><span class="n">streaming</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">bilingual</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="mi">2023</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">20</span><span class="o">/</span><span class="n">decoder</span><span class="o">.</span><span class="n">rknn</span> \
+  <span class="o">--</span><span class="n">joiner</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">rk3588</span><span class="o">-</span><span class="n">streaming</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">bilingual</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="mi">2023</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">20</span><span class="o">/</span><span class="n">joiner</span><span class="o">.</span><span class="n">rknn</span> \
+  <span class="o">--</span><span class="n">tokens</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">rk3588</span><span class="o">-</span><span class="n">streaming</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">bilingual</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="mi">2023</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">20</span><span class="o">/</span><span class="n">tokens</span><span class="o">.</span><span class="n">txt</span> \
+  <span class="n">plughw</span><span class="p">:</span><span class="mi">3</span><span class="p">,</span><span class="mi">0</span>
+</pre></div>
+</div>
+<p>You should see the following output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>OnlineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80, low_freq=20, high_freq=-400, dither=0, normalize_samples=True, snip_edges=False), model_config=OnlineModelConfig(transducer=OnlineTransducerModelConfig(encoder=&quot;./sherpa-onnx-rk3588-streaming-zipformer-bilingual-zh-en-2023-02-20/encoder.rknn&quot;, decoder=&quot;./sherpa-onnx-rk3588-streaming-zipformer-bilingual-zh-en-2023-02-20/decoder.rknn&quot;, joiner=&quot;./sherpa-onnx-rk3588-streaming-zipformer-bilingual-zh-en-2023-02-20/joiner.rknn&quot;), paraformer=OnlineParaformerModelConfig(encoder=&quot;&quot;, decoder=&quot;&quot;), wenet_ctc=OnlineWenetCtcModelConfig(model=&quot;&quot;, chunk_size=16, num_left_chunks=4), zipformer2_ctc=OnlineZipformer2CtcModelConfig(model=&quot;&quot;), nemo_ctc=OnlineNeMoCtcModelConfig(model=&quot;&quot;), provider_config=ProviderConfig(device=0, provider=&quot;rknn&quot;, cuda_config=CudaConfig(cudnn_conv_algo_search=1), trt_config=TensorrtConfig(trt_max_workspace_size=2147483647, trt_max_partition_iterations=10, trt_min_subgraph_size=5, trt_fp16_enable=&quot;True&quot;, trt_detailed_build_log=&quot;False&quot;, trt_engine_cache_enable=&quot;True&quot;, trt_engine_cache_path=&quot;.&quot;, trt_timing_cache_enable=&quot;True&quot;, trt_timing_cache_path=&quot;.&quot;,trt_dump_subgraphs=&quot;False&quot; )), tokens=&quot;./sherpa-onnx-rk3588-streaming-zipformer-bilingual-zh-en-2023-02-20/tokens.txt&quot;, num_threads=1, warm_up=0, debug=False, model_type=&quot;&quot;, modeling_unit=&quot;cjkchar&quot;, bpe_vocab=&quot;&quot;), lm_config=OnlineLMConfig(model=&quot;&quot;, scale=0.5, shallow_fusion=True), endpoint_config=EndpointConfig(rule1=EndpointRule(must_contain_nonsilence=False, min_trailing_silence=2.4, min_utterance_length=0), rule2=EndpointRule(must_contain_nonsilence=True, min_trailing_silence=1.2, min_utterance_length=0), rule3=EndpointRule(must_contain_nonsilence=False, min_trailing_silence=0, min_utterance_length=20)), ctc_fst_decoder_config=OnlineCtcFstDecoderConfig(graph=&quot;&quot;, max_active=3000), enable_endpoint=True, max_active_paths=4, hotwords_score=1.5, hotwords_file=&quot;&quot;, decoding_method=&quot;greedy_search&quot;, blank_penalty=0, temperature_scale=2, rule_fsts=&quot;&quot;, rule_fars=&quot;&quot;)
+Current sample rate: 16000
+Recording started!
+Use recording device: plughw:3,0
+Started! Please speak
+0:现在开始测试
+1:现在是星期六
+2:二零二五年三月二十二号
+3:下午六点四十四分
+</pre></div>
+</div>
+</section>
+</section>
+<section id="sherpa-onnx-rk3588-20-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17-chinese-english-japanese-korean-cantonese">
+<span id="sherpa-onnx-rk3588-20-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17"></span><h2>sherpa-onnx-rk3588-20-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17 (Chinese, English, Japanese, Korean, Cantonese, 中英日韩粤语)<a class="headerlink" href="#sherpa-onnx-rk3588-20-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17-chinese-english-japanese-korean-cantonese" title="Permalink to this heading"></a></h2>
+<p>This model is converted from <a class="reference internal" href="../sense-voice/pretrained.html#sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17"><span class="std std-ref">sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17-int8 (Chinese, English, Japanese, Korean, Cantonese, 中英日韩粤语)</span></a> using code from the following URL:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/tree/master/scripts/sense-voice/rknn">https://github.com/k2-fsa/sherpa-onnx/tree/master/scripts/sense-voice/rknn</a></p>
+</div></blockquote>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>You can find how to run the export code at</p>
+<blockquote>
+<div><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/blob/master/.github/workflows/export-sense-voice-to-rknn.yaml">https://github.com/k2-fsa/sherpa-onnx/blob/master/.github/workflows/export-sense-voice-to-rknn.yaml</a></p>
+</div></blockquote>
+</div>
+<p>The original PyTorch checkpoint is available at</p>
+<blockquote>
+<div><p><a class="reference external" href="https://huggingface.co/FunAudioLLM/SenseVoiceSmall">https://huggingface.co/FunAudioLLM/SenseVoiceSmall</a></p>
+</div></blockquote>
+<p>Since the original <a class="reference external" href="https://github.com/FunAudioLLM/SenseVoice">SenseVoice</a> model is a non-streaming model and RKNN does not support dynamic input shapes, we
+have to fix how long the model can process when exporting to RKNN.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">20-seconds</span></code> in the model name means the model can only handle audio of duration 20 seconds.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>If the input audio is less than 20 seconds, it is padded to 20 seconds in the code automatically.</p></li>
+<li><p>If the input audio is larger than 20 seconds, it is truncated to 20 seconds in the code automatically.</p></li>
+</ul>
+</div></blockquote>
+<p>We provide exported models of different input lengths. See the table below.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>Max input lengths</p></td>
+<td><p>URL</p></td>
+</tr>
+<tr class="row-even"><td><p>5 seconds</p></td>
+<td><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-rk3588-5-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17.tar.bz2">sherpa-onnx-rk3588-5-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17.tar.bz2</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>10 seconds</p></td>
+<td><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-rk3588-10-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17.tar.bz2">sherpa-onnx-rk3588-10-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17.tar.bz2</a></p></td>
+</tr>
+<tr class="row-even"><td><p>15 seconds</p></td>
+<td><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-rk3588-15-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17.tar.bz2">sherpa-onnx-rk3588-15-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17.tar.bz2</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>20 seconds</p></td>
+<td><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-rk3588-20-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17.tar.bz2">sherpa-onnx-rk3588-20-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17.tar.bz2</a></p></td>
+</tr>
+<tr class="row-even"><td><p>25 seconds</p></td>
+<td><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-rk3588-25-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17.tar.bz2">sherpa-onnx-rk3588-25-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17.tar.bz2</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>30 seconds</p></td>
+<td><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-rk3588-30-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17.tar.bz2">sherpa-onnx-rk3588-30-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17.tar.bz2</a></p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>The above table lists models foro <code class="docutils literal notranslate"><span class="pre">rk3588</span></code>. You can replace
+<code class="docutils literal notranslate"><span class="pre">rk3588</span></code> with <code class="docutils literal notranslate"><span class="pre">rk3576</span></code>, <code class="docutils literal notranslate"><span class="pre">rk3568</span></code>, <code class="docutils literal notranslate"><span class="pre">rk3566</span></code> or <code class="docutils literal notranslate"><span class="pre">rk3562</span></code>.</p>
+</div>
+<p>We suggest that you use a <a class="reference internal" href="../vad/index.html#sherpa-onnx-vad"><span class="std std-ref">VAD</span></a> to segment your input audio into short segments.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You can use:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">watch</span> <span class="o">-</span><span class="n">n</span> <span class="mf">0.5</span> <span class="n">cat</span> <span class="o">/</span><span class="n">sys</span><span class="o">/</span><span class="n">kernel</span><span class="o">/</span><span class="n">debug</span><span class="o">/</span><span class="n">rknpu</span><span class="o">/</span><span class="n">load</span>
+</pre></div>
+</div>
+<p>to watch the usage of NPU.</p>
+<p>For the RK3588 board, you can use:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">--num-threads=1</span></code> to select <code class="docutils literal notranslate"><span class="pre">RKNN_NPU_CORE_AUTO</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--num-threads=0</span></code> to select <code class="docutils literal notranslate"><span class="pre">RKNN_NPU_CORE_0</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--num-threads=-1</span></code> to select <code class="docutils literal notranslate"><span class="pre">RKNN_NPU_CORE_1</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--num-threads=-2</span></code> to select <code class="docutils literal notranslate"><span class="pre">RKNN_NPU_CORE_2</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--num-threads=-3</span></code> to select <code class="docutils literal notranslate"><span class="pre">RKNN_NPU_CORE_0_1</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--num-threads=-4</span></code> to select <code class="docutils literal notranslate"><span class="pre">RKNN_NPU_CORE_0_1_2</span></code></p></li>
+</ul>
+</div></blockquote>
+</div>
+<section id="decode-long-files-with-a-vad">
+<h3>Decode long files with a VAD<a class="headerlink" href="#decode-long-files-with-a-vad" title="Permalink to this heading"></a></h3>
+<p>The following example demonstrates how to use a <code class="docutils literal notranslate"><span class="pre">20-second</span></code> model to decode a long wave file.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">wget</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">k2</span><span class="o">-</span><span class="n">fsa</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="n">download</span><span class="o">/</span><span class="n">asr</span><span class="o">-</span><span class="n">models</span><span class="o">/</span><span class="n">silero_vad</span><span class="o">.</span><span class="n">onnx</span>
+
+<span class="n">wget</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">k2</span><span class="o">-</span><span class="n">fsa</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="n">download</span><span class="o">/</span><span class="n">asr</span><span class="o">-</span><span class="n">models</span><span class="o">/</span><span class="n">lei</span><span class="o">-</span><span class="n">jun</span><span class="o">-</span><span class="n">test</span><span class="o">.</span><span class="n">wav</span>
+
+<span class="n">wget</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">k2</span><span class="o">-</span><span class="n">fsa</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="n">download</span><span class="o">/</span><span class="n">asr</span><span class="o">-</span><span class="n">models</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">rk3588</span><span class="o">-</span><span class="mi">20</span><span class="o">-</span><span class="n">seconds</span><span class="o">-</span><span class="n">sense</span><span class="o">-</span><span class="n">voice</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="n">ja</span><span class="o">-</span><span class="n">ko</span><span class="o">-</span><span class="n">yue</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mf">17.</span><span class="n">tar</span><span class="o">.</span><span class="n">bz2</span>
+<span class="n">tar</span> <span class="n">xvf</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">rk3588</span><span class="o">-</span><span class="mi">20</span><span class="o">-</span><span class="n">seconds</span><span class="o">-</span><span class="n">sense</span><span class="o">-</span><span class="n">voice</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="n">ja</span><span class="o">-</span><span class="n">ko</span><span class="o">-</span><span class="n">yue</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mf">17.</span><span class="n">tar</span><span class="o">.</span><span class="n">bz2</span>
+</pre></div>
+</div>
+<p>Then run:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sherpa-onnx-vad-with-offline-asr<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--num-threads<span class="o">=</span>-1<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--provider<span class="o">=</span>rknn<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--silero-vad-model<span class="o">=</span>./silero_vad.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--silero-vad-threshold<span class="o">=</span><span class="m">0</span>.4<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--sense-voice-model<span class="o">=</span>./sherpa-onnx-rk3588-20-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17/model.rknn<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span>./sherpa-onnx-rk3588-20-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./lei-jun-test.wav
+</pre></div>
+</div>
+<table>
+  <tr>
+    <th>Wave filename</th>
+    <th>Content</th>
+  </tr>
+  <tr>
+    <td>lei-jun-test.wav</td>
+    <td>
+     <audio title="lei-jun-test.wav" controls="controls">
+           <source src="/sherpa/_static/sense-voice/lei-jun-test.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+  </tr>
+</table><p>The output is given below:</p>
+<div class="toggle docutils container">
+<div class="header docutils container">
+<p>Click ▶ to see the output</p>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/k2-fsa/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:372 sherpa-onnx-vad-with-offline-asr sherpa-onnx-vad-with-offline-asr --num-threads=-1 --provider=rknn --silero-vad-model=./silero_vad.onnx --silero-vad-threshold=0.4 --sense-voice-model=./sherpa-onnx-rk3588-20-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17/model.rknn --tokens=./sherpa-onnx-rk3588-20-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17/tokens.txt ./lei-jun-test.wav 
+
+VadModelConfig(silero_vad=SileroVadModelConfig(model=&quot;./silero_vad.onnx&quot;, threshold=0.4, min_silence_duration=0.5, min_speech_duration=0.25, max_speech_duration=20, window_size=512), ten_vad=TenVadModelConfig(model=&quot;&quot;, threshold=0.5, min_silence_duration=0.5, min_speech_duration=0.25, max_speech_duration=20, window_size=256), sample_rate=16000, num_threads=1, provider=&quot;cpu&quot;, debug=False)
+OfflineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80, low_freq=20, high_freq=-400, dither=0, normalize_samples=True, snip_edges=False), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename=&quot;&quot;, decoder_filename=&quot;&quot;, joiner_filename=&quot;&quot;), paraformer=OfflineParaformerModelConfig(model=&quot;&quot;), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=&quot;&quot;), whisper=OfflineWhisperModelConfig(encoder=&quot;&quot;, decoder=&quot;&quot;, language=&quot;&quot;, task=&quot;transcribe&quot;, tail_paddings=-1), fire_red_asr=OfflineFireRedAsrModelConfig(encoder=&quot;&quot;, decoder=&quot;&quot;), tdnn=OfflineTdnnModelConfig(model=&quot;&quot;), zipformer_ctc=OfflineZipformerCtcModelConfig(model=&quot;&quot;), wenet_ctc=OfflineWenetCtcModelConfig(model=&quot;&quot;), sense_voice=OfflineSenseVoiceModelConfig(model=&quot;./sherpa-onnx-rk3588-20-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17/model.rknn&quot;, language=&quot;auto&quot;, use_itn=False), moonshine=OfflineMoonshineModelConfig(preprocessor=&quot;&quot;, encoder=&quot;&quot;, uncached_decoder=&quot;&quot;, cached_decoder=&quot;&quot;), dolphin=OfflineDolphinModelConfig(model=&quot;&quot;), canary=OfflineCanaryModelConfig(encoder=&quot;&quot;, decoder=&quot;&quot;, src_lang=&quot;&quot;, tgt_lang=&quot;&quot;, use_pnc=True), telespeech_ctc=&quot;&quot;, tokens=&quot;./sherpa-onnx-rk3588-20-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17/tokens.txt&quot;, num_threads=-1, debug=False, provider=&quot;rknn&quot;, model_type=&quot;&quot;, modeling_unit=&quot;cjkchar&quot;, bpe_vocab=&quot;&quot;), lm_config=OfflineLMConfig(model=&quot;&quot;, scale=0.5, lodr_scale=0.01, lodr_fst=&quot;&quot;, lodr_backoff_id=-1), ctc_fst_decoder_config=OfflineCtcFstDecoderConfig(graph=&quot;&quot;, max_active=3000), decoding_method=&quot;greedy_search&quot;, max_active_paths=4, hotwords_file=&quot;&quot;, hotwords_score=1.5, blank_penalty=0, rule_fsts=&quot;&quot;, rule_fars=&quot;&quot;, hr=HomophoneReplacerConfig(dict_dir=&quot;&quot;, lexicon=&quot;&quot;, rule_fsts=&quot;&quot;))
+Creating recognizer ...
+Recognizer created!
+Started
+Reading: ./lei-jun-test.wav
+Started!
+28.934 -- 36.140: 朋友们晚上好欢迎大家来参加今天晚上的活动谢谢大家
+42.118 -- 57.676: 这是我第四次颁年度演讲前三次呢因为疫情的原因都在小米科技园内举办现场的人很少这是第四次
+58.182 -- 67.052: 我们仔细想了想我们还是想办一个比较大的聚会然后呢让我们的新朋友老朋友一起聚一聚
+67.718 -- 71.084: 今天的话呢我们就在北京的
+71.654 -- 91.580: 国家会议中心呢举办了这么一个活动现场呢来了很多人大概有三千五百人还有很多很多的朋友呢通过观看直播的方式来参与再一次呢对大家的参加表示感谢谢谢大家
+98.470 -- 104.748: 两个月前我参加了今年武汉大学的毕业典礼
+105.894 -- 110.828: 今年呢是武汉大学建校一百三十周年
+111.750 -- 117.388: 作为校友被母校邀请在毕业典礼上致辞
+118.022 -- 122.988: 这对我来说是至高无上的荣誉
+123.654 -- 128.716: 站在讲台的那一刻面对全校师生
+129.190 -- 134.348: 关于武大的所有的记忆一下子涌现在脑海里
+134.950 -- 139.660: 今天呢我就先和大家聊聊五大往事
+141.830 -- 144.012: 那还是三十六年前
+145.926 -- 147.756: 一九八七年
+148.678 -- 151.724: 我呢考上了武汉大学的计算机系
+152.646 -- 156.876: 在武汉大学的图书馆里看了一本书
+157.574 -- 158.796: 硅谷之火
+159.302 -- 161.708: 建立了我一生的梦想
+163.302 -- 164.524: 看完书以后
+165.286 -- 166.636: 热血沸腾
+167.590 -- 169.644: 激动的睡不着觉
+170.406 -- 171.308: 我还记得
+172.006 -- 174.764: 那天晚上星光很亮
+175.398 -- 177.836: 我就在武大的操场上
+178.342 -- 179.948: 就是屏幕上这个操场
+180.774 -- 185.420: 走了一圈又一圈走了整整一个晚上
+186.470 -- 187.852: 我心里有团火
+188.934 -- 191.884: 我也想办一个伟大的公司
+193.958 -- 194.988: 就是这样
+197.574 -- 202.540: 梦想之火在我心里彻底点燃了
+209.734 -- 212.748: 但是一个大一的新生
+220.230 -- 222.828: 但是一个大一的新生
+223.782 -- 227.276: 一个从县城里出来的年轻人
+228.134 -- 230.796: 什么也不会什么也没有
+231.526 -- 236.428: 就想创办一家伟大的公司这不就是天方夜谭吗
+237.574 -- 242.572: 这么离谱的一个梦想该如何实现呢
+243.846 -- 246.988: 那天晚上我想了一整晚上
+247.974 -- 249.068: 说实话
+250.342 -- 253.900: 越想越糊涂完全理不清头绪
+254.982 -- 261.516: 后来我在想哎干脆别想了把书练好是正事
+262.150 -- 265.868: 所以呢我就下定决心认认真真读书
+266.630 -- 267.308: 那么
+268.486 -- 271.692: 我怎么能够把书读的不同凡响呢
+num threads: -1
+decoding method: greedy_search
+Elapsed seconds: 47.488 s
+Real time factor (RTF): 47.488 / 272.398 = 0.174
+</pre></div>
+</div>
+</div>
+</section>
+<section id="decode-a-short-file">
+<h3>Decode a short file<a class="headerlink" href="#decode-a-short-file" title="Permalink to this heading"></a></h3>
+<p>The following example demonstrates how to use a <code class="docutils literal notranslate"><span class="pre">10-second</span></code> model to decode a short wave file.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">wget</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">k2</span><span class="o">-</span><span class="n">fsa</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="n">download</span><span class="o">/</span><span class="n">asr</span><span class="o">-</span><span class="n">models</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">rk3588</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="n">seconds</span><span class="o">-</span><span class="n">sense</span><span class="o">-</span><span class="n">voice</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="n">ja</span><span class="o">-</span><span class="n">ko</span><span class="o">-</span><span class="n">yue</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mf">17.</span><span class="n">tar</span><span class="o">.</span><span class="n">bz2</span>
+<span class="n">tar</span> <span class="n">xvf</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">rk3588</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="n">seconds</span><span class="o">-</span><span class="n">sense</span><span class="o">-</span><span class="n">voice</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="n">ja</span><span class="o">-</span><span class="n">ko</span><span class="o">-</span><span class="n">yue</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mf">17.</span><span class="n">tar</span><span class="o">.</span><span class="n">bz2</span>
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sherpa-onnx-offline<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--num-threads<span class="o">=</span>-2<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--provider<span class="o">=</span>rknn<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--sense-voice-model<span class="o">=</span>./sherpa-onnx-rk3588-10-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17/model.rknn<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span>./sherpa-onnx-rk3588-10-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-rk3588-10-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17/test_wavs/zh.wav
+</pre></div>
+</div>
+<p>The output is given below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/k2-fsa/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:372 sherpa-onnx-offline --num-threads=-2 --provider=rknn --sense-voice-model=./sherpa-onnx-rk3588-10-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17/model.rknn --tokens=./sherpa-onnx-rk3588-10-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17/tokens.txt ./sherpa-onnx-rk3588-10-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17/test_wavs/zh.wav 
+
+OfflineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80, low_freq=20, high_freq=-400, dither=0, normalize_samples=True, snip_edges=False), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename=&quot;&quot;, decoder_filename=&quot;&quot;, joiner_filename=&quot;&quot;), paraformer=OfflineParaformerModelConfig(model=&quot;&quot;), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=&quot;&quot;), whisper=OfflineWhisperModelConfig(encoder=&quot;&quot;, decoder=&quot;&quot;, language=&quot;&quot;, task=&quot;transcribe&quot;, tail_paddings=-1), fire_red_asr=OfflineFireRedAsrModelConfig(encoder=&quot;&quot;, decoder=&quot;&quot;), tdnn=OfflineTdnnModelConfig(model=&quot;&quot;), zipformer_ctc=OfflineZipformerCtcModelConfig(model=&quot;&quot;), wenet_ctc=OfflineWenetCtcModelConfig(model=&quot;&quot;), sense_voice=OfflineSenseVoiceModelConfig(model=&quot;./sherpa-onnx-rk3588-10-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17/model.rknn&quot;, language=&quot;auto&quot;, use_itn=False), moonshine=OfflineMoonshineModelConfig(preprocessor=&quot;&quot;, encoder=&quot;&quot;, uncached_decoder=&quot;&quot;, cached_decoder=&quot;&quot;), dolphin=OfflineDolphinModelConfig(model=&quot;&quot;), canary=OfflineCanaryModelConfig(encoder=&quot;&quot;, decoder=&quot;&quot;, src_lang=&quot;&quot;, tgt_lang=&quot;&quot;, use_pnc=True), telespeech_ctc=&quot;&quot;, tokens=&quot;./sherpa-onnx-rk3588-10-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17/tokens.txt&quot;, num_threads=-2, debug=False, provider=&quot;rknn&quot;, model_type=&quot;&quot;, modeling_unit=&quot;cjkchar&quot;, bpe_vocab=&quot;&quot;), lm_config=OfflineLMConfig(model=&quot;&quot;, scale=0.5, lodr_scale=0.01, lodr_fst=&quot;&quot;, lodr_backoff_id=-1), ctc_fst_decoder_config=OfflineCtcFstDecoderConfig(graph=&quot;&quot;, max_active=3000), decoding_method=&quot;greedy_search&quot;, max_active_paths=4, hotwords_file=&quot;&quot;, hotwords_score=1.5, blank_penalty=0, rule_fsts=&quot;&quot;, rule_fars=&quot;&quot;, hr=HomophoneReplacerConfig(dict_dir=&quot;&quot;, lexicon=&quot;&quot;, rule_fsts=&quot;&quot;))
+Creating recognizer ...
+Started
+Done!
+
+./sherpa-onnx-rk3588-10-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17/test_wavs/zh.wav
+{&quot;lang&quot;: &quot;&lt;|zh|&gt;&quot;, &quot;emotion&quot;: &quot;&lt;|NEUTRAL|&gt;&quot;, &quot;event&quot;: &quot;&lt;|Speech|&gt;&quot;, &quot;text&quot;: &quot;开放时间早上九点至下午五点&quot;, &quot;timestamps&quot;: [0.72, 0.96, 1.26, 1.44, 1.92, 2.10, 2.58, 2.82, 3.30, 3.90, 4.20, 4.56, 4.74], &quot;durations&quot;: [], &quot;tokens&quot;:[&quot;开&quot;, &quot;放&quot;, &quot;时&quot;, &quot;间&quot;, &quot;早&quot;, &quot;上&quot;, &quot;九&quot;, &quot;点&quot;, &quot;至&quot;, &quot;下&quot;, &quot;午&quot;, &quot;五&quot;, &quot;点&quot;], &quot;words&quot;: []}
+----
+num threads: -2
+decoding method: greedy_search
+Elapsed seconds: 0.521 s
+Real time factor (RTF): 0.521 / 5.592 = 0.093
+</pre></div>
+</div>
+</section>
+<section id="speed-test">
+<h3>Speed test<a class="headerlink" href="#speed-test" title="Permalink to this heading"></a></h3>
+<p>We compare the speed between the <code class="docutils literal notranslate"><span class="pre">int8.onnx</span></code> model and the <code class="docutils literal notranslate"><span class="pre">10-second</span></code> rknn model for</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>1 Cortex A55 CPU with <code class="docutils literal notranslate"><span class="pre">int8.onnx</span></code></p></li>
+<li><p>1 Cortex A76 CPU with <code class="docutils literal notranslate"><span class="pre">int8.onnx</span></code></p></li>
+<li><p>1 RK NPU on RK3588</p></li>
+</ul>
+</div></blockquote>
+<p>Please first use the following command to download the test model files:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17.tar.bz2
+tar<span class="w"> </span>xvf<span class="w"> </span>sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17.tar.bz2
+
+wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-rk3588-10-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17.tar.bz2
+tar<span class="w"> </span>xvf<span class="w"> </span>sherpa-onnx-rk3588-10-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17.tar.bz2
+</pre></div>
+</div>
+<p>The results are summarized in the following table.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td></td>
+<td><div class="line-block">
+<div class="line">1 Cortex A55 CPU</div>
+<div class="line">with <code class="docutils literal notranslate"><span class="pre">int8</span> <span class="pre">ONNX</span></code> model</div>
+</div>
+</td>
+<td><div class="line-block">
+<div class="line">1 Cortex A76 CPU</div>
+<div class="line">with <code class="docutils literal notranslate"><span class="pre">int8</span> <span class="pre">ONNX</span></code> model</div>
+</div>
+</td>
+<td><p>1 RK3588 NPU</p></td>
+</tr>
+<tr class="row-even"><td><p>RTF</p></td>
+<td><p>0.440</p></td>
+<td><p>0.100</p></td>
+<td><p>0.129</p></td>
+</tr>
+</tbody>
+</table>
+<p>You can find detailed test commands below.</p>
+<section id="sense-voice-int8-onnx-model-on-1-cortex-a55-cpu">
+<h4>Sense-voice <code class="docutils literal notranslate"><span class="pre">int8</span></code> ONNX model on 1 Cortex A55 CPU<a class="headerlink" href="#sense-voice-int8-onnx-model-on-1-cortex-a55-cpu" title="Permalink to this heading"></a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>taskset<span class="w"> </span>0x01<span class="w"> </span>sherpa-onnx-offline<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--num-threads<span class="o">=</span><span class="m">1</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--sense-voice-model<span class="o">=</span>./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17/model.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span>./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17/test_wavs/zh.wav
+</pre></div>
+</div>
+<p>The output is given below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/k2-fsa/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:372 sherpa-onnx-offline --num-threads=1 --sense-voice-model=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17/model.int8.onnx --tokens=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17/tokens.txt ./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17/test_wavs/zh.wav 
+
+OfflineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80, low_freq=20, high_freq=-400, dither=0, normalize_samples=True, snip_edges=False), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename=&quot;&quot;, decoder_filename=&quot;&quot;, joiner_filename=&quot;&quot;), paraformer=OfflineParaformerModelConfig(model=&quot;&quot;), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=&quot;&quot;), whisper=OfflineWhisperModelConfig(encoder=&quot;&quot;, decoder=&quot;&quot;, language=&quot;&quot;, task=&quot;transcribe&quot;, tail_paddings=-1), fire_red_asr=OfflineFireRedAsrModelConfig(encoder=&quot;&quot;, decoder=&quot;&quot;), tdnn=OfflineTdnnModelConfig(model=&quot;&quot;), zipformer_ctc=OfflineZipformerCtcModelConfig(model=&quot;&quot;), wenet_ctc=OfflineWenetCtcModelConfig(model=&quot;&quot;), sense_voice=OfflineSenseVoiceModelConfig(model=&quot;./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17/model.int8.onnx&quot;, language=&quot;auto&quot;, use_itn=False), moonshine=OfflineMoonshineModelConfig(preprocessor=&quot;&quot;, encoder=&quot;&quot;, uncached_decoder=&quot;&quot;, cached_decoder=&quot;&quot;), dolphin=OfflineDolphinModelConfig(model=&quot;&quot;), canary=OfflineCanaryModelConfig(encoder=&quot;&quot;, decoder=&quot;&quot;, src_lang=&quot;&quot;, tgt_lang=&quot;&quot;, use_pnc=True), telespeech_ctc=&quot;&quot;, tokens=&quot;./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17/tokens.txt&quot;, num_threads=1, debug=False, provider=&quot;cpu&quot;, model_type=&quot;&quot;, modeling_unit=&quot;cjkchar&quot;, bpe_vocab=&quot;&quot;), lm_config=OfflineLMConfig(model=&quot;&quot;, scale=0.5, lodr_scale=0.01, lodr_fst=&quot;&quot;, lodr_backoff_id=-1), ctc_fst_decoder_config=OfflineCtcFstDecoderConfig(graph=&quot;&quot;, max_active=3000), decoding_method=&quot;greedy_search&quot;, max_active_paths=4, hotwords_file=&quot;&quot;, hotwords_score=1.5, blank_penalty=0, rule_fsts=&quot;&quot;, rule_fars=&quot;&quot;, hr=HomophoneReplacerConfig(dict_dir=&quot;&quot;, lexicon=&quot;&quot;, rule_fsts=&quot;&quot;))
+Creating recognizer ...
+Started
+Done!
+
+./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17/test_wavs/zh.wav
+{&quot;lang&quot;: &quot;&lt;|zh|&gt;&quot;, &quot;emotion&quot;: &quot;&lt;|NEUTRAL|&gt;&quot;, &quot;event&quot;: &quot;&lt;|Speech|&gt;&quot;, &quot;text&quot;: &quot;开饭时间早上九点至下午五点&quot;, &quot;timestamps&quot;: [0.72, 0.96, 1.26, 1.44, 1.92, 2.10, 2.58, 2.82, 3.30, 3.90, 4.20, 4.56, 4.74], &quot;durations&quot;: [], &quot;tokens&quot;:[&quot;开&quot;, &quot;饭&quot;, &quot;时&quot;, &quot;间&quot;, &quot;早&quot;, &quot;上&quot;, &quot;九&quot;, &quot;点&quot;, &quot;至&quot;, &quot;下&quot;, &quot;午&quot;, &quot;五&quot;, &quot;点&quot;], &quot;words&quot;: []}
+----
+num threads: 1
+decoding method: greedy_search
+Elapsed seconds: 2.459 s
+Real time factor (RTF): 2.459 / 5.592 = 0.440
+</pre></div>
+</div>
+</section>
+<section id="sense-voice-int8-onnx-model-on-1-cortex-a76-cpu">
+<h4>Sense-voice <code class="docutils literal notranslate"><span class="pre">int8</span></code> ONNX model on 1 Cortex A76 CPU<a class="headerlink" href="#sense-voice-int8-onnx-model-on-1-cortex-a76-cpu" title="Permalink to this heading"></a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>taskset<span class="w"> </span>0x10<span class="w"> </span>sherpa-onnx-offline<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--num-threads<span class="o">=</span><span class="m">1</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--sense-voice-model<span class="o">=</span>./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17/model.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span>./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17/test_wavs/zh.wav
+</pre></div>
+</div>
+<p>The output is given below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/k2-fsa/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:372 sherpa-onnx-offline --num-threads=1 --sense-voice-model=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17/model.int8.onnx --tokens=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17/tokens.txt ./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17/test_wavs/zh.wav 
+
+OfflineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80, low_freq=20, high_freq=-400, dither=0, normalize_samples=True, snip_edges=False), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename=&quot;&quot;, decoder_filename=&quot;&quot;, joiner_filename=&quot;&quot;), paraformer=OfflineParaformerModelConfig(model=&quot;&quot;), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=&quot;&quot;), whisper=OfflineWhisperModelConfig(encoder=&quot;&quot;, decoder=&quot;&quot;, language=&quot;&quot;, task=&quot;transcribe&quot;, tail_paddings=-1), fire_red_asr=OfflineFireRedAsrModelConfig(encoder=&quot;&quot;, decoder=&quot;&quot;), tdnn=OfflineTdnnModelConfig(model=&quot;&quot;), zipformer_ctc=OfflineZipformerCtcModelConfig(model=&quot;&quot;), wenet_ctc=OfflineWenetCtcModelConfig(model=&quot;&quot;), sense_voice=OfflineSenseVoiceModelConfig(model=&quot;./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17/model.int8.onnx&quot;, language=&quot;auto&quot;, use_itn=False), moonshine=OfflineMoonshineModelConfig(preprocessor=&quot;&quot;, encoder=&quot;&quot;, uncached_decoder=&quot;&quot;, cached_decoder=&quot;&quot;), dolphin=OfflineDolphinModelConfig(model=&quot;&quot;), canary=OfflineCanaryModelConfig(encoder=&quot;&quot;, decoder=&quot;&quot;, src_lang=&quot;&quot;, tgt_lang=&quot;&quot;, use_pnc=True), telespeech_ctc=&quot;&quot;, tokens=&quot;./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17/tokens.txt&quot;, num_threads=1, debug=False, provider=&quot;cpu&quot;, model_type=&quot;&quot;, modeling_unit=&quot;cjkchar&quot;, bpe_vocab=&quot;&quot;), lm_config=OfflineLMConfig(model=&quot;&quot;, scale=0.5, lodr_scale=0.01, lodr_fst=&quot;&quot;, lodr_backoff_id=-1), ctc_fst_decoder_config=OfflineCtcFstDecoderConfig(graph=&quot;&quot;, max_active=3000), decoding_method=&quot;greedy_search&quot;, max_active_paths=4, hotwords_file=&quot;&quot;, hotwords_score=1.5, blank_penalty=0, rule_fsts=&quot;&quot;, rule_fars=&quot;&quot;, hr=HomophoneReplacerConfig(dict_dir=&quot;&quot;, lexicon=&quot;&quot;, rule_fsts=&quot;&quot;))
+Creating recognizer ...
+Started
+Done!
+
+./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17/test_wavs/zh.wav
+{&quot;lang&quot;: &quot;&lt;|zh|&gt;&quot;, &quot;emotion&quot;: &quot;&lt;|NEUTRAL|&gt;&quot;, &quot;event&quot;: &quot;&lt;|Speech|&gt;&quot;, &quot;text&quot;: &quot;开饭时间早上九点至下午五点&quot;, &quot;timestamps&quot;: [0.72, 0.96, 1.26, 1.44, 1.92, 2.10, 2.58, 2.82, 3.30, 3.90, 4.20, 4.56, 4.74], &quot;durations&quot;: [], &quot;tokens&quot;:[&quot;开&quot;, &quot;饭&quot;, &quot;时&quot;, &quot;间&quot;, &quot;早&quot;, &quot;上&quot;, &quot;九&quot;, &quot;点&quot;, &quot;至&quot;, &quot;下&quot;, &quot;午&quot;, &quot;五&quot;, &quot;点&quot;], &quot;words&quot;: []}
+----
+num threads: 1
+decoding method: greedy_search
+Elapsed seconds: 0.561 s
+Real time factor (RTF): 0.561 / 5.592 = 0.100
+</pre></div>
+</div>
+</section>
+<section id="sense-voice-rknn-model-on-1-rk3588-npu">
+<h4>Sense-voice RKNN model on 1 RK3588 NPU<a class="headerlink" href="#sense-voice-rknn-model-on-1-rk3588-npu" title="Permalink to this heading"></a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>taskset<span class="w"> </span>0x01<span class="w"> </span>sherpa-onnx-offline<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--provider<span class="o">=</span>rknn<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--num-threads<span class="o">=</span>-1<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--sense-voice-model<span class="o">=</span>./sherpa-onnx-rk3588-10-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17/model.rknn<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span>./sherpa-onnx-rk3588-10-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17/test_wavs/zh.wav
+</pre></div>
+</div>
+<p>The output is given below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/k2-fsa/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:372 sherpa-onnx-offline --provider=rknn --num-threads=-1 --sense-voice-model=./sherpa-onnx-rk3588-10-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17/model.rknn --tokens=./sherpa-onnx-rk3588-10-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17/tokens.txt ./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17/test_wavs/zh.wav 
+
+OfflineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80, low_freq=20, high_freq=-400, dither=0, normalize_samples=True, snip_edges=False), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename=&quot;&quot;, decoder_filename=&quot;&quot;, joiner_filename=&quot;&quot;), paraformer=OfflineParaformerModelConfig(model=&quot;&quot;), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=&quot;&quot;), whisper=OfflineWhisperModelConfig(encoder=&quot;&quot;, decoder=&quot;&quot;, language=&quot;&quot;, task=&quot;transcribe&quot;, tail_paddings=-1), fire_red_asr=OfflineFireRedAsrModelConfig(encoder=&quot;&quot;, decoder=&quot;&quot;), tdnn=OfflineTdnnModelConfig(model=&quot;&quot;), zipformer_ctc=OfflineZipformerCtcModelConfig(model=&quot;&quot;), wenet_ctc=OfflineWenetCtcModelConfig(model=&quot;&quot;), sense_voice=OfflineSenseVoiceModelConfig(model=&quot;./sherpa-onnx-rk3588-10-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17/model.rknn&quot;, language=&quot;auto&quot;, use_itn=False), moonshine=OfflineMoonshineModelConfig(preprocessor=&quot;&quot;, encoder=&quot;&quot;, uncached_decoder=&quot;&quot;, cached_decoder=&quot;&quot;), dolphin=OfflineDolphinModelConfig(model=&quot;&quot;), canary=OfflineCanaryModelConfig(encoder=&quot;&quot;, decoder=&quot;&quot;, src_lang=&quot;&quot;, tgt_lang=&quot;&quot;, use_pnc=True), telespeech_ctc=&quot;&quot;, tokens=&quot;./sherpa-onnx-rk3588-10-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17/tokens.txt&quot;, num_threads=-1, debug=False, provider=&quot;rknn&quot;, model_type=&quot;&quot;, modeling_unit=&quot;cjkchar&quot;, bpe_vocab=&quot;&quot;), lm_config=OfflineLMConfig(model=&quot;&quot;, scale=0.5, lodr_scale=0.01, lodr_fst=&quot;&quot;, lodr_backoff_id=-1), ctc_fst_decoder_config=OfflineCtcFstDecoderConfig(graph=&quot;&quot;, max_active=3000), decoding_method=&quot;greedy_search&quot;, max_active_paths=4, hotwords_file=&quot;&quot;, hotwords_score=1.5, blank_penalty=0, rule_fsts=&quot;&quot;, rule_fars=&quot;&quot;, hr=HomophoneReplacerConfig(dict_dir=&quot;&quot;, lexicon=&quot;&quot;, rule_fsts=&quot;&quot;))
+Creating recognizer ...
+Started
+Done!
+
+./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17/test_wavs/zh.wav
+{&quot;lang&quot;: &quot;&lt;|zh|&gt;&quot;, &quot;emotion&quot;: &quot;&lt;|NEUTRAL|&gt;&quot;, &quot;event&quot;: &quot;&lt;|Speech|&gt;&quot;, &quot;text&quot;: &quot;开放时间早上九点至下午五点&quot;, &quot;timestamps&quot;: [0.72, 0.96, 1.26, 1.44, 1.92, 2.10, 2.58, 2.82, 3.30, 3.90, 4.20, 4.56, 4.74], &quot;durations&quot;: [], &quot;tokens&quot;:[&quot;开&quot;, &quot;放&quot;, &quot;时&quot;, &quot;间&quot;, &quot;早&quot;, &quot;上&quot;, &quot;九&quot;, &quot;点&quot;, &quot;至&quot;, &quot;下&quot;, &quot;午&quot;, &quot;五&quot;, &quot;点&quot;], &quot;words&quot;: []}
+----
+num threads: -1
+decoding method: greedy_search
+Elapsed seconds: 0.721 s
+Real time factor (RTF): 0.721 / 5.592 = 0.129
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+<section id="sherpa-onnx-rk3588-20-seconds-sense-voice-zh-en-ja-ko-yue-2025-09-09-chinese-english-japanese-korean-cantonese">
+<span id="sherpa-onnx-rk3588-20-seconds-sense-voice-zh-en-ja-ko-yue-2025-09-09"></span><h2>sherpa-onnx-rk3588-20-seconds-sense-voice-zh-en-ja-ko-yue-2025-09-09 (Chinese, English, Japanese, Korean, Cantonese, 中英日韩粤语)<a class="headerlink" href="#sherpa-onnx-rk3588-20-seconds-sense-voice-zh-en-ja-ko-yue-2025-09-09-chinese-english-japanese-korean-cantonese" title="Permalink to this heading"></a></h2>
+<p>This model is converted from <a class="reference internal" href="../sense-voice/pretrained.html#sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09"><span class="std std-ref">sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09 (Chinese, English, Japanese, Korean, Cantonese, 中英日韩粤语)</span></a> using code from the following URL:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/tree/master/scripts/sense-voice/rknn">https://github.com/k2-fsa/sherpa-onnx/tree/master/scripts/sense-voice/rknn</a></p>
+</div></blockquote>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>You can find how to run the export code at</p>
+<blockquote>
+<div><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/blob/master/.github/workflows/export-sense-voice-to-rknn.yaml">https://github.com/k2-fsa/sherpa-onnx/blob/master/.github/workflows/export-sense-voice-to-rknn.yaml</a></p>
+</div></blockquote>
+</div>
+<p>The original PyTorch checkpoint is available at</p>
+<blockquote>
+<div><p><a class="reference external" href="https://huggingface.co/ASLP-lab/WSYue-ASR/tree/main/sensevoice_small_yue">https://huggingface.co/ASLP-lab/WSYue-ASR/tree/main/sensevoice_small_yue</a></p>
+</div></blockquote>
+<p>Please refer to <a class="reference internal" href="#sherpa-onnx-rk3588-20-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17"><span class="std std-ref">sherpa-onnx-rk3588-20-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17 (Chinese, English, Japanese, Korean, Cantonese, 中英日韩粤语)</span></a> for how to use this model.</p>
+</section>
+<section id="sherpa-onnx-rk3588-15-seconds-paraformer-zh-2025-10-07">
+<h2>sherpa-onnx-rk3588-15-seconds-paraformer-zh-2025-10-07<a class="headerlink" href="#sherpa-onnx-rk3588-15-seconds-paraformer-zh-2025-10-07" title="Permalink to this heading"></a></h2>
+<p>This model is converted from <a class="reference internal" href="../pretrained_models/offline-paraformer/paraformer-models.html#sherpa-onnx-paraformer-zh-int8-2025-10-07"><span class="std std-ref">sherpa-onnx-paraformer-zh-int8-2025-10-07 (四川话、重庆话、川渝方言)</span></a>.</p>
+<p>Please use the following commands to download it.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-rk3588-15-seconds-paraformer-zh-2025-10-07.tar.bz2
+tar<span class="w"> </span>xvf<span class="w"> </span>sherpa-onnx-rk3588-15-seconds-paraformer-zh-2025-10-07.tar.bz2
+rm<span class="w"> </span>sherpa-onnx-rk3588-15-seconds-paraformer-zh-2025-10-07.tar.bz2
+</pre></div>
+</div>
+<p>After downloading, you can check the file size:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ls</span> <span class="o">-</span><span class="n">lh</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">rk3588</span><span class="o">-</span><span class="mi">15</span><span class="o">-</span><span class="n">seconds</span><span class="o">-</span><span class="n">paraformer</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="mi">2025</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">07</span>
+<span class="n">total</span> <span class="mi">432</span><span class="n">M</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="mi">1001</span> <span class="n">freeswitch</span> <span class="mi">116</span><span class="n">M</span> <span class="n">Oct</span> <span class="mi">15</span> <span class="mi">16</span><span class="p">:</span><span class="mi">13</span> <span class="n">decoder</span><span class="o">.</span><span class="n">rknn</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="mi">1001</span> <span class="n">freeswitch</span> <span class="mi">315</span><span class="n">M</span> <span class="n">Oct</span> <span class="mi">15</span> <span class="mi">16</span><span class="p">:</span><span class="mi">13</span> <span class="n">encoder</span><span class="o">.</span><span class="n">rknn</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="mi">1001</span> <span class="n">freeswitch</span> <span class="mf">1.8</span><span class="n">M</span> <span class="n">Oct</span> <span class="mi">15</span> <span class="mi">16</span><span class="p">:</span><span class="mi">13</span> <span class="n">predictor</span><span class="o">.</span><span class="n">rknn</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="mi">1001</span> <span class="n">freeswitch</span>  <span class="mi">337</span> <span class="n">Oct</span> <span class="mi">15</span> <span class="mi">16</span><span class="p">:</span><span class="mi">13</span> <span class="n">README</span><span class="o">.</span><span class="n">md</span>
+<span class="o">-</span><span class="n">rwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span> <span class="mi">2</span> <span class="mi">1001</span> <span class="n">freeswitch</span> <span class="mf">1.0</span><span class="n">K</span> <span class="n">Oct</span> <span class="mi">15</span> <span class="mi">16</span><span class="p">:</span><span class="mi">13</span> <span class="n">test_wavs</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="mi">1001</span> <span class="n">freeswitch</span>  <span class="mi">74</span><span class="n">K</span> <span class="n">Oct</span> <span class="mi">15</span> <span class="mi">16</span><span class="p">:</span><span class="mi">13</span> <span class="n">tokens</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
+</div>
+<section id="id6">
+<h3>Decode files<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h3>
+<p>You can use the following command to decode files with the downloaded model files:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">rk3588</span><span class="o">-</span><span class="mi">15</span><span class="o">-</span><span class="n">seconds</span><span class="o">-</span><span class="n">paraformer</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="mi">2025</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">07</span>
+
+<span class="o">../</span><span class="nb">bin</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">offline</span> \
+  <span class="o">--</span><span class="n">provider</span><span class="o">=</span><span class="n">rknn</span> \
+  <span class="o">--</span><span class="n">paraformer</span><span class="o">=</span><span class="s2">&quot;./encoder.rknn,./predictor.rknn,./decoder.rknn&quot;</span> \
+  <span class="o">--</span><span class="n">tokens</span><span class="o">=./</span><span class="n">tokens</span><span class="o">.</span><span class="n">txt</span> \
+  <span class="o">./</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">1.</span><span class="n">wav</span>
+</pre></div>
+</div>
+<p>The output is given below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>OfflineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80, low_freq=20, high_freq=-400, dither=0, normalize_samples=True, snip_edges=False), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename=&quot;&quot;, decoder_filename=&quot;&quot;, joiner_filename=&quot;&quot;), paraformer=OfflineParaformerModelConfig(model=&quot;./encoder.rknn,./predictor.rknn,./decoder.rknn&quot;), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=&quot;&quot;), whisper=OfflineWhisperModelConfig(encoder=&quot;&quot;, decoder=&quot;&quot;, language=&quot;&quot;, task=&quot;transcribe&quot;, tail_paddings=-1, enable_token_timestamps=False, enable_segment_timestamps=False), fire_red_asr=OfflineFireRedAsrModelConfig(encoder=&quot;&quot;, decoder=&quot;&quot;), tdnn=OfflineTdnnModelConfig(model=&quot;&quot;), zipformer_ctc=OfflineZipformerCtcModelConfig(model=&quot;&quot;), wenet_ctc=OfflineWenetCtcModelConfig(model=&quot;&quot;), sense_voice=OfflineSenseVoiceModelConfig(model=&quot;&quot;, language=&quot;auto&quot;, use_itn=False), moonshine=OfflineMoonshineModelConfig(preprocessor=&quot;&quot;, encoder=&quot;&quot;, uncached_decoder=&quot;&quot;, cached_decoder=&quot;&quot;), dolphin=OfflineDolphinModelConfig(model=&quot;&quot;), canary=OfflineCanaryModelConfig(encoder=&quot;&quot;, decoder=&quot;&quot;, src_lang=&quot;&quot;, tgt_lang=&quot;&quot;, use_pnc=True), omnilingual=OfflineOmnilingualAsrCtcModelConfig(model=&quot;&quot;), funasr_nano=OfflineFunASRNanoModelConfig(encoder_adaptor=&quot;&quot;, llm=&quot;&quot;, embedding=&quot;&quot;, tokenizer=&quot;&quot;, system_prompt=&quot;You are a helpful assistant.&quot;, user_prompt=&quot;语音转写：&quot;, max_new_tokens=512, temperature=1e-06, top_p=0.8, seed=42, language=&quot;&quot;, itn=True, hotwords=&quot;&quot;), medasr=OfflineMedAsrCtcModelConfig(model=&quot;&quot;), telespeech_ctc=&quot;&quot;, tokens=&quot;./tokens.txt&quot;, num_threads=2, debug=False, provider=&quot;rknn&quot;, model_type=&quot;&quot;, modeling_unit=&quot;cjkchar&quot;, bpe_vocab=&quot;&quot;), lm_config=OfflineLMConfig(model=&quot;&quot;, scale=0.5, lodr_scale=0.01, lodr_fst=&quot;&quot;, lodr_backoff_id=-1), ctc_fst_decoder_config=OfflineCtcFstDecoderConfig(graph=&quot;&quot;, max_active=3000), decoding_method=&quot;greedy_search&quot;, max_active_paths=4, hotwords_file=&quot;&quot;, hotwords_score=1.5, blank_penalty=0, rule_fsts=&quot;&quot;, rule_fars=&quot;&quot;, hr=HomophoneReplacerConfig(lexicon=&quot;&quot;, rule_fsts=&quot;&quot;))
+Creating recognizer ...
+recognizer created in 1.173 s
+Started
+Done!
+
+./test_wavs/1.wav
+{&quot;lang&quot;: &quot;&quot;, &quot;emotion&quot;: &quot;&quot;, &quot;event&quot;: &quot;&quot;, &quot;text&quot;: &quot;来哥哥再给你唱首歌儿哎呦把伴奏给我放起来放就放嘛还要多人家钩子&quot;, &quot;timestamps&quot;: [], &quot;durations&quot;: [], &quot;tokens&quot;:[&quot;来&quot;, &quot;哥&quot;, &quot;哥&quot;, &quot;再&quot;, &quot;给&quot;, &quot;你&quot;, &quot;唱&quot;, &quot;首&quot;, &quot;歌&quot;, &quot;儿&quot;, &quot;哎&quot;, &quot;呦&quot;, &quot;把&quot;, &quot;伴&quot;, &quot;奏&quot;, &quot;给&quot;, &quot;我&quot;, &quot;放&quot;, &quot;起&quot;, &quot;来&quot;, &quot;放&quot;, &quot;就&quot;, &quot;放&quot;, &quot;嘛&quot;, &quot;还&quot;, &quot;要&quot;, &quot;多&quot;, &quot;人&quot;, &quot;家&quot;, &quot;钩&quot;, &quot;子&quot;], &quot;ys_log_probs&quot;: [], &quot;words&quot;: []}
+----
+num threads: 2
+decoding method: greedy_search
+Elapsed seconds: 0.588 s
+Real time factor (RTF): 0.588 / 7.808 = 0.075
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="install.html" class="btn btn-neutral float-left" title="Install" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../ascend/index.html" class="btn btn-neutral float-right" title="Ascend NPU (昇腾 NPU)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

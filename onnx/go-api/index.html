@@ -1,0 +1,586 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Go API &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="C# API" href="../csharp-api/index.html" />
+    <link rel="prev" title="Examples" href="../swift-api/examples.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">sherpa-onnx</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../install/index.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../faqs/index.html">Frequently Asked Question (FAQs)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python/index.html">Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../c-api/index.html">C API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../java-api/index.html">Java API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../javascript-api/index.html">Javascript API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kotlin-api/index.html">Kotlin API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../swift-api/index.html">Swift API</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Go API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#decode-files-with-non-streaming-models">Decode files with non-streaming models</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#non-streaming-transducer">Non-streaming transducer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#non-streaming-paraformer">Non-streaming paraformer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#non-streaming-ctc-model-from-nemo">Non-streaming CTC model from NeMo</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#decode-files-with-streaming-models">Decode files with streaming models</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#streaming-transducer">Streaming transducer</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#real-time-speech-recognition-from-microphone">Real-time speech recognition from microphone</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id3">Streaming transducer</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#colab">colab</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../csharp-api/index.html">C# API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pascal-api/index.html">Pascal API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lazarus/index.html">Lazarus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../wasm/index.html">WebAssembly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../android/index.html">Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../harmony-os/index.html">HarmonyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ios/index.html">iOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../flutter/index.html">Flutter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../websocket/index.html">WebSocket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../hotwords/index.html">Hotwords (Contextual biasing)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kws/index.html">Keyword spotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../punctuation/index.html">Punctuation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../audio-tagging/index.html">Audio tagging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spoken-language-identification/index.html">Spoken language identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vad/index.html">VAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/index.html">Pre-trained models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/whisper/index.html">Whisper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../moonshine/index.html">Moonshine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../omnilingual-asr/index.html">Omnilingual ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sense-voice/index.html">SenseVoice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../funasr-nano/index.html">FunASR Nano</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../paraformer/index.html">Paraformer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nemo/index.html">NeMo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../FireRedAsr/index.html">FireRedAsr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Dolphin/index.html">Dolphin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../homophone-replacer/index.html">拼音词组匹配替换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-diarization/index.html">Speaker Diarization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-identification/index.html">Speaker Identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speech-enhancement/index.html">Speech enhancement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../source-separation/index.html">Source separation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qnn/index.html">Qualcomm NPU (QNN, HTP)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rknn/index.html">rknn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ascend/index.html">Ascend NPU (昇腾 NPU)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tts/index.html">Text-to-speech (TTS)</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">sherpa-onnx</a> &raquo;</li>
+      <li>Go API</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/onnx/go-api/index.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="go-api">
+<span id="sherpa-onnx-go-api"></span><h1>Go API<a class="headerlink" href="#go-api" title="Permalink to this heading"></a></h1>
+<p>In this section, we describe how to use the <a class="reference external" href="https://en.wikipedia.org/wiki/Go_(programming_language)">Go</a>
+API of <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>.</p>
+<p>The <a class="reference external" href="https://en.wikipedia.org/wiki/Go_(programming_language)">Go</a> API of <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a> supports both streaming and non-streaming speech recognition.</p>
+<p>The following table lists some <a class="reference external" href="https://en.wikipedia.org/wiki/Go_(programming_language)">Go</a> API examples:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>Description</p></td>
+<td><p>URL</p></td>
+</tr>
+<tr class="row-even"><td><p>Decode a file with <strong>non-streaming</strong> models</p></td>
+<td><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/tree/master/go-api-examples/non-streaming-decode-files">https://github.com/k2-fsa/sherpa-onnx/tree/master/go-api-examples/non-streaming-decode-files</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>Decode a file with <strong>streaming</strong> models</p></td>
+<td><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/tree/master/go-api-examples/streaming-decode-files">https://github.com/k2-fsa/sherpa-onnx/tree/master/go-api-examples/streaming-decode-files</a></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Real-time</strong> speech recognition from a <code class="docutils literal notranslate"><span class="pre">microphone</span></code></p></td>
+<td><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/tree/master/go-api-examples/real-time-speech-recognition-from-microphone">https://github.com/k2-fsa/sherpa-onnx/tree/master/go-api-examples/real-time-speech-recognition-from-microphone</a></p></td>
+</tr>
+</tbody>
+</table>
+<p>One thing to note is that we have provided pre-built libraries for <a class="reference external" href="https://en.wikipedia.org/wiki/Go_(programming_language)">Go</a> so that you don’t need
+to build <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a> by yourself when using the <a class="reference external" href="https://en.wikipedia.org/wiki/Go_(programming_language)">Go</a> API.</p>
+<p>To make supporting multiple platforms easier, we split the <a class="reference external" href="https://en.wikipedia.org/wiki/Go_(programming_language)">Go</a> API of <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a> into
+multiple packages, as listed in the following table:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+<col style="width: 25%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>OS</p></td>
+<td><p>Package name</p></td>
+<td><p>Supported Arch</p></td>
+<td><p>Doc</p></td>
+</tr>
+<tr class="row-even"><td><p>Linux</p></td>
+<td><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx-go-linux">sherpa-onnx-go-linux</a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">x86_64</span></code>, <code class="docutils literal notranslate"><span class="pre">aarch64</span></code>, <code class="docutils literal notranslate"><span class="pre">arm</span></code></p></td>
+<td><p><a class="reference external" href="https://pkg.go.dev/github.com/k2-fsa/sherpa-onnx-go-linux">https://pkg.go.dev/github.com/k2-fsa/sherpa-onnx-go-linux</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>macOS</p></td>
+<td><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx-go-macos">sherpa-onnx-go-macos</a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">x86_64</span></code>, <code class="docutils literal notranslate"><span class="pre">aarch64</span></code></p></td>
+<td><p><a class="reference external" href="https://pkg.go.dev/github.com/k2-fsa/sherpa-onnx-go-macos">https://pkg.go.dev/github.com/k2-fsa/sherpa-onnx-go-macos</a></p></td>
+</tr>
+<tr class="row-even"><td><p>Windows</p></td>
+<td><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx-go-windows">sherpa-onnx-go-windows</a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">x86_64</span></code>, <code class="docutils literal notranslate"><span class="pre">x86</span></code></p></td>
+<td><p><a class="reference external" href="https://pkg.go.dev/github.com/k2-fsa/sherpa-onnx-go-windows">https://pkg.go.dev/github.com/k2-fsa/sherpa-onnx-go-windows</a></p></td>
+</tr>
+</tbody>
+</table>
+<p>To simplify the usage, we have provided a single <a class="reference external" href="https://en.wikipedia.org/wiki/Go_(programming_language)">Go</a> package for <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a> that
+supports multiple operating systems. It can be found at</p>
+<blockquote>
+<div><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx-go">https://github.com/k2-fsa/sherpa-onnx-go</a></p>
+</div></blockquote>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>Such a design is insipred by the following article:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://kobi.one/2021/08/22/cross-platform-go-modules-for-giants.html">Cross platform Go modules for giants</a>.</p>
+</div></blockquote>
+</div>
+<p>You can use the following <code class="docutils literal notranslate"><span class="pre">import</span></code> to import <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx-go">sherpa-onnx-go</a>
+into your <a class="reference external" href="https://en.wikipedia.org/wiki/Go_(programming_language)">Go</a> project:</p>
+<div class="highlight-go notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+<span class="w">  </span><span class="nx">sherpa</span><span class="w"> </span><span class="s">&quot;github.com/k2-fsa/sherpa-onnx-go/sherpa_onnx&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>In the following, we describe how to run our provided <a class="reference external" href="https://en.wikipedia.org/wiki/Go_(programming_language)">Go</a> API examples.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Before you continue, please make sure you have installed <a class="reference external" href="https://en.wikipedia.org/wiki/Go_(programming_language)">Go</a>.
+If not, please follow <a class="reference external" href="https://go.dev/doc/install">https://go.dev/doc/install</a> to install <a class="reference external" href="https://en.wikipedia.org/wiki/Go_(programming_language)">Go</a>.</p>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>You need to enable <a class="reference external" href="https://pkg.go.dev/cmd/cgo">cgo</a> to build <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx-go">sherpa-onnx-go</a>.</p>
+</div>
+<section id="decode-files-with-non-streaming-models">
+<h2>Decode files with non-streaming models<a class="headerlink" href="#decode-files-with-non-streaming-models" title="Permalink to this heading"></a></h2>
+<p>First, let us build the example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx
+<span class="nb">cd</span><span class="w"> </span>sherpa-onnx/go-api-examples/non-streaming-decode-files
+go<span class="w"> </span>mod<span class="w"> </span>tidy
+go<span class="w"> </span>build
+./non-streaming-decode-files<span class="w"> </span>--help
+</pre></div>
+</div>
+<p>You will find the following output:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Usage<span class="w"> </span>of<span class="w"> </span>./non-streaming-decode-files:
+<span class="w">      </span>--debug<span class="w"> </span>int<span class="w">                </span>Whether<span class="w"> </span>to<span class="w"> </span>show<span class="w"> </span>debug<span class="w"> </span>message
+<span class="w">      </span>--decoder<span class="w"> </span>string<span class="w">           </span>Path<span class="w"> </span>to<span class="w"> </span>the<span class="w"> </span>decoder<span class="w"> </span>model
+<span class="w">      </span>--decoding-method<span class="w"> </span>string<span class="w">   </span>Decoding<span class="w"> </span>method.<span class="w"> </span>Possible<span class="w"> </span>values:<span class="w"> </span>greedy_search,<span class="w"> </span>modified_beam_search<span class="w"> </span><span class="o">(</span>default<span class="w"> </span><span class="s2">&quot;greedy_search&quot;</span><span class="o">)</span>
+<span class="w">      </span>--encoder<span class="w"> </span>string<span class="w">           </span>Path<span class="w"> </span>to<span class="w"> </span>the<span class="w"> </span>encoder<span class="w"> </span>model
+<span class="w">      </span>--joiner<span class="w"> </span>string<span class="w">            </span>Path<span class="w"> </span>to<span class="w"> </span>the<span class="w"> </span>joiner<span class="w"> </span>model
+<span class="w">      </span>--lm-model<span class="w"> </span>string<span class="w">          </span>Optional.<span class="w"> </span>Path<span class="w"> </span>to<span class="w"> </span>the<span class="w"> </span>LM<span class="w"> </span>model
+<span class="w">      </span>--lm-scale<span class="w"> </span>float32<span class="w">         </span>Optional.<span class="w"> </span>Scale<span class="w"> </span><span class="k">for</span><span class="w"> </span>the<span class="w"> </span>LM<span class="w"> </span>model<span class="w"> </span><span class="o">(</span>default<span class="w"> </span><span class="m">1</span><span class="o">)</span>
+<span class="w">      </span>--max-active-paths<span class="w"> </span>int<span class="w">     </span>Used<span class="w"> </span>only<span class="w"> </span>when<span class="w"> </span>--decoding-method<span class="w"> </span>is<span class="w"> </span>modified_beam_search<span class="w"> </span><span class="o">(</span>default<span class="w"> </span><span class="m">4</span><span class="o">)</span>
+<span class="w">      </span>--model-type<span class="w"> </span>string<span class="w">        </span>Optional.<span class="w"> </span>Used<span class="w"> </span><span class="k">for</span><span class="w"> </span>loading<span class="w"> </span>the<span class="w"> </span>model<span class="w"> </span><span class="k">in</span><span class="w"> </span>a<span class="w"> </span>faster<span class="w"> </span>way
+<span class="w">      </span>--nemo-ctc<span class="w"> </span>string<span class="w">          </span>Path<span class="w"> </span>to<span class="w"> </span>the<span class="w"> </span>NeMo<span class="w"> </span>CTC<span class="w"> </span>model
+<span class="w">      </span>--num-threads<span class="w"> </span>int<span class="w">          </span>Number<span class="w"> </span>of<span class="w"> </span>threads<span class="w"> </span><span class="k">for</span><span class="w"> </span>computing<span class="w"> </span><span class="o">(</span>default<span class="w"> </span><span class="m">1</span><span class="o">)</span>
+<span class="w">      </span>--paraformer<span class="w"> </span>string<span class="w">        </span>Path<span class="w"> </span>to<span class="w"> </span>the<span class="w"> </span>paraformer<span class="w"> </span>model
+<span class="w">      </span>--provider<span class="w"> </span>string<span class="w">          </span>Provider<span class="w"> </span>to<span class="w"> </span>use<span class="w"> </span><span class="o">(</span>default<span class="w"> </span><span class="s2">&quot;cpu&quot;</span><span class="o">)</span>
+<span class="w">      </span>--tokens<span class="w"> </span>string<span class="w">            </span>Path<span class="w"> </span>to<span class="w"> </span>the<span class="w"> </span>tokens<span class="w"> </span>file
+pflag:<span class="w"> </span><span class="nb">help</span><span class="w"> </span>requested
+</pre></div>
+</div>
+<p>Congratulations! You have successfully built your first <a class="reference external" href="https://en.wikipedia.org/wiki/Go_(programming_language)">Go</a> API example for speech recognition.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you are using Windows and don’t see any output after running <code class="docutils literal notranslate"><span class="pre">./non-streaming-decode-files</span> <span class="pre">--help</span></code>,
+please copy <code class="docutils literal notranslate"><span class="pre">*.dll</span></code> from <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx-go-windows/tree/master/lib/x86_64-pc-windows-gnu">https://github.com/k2-fsa/sherpa-onnx-go-windows/tree/master/lib/x86_64-pc-windows-gnu</a> (for Win64)
+or <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx-go-windows/tree/master/lib/i686-pc-windows-gnu">https://github.com/k2-fsa/sherpa-onnx-go-windows/tree/master/lib/i686-pc-windows-gnu</a> (for Win32)
+to the directory <code class="docutils literal notranslate"><span class="pre">sherpa-onnx/go-api-examples/non-streaming-decode-files</span></code>.</p>
+</div>
+<p>Now let us refer to <a class="reference internal" href="../pretrained_models/index.html#sherpa-onnx-pre-trained-models"><span class="std std-ref">Pre-trained models</span></a> to download a non-streaming model.</p>
+<p>We give several examples below for demonstration.</p>
+<section id="non-streaming-transducer">
+<h3>Non-streaming transducer<a class="headerlink" href="#non-streaming-transducer" title="Permalink to this heading"></a></h3>
+<p>We will use <a class="reference internal" href="../pretrained_models/offline-transducer/zipformer-transducer-models.html#sherpa-onnx-zipformer-en-2023-06-26-english"><span class="std std-ref">csukuangfj/sherpa-onnx-zipformer-en-2023-06-26 (English)</span></a> as an example.</p>
+<p>First, let us download it:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>sherpa-onnx/go-api-examples/non-streaming-decode-files
+wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-en-2023-06-26.tar.bz2
+tar<span class="w"> </span>xvf<span class="w"> </span>sherpa-onnx-zipformer-en-2023-06-26.tar.bz2
+rm<span class="w"> </span>sherpa-onnx-zipformer-en-2023-06-26.tar.bz2
+</pre></div>
+</div>
+<p>Now we can use:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./non-streaming-decode-files<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--encoder<span class="w"> </span>./sherpa-onnx-zipformer-en-2023-06-26/encoder-epoch-99-avg-1.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--decoder<span class="w"> </span>./sherpa-onnx-zipformer-en-2023-06-26/decoder-epoch-99-avg-1.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--joiner<span class="w"> </span>./sherpa-onnx-zipformer-en-2023-06-26/joiner-epoch-99-avg-1.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="w"> </span>./sherpa-onnx-zipformer-en-2023-06-26/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--model-type<span class="w"> </span>transducer<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-zipformer-en-2023-06-26/test_wavs/0.wav
+</pre></div>
+</div>
+<p>It should give you the following output:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="m">2023</span>/08/10<span class="w"> </span><span class="m">14</span>:52:48.723098<span class="w"> </span>Reading<span class="w"> </span>./sherpa-onnx-zipformer-en-2023-06-26/test_wavs/0.wav
+<span class="m">2023</span>/08/10<span class="w"> </span><span class="m">14</span>:52:48.741042<span class="w"> </span>Initializing<span class="w"> </span>recognizer<span class="w"> </span><span class="o">(</span>may<span class="w"> </span>take<span class="w"> </span>several<span class="w"> </span>seconds<span class="o">)</span>
+<span class="m">2023</span>/08/10<span class="w"> </span><span class="m">14</span>:52:51.998848<span class="w"> </span>Recognizer<span class="w"> </span>created!
+<span class="m">2023</span>/08/10<span class="w"> </span><span class="m">14</span>:52:51.998870<span class="w"> </span>Start<span class="w"> </span>decoding!
+<span class="m">2023</span>/08/10<span class="w"> </span><span class="m">14</span>:52:52.258818<span class="w"> </span>Decoding<span class="w"> </span><span class="k">done</span>!
+<span class="m">2023</span>/08/10<span class="w"> </span><span class="m">14</span>:52:52.258847<span class="w">  </span>after<span class="w"> </span>early<span class="w"> </span>nightfall<span class="w"> </span>the<span class="w"> </span>yellow<span class="w"> </span>lamps<span class="w"> </span>would<span class="w"> </span>light<span class="w"> </span>up<span class="w"> </span>here<span class="w"> </span>and<span class="w"> </span>there<span class="w"> </span>the<span class="w"> </span>squalid<span class="w"> </span>quarter<span class="w"> </span>of<span class="w"> </span>the<span class="w"> </span>brothels
+<span class="m">2023</span>/08/10<span class="w"> </span><span class="m">14</span>:52:52.258952<span class="w"> </span>Wave<span class="w"> </span>duration:<span class="w"> </span><span class="m">6</span>.625<span class="w"> </span>seconds
+</pre></div>
+</div>
+</section>
+<section id="non-streaming-paraformer">
+<h3>Non-streaming paraformer<a class="headerlink" href="#non-streaming-paraformer" title="Permalink to this heading"></a></h3>
+<p>We will use <a class="reference internal" href="../pretrained_models/offline-paraformer/paraformer-models.html#sherpa-onnx-offline-paraformer-zh-2023-03-28-chinese"><span class="std std-ref">csukuangfj/sherpa-onnx-paraformer-zh-2023-03-28 (Chinese + English)</span></a> as an example.</p>
+<p>First, let us download it:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>sherpa-onnx/go-api-examples/non-streaming-decode-files
+wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-paraformer-zh-2023-03-28.tar.bz2
+tar<span class="w"> </span>xvf<span class="w"> </span>sherpa-onnx-paraformer-zh-2023-03-28.tar.bz2
+rm<span class="w"> </span>sherpa-onnx-paraformer-zh-2023-03-28.tar.bz2
+</pre></div>
+</div>
+<p>Now we can use:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./non-streaming-decode-files<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--paraformer<span class="w"> </span>./sherpa-onnx-paraformer-zh-2023-03-28/model.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="w"> </span>./sherpa-onnx-paraformer-zh-2023-03-28/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--model-type<span class="w"> </span>paraformer<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-paraformer-zh-2023-03-28/test_wavs/0.wav
+</pre></div>
+</div>
+<p>It should give you the following output:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="m">2023</span>/08/10<span class="w"> </span><span class="m">15</span>:07:10.745412<span class="w"> </span>Reading<span class="w"> </span>./sherpa-onnx-paraformer-zh-2023-03-28/test_wavs/0.wav
+<span class="m">2023</span>/08/10<span class="w"> </span><span class="m">15</span>:07:10.758414<span class="w"> </span>Initializing<span class="w"> </span>recognizer<span class="w"> </span><span class="o">(</span>may<span class="w"> </span>take<span class="w"> </span>several<span class="w"> </span>seconds<span class="o">)</span>
+<span class="m">2023</span>/08/10<span class="w"> </span><span class="m">15</span>:07:13.992424<span class="w"> </span>Recognizer<span class="w"> </span>created!
+<span class="m">2023</span>/08/10<span class="w"> </span><span class="m">15</span>:07:13.992441<span class="w"> </span>Start<span class="w"> </span>decoding!
+<span class="m">2023</span>/08/10<span class="w"> </span><span class="m">15</span>:07:14.382157<span class="w"> </span>Decoding<span class="w"> </span><span class="k">done</span>!
+<span class="m">2023</span>/08/10<span class="w"> </span><span class="m">15</span>:07:14.382847<span class="w"> </span>对我做了介绍啊那么我想说的是呢大家如果对我的研究感兴趣呢你
+<span class="m">2023</span>/08/10<span class="w"> </span><span class="m">15</span>:07:14.382898<span class="w"> </span>Wave<span class="w"> </span>duration:<span class="w"> </span><span class="m">5</span>.614625<span class="w"> </span>seconds
+</pre></div>
+</div>
+</section>
+<section id="non-streaming-ctc-model-from-nemo">
+<h3>Non-streaming CTC model from NeMo<a class="headerlink" href="#non-streaming-ctc-model-from-nemo" title="Permalink to this heading"></a></h3>
+<p>We will use <a class="reference internal" href="../pretrained_models/offline-ctc/nemo/english.html#stt-en-conformer-ctc-medium-nemo-sherpa-onnx"><span class="std std-ref">stt_en_conformer_ctc_medium</span></a> as an example.</p>
+<p>First, let us download it:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>sherpa-onnx/go-api-examples/non-streaming-decode-files
+wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-nemo-ctc-en-conformer-medium.tar.bz2
+tar<span class="w"> </span>xvf<span class="w"> </span>sherpa-onnx-nemo-ctc-en-conformer-medium.tar.bz2
+rm<span class="w"> </span>sherpa-onnx-nemo-ctc-en-conformer-medium.tar.bz2
+</pre></div>
+</div>
+<p>Now we can use:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./non-streaming-decode-files<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--nemo-ctc<span class="w"> </span>./sherpa-onnx-nemo-ctc-en-conformer-medium/model.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="w"> </span>./sherpa-onnx-nemo-ctc-en-conformer-medium/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--model-type<span class="w"> </span>nemo_ctc<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-nemo-ctc-en-conformer-medium/test_wavs/0.wav
+</pre></div>
+</div>
+<p>It should give you the following output:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="m">2023</span>/08/10<span class="w"> </span><span class="m">15</span>:11:48.667693<span class="w"> </span>Reading<span class="w"> </span>./sherpa-onnx-nemo-ctc-en-conformer-medium/test_wavs/0.wav
+<span class="m">2023</span>/08/10<span class="w"> </span><span class="m">15</span>:11:48.680855<span class="w"> </span>Initializing<span class="w"> </span>recognizer<span class="w"> </span><span class="o">(</span>may<span class="w"> </span>take<span class="w"> </span>several<span class="w"> </span>seconds<span class="o">)</span>
+<span class="m">2023</span>/08/10<span class="w"> </span><span class="m">15</span>:11:51.900852<span class="w"> </span>Recognizer<span class="w"> </span>created!
+<span class="m">2023</span>/08/10<span class="w"> </span><span class="m">15</span>:11:51.900869<span class="w"> </span>Start<span class="w"> </span>decoding!
+<span class="m">2023</span>/08/10<span class="w"> </span><span class="m">15</span>:11:52.125605<span class="w"> </span>Decoding<span class="w"> </span><span class="k">done</span>!
+<span class="m">2023</span>/08/10<span class="w"> </span><span class="m">15</span>:11:52.125630<span class="w">  </span>after<span class="w"> </span>early<span class="w"> </span>nightfall<span class="w"> </span>the<span class="w"> </span>yellow<span class="w"> </span>lamps<span class="w"> </span>would<span class="w"> </span>light<span class="w"> </span>up<span class="w"> </span>here<span class="w"> </span>and<span class="w"> </span>there<span class="w"> </span>the<span class="w"> </span>squalid<span class="w"> </span>quarter<span class="w"> </span>of<span class="w"> </span>the<span class="w"> </span>brothels
+<span class="m">2023</span>/08/10<span class="w"> </span><span class="m">15</span>:11:52.125645<span class="w"> </span>Wave<span class="w"> </span>duration:<span class="w"> </span><span class="m">6</span>.625<span class="w"> </span>seconds
+</pre></div>
+</div>
+</section>
+</section>
+<section id="decode-files-with-streaming-models">
+<h2>Decode files with streaming models<a class="headerlink" href="#decode-files-with-streaming-models" title="Permalink to this heading"></a></h2>
+<p>First, let us build the example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx
+<span class="nb">cd</span><span class="w"> </span>sherpa-onnx/go-api-examples/streaming-decode-files
+go<span class="w"> </span>mod<span class="w"> </span>tidy
+go<span class="w"> </span>build
+./streaming-decode-files<span class="w"> </span>--help
+</pre></div>
+</div>
+<p>You will find the following output:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Usage<span class="w"> </span>of<span class="w"> </span>./streaming-decode-files:
+<span class="w">      </span>--debug<span class="w"> </span>int<span class="w">                </span>Whether<span class="w"> </span>to<span class="w"> </span>show<span class="w"> </span>debug<span class="w"> </span>message
+<span class="w">      </span>--decoder<span class="w"> </span>string<span class="w">           </span>Path<span class="w"> </span>to<span class="w"> </span>the<span class="w"> </span>decoder<span class="w"> </span>model
+<span class="w">      </span>--decoding-method<span class="w"> </span>string<span class="w">   </span>Decoding<span class="w"> </span>method.<span class="w"> </span>Possible<span class="w"> </span>values:<span class="w"> </span>greedy_search,<span class="w"> </span>modified_beam_search<span class="w"> </span><span class="o">(</span>default<span class="w"> </span><span class="s2">&quot;greedy_search&quot;</span><span class="o">)</span>
+<span class="w">      </span>--encoder<span class="w"> </span>string<span class="w">           </span>Path<span class="w"> </span>to<span class="w"> </span>the<span class="w"> </span>encoder<span class="w"> </span>model
+<span class="w">      </span>--joiner<span class="w"> </span>string<span class="w">            </span>Path<span class="w"> </span>to<span class="w"> </span>the<span class="w"> </span>joiner<span class="w"> </span>model
+<span class="w">      </span>--max-active-paths<span class="w"> </span>int<span class="w">     </span>Used<span class="w"> </span>only<span class="w"> </span>when<span class="w"> </span>--decoding-method<span class="w"> </span>is<span class="w"> </span>modified_beam_search<span class="w"> </span><span class="o">(</span>default<span class="w"> </span><span class="m">4</span><span class="o">)</span>
+<span class="w">      </span>--model-type<span class="w"> </span>string<span class="w">        </span>Optional.<span class="w"> </span>Used<span class="w"> </span><span class="k">for</span><span class="w"> </span>loading<span class="w"> </span>the<span class="w"> </span>model<span class="w"> </span><span class="k">in</span><span class="w"> </span>a<span class="w"> </span>faster<span class="w"> </span>way
+<span class="w">      </span>--num-threads<span class="w"> </span>int<span class="w">          </span>Number<span class="w"> </span>of<span class="w"> </span>threads<span class="w"> </span><span class="k">for</span><span class="w"> </span>computing<span class="w"> </span><span class="o">(</span>default<span class="w"> </span><span class="m">1</span><span class="o">)</span>
+<span class="w">      </span>--provider<span class="w"> </span>string<span class="w">          </span>Provider<span class="w"> </span>to<span class="w"> </span>use<span class="w"> </span><span class="o">(</span>default<span class="w"> </span><span class="s2">&quot;cpu&quot;</span><span class="o">)</span>
+<span class="w">      </span>--tokens<span class="w"> </span>string<span class="w">            </span>Path<span class="w"> </span>to<span class="w"> </span>the<span class="w"> </span>tokens<span class="w"> </span>file
+pflag:<span class="w"> </span><span class="nb">help</span><span class="w"> </span>requested
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you are using Windows and don’t see any output after running <code class="docutils literal notranslate"><span class="pre">./streaming-decode-files</span> <span class="pre">--help</span></code>,
+please copy <code class="docutils literal notranslate"><span class="pre">*.dll</span></code> from <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx-go-windows/tree/master/lib/x86_64-pc-windows-gnu">https://github.com/k2-fsa/sherpa-onnx-go-windows/tree/master/lib/x86_64-pc-windows-gnu</a> (for Win64)
+or <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx-go-windows/tree/master/lib/i686-pc-windows-gnu">https://github.com/k2-fsa/sherpa-onnx-go-windows/tree/master/lib/i686-pc-windows-gnu</a> (for Win32)
+to the directory <code class="docutils literal notranslate"><span class="pre">sherpa-onnx/go-api-examples/streaming-decode-files</span></code>.</p>
+</div>
+<p>Now let us refer to <a class="reference internal" href="../pretrained_models/index.html#sherpa-onnx-pre-trained-models"><span class="std std-ref">Pre-trained models</span></a> to download a streaming model.</p>
+<p>We give one example below for demonstration.</p>
+<section id="streaming-transducer">
+<h3>Streaming transducer<a class="headerlink" href="#streaming-transducer" title="Permalink to this heading"></a></h3>
+<p>We will use <a class="reference internal" href="../pretrained_models/online-transducer/zipformer-transducer-models.html#sherpa-onnx-streaming-zipformer-en-2023-06-26-english"><span class="std std-ref">csukuangfj/sherpa-onnx-streaming-zipformer-en-2023-06-26 (English)</span></a> as an example.</p>
+<p>First, let us download it:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>sherpa-onnx/go-api-examples/streaming-decode-files
+wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-zipformer-en-2023-06-26.tar.bz2
+tar<span class="w"> </span>xvf<span class="w"> </span>sherpa-onnx-streaming-zipformer-en-2023-06-26.tar.bz2
+rm<span class="w"> </span>sherpa-onnx-streaming-zipformer-en-2023-06-26.tar.bz2
+</pre></div>
+</div>
+<p>Now we can use:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./streaming-decode-files<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--encoder<span class="w"> </span>./sherpa-onnx-streaming-zipformer-en-2023-06-26/encoder-epoch-99-avg-1-chunk-16-left-128.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--decoder<span class="w"> </span>./sherpa-onnx-streaming-zipformer-en-2023-06-26/decoder-epoch-99-avg-1-chunk-16-left-128.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--joiner<span class="w"> </span>./sherpa-onnx-streaming-zipformer-en-2023-06-26/joiner-epoch-99-avg-1-chunk-16-left-128.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="w"> </span>./sherpa-onnx-streaming-zipformer-en-2023-06-26/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--model-type<span class="w"> </span>zipformer2<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-streaming-zipformer-en-2023-06-26/test_wavs/0.wav
+</pre></div>
+</div>
+<p>It should give you the following output:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="m">2023</span>/08/10<span class="w"> </span><span class="m">15</span>:17:00.226228<span class="w"> </span>Reading<span class="w"> </span>./sherpa-onnx-streaming-zipformer-en-2023-06-26/test_wavs/0.wav
+<span class="m">2023</span>/08/10<span class="w"> </span><span class="m">15</span>:17:00.241024<span class="w"> </span>Initializing<span class="w"> </span>recognizer<span class="w"> </span><span class="o">(</span>may<span class="w"> </span>take<span class="w"> </span>several<span class="w"> </span>seconds<span class="o">)</span>
+<span class="m">2023</span>/08/10<span class="w"> </span><span class="m">15</span>:17:03.352697<span class="w"> </span>Recognizer<span class="w"> </span>created!
+<span class="m">2023</span>/08/10<span class="w"> </span><span class="m">15</span>:17:03.352711<span class="w"> </span>Start<span class="w"> </span>decoding!
+<span class="m">2023</span>/08/10<span class="w"> </span><span class="m">15</span>:17:04.057130<span class="w"> </span>Decoding<span class="w"> </span><span class="k">done</span>!
+<span class="m">2023</span>/08/10<span class="w"> </span><span class="m">15</span>:17:04.057215<span class="w">  </span>after<span class="w"> </span>early<span class="w"> </span>nightfall<span class="w"> </span>the<span class="w"> </span>yellow<span class="w"> </span>lamps<span class="w"> </span>would<span class="w"> </span>light<span class="w"> </span>up<span class="w"> </span>here<span class="w"> </span>and<span class="w"> </span>there<span class="w"> </span>the<span class="w"> </span>squalid<span class="w"> </span>quarter<span class="w"> </span>of<span class="w"> </span>the<span class="w"> </span>brothels
+<span class="m">2023</span>/08/10<span class="w"> </span><span class="m">15</span>:17:04.057235<span class="w"> </span>Wave<span class="w"> </span>duration:<span class="w"> </span><span class="m">6</span>.625<span class="w"> </span>seconds
+</pre></div>
+</div>
+</section>
+</section>
+<section id="real-time-speech-recognition-from-microphone">
+<h2>Real-time speech recognition from microphone<a class="headerlink" href="#real-time-speech-recognition-from-microphone" title="Permalink to this heading"></a></h2>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>You need to install <code class="docutils literal notranslate"><span class="pre">portaudio</span></code> for this example.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># for macOS</span>
+brew<span class="w"> </span>install<span class="w"> </span>portaudio
+<span class="nb">export</span><span class="w"> </span><span class="nv">PKG_CONFIG_PATH</span><span class="o">=</span>/usr/local/Cellar/portaudio/19.7.0
+
+<span class="c1"># for Ubuntu</span>
+sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>libasound-dev<span class="w"> </span>portaudio19-dev<span class="w"> </span>libportaudio2<span class="w"> </span>libportaudiocpp0
+</pre></div>
+</div>
+<p>To check that you have installed <code class="docutils literal notranslate"><span class="pre">portaudio</span></code> successfully, please run:</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pkg-config<span class="w"> </span>--cflags<span class="w"> </span>--libs<span class="w"> </span>portaudio-2.0
+</pre></div>
+</div>
+</div></blockquote>
+<p>It should give you something like below:</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># for macOS</span>
+-I/usr/local/Cellar/portaudio/19.7.0/include<span class="w"> </span>-L/usr/local/Cellar/portaudio/19.7.0/lib<span class="w"> </span>-lportaudio<span class="w"> </span>-framework<span class="w"> </span>CoreAudio<span class="w"> </span>-framework<span class="w"> </span>AudioToolbox<span class="w"> </span>-framework<span class="w"> </span>AudioUnit<span class="w"> </span>-framework<span class="w"> </span>CoreFoundation<span class="w"> </span>-framework<span class="w"> </span>CoreServices
+
+<span class="c1"># for Ubuntu</span>
+-pthread<span class="w"> </span>-lportaudio<span class="w"> </span>-lasound<span class="w"> </span>-lm<span class="w"> </span>-lpthread
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<p>First, let us build the example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx
+<span class="nb">cd</span><span class="w"> </span>sherpa-onnx/go-api-examples/real-time-speech-recognition-from-microphone
+go<span class="w"> </span>mod<span class="w"> </span>tidy
+go<span class="w"> </span>build
+./real-time-speech-recognition-from-microphone<span class="w"> </span>--help
+</pre></div>
+</div>
+<p>You will find the following output:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Select<span class="w"> </span>default<span class="w"> </span>input<span class="w"> </span>device:<span class="w"> </span>MacBook<span class="w"> </span>Pro<span class="w"> </span>Microphone
+Usage<span class="w"> </span>of<span class="w"> </span>./real-time-speech-recognition-from-microphone:
+<span class="w">      </span>--debug<span class="w"> </span>int<span class="w">                            </span>Whether<span class="w"> </span>to<span class="w"> </span>show<span class="w"> </span>debug<span class="w"> </span>message
+<span class="w">      </span>--decoder<span class="w"> </span>string<span class="w">                       </span>Path<span class="w"> </span>to<span class="w"> </span>the<span class="w"> </span>decoder<span class="w"> </span>model
+<span class="w">      </span>--decoding-method<span class="w"> </span>string<span class="w">               </span>Decoding<span class="w"> </span>method.<span class="w"> </span>Possible<span class="w"> </span>values:<span class="w"> </span>greedy_search,<span class="w"> </span>modified_beam_search<span class="w"> </span><span class="o">(</span>default<span class="w"> </span><span class="s2">&quot;greedy_search&quot;</span><span class="o">)</span>
+<span class="w">      </span>--enable-endpoint<span class="w"> </span>int<span class="w">                  </span>Whether<span class="w"> </span>to<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>endpoint<span class="w"> </span><span class="o">(</span>default<span class="w"> </span><span class="m">1</span><span class="o">)</span>
+<span class="w">      </span>--encoder<span class="w"> </span>string<span class="w">                       </span>Path<span class="w"> </span>to<span class="w"> </span>the<span class="w"> </span>encoder<span class="w"> </span>model
+<span class="w">      </span>--joiner<span class="w"> </span>string<span class="w">                        </span>Path<span class="w"> </span>to<span class="w"> </span>the<span class="w"> </span>joiner<span class="w"> </span>model
+<span class="w">      </span>--max-active-paths<span class="w"> </span>int<span class="w">                 </span>Used<span class="w"> </span>only<span class="w"> </span>when<span class="w"> </span>--decoding-method<span class="w"> </span>is<span class="w"> </span>modified_beam_search<span class="w"> </span><span class="o">(</span>default<span class="w"> </span><span class="m">4</span><span class="o">)</span>
+<span class="w">      </span>--model-type<span class="w"> </span>string<span class="w">                    </span>Optional.<span class="w"> </span>Used<span class="w"> </span><span class="k">for</span><span class="w"> </span>loading<span class="w"> </span>the<span class="w"> </span>model<span class="w"> </span><span class="k">in</span><span class="w"> </span>a<span class="w"> </span>faster<span class="w"> </span>way
+<span class="w">      </span>--num-threads<span class="w"> </span>int<span class="w">                      </span>Number<span class="w"> </span>of<span class="w"> </span>threads<span class="w"> </span><span class="k">for</span><span class="w"> </span>computing<span class="w"> </span><span class="o">(</span>default<span class="w"> </span><span class="m">1</span><span class="o">)</span>
+<span class="w">      </span>--provider<span class="w"> </span>string<span class="w">                      </span>Provider<span class="w"> </span>to<span class="w"> </span>use<span class="w"> </span><span class="o">(</span>default<span class="w"> </span><span class="s2">&quot;cpu&quot;</span><span class="o">)</span>
+<span class="w">      </span>--rule1-min-trailing-silence<span class="w"> </span>float32<span class="w">   </span>Threshold<span class="w"> </span><span class="k">for</span><span class="w"> </span>rule1<span class="w"> </span><span class="o">(</span>default<span class="w"> </span><span class="m">2</span>.4<span class="o">)</span>
+<span class="w">      </span>--rule2-min-trailing-silence<span class="w"> </span>float32<span class="w">   </span>Threshold<span class="w"> </span><span class="k">for</span><span class="w"> </span>rule2<span class="w"> </span><span class="o">(</span>default<span class="w"> </span><span class="m">1</span>.2<span class="o">)</span>
+<span class="w">      </span>--rule3-min-utterance-length<span class="w"> </span>float32<span class="w">   </span>Threshold<span class="w"> </span><span class="k">for</span><span class="w"> </span>rule3<span class="w"> </span><span class="o">(</span>default<span class="w"> </span><span class="m">20</span><span class="o">)</span>
+<span class="w">      </span>--tokens<span class="w"> </span>string<span class="w">                        </span>Path<span class="w"> </span>to<span class="w"> </span>the<span class="w"> </span>tokens<span class="w"> </span>file
+pflag:<span class="w"> </span><span class="nb">help</span><span class="w"> </span>requested
+</pre></div>
+</div>
+<p>Now let us refer to <a class="reference internal" href="../pretrained_models/index.html#sherpa-onnx-pre-trained-models"><span class="std std-ref">Pre-trained models</span></a> to download a streaming model.</p>
+<p>We give one example below for demonstration.</p>
+<section id="id3">
+<h3>Streaming transducer<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h3>
+<p>We will use <a class="reference internal" href="../pretrained_models/online-transducer/zipformer-transducer-models.html#sherpa-onnx-streaming-zipformer-en-2023-06-26-english"><span class="std std-ref">csukuangfj/sherpa-onnx-streaming-zipformer-en-2023-06-26 (English)</span></a> as an example.</p>
+<p>First, let us download it:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>sherpa-onnx/go-api-examples/real-time-speech-recognition-from-microphone
+wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-zipformer-en-2023-06-26.tar.bz2
+tar<span class="w"> </span>xvf<span class="w"> </span>sherpa-onnx-streaming-zipformer-en-2023-06-26.tar.bz2
+rm<span class="w"> </span>sherpa-onnx-streaming-zipformer-en-2023-06-26.tar.bz2
+</pre></div>
+</div>
+<p>Now we can use:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./real-time-speech-recognition-from-microphone<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--encoder<span class="w"> </span>./sherpa-onnx-streaming-zipformer-en-2023-06-26/encoder-epoch-99-avg-1-chunk-16-left-128.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--decoder<span class="w"> </span>./sherpa-onnx-streaming-zipformer-en-2023-06-26/decoder-epoch-99-avg-1-chunk-16-left-128.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--joiner<span class="w"> </span>./sherpa-onnx-streaming-zipformer-en-2023-06-26/joiner-epoch-99-avg-1-chunk-16-left-128.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="w"> </span>./sherpa-onnx-streaming-zipformer-en-2023-06-26/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--model-type<span class="w"> </span>zipformer2
+</pre></div>
+</div>
+<p>It should give you the following output:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Select<span class="w"> </span>default<span class="w"> </span>input<span class="w"> </span>device:<span class="w"> </span>MacBook<span class="w"> </span>Pro<span class="w"> </span>Microphone
+<span class="m">2023</span>/08/10<span class="w"> </span><span class="m">15</span>:22:00<span class="w"> </span>Initializing<span class="w"> </span>recognizer<span class="w"> </span><span class="o">(</span>may<span class="w"> </span>take<span class="w"> </span>several<span class="w"> </span>seconds<span class="o">)</span>
+<span class="m">2023</span>/08/10<span class="w"> </span><span class="m">15</span>:22:03<span class="w"> </span>Recognizer<span class="w"> </span>created!
+Started!<span class="w"> </span>Please<span class="w"> </span>speak
+<span class="m">0</span>:<span class="w">  </span>this<span class="w"> </span>is<span class="w"> </span>the<span class="w"> </span>first<span class="w"> </span><span class="nb">test</span>
+<span class="m">1</span>:<span class="w">  </span>this<span class="w"> </span>is<span class="w"> </span>the<span class="w"> </span>second
+</pre></div>
+</div>
+</section>
+</section>
+<section id="colab">
+<h2>colab<a class="headerlink" href="#colab" title="Permalink to this heading"></a></h2>
+<p>We provide a colab notebook
+<a class="reference external" href="https://github.com/k2-fsa/colab/blob/master/sherpa-onnx/sherpa_onnx_go_api_example.ipynb"><img alt="Sherpa-onnx go api example colab notebook" src="https://github.com/k2-fsa/sherpa/releases/download/doc/colab-badge.jpg" /></a>
+for you to try the <a class="reference external" href="https://en.wikipedia.org/wiki/Go_(programming_language)">Go</a> API examples of <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../swift-api/examples.html" class="btn btn-neutral float-left" title="Examples" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../csharp-api/index.html" class="btn btn-neutral float-right" title="C# API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

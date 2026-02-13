@@ -1,0 +1,373 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pascal API &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Lazarus" href="../lazarus/index.html" />
+    <link rel="prev" title="C# API" href="../csharp-api/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">sherpa-onnx</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../install/index.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../faqs/index.html">Frequently Asked Question (FAQs)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python/index.html">Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../c-api/index.html">C API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../java-api/index.html">Java API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../javascript-api/index.html">Javascript API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kotlin-api/index.html">Kotlin API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../swift-api/index.html">Swift API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../go-api/index.html">Go API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../csharp-api/index.html">C# API</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Pascal API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#install-free-pascal">Install free pascal</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#build-sherpa-onnx">Build sherpa-onnx</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#non-streaming-speech-recognition-from-files">Non-streaming speech recognition from files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#colab-notebook">Colab notebook</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../lazarus/index.html">Lazarus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../wasm/index.html">WebAssembly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../android/index.html">Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../harmony-os/index.html">HarmonyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ios/index.html">iOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../flutter/index.html">Flutter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../websocket/index.html">WebSocket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../hotwords/index.html">Hotwords (Contextual biasing)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kws/index.html">Keyword spotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../punctuation/index.html">Punctuation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../audio-tagging/index.html">Audio tagging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spoken-language-identification/index.html">Spoken language identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vad/index.html">VAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/index.html">Pre-trained models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/whisper/index.html">Whisper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../moonshine/index.html">Moonshine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../omnilingual-asr/index.html">Omnilingual ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sense-voice/index.html">SenseVoice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../funasr-nano/index.html">FunASR Nano</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../paraformer/index.html">Paraformer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nemo/index.html">NeMo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../FireRedAsr/index.html">FireRedAsr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Dolphin/index.html">Dolphin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../homophone-replacer/index.html">拼音词组匹配替换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-diarization/index.html">Speaker Diarization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-identification/index.html">Speaker Identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speech-enhancement/index.html">Speech enhancement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../source-separation/index.html">Source separation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qnn/index.html">Qualcomm NPU (QNN, HTP)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rknn/index.html">rknn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ascend/index.html">Ascend NPU (昇腾 NPU)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tts/index.html">Text-to-speech (TTS)</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">sherpa-onnx</a> &raquo;</li>
+      <li>Pascal API</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/onnx/pascal-api/index.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="pascal-api">
+<span id="sherpa-onnx-pascal-api"></span><h1>Pascal API<a class="headerlink" href="#pascal-api" title="Permalink to this heading"></a></h1>
+<p>We provide APIs for <a class="reference external" href="https://en.wikipedia.org/wiki/Object_Pascal">Object Pascal</a>.</p>
+<p>In other words, you can develop the following types of applications using Object Pascal:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Voice activity detection</p></li>
+<li><p>Streaming speech recognition (i.e., real-time speech recognition)</p></li>
+<li><p>Non-streaming speech recognition</p></li>
+</ul>
+</div></blockquote>
+<p>on Windows, Linux, and macOS.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>For macOS, both Apple Silicon (i.e., macOS arm64, M1/M2/M3) and Intel chips
+are supported.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>We will support text-to-speech, audio tagging, keyword spotting,
+speaker recognition, speech identification, and spoken language identification
+with object pascal later.</p>
+</div>
+<p>In the following, we describe how to use the object pascal API to decode files.</p>
+<p>We use macOS below as an example. You can adapt it for Linux and Windows.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>We support both static link and dynamic link; the example below uses
+dynamic link. You can pass <code class="docutils literal notranslate"><span class="pre">-DBUILD_SHARED_LIBS=OFF</span></code> to <code class="docutils literal notranslate"><span class="pre">cmake</span></code> if you
+want to use static link.</p>
+<p>On the Windows platform, it supports only dynamic link though.</p>
+</div>
+<section id="install-free-pascal">
+<h2>Install free pascal<a class="headerlink" href="#install-free-pascal" title="Permalink to this heading"></a></h2>
+<p>Please visit
+<a class="reference external" href="https://wiki.freepascal.org/Installing_the_Free_Pascal_Compiler">https://wiki.freepascal.org/Installing_the_Free_Pascal_Compiler</a>
+for installation.</p>
+<p>To check that you have installed <code class="docutils literal notranslate"><span class="pre">fpc</span></code> successfully, please run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fpc</span> <span class="o">-</span><span class="n">h</span>
+</pre></div>
+</div>
+<p>which should print the usage information of <code class="docutils literal notranslate"><span class="pre">fpc</span></code>.</p>
+</section>
+<section id="build-sherpa-onnx">
+<h2>Build sherpa-onnx<a class="headerlink" href="#build-sherpa-onnx" title="Permalink to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>-p<span class="w"> </span><span class="nv">$HOME</span>/open-source
+<span class="nb">cd</span><span class="w"> </span><span class="nv">$HOME</span>/open-source
+git<span class="w"> </span>clone<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx
+<span class="nb">cd</span><span class="w"> </span>sherpa-onnx
+
+mkdir<span class="w"> </span>build
+<span class="nb">cd</span><span class="w"> </span>build
+
+cmake<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-DBUILD_SHARED_LIBS<span class="o">=</span>ON<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-DCMAKE_BUILD_TYPE<span class="o">=</span>Release<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-DCMAKE_INSTALL_PREFIX<span class="o">=</span>./install<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>..
+
+cmake<span class="w"> </span>--build<span class="w"> </span>.<span class="w"> </span>--target<span class="w"> </span>install<span class="w"> </span>--config<span class="w"> </span>Release
+
+ls<span class="w"> </span>-lh<span class="w"> </span>install/lib
+</pre></div>
+</div>
+<p>You should get the following two shared library files:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(py38) fangjuns-MacBook-Pro:build fangjun$ ls -lh install/lib/
+total 59696
+-rw-r--r--  1 fangjun  staff    25M Aug 14 14:09 libonnxruntime.1.17.1.dylib
+lrwxr-xr-x  1 fangjun  staff    27B Aug 14 14:18 libonnxruntime.dylib -&gt; libonnxruntime.1.17.1.dylib
+-rwxr-xr-x  1 fangjun  staff   3.9M Aug 15 15:01 libsherpa-onnx-c-api.dylib
+</pre></div>
+</div>
+</section>
+<section id="non-streaming-speech-recognition-from-files">
+<h2>Non-streaming speech recognition from files<a class="headerlink" href="#non-streaming-speech-recognition-from-files" title="Permalink to this heading"></a></h2>
+<p>We use the <code class="docutils literal notranslate"><span class="pre">Whisper</span> <span class="pre">tiny.en</span></code> model below as an example.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>We have hardcoded the model filenames in the code.</p>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span><span class="nv">$HOME</span>/open-source/sherpa-onnx
+
+<span class="nb">cd</span><span class="w"> </span>pascal-api-examples/non-streaming-asr/
+
+wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-whisper-tiny.en.tar.bz2
+tar<span class="w"> </span>xvf<span class="w"> </span>sherpa-onnx-whisper-tiny.en.tar.bz2
+rm<span class="w"> </span>sherpa-onnx-whisper-tiny.en.tar.bz2
+
+fpc<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-dSHERPA_ONNX_USE_SHARED_LIBS<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-Fu<span class="nv">$HOME</span>/open-source/sherpa-onnx/sherpa-onnx/pascal-api<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-Fl<span class="nv">$HOME</span>/open-source/sherpa-onnx/build/install/lib<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./whisper.pas
+
+<span class="c1"># It will generate a file ./whisper</span>
+</pre></div>
+</div>
+<p>The output logs of the above <code class="docutils literal notranslate"><span class="pre">fpc</span></code> command are given below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Free</span> <span class="n">Pascal</span> <span class="n">Compiler</span> <span class="n">version</span> <span class="mf">3.2.2</span> <span class="p">[</span><span class="mi">2021</span><span class="o">/</span><span class="mi">05</span><span class="o">/</span><span class="mi">16</span><span class="p">]</span> <span class="k">for</span> <span class="n">x86_64</span>
+<span class="n">Copyright</span> <span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="mi">1993</span><span class="o">-</span><span class="mi">2021</span> <span class="n">by</span> <span class="n">Florian</span> <span class="n">Klaempfl</span> <span class="ow">and</span> <span class="n">others</span>
+<span class="n">Target</span> <span class="n">OS</span><span class="p">:</span> <span class="n">Darwin</span> <span class="k">for</span> <span class="n">x86_64</span>
+<span class="n">Compiling</span> <span class="o">./</span><span class="n">whisper</span><span class="o">.</span><span class="n">pas</span>
+<span class="n">Compiling</span> <span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">fangjun</span><span class="o">/</span><span class="nb">open</span><span class="o">-</span><span class="n">source</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">pascal</span><span class="o">-</span><span class="n">api</span><span class="o">/</span><span class="n">sherpa_onnx</span><span class="o">.</span><span class="n">pas</span>
+<span class="n">Assembling</span> <span class="n">sherpa_onnx</span>
+<span class="n">Assembling</span> <span class="n">whisper</span>
+<span class="n">Linking</span> <span class="n">whisper</span>
+<span class="n">ld</span><span class="p">:</span> <span class="n">warning</span><span class="p">:</span> <span class="n">dylib</span> <span class="p">(</span><span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">fangjun</span><span class="o">/</span><span class="nb">open</span><span class="o">-</span><span class="n">source</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">build</span><span class="o">/</span><span class="n">install</span><span class="o">/</span><span class="n">lib</span><span class="o">//</span><span class="n">libsherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">c</span><span class="o">-</span><span class="n">api</span><span class="o">.</span><span class="n">dylib</span><span class="p">)</span> <span class="n">was</span> <span class="n">built</span> <span class="k">for</span> <span class="n">newer</span> <span class="n">macOS</span> <span class="n">version</span> <span class="p">(</span><span class="mf">10.14</span><span class="p">)</span> <span class="n">tha</span>
+<span class="n">n</span> <span class="n">being</span> <span class="n">linked</span> <span class="p">(</span><span class="mf">10.8</span><span class="p">)</span>
+<span class="mi">1530</span> <span class="n">lines</span> <span class="n">compiled</span><span class="p">,</span> <span class="mf">3.8</span> <span class="n">sec</span>
+</pre></div>
+</div>
+<p>Explanation of the options for the <code class="docutils literal notranslate"><span class="pre">fpc</span></code> command:</p>
+<blockquote>
+<div><ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">-dSHERPA_ONNX_USE_SHARED_LIBS</span></code></p>
+<p>It defines a symbol <code class="docutils literal notranslate"><span class="pre">SHERPA_ONNX_USE_SHARED_LIBS</span></code>, which means
+we want to use dynamic link in the code. If you omit it, it will use static link.
+Please search for the string <code class="docutils literal notranslate"><span class="pre">SHERPA_ONNX_USE_SHARED_LIBS</span></code> in the file
+<a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/blob/master/sherpa-onnx/pascal-api/sherpa_onnx.pas">https://github.com/k2-fsa/sherpa-onnx/blob/master/sherpa-onnx/pascal-api/sherpa_onnx.pas</a>
+if you want to learn more.</p>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-Fu$HOME/open-source/sherpa-onnx/pascal-api</span></code></p>
+<p>It specifies the unit search path.
+Our <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/blob/master/sherpa-onnx/pascal-api/sherpa_onnx.pas">sherpa_onnx.pas</a>
+is inside the directory <code class="docutils literal notranslate"><span class="pre">$HOME/open-source/sherpa-onnx/pascal-api</span></code> and we have to
+tell <code class="docutils literal notranslate"><span class="pre">fpc</span></code> where to find it.</p>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-Fl$HOME/sherpa-onnx/build/install/lib</span></code></p>
+<p>It tells <code class="docutils literal notranslate"><span class="pre">fpc</span></code> where to look for <code class="docutils literal notranslate"><span class="pre">libsherpa-onnx-c-api.dylib</span></code>.</p>
+</li>
+</ul>
+</div></blockquote>
+<p>After running the above <code class="docutils literal notranslate"><span class="pre">fpc</span></code> command, we will find an executable file <code class="docutils literal notranslate"><span class="pre">whisper</span></code>
+in the current directory, i.e., <code class="docutils literal notranslate"><span class="pre">$HOME/open-source/sherpa-onnx/pascal-api-examples/non-streaming-asr/whisper</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(py38) fangjuns-MacBook-Pro:non-streaming-asr fangjun$ ls -lh ./whisper
+-rwxr-xr-x  1 fangjun  staff   2.3M Aug 16 12:13 ./whisper
+</pre></div>
+</div>
+<p>If we run it:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(py38) fangjuns-MacBook-Pro:non-streaming-asr fangjun$ ./whisper
+dyld[23162]: Library not loaded: @rpath/libsherpa-onnx-c-api.dylib
+  Referenced from: &lt;3AE58F60-4925-335D-89A5-B30FD7D97D7E&gt; /Users/fangjun/open-source/sherpa-onnx/pascal-api-examples/non-streaming-asr/whisper
+  Reason: tried: &#39;/Users/fangjun/py38/lib/python3.8/site-packages/libsherpa-onnx-c-api.dylib&#39; (no such file), &#39;/usr/local/Cellar/ghostscript/9.55.0/lib/libsherpa-onnx-c-api.dylib&#39; (no such file), &#39;/Users/fangjun/py38/lib/python3.8/site-packages/libsherpa-onnx-c-api.dylib&#39; (no such file), &#39;/usr/local/Cellar/ghostscript/9.55.0/lib/libsherpa-onnx-c-api.dylib&#39; (no such file), &#39;/libsherpa-onnx-c-api.dylib&#39; (no such file), &#39;/System/Volumes/Preboot/Cryptexes/OS@rpath/libsherpa-onnx-c-api.dylib&#39; (no such file), &#39;/usr/local/lib/libsherpa-onnx-c-api.dylib&#39; (no such file), &#39;/usr/lib/libsherpa-onnx-c-api.dylib&#39; (no such file, not in dyld cache)
+Abort trap: 6
+</pre></div>
+</div>
+<p>You can see it cannot find <code class="docutils literal notranslate"><span class="pre">libsherpa-onnx-c-api.dylib</span></code>.</p>
+<p>At the compilation time, we have used <code class="docutils literal notranslate"><span class="pre">-Fl$HOME/sherpa-onnx/build/install/lib</span></code>
+to tell the compiler <code class="docutils literal notranslate"><span class="pre">fpc</span></code> where to find <code class="docutils literal notranslate"><span class="pre">libsherpa-onnx-c-api.dylib</span></code>.</p>
+<p>At the runtime, we also need to do something to tell the executable where to look
+for <code class="docutils literal notranslate"><span class="pre">libsherpa-onnx-c-api.dylib</span></code>.</p>
+<p>The following command does exactly that:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(py38) fangjuns-MacBook-Pro:non-streaming-asr fangjun$ export DYLD_LIBRARY_PATH=$HOME/open-source/sherpa-onnx/build/install/lib:$DYLD_LIBRARY_PATH
+(py38) fangjuns-MacBook-Pro:non-streaming-asr fangjun$ ./whisper
+TSherpaOnnxOfflineRecognizerResult(Text :=  After early nightfall, the yellow lamps would light up here and there the squalid quarter of the brothels., Tokens := [ After,  early,  night, fall, ,,  the,  yellow,  lamps,  would,  light,  up,  here,  and,  there,  the,  squ, alid,  quarter,  of,  the,  bro, the, ls, .], Timestamps := [])
+NumThreads 1
+Elapsed 0.803 s
+Wave duration 6.625 s
+RTF = 0.803/6.625 = 0.121
+</pre></div>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>If you are using Linux, please replace <code class="docutils literal notranslate"><span class="pre">DYLD_LIBRARY_PATH</span></code> with <code class="docutils literal notranslate"><span class="pre">LD_LIBRARY_PATH</span></code>.</p>
+</div>
+<p>Congratulations! You have successfully managed to use the object pascal API with
+Whisper for speech recognition!</p>
+<p>You can find more examples at:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/tree/master/pascal-api-examples">https://github.com/k2-fsa/sherpa-onnx/tree/master/pascal-api-examples</a></p>
+</div></blockquote>
+</section>
+<section id="colab-notebook">
+<h2>Colab notebook<a class="headerlink" href="#colab-notebook" title="Permalink to this heading"></a></h2>
+<p>We provide a colab notebook
+<a class="reference external" href="https://github.com/k2-fsa/colab/blob/master/sherpa-onnx/sherpa_onnx_pascal_api_example.ipynb"><img alt="use sherpa-onnx for pascal colab notebook" src="https://github.com/k2-fsa/sherpa/releases/download/doc/colab-badge.jpg" /></a>
+for you to try this section step by step.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../csharp-api/index.html" class="btn btn-neutral float-left" title="C# API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../lazarus/index.html" class="btn btn-neutral float-right" title="Lazarus" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

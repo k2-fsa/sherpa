@@ -1,0 +1,238 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Build &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Use pre-built WebAssembly library" href="prebuilt.html" />
+    <link rel="prev" title="Install Emscripten" href="install-emscripten.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">sherpa-ncnn</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../install/index.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python/index.html">Python API</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">WebAssembly</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="install-emscripten.html">Install Emscripten</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Build</a></li>
+<li class="toctree-l3"><a class="reference internal" href="prebuilt.html">Use pre-built WebAssembly library</a></li>
+<li class="toctree-l3"><a class="reference internal" href="hf-spaces.html">Huggingface Spaces (WebAssembly)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../c-api/index.html">C API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../endpoint.html">Endpointing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../android/index.html">Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ios/index.html">iOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/index.html">Pre-trained models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/index.html">Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vad/index.html">VAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sense-voice/index.html">SenseVoice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../faq.html">FAQs</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../onnx/index.html">sherpa-onnx</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">sherpa-ncnn</a> &raquo;</li>
+          <li><a href="index.html">WebAssembly</a> &raquo;</li>
+      <li>Build</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/ncnn/wasm/build.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="build">
+<h1>Build<a class="headerlink" href="#build" title="Permalink to this heading"></a></h1>
+<p>After installing <a class="reference external" href="https://emscripten.org/index.html">emscripten</a>, we can build <a class="reference external" href="https://github.com/k2-fsa/sherpa-ncnn">sherpa-ncnn</a> for <a class="reference external" href="https://en.wikipedia.org/wiki/WebAssembly">WebAssembly</a> now.</p>
+<p>Please use the following command to build it:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/k2-fsa/sherpa-ncnn
+<span class="nb">cd</span><span class="w"> </span>sherpa-ncnn
+
+<span class="nb">cd</span><span class="w"> </span>wasm/assets
+wget<span class="w"> </span>-q<span class="w"> </span>https://github.com/k2-fsa/sherpa-ncnn/releases/download/models/sherpa-ncnn-streaming-zipformer-bilingual-zh-en-2023-02-13.tar.bz2
+tar<span class="w"> </span>xvf<span class="w"> </span>sherpa-ncnn-streaming-zipformer-bilingual-zh-en-2023-02-13.tar.bz2
+mv<span class="w"> </span>-v<span class="w"> </span>sherpa-ncnn-streaming-zipformer-bilingual-zh-en-2023-02-13/*pnnx.ncnn.param<span class="w"> </span>.
+mv<span class="w"> </span>-v<span class="w"> </span>sherpa-ncnn-streaming-zipformer-bilingual-zh-en-2023-02-13/*pnnx.ncnn.bin<span class="w"> </span>.
+mv<span class="w"> </span>-v<span class="w"> </span>sherpa-ncnn-streaming-zipformer-bilingual-zh-en-2023-02-13/tokens.txt<span class="w"> </span>.
+rm<span class="w"> </span>-rf<span class="w"> </span>sherpa-ncnn-streaming-zipformer-bilingual-zh-en-2023-02-13
+rm<span class="w"> </span>-v<span class="w"> </span>sherpa-ncnn-streaming-zipformer-bilingual-zh-en-2023-02-13.tar.bz2
+<span class="nb">cd</span><span class="w"> </span>../..
+
+./build-wasm-simd.sh
+</pre></div>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>You can visit <a class="reference external" href="https://github.com/k2-fsa/sherpa-ncnn/releases/tag/models">https://github.com/k2-fsa/sherpa-ncnn/releases/tag/models</a>
+to download a different model.</p>
+</div>
+<p>After building, you should see the following output:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Install<span class="w"> </span>the<span class="w"> </span>project...
+--<span class="w"> </span>Install<span class="w"> </span>configuration:<span class="w"> </span><span class="s2">&quot;Release&quot;</span>
+--<span class="w"> </span>Installing:<span class="w"> </span>/Users/fangjun/open-source/sherpa-ncnn/build-wasm-simd/install/lib/libkaldi-native-fbank-core.a
+--<span class="w"> </span>Installing:<span class="w"> </span>/Users/fangjun/open-source/sherpa-ncnn/build-wasm-simd/install/lib/libncnn.a
+--<span class="w"> </span>Installing:<span class="w"> </span>/Users/fangjun/open-source/sherpa-ncnn/build-wasm-simd/install/./sherpa-ncnn.pc
+--<span class="w"> </span>Installing:<span class="w"> </span>/Users/fangjun/open-source/sherpa-ncnn/build-wasm-simd/install/lib/libsherpa-ncnn-core.a
+--<span class="w"> </span>Installing:<span class="w"> </span>/Users/fangjun/open-source/sherpa-ncnn/build-wasm-simd/install/lib/libsherpa-ncnn-c-api.a
+--<span class="w"> </span>Installing:<span class="w"> </span>/Users/fangjun/open-source/sherpa-ncnn/build-wasm-simd/install/include/sherpa-ncnn/c-api/c-api.h
+--<span class="w"> </span>Installing:<span class="w"> </span>/Users/fangjun/open-source/sherpa-ncnn/build-wasm-simd/install/bin/wasm/sherpa-ncnn-wasm-main.js
+--<span class="w"> </span>Installing:<span class="w"> </span>/Users/fangjun/open-source/sherpa-ncnn/build-wasm-simd/install/bin/wasm/sherpa-ncnn.js
+--<span class="w"> </span>Installing:<span class="w"> </span>/Users/fangjun/open-source/sherpa-ncnn/build-wasm-simd/install/bin/wasm/app.js
+--<span class="w"> </span>Installing:<span class="w"> </span>/Users/fangjun/open-source/sherpa-ncnn/build-wasm-simd/install/bin/wasm/index.html
+--<span class="w"> </span>Up-to-date:<span class="w"> </span>/Users/fangjun/open-source/sherpa-ncnn/build-wasm-simd/install/bin/wasm/sherpa-ncnn-wasm-main.js
+--<span class="w"> </span>Installing:<span class="w"> </span>/Users/fangjun/open-source/sherpa-ncnn/build-wasm-simd/install/bin/wasm/sherpa-ncnn-wasm-main.wasm
+--<span class="w"> </span>Installing:<span class="w"> </span>/Users/fangjun/open-source/sherpa-ncnn/build-wasm-simd/install/bin/wasm/sherpa-ncnn-wasm-main.data
++<span class="w"> </span>ls<span class="w"> </span>-lh<span class="w"> </span>install/bin/wasm
+total<span class="w"> </span><span class="m">280152</span>
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">   </span><span class="m">9</span>.0K<span class="w"> </span>Feb<span class="w">  </span><span class="m">6</span><span class="w"> </span><span class="m">15</span>:42<span class="w"> </span>app.js
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">   </span>936B<span class="w"> </span>Feb<span class="w">  </span><span class="m">6</span><span class="w"> </span><span class="m">15</span>:42<span class="w"> </span>index.html
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">   </span>135M<span class="w"> </span>Feb<span class="w">  </span><span class="m">6</span><span class="w"> </span><span class="m">17</span>:06<span class="w"> </span>sherpa-ncnn-wasm-main.data
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">    </span>79K<span class="w"> </span>Feb<span class="w">  </span><span class="m">6</span><span class="w"> </span><span class="m">17</span>:06<span class="w"> </span>sherpa-ncnn-wasm-main.js
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">   </span><span class="m">1</span>.7M<span class="w"> </span>Feb<span class="w">  </span><span class="m">6</span><span class="w"> </span><span class="m">17</span>:06<span class="w"> </span>sherpa-ncnn-wasm-main.wasm
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">   </span><span class="m">6</span>.9K<span class="w"> </span>Feb<span class="w">  </span><span class="m">6</span><span class="w"> </span><span class="m">15</span>:42<span class="w"> </span>sherpa-ncnn.js
+</pre></div>
+</div>
+<p>Now you can use the following command to run it:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>build-wasm-simd/install/bin/wasm/
+python3<span class="w"> </span>-m<span class="w"> </span>http.server<span class="w"> </span><span class="m">6006</span>
+</pre></div>
+</div>
+<p>Start your browser and visit <a class="reference external" href="http://localhost:6006/">http://localhost:6006/</a>; you should see the following
+page:</p>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../../_images/wasm-sherpa-ncnn-1.png"><img alt="start page of wasm" src="../../_images/wasm-sherpa-ncnn-1.png" style="width: 800px;" /></a>
+</figure>
+<p>Now click start and speak! You should see the recognition results in the text box.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>We are using a bilingual model (Chinese + English) in the above example, which means
+you can only speak Chinese or English in this case.</p>
+</div>
+<p>A screenshot is given below:</p>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../../_images/wasm-sherpa-ncnn-2.png"><img alt="recognition result" src="../../_images/wasm-sherpa-ncnn-2.png" style="width: 800px;" /></a>
+</figure>
+<p>Congratulations! You have successfully run real-time speech recognition with <a class="reference external" href="https://en.wikipedia.org/wiki/WebAssembly">WebAssembly</a>
+in your browser.</p>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="install-emscripten.html" class="btn btn-neutral float-left" title="Install Emscripten" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="prebuilt.html" class="btn btn-neutral float-right" title="Use pre-built WebAssembly library" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

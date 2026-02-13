@@ -1,0 +1,433 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Russian &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/clipboard.min.js"></script>
+        <script src="../../../../_static/copybutton.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+    <link rel="next" title="Japanese" href="japanese.html" />
+    <link rel="prev" title="English" href="english.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../../index.html">sherpa-onnx</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../install/index.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../faqs/index.html">Frequently Asked Question (FAQs)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../python/index.html">Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../c-api/index.html">C API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../java-api/index.html">Java API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../javascript-api/index.html">Javascript API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../kotlin-api/index.html">Kotlin API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../swift-api/index.html">Swift API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../go-api/index.html">Go API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../csharp-api/index.html">C# API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../pascal-api/index.html">Pascal API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../lazarus/index.html">Lazarus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../wasm/index.html">WebAssembly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../android/index.html">Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../harmony-os/index.html">HarmonyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../ios/index.html">iOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../flutter/index.html">Flutter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../websocket/index.html">WebSocket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../hotwords/index.html">Hotwords (Contextual biasing)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../kws/index.html">Keyword spotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../punctuation/index.html">Punctuation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../audio-tagging/index.html">Audio tagging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../spoken-language-identification/index.html">Spoken language identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../vad/index.html">VAD</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../index.html">Pre-trained models</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../../online-transducer/index.html">Online transducer models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../online-paraformer/index.html">Online paraformer models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../online-ctc/index.html">Online CTC models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../offline-transducer/index.html">Offline transducer models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../offline-paraformer/index.html">Offline paraformer models</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../index.html">Offline CTC models</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../icefall/index.html">icefall</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="index.html">NeMo CTC-based models</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../wenet/index.html">WeNet CTC-based models</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../yesno/index.html">yesno</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../telespeech/index.html">TeleSpeech</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../whisper/index.html">Whisper</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../wenet/index.html">WeNet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../small-online-models.html">Small models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../sense-voice/index.html">SenseVoice</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../whisper/index.html">Whisper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../moonshine/index.html">Moonshine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../omnilingual-asr/index.html">Omnilingual ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../sense-voice/index.html">SenseVoice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../funasr-nano/index.html">FunASR Nano</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../paraformer/index.html">Paraformer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../nemo/index.html">NeMo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../FireRedAsr/index.html">FireRedAsr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Dolphin/index.html">Dolphin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../homophone-replacer/index.html">拼音词组匹配替换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../speaker-diarization/index.html">Speaker Diarization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../speaker-identification/index.html">Speaker Identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../speech-enhancement/index.html">Speech enhancement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../source-separation/index.html">Source separation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../qnn/index.html">Qualcomm NPU (QNN, HTP)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../rknn/index.html">rknn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../ascend/index.html">Ascend NPU (昇腾 NPU)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tts/index.html">Text-to-speech (TTS)</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../../index.html">sherpa-onnx</a> &raquo;</li>
+          <li><a href="../../index.html">Pre-trained models</a> &raquo;</li>
+          <li><a href="../index.html">Offline CTC models</a> &raquo;</li>
+          <li><a href="index.html">NeMo CTC-based models</a> &raquo;</li>
+      <li>Russian</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/onnx/pretrained_models/offline-ctc/nemo/russian.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="russian">
+<h1>Russian<a class="headerlink" href="#russian" title="Permalink to this heading"></a></h1>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>Please refer to <a class="reference internal" href="../../../install/index.html#install-sherpa-onnx"><span class="std std-ref">Installation</span></a> to install <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>
+before you read this section.</p>
+</div>
+<p>This page lists offline CTC models from <a class="reference external" href="https://github.com/NVIDIA/NeMo">NeMo</a> for Russian.</p>
+<section id="sherpa-onnx-nemo-ctc-giga-am-v2-russian-2025-04-19">
+<h2>sherpa-onnx-nemo-ctc-giga-am-v2-russian-2025-04-19<a class="headerlink" href="#sherpa-onnx-nemo-ctc-giga-am-v2-russian-2025-04-19" title="Permalink to this heading"></a></h2>
+<p>This model is converted from</p>
+<blockquote>
+<div><p><a class="reference external" href="https://github.com/salute-developers/GigaAM">https://github.com/salute-developers/GigaAM</a></p>
+</div></blockquote>
+<p>You can find the conversion script at</p>
+<blockquote>
+<div><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/blob/master/scripts/nemo/GigaAM/run-ctc-v2.sh">https://github.com/k2-fsa/sherpa-onnx/blob/master/scripts/nemo/GigaAM/run-ctc-v2.sh</a></p>
+</div></blockquote>
+<p>In the following, we describe how to download it and use it with <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>.</p>
+<section id="download-the-model">
+<h3>Download the model<a class="headerlink" href="#download-the-model" title="Permalink to this heading"></a></h3>
+<p>Please use the following commands to download it.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-nemo-ctc-giga-am-v2-russian-2025-04-19.tar.bz2
+tar<span class="w"> </span>xvf<span class="w"> </span>sherpa-onnx-nemo-ctc-giga-am-v2-russian-2025-04-19.tar.bz2
+rm<span class="w"> </span>sherpa-onnx-nemo-ctc-giga-am-v2-russian-2025-04-19.tar.bz2
+</pre></div>
+</div>
+<p>You should see something like below after downloading:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ls</span> <span class="o">-</span><span class="n">lh</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">nemo</span><span class="o">-</span><span class="n">ctc</span><span class="o">-</span><span class="n">giga</span><span class="o">-</span><span class="n">am</span><span class="o">-</span><span class="n">v2</span><span class="o">-</span><span class="n">russian</span><span class="o">-</span><span class="mi">2025</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">19</span><span class="o">/</span>
+
+<span class="n">total</span> <span class="mi">226</span><span class="n">M</span>
+<span class="o">-</span><span class="n">rwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span> <span class="mi">1</span> <span class="mi">501</span> <span class="n">staff</span> <span class="mf">1.8</span><span class="n">K</span> <span class="n">Apr</span> <span class="mi">20</span> <span class="mi">01</span><span class="p">:</span><span class="mi">51</span> <span class="n">export</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">ctc</span><span class="o">-</span><span class="n">v2</span><span class="o">.</span><span class="n">py</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="mi">501</span> <span class="n">staff</span> <span class="mi">219</span><span class="n">K</span> <span class="n">Apr</span> <span class="mi">20</span> <span class="mi">01</span><span class="p">:</span><span class="mi">57</span> <span class="n">LICENSE</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="mi">501</span> <span class="n">staff</span> <span class="mi">226</span><span class="n">M</span> <span class="n">Apr</span> <span class="mi">20</span> <span class="mi">01</span><span class="p">:</span><span class="mi">57</span> <span class="n">model</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span>
+<span class="o">-</span><span class="n">rwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span> <span class="mi">1</span> <span class="mi">501</span> <span class="n">staff</span>  <span class="mi">866</span> <span class="n">Apr</span> <span class="mi">20</span> <span class="mi">01</span><span class="p">:</span><span class="mi">51</span> <span class="n">run</span><span class="o">-</span><span class="n">ctc</span><span class="o">-</span><span class="n">v2</span><span class="o">.</span><span class="n">sh</span>
+<span class="o">-</span><span class="n">rwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span> <span class="mi">1</span> <span class="mi">501</span> <span class="n">staff</span> <span class="mf">4.1</span><span class="n">K</span> <span class="n">Apr</span> <span class="mi">20</span> <span class="mi">01</span><span class="p">:</span><span class="mi">57</span> <span class="n">test</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">ctc</span><span class="o">.</span><span class="n">py</span>
+<span class="n">drwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span> <span class="mi">2</span> <span class="mi">501</span> <span class="n">staff</span> <span class="mf">4.0</span><span class="n">K</span> <span class="n">Apr</span> <span class="mi">21</span> <span class="mi">09</span><span class="p">:</span><span class="mi">43</span> <span class="n">test_wavs</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="mi">501</span> <span class="n">staff</span>  <span class="mi">196</span> <span class="n">Apr</span> <span class="mi">20</span> <span class="mi">01</span><span class="p">:</span><span class="mi">57</span> <span class="n">tokens</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
+</div>
+</section>
+<section id="decode-wave-files">
+<h3>Decode wave files<a class="headerlink" href="#decode-wave-files" title="Permalink to this heading"></a></h3>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>It supports decoding only wave files of a single channel with 16-bit
+encoded samples, while the sampling rate does not need to be 16 kHz.</p>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+./build/bin/sherpa-onnx-offline<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--nemo-ctc-model<span class="o">=</span>./sherpa-onnx-nemo-ctc-giga-am-v2-russian-2025-04-19/model.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span>./sherpa-onnx-nemo-ctc-giga-am-v2-russian-2025-04-19/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-nemo-ctc-giga-am-v2-russian-2025-04-19/test_wavs/example.wav
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Please use <code class="docutils literal notranslate"><span class="pre">./build/bin/Release/sherpa-onnx-offline.exe</span></code> for Windows.</p>
+</div>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>If you use Windows and get encoding issues, please run:</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>CHCP<span class="w"> </span><span class="m">65001</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>in your commandline.</p>
+</div>
+<p>You should see the following output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/project/sherpa-onnx/csrc/parse-options.cc:Read:375 sherpa-onnx-offline --nemo-ctc-model=./sherpa-onnx-nemo-ctc-giga-am-v2-russian-2025-04-19/model.int8.onnx --tokens=./sherpa-onnx-nemo-ctc-giga-am-v2-russian-2025-04-19/tokens.txt ./sherpa-onnx-nemo-ctc-giga-am-v2-russian-2025-04-19/test_wavs/example.wav
+
+OfflineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80, low_freq=20, high_freq=-400, dither=0, normalize_samples=True, snip_edges=False), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename=&quot;&quot;, decoder_filename=&quot;&quot;, joiner_filename=&quot;&quot;), paraformer=OfflineParaformerModelConfig(model=&quot;&quot;), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=&quot;./sherpa-onnx-nemo-ctc-giga-am-v2-russian-2025-04-19/model.int8.onnx&quot;), whisper=OfflineWhisperModelConfig(encoder=&quot;&quot;, decoder=&quot;&quot;, language=&quot;&quot;, task=&quot;transcribe&quot;, tail_paddings=-1), fire_red_asr=OfflineFireRedAsrModelConfig(encoder=&quot;&quot;, decoder=&quot;&quot;), tdnn=OfflineTdnnModelConfig(model=&quot;&quot;), zipformer_ctc=OfflineZipformerCtcModelConfig(model=&quot;&quot;), wenet_ctc=OfflineWenetCtcModelConfig(model=&quot;&quot;), sense_voice=OfflineSenseVoiceModelConfig(model=&quot;&quot;, language=&quot;auto&quot;, use_itn=False), moonshine=OfflineMoonshineModelConfig(preprocessor=&quot;&quot;, encoder=&quot;&quot;, uncached_decoder=&quot;&quot;, cached_decoder=&quot;&quot;), dolphin=OfflineDolphinModelConfig(model=&quot;&quot;), telespeech_ctc=&quot;&quot;, tokens=&quot;./sherpa-onnx-nemo-ctc-giga-am-v2-russian-2025-04-19/tokens.txt&quot;, num_threads=2, debug=False, provider=&quot;cpu&quot;, model_type=&quot;&quot;, modeling_unit=&quot;cjkchar&quot;, bpe_vocab=&quot;&quot;), lm_config=OfflineLMConfig(model=&quot;&quot;, scale=0.5), ctc_fst_decoder_config=OfflineCtcFstDecoderConfig(graph=&quot;&quot;, max_active=3000), decoding_method=&quot;greedy_search&quot;, max_active_paths=4, hotwords_file=&quot;&quot;, hotwords_score=1.5, blank_penalty=0, rule_fsts=&quot;&quot;, rule_fars=&quot;&quot;)
+Creating recognizer ...
+Started
+Done!
+
+./sherpa-onnx-nemo-ctc-giga-am-v2-russian-2025-04-19/test_wavs/example.wav
+{&quot;lang&quot;: &quot;&quot;, &quot;emotion&quot;: &quot;&quot;, &quot;event&quot;: &quot;&quot;, &quot;text&quot;: &quot;ничьих не требуя похвал счастлив уж я надеждой сладкой что дева с трепетом любви посмотрит может быть украдкой на песни грешные мои у лукоморья дуб зеленый&quot;, &quot;timestamps&quot;: [0.08, 0.12, 0.20, 0.24, 0.32, 0.40, 0.44, 0.52, 0.56, 0.60, 0.68, 0.76, 0.80, 0.84, 0.88, 1.00, 1.08, 1.16, 1.20, 1.28, 1.32, 1.40, 1.48, 1.60, 1.76, 1.84, 1.88, 1.92, 2.00, 2.04, 2.12, 2.16, 2.24, 2.32, 2.36, 2.40, 2.52, 2.56, 2.68, 2.72, 2.80, 2.84, 2.92, 3.00, 3.04, 3.08, 3.12, 3.20, 3.28, 3.32, 3.36, 3.44, 3.48, 3.56, 3.60, 3.68, 3.72, 3.76, 3.84, 3.92, 3.96, 4.04, 4.08, 4.12, 4.20, 4.24, 4.28, 4.36, 4.40, 4.48, 4.52, 4.56, 4.64, 4.68, 4.76, 4.84, 4.92, 4.96, 5.04, 5.08, 5.24, 5.40, 5.44, 5.56, 5.64, 5.68, 5.72, 5.80, 5.84, 5.92, 5.96, 6.04, 6.12, 6.16, 6.20, 6.24, 6.32, 6.36, 6.40, 6.48, 6.52, 6.56, 6.64, 6.68, 6.76, 6.80, 6.84, 6.96, 7.00, 7.04, 7.08, 7.16, 7.20, 7.28, 7.32, 7.36, 7.44, 7.52, 7.60, 7.64, 7.72, 7.80, 7.84, 7.92, 8.04, 8.08, 8.16, 8.20, 8.28, 8.32, 8.44, 9.04, 9.28, 9.32, 9.44, 9.48, 9.56, 9.60, 9.76, 9.80, 9.88, 9.92, 10.00, 10.08, 10.20, 10.24, 10.32, 10.40, 10.52, 10.56, 10.64, 10.68, 10.80, 10.84, 10.92], &quot;tokens&quot;:[&quot;н&quot;, &quot;и&quot;, &quot;ч&quot;, &quot;ь&quot;, &quot;и&quot;, &quot;х&quot;, &quot; &quot;, &quot;н&quot;, &quot;е&quot;, &quot; &quot;, &quot;т&quot;, &quot;р&quot;, &quot;е&quot;, &quot;б&quot;, &quot;у&quot;, &quot;я&quot;, &quot; &quot;, &quot;п&quot;, &quot;о&quot;, &quot;х&quot;, &quot;в&quot;, &quot;а&quot;, &quot;л&quot;, &quot; &quot;, &quot;с&quot;, &quot;ч&quot;, &quot;а&quot;, &quot;с&quot;, &quot;т&quot;, &quot;л&quot;, &quot;и&quot;, &quot;в&quot;, &quot; &quot;, &quot;у&quot;, &quot;ж&quot;, &quot; &quot;, &quot;я&quot;, &quot; &quot;, &quot;н&quot;, &quot;а&quot;, &quot;д&quot;, &quot;е&quot;, &quot;ж&quot;, &quot;д&quot;, &quot;о&quot;, &quot;й&quot;, &quot; &quot;, &quot;с&quot;, &quot;л&quot;, &quot;а&quot;, &quot;д&quot;, &quot;к&quot;, &quot;о&quot;, &quot;й&quot;, &quot; &quot;, &quot;ч&quot;, &quot;т&quot;, &quot;о&quot;, &quot; &quot;, &quot;д&quot;, &quot;е&quot;, &quot;в&quot;, &quot;а&quot;, &quot; &quot;, &quot;с&quot;, &quot; &quot;, &quot;т&quot;, &quot;р&quot;, &quot;е&quot;, &quot;п&quot;, &quot;е&quot;, &quot;т&quot;, &quot;о&quot;, &quot;м&quot;, &quot; &quot;, &quot;л&quot;, &quot;ю&quot;, &quot;б&quot;, &quot;в&quot;, &quot;и&quot;, &quot; &quot;, &quot;п&quot;, &quot;о&quot;, &quot;с&quot;, &quot;м&quot;, &quot;о&quot;, &quot;т&quot;, &quot;р&quot;, &quot;и&quot;, &quot;т&quot;, &quot; &quot;, &quot;м&quot;, &quot;о&quot;, &quot;ж&quot;, &quot;е&quot;, &quot;т&quot;, &quot; &quot;, &quot;б&quot;, &quot;ы&quot;, &quot;т&quot;, &quot;ь&quot;, &quot; &quot;, &quot;у&quot;, &quot;к&quot;, &quot;р&quot;, &quot;а&quot;, &quot;д&quot;, &quot;к&quot;, &quot;о&quot;, &quot;й&quot;, &quot; &quot;, &quot;н&quot;, &quot;а&quot;, &quot; &quot;, &quot;п&quot;, &quot;е&quot;, &quot;с&quot;, &quot;н&quot;, &quot;и&quot;, &quot; &quot;, &quot;г&quot;, &quot;р&quot;, &quot;е&quot;, &quot;ш&quot;, &quot;н&quot;, &quot;ы&quot;, &quot;е&quot;, &quot; &quot;, &quot;м&quot;, &quot;о&quot;, &quot;и&quot;, &quot; &quot;, &quot;у&quot;, &quot; &quot;, &quot;л&quot;, &quot;у&quot;, &quot;к&quot;, &quot;о&quot;, &quot;м&quot;, &quot;о&quot;, &quot;р&quot;, &quot;ь&quot;, &quot;я&quot;, &quot; &quot;, &quot;д&quot;, &quot;у&quot;, &quot;б&quot;, &quot; &quot;, &quot;з&quot;, &quot;е&quot;, &quot;л&quot;, &quot;е&quot;, &quot;н&quot;, &quot;ы&quot;, &quot;й&quot;], &quot;words&quot;: []}
+----
+num threads: 2
+decoding method: greedy_search
+Elapsed seconds: 3.718 s
+Real time factor (RTF): 3.718 / 11.290 = 0.329
+</pre></div>
+</div>
+</section>
+<section id="speech-recognition-from-a-microphone">
+<h3>Speech recognition from a microphone<a class="headerlink" href="#speech-recognition-from-a-microphone" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+./build/bin/sherpa-onnx-microphone-offline<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--nemo-ctc-model<span class="o">=</span>./sherpa-onnx-nemo-ctc-giga-am-v2-russian-2025-04-19/model.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span>./sherpa-onnx-nemo-ctc-giga-am-v2-russian-2025-04-19/tokens.txt
+</pre></div>
+</div>
+</section>
+<section id="speech-recognition-from-a-microphone-with-vad">
+<h3>Speech recognition from a microphone with VAD<a class="headerlink" href="#speech-recognition-from-a-microphone-with-vad" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/silero_vad.onnx
+
+./build/bin/sherpa-onnx-vad-microphone-offline-asr<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--silero-vad-model<span class="o">=</span>./silero_vad.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--nemo-ctc-model<span class="o">=</span>./sherpa-onnx-nemo-ctc-giga-am-v2-russian-2025-04-19/model.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span>./sherpa-onnx-nemo-ctc-giga-am-v2-russian-2025-04-19/tokens.txt
+</pre></div>
+</div>
+</section>
+</section>
+<section id="sherpa-onnx-nemo-ctc-giga-am-russian-2024-10-24">
+<h2>sherpa-onnx-nemo-ctc-giga-am-russian-2024-10-24<a class="headerlink" href="#sherpa-onnx-nemo-ctc-giga-am-russian-2024-10-24" title="Permalink to this heading"></a></h2>
+<p>This model is converted from</p>
+<blockquote>
+<div><p><a class="reference external" href="https://github.com/salute-developers/GigaAM">https://github.com/salute-developers/GigaAM</a></p>
+</div></blockquote>
+<p>You can find the conversion script at</p>
+<blockquote>
+<div><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/blob/master/scripts/nemo/GigaAM/run-ctc.sh">https://github.com/k2-fsa/sherpa-onnx/blob/master/scripts/nemo/GigaAM/run-ctc.sh</a></p>
+</div></blockquote>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The license of the model can be found at <a class="reference external" href="https://github.com/salute-developers/GigaAM/blob/main/GigaAM%20License_NC.pdf">https://github.com/salute-developers/GigaAM/blob/main/GigaAM%20License_NC.pdf</a>.</p>
+<p>It is for non-commercial use only.</p>
+</div>
+<p>In the following, we describe how to download it and use it with <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>.</p>
+<section id="id2">
+<h3>Download the model<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h3>
+<p>Please use the following commands to download it.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-nemo-ctc-giga-am-russian-2024-10-24.tar.bz2
+tar<span class="w"> </span>xvf<span class="w"> </span>sherpa-onnx-nemo-ctc-giga-am-russian-2024-10-24.tar.bz2
+rm<span class="w"> </span>sherpa-onnx-nemo-ctc-giga-am-russian-2024-10-24.tar.bz2
+</pre></div>
+</div>
+<p>You should see something like below after downloading:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ls</span> <span class="o">-</span><span class="n">lh</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">nemo</span><span class="o">-</span><span class="n">ctc</span><span class="o">-</span><span class="n">giga</span><span class="o">-</span><span class="n">am</span><span class="o">-</span><span class="n">russian</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">24</span><span class="o">/</span>
+
+<span class="n">total</span> <span class="mi">558904</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>    <span class="mi">89</span><span class="n">K</span> <span class="n">Oct</span> <span class="mi">24</span> <span class="mi">21</span><span class="p">:</span><span class="mi">20</span> <span class="n">GigaAM</span><span class="o">%</span><span class="mi">20</span><span class="n">License_NC</span><span class="o">.</span><span class="n">pdf</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">318</span><span class="n">B</span> <span class="n">Oct</span> <span class="mi">24</span> <span class="mi">21</span><span class="p">:</span><span class="mi">20</span> <span class="n">README</span><span class="o">.</span><span class="n">md</span>
+<span class="o">-</span><span class="n">rwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mf">3.5</span><span class="n">K</span> <span class="n">Oct</span> <span class="mi">24</span> <span class="mi">21</span><span class="p">:</span><span class="mi">20</span> <span class="n">export</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">ctc</span><span class="o">.</span><span class="n">py</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">262</span><span class="n">M</span> <span class="n">Oct</span> <span class="mi">24</span> <span class="mi">21</span><span class="p">:</span><span class="mi">24</span> <span class="n">model</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span>
+<span class="o">-</span><span class="n">rwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mf">1.2</span><span class="n">K</span> <span class="n">Oct</span> <span class="mi">24</span> <span class="mi">21</span><span class="p">:</span><span class="mi">20</span> <span class="n">run</span><span class="o">-</span><span class="n">ctc</span><span class="o">.</span><span class="n">sh</span>
+<span class="o">-</span><span class="n">rwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mf">4.1</span><span class="n">K</span> <span class="n">Oct</span> <span class="mi">24</span> <span class="mi">21</span><span class="p">:</span><span class="mi">20</span> <span class="n">test</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">ctc</span><span class="o">.</span><span class="n">py</span>
+<span class="n">drwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span>  <span class="mi">4</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">128</span><span class="n">B</span> <span class="n">Oct</span> <span class="mi">24</span> <span class="mi">21</span><span class="p">:</span><span class="mi">24</span> <span class="n">test_wavs</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--@</span> <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">196</span><span class="n">B</span> <span class="n">Oct</span> <span class="mi">24</span> <span class="mi">21</span><span class="p">:</span><span class="mi">31</span> <span class="n">tokens</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
+</div>
+</section>
+<section id="id3">
+<h3>Decode wave files<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h3>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>It supports decoding only wave files of a single channel with 16-bit
+encoded samples, while the sampling rate does not need to be 16 kHz.</p>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+./build/bin/sherpa-onnx-offline<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--nemo-ctc-model<span class="o">=</span>./sherpa-onnx-nemo-ctc-giga-am-russian-2024-10-24/model.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span>./sherpa-onnx-nemo-ctc-giga-am-russian-2024-10-24/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-nemo-ctc-giga-am-russian-2024-10-24/test_wavs/example.wav
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Please use <code class="docutils literal notranslate"><span class="pre">./build/bin/Release/sherpa-onnx-offline.exe</span></code> for Windows.</p>
+</div>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>If you use Windows and get encoding issues, please run:</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>CHCP<span class="w"> </span><span class="m">65001</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>in your commandline.</p>
+</div>
+<p>You should see the following output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:375 ./build/bin/sherpa-onnx-offline --nemo-ctc-model=./sherpa-onnx-nemo-ctc-giga-am-russian-2024-10-24/model.int8.onnx --tokens=./sherpa-onnx-nemo-ctc-giga-am-russian-2024-10-24/tokens.txt ./sherpa-onnx-nemo-ctc-giga-am-russian-2024-10-24/test_wavs/example.wav 
+
+OfflineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80, low_freq=20, high_freq=-400, dither=0), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename=&quot;&quot;, decoder_filename=&quot;&quot;, joiner_filename=&quot;&quot;), paraformer=OfflineParaformerModelConfig(model=&quot;&quot;), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=&quot;./sherpa-onnx-nemo-ctc-giga-am-russian-2024-10-24/model.int8.onnx&quot;), whisper=OfflineWhisperModelConfig(encoder=&quot;&quot;, decoder=&quot;&quot;, language=&quot;&quot;, task=&quot;transcribe&quot;, tail_paddings=-1), tdnn=OfflineTdnnModelConfig(model=&quot;&quot;), zipformer_ctc=OfflineZipformerCtcModelConfig(model=&quot;&quot;), wenet_ctc=OfflineWenetCtcModelConfig(model=&quot;&quot;), sense_voice=OfflineSenseVoiceModelConfig(model=&quot;&quot;, language=&quot;auto&quot;, use_itn=False), telespeech_ctc=&quot;&quot;, tokens=&quot;./sherpa-onnx-nemo-ctc-giga-am-russian-2024-10-24/tokens.txt&quot;, num_threads=2, debug=False, provider=&quot;cpu&quot;, model_type=&quot;&quot;, modeling_unit=&quot;cjkchar&quot;, bpe_vocab=&quot;&quot;), lm_config=OfflineLMConfig(model=&quot;&quot;, scale=0.5), ctc_fst_decoder_config=OfflineCtcFstDecoderConfig(graph=&quot;&quot;, max_active=3000), decoding_method=&quot;greedy_search&quot;, max_active_paths=4, hotwords_file=&quot;&quot;, hotwords_score=1.5, blank_penalty=0, rule_fsts=&quot;&quot;, rule_fars=&quot;&quot;)
+Creating recognizer ...
+Started
+Done!
+
+./sherpa-onnx-nemo-ctc-giga-am-russian-2024-10-24/test_wavs/example.wav
+{&quot;lang&quot;: &quot;&quot;, &quot;emotion&quot;: &quot;&quot;, &quot;event&quot;: &quot;&quot;, &quot;text&quot;: &quot;ничьих не требуя похвал счастлив уж я надеждой сладкой что дева с трепетом любви посмотрит может быть украдкой на песни грешные мои у лукоморья дуп зеленый&quot;, &quot;timestamps&quot;: [0.04, 0.12, 0.20, 0.24, 0.32, 0.40, 0.44, 0.56, 0.60, 0.64, 0.72, 0.76, 0.80, 0.84, 0.88, 1.00, 1.04, 1.16, 1.20, 1.28, 1.36, 1.40, 1.48, 1.64, 1.76, 1.84, 1.88, 1.92, 2.00, 2.04, 2.08, 2.16, 2.20, 2.28, 2.36, 2.40, 2.52, 2.56, 2.68, 2.72, 2.80, 2.84, 2.92, 3.00, 3.04, 3.08, 3.12, 3.20, 3.28, 3.32, 3.36, 3.44, 3.48, 3.56, 3.60, 3.68, 3.72, 3.76, 3.80, 3.88, 3.96, 4.00, 4.04, 4.12, 4.20, 4.24, 4.32, 4.36, 4.40, 4.48, 4.52, 4.56, 4.64, 4.68, 4.76, 4.88, 4.92, 4.96, 5.04, 5.08, 5.20, 5.40, 5.44, 5.56, 5.64, 5.68, 5.72, 5.80, 5.84, 5.92, 5.96, 6.08, 6.12, 6.16, 6.20, 6.24, 6.28, 6.36, 6.40, 6.48, 6.52, 6.56, 6.64, 6.72, 6.76, 6.80, 6.84, 6.96, 7.00, 7.04, 7.08, 7.20, 7.24, 7.28, 7.36, 7.40, 7.44, 7.52, 7.56, 7.64, 7.72, 7.80, 7.84, 7.92, 8.04, 8.08, 8.16, 8.20, 8.32, 8.36, 8.44, 9.12, 9.28, 9.32, 9.44, 9.48, 9.56, 9.60, 9.72, 9.76, 9.88, 9.92, 10.04, 10.08, 10.20, 10.24, 10.36, 10.40, 10.52, 10.56, 10.64, 10.68, 10.80, 10.84, 10.92], &quot;tokens&quot;:[&quot;н&quot;, &quot;и&quot;, &quot;ч&quot;, &quot;ь&quot;, &quot;и&quot;, &quot;х&quot;, &quot; &quot;, &quot;н&quot;, &quot;е&quot;, &quot; &quot;, &quot;т&quot;, &quot;р&quot;, &quot;е&quot;, &quot;б&quot;, &quot;у&quot;, &quot;я&quot;, &quot; &quot;, &quot;п&quot;, &quot;о&quot;, &quot;х&quot;, &quot;в&quot;, &quot;а&quot;, &quot;л&quot;, &quot; &quot;, &quot;с&quot;, &quot;ч&quot;, &quot;а&quot;, &quot;с&quot;, &quot;т&quot;, &quot;л&quot;, &quot;и&quot;, &quot;в&quot;, &quot; &quot;, &quot;у&quot;, &quot;ж&quot;, &quot; &quot;, &quot;я&quot;, &quot; &quot;, &quot;н&quot;, &quot;а&quot;, &quot;д&quot;, &quot;е&quot;, &quot;ж&quot;, &quot;д&quot;, &quot;о&quot;, &quot;й&quot;, &quot; &quot;, &quot;с&quot;, &quot;л&quot;, &quot;а&quot;, &quot;д&quot;, &quot;к&quot;, &quot;о&quot;, &quot;й&quot;, &quot; &quot;, &quot;ч&quot;, &quot;т&quot;, &quot;о&quot;, &quot; &quot;, &quot;д&quot;, &quot;е&quot;, &quot;в&quot;, &quot;а&quot;, &quot; &quot;, &quot;с&quot;, &quot; &quot;, &quot;т&quot;, &quot;р&quot;, &quot;е&quot;, &quot;п&quot;, &quot;е&quot;, &quot;т&quot;, &quot;о&quot;, &quot;м&quot;, &quot; &quot;, &quot;л&quot;, &quot;ю&quot;, &quot;б&quot;, &quot;в&quot;, &quot;и&quot;, &quot; &quot;, &quot;п&quot;, &quot;о&quot;, &quot;с&quot;, &quot;м&quot;, &quot;о&quot;, &quot;т&quot;, &quot;р&quot;, &quot;и&quot;, &quot;т&quot;, &quot; &quot;, &quot;м&quot;, &quot;о&quot;, &quot;ж&quot;, &quot;е&quot;, &quot;т&quot;, &quot; &quot;, &quot;б&quot;, &quot;ы&quot;, &quot;т&quot;, &quot;ь&quot;, &quot; &quot;, &quot;у&quot;, &quot;к&quot;, &quot;р&quot;, &quot;а&quot;, &quot;д&quot;, &quot;к&quot;, &quot;о&quot;, &quot;й&quot;, &quot; &quot;, &quot;н&quot;, &quot;а&quot;, &quot; &quot;, &quot;п&quot;, &quot;е&quot;, &quot;с&quot;, &quot;н&quot;, &quot;и&quot;, &quot; &quot;, &quot;г&quot;, &quot;р&quot;, &quot;е&quot;, &quot;ш&quot;, &quot;н&quot;, &quot;ы&quot;, &quot;е&quot;, &quot; &quot;, &quot;м&quot;, &quot;о&quot;, &quot;и&quot;, &quot; &quot;, &quot;у&quot;, &quot; &quot;, &quot;л&quot;, &quot;у&quot;, &quot;к&quot;, &quot;о&quot;, &quot;м&quot;, &quot;о&quot;, &quot;р&quot;, &quot;ь&quot;, &quot;я&quot;, &quot; &quot;, &quot;д&quot;, &quot;у&quot;, &quot;п&quot;, &quot; &quot;, &quot;з&quot;, &quot;е&quot;, &quot;л&quot;, &quot;е&quot;, &quot;н&quot;, &quot;ы&quot;, &quot;й&quot;], &quot;words&quot;: []}
+----
+num threads: 2
+decoding method: greedy_search
+Elapsed seconds: 1.868 s
+Real time factor (RTF): 1.868 / 11.290 = 0.165
+</pre></div>
+</div>
+</section>
+<section id="id4">
+<h3>Speech recognition from a microphone<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+./build/bin/sherpa-onnx-microphone-offline<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--nemo-ctc-model<span class="o">=</span>./sherpa-onnx-nemo-ctc-giga-am-russian-2024-10-24/model.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span>./sherpa-onnx-nemo-ctc-giga-am-russian-2024-10-24/tokens.txt
+</pre></div>
+</div>
+</section>
+<section id="id5">
+<h3>Speech recognition from a microphone with VAD<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/silero_vad.onnx
+
+./build/bin/sherpa-onnx-vad-microphone-offline-asr<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--silero-vad-model<span class="o">=</span>./silero_vad.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--nemo-ctc-model<span class="o">=</span>./sherpa-onnx-nemo-ctc-giga-am-russian-2024-10-24/model.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span>./sherpa-onnx-nemo-ctc-giga-am-russian-2024-10-24/tokens.txt
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="english.html" class="btn btn-neutral float-left" title="English" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="japanese.html" class="btn btn-neutral float-right" title="Japanese" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

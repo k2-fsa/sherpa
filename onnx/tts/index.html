@@ -1,0 +1,388 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Text-to-speech (TTS) &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="All-in-one" href="all-in-one.html" />
+    <link rel="prev" title="Pre-trained models" href="../ascend/models.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">sherpa-onnx</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../install/index.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../faqs/index.html">Frequently Asked Question (FAQs)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python/index.html">Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../c-api/index.html">C API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../java-api/index.html">Java API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../javascript-api/index.html">Javascript API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kotlin-api/index.html">Kotlin API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../swift-api/index.html">Swift API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../go-api/index.html">Go API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../csharp-api/index.html">C# API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pascal-api/index.html">Pascal API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lazarus/index.html">Lazarus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../wasm/index.html">WebAssembly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../android/index.html">Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../harmony-os/index.html">HarmonyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ios/index.html">iOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../flutter/index.html">Flutter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../websocket/index.html">WebSocket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../hotwords/index.html">Hotwords (Contextual biasing)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kws/index.html">Keyword spotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../punctuation/index.html">Punctuation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../audio-tagging/index.html">Audio tagging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spoken-language-identification/index.html">Spoken language identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vad/index.html">VAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/index.html">Pre-trained models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/whisper/index.html">Whisper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../moonshine/index.html">Moonshine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../omnilingual-asr/index.html">Omnilingual ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sense-voice/index.html">SenseVoice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../funasr-nano/index.html">FunASR Nano</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../paraformer/index.html">Paraformer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nemo/index.html">NeMo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../FireRedAsr/index.html">FireRedAsr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Dolphin/index.html">Dolphin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../homophone-replacer/index.html">拼音词组匹配替换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-diarization/index.html">Speaker Diarization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-identification/index.html">Speaker Identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speech-enhancement/index.html">Speech enhancement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../source-separation/index.html">Source separation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qnn/index.html">Qualcomm NPU (QNN, HTP)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rknn/index.html">rknn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ascend/index.html">Ascend NPU (昇腾 NPU)</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Text-to-speech (TTS)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="all-in-one.html">All-in-one</a></li>
+<li class="toctree-l3"><a class="reference internal" href="hf-space.html">Huggingface space</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pretrained_models/index.html">Pre-trained models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wasm/index.html">WebAssembly</a></li>
+<li class="toctree-l3"><a class="reference internal" href="piper.html">Piper</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mms.html">MMS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="faq.html">Frequently Asked Question (FAQs)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">sherpa-onnx</a> &raquo;</li>
+      <li>Text-to-speech (TTS)</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/onnx/tts/index.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="text-to-speech-tts">
+<h1>Text-to-speech (TTS)<a class="headerlink" href="#text-to-speech-tts" title="Permalink to this heading"></a></h1>
+<p>This page describes how to use <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a> for text-to-speech (TTS).</p>
+<p>Please first follow <a class="reference internal" href="../install/index.html#install-sherpa-onnx"><span class="std std-ref">Installation</span></a> and/or <a class="reference internal" href="../python/install.html#install-sherpa-onnx-python"><span class="std std-ref">Install the Python Package</span></a>
+to install <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a> before you continue.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="all-in-one.html">All-in-one</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hf-space.html">Huggingface space</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pretrained_models/index.html">Pre-trained models</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pretrained_models/rtf.html">RTF of pre-trained models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pretrained_models/matcha.html">Matcha</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pretrained_models/matcha.html#matcha-icefall-en-us-ljspeech-american-english-1-female-speaker">matcha-icefall-en_US-ljspeech (American English, 1 female speaker)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/matcha.html#download-the-model">Download the model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/matcha.html#generate-speech-with-executables-compiled-from-c">Generate speech with executables compiled from C++</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/matcha.html#generate-speech-with-python-script">Generate speech with Python script</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/matcha.html#rtf-on-raspberry-pi-4-model-b-rev-1-5">RTF on Raspberry Pi 4 Model B Rev 1.5</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pretrained_models/matcha.html#matcha-icefall-zh-baker-chinese-1-female-speaker">matcha-icefall-zh-baker (Chinese, 1 female speaker)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/matcha.html#id1">Download the model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/matcha.html#id6">Generate speech with executables compiled from C++</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/matcha.html#id7">Generate speech with Python script</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/matcha.html#id8">RTF on Raspberry Pi 4 Model B Rev 1.5</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pretrained_models/kokoro.html">Kokoro</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pretrained_models/kokoro.html#kokoro-multi-lang-v1-1-chinese-english-103-speakers">kokoro-multi-lang-v1_1 (Chinese + English, 103 speakers)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pretrained_models/kokoro.html#kokoro-multi-lang-v1-0-chinese-english-53-speakers">kokoro-multi-lang-v1_0 (Chinese + English, 53 speakers)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/kokoro.html#download-the-model">Download the model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/kokoro.html#map-between-speaker-id-and-speaker-name">Map between speaker ID and speaker name</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/kokoro.html#generate-speech-with-executables-compiled-from-c">Generate speech with executables compiled from C++</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="pretrained_models/kokoro.html#audio-samples">Audio samples</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/kokoro.html#generate-speech-with-python-script">Generate speech with Python script</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/kokoro.html#rtf-on-raspberry-pi-4-model-b-rev-1-5">RTF on Raspberry Pi 4 Model B Rev 1.5</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pretrained_models/kokoro.html#kokoro-en-v0-19-english-11-speakers">kokoro-en-v0_19 (English, 11 speakers)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/kokoro.html#id1">Download the model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/kokoro.html#id2">Map between speaker ID and speaker name</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/kokoro.html#id3">Generate speech with executables compiled from C++</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/kokoro.html#id4">Generate speech with Python script</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/kokoro.html#id5">RTF on Raspberry Pi 4 Model B Rev 1.5</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pretrained_models/kitten.html">KittenTTS</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pretrained_models/kitten.html#kitten-nano-en-v0-1-fp16">kitten-nano-en-v0_1-fp16</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/kitten.html#download-the-model">Download the model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/kitten.html#huggingface-space">Huggingface space</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/kitten.html#android-tts-engine-apk">Android TTS Engine APK</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/kitten.html#c-api-example">1. C++ API example</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/kitten.html#python-api-example">2. Python API example</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/kitten.html#id1">3. C API example</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/kitten.html#go-api-example">4. Go API example</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/kitten.html#id2">5. C# API example</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/kitten.html#dart-api-example">6. Dart API example</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/kitten.html#swift-api-example">7. Swift API example</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/kitten.html#kotlin-api-example">8. Kotlin API example</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/kitten.html#java-api-example">9. Java API example</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/kitten.html#javascript-api-example-nodejs-webassembly">10. JavaScript API example (nodejs + WebAssembly)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/kitten.html#javascript-api-example-nodejs-node-addon">11. JavaScript API example (nodejs + node-addon)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/kitten.html#pascal-api-example">12. Pascal API example</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pretrained_models/kitten.html#kitten-nano-en-v0-2-fp16">kitten-nano-en-v0_2-fp16</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pretrained_models/kitten.html#kitten-mini-en-v0-1-fp16">kitten-mini-en-v0_1-fp16</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pretrained_models/vits.html">vits</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pretrained_models/vits.html#all-models-in-a-single-table">All models in a single table</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pretrained_models/vits.html#vits-melo-tts-zh-en-chinese-english-1-speaker">vits-melo-tts-zh_en (Chinese + English, 1 speaker)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/vits.html#download-the-model">Download the model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/vits.html#generate-speech-with-executables-compiled-from-c">Generate speech with executables compiled from C++</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/vits.html#generate-speech-with-python-script">Generate speech with Python script</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/vits.html#rtf-on-raspberry-pi-4-model-b-rev-1-5">RTF on Raspberry Pi 4 Model B Rev 1.5</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pretrained_models/vits.html#vits-piper-en-us-glados-english-1-speaker">vits-piper-en_US-glados (English, 1 speaker)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/vits.html#id1">Download the model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/vits.html#id2">Generate speech with executables compiled from C++</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/vits.html#id3">Generate speech with Python script</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/vits.html#id4">RTF on Raspberry Pi 4 Model B Rev 1.5</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pretrained_models/vits.html#vits-piper-en-us-libritts-r-medium-english-904-speakers">vits-piper-en_US-libritts_r-medium (English, 904 speakers)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/vits.html#id5">Download the model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/vits.html#id6">Generate speech with executables compiled from C++</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/vits.html#id7">Generate speech with Python script</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/vits.html#id8">RTF on Raspberry Pi 4 Model B Rev 1.5</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pretrained_models/vits.html#ljspeech-english-single-speaker">ljspeech (English, single-speaker)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/vits.html#id9">Download the model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/vits.html#id10">Generate speech with executables compiled from C++</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/vits.html#id11">Generate speech with Python script</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/vits.html#id12">RTF on Raspberry Pi 4 Model B Rev 1.5</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pretrained_models/vits.html#vctk-english-multi-speaker-109-speakers">VCTK (English, multi-speaker, 109 speakers)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/vits.html#id14">Download the model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/vits.html#id15">Generate speech with executables compiled from C++</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/vits.html#id16">Generate speech with Python script</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/vits.html#id17">RTF on Raspberry Pi 4 Model B Rev 1.5</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pretrained_models/vits.html#csukuangfj-sherpa-onnx-vits-zh-ll-chinese-5-speakers">csukuangfj/sherpa-onnx-vits-zh-ll (Chinese, 5 speakers)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/vits.html#id18">RTF on Raspberry Pi 4 Model B Rev 1.5</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pretrained_models/vits.html#csukuangfj-vits-zh-hf-fanchen-c-chinese-187-speakers">csukuangfj/vits-zh-hf-fanchen-C (Chinese, 187 speakers)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/vits.html#id19">RTF on Raspberry Pi 4 Model B Rev 1.5</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pretrained_models/vits.html#csukuangfj-vits-zh-hf-fanchen-wnj-chinese-1-male">csukuangfj/vits-zh-hf-fanchen-wnj (Chinese, 1 male)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/vits.html#id20">RTF on Raspberry Pi 4 Model B Rev 1.5</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pretrained_models/vits.html#csukuangfj-vits-zh-hf-theresa-chinese-804-speakers">csukuangfj/vits-zh-hf-theresa (Chinese, 804 speakers)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/vits.html#id21">RTF on Raspberry Pi 4 Model B Rev 1.5</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pretrained_models/vits.html#csukuangfj-vits-zh-hf-eula-chinese-804-speakers">csukuangfj/vits-zh-hf-eula (Chinese, 804 speakers)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/vits.html#id22">RTF on Raspberry Pi 4 Model B Rev 1.5</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pretrained_models/vits.html#aishell3-chinese-multi-speaker-174-speakers">aishell3 (Chinese, multi-speaker, 174 speakers)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/vits.html#id23">Download the model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/vits.html#id24">Generate speech with executables compiled from C++</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/vits.html#id25">Generate speech with Python script</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/vits.html#id26">RTF on Raspberry Pi 4 Model B Rev 1.5</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pretrained_models/vits.html#en-us-lessac-medium-english-single-speaker">en_US-lessac-medium (English, single-speaker)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/vits.html#id27">Download the model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/vits.html#id28">Generate speech with executables compiled from C++</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/vits.html#id29">Generate speech with Python script</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/vits.html#id30">RTF on Raspberry Pi 4 Model B Rev 1.5</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="wasm/index.html">WebAssembly</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="wasm/install-emscripten.html">Install Emscripten</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wasm/build.html">Build</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wasm/hf-spaces.html">Huggingface Spaces (WebAssembly)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="wasm/hf-spaces.html#english-tts">English TTS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wasm/hf-spaces.html#german-tts">German TTS</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="piper.html">Piper</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="piper.html#install-dependencies">Install dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="piper.html#find-the-pre-trained-model-from-piper">Find the pre-trained model from piper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="piper.html#download-the-pre-trained-model">Download the pre-trained model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="piper.html#add-meta-data-to-the-onnx-model">Add meta data to the onnx model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="piper.html#download-espeak-ng-data">Download espeak-ng-data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="piper.html#test-your-converted-model">Test your converted model</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="mms.html">MMS</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="mms.html#install-dependencies">Install dependencies</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mms.html#download-the-model-file">Download the model file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mms.html#download-mms-source-code">Download MMS source code</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mms.html#convert-the-model">Convert the model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mms.html#use-the-converted-model">Use the converted model</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Question (FAQs)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="faq.html#is-there-a-colab-notebook">Is there a colab notebook</a></li>
+<li class="toctree-l2"><a class="reference internal" href="faq.html#how-to-enable-utf-8-on-windows">How to enable UTF-8 on Windows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="faq.html#how-to-install-sherpa-onnx-for-tts">How to install sherpa-onnx for TTS</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="faq.html#for-python-users">For Python users</a></li>
+<li class="toctree-l3"><a class="reference internal" href="faq.html#build-from-source">Build from source</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="faq.html#where-to-get-pre-trained-tts-models">Where to get pre-trained TTS models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="faq.html#how-to-handle-oovs">How to handle OOVs</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../ascend/models.html" class="btn btn-neutral float-left" title="Pre-trained models" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="all-in-one.html" class="btn btn-neutral float-right" title="All-in-one" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

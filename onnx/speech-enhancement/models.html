@@ -1,0 +1,303 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pre-trained models &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Hugginface space for speech enhancement" href="hf.html" />
+    <link rel="prev" title="Speech enhancement" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">sherpa-onnx</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../install/index.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../faqs/index.html">Frequently Asked Question (FAQs)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python/index.html">Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../c-api/index.html">C API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../java-api/index.html">Java API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../javascript-api/index.html">Javascript API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kotlin-api/index.html">Kotlin API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../swift-api/index.html">Swift API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../go-api/index.html">Go API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../csharp-api/index.html">C# API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pascal-api/index.html">Pascal API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lazarus/index.html">Lazarus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../wasm/index.html">WebAssembly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../android/index.html">Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../harmony-os/index.html">HarmonyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ios/index.html">iOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../flutter/index.html">Flutter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../websocket/index.html">WebSocket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../hotwords/index.html">Hotwords (Contextual biasing)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kws/index.html">Keyword spotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../punctuation/index.html">Punctuation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../audio-tagging/index.html">Audio tagging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spoken-language-identification/index.html">Spoken language identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vad/index.html">VAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/index.html">Pre-trained models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/whisper/index.html">Whisper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../moonshine/index.html">Moonshine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../omnilingual-asr/index.html">Omnilingual ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sense-voice/index.html">SenseVoice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../funasr-nano/index.html">FunASR Nano</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../paraformer/index.html">Paraformer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nemo/index.html">NeMo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../FireRedAsr/index.html">FireRedAsr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Dolphin/index.html">Dolphin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../homophone-replacer/index.html">拼音词组匹配替换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-diarization/index.html">Speaker Diarization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-identification/index.html">Speaker Identification</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Speech enhancement</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Pre-trained models</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#gtcrn-simple">gtcrn_simple</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="hf.html">Hugginface space for speech enhancement</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../source-separation/index.html">Source separation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qnn/index.html">Qualcomm NPU (QNN, HTP)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rknn/index.html">rknn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ascend/index.html">Ascend NPU (昇腾 NPU)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tts/index.html">Text-to-speech (TTS)</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">sherpa-onnx</a> &raquo;</li>
+          <li><a href="index.html">Speech enhancement</a> &raquo;</li>
+      <li>Pre-trained models</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/onnx/speech-enhancement/models.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="pre-trained-models">
+<h1>Pre-trained models<a class="headerlink" href="#pre-trained-models" title="Permalink to this heading"></a></h1>
+<p>Pre-trained models can be found
+at <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/tag/speech-enhancement-models">https://github.com/k2-fsa/sherpa-onnx/releases/tag/speech-enhancement-models</a></p>
+<section id="gtcrn-simple">
+<h2>gtcrn_simple<a class="headerlink" href="#gtcrn-simple" title="Permalink to this heading"></a></h2>
+<p>This model is from <a class="reference external" href="https://github.com/Xiaobin-Rong/gtcrn">https://github.com/Xiaobin-Rong/gtcrn</a>.
+You can find its paper at <a class="reference external" href="https://ieeexplore.ieee.org/document/10448310">https://ieeexplore.ieee.org/document/10448310</a>.</p>
+<p>In the following, we describe how to download and use it with <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>.</p>
+<section id="download-the-model">
+<h3>Download the model<a class="headerlink" href="#download-the-model" title="Permalink to this heading"></a></h3>
+<p>Please use the following code to download the model:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/speech-enhancement-models/gtcrn_simple.onnx
+</pre></div>
+</div>
+<p>After downloading, you can check its file size:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ls</span> <span class="o">-</span><span class="n">lh</span>  <span class="n">gtcrn_simple</span><span class="o">.</span><span class="n">onnx</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">523</span><span class="n">K</span> <span class="n">Mar</span> <span class="mi">10</span> <span class="mi">18</span><span class="p">:</span><span class="mi">44</span> <span class="n">gtcrn_simple</span><span class="o">.</span><span class="n">onnx</span>
+</pre></div>
+</div>
+<p>Then we download a wave file for testing</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/speech-enhancement-models/speech_with_noise.wav
+</pre></div>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>You can find more test wave files at</p>
+<blockquote>
+<div><p><a class="reference external" href="https://htmlpreview.github.io/?https://github.com/Xiaobin-Rong/gtcrn_demo/blob/main/index.html">https://htmlpreview.github.io/?https://github.com/Xiaobin-Rong/gtcrn_demo/blob/main/index.html</a></p>
+</div></blockquote>
+</div>
+<p>The info about the downloaded test wave file is given below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">soxi</span> <span class="o">./</span><span class="n">speech_with_noise</span><span class="o">.</span><span class="n">wav</span>
+
+<span class="n">Input</span> <span class="n">File</span>     <span class="p">:</span> <span class="s1">&#39;./speech_with_noise.wav&#39;</span>
+<span class="n">Channels</span>       <span class="p">:</span> <span class="mi">1</span>
+<span class="n">Sample</span> <span class="n">Rate</span>    <span class="p">:</span> <span class="mi">16000</span>
+<span class="n">Precision</span>      <span class="p">:</span> <span class="mi">16</span><span class="o">-</span><span class="n">bit</span>
+<span class="n">Duration</span>       <span class="p">:</span> <span class="mi">00</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mf">02.40</span> <span class="o">=</span> <span class="mi">38363</span> <span class="n">samples</span> <span class="o">~</span> <span class="mf">179.827</span> <span class="n">CDDA</span> <span class="n">sectors</span>
+<span class="n">File</span> <span class="n">Size</span>      <span class="p">:</span> <span class="mf">76.8</span><span class="n">k</span>
+<span class="n">Bit</span> <span class="n">Rate</span>       <span class="p">:</span> <span class="mi">256</span><span class="n">k</span>
+<span class="n">Sample</span> <span class="n">Encoding</span><span class="p">:</span> <span class="mi">16</span><span class="o">-</span><span class="n">bit</span> <span class="n">Signed</span> <span class="n">Integer</span> <span class="n">PCM</span>
+</pre></div>
+</div>
+<p>Now we can run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">./</span><span class="n">build</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">offline</span><span class="o">-</span><span class="n">denoiser</span> \
+  <span class="o">--</span><span class="n">speech</span><span class="o">-</span><span class="n">denoiser</span><span class="o">-</span><span class="n">gtcrn</span><span class="o">-</span><span class="n">model</span><span class="o">=./</span><span class="n">gtcrn_simple</span><span class="o">.</span><span class="n">onnx</span> \
+  <span class="o">--</span><span class="nb">input</span><span class="o">-</span><span class="n">wav</span><span class="o">=./</span><span class="n">speech_with_noise</span><span class="o">.</span><span class="n">wav</span> \
+  <span class="o">--</span><span class="n">output</span><span class="o">-</span><span class="n">wav</span><span class="o">=./</span><span class="n">enhanced</span><span class="o">-</span><span class="mi">16</span><span class="n">k</span><span class="o">.</span><span class="n">wav</span>
+</pre></div>
+</div>
+<p>The log of the above command is:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">fangjun</span><span class="o">/</span><span class="nb">open</span><span class="o">-</span><span class="n">source</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">csrc</span><span class="o">/</span><span class="n">parse</span><span class="o">-</span><span class="n">options</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="n">Read</span><span class="p">:</span><span class="mi">375</span> <span class="o">./</span><span class="n">build</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">offline</span><span class="o">-</span><span class="n">denoiser</span> <span class="o">--</span><span class="n">speech</span><span class="o">-</span><span class="n">denoiser</span><span class="o">-</span><span class="n">gtcrn</span><span class="o">-</span><span class="n">model</span><span class="o">=./</span><span class="n">gtcrn_simple</span><span class="o">.</span><span class="n">onnx</span> <span class="o">--</span><span class="nb">input</span><span class="o">-</span><span class="n">wav</span><span class="o">=./</span><span class="n">speech_with_noise</span><span class="o">.</span><span class="n">wav</span> <span class="o">--</span><span class="n">output</span><span class="o">-</span><span class="n">wav</span><span class="o">=./</span><span class="n">enhanced</span><span class="o">-</span><span class="mi">16</span><span class="n">k</span><span class="o">.</span><span class="n">wav</span>
+
+<span class="n">OfflineSpeechDenoiserConfig</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">OfflineSpeechDenoiserModelConfig</span><span class="p">(</span><span class="n">gtcrn</span><span class="o">=</span><span class="n">OfflineSpeechDenoiserGtcrnModelConfig</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;./gtcrn_simple.onnx&quot;</span><span class="p">),</span> <span class="n">num_threads</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">provider</span><span class="o">=</span><span class="s2">&quot;cpu&quot;</span><span class="p">))</span>
+<span class="n">Started</span>
+<span class="n">Done</span>
+<span class="n">Saved</span> <span class="n">to</span> <span class="o">./</span><span class="n">enhanced</span><span class="o">-</span><span class="mi">16</span><span class="n">k</span><span class="o">.</span><span class="n">wav</span>
+<span class="n">num</span> <span class="n">threads</span><span class="p">:</span> <span class="mi">1</span>
+<span class="n">Elapsed</span> <span class="n">seconds</span><span class="p">:</span> <span class="mf">0.171</span> <span class="n">s</span>
+<span class="n">Real</span> <span class="n">time</span> <span class="n">factor</span> <span class="p">(</span><span class="n">RTF</span><span class="p">):</span> <span class="mf">0.171</span> <span class="o">/</span> <span class="mf">2.398</span> <span class="o">=</span> <span class="mf">0.071</span>
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ls<span class="w"> </span>-lh<span class="w"> </span>enhanced-16k.wav
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">    </span>75K<span class="w"> </span>Mar<span class="w"> </span><span class="m">22</span><span class="w"> </span><span class="m">16</span>:08<span class="w"> </span>enhanced-16k.wav
+
+soxi<span class="w"> </span>./enhanced-16k.wav
+
+Input<span class="w"> </span>File<span class="w">     </span>:<span class="w"> </span><span class="s1">&#39;./enhanced-16k.wav&#39;</span>
+Channels<span class="w">       </span>:<span class="w"> </span><span class="m">1</span>
+Sample<span class="w"> </span>Rate<span class="w">    </span>:<span class="w"> </span><span class="m">16000</span>
+Precision<span class="w">      </span>:<span class="w"> </span><span class="m">16</span>-bit
+Duration<span class="w">       </span>:<span class="w"> </span><span class="m">00</span>:00:02.38<span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">38144</span><span class="w"> </span>samples<span class="w"> </span>~<span class="w"> </span><span class="m">178</span>.8<span class="w"> </span>CDDA<span class="w"> </span>sectors
+File<span class="w"> </span>Size<span class="w">      </span>:<span class="w"> </span><span class="m">76</span>.3k
+Bit<span class="w"> </span>Rate<span class="w">       </span>:<span class="w"> </span>256k
+Sample<span class="w"> </span>Encoding:<span class="w"> </span><span class="m">16</span>-bit<span class="w"> </span>Signed<span class="w"> </span>Integer<span class="w"> </span>PCM
+</pre></div>
+</div>
+<p>For comparison, we give the two wave files below so that you can listen to them.</p>
+<table>
+  <tr>
+    <th>Wave filename</th>
+    <th>Content</th>
+  </tr>
+
+  <tr>
+    <td>speech_with_noise.wav</td>
+    <td>
+     <audio title="speech_with_noise.wav" controls="controls">
+           <source src="/sherpa/_static/speech-enhancement/gtcrn-simple/speech_with_noise.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+  </tr>
+
+  <tr>
+    <td>enhanced-16k.wav</td>
+    <td>
+     <audio title="enhanced-16k.wav" controls="controls">
+           <source src="/sherpa/_static/speech-enhancement/gtcrn-simple/enhanced-16k.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+  </tr>
+</table></section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Speech enhancement" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="hf.html" class="btn btn-neutral float-right" title="Hugginface space for speech enhancement" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,491 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Build sherpa-ncnn for Android &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="iOS" href="../ios/index.html" />
+    <link rel="prev" title="Video demos" href="demo-videos.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">sherpa-ncnn</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../install/index.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python/index.html">Python API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../wasm/index.html">WebAssembly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../c-api/index.html">C API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../endpoint.html">Endpointing</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Android</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="demo-videos.html">Video demos</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Build sherpa-ncnn for Android</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#install-android-studio">Install Android Studio</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#download-sherpa-ncnn">Download sherpa-ncnn</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#install-ndk">Install NDK</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#build-sherpa-ncnn-c-code">Build sherpa-ncnn (C++ code)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#download-pre-trained-models">Download pre-trained models</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#generate-apk">Generate APK</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#analyze-the-apk">Analyze the APK</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../ios/index.html">iOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/index.html">Pre-trained models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/index.html">Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vad/index.html">VAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sense-voice/index.html">SenseVoice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../faq.html">FAQs</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../onnx/index.html">sherpa-onnx</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">sherpa-ncnn</a> &raquo;</li>
+          <li><a href="index.html">Android</a> &raquo;</li>
+      <li>Build sherpa-ncnn for Android</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/ncnn/android/build-sherpa-ncnn.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="build-sherpa-ncnn-for-android">
+<span id="sherpa-ncnn-install-android-studio"></span><h1>Build sherpa-ncnn for Android<a class="headerlink" href="#build-sherpa-ncnn-for-android" title="Permalink to this heading"></a></h1>
+<section id="install-android-studio">
+<h2>Install Android Studio<a class="headerlink" href="#install-android-studio" title="Permalink to this heading"></a></h2>
+<p>The first step is to download and install Android Studio.</p>
+<p>Please refer to <a class="reference external" href="https://developer.android.com/studio">https://developer.android.com/studio</a> for how to install
+Android Studio.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>Any recent version of Android Studio should work fine. Also, you can use
+the default settings of Android Studio during installation.</p>
+<p>For reference, we post the version we are using below:</p>
+<a class="reference internal image-reference" href="../../_images/android-studio-version.png"><img alt="screenshot of my version of Android Studio" src="../../_images/android-studio-version.png" style="width: 600px;" /></a>
+</div>
+</section>
+<section id="download-sherpa-ncnn">
+<h2>Download sherpa-ncnn<a class="headerlink" href="#download-sherpa-ncnn" title="Permalink to this heading"></a></h2>
+<p>Next, download the source code of <a class="reference external" href="https://github.com/k2-fsa/sherpa-ncnn">sherpa-ncnn</a>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/k2-fsa/sherpa-ncnn
+</pre></div>
+</div>
+</section>
+<section id="install-ndk">
+<h2>Install NDK<a class="headerlink" href="#install-ndk" title="Permalink to this heading"></a></h2>
+<p>Step 1, start Android Studio.</p>
+<blockquote>
+<div><figure class="align-default" id="id3">
+<a class="reference internal image-reference" href="../../_images/start-android-studio.png"><img alt="Start Android Studio" src="../../_images/start-android-studio.png" style="width: 600px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 1 </span><span class="caption-text">Step 1: Click <code class="docutils literal notranslate"><span class="pre">Open</span></code> to select <code class="docutils literal notranslate"><span class="pre">sherpa-ncnn/android/SherpaNcnn</span></code></span><a class="headerlink" href="#id3" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+</div></blockquote>
+<p>Step 2, Open <code class="docutils literal notranslate"><span class="pre">sherpa-ncnn/android/SherpaNcnn</span></code>.</p>
+<blockquote>
+<div><figure class="align-default" id="id4">
+<a class="reference internal image-reference" href="../../_images/open-sherpa-ncnn.png"><img alt="Open SherpaNCNN" src="../../_images/open-sherpa-ncnn.png" style="width: 600px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 2 </span><span class="caption-text">Step 2: Open <code class="docutils literal notranslate"><span class="pre">SherpaNcnn</span></code>.</span><a class="headerlink" href="#id4" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+</div></blockquote>
+<p>Step 3, Select <code class="docutils literal notranslate"><span class="pre">Tools</span> <span class="pre">-&gt;</span> <span class="pre">SDK</span> <span class="pre">Manager</span></code>.</p>
+<blockquote>
+<div><figure class="align-default" id="id5">
+<a class="reference internal image-reference" href="../../_images/select-sdk-manager.png"><img alt="Select Tools -&gt; SDK Manager" src="../../_images/select-sdk-manager.png" style="width: 600px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 3 </span><span class="caption-text">Step 3: Select <code class="docutils literal notranslate"><span class="pre">Tools</span> <span class="pre">-&gt;</span> <span class="pre">SDK</span> <span class="pre">Manager</span></code>.</span><a class="headerlink" href="#id5" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+</div></blockquote>
+<p>Step 4, <code class="docutils literal notranslate"><span class="pre">Install</span> <span class="pre">NDK</span></code>.</p>
+<blockquote>
+<div><figure class="align-default" id="id6">
+<a class="reference internal image-reference" href="../../_images/ndk-tools.png"><img alt="Install NDK" src="../../_images/ndk-tools.png" style="width: 600px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 4 </span><span class="caption-text">Step 4: Install NDK.</span><a class="headerlink" href="#id6" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+</div></blockquote>
+<p>In the following, we assume <code class="docutils literal notranslate"><span class="pre">Android</span> <span class="pre">SDK</span> <span class="pre">location</span></code> was set to
+<code class="docutils literal notranslate"><span class="pre">/Users/fangjun/software/my-android</span></code>. You can change it accordingly below.</p>
+<p>After installing NDK, you can find it in</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">fangjun</span><span class="o">/</span><span class="n">software</span><span class="o">/</span><span class="n">my</span><span class="o">-</span><span class="n">android</span><span class="o">/</span><span class="n">ndk</span><span class="o">/</span><span class="mf">22.1.7171670</span>
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>If you selected a different version of NDK, please replace <code class="docutils literal notranslate"><span class="pre">22.1.7171670</span></code>
+accordingly.</p>
+</div>
+<p>Next, let us set the environment variable <code class="docutils literal notranslate"><span class="pre">ANDROID_NDK</span></code> for later use.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">ANDROID_NDK</span><span class="o">=</span>/Users/fangjun/software/my-android/ndk/22.1.7171670
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Note from <a class="reference external" href="https://github.com/Tencent/ncnn/wiki/how-to-build#build-for-android">https://github.com/Tencent/ncnn/wiki/how-to-build#build-for-android</a></p>
+<p>(Important) remove the hardcoded debug flag in Android NDK to fix
+the android-ndk issue: <a class="reference external" href="https://github.com/android/ndk/issues/243">https://github.com/android/ndk/issues/243</a></p>
+<p>1. open <code class="docutils literal notranslate"><span class="pre">$ANDROID_NDK/build/cmake/android.toolchain.cmake</span></code> for ndk &lt; r23
+or <code class="docutils literal notranslate"><span class="pre">$ANDROID_NDK/build/cmake/android-legacy.toolchain.cmake</span></code> for ndk &gt;= r23</p>
+<ol class="arabic simple" start="2">
+<li><p>delete the line containing “-g”</p></li>
+</ol>
+<blockquote>
+<div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="nb">list</span><span class="p">(</span><span class="n">APPEND</span> <span class="n">ANDROID_COMPILER_FLAGS</span>
+<span class="o">-</span><span class="n">g</span>
+<span class="o">-</span><span class="n">DANDROID</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>If you don’t delete the line containin <code class="docutils literal notranslate"><span class="pre">-g</span></code> above, the generated
+library <code class="docutils literal notranslate"><span class="pre">libncnn.so</span></code> can be as large as <code class="docutils literal notranslate"><span class="pre">21</span> <span class="pre">MB</span></code> or even larger!</p>
+</div>
+</section>
+<section id="build-sherpa-ncnn-c-code">
+<h2>Build sherpa-ncnn (C++ code)<a class="headerlink" href="#build-sherpa-ncnn-c-code" title="Permalink to this heading"></a></h2>
+<p>After installing <code class="docutils literal notranslate"><span class="pre">NDK</span></code>, it is time to build the C++ code of <a class="reference external" href="https://github.com/k2-fsa/sherpa-ncnn">sherpa-ncnn</a>.</p>
+<p>In the following, we show how to build <a class="reference external" href="https://github.com/k2-fsa/sherpa-ncnn">sherpa-ncnn</a> for the following
+Android ABIs:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">arm64-v8a</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">armeabi-v7a</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">x86_64</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">x86</span></code></p></li>
+</ul>
+</div></blockquote>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>You only need to select one and only one ABI. <code class="docutils literal notranslate"><span class="pre">arm64-v8a</span></code> is probably the
+most common one.</p>
+<p>If you want to test the app on an emulator, you probably need <code class="docutils literal notranslate"><span class="pre">x86_64</span></code>.</p>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>Building scripts for this section are for macOS and Linux. If you are
+using Windows or if you don’t want to build the shared libraries by yourself,
+you can download pre-compiled shared libraries for this section by visiting</p>
+<blockquote>
+<div><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-ncnn/releases">https://github.com/k2-fsa/sherpa-ncnn/releases</a></p>
+</div></blockquote>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>We provide a colab notebook
+<a class="reference external" href="https://github.com/k2-fsa/colab/blob/master/sherpa-ncnn/build_sherpa_ncnn_for_android.ipynb"><img alt="build sherpa-ncnn for android colab notebook" src="https://github.com/k2-fsa/sherpa/releases/download/doc/colab-badge.jpg" /></a>
+for you to try this section step by step.</p>
+<p>If you are using Windows or you don’t want to setup your local environment
+to build the C++ libraries, please use the above colab notebook.</p>
+</div>
+<section id="build-for-arm64-v8a">
+<h3>Build for arm64-v8a<a class="headerlink" href="#build-for-arm64-v8a" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>sherpa-ncnn<span class="w"> </span><span class="c1"># Go to the root repo</span>
+./build-android-arm64-v8a.sh
+</pre></div>
+</div>
+<p>After building, you will find the following shared libraries:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>ls<span class="w"> </span>-lh<span class="w"> </span>build-android-arm64-v8a/install/lib/lib*.so
+-rwxr-xr-x<span class="w">  </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">   </span>848K<span class="w"> </span>Dec<span class="w"> </span><span class="m">18</span><span class="w"> </span><span class="m">16</span>:49<span class="w"> </span>build-android-arm64-v8a/install/lib/libkaldi-native-fbank-core.so
+-rwxr-xr-x<span class="w">  </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">   </span><span class="m">3</span>.4M<span class="w"> </span>Dec<span class="w"> </span><span class="m">18</span><span class="w"> </span><span class="m">16</span>:49<span class="w"> </span>build-android-arm64-v8a/install/lib/libncnn.so
+-rwxr-xr-x<span class="w">  </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">   </span>195K<span class="w"> </span>Dec<span class="w"> </span><span class="m">18</span><span class="w"> </span><span class="m">16</span>:49<span class="w"> </span>build-android-arm64-v8a/install/lib/libsherpa-ncnn-core.so
+-rwxr-xr-x<span class="w">  </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">    </span>19K<span class="w"> </span>Dec<span class="w"> </span><span class="m">18</span><span class="w"> </span><span class="m">16</span>:49<span class="w"> </span>build-android-arm64-v8a/install/lib/libsherpa-ncnn-jni.so
+</pre></div>
+</div>
+<p>Please copy them to <code class="docutils literal notranslate"><span class="pre">android/SherpaNcnn/app/src/main/jniLibs/arm64-v8a/</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>cp<span class="w"> </span>build-android-arm64-v8a/install/lib/lib*.so<span class="w">  </span>android/SherpaNcnn/app/src/main/jniLibs/arm64-v8a/
+</pre></div>
+</div>
+<p>You should see the following screen shot after running the above copy <code class="docutils literal notranslate"><span class="pre">cp</span></code> command.</p>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../../_images/so-libs-for-arm64-v8a.png"><img alt="Generated shared libraries for arm64-v8a" src="../../_images/so-libs-for-arm64-v8a.png" style="width: 600px;" /></a>
+</figure>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you have <code class="docutils literal notranslate"><span class="pre">Android</span> <span class="pre">&gt;=</span> <span class="pre">7.0</span></code> and want to run <a class="reference external" href="https://github.com/k2-fsa/sherpa-ncnn">sherpa-ncnn</a> on GPU, please replace
+<code class="docutils literal notranslate"><span class="pre">./build-android-arm64-v8a.sh</span></code> with <code class="docutils literal notranslate"><span class="pre">./build-android-arm64-v8a-with-vulkan.sh</span></code>
+and replace <code class="docutils literal notranslate"><span class="pre">build-android-arm64-v8a/install/lib/lib*.so</span></code> with
+<code class="docutils literal notranslate"><span class="pre">./build-android-arm64-v8a-with-vulkan/install/lib/lib*.so</span></code>. That is all
+you need to do and you don’t need to change any code.</p>
+<p>Also, you need to install Vulkan sdk. Please see
+<a class="reference external" href="https://github.com/k2-fsa/sherpa-ncnn/blob/master/install-vulkan-macos.md">https://github.com/k2-fsa/sherpa-ncnn/blob/master/install-vulkan-macos.md</a>
+for details.</p>
+</div>
+</section>
+<section id="build-for-armeabi-v7a">
+<h3>Build for armeabi-v7a<a class="headerlink" href="#build-for-armeabi-v7a" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>sherpa-ncnn<span class="w"> </span><span class="c1"># Go to the root repo</span>
+./build-android-armv7-eabi.sh
+</pre></div>
+</div>
+<p>After building, you will find the following shared libraries:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>ls<span class="w"> </span>-lh<span class="w"> </span>build-android-armv7-eabi/install/lib/lib*.so
+-rwxr-xr-x<span class="w">  </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">   </span>513K<span class="w"> </span>Dec<span class="w"> </span><span class="m">18</span><span class="w"> </span><span class="m">17</span>:04<span class="w"> </span>build-android-armv7-eabi/install/lib/libkaldi-native-fbank-core.so
+-rwxr-xr-x<span class="w">  </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">   </span><span class="m">1</span>.9M<span class="w"> </span>Dec<span class="w"> </span><span class="m">18</span><span class="w"> </span><span class="m">17</span>:04<span class="w"> </span>build-android-armv7-eabi/install/lib/libncnn.so
+-rwxr-xr-x<span class="w">  </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">   </span>163K<span class="w"> </span>Dec<span class="w"> </span><span class="m">18</span><span class="w"> </span><span class="m">17</span>:04<span class="w"> </span>build-android-armv7-eabi/install/lib/libsherpa-ncnn-core.so
+-rwxr-xr-x<span class="w">  </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">    </span>28K<span class="w"> </span>Dec<span class="w"> </span><span class="m">18</span><span class="w"> </span><span class="m">17</span>:04<span class="w"> </span>build-android-armv7-eabi/install/lib/libsherpa-ncnn-jni.so
+</pre></div>
+</div>
+<p>Please copy them to <code class="docutils literal notranslate"><span class="pre">android/SherpaNcnn/app/src/main/jniLibs/armeabi-v7a/</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cp<span class="w"> </span>build-android-armv7-eabi/install/lib/lib*.so<span class="w"> </span>android/SherpaNcnn/app/src/main/jniLibs/armeabi-v7a/
+</pre></div>
+</div>
+<p>You should see the following screen shot after running the above copy <code class="docutils literal notranslate"><span class="pre">cp</span></code> command.</p>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../../_images/so-libs-for-armeabi-v7a.png"><img alt="Generated shared libraries for armeabi-v7a" src="../../_images/so-libs-for-armeabi-v7a.png" style="width: 600px;" /></a>
+</figure>
+</section>
+<section id="build-for-x86-64">
+<h3>Build for x86_64<a class="headerlink" href="#build-for-x86-64" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>sherpa-ncnn<span class="w"> </span><span class="c1"># Go to the root repo</span>
+./build-android-x86-64.sh
+</pre></div>
+</div>
+<p>After building, you will find the following shared libraries:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>ls<span class="w"> </span>-lh<span class="w"> </span>build-android-x86-64/install/lib/lib*.so
+-rwxr-xr-x<span class="w">  </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">   </span>901K<span class="w"> </span>Dec<span class="w"> </span><span class="m">18</span><span class="w"> </span><span class="m">17</span>:14<span class="w"> </span>build-android-x86-64/install/lib/libkaldi-native-fbank-core.so
+-rwxr-xr-x<span class="w">  </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">   </span><span class="m">6</span>.9M<span class="w"> </span>Dec<span class="w"> </span><span class="m">18</span><span class="w"> </span><span class="m">17</span>:14<span class="w"> </span>build-android-x86-64/install/lib/libncnn.so
+-rwxr-xr-x<span class="w">  </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">   </span>208K<span class="w"> </span>Dec<span class="w"> </span><span class="m">18</span><span class="w"> </span><span class="m">17</span>:14<span class="w"> </span>build-android-x86-64/install/lib/libsherpa-ncnn-core.so
+-rwxr-xr-x<span class="w">  </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">    </span>19K<span class="w"> </span>Dec<span class="w"> </span><span class="m">18</span><span class="w"> </span><span class="m">17</span>:14<span class="w"> </span>build-android-x86-64/install/lib/libsherpa-ncnn-jni.so
+</pre></div>
+</div>
+<p>Please copy them to <code class="docutils literal notranslate"><span class="pre">android/SherpaNcnn/app/src/main/jniLibs/x86_64/</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cp<span class="w"> </span>build-android-x86-64/install/lib/lib*.so<span class="w"> </span>android/SherpaNcnn/app/src/main/jniLibs/x86_64/
+</pre></div>
+</div>
+<p>You should see the following screen shot after running the above copy <code class="docutils literal notranslate"><span class="pre">cp</span></code> command.</p>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../../_images/so-libs-for-x86-64.png"><img alt="Generated shared libraries for x86_64" src="../../_images/so-libs-for-x86-64.png" style="width: 600px;" /></a>
+</figure>
+</section>
+<section id="build-for-x86">
+<h3>Build for x86<a class="headerlink" href="#build-for-x86" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>sherpa-ncnn<span class="w"> </span><span class="c1"># Go to the root repo</span>
+./build-android-x86.sh
+</pre></div>
+</div>
+</section>
+</section>
+<section id="download-pre-trained-models">
+<h2>Download pre-trained models<a class="headerlink" href="#download-pre-trained-models" title="Permalink to this heading"></a></h2>
+<p>Please read <a class="reference internal" href="../pretrained_models/index.html#sherpa-ncnn-pre-trained-models"><span class="std std-ref">Pre-trained models</span></a> for all available pre-trained
+models.</p>
+<p>In the following, we use a pre-trained model from
+<a class="reference external" href="https://huggingface.co/csukuangfj/sherpa-ncnn-conv-emformer-transducer-2022-12-06">https://huggingface.co/csukuangfj/sherpa-ncnn-conv-emformer-transducer-2022-12-06</a>,
+which supports both Chinese and English.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>The model is trained using <a class="reference external" href="https://github.com/k2-fsa/icefall">icefall</a> and the original torchscript model
+is from <a class="reference external" href="https://huggingface.co/ptrnull/icefall-asr-conv-emformer-transducer-stateless2-zh">https://huggingface.co/ptrnull/icefall-asr-conv-emformer-transducer-stateless2-zh</a>.</p>
+</div>
+<p>Use the following command to download the pre-trained model and place it into
+<code class="docutils literal notranslate"><span class="pre">android/SherpaNcnn/app/src/main/assets/</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>android/SherpaNcnn/app/src/main/assets/
+
+sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>git-lfs
+
+<span class="nv">GIT_LFS_SKIP_SMUDGE</span><span class="o">=</span><span class="m">1</span><span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>https://huggingface.co/csukuangfj/sherpa-ncnn-conv-emformer-transducer-2022-12-06
+<span class="nb">cd</span><span class="w"> </span>sherpa-ncnn-conv-emformer-transducer-2022-12-06
+git<span class="w"> </span>lfs<span class="w"> </span>pull<span class="w"> </span>--include<span class="w"> </span><span class="s2">&quot;*.bin&quot;</span>
+
+<span class="c1"># Now, remove extra files to reduce the file size of the generated apk</span>
+rm<span class="w"> </span>-rf<span class="w"> </span>.git<span class="w"> </span>test_wavs<span class="w"> </span>scripts/
+rm<span class="w"> </span>export-for-ncnn.sh<span class="w"> </span>*.png<span class="w"> </span>README.md
+</pre></div>
+</div>
+<p>In the end, you should have the following files:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>ls<span class="w"> </span>-lh
+total<span class="w"> </span><span class="m">525224</span>
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">   </span><span class="m">5</span>.9M<span class="w"> </span>Dec<span class="w"> </span><span class="m">18</span><span class="w"> </span><span class="m">17</span>:40<span class="w"> </span>decoder_jit_trace-pnnx.ncnn.bin
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">   </span>439B<span class="w"> </span>Dec<span class="w"> </span><span class="m">18</span><span class="w"> </span><span class="m">17</span>:39<span class="w"> </span>decoder_jit_trace-pnnx.ncnn.param
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">   </span>141M<span class="w"> </span>Dec<span class="w"> </span><span class="m">18</span><span class="w"> </span><span class="m">17</span>:40<span class="w"> </span>encoder_jit_trace-pnnx.ncnn.bin
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">    </span>99M<span class="w"> </span>Dec<span class="w"> </span><span class="m">18</span><span class="w"> </span><span class="m">17</span>:40<span class="w"> </span>encoder_jit_trace-pnnx.ncnn.int8.bin
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">    </span>78K<span class="w"> </span>Dec<span class="w"> </span><span class="m">18</span><span class="w"> </span><span class="m">17</span>:40<span class="w"> </span>encoder_jit_trace-pnnx.ncnn.int8.param
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">    </span>79K<span class="w"> </span>Dec<span class="w"> </span><span class="m">18</span><span class="w"> </span><span class="m">17</span>:39<span class="w"> </span>encoder_jit_trace-pnnx.ncnn.param
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">   </span><span class="m">6</span>.9M<span class="w"> </span>Dec<span class="w"> </span><span class="m">18</span><span class="w"> </span><span class="m">17</span>:40<span class="w"> </span>joiner_jit_trace-pnnx.ncnn.bin
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">   </span><span class="m">3</span>.5M<span class="w"> </span>Dec<span class="w"> </span><span class="m">18</span><span class="w"> </span><span class="m">17</span>:40<span class="w"> </span>joiner_jit_trace-pnnx.ncnn.int8.bin
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">   </span>498B<span class="w"> </span>Dec<span class="w"> </span><span class="m">18</span><span class="w"> </span><span class="m">17</span>:40<span class="w"> </span>joiner_jit_trace-pnnx.ncnn.int8.param
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">   </span>490B<span class="w"> </span>Dec<span class="w"> </span><span class="m">18</span><span class="w"> </span><span class="m">17</span>:39<span class="w"> </span>joiner_jit_trace-pnnx.ncnn.param
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">    </span>53K<span class="w"> </span>Dec<span class="w"> </span><span class="m">18</span><span class="w"> </span><span class="m">17</span>:39<span class="w"> </span>tokens.txt
+
+$<span class="w"> </span>du<span class="w"> </span>-h<span class="w"> </span>-d1<span class="w"> </span>.
+256M<span class="w">    </span>.
+</pre></div>
+</div>
+<p>You should see the following screen shot after downloading the pre-trained model:</p>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../../_images/pre-trained-model-2022-12-06.png"><img alt="Files after downloading the pre-trained model" src="../../_images/pre-trained-model-2022-12-06.png" style="width: 600px;" /></a>
+</figure>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>If you select a different pre-trained model, make sure that you also change the
+corresponding code listed in the following screen shot:</p>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../../_images/type-for-pre-trained-model-2022-12-06.png"><img alt="Change code if you select a different model" src="../../_images/type-for-pre-trained-model-2022-12-06.png" style="width: 600px;" /></a>
+</figure>
+</div>
+</section>
+<section id="generate-apk">
+<h2>Generate APK<a class="headerlink" href="#generate-apk" title="Permalink to this heading"></a></h2>
+<p>Finally, it is time to build <a class="reference external" href="https://github.com/k2-fsa/sherpa-ncnn">sherpa-ncnn</a> to generate an APK package.</p>
+<p>Select <code class="docutils literal notranslate"><span class="pre">Build</span> <span class="pre">-&gt;</span> <span class="pre">Make</span> <span class="pre">Project</span></code>, as shown in the following screen shot.</p>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../../_images/build-make-project.png"><img alt="Select ``Build -&gt; Make Project``" src="../../_images/build-make-project.png" style="width: 600px;" /></a>
+</figure>
+<p>You can find the generated APK in <code class="docutils literal notranslate"><span class="pre">android/SherpaNcnn/app/build/outputs/apk/debug/app-debug.apk</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>ls<span class="w"> </span>-lh<span class="w"> </span>android/SherpaNcnn/app/build/outputs/apk/debug/app-debug.apk
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">   </span>152M<span class="w"> </span>Dec<span class="w"> </span><span class="m">18</span><span class="w"> </span><span class="m">17</span>:53<span class="w"> </span>android/SherpaNcnn/app/build/outputs/apk/debug/app-debug.apk
+</pre></div>
+</div>
+<p>Congratulations! You have successfully built an APK for Android.</p>
+<p>Read below to learn more.</p>
+</section>
+<section id="analyze-the-apk">
+<span id="sherpa-ncnn-analyze-apk-result"></span><h2>Analyze the APK<a class="headerlink" href="#analyze-the-apk" title="Permalink to this heading"></a></h2>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../../_images/analyze-apk.png"><img alt="Select ``Build -&gt; Analyze APK ...``" src="../../_images/analyze-apk.png" style="width: 600px;" /></a>
+</figure>
+<p>Select <code class="docutils literal notranslate"><span class="pre">Build</span> <span class="pre">-&gt;</span> <span class="pre">Analyze</span> <span class="pre">APK</span> <span class="pre">...</span></code> in the above screen shot, in the
+popped-up dialog select the generated APK <code class="docutils literal notranslate"><span class="pre">app-debug.apk</span></code>,
+and you will see the following screen shot:</p>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../../_images/analyze-apk-result.png"><img alt="Result of analyzing apk" src="../../_images/analyze-apk-result.png" style="width: 700px;" /></a>
+</figure>
+<p>You can see from the above screen shot that most part of the APK
+is occupied by the pre-trained model, while the runtime, including the shared
+libraries, is only <code class="docutils literal notranslate"><span class="pre">1.7</span> <span class="pre">MB</span></code>.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>We have pre-built APKs that can be downloaded from
+<a class="reference external" href="https://huggingface.co/csukuangfj/sherpa-ncnn-apk">https://huggingface.co/csukuangfj/sherpa-ncnn-apk</a></p>
+<p>Please refer to demo videos about using the above
+APKs: <a class="reference internal" href="demo-videos.html#sherpa-ncnn-android-video-demos"><span class="std std-ref">Video demos</span></a>.</p>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="demo-videos.html" class="btn btn-neutral float-left" title="Video demos" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../ios/index.html" class="btn btn-neutral float-right" title="iOS" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

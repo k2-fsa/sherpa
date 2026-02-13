@@ -1,0 +1,513 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>拼音词组匹配替换 &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Speaker Diarization" href="../speaker-diarization/index.html" />
+    <link rel="prev" title="Pre-trained Models" href="../Dolphin/pretrained.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">sherpa-onnx</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../install/index.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../faqs/index.html">Frequently Asked Question (FAQs)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python/index.html">Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../c-api/index.html">C API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../java-api/index.html">Java API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../javascript-api/index.html">Javascript API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kotlin-api/index.html">Kotlin API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../swift-api/index.html">Swift API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../go-api/index.html">Go API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../csharp-api/index.html">C# API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pascal-api/index.html">Pascal API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lazarus/index.html">Lazarus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../wasm/index.html">WebAssembly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../android/index.html">Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../harmony-os/index.html">HarmonyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ios/index.html">iOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../flutter/index.html">Flutter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../websocket/index.html">WebSocket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../hotwords/index.html">Hotwords (Contextual biasing)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kws/index.html">Keyword spotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../punctuation/index.html">Punctuation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../audio-tagging/index.html">Audio tagging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spoken-language-identification/index.html">Spoken language identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vad/index.html">VAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/index.html">Pre-trained models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/whisper/index.html">Whisper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../moonshine/index.html">Moonshine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../omnilingual-asr/index.html">Omnilingual ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sense-voice/index.html">SenseVoice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../funasr-nano/index.html">FunASR Nano</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../paraformer/index.html">Paraformer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nemo/index.html">NeMo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../FireRedAsr/index.html">FireRedAsr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Dolphin/index.html">Dolphin</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">拼音词组匹配替换</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">使用场景</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id3">使用限制</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id4">使用方法</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#replace-fst">生成replace.fst</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id6">测试</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id8">(1) 不使用本文的方法</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id9">(2) 使用本文的方法</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id11">(3) 结果比较</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id12">调试</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id13">视频演示</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-diarization/index.html">Speaker Diarization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-identification/index.html">Speaker Identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speech-enhancement/index.html">Speech enhancement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../source-separation/index.html">Source separation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qnn/index.html">Qualcomm NPU (QNN, HTP)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rknn/index.html">rknn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ascend/index.html">Ascend NPU (昇腾 NPU)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tts/index.html">Text-to-speech (TTS)</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">sherpa-onnx</a> &raquo;</li>
+      <li>拼音词组匹配替换</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/onnx/homophone-replacer/index.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="id1">
+<h1>拼音词组匹配替换<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h1>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>For English-speaking users, this page is for users using Chinese ASR models.</p>
+</div>
+<p>本文描述如何使用预定义的拼音规则，对匹配规则的汉字，进行替换。</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>本文所描述的方法，与 <code class="docutils literal notranslate"><span class="pre">hotwrods</span></code> （热词）是不同的技术。它们互相独立、毫不相关。</p>
+</div>
+<section id="id2">
+<h2>使用场景<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h2>
+<p>举个例子，如果一个人说了下面 4 个字:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">xuán</span> <span class="n">jiè</span> <span class="n">xīn</span> <span class="n">piàn</span>
+</pre></div>
+</div>
+<p>我们如何让模型输出 <code class="docutils literal notranslate"><span class="pre">玄戒芯片</span></code>, 而不是 <code class="docutils literal notranslate"><span class="pre">玄界芯片</span></code>，或者 <code class="docutils literal notranslate"><span class="pre">悬界心骗</span></code> 呢？</p>
+<p>又举个例子，如果某人 <code class="docutils literal notranslate"><span class="pre">f</span></code> 和 <code class="docutils literal notranslate"><span class="pre">h</span></code> 分不清，把 <code class="docutils literal notranslate"><span class="pre">湖南人</span></code> 说成了:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">fú</span> <span class="n">nán</span> <span class="n">rén</span>
+</pre></div>
+</div>
+<p>我们如何让模型输出 <code class="docutils literal notranslate"><span class="pre">湖南人</span></code> 呢？</p>
+<p>又双叒叕举一个例子，对于一些专有名词，比如，<code class="docutils literal notranslate"><span class="pre">弓头安装</span></code> ，<code class="docutils literal notranslate"><span class="pre">机载传感器</span></code> 等，如何准确的识别出来，
+而不是识别成 <code class="docutils literal notranslate"><span class="pre">公投安装</span></code> ，<code class="docutils literal notranslate"><span class="pre">基载传感器</span></code> 等词组呢？</p>
+</section>
+<section id="id3">
+<h2>使用限制<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h2>
+<p>只支持对汉字进行替换。</p>
+<p>只支持对汉字进行替换。</p>
+<p>只支持对汉字进行替换。</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>重要的事情，重复三遍。</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>目前没计划实现对非汉字的字符进行替换。</p>
+</div>
+<p>支持 <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a> 里面，所有能输出中文的语音识别模型。不管是流式还是非流式，
+不管采用何种解码方法，都支持。例如，非流式的 SenseVoice，流式的 Zipformer 等等。</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>输出中英文的模型，也支持。但只能替换识别结果中的中文。非中文字符，会原样保留，不做任何替换。</p>
+</div>
+<p>规则文件，需要提前生成好。目前不支持动态修改规则文件。</p>
+</section>
+<section id="id4">
+<h2>使用方法<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h2>
+<p>需要用到2个文件。</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>文件名</p></td>
+<td><p>说明</p></td>
+<td><p>下载地址</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">lexicon.txt</span></code></p></td>
+<td><div class="line-block">
+<div class="line">用于汉字转拼音</div>
+<div class="line"><code class="docutils literal notranslate"><span class="pre">通用</span></code></div>
+</div>
+</td>
+<td><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/tag/hr-files">https://github.com/k2-fsa/sherpa-onnx/releases/tag/hr-files</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">replace.fst</span></code></p></td>
+<td><div class="line-block">
+<div class="line"><code class="docutils literal notranslate"><span class="pre">不通用</span></code></div>
+<div class="line">用户自己提供</div>
+</div>
+</td>
+<td><p>如何生成，请见本文后半部分</p></td>
+</tr>
+</tbody>
+</table>
+<section id="replace-fst">
+<h3>生成replace.fst<a class="headerlink" href="#replace-fst" title="Permalink to this heading"></a></h3>
+<p>接下来，我们描述如何生成 <code class="docutils literal notranslate"><span class="pre">replace.fst</span></code> 。</p>
+<p>为了方便用户输入规则，我们不采用 <code class="docutils literal notranslate"><span class="pre">xuán</span> <span class="pre">jiè</span> <span class="pre">xīn</span> <span class="pre">piàn</span></code>, 而是使用
+<code class="docutils literal notranslate"><span class="pre">xuan2</span> <span class="pre">jie4</span> <span class="pre">xin1</span> <span class="pre">pian4</span></code> 。即用 1，2，3，4 来代替第一声、第二声、第三声和第四声。</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>如果是轻声，请用第一声代替。比如 <code class="docutils literal notranslate"><span class="pre">ma1</span> <span class="pre">ma1</span></code>。</p>
+</div>
+<p>首先，我们需要安装 <a class="reference external" href="https://github.com/kylebgorman/pynini">pynini</a>。</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>对于 Linux 用户，请使用:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="o">--</span><span class="n">only</span><span class="o">-</span><span class="n">binary</span> <span class="p">:</span><span class="nb">all</span><span class="p">:</span> <span class="n">pynini</span>
+</pre></div>
+</div>
+<p>对于非 Linux 用户，请找一台 Linux 系统的电脑，变成 Linux 用户。</p>
+<p>任何有关 <a class="reference external" href="https://github.com/kylebgorman/pynini">pynini</a> 的安装问题，请去
+<a class="reference external" href="https://github.com/kylebgorman/pynini/issues">https://github.com/kylebgorman/pynini/issues</a> 提问。</p>
+<p>友情提示：我们还提供一个 <a class="reference external" href="https://colab.research.google.com/drive/1jEaS3s8FbRJIcVQJv2EQx19EM_mnuARi?usp=sharing">colab</a> ，供在线生成规则文件。</p>
+</div>
+<p>安装好 <code class="docutils literal notranslate"><span class="pre">pynini</span></code> 后，我们用下面的代码，生成针对本文开始部分提及的3个问题的规则文件:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pynini</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pynini</span><span class="w"> </span><span class="kn">import</span> <span class="n">cdrewrite</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pynini.lib</span><span class="w"> </span><span class="kn">import</span> <span class="n">byte</span><span class="p">,</span> <span class="n">utf8</span>
+
+<span class="n">sigma</span> <span class="o">=</span> <span class="n">utf8</span><span class="o">.</span><span class="n">VALID_UTF8_CHAR</span><span class="o">.</span><span class="n">star</span>
+
+<span class="n">rule1</span> <span class="o">=</span> <span class="n">pynini</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="s2">&quot;xuan2jie4xin1pian4&quot;</span><span class="p">,</span> <span class="s2">&quot;玄戒芯片&quot;</span><span class="p">)</span>
+
+<span class="c1"># 针对前鼻音和后鼻音不分的情况</span>
+<span class="c1">#</span>
+<span class="c1"># 注意：可以指定多个规则，都替换成同一个词组</span>
+<span class="n">rule2</span> <span class="o">=</span> <span class="n">pynini</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="s2">&quot;xuan2jie4xing1pian4&quot;</span><span class="p">,</span> <span class="s2">&quot;玄戒芯片&quot;</span><span class="p">)</span>
+
+<span class="n">rule3</span> <span class="o">=</span> <span class="n">pynini</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="s2">&quot;fu2nan2ren2&quot;</span><span class="p">,</span> <span class="s2">&quot;湖南人&quot;</span><span class="p">)</span>
+
+<span class="n">rule4</span> <span class="o">=</span> <span class="n">pynini</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="s2">&quot;gong1tou2an1zhuang1&quot;</span><span class="p">,</span> <span class="s2">&quot;弓头安装&quot;</span><span class="p">)</span>
+
+<span class="n">rule5</span> <span class="o">=</span> <span class="n">pynini</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="s2">&quot;ji1zai3chuan2gan3qi4&quot;</span><span class="p">,</span> <span class="s2">&quot;机载传感器&quot;</span><span class="p">)</span>
+
+<span class="c1"># 可以指定多个规则，覆盖可能的发音</span>
+<span class="n">rule6</span> <span class="o">=</span> <span class="n">pynini</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="s2">&quot;ji1zai4chuan2gan3qi4&quot;</span><span class="p">,</span> <span class="s2">&quot;机载传感器&quot;</span><span class="p">)</span>
+
+<span class="c1"># 本例子只有6条规则。你可以添加任意多条规则。</span>
+<span class="n">rule</span> <span class="o">=</span> <span class="p">(</span><span class="n">rule1</span> <span class="o">|</span> <span class="n">rule2</span> <span class="o">|</span> <span class="n">rule3</span> <span class="o">|</span> <span class="n">rule4</span> <span class="o">|</span> <span class="n">rule5</span> <span class="o">|</span> <span class="n">rule6</span><span class="p">)</span><span class="o">.</span><span class="n">optimize</span><span class="p">()</span>
+<span class="n">rule</span> <span class="o">=</span> <span class="n">cdrewrite</span><span class="p">(</span><span class="n">rule</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">sigma</span><span class="p">)</span>
+
+<span class="n">rule</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;replace.fst&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id6">
+<h2>测试<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h2>
+<p>我们把生成的 <code class="docutils literal notranslate"><span class="pre">replace.fst</span></code> 重名为了 <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/download/hr-files/hr-xuan-jie-replace.fst">hr-xuan-jie-replace.fst</a> 。 你可以在 <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/tag/hr-files">https://github.com/k2-fsa/sherpa-onnx/releases/tag/hr-files</a> 下载它。在同一个页面，你可以下载下面的测试音频 <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/tag/hr-files">hr-xuan-jie-test.wav</a></p>
+<table>
+  <tr>
+    <th>Wave filename</th>
+    <th>Content</th>
+  </tr>
+  <tr>
+    <td>hr-xuan-jie-test.wav</td>
+    <td>
+     <audio title="hr-xuan-jie-test.wav" controls="controls">
+           <source src="/sherpa/_static/hr/hr-xuan-jie-test.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+  </tr>
+</table><p>下面我们使用 SenseVoice 模型 去识别这个音频。分两种情况:</p>
+<blockquote>
+<div><ul class="simple">
+<li><ol class="arabic simple">
+<li><p>不使用本文的方法</p></li>
+</ol>
+</li>
+<li><ol class="arabic simple" start="2">
+<li><p>使用本文的方法</p></li>
+</ol>
+</li>
+</ul>
+</div></blockquote>
+<p>请大家注意比较两种方法识别的结果。</p>
+<section id="id8">
+<h3>(1) 不使用本文的方法<a class="headerlink" href="#id8" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./build/bin/sherpa-onnx-offline<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span>./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--sense-voice-model<span class="o">=</span>./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/model.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--debug<span class="o">=</span><span class="m">0</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./hr-xuan-jie-test.wav
+</pre></div>
+</div>
+<p>输出的 log 如下:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:372 ./build/bin/sherpa-onnx-offline --tokens=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/tokens.txt --sense-voice-model=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/model.int8.onnx --debug=0 ./hr-xuan-jie-test.wav 
+
+OfflineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80, low_freq=20, high_freq=-400, dither=0, normalize_samples=True, snip_edges=False), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename=&quot;&quot;, decoder_filename=&quot;&quot;, joiner_filename=&quot;&quot;), paraformer=OfflineParaformerModelConfig(model=&quot;&quot;), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=&quot;&quot;), whisper=OfflineWhisperModelConfig(encoder=&quot;&quot;, decoder=&quot;&quot;, language=&quot;&quot;, task=&quot;transcribe&quot;, tail_paddings=-1), fire_red_asr=OfflineFireRedAsrModelConfig(encoder=&quot;&quot;, decoder=&quot;&quot;), tdnn=OfflineTdnnModelConfig(model=&quot;&quot;), zipformer_ctc=OfflineZipformerCtcModelConfig(model=&quot;&quot;), wenet_ctc=OfflineWenetCtcModelConfig(model=&quot;&quot;), sense_voice=OfflineSenseVoiceModelConfig(model=&quot;./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/model.int8.onnx&quot;, language=&quot;auto&quot;, use_itn=False), moonshine=OfflineMoonshineModelConfig(preprocessor=&quot;&quot;, encoder=&quot;&quot;, uncached_decoder=&quot;&quot;, cached_decoder=&quot;&quot;), dolphin=OfflineDolphinModelConfig(model=&quot;&quot;), telespeech_ctc=&quot;&quot;, tokens=&quot;./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/tokens.txt&quot;, num_threads=2, debug=False, provider=&quot;cpu&quot;, model_type=&quot;&quot;, modeling_unit=&quot;cjkchar&quot;, bpe_vocab=&quot;&quot;), lm_config=OfflineLMConfig(model=&quot;&quot;, scale=0.5), ctc_fst_decoder_config=OfflineCtcFstDecoderConfig(graph=&quot;&quot;, max_active=3000), decoding_method=&quot;greedy_search&quot;, max_active_paths=4, hotwords_file=&quot;&quot;, hotwords_score=1.5, blank_penalty=0, rule_fsts=&quot;&quot;, rule_fars=&quot;&quot;, hr=HomophoneReplacerConfig(dict_dir=&quot;&quot;, lexicon=&quot;&quot;, rule_fsts=&quot;&quot;))
+Creating recognizer ...
+Started
+Done!
+
+./hr-xuan-jie-test.wav
+{&quot;lang&quot;: &quot;&lt;|zh|&gt;&quot;, &quot;emotion&quot;: &quot;&lt;|NEUTRAL|&gt;&quot;, &quot;event&quot;: &quot;&lt;|Speech|&gt;&quot;, &quot;text&quot;: &quot;下面是一个测试悬界芯片湖南人工投安装基载传感器&quot;, &quot;timestamps&quot;: [0.60, 0.84, 1.08, 1.26, 1.38, 1.56, 1.80, 2.88, 3.00, 3.48, 3.66, 5.34, 5.46, 5.64, 7.14, 7.26, 7.62, 7.80, 9.24, 9.42, 9.78, 9.90, 10.14], &quot;tokens&quot;:[&quot;下&quot;, &quot;面&quot;, &quot;是&quot;, &quot;一&quot;, &quot;个&quot;, &quot;测&quot;, &quot;试&quot;, &quot;悬&quot;, &quot;界&quot;, &quot;芯&quot;, &quot;片&quot;, &quot;湖&quot;, &quot;南&quot;, &quot;人&quot;, &quot;工&quot;, &quot;投&quot;, &quot;安&quot;, &quot;装&quot;, &quot;基&quot;, &quot;载&quot;, &quot;传&quot;, &quot;感&quot;, &quot;器&quot;], &quot;words&quot;: []}
+----
+num threads: 2
+decoding method: greedy_search
+Elapsed seconds: 0.629 s
+Real time factor (RTF): 0.629 / 11.673 = 0.054
+</pre></div>
+</div>
+</section>
+<section id="id9">
+<h3>(2) 使用本文的方法<a class="headerlink" href="#id9" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./build/bin/sherpa-onnx-offline<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span>./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--sense-voice-model<span class="o">=</span>./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/model.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--debug<span class="o">=</span><span class="m">0</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--hr-lexicon<span class="o">=</span>./lexicon.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--hr-rule-fsts<span class="o">=</span>./hr-xuan-jie-replace.fst<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./hr-xuan-jie-test.wav
+</pre></div>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>上述命令行工具，指定了2个参数:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">--hr-lexicon</span></code>: 通用。<a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/tag/hr-files">下载地址</a></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--hr-rule-fsts</span></code>: 为我们自己生成的规则文件。不通用。</p></li>
+</ul>
+</div></blockquote>
+<p>如果你是通过调用 API 的方式使用，请设置 <code class="docutils literal notranslate"><span class="pre">OfflineRecongizerConfig</span></code> 或者
+<code class="docutils literal notranslate"><span class="pre">OnlineRecognizerConfig</span></code> 里面的成员 <code class="docutils literal notranslate"><span class="pre">hr</span></code> 。</p>
+</div>
+<p>输出的 log 如下:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:372 ./build/bin/sherpa-onnx-offline --tokens=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/tokens.txt --sense-voice-model=./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/model.int8.onnx --debug=0 --hr-lexicon=./lexicon.txt --hr-rule-fsts=./hr-xuan-jie-replace.fst ./hr-xuan-jie-test.wav 
+
+OfflineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80, low_freq=20, high_freq=-400, dither=0, normalize_samples=True, snip_edges=False), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename=&quot;&quot;, decoder_filename=&quot;&quot;, joiner_filename=&quot;&quot;), paraformer=OfflineParaformerModelConfig(model=&quot;&quot;), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=&quot;&quot;), whisper=OfflineWhisperModelConfig(encoder=&quot;&quot;, decoder=&quot;&quot;, language=&quot;&quot;, task=&quot;transcribe&quot;, tail_paddings=-1), fire_red_asr=OfflineFireRedAsrModelConfig(encoder=&quot;&quot;, decoder=&quot;&quot;), tdnn=OfflineTdnnModelConfig(model=&quot;&quot;), zipformer_ctc=OfflineZipformerCtcModelConfig(model=&quot;&quot;), wenet_ctc=OfflineWenetCtcModelConfig(model=&quot;&quot;), sense_voice=OfflineSenseVoiceModelConfig(model=&quot;./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/model.int8.onnx&quot;, language=&quot;auto&quot;, use_itn=False), moonshine=OfflineMoonshineModelConfig(preprocessor=&quot;&quot;, encoder=&quot;&quot;, uncached_decoder=&quot;&quot;, cached_decoder=&quot;&quot;), dolphin=OfflineDolphinModelConfig(model=&quot;&quot;), telespeech_ctc=&quot;&quot;, tokens=&quot;./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/tokens.txt&quot;, num_threads=2, debug=False, provider=&quot;cpu&quot;, model_type=&quot;&quot;, modeling_unit=&quot;cjkchar&quot;, bpe_vocab=&quot;&quot;), lm_config=OfflineLMConfig(model=&quot;&quot;, scale=0.5), ctc_fst_decoder_config=OfflineCtcFstDecoderConfig(graph=&quot;&quot;, max_active=3000), decoding_method=&quot;greedy_search&quot;, max_active_paths=4, hotwords_file=&quot;&quot;, hotwords_score=1.5, blank_penalty=0, rule_fsts=&quot;&quot;, rule_fars=&quot;&quot;, hr=HomophoneReplacerConfig(dict_dir=&quot;&quot;, lexicon=&quot;./lexicon.txt&quot;, rule_fsts=&quot;./hr-xuan-jie-replace.fst&quot;))
+Creating recognizer ...
+Started
+Done!
+
+./hr-xuan-jie-test.wav
+{&quot;lang&quot;: &quot;&lt;|zh|&gt;&quot;, &quot;emotion&quot;: &quot;&lt;|NEUTRAL|&gt;&quot;, &quot;event&quot;: &quot;&lt;|Speech|&gt;&quot;, &quot;text&quot;: &quot;下面是一个测试玄戒芯片湖南人弓头安装机载传感器&quot;, &quot;timestamps&quot;: [0.60, 0.84, 1.08, 1.26, 1.38, 1.56, 1.80, 2.88, 3.00, 3.48, 3.66, 5.34, 5.46, 5.64, 7.14, 7.26, 7.62, 7.80, 9.24, 9.42, 9.78, 9.90, 10.14], &quot;tokens&quot;:[&quot;下&quot;, &quot;面&quot;, &quot;是&quot;, &quot;一&quot;, &quot;个&quot;, &quot;测&quot;, &quot;试&quot;, &quot;悬&quot;, &quot;界&quot;, &quot;芯&quot;, &quot;片&quot;, &quot;湖&quot;, &quot;南&quot;, &quot;人&quot;, &quot;工&quot;, &quot;投&quot;, &quot;安&quot;, &quot;装&quot;, &quot;基&quot;, &quot;载&quot;, &quot;传&quot;, &quot;感&quot;, &quot;器&quot;], &quot;words&quot;: []}
+----
+num threads: 2
+decoding method: greedy_search
+Elapsed seconds: 0.692 s
+Real time factor (RTF): 0.692 / 11.673 = 0.059
+</pre></div>
+</div>
+</section>
+<section id="id11">
+<h3>(3) 结果比较<a class="headerlink" href="#id11" title="Permalink to this heading"></a></h3>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>方法</p></td>
+<td><p>识别结果</p></td>
+</tr>
+<tr class="row-even"><td><p>不用本文的方法</p></td>
+<td><p>下面是一个测试 <code class="docutils literal notranslate"><span class="pre">悬界芯片</span></code> 湖南人 <code class="docutils literal notranslate"><span class="pre">工投安装</span></code> <code class="docutils literal notranslate"><span class="pre">基载传感器</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>用本文的方法</p></td>
+<td><p>下面是一个测试 <code class="docutils literal notranslate"><span class="pre">玄戒芯片</span></code> 湖南人 <code class="docutils literal notranslate"><span class="pre">弓头安装</span></code> <code class="docutils literal notranslate"><span class="pre">机载传感器</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="id12">
+<h2>调试<a class="headerlink" href="#id12" title="Permalink to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./build/bin/sherpa-onnx-offline<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span>./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--sense-voice-model<span class="o">=</span>./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/model.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--debug<span class="o">=</span><span class="m">1</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--hr-lexicon<span class="o">=</span>./lexicon.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--hr-rule-fsts<span class="o">=</span>./hr-xuan-jie-replace.fst<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./hr-xuan-jie-test.wav
+</pre></div>
+</div>
+<p>设置 <code class="docutils literal notranslate"><span class="pre">--deubg=1</span></code> 可以输出如下调试信息</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Started
+/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/homophone-replacer.cc:Apply:157 Input text: &#39;下面是一个测试悬界芯片湖南人工投安装基载传感器&#39;
+/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/homophone-replacer.cc:Apply:165 After jieba: 下面_是_一个_测试_悬界_芯片_湖南_人工_投_安装_基载_传感器
+/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/homophone-replacer.cc:Apply:186 下面 xia4mian4
+/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/homophone-replacer.cc:Apply:186 是 shi4
+/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/homophone-replacer.cc:Apply:186 一个 yi2ge4
+/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/homophone-replacer.cc:Apply:186 测试 ce4shi4
+/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/homophone-replacer.cc:Apply:186 悬界 xuan2jie4
+/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/homophone-replacer.cc:Apply:186 芯片 xin1pian4
+/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/homophone-replacer.cc:Apply:186 湖南 hu2nan2
+/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/homophone-replacer.cc:Apply:186 人工 ren2gong1
+/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/homophone-replacer.cc:Apply:186 投 tou2
+/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/homophone-replacer.cc:Apply:186 安装 an1zhuang1
+/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/homophone-replacer.cc:Apply:186 基载 ji1zai4
+/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/homophone-replacer.cc:Apply:186 传感器 chuan2gan3qi4
+/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/homophone-replacer.cc:Apply:198 Output text: &#39;下面是一个测试玄戒芯片湖南人头安装机载传感器&#39;
+Done!
+
+./hr-xuan-jie-test.wav
+{&quot;lang&quot;: &quot;&lt;|zh|&gt;&quot;, &quot;emotion&quot;: &quot;&lt;|NEUTRAL|&gt;&quot;, &quot;event&quot;: &quot;&lt;|Speech|&gt;&quot;, &quot;text&quot;: &quot;下面是一个测试玄戒芯片湖南人弓头安装机载传感器&quot;, &quot;timestamps&quot;: [0.60, 0.84, 1.08, 1.26, 1.38, 1.56, 1.80, 2.88, 3.00, 3.48, 3.66, 5.34, 5.46, 5.64, 7.14, 7.26, 7.62, 7.80, 9.24, 9.42, 9.78, 9.90, 10.14], &quot;tokens&quot;:[&quot;下&quot;, &quot;面&quot;, &quot;是&quot;, &quot;一&quot;, &quot;个&quot;, &quot;测&quot;, &quot;试&quot;, &quot;悬&quot;, &quot;界&quot;, &quot;芯&quot;, &quot;片&quot;, &quot;湖&quot;, &quot;南&quot;, &quot;人&quot;, &quot;工&quot;, &quot;投&quot;, &quot;安&quot;, &quot;装&quot;, &quot;基&quot;, &quot;载&quot;, &quot;传&quot;, &quot;感&quot;, &quot;器&quot;], &quot;words&quot;: []}
+----
+num threads: 2
+decoding method: greedy_search
+Elapsed seconds: 0.583 s
+Real time factor (RTF): 0.583 / 11.673 = 0.050
+</pre></div>
+</div>
+<p>大家可以根据调试信息中的拼音，去调整对应的规则。对于一条规则，只有它其中的拼音全部匹配上时，才会替换。
+比如 <code class="docutils literal notranslate"><span class="pre">xuan2jie4xin1pian4</span></code> 这条规则，无法匹配 <code class="docutils literal notranslate"><span class="pre">玄界</span></code> 或者 <code class="docutils literal notranslate"><span class="pre">新片</span></code> 。只有 <code class="docutils literal notranslate"><span class="pre">玄界新片</span></code> 一起出现时，
+才会匹配成功，替换成 <code class="docutils literal notranslate"><span class="pre">玄戒芯片</span></code>。</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>对于上面的例子 <code class="docutils literal notranslate"><span class="pre">玄界新片</span></code> ， 如果没有替换成 <code class="docutils literal notranslate"><span class="pre">玄戒芯片</span></code> ，那么需要看调试信息中，<code class="docutils literal notranslate"><span class="pre">片</span></code>
+这个字的发音，是 <code class="docutils literal notranslate"><span class="pre">pian1</span></code> 还是 <code class="docutils literal notranslate"><span class="pre">pian4</span></code> 。如果是 <code class="docutils literal notranslate"><span class="pre">pian1</span></code>, 那么，你还需要加一条规则，
+把 <code class="docutils literal notranslate"><span class="pre">xuan2jie4xin1pian1</span></code> 变成 <code class="docutils literal notranslate"><span class="pre">玄戒芯片</span></code> 。 添加的规则如下:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">rule7</span> <span class="o">=</span> <span class="n">pynini</span><span class="o">.</span><span class="n">cross</span><span class="p">(</span><span class="s2">&quot;xuan2jie4xin1pian1&quot;</span><span class="p">,</span> <span class="s2">&quot;玄戒芯片&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="id13">
+<h2>视频演示<a class="headerlink" href="#id13" title="Permalink to this heading"></a></h2>
+<p>B 站视频演示如下:</p>
+<iframe src="//player.bilibili.com/player.html?bvid=BV1ydTkz8ERB&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" width="600" height="600"> </iframe></section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../Dolphin/pretrained.html" class="btn btn-neutral float-left" title="Pre-trained Models" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../speaker-diarization/index.html" class="btn btn-neutral float-right" title="Speaker Diarization" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

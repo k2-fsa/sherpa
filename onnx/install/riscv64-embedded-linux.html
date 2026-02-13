@@ -1,0 +1,593 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Embedded Linux (riscv64) &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Frequently Asked Question (FAQs)" href="../faqs/index.html" />
+    <link rel="prev" title="Embedded Linux (arm)" href="arm-embedded-linux.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">sherpa-onnx</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Installation</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="linux.html">Linux</a></li>
+<li class="toctree-l3"><a class="reference internal" href="macos.html">macOS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="windows.html">Windows</a></li>
+<li class="toctree-l3"><a class="reference internal" href="aarch64-embedded-linux.html">Embedded Linux (aarch64)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="arm-embedded-linux.html">Embedded Linux (arm)</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Embedded Linux (riscv64)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#install-toolchain">Install toolchain</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#build-sherpa-onnx">Build sherpa-onnx</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#qemu">qemu</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../faqs/index.html">Frequently Asked Question (FAQs)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python/index.html">Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../c-api/index.html">C API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../java-api/index.html">Java API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../javascript-api/index.html">Javascript API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kotlin-api/index.html">Kotlin API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../swift-api/index.html">Swift API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../go-api/index.html">Go API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../csharp-api/index.html">C# API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pascal-api/index.html">Pascal API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lazarus/index.html">Lazarus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../wasm/index.html">WebAssembly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../android/index.html">Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../harmony-os/index.html">HarmonyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ios/index.html">iOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../flutter/index.html">Flutter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../websocket/index.html">WebSocket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../hotwords/index.html">Hotwords (Contextual biasing)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kws/index.html">Keyword spotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../punctuation/index.html">Punctuation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../audio-tagging/index.html">Audio tagging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spoken-language-identification/index.html">Spoken language identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vad/index.html">VAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/index.html">Pre-trained models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/whisper/index.html">Whisper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../moonshine/index.html">Moonshine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../omnilingual-asr/index.html">Omnilingual ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sense-voice/index.html">SenseVoice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../funasr-nano/index.html">FunASR Nano</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../paraformer/index.html">Paraformer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nemo/index.html">NeMo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../FireRedAsr/index.html">FireRedAsr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Dolphin/index.html">Dolphin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../homophone-replacer/index.html">拼音词组匹配替换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-diarization/index.html">Speaker Diarization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-identification/index.html">Speaker Identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speech-enhancement/index.html">Speech enhancement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../source-separation/index.html">Source separation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qnn/index.html">Qualcomm NPU (QNN, HTP)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rknn/index.html">rknn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ascend/index.html">Ascend NPU (昇腾 NPU)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tts/index.html">Text-to-speech (TTS)</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">sherpa-onnx</a> &raquo;</li>
+          <li><a href="index.html">Installation</a> &raquo;</li>
+      <li>Embedded Linux (riscv64)</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/onnx/install/riscv64-embedded-linux.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="embedded-linux-riscv64">
+<h1>Embedded Linux (riscv64)<a class="headerlink" href="#embedded-linux-riscv64" title="Permalink to this heading"></a></h1>
+<p>This page describes how to build <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a> for embedded Linux (RISC-V, 64-bit)
+with cross-compiling on an x64 machine with Ubuntu OS. It also demonstrates
+how to use <code class="docutils literal notranslate"><span class="pre">qemu</span></code> to run the compiled binaries.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>We provide a colab notebook
+<a class="reference external" href="https://github.com/k2-fsa/colab/blob/master/sherpa-onnx/sherpa_onnx_RISC_V.ipynb"><img alt="build sherpa-onnx for risc-v colab notebook" src="https://github.com/k2-fsa/sherpa/releases/download/doc/colab-badge.jpg" /></a>
+for you to try this section step by step.</p>
+<p>If you are using Windows/macOS or you don’t want to setup your local environment
+for cross-compiling, please use the above colab notebook.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You can download pre-compiled binaries for <code class="docutils literal notranslate"><span class="pre">riscv64</span></code> from the following URL
+<a class="reference external" href="https://huggingface.co/csukuangfj/sherpa-onnx-libs/tree/main/riscv64">https://huggingface.co/csukuangfj/sherpa-onnx-libs/tree/main/riscv64</a></p>
+<p>Please always download the latest version.</p>
+<p>Example command to download the version <code class="docutils literal notranslate"><span class="pre">1.12.1</span></code>:</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># binaries built with shared libraries</span>
+wget<span class="w"> </span>https://huggingface.co/csukuangfj/sherpa-onnx-libs/resolve/main/riscv64/sherpa-onnx-v1.12.1-linux-riscv64-shared.tar.bz2
+
+<span class="c1"># For users from China</span>
+<span class="c1"># binaries built with shared libraries</span>
+<span class="c1"># wget https://hf-mirror.com/csukuangfj/sherpa-onnx-libs/resolve/main/riscv64/sherpa-onnx-v1.12.1-linux-riscv64-shared.tar.bz2</span>
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<section id="install-toolchain">
+<h2>Install toolchain<a class="headerlink" href="#install-toolchain" title="Permalink to this heading"></a></h2>
+<p>The first step is to install a toolchain for cross-compiling.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>-p<span class="w"> </span><span class="nv">$HOME</span>/toolchain
+
+wget<span class="w"> </span>-q<span class="w"> </span>https://occ-oss-prod.oss-cn-hangzhou.aliyuncs.com/resource//1663142514282/Xuantie-900-gcc-linux-5.10.4-glibc-x86_64-V2.6.1-20220906.tar.gz
+
+tar<span class="w"> </span>xf<span class="w"> </span>./Xuantie-900-gcc-linux-5.10.4-glibc-x86_64-V2.6.1-20220906.tar.gz<span class="w"> </span>--strip-components<span class="w"> </span><span class="m">1</span><span class="w"> </span>-C<span class="w"> </span><span class="nv">$HOME</span>/toolchain
+</pre></div>
+</div>
+<p>Next, we need to set the following environment variable:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span><span class="nv">$HOME</span>/toolchain/bin:<span class="nv">$PATH</span>
+</pre></div>
+</div>
+<p>To check that you have installed the toolchain successfully, please run</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>riscv64-unknown-linux-gnu-gcc<span class="w"> </span>--version
+
+<span class="w">  </span>riscv64-unknown-linux-gnu-gcc<span class="w"> </span><span class="o">(</span>Xuantie-900<span class="w"> </span>linux-5.10.4<span class="w"> </span>glibc<span class="w"> </span>gcc<span class="w"> </span>Toolchain<span class="w"> </span>V2.6.1<span class="w"> </span>B-20220906<span class="o">)</span><span class="w"> </span><span class="m">10</span>.2.0
+<span class="w">  </span>Copyright<span class="w"> </span><span class="o">(</span>C<span class="o">)</span><span class="w"> </span><span class="m">2020</span><span class="w"> </span>Free<span class="w"> </span>Software<span class="w"> </span>Foundation,<span class="w"> </span>Inc.
+<span class="w">  </span>This<span class="w"> </span>is<span class="w"> </span>free<span class="w"> </span>software<span class="p">;</span><span class="w"> </span>see<span class="w"> </span>the<span class="w"> </span><span class="nb">source</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>copying<span class="w"> </span>conditions.<span class="w">  </span>There<span class="w"> </span>is<span class="w"> </span>NO
+<span class="w">  </span>warranty<span class="p">;</span><span class="w"> </span>not<span class="w"> </span>even<span class="w"> </span><span class="k">for</span><span class="w"> </span>MERCHANTABILITY<span class="w"> </span>or<span class="w"> </span>FITNESS<span class="w"> </span>FOR<span class="w"> </span>A<span class="w"> </span>PARTICULAR<span class="w"> </span>PURPOSE.
+
+$<span class="w"> </span>riscv64-unknown-linux-gnu-g++<span class="w"> </span>--version
+
+<span class="w">  </span>riscv64-unknown-linux-gnu-g++<span class="w"> </span><span class="o">(</span>Xuantie-900<span class="w"> </span>linux-5.10.4<span class="w"> </span>glibc<span class="w"> </span>gcc<span class="w"> </span>Toolchain<span class="w"> </span>V2.6.1<span class="w"> </span>B-20220906<span class="o">)</span><span class="w"> </span><span class="m">10</span>.2.0
+<span class="w">  </span>Copyright<span class="w"> </span><span class="o">(</span>C<span class="o">)</span><span class="w"> </span><span class="m">2020</span><span class="w"> </span>Free<span class="w"> </span>Software<span class="w"> </span>Foundation,<span class="w"> </span>Inc.
+<span class="w">  </span>This<span class="w"> </span>is<span class="w"> </span>free<span class="w"> </span>software<span class="p">;</span><span class="w"> </span>see<span class="w"> </span>the<span class="w"> </span><span class="nb">source</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>copying<span class="w"> </span>conditions.<span class="w">  </span>There<span class="w"> </span>is<span class="w"> </span>NO
+<span class="w">  </span>warranty<span class="p">;</span><span class="w"> </span>not<span class="w"> </span>even<span class="w"> </span><span class="k">for</span><span class="w"> </span>MERCHANTABILITY<span class="w"> </span>or<span class="w"> </span>FITNESS<span class="w"> </span>FOR<span class="w"> </span>A<span class="w"> </span>PARTICULAR<span class="w"> </span>PURPOSE.
+</pre></div>
+</div>
+</section>
+<section id="build-sherpa-onnx">
+<h2>Build sherpa-onnx<a class="headerlink" href="#build-sherpa-onnx" title="Permalink to this heading"></a></h2>
+<p>Next, let us build <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>Currently, only shared libraries are supported. We <code class="docutils literal notranslate"><span class="pre">will</span></code> support
+static linking in the future.</p>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx
+<span class="nb">cd</span><span class="w"> </span>sherpa-onnx
+./build-riscv64-linux-gnu.sh
+</pre></div>
+</div>
+<p>After building, you will get the following files</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>ls<span class="w"> </span>-lh<span class="w"> </span>build-riscv64-linux-gnu/install/bin
+$<span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;---&quot;</span>
+$<span class="w"> </span>ls<span class="w"> </span>-lh<span class="w"> </span>build-riscv64-linux-gnu/install/lib
+
+<span class="w">  </span>total<span class="w"> </span>292K
+<span class="w">  </span>-rwxr-xr-x<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span>23K<span class="w"> </span>Mar<span class="w"> </span><span class="m">20</span><span class="w"> </span><span class="m">09</span>:41<span class="w"> </span>sherpa-onnx
+<span class="w">  </span>-rwxr-xr-x<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span>27K<span class="w"> </span>Mar<span class="w"> </span><span class="m">20</span><span class="w"> </span><span class="m">09</span>:41<span class="w"> </span>sherpa-onnx-alsa
+<span class="w">  </span>-rwxr-xr-x<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span>31K<span class="w"> </span>Mar<span class="w"> </span><span class="m">20</span><span class="w"> </span><span class="m">09</span>:41<span class="w"> </span>sherpa-onnx-alsa-offline
+<span class="w">  </span>-rwxr-xr-x<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span>40K<span class="w"> </span>Mar<span class="w"> </span><span class="m">20</span><span class="w"> </span><span class="m">09</span>:41<span class="w"> </span>sherpa-onnx-alsa-offline-speaker-identification
+<span class="w">  </span>-rwxr-xr-x<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span>23K<span class="w"> </span>Mar<span class="w"> </span><span class="m">20</span><span class="w"> </span><span class="m">09</span>:41<span class="w"> </span>sherpa-onnx-keyword-spotter
+<span class="w">  </span>-rwxr-xr-x<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span>27K<span class="w"> </span>Mar<span class="w"> </span><span class="m">20</span><span class="w"> </span><span class="m">09</span>:41<span class="w"> </span>sherpa-onnx-keyword-spotter-alsa
+<span class="w">  </span>-rwxr-xr-x<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span>23K<span class="w"> </span>Mar<span class="w"> </span><span class="m">20</span><span class="w"> </span><span class="m">09</span>:41<span class="w"> </span>sherpa-onnx-offline
+<span class="w">  </span>-rwxr-xr-x<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span>39K<span class="w"> </span>Mar<span class="w"> </span><span class="m">20</span><span class="w"> </span><span class="m">09</span>:41<span class="w"> </span>sherpa-onnx-offline-parallel
+<span class="w">  </span>-rwxr-xr-x<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span>19K<span class="w"> </span>Mar<span class="w"> </span><span class="m">20</span><span class="w"> </span><span class="m">09</span>:41<span class="w"> </span>sherpa-onnx-offline-tts
+<span class="w">  </span>-rwxr-xr-x<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span>31K<span class="w"> </span>Mar<span class="w"> </span><span class="m">20</span><span class="w"> </span><span class="m">09</span>:41<span class="w"> </span>sherpa-onnx-offline-tts-play-alsa
+<span class="w">  </span>---
+<span class="w">  </span>total<span class="w"> </span>30M
+<span class="w">  </span>-rw-r--r--<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span>256K<span class="w"> </span>Mar<span class="w"> </span><span class="m">20</span><span class="w"> </span><span class="m">09</span>:41<span class="w"> </span>libespeak-ng.so
+<span class="w">  </span>-rw-r--r--<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w">  </span>71K<span class="w"> </span>Mar<span class="w"> </span><span class="m">20</span><span class="w"> </span><span class="m">09</span>:41<span class="w"> </span>libkaldi-decoder-core.so
+<span class="w">  </span>-rw-r--r--<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w">  </span>67K<span class="w"> </span>Mar<span class="w"> </span><span class="m">20</span><span class="w"> </span><span class="m">09</span>:41<span class="w"> </span>libkaldi-native-fbank-core.so
+<span class="w">  </span>-rw-r--r--<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w">  </span>13M<span class="w"> </span>Mar<span class="w"> </span><span class="m">20</span><span class="w"> </span><span class="m">09</span>:35<span class="w"> </span>libonnxruntime.so
+<span class="w">  </span>-rw-r--r--<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w">  </span>13M<span class="w"> </span>Mar<span class="w"> </span><span class="m">20</span><span class="w"> </span><span class="m">09</span>:35<span class="w"> </span>libonnxruntime.so.1.14.1
+<span class="w">  </span>lrwxrwxrwx<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w">   </span><span class="m">23</span><span class="w"> </span>Mar<span class="w"> </span><span class="m">20</span><span class="w"> </span><span class="m">09</span>:41<span class="w"> </span>libpiper_phonemize.so<span class="w"> </span>-&gt;<span class="w"> </span>libpiper_phonemize.so.1
+<span class="w">  </span>lrwxrwxrwx<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w">   </span><span class="m">27</span><span class="w"> </span>Mar<span class="w"> </span><span class="m">20</span><span class="w"> </span><span class="m">09</span>:41<span class="w"> </span>libpiper_phonemize.so.1<span class="w"> </span>-&gt;<span class="w"> </span>libpiper_phonemize.so.1.2.0
+<span class="w">  </span>-rw-r--r--<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span>395K<span class="w"> </span>Mar<span class="w"> </span><span class="m">20</span><span class="w"> </span><span class="m">09</span>:41<span class="w"> </span>libpiper_phonemize.so.1.2.0
+<span class="w">  </span>-rw-r--r--<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">1</span>.3M<span class="w"> </span>Mar<span class="w"> </span><span class="m">20</span><span class="w"> </span><span class="m">09</span>:41<span class="w"> </span>libsherpa-onnx-core.so
+<span class="w">  </span>lrwxrwxrwx<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w">   </span><span class="m">23</span><span class="w"> </span>Mar<span class="w"> </span><span class="m">20</span><span class="w"> </span><span class="m">09</span>:41<span class="w"> </span>libsherpa-onnx-fst.so<span class="w"> </span>-&gt;<span class="w"> </span>libsherpa-onnx-fst.so.6
+<span class="w">  </span>-rw-r--r--<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">1</span>.4M<span class="w"> </span>Mar<span class="w"> </span><span class="m">20</span><span class="w"> </span><span class="m">09</span>:41<span class="w"> </span>libsherpa-onnx-fst.so.6
+<span class="w">  </span>-rw-r--r--<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span>752K<span class="w"> </span>Mar<span class="w"> </span><span class="m">20</span><span class="w"> </span><span class="m">09</span>:41<span class="w"> </span>libsherpa-onnx-kaldifst-core.so
+<span class="w">  </span>-rw-r--r--<span class="w"> </span><span class="m">1</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span>202K<span class="w"> </span>Mar<span class="w"> </span><span class="m">20</span><span class="w"> </span><span class="m">09</span>:41<span class="w"> </span>libucd.so
+<span class="w">  </span>drwxr-xr-x<span class="w"> </span><span class="m">2</span><span class="w"> </span>root<span class="w"> </span>root<span class="w"> </span><span class="m">4</span>.0K<span class="w"> </span>Mar<span class="w"> </span><span class="m">20</span><span class="w"> </span><span class="m">09</span>:41<span class="w"> </span>pkgconfig
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>file<span class="w"> </span>build-riscv64-linux-gnu/install/bin/sherpa-onnx
+
+build-riscv64-linux-gnu/install/bin/sherpa-onnx:<span class="w"> </span>ELF<span class="w"> </span><span class="m">64</span>-bit<span class="w"> </span>LSB<span class="w"> </span>executable,<span class="w"> </span>UCB<span class="w"> </span>RISC-V,<span class="w"> </span>RVC,<span class="w"> </span>double-float<span class="w"> </span>ABI,<span class="w"> </span>version<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">(</span>GNU/Linux<span class="o">)</span>,<span class="w"> </span>dynamically<span class="w"> </span>linked,<span class="w"> </span>interpreter<span class="w"> </span>/lib/ld-linux-riscv64-lp64d.so.1,<span class="w"> </span><span class="k">for</span><span class="w"> </span>GNU/Linux<span class="w"> </span><span class="m">4</span>.15.0,<span class="w"> </span>stripped
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>readelf<span class="w"> </span>-d<span class="w"> </span>build-riscv64-linux-gnu/install/bin/sherpa-onnx
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>find<span class="w"> </span><span class="nv">$HOME</span>/toolchain/<span class="w"> </span>-name<span class="w"> </span>ld-linux-riscv64-lp64d.so.1
+
+<span class="w">   </span>Dynamic<span class="w"> </span>section<span class="w"> </span>at<span class="w"> </span>offset<span class="w"> </span>0x4d40<span class="w"> </span>contains<span class="w"> </span><span class="m">39</span><span class="w"> </span>entries:
+<span class="w">     </span>Tag<span class="w">        </span>Type<span class="w">                         </span>Name/Value
+<span class="w">    </span>0x0000000000000001<span class="w"> </span><span class="o">(</span>NEEDED<span class="o">)</span><span class="w">             </span>Shared<span class="w"> </span>library:<span class="w"> </span><span class="o">[</span>libsherpa-onnx-core.so<span class="o">]</span>
+<span class="w">    </span>0x0000000000000001<span class="w"> </span><span class="o">(</span>NEEDED<span class="o">)</span><span class="w">             </span>Shared<span class="w"> </span>library:<span class="w"> </span><span class="o">[</span>libkaldi-native-fbank-core.so<span class="o">]</span>
+<span class="w">    </span>0x0000000000000001<span class="w"> </span><span class="o">(</span>NEEDED<span class="o">)</span><span class="w">             </span>Shared<span class="w"> </span>library:<span class="w"> </span><span class="o">[</span>libkaldi-decoder-core.so<span class="o">]</span>
+<span class="w">    </span>0x0000000000000001<span class="w"> </span><span class="o">(</span>NEEDED<span class="o">)</span><span class="w">             </span>Shared<span class="w"> </span>library:<span class="w"> </span><span class="o">[</span>libsherpa-onnx-kaldifst-core.so<span class="o">]</span>
+<span class="w">    </span>0x0000000000000001<span class="w"> </span><span class="o">(</span>NEEDED<span class="o">)</span><span class="w">             </span>Shared<span class="w"> </span>library:<span class="w"> </span><span class="o">[</span>libsherpa-onnx-fst.so.6<span class="o">]</span>
+<span class="w">    </span>0x0000000000000001<span class="w"> </span><span class="o">(</span>NEEDED<span class="o">)</span><span class="w">             </span>Shared<span class="w"> </span>library:<span class="w"> </span><span class="o">[</span>libpiper_phonemize.so.1<span class="o">]</span>
+<span class="w">    </span>0x0000000000000001<span class="w"> </span><span class="o">(</span>NEEDED<span class="o">)</span><span class="w">             </span>Shared<span class="w"> </span>library:<span class="w"> </span><span class="o">[</span>libonnxruntime.so.1.14.1<span class="o">]</span>
+<span class="w">    </span>0x0000000000000001<span class="w"> </span><span class="o">(</span>NEEDED<span class="o">)</span><span class="w">             </span>Shared<span class="w"> </span>library:<span class="w"> </span><span class="o">[</span>libespeak-ng.so<span class="o">]</span>
+<span class="w">    </span>0x0000000000000001<span class="w"> </span><span class="o">(</span>NEEDED<span class="o">)</span><span class="w">             </span>Shared<span class="w"> </span>library:<span class="w"> </span><span class="o">[</span>libucd.so<span class="o">]</span>
+<span class="w">    </span>0x0000000000000001<span class="w"> </span><span class="o">(</span>NEEDED<span class="o">)</span><span class="w">             </span>Shared<span class="w"> </span>library:<span class="w"> </span><span class="o">[</span>libstdc++.so.6<span class="o">]</span>
+<span class="w">    </span>0x0000000000000001<span class="w"> </span><span class="o">(</span>NEEDED<span class="o">)</span><span class="w">             </span>Shared<span class="w"> </span>library:<span class="w"> </span><span class="o">[</span>libm.so.6<span class="o">]</span>
+<span class="w">    </span>0x0000000000000001<span class="w"> </span><span class="o">(</span>NEEDED<span class="o">)</span><span class="w">             </span>Shared<span class="w"> </span>library:<span class="w"> </span><span class="o">[</span>libgcc_s.so.1<span class="o">]</span>
+<span class="w">    </span>0x0000000000000001<span class="w"> </span><span class="o">(</span>NEEDED<span class="o">)</span><span class="w">             </span>Shared<span class="w"> </span>library:<span class="w"> </span><span class="o">[</span>libpthread.so.0<span class="o">]</span>
+<span class="w">    </span>0x0000000000000001<span class="w"> </span><span class="o">(</span>NEEDED<span class="o">)</span><span class="w">             </span>Shared<span class="w"> </span>library:<span class="w"> </span><span class="o">[</span>libc.so.6<span class="o">]</span>
+<span class="w">    </span>0x000000000000000f<span class="w"> </span><span class="o">(</span>RPATH<span class="o">)</span><span class="w">              </span>Library<span class="w"> </span>rpath:<span class="w"> </span><span class="o">[</span><span class="nv">$ORIGIN</span>:<span class="nv">$ORIGIN</span>/../lib:<span class="nv">$ORIGIN</span>/../../../sherpa_onnx/lib<span class="o">]</span>
+<span class="w">    </span>0x0000000000000020<span class="w"> </span><span class="o">(</span>PREINIT_ARRAY<span class="o">)</span><span class="w">      </span>0x15d20
+<span class="w">    </span>0x0000000000000021<span class="w"> </span><span class="o">(</span>PREINIT_ARRAYSZ<span class="o">)</span><span class="w">    </span><span class="m">8</span><span class="w"> </span><span class="o">(</span>bytes<span class="o">)</span>
+<span class="w">    </span>0x0000000000000019<span class="w"> </span><span class="o">(</span>INIT_ARRAY<span class="o">)</span><span class="w">         </span>0x15d28
+<span class="w">    </span>0x000000000000001b<span class="w"> </span><span class="o">(</span>INIT_ARRAYSZ<span class="o">)</span><span class="w">       </span><span class="m">16</span><span class="w"> </span><span class="o">(</span>bytes<span class="o">)</span>
+<span class="w">    </span>0x000000000000001a<span class="w"> </span><span class="o">(</span>FINI_ARRAY<span class="o">)</span><span class="w">         </span>0x15d38
+<span class="w">    </span>0x000000000000001c<span class="w"> </span><span class="o">(</span>FINI_ARRAYSZ<span class="o">)</span><span class="w">       </span><span class="m">8</span><span class="w"> </span><span class="o">(</span>bytes<span class="o">)</span>
+<span class="w">    </span>0x0000000000000004<span class="w"> </span><span class="o">(</span>HASH<span class="o">)</span><span class="w">               </span>0x10280
+<span class="w">    </span>0x000000006ffffef5<span class="w"> </span><span class="o">(</span>GNU_HASH<span class="o">)</span><span class="w">           </span>0x10418
+<span class="w">    </span>0x0000000000000005<span class="w"> </span><span class="o">(</span>STRTAB<span class="o">)</span><span class="w">             </span>0x10bd8
+<span class="w">    </span>0x0000000000000006<span class="w"> </span><span class="o">(</span>SYMTAB<span class="o">)</span><span class="w">             </span>0x105f0
+<span class="w">    </span>0x000000000000000a<span class="w"> </span><span class="o">(</span>STRSZ<span class="o">)</span><span class="w">              </span><span class="m">3652</span><span class="w"> </span><span class="o">(</span>bytes<span class="o">)</span>
+<span class="w">    </span>0x000000000000000b<span class="w"> </span><span class="o">(</span>SYMENT<span class="o">)</span><span class="w">             </span><span class="m">24</span><span class="w"> </span><span class="o">(</span>bytes<span class="o">)</span>
+<span class="w">    </span>0x0000000000000015<span class="w"> </span><span class="o">(</span>DEBUG<span class="o">)</span><span class="w">              </span>0x0
+<span class="w">    </span>0x0000000000000003<span class="w"> </span><span class="o">(</span>PLTGOT<span class="o">)</span><span class="w">             </span>0x16000
+<span class="w">    </span>0x0000000000000002<span class="w"> </span><span class="o">(</span>PLTRELSZ<span class="o">)</span><span class="w">           </span><span class="m">1056</span><span class="w"> </span><span class="o">(</span>bytes<span class="o">)</span>
+<span class="w">    </span>0x0000000000000014<span class="w"> </span><span class="o">(</span>PLTREL<span class="o">)</span><span class="w">             </span>RELA
+<span class="w">    </span>0x0000000000000017<span class="w"> </span><span class="o">(</span>JMPREL<span class="o">)</span><span class="w">             </span>0x11bb0
+<span class="w">    </span>0x0000000000000007<span class="w"> </span><span class="o">(</span>RELA<span class="o">)</span><span class="w">               </span>0x11b80
+<span class="w">    </span>0x0000000000000008<span class="w"> </span><span class="o">(</span>RELASZ<span class="o">)</span><span class="w">             </span><span class="m">1104</span><span class="w"> </span><span class="o">(</span>bytes<span class="o">)</span>
+<span class="w">    </span>0x0000000000000009<span class="w"> </span><span class="o">(</span>RELAENT<span class="o">)</span><span class="w">            </span><span class="m">24</span><span class="w"> </span><span class="o">(</span>bytes<span class="o">)</span>
+<span class="w">    </span>0x000000006ffffffe<span class="w"> </span><span class="o">(</span>VERNEED<span class="o">)</span><span class="w">            </span>0x11aa0
+<span class="w">    </span>0x000000006fffffff<span class="w"> </span><span class="o">(</span>VERNEEDNUM<span class="o">)</span><span class="w">         </span><span class="m">4</span>
+<span class="w">    </span>0x000000006ffffff0<span class="w"> </span><span class="o">(</span>VERSYM<span class="o">)</span><span class="w">             </span>0x11a1c
+<span class="w">    </span>0x0000000000000000<span class="w"> </span><span class="o">(</span>NULL<span class="o">)</span><span class="w">               </span>0x0
+
+<span class="w"> </span>/root/toolchain/sysroot/lib/ld-linux-riscv64-lp64d.so.1
+</pre></div>
+</div>
+<p>That’s it!</p>
+<p>Please create an issue at <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/issues">https://github.com/k2-fsa/sherpa-onnx/issues</a>
+if you have any problems.</p>
+<p>Read more if you want to run the binaries with <code class="docutils literal notranslate"><span class="pre">qemu</span></code>.</p>
+</section>
+<section id="qemu">
+<h2>qemu<a class="headerlink" href="#qemu" title="Permalink to this heading"></a></h2>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>This subsection works only on x64 Linux.</p>
+</div>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>Please don’t use any other methods to install <code class="docutils literal notranslate"><span class="pre">qemu-riscv64</span></code>. Only the
+method listed in this subsection is known to work.</p>
+</div>
+<p>Please use the following command to download the <code class="docutils literal notranslate"><span class="pre">qemu-riscv64</span></code> binary.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>-p<span class="w"> </span><span class="nv">$HOME</span>/qemu
+
+mkdir<span class="w"> </span>-p<span class="w"> </span>/tmp
+<span class="nb">cd</span><span class="w"> </span>/tmp
+wget<span class="w"> </span>-q<span class="w"> </span>https://files.pythonhosted.org/packages/21/f4/733f29c435987e8bb264a6504c7a4ea4c04d0d431b38a818ab63eef082b9/xuantie_qemu-20230825-py3-none-manylinux1_x86_64.whl
+
+unzip<span class="w"> </span>xuantie_qemu-20230825-py3-none-manylinux1_x86_64.whl
+cp<span class="w"> </span>-v<span class="w"> </span>./qemu/qemu-riscv64<span class="w"> </span><span class="nv">$HOME</span>/qemu
+
+<span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span><span class="nv">$HOME</span>/qemu:<span class="nv">$PATH</span>
+</pre></div>
+</div>
+<p>To check that we have installed <code class="docutils literal notranslate"><span class="pre">qemu-riscv64</span></code> successfully, please run:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>qemu-riscv64<span class="w"> </span>-h
+</pre></div>
+</div>
+<p>which should give the following output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">qemu</span><span class="o">-</span><span class="n">riscv64</span> <span class="p">[</span><span class="n">options</span><span class="p">]</span> <span class="n">program</span> <span class="p">[</span><span class="n">arguments</span><span class="o">...</span><span class="p">]</span>
+<span class="n">Linux</span> <span class="n">CPU</span> <span class="n">emulator</span> <span class="p">(</span><span class="n">compiled</span> <span class="k">for</span> <span class="n">riscv64</span> <span class="n">emulation</span><span class="p">)</span>
+
+<span class="n">Options</span> <span class="ow">and</span> <span class="n">associated</span> <span class="n">environment</span> <span class="n">variables</span><span class="p">:</span>
+
+<span class="n">Argument</span>             <span class="n">Env</span><span class="o">-</span><span class="n">variable</span>      <span class="n">Description</span>
+<span class="o">-</span><span class="n">h</span>                                     <span class="nb">print</span> <span class="n">this</span> <span class="n">help</span>
+<span class="o">-</span><span class="n">help</span>
+<span class="o">-</span><span class="n">g</span> <span class="n">port</span>              <span class="n">QEMU_GDB</span>          <span class="n">wait</span> <span class="n">gdb</span> <span class="n">connection</span> <span class="n">to</span> <span class="s1">&#39;port&#39;</span>
+<span class="o">-</span><span class="n">L</span> <span class="n">path</span>              <span class="n">QEMU_LD_PREFIX</span>    <span class="nb">set</span> <span class="n">the</span> <span class="n">elf</span> <span class="n">interpreter</span> <span class="n">prefix</span> <span class="n">to</span> <span class="s1">&#39;path&#39;</span>
+<span class="o">-</span><span class="n">s</span> <span class="n">size</span>              <span class="n">QEMU_STACK_SIZE</span>   <span class="nb">set</span> <span class="n">the</span> <span class="n">stack</span> <span class="n">size</span> <span class="n">to</span> <span class="s1">&#39;size&#39;</span> <span class="nb">bytes</span>
+<span class="o">-</span><span class="n">cpu</span> <span class="n">model</span>           <span class="n">QEMU_CPU</span>          <span class="n">select</span> <span class="n">CPU</span> <span class="p">(</span><span class="o">-</span><span class="n">cpu</span> <span class="n">help</span> <span class="k">for</span> <span class="nb">list</span><span class="p">)</span>
+<span class="o">-</span><span class="n">E</span> <span class="n">var</span><span class="o">=</span><span class="n">value</span>         <span class="n">QEMU_SET_ENV</span>      <span class="n">sets</span> <span class="n">targets</span> <span class="n">environment</span> <span class="n">variable</span> <span class="p">(</span><span class="n">see</span> <span class="n">below</span><span class="p">)</span>
+<span class="o">-</span><span class="n">U</span> <span class="n">var</span>               <span class="n">QEMU_UNSET_ENV</span>    <span class="n">unsets</span> <span class="n">targets</span> <span class="n">environment</span> <span class="n">variable</span> <span class="p">(</span><span class="n">see</span> <span class="n">below</span><span class="p">)</span>
+<span class="o">-</span><span class="mi">0</span> <span class="n">argv0</span>             <span class="n">QEMU_ARGV0</span>        <span class="n">forces</span> <span class="n">target</span> <span class="n">process</span> <span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="n">to</span> <span class="n">be</span> <span class="s1">&#39;argv0&#39;</span>
+<span class="o">-</span><span class="n">r</span> <span class="n">uname</span>             <span class="n">QEMU_UNAME</span>        <span class="nb">set</span> <span class="n">qemu</span> <span class="n">uname</span> <span class="n">release</span> <span class="n">string</span> <span class="n">to</span> <span class="s1">&#39;uname&#39;</span>
+<span class="o">-</span><span class="n">B</span> <span class="n">address</span>           <span class="n">QEMU_GUEST_BASE</span>   <span class="nb">set</span> <span class="n">guest_base</span> <span class="n">address</span> <span class="n">to</span> <span class="s1">&#39;address&#39;</span>
+<span class="o">-</span><span class="n">R</span> <span class="n">size</span>              <span class="n">QEMU_RESERVED_VA</span>  <span class="n">reserve</span> <span class="s1">&#39;size&#39;</span> <span class="nb">bytes</span> <span class="k">for</span> <span class="n">guest</span> <span class="n">virtual</span> <span class="n">address</span> <span class="n">space</span>
+<span class="o">-</span><span class="n">d</span> <span class="n">item</span><span class="p">[,</span><span class="o">...</span><span class="p">]</span>        <span class="n">QEMU_LOG</span>          <span class="n">enable</span> <span class="n">logging</span> <span class="n">of</span> <span class="n">specified</span> <span class="n">items</span> <span class="p">(</span><span class="n">use</span> <span class="s1">&#39;-d help&#39;</span> <span class="k">for</span> <span class="n">a</span> <span class="nb">list</span> <span class="n">of</span> <span class="n">items</span><span class="p">)</span>
+<span class="o">-</span><span class="n">dfilter</span> <span class="nb">range</span><span class="p">[,</span><span class="o">...</span><span class="p">]</span> <span class="n">QEMU_DFILTER</span>      <span class="nb">filter</span> <span class="n">logging</span> <span class="n">based</span> <span class="n">on</span> <span class="n">address</span> <span class="nb">range</span>
+<span class="o">-</span><span class="n">D</span> <span class="n">logfile</span>           <span class="n">QEMU_LOG_FILENAME</span> <span class="n">write</span> <span class="n">logs</span> <span class="n">to</span> <span class="s1">&#39;logfile&#39;</span> <span class="p">(</span><span class="n">default</span> <span class="n">stderr</span><span class="p">)</span>
+<span class="o">-</span><span class="n">p</span> <span class="n">pagesize</span>          <span class="n">QEMU_PAGESIZE</span>     <span class="nb">set</span> <span class="n">the</span> <span class="n">host</span> <span class="n">page</span> <span class="n">size</span> <span class="n">to</span> <span class="s1">&#39;pagesize&#39;</span>
+<span class="o">-</span><span class="n">singlestep</span>          <span class="n">QEMU_SINGLESTEP</span>   <span class="n">run</span> <span class="ow">in</span> <span class="n">singlestep</span> <span class="n">mode</span>
+<span class="o">-</span><span class="n">strace</span>              <span class="n">QEMU_STRACE</span>       <span class="n">log</span> <span class="n">system</span> <span class="n">calls</span>
+<span class="o">-</span><span class="n">pctrace</span>             <span class="n">QEMU_PCTRACE</span>      <span class="n">log</span> <span class="n">pctrace</span>
+<span class="o">-</span><span class="n">seed</span>                <span class="n">QEMU_RAND_SEED</span>    <span class="n">Seed</span> <span class="k">for</span> <span class="n">pseudo</span><span class="o">-</span><span class="n">random</span> <span class="n">number</span> <span class="n">generator</span>
+<span class="o">-</span><span class="n">trace</span>               <span class="n">QEMU_TRACE</span>        <span class="p">[[</span><span class="n">enable</span><span class="o">=</span><span class="p">]</span><span class="o">&lt;</span><span class="n">pattern</span><span class="o">&gt;</span><span class="p">][,</span><span class="n">events</span><span class="o">=&lt;</span><span class="n">file</span><span class="o">&gt;</span><span class="p">][,</span><span class="n">file</span><span class="o">=&lt;</span><span class="n">file</span><span class="o">&gt;</span><span class="p">]</span>
+<span class="o">-</span><span class="n">csky</span><span class="o">-</span><span class="n">extend</span>         <span class="n">CSKY_EXTEND</span>       <span class="p">[</span><span class="n">tb_trace</span><span class="o">=&lt;</span><span class="n">on</span><span class="o">|</span><span class="n">off</span><span class="o">&gt;</span><span class="p">][,</span><span class="n">jcount_start</span><span class="o">=&lt;</span><span class="n">addr</span><span class="o">&gt;</span><span class="p">][,</span><span class="n">jcount_end</span><span class="o">=&lt;</span><span class="n">addr</span><span class="o">&gt;</span><span class="p">][</span><span class="n">vdsp</span><span class="o">=&lt;</span><span class="n">vdsp</span><span class="o">&gt;</span><span class="p">][</span><span class="n">exit_addr</span><span class="o">=&lt;</span><span class="n">addr</span><span class="o">&gt;</span><span class="p">][</span><span class="n">denormal</span><span class="o">=&lt;</span><span class="n">on</span><span class="o">|</span><span class="n">off</span><span class="o">&gt;</span><span class="p">]</span>
+<span class="o">-</span><span class="n">CPF</span>                 <span class="n">CSKY_PROFILING</span>
+<span class="o">-</span><span class="n">csky</span><span class="o">-</span><span class="n">trace</span>          <span class="n">CSKY_TRACE</span>        <span class="p">[</span><span class="n">port</span><span class="o">=&lt;</span><span class="n">port</span><span class="o">&gt;</span><span class="p">][,</span><span class="n">tb_trace</span><span class="o">=&lt;</span><span class="n">on</span><span class="o">|</span><span class="n">off</span><span class="o">&gt;</span><span class="p">][,</span><span class="n">mem_trace</span><span class="o">=&lt;</span><span class="n">on</span><span class="o">|</span><span class="n">off</span><span class="o">&gt;</span><span class="p">][,</span><span class="n">auto_trace</span><span class="o">=&lt;</span><span class="n">on</span><span class="o">|</span><span class="n">off</span><span class="o">&gt;</span><span class="p">][,</span><span class="n">start</span><span class="o">=</span><span class="n">addr</span><span class="p">][,</span><span class="n">exit</span><span class="o">=</span><span class="n">addr</span><span class="p">]</span>
+<span class="o">-</span><span class="n">plugin</span>              <span class="n">QEMU_PLUGIN</span>       <span class="p">[</span><span class="n">file</span><span class="o">=</span><span class="p">]</span><span class="o">&lt;</span><span class="n">file</span><span class="o">&gt;</span><span class="p">[,</span><span class="n">arg</span><span class="o">=&lt;</span><span class="n">string</span><span class="o">&gt;</span><span class="p">]</span>
+<span class="o">-</span><span class="n">version</span>             <span class="n">QEMU_VERSION</span>      <span class="n">display</span> <span class="n">version</span> <span class="n">information</span> <span class="ow">and</span> <span class="n">exit</span>
+
+<span class="n">Defaults</span><span class="p">:</span>
+<span class="n">QEMU_LD_PREFIX</span>  <span class="o">=</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">gnemul</span><span class="o">/</span><span class="n">qemu</span><span class="o">-</span><span class="n">riscv64</span>
+<span class="n">QEMU_STACK_SIZE</span> <span class="o">=</span> <span class="mi">8388608</span> <span class="n">byte</span>
+
+<span class="n">You</span> <span class="n">can</span> <span class="n">use</span> <span class="o">-</span><span class="n">E</span> <span class="ow">and</span> <span class="o">-</span><span class="n">U</span> <span class="n">options</span> <span class="ow">or</span> <span class="n">the</span> <span class="n">QEMU_SET_ENV</span> <span class="ow">and</span>
+<span class="n">QEMU_UNSET_ENV</span> <span class="n">environment</span> <span class="n">variables</span> <span class="n">to</span> <span class="nb">set</span> <span class="ow">and</span> <span class="n">unset</span>
+<span class="n">environment</span> <span class="n">variables</span> <span class="k">for</span> <span class="n">the</span> <span class="n">target</span> <span class="n">process</span><span class="o">.</span>
+<span class="n">It</span> <span class="ow">is</span> <span class="n">possible</span> <span class="n">to</span> <span class="n">provide</span> <span class="n">several</span> <span class="n">variables</span> <span class="n">by</span> <span class="n">separating</span> <span class="n">them</span>
+<span class="n">by</span> <span class="n">commas</span> <span class="ow">in</span> <span class="n">getsubopt</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="n">style</span><span class="o">.</span> <span class="n">Additionally</span> <span class="n">it</span> <span class="ow">is</span> <span class="n">possible</span> <span class="n">to</span>
+<span class="n">provide</span> <span class="n">the</span> <span class="o">-</span><span class="n">E</span> <span class="ow">and</span> <span class="o">-</span><span class="n">U</span> <span class="n">options</span> <span class="n">multiple</span> <span class="n">times</span><span class="o">.</span>
+<span class="n">The</span> <span class="n">following</span> <span class="n">lines</span> <span class="n">are</span> <span class="n">equivalent</span><span class="p">:</span>
+    <span class="o">-</span><span class="n">E</span> <span class="n">var1</span><span class="o">=</span><span class="n">val2</span> <span class="o">-</span><span class="n">E</span> <span class="n">var2</span><span class="o">=</span><span class="n">val2</span> <span class="o">-</span><span class="n">U</span> <span class="n">LD_PRELOAD</span> <span class="o">-</span><span class="n">U</span> <span class="n">LD_DEBUG</span>
+    <span class="o">-</span><span class="n">E</span> <span class="n">var1</span><span class="o">=</span><span class="n">val2</span><span class="p">,</span><span class="n">var2</span><span class="o">=</span><span class="n">val2</span> <span class="o">-</span><span class="n">U</span> <span class="n">LD_PRELOAD</span><span class="p">,</span><span class="n">LD_DEBUG</span>
+    <span class="n">QEMU_SET_ENV</span><span class="o">=</span><span class="n">var1</span><span class="o">=</span><span class="n">val2</span><span class="p">,</span><span class="n">var2</span><span class="o">=</span><span class="n">val2</span> <span class="n">QEMU_UNSET_ENV</span><span class="o">=</span><span class="n">LD_PRELOAD</span><span class="p">,</span><span class="n">LD_DEBUG</span>
+<span class="n">Note</span> <span class="n">that</span> <span class="k">if</span> <span class="n">you</span> <span class="n">provide</span> <span class="n">several</span> <span class="n">changes</span> <span class="n">to</span> <span class="n">a</span> <span class="n">single</span> <span class="n">variable</span>
+<span class="n">the</span> <span class="n">last</span> <span class="n">change</span> <span class="n">will</span> <span class="n">stay</span> <span class="ow">in</span> <span class="n">effect</span><span class="o">.</span>
+
+<span class="n">See</span> <span class="o">&lt;</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">qemu</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">contribute</span><span class="o">/</span><span class="n">report</span><span class="o">-</span><span class="n">a</span><span class="o">-</span><span class="n">bug</span><span class="o">&gt;</span> <span class="k">for</span> <span class="n">how</span> <span class="n">to</span> <span class="n">report</span> <span class="n">bugs</span><span class="o">.</span>
+<span class="n">More</span> <span class="n">information</span> <span class="n">on</span> <span class="n">the</span> <span class="n">QEMU</span> <span class="n">project</span> <span class="n">at</span> <span class="o">&lt;</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">qemu</span><span class="o">.</span><span class="n">org</span><span class="o">&gt;.</span>
+</pre></div>
+</div>
+<p>We describe below how to use <code class="docutils literal notranslate"><span class="pre">qemu-riscv64</span></code> to run speech-to-text and text-to-speech.</p>
+<section id="run-speech-to-text-with-qemu">
+<h3>Run speech-to-text with qemu<a class="headerlink" href="#run-speech-to-text-with-qemu" title="Permalink to this heading"></a></h3>
+<p>We use <a class="reference internal" href="../pretrained_models/online-transducer/zipformer-transducer-models.html#sherpa-onnx-streaming-zipformer-en-20m-2023-02-17"><span class="std std-ref">csukuangfj/sherpa-onnx-streaming-zipformer-en-20M-2023-02-17 (English)</span></a> as the test model.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You can select any model from <a class="reference internal" href="../pretrained_models/index.html#sherpa-onnx-pre-trained-models"><span class="std std-ref">Pre-trained models</span></a>.</p>
+</div>
+<p>Please use the following command to download the model:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-zipformer-en-20M-2023-02-17.tar.bz2
+tar<span class="w"> </span>xvf<span class="w"> </span>sherpa-onnx-streaming-zipformer-en-20M-2023-02-17.tar.bz2
+rm<span class="w"> </span>sherpa-onnx-streaming-zipformer-en-20M-2023-02-17.tar.bz2
+</pre></div>
+</div>
+<p>Now you can use the following command to run it with <code class="docutils literal notranslate"><span class="pre">qemu-riscv64</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>cd /path/to/sherpa-onnx
+
+export PATH=$HOME/qemu:$PATH
+
+qemu-riscv64 build-riscv64-linux-gnu/install/bin/sherpa-onnx \
+  --tokens=./sherpa-onnx-streaming-zipformer-en-20M-2023-02-17/tokens.txt \
+  --encoder=./sherpa-onnx-streaming-zipformer-en-20M-2023-02-17/encoder-epoch-99-avg-1.onnx \
+  --decoder=./sherpa-onnx-streaming-zipformer-en-20M-2023-02-17/decoder-epoch-99-avg-1.onnx \
+  --joiner=./sherpa-onnx-streaming-zipformer-en-20M-2023-02-17/joiner-epoch-99-avg-1.onnx \
+  ./sherpa-onnx-streaming-zipformer-en-20M-2023-02-17/test_wavs/0.wav
+</pre></div>
+</div>
+<p>It will throw the following error:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">qemu</span><span class="o">-</span><span class="n">riscv64</span><span class="p">:</span> <span class="n">Could</span> <span class="ow">not</span> <span class="nb">open</span> <span class="s1">&#39;/lib/ld-linux-riscv64-lp64d.so.1&#39;</span><span class="p">:</span> <span class="n">No</span> <span class="n">such</span> <span class="n">file</span> <span class="ow">or</span> <span class="n">directory</span>
+</pre></div>
+</div>
+<p>Please use the following command instead:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>cd /path/to/sherpa-onnx
+
+export PATH=$HOME/qemu:$PATH
+export QEMU_LD_PREFIX=$HOME/toolchain/sysroot
+
+qemu-riscv64 build-riscv64-linux-gnu/install/bin/sherpa-onnx \
+  --tokens=./sherpa-onnx-streaming-zipformer-en-20M-2023-02-17/tokens.txt \
+  --encoder=./sherpa-onnx-streaming-zipformer-en-20M-2023-02-17/encoder-epoch-99-avg-1.onnx \
+  --decoder=./sherpa-onnx-streaming-zipformer-en-20M-2023-02-17/decoder-epoch-99-avg-1.onnx \
+  --joiner=./sherpa-onnx-streaming-zipformer-en-20M-2023-02-17/joiner-epoch-99-avg-1.onnx \
+  ./sherpa-onnx-streaming-zipformer-en-20M-2023-02-17/test_wavs/0.wav
+</pre></div>
+</div>
+<p>It will throw a second error:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">build</span><span class="o">-</span><span class="n">riscv64</span><span class="o">-</span><span class="n">linux</span><span class="o">-</span><span class="n">gnu</span><span class="o">/</span><span class="n">install</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="p">:</span> <span class="n">error</span> <span class="k">while</span> <span class="n">loading</span> <span class="n">shared</span> <span class="n">libraries</span><span class="p">:</span> <span class="n">ld</span><span class="o">-</span><span class="n">linux</span><span class="o">-</span><span class="n">riscv64xthead</span><span class="o">-</span><span class="n">lp64d</span><span class="o">.</span><span class="n">so</span><span class="mf">.1</span><span class="p">:</span> <span class="n">cannot</span> <span class="nb">open</span> <span class="n">shared</span> <span class="nb">object</span> <span class="n">file</span><span class="p">:</span> <span class="n">No</span> <span class="n">such</span> <span class="n">file</span> <span class="ow">or</span> <span class="n">directory</span>
+</pre></div>
+</div>
+<p>Please use the following command instead:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>cd /path/to/sherpa-onnx
+
+export PATH=$HOME/qemu:$PATH
+export QEMU_LD_PREFIX=$HOME/toolchain/sysroot
+export LD_LIBRARY_PATH=$HOME/toolchain/sysroot/lib:$LD_LIBRARY_PATH
+
+qemu-riscv64 build-riscv64-linux-gnu/install/bin/sherpa-onnx \
+  --tokens=./sherpa-onnx-streaming-zipformer-en-20M-2023-02-17/tokens.txt \
+  --encoder=./sherpa-onnx-streaming-zipformer-en-20M-2023-02-17/encoder-epoch-99-avg-1.onnx \
+  --decoder=./sherpa-onnx-streaming-zipformer-en-20M-2023-02-17/decoder-epoch-99-avg-1.onnx \
+  --joiner=./sherpa-onnx-streaming-zipformer-en-20M-2023-02-17/joiner-epoch-99-avg-1.onnx \
+  ./sherpa-onnx-streaming-zipformer-en-20M-2023-02-17/test_wavs/0.wav
+</pre></div>
+</div>
+<p>Finally, it prints the following output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">content</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">csrc</span><span class="o">/</span><span class="n">parse</span><span class="o">-</span><span class="n">options</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="n">Read</span><span class="p">:</span><span class="mi">361</span> <span class="n">build</span><span class="o">-</span><span class="n">riscv64</span><span class="o">-</span><span class="n">linux</span><span class="o">-</span><span class="n">gnu</span><span class="o">/</span><span class="n">install</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span> <span class="o">--</span><span class="n">tokens</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">streaming</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="mi">20</span><span class="n">M</span><span class="o">-</span><span class="mi">2023</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">17</span><span class="o">/</span><span class="n">tokens</span><span class="o">.</span><span class="n">txt</span> <span class="o">--</span><span class="n">encoder</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">streaming</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="mi">20</span><span class="n">M</span><span class="o">-</span><span class="mi">2023</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">17</span><span class="o">/</span><span class="n">encoder</span><span class="o">-</span><span class="n">epoch</span><span class="o">-</span><span class="mi">99</span><span class="o">-</span><span class="n">avg</span><span class="o">-</span><span class="mf">1.</span><span class="n">onnx</span> <span class="o">--</span><span class="n">decoder</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">streaming</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="mi">20</span><span class="n">M</span><span class="o">-</span><span class="mi">2023</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">17</span><span class="o">/</span><span class="n">decoder</span><span class="o">-</span><span class="n">epoch</span><span class="o">-</span><span class="mi">99</span><span class="o">-</span><span class="n">avg</span><span class="o">-</span><span class="mf">1.</span><span class="n">onnx</span> <span class="o">--</span><span class="n">joiner</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">streaming</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="mi">20</span><span class="n">M</span><span class="o">-</span><span class="mi">2023</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">17</span><span class="o">/</span><span class="n">joiner</span><span class="o">-</span><span class="n">epoch</span><span class="o">-</span><span class="mi">99</span><span class="o">-</span><span class="n">avg</span><span class="o">-</span><span class="mf">1.</span><span class="n">onnx</span> <span class="o">./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">streaming</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="mi">20</span><span class="n">M</span><span class="o">-</span><span class="mi">2023</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">17</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">0.</span><span class="n">wav</span>
+
+<span class="n">OnlineRecognizerConfig</span><span class="p">(</span><span class="n">feat_config</span><span class="o">=</span><span class="n">FeatureExtractorConfig</span><span class="p">(</span><span class="n">sampling_rate</span><span class="o">=</span><span class="mi">16000</span><span class="p">,</span> <span class="n">feature_dim</span><span class="o">=</span><span class="mi">80</span><span class="p">),</span> <span class="n">model_config</span><span class="o">=</span><span class="n">OnlineModelConfig</span><span class="p">(</span><span class="n">transducer</span><span class="o">=</span><span class="n">OnlineTransducerModelConfig</span><span class="p">(</span><span class="n">encoder</span><span class="o">=</span><span class="s2">&quot;./sherpa-onnx-streaming-zipformer-en-20M-2023-02-17/encoder-epoch-99-avg-1.onnx&quot;</span><span class="p">,</span> <span class="n">decoder</span><span class="o">=</span><span class="s2">&quot;./sherpa-onnx-streaming-zipformer-en-20M-2023-02-17/decoder-epoch-99-avg-1.onnx&quot;</span><span class="p">,</span> <span class="n">joiner</span><span class="o">=</span><span class="s2">&quot;./sherpa-onnx-streaming-zipformer-en-20M-2023-02-17/joiner-epoch-99-avg-1.onnx&quot;</span><span class="p">),</span> <span class="n">paraformer</span><span class="o">=</span><span class="n">OnlineParaformerModelConfig</span><span class="p">(</span><span class="n">encoder</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">decoder</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">),</span> <span class="n">wenet_ctc</span><span class="o">=</span><span class="n">OnlineWenetCtcModelConfig</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">chunk_size</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">num_left_chunks</span><span class="o">=</span><span class="mi">4</span><span class="p">),</span> <span class="n">zipformer2_ctc</span><span class="o">=</span><span class="n">OnlineZipformer2CtcModelConfig</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">),</span> <span class="n">tokens</span><span class="o">=</span><span class="s2">&quot;./sherpa-onnx-streaming-zipformer-en-20M-2023-02-17/tokens.txt&quot;</span><span class="p">,</span> <span class="n">num_threads</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">provider</span><span class="o">=</span><span class="s2">&quot;cpu&quot;</span><span class="p">,</span> <span class="n">model_type</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">),</span> <span class="n">lm_config</span><span class="o">=</span><span class="n">OnlineLMConfig</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">0.5</span><span class="p">),</span> <span class="n">endpoint_config</span><span class="o">=</span><span class="n">EndpointConfig</span><span class="p">(</span><span class="n">rule1</span><span class="o">=</span><span class="n">EndpointRule</span><span class="p">(</span><span class="n">must_contain_nonsilence</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">min_trailing_silence</span><span class="o">=</span><span class="mf">2.4</span><span class="p">,</span> <span class="n">min_utterance_length</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">rule2</span><span class="o">=</span><span class="n">EndpointRule</span><span class="p">(</span><span class="n">must_contain_nonsilence</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">min_trailing_silence</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span> <span class="n">min_utterance_length</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">rule3</span><span class="o">=</span><span class="n">EndpointRule</span><span class="p">(</span><span class="n">must_contain_nonsilence</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">min_trailing_silence</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">min_utterance_length</span><span class="o">=</span><span class="mi">20</span><span class="p">)),</span> <span class="n">enable_endpoint</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">max_active_paths</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">hotwords_score</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">hotwords_file</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">decoding_method</span><span class="o">=</span><span class="s2">&quot;greedy_search&quot;</span><span class="p">,</span> <span class="n">blank_penalty</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="o">./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">streaming</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="mi">20</span><span class="n">M</span><span class="o">-</span><span class="mi">2023</span><span class="o">-</span><span class="mi">02</span><span class="o">-</span><span class="mi">17</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">0.</span><span class="n">wav</span>
+<span class="n">Elapsed</span> <span class="n">seconds</span><span class="p">:</span> <span class="mi">70</span><span class="p">,</span> <span class="n">Real</span> <span class="n">time</span> <span class="n">factor</span> <span class="p">(</span><span class="n">RTF</span><span class="p">):</span> <span class="mi">11</span>
+ <span class="n">THE</span> <span class="n">YELLOW</span> <span class="n">LAMPS</span> <span class="n">WOULD</span> <span class="n">LIGHT</span> <span class="n">UP</span> <span class="n">HERE</span> <span class="n">AND</span> <span class="n">THERE</span> <span class="n">THE</span> <span class="n">SQUALID</span> <span class="n">QUARTER</span> <span class="n">OF</span> <span class="n">THE</span> <span class="n">BRAFFLELS</span>
+<span class="p">{</span> <span class="s2">&quot;text&quot;</span><span class="p">:</span> <span class="s2">&quot; THE YELLOW LAMPS WOULD LIGHT UP HERE AND THERE THE SQUALID QUARTER OF THE BRAFFLELS&quot;</span><span class="p">,</span> <span class="s2">&quot;tokens&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="s2">&quot; THE&quot;</span><span class="p">,</span> <span class="s2">&quot; YE&quot;</span><span class="p">,</span> <span class="s2">&quot;LL&quot;</span><span class="p">,</span> <span class="s2">&quot;OW&quot;</span><span class="p">,</span> <span class="s2">&quot; LA&quot;</span><span class="p">,</span> <span class="s2">&quot;M&quot;</span><span class="p">,</span> <span class="s2">&quot;P&quot;</span><span class="p">,</span> <span class="s2">&quot;S&quot;</span><span class="p">,</span> <span class="s2">&quot; WOULD&quot;</span><span class="p">,</span> <span class="s2">&quot; LIGHT&quot;</span><span class="p">,</span> <span class="s2">&quot; UP&quot;</span><span class="p">,</span> <span class="s2">&quot; HE&quot;</span><span class="p">,</span> <span class="s2">&quot;RE&quot;</span><span class="p">,</span> <span class="s2">&quot; AND&quot;</span><span class="p">,</span> <span class="s2">&quot; THERE&quot;</span><span class="p">,</span> <span class="s2">&quot; THE&quot;</span><span class="p">,</span> <span class="s2">&quot; S&quot;</span><span class="p">,</span> <span class="s2">&quot;QUA&quot;</span><span class="p">,</span> <span class="s2">&quot;LI&quot;</span><span class="p">,</span> <span class="s2">&quot;D&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;QUA&quot;</span><span class="p">,</span> <span class="s2">&quot;R&quot;</span><span class="p">,</span> <span class="s2">&quot;TER&quot;</span><span class="p">,</span> <span class="s2">&quot; OF&quot;</span><span class="p">,</span> <span class="s2">&quot; THE&quot;</span><span class="p">,</span> <span class="s2">&quot; B&quot;</span><span class="p">,</span> <span class="s2">&quot;RA&quot;</span><span class="p">,</span> <span class="s2">&quot;FF&quot;</span><span class="p">,</span> <span class="s2">&quot;L&quot;</span><span class="p">,</span> <span class="s2">&quot;EL&quot;</span><span class="p">,</span> <span class="s2">&quot;S&quot;</span> <span class="p">],</span> <span class="s2">&quot;timestamps&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="mf">2.04</span><span class="p">,</span> <span class="mf">2.16</span><span class="p">,</span> <span class="mf">2.28</span><span class="p">,</span> <span class="mf">2.36</span><span class="p">,</span> <span class="mf">2.52</span><span class="p">,</span> <span class="mf">2.64</span><span class="p">,</span> <span class="mf">2.68</span><span class="p">,</span> <span class="mf">2.76</span><span class="p">,</span> <span class="mf">2.92</span><span class="p">,</span> <span class="mf">3.08</span><span class="p">,</span> <span class="mf">3.40</span><span class="p">,</span> <span class="mf">3.60</span><span class="p">,</span> <span class="mf">3.72</span><span class="p">,</span> <span class="mf">3.88</span><span class="p">,</span> <span class="mf">4.12</span><span class="p">,</span> <span class="mf">4.48</span><span class="p">,</span> <span class="mf">4.64</span><span class="p">,</span> <span class="mf">4.68</span><span class="p">,</span> <span class="mf">4.84</span><span class="p">,</span> <span class="mf">4.96</span><span class="p">,</span> <span class="mf">5.16</span><span class="p">,</span> <span class="mf">5.20</span><span class="p">,</span> <span class="mf">5.32</span><span class="p">,</span> <span class="mf">5.36</span><span class="p">,</span> <span class="mf">5.60</span><span class="p">,</span> <span class="mf">5.72</span><span class="p">,</span> <span class="mf">5.92</span><span class="p">,</span> <span class="mf">5.96</span><span class="p">,</span> <span class="mf">6.08</span><span class="p">,</span> <span class="mf">6.24</span><span class="p">,</span> <span class="mf">6.36</span><span class="p">,</span> <span class="mf">6.60</span> <span class="p">],</span> <span class="s2">&quot;ys_probs&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="o">-</span><span class="mf">0.454799</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.521409</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.345871</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.001244</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.240359</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.013972</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.010445</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.051701</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.000371</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.171570</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.002205</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.026703</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.006903</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.021168</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.011662</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.001059</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.005089</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.000273</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.575480</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.024973</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.159344</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.000042</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.011082</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.187136</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.004002</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.292751</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.084873</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.241302</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.543844</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.428164</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.853198</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.093776</span> <span class="p">],</span> <span class="s2">&quot;lm_probs&quot;</span><span class="p">:</span> <span class="p">[</span>  <span class="p">],</span> <span class="s2">&quot;context_scores&quot;</span><span class="p">:</span> <span class="p">[</span>  <span class="p">],</span> <span class="s2">&quot;segment&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;start_time&quot;</span><span class="p">:</span> <span class="mf">0.00</span><span class="p">,</span> <span class="s2">&quot;is_final&quot;</span><span class="p">:</span> <span class="n">false</span><span class="p">}</span>
+</pre></div>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>As you can see, the RTF is 11, indicating that it is very slow to run the model
+with the <code class="docutils literal notranslate"><span class="pre">qemu</span></code> simulator. Running on a real RISC-V board should be much faster.</p>
+</div>
+</section>
+<section id="run-text-to-speech-with-qemu">
+<h3>Run text-to-speech with qemu<a class="headerlink" href="#run-text-to-speech-with-qemu" title="Permalink to this heading"></a></h3>
+<p>Please visit <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/tag/tts-models">https://github.com/k2-fsa/sherpa-onnx/releases/tag/tts-models</a>
+to download a text-to-speech model. We use the following model
+<code class="docutils literal notranslate"><span class="pre">vits-piper-en_US-amy-low.tar.bz2</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span>
+
+<span class="n">wget</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">k2</span><span class="o">-</span><span class="n">fsa</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="n">download</span><span class="o">/</span><span class="n">tts</span><span class="o">-</span><span class="n">models</span><span class="o">/</span><span class="n">vits</span><span class="o">-</span><span class="n">piper</span><span class="o">-</span><span class="n">en_US</span><span class="o">-</span><span class="n">amy</span><span class="o">-</span><span class="n">low</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">bz2</span>
+<span class="n">tar</span> <span class="n">xf</span> <span class="n">vits</span><span class="o">-</span><span class="n">piper</span><span class="o">-</span><span class="n">en_US</span><span class="o">-</span><span class="n">amy</span><span class="o">-</span><span class="n">low</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">bz2</span>
+<span class="n">rm</span> <span class="n">vits</span><span class="o">-</span><span class="n">piper</span><span class="o">-</span><span class="n">en_US</span><span class="o">-</span><span class="n">amy</span><span class="o">-</span><span class="n">low</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">bz2</span>
+</pre></div>
+</div>
+<p>After downloading the model, we can use the following command to run it:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>cd /path/to/sherpa-onnx
+
+export PATH=$HOME/qemu:$PATH
+export QEMU_LD_PREFIX=$HOME/toolchain/sysroot
+export LD_LIBRARY_PATH=$HOME/toolchain/sysroot/lib:$LD_LIBRARY_PATH
+
+qemu-riscv64 build-riscv64-linux-gnu/install/bin/sherpa-onnx-offline-tts \
+  --vits-model=./vits-piper-en_US-amy-low/en_US-amy-low.onnx \
+  --vits-tokens=./vits-piper-en_US-amy-low/tokens.txt \
+  --vits-data-dir=./vits-piper-en_US-amy-low/espeak-ng-data \
+  --output-filename=./a-test.wav \
+  &quot;Friends fell out often because life was changing so fast. The easiest thing in the world was to lose touch with someone.&quot;
+</pre></div>
+</div>
+<p>The log of the above command is given below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/content/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:361 build-riscv64-linux-gnu/install/bin/sherpa-onnx-offline-tts --vits-model=./vits-piper-en_US-amy-low/en_US-amy-low.onnx --vits-tokens=./vits-piper-en_US-amy-low/tokens.txt --vits-data-dir=./vits-piper-en_US-amy-low/espeak-ng-data --output-filename=./a-test.wav &#39;Friends fell out often because life was changing so fast. The easiest thing in the world was to lose touch with someone.&#39;
+
+Elapsed seconds: 270.745 s
+Audio duration: 7.904 s
+Real-time factor (RTF): 270.745/7.904 = 34.254
+The text is: Friends fell out often because life was changing so fast. The easiest thing in the world was to lose touch with someone.. Speaker ID: 0
+Saved to ./a-test.wav successfully!
+</pre></div>
+</div>
+<table>
+  <tr>
+    <th>Wave filename</th>
+    <th>Content</th>
+    <th>Text</th>
+  </tr>
+  <tr>
+    <td>a-test.wav</td>
+    <td>
+     <audio title="Generated a-test.wav" controls="controls">
+           <source src="/sherpa/_static/onnx/riscv64/a-test.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+    <td>
+      Friends fell out often because life was changing so fast. The easiest thing in the world was to lose touch with someone.
+    </td>
+  </tr>
+</table></section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="arm-embedded-linux.html" class="btn btn-neutral float-left" title="Embedded Linux (arm)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../faqs/index.html" class="btn btn-neutral float-right" title="Frequently Asked Question (FAQs)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

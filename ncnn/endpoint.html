@@ -1,0 +1,277 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Endpointing &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Android" href="android/index.html" />
+    <link rel="prev" title="C API" href="c-api/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">sherpa-ncnn</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="install/index.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="python/index.html">Python API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wasm/index.html">WebAssembly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="c-api/index.html">C API</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Endpointing</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#rule-1">Rule 1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#rule-2">Rule 2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#rule-3">Rule 3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#demo">Demo</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#multilingual-chinese-english">Multilingual (Chinese + English)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#faqs">FAQs</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#how-to-compute-duration-of-silence">How to compute duration of silence</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="android/index.html">Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ios/index.html">iOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pretrained_models/index.html">Pre-trained models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/index.html">Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vad/index.html">VAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sense-voice/index.html">SenseVoice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="faq.html">FAQs</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../onnx/index.html">sherpa-onnx</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="index.html">sherpa-ncnn</a> &raquo;</li>
+      <li>Endpointing</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/ncnn/endpoint.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="endpointing">
+<h1>Endpointing<a class="headerlink" href="#endpointing" title="Permalink to this heading"></a></h1>
+<p>We have three rules for endpoint detection. If any of them is activated,
+we assume an endpoint is detected.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>We borrow the implementation from</p>
+<p><a class="reference external" href="https://kaldi-asr.org/doc/structkaldi_1_1OnlineEndpointRule.html">https://kaldi-asr.org/doc/structkaldi_1_1OnlineEndpointRule.html</a></p>
+</div>
+<section id="rule-1">
+<h2>Rule 1<a class="headerlink" href="#rule-1" title="Permalink to this heading"></a></h2>
+<p>In <code class="docutils literal notranslate"><span class="pre">Rule</span> <span class="pre">1</span></code>, we count the duration of trailing silence. If it is larger than
+a user specified value, <code class="docutils literal notranslate"><span class="pre">Rule</span> <span class="pre">1</span></code> is activated. The following is an example,
+which uses <code class="docutils literal notranslate"><span class="pre">2.4</span> <span class="pre">seconds</span></code> as the threshold.</p>
+<blockquote>
+<div><figure class="align-default">
+<a class="reference internal image-reference" href="../_images/rule1.png"><img alt="Rule 1 for endpoint detection" src="../_images/rule1.png" style="width: 600px;" /></a>
+</figure>
+</div></blockquote>
+<p>Two cases are given:</p>
+<ol class="arabic simple">
+<li><p>In the first case, nothing has been decoded when the duration of trailing
+silence reaches 2.4 seconds.</p></li>
+<li><p>In the second case, we first decode something before the duration of
+trailing silence reaches 2.4 seconds.</p></li>
+</ol>
+<p>In both cases, <code class="docutils literal notranslate"><span class="pre">Rule</span> <span class="pre">1</span></code> is activated.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>In the Python API, you can specify <code class="docutils literal notranslate"><span class="pre">rule1_min_trailing_silence</span></code> while
+constructing an instance of <code class="docutils literal notranslate"><span class="pre">sherpa_ncnn.Recognizer</span></code>.</p>
+<p>In the C++ API, you can specify <code class="docutils literal notranslate"><span class="pre">rule1.min_trailing_silence</span></code> when creating
+<code class="docutils literal notranslate"><span class="pre">EndpointConfig</span></code>.</p>
+</div>
+</section>
+<section id="rule-2">
+<h2>Rule 2<a class="headerlink" href="#rule-2" title="Permalink to this heading"></a></h2>
+<p>In <code class="docutils literal notranslate"><span class="pre">Rule</span> <span class="pre">2</span></code>, we require that it has to first decode something
+before we count the trailing silence. In the following example, after decoding
+something, <code class="docutils literal notranslate"><span class="pre">Rule</span> <span class="pre">2</span></code> is activated when the duration of trailing silence is
+larger than the user specified value <code class="docutils literal notranslate"><span class="pre">1.2</span></code> seconds.</p>
+<blockquote>
+<div><figure class="align-default">
+<a class="reference internal image-reference" href="../_images/rule2.png"><img alt="Rule 2 for endpoint detection" src="../_images/rule2.png" style="width: 600px;" /></a>
+</figure>
+</div></blockquote>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>In the Python API, you can specify <code class="docutils literal notranslate"><span class="pre">rule2_min_trailing_silence</span></code> while
+constructing an instance of <code class="docutils literal notranslate"><span class="pre">sherpa_ncnn.Recognizer</span></code>.</p>
+<p>In the C++ API, you can specify <code class="docutils literal notranslate"><span class="pre">rule2.min_trailing_silence</span></code> when creating
+<code class="docutils literal notranslate"><span class="pre">EndpointConfig</span></code>.</p>
+</div>
+</section>
+<section id="rule-3">
+<h2>Rule 3<a class="headerlink" href="#rule-3" title="Permalink to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">Rule</span> <span class="pre">3</span></code> is activated when the utterance length in seconds is larger than
+a given value. In the following example, <code class="docutils literal notranslate"><span class="pre">Rule</span> <span class="pre">3</span></code> is activated after the
+first segment reaches a given value, which is <code class="docutils literal notranslate"><span class="pre">20</span></code> seconds in this case.</p>
+<blockquote>
+<div><figure class="align-default">
+<a class="reference internal image-reference" href="../_images/rule3.png"><img alt="Rule 3 for endpoint detection" src="../_images/rule3.png" style="width: 600px;" /></a>
+</figure>
+</div></blockquote>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>In the Python API, you can specify <code class="docutils literal notranslate"><span class="pre">rule3_min_utterance_length</span></code> while
+constructing an instance of <code class="docutils literal notranslate"><span class="pre">sherpa_ncnn.Recognizer</span></code>.</p>
+<p>In the C++ API, you can specify <code class="docutils literal notranslate"><span class="pre">rule3.min_utterance_length</span></code> when creating
+<code class="docutils literal notranslate"><span class="pre">EndpointConfig</span></code>.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you want to deactive this rule, please provide a very large value
+for <code class="docutils literal notranslate"><span class="pre">rule3_min_utterance_length</span></code> or <code class="docutils literal notranslate"><span class="pre">rule3.min_utterance_length</span></code>.</p>
+</div>
+</section>
+<section id="demo">
+<h2>Demo<a class="headerlink" href="#demo" title="Permalink to this heading"></a></h2>
+<section id="multilingual-chinese-english">
+<h3>Multilingual (Chinese + English)<a class="headerlink" href="#multilingual-chinese-english" title="Permalink to this heading"></a></h3>
+<p>The following video demonstrates using the Python API of <a class="reference external" href="https://github.com/k2-fsa/sherpa-ncnn">sherpa-ncnn</a>
+for real-time speech recogntinion with endpointing.</p>
+<iframe src="//player.bilibili.com/player.html?bvid=BV1eK411y788&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" width="800" height="600"> </iframe><div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>The code is available at</p>
+<p><a class="reference external" href="https://github.com/k2-fsa/sherpa-ncnn/blob/master/python-api-examples/speech-recognition-from-microphone-with-endpoint-detection.py">https://github.com/k2-fsa/sherpa-ncnn/blob/master/python-api-examples/speech-recognition-from-microphone-with-endpoint-detection.py</a></p>
+</div>
+</section>
+</section>
+<section id="faqs">
+<h2>FAQs<a class="headerlink" href="#faqs" title="Permalink to this heading"></a></h2>
+<section id="how-to-compute-duration-of-silence">
+<h3>How to compute duration of silence<a class="headerlink" href="#how-to-compute-duration-of-silence" title="Permalink to this heading"></a></h3>
+<p>For each frame to be decoded, we can output either a blank or a non-blank token.
+We record the number of contiguous blanks that has been decoded so far.
+In the current default setting, each frame is <code class="docutils literal notranslate"><span class="pre">10</span> <span class="pre">ms</span></code>. Thus, we can get
+the duration of trailing silence by counting the number of contiguous trailing
+blanks.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If a model uses a subsampling factor of 4, the time resolution becomes
+<code class="docutils literal notranslate"><span class="pre">10</span> <span class="pre">*</span> <span class="pre">4</span> <span class="pre">=</span> <span class="pre">40</span> <span class="pre">ms</span></code>.</p>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="c-api/index.html" class="btn btn-neutral float-left" title="C API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="android/index.html" class="btn btn-neutral float-right" title="Android" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

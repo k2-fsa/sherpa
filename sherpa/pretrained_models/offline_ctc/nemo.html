@@ -1,0 +1,451 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NeMo &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/clipboard.min.js"></script>
+        <script src="../../../_static/copybutton.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Offline transducer models" href="../offline_transducer.html" />
+    <link rel="prev" title="torchaudio" href="torchaudio.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">sherpa</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../install/index.html">Installation</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">Pre-trained models</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">Offline CTC models</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="icefall.html">icefall</a></li>
+<li class="toctree-l4"><a class="reference internal" href="wenet.html">WeNet</a></li>
+<li class="toctree-l4"><a class="reference internal" href="torchaudio.html">torchaudio</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">NeMo</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../offline_transducer.html">Offline transducer models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../online_transducer.html">Online transducer models</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../onnx/index.html">sherpa-onnx</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html">sherpa</a> &raquo;</li>
+          <li><a href="../index.html">Pre-trained models</a> &raquo;</li>
+          <li><a href="index.html">Offline CTC models</a> &raquo;</li>
+      <li>NeMo</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/sherpa/pretrained_models/offline_ctc/nemo.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="nemo">
+<h1>NeMo<a class="headerlink" href="#nemo" title="Permalink to this heading"></a></h1>
+<p>This section lists models from <a class="reference external" href="https://github.com/NVIDIA/NeMo">NeMo</a>.</p>
+<section id="sherpa-nemo-ctc-en-citrinet-512-english">
+<h2>sherpa-nemo-ctc-en-citrinet-512 (English)<a class="headerlink" href="#sherpa-nemo-ctc-en-citrinet-512-english" title="Permalink to this heading"></a></h2>
+<p>This model is converted from</p>
+<blockquote>
+<div><p><a class="reference external" href="https://catalog.ngc.nvidia.com/orgs/nvidia/teams/nemo/models/stt_en_citrinet_512">https://catalog.ngc.nvidia.com/orgs/nvidia/teams/nemo/models/stt_en_citrinet_512</a></p>
+</div></blockquote>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">GIT_LFS_SKIP_SMUDGE</span><span class="o">=</span><span class="m">1</span><span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>https://huggingface.co/csukuangfj/sherpa-nemo-ctc-en-citrinet-512
+<span class="nb">cd</span><span class="w"> </span>sherpa-nemo-ctc-en-citrinet-512
+git<span class="w"> </span>lfs<span class="w"> </span>pull<span class="w"> </span>--include<span class="w"> </span><span class="s2">&quot;model.pt&quot;</span>
+
+sherpa-offline<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--nn-model<span class="o">=</span>./model.pt<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--tokens<span class="o">=</span>./tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--use-gpu<span class="o">=</span><span class="nb">false</span><span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--modified<span class="o">=</span><span class="nb">false</span><span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--nemo-normalize<span class="o">=</span>per_feature<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>./test_wavs/0.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>./test_wavs/1.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>./test_wavs/2.wav
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ls<span class="w"> </span>-lh<span class="w"> </span>model.pt
+-rw-r--r--<span class="w"> </span><span class="m">1</span><span class="w"> </span>kuangfangjun<span class="w"> </span>root<span class="w"> </span>142M<span class="w"> </span>Mar<span class="w">  </span><span class="m">9</span><span class="w"> </span><span class="m">21</span>:23<span class="w"> </span>model.pt
+</pre></div>
+</div>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>It is of paramount importance to specify <code class="docutils literal notranslate"><span class="pre">--nemo-normalize=per_feature</span></code>.</p>
+</div>
+</section>
+<section id="sherpa-nemo-ctc-zh-citrinet-512-chinese">
+<h2>sherpa-nemo-ctc-zh-citrinet-512 (Chinese)<a class="headerlink" href="#sherpa-nemo-ctc-zh-citrinet-512-chinese" title="Permalink to this heading"></a></h2>
+<p>This model is converted from</p>
+<blockquote>
+<div><p><a class="reference external" href="https://catalog.ngc.nvidia.com/orgs/nvidia/teams/nemo/models/stt_zh_citrinet_512">https://catalog.ngc.nvidia.com/orgs/nvidia/teams/nemo/models/stt_zh_citrinet_512</a></p>
+</div></blockquote>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">GIT_LFS_SKIP_SMUDGE</span><span class="o">=</span><span class="m">1</span><span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>https://huggingface.co/csukuangfj/sherpa-nemo-ctc-zh-citrinet-512
+<span class="nb">cd</span><span class="w"> </span>sherpa-nemo-ctc-zh-citrinet-512
+git<span class="w"> </span>lfs<span class="w"> </span>pull<span class="w"> </span>--include<span class="w"> </span><span class="s2">&quot;model.pt&quot;</span>
+
+sherpa-offline<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--nn-model<span class="o">=</span>./model.pt<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--tokens<span class="o">=</span>./tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--use-gpu<span class="o">=</span><span class="nb">false</span><span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--modified<span class="o">=</span><span class="nb">true</span><span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--nemo-normalize<span class="o">=</span>per_feature<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>./test_wavs/0.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>./test_wavs/1.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>./test_wavs/2.wav
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ls<span class="w"> </span>-lh<span class="w"> </span>model.pt
+-rw-r--r--<span class="w"> </span><span class="m">1</span><span class="w"> </span>kuangfangjun<span class="w"> </span>root<span class="w"> </span>153M<span class="w"> </span>Mar<span class="w"> </span><span class="m">10</span><span class="w"> </span><span class="m">15</span>:07<span class="w"> </span>model.pt
+</pre></div>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>Since the vocabulary size of this model is very large, i.e, 5207, we use
+<code class="docutils literal notranslate"><span class="pre">--modified=true</span></code> to use a
+<a class="reference external" href="https://k2-fsa.github.io/k2/python_api/api.html#k2.ctc_topo">modified CTC topology</a></p>
+</div>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>It is of paramount importance to specify <code class="docutils literal notranslate"><span class="pre">--nemo-normalize=per_feature</span></code>.</p>
+</div>
+</section>
+<section id="sherpa-nemo-ctc-zh-citrinet-1024-gamma-0-25-chinese">
+<h2>sherpa-nemo-ctc-zh-citrinet-1024-gamma-0-25 (Chinese)<a class="headerlink" href="#sherpa-nemo-ctc-zh-citrinet-1024-gamma-0-25-chinese" title="Permalink to this heading"></a></h2>
+<p>This model is converted from</p>
+<blockquote>
+<div><p><a class="reference external" href="https://catalog.ngc.nvidia.com/orgs/nvidia/teams/nemo/models/stt_zh_citrinet_1024_gamma_0_25">https://catalog.ngc.nvidia.com/orgs/nvidia/teams/nemo/models/stt_zh_citrinet_1024_gamma_0_25</a></p>
+</div></blockquote>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">GIT_LFS_SKIP_SMUDGE</span><span class="o">=</span><span class="m">1</span><span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>https://huggingface.co/csukuangfj/sherpa-nemo-ctc-zh-citrinet-1024-gamma-0-25
+<span class="nb">cd</span><span class="w"> </span>sherpa-nemo-ctc-zh-citrinet-1024-gamma-0-25
+git<span class="w"> </span>lfs<span class="w"> </span>pull<span class="w"> </span>--include<span class="w"> </span><span class="s2">&quot;model.pt&quot;</span>
+
+sherpa-offline<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--nn-model<span class="o">=</span>./model.pt<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--tokens<span class="o">=</span>./tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--use-gpu<span class="o">=</span><span class="nb">false</span><span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--modified<span class="o">=</span><span class="nb">true</span><span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--nemo-normalize<span class="o">=</span>per_feature<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>./test_wavs/0.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>./test_wavs/1.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>./test_wavs/2.wav
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ls<span class="w"> </span>-lh<span class="w"> </span>model.pt
+-rw-r--r--<span class="w"> </span><span class="m">1</span><span class="w"> </span>kuangfangjun<span class="w"> </span>root<span class="w"> </span>557M<span class="w"> </span>Mar<span class="w"> </span><span class="m">10</span><span class="w"> </span><span class="m">16</span>:29<span class="w"> </span>model.pt
+</pre></div>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>Since the vocabulary size of this model is very large, i.e, 5207, we use
+<code class="docutils literal notranslate"><span class="pre">--modified=true</span></code> to use a
+<a class="reference external" href="https://k2-fsa.github.io/k2/python_api/api.html#k2.ctc_topo">modified CTC topology</a></p>
+</div>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>It is of paramount importance to specify <code class="docutils literal notranslate"><span class="pre">--nemo-normalize=per_feature</span></code>.</p>
+</div>
+</section>
+<section id="sherpa-nemo-ctc-de-citrinet-1024-german">
+<h2>sherpa-nemo-ctc-de-citrinet-1024 (German)<a class="headerlink" href="#sherpa-nemo-ctc-de-citrinet-1024-german" title="Permalink to this heading"></a></h2>
+<p>This model is converted from</p>
+<blockquote>
+<div><p><a class="reference external" href="https://catalog.ngc.nvidia.com/orgs/nvidia/teams/nemo/models/stt_de_citrinet_1024">https://catalog.ngc.nvidia.com/orgs/nvidia/teams/nemo/models/stt_de_citrinet_1024</a></p>
+</div></blockquote>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">GIT_LFS_SKIP_SMUDGE</span><span class="o">=</span><span class="m">1</span><span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>https://huggingface.co/csukuangfj/sherpa-nemo-ctc-de-citrinet-1024
+<span class="nb">cd</span><span class="w"> </span>sherpa-nemo-ctc-de-citrinet-1024
+git<span class="w"> </span>lfs<span class="w"> </span>pull<span class="w"> </span>--include<span class="w"> </span><span class="s2">&quot;model.pt&quot;</span>
+
+sherpa-offline<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--nn-model<span class="o">=</span>./model.pt<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--tokens<span class="o">=</span>./tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--use-gpu<span class="o">=</span><span class="nb">false</span><span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--modified<span class="o">=</span><span class="nb">false</span><span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--nemo-normalize<span class="o">=</span>per_feature<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>./test_wavs/0.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>./test_wavs/1.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>./test_wavs/2.wav
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ls<span class="w"> </span>-lh<span class="w"> </span>model.pt
+-rw-r--r--<span class="w"> </span><span class="m">1</span><span class="w"> </span>kuangfangjun<span class="w"> </span>root<span class="w"> </span>541M<span class="w"> </span>Mar<span class="w"> </span><span class="m">10</span><span class="w"> </span><span class="m">16</span>:55<span class="w"> </span>model.pt
+</pre></div>
+</div>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>It is of paramount importance to specify <code class="docutils literal notranslate"><span class="pre">--nemo-normalize=per_feature</span></code>.</p>
+</div>
+</section>
+<section id="sherpa-nemo-ctc-en-conformer-small-english">
+<h2>sherpa-nemo-ctc-en-conformer-small (English)<a class="headerlink" href="#sherpa-nemo-ctc-en-conformer-small-english" title="Permalink to this heading"></a></h2>
+<p>This model is converted from</p>
+<blockquote>
+<div><p><a class="reference external" href="https://registry.ngc.nvidia.com/orgs/nvidia/teams/nemo/models/stt_en_conformer_ctc_small">https://registry.ngc.nvidia.com/orgs/nvidia/teams/nemo/models/stt_en_conformer_ctc_small</a></p>
+</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">GIT_LFS_SKIP_SMUDGE</span><span class="o">=</span><span class="mi">1</span> <span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">huggingface</span><span class="o">.</span><span class="n">co</span><span class="o">/</span><span class="n">csukuangfj</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">nemo</span><span class="o">-</span><span class="n">ctc</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="n">conformer</span><span class="o">-</span><span class="n">small</span>
+<span class="n">cd</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">nemo</span><span class="o">-</span><span class="n">ctc</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="n">conformer</span><span class="o">-</span><span class="n">small</span>
+<span class="n">git</span> <span class="n">lfs</span> <span class="n">pull</span> <span class="o">--</span><span class="n">include</span> <span class="s2">&quot;model.pt&quot;</span>
+
+<span class="n">sherpa</span><span class="o">-</span><span class="n">offline</span> \
+   <span class="o">--</span><span class="n">nn</span><span class="o">-</span><span class="n">model</span><span class="o">=./</span><span class="n">model</span><span class="o">.</span><span class="n">pt</span> \
+   <span class="o">--</span><span class="n">tokens</span><span class="o">=./</span><span class="n">tokens</span><span class="o">.</span><span class="n">txt</span> \
+   <span class="o">--</span><span class="n">use</span><span class="o">-</span><span class="n">gpu</span><span class="o">=</span><span class="n">false</span> \
+   <span class="o">--</span><span class="n">modified</span><span class="o">=</span><span class="n">false</span> \
+   <span class="o">--</span><span class="n">nemo</span><span class="o">-</span><span class="n">normalize</span><span class="o">=</span><span class="n">per_feature</span> \
+   <span class="o">./</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">0.</span><span class="n">wav</span> \
+   <span class="o">./</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">1.</span><span class="n">wav</span> \
+   <span class="o">./</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">2.</span><span class="n">wav</span>
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ls<span class="w"> </span>-lh<span class="w"> </span>model.pt
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">    </span>82M<span class="w"> </span>Mar<span class="w"> </span><span class="m">10</span><span class="w"> </span><span class="m">19</span>:55<span class="w"> </span>model.pt
+</pre></div>
+</div>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>It is of paramount importance to specify <code class="docutils literal notranslate"><span class="pre">--nemo-normalize=per_feature</span></code>.</p>
+</div>
+</section>
+<section id="sherpa-nemo-ctc-en-conformer-medium-english">
+<h2>sherpa-nemo-ctc-en-conformer-medium (English)<a class="headerlink" href="#sherpa-nemo-ctc-en-conformer-medium-english" title="Permalink to this heading"></a></h2>
+<p>This model is converted from</p>
+<blockquote>
+<div><p><a class="reference external" href="https://registry.ngc.nvidia.com/orgs/nvidia/teams/nemo/models/stt_en_conformer_ctc_medium">https://registry.ngc.nvidia.com/orgs/nvidia/teams/nemo/models/stt_en_conformer_ctc_medium</a></p>
+</div></blockquote>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">GIT_LFS_SKIP_SMUDGE</span><span class="o">=</span><span class="mi">1</span> <span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">huggingface</span><span class="o">.</span><span class="n">co</span><span class="o">/</span><span class="n">csukuangfj</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">nemo</span><span class="o">-</span><span class="n">ctc</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="n">conformer</span><span class="o">-</span><span class="n">medium</span>
+<span class="n">cd</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">nemo</span><span class="o">-</span><span class="n">ctc</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="n">conformer</span><span class="o">-</span><span class="n">medium</span>
+<span class="n">git</span> <span class="n">lfs</span> <span class="n">pull</span> <span class="o">--</span><span class="n">include</span> <span class="s2">&quot;model.pt&quot;</span>
+
+<span class="n">sherpa</span><span class="o">-</span><span class="n">offline</span> \
+   <span class="o">--</span><span class="n">nn</span><span class="o">-</span><span class="n">model</span><span class="o">=./</span><span class="n">model</span><span class="o">.</span><span class="n">pt</span> \
+   <span class="o">--</span><span class="n">tokens</span><span class="o">=./</span><span class="n">tokens</span><span class="o">.</span><span class="n">txt</span> \
+   <span class="o">--</span><span class="n">use</span><span class="o">-</span><span class="n">gpu</span><span class="o">=</span><span class="n">false</span> \
+   <span class="o">--</span><span class="n">modified</span><span class="o">=</span><span class="n">false</span> \
+   <span class="o">--</span><span class="n">nemo</span><span class="o">-</span><span class="n">normalize</span><span class="o">=</span><span class="n">per_feature</span> \
+   <span class="o">./</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">0.</span><span class="n">wav</span> \
+   <span class="o">./</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">1.</span><span class="n">wav</span> \
+   <span class="o">./</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">2.</span><span class="n">wav</span>
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ls<span class="w"> </span>-lh<span class="w"> </span>model.pt
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">   </span>152M<span class="w"> </span>Mar<span class="w"> </span><span class="m">10</span><span class="w"> </span><span class="m">20</span>:26<span class="w"> </span>model.pt
+</pre></div>
+</div>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>It is of paramount importance to specify <code class="docutils literal notranslate"><span class="pre">--nemo-normalize=per_feature</span></code>.</p>
+</div>
+</section>
+<section id="sherpa-nemo-ctc-en-conformer-large-english">
+<h2>sherpa-nemo-ctc-en-conformer-large (English)<a class="headerlink" href="#sherpa-nemo-ctc-en-conformer-large-english" title="Permalink to this heading"></a></h2>
+<p>This model is converted from</p>
+<blockquote>
+<div><p><a class="reference external" href="https://registry.ngc.nvidia.com/orgs/nvidia/teams/nemo/models/stt_en_conformer_ctc_large">https://registry.ngc.nvidia.com/orgs/nvidia/teams/nemo/models/stt_en_conformer_ctc_large</a></p>
+</div></blockquote>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>The vocabulary size is 129</p>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">GIT_LFS_SKIP_SMUDGE</span><span class="o">=</span><span class="mi">1</span> <span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">huggingface</span><span class="o">.</span><span class="n">co</span><span class="o">/</span><span class="n">csukuangfj</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">nemo</span><span class="o">-</span><span class="n">ctc</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="n">conformer</span><span class="o">-</span><span class="n">large</span>
+<span class="n">cd</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">nemo</span><span class="o">-</span><span class="n">ctc</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="n">conformer</span><span class="o">-</span><span class="n">large</span>
+<span class="n">git</span> <span class="n">lfs</span> <span class="n">pull</span> <span class="o">--</span><span class="n">include</span> <span class="s2">&quot;model.pt&quot;</span>
+
+<span class="n">sherpa</span><span class="o">-</span><span class="n">offline</span> \
+   <span class="o">--</span><span class="n">nn</span><span class="o">-</span><span class="n">model</span><span class="o">=./</span><span class="n">model</span><span class="o">.</span><span class="n">pt</span> \
+   <span class="o">--</span><span class="n">tokens</span><span class="o">=./</span><span class="n">tokens</span><span class="o">.</span><span class="n">txt</span> \
+   <span class="o">--</span><span class="n">use</span><span class="o">-</span><span class="n">gpu</span><span class="o">=</span><span class="n">false</span> \
+   <span class="o">--</span><span class="n">modified</span><span class="o">=</span><span class="n">false</span> \
+   <span class="o">--</span><span class="n">nemo</span><span class="o">-</span><span class="n">normalize</span><span class="o">=</span><span class="n">per_feature</span> \
+   <span class="o">./</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">0.</span><span class="n">wav</span> \
+   <span class="o">./</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">1.</span><span class="n">wav</span> \
+   <span class="o">./</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">2.</span><span class="n">wav</span>
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ls<span class="w"> </span>-lh<span class="w"> </span>model.pt
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">   </span>508M<span class="w"> </span>Mar<span class="w"> </span><span class="m">10</span><span class="w"> </span><span class="m">20</span>:44<span class="w"> </span>model.pt
+</pre></div>
+</div>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>It is of paramount importance to specify <code class="docutils literal notranslate"><span class="pre">--nemo-normalize=per_feature</span></code>.</p>
+</div>
+</section>
+<section id="sherpa-nemo-ctc-de-conformer-large-german">
+<h2>sherpa-nemo-ctc-de-conformer-large (German)<a class="headerlink" href="#sherpa-nemo-ctc-de-conformer-large-german" title="Permalink to this heading"></a></h2>
+<p>This model is converted from</p>
+<blockquote>
+<div><p><a class="reference external" href="https://registry.ngc.nvidia.com/orgs/nvidia/teams/nemo/models/stt_de_conformer_ctc_large">https://registry.ngc.nvidia.com/orgs/nvidia/teams/nemo/models/stt_de_conformer_ctc_large</a></p>
+</div></blockquote>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>The vocabulary size is 129</p>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">GIT_LFS_SKIP_SMUDGE</span><span class="o">=</span><span class="mi">1</span> <span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">huggingface</span><span class="o">.</span><span class="n">co</span><span class="o">/</span><span class="n">csukuangfj</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">nemo</span><span class="o">-</span><span class="n">ctc</span><span class="o">-</span><span class="n">de</span><span class="o">-</span><span class="n">conformer</span><span class="o">-</span><span class="n">large</span>
+<span class="n">cd</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">nemo</span><span class="o">-</span><span class="n">ctc</span><span class="o">-</span><span class="n">de</span><span class="o">-</span><span class="n">conformer</span><span class="o">-</span><span class="n">large</span>
+<span class="n">git</span> <span class="n">lfs</span> <span class="n">pull</span> <span class="o">--</span><span class="n">include</span> <span class="s2">&quot;model.pt&quot;</span>
+
+<span class="n">sherpa</span><span class="o">-</span><span class="n">offline</span> \
+   <span class="o">--</span><span class="n">nn</span><span class="o">-</span><span class="n">model</span><span class="o">=./</span><span class="n">model</span><span class="o">.</span><span class="n">pt</span> \
+   <span class="o">--</span><span class="n">tokens</span><span class="o">=./</span><span class="n">tokens</span><span class="o">.</span><span class="n">txt</span> \
+   <span class="o">--</span><span class="n">use</span><span class="o">-</span><span class="n">gpu</span><span class="o">=</span><span class="n">false</span> \
+   <span class="o">--</span><span class="n">modified</span><span class="o">=</span><span class="n">false</span> \
+   <span class="o">--</span><span class="n">nemo</span><span class="o">-</span><span class="n">normalize</span><span class="o">=</span><span class="n">per_feature</span> \
+   <span class="o">./</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">0.</span><span class="n">wav</span> \
+   <span class="o">./</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">1.</span><span class="n">wav</span> \
+   <span class="o">./</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">2.</span><span class="n">wav</span>
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ls<span class="w"> </span>-lh<span class="w"> </span>model.pt
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">   </span>508M<span class="w"> </span>Mar<span class="w"> </span><span class="m">10</span><span class="w"> </span><span class="m">21</span>:34<span class="w"> </span>model.pt
+</pre></div>
+</div>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>It is of paramount importance to specify <code class="docutils literal notranslate"><span class="pre">--nemo-normalize=per_feature</span></code>.</p>
+</div>
+</section>
+<section id="how-to-convert-nemo-models-to-sherpa">
+<h2>How to convert NeMo models to sherpa<a class="headerlink" href="#how-to-convert-nemo-models-to-sherpa" title="Permalink to this heading"></a></h2>
+<p>This section describes how to export <a class="reference external" href="https://github.com/NVIDIA/NeMo">NeMo</a> pre-trained CTC models to <a class="reference external" href="https://github.com/k2-fsa/sherpa">sherpa</a>.</p>
+<p>You can find a list of pre-trained models from <a class="reference external" href="https://github.com/NVIDIA/NeMo">NeMo</a> by visiting:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://catalog.ngc.nvidia.com/orgs/nvidia/collections/nemo_asr">https://catalog.ngc.nvidia.com/orgs/nvidia/collections/nemo_asr</a>.</p>
+</div></blockquote>
+<p>Let us take <code class="docutils literal notranslate"><span class="pre">stt_en_conformer_ctc_small</span></code> as an example.</p>
+<p>You can use the following code to obtain <code class="docutils literal notranslate"><span class="pre">model.pt</span></code> and <code class="docutils literal notranslate"><span class="pre">tokens.txt</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>import<span class="w"> </span>nemo.collections.asr<span class="w"> </span>as<span class="w"> </span>nemo_asr
+<span class="nv">m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>nemo_asr.models.EncDecCTCModelBPE.from_pretrained<span class="o">(</span><span class="s1">&#39;stt_en_conformer_ctc_small&#39;</span><span class="o">)</span>
+m.export<span class="o">(</span><span class="s2">&quot;model.pt&quot;</span><span class="o">)</span>
+
+with<span class="w"> </span>open<span class="o">(</span><span class="s1">&#39;tokens.txt&#39;</span>,<span class="w"> </span><span class="s1">&#39;w&#39;</span>,<span class="w"> </span><span class="nv">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="o">)</span><span class="w"> </span>as<span class="w"> </span>f:
+<span class="w">  </span>f.write<span class="o">(</span><span class="s2">&quot;&lt;blk&gt; 0\n&quot;</span><span class="o">)</span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span>i,<span class="w"> </span>s<span class="w"> </span><span class="k">in</span><span class="w"> </span>enumerate<span class="o">(</span>m.decoder.vocabulary<span class="o">)</span>:
+<span class="w">    </span>f.write<span class="o">(</span>f<span class="s2">&quot;{s} {i+1}\n&quot;</span><span class="o">)</span>
+</pre></div>
+</div>
+<p>One thing to note is that the blank token has the largest token ID in <code class="docutils literal notranslate"><span class="pre">NeMo</span></code>.
+However, it is always <code class="docutils literal notranslate"><span class="pre">0</span></code> in <a class="reference external" href="https://github.com/k2-fsa/sherpa">sherpa</a>. During network computation, we shift
+the last column of the <code class="docutils literal notranslate"><span class="pre">log_prob</span></code> tensor to the first column so that
+it matches the convention about using 0 for the blank in <a class="reference external" href="https://github.com/k2-fsa/sherpa">sherpa</a>.</p>
+<p>You can find the exported <code class="docutils literal notranslate"><span class="pre">model.pt</span></code> and <code class="docutils literal notranslate"><span class="pre">tokens.txt</span></code> by visiting</p>
+<blockquote>
+<div><p><a class="reference external" href="https://huggingface.co/csukuangfj/sherpa-nemo-ctc-en-conformer-small">https://huggingface.co/csukuangfj/sherpa-nemo-ctc-en-conformer-small</a></p>
+</div></blockquote>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="torchaudio.html" class="btn btn-neutral float-left" title="torchaudio" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../offline_transducer.html" class="btn btn-neutral float-right" title="Offline transducer models" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

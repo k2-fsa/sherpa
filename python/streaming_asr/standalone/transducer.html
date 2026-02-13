@@ -1,0 +1,230 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Transducer &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/clipboard.min.js"></script>
+        <script src="../../../_static/copybutton.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../onnx/index.html">sherpa-onnx</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Transducer</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/python/streaming_asr/standalone/transducer.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="transducer">
+<h1>Transducer<a class="headerlink" href="#transducer" title="Permalink to this heading"></a></h1>
+<p>In this section, we describe how to use pre-trained <a class="reference external" href="https://arxiv.org/pdf/1211.3711.pdf">transducer</a>
+models for online (i.e., streaming) speech recognition.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>Please refer to <a class="reference internal" href="../../../sherpa/pretrained_models/online_transducer.html#online-transducer-pretrained-models"><span class="std std-ref">Online transducer models</span></a> for a list of
+available pre-trained <a class="reference external" href="https://arxiv.org/pdf/1211.3711.pdf">transducer</a> models to download.</p>
+</div>
+<p>In the following, we use the pre-trained model
+<a class="reference internal" href="../../../sherpa/pretrained_models/online_transducer.html#icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29"><span class="std std-ref">icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29</span></a>
+to demonstrate how to decode sound files.</p>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>Make sure you have installed <a class="reference external" href="https://github.com/k2-fsa/sherpa">sherpa</a> before you continue.</p>
+<p>Please refer to <a class="reference internal" href="../../../sherpa/install/from_source.html#install-sherpa-from-source"><span class="std std-ref">From source</span></a> to install <a class="reference external" href="https://github.com/k2-fsa/sherpa">sherpa</a>
+from source.</p>
+</div>
+<section id="download-the-pre-trained-model">
+<h2>Download the pre-trained model<a class="headerlink" href="#download-the-pre-trained-model" title="Permalink to this heading"></a></h2>
+<p>Please refer to <a class="reference internal" href="../../../sherpa/pretrained_models/online_transducer.html#icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29"><span class="std std-ref">icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29</span></a>
+for detailed instructions.</p>
+<p>For ease of reference, we duplicate the download commands below:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># This model is trained using LibriSpeech with streaming zipformer transducer</span>
+<span class="c1">#</span>
+<span class="c1"># See https://github.com/k2-fsa/icefall/pull/787</span>
+<span class="c1">#</span>
+<span class="nv">GIT_LFS_SKIP_SMUDGE</span><span class="o">=</span><span class="m">1</span><span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>https://huggingface.co/Zengwei/icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29
+<span class="nb">cd</span><span class="w"> </span>icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29
+
+git<span class="w"> </span>lfs<span class="w"> </span>pull<span class="w"> </span>--include<span class="w"> </span><span class="s2">&quot;exp/cpu_jit.pt&quot;</span>
+git<span class="w"> </span>lfs<span class="w"> </span>pull<span class="w"> </span>--include<span class="w"> </span><span class="s2">&quot;data/lang_bpe_500/LG.pt&quot;</span>
+</pre></div>
+</div>
+<p>In the following, we describe different decoding methods.</p>
+</section>
+<section id="greedy-search">
+<h2>greedy search<a class="headerlink" href="#greedy-search" title="Permalink to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa
+
+python3<span class="w"> </span>./sherpa/bin/online_transducer_asr.py<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--decoding-method<span class="o">=</span><span class="s2">&quot;greedy_search&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--nn-model<span class="o">=</span>./icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29/exp/cpu_jit.pt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span>./icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29/data/lang_bpe_500/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29/test_wavs/1089-134686-0001.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29/test_wavs/1221-135766-0001.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29/test_wavs/1221-135766-0002.wav
+</pre></div>
+</div>
+</section>
+<section id="modified-beam-search">
+<h2>modified beam search<a class="headerlink" href="#modified-beam-search" title="Permalink to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa
+
+python3<span class="w"> </span>./sherpa/bin/online_transducer_asr.py<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--decoding-method<span class="o">=</span><span class="s2">&quot;modified_beam_search&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--nn-model<span class="o">=</span>./icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29/exp/cpu_jit.pt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span>./icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29/data/lang_bpe_500/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29/test_wavs/1089-134686-0001.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29/test_wavs/1221-135766-0001.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29/test_wavs/1221-135766-0002.wav
+</pre></div>
+</div>
+</section>
+<section id="fast-beam-search">
+<h2>fast_beam_search<a class="headerlink" href="#fast-beam-search" title="Permalink to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa
+
+python3<span class="w"> </span>./sherpa/bin/online_transducer_asr.py<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--decoding-method<span class="o">=</span><span class="s2">&quot;fast_beam_search&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--nn-model<span class="o">=</span>./icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29/exp/cpu_jit.pt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span>./icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29/data/lang_bpe_500/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29/test_wavs/1089-134686-0001.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29/test_wavs/1221-135766-0001.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29/test_wavs/1221-135766-0002.wav
+</pre></div>
+</div>
+</section>
+<section id="fast-beam-search-with-lg">
+<h2>fast_beam_search with LG<a class="headerlink" href="#fast-beam-search-with-lg" title="Permalink to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa
+
+python3<span class="w"> </span>./sherpa/bin/online_transducer_asr.py<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--decoding-method<span class="o">=</span><span class="s2">&quot;fast_beam_search&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--LG<span class="o">=</span>./icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29/data/lang_bpe_500/LG.pt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--nn-model<span class="o">=</span>./icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29/exp/cpu_jit.pt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span>./icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29/data/lang_bpe_500/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29/test_wavs/1089-134686-0001.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29/test_wavs/1221-135766-0001.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29/test_wavs/1221-135766-0002.wav
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

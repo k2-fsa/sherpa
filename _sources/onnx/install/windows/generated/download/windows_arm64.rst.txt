@@ -1,0 +1,198 @@
+Pre-compiled executables and libraries for Windows arm64
+======================================================================
+
+.. hint::
+
+   If you don't want to build `sherpa-onnx`_ from source for Windows arm64, please
+   continue reading.
+
+
+This section describes how to install prebuilt **sherpa-onnx** binaries on
+**Windows arm64**.
+
+Please visit
+
+  `<https://github.com/k2-fsa/sherpa-onnx/releases/tag/v1.12.24>`_
+
+to download pre-compiled executables and libraries for Windows ``arm64``.
+
+
+Shared Libraries
+----------------
+
+.. list-table::
+   :header-rows: 1
+
+   * - Runtime
+     - Build Type
+     - TTS
+     - Download
+
+
+   * - MT
+     - Release
+     - disabled
+     - `sherpa-onnx-v1.12.24-win-arm64-shared-MT-Release-no-tts.tar.bz2 <https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.12.24/sherpa-onnx-v1.12.24-win-arm64-shared-MT-Release-no-tts.tar.bz2>`_
+   * - MT
+     - Release
+     - enabled
+     - `sherpa-onnx-v1.12.24-win-arm64-shared-MT-Release.tar.bz2 <https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.12.24/sherpa-onnx-v1.12.24-win-arm64-shared-MT-Release.tar.bz2>`_
+
+   * - MT
+     - Debug
+     - disabled
+     - `sherpa-onnx-v1.12.24-win-arm64-shared-MT-Debug-no-tts.tar.bz2 <https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.12.24/sherpa-onnx-v1.12.24-win-arm64-shared-MT-Debug-no-tts.tar.bz2>`_
+   * - MT
+     - Debug
+     - enabled
+     - `sherpa-onnx-v1.12.24-win-arm64-shared-MT-Debug.tar.bz2 <https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.12.24/sherpa-onnx-v1.12.24-win-arm64-shared-MT-Debug.tar.bz2>`_
+
+   * - MT
+     - RelWithDebInfo
+     - disabled
+     - `sherpa-onnx-v1.12.24-win-arm64-shared-MT-RelWithDebInfo-no-tts.tar.bz2 <https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.12.24/sherpa-onnx-v1.12.24-win-arm64-shared-MT-RelWithDebInfo-no-tts.tar.bz2>`_
+   * - MT
+     - RelWithDebInfo
+     - enabled
+     - `sherpa-onnx-v1.12.24-win-arm64-shared-MT-RelWithDebInfo.tar.bz2 <https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.12.24/sherpa-onnx-v1.12.24-win-arm64-shared-MT-RelWithDebInfo.tar.bz2>`_
+
+   * - MT
+     - MinSizeRel
+     - disabled
+     - `sherpa-onnx-v1.12.24-win-arm64-shared-MT-MinSizeRel-no-tts.tar.bz2 <https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.12.24/sherpa-onnx-v1.12.24-win-arm64-shared-MT-MinSizeRel-no-tts.tar.bz2>`_
+   * - MT
+     - MinSizeRel
+     - enabled
+     - `sherpa-onnx-v1.12.24-win-arm64-shared-MT-MinSizeRel.tar.bz2 <https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.12.24/sherpa-onnx-v1.12.24-win-arm64-shared-MT-MinSizeRel.tar.bz2>`_
+
+
+
+   * - MD
+     - Release
+     - disabled
+     - `sherpa-onnx-v1.12.24-win-arm64-shared-MD-Release-no-tts.tar.bz2 <https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.12.24/sherpa-onnx-v1.12.24-win-arm64-shared-MD-Release-no-tts.tar.bz2>`_
+   * - MD
+     - Release
+     - enabled
+     - `sherpa-onnx-v1.12.24-win-arm64-shared-MD-Release.tar.bz2 <https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.12.24/sherpa-onnx-v1.12.24-win-arm64-shared-MD-Release.tar.bz2>`_
+
+   * - MD
+     - Debug
+     - disabled
+     - `sherpa-onnx-v1.12.24-win-arm64-shared-MD-Debug-no-tts.tar.bz2 <https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.12.24/sherpa-onnx-v1.12.24-win-arm64-shared-MD-Debug-no-tts.tar.bz2>`_
+   * - MD
+     - Debug
+     - enabled
+     - `sherpa-onnx-v1.12.24-win-arm64-shared-MD-Debug.tar.bz2 <https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.12.24/sherpa-onnx-v1.12.24-win-arm64-shared-MD-Debug.tar.bz2>`_
+
+   * - MD
+     - RelWithDebInfo
+     - disabled
+     - `sherpa-onnx-v1.12.24-win-arm64-shared-MD-RelWithDebInfo-no-tts.tar.bz2 <https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.12.24/sherpa-onnx-v1.12.24-win-arm64-shared-MD-RelWithDebInfo-no-tts.tar.bz2>`_
+   * - MD
+     - RelWithDebInfo
+     - enabled
+     - `sherpa-onnx-v1.12.24-win-arm64-shared-MD-RelWithDebInfo.tar.bz2 <https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.12.24/sherpa-onnx-v1.12.24-win-arm64-shared-MD-RelWithDebInfo.tar.bz2>`_
+
+   * - MD
+     - MinSizeRel
+     - disabled
+     - `sherpa-onnx-v1.12.24-win-arm64-shared-MD-MinSizeRel-no-tts.tar.bz2 <https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.12.24/sherpa-onnx-v1.12.24-win-arm64-shared-MD-MinSizeRel-no-tts.tar.bz2>`_
+   * - MD
+     - MinSizeRel
+     - enabled
+     - `sherpa-onnx-v1.12.24-win-arm64-shared-MD-MinSizeRel.tar.bz2 <https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.12.24/sherpa-onnx-v1.12.24-win-arm64-shared-MD-MinSizeRel.tar.bz2>`_
+
+
+
+Static Libraries
+----------------
+
+.. list-table::
+   :header-rows: 1
+
+   * - Runtime
+     - Build Type
+     - TTS
+     - Download
+
+
+   * - MT
+     - Debug
+     - disabled
+     - `sherpa-onnx-v1.12.24-win-arm64-static-MT-Debug-no-tts.tar.bz2 <https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.12.24/sherpa-onnx-v1.12.24-win-arm64-static-MT-Debug-no-tts.tar.bz2>`_
+   * - MT
+     - Debug
+     - enabled
+     - `sherpa-onnx-v1.12.24-win-arm64-static-MT-Debug.tar.bz2 <https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.12.24/sherpa-onnx-v1.12.24-win-arm64-static-MT-Debug.tar.bz2>`_
+
+   * - MT
+     - Release
+     - disabled
+     - `sherpa-onnx-v1.12.24-win-arm64-static-MT-Release-no-tts.tar.bz2 <https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.12.24/sherpa-onnx-v1.12.24-win-arm64-static-MT-Release-no-tts.tar.bz2>`_
+   * - MT
+     - Release
+     - enabled
+     - `sherpa-onnx-v1.12.24-win-arm64-static-MT-Release.tar.bz2 <https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.12.24/sherpa-onnx-v1.12.24-win-arm64-static-MT-Release.tar.bz2>`_
+
+   * - MT
+     - RelWithDebInfo
+     - disabled
+     - `sherpa-onnx-v1.12.24-win-arm64-static-MT-RelWithDebInfo-no-tts.tar.bz2 <https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.12.24/sherpa-onnx-v1.12.24-win-arm64-static-MT-RelWithDebInfo-no-tts.tar.bz2>`_
+   * - MT
+     - RelWithDebInfo
+     - enabled
+     - `sherpa-onnx-v1.12.24-win-arm64-static-MT-RelWithDebInfo.tar.bz2 <https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.12.24/sherpa-onnx-v1.12.24-win-arm64-static-MT-RelWithDebInfo.tar.bz2>`_
+
+   * - MT
+     - MinSizeRel
+     - disabled
+     - `sherpa-onnx-v1.12.24-win-arm64-static-MT-MinSizeRel-no-tts.tar.bz2 <https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.12.24/sherpa-onnx-v1.12.24-win-arm64-static-MT-MinSizeRel-no-tts.tar.bz2>`_
+   * - MT
+     - MinSizeRel
+     - enabled
+     - `sherpa-onnx-v1.12.24-win-arm64-static-MT-MinSizeRel.tar.bz2 <https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.12.24/sherpa-onnx-v1.12.24-win-arm64-static-MT-MinSizeRel.tar.bz2>`_
+
+
+
+   * - MD
+     - Debug
+     - disabled
+     - `sherpa-onnx-v1.12.24-win-arm64-static-MD-Debug-no-tts.tar.bz2 <https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.12.24/sherpa-onnx-v1.12.24-win-arm64-static-MD-Debug-no-tts.tar.bz2>`_
+   * - MD
+     - Debug
+     - enabled
+     - `sherpa-onnx-v1.12.24-win-arm64-static-MD-Debug.tar.bz2 <https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.12.24/sherpa-onnx-v1.12.24-win-arm64-static-MD-Debug.tar.bz2>`_
+
+   * - MD
+     - Release
+     - disabled
+     - `sherpa-onnx-v1.12.24-win-arm64-static-MD-Release-no-tts.tar.bz2 <https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.12.24/sherpa-onnx-v1.12.24-win-arm64-static-MD-Release-no-tts.tar.bz2>`_
+   * - MD
+     - Release
+     - enabled
+     - `sherpa-onnx-v1.12.24-win-arm64-static-MD-Release.tar.bz2 <https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.12.24/sherpa-onnx-v1.12.24-win-arm64-static-MD-Release.tar.bz2>`_
+
+   * - MD
+     - RelWithDebInfo
+     - disabled
+     - `sherpa-onnx-v1.12.24-win-arm64-static-MD-RelWithDebInfo-no-tts.tar.bz2 <https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.12.24/sherpa-onnx-v1.12.24-win-arm64-static-MD-RelWithDebInfo-no-tts.tar.bz2>`_
+   * - MD
+     - RelWithDebInfo
+     - enabled
+     - `sherpa-onnx-v1.12.24-win-arm64-static-MD-RelWithDebInfo.tar.bz2 <https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.12.24/sherpa-onnx-v1.12.24-win-arm64-static-MD-RelWithDebInfo.tar.bz2>`_
+
+   * - MD
+     - MinSizeRel
+     - disabled
+     - `sherpa-onnx-v1.12.24-win-arm64-static-MD-MinSizeRel-no-tts.tar.bz2 <https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.12.24/sherpa-onnx-v1.12.24-win-arm64-static-MD-MinSizeRel-no-tts.tar.bz2>`_
+   * - MD
+     - MinSizeRel
+     - enabled
+     - `sherpa-onnx-v1.12.24-win-arm64-static-MD-MinSizeRel.tar.bz2 <https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.12.24/sherpa-onnx-v1.12.24-win-arm64-static-MD-MinSizeRel.tar.bz2>`_
+
+
+
+.. note::
+
+   All Windows arm64 binaries are built using **Visual Studio 2022**.

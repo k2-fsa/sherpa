@@ -1,0 +1,252 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pre-trained models &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="_static/tabs.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/clipboard.min.js"></script>
+        <script src="_static/copybutton.js"></script>
+        <script src="_static/tabs.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="sherpa" href="sherpa/index.html" />
+    <link rel="prev" title="Run Next-gen Kaldi in your browser" href="huggingface/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Pre-trained models</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#pre-trained-models-for-different-projects">Pre-trained models for different projects</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-to-download">How to download</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#using-git-lfs">Using git lfs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#using-wget">Using wget</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="onnx/index.html">sherpa-onnx</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Pre-trained models</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/pretrained-models.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="pre-trained-models">
+<h1>Pre-trained models<a class="headerlink" href="#pre-trained-models" title="Permalink to this heading"></a></h1>
+<section id="pre-trained-models-for-different-projects">
+<h2>Pre-trained models for different projects<a class="headerlink" href="#pre-trained-models-for-different-projects" title="Permalink to this heading"></a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>Project</p></td>
+<td><p>Pretrained models</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="http://github.com/k2-fsa/sherpa">k2-fsa/sherpa</a></p></td>
+<td><p><a class="reference internal" href="sherpa/pretrained_models/index.html#k2-fsa-sherpa-pretrained-models"><span class="std std-ref">Click here</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="http://github.com/k2-fsa/sherpa-onnx">k2-fsa/sherpa-onnx</a></p></td>
+<td><p><a class="reference internal" href="onnx/pretrained_models/index.html#sherpa-onnx-pre-trained-models"><span class="std std-ref">Click here</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="http://github.com/k2-fsa/sherpa-ncnn">k2-fsa/sherpa-ncnn</a></p></td>
+<td><p><a class="reference internal" href="ncnn/pretrained_models/index.html#sherpa-ncnn-pre-trained-models"><span class="std std-ref">Click here</span></a></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="how-to-download">
+<h2>How to download<a class="headerlink" href="#how-to-download" title="Permalink to this heading"></a></h2>
+<p>We are hosting our pre-trained models on <a class="reference external" href="https://huggingface.co">Huggingface</a> as git repositories
+managed by <a class="reference external" href="https://git-lfs.com/">Git LFS</a>.</p>
+<p>There are at least two methods for downloading:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Using <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">lfs</span></code></p></li>
+<li><p>Using <code class="docutils literal notranslate"><span class="pre">wget</span></code></p></li>
+</ul>
+</div></blockquote>
+<p>In the following, we use the pre-trained model <a class="reference internal" href="onnx/pretrained_models/online-transducer/zipformer-transducer-models.html#sherpa-onnx-wenetspeech-2023-06-15-streaming"><span class="std std-ref">pkufool/icefall-asr-zipformer-streaming-wenetspeech-20230615 (Chinese)</span></a>
+as an example.</p>
+<section id="using-git-lfs">
+<h3>Using git lfs<a class="headerlink" href="#using-git-lfs" title="Permalink to this heading"></a></h3>
+<p>Please first install <code class="docutils literal notranslate"><span class="pre">git-lfs</span></code> by following <a class="reference external" href="https://git-lfs.com/">https://git-lfs.com/</a>.</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-0-0-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-0-0-0" name="0-0" role="tab" tabindex="0">Linux</button><button aria-controls="panel-0-0-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-0-0-1" name="0-1" role="tab" tabindex="-1">macOS</button><button aria-controls="panel-0-0-2" aria-selected="false" class="sphinx-tabs-tab" id="tab-0-0-2" name="0-2" role="tab" tabindex="-1">Windows</button></div><div aria-labelledby="tab-0-0-0" class="sphinx-tabs-panel" id="panel-0-0-0" name="0-0" role="tabpanel" tabindex="0"><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># apt/deb</span>
+sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>git-lfs
+
+<span class="c1"># yum/rpm</span>
+sudo<span class="w"> </span>yum<span class="w"> </span>install<span class="w"> </span>git-lfs
+</pre></div>
+</div>
+<p>Please see <a class="reference external" href="https://github.com/git-lfs/git-lfs/blob/main/INSTALLING.md">https://github.com/git-lfs/git-lfs/blob/main/INSTALLING.md</a>
+for details.</p>
+</div><div aria-labelledby="tab-0-0-1" class="sphinx-tabs-panel" hidden="true" id="panel-0-0-1" name="0-1" role="tabpanel" tabindex="0"><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>brew<span class="w"> </span>install<span class="w"> </span>git-lfs
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-0-0-2" class="sphinx-tabs-panel" hidden="true" id="panel-0-0-2" name="0-2" role="tabpanel" tabindex="0"><p>Please visit <a class="reference external" href="https://gitforwindows.org/">https://gitforwindows.org/</a>
+to download and install <code class="docutils literal notranslate"><span class="pre">git-lfs</span></code>.</p>
+</div></div>
+<p>Then use the following commands to download pre-trained models:</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-1-1-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-1-1-0" name="1-0" role="tab" tabindex="0">Linux/macOS</button><button aria-controls="panel-1-1-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-1-1-1" name="1-1" role="tab" tabindex="-1">Windows (Powershell)</button><button aria-controls="panel-1-1-2" aria-selected="false" class="sphinx-tabs-tab" id="tab-1-1-2" name="1-2" role="tab" tabindex="-1">Windows (cmd)</button></div><div aria-labelledby="tab-1-1-0" class="sphinx-tabs-panel" id="panel-1-1-0" name="1-0" role="tabpanel" tabindex="0"><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">GIT_LFS_SKIP_SMUDGE</span><span class="o">=</span><span class="m">1</span><span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>https://huggingface.co/pkufool/icefall-asr-zipformer-streaming-wenetspeech-20230615
+<span class="nb">cd</span><span class="w"> </span>icefall-asr-zipformer-streaming-wenetspeech-20230615
+git<span class="w"> </span>lfs<span class="w"> </span>pull<span class="w"> </span>--include<span class="w"> </span><span class="s2">&quot;exp/*chunk-16-left-128.*onnx&quot;</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-1-1-1" class="sphinx-tabs-panel" hidden="true" id="panel-1-1-1" name="1-1" role="tabpanel" tabindex="0"><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">$env</span>:GIT_LFS_SKIP_SMUDGE<span class="o">=</span><span class="s2">&quot;1&quot;</span>
+git<span class="w"> </span>clone<span class="w"> </span>https://huggingface.co/pkufool/icefall-asr-zipformer-streaming-wenetspeech-20230615
+<span class="nb">cd</span><span class="w"> </span>icefall-asr-zipformer-streaming-wenetspeech-20230615
+git<span class="w"> </span>lfs<span class="w"> </span>pull<span class="w"> </span>--include<span class="w"> </span><span class="s2">&quot;exp/*chunk-16-left-128.*onnx&quot;</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-1-1-2" class="sphinx-tabs-panel" hidden="true" id="panel-1-1-2" name="1-2" role="tabpanel" tabindex="0"><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">set</span><span class="w"> </span><span class="nv">GIT_LFS_SKIP_SMUDGE</span><span class="o">=</span><span class="s2">&quot;1&quot;</span>
+git<span class="w"> </span>clone<span class="w"> </span>https://huggingface.co/pkufool/icefall-asr-zipformer-streaming-wenetspeech-20230615
+<span class="nb">cd</span><span class="w"> </span>icefall-asr-zipformer-streaming-wenetspeech-20230615
+git<span class="w"> </span>lfs<span class="w"> </span>pull<span class="w"> </span>--include<span class="w"> </span><span class="s2">&quot;exp/*chunk-16-left-128.*onnx&quot;</span>
+</pre></div>
+</div>
+</div></div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>It is very important to set the environment variable <code class="docutils literal notranslate"><span class="pre">GIT_LFS_SKIP_SMUDGE</span></code> to <code class="docutils literal notranslate"><span class="pre">1</span></code>.
+We don’t recommend using <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">lfs</span> <span class="pre">install</span></code> as it will download many large files that
+we don’t need.</p>
+</div>
+</section>
+<section id="using-wget">
+<h3>Using wget<a class="headerlink" href="#using-wget" title="Permalink to this heading"></a></h3>
+<p>First, let us visit the huggingface <a class="reference external" href="https://huggingface.co/pkufool/icefall-asr-zipformer-streaming-wenetspeech-20230615">git repository</a> of the pre-trained model:</p>
+<a class="reference internal image-reference" href="_images/visit.png"><img alt="Visit the pre-traind model git repo" class="align-center" src="_images/visit.png" style="width: 600px;" /></a>
+<p>Click <code class="docutils literal notranslate"><span class="pre">Files</span> <span class="pre">and</span> <span class="pre">versions</span></code> and navigate to the directory containing files
+for downloading:</p>
+<a class="reference internal image-reference" href="_images/visit2.png"><img alt="Get the URL for downloading" class="align-center" src="_images/visit2.png" style="width: 600px;" /></a>
+<p>Right click the arrow that indicates downloading and copy the link address.
+After that, you can use, for instance, <code class="docutils literal notranslate"><span class="pre">wget</span></code> to download the file with the following
+command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget<span class="w"> </span>https://huggingface.co/pkufool/icefall-asr-zipformer-streaming-wenetspeech-20230615/resolve/main/exp/decoder-epoch-12-avg-4-chunk-16-left-128.int8.onnx
+</pre></div>
+</div>
+<p>Repeat the process until you have downloaded all the required files.</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="huggingface/index.html" class="btn btn-neutral float-left" title="Run Next-gen Kaldi in your browser" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="sherpa/index.html" class="btn btn-neutral float-right" title="sherpa" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,224 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Install from source &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../onnx/index.html">sherpa-onnx</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Install from source</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/python/installation/from-source.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="install-from-source">
+<span id="install-sherpa-from-source"></span><h1>Install from source<a class="headerlink" href="#install-from-source" title="Permalink to this heading"></a></h1>
+<p>Before installing <a class="reference external" href="https://github.com/k2-fsa/sherpa">sherpa</a>, you have to install <a class="reference external" href="https://pytorch.org/">PyTorch</a> and <a class="reference external" href="https://github.com/k2-fsa/k2">k2</a>.
+If you want to install a CUDA version of <a class="reference external" href="https://github.com/k2-fsa/sherpa">sherpa</a>, please install a CUDA version
+of <a class="reference external" href="https://pytorch.org/">PyTorch</a> and <a class="reference external" href="https://github.com/k2-fsa/k2">k2</a>.</p>
+<p>Supported operating systems, Python versions, <a class="reference external" href="https://pytorch.org/">PyTorch</a> versions, and CUDA versions
+are listed as follows:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><img alt="Supported operating systems" src="../../_images/os-brightgreen.svg" /></p></li>
+<li><p><img alt="Supported python versions" src="../../_images/python_ge_3.7-blue.svg" /></p></li>
+<li><p><img alt="Supported pytorch versions" src="../../_images/pytorch_ge_1.6.0-blueviolet.svg" /></p></li>
+<li><p><img alt="Supported cuda versions" src="../../_images/cuda_ge_10.1-orange.svg" /></p></li>
+</ul>
+</div></blockquote>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>If you install a CUDA version of PyTorch, please also install cuDNN.
+Otherwise, you will get CMake configuration errors later.</p>
+</div>
+<section id="install-pytorch">
+<h2>Install <a class="reference external" href="https://pytorch.org/">PyTorch</a><a class="headerlink" href="#install-pytorch" title="Permalink to this heading"></a></h2>
+<p>Please refer to <a class="reference external" href="https://pytorch.org/get-started/locally/">https://pytorch.org/get-started/locally/</a> to install PyTorch.</p>
+</section>
+<section id="install-k2">
+<h2>Install <a class="reference external" href="https://github.com/k2-fsa/k2">k2</a><a class="headerlink" href="#install-k2" title="Permalink to this heading"></a></h2>
+<p>Please refer to <a class="reference external" href="https://k2-fsa.github.io/k2/installation/index.html">https://k2-fsa.github.io/k2/installation/index.html</a>
+to install <a class="reference external" href="https://github.com/k2-fsa/k2">k2</a>. You have to install <code class="docutils literal notranslate"><span class="pre">k2</span> <span class="pre">&gt;=</span> <span class="pre">v1.16</span></code>.</p>
+</section>
+<section id="install-sherpa">
+<h2>Install <a class="reference external" href="https://github.com/k2-fsa/sherpa">sherpa</a><a class="headerlink" href="#install-sherpa" title="Permalink to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/k2-fsa/sherpa
+<span class="nb">cd</span><span class="w"> </span>sherpa
+
+<span class="c1"># Install the dependencies</span>
+pip<span class="w"> </span>install<span class="w"> </span>-r<span class="w"> </span>./requirements.txt
+
+<span class="c1"># Install the C++ extension.</span>
+<span class="c1"># Use one of the following methods:</span>
+<span class="c1">#</span>
+<span class="c1"># (1)</span>
+python3<span class="w"> </span>setup.py<span class="w"> </span>install<span class="w"> </span>--verbose
+<span class="c1">#</span>
+<span class="c1"># (2)</span>
+<span class="c1"># pip install --verbose k2-sherpa</span>
+
+<span class="c1"># To uninstall the C++ extension, use</span>
+<span class="c1"># pip uninstall k2-sherpa</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You can use either <code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">setup.py</span> <span class="pre">install</span> <span class="pre">--verbose</span></code>
+or <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">--verbose</span> <span class="pre">k2-sherpa</span></code> to install the C++
+extension.</p>
+<p><code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">setup.py</span> <span class="pre">install</span></code> always installs the latest version.</p>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>Refer to <a class="reference internal" href="../faq.html#fix-cudnn-not-found"><span class="std std-ref">How to fix Caffe2: Cannot find cuDNN library</span></a> if you encouter this problem during
+installation.</p>
+</div>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p><code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-r</span> <span class="pre">./requirements.txt</span></code> won’t install all dependencies
+of <a class="reference external" href="https://github.com/k2-fsa/sherpa">sherpa</a>. You have to install <a class="reference external" href="https://pytorch.org/">PyTorch</a> and <a class="reference external" href="https://github.com/k2-fsa/k2">k2</a> before you install
+<a class="reference external" href="https://github.com/k2-fsa/sherpa">sherpa</a>.</p>
+</div>
+<p>To check that you have installed <a class="reference external" href="https://github.com/k2-fsa/sherpa">sherpa</a> successfully, run</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;import sherpa; print(sherpa.__version__)&quot;</span>
+</pre></div>
+</div>
+<p>It should print the version of <a class="reference external" href="https://github.com/k2-fsa/sherpa">sherpa</a>.</p>
+<p><strong>Congratulations!</strong></p>
+<p>You have installed <a class="reference external" href="https://github.com/k2-fsa/sherpa">sherpa</a> successfully. Let us start
+to play with it.</p>
+<p>The following shows you a <a class="reference external" href="https://www.youtube.com/watch?v=z7HgaZv5W0U">YouTube video</a>,
+demonstrating streaming ASR with <a class="reference external" href="https://github.com/k2-fsa/sherpa">sherpa</a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you have no access to YouTube, please visit the following link from bilibili
+<a class="reference external" href="https://www.bilibili.com/video/BV1BU4y197bs">https://www.bilibili.com/video/BV1BU4y197bs</a></p>
+</div>
+<div class="video_wrapper" style="padding-bottom: 67.500000%; padding-top: 30px; position: relative; width: 120%">
+<iframe allowfullscreen="true" src="https://www.youtube.com/embed/z7HgaZv5W0U" style="border: 0; height: 100%; left: 0; position: absolute; top: 0; width: 100%">
+</iframe></div><p>Read more to see how to use <a class="reference external" href="https://github.com/k2-fsa/sherpa">sherpa</a> for streaming ASR and non-streaming ASR.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

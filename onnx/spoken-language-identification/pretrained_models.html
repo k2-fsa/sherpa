@@ -1,0 +1,347 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pre-trained models &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="VAD" href="../vad/index.html" />
+    <link rel="prev" title="Spoken language identification" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">sherpa-onnx</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../install/index.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../faqs/index.html">Frequently Asked Question (FAQs)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python/index.html">Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../c-api/index.html">C API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../java-api/index.html">Java API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../javascript-api/index.html">Javascript API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kotlin-api/index.html">Kotlin API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../swift-api/index.html">Swift API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../go-api/index.html">Go API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../csharp-api/index.html">C# API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pascal-api/index.html">Pascal API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lazarus/index.html">Lazarus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../wasm/index.html">WebAssembly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../android/index.html">Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../harmony-os/index.html">HarmonyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ios/index.html">iOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../flutter/index.html">Flutter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../websocket/index.html">WebSocket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../hotwords/index.html">Hotwords (Contextual biasing)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kws/index.html">Keyword spotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../punctuation/index.html">Punctuation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../audio-tagging/index.html">Audio tagging</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Spoken language identification</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Pre-trained models</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#whisper">whisper</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../vad/index.html">VAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/index.html">Pre-trained models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/whisper/index.html">Whisper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../moonshine/index.html">Moonshine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../omnilingual-asr/index.html">Omnilingual ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sense-voice/index.html">SenseVoice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../funasr-nano/index.html">FunASR Nano</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../paraformer/index.html">Paraformer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nemo/index.html">NeMo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../FireRedAsr/index.html">FireRedAsr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Dolphin/index.html">Dolphin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../homophone-replacer/index.html">拼音词组匹配替换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-diarization/index.html">Speaker Diarization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-identification/index.html">Speaker Identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speech-enhancement/index.html">Speech enhancement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../source-separation/index.html">Source separation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qnn/index.html">Qualcomm NPU (QNN, HTP)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rknn/index.html">rknn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ascend/index.html">Ascend NPU (昇腾 NPU)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tts/index.html">Text-to-speech (TTS)</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">sherpa-onnx</a> &raquo;</li>
+          <li><a href="index.html">Spoken language identification</a> &raquo;</li>
+      <li>Pre-trained models</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/onnx/spoken-language-identification/pretrained_models.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="pre-trained-models">
+<h1>Pre-trained models<a class="headerlink" href="#pre-trained-models" title="Permalink to this heading"></a></h1>
+<section id="whisper">
+<h2>whisper<a class="headerlink" href="#whisper" title="Permalink to this heading"></a></h2>
+<p>Currently, we support whisper multilingual models for spoken language identification.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>Model type</p></td>
+<td><p>Huggingface repo</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">tiny</span></code></p></td>
+<td><p><a class="reference external" href="https://huggingface.co/csukuangfj/sherpa-onnx-whisper-tiny">https://huggingface.co/csukuangfj/sherpa-onnx-whisper-tiny</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">base</span></code></p></td>
+<td><p><a class="reference external" href="https://huggingface.co/csukuangfj/sherpa-onnx-whisper-base">https://huggingface.co/csukuangfj/sherpa-onnx-whisper-base</a></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">small</span></code></p></td>
+<td><p><a class="reference external" href="https://huggingface.co/csukuangfj/sherpa-onnx-whisper-small">https://huggingface.co/csukuangfj/sherpa-onnx-whisper-small</a></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">medium</span></code></p></td>
+<td><p><a class="reference external" href="https://huggingface.co/csukuangfj/sherpa-onnx-whisper-medium">https://huggingface.co/csukuangfj/sherpa-onnx-whisper-medium</a></p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>You can also download them from</p>
+<blockquote>
+<div><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/tag/asr-models">https://github.com/k2-fsa/sherpa-onnx/releases/tag/asr-models</a></p>
+</div></blockquote>
+</div>
+<p>In the following, we use the <code class="docutils literal notranslate"><span class="pre">tiny</span></code> model as an example. You can
+replace <code class="docutils literal notranslate"><span class="pre">tiny</span></code> with <code class="docutils literal notranslate"><span class="pre">base</span></code>, <code class="docutils literal notranslate"><span class="pre">small</span></code>, or <code class="docutils literal notranslate"><span class="pre">medium</span></code> and everything still holds.</p>
+<section id="download-the-model">
+<h3>Download the model<a class="headerlink" href="#download-the-model" title="Permalink to this heading"></a></h3>
+<p>Please use the following commands to download the <code class="docutils literal notranslate"><span class="pre">tiny</span></code> model:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">wget</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">k2</span><span class="o">-</span><span class="n">fsa</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="n">download</span><span class="o">/</span><span class="n">asr</span><span class="o">-</span><span class="n">models</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">whisper</span><span class="o">-</span><span class="n">tiny</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">bz2</span>
+
+<span class="n">tar</span> <span class="n">xvf</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">whisper</span><span class="o">-</span><span class="n">tiny</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">bz2</span>
+<span class="n">rm</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">whisper</span><span class="o">-</span><span class="n">tiny</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">bz2</span>
+</pre></div>
+</div>
+<p>You should find the following files after unzipping:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">427</span><span class="n">B</span> <span class="n">Jan</span> <span class="mi">31</span> <span class="mi">16</span><span class="p">:</span><span class="mi">21</span> <span class="n">README</span><span class="o">.</span><span class="n">md</span>
+<span class="o">-</span><span class="n">rwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>    <span class="mi">19</span><span class="n">K</span> <span class="n">Jan</span> <span class="mi">31</span> <span class="mi">16</span><span class="p">:</span><span class="mi">21</span> <span class="n">export</span><span class="o">-</span><span class="n">onnx</span><span class="o">.</span><span class="n">py</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>    <span class="mi">15</span><span class="n">B</span> <span class="n">Jan</span> <span class="mi">31</span> <span class="mi">16</span><span class="p">:</span><span class="mi">21</span> <span class="n">requirements</span><span class="o">.</span><span class="n">txt</span>
+<span class="o">-</span><span class="n">rwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>    <span class="mi">12</span><span class="n">K</span> <span class="n">Jan</span> <span class="mi">31</span> <span class="mi">16</span><span class="p">:</span><span class="mi">21</span> <span class="n">test</span><span class="o">.</span><span class="n">py</span>
+<span class="n">drwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span>  <span class="mi">6</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">192</span><span class="n">B</span> <span class="n">Jan</span> <span class="mi">31</span> <span class="mi">16</span><span class="p">:</span><span class="mi">22</span> <span class="n">test_wavs</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>    <span class="mi">86</span><span class="n">M</span> <span class="n">Jan</span> <span class="mi">31</span> <span class="mi">16</span><span class="p">:</span><span class="mi">22</span> <span class="n">tiny</span><span class="o">-</span><span class="n">decoder</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">109</span><span class="n">M</span> <span class="n">Jan</span> <span class="mi">31</span> <span class="mi">16</span><span class="p">:</span><span class="mi">22</span> <span class="n">tiny</span><span class="o">-</span><span class="n">decoder</span><span class="o">.</span><span class="n">onnx</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>    <span class="mi">12</span><span class="n">M</span> <span class="n">Jan</span> <span class="mi">31</span> <span class="mi">16</span><span class="p">:</span><span class="mi">22</span> <span class="n">tiny</span><span class="o">-</span><span class="n">encoder</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>    <span class="mi">36</span><span class="n">M</span> <span class="n">Jan</span> <span class="mi">31</span> <span class="mi">16</span><span class="p">:</span><span class="mi">22</span> <span class="n">tiny</span><span class="o">-</span><span class="n">encoder</span><span class="o">.</span><span class="n">onnx</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">798</span><span class="n">K</span> <span class="n">Jan</span> <span class="mi">31</span> <span class="mi">16</span><span class="p">:</span><span class="mi">22</span> <span class="n">tiny</span><span class="o">-</span><span class="n">tokens</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
+</div>
+</section>
+<section id="download-test-waves">
+<h3>Download test waves<a class="headerlink" href="#download-test-waves" title="Permalink to this heading"></a></h3>
+<p>Please use the following command to download test data:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">wget</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">k2</span><span class="o">-</span><span class="n">fsa</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="n">download</span><span class="o">/</span><span class="n">asr</span><span class="o">-</span><span class="n">models</span><span class="o">/</span><span class="n">spoken</span><span class="o">-</span><span class="n">language</span><span class="o">-</span><span class="n">identification</span><span class="o">-</span><span class="n">test</span><span class="o">-</span><span class="n">wavs</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">bz2</span>
+
+<span class="n">tar</span> <span class="n">xvf</span> <span class="n">spoken</span><span class="o">-</span><span class="n">language</span><span class="o">-</span><span class="n">identification</span><span class="o">-</span><span class="n">test</span><span class="o">-</span><span class="n">wavs</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">bz2</span>
+<span class="n">rm</span> <span class="n">spoken</span><span class="o">-</span><span class="n">language</span><span class="o">-</span><span class="n">identification</span><span class="o">-</span><span class="n">test</span><span class="o">-</span><span class="n">wavs</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">bz2</span>
+</pre></div>
+</div>
+<p>You can find the following test files after unzipping:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">222</span><span class="n">K</span> <span class="n">Mar</span> <span class="mi">24</span> <span class="mi">12</span><span class="p">:</span><span class="mi">51</span> <span class="n">ar</span><span class="o">-</span><span class="n">arabic</span><span class="o">.</span><span class="n">wav</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--@</span> <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">137</span><span class="n">K</span> <span class="n">Mar</span> <span class="mi">24</span> <span class="mi">13</span><span class="p">:</span><span class="mi">09</span> <span class="n">bg</span><span class="o">-</span><span class="n">bulgarian</span><span class="o">.</span><span class="n">wav</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>    <span class="mi">83</span><span class="n">K</span> <span class="n">Mar</span> <span class="mi">24</span> <span class="mi">13</span><span class="p">:</span><span class="mi">07</span> <span class="n">cs</span><span class="o">-</span><span class="n">czech</span><span class="o">.</span><span class="n">wav</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">112</span><span class="n">K</span> <span class="n">Mar</span> <span class="mi">24</span> <span class="mi">13</span><span class="p">:</span><span class="mi">07</span> <span class="n">da</span><span class="o">-</span><span class="n">danish</span><span class="o">.</span><span class="n">wav</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">199</span><span class="n">K</span> <span class="n">Mar</span> <span class="mi">24</span> <span class="mi">12</span><span class="p">:</span><span class="mi">50</span> <span class="n">de</span><span class="o">-</span><span class="n">german</span><span class="o">.</span><span class="n">wav</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">207</span><span class="n">K</span> <span class="n">Mar</span> <span class="mi">24</span> <span class="mi">13</span><span class="p">:</span><span class="mi">06</span> <span class="n">el</span><span class="o">-</span><span class="n">greek</span><span class="o">.</span><span class="n">wav</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>    <span class="mi">31</span><span class="n">K</span> <span class="n">Mar</span> <span class="mi">24</span> <span class="mi">12</span><span class="p">:</span><span class="mi">45</span> <span class="n">en</span><span class="o">-</span><span class="n">english</span><span class="o">.</span><span class="n">wav</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--@</span> <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>    <span class="mi">77</span><span class="n">K</span> <span class="n">Mar</span> <span class="mi">24</span> <span class="mi">12</span><span class="p">:</span><span class="mi">23</span> <span class="n">es</span><span class="o">-</span><span class="n">spanish</span><span class="o">.</span><span class="n">wav</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--@</span> <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">371</span><span class="n">K</span> <span class="n">Mar</span> <span class="mi">24</span> <span class="mi">12</span><span class="p">:</span><span class="mi">21</span> <span class="n">fa</span><span class="o">-</span><span class="n">persian</span><span class="o">.</span><span class="n">wav</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">136</span><span class="n">K</span> <span class="n">Mar</span> <span class="mi">24</span> <span class="mi">13</span><span class="p">:</span><span class="mi">08</span> <span class="n">fi</span><span class="o">-</span><span class="n">finnish</span><span class="o">.</span><span class="n">wav</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">112</span><span class="n">K</span> <span class="n">Mar</span> <span class="mi">24</span> <span class="mi">12</span><span class="p">:</span><span class="mi">49</span> <span class="n">fr</span><span class="o">-</span><span class="n">french</span><span class="o">.</span><span class="n">wav</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">179</span><span class="n">K</span> <span class="n">Mar</span> <span class="mi">24</span> <span class="mi">12</span><span class="p">:</span><span class="mi">47</span> <span class="n">hi</span><span class="o">-</span><span class="n">hindi</span><span class="o">.</span><span class="n">wav</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--@</span> <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">177</span><span class="n">K</span> <span class="n">Mar</span> <span class="mi">24</span> <span class="mi">12</span><span class="p">:</span><span class="mi">29</span> <span class="n">hr</span><span class="o">-</span><span class="n">croatian</span><span class="o">.</span><span class="n">wav</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">167</span><span class="n">K</span> <span class="n">Mar</span> <span class="mi">24</span> <span class="mi">12</span><span class="p">:</span><span class="mi">53</span> <span class="nb">id</span><span class="o">-</span><span class="n">indonesian</span><span class="o">.</span><span class="n">wav</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">136</span><span class="n">K</span> <span class="n">Mar</span> <span class="mi">24</span> <span class="mi">12</span><span class="p">:</span><span class="mi">54</span> <span class="n">it</span><span class="o">-</span><span class="n">italian</span><span class="o">.</span><span class="n">wav</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>    <span class="mi">46</span><span class="n">K</span> <span class="n">Mar</span> <span class="mi">24</span> <span class="mi">12</span><span class="p">:</span><span class="mi">44</span> <span class="n">ja</span><span class="o">-</span><span class="n">japanese</span><span class="o">.</span><span class="n">wav</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--@</span> <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">122</span><span class="n">K</span> <span class="n">Mar</span> <span class="mi">24</span> <span class="mi">12</span><span class="p">:</span><span class="mi">52</span> <span class="n">ko</span><span class="o">-</span><span class="n">korean</span><span class="o">.</span><span class="n">wav</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>    <span class="mi">85</span><span class="n">K</span> <span class="n">Mar</span> <span class="mi">24</span> <span class="mi">12</span><span class="p">:</span><span class="mi">54</span> <span class="n">nl</span><span class="o">-</span><span class="n">dutch</span><span class="o">.</span><span class="n">wav</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--@</span> <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">241</span><span class="n">K</span> <span class="n">Mar</span> <span class="mi">24</span> <span class="mi">12</span><span class="p">:</span><span class="mi">38</span> <span class="n">no</span><span class="o">-</span><span class="n">norwegian</span><span class="o">.</span><span class="n">wav</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--@</span> <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">121</span><span class="n">K</span> <span class="n">Mar</span> <span class="mi">24</span> <span class="mi">12</span><span class="p">:</span><span class="mi">35</span> <span class="n">po</span><span class="o">-</span><span class="n">polish</span><span class="o">.</span><span class="n">wav</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">166</span><span class="n">K</span> <span class="n">Mar</span> <span class="mi">24</span> <span class="mi">12</span><span class="p">:</span><span class="mi">48</span> <span class="n">pt</span><span class="o">-</span><span class="n">portuguese</span><span class="o">.</span><span class="n">wav</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--@</span> <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">144</span><span class="n">K</span> <span class="n">Mar</span> <span class="mi">24</span> <span class="mi">12</span><span class="p">:</span><span class="mi">33</span> <span class="n">ro</span><span class="o">-</span><span class="n">romanian</span><span class="o">.</span><span class="n">wav</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">111</span><span class="n">K</span> <span class="n">Mar</span> <span class="mi">24</span> <span class="mi">12</span><span class="p">:</span><span class="mi">51</span> <span class="n">ru</span><span class="o">-</span><span class="n">russian</span><span class="o">.</span><span class="n">wav</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--@</span> <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">239</span><span class="n">K</span> <span class="n">Mar</span> <span class="mi">24</span> <span class="mi">12</span><span class="p">:</span><span class="mi">40</span> <span class="n">sk</span><span class="o">-</span><span class="n">slovak</span><span class="o">.</span><span class="n">wav</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">196</span><span class="n">K</span> <span class="n">Mar</span> <span class="mi">24</span> <span class="mi">13</span><span class="p">:</span><span class="mi">01</span> <span class="n">sv</span><span class="o">-</span><span class="n">swedish</span><span class="o">.</span><span class="n">wav</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">106</span><span class="n">K</span> <span class="n">Mar</span> <span class="mi">24</span> <span class="mi">13</span><span class="p">:</span><span class="mi">14</span> <span class="n">ta</span><span class="o">-</span><span class="n">tamil</span><span class="o">.</span><span class="n">wav</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">104</span><span class="n">K</span> <span class="n">Mar</span> <span class="mi">24</span> <span class="mi">13</span><span class="p">:</span><span class="mi">02</span> <span class="n">tl</span><span class="o">-</span><span class="n">tagalog</span><span class="o">.</span><span class="n">wav</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>    <span class="mi">76</span><span class="n">K</span> <span class="n">Mar</span> <span class="mi">24</span> <span class="mi">13</span><span class="p">:</span><span class="mi">00</span> <span class="n">tr</span><span class="o">-</span><span class="n">turkish</span><span class="o">.</span><span class="n">wav</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">188</span><span class="n">K</span> <span class="n">Mar</span> <span class="mi">24</span> <span class="mi">13</span><span class="p">:</span><span class="mi">05</span> <span class="n">uk</span><span class="o">-</span><span class="n">ukrainian</span><span class="o">.</span><span class="n">wav</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">181</span><span class="n">K</span> <span class="n">Mar</span> <span class="mi">24</span> <span class="mi">13</span><span class="p">:</span><span class="mi">20</span> <span class="n">zh</span><span class="o">-</span><span class="n">chinese</span><span class="o">.</span><span class="n">wav</span>
+</pre></div>
+</div>
+</section>
+<section id="test-with-python-apis">
+<h3>Test with Python APIs<a class="headerlink" href="#test-with-python-apis" title="Permalink to this heading"></a></h3>
+<p>After installing <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a> either from source or from using <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">sherpa-onnx</span></code>, you can run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python3</span> <span class="o">./</span><span class="n">python</span><span class="o">-</span><span class="n">api</span><span class="o">-</span><span class="n">examples</span><span class="o">/</span><span class="n">spoken</span><span class="o">-</span><span class="n">language</span><span class="o">-</span><span class="n">identification</span><span class="o">.</span><span class="n">py</span> \
+  <span class="o">--</span><span class="n">whisper</span><span class="o">-</span><span class="n">encoder</span> <span class="o">./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">whisper</span><span class="o">-</span><span class="n">tiny</span><span class="o">/</span><span class="n">tiny</span><span class="o">-</span><span class="n">encoder</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span> \
+  <span class="o">--</span><span class="n">whisper</span><span class="o">-</span><span class="n">decoder</span> <span class="o">./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">whisper</span><span class="o">-</span><span class="n">tiny</span><span class="o">/</span><span class="n">tiny</span><span class="o">-</span><span class="n">decoder</span><span class="o">.</span><span class="n">onnx</span> \
+  <span class="o">./</span><span class="n">spoken</span><span class="o">-</span><span class="n">language</span><span class="o">-</span><span class="n">identification</span><span class="o">-</span><span class="n">test</span><span class="o">-</span><span class="n">wavs</span><span class="o">/</span><span class="n">de</span><span class="o">-</span><span class="n">german</span><span class="o">.</span><span class="n">wav</span>
+</pre></div>
+</div>
+<p>You should see the following output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">2024</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">17</span> <span class="mi">15</span><span class="p">:</span><span class="mi">53</span><span class="p">:</span><span class="mi">23</span><span class="p">,</span><span class="mi">104</span> <span class="n">INFO</span> <span class="p">[</span><span class="n">spoken</span><span class="o">-</span><span class="n">language</span><span class="o">-</span><span class="n">identification</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">158</span><span class="p">]</span> <span class="n">File</span><span class="p">:</span> <span class="o">./</span><span class="n">spoken</span><span class="o">-</span><span class="n">language</span><span class="o">-</span><span class="n">identification</span><span class="o">-</span><span class="n">test</span><span class="o">-</span><span class="n">wavs</span><span class="o">/</span><span class="n">de</span><span class="o">-</span><span class="n">german</span><span class="o">.</span><span class="n">wav</span>
+<span class="mi">2024</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">17</span> <span class="mi">15</span><span class="p">:</span><span class="mi">53</span><span class="p">:</span><span class="mi">23</span><span class="p">,</span><span class="mi">104</span> <span class="n">INFO</span> <span class="p">[</span><span class="n">spoken</span><span class="o">-</span><span class="n">language</span><span class="o">-</span><span class="n">identification</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">159</span><span class="p">]</span> <span class="n">Detected</span> <span class="n">language</span><span class="p">:</span> <span class="n">de</span>
+<span class="mi">2024</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">17</span> <span class="mi">15</span><span class="p">:</span><span class="mi">53</span><span class="p">:</span><span class="mi">23</span><span class="p">,</span><span class="mi">104</span> <span class="n">INFO</span> <span class="p">[</span><span class="n">spoken</span><span class="o">-</span><span class="n">language</span><span class="o">-</span><span class="n">identification</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">160</span><span class="p">]</span> <span class="n">Elapsed</span> <span class="n">seconds</span><span class="p">:</span> <span class="mf">0.275</span>
+<span class="mi">2024</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">17</span> <span class="mi">15</span><span class="p">:</span><span class="mi">53</span><span class="p">:</span><span class="mi">23</span><span class="p">,</span><span class="mi">105</span> <span class="n">INFO</span> <span class="p">[</span><span class="n">spoken</span><span class="o">-</span><span class="n">language</span><span class="o">-</span><span class="n">identification</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">161</span><span class="p">]</span> <span class="n">Audio</span> <span class="n">duration</span> <span class="ow">in</span> <span class="n">seconds</span><span class="p">:</span> <span class="mf">6.374</span>
+<span class="mi">2024</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">17</span> <span class="mi">15</span><span class="p">:</span><span class="mi">53</span><span class="p">:</span><span class="mi">23</span><span class="p">,</span><span class="mi">105</span> <span class="n">INFO</span> <span class="p">[</span><span class="n">spoken</span><span class="o">-</span><span class="n">language</span><span class="o">-</span><span class="n">identification</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">162</span><span class="p">]</span> <span class="n">RTF</span><span class="p">:</span> <span class="mf">0.275</span><span class="o">/</span><span class="mf">6.374</span> <span class="o">=</span> <span class="mf">0.043</span>
+</pre></div>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>You can find <code class="docutils literal notranslate"><span class="pre">spoken-language-identification.py</span></code> at</p>
+<blockquote>
+<div><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/blob/master/python-api-examples/spoken-language-identification.py">https://github.com/k2-fsa/sherpa-onnx/blob/master/python-api-examples/spoken-language-identification.py</a></p>
+</div></blockquote>
+</div>
+</section>
+<section id="android-apks">
+<h3>Android APKs<a class="headerlink" href="#android-apks" title="Permalink to this heading"></a></h3>
+<p>You can find pre-built Android APKs for spoken language identification at the following address:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://k2-fsa.github.io/sherpa/onnx/spoken-language-identification/apk.html">https://k2-fsa.github.io/sherpa/onnx/spoken-language-identification/apk.html</a></p>
+</div></blockquote>
+</section>
+<section id="huggingface-space">
+<h3>Huggingface space<a class="headerlink" href="#huggingface-space" title="Permalink to this heading"></a></h3>
+<p>We provide a huggingface space for spoken language identification.</p>
+<p>You can visit the following URL:</p>
+<blockquote>
+<div><p><a class="reference external" href="http://huggingface.co/spaces/k2-fsa/spoken-language-identification">http://huggingface.co/spaces/k2-fsa/spoken-language-identification</a></p>
+</div></blockquote>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For Chinese users, you can use the following mirror:</p>
+<blockquote>
+<div><p><a class="reference external" href="http://hf-mirror.com/spaces/k2-fsa/spoken-language-identification">http://hf-mirror.com/spaces/k2-fsa/spoken-language-identification</a></p>
+</div></blockquote>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Spoken language identification" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../vad/index.html" class="btn btn-neutral float-right" title="VAD" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

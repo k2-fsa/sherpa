@@ -1,0 +1,386 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Build Android examples &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Models for QNN" href="models.html" />
+    <link rel="prev" title="Run executables on your phone with adb (using libmodel.so)" href="run-executables-on-your-phone.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">sherpa-onnx</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../install/index.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../faqs/index.html">Frequently Asked Question (FAQs)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python/index.html">Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../c-api/index.html">C API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../java-api/index.html">Java API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../javascript-api/index.html">Javascript API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kotlin-api/index.html">Kotlin API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../swift-api/index.html">Swift API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../go-api/index.html">Go API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../csharp-api/index.html">C# API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pascal-api/index.html">Pascal API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lazarus/index.html">Lazarus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../wasm/index.html">WebAssembly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../android/index.html">Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../harmony-os/index.html">HarmonyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ios/index.html">iOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../flutter/index.html">Flutter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../websocket/index.html">WebSocket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../hotwords/index.html">Hotwords (Contextual biasing)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kws/index.html">Keyword spotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../punctuation/index.html">Punctuation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../audio-tagging/index.html">Audio tagging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spoken-language-identification/index.html">Spoken language identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vad/index.html">VAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/index.html">Pre-trained models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/whisper/index.html">Whisper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../moonshine/index.html">Moonshine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../omnilingual-asr/index.html">Omnilingual ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sense-voice/index.html">SenseVoice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../funasr-nano/index.html">FunASR Nano</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../paraformer/index.html">Paraformer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nemo/index.html">NeMo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../FireRedAsr/index.html">FireRedAsr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Dolphin/index.html">Dolphin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../homophone-replacer/index.html">拼音词组匹配替换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-diarization/index.html">Speaker Diarization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-identification/index.html">Speaker Identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speech-enhancement/index.html">Speech enhancement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../source-separation/index.html">Source separation</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Qualcomm NPU (QNN, HTP)</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="download-qnn.html">Download QNN SDK</a></li>
+<li class="toctree-l3"><a class="reference internal" href="build.html">Build sherpa-onnx for Qualcomm NPU</a></li>
+<li class="toctree-l3"><a class="reference internal" href="run-executables-on-your-phone-binary.html">Run executables on your phone with adb (using model.bin)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="run-executables-on-your-phone.html">Run executables on your phone with adb (using libmodel.so)</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Build Android examples</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#pre-built-apks">Pre-built APKs</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#how-to-build-android-examples">How to build Android examples</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="models.html">Models for QNN</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../rknn/index.html">rknn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ascend/index.html">Ascend NPU (昇腾 NPU)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tts/index.html">Text-to-speech (TTS)</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">sherpa-onnx</a> &raquo;</li>
+          <li><a href="index.html">Qualcomm NPU (QNN, HTP)</a> &raquo;</li>
+      <li>Build Android examples</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/onnx/qnn/build-android-demo.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="build-android-examples">
+<span id="build-android-examples-with-qnn"></span><h1>Build Android examples<a class="headerlink" href="#build-android-examples" title="Permalink to this heading"></a></h1>
+<section id="pre-built-apks">
+<h2>Pre-built APKs<a class="headerlink" href="#pre-built-apks" title="Permalink to this heading"></a></h2>
+<p>Links for pre-built APKs with QNN can be found in the following table:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td></td>
+<td><p>Chinese users</p></td>
+<td><p>URL</p></td>
+</tr>
+<tr class="row-even"><td><div class="line-block">
+<div class="line">Simulated streaming</div>
+<div class="line">speech recognition</div>
+<div class="line">with <code class="docutils literal notranslate"><span class="pre">Qualcomm</span> <span class="pre">NPU</span></code></div>
+<div class="line">using <code class="docutils literal notranslate"><span class="pre">QNN</span></code></div>
+</div>
+</td>
+<td><p><a class="reference external" href="https://k2-fsa.github.io/sherpa/onnx/android/apk-qnn-simulate-streaming-asr-cn.html">Here</a></p></td>
+<td><p><a class="reference external" href="https://k2-fsa.github.io/sherpa/onnx/android/apk-qnn-simulate-streaming-asr.html">https://k2-fsa.github.io/sherpa/onnx/android/apk-qnn-simulate-streaming-asr.html</a></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="how-to-build-android-examples">
+<h2>How to build Android examples<a class="headerlink" href="#how-to-build-android-examples" title="Permalink to this heading"></a></h2>
+<p>In the following, we describe how to build</p>
+<blockquote>
+<div><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/tree/master/android/SherpaOnnxSimulateStreamingAsr">https://github.com/k2-fsa/sherpa-onnx/tree/master/android/SherpaOnnxSimulateStreamingAsr</a></p>
+</div></blockquote>
+<p>with QNN support.</p>
+<section id="build-shared-libraries">
+<h3>1. Build shared libraries<a class="headerlink" href="#build-shared-libraries" title="Permalink to this heading"></a></h3>
+<p>Please follow <a class="reference internal" href="build.html#build-sherpa-onnx-for-qualcomm-npu"><span class="std std-ref">Build sherpa-onnx for Qualcomm NPU</span></a>.</p>
+<p>In the end, you should get <a class="reference internal" href="build.html#qnn-build-shared-libs"><span class="std std-ref">Shared libraries</span></a>. Copy them to
+the <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/tree/master/android/SherpaOnnxSimulateStreamingAsr/app/src/main/jniLibs/arm64-v8a">jniLibs/arm64-v8a</a> directory.</p>
+</section>
+<section id="copy-qnn-libs">
+<h3>2. Copy QNN libs<a class="headerlink" href="#copy-qnn-libs" title="Permalink to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>cd android/SherpaOnnxSimulateStreamingAsr/app/src/main/jniLibs/arm64-v8a
+
+cp -v $QNN_SDK_ROOT/lib/aarch64-android/libQnnHtp.so ./
+cp -v $QNN_SDK_ROOT/lib/aarch64-android/libQnnHtpPrepare.so ./
+cp -v $QNN_SDK_ROOT/lib/aarch64-android/libQnnSystem.so ./
+
+cp -v $QNN_SDK_ROOT/lib/aarch64-android/libQnnHtpV68Stub.so ./
+cp -v $QNN_SDK_ROOT/lib/aarch64-android/libQnnHtpV69Stub.so ./
+cp -v $QNN_SDK_ROOT/lib/aarch64-android/libQnnHtpV73Stub.so ./
+cp -v $QNN_SDK_ROOT/lib/aarch64-android/libQnnHtpV75Stub.so ./
+cp -v $QNN_SDK_ROOT/lib/aarch64-android/libQnnHtpV79Stub.so ./
+cp -v $QNN_SDK_ROOT/lib/aarch64-android/libQnnHtpV81Stub.so ./
+
+cp -v $QNN_SDK_ROOT/lib/hexagon-v68/unsigned/libQnnHtpV68Skel.so ./
+cp -v $QNN_SDK_ROOT/lib/hexagon-v69/unsigned/libQnnHtpV69Skel.so ./
+cp -v $QNN_SDK_ROOT/lib/hexagon-v73/unsigned/libQnnHtpV73Skel.so ./
+cp -v $QNN_SDK_ROOT/lib/hexagon-v75/unsigned/libQnnHtpV75Skel.so ./
+cp -v $QNN_SDK_ROOT/lib/hexagon-v79/unsigned/libQnnHtpV79Skel.so ./
+cp -v $QNN_SDK_ROOT/lib/hexagon-v81/unsigned/libQnnHtpV81Skel.so ./
+</pre></div>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>To make things easier, we have copied many unused Stub and Skel libraries. For a given
+device, you only need one Stub and one Skel library.</p>
+<p>For instance, if you are using Xiaomi 17 Pro, you only need to copy <code class="docutils literal notranslate"><span class="pre">libQnnHtpV81Stub.so</span></code>
+and <code class="docutils literal notranslate"><span class="pre">libQnnHtpV81Skel.so</span></code> to your phone.</p>
+</div>
+<p>In the end, you should have the following files inside
+the <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/tree/master/android/SherpaOnnxSimulateStreamingAsr/app/src/main/jniLibs/arm64-v8a">jniLibs/arm64-v8a</a> directory.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(py312) localhost:arm64-v8a fangjun$ pwd
+/Users/fangjun/open-source/sherpa-onnx/android/SherpaOnnxSimulateStreamingAsr/app/src/main/jniLibs/arm64-v8a
+
+(py312) localhost:arm64-v8a fangjun$ ls -lh
+total 329768
+-rw-r--r--@ 1 fangjun  staff    15M 20 Nov 17:05 libonnxruntime.so
+-rw-r--r--@ 1 fangjun  staff   6.1M 20 Nov 13:32 libQnnCpu.so
+-rw-r--r--@ 1 fangjun  staff   2.4M 21 Nov 22:38 libQnnHtp.so
+-rw-r--r--@ 1 fangjun  staff    71M 21 Nov 22:38 libQnnHtpPrepare.so
+-rw-r--r--@ 1 fangjun  staff   8.3M 21 Nov 22:38 libQnnHtpV68Skel.so
+-rw-r--r--@ 1 fangjun  staff   556K 21 Nov 22:38 libQnnHtpV68Stub.so
+-rw-r--r--@ 1 fangjun  staff   9.4M 21 Nov 22:38 libQnnHtpV69Skel.so
+-rw-r--r--@ 1 fangjun  staff   556K 21 Nov 22:38 libQnnHtpV69Stub.so
+-rw-r--r--@ 1 fangjun  staff   9.4M 21 Nov 22:38 libQnnHtpV73Skel.so
+-rw-r--r--@ 1 fangjun  staff   562K 21 Nov 22:38 libQnnHtpV73Stub.so
+-rw-r--r--@ 1 fangjun  staff   9.4M 21 Nov 22:38 libQnnHtpV75Skel.so
+-rw-r--r--@ 1 fangjun  staff   562K 21 Nov 22:38 libQnnHtpV75Stub.so
+-rw-r--r--@ 1 fangjun  staff   9.6M 21 Nov 22:38 libQnnHtpV79Skel.so
+-rw-r--r--@ 1 fangjun  staff   562K 21 Nov 22:38 libQnnHtpV79Stub.so
+-rw-r--r--@ 1 fangjun  staff    10M 21 Nov 22:38 libQnnHtpV81Skel.so
+-rw-r--r--@ 1 fangjun  staff   618K 21 Nov 22:38 libQnnHtpV81Stub.so
+-rw-r--r--@ 1 fangjun  staff   2.5M 21 Nov 22:38 libQnnSystem.so
+-rw-r--r--@ 1 fangjun  staff   4.6M 21 Nov 22:38 libsherpa-onnx-jni.so
+</pre></div>
+</div>
+</section>
+<section id="download-model-files">
+<h3>3. Download model files<a class="headerlink" href="#download-model-files" title="Permalink to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">./</span><span class="n">android</span><span class="o">/</span><span class="n">SherpaOnnxSimulateStreamingAsr</span><span class="o">/</span><span class="n">app</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">main</span><span class="o">/</span><span class="n">assets</span><span class="o">/</span>
+
+<span class="n">wget</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">k2</span><span class="o">-</span><span class="n">fsa</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="n">download</span><span class="o">/</span><span class="n">asr</span><span class="o">-</span><span class="n">models</span><span class="o">/</span><span class="n">silero_vad</span><span class="o">.</span><span class="n">onnx</span>
+
+<span class="n">wget</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">k2</span><span class="o">-</span><span class="n">fsa</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="n">download</span><span class="o">/</span><span class="n">asr</span><span class="o">-</span><span class="n">models</span><span class="o">-</span><span class="n">qnn</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">qnn</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="n">seconds</span><span class="o">-</span><span class="n">sense</span><span class="o">-</span><span class="n">voice</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="n">ja</span><span class="o">-</span><span class="n">ko</span><span class="o">-</span><span class="n">yue</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">17</span><span class="o">-</span><span class="n">int8</span><span class="o">-</span><span class="n">android</span><span class="o">-</span><span class="n">aarch64</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">bz2</span>
+<span class="n">tar</span> <span class="n">xvf</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">qnn</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="n">seconds</span><span class="o">-</span><span class="n">sense</span><span class="o">-</span><span class="n">voice</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="n">ja</span><span class="o">-</span><span class="n">ko</span><span class="o">-</span><span class="n">yue</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">17</span><span class="o">-</span><span class="n">int8</span><span class="o">-</span><span class="n">android</span><span class="o">-</span><span class="n">aarch64</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">bz2</span>
+<span class="n">rm</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">qnn</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="n">seconds</span><span class="o">-</span><span class="n">sense</span><span class="o">-</span><span class="n">voice</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="n">ja</span><span class="o">-</span><span class="n">ko</span><span class="o">-</span><span class="n">yue</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">07</span><span class="o">-</span><span class="mi">17</span><span class="o">-</span><span class="n">int8</span><span class="o">-</span><span class="n">android</span><span class="o">-</span><span class="n">aarch64</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">bz2</span>
+</pre></div>
+</div>
+<p>You should see the following files in the end:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>localhost:assets fangjun$ pwd
+/Users/fangjun/open-source/sherpa-onnx/android/SherpaOnnxSimulateStreamingAsr/app/src/main/assets
+
+localhost:assets fangjun$ ls -lh
+total 3536
+drwxr-xr-x@ 8 fangjun  staff   256B 21 Nov 22:42 sherpa-onnx-qnn-10-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17-int8-android-aarch64
+-rw-r--r--@ 1 fangjun  staff   1.7M 13 Aug  2024 silero_vad.onnx
+
+localhost:assets fangjun$ ls -lh sherpa-onnx-qnn-10-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17-int8-android-aarch64/
+total 466184
+-rw-r--r--@ 1 fangjun  staff    38B 10 Nov 11:03 info.txt
+-rw-r--r--@ 1 fangjun  staff   227M 18 Nov 17:21 libmodel.so
+-rw-r--r--@ 1 fangjun  staff    71B 10 Nov 11:03 LICENSE
+-rw-r--r--@ 1 fangjun  staff   104B 10 Nov 11:03 README.md
+drwxr-xr-x@ 7 fangjun  staff   224B 10 Nov 11:03 test_wavs
+-rw-r--r--@ 1 fangjun  staff   308K 10 Nov 11:03 tokens.txt
+</pre></div>
+</div>
+</section>
+<section id="change-the-code-to-use-our-selected-model">
+<h3>4. Change the code to use our selected model<a class="headerlink" href="#change-the-code-to-use-our-selected-model" title="Permalink to this heading"></a></h3>
+<p>Since we have selected <code class="docutils literal notranslate"><span class="pre">sherpa-onnx-qnn-10-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17-int8-android-aarch64</span></code>, which corresponds to
+the model type 9002 in the file</p>
+<blockquote>
+<div><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/blob/16d62b6a08f617c2bd6d21d411911c6462607f08/sherpa-onnx/kotlin-api/OfflineRecognizer.kt#L790">https://github.com/k2-fsa/sherpa-onnx/blob/16d62b6a08f617c2bd6d21d411911c6462607f08/sherpa-onnx/kotlin-api/OfflineRecognizer.kt#L790</a></p>
+</div></blockquote>
+<div class="highlight-kotlin notranslate"><div class="highlight"><pre><span></span><span class="m">9002</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">modelDir</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;sherpa-onnx-qnn-10-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17-int8-android-aarch64&quot;</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">OfflineModelConfig</span><span class="p">(</span>
+<span class="w">        </span><span class="n">provider</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;qnn&quot;</span><span class="p">,</span>
+<span class="w">        </span><span class="n">senseVoice</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">OfflineSenseVoiceModelConfig</span><span class="p">(</span>
+<span class="w">            </span><span class="n">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;</span><span class="si">$</span><span class="n">modelDir</span><span class="s">/libmodel.so&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="n">qnnConfig</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">QnnConfig</span><span class="p">(</span>
+<span class="w">                </span><span class="n">backendLib</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;libQnnHtp.so&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="n">systemLib</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;libQnnSystem.so&quot;</span><span class="p">,</span>
+<span class="w">                </span><span class="n">contextBinary</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;</span><span class="si">$</span><span class="n">modelDir</span><span class="s">/model.bin&quot;</span><span class="p">,</span>
+<span class="w">            </span><span class="p">),</span>
+<span class="w">        </span><span class="p">),</span>
+<span class="w">        </span><span class="n">tokens</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;</span><span class="si">$</span><span class="n">modelDir</span><span class="s">/tokens.txt&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="p">)</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/blob/master/android/SherpaOnnxSimulateStreamingAsr/app/src/main/java/com/k2fsa/sherpa/onnx/OfflineRecognizer.kt">https://github.com/k2-fsa/sherpa-onnx/blob/master/android/SherpaOnnxSimulateStreamingAsr/app/src/main/java/com/k2fsa/sherpa/onnx/OfflineRecognizer.kt</a> is a symlink to <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/blob/16d62b6a08f617c2bd6d21d411911c6462607f08/sherpa-onnx/kotlin-api/OfflineRecognizer.kt#L790">https://github.com/k2-fsa/sherpa-onnx/blob/16d62b6a08f617c2bd6d21d411911c6462607f08/sherpa-onnx/kotlin-api/OfflineRecognizer.kt#L790</a></p>
+</div>
+<p>We need to change the <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/blob/16d62b6a08f617c2bd6d21d411911c6462607f08/android/SherpaOnnxSimulateStreamingAsr/app/src/main/java/com/k2fsa/sherpa/onnx/simulate/streaming/asr/screens/Home.kt#L71">following line</a></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">val</span> <span class="n">asrModelType</span> <span class="o">=</span> <span class="mi">15</span>
+</pre></div>
+</div>
+<p>to</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">val</span> <span class="n">asrModelType</span> <span class="o">=</span> <span class="mi">9002</span>
+</pre></div>
+</div>
+</section>
+<section id="build-the-demo">
+<h3>5. Build the demo<a class="headerlink" href="#build-the-demo" title="Permalink to this heading"></a></h3>
+<p>Use Android Studio to open <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/tree/master/android/SherpaOnnxSimulateStreamingAsr">https://github.com/k2-fsa/sherpa-onnx/tree/master/android/SherpaOnnxSimulateStreamingAsr</a></p>
+<p>As a final check, you should see the following files and changes in your Android Studio:</p>
+<a class="reference internal image-reference" href="../../_images/android-files-qnn.jpg"><img alt="screenshot of files in Android Studio" class="align-center" src="../../_images/android-files-qnn.jpg" style="width: 600px;" /></a>
+<p>Now you can build it and run it on your phone.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>If you are using Windows, please have a look at</p>
+<blockquote>
+<div><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/discussions/1950">https://github.com/k2-fsa/sherpa-onnx/discussions/1950</a></p>
+</div></blockquote>
+<p>to fix issues about symlinks on Windows.</p>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="run-executables-on-your-phone.html" class="btn btn-neutral float-left" title="Run executables on your phone with adb (using libmodel.so)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="models.html" class="btn btn-neutral float-right" title="Models for QNN" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

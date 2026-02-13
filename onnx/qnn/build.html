@@ -1,0 +1,262 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Build sherpa-onnx for Qualcomm NPU &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Run executables on your phone with adb (using model.bin)" href="run-executables-on-your-phone-binary.html" />
+    <link rel="prev" title="Download QNN SDK" href="download-qnn.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">sherpa-onnx</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../install/index.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../faqs/index.html">Frequently Asked Question (FAQs)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python/index.html">Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../c-api/index.html">C API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../java-api/index.html">Java API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../javascript-api/index.html">Javascript API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kotlin-api/index.html">Kotlin API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../swift-api/index.html">Swift API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../go-api/index.html">Go API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../csharp-api/index.html">C# API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pascal-api/index.html">Pascal API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lazarus/index.html">Lazarus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../wasm/index.html">WebAssembly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../android/index.html">Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../harmony-os/index.html">HarmonyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ios/index.html">iOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../flutter/index.html">Flutter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../websocket/index.html">WebSocket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../hotwords/index.html">Hotwords (Contextual biasing)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kws/index.html">Keyword spotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../punctuation/index.html">Punctuation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../audio-tagging/index.html">Audio tagging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spoken-language-identification/index.html">Spoken language identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vad/index.html">VAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/index.html">Pre-trained models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/whisper/index.html">Whisper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../moonshine/index.html">Moonshine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../omnilingual-asr/index.html">Omnilingual ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sense-voice/index.html">SenseVoice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../funasr-nano/index.html">FunASR Nano</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../paraformer/index.html">Paraformer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nemo/index.html">NeMo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../FireRedAsr/index.html">FireRedAsr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Dolphin/index.html">Dolphin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../homophone-replacer/index.html">拼音词组匹配替换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-diarization/index.html">Speaker Diarization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-identification/index.html">Speaker Identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speech-enhancement/index.html">Speech enhancement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../source-separation/index.html">Source separation</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Qualcomm NPU (QNN, HTP)</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="download-qnn.html">Download QNN SDK</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Build sherpa-onnx for Qualcomm NPU</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#shared-libraries">Shared libraries</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#executable-files">Executable files</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="run-executables-on-your-phone-binary.html">Run executables on your phone with adb (using model.bin)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="run-executables-on-your-phone.html">Run executables on your phone with adb (using libmodel.so)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="build-android-demo.html">Build Android examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="models.html">Models for QNN</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../rknn/index.html">rknn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ascend/index.html">Ascend NPU (昇腾 NPU)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tts/index.html">Text-to-speech (TTS)</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">sherpa-onnx</a> &raquo;</li>
+          <li><a href="index.html">Qualcomm NPU (QNN, HTP)</a> &raquo;</li>
+      <li>Build sherpa-onnx for Qualcomm NPU</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/onnx/qnn/build.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="build-sherpa-onnx-for-qualcomm-npu">
+<span id="id1"></span><h1>Build sherpa-onnx for Qualcomm NPU<a class="headerlink" href="#build-sherpa-onnx-for-qualcomm-npu" title="Permalink to this heading"></a></h1>
+<p>Before you continue, we assume you have followed <a class="reference internal" href="download-qnn.html#onnx-download-qnn"><span class="std std-ref">Download QNN SDK</span></a>
+to download QNN SDK and set up the environment variable <code class="docutils literal notranslate"><span class="pre">QNN_SDK_ROOT</span></code>.</p>
+<p>You should run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>echo $QNN_SDK_ROOT
+</pre></div>
+</div>
+<p>to check that it points to the QNN SDK directory.</p>
+<p>Also, we assume you have installed Android NDK and set up the environment variable <code class="docutils literal notranslate"><span class="pre">ANDROID_NDK</span></code>.</p>
+<p>You can use the following commands to build <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a> for Qualcomm NPU.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">k2</span><span class="o">-</span><span class="n">fsa</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span>
+
+<span class="n">cd</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span>
+
+<span class="n">export</span> <span class="n">SHERPA_ONNX_ENABLE_QNN</span><span class="o">=</span><span class="n">ON</span>
+
+<span class="n">export</span> <span class="n">SHERPA_ONNX_ENABLE_BINARY</span><span class="o">=</span><span class="n">ON</span>
+
+<span class="o">./</span><span class="n">build</span><span class="o">-</span><span class="n">android</span><span class="o">-</span><span class="n">arm64</span><span class="o">-</span><span class="n">v8a</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+<p>After building, you should get the following shared libraries and executables.</p>
+<section id="shared-libraries">
+<span id="qnn-build-shared-libs"></span><h2>Shared libraries<a class="headerlink" href="#shared-libraries" title="Permalink to this heading"></a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ls</span> <span class="o">-</span><span class="n">lh</span> <span class="n">build</span><span class="o">-</span><span class="n">android</span><span class="o">-</span><span class="n">arm64</span><span class="o">-</span><span class="n">v8a</span><span class="o">/</span><span class="n">install</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span>
+<span class="n">total</span> <span class="mi">40752</span>
+
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--@</span> <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>    <span class="mi">15</span><span class="n">M</span> <span class="mi">20</span> <span class="n">Nov</span> <span class="mi">17</span><span class="p">:</span><span class="mi">05</span> <span class="n">libonnxruntime</span><span class="o">.</span><span class="n">so</span>
+<span class="o">-</span><span class="n">rwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span><span class="o">@</span> <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mf">4.6</span><span class="n">M</span> <span class="mi">20</span> <span class="n">Nov</span> <span class="mi">17</span><span class="p">:</span><span class="mi">05</span> <span class="n">libsherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">jni</span><span class="o">.</span><span class="n">so</span>
+
+<span class="n">file</span> <span class="n">build</span><span class="o">-</span><span class="n">android</span><span class="o">-</span><span class="n">arm64</span><span class="o">-</span><span class="n">v8a</span><span class="o">/</span><span class="n">install</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libonnxruntime</span><span class="o">.</span><span class="n">so</span>
+
+<span class="n">build</span><span class="o">-</span><span class="n">android</span><span class="o">-</span><span class="n">arm64</span><span class="o">-</span><span class="n">v8a</span><span class="o">/</span><span class="n">install</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libonnxruntime</span><span class="o">.</span><span class="n">so</span><span class="p">:</span> <span class="n">ELF</span> <span class="mi">64</span><span class="o">-</span><span class="n">bit</span> <span class="n">LSB</span> <span class="n">shared</span> <span class="nb">object</span><span class="p">,</span> <span class="n">ARM</span> <span class="n">aarch64</span><span class="p">,</span> <span class="n">version</span> <span class="mi">1</span> <span class="p">(</span><span class="n">SYSV</span><span class="p">),</span> <span class="n">dynamically</span> <span class="n">linked</span><span class="p">,</span> <span class="n">BuildID</span><span class="p">[</span><span class="n">sha1</span><span class="p">]</span><span class="o">=</span><span class="n">d1713f0e89b18cfa4f3102dd39c3fa8500f32772</span><span class="p">,</span> <span class="n">stripped</span>
+
+<span class="n">file</span> <span class="n">build</span><span class="o">-</span><span class="n">android</span><span class="o">-</span><span class="n">arm64</span><span class="o">-</span><span class="n">v8a</span><span class="o">/</span><span class="n">install</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libsherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">jni</span><span class="o">.</span><span class="n">so</span>
+
+<span class="n">build</span><span class="o">-</span><span class="n">android</span><span class="o">-</span><span class="n">arm64</span><span class="o">-</span><span class="n">v8a</span><span class="o">/</span><span class="n">install</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libsherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">jni</span><span class="o">.</span><span class="n">so</span><span class="p">:</span> <span class="n">ELF</span> <span class="mi">64</span><span class="o">-</span><span class="n">bit</span> <span class="n">LSB</span> <span class="n">shared</span> <span class="nb">object</span><span class="p">,</span> <span class="n">ARM</span> <span class="n">aarch64</span><span class="p">,</span> <span class="n">version</span> <span class="mi">1</span> <span class="p">(</span><span class="n">SYSV</span><span class="p">),</span> <span class="n">dynamically</span> <span class="n">linked</span><span class="p">,</span> <span class="n">BuildID</span><span class="p">[</span><span class="n">sha1</span><span class="p">]</span><span class="o">=</span><span class="n">a262171712e69be58a2ab281f3e9980d4bc37e29</span><span class="p">,</span> <span class="n">stripped</span>
+</pre></div>
+</div>
+<p>Please copy all of the shared libraries to the <code class="docutils literal notranslate"><span class="pre">jniLibs/arm64-v8a</span></code> directory in our Android examples.
+For instance, for the demo <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/tree/master/android/SherpaOnnxSimulateStreamingAsr/app/src/main/jniLibs/arm64-v8a">SherpaOnnxSimulateStreamingAsr</a>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cp</span>  <span class="o">-</span><span class="n">v</span> <span class="n">build</span><span class="o">-</span><span class="n">android</span><span class="o">-</span><span class="n">arm64</span><span class="o">-</span><span class="n">v8a</span><span class="o">/</span><span class="n">install</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">lib</span><span class="o">*</span> <span class="n">android</span><span class="o">/</span><span class="n">SherpaOnnxSimulateStreamingAsr</span><span class="o">/</span><span class="n">app</span><span class="o">/</span><span class="n">src</span><span class="o">/</span><span class="n">main</span><span class="o">/</span><span class="n">jniLibs</span><span class="o">/</span><span class="n">arm64</span><span class="o">-</span><span class="n">v8a</span><span class="o">/</span>
+</pre></div>
+</div>
+</section>
+<section id="executable-files">
+<h2>Executable files<a class="headerlink" href="#executable-files" title="Permalink to this heading"></a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ls</span> <span class="o">-</span><span class="n">lh</span> <span class="n">build</span><span class="o">-</span><span class="n">android</span><span class="o">-</span><span class="n">arm64</span><span class="o">-</span><span class="n">v8a</span><span class="o">/</span><span class="n">install</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">offline</span>
+
+<span class="o">-</span><span class="n">rwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span><span class="o">@</span> <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mf">2.2</span><span class="n">M</span> <span class="mi">20</span> <span class="n">Nov</span> <span class="mi">17</span><span class="p">:</span><span class="mi">05</span> <span class="n">build</span><span class="o">-</span><span class="n">android</span><span class="o">-</span><span class="n">arm64</span><span class="o">-</span><span class="n">v8a</span><span class="o">/</span><span class="n">install</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">offline</span>
+
+<span class="n">file</span> <span class="n">build</span><span class="o">-</span><span class="n">android</span><span class="o">-</span><span class="n">arm64</span><span class="o">-</span><span class="n">v8a</span><span class="o">/</span><span class="n">install</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">offline</span>
+
+<span class="n">build</span><span class="o">-</span><span class="n">android</span><span class="o">-</span><span class="n">arm64</span><span class="o">-</span><span class="n">v8a</span><span class="o">/</span><span class="n">install</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">offline</span><span class="p">:</span> <span class="n">ELF</span> <span class="mi">64</span><span class="o">-</span><span class="n">bit</span> <span class="n">LSB</span> <span class="n">pie</span> <span class="n">executable</span><span class="p">,</span> <span class="n">ARM</span> <span class="n">aarch64</span><span class="p">,</span> <span class="n">version</span> <span class="mi">1</span> <span class="p">(</span><span class="n">SYSV</span><span class="p">),</span> <span class="n">dynamically</span> <span class="n">linked</span><span class="p">,</span> <span class="n">interpreter</span> <span class="o">/</span><span class="n">system</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">linker64</span><span class="p">,</span> <span class="n">BuildID</span><span class="p">[</span><span class="n">sha1</span><span class="p">]</span><span class="o">=</span><span class="mi">6</span><span class="n">d693f987dea91ad36931a1709315ae88f3b7090</span><span class="p">,</span> <span class="n">stripped</span>
+</pre></div>
+</div>
+<p>We describe how to run the executable files on your phone with adb in <a class="reference internal" href="run-executables-on-your-phone.html#run-exe-on-your-phone-with-qnn"><span class="std std-ref">Run executables on your phone with adb (using libmodel.so)</span></a>.</p>
+<p>See <a class="reference internal" href="build-android-demo.html#build-android-examples-with-qnn"><span class="std std-ref">Build Android examples</span></a> for how to use the generated shared libraries.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="download-qnn.html" class="btn btn-neutral float-left" title="Download QNN SDK" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="run-executables-on-your-phone-binary.html" class="btn btn-neutral float-right" title="Run executables on your phone with adb (using model.bin)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

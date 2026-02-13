@@ -1,0 +1,374 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Piper &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="MMS" href="mms.html" />
+    <link rel="prev" title="Huggingface Spaces (WebAssembly)" href="wasm/hf-spaces.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">sherpa-onnx</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../install/index.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../faqs/index.html">Frequently Asked Question (FAQs)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python/index.html">Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../c-api/index.html">C API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../java-api/index.html">Java API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../javascript-api/index.html">Javascript API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kotlin-api/index.html">Kotlin API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../swift-api/index.html">Swift API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../go-api/index.html">Go API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../csharp-api/index.html">C# API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pascal-api/index.html">Pascal API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lazarus/index.html">Lazarus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../wasm/index.html">WebAssembly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../android/index.html">Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../harmony-os/index.html">HarmonyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ios/index.html">iOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../flutter/index.html">Flutter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../websocket/index.html">WebSocket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../hotwords/index.html">Hotwords (Contextual biasing)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kws/index.html">Keyword spotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../punctuation/index.html">Punctuation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../audio-tagging/index.html">Audio tagging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spoken-language-identification/index.html">Spoken language identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vad/index.html">VAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/index.html">Pre-trained models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/whisper/index.html">Whisper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../moonshine/index.html">Moonshine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../omnilingual-asr/index.html">Omnilingual ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sense-voice/index.html">SenseVoice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../funasr-nano/index.html">FunASR Nano</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../paraformer/index.html">Paraformer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nemo/index.html">NeMo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../FireRedAsr/index.html">FireRedAsr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Dolphin/index.html">Dolphin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../homophone-replacer/index.html">拼音词组匹配替换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-diarization/index.html">Speaker Diarization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-identification/index.html">Speaker Identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speech-enhancement/index.html">Speech enhancement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../source-separation/index.html">Source separation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qnn/index.html">Qualcomm NPU (QNN, HTP)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rknn/index.html">rknn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ascend/index.html">Ascend NPU (昇腾 NPU)</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Text-to-speech (TTS)</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="all-in-one.html">All-in-one</a></li>
+<li class="toctree-l3"><a class="reference internal" href="hf-space.html">Huggingface space</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pretrained_models/index.html">Pre-trained models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wasm/index.html">WebAssembly</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Piper</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#install-dependencies">Install dependencies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#find-the-pre-trained-model-from-piper">Find the pre-trained model from piper</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#download-the-pre-trained-model">Download the pre-trained model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#add-meta-data-to-the-onnx-model">Add meta data to the onnx model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#download-espeak-ng-data">Download espeak-ng-data</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#test-your-converted-model">Test your converted model</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="mms.html">MMS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="faq.html">Frequently Asked Question (FAQs)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">sherpa-onnx</a> &raquo;</li>
+          <li><a href="index.html">Text-to-speech (TTS)</a> &raquo;</li>
+      <li>Piper</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/onnx/tts/piper.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="piper">
+<h1>Piper<a class="headerlink" href="#piper" title="Permalink to this heading"></a></h1>
+<p>In this section, we describe how to convert <a class="reference external" href="https://github.com/rhasspy/piper">piper</a> pre-trained models
+from <a class="reference external" href="https://huggingface.co/rhasspy/piper-voices">https://huggingface.co/rhasspy/piper-voices</a>.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<blockquote>
+<div><p>You can find <code class="docutils literal notranslate"><span class="pre">all</span></code> of the converted models from <a class="reference external" href="https://github.com/rhasspy/piper">piper</a> in the following address:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/tag/tts-models">https://github.com/k2-fsa/sherpa-onnx/releases/tag/tts-models</a></p>
+</div></blockquote>
+</div></blockquote>
+<p>If you want to convert your own pre-trained <a class="reference external" href="https://github.com/rhasspy/piper">piper</a> models or if you want to
+learn how the conversion works, please read on.</p>
+<p>Otherwise, you only need to download the converted models from the above link.</p>
+</div>
+<p>Note that there are pre-trained models for over 30 languages from <a class="reference external" href="https://github.com/rhasspy/piper">piper</a>. All models
+share the same converting method, so we use an American English model in this
+section as an example.</p>
+<section id="install-dependencies">
+<h2>Install dependencies<a class="headerlink" href="#install-dependencies" title="Permalink to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span><span class="nv">onnx</span><span class="o">==</span><span class="m">1</span>.17.0<span class="w"> </span><span class="nv">onnxruntime</span><span class="o">==</span><span class="m">1</span>.17.1
+</pre></div>
+</div>
+</section>
+<section id="find-the-pre-trained-model-from-piper">
+<h2>Find the pre-trained model from piper<a class="headerlink" href="#find-the-pre-trained-model-from-piper" title="Permalink to this heading"></a></h2>
+<p>All American English models from <a class="reference external" href="https://github.com/rhasspy/piper">piper</a> can be found at
+<a class="reference external" href="https://huggingface.co/rhasspy/piper-voices/tree/main/en/en_US">https://huggingface.co/rhasspy/piper-voices/tree/main/en/en_US</a>.</p>
+<p>We use <a class="reference external" href="https://huggingface.co/rhasspy/piper-voices/tree/main/en/en_US/amy/low">https://huggingface.co/rhasspy/piper-voices/tree/main/en/en_US/amy/low</a> as
+an example in this section.</p>
+</section>
+<section id="download-the-pre-trained-model">
+<h2>Download the pre-trained model<a class="headerlink" href="#download-the-pre-trained-model" title="Permalink to this heading"></a></h2>
+<p>We need to download two files for each model:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget<span class="w"> </span>https://huggingface.co/rhasspy/piper-voices/resolve/main/en/en_US/amy/low/en_US-amy-low.onnx
+wget<span class="w"> </span>https://huggingface.co/rhasspy/piper-voices/resolve/main/en/en_US/amy/low/en_US-amy-low.onnx.json
+</pre></div>
+</div>
+</section>
+<section id="add-meta-data-to-the-onnx-model">
+<h2>Add meta data to the onnx model<a class="headerlink" href="#add-meta-data-to-the-onnx-model" title="Permalink to this heading"></a></h2>
+<p>Please use the following code to add meta data to the downloaded onnx model.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env python3</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">onnx</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">add_meta_data</span><span class="p">(</span><span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">meta_data</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add meta data to an ONNX model. It is changed in-place.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">      filename:</span>
+<span class="sd">        Filename of the ONNX model to be changed.</span>
+<span class="sd">      meta_data:</span>
+<span class="sd">        Key-value pairs.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">onnx</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">meta_data</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="n">meta</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">metadata_props</span><span class="o">.</span><span class="n">add</span><span class="p">()</span>
+        <span class="n">meta</span><span class="o">.</span><span class="n">key</span> <span class="o">=</span> <span class="n">key</span>
+        <span class="n">meta</span><span class="o">.</span><span class="n">value</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+    <span class="n">onnx</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">load_config</span><span class="p">(</span><span class="n">model</span><span class="p">):</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">model</span><span class="si">}</span><span class="s2">.json&quot;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">file</span><span class="p">:</span>
+        <span class="n">config</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">file</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">config</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">generate_tokens</span><span class="p">(</span><span class="n">config</span><span class="p">):</span>
+    <span class="n">id_map</span> <span class="o">=</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;phoneme_id_map&quot;</span><span class="p">]</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;tokens.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s2">&quot;utf-8&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">id_map</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">s</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Generated tokens.txt&quot;</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+    <span class="c1"># Caution: Please change the filename</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="s2">&quot;en_US-amy-low.onnx&quot;</span>
+
+    <span class="c1"># The rest of the file should not be changed.</span>
+    <span class="c1"># You only need to change the above filename = &quot;xxx.onxx&quot; in this file</span>
+
+    <span class="n">config</span> <span class="o">=</span> <span class="n">load_config</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;generate tokens&quot;</span><span class="p">)</span>
+    <span class="n">generate_tokens</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;add model metadata&quot;</span><span class="p">)</span>
+    <span class="n">meta_data</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;model_type&quot;</span><span class="p">:</span> <span class="s2">&quot;vits&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;comment&quot;</span><span class="p">:</span> <span class="s2">&quot;piper&quot;</span><span class="p">,</span>  <span class="c1"># must be piper for models from piper</span>
+        <span class="s2">&quot;language&quot;</span><span class="p">:</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;language&quot;</span><span class="p">][</span><span class="s2">&quot;name_english&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;voice&quot;</span><span class="p">:</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;espeak&quot;</span><span class="p">][</span><span class="s2">&quot;voice&quot;</span><span class="p">],</span>  <span class="c1"># e.g., en-us</span>
+        <span class="s2">&quot;has_espeak&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s2">&quot;n_speakers&quot;</span><span class="p">:</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;num_speakers&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;sample_rate&quot;</span><span class="p">:</span> <span class="n">config</span><span class="p">[</span><span class="s2">&quot;audio&quot;</span><span class="p">][</span><span class="s2">&quot;sample_rate&quot;</span><span class="p">],</span>
+    <span class="p">}</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">meta_data</span><span class="p">)</span>
+    <span class="n">add_meta_data</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">meta_data</span><span class="p">)</span>
+
+
+<span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>After running the above script, your <code class="docutils literal notranslate"><span class="pre">en_US-amy-low.onnx</span></code> is updated with
+meta data and it also generates a new file <code class="docutils literal notranslate"><span class="pre">tokens.txt</span></code>.</p>
+<p>From now on, you don’t need the config json file <code class="docutils literal notranslate"><span class="pre">en_US-amy-low.onnx.json</span></code> any longer.</p>
+</section>
+<section id="download-espeak-ng-data">
+<h2>Download espeak-ng-data<a class="headerlink" href="#download-espeak-ng-data" title="Permalink to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/espeak-ng-data.tar.bz2
+tar<span class="w"> </span>xf<span class="w"> </span>espeak-ng-data.tar.bz2
+</pre></div>
+</div>
+<p>Note that <code class="docutils literal notranslate"><span class="pre">espeak-ng-data.tar.bz2</span></code> is shared by all models from <a class="reference external" href="https://github.com/rhasspy/piper">piper</a>, no matter
+which language your are using for your model.</p>
+</section>
+<section id="test-your-converted-model">
+<h2>Test your converted model<a class="headerlink" href="#test-your-converted-model" title="Permalink to this heading"></a></h2>
+<p>To have a quick test of your converted model, you can use</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>sherpa-onnx
+</pre></div>
+</div>
+<p>to install <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a> and then use the following commands to test your model:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># The command &quot;pip install sherpa-onnx&quot; will install several binaries,</span>
+<span class="c1"># including the following one</span>
+
+which<span class="w"> </span>sherpa-onnx-offline-tts
+
+sherpa-onnx-offline-tts<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--vits-model<span class="o">=</span>./en_US-amy-low.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--vits-tokens<span class="o">=</span>./tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--vits-data-dir<span class="o">=</span>./espeak-ng-data<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--output-filename<span class="o">=</span>./test.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;How are you doing? This is a text-to-speech application using next generation Kaldi.&quot;</span>
+</pre></div>
+</div>
+<p>The above command should generate a wave file <code class="docutils literal notranslate"><span class="pre">test.wav</span></code>.</p>
+<table>
+  <tr>
+    <th>Wave filename</th>
+    <th>Content</th>
+    <th>Text</th>
+  </tr>
+  <tr>
+    <td>test.wav</td>
+    <td>
+     <audio title="Generated ./test.wav" controls="controls">
+           <source src="/sherpa/_static/piper/test.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+    <td>
+      How are you doing? This is a text-to-speech application using next generation Kaldi.
+    </td>
+  </tr>
+</table><p>Congratulations! You have successfully converted a model from <a class="reference external" href="https://github.com/rhasspy/piper">piper</a> and run it with <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="wasm/hf-spaces.html" class="btn btn-neutral float-left" title="Huggingface Spaces (WebAssembly)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="mms.html" class="btn btn-neutral float-right" title="MMS" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

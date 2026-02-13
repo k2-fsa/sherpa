@@ -1,0 +1,481 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>large-v3 &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/clipboard.min.js"></script>
+        <script src="../../../_static/copybutton.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="colab" href="colab.html" />
+    <link rel="prev" title="tiny.en" href="tiny.en.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">sherpa-onnx</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../install/index.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../faqs/index.html">Frequently Asked Question (FAQs)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../python/index.html">Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../c-api/index.html">C API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../java-api/index.html">Java API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../javascript-api/index.html">Javascript API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../kotlin-api/index.html">Kotlin API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../swift-api/index.html">Swift API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../go-api/index.html">Go API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../csharp-api/index.html">C# API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../pascal-api/index.html">Pascal API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../lazarus/index.html">Lazarus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../wasm/index.html">WebAssembly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../android/index.html">Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../harmony-os/index.html">HarmonyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ios/index.html">iOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../flutter/index.html">Flutter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../websocket/index.html">WebSocket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../hotwords/index.html">Hotwords (Contextual biasing)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../kws/index.html">Keyword spotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../punctuation/index.html">Punctuation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../audio-tagging/index.html">Audio tagging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../spoken-language-identification/index.html">Spoken language identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../vad/index.html">VAD</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">Pre-trained models</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../online-transducer/index.html">Online transducer models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../online-paraformer/index.html">Online paraformer models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../online-ctc/index.html">Online CTC models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../offline-transducer/index.html">Offline transducer models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../offline-paraformer/index.html">Offline paraformer models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../offline-ctc/index.html">Offline CTC models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../telespeech/index.html">TeleSpeech</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">Whisper</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="export-onnx.html">Export Whisper to ONNX</a></li>
+<li class="toctree-l4"><a class="reference internal" href="tiny.en.html">tiny.en</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">large-v3</a></li>
+<li class="toctree-l4"><a class="reference internal" href="colab.html">colab</a></li>
+<li class="toctree-l4"><a class="reference internal" href="huggingface.html">Huggingface space</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../wenet/index.html">WeNet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../small-online-models.html">Small models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../sense-voice/index.html">SenseVoice</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Whisper</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="export-onnx.html">Export Whisper to ONNX</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tiny.en.html">tiny.en</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">large-v3</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#run-with-cpu-float32">Run with CPU (float32)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#run-with-cpu-int8">Run with CPU (int8)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#run-with-gpu-float32">Run with GPU (float32)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#run-with-gpu-int8">Run with GPU (int8)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#colab">colab</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="colab.html">colab</a></li>
+<li class="toctree-l3"><a class="reference internal" href="huggingface.html">Huggingface space</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../moonshine/index.html">Moonshine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../omnilingual-asr/index.html">Omnilingual ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../sense-voice/index.html">SenseVoice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../funasr-nano/index.html">FunASR Nano</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../paraformer/index.html">Paraformer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../nemo/index.html">NeMo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../FireRedAsr/index.html">FireRedAsr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Dolphin/index.html">Dolphin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../homophone-replacer/index.html">拼音词组匹配替换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../speaker-diarization/index.html">Speaker Diarization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../speaker-identification/index.html">Speaker Identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../speech-enhancement/index.html">Speech enhancement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../source-separation/index.html">Source separation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../qnn/index.html">Qualcomm NPU (QNN, HTP)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../rknn/index.html">rknn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ascend/index.html">Ascend NPU (昇腾 NPU)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tts/index.html">Text-to-speech (TTS)</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html">sherpa-onnx</a> &raquo;</li>
+          <li><a href="../index.html">Pre-trained models</a> &raquo;</li>
+          <li><a href="index.html">Whisper</a> &raquo;</li>
+      <li>large-v3</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/onnx/pretrained_models/whisper/large-v3.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="large-v3">
+<span id="whisper-large-v3-sherpa-onnx"></span><h1>large-v3<a class="headerlink" href="#large-v3" title="Permalink to this heading"></a></h1>
+<p>Before we start, let us
+follow <a class="reference internal" href="../../install/linux.html#install-sherpa-onnx-on-linux"><span class="std std-ref">Linux</span></a>
+to build a CUDA-enabled version of <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>.</p>
+<p>In the following, we assume you have run</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/content
+
+git<span class="w"> </span>clone<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx
+<span class="nb">cd</span><span class="w"> </span>sherpa-onnx
+
+mkdir<span class="w"> </span>-p<span class="w"> </span>build
+<span class="nb">cd</span><span class="w"> </span>build
+cmake<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-DBUILD_SHARED_LIBS<span class="o">=</span>ON<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-DSHERPA_ONNX_ENABLE_GPU<span class="o">=</span>ON<span class="w"> </span>..
+
+make<span class="w"> </span>-j2<span class="w"> </span>sherpa-onnx-offline
+</pre></div>
+</div>
+<p>You can use the following commands to download the exported <a class="reference external" href="https://github.com/onnx/onnx">onnx</a> models of <code class="docutils literal notranslate"><span class="pre">large-v3</span></code>:</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>Please replace <code class="docutils literal notranslate"><span class="pre">large-v3</span></code> with
+<code class="docutils literal notranslate"><span class="pre">large</span></code>, <code class="docutils literal notranslate"><span class="pre">large-v1</span></code>, <code class="docutils literal notranslate"><span class="pre">large-v2</span></code>, <code class="docutils literal notranslate"><span class="pre">distil-large-v2</span></code>, <code class="docutils literal notranslate"><span class="pre">distil-large-v3</span></code>, and <code class="docutils literal notranslate"><span class="pre">distil-large-v3.5</span></code>
+if you want to try a different type of model.</p>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/content
+
+git<span class="w"> </span>lfs<span class="w"> </span>install
+git<span class="w"> </span>clone<span class="w"> </span>https://huggingface.co/csukuangfj/sherpa-onnx-whisper-large-v3
+
+ls<span class="w"> </span>-lh<span class="w"> </span>sherpa-onnx-whisper-large-v3
+</pre></div>
+</div>
+<p>The logs of the above commands are given below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Git</span> <span class="n">LFS</span> <span class="n">initialized</span><span class="o">.</span>
+<span class="n">Cloning</span> <span class="n">into</span> <span class="s1">&#39;sherpa-onnx-whisper-large-v3&#39;</span><span class="o">...</span>
+<span class="n">remote</span><span class="p">:</span> <span class="n">Enumerating</span> <span class="n">objects</span><span class="p">:</span> <span class="mi">26</span><span class="p">,</span> <span class="n">done</span><span class="o">.</span>
+<span class="n">remote</span><span class="p">:</span> <span class="n">Counting</span> <span class="n">objects</span><span class="p">:</span> <span class="mi">100</span><span class="o">%</span> <span class="p">(</span><span class="mi">22</span><span class="o">/</span><span class="mi">22</span><span class="p">),</span> <span class="n">done</span><span class="o">.</span>
+<span class="n">remote</span><span class="p">:</span> <span class="n">Compressing</span> <span class="n">objects</span><span class="p">:</span> <span class="mi">100</span><span class="o">%</span> <span class="p">(</span><span class="mi">21</span><span class="o">/</span><span class="mi">21</span><span class="p">),</span> <span class="n">done</span><span class="o">.</span>
+<span class="n">remote</span><span class="p">:</span> <span class="n">Total</span> <span class="mi">26</span> <span class="p">(</span><span class="n">delta</span> <span class="mi">2</span><span class="p">),</span> <span class="n">reused</span> <span class="mi">0</span> <span class="p">(</span><span class="n">delta</span> <span class="mi">0</span><span class="p">),</span> <span class="n">pack</span><span class="o">-</span><span class="n">reused</span> <span class="mi">4</span> <span class="p">(</span><span class="kn">from</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+<span class="n">Unpacking</span> <span class="n">objects</span><span class="p">:</span> <span class="mi">100</span><span class="o">%</span> <span class="p">(</span><span class="mi">26</span><span class="o">/</span><span class="mi">26</span><span class="p">),</span> <span class="mf">1.00</span> <span class="n">MiB</span> <span class="o">|</span> <span class="mf">9.10</span> <span class="n">MiB</span><span class="o">/</span><span class="n">s</span><span class="p">,</span> <span class="n">done</span><span class="o">.</span>
+<span class="n">Filtering</span> <span class="n">content</span><span class="p">:</span> <span class="mi">100</span><span class="o">%</span> <span class="p">(</span><span class="mi">6</span><span class="o">/</span><span class="mi">6</span><span class="p">),</span> <span class="mf">7.40</span> <span class="n">GiB</span> <span class="o">|</span> <span class="mf">34.50</span> <span class="n">MiB</span><span class="o">/</span><span class="n">s</span><span class="p">,</span> <span class="n">done</span><span class="o">.</span>
+<span class="n">total</span> <span class="mf">7.5</span><span class="n">G</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="n">root</span> <span class="n">root</span> <span class="mi">962</span><span class="n">M</span> <span class="n">Jul</span> <span class="mi">13</span> <span class="mi">14</span><span class="p">:</span><span class="mi">19</span> <span class="n">large</span><span class="o">-</span><span class="n">v3</span><span class="o">-</span><span class="n">decoder</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="n">root</span> <span class="n">root</span> <span class="mf">2.8</span><span class="n">M</span> <span class="n">Jul</span> <span class="mi">13</span> <span class="mi">14</span><span class="p">:</span><span class="mi">18</span> <span class="n">large</span><span class="o">-</span><span class="n">v3</span><span class="o">-</span><span class="n">decoder</span><span class="o">.</span><span class="n">onnx</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="n">root</span> <span class="n">root</span> <span class="mf">3.0</span><span class="n">G</span> <span class="n">Jul</span> <span class="mi">13</span> <span class="mi">14</span><span class="p">:</span><span class="mi">22</span> <span class="n">large</span><span class="o">-</span><span class="n">v3</span><span class="o">-</span><span class="n">decoder</span><span class="o">.</span><span class="n">weights</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="n">root</span> <span class="n">root</span> <span class="mi">732</span><span class="n">M</span> <span class="n">Jul</span> <span class="mi">13</span> <span class="mi">14</span><span class="p">:</span><span class="mi">19</span> <span class="n">large</span><span class="o">-</span><span class="n">v3</span><span class="o">-</span><span class="n">encoder</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="n">root</span> <span class="n">root</span> <span class="mi">745</span><span class="n">K</span> <span class="n">Jul</span> <span class="mi">13</span> <span class="mi">14</span><span class="p">:</span><span class="mi">18</span> <span class="n">large</span><span class="o">-</span><span class="n">v3</span><span class="o">-</span><span class="n">encoder</span><span class="o">.</span><span class="n">onnx</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="n">root</span> <span class="n">root</span> <span class="mf">2.8</span><span class="n">G</span> <span class="n">Jul</span> <span class="mi">13</span> <span class="mi">14</span><span class="p">:</span><span class="mi">21</span> <span class="n">large</span><span class="o">-</span><span class="n">v3</span><span class="o">-</span><span class="n">encoder</span><span class="o">.</span><span class="n">weights</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="n">root</span> <span class="n">root</span> <span class="mi">798</span><span class="n">K</span> <span class="n">Jul</span> <span class="mi">13</span> <span class="mi">14</span><span class="p">:</span><span class="mi">18</span> <span class="n">large</span><span class="o">-</span><span class="n">v3</span><span class="o">-</span><span class="n">tokens</span><span class="o">.</span><span class="n">txt</span>
+<span class="n">drwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span> <span class="mi">2</span> <span class="n">root</span> <span class="n">root</span> <span class="mf">4.0</span><span class="n">K</span> <span class="n">Jul</span> <span class="mi">13</span> <span class="mi">14</span><span class="p">:</span><span class="mi">18</span> <span class="n">test_wavs</span>
+</pre></div>
+</div>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>Please remember to run <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">lfs</span> <span class="pre">install</span></code> before you run <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">clone</span></code>.
+If you have any issues about <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">lfs</span> <span class="pre">install</span></code>, please follow
+<a class="reference external" href="https://git-lfs.com/">https://git-lfs.com/</a> to install <code class="docutils literal notranslate"><span class="pre">git-lfs</span></code>.</p>
+</div>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>Please check the file sizes are correct before proceeding. Otherwise, you would be <code class="docutils literal notranslate"><span class="pre">SAD</span></code> later.</p>
+</div>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>Please check the file sizes are correct before proceeding. Otherwise, you would be <code class="docutils literal notranslate"><span class="pre">SAD</span></code> later.</p>
+</div>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>Please check the file sizes are correct before proceeding. Otherwise, you would be <code class="docutils literal notranslate"><span class="pre">SAD</span></code> later.</p>
+</div>
+<section id="run-with-cpu-float32">
+<h2>Run with CPU (float32)<a class="headerlink" href="#run-with-cpu-float32" title="Permalink to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/content
+
+<span class="nv">exe</span><span class="o">=</span><span class="nv">$PWD</span>/sherpa-onnx/build/bin/sherpa-onnx-offline
+
+<span class="nb">cd</span><span class="w"> </span>sherpa-onnx-whisper-large-v3
+
+<span class="nb">time</span><span class="w"> </span><span class="nv">$exe</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--whisper-encoder<span class="o">=</span>./large-v3-encoder.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--whisper-decoder<span class="o">=</span>./large-v3-decoder.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span>./large-v3-tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--num-threads<span class="o">=</span><span class="m">2</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./test_wavs/0.wav
+</pre></div>
+</div>
+<p>The logs are given below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/content/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:375 /content/sherpa-onnx/build/bin/sherpa-onnx-offline --whisper-encoder=./large-v3-encoder.onnx --whisper-decoder=./large-v3-decoder.onnx --tokens=./large-v3-tokens.txt --num-threads=2 ./test_wavs/0.wav
+
+OfflineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80, low_freq=20, high_freq=-400, dither=0), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename=&quot;&quot;, decoder_filename=&quot;&quot;, joiner_filename=&quot;&quot;), paraformer=OfflineParaformerModelConfig(model=&quot;&quot;), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=&quot;&quot;), whisper=OfflineWhisperModelConfig(encoder=&quot;./large-v3-encoder.onnx&quot;, decoder=&quot;./large-v3-decoder.onnx&quot;, language=&quot;&quot;, task=&quot;transcribe&quot;, tail_paddings=-1), tdnn=OfflineTdnnModelConfig(model=&quot;&quot;), zipformer_ctc=OfflineZipformerCtcModelConfig(model=&quot;&quot;), wenet_ctc=OfflineWenetCtcModelConfig(model=&quot;&quot;), telespeech_ctc=&quot;&quot;, tokens=&quot;./large-v3-tokens.txt&quot;, num_threads=2, debug=False, provider=&quot;cpu&quot;, model_type=&quot;&quot;, modeling_unit=&quot;cjkchar&quot;, bpe_vocab=&quot;&quot;), lm_config=OfflineLMConfig(model=&quot;&quot;, scale=0.5), ctc_fst_decoder_config=OfflineCtcFstDecoderConfig(graph=&quot;&quot;, max_active=3000), decoding_method=&quot;greedy_search&quot;, max_active_paths=4, hotwords_file=&quot;&quot;, hotwords_score=1.5, blank_penalty=0, rule_fsts=&quot;&quot;, rule_fars=&quot;&quot;)
+Creating recognizer ...
+Started
+Done!
+
+./test_wavs/0.wav
+{&quot;text&quot;: &quot; after early nightfall the yellow lamps would light up here and there the squalid quarter of the brothels&quot;, &quot;timestamps&quot;: [], &quot;tokens&quot;:[&quot; after&quot;, &quot; early&quot;, &quot; night&quot;, &quot;fall&quot;, &quot; the&quot;, &quot; yellow&quot;, &quot; lamps&quot;, &quot; would&quot;, &quot; light&quot;, &quot; up&quot;, &quot; here&quot;, &quot; and&quot;, &quot; there&quot;, &quot; the&quot;, &quot; squ&quot;, &quot;alid&quot;, &quot; quarter&quot;, &quot; of&quot;, &quot; the&quot;, &quot; broth&quot;, &quot;els&quot;], &quot;words&quot;: []}
+----
+num threads: 2
+decoding method: greedy_search
+Elapsed seconds: 54.070 s
+Real time factor (RTF): 54.070 / 6.625 = 8.162
+
+real        1m32.107s
+user        1m39.877s
+sys 0m10.405s
+</pre></div>
+</div>
+</section>
+<section id="run-with-cpu-int8">
+<h2>Run with CPU (int8)<a class="headerlink" href="#run-with-cpu-int8" title="Permalink to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/content
+
+<span class="nv">exe</span><span class="o">=</span><span class="nv">$PWD</span>/sherpa-onnx/build/bin/sherpa-onnx-offline
+
+<span class="nb">cd</span><span class="w"> </span>sherpa-onnx-whisper-large-v3
+
+<span class="nb">time</span><span class="w"> </span><span class="nv">$exe</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--whisper-encoder<span class="o">=</span>./large-v3-encoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--whisper-decoder<span class="o">=</span>./large-v3-decoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span>./large-v3-tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--num-threads<span class="o">=</span><span class="m">2</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./test_wavs/0.wav
+</pre></div>
+</div>
+<p>The logs are given below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/content/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:375 /content/sherpa-onnx/build/bin/sherpa-onnx-offline --whisper-encoder=./large-v3-encoder.int8.onnx --whisper-decoder=./large-v3-decoder.int8.onnx --tokens=./large-v3-tokens.txt --num-threads=2 ./test_wavs/0.wav
+
+OfflineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80, low_freq=20, high_freq=-400, dither=0), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename=&quot;&quot;, decoder_filename=&quot;&quot;, joiner_filename=&quot;&quot;), paraformer=OfflineParaformerModelConfig(model=&quot;&quot;), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=&quot;&quot;), whisper=OfflineWhisperModelConfig(encoder=&quot;./large-v3-encoder.int8.onnx&quot;, decoder=&quot;./large-v3-decoder.int8.onnx&quot;, language=&quot;&quot;, task=&quot;transcribe&quot;, tail_paddings=-1), tdnn=OfflineTdnnModelConfig(model=&quot;&quot;), zipformer_ctc=OfflineZipformerCtcModelConfig(model=&quot;&quot;), wenet_ctc=OfflineWenetCtcModelConfig(model=&quot;&quot;), telespeech_ctc=&quot;&quot;, tokens=&quot;./large-v3-tokens.txt&quot;, num_threads=2, debug=False, provider=&quot;cpu&quot;, model_type=&quot;&quot;, modeling_unit=&quot;cjkchar&quot;, bpe_vocab=&quot;&quot;), lm_config=OfflineLMConfig(model=&quot;&quot;, scale=0.5), ctc_fst_decoder_config=OfflineCtcFstDecoderConfig(graph=&quot;&quot;, max_active=3000), decoding_method=&quot;greedy_search&quot;, max_active_paths=4, hotwords_file=&quot;&quot;, hotwords_score=1.5, blank_penalty=0, rule_fsts=&quot;&quot;, rule_fars=&quot;&quot;)
+Creating recognizer ...
+Started
+Done!
+
+./test_wavs/0.wav
+{&quot;text&quot;: &quot; after early nightfall the yellow lamps would light up here and there the squalid quarter of the brothels&quot;, &quot;timestamps&quot;: [], &quot;tokens&quot;:[&quot; after&quot;, &quot; early&quot;, &quot; night&quot;, &quot;fall&quot;, &quot; the&quot;, &quot; yellow&quot;, &quot; lamps&quot;, &quot; would&quot;, &quot; light&quot;, &quot; up&quot;, &quot; here&quot;, &quot; and&quot;, &quot; there&quot;, &quot; the&quot;, &quot; squ&quot;, &quot;alid&quot;, &quot; quarter&quot;, &quot; of&quot;, &quot; the&quot;, &quot; broth&quot;, &quot;els&quot;], &quot;words&quot;: []}
+----
+num threads: 2
+decoding method: greedy_search
+Elapsed seconds: 49.991 s
+Real time factor (RTF): 49.991 / 6.625 = 7.546
+
+real  1m15.555s
+user  1m41.488s
+sys   0m9.156s
+</pre></div>
+</div>
+</section>
+<section id="run-with-gpu-float32">
+<h2>Run with GPU (float32)<a class="headerlink" href="#run-with-gpu-float32" title="Permalink to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/content
+<span class="nv">exe</span><span class="o">=</span><span class="nv">$PWD</span>/sherpa-onnx/build/bin/sherpa-onnx-offline
+
+<span class="nb">cd</span><span class="w"> </span>sherpa-onnx-whisper-large-v3
+
+<span class="nb">time</span><span class="w"> </span><span class="nv">$exe</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--whisper-encoder<span class="o">=</span>./large-v3-encoder.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--whisper-decoder<span class="o">=</span>./large-v3-decoder.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span>./large-v3-tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--provider<span class="o">=</span>cuda<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--num-threads<span class="o">=</span><span class="m">2</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./test_wavs/0.wav
+</pre></div>
+</div>
+<p>The logs are given below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/content/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:375 /content/sherpa-onnx/build/bin/sherpa-onnx-offline --whisper-encoder=./large-v3-encoder.onnx --whisper-decoder=./large-v3-decoder.onnx --tokens=./large-v3-tokens.txt --provider=cuda --num-threads=2 ./test_wavs/0.wav
+
+OfflineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80, low_freq=20, high_freq=-400, dither=0), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename=&quot;&quot;, decoder_filename=&quot;&quot;, joiner_filename=&quot;&quot;), paraformer=OfflineParaformerModelConfig(model=&quot;&quot;), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=&quot;&quot;), whisper=OfflineWhisperModelConfig(encoder=&quot;./large-v3-encoder.onnx&quot;, decoder=&quot;./large-v3-decoder.onnx&quot;, language=&quot;&quot;, task=&quot;transcribe&quot;, tail_paddings=-1), tdnn=OfflineTdnnModelConfig(model=&quot;&quot;), zipformer_ctc=OfflineZipformerCtcModelConfig(model=&quot;&quot;), wenet_ctc=OfflineWenetCtcModelConfig(model=&quot;&quot;), telespeech_ctc=&quot;&quot;, tokens=&quot;./large-v3-tokens.txt&quot;, num_threads=2, debug=False, provider=&quot;cuda&quot;, model_type=&quot;&quot;, modeling_unit=&quot;cjkchar&quot;, bpe_vocab=&quot;&quot;), lm_config=OfflineLMConfig(model=&quot;&quot;, scale=0.5), ctc_fst_decoder_config=OfflineCtcFstDecoderConfig(graph=&quot;&quot;, max_active=3000), decoding_method=&quot;greedy_search&quot;, max_active_paths=4, hotwords_file=&quot;&quot;, hotwords_score=1.5, blank_penalty=0, rule_fsts=&quot;&quot;, rule_fars=&quot;&quot;)
+Creating recognizer ...
+Started
+Done!
+
+./test_wavs/0.wav
+{&quot;text&quot;: &quot; after early nightfall the yellow lamps would light up here and there the squalid quarter of the brothels&quot;, &quot;timestamps&quot;: [], &quot;tokens&quot;:[&quot; after&quot;, &quot; early&quot;, &quot; night&quot;, &quot;fall&quot;, &quot; the&quot;, &quot; yellow&quot;, &quot; lamps&quot;, &quot; would&quot;, &quot; light&quot;, &quot; up&quot;, &quot; here&quot;, &quot; and&quot;, &quot; there&quot;, &quot; the&quot;, &quot; squ&quot;, &quot;alid&quot;, &quot; quarter&quot;, &quot; of&quot;, &quot; the&quot;, &quot; broth&quot;, &quot;els&quot;], &quot;words&quot;: []}
+----
+num threads: 2
+decoding method: greedy_search
+Elapsed seconds: 5.910 s
+Real time factor (RTF): 5.910 / 6.625 = 0.892
+
+real  0m26.996s
+user  0m12.854s
+sys   0m4.486s
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The above command is run within a colab notebook using Tesla T4 GPU.
+You can see the RTF is less than 1.</p>
+<p>If you has some more performant GPU, you would get an even lower RTF.</p>
+</div>
+</section>
+<section id="run-with-gpu-int8">
+<h2>Run with GPU (int8)<a class="headerlink" href="#run-with-gpu-int8" title="Permalink to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/content
+<span class="nv">exe</span><span class="o">=</span><span class="nv">$PWD</span>/sherpa-onnx/build/bin/sherpa-onnx-offline
+
+<span class="nb">cd</span><span class="w"> </span>sherpa-onnx-whisper-large-v3
+
+<span class="nb">time</span><span class="w"> </span><span class="nv">$exe</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--whisper-encoder<span class="o">=</span>./large-v3-encoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--whisper-decoder<span class="o">=</span>./large-v3-decoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span>./large-v3-tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--provider<span class="o">=</span>cuda<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--num-threads<span class="o">=</span><span class="m">2</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./test_wavs/0.wav
+</pre></div>
+</div>
+<p>The logs are given below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/content/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:375 /content/sherpa-onnx/build/bin/sherpa-onnx-offline --whisper-encoder=./large-v3-encoder.int8.onnx --whisper-decoder=./large-v3-decoder.int8.onnx --tokens=./large-v3-tokens.txt --provider=cuda --num-threads=2 ./test_wavs/0.wav
+
+OfflineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80, low_freq=20, high_freq=-400, dither=0), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename=&quot;&quot;, decoder_filename=&quot;&quot;, joiner_filename=&quot;&quot;), paraformer=OfflineParaformerModelConfig(model=&quot;&quot;), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=&quot;&quot;), whisper=OfflineWhisperModelConfig(encoder=&quot;./large-v3-encoder.int8.onnx&quot;, decoder=&quot;./large-v3-decoder.int8.onnx&quot;, language=&quot;&quot;, task=&quot;transcribe&quot;, tail_paddings=-1), tdnn=OfflineTdnnModelConfig(model=&quot;&quot;), zipformer_ctc=OfflineZipformerCtcModelConfig(model=&quot;&quot;), wenet_ctc=OfflineWenetCtcModelConfig(model=&quot;&quot;), telespeech_ctc=&quot;&quot;, tokens=&quot;./large-v3-tokens.txt&quot;, num_threads=2, debug=False, provider=&quot;cuda&quot;, model_type=&quot;&quot;, modeling_unit=&quot;cjkchar&quot;, bpe_vocab=&quot;&quot;), lm_config=OfflineLMConfig(model=&quot;&quot;, scale=0.5), ctc_fst_decoder_config=OfflineCtcFstDecoderConfig(graph=&quot;&quot;, max_active=3000), decoding_method=&quot;greedy_search&quot;, max_active_paths=4, hotwords_file=&quot;&quot;, hotwords_score=1.5, blank_penalty=0, rule_fsts=&quot;&quot;, rule_fars=&quot;&quot;)
+Creating recognizer ...
+Started
+Done!
+
+./test_wavs/0.wav
+{&quot;text&quot;: &quot; after early nightfall the yellow lamps would light up here and there the squalid quarter of the brothels&quot;, &quot;timestamps&quot;: [], &quot;tokens&quot;:[&quot; after&quot;, &quot; early&quot;, &quot; night&quot;, &quot;fall&quot;, &quot; the&quot;, &quot; yellow&quot;, &quot; lamps&quot;, &quot; would&quot;, &quot; light&quot;, &quot; up&quot;, &quot; here&quot;, &quot; and&quot;, &quot; there&quot;, &quot; the&quot;, &quot; squ&quot;, &quot;alid&quot;, &quot; quarter&quot;, &quot; of&quot;, &quot; the&quot;, &quot; broth&quot;, &quot;els&quot;], &quot;words&quot;: []}
+----
+num threads: 2
+decoding method: greedy_search
+Elapsed seconds: 19.190 s
+Real time factor (RTF): 19.190 / 6.625 = 2.897
+
+real  0m46.850s
+user  0m50.007s
+sys   0m8.013s
+</pre></div>
+</div>
+<section id="fix-issues-about-running-on-gpu">
+<h3>Fix issues about running on GPU<a class="headerlink" href="#fix-issues-about-running-on-gpu" title="Permalink to this heading"></a></h3>
+<p>If you get errors like below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">what</span><span class="p">():</span>  <span class="o">/</span><span class="n">onnxruntime_src</span><span class="o">/</span><span class="n">onnxruntime</span><span class="o">/</span><span class="n">core</span><span class="o">/</span><span class="n">session</span><span class="o">/</span><span class="n">provider_bridge_ort</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="mi">1426</span>
+<span class="n">onnxruntime</span><span class="p">::</span><span class="n">Provider</span><span class="o">&amp;</span> <span class="n">onnxruntime</span><span class="p">::</span><span class="n">ProviderLibrary</span><span class="p">::</span><span class="n">Get</span><span class="p">()</span>
+<span class="p">[</span><span class="n">ONNXRuntimeError</span><span class="p">]</span> <span class="p">:</span> <span class="mi">1</span> <span class="p">:</span> <span class="n">FAIL</span> <span class="p">:</span>
+<span class="n">Failed</span> <span class="n">to</span> <span class="n">load</span> <span class="n">library</span> <span class="n">libonnxruntime_providers_cuda</span><span class="o">.</span><span class="n">so</span> <span class="k">with</span> <span class="n">error</span><span class="p">:</span>
+<span class="n">libcublasLt</span><span class="o">.</span><span class="n">so</span><span class="mf">.11</span><span class="p">:</span> <span class="n">cannot</span> <span class="nb">open</span> <span class="n">shared</span> <span class="nb">object</span> <span class="n">file</span><span class="p">:</span> <span class="n">No</span> <span class="n">such</span> <span class="n">file</span> <span class="ow">or</span> <span class="n">directory</span>
+</pre></div>
+</div>
+<p>please follow <a class="reference external" href="https://www.google.com/url?q=https%3A%2F%2Fk2-fsa.github.io%2Fk2%2Finstallation%2Fcuda-cudnn.html">https://www.google.com/url?q=https%3A%2F%2Fk2-fsa.github.io%2Fk2%2Finstallation%2Fcuda-cudnn.html</a>
+to install CUDA toolkit.</p>
+<p>To determine which version of CUDA toolkit to install, please read
+<a class="reference external" href="https://onnxruntime.ai/docs/execution-providers/CUDA-ExecutionProvider.html">https://onnxruntime.ai/docs/execution-providers/CUDA-ExecutionProvider.html</a>
+to figure it out.</p>
+<p>For instance, if onnxruntime v1.18.1 is used in <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>, we have to install
+CUDA 11.8 according to <a class="reference external" href="https://onnxruntime.ai/docs/execution-providers/CUDA-ExecutionProvider.html">https://onnxruntime.ai/docs/execution-providers/CUDA-ExecutionProvider.html</a></p>
+</section>
+</section>
+<section id="colab">
+<h2>colab<a class="headerlink" href="#colab" title="Permalink to this heading"></a></h2>
+<p>Please see the following colab notebook
+<a class="reference external" href="https://github.com/k2-fsa/colab/blob/master/sherpa-onnx/sherpa_onnx_whisper_large_v3.ipynb"><img alt="sherpa-onnx with whisper large-v3 colab notebook" src="https://github.com/k2-fsa/sherpa/releases/download/doc/colab-badge.jpg" /></a>.</p>
+<p>It walks you step by step to try the exported large-v3 onnx model with <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>
+on CPU as well as on GPU.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="tiny.en.html" class="btn btn-neutral float-left" title="tiny.en" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="colab.html" class="btn btn-neutral float-right" title="colab" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

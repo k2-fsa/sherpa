@@ -1,0 +1,756 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>kokoro-multi-lang-v1_1 - sherpa-onnx text-to-speech samples</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="../favicon-8114d1fc.png">
+        <link rel="stylesheet" href="../css/variables-8adf115d.css">
+        <link rel="stylesheet" href="../css/general-2459343d.css">
+        <link rel="stylesheet" href="../css/chrome-ae938929.css">
+        <link rel="stylesheet" href="../css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="../highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="../tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../searchindex-dc0051fe.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc-43339dd9.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">sherpa-onnx text-to-speech samples</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="kokoro-multi-lang-v1_1"><a class="header" href="#kokoro-multi-lang-v1_1">kokoro-multi-lang-v1_1</a></h1>
+<h2 id="info-about-this-model"><a class="header" href="#info-about-this-model">Info about this model</a></h2>
+<p>This model is kokoro v1.1-zh and it is from <a href="https://huggingface.co/hexgrad/Kokoro-82M-v1.1-zh">https://huggingface.co/hexgrad/Kokoro-82M-v1.1-zh</a></p>
+<p>It supports both <code>Chinese</code> and <code>English</code>.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Number of speakers</th><th>Sample rate</th></tr>
+</thead>
+<tbody>
+<tr><td>103</td><td>24000</td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="meaning-of-speaker-prefix"><a class="header" href="#meaning-of-speaker-prefix">Meaning of speaker prefix</a></h3>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Prefix</th><th>Meaning</th><th>sid range</th><th>Number of speakers</th></tr>
+</thead>
+<tbody>
+<tr><td>af</td><td>American female</td><td>0 - 1</td><td>2</td></tr>
+<tr><td>bf</td><td>British female</td><td>2</td><td>1</td></tr>
+<tr><td>zf</td><td>Chinese female</td><td>3 - 57</td><td>55</td></tr>
+<tr><td>zm</td><td>Chinese male</td><td>58 - 102</td><td>45</td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="speaker-id-to-speaker-name-sid---name"><a class="header" href="#speaker-id-to-speaker-name-sid---name">speaker ID to speaker name (sid -&gt; name)</a></h3>
+<p>The mapping from speaker ID (sid) to speaker name is given below:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th><th></th><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td>0 - 3</td><td>0 -&gt; af_maple</td><td>1 -&gt; af_sol</td><td>2 -&gt; bf_vale</td><td>3 -&gt; zf_001</td></tr>
+<tr><td>4 - 7</td><td>4 -&gt; zf_002</td><td>5 -&gt; zf_003</td><td>6 -&gt; zf_004</td><td>7 -&gt; zf_005</td></tr>
+<tr><td>8 - 11</td><td>8 -&gt; zf_006</td><td>9 -&gt; zf_007</td><td>10 -&gt; zf_008</td><td>11 -&gt; zf_017</td></tr>
+<tr><td>12 - 15</td><td>12 -&gt; zf_018</td><td>13 -&gt; zf_019</td><td>14 -&gt; zf_021</td><td>15 -&gt; zf_022</td></tr>
+<tr><td>16 - 19</td><td>16 -&gt; zf_023</td><td>17 -&gt; zf_024</td><td>18 -&gt; zf_026</td><td>19 -&gt; zf_027</td></tr>
+<tr><td>20 - 23</td><td>20 -&gt; zf_028</td><td>21 -&gt; zf_032</td><td>22 -&gt; zf_036</td><td>23 -&gt; zf_038</td></tr>
+<tr><td>24 - 27</td><td>24 -&gt; zf_039</td><td>25 -&gt; zf_040</td><td>26 -&gt; zf_042</td><td>27 -&gt; zf_043</td></tr>
+<tr><td>28 - 31</td><td>28 -&gt; zf_044</td><td>29 -&gt; zf_046</td><td>30 -&gt; zf_047</td><td>31 -&gt; zf_048</td></tr>
+<tr><td>32 - 35</td><td>32 -&gt; zf_049</td><td>33 -&gt; zf_051</td><td>34 -&gt; zf_059</td><td>35 -&gt; zf_060</td></tr>
+<tr><td>36 - 39</td><td>36 -&gt; zf_067</td><td>37 -&gt; zf_070</td><td>38 -&gt; zf_071</td><td>39 -&gt; zf_072</td></tr>
+<tr><td>40 - 43</td><td>40 -&gt; zf_073</td><td>41 -&gt; zf_074</td><td>42 -&gt; zf_075</td><td>43 -&gt; zf_076</td></tr>
+<tr><td>44 - 47</td><td>44 -&gt; zf_077</td><td>45 -&gt; zf_078</td><td>46 -&gt; zf_079</td><td>47 -&gt; zf_083</td></tr>
+<tr><td>48 - 51</td><td>48 -&gt; zf_084</td><td>49 -&gt; zf_085</td><td>50 -&gt; zf_086</td><td>51 -&gt; zf_087</td></tr>
+<tr><td>52 - 55</td><td>52 -&gt; zf_088</td><td>53 -&gt; zf_090</td><td>54 -&gt; zf_092</td><td>55 -&gt; zf_093</td></tr>
+<tr><td>56 - 59</td><td>56 -&gt; zf_094</td><td>57 -&gt; zf_099</td><td>58 -&gt; zm_009</td><td>59 -&gt; zm_010</td></tr>
+<tr><td>60 - 63</td><td>60 -&gt; zm_011</td><td>61 -&gt; zm_012</td><td>62 -&gt; zm_013</td><td>63 -&gt; zm_014</td></tr>
+<tr><td>64 - 67</td><td>64 -&gt; zm_015</td><td>65 -&gt; zm_016</td><td>66 -&gt; zm_020</td><td>67 -&gt; zm_025</td></tr>
+<tr><td>68 - 71</td><td>68 -&gt; zm_029</td><td>69 -&gt; zm_030</td><td>70 -&gt; zm_031</td><td>71 -&gt; zm_033</td></tr>
+<tr><td>72 - 75</td><td>72 -&gt; zm_034</td><td>73 -&gt; zm_035</td><td>74 -&gt; zm_037</td><td>75 -&gt; zm_041</td></tr>
+<tr><td>76 - 79</td><td>76 -&gt; zm_045</td><td>77 -&gt; zm_050</td><td>78 -&gt; zm_052</td><td>79 -&gt; zm_053</td></tr>
+<tr><td>80 - 83</td><td>80 -&gt; zm_054</td><td>81 -&gt; zm_055</td><td>82 -&gt; zm_056</td><td>83 -&gt; zm_057</td></tr>
+<tr><td>84 - 87</td><td>84 -&gt; zm_058</td><td>85 -&gt; zm_061</td><td>86 -&gt; zm_062</td><td>87 -&gt; zm_063</td></tr>
+<tr><td>88 - 91</td><td>88 -&gt; zm_064</td><td>89 -&gt; zm_065</td><td>90 -&gt; zm_066</td><td>91 -&gt; zm_068</td></tr>
+<tr><td>92 - 95</td><td>92 -&gt; zm_069</td><td>93 -&gt; zm_080</td><td>94 -&gt; zm_081</td><td>95 -&gt; zm_082</td></tr>
+<tr><td>96 - 99</td><td>96 -&gt; zm_089</td><td>97 -&gt; zm_091</td><td>98 -&gt; zm_095</td><td>99 -&gt; zm_096</td></tr>
+<tr><td>100 - 102</td><td>100 -&gt; zm_097</td><td>101 -&gt; zm_098</td><td>102 -&gt; zm_100</td><td></td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="speaker-name-to-speaker-id-name---sid"><a class="header" href="#speaker-name-to-speaker-id-name---sid">speaker name to speaker ID (name -&gt; sid)</a></h3>
+<p>The mapping from speaker name to speaker ID (sid) is given below:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th><th></th><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td>0 - 3</td><td>af_maple -&gt; 0</td><td>af_sol -&gt; 1</td><td>bf_vale -&gt; 2</td><td>zf_001 -&gt; 3</td></tr>
+<tr><td>4 - 7</td><td>zf_002 -&gt; 4</td><td>zf_003 -&gt; 5</td><td>zf_004 -&gt; 6</td><td>zf_005 -&gt; 7</td></tr>
+<tr><td>8 - 11</td><td>zf_006 -&gt; 8</td><td>zf_007 -&gt; 9</td><td>zf_008 -&gt; 10</td><td>zf_017 -&gt; 11</td></tr>
+<tr><td>12 - 15</td><td>zf_018 -&gt; 12</td><td>zf_019 -&gt; 13</td><td>zf_021 -&gt; 14</td><td>zf_022 -&gt; 15</td></tr>
+<tr><td>16 - 19</td><td>zf_023 -&gt; 16</td><td>zf_024 -&gt; 17</td><td>zf_026 -&gt; 18</td><td>zf_027 -&gt; 19</td></tr>
+<tr><td>20 - 23</td><td>zf_028 -&gt; 20</td><td>zf_032 -&gt; 21</td><td>zf_036 -&gt; 22</td><td>zf_038 -&gt; 23</td></tr>
+<tr><td>24 - 27</td><td>zf_039 -&gt; 24</td><td>zf_040 -&gt; 25</td><td>zf_042 -&gt; 26</td><td>zf_043 -&gt; 27</td></tr>
+<tr><td>28 - 31</td><td>zf_044 -&gt; 28</td><td>zf_046 -&gt; 29</td><td>zf_047 -&gt; 30</td><td>zf_048 -&gt; 31</td></tr>
+<tr><td>32 - 35</td><td>zf_049 -&gt; 32</td><td>zf_051 -&gt; 33</td><td>zf_059 -&gt; 34</td><td>zf_060 -&gt; 35</td></tr>
+<tr><td>36 - 39</td><td>zf_067 -&gt; 36</td><td>zf_070 -&gt; 37</td><td>zf_071 -&gt; 38</td><td>zf_072 -&gt; 39</td></tr>
+<tr><td>40 - 43</td><td>zf_073 -&gt; 40</td><td>zf_074 -&gt; 41</td><td>zf_075 -&gt; 42</td><td>zf_076 -&gt; 43</td></tr>
+<tr><td>44 - 47</td><td>zf_077 -&gt; 44</td><td>zf_078 -&gt; 45</td><td>zf_079 -&gt; 46</td><td>zf_083 -&gt; 47</td></tr>
+<tr><td>48 - 51</td><td>zf_084 -&gt; 48</td><td>zf_085 -&gt; 49</td><td>zf_086 -&gt; 50</td><td>zf_087 -&gt; 51</td></tr>
+<tr><td>52 - 55</td><td>zf_088 -&gt; 52</td><td>zf_090 -&gt; 53</td><td>zf_092 -&gt; 54</td><td>zf_093 -&gt; 55</td></tr>
+<tr><td>56 - 59</td><td>zf_094 -&gt; 56</td><td>zf_099 -&gt; 57</td><td>zm_009 -&gt; 58</td><td>zm_010 -&gt; 59</td></tr>
+<tr><td>60 - 63</td><td>zm_011 -&gt; 60</td><td>zm_012 -&gt; 61</td><td>zm_013 -&gt; 62</td><td>zm_014 -&gt; 63</td></tr>
+<tr><td>64 - 67</td><td>zm_015 -&gt; 64</td><td>zm_016 -&gt; 65</td><td>zm_020 -&gt; 66</td><td>zm_025 -&gt; 67</td></tr>
+<tr><td>68 - 71</td><td>zm_029 -&gt; 68</td><td>zm_030 -&gt; 69</td><td>zm_031 -&gt; 70</td><td>zm_033 -&gt; 71</td></tr>
+<tr><td>72 - 75</td><td>zm_034 -&gt; 72</td><td>zm_035 -&gt; 73</td><td>zm_037 -&gt; 74</td><td>zm_041 -&gt; 75</td></tr>
+<tr><td>76 - 79</td><td>zm_045 -&gt; 76</td><td>zm_050 -&gt; 77</td><td>zm_052 -&gt; 78</td><td>zm_053 -&gt; 79</td></tr>
+<tr><td>80 - 83</td><td>zm_054 -&gt; 80</td><td>zm_055 -&gt; 81</td><td>zm_056 -&gt; 82</td><td>zm_057 -&gt; 83</td></tr>
+<tr><td>84 - 87</td><td>zm_058 -&gt; 84</td><td>zm_061 -&gt; 85</td><td>zm_062 -&gt; 86</td><td>zm_063 -&gt; 87</td></tr>
+<tr><td>88 - 91</td><td>zm_064 -&gt; 88</td><td>zm_065 -&gt; 89</td><td>zm_066 -&gt; 90</td><td>zm_068 -&gt; 91</td></tr>
+<tr><td>92 - 95</td><td>zm_069 -&gt; 92</td><td>zm_080 -&gt; 93</td><td>zm_081 -&gt; 94</td><td>zm_082 -&gt; 95</td></tr>
+<tr><td>96 - 99</td><td>zm_089 -&gt; 96</td><td>zm_091 -&gt; 97</td><td>zm_095 -&gt; 98</td><td>zm_096 -&gt; 99</td></tr>
+<tr><td>100 - 102</td><td>zm_097 -&gt; 100</td><td>zm_098 -&gt; 101</td><td>zm_100 -&gt; 102</td><td></td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="samples"><a class="header" href="#samples">Samples</a></h2>
+<p>For the following text:</p>
+<pre><code>This model supports both Chinese and English. 小米的核心价值观是什么？答案
+是真诚热爱！有困难，请拨打110 或者18601200909。I am learning 机器学习.
+我在研究 machine learning。What do you think 中英文说的如何呢?
+今天是 2025年6月18号.
+</code></pre>
+<p>sample audios for different speakers are listed below:</p>
+<h3 id="speaker-0---af_maple"><a class="header" href="#speaker-0---af_maple">Speaker 0 - af_maple</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/0-af_maple.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-1---af_sol"><a class="header" href="#speaker-1---af_sol">Speaker 1 - af_sol</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/1-af_sol.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-2---bf_vale"><a class="header" href="#speaker-2---bf_vale">Speaker 2 - bf_vale</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/2-bf_vale.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-3---zf_001"><a class="header" href="#speaker-3---zf_001">Speaker 3 - zf_001</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/3-zf_001.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-4---zf_002"><a class="header" href="#speaker-4---zf_002">Speaker 4 - zf_002</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/4-zf_002.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-5---zf_003"><a class="header" href="#speaker-5---zf_003">Speaker 5 - zf_003</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/5-zf_003.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-6---zf_004"><a class="header" href="#speaker-6---zf_004">Speaker 6 - zf_004</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/6-zf_004.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-7---zf_005"><a class="header" href="#speaker-7---zf_005">Speaker 7 - zf_005</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/7-zf_005.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-8---zf_006"><a class="header" href="#speaker-8---zf_006">Speaker 8 - zf_006</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/8-zf_006.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-9---zf_007"><a class="header" href="#speaker-9---zf_007">Speaker 9 - zf_007</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/9-zf_007.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-10---zf_008"><a class="header" href="#speaker-10---zf_008">Speaker 10 - zf_008</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/10-zf_008.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-11---zf_017"><a class="header" href="#speaker-11---zf_017">Speaker 11 - zf_017</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/11-zf_017.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-12---zf_018"><a class="header" href="#speaker-12---zf_018">Speaker 12 - zf_018</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/12-zf_018.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-13---zf_019"><a class="header" href="#speaker-13---zf_019">Speaker 13 - zf_019</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/13-zf_019.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-14---zf_021"><a class="header" href="#speaker-14---zf_021">Speaker 14 - zf_021</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/14-zf_021.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-15---zf_022"><a class="header" href="#speaker-15---zf_022">Speaker 15 - zf_022</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/15-zf_022.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-16---zf_023"><a class="header" href="#speaker-16---zf_023">Speaker 16 - zf_023</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/16-zf_023.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-17---zf_024"><a class="header" href="#speaker-17---zf_024">Speaker 17 - zf_024</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/17-zf_024.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-18---zf_026"><a class="header" href="#speaker-18---zf_026">Speaker 18 - zf_026</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/18-zf_026.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-19---zf_027"><a class="header" href="#speaker-19---zf_027">Speaker 19 - zf_027</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/19-zf_027.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-20---zf_028"><a class="header" href="#speaker-20---zf_028">Speaker 20 - zf_028</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/20-zf_028.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-21---zf_032"><a class="header" href="#speaker-21---zf_032">Speaker 21 - zf_032</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/21-zf_032.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-22---zf_036"><a class="header" href="#speaker-22---zf_036">Speaker 22 - zf_036</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/22-zf_036.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-23---zf_038"><a class="header" href="#speaker-23---zf_038">Speaker 23 - zf_038</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/23-zf_038.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-24---zf_039"><a class="header" href="#speaker-24---zf_039">Speaker 24 - zf_039</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/24-zf_039.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-25---zf_040"><a class="header" href="#speaker-25---zf_040">Speaker 25 - zf_040</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/25-zf_040.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-26---zf_042"><a class="header" href="#speaker-26---zf_042">Speaker 26 - zf_042</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/26-zf_042.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-27---zf_043"><a class="header" href="#speaker-27---zf_043">Speaker 27 - zf_043</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/27-zf_043.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-28---zf_044"><a class="header" href="#speaker-28---zf_044">Speaker 28 - zf_044</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/28-zf_044.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-29---zf_046"><a class="header" href="#speaker-29---zf_046">Speaker 29 - zf_046</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/29-zf_046.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-30---zf_047"><a class="header" href="#speaker-30---zf_047">Speaker 30 - zf_047</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/30-zf_047.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-31---zf_048"><a class="header" href="#speaker-31---zf_048">Speaker 31 - zf_048</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/31-zf_048.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-32---zf_049"><a class="header" href="#speaker-32---zf_049">Speaker 32 - zf_049</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/32-zf_049.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-33---zf_051"><a class="header" href="#speaker-33---zf_051">Speaker 33 - zf_051</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/33-zf_051.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-34---zf_059"><a class="header" href="#speaker-34---zf_059">Speaker 34 - zf_059</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/34-zf_059.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-35---zf_060"><a class="header" href="#speaker-35---zf_060">Speaker 35 - zf_060</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/35-zf_060.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-36---zf_067"><a class="header" href="#speaker-36---zf_067">Speaker 36 - zf_067</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/36-zf_067.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-37---zf_070"><a class="header" href="#speaker-37---zf_070">Speaker 37 - zf_070</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/37-zf_070.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-38---zf_071"><a class="header" href="#speaker-38---zf_071">Speaker 38 - zf_071</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/38-zf_071.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-39---zf_072"><a class="header" href="#speaker-39---zf_072">Speaker 39 - zf_072</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/39-zf_072.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-40---zf_073"><a class="header" href="#speaker-40---zf_073">Speaker 40 - zf_073</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/40-zf_073.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-41---zf_074"><a class="header" href="#speaker-41---zf_074">Speaker 41 - zf_074</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/41-zf_074.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-42---zf_075"><a class="header" href="#speaker-42---zf_075">Speaker 42 - zf_075</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/42-zf_075.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-43---zf_076"><a class="header" href="#speaker-43---zf_076">Speaker 43 - zf_076</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/43-zf_076.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-44---zf_077"><a class="header" href="#speaker-44---zf_077">Speaker 44 - zf_077</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/44-zf_077.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-45---zf_078"><a class="header" href="#speaker-45---zf_078">Speaker 45 - zf_078</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/45-zf_078.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-46---zf_079"><a class="header" href="#speaker-46---zf_079">Speaker 46 - zf_079</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/46-zf_079.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-47---zf_083"><a class="header" href="#speaker-47---zf_083">Speaker 47 - zf_083</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/47-zf_083.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-48---zf_084"><a class="header" href="#speaker-48---zf_084">Speaker 48 - zf_084</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/48-zf_084.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-49---zf_085"><a class="header" href="#speaker-49---zf_085">Speaker 49 - zf_085</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/49-zf_085.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-50---zf_086"><a class="header" href="#speaker-50---zf_086">Speaker 50 - zf_086</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/50-zf_086.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-51---zf_087"><a class="header" href="#speaker-51---zf_087">Speaker 51 - zf_087</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/51-zf_087.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-52---zf_088"><a class="header" href="#speaker-52---zf_088">Speaker 52 - zf_088</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/52-zf_088.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-53---zf_090"><a class="header" href="#speaker-53---zf_090">Speaker 53 - zf_090</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/53-zf_090.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-54---zf_092"><a class="header" href="#speaker-54---zf_092">Speaker 54 - zf_092</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/54-zf_092.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-55---zf_093"><a class="header" href="#speaker-55---zf_093">Speaker 55 - zf_093</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/55-zf_093.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-56---zf_094"><a class="header" href="#speaker-56---zf_094">Speaker 56 - zf_094</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/56-zf_094.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-57---zf_099"><a class="header" href="#speaker-57---zf_099">Speaker 57 - zf_099</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/57-zf_099.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-58---zm_009"><a class="header" href="#speaker-58---zm_009">Speaker 58 - zm_009</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/58-zm_009.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-59---zm_010"><a class="header" href="#speaker-59---zm_010">Speaker 59 - zm_010</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/59-zm_010.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-60---zm_011"><a class="header" href="#speaker-60---zm_011">Speaker 60 - zm_011</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/60-zm_011.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-61---zm_012"><a class="header" href="#speaker-61---zm_012">Speaker 61 - zm_012</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/61-zm_012.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-62---zm_013"><a class="header" href="#speaker-62---zm_013">Speaker 62 - zm_013</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/62-zm_013.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-63---zm_014"><a class="header" href="#speaker-63---zm_014">Speaker 63 - zm_014</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/63-zm_014.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-64---zm_015"><a class="header" href="#speaker-64---zm_015">Speaker 64 - zm_015</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/64-zm_015.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-65---zm_016"><a class="header" href="#speaker-65---zm_016">Speaker 65 - zm_016</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/65-zm_016.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-66---zm_020"><a class="header" href="#speaker-66---zm_020">Speaker 66 - zm_020</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/66-zm_020.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-67---zm_025"><a class="header" href="#speaker-67---zm_025">Speaker 67 - zm_025</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/67-zm_025.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-68---zm_029"><a class="header" href="#speaker-68---zm_029">Speaker 68 - zm_029</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/68-zm_029.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-69---zm_030"><a class="header" href="#speaker-69---zm_030">Speaker 69 - zm_030</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/69-zm_030.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-70---zm_031"><a class="header" href="#speaker-70---zm_031">Speaker 70 - zm_031</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/70-zm_031.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-71---zm_033"><a class="header" href="#speaker-71---zm_033">Speaker 71 - zm_033</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/71-zm_033.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-72---zm_034"><a class="header" href="#speaker-72---zm_034">Speaker 72 - zm_034</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/72-zm_034.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-73---zm_035"><a class="header" href="#speaker-73---zm_035">Speaker 73 - zm_035</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/73-zm_035.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-74---zm_037"><a class="header" href="#speaker-74---zm_037">Speaker 74 - zm_037</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/74-zm_037.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-75---zm_041"><a class="header" href="#speaker-75---zm_041">Speaker 75 - zm_041</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/75-zm_041.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-76---zm_045"><a class="header" href="#speaker-76---zm_045">Speaker 76 - zm_045</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/76-zm_045.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-77---zm_050"><a class="header" href="#speaker-77---zm_050">Speaker 77 - zm_050</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/77-zm_050.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-78---zm_052"><a class="header" href="#speaker-78---zm_052">Speaker 78 - zm_052</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/78-zm_052.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-79---zm_053"><a class="header" href="#speaker-79---zm_053">Speaker 79 - zm_053</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/79-zm_053.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-80---zm_054"><a class="header" href="#speaker-80---zm_054">Speaker 80 - zm_054</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/80-zm_054.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-81---zm_055"><a class="header" href="#speaker-81---zm_055">Speaker 81 - zm_055</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/81-zm_055.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-82---zm_056"><a class="header" href="#speaker-82---zm_056">Speaker 82 - zm_056</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/82-zm_056.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-83---zm_057"><a class="header" href="#speaker-83---zm_057">Speaker 83 - zm_057</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/83-zm_057.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-84---zm_058"><a class="header" href="#speaker-84---zm_058">Speaker 84 - zm_058</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/84-zm_058.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-85---zm_061"><a class="header" href="#speaker-85---zm_061">Speaker 85 - zm_061</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/85-zm_061.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-86---zm_062"><a class="header" href="#speaker-86---zm_062">Speaker 86 - zm_062</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/86-zm_062.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-87---zm_063"><a class="header" href="#speaker-87---zm_063">Speaker 87 - zm_063</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/87-zm_063.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-88---zm_064"><a class="header" href="#speaker-88---zm_064">Speaker 88 - zm_064</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/88-zm_064.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-89---zm_065"><a class="header" href="#speaker-89---zm_065">Speaker 89 - zm_065</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/89-zm_065.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-90---zm_066"><a class="header" href="#speaker-90---zm_066">Speaker 90 - zm_066</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/90-zm_066.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-91---zm_068"><a class="header" href="#speaker-91---zm_068">Speaker 91 - zm_068</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/91-zm_068.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-92---zm_069"><a class="header" href="#speaker-92---zm_069">Speaker 92 - zm_069</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/92-zm_069.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-93---zm_080"><a class="header" href="#speaker-93---zm_080">Speaker 93 - zm_080</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/93-zm_080.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-94---zm_081"><a class="header" href="#speaker-94---zm_081">Speaker 94 - zm_081</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/94-zm_081.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-95---zm_082"><a class="header" href="#speaker-95---zm_082">Speaker 95 - zm_082</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/95-zm_082.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-96---zm_089"><a class="header" href="#speaker-96---zm_089">Speaker 96 - zm_089</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/96-zm_089.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-97---zm_091"><a class="header" href="#speaker-97---zm_091">Speaker 97 - zm_091</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/97-zm_091.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-98---zm_095"><a class="header" href="#speaker-98---zm_095">Speaker 98 - zm_095</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/98-zm_095.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-99---zm_096"><a class="header" href="#speaker-99---zm_096">Speaker 99 - zm_096</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/99-zm_096.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-100---zm_097"><a class="header" href="#speaker-100---zm_097">Speaker 100 - zm_097</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/100-zm_097.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-101---zm_098"><a class="header" href="#speaker-101---zm_098">Speaker 101 - zm_098</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/101-zm_098.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-102---zm_100"><a class="header" href="#speaker-102---zm_100">Speaker 102 - zm_100</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.1-zh/mp3/102-zm_100.mp3" type="audio/mp3">
+</audio>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../Chinese-English/kokoro-multi-lang-v1_0.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="../Arabic/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../Chinese-English/kokoro-multi-lang-v1_0.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="../Arabic/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr-ef4e11c1.min.js"></script>
+        <script src="../mark-09e88c2c.min.js"></script>
+        <script src="../searcher-c2a407aa.js"></script>
+
+        <script src="../clipboard-1626706a.min.js"></script>
+        <script src="../highlight-abc7f01d.js"></script>
+        <script src="../book-a0b12cfe.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

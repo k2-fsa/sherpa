@@ -1,0 +1,346 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>On-device speaker identification (本地说话人识别) &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="On-device text-to-speech (TTS, 本地语音合成)" href="tts.html" />
+    <link rel="prev" title="Pre-built HAPs" href="prebuilt-hap.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">sherpa-onnx</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../install/index.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../faqs/index.html">Frequently Asked Question (FAQs)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python/index.html">Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../c-api/index.html">C API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../java-api/index.html">Java API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../javascript-api/index.html">Javascript API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kotlin-api/index.html">Kotlin API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../swift-api/index.html">Swift API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../go-api/index.html">Go API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../csharp-api/index.html">C# API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pascal-api/index.html">Pascal API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lazarus/index.html">Lazarus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../wasm/index.html">WebAssembly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../android/index.html">Android</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">HarmonyOS</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="prebuilt-hap.html">Pre-built HAPs</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">On-device speaker identification (本地说话人识别)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#open-the-project-with-deveco-studio">Open the project with DevEco Studio</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#select-a-model">Select a model</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="tts.html">On-device text-to-speech (TTS, 本地语音合成)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vad-asr.html">On-device VAD + ASR (本地非流式语音识别)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="how-to-build-har.html">How to build sherpa_onnx.har</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../ios/index.html">iOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../flutter/index.html">Flutter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../websocket/index.html">WebSocket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../hotwords/index.html">Hotwords (Contextual biasing)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kws/index.html">Keyword spotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../punctuation/index.html">Punctuation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../audio-tagging/index.html">Audio tagging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spoken-language-identification/index.html">Spoken language identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vad/index.html">VAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/index.html">Pre-trained models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/whisper/index.html">Whisper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../moonshine/index.html">Moonshine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../omnilingual-asr/index.html">Omnilingual ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sense-voice/index.html">SenseVoice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../funasr-nano/index.html">FunASR Nano</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../paraformer/index.html">Paraformer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nemo/index.html">NeMo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../FireRedAsr/index.html">FireRedAsr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Dolphin/index.html">Dolphin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../homophone-replacer/index.html">拼音词组匹配替换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-diarization/index.html">Speaker Diarization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-identification/index.html">Speaker Identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speech-enhancement/index.html">Speech enhancement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../source-separation/index.html">Source separation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qnn/index.html">Qualcomm NPU (QNN, HTP)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rknn/index.html">rknn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ascend/index.html">Ascend NPU (昇腾 NPU)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tts/index.html">Text-to-speech (TTS)</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">sherpa-onnx</a> &raquo;</li>
+          <li><a href="index.html">HarmonyOS</a> &raquo;</li>
+      <li>On-device speaker identification (本地说话人识别)</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/onnx/harmony-os/speaker-identification.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="on-device-speaker-identification">
+<h1>On-device speaker identification (本地说话人识别)<a class="headerlink" href="#on-device-speaker-identification" title="Permalink to this heading"></a></h1>
+<p>This page describes how to
+build <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/tree/master/harmony-os/SherpaOnnxSpeakerIdentification">SherpaOnnxSpeakerIdentification</a>
+for on-device speaker identification that runs on HarmonyOS.</p>
+<section id="open-the-project-with-deveco-studio">
+<h2>Open the project with DevEco Studio<a class="headerlink" href="#open-the-project-with-deveco-studio" title="Permalink to this heading"></a></h2>
+<p>You need to first download the code:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Assume we place it inside /Users/fangjun/open-source</span>
+<span class="c1"># You can place it anywhere you like.</span>
+
+<span class="n">cd</span> <span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">fangjun</span><span class="o">/</span><span class="nb">open</span><span class="o">-</span><span class="n">source</span><span class="o">/</span>
+
+<span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">k2</span><span class="o">-</span><span class="n">fsa</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span>
+</pre></div>
+</div>
+<p>Then start DevEco Studio and follow the screenshots below:</p>
+<figure class="align-default" id="id5">
+<a class="reference internal image-reference" href="../../_images/1-open.jpg"><img alt="Screenshot of starting DevEco" src="../../_images/1-open.jpg" style="width: 600px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 43 </span><span class="caption-text">Step 1: Click Open</span><a class="headerlink" href="#id5" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id6">
+<a class="reference internal image-reference" href="../../_images/2-select-open.jpg"><img alt="Screenshot of selecting SherpaOnnxSpeakerIdentification to open" src="../../_images/2-select-open.jpg" style="width: 600px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 44 </span><span class="caption-text">Step 2: Select SherpaOnnxSpeakerIdentification inside the harmony-os folder and click Open</span><a class="headerlink" href="#id6" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id7">
+<a class="reference internal image-reference" href="../../_images/3-check-version.jpg"><img alt="Screenshot of check version" src="../../_images/3-check-version.jpg" style="width: 600px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 45 </span><span class="caption-text">Step 3: Check that it is using the latest version. You can visit <a class="reference external" href="https://ohpm.openharmony.cn/#/cn/detail/sherpa_onnx">sherpa_onnx</a> to check available versions.</span><a class="headerlink" href="#id7" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+</section>
+<section id="select-a-model">
+<h2>Select a model<a class="headerlink" href="#select-a-model" title="Permalink to this heading"></a></h2>
+<p>The code supports many models for extracting speaker embeddings and you have to select
+one.</p>
+<p>You can find all supported models at</p>
+<blockquote>
+<div><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/tag/speaker-recongition-models">https://github.com/k2-fsa/sherpa-onnx/releases/tag/speaker-recongition-models</a></p>
+</div></blockquote>
+<p>We use the following model</p>
+<blockquote>
+<div><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/download/speaker-recongition-models/3dspeaker_speech_eres2net_base_200k_sv_zh-cn_16k-common.onnx">https://github.com/k2-fsa/sherpa-onnx/releases/download/speaker-recongition-models/3dspeaker_speech_eres2net_base_200k_sv_zh-cn_16k-common.onnx</a></p>
+</div></blockquote>
+<p>as an example in this document.</p>
+<section id="use-3dspeaker-speech-eres2net-base-200k-sv-zh-cn-16k-common-onnx">
+<h3>Use 3dspeaker_speech_eres2net_base_200k_sv_zh-cn_16k-common.onnx<a class="headerlink" href="#use-3dspeaker-speech-eres2net-base-200k-sv-zh-cn-16k-common-onnx" title="Permalink to this heading"></a></h3>
+<p>First, we download it to the <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/tree/master/harmony-os/SherpaOnnxSpeakerIdentification/entry/src/main/resources/rawfile">rawfile</a> directory.</p>
+<p><strong>Caution</strong>: You MUST place the file inside the <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/tree/master/harmony-os/SherpaOnnxSpeakerIdentification/entry/src/main/resources/rawfile">rawfile</a> directory. Otherwise, you would be <code class="docutils literal notranslate"><span class="pre">SAD</span></code> later.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/Users/fangjun/open-source/sherpa-onnx/harmony-os/SherpaOnnxSpeakerIdentification/entry/src/main/resources/rawfile
+
+wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/speaker-recongition-models/3dspeaker_speech_eres2net_base_200k_sv_zh-cn_16k-common.onnx
+</pre></div>
+</div>
+<p>Please check that your directory looks <code class="docutils literal notranslate"><span class="pre">exactly</span></code> like the following:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(py38) fangjuns-MacBook-Pro:rawfile fangjun$ pwd
+/Users/fangjun/open-source/sherpa-onnx/harmony-os/SherpaOnnxSpeakerIdentification/entry/src/main/resources/rawfile
+
+(py38) fangjuns-MacBook-Pro:rawfile fangjun$ ls -lh
+total 77888
+-rw-r--r--  1 fangjun  staff    38M Oct 14 11:41 3dspeaker_speech_eres2net_base_200k_sv_zh-cn_16k-common.onnx
+</pre></div>
+</div>
+<figure class="align-default" id="id8">
+<a class="reference internal image-reference" href="../../_images/4-check-model.jpg"><img alt="Screenshot of model file inside rawfile directory" src="../../_images/4-check-model.jpg" style="width: 400px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 46 </span><span class="caption-text">Step 4: Check that you have placed the model file inside the <code class="docutils literal notranslate"><span class="pre">rawfile</span></code> directory.</span><a class="headerlink" href="#id8" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+<p>Now we need to change the code to use our selected model.</p>
+<p>We have to change <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/blob/master/harmony-os/SherpaOnnxSpeakerIdentification/entry/src/main/ets/workers/SpeakerIdentificationWorker.ets">SpeakerIdentificationWorker.ets</a>. Please see the following
+screenshot.</p>
+<figure class="align-default" id="id9">
+<a class="reference internal image-reference" href="../../_images/5-change-the-code.jpg"><img alt="Screenshot of changing code for the selected model." src="../../_images/5-change-the-code.jpg" style="width: 600px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 47 </span><span class="caption-text">Step 5: Change the code to use our selected model</span><a class="headerlink" href="#id9" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+<p>Finally, we can build the project. See the screenshot below:</p>
+<figure class="align-default" id="id10">
+<a class="reference internal image-reference" href="../../_images/6-build-the-project.jpg"><img alt="Screenshot of building the project" src="../../_images/6-build-the-project.jpg" style="width: 600px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 48 </span><span class="caption-text">Step 6: Build the project</span><a class="headerlink" href="#id10" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+<p>If you have an emulator, you can now start it.</p>
+<figure class="align-default" id="id11">
+<a class="reference internal image-reference" href="../../_images/7-select-device-manager.jpg"><img alt="Screenshot of selecting device manager" src="../../_images/7-select-device-manager.jpg" style="width: 600px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 49 </span><span class="caption-text">Step 7: Select the device manager</span><a class="headerlink" href="#id11" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id12">
+<a class="reference internal image-reference" href="../../_images/8-start-emulator.jpg"><img alt="Screenshot of starting the emulator" src="../../_images/8-start-emulator.jpg" style="width: 600px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 50 </span><span class="caption-text">Step 8: Start the emulator</span><a class="headerlink" href="#id12" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+<p>After the emulator is started, follow the screenshot below to run the app on the
+emulator:</p>
+<figure class="align-default" id="id13">
+<a class="reference internal image-reference" href="../../_images/9-start-app.jpg"><img alt="Screenshot of starting the app on the emulator" src="../../_images/9-start-app.jpg" style="width: 600px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 51 </span><span class="caption-text">Step 9: Start the app on the emulator</span><a class="headerlink" href="#id13" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+<p>You should see something like below:</p>
+<figure class="align-default" id="id14">
+<a class="reference internal image-reference" href="../../_images/10-click-allow.jpg"><img alt="Screenshot of app running on the emulator" src="../../_images/10-click-allow.jpg" style="width: 600px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 52 </span><span class="caption-text">Step 10: Click Allow to allow the app to access the microphone</span><a class="headerlink" href="#id14" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id15">
+<a class="reference internal image-reference" href="../../_images/11-home.jpg"><img alt="Screenshot of app running on the emulator" src="../../_images/11-home.jpg" style="width: 300px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 53 </span><span class="caption-text">Step 11: The home screen</span><a class="headerlink" href="#id15" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id16">
+<a class="reference internal image-reference" href="../../_images/12-view.jpg"><img alt="Screenshot of app running on the emulator" src="../../_images/12-view.jpg" style="width: 300px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 54 </span><span class="caption-text">Step 12: View and manage registered speakers</span><a class="headerlink" href="#id16" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id17">
+<a class="reference internal image-reference" href="../../_images/13-add.jpg"><img alt="Screenshot of app running on the emulator" src="../../_images/13-add.jpg" style="width: 300px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 55 </span><span class="caption-text">Step 13: Add new speakers</span><a class="headerlink" href="#id17" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id18">
+<a class="reference internal image-reference" href="../../_images/14-help.jpg"><img alt="Screenshot of app running on the emulator" src="../../_images/14-help.jpg" style="width: 300px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 56 </span><span class="caption-text">Step 14: View help information</span><a class="headerlink" href="#id18" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+<p>Congratulations!</p>
+<p>You have successfully run a on-device speaker identification APP on HarmonyOS!</p>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="prebuilt-hap.html" class="btn btn-neutral float-left" title="Pre-built HAPs" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="tts.html" class="btn btn-neutral float-right" title="On-device text-to-speech (TTS, 本地语音合成)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

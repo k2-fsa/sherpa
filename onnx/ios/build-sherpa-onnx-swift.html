@@ -1,0 +1,499 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Build sherpa-onnx for iOS &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Flutter" href="../flutter/index.html" />
+    <link rel="prev" title="iOS" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">sherpa-onnx</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../install/index.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../faqs/index.html">Frequently Asked Question (FAQs)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python/index.html">Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../c-api/index.html">C API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../java-api/index.html">Java API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../javascript-api/index.html">Javascript API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kotlin-api/index.html">Kotlin API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../swift-api/index.html">Swift API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../go-api/index.html">Go API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../csharp-api/index.html">C# API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pascal-api/index.html">Pascal API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lazarus/index.html">Lazarus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../wasm/index.html">WebAssembly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../android/index.html">Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../harmony-os/index.html">HarmonyOS</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">iOS</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Build sherpa-onnx for iOS</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#requirement">Requirement</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#download-sherpa-onnx">Download sherpa-onnx</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#build-sherpa-onnx-in-commandline-c-part">Build sherpa-onnx (in commandline, C++ Part)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#build-sherpa-onnx-in-xcode">Build sherpa-onnx (in Xcode)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#run-sherpa-onnx-on-your-iphone-ipad">Run sherpa-onnx on your iPhone/iPad</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../flutter/index.html">Flutter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../websocket/index.html">WebSocket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../hotwords/index.html">Hotwords (Contextual biasing)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kws/index.html">Keyword spotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../punctuation/index.html">Punctuation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../audio-tagging/index.html">Audio tagging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spoken-language-identification/index.html">Spoken language identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vad/index.html">VAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/index.html">Pre-trained models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/whisper/index.html">Whisper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../moonshine/index.html">Moonshine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../omnilingual-asr/index.html">Omnilingual ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sense-voice/index.html">SenseVoice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../funasr-nano/index.html">FunASR Nano</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../paraformer/index.html">Paraformer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nemo/index.html">NeMo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../FireRedAsr/index.html">FireRedAsr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Dolphin/index.html">Dolphin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../homophone-replacer/index.html">拼音词组匹配替换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-diarization/index.html">Speaker Diarization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-identification/index.html">Speaker Identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speech-enhancement/index.html">Speech enhancement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../source-separation/index.html">Source separation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qnn/index.html">Qualcomm NPU (QNN, HTP)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rknn/index.html">rknn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ascend/index.html">Ascend NPU (昇腾 NPU)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tts/index.html">Text-to-speech (TTS)</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">sherpa-onnx</a> &raquo;</li>
+          <li><a href="index.html">iOS</a> &raquo;</li>
+      <li>Build sherpa-onnx for iOS</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/onnx/ios/build-sherpa-onnx-swift.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="build-sherpa-onnx-for-ios">
+<h1>Build sherpa-onnx for iOS<a class="headerlink" href="#build-sherpa-onnx-for-ios" title="Permalink to this heading"></a></h1>
+<p>This section describes how to build <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a> for <code class="docutils literal notranslate"><span class="pre">iPhone</span></code> and <code class="docutils literal notranslate"><span class="pre">iPad</span></code>.</p>
+<section id="requirement">
+<h2>Requirement<a class="headerlink" href="#requirement" title="Permalink to this heading"></a></h2>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The minimum deployment requires the iOS version <code class="docutils literal notranslate"><span class="pre">&gt;=</span> <span class="pre">13.0</span></code>.</p>
+</div>
+<p>Before we continue, please make sure the following requirements are satisfied:</p>
+<ul class="simple">
+<li><p>macOS. It won’t work on Windows or Linux.</p></li>
+<li><p>Xcode. The version <code class="docutils literal notranslate"><span class="pre">14.2</span> <span class="pre">(14C18)</span></code> is known to work. Other versions may also work.</p></li>
+<li><p>CMake. CMake 3.25.1 is known to work. Other versions may also work.</p></li>
+<li><p>(Optional) iPhone or iPad. This is for testing the app on your device.
+If you don’t have a device, you can still run the app within a simulator on your Mac.</p></li>
+</ul>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<blockquote>
+<div><p>If you get the following error:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">CMake</span> <span class="n">Error</span> <span class="n">at</span> <span class="n">toolchains</span><span class="o">/</span><span class="n">ios</span><span class="o">.</span><span class="n">toolchain</span><span class="o">.</span><span class="n">cmake</span><span class="p">:</span><span class="mi">544</span> <span class="p">(</span><span class="n">get_filename_component</span><span class="p">):</span>
+  <span class="n">get_filename_component</span> <span class="n">called</span> <span class="k">with</span> <span class="n">incorrect</span> <span class="n">number</span> <span class="n">of</span> <span class="n">arguments</span>
+<span class="n">Call</span> <span class="n">Stack</span> <span class="p">(</span><span class="n">most</span> <span class="n">recent</span> <span class="n">call</span> <span class="n">first</span><span class="p">):</span>
+  <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">local</span><span class="o">/</span><span class="n">Cellar</span><span class="o">/</span><span class="n">cmake</span><span class="o">/</span><span class="mf">3.29.0</span><span class="o">/</span><span class="n">share</span><span class="o">/</span><span class="n">cmake</span><span class="o">/</span><span class="n">Modules</span><span class="o">/</span><span class="n">CMakeDetermineSystem</span><span class="o">.</span><span class="n">cmake</span><span class="p">:</span><span class="mi">146</span> <span class="p">(</span><span class="n">include</span><span class="p">)</span>
+  <span class="n">CMakeLists</span><span class="o">.</span><span class="n">txt</span><span class="p">:</span><span class="mi">2</span> <span class="p">(</span><span class="n">project</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>please run:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">xcode</span><span class="o">-</span><span class="n">select</span> <span class="o">--</span><span class="n">install</span>
+<span class="n">sudo</span> <span class="n">xcodebuild</span> <span class="o">-</span><span class="n">license</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>And then delete the build directory <code class="docutils literal notranslate"><span class="pre">./build-ios</span></code> and re-build.</p>
+<p>Please see also <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/issues/702">https://github.com/k2-fsa/sherpa-onnx/issues/702</a>.</p>
+</div>
+</section>
+<section id="download-sherpa-onnx">
+<h2>Download sherpa-onnx<a class="headerlink" href="#download-sherpa-onnx" title="Permalink to this heading"></a></h2>
+<p>First, let us download the source code of <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In the following, I will download <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a> to
+<code class="docutils literal notranslate"><span class="pre">$HOME/open-source</span></code>, i.e., <code class="docutils literal notranslate"><span class="pre">/Users/fangjun/open-source</span></code>, on my Mac.</p>
+<p>You can put it anywhere as you like.</p>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>-p<span class="w"> </span><span class="nv">$HOME</span>/open-source
+<span class="nb">cd</span><span class="w"> </span><span class="nv">$HOME</span>/open-source
+git<span class="w"> </span>clone<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx
+</pre></div>
+</div>
+</section>
+<section id="build-sherpa-onnx-in-commandline-c-part">
+<h2>Build sherpa-onnx (in commandline, C++ Part)<a class="headerlink" href="#build-sherpa-onnx-in-commandline-c-part" title="Permalink to this heading"></a></h2>
+<p>After downloading <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>, let us build the C++ part of <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span><span class="nv">$HOME</span>/open-source/sherpa-onnx/
+./build-ios.sh
+</pre></div>
+</div>
+<p>It will generate a directory
+<code class="docutils literal notranslate"><span class="pre">$HOME/open-source/sherpa-onnx/build-ios</span></code>, which we have already pre-configured
+for you in Xcode.</p>
+</section>
+<section id="build-sherpa-onnx-in-xcode">
+<h2>Build sherpa-onnx (in Xcode)<a class="headerlink" href="#build-sherpa-onnx-in-xcode" title="Permalink to this heading"></a></h2>
+<p>Use the following command to open <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a> in Xcode:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span><span class="nv">$HOME</span>/open-source/sherpa-onnx/ios-swift/SherpaOnnx
+open<span class="w"> </span>SherpaOnnx.xcodeproj
+</pre></div>
+</div>
+<p>It will start Xcode and you will see the following screenshot:</p>
+<blockquote>
+<div><figure class="align-center" id="id4">
+<a class="reference internal image-reference" href="../../_images/start-xcode-for-sherpa-onnx.png"><img alt="Screenshot after running the command ``open SherpaOnnx.xcodeproj``" src="../../_images/start-xcode-for-sherpa-onnx.png" style="width: 600px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 101 </span><span class="caption-text">Screenshot after running the command <code class="docutils literal notranslate"><span class="pre">open</span> <span class="pre">SherpaOnnx.xcodeproj</span></code></span><a class="headerlink" href="#id4" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+</div></blockquote>
+<p>Please select <code class="docutils literal notranslate"><span class="pre">Product</span> <span class="pre">-&gt;</span> <span class="pre">Build</span></code> to build the project. See the screenshot
+below:</p>
+<blockquote>
+<div><figure class="align-center" id="id5">
+<a class="reference internal image-reference" href="../../_images/select-product-build1.png"><img alt="Screenshot for selecting ``Product -&gt; Build``" src="../../_images/select-product-build1.png" style="width: 600px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 102 </span><span class="caption-text">Screenshot for selecting <code class="docutils literal notranslate"><span class="pre">Product</span> <span class="pre">-&gt;</span> <span class="pre">Build</span></code></span><a class="headerlink" href="#id5" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+</div></blockquote>
+<p>After finishing the build, you should see the following screenshot:</p>
+<blockquote>
+<div><figure class="align-center" id="id6">
+<a class="reference internal image-reference" href="../../_images/after-finishing-build1.png"><img alt="Screenshot after finishing the build." src="../../_images/after-finishing-build1.png" style="width: 100px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 103 </span><span class="caption-text">Screenshot after finishing the build.</span><a class="headerlink" href="#id6" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+</div></blockquote>
+<p>Congratulations! You have successfully built the project. Let us run the
+project by selecting <code class="docutils literal notranslate"><span class="pre">Product</span> <span class="pre">-&gt;</span> <span class="pre">Run</span></code>, which is shown in the following
+screenshot:</p>
+<blockquote>
+<div><figure class="align-center" id="id7">
+<a class="reference internal image-reference" href="../../_images/run-the-project1.png"><img alt="Screenshot for ``Product -&gt; Run``." src="../../_images/run-the-project1.png" style="width: 600px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 104 </span><span class="caption-text">Screenshot for <code class="docutils literal notranslate"><span class="pre">Product</span> <span class="pre">-&gt;</span> <span class="pre">Run</span></code>.</span><a class="headerlink" href="#id7" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+</div></blockquote>
+<p>Please wait for a few seconds before Xcode starts the simulator.</p>
+<p>Unfortunately, it will throw the following error:</p>
+<blockquote>
+<div><figure class="align-center" id="id8">
+<a class="reference internal image-reference" href="../../_images/error-no-model1.png"><img alt="Screenshot for the error" src="../../_images/error-no-model1.png" style="width: 600px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 105 </span><span class="caption-text">Screenshot for the error</span><a class="headerlink" href="#id8" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+</div></blockquote>
+<p>The reason for the above error is that we have not provided the pre-trained
+model yet.</p>
+<p>The file <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/blob/master/ios-swift/SherpaOnnx/SherpaOnnx/ViewController.swift#L88">ViewController.swift</a>
+pre-selects the pre-trained model to be <a class="reference internal" href="../pretrained_models/online-transducer/zipformer-transducer-models.html#sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20"><span class="std std-ref">csukuangfj/sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20 (Bilingual, Chinese + English)</span></a>,
+shown in the screenshot below:</p>
+<blockquote>
+<div><figure class="align-center" id="id9">
+<a class="reference internal image-reference" href="../../_images/pre-trained-model-11.png"><img alt="Screenshot for the pre-selected pre-trained model" src="../../_images/pre-trained-model-11.png" style="width: 600px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 106 </span><span class="caption-text">Screenshot for the pre-selected pre-trained model</span><a class="headerlink" href="#id9" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+</div></blockquote>
+<p>Let us add the pre-trained model <a class="reference internal" href="../pretrained_models/online-transducer/zipformer-transducer-models.html#sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20"><span class="std std-ref">csukuangfj/sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20 (Bilingual, Chinese + English)</span></a>
+to Xcode. Please follow <a class="reference internal" href="../pretrained_models/online-transducer/zipformer-transducer-models.html#sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20"><span class="std std-ref">csukuangfj/sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20 (Bilingual, Chinese + English)</span></a>
+to download it from <a class="reference external" href="https://huggingface.co/csukuangfj/sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20">huggingface</a>.
+You can download it to any directory as you like.</p>
+<p>Please right click the project <code class="docutils literal notranslate"><span class="pre">SherpaOnnx</span></code> and select <code class="docutils literal notranslate"><span class="pre">Add</span> <span class="pre">Files</span> <span class="pre">to</span> <span class="pre">&quot;SherpaOnnx&quot;...</span></code>
+in the popup menu, as is shown in the screenshot below:</p>
+<blockquote>
+<div><figure class="align-center" id="id10">
+<a class="reference internal image-reference" href="../../_images/step-to-add-pre-trained-model-11.png"><img alt="Screenshot for adding files to SherpaOnnx" src="../../_images/step-to-add-pre-trained-model-11.png" style="width: 600px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 107 </span><span class="caption-text">Screenshot for adding files to SherpaOnnx</span><a class="headerlink" href="#id10" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+</div></blockquote>
+<p>In the popup dialog, switch to the folder where you just downloaded the pre-trained
+model.</p>
+<p>In the screenshot below, it is the folder
+<code class="docutils literal notranslate"><span class="pre">/Users/fangjun/open-source/icefall-models/sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20</span></code>:</p>
+<blockquote>
+<div><figure class="align-center" id="id11">
+<a class="reference internal image-reference" href="../../_images/step-to-add-pre-trained-model-21.png"><img alt="Screenshot for navigating to the folder containing the downloaded pre-trained" src="../../_images/step-to-add-pre-trained-model-21.png" style="width: 600px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 108 </span><span class="caption-text">Screenshot for navigating to the folder containing the downloaded pre-trained</span><a class="headerlink" href="#id11" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+</div></blockquote>
+<p>Select required files and click the button <code class="docutils literal notranslate"><span class="pre">Add</span></code>:</p>
+<blockquote>
+<div><figure class="align-center" id="id12">
+<a class="reference internal image-reference" href="../../_images/step-to-add-pre-trained-model-31.png"><img alt="Screenshot for selecting required files" src="../../_images/step-to-add-pre-trained-model-31.png" style="width: 600px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 109 </span><span class="caption-text">Screenshot for selecting required files</span><a class="headerlink" href="#id12" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+</div></blockquote>
+<p>After adding pre-trained model files to Xcode, you should see the following
+screenshot:</p>
+<blockquote>
+<div><figure class="align-center" id="id13">
+<a class="reference internal image-reference" href="../../_images/step-to-add-pre-trained-model-41.png"><img alt="Screenshot after add pre-trained model files" src="../../_images/step-to-add-pre-trained-model-41.png" style="width: 600px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 110 </span><span class="caption-text">Screenshot after add pre-trained model files</span><a class="headerlink" href="#id13" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+</div></blockquote>
+<p>At this point, you should be able to select the menu <code class="docutils literal notranslate"><span class="pre">Product</span> <span class="pre">-&gt;</span> <span class="pre">Run</span></code>
+to run the project and you should finally see the following screenshot:</p>
+<blockquote>
+<div><figure class="align-center" id="id14">
+<a class="reference internal image-reference" href="../../_images/run1.png"><img alt="Screenshot for a successful run." src="../../_images/run1.png" style="width: 600px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 111 </span><span class="caption-text">Screenshot for a successful run.</span><a class="headerlink" href="#id14" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+</div></blockquote>
+<p>Click the button to start recording! A screenshot is given below:</p>
+<blockquote>
+<div><figure class="align-center" id="id15">
+<a class="reference internal image-reference" href="../../_images/run-21.png"><img alt="Screenshot for recording and recognition." src="../../_images/run-21.png" style="width: 600px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 112 </span><span class="caption-text">Screenshot for recording and recognition.</span><a class="headerlink" href="#id15" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+</div></blockquote>
+<p>Congratulations! You have finally succeeded in running <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a> with iOS,
+though it is in a simulator.</p>
+<p>Please read below if you want to run <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a> on your iPhone or iPad.</p>
+</section>
+<section id="run-sherpa-onnx-on-your-iphone-ipad">
+<h2>Run sherpa-onnx on your iPhone/iPad<a class="headerlink" href="#run-sherpa-onnx-on-your-iphone-ipad" title="Permalink to this heading"></a></h2>
+<p>First, please make sure the iOS version of your iPhone/iPad is <code class="docutils literal notranslate"><span class="pre">&gt;=</span> <span class="pre">13.0</span></code>.</p>
+<p>Click the menu <code class="docutils literal notranslate"><span class="pre">Xcode</span> <span class="pre">-&gt;</span> <span class="pre">Settings...</span></code>, as is shown in the following screenshot:</p>
+<blockquote>
+<div><figure class="align-center" id="id16">
+<a class="reference internal image-reference" href="../../_images/xcode-settings1.png"><img alt="Screenshot for ``Xcode -&gt; Settings...``" src="../../_images/xcode-settings1.png" style="width: 600px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 113 </span><span class="caption-text">Screenshot for <code class="docutils literal notranslate"><span class="pre">Xcode</span> <span class="pre">-&gt;</span> <span class="pre">Settings...</span></code></span><a class="headerlink" href="#id16" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+</div></blockquote>
+<p>In the popup dialog, please select <code class="docutils literal notranslate"><span class="pre">Account</span></code> and click <code class="docutils literal notranslate"><span class="pre">+</span></code> to add
+your Apple ID, as is shown in the following <code class="docutils literal notranslate"><span class="pre">screenshots</span></code>.</p>
+<blockquote>
+<div><figure class="align-center" id="id17">
+<a class="reference internal image-reference" href="../../_images/add-an-account1.png"><img alt="Screenshot for selecting ``Account`` and click ``+``." src="../../_images/add-an-account1.png" style="width: 600px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 114 </span><span class="caption-text">Screenshot for selecting <code class="docutils literal notranslate"><span class="pre">Account</span></code> and click <code class="docutils literal notranslate"><span class="pre">+</span></code>.</span><a class="headerlink" href="#id17" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+<figure class="align-center" id="id18">
+<a class="reference internal image-reference" href="../../_images/add-an-account-21.png"><img alt="Screenshot for selecting ``Apple ID`` and click ``Continue``" src="../../_images/add-an-account-21.png" style="width: 600px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 115 </span><span class="caption-text">Screenshot for selecting <code class="docutils literal notranslate"><span class="pre">Apple</span> <span class="pre">ID</span></code> and click <code class="docutils literal notranslate"><span class="pre">Continue</span></code></span><a class="headerlink" href="#id18" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+<figure class="align-center" id="id19">
+<a class="reference internal image-reference" href="../../_images/add-an-account-31.png"><img alt="Screenshot for adding your Apple ID and click ``Next``" src="../../_images/add-an-account-31.png" style="width: 600px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 116 </span><span class="caption-text">Screenshot for adding your Apple ID and click <code class="docutils literal notranslate"><span class="pre">Next</span></code></span><a class="headerlink" href="#id19" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+<figure class="align-center" id="id20">
+<a class="reference internal image-reference" href="../../_images/add-an-account-41.png"><img alt="Screenshot for entering your password and click ``Next``" src="../../_images/add-an-account-41.png" style="width: 600px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 117 </span><span class="caption-text">Screenshot for entering your password and click <code class="docutils literal notranslate"><span class="pre">Next</span></code></span><a class="headerlink" href="#id20" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+<figure class="align-center" id="id21">
+<a class="reference internal image-reference" href="../../_images/add-an-account-51.png"><img alt="Screenshot after adding your Apple ID" src="../../_images/add-an-account-51.png" style="width: 600px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 118 </span><span class="caption-text">Screenshot after adding your Apple ID</span><a class="headerlink" href="#id21" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+</div></blockquote>
+<p>After adding your Apple ID, please connect your iPhone or iPad to your Mac
+and select your device in Xcode. The following screenshot is an example
+to select my iPhone.</p>
+<blockquote>
+<div><figure class="align-center" id="id22">
+<a class="reference internal image-reference" href="../../_images/select-device1.png"><img alt="Screenshot for selecting your device" src="../../_images/select-device1.png" style="width: 600px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 119 </span><span class="caption-text">Screenshot for selecting your device</span><a class="headerlink" href="#id22" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+</div></blockquote>
+<p>Now your Xcode should look like below after selecting a device:</p>
+<blockquote>
+<div><figure class="align-center" id="id23">
+<a class="reference internal image-reference" href="../../_images/select-device-21.png"><img alt="Screenshot after selecting your device" src="../../_images/select-device-21.png" style="width: 600px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 120 </span><span class="caption-text">Screenshot after selecting your device</span><a class="headerlink" href="#id23" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+</div></blockquote>
+<p>Please select <code class="docutils literal notranslate"><span class="pre">Product</span> <span class="pre">-&gt;</span> <span class="pre">Run</span></code> again to run <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a> on your selected
+device, as is shown in the following screenshot:</p>
+<blockquote>
+<div><figure class="align-center" id="id24">
+<a class="reference internal image-reference" href="../../_images/run-31.png"><img alt="Screenshot for selecting ``Product -&gt; Run``" src="../../_images/run-31.png" style="width: 600px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 121 </span><span class="caption-text">Screenshot for selecting <code class="docutils literal notranslate"><span class="pre">Product</span> <span class="pre">-&gt;</span> <span class="pre">Run</span></code></span><a class="headerlink" href="#id24" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+</div></blockquote>
+<p>After a successful build, check your iPhone/iPad and you should see the following
+screenshot:</p>
+<blockquote>
+<div><figure class="align-center" id="id25">
+<a class="reference internal image-reference" href="../../_images/run-4.png"><img alt="Screenshot for running sherpa-onnx on your device" src="../../_images/run-4.png" style="width: 300px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 122 </span><span class="caption-text">Screenshot for running sherpa-onnx on your device</span><a class="headerlink" href="#id25" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+</div></blockquote>
+<p>At this point, you should be able to run the app on your device. The following is a screenshot
+about running it on my iPhone:</p>
+<blockquote>
+<div><figure class="align-center" id="id26">
+<a class="reference internal image-reference" href="../../_images/run-5.png"><img alt="Screenshot for running `sherpa-onnx`_ on iPhone" src="../../_images/run-5.png" style="width: 300px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 123 </span><span class="caption-text">Screenshot for running <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a> on iPhone</span><a class="headerlink" href="#id26" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+</div></blockquote>
+<p>Congratulations! You have successfully run <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a> on your device!</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="iOS" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../flutter/index.html" class="btn btn-neutral float-right" title="Flutter" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

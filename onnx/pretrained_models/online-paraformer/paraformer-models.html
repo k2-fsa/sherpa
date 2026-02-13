@@ -1,0 +1,481 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Paraformer models &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/clipboard.min.js"></script>
+        <script src="../../../_static/copybutton.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Online CTC models" href="../online-ctc/index.html" />
+    <link rel="prev" title="Online paraformer models" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">sherpa-onnx</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../install/index.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../faqs/index.html">Frequently Asked Question (FAQs)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../python/index.html">Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../c-api/index.html">C API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../java-api/index.html">Java API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../javascript-api/index.html">Javascript API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../kotlin-api/index.html">Kotlin API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../swift-api/index.html">Swift API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../go-api/index.html">Go API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../csharp-api/index.html">C# API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../pascal-api/index.html">Pascal API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../lazarus/index.html">Lazarus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../wasm/index.html">WebAssembly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../android/index.html">Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../harmony-os/index.html">HarmonyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ios/index.html">iOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../flutter/index.html">Flutter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../websocket/index.html">WebSocket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../hotwords/index.html">Hotwords (Contextual biasing)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../kws/index.html">Keyword spotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../punctuation/index.html">Punctuation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../audio-tagging/index.html">Audio tagging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../spoken-language-identification/index.html">Spoken language identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../vad/index.html">VAD</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">Pre-trained models</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../online-transducer/index.html">Online transducer models</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">Online paraformer models</a><ul class="current">
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Paraformer models</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../online-ctc/index.html">Online CTC models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../offline-transducer/index.html">Offline transducer models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../offline-paraformer/index.html">Offline paraformer models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../offline-ctc/index.html">Offline CTC models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../telespeech/index.html">TeleSpeech</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../whisper/index.html">Whisper</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../wenet/index.html">WeNet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../small-online-models.html">Small models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../sense-voice/index.html">SenseVoice</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../whisper/index.html">Whisper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../moonshine/index.html">Moonshine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../omnilingual-asr/index.html">Omnilingual ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../sense-voice/index.html">SenseVoice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../funasr-nano/index.html">FunASR Nano</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../paraformer/index.html">Paraformer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../nemo/index.html">NeMo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../FireRedAsr/index.html">FireRedAsr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Dolphin/index.html">Dolphin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../homophone-replacer/index.html">拼音词组匹配替换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../speaker-diarization/index.html">Speaker Diarization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../speaker-identification/index.html">Speaker Identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../speech-enhancement/index.html">Speech enhancement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../source-separation/index.html">Source separation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../qnn/index.html">Qualcomm NPU (QNN, HTP)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../rknn/index.html">rknn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ascend/index.html">Ascend NPU (昇腾 NPU)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tts/index.html">Text-to-speech (TTS)</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html">sherpa-onnx</a> &raquo;</li>
+          <li><a href="../index.html">Pre-trained models</a> &raquo;</li>
+          <li><a href="index.html">Online paraformer models</a> &raquo;</li>
+      <li>Paraformer models</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/onnx/pretrained_models/online-paraformer/paraformer-models.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="paraformer-models">
+<h1>Paraformer models<a class="headerlink" href="#paraformer-models" title="Permalink to this heading"></a></h1>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>Please refer to <a class="reference internal" href="../../install/index.html#install-sherpa-onnx"><span class="std std-ref">Installation</span></a> to install <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>
+before you read this section.</p>
+</div>
+<section id="csukuangfj-sherpa-onnx-streaming-paraformer-bilingual-zh-en-chinese-english">
+<span id="sherpa-onnx-online-paraformer-bilingual-zh-en"></span><h2>csukuangfj/sherpa-onnx-streaming-paraformer-bilingual-zh-en (Chinese + English)<a class="headerlink" href="#csukuangfj-sherpa-onnx-streaming-paraformer-bilingual-zh-en-chinese-english" title="Permalink to this heading"></a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This model does not support timestamps. It is a bilingual model, supporting
+both Chinese and English. (支持普通话、河南话、天津话、四川话等方言)</p>
+</div>
+<p>This model is converted from</p>
+<p><a class="reference external" href="https://www.modelscope.cn/models/damo/speech_paraformer_asr_nat-zh-cn-16k-common-vocab8404-online/summary">https://www.modelscope.cn/models/damo/speech_paraformer_asr_nat-zh-cn-16k-common-vocab8404-online/summary</a></p>
+<p>The code for converting can be found at</p>
+<p><a class="reference external" href="https://huggingface.co/csukuangfj/streaming-paraformer-zh">https://huggingface.co/csukuangfj/streaming-paraformer-zh</a></p>
+<p>In the following, we describe how to download it and use it with <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>.</p>
+<section id="download-the-model">
+<h3>Download the model<a class="headerlink" href="#download-the-model" title="Permalink to this heading"></a></h3>
+<p>Please use the following commands to download it.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-paraformer-bilingual-zh-en.tar.bz2
+
+tar<span class="w"> </span>xvf<span class="w"> </span>sherpa-onnx-streaming-paraformer-bilingual-zh-en.tar.bz2
+</pre></div>
+</div>
+<p>Please check that the file sizes of the pre-trained models are correct. See
+the file sizes of <code class="docutils literal notranslate"><span class="pre">*.onnx</span></code> files below.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sherpa-onnx-streaming-paraformer-bilingual-zh-en<span class="w"> </span>fangjun$<span class="w"> </span>ls<span class="w"> </span>-lh<span class="w"> </span>*.onnx
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">    </span>68M<span class="w"> </span>Aug<span class="w"> </span><span class="m">14</span><span class="w"> </span><span class="m">09</span>:53<span class="w"> </span>decoder.int8.onnx
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">   </span>218M<span class="w"> </span>Aug<span class="w"> </span><span class="m">14</span><span class="w"> </span><span class="m">09</span>:55<span class="w"> </span>decoder.onnx
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">   </span>158M<span class="w"> </span>Aug<span class="w"> </span><span class="m">14</span><span class="w"> </span><span class="m">09</span>:54<span class="w"> </span>encoder.int8.onnx
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">   </span>607M<span class="w"> </span>Aug<span class="w"> </span><span class="m">14</span><span class="w"> </span><span class="m">09</span>:57<span class="w"> </span>encoder.onnx
+</pre></div>
+</div>
+</section>
+<section id="decode-a-single-wave-file">
+<h3>Decode a single wave file<a class="headerlink" href="#decode-a-single-wave-file" title="Permalink to this heading"></a></h3>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>It supports decoding only wave files of a single channel with 16-bit
+encoded samples, while the sampling rate does not need to be 16 kHz.</p>
+</div>
+<section id="fp32">
+<h4>fp32<a class="headerlink" href="#fp32" title="Permalink to this heading"></a></h4>
+<p>The following code shows how to use <code class="docutils literal notranslate"><span class="pre">fp32</span></code> models to decode a wave file:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+./build/bin/sherpa-onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span>./sherpa-onnx-streaming-paraformer-bilingual-zh-en/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--paraformer-encoder<span class="o">=</span>./sherpa-onnx-streaming-paraformer-bilingual-zh-en/encoder.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--paraformer-decoder<span class="o">=</span>./sherpa-onnx-streaming-paraformer-bilingual-zh-en/decoder.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-streaming-paraformer-bilingual-zh-en/test_wavs/0.wav
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Please use <code class="docutils literal notranslate"><span class="pre">./build/bin/Release/sherpa-onnx.exe</span></code> for Windows.</p>
+</div>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>If you use Windows and get encoding issues, please run:</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>CHCP<span class="w"> </span><span class="m">65001</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>in your commandline.</p>
+</div>
+<p>You should see the following output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">fangjun</span><span class="o">/</span><span class="nb">open</span><span class="o">-</span><span class="n">source</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">csrc</span><span class="o">/</span><span class="n">parse</span><span class="o">-</span><span class="n">options</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="n">Read</span><span class="p">:</span><span class="mi">361</span> <span class="o">./</span><span class="n">build</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span> <span class="o">--</span><span class="n">tokens</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">streaming</span><span class="o">-</span><span class="n">paraformer</span><span class="o">-</span><span class="n">bilingual</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">/</span><span class="n">tokens</span><span class="o">.</span><span class="n">txt</span> <span class="o">--</span><span class="n">paraformer</span><span class="o">-</span><span class="n">encoder</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">streaming</span><span class="o">-</span><span class="n">paraformer</span><span class="o">-</span><span class="n">bilingual</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">/</span><span class="n">encoder</span><span class="o">.</span><span class="n">onnx</span> <span class="o">--</span><span class="n">paraformer</span><span class="o">-</span><span class="n">decoder</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">streaming</span><span class="o">-</span><span class="n">paraformer</span><span class="o">-</span><span class="n">bilingual</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">/</span><span class="n">decoder</span><span class="o">.</span><span class="n">onnx</span> <span class="o">./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">streaming</span><span class="o">-</span><span class="n">paraformer</span><span class="o">-</span><span class="n">bilingual</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">0.</span><span class="n">wav</span> 
+
+<span class="n">OnlineRecognizerConfig</span><span class="p">(</span><span class="n">feat_config</span><span class="o">=</span><span class="n">FeatureExtractorConfig</span><span class="p">(</span><span class="n">sampling_rate</span><span class="o">=</span><span class="mi">16000</span><span class="p">,</span> <span class="n">feature_dim</span><span class="o">=</span><span class="mi">80</span><span class="p">),</span> <span class="n">model_config</span><span class="o">=</span><span class="n">OnlineModelConfig</span><span class="p">(</span><span class="n">transducer</span><span class="o">=</span><span class="n">OnlineTransducerModelConfig</span><span class="p">(</span><span class="n">encoder</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">decoder</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">joiner</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">),</span> <span class="n">paraformer</span><span class="o">=</span><span class="n">OnlineParaformerModelConfig</span><span class="p">(</span><span class="n">encoder</span><span class="o">=</span><span class="s2">&quot;./sherpa-onnx-streaming-paraformer-bilingual-zh-en/encoder.onnx&quot;</span><span class="p">,</span> <span class="n">decoder</span><span class="o">=</span><span class="s2">&quot;./sherpa-onnx-streaming-paraformer-bilingual-zh-en/decoder.onnx&quot;</span><span class="p">),</span> <span class="n">tokens</span><span class="o">=</span><span class="s2">&quot;./sherpa-onnx-streaming-paraformer-bilingual-zh-en/tokens.txt&quot;</span><span class="p">,</span> <span class="n">num_threads</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">provider</span><span class="o">=</span><span class="s2">&quot;cpu&quot;</span><span class="p">,</span> <span class="n">model_type</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">),</span> <span class="n">lm_config</span><span class="o">=</span><span class="n">OnlineLMConfig</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">0.5</span><span class="p">),</span> <span class="n">endpoint_config</span><span class="o">=</span><span class="n">EndpointConfig</span><span class="p">(</span><span class="n">rule1</span><span class="o">=</span><span class="n">EndpointRule</span><span class="p">(</span><span class="n">must_contain_nonsilence</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">min_trailing_silence</span><span class="o">=</span><span class="mf">2.4</span><span class="p">,</span> <span class="n">min_utterance_length</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">rule2</span><span class="o">=</span><span class="n">EndpointRule</span><span class="p">(</span><span class="n">must_contain_nonsilence</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">min_trailing_silence</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span> <span class="n">min_utterance_length</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">rule3</span><span class="o">=</span><span class="n">EndpointRule</span><span class="p">(</span><span class="n">must_contain_nonsilence</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">min_trailing_silence</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">min_utterance_length</span><span class="o">=</span><span class="mi">20</span><span class="p">)),</span> <span class="n">enable_endpoint</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">max_active_paths</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">context_score</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">decoding_method</span><span class="o">=</span><span class="s2">&quot;greedy_search&quot;</span><span class="p">)</span>
+<span class="o">./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">streaming</span><span class="o">-</span><span class="n">paraformer</span><span class="o">-</span><span class="n">bilingual</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">0.</span><span class="n">wav</span>
+<span class="n">Elapsed</span> <span class="n">seconds</span><span class="p">:</span> <span class="mf">2.2</span><span class="p">,</span> <span class="n">Real</span> <span class="n">time</span> <span class="n">factor</span> <span class="p">(</span><span class="n">RTF</span><span class="p">):</span> <span class="mf">0.21</span>
+<span class="n">昨天是</span> <span class="n">monday</span> <span class="n">today</span> <span class="n">day</span> <span class="ow">is</span> <span class="n">零八二</span> <span class="n">the</span> <span class="n">day</span> <span class="n">after</span> <span class="n">tomorrow</span> <span class="n">是星期三</span>
+<span class="p">{</span><span class="s2">&quot;is_final&quot;</span><span class="p">:</span><span class="n">false</span><span class="p">,</span><span class="s2">&quot;segment&quot;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="s2">&quot;start_time&quot;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="s2">&quot;text&quot;</span><span class="p">:</span><span class="s2">&quot;昨天是 monday today day is 零八二 the day after tomorrow 是星期三&quot;</span><span class="p">,</span><span class="s2">&quot;timestamps&quot;</span><span class="p">:</span><span class="s2">&quot;[]&quot;</span><span class="p">,</span><span class="s2">&quot;tokens&quot;</span><span class="p">:[</span><span class="s2">&quot;昨&quot;</span><span class="p">,</span><span class="s2">&quot;天&quot;</span><span class="p">,</span><span class="s2">&quot;是&quot;</span><span class="p">,</span><span class="s2">&quot;mon@@&quot;</span><span class="p">,</span><span class="s2">&quot;day&quot;</span><span class="p">,</span><span class="s2">&quot;today&quot;</span><span class="p">,</span><span class="s2">&quot;day&quot;</span><span class="p">,</span><span class="s2">&quot;is&quot;</span><span class="p">,</span><span class="s2">&quot;零&quot;</span><span class="p">,</span><span class="s2">&quot;八&quot;</span><span class="p">,</span><span class="s2">&quot;二&quot;</span><span class="p">,</span><span class="s2">&quot;the&quot;</span><span class="p">,</span><span class="s2">&quot;day&quot;</span><span class="p">,</span><span class="s2">&quot;after&quot;</span><span class="p">,</span><span class="s2">&quot;tom@@&quot;</span><span class="p">,</span><span class="s2">&quot;or@@&quot;</span><span class="p">,</span><span class="s2">&quot;row&quot;</span><span class="p">,</span><span class="s2">&quot;是&quot;</span><span class="p">,</span><span class="s2">&quot;星&quot;</span><span class="p">,</span><span class="s2">&quot;期&quot;</span><span class="p">,</span><span class="s2">&quot;三&quot;</span><span class="p">]}</span>
+
+</pre></div>
+</div>
+</section>
+<section id="int8">
+<h4>int8<a class="headerlink" href="#int8" title="Permalink to this heading"></a></h4>
+<p>The following code shows how to use <code class="docutils literal notranslate"><span class="pre">int8</span></code> models to decode a wave file:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+./build/bin/sherpa-onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span>./sherpa-onnx-streaming-paraformer-bilingual-zh-en/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--paraformer-encoder<span class="o">=</span>./sherpa-onnx-streaming-paraformer-bilingual-zh-en/encoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--paraformer-decoder<span class="o">=</span>./sherpa-onnx-streaming-paraformer-bilingual-zh-en/decoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-streaming-paraformer-bilingual-zh-en/test_wavs/0.wav
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Please use <code class="docutils literal notranslate"><span class="pre">./build/bin/Release/sherpa-onnx.exe</span></code> for Windows.</p>
+</div>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>If you use Windows and get encoding issues, please run:</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>CHCP<span class="w"> </span><span class="m">65001</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>in your commandline.</p>
+</div>
+<p>You should see the following output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">fangjun</span><span class="o">/</span><span class="nb">open</span><span class="o">-</span><span class="n">source</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">csrc</span><span class="o">/</span><span class="n">parse</span><span class="o">-</span><span class="n">options</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="n">Read</span><span class="p">:</span><span class="mi">361</span> <span class="o">./</span><span class="n">build</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span> <span class="o">--</span><span class="n">tokens</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">streaming</span><span class="o">-</span><span class="n">paraformer</span><span class="o">-</span><span class="n">bilingual</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">/</span><span class="n">tokens</span><span class="o">.</span><span class="n">txt</span> <span class="o">--</span><span class="n">paraformer</span><span class="o">-</span><span class="n">encoder</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">streaming</span><span class="o">-</span><span class="n">paraformer</span><span class="o">-</span><span class="n">bilingual</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">/</span><span class="n">encoder</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span> <span class="o">--</span><span class="n">paraformer</span><span class="o">-</span><span class="n">decoder</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">streaming</span><span class="o">-</span><span class="n">paraformer</span><span class="o">-</span><span class="n">bilingual</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">/</span><span class="n">decoder</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span> <span class="o">./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">streaming</span><span class="o">-</span><span class="n">paraformer</span><span class="o">-</span><span class="n">bilingual</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">0.</span><span class="n">wav</span> 
+
+<span class="n">OnlineRecognizerConfig</span><span class="p">(</span><span class="n">feat_config</span><span class="o">=</span><span class="n">FeatureExtractorConfig</span><span class="p">(</span><span class="n">sampling_rate</span><span class="o">=</span><span class="mi">16000</span><span class="p">,</span> <span class="n">feature_dim</span><span class="o">=</span><span class="mi">80</span><span class="p">),</span> <span class="n">model_config</span><span class="o">=</span><span class="n">OnlineModelConfig</span><span class="p">(</span><span class="n">transducer</span><span class="o">=</span><span class="n">OnlineTransducerModelConfig</span><span class="p">(</span><span class="n">encoder</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">decoder</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">joiner</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">),</span> <span class="n">paraformer</span><span class="o">=</span><span class="n">OnlineParaformerModelConfig</span><span class="p">(</span><span class="n">encoder</span><span class="o">=</span><span class="s2">&quot;./sherpa-onnx-streaming-paraformer-bilingual-zh-en/encoder.int8.onnx&quot;</span><span class="p">,</span> <span class="n">decoder</span><span class="o">=</span><span class="s2">&quot;./sherpa-onnx-streaming-paraformer-bilingual-zh-en/decoder.int8.onnx&quot;</span><span class="p">),</span> <span class="n">tokens</span><span class="o">=</span><span class="s2">&quot;./sherpa-onnx-streaming-paraformer-bilingual-zh-en/tokens.txt&quot;</span><span class="p">,</span> <span class="n">num_threads</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">provider</span><span class="o">=</span><span class="s2">&quot;cpu&quot;</span><span class="p">,</span> <span class="n">model_type</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">),</span> <span class="n">lm_config</span><span class="o">=</span><span class="n">OnlineLMConfig</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">0.5</span><span class="p">),</span> <span class="n">endpoint_config</span><span class="o">=</span><span class="n">EndpointConfig</span><span class="p">(</span><span class="n">rule1</span><span class="o">=</span><span class="n">EndpointRule</span><span class="p">(</span><span class="n">must_contain_nonsilence</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">min_trailing_silence</span><span class="o">=</span><span class="mf">2.4</span><span class="p">,</span> <span class="n">min_utterance_length</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">rule2</span><span class="o">=</span><span class="n">EndpointRule</span><span class="p">(</span><span class="n">must_contain_nonsilence</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">min_trailing_silence</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span> <span class="n">min_utterance_length</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">rule3</span><span class="o">=</span><span class="n">EndpointRule</span><span class="p">(</span><span class="n">must_contain_nonsilence</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">min_trailing_silence</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">min_utterance_length</span><span class="o">=</span><span class="mi">20</span><span class="p">)),</span> <span class="n">enable_endpoint</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">max_active_paths</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">context_score</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">decoding_method</span><span class="o">=</span><span class="s2">&quot;greedy_search&quot;</span><span class="p">)</span>
+<span class="o">./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">streaming</span><span class="o">-</span><span class="n">paraformer</span><span class="o">-</span><span class="n">bilingual</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">0.</span><span class="n">wav</span>
+<span class="n">Elapsed</span> <span class="n">seconds</span><span class="p">:</span> <span class="mf">1.6</span><span class="p">,</span> <span class="n">Real</span> <span class="n">time</span> <span class="n">factor</span> <span class="p">(</span><span class="n">RTF</span><span class="p">):</span> <span class="mf">0.15</span>
+<span class="n">昨天是</span> <span class="n">monday</span> <span class="n">today</span> <span class="n">day</span> <span class="ow">is</span> <span class="n">零八二</span> <span class="n">the</span> <span class="n">day</span> <span class="n">after</span> <span class="n">tomorrow</span> <span class="n">是星期三</span>
+<span class="p">{</span><span class="s2">&quot;is_final&quot;</span><span class="p">:</span><span class="n">false</span><span class="p">,</span><span class="s2">&quot;segment&quot;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="s2">&quot;start_time&quot;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span><span class="s2">&quot;text&quot;</span><span class="p">:</span><span class="s2">&quot;昨天是 monday today day is 零八二 the day after tomorrow 是星期三&quot;</span><span class="p">,</span><span class="s2">&quot;timestamps&quot;</span><span class="p">:</span><span class="s2">&quot;[]&quot;</span><span class="p">,</span><span class="s2">&quot;tokens&quot;</span><span class="p">:[</span><span class="s2">&quot;昨&quot;</span><span class="p">,</span><span class="s2">&quot;天&quot;</span><span class="p">,</span><span class="s2">&quot;是&quot;</span><span class="p">,</span><span class="s2">&quot;mon@@&quot;</span><span class="p">,</span><span class="s2">&quot;day&quot;</span><span class="p">,</span><span class="s2">&quot;today&quot;</span><span class="p">,</span><span class="s2">&quot;day&quot;</span><span class="p">,</span><span class="s2">&quot;is&quot;</span><span class="p">,</span><span class="s2">&quot;零&quot;</span><span class="p">,</span><span class="s2">&quot;八&quot;</span><span class="p">,</span><span class="s2">&quot;二&quot;</span><span class="p">,</span><span class="s2">&quot;the&quot;</span><span class="p">,</span><span class="s2">&quot;day&quot;</span><span class="p">,</span><span class="s2">&quot;after&quot;</span><span class="p">,</span><span class="s2">&quot;tom@@&quot;</span><span class="p">,</span><span class="s2">&quot;or@@&quot;</span><span class="p">,</span><span class="s2">&quot;row&quot;</span><span class="p">,</span><span class="s2">&quot;是&quot;</span><span class="p">,</span><span class="s2">&quot;星&quot;</span><span class="p">,</span><span class="s2">&quot;期&quot;</span><span class="p">,</span><span class="s2">&quot;三&quot;</span><span class="p">]}</span>
+
+</pre></div>
+</div>
+</section>
+</section>
+<section id="real-time-speech-recognition-from-a-microphone">
+<h3>Real-time speech recognition from a microphone<a class="headerlink" href="#real-time-speech-recognition-from-a-microphone" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+./build/bin/sherpa-onnx-microphone<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span>./sherpa-onnx-streaming-paraformer-bilingual-zh-en/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--paraformer-encoder<span class="o">=</span>./sherpa-onnx-streaming-paraformer-bilingual-zh-en/encoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--paraformer-decoder<span class="o">=</span>./sherpa-onnx-streaming-paraformer-bilingual-zh-en/decoder.int8.onnx
+</pre></div>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>If your system is Linux (including embedded Linux), you can also use
+<a class="reference internal" href="../../install/aarch64-embedded-linux.html#sherpa-onnx-alsa"><span class="std std-ref">sherpa-onnx-alsa</span></a> to do real-time speech recognition with your
+microphone if <code class="docutils literal notranslate"><span class="pre">sherpa-onnx-microphone</span></code> does not work for you.</p>
+</div>
+</section>
+</section>
+<section id="csukuangfj-sherpa-onnx-streaming-paraformer-trilingual-zh-cantonese-en-chinese-cantonese-english">
+<span id="sherpa-onnx-online-paraformer-trilingual-zh-yue-en"></span><h2>csukuangfj/sherpa-onnx-streaming-paraformer-trilingual-zh-cantonese-en (Chinese + Cantonese + English)<a class="headerlink" href="#csukuangfj-sherpa-onnx-streaming-paraformer-trilingual-zh-cantonese-en-chinese-cantonese-english" title="Permalink to this heading"></a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This model does not support timestamps. It is a trilingual model, supporting
+both Chinese and English. (支持普通话、<code class="docutils literal notranslate"><span class="pre">粤语</span></code>、河南话、天津话、四川话等方言)</p>
+</div>
+<p>This model is converted from</p>
+<p><a class="reference external" href="https://modelscope.cn/models/dengcunqin/speech_paraformer-large_asr_nat-zh-cantonese-en-16k-vocab8501-online/files">https://modelscope.cn/models/dengcunqin/speech_paraformer-large_asr_nat-zh-cantonese-en-16k-vocab8501-online/files</a></p>
+<p>You can find the conversion code after downloading and unzipping the model.</p>
+<p>In the following, we describe how to download it and use it with <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>.</p>
+<section id="id1">
+<h3>Download the model<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h3>
+<p>Please use the following commands to download it.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-paraformer-trilingual-zh-cantonese-en.tar.bz2
+
+tar<span class="w"> </span>xvf<span class="w"> </span>sherpa-onnx-streaming-paraformer-trilingual-zh-cantonese-en.tar.bz2
+</pre></div>
+</div>
+<p>Please check that the file sizes of the pre-trained models are correct. See
+the file sizes of <code class="docutils literal notranslate"><span class="pre">*.onnx</span></code> files below.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sherpa-onnx-streaming-paraformer-trilingual-zh-cantonese-en<span class="w"> </span>fangjun$<span class="w"> </span>ls<span class="w"> </span>-lh<span class="w"> </span>*.onnx
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">    </span>69M<span class="w"> </span>Feb<span class="w"> </span><span class="m">29</span><span class="w"> </span><span class="m">19</span>:44<span class="w"> </span>decoder.int8.onnx
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">   </span>218M<span class="w"> </span>Feb<span class="w"> </span><span class="m">29</span><span class="w"> </span><span class="m">19</span>:44<span class="w"> </span>decoder.onnx
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">   </span>159M<span class="w"> </span>Feb<span class="w"> </span><span class="m">29</span><span class="w"> </span><span class="m">19</span>:44<span class="w"> </span>encoder.int8.onnx
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">   </span>607M<span class="w"> </span>Feb<span class="w"> </span><span class="m">29</span><span class="w"> </span><span class="m">19</span>:44<span class="w"> </span>encoder.onnx
+</pre></div>
+</div>
+</section>
+<section id="id2">
+<h3>Decode a single wave file<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h3>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>It supports decoding only wave files of a single channel with 16-bit
+encoded samples, while the sampling rate does not need to be 16 kHz.</p>
+</div>
+<section id="id3">
+<h4>fp32<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h4>
+<p>The following code shows how to use <code class="docutils literal notranslate"><span class="pre">fp32</span></code> models to decode a wave file:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+./build/bin/sherpa-onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span>./sherpa-onnx-streaming-paraformer-trilingual-zh-cantonese-en/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--paraformer-encoder<span class="o">=</span>./sherpa-onnx-streaming-paraformer-trilingual-zh-cantonese-en/encoder.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--paraformer-decoder<span class="o">=</span>./sherpa-onnx-streaming-paraformer-trilingual-zh-cantonese-en/decoder.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-streaming-paraformer-trilingual-zh-cantonese-en/test_wavs/1.wav
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Please use <code class="docutils literal notranslate"><span class="pre">./build/bin/Release/sherpa-onnx.exe</span></code> for Windows.</p>
+</div>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>If you use Windows and get encoding issues, please run:</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>CHCP<span class="w"> </span><span class="m">65001</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>in your commandline.</p>
+</div>
+<p>You should see the following output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">fangjun</span><span class="o">/</span><span class="nb">open</span><span class="o">-</span><span class="n">source</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">csrc</span><span class="o">/</span><span class="n">parse</span><span class="o">-</span><span class="n">options</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="n">Read</span><span class="p">:</span><span class="mi">361</span> <span class="o">./</span><span class="n">build</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span> <span class="o">--</span><span class="n">tokens</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">streaming</span><span class="o">-</span><span class="n">paraformer</span><span class="o">-</span><span class="n">trilingual</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">cantonese</span><span class="o">-</span><span class="n">en</span><span class="o">/</span><span class="n">tokens</span><span class="o">.</span><span class="n">txt</span> <span class="o">--</span><span class="n">paraformer</span><span class="o">-</span><span class="n">encoder</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">streaming</span><span class="o">-</span><span class="n">paraformer</span><span class="o">-</span><span class="n">trilingual</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">cantonese</span><span class="o">-</span><span class="n">en</span><span class="o">/</span><span class="n">encoder</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span> <span class="o">--</span><span class="n">paraformer</span><span class="o">-</span><span class="n">decoder</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">streaming</span><span class="o">-</span><span class="n">paraformer</span><span class="o">-</span><span class="n">trilingual</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">cantonese</span><span class="o">-</span><span class="n">en</span><span class="o">/</span><span class="n">decoder</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span> <span class="o">./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">streaming</span><span class="o">-</span><span class="n">paraformer</span><span class="o">-</span><span class="n">trilingual</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">cantonese</span><span class="o">-</span><span class="n">en</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">1.</span><span class="n">wav</span> 
+
+<span class="n">OnlineRecognizerConfig</span><span class="p">(</span><span class="n">feat_config</span><span class="o">=</span><span class="n">FeatureExtractorConfig</span><span class="p">(</span><span class="n">sampling_rate</span><span class="o">=</span><span class="mi">16000</span><span class="p">,</span> <span class="n">feature_dim</span><span class="o">=</span><span class="mi">80</span><span class="p">),</span> <span class="n">model_config</span><span class="o">=</span><span class="n">OnlineModelConfig</span><span class="p">(</span><span class="n">transducer</span><span class="o">=</span><span class="n">OnlineTransducerModelConfig</span><span class="p">(</span><span class="n">encoder</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">decoder</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">joiner</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">),</span> <span class="n">paraformer</span><span class="o">=</span><span class="n">OnlineParaformerModelConfig</span><span class="p">(</span><span class="n">encoder</span><span class="o">=</span><span class="s2">&quot;./sherpa-onnx-streaming-paraformer-trilingual-zh-cantonese-en/encoder.int8.onnx&quot;</span><span class="p">,</span> <span class="n">decoder</span><span class="o">=</span><span class="s2">&quot;./sherpa-onnx-streaming-paraformer-trilingual-zh-cantonese-en/decoder.int8.onnx&quot;</span><span class="p">),</span> <span class="n">wenet_ctc</span><span class="o">=</span><span class="n">OnlineWenetCtcModelConfig</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">chunk_size</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">num_left_chunks</span><span class="o">=</span><span class="mi">4</span><span class="p">),</span> <span class="n">zipformer2_ctc</span><span class="o">=</span><span class="n">OnlineZipformer2CtcModelConfig</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">),</span> <span class="n">tokens</span><span class="o">=</span><span class="s2">&quot;./sherpa-onnx-streaming-paraformer-trilingual-zh-cantonese-en/tokens.txt&quot;</span><span class="p">,</span> <span class="n">num_threads</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">provider</span><span class="o">=</span><span class="s2">&quot;cpu&quot;</span><span class="p">,</span> <span class="n">model_type</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">),</span> <span class="n">lm_config</span><span class="o">=</span><span class="n">OnlineLMConfig</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">0.5</span><span class="p">),</span> <span class="n">endpoint_config</span><span class="o">=</span><span class="n">EndpointConfig</span><span class="p">(</span><span class="n">rule1</span><span class="o">=</span><span class="n">EndpointRule</span><span class="p">(</span><span class="n">must_contain_nonsilence</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">min_trailing_silence</span><span class="o">=</span><span class="mf">2.4</span><span class="p">,</span> <span class="n">min_utterance_length</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">rule2</span><span class="o">=</span><span class="n">EndpointRule</span><span class="p">(</span><span class="n">must_contain_nonsilence</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">min_trailing_silence</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span> <span class="n">min_utterance_length</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">rule3</span><span class="o">=</span><span class="n">EndpointRule</span><span class="p">(</span><span class="n">must_contain_nonsilence</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">min_trailing_silence</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">min_utterance_length</span><span class="o">=</span><span class="mi">20</span><span class="p">)),</span> <span class="n">enable_endpoint</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">max_active_paths</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">hotwords_score</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">hotwords_file</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">decoding_method</span><span class="o">=</span><span class="s2">&quot;greedy_search&quot;</span><span class="p">,</span> <span class="n">blank_penalty</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="o">./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">streaming</span><span class="o">-</span><span class="n">paraformer</span><span class="o">-</span><span class="n">trilingual</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">cantonese</span><span class="o">-</span><span class="n">en</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">1.</span><span class="n">wav</span>
+<span class="n">Elapsed</span> <span class="n">seconds</span><span class="p">:</span> <span class="mf">0.98</span><span class="p">,</span> <span class="n">Real</span> <span class="n">time</span> <span class="n">factor</span> <span class="p">(</span><span class="n">RTF</span><span class="p">):</span> <span class="mf">0.16</span>
+<span class="n">有无人知道湾仔活道系点去</span>
+<span class="p">{</span> <span class="s2">&quot;text&quot;</span><span class="p">:</span> <span class="s2">&quot;有无人知道湾仔活道系点去&quot;</span><span class="p">,</span> <span class="s2">&quot;tokens&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;有&quot;</span><span class="p">,</span> <span class="s2">&quot;无&quot;</span><span class="p">,</span> <span class="s2">&quot;人&quot;</span><span class="p">,</span> <span class="s2">&quot;知&quot;</span><span class="p">,</span> <span class="s2">&quot;道&quot;</span><span class="p">,</span> <span class="s2">&quot;湾&quot;</span><span class="p">,</span> <span class="s2">&quot;仔&quot;</span><span class="p">,</span> <span class="s2">&quot;活&quot;</span><span class="p">,</span> <span class="s2">&quot;道&quot;</span><span class="p">,</span> <span class="s2">&quot;系&quot;</span><span class="p">,</span> <span class="s2">&quot;点&quot;</span><span class="p">,</span> <span class="s2">&quot;去&quot;</span> <span class="p">],</span> <span class="s2">&quot;timestamps&quot;</span><span class="p">:</span> <span class="p">[</span>  <span class="p">],</span> <span class="s2">&quot;ys_probs&quot;</span><span class="p">:</span> <span class="p">[</span>  <span class="p">],</span> <span class="s2">&quot;lm_probs&quot;</span><span class="p">:</span> <span class="p">[</span>  <span class="p">],</span> <span class="s2">&quot;context_scores&quot;</span><span class="p">:</span> <span class="p">[</span>  <span class="p">],</span> <span class="s2">&quot;segment&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;start_time&quot;</span><span class="p">:</span> <span class="mf">0.00</span><span class="p">,</span> <span class="s2">&quot;is_final&quot;</span><span class="p">:</span> <span class="n">false</span><span class="p">}</span>
+
+</pre></div>
+</div>
+</section>
+<section id="id4">
+<h4>int8<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h4>
+<p>The following code shows how to use <code class="docutils literal notranslate"><span class="pre">int8</span></code> models to decode a wave file:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+./build/bin/sherpa-onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span>./sherpa-onnx-streaming-paraformer-trilingual-zh-cantonese-en/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--paraformer-encoder<span class="o">=</span>./sherpa-onnx-streaming-paraformer-trilingual-zh-cantonese-en/encoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--paraformer-decoder<span class="o">=</span>./sherpa-onnx-streaming-paraformer-trilingual-zh-cantonese-en/decoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-streaming-paraformer-trilingual-zh-cantonese-en/test_wavs/1.wav
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Please use <code class="docutils literal notranslate"><span class="pre">./build/bin/Release/sherpa-onnx.exe</span></code> for Windows.</p>
+</div>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>If you use Windows and get encoding issues, please run:</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>CHCP<span class="w"> </span><span class="m">65001</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>in your commandline.</p>
+</div>
+<p>You should see the following output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">fangjun</span><span class="o">/</span><span class="nb">open</span><span class="o">-</span><span class="n">source</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">csrc</span><span class="o">/</span><span class="n">parse</span><span class="o">-</span><span class="n">options</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="n">Read</span><span class="p">:</span><span class="mi">361</span> <span class="o">./</span><span class="n">build</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span> <span class="o">--</span><span class="n">tokens</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">streaming</span><span class="o">-</span><span class="n">paraformer</span><span class="o">-</span><span class="n">trilingual</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">cantonese</span><span class="o">-</span><span class="n">en</span><span class="o">/</span><span class="n">tokens</span><span class="o">.</span><span class="n">txt</span> <span class="o">--</span><span class="n">paraformer</span><span class="o">-</span><span class="n">encoder</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">streaming</span><span class="o">-</span><span class="n">paraformer</span><span class="o">-</span><span class="n">trilingual</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">cantonese</span><span class="o">-</span><span class="n">en</span><span class="o">/</span><span class="n">encoder</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span> <span class="o">--</span><span class="n">paraformer</span><span class="o">-</span><span class="n">decoder</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">streaming</span><span class="o">-</span><span class="n">paraformer</span><span class="o">-</span><span class="n">trilingual</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">cantonese</span><span class="o">-</span><span class="n">en</span><span class="o">/</span><span class="n">decoder</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span> <span class="o">./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">streaming</span><span class="o">-</span><span class="n">paraformer</span><span class="o">-</span><span class="n">trilingual</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">cantonese</span><span class="o">-</span><span class="n">en</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">1.</span><span class="n">wav</span> 
+
+<span class="n">OnlineRecognizerConfig</span><span class="p">(</span><span class="n">feat_config</span><span class="o">=</span><span class="n">FeatureExtractorConfig</span><span class="p">(</span><span class="n">sampling_rate</span><span class="o">=</span><span class="mi">16000</span><span class="p">,</span> <span class="n">feature_dim</span><span class="o">=</span><span class="mi">80</span><span class="p">),</span> <span class="n">model_config</span><span class="o">=</span><span class="n">OnlineModelConfig</span><span class="p">(</span><span class="n">transducer</span><span class="o">=</span><span class="n">OnlineTransducerModelConfig</span><span class="p">(</span><span class="n">encoder</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">decoder</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">joiner</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">),</span> <span class="n">paraformer</span><span class="o">=</span><span class="n">OnlineParaformerModelConfig</span><span class="p">(</span><span class="n">encoder</span><span class="o">=</span><span class="s2">&quot;./sherpa-onnx-streaming-paraformer-trilingual-zh-cantonese-en/encoder.int8.onnx&quot;</span><span class="p">,</span> <span class="n">decoder</span><span class="o">=</span><span class="s2">&quot;./sherpa-onnx-streaming-paraformer-trilingual-zh-cantonese-en/decoder.int8.onnx&quot;</span><span class="p">),</span> <span class="n">wenet_ctc</span><span class="o">=</span><span class="n">OnlineWenetCtcModelConfig</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">chunk_size</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">num_left_chunks</span><span class="o">=</span><span class="mi">4</span><span class="p">),</span> <span class="n">zipformer2_ctc</span><span class="o">=</span><span class="n">OnlineZipformer2CtcModelConfig</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">),</span> <span class="n">tokens</span><span class="o">=</span><span class="s2">&quot;./sherpa-onnx-streaming-paraformer-trilingual-zh-cantonese-en/tokens.txt&quot;</span><span class="p">,</span> <span class="n">num_threads</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">provider</span><span class="o">=</span><span class="s2">&quot;cpu&quot;</span><span class="p">,</span> <span class="n">model_type</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">),</span> <span class="n">lm_config</span><span class="o">=</span><span class="n">OnlineLMConfig</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">0.5</span><span class="p">),</span> <span class="n">endpoint_config</span><span class="o">=</span><span class="n">EndpointConfig</span><span class="p">(</span><span class="n">rule1</span><span class="o">=</span><span class="n">EndpointRule</span><span class="p">(</span><span class="n">must_contain_nonsilence</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">min_trailing_silence</span><span class="o">=</span><span class="mf">2.4</span><span class="p">,</span> <span class="n">min_utterance_length</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">rule2</span><span class="o">=</span><span class="n">EndpointRule</span><span class="p">(</span><span class="n">must_contain_nonsilence</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">min_trailing_silence</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span> <span class="n">min_utterance_length</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">rule3</span><span class="o">=</span><span class="n">EndpointRule</span><span class="p">(</span><span class="n">must_contain_nonsilence</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">min_trailing_silence</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">min_utterance_length</span><span class="o">=</span><span class="mi">20</span><span class="p">)),</span> <span class="n">enable_endpoint</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">max_active_paths</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">hotwords_score</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">hotwords_file</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">decoding_method</span><span class="o">=</span><span class="s2">&quot;greedy_search&quot;</span><span class="p">,</span> <span class="n">blank_penalty</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="o">./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">streaming</span><span class="o">-</span><span class="n">paraformer</span><span class="o">-</span><span class="n">trilingual</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">cantonese</span><span class="o">-</span><span class="n">en</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">1.</span><span class="n">wav</span>
+<span class="n">Elapsed</span> <span class="n">seconds</span><span class="p">:</span> <span class="mf">0.84</span><span class="p">,</span> <span class="n">Real</span> <span class="n">time</span> <span class="n">factor</span> <span class="p">(</span><span class="n">RTF</span><span class="p">):</span> <span class="mf">0.14</span>
+<span class="n">有无人知道湾仔活道系点去</span>
+<span class="p">{</span> <span class="s2">&quot;text&quot;</span><span class="p">:</span> <span class="s2">&quot;有无人知道湾仔活道系点去&quot;</span><span class="p">,</span> <span class="s2">&quot;tokens&quot;</span><span class="p">:</span> <span class="p">[</span> <span class="s2">&quot;有&quot;</span><span class="p">,</span> <span class="s2">&quot;无&quot;</span><span class="p">,</span> <span class="s2">&quot;人&quot;</span><span class="p">,</span> <span class="s2">&quot;知&quot;</span><span class="p">,</span> <span class="s2">&quot;道&quot;</span><span class="p">,</span> <span class="s2">&quot;湾&quot;</span><span class="p">,</span> <span class="s2">&quot;仔&quot;</span><span class="p">,</span> <span class="s2">&quot;活&quot;</span><span class="p">,</span> <span class="s2">&quot;道&quot;</span><span class="p">,</span> <span class="s2">&quot;系&quot;</span><span class="p">,</span> <span class="s2">&quot;点&quot;</span><span class="p">,</span> <span class="s2">&quot;去&quot;</span> <span class="p">],</span> <span class="s2">&quot;timestamps&quot;</span><span class="p">:</span> <span class="p">[</span>  <span class="p">],</span> <span class="s2">&quot;ys_probs&quot;</span><span class="p">:</span> <span class="p">[</span>  <span class="p">],</span> <span class="s2">&quot;lm_probs&quot;</span><span class="p">:</span> <span class="p">[</span>  <span class="p">],</span> <span class="s2">&quot;context_scores&quot;</span><span class="p">:</span> <span class="p">[</span>  <span class="p">],</span> <span class="s2">&quot;segment&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;start_time&quot;</span><span class="p">:</span> <span class="mf">0.00</span><span class="p">,</span> <span class="s2">&quot;is_final&quot;</span><span class="p">:</span> <span class="n">false</span><span class="p">}</span>
+
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id5">
+<h3>Real-time speech recognition from a microphone<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+./build/bin/sherpa-onnx-microphone<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span>./sherpa-onnx-streaming-paraformer-bilingual-zh-en/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--paraformer-encoder<span class="o">=</span>./sherpa-onnx-streaming-paraformer-trilingual-zh-cantonese-en/encoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--paraformer-decoder<span class="o">=</span>./sherpa-onnx-streaming-paraformer-trilingual-zh-cantonese-en/decoder.int8.onnx
+</pre></div>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>If your system is Linux (including embedded Linux), you can also use
+<a class="reference internal" href="../../install/aarch64-embedded-linux.html#sherpa-onnx-alsa"><span class="std std-ref">sherpa-onnx-alsa</span></a> to do real-time speech recognition with your
+microphone if <code class="docutils literal notranslate"><span class="pre">sherpa-onnx-microphone</span></code> does not work for you.</p>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Online paraformer models" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../online-ctc/index.html" class="btn btn-neutral float-right" title="Online CTC models" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,34 @@
+#include <stdio.h>
+#include <string.h>
+
+#include "sherpa-onnx/c-api/c-api.h"
+
+int main() {
+  SherpaOnnxOfflineTtsConfig config;
+  memset(&config, 0, sizeof(config));
+
+  config.model.kitten.model = "{{model}}";
+  config.model.kitten.voices = "{{voices}}";
+  config.model.kitten.tokens = "{{tokens}}";
+  config.model.kitten.data_dir = "{{data_dir}}";
+
+  config.model.num_threads = 1;
+  const SherpaOnnxOfflineTts *tts = SherpaOnnxCreateOfflineTts(&config);
+
+  int sid = 0; // speaker id
+  const char *text = "{{text}}";
+
+  const SherpaOnnxGeneratedAudio *audio =
+      SherpaOnnxOfflineTtsGenerate(tts, text, sid, 1.0);
+
+  SherpaOnnxWriteWave(audio->samples, audio->n, audio->sample_rate,
+                      "./test.wav");
+
+  // You need to free the pointers to avoid memory leak in your app
+  SherpaOnnxDestroyOfflineTtsGeneratedAudio(audio);
+  SherpaOnnxDestroyOfflineTts(tts);
+
+  printf("Saved to ./test.wav\n");
+
+  return 0;
+}

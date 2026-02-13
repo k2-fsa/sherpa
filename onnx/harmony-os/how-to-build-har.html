@@ -1,0 +1,356 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How to build sherpa_onnx.har &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="iOS" href="../ios/index.html" />
+    <link rel="prev" title="On-device VAD + ASR (本地非流式语音识别)" href="vad-asr.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">sherpa-onnx</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../install/index.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../faqs/index.html">Frequently Asked Question (FAQs)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python/index.html">Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../c-api/index.html">C API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../java-api/index.html">Java API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../javascript-api/index.html">Javascript API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kotlin-api/index.html">Kotlin API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../swift-api/index.html">Swift API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../go-api/index.html">Go API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../csharp-api/index.html">C# API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pascal-api/index.html">Pascal API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lazarus/index.html">Lazarus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../wasm/index.html">WebAssembly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../android/index.html">Android</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">HarmonyOS</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="prebuilt-hap.html">Pre-built HAPs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="speaker-identification.html">On-device speaker identification (本地说话人识别)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tts.html">On-device text-to-speech (TTS, 本地语音合成)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vad-asr.html">On-device VAD + ASR (本地非流式语音识别)</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">How to build sherpa_onnx.har</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#download-commandline-tools">Download commandline-tools</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#build-sherpa-onnx-for-harmonyos">Build sherpa-onnx for HarmonyOS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#build-sherpa-onnx-har">Build sherpa_onnx.har</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#use-sherpa-onnx-har-in-your-project">Use sherpa_onnx.har in your project</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#colab-demo">Colab demo</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../ios/index.html">iOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../flutter/index.html">Flutter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../websocket/index.html">WebSocket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../hotwords/index.html">Hotwords (Contextual biasing)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kws/index.html">Keyword spotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../punctuation/index.html">Punctuation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../audio-tagging/index.html">Audio tagging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spoken-language-identification/index.html">Spoken language identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vad/index.html">VAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/index.html">Pre-trained models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/whisper/index.html">Whisper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../moonshine/index.html">Moonshine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../omnilingual-asr/index.html">Omnilingual ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sense-voice/index.html">SenseVoice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../funasr-nano/index.html">FunASR Nano</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../paraformer/index.html">Paraformer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nemo/index.html">NeMo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../FireRedAsr/index.html">FireRedAsr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Dolphin/index.html">Dolphin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../homophone-replacer/index.html">拼音词组匹配替换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-diarization/index.html">Speaker Diarization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-identification/index.html">Speaker Identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speech-enhancement/index.html">Speech enhancement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../source-separation/index.html">Source separation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qnn/index.html">Qualcomm NPU (QNN, HTP)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rknn/index.html">rknn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ascend/index.html">Ascend NPU (昇腾 NPU)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tts/index.html">Text-to-speech (TTS)</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">sherpa-onnx</a> &raquo;</li>
+          <li><a href="index.html">HarmonyOS</a> &raquo;</li>
+      <li>How to build sherpa_onnx.har</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/onnx/harmony-os/how-to-build-har.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="how-to-build-sherpa-onnx-har">
+<h1>How to build sherpa_onnx.har<a class="headerlink" href="#how-to-build-sherpa-onnx-har" title="Permalink to this heading"></a></h1>
+<p>This page describes how to build <code class="docutils literal notranslate"><span class="pre">sherpa_onnx.har</span></code> from source.</p>
+<p>Note that we have already published <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a> at the following address:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://ohpm.openharmony.cn/#/cn/detail/sherpa_onnx">https://ohpm.openharmony.cn/#/cn/detail/sherpa_onnx</a></p>
+</div></blockquote>
+<figure class="align-default" id="id4">
+<a class="reference internal image-reference" href="../../_images/ohpm-package.jpg"><img alt="Screenshot of the ohpm package" src="../../_images/ohpm-package.jpg" style="width: 600px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 96 </span><span class="caption-text">The <a class="reference external" href="https://ohpm.openharmony.cn/#/cn/detail/sherpa_onnx">sherpa_onnx</a> package.</span><a class="headerlink" href="#id4" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+<p>You can use it directly in your project by modifying <code class="docutils literal notranslate"><span class="pre">oh-package.json5</span></code> to add
+the following lines:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="s2">&quot;dependencies&quot;</span><span class="p">:</span> <span class="p">{</span>
+   <span class="o">//</span> <span class="n">please</span> <span class="n">always</span> <span class="n">use</span> <span class="n">the</span> <span class="n">latest</span> <span class="n">version</span>
+  <span class="s2">&quot;sherpa_onnx&quot;</span><span class="p">:</span> <span class="s2">&quot;1.12.1&quot;</span><span class="p">,</span>
+<span class="p">},</span>
+</pre></div>
+</div>
+<p>or use:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ohpm</span> <span class="n">install</span> <span class="n">sherpa_onnx</span>
+</pre></div>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>If you don’t want to change any C++ code of <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>, then please
+use our provided <code class="docutils literal notranslate"><span class="pre">sherpa_onnx.har</span></code> package and you can safely ignore this
+document.</p>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>If you don’t want to change any C++ code of <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>, then please
+use our provided <code class="docutils literal notranslate"><span class="pre">sherpa_onnx.har</span></code> package and you can safely ignore this
+document.</p>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>If you don’t want to change any C++ code of <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>, then please
+use our provided <code class="docutils literal notranslate"><span class="pre">sherpa_onnx.har</span></code> package and you can safely ignore this
+document.</p>
+</div>
+<p>If you want to modify the source code of <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>, then you can follow
+this document to build a new <code class="docutils literal notranslate"><span class="pre">sherpa_onnx.har</span></code> package.</p>
+<section id="download-commandline-tools">
+<h2>Download commandline-tools<a class="headerlink" href="#download-commandline-tools" title="Permalink to this heading"></a></h2>
+<p>The first step is to download commandline tools for building <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>.</p>
+<p>Please visit <a class="reference external" href="https://developer.huawei.com/consumer/cn/download/">https://developer.huawei.com/consumer/cn/download/</a>
+to download it. Note that you need a Huawei account to download it.</p>
+<figure class="align-default" id="id5">
+<a class="reference internal image-reference" href="../../_images/ohos-cmd-tools.jpg"><img alt="Screenshot of the download the commandline-tools" src="../../_images/ohos-cmd-tools.jpg" style="width: 600px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 97 </span><span class="caption-text">Download commandline-tools.</span><a class="headerlink" href="#id5" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+<p>Alternatively, you can download it from the following huggingface repo</p>
+<blockquote>
+<div><p><a class="reference external" href="https://huggingface.co/csukuangfj/harmonyos-commandline-tools">https://huggingface.co/csukuangfj/harmonyos-commandline-tools</a></p>
+</div></blockquote>
+<p>with the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Please use any directory you like.</span>
+<span class="c1"># The following one is just an example.</span>
+mkdir<span class="w"> </span>-p<span class="w"> </span>/Users/fangjun/software/
+
+<span class="nb">cd</span><span class="w">  </span>/Users/fangjun/software/
+
+<span class="c1"># If you use other systems, please change it accordingly.</span>
+<span class="c1"># If you use macOS x64, please run the following</span>
+wget<span class="w"> </span>https://huggingface.co/csukuangfj/harmonyos-commandline-tools/resolve/main/commandline-tools-mac-x64-5.0.5.200.zip
+
+<span class="c1"># For users that don&#39;t have access to huggingface, please use</span>
+<span class="c1"># wget https://hf-mirror.com/csukuangfj/harmonyos-commandline-tools/resolve/main/commandline-tools-mac-x64-5.0.5.200.zip</span>
+
+unzip<span class="w"> </span>-qq<span class="w"> </span>commandline-tools-mac-x64-5.0.5.200.zip
+</pre></div>
+</div>
+</section>
+<section id="build-sherpa-onnx-for-harmonyos">
+<h2>Build sherpa-onnx for HarmonyOS<a class="headerlink" href="#build-sherpa-onnx-for-harmonyos" title="Permalink to this heading"></a></h2>
+<p>Please use the following command:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">fangjun</span><span class="o">/</span><span class="nb">open</span><span class="o">-</span><span class="n">source</span>
+<span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">k2</span><span class="o">-</span><span class="n">fsa</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span>
+<span class="n">cd</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span>
+
+<span class="n">export</span> <span class="n">OHOS_SDK_NATIVE_DIR</span><span class="o">=/</span><span class="n">Users</span><span class="o">/</span><span class="n">fangjun</span><span class="o">/</span><span class="n">software</span><span class="o">/</span><span class="n">command</span><span class="o">-</span><span class="n">line</span><span class="o">-</span><span class="n">tools</span><span class="o">/</span><span class="n">sdk</span><span class="o">/</span><span class="n">default</span><span class="o">/</span><span class="n">openharmony</span><span class="o">/</span><span class="n">native</span><span class="o">/</span>
+
+<span class="o">./</span><span class="n">build</span><span class="o">-</span><span class="n">ohos</span><span class="o">-</span><span class="n">arm64</span><span class="o">-</span><span class="n">v8a</span><span class="o">.</span><span class="n">sh</span>
+<span class="o">./</span><span class="n">build</span><span class="o">-</span><span class="n">ohos</span><span class="o">-</span><span class="n">x86</span><span class="o">-</span><span class="mf">64.</span><span class="n">sh</span>
+</pre></div>
+</div>
+</section>
+<section id="build-sherpa-onnx-har">
+<h2>Build sherpa_onnx.har<a class="headerlink" href="#build-sherpa-onnx-har" title="Permalink to this heading"></a></h2>
+<p>Finally, we can build <code class="docutils literal notranslate"><span class="pre">sherpa_onnx.har</span></code>.</p>
+<p>We describe two methods below.</p>
+<section id="from-the-command-line">
+<h3>From the command-line<a class="headerlink" href="#from-the-command-line" title="Permalink to this heading"></a></h3>
+<p>You can build <code class="docutils literal notranslate"><span class="pre">sherpa_onnx.har</span></code> from the terminal by running:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>cd /Users/fangjun/open-source/sherpa-onnx/harmony-os/SherpaOnnxHar/
+export PATH=/Users/fangjun/software/command-line-tools/bin:$PATH
+
+hvigorw clean --no-daemon
+hvigorw --mode module -p product=default -p module=sherpa_onnx@default assembleHar --analyze=normal --parallel --incremental --no-daemon
+
+find . -name &quot;*.har&quot;
+</pre></div>
+</div>
+<p>After building, you should get:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(py38) fangjuns-MacBook-Pro:SherpaOnnxHar fangjun$ echo $PWD
+/Users/fangjun/open-source/sherpa-onnx/harmony-os/SherpaOnnxHar
+(py38) fangjuns-MacBook-Pro:SherpaOnnxHar fangjun$ find . -name &quot;*.har&quot;
+./sherpa_onnx/build/default/outputs/default/sherpa_onnx.har
+</pre></div>
+</div>
+</section>
+<section id="use-deveco-studio">
+<h3>Use DevEco Studio<a class="headerlink" href="#use-deveco-studio" title="Permalink to this heading"></a></h3>
+<p>Start DevEco Studio and open the project <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/tree/master/harmony-os/SherpaOnnxHar">SherpaOnnxHar</a></p>
+<p>Follow the screenshot below to build <code class="docutils literal notranslate"><span class="pre">sherpa_onnx.har</span></code>.</p>
+<figure class="align-default" id="id6">
+<a class="reference internal image-reference" href="../../_images/build-har-gui.jpg"><img alt="Screenshot of building sherpa_onnx.har using DevEco Studio" src="../../_images/build-har-gui.jpg" style="width: 600px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 98 </span><span class="caption-text">Screenshot of building sherpa_onnx.har using DevEco Studio</span><a class="headerlink" href="#id6" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+<p>The following screenshot shows where you can find the generated <code class="docutils literal notranslate"><span class="pre">sherpa_onnx.har</span></code>:</p>
+<figure class="align-default" id="id7">
+<a class="reference internal image-reference" href="../../_images/sherpa_onnx_har_gui.jpg"><img alt="Screenshot of generated sherap_onnx.har" src="../../_images/sherpa_onnx_har_gui.jpg" style="width: 600px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 99 </span><span class="caption-text">Screenshot of the generated <code class="docutils literal notranslate"><span class="pre">sherpa_onnx.har</span></code>.</span><a class="headerlink" href="#id7" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+</section>
+</section>
+<section id="use-sherpa-onnx-har-in-your-project">
+<h2>Use sherpa_onnx.har in your project<a class="headerlink" href="#use-sherpa-onnx-har-in-your-project" title="Permalink to this heading"></a></h2>
+<p>To use the generated <code class="docutils literal notranslate"><span class="pre">sherpa_onnx.har</span></code> in your project, please copy it to your
+project and update the <code class="docutils literal notranslate"><span class="pre">oh-package.json</span></code> file.</p>
+<p>The following is an example:</p>
+<figure class="align-default" id="id8">
+<a class="reference internal image-reference" href="../../_images/sherpa_onnx_har_usage.jpg"><img alt="Screenshot of using sherap_onnx.har in your project" src="../../_images/sherpa_onnx_har_usage.jpg" style="width: 600px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 100 </span><span class="caption-text">Screenshot of using <code class="docutils literal notranslate"><span class="pre">sherpa_onnx.har</span></code> in your project.</span><a class="headerlink" href="#id8" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+</section>
+<section id="colab-demo">
+<h2>Colab demo<a class="headerlink" href="#colab-demo" title="Permalink to this heading"></a></h2>
+<p>We provide a colab notebook <a class="reference external" href="https://github.com/k2-fsa/colab/blob/master/sherpa-onnx/harmony-os/sherpa_onnx_harmonyos_build_har.ipynb"><img alt="build sherpa_onnx.har for HarmonyOS notebook" src="https://github.com/k2-fsa/sherpa/releases/download/doc/colab-badge.jpg" /></a> to show you how to build <code class="docutils literal notranslate"><span class="pre">sherpa_onnx.har</span></code>
+from scratch.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="vad-asr.html" class="btn btn-neutral float-left" title="On-device VAD + ASR (本地非流式语音识别)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../ios/index.html" class="btn btn-neutral float-right" title="iOS" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

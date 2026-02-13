@@ -1,0 +1,300 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>yesno &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/clipboard.min.js"></script>
+        <script src="../../../../_static/copybutton.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" />
+    <link rel="next" title="TeleSpeech" href="../../telespeech/index.html" />
+    <link rel="prev" title="WeNet CTC-based models" href="../wenet/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../../index.html">sherpa-onnx</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../install/index.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../faqs/index.html">Frequently Asked Question (FAQs)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../python/index.html">Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../c-api/index.html">C API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../java-api/index.html">Java API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../javascript-api/index.html">Javascript API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../kotlin-api/index.html">Kotlin API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../swift-api/index.html">Swift API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../go-api/index.html">Go API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../csharp-api/index.html">C# API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../pascal-api/index.html">Pascal API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../lazarus/index.html">Lazarus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../wasm/index.html">WebAssembly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../android/index.html">Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../harmony-os/index.html">HarmonyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../ios/index.html">iOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../flutter/index.html">Flutter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../websocket/index.html">WebSocket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../hotwords/index.html">Hotwords (Contextual biasing)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../kws/index.html">Keyword spotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../punctuation/index.html">Punctuation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../audio-tagging/index.html">Audio tagging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../spoken-language-identification/index.html">Spoken language identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../vad/index.html">VAD</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../index.html">Pre-trained models</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../../online-transducer/index.html">Online transducer models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../online-paraformer/index.html">Online paraformer models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../online-ctc/index.html">Online CTC models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../offline-transducer/index.html">Offline transducer models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../offline-paraformer/index.html">Offline paraformer models</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../index.html">Offline CTC models</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../icefall/index.html">icefall</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../nemo/index.html">NeMo CTC-based models</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../wenet/index.html">WeNet CTC-based models</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">yesno</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../telespeech/index.html">TeleSpeech</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../whisper/index.html">Whisper</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../wenet/index.html">WeNet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../small-online-models.html">Small models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../sense-voice/index.html">SenseVoice</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../whisper/index.html">Whisper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../moonshine/index.html">Moonshine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../omnilingual-asr/index.html">Omnilingual ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../sense-voice/index.html">SenseVoice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../funasr-nano/index.html">FunASR Nano</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../paraformer/index.html">Paraformer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../nemo/index.html">NeMo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../FireRedAsr/index.html">FireRedAsr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../Dolphin/index.html">Dolphin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../homophone-replacer/index.html">拼音词组匹配替换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../speaker-diarization/index.html">Speaker Diarization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../speaker-identification/index.html">Speaker Identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../speech-enhancement/index.html">Speech enhancement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../source-separation/index.html">Source separation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../qnn/index.html">Qualcomm NPU (QNN, HTP)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../rknn/index.html">rknn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../ascend/index.html">Ascend NPU (昇腾 NPU)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../tts/index.html">Text-to-speech (TTS)</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../../index.html">sherpa-onnx</a> &raquo;</li>
+          <li><a href="../../index.html">Pre-trained models</a> &raquo;</li>
+          <li><a href="../index.html">Offline CTC models</a> &raquo;</li>
+      <li>yesno</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/onnx/pretrained_models/offline-ctc/yesno/index.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="yesno">
+<h1>yesno<a class="headerlink" href="#yesno" title="Permalink to this heading"></a></h1>
+<p>This section describes how to use the <a class="reference external" href="https://github.com/k2-fsa/icefall/tree/master/egs/yesno/ASR/tdnn">tdnn</a>
+model of the <a class="reference external" href="https://www.openslr.org/1/">yesno</a> dataset from <a class="reference external" href="https://github.com/k2-fsa/icefall">icefall</a> in <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>It is a <strong>non-streaming</strong> model and it can only recognize
+two words in <a class="reference external" href="https://en.wikipedia.org/wiki/Hebrew_language">Hebrew</a>:
+<code class="docutils literal notranslate"><span class="pre">yes</span></code> and <code class="docutils literal notranslate"><span class="pre">no</span></code>.</p>
+</div>
+<p>To download the model, please use:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-tdnn-yesno.tar.bz2
+
+tar<span class="w"> </span>xvf<span class="w"> </span>sherpa-onnx-tdnn-yesno.tar.bz2
+rm<span class="w"> </span>sherpa-onnx-tdnn-yesno.tar.bz2
+</pre></div>
+</div>
+<p>Please check that the file sizes of the pre-trained models are correct. See
+the file sizes of <code class="docutils literal notranslate"><span class="pre">*.onnx</span></code> files below.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sherpa-onnx-tdnn-yesno<span class="w"> </span>fangjun$<span class="w"> </span>ls<span class="w"> </span>-lh<span class="w"> </span>*.onnx
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">    </span>55K<span class="w"> </span>Aug<span class="w"> </span><span class="m">12</span><span class="w"> </span><span class="m">17</span>:02<span class="w"> </span>model-epoch-14-avg-2.int8.onnx
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">    </span>54K<span class="w"> </span>Aug<span class="w"> </span><span class="m">12</span><span class="w"> </span><span class="m">17</span>:02<span class="w"> </span>model-epoch-14-avg-2.onnx
+</pre></div>
+</div>
+<section id="decode-wave-files">
+<h2>Decode wave files<a class="headerlink" href="#decode-wave-files" title="Permalink to this heading"></a></h2>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>It supports decoding only wave files of a single channel with 16-bit
+encoded samples, while the sampling rate does not need to be 16 kHz.</p>
+</div>
+<p>The following code shows how to use <code class="docutils literal notranslate"><span class="pre">fp32</span></code> models to decode wave files.
+Please replace <code class="docutils literal notranslate"><span class="pre">model-epoch-14-avg-2.int8.onnx</span></code> with <code class="docutils literal notranslate"><span class="pre">model-epoch-14-avg-2.int8.onnx</span></code>
+to use the <code class="docutils literal notranslate"><span class="pre">int8</span></code> quantized model.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+./build/bin/sherpa-onnx-offline<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--sample-rate<span class="o">=</span><span class="m">8000</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--feat-dim<span class="o">=</span><span class="m">23</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span>./sherpa-onnx-tdnn-yesno/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tdnn-model<span class="o">=</span>./sherpa-onnx-tdnn-yesno/model-epoch-14-avg-2.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-tdnn-yesno/test_wavs/0_0_0_1_0_0_0_1.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-tdnn-yesno/test_wavs/0_0_1_0_0_0_1_0.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-tdnn-yesno/test_wavs/0_0_1_0_0_1_1_1.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-tdnn-yesno/test_wavs/0_0_1_0_1_0_0_1.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-tdnn-yesno/test_wavs/0_0_1_1_0_0_0_1.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-tdnn-yesno/test_wavs/0_0_1_1_0_1_1_0.wav
+</pre></div>
+</div>
+<p>The output is given below:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>OfflineRecognizerConfig<span class="o">(</span><span class="nv">feat_config</span><span class="o">=</span>OfflineFeatureExtractorConfig<span class="o">(</span><span class="nv">sampling_rate</span><span class="o">=</span><span class="m">8000</span>,<span class="w"> </span><span class="nv">feature_dim</span><span class="o">=</span><span class="m">23</span><span class="o">)</span>,<span class="w"> </span><span class="nv">model_config</span><span class="o">=</span>OfflineModelConfig<span class="o">(</span><span class="nv">transducer</span><span class="o">=</span>OfflineTransducerModelConfig<span class="o">(</span><span class="nv">encoder_filename</span><span class="o">=</span><span class="s2">&quot;&quot;</span>,<span class="w"> </span><span class="nv">decoder_filename</span><span class="o">=</span><span class="s2">&quot;&quot;</span>,<span class="w"> </span><span class="nv">joiner_filename</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="o">)</span>,<span class="w"> </span><span class="nv">paraformer</span><span class="o">=</span>OfflineParaformerModelConfig<span class="o">(</span><span class="nv">model</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="o">)</span>,<span class="w"> </span><span class="nv">nemo_ctc</span><span class="o">=</span>OfflineNemoEncDecCtcModelConfig<span class="o">(</span><span class="nv">model</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="o">)</span>,<span class="w"> </span><span class="nv">whisper</span><span class="o">=</span>OfflineWhisperModelConfig<span class="o">(</span><span class="nv">encoder</span><span class="o">=</span><span class="s2">&quot;&quot;</span>,<span class="w"> </span><span class="nv">decoder</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="o">)</span>,<span class="w"> </span><span class="nv">tdnn</span><span class="o">=</span>OfflineTdnnModelConfig<span class="o">(</span><span class="nv">model</span><span class="o">=</span><span class="s2">&quot;./sherpa-onnx-tdnn-yesno/model-epoch-14-avg-2.onnx&quot;</span><span class="o">)</span>,<span class="w"> </span><span class="nv">tokens</span><span class="o">=</span><span class="s2">&quot;./sherpa-onnx-tdnn-yesno/tokens.txt&quot;</span>,<span class="w"> </span><span class="nv">num_threads</span><span class="o">=</span><span class="m">2</span>,<span class="w"> </span><span class="nv">debug</span><span class="o">=</span>False,<span class="w"> </span><span class="nv">provider</span><span class="o">=</span><span class="s2">&quot;cpu&quot;</span>,<span class="w"> </span><span class="nv">model_type</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="o">)</span>,<span class="w"> </span><span class="nv">lm_config</span><span class="o">=</span>OfflineLMConfig<span class="o">(</span><span class="nv">model</span><span class="o">=</span><span class="s2">&quot;&quot;</span>,<span class="w"> </span><span class="nv">scale</span><span class="o">=</span><span class="m">0</span>.5<span class="o">)</span>,<span class="w"> </span><span class="nv">decoding_method</span><span class="o">=</span><span class="s2">&quot;greedy_search&quot;</span>,<span class="w"> </span><span class="nv">max_active_paths</span><span class="o">=</span><span class="m">4</span>,<span class="w"> </span><span class="nv">context_score</span><span class="o">=</span><span class="m">1</span>.5<span class="o">)</span>
+Creating<span class="w"> </span>recognizer<span class="w"> </span>...
+Started
+Done!
+
+./sherpa-onnx-tdnn-yesno/test_wavs/0_0_0_1_0_0_0_1.wav
+<span class="o">{</span><span class="s2">&quot;text&quot;</span>:<span class="s2">&quot;NNNYNNNY&quot;</span>,<span class="s2">&quot;timestamps&quot;</span>:<span class="s2">&quot;[]&quot;</span>,<span class="s2">&quot;tokens&quot;</span>:<span class="o">[</span><span class="s2">&quot;N&quot;</span>,<span class="s2">&quot;N&quot;</span>,<span class="s2">&quot;N&quot;</span>,<span class="s2">&quot;Y&quot;</span>,<span class="s2">&quot;N&quot;</span>,<span class="s2">&quot;N&quot;</span>,<span class="s2">&quot;N&quot;</span>,<span class="s2">&quot;Y&quot;</span><span class="o">]}</span>
+----
+./sherpa-onnx-tdnn-yesno/test_wavs/0_0_1_0_0_0_1_0.wav
+<span class="o">{</span><span class="s2">&quot;text&quot;</span>:<span class="s2">&quot;NNYNNNYN&quot;</span>,<span class="s2">&quot;timestamps&quot;</span>:<span class="s2">&quot;[]&quot;</span>,<span class="s2">&quot;tokens&quot;</span>:<span class="o">[</span><span class="s2">&quot;N&quot;</span>,<span class="s2">&quot;N&quot;</span>,<span class="s2">&quot;Y&quot;</span>,<span class="s2">&quot;N&quot;</span>,<span class="s2">&quot;N&quot;</span>,<span class="s2">&quot;N&quot;</span>,<span class="s2">&quot;Y&quot;</span>,<span class="s2">&quot;N&quot;</span><span class="o">]}</span>
+----
+./sherpa-onnx-tdnn-yesno/test_wavs/0_0_1_0_0_1_1_1.wav
+<span class="o">{</span><span class="s2">&quot;text&quot;</span>:<span class="s2">&quot;NNYNNYYY&quot;</span>,<span class="s2">&quot;timestamps&quot;</span>:<span class="s2">&quot;[]&quot;</span>,<span class="s2">&quot;tokens&quot;</span>:<span class="o">[</span><span class="s2">&quot;N&quot;</span>,<span class="s2">&quot;N&quot;</span>,<span class="s2">&quot;Y&quot;</span>,<span class="s2">&quot;N&quot;</span>,<span class="s2">&quot;N&quot;</span>,<span class="s2">&quot;Y&quot;</span>,<span class="s2">&quot;Y&quot;</span>,<span class="s2">&quot;Y&quot;</span><span class="o">]}</span>
+----
+./sherpa-onnx-tdnn-yesno/test_wavs/0_0_1_0_1_0_0_1.wav
+<span class="o">{</span><span class="s2">&quot;text&quot;</span>:<span class="s2">&quot;NNYNYNNY&quot;</span>,<span class="s2">&quot;timestamps&quot;</span>:<span class="s2">&quot;[]&quot;</span>,<span class="s2">&quot;tokens&quot;</span>:<span class="o">[</span><span class="s2">&quot;N&quot;</span>,<span class="s2">&quot;N&quot;</span>,<span class="s2">&quot;Y&quot;</span>,<span class="s2">&quot;N&quot;</span>,<span class="s2">&quot;Y&quot;</span>,<span class="s2">&quot;N&quot;</span>,<span class="s2">&quot;N&quot;</span>,<span class="s2">&quot;Y&quot;</span><span class="o">]}</span>
+----
+./sherpa-onnx-tdnn-yesno/test_wavs/0_0_1_1_0_0_0_1.wav
+<span class="o">{</span><span class="s2">&quot;text&quot;</span>:<span class="s2">&quot;NNYYNNNY&quot;</span>,<span class="s2">&quot;timestamps&quot;</span>:<span class="s2">&quot;[]&quot;</span>,<span class="s2">&quot;tokens&quot;</span>:<span class="o">[</span><span class="s2">&quot;N&quot;</span>,<span class="s2">&quot;N&quot;</span>,<span class="s2">&quot;Y&quot;</span>,<span class="s2">&quot;Y&quot;</span>,<span class="s2">&quot;N&quot;</span>,<span class="s2">&quot;N&quot;</span>,<span class="s2">&quot;N&quot;</span>,<span class="s2">&quot;Y&quot;</span><span class="o">]}</span>
+----
+./sherpa-onnx-tdnn-yesno/test_wavs/0_0_1_1_0_1_1_0.wav
+<span class="o">{</span><span class="s2">&quot;text&quot;</span>:<span class="s2">&quot;NNYYNYYN&quot;</span>,<span class="s2">&quot;timestamps&quot;</span>:<span class="s2">&quot;[]&quot;</span>,<span class="s2">&quot;tokens&quot;</span>:<span class="o">[</span><span class="s2">&quot;N&quot;</span>,<span class="s2">&quot;N&quot;</span>,<span class="s2">&quot;Y&quot;</span>,<span class="s2">&quot;Y&quot;</span>,<span class="s2">&quot;N&quot;</span>,<span class="s2">&quot;Y&quot;</span>,<span class="s2">&quot;Y&quot;</span>,<span class="s2">&quot;N&quot;</span><span class="o">]}</span>
+----
+num<span class="w"> </span>threads:<span class="w"> </span><span class="m">2</span>
+decoding<span class="w"> </span>method:<span class="w"> </span>greedy_search
+Elapsed<span class="w"> </span>seconds:<span class="w"> </span><span class="m">0</span>.071<span class="w"> </span>s
+Real<span class="w"> </span><span class="nb">time</span><span class="w"> </span>factor<span class="w"> </span><span class="o">(</span>RTF<span class="o">)</span>:<span class="w"> </span><span class="m">0</span>.071<span class="w"> </span>/<span class="w"> </span><span class="m">38</span>.530<span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>.002
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In the above output, <code class="docutils literal notranslate"><span class="pre">N</span></code> represents <code class="docutils literal notranslate"><span class="pre">NO</span></code>, while <code class="docutils literal notranslate"><span class="pre">Y</span></code> is <code class="docutils literal notranslate"><span class="pre">YES</span></code>.
+So for the last wave, <code class="docutils literal notranslate"><span class="pre">NNYYNYYN</span></code> means <code class="docutils literal notranslate"><span class="pre">NO</span> <span class="pre">NO</span> <span class="pre">YES</span> <span class="pre">YES</span> <span class="pre">NO</span> <span class="pre">YES</span> <span class="pre">YES</span> <span class="pre">NO</span></code>.</p>
+<p>In the filename of the last wave <code class="docutils literal notranslate"><span class="pre">0_0_1_1_0_1_1_0.wav</span></code>, 0 means <code class="docutils literal notranslate"><span class="pre">NO</span></code>
+and 1 means <code class="docutils literal notranslate"><span class="pre">YES</span></code>. So the ground truth of the last wave is
+<code class="docutils literal notranslate"><span class="pre">NO</span> <span class="pre">NO</span> <span class="pre">YES</span> <span class="pre">YES</span> <span class="pre">NO</span> <span class="pre">YES</span> <span class="pre">YES</span> <span class="pre">NO</span></code>.</p>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../wenet/index.html" class="btn btn-neutral float-left" title="WeNet CTC-based models" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../../telespeech/index.html" class="btn btn-neutral float-right" title="TeleSpeech" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

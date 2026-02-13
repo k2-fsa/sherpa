@@ -1,0 +1,646 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pre-trained models &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Hugginface space for speaker diarization" href="hf.html" />
+    <link rel="prev" title="Speaker Diarization" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">sherpa-onnx</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../install/index.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../faqs/index.html">Frequently Asked Question (FAQs)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python/index.html">Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../c-api/index.html">C API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../java-api/index.html">Java API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../javascript-api/index.html">Javascript API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kotlin-api/index.html">Kotlin API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../swift-api/index.html">Swift API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../go-api/index.html">Go API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../csharp-api/index.html">C# API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pascal-api/index.html">Pascal API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lazarus/index.html">Lazarus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../wasm/index.html">WebAssembly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../android/index.html">Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../harmony-os/index.html">HarmonyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ios/index.html">iOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../flutter/index.html">Flutter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../websocket/index.html">WebSocket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../hotwords/index.html">Hotwords (Contextual biasing)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kws/index.html">Keyword spotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../punctuation/index.html">Punctuation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../audio-tagging/index.html">Audio tagging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spoken-language-identification/index.html">Spoken language identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vad/index.html">VAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/index.html">Pre-trained models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/whisper/index.html">Whisper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../moonshine/index.html">Moonshine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../omnilingual-asr/index.html">Omnilingual ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sense-voice/index.html">SenseVoice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../funasr-nano/index.html">FunASR Nano</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../paraformer/index.html">Paraformer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nemo/index.html">NeMo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../FireRedAsr/index.html">FireRedAsr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Dolphin/index.html">Dolphin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../homophone-replacer/index.html">拼音词组匹配替换</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Speaker Diarization</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Pre-trained models</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#colab-notebook">Colab notebook</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sherpa-onnx-pyannote-segmentation-3-0">sherpa-onnx-pyannote-segmentation-3-0</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sherpa-onnx-reverb-diarization-v1">sherpa-onnx-reverb-diarization-v1</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="hf.html">Hugginface space for speaker diarization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="android.html">Android APKs for speaker diarization</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c.html">C API examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cpp.html">C++ API examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="csharp.html">C# API examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dart.html">Dart API examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="go.html">Go API examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="java.html">Java API examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="javascript.html">JavaScript API examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kotlin.html">Kotlin API examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pascal.html">Pascal API examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="python.html">Python API examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="rust.html">Rust API examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="swift.html">Swift API examples</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-identification/index.html">Speaker Identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speech-enhancement/index.html">Speech enhancement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../source-separation/index.html">Source separation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qnn/index.html">Qualcomm NPU (QNN, HTP)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rknn/index.html">rknn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ascend/index.html">Ascend NPU (昇腾 NPU)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tts/index.html">Text-to-speech (TTS)</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">sherpa-onnx</a> &raquo;</li>
+          <li><a href="index.html">Speaker Diarization</a> &raquo;</li>
+      <li>Pre-trained models</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/onnx/speaker-diarization/models.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="pre-trained-models">
+<h1>Pre-trained models<a class="headerlink" href="#pre-trained-models" title="Permalink to this heading"></a></h1>
+<p>This page lists pre-trained models for speaker segmentation.</p>
+<p>Models for speaker embedding extraction can be found at</p>
+<blockquote>
+<div><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/tag/speaker-recongition-models">https://github.com/k2-fsa/sherpa-onnx/releases/tag/speaker-recongition-models</a></p>
+</div></blockquote>
+<section id="colab-notebook">
+<h2>Colab notebook<a class="headerlink" href="#colab-notebook" title="Permalink to this heading"></a></h2>
+<p>We provide a colab notebook
+<a class="reference external" href="https://github.com/k2-fsa/colab/blob/master/sherpa-onnx/sherpa_onnx_speaker_diarization.ipynb"><img alt="speaker diarization with sherpa-onnx colab notebook" src="https://github.com/k2-fsa/sherpa/releases/download/doc/colab-badge.jpg" /></a>
+for you to try this section step by step.</p>
+</section>
+<section id="sherpa-onnx-pyannote-segmentation-3-0">
+<h2>sherpa-onnx-pyannote-segmentation-3-0<a class="headerlink" href="#sherpa-onnx-pyannote-segmentation-3-0" title="Permalink to this heading"></a></h2>
+<p>This model is converted from <a class="reference external" href="https://huggingface.co/pyannote/segmentation-3.0">https://huggingface.co/pyannote/segmentation-3.0</a>.
+You can find the conversion script at <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/tree/master/scripts/pyannote/segmentation">https://github.com/k2-fsa/sherpa-onnx/tree/master/scripts/pyannote/segmentation</a>.</p>
+<p>In the following, we describe how to use it together with
+a speaker embedding extraction model for speaker diarization.</p>
+<section id="download-the-model">
+<h3>Download the model<a class="headerlink" href="#download-the-model" title="Permalink to this heading"></a></h3>
+<p>Please use the following code to download the model:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/speaker-segmentation-models/sherpa-onnx-pyannote-segmentation-3-0.tar.bz2
+tar<span class="w"> </span>xvf<span class="w"> </span>sherpa-onnx-pyannote-segmentation-3-0.tar.bz2
+rm<span class="w"> </span>sherpa-onnx-pyannote-segmentation-3-0.tar.bz2
+
+ls<span class="w"> </span>-lh<span class="w"> </span>sherpa-onnx-pyannote-segmentation-3-0/<span class="o">{</span>*.onnx,LICENSE,README.md<span class="o">}</span>
+</pre></div>
+</div>
+<p>You should see the following output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mf">1.0</span><span class="n">K</span> <span class="n">Oct</span>  <span class="mi">8</span> <span class="mi">20</span><span class="p">:</span><span class="mi">54</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">pyannote</span><span class="o">-</span><span class="n">segmentation</span><span class="o">-</span><span class="mi">3</span><span class="o">-</span><span class="mi">0</span><span class="o">/</span><span class="n">LICENSE</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">115</span><span class="n">B</span> <span class="n">Oct</span>  <span class="mi">8</span> <span class="mi">20</span><span class="p">:</span><span class="mi">54</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">pyannote</span><span class="o">-</span><span class="n">segmentation</span><span class="o">-</span><span class="mi">3</span><span class="o">-</span><span class="mi">0</span><span class="o">/</span><span class="n">README</span><span class="o">.</span><span class="n">md</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mf">1.5</span><span class="n">M</span> <span class="n">Oct</span>  <span class="mi">8</span> <span class="mi">20</span><span class="p">:</span><span class="mi">54</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">pyannote</span><span class="o">-</span><span class="n">segmentation</span><span class="o">-</span><span class="mi">3</span><span class="o">-</span><span class="mi">0</span><span class="o">/</span><span class="n">model</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mf">5.7</span><span class="n">M</span> <span class="n">Oct</span>  <span class="mi">8</span> <span class="mi">20</span><span class="p">:</span><span class="mi">54</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">pyannote</span><span class="o">-</span><span class="n">segmentation</span><span class="o">-</span><span class="mi">3</span><span class="o">-</span><span class="mi">0</span><span class="o">/</span><span class="n">model</span><span class="o">.</span><span class="n">onnx</span>
+</pre></div>
+</div>
+</section>
+<section id="usage-for-speaker-diarization">
+<h3>Usage for speaker diarization<a class="headerlink" href="#usage-for-speaker-diarization" title="Permalink to this heading"></a></h3>
+<p>First, let’s download a test wave file. The model expects wave files of 16kHz, 16-bit and a single channel.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/speaker-segmentation-models/0-four-speakers-zh.wav
+</pre></div>
+</div>
+<p>Next, let’s download a model for extracting speaker embeddings. You can find lots of models from
+<a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/tag/speaker-recongition-models">https://github.com/k2-fsa/sherpa-onnx/releases/tag/speaker-recongition-models</a>. We
+download two models in this example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">wget</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">k2</span><span class="o">-</span><span class="n">fsa</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="n">download</span><span class="o">/</span><span class="n">speaker</span><span class="o">-</span><span class="n">recongition</span><span class="o">-</span><span class="n">models</span><span class="o">/</span><span class="mi">3</span><span class="n">dspeaker_speech_eres2net_base_sv_zh</span><span class="o">-</span><span class="n">cn_3dspeaker_16k</span><span class="o">.</span><span class="n">onnx</span>
+<span class="n">wget</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">k2</span><span class="o">-</span><span class="n">fsa</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="n">download</span><span class="o">/</span><span class="n">speaker</span><span class="o">-</span><span class="n">recongition</span><span class="o">-</span><span class="n">models</span><span class="o">/</span><span class="n">nemo_en_titanet_small</span><span class="o">.</span><span class="n">onnx</span>
+</pre></div>
+</div>
+<p>Now let’s run it.</p>
+<section id="d-speaker-model-onnx">
+<h4>3D-Speaker + model.onnx<a class="headerlink" href="#d-speaker-model-onnx" title="Permalink to this heading"></a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+./build/bin/sherpa-onnx-offline-speaker-diarization<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--clustering.num-clusters<span class="o">=</span><span class="m">4</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--segmentation.pyannote-model<span class="o">=</span>./sherpa-onnx-pyannote-segmentation-3-0/model.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--embedding.model<span class="o">=</span>./3dspeaker_speech_eres2net_base_sv_zh-cn_3dspeaker_16k.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./0-four-speakers-zh.wav
+
+<span class="c1"># Note: Since we know there are 4 speakers in ./0-four-speakers-zh.wav file, we</span>
+<span class="c1"># provide the argument --clustering.num-clusters=4.</span>
+<span class="c1"># If you don&#39;t have such information, please use the argument --clustering.cluster-threshold.</span>
+<span class="c1"># A larger threshold results in fewer speakers.</span>
+<span class="c1"># A smaller threshold results in more speakers.</span>
+<span class="c1">#</span>
+<span class="c1"># Hint: You can use --clustering.cluster-threshold=0.9 for this specific wave file.</span>
+</pre></div>
+</div>
+<p>The output is given below:</p>
+<div class="toggle docutils container">
+<div class="header docutils container">
+<p>Click ▶ to see the output.</p>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">fangjun</span><span class="o">/</span><span class="nb">open</span><span class="o">-</span><span class="n">source</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">csrc</span><span class="o">/</span><span class="n">parse</span><span class="o">-</span><span class="n">options</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="n">Read</span><span class="p">:</span><span class="mi">375</span> <span class="o">./</span><span class="n">build</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">offline</span><span class="o">-</span><span class="n">speaker</span><span class="o">-</span><span class="n">diarization</span> <span class="o">--</span><span class="n">clustering</span><span class="o">.</span><span class="n">num</span><span class="o">-</span><span class="n">clusters</span><span class="o">=</span><span class="mi">4</span> <span class="o">--</span><span class="n">segmentation</span><span class="o">.</span><span class="n">pyannote</span><span class="o">-</span><span class="n">model</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">pyannote</span><span class="o">-</span><span class="n">segmentation</span><span class="o">-</span><span class="mi">3</span><span class="o">-</span><span class="mi">0</span><span class="o">/</span><span class="n">model</span><span class="o">.</span><span class="n">onnx</span> <span class="o">--</span><span class="n">embedding</span><span class="o">.</span><span class="n">model</span><span class="o">=./</span><span class="mi">3</span><span class="n">dspeaker_speech_eres2net_base_sv_zh</span><span class="o">-</span><span class="n">cn_3dspeaker_16k</span><span class="o">.</span><span class="n">onnx</span> <span class="o">./</span><span class="mi">0</span><span class="o">-</span><span class="n">four</span><span class="o">-</span><span class="n">speakers</span><span class="o">-</span><span class="n">zh</span><span class="o">.</span><span class="n">wav</span> 
+
+<span class="n">OfflineSpeakerDiarizationConfig</span><span class="p">(</span><span class="n">segmentation</span><span class="o">=</span><span class="n">OfflineSpeakerSegmentationModelConfig</span><span class="p">(</span><span class="n">pyannote</span><span class="o">=</span><span class="n">OfflineSpeakerSegmentationPyannoteModelConfig</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;./sherpa-onnx-pyannote-segmentation-3-0/model.onnx&quot;</span><span class="p">),</span> <span class="n">num_threads</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">provider</span><span class="o">=</span><span class="s2">&quot;cpu&quot;</span><span class="p">),</span> <span class="n">embedding</span><span class="o">=</span><span class="n">SpeakerEmbeddingExtractorConfig</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;./3dspeaker_speech_eres2net_base_sv_zh-cn_3dspeaker_16k.onnx&quot;</span><span class="p">,</span> <span class="n">num_threads</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">provider</span><span class="o">=</span><span class="s2">&quot;cpu&quot;</span><span class="p">),</span> <span class="n">clustering</span><span class="o">=</span><span class="n">FastClusteringConfig</span><span class="p">(</span><span class="n">num_clusters</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">0.5</span><span class="p">),</span> <span class="n">min_duration_on</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">min_duration_off</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+<span class="n">Started</span>
+
+<span class="mf">0.318</span> <span class="o">--</span> <span class="mf">6.865</span> <span class="n">speaker_00</span>
+<span class="mf">7.017</span> <span class="o">--</span> <span class="mf">10.747</span> <span class="n">speaker_01</span>
+<span class="mf">11.455</span> <span class="o">--</span> <span class="mf">13.632</span> <span class="n">speaker_01</span>
+<span class="mf">13.750</span> <span class="o">--</span> <span class="mf">17.041</span> <span class="n">speaker_02</span>
+<span class="mf">22.137</span> <span class="o">--</span> <span class="mf">24.837</span> <span class="n">speaker_00</span>
+<span class="mf">27.638</span> <span class="o">--</span> <span class="mf">29.478</span> <span class="n">speaker_03</span>
+<span class="mf">30.001</span> <span class="o">--</span> <span class="mf">31.553</span> <span class="n">speaker_03</span>
+<span class="mf">33.680</span> <span class="o">--</span> <span class="mf">37.932</span> <span class="n">speaker_03</span>
+<span class="mf">48.040</span> <span class="o">--</span> <span class="mf">50.470</span> <span class="n">speaker_02</span>
+<span class="mf">52.529</span> <span class="o">--</span> <span class="mf">54.605</span> <span class="n">speaker_00</span>
+
+<span class="n">Duration</span> <span class="p">:</span> <span class="mf">56.861</span> <span class="n">s</span>
+<span class="n">Elapsed</span> <span class="n">seconds</span><span class="p">:</span> <span class="mf">16.870</span> <span class="n">s</span>
+<span class="n">Real</span> <span class="n">time</span> <span class="n">factor</span> <span class="p">(</span><span class="n">RTF</span><span class="p">):</span> <span class="mf">16.870</span> <span class="o">/</span> <span class="mf">56.861</span> <span class="o">=</span> <span class="mf">0.297</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="d-speaker-model-int8-onnx">
+<h4>3D-Speaker + model.int8.onnx<a class="headerlink" href="#d-speaker-model-int8-onnx" title="Permalink to this heading"></a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+./build/bin/sherpa-onnx-offline-speaker-diarization<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--clustering.num-clusters<span class="o">=</span><span class="m">4</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--segmentation.pyannote-model<span class="o">=</span>./sherpa-onnx-pyannote-segmentation-3-0/model.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--embedding.model<span class="o">=</span>./3dspeaker_speech_eres2net_base_sv_zh-cn_3dspeaker_16k.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./0-four-speakers-zh.wav
+</pre></div>
+</div>
+<p>The output is given below:</p>
+<div class="toggle docutils container">
+<div class="header docutils container">
+<p>Click ▶ to see the output.</p>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">fangjun</span><span class="o">/</span><span class="nb">open</span><span class="o">-</span><span class="n">source</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">csrc</span><span class="o">/</span><span class="n">parse</span><span class="o">-</span><span class="n">options</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="n">Read</span><span class="p">:</span><span class="mi">375</span> <span class="o">./</span><span class="n">build</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">offline</span><span class="o">-</span><span class="n">speaker</span><span class="o">-</span><span class="n">diarization</span> <span class="o">--</span><span class="n">clustering</span><span class="o">.</span><span class="n">num</span><span class="o">-</span><span class="n">clusters</span><span class="o">=</span><span class="mi">4</span> <span class="o">--</span><span class="n">segmentation</span><span class="o">.</span><span class="n">pyannote</span><span class="o">-</span><span class="n">model</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">pyannote</span><span class="o">-</span><span class="n">segmentation</span><span class="o">-</span><span class="mi">3</span><span class="o">-</span><span class="mi">0</span><span class="o">/</span><span class="n">model</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span> <span class="o">--</span><span class="n">embedding</span><span class="o">.</span><span class="n">model</span><span class="o">=./</span><span class="mi">3</span><span class="n">dspeaker_speech_eres2net_base_sv_zh</span><span class="o">-</span><span class="n">cn_3dspeaker_16k</span><span class="o">.</span><span class="n">onnx</span> <span class="o">./</span><span class="mi">0</span><span class="o">-</span><span class="n">four</span><span class="o">-</span><span class="n">speakers</span><span class="o">-</span><span class="n">zh</span><span class="o">.</span><span class="n">wav</span> 
+
+<span class="n">OfflineSpeakerDiarizationConfig</span><span class="p">(</span><span class="n">segmentation</span><span class="o">=</span><span class="n">OfflineSpeakerSegmentationModelConfig</span><span class="p">(</span><span class="n">pyannote</span><span class="o">=</span><span class="n">OfflineSpeakerSegmentationPyannoteModelConfig</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;./sherpa-onnx-pyannote-segmentation-3-0/model.int8.onnx&quot;</span><span class="p">),</span> <span class="n">num_threads</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">provider</span><span class="o">=</span><span class="s2">&quot;cpu&quot;</span><span class="p">),</span> <span class="n">embedding</span><span class="o">=</span><span class="n">SpeakerEmbeddingExtractorConfig</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;./3dspeaker_speech_eres2net_base_sv_zh-cn_3dspeaker_16k.onnx&quot;</span><span class="p">,</span> <span class="n">num_threads</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">provider</span><span class="o">=</span><span class="s2">&quot;cpu&quot;</span><span class="p">),</span> <span class="n">clustering</span><span class="o">=</span><span class="n">FastClusteringConfig</span><span class="p">(</span><span class="n">num_clusters</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">0.5</span><span class="p">),</span> <span class="n">min_duration_on</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">min_duration_off</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+<span class="n">Started</span>
+
+<span class="mf">0.638</span> <span class="o">--</span> <span class="mf">6.848</span> <span class="n">speaker_00</span>
+<span class="mf">7.017</span> <span class="o">--</span> <span class="mf">10.696</span> <span class="n">speaker_01</span>
+<span class="mf">11.472</span> <span class="o">--</span> <span class="mf">13.548</span> <span class="n">speaker_01</span>
+<span class="mf">13.784</span> <span class="o">--</span> <span class="mf">16.990</span> <span class="n">speaker_02</span>
+<span class="mf">22.154</span> <span class="o">--</span> <span class="mf">24.837</span> <span class="n">speaker_00</span>
+<span class="mf">27.655</span> <span class="o">--</span> <span class="mf">29.461</span> <span class="n">speaker_03</span>
+<span class="mf">30.018</span> <span class="o">--</span> <span class="mf">31.503</span> <span class="n">speaker_03</span>
+<span class="mf">33.680</span> <span class="o">--</span> <span class="mf">37.915</span> <span class="n">speaker_03</span>
+<span class="mf">48.040</span> <span class="o">--</span> <span class="mf">50.487</span> <span class="n">speaker_02</span>
+<span class="mf">52.546</span> <span class="o">--</span> <span class="mf">54.605</span> <span class="n">speaker_00</span>
+
+<span class="n">Duration</span> <span class="p">:</span> <span class="mf">56.861</span> <span class="n">s</span>
+<span class="n">Elapsed</span> <span class="n">seconds</span><span class="p">:</span> <span class="mf">13.679</span> <span class="n">s</span>
+<span class="n">Real</span> <span class="n">time</span> <span class="n">factor</span> <span class="p">(</span><span class="n">RTF</span><span class="p">):</span> <span class="mf">13.679</span> <span class="o">/</span> <span class="mf">56.861</span> <span class="o">=</span> <span class="mf">0.241</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="nemo-model-onnx">
+<h4>NeMo + model.onnx<a class="headerlink" href="#nemo-model-onnx" title="Permalink to this heading"></a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+./build/bin/sherpa-onnx-offline-speaker-diarization<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--clustering.num-clusters<span class="o">=</span><span class="m">4</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--segmentation.pyannote-model<span class="o">=</span>./sherpa-onnx-pyannote-segmentation-3-0/model.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--embedding.model<span class="o">=</span>./nemo_en_titanet_small.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./0-four-speakers-zh.wav
+</pre></div>
+</div>
+<p>The output is given below:</p>
+<div class="toggle docutils container">
+<div class="header docutils container">
+<p>Click ▶ to see the output.</p>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">fangjun</span><span class="o">/</span><span class="nb">open</span><span class="o">-</span><span class="n">source</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">csrc</span><span class="o">/</span><span class="n">parse</span><span class="o">-</span><span class="n">options</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="n">Read</span><span class="p">:</span><span class="mi">375</span> <span class="o">./</span><span class="n">build</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">offline</span><span class="o">-</span><span class="n">speaker</span><span class="o">-</span><span class="n">diarization</span> <span class="o">--</span><span class="n">clustering</span><span class="o">.</span><span class="n">num</span><span class="o">-</span><span class="n">clusters</span><span class="o">=</span><span class="mi">4</span> <span class="o">--</span><span class="n">segmentation</span><span class="o">.</span><span class="n">pyannote</span><span class="o">-</span><span class="n">model</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">pyannote</span><span class="o">-</span><span class="n">segmentation</span><span class="o">-</span><span class="mi">3</span><span class="o">-</span><span class="mi">0</span><span class="o">/</span><span class="n">model</span><span class="o">.</span><span class="n">onnx</span> <span class="o">--</span><span class="n">embedding</span><span class="o">.</span><span class="n">model</span><span class="o">=./</span><span class="n">nemo_en_titanet_small</span><span class="o">.</span><span class="n">onnx</span> <span class="o">./</span><span class="mi">0</span><span class="o">-</span><span class="n">four</span><span class="o">-</span><span class="n">speakers</span><span class="o">-</span><span class="n">zh</span><span class="o">.</span><span class="n">wav</span> 
+
+<span class="n">OfflineSpeakerDiarizationConfig</span><span class="p">(</span><span class="n">segmentation</span><span class="o">=</span><span class="n">OfflineSpeakerSegmentationModelConfig</span><span class="p">(</span><span class="n">pyannote</span><span class="o">=</span><span class="n">OfflineSpeakerSegmentationPyannoteModelConfig</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;./sherpa-onnx-pyannote-segmentation-3-0/model.onnx&quot;</span><span class="p">),</span> <span class="n">num_threads</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">provider</span><span class="o">=</span><span class="s2">&quot;cpu&quot;</span><span class="p">),</span> <span class="n">embedding</span><span class="o">=</span><span class="n">SpeakerEmbeddingExtractorConfig</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;./nemo_en_titanet_small.onnx&quot;</span><span class="p">,</span> <span class="n">num_threads</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">provider</span><span class="o">=</span><span class="s2">&quot;cpu&quot;</span><span class="p">),</span> <span class="n">clustering</span><span class="o">=</span><span class="n">FastClusteringConfig</span><span class="p">(</span><span class="n">num_clusters</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">0.5</span><span class="p">),</span> <span class="n">min_duration_on</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">min_duration_off</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+<span class="n">Started</span>
+
+<span class="mf">0.318</span> <span class="o">--</span> <span class="mf">6.865</span> <span class="n">speaker_00</span>
+<span class="mf">7.017</span> <span class="o">--</span> <span class="mf">10.747</span> <span class="n">speaker_01</span>
+<span class="mf">11.455</span> <span class="o">--</span> <span class="mf">13.632</span> <span class="n">speaker_01</span>
+<span class="mf">13.750</span> <span class="o">--</span> <span class="mf">17.041</span> <span class="n">speaker_02</span>
+<span class="mf">22.137</span> <span class="o">--</span> <span class="mf">24.837</span> <span class="n">speaker_00</span>
+<span class="mf">27.638</span> <span class="o">--</span> <span class="mf">29.478</span> <span class="n">speaker_03</span>
+<span class="mf">30.001</span> <span class="o">--</span> <span class="mf">31.553</span> <span class="n">speaker_03</span>
+<span class="mf">33.680</span> <span class="o">--</span> <span class="mf">37.932</span> <span class="n">speaker_03</span>
+<span class="mf">48.040</span> <span class="o">--</span> <span class="mf">50.470</span> <span class="n">speaker_02</span>
+<span class="mf">52.529</span> <span class="o">--</span> <span class="mf">54.605</span> <span class="n">speaker_00</span>
+
+<span class="n">Duration</span> <span class="p">:</span> <span class="mf">56.861</span> <span class="n">s</span>
+<span class="n">Elapsed</span> <span class="n">seconds</span><span class="p">:</span> <span class="mf">6.756</span> <span class="n">s</span>
+<span class="n">Real</span> <span class="n">time</span> <span class="n">factor</span> <span class="p">(</span><span class="n">RTF</span><span class="p">):</span> <span class="mf">6.756</span> <span class="o">/</span> <span class="mf">56.861</span> <span class="o">=</span> <span class="mf">0.119</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="nemo-model-int8-onnx">
+<h4>NeMo + model.int8.onnx<a class="headerlink" href="#nemo-model-int8-onnx" title="Permalink to this heading"></a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+./build/bin/sherpa-onnx-offline-speaker-diarization<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--clustering.num-clusters<span class="o">=</span><span class="m">4</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--segmentation.pyannote-model<span class="o">=</span>./sherpa-onnx-pyannote-segmentation-3-0/model.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--embedding.model<span class="o">=</span>./nemo_en_titanet_small.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./0-four-speakers-zh.wav
+</pre></div>
+</div>
+<p>The output is given below:</p>
+<div class="toggle docutils container">
+<div class="header docutils container">
+<p>Click ▶ to see the output.</p>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">fangjun</span><span class="o">/</span><span class="nb">open</span><span class="o">-</span><span class="n">source</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">csrc</span><span class="o">/</span><span class="n">parse</span><span class="o">-</span><span class="n">options</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="n">Read</span><span class="p">:</span><span class="mi">375</span> <span class="o">./</span><span class="n">build</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">offline</span><span class="o">-</span><span class="n">speaker</span><span class="o">-</span><span class="n">diarization</span> <span class="o">--</span><span class="n">clustering</span><span class="o">.</span><span class="n">num</span><span class="o">-</span><span class="n">clusters</span><span class="o">=</span><span class="mi">4</span> <span class="o">--</span><span class="n">segmentation</span><span class="o">.</span><span class="n">pyannote</span><span class="o">-</span><span class="n">model</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">pyannote</span><span class="o">-</span><span class="n">segmentation</span><span class="o">-</span><span class="mi">3</span><span class="o">-</span><span class="mi">0</span><span class="o">/</span><span class="n">model</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span> <span class="o">--</span><span class="n">embedding</span><span class="o">.</span><span class="n">model</span><span class="o">=./</span><span class="n">nemo_en_titanet_small</span><span class="o">.</span><span class="n">onnx</span> <span class="o">./</span><span class="mi">0</span><span class="o">-</span><span class="n">four</span><span class="o">-</span><span class="n">speakers</span><span class="o">-</span><span class="n">zh</span><span class="o">.</span><span class="n">wav</span> 
+
+<span class="n">OfflineSpeakerDiarizationConfig</span><span class="p">(</span><span class="n">segmentation</span><span class="o">=</span><span class="n">OfflineSpeakerSegmentationModelConfig</span><span class="p">(</span><span class="n">pyannote</span><span class="o">=</span><span class="n">OfflineSpeakerSegmentationPyannoteModelConfig</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;./sherpa-onnx-pyannote-segmentation-3-0/model.int8.onnx&quot;</span><span class="p">),</span> <span class="n">num_threads</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">provider</span><span class="o">=</span><span class="s2">&quot;cpu&quot;</span><span class="p">),</span> <span class="n">embedding</span><span class="o">=</span><span class="n">SpeakerEmbeddingExtractorConfig</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;./nemo_en_titanet_small.onnx&quot;</span><span class="p">,</span> <span class="n">num_threads</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">provider</span><span class="o">=</span><span class="s2">&quot;cpu&quot;</span><span class="p">),</span> <span class="n">clustering</span><span class="o">=</span><span class="n">FastClusteringConfig</span><span class="p">(</span><span class="n">num_clusters</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">0.5</span><span class="p">),</span> <span class="n">min_duration_on</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">min_duration_off</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+<span class="n">Started</span>
+
+<span class="mf">0.638</span> <span class="o">--</span> <span class="mf">6.848</span> <span class="n">speaker_00</span>
+<span class="mf">7.017</span> <span class="o">--</span> <span class="mf">10.696</span> <span class="n">speaker_01</span>
+<span class="mf">11.472</span> <span class="o">--</span> <span class="mf">13.548</span> <span class="n">speaker_01</span>
+<span class="mf">13.784</span> <span class="o">--</span> <span class="mf">16.990</span> <span class="n">speaker_02</span>
+<span class="mf">22.154</span> <span class="o">--</span> <span class="mf">24.837</span> <span class="n">speaker_00</span>
+<span class="mf">27.655</span> <span class="o">--</span> <span class="mf">29.461</span> <span class="n">speaker_03</span>
+<span class="mf">30.018</span> <span class="o">--</span> <span class="mf">31.503</span> <span class="n">speaker_03</span>
+<span class="mf">33.680</span> <span class="o">--</span> <span class="mf">37.915</span> <span class="n">speaker_03</span>
+<span class="mf">48.040</span> <span class="o">--</span> <span class="mf">50.487</span> <span class="n">speaker_02</span>
+<span class="mf">52.546</span> <span class="o">--</span> <span class="mf">54.605</span> <span class="n">speaker_00</span>
+
+<span class="n">Duration</span> <span class="p">:</span> <span class="mf">56.861</span> <span class="n">s</span>
+<span class="n">Elapsed</span> <span class="n">seconds</span><span class="p">:</span> <span class="mf">6.231</span> <span class="n">s</span>
+<span class="n">Real</span> <span class="n">time</span> <span class="n">factor</span> <span class="p">(</span><span class="n">RTF</span><span class="p">):</span> <span class="mf">6.231</span> <span class="o">/</span> <span class="mf">56.861</span> <span class="o">=</span> <span class="mf">0.110</span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="sherpa-onnx-reverb-diarization-v1">
+<h2>sherpa-onnx-reverb-diarization-v1<a class="headerlink" href="#sherpa-onnx-reverb-diarization-v1" title="Permalink to this heading"></a></h2>
+<p>This model is converted from <a class="reference external" href="https://huggingface.co/Revai/reverb-diarization-v1">https://huggingface.co/Revai/reverb-diarization-v1</a>.
+You can find the conversion script at <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/tree/master/scripts/pyannote/segmentation">https://github.com/k2-fsa/sherpa-onnx/tree/master/scripts/pyannote/segmentation</a>.</p>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>It is accessible under a <code class="docutils literal notranslate"><span class="pre">non-commercial</span></code> license.
+You can find its license at <a class="reference external" href="https://huggingface.co/Revai/reverb-diarization-v1/blob/main/LICENSE">https://huggingface.co/Revai/reverb-diarization-v1/blob/main/LICENSE</a>.</p>
+</div>
+<p>In the following, we describe how to use it together with
+a speaker embedding extraction model for speaker diarization.</p>
+<section id="id3">
+<h3>Download the model<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h3>
+<p>Please use the following code to download the model:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/speaker-segmentation-models/sherpa-onnx-reverb-diarization-v1.tar.bz2
+tar<span class="w"> </span>xvf<span class="w"> </span>sherpa-onnx-reverb-diarization-v1.tar.bz2
+rm<span class="w"> </span>sherpa-onnx-reverb-diarization-v1.tar.bz2
+
+ls<span class="w"> </span>-lh<span class="w"> </span>sherpa-onnx-reverb-diarization-v1/<span class="o">{</span>*.onnx,LICENSE,README.md<span class="o">}</span>
+</pre></div>
+</div>
+<p>You should see the following output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>    <span class="mi">11</span><span class="n">K</span> <span class="n">Oct</span> <span class="mi">17</span> <span class="mi">10</span><span class="p">:</span><span class="mi">49</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">reverb</span><span class="o">-</span><span class="n">diarization</span><span class="o">-</span><span class="n">v1</span><span class="o">/</span><span class="n">LICENSE</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">320</span><span class="n">B</span> <span class="n">Oct</span> <span class="mi">17</span> <span class="mi">10</span><span class="p">:</span><span class="mi">49</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">reverb</span><span class="o">-</span><span class="n">diarization</span><span class="o">-</span><span class="n">v1</span><span class="o">/</span><span class="n">README</span><span class="o">.</span><span class="n">md</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mf">2.3</span><span class="n">M</span> <span class="n">Oct</span> <span class="mi">17</span> <span class="mi">10</span><span class="p">:</span><span class="mi">49</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">reverb</span><span class="o">-</span><span class="n">diarization</span><span class="o">-</span><span class="n">v1</span><span class="o">/</span><span class="n">model</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mf">9.1</span><span class="n">M</span> <span class="n">Oct</span> <span class="mi">17</span> <span class="mi">10</span><span class="p">:</span><span class="mi">49</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">reverb</span><span class="o">-</span><span class="n">diarization</span><span class="o">-</span><span class="n">v1</span><span class="o">/</span><span class="n">model</span><span class="o">.</span><span class="n">onnx</span>
+</pre></div>
+</div>
+</section>
+<section id="id4">
+<h3>Usage for speaker diarization<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h3>
+<p>First, let’s download a test wave file. The model expects wave files of 16kHz, 16-bit and a single channel.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/speaker-segmentation-models/0-four-speakers-zh.wav
+</pre></div>
+</div>
+<p>Next, let’s download a model for extracting speaker embeddings. You can find lots of models from
+<a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/tag/speaker-recongition-models">https://github.com/k2-fsa/sherpa-onnx/releases/tag/speaker-recongition-models</a>. We
+download two models in this example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">wget</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">k2</span><span class="o">-</span><span class="n">fsa</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="n">download</span><span class="o">/</span><span class="n">speaker</span><span class="o">-</span><span class="n">recongition</span><span class="o">-</span><span class="n">models</span><span class="o">/</span><span class="mi">3</span><span class="n">dspeaker_speech_eres2net_base_sv_zh</span><span class="o">-</span><span class="n">cn_3dspeaker_16k</span><span class="o">.</span><span class="n">onnx</span>
+<span class="n">wget</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">k2</span><span class="o">-</span><span class="n">fsa</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="n">download</span><span class="o">/</span><span class="n">speaker</span><span class="o">-</span><span class="n">recongition</span><span class="o">-</span><span class="n">models</span><span class="o">/</span><span class="n">nemo_en_titanet_small</span><span class="o">.</span><span class="n">onnx</span>
+</pre></div>
+</div>
+<p>Now let’s run it.</p>
+<section id="id6">
+<h4>3D-Speaker + model.onnx<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+./build/bin/sherpa-onnx-offline-speaker-diarization<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--clustering.num-clusters<span class="o">=</span><span class="m">4</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--segmentation.pyannote-model<span class="o">=</span>./sherpa-onnx-reverb-diarization-v1/model.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--embedding.model<span class="o">=</span>./3dspeaker_speech_eres2net_base_sv_zh-cn_3dspeaker_16k.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./0-four-speakers-zh.wav
+
+<span class="c1"># Note: Since we know there are 4 speakers in ./0-four-speakers-zh.wav file, we</span>
+<span class="c1"># provide the argument --clustering.num-clusters=4.</span>
+<span class="c1"># If you don&#39;t have such information, please use the argument --clustering.cluster-threshold.</span>
+<span class="c1"># A larger threshold results in fewer speakers.</span>
+<span class="c1"># A smaller threshold results in more speakers.</span>
+<span class="c1">#</span>
+<span class="c1"># Hint: You can use --clustering.cluster-threshold=0.9 for this specific wave file.</span>
+</pre></div>
+</div>
+<p>The output is given below:</p>
+<div class="toggle docutils container">
+<div class="header docutils container">
+<p>Click ▶ to see the output.</p>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">fangjun</span><span class="o">/</span><span class="nb">open</span><span class="o">-</span><span class="n">source</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">csrc</span><span class="o">/</span><span class="n">parse</span><span class="o">-</span><span class="n">options</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="n">Read</span><span class="p">:</span><span class="mi">375</span> <span class="o">./</span><span class="n">build</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">offline</span><span class="o">-</span><span class="n">speaker</span><span class="o">-</span><span class="n">diarization</span> <span class="o">--</span><span class="n">clustering</span><span class="o">.</span><span class="n">num</span><span class="o">-</span><span class="n">clusters</span><span class="o">=</span><span class="mi">4</span> <span class="o">--</span><span class="n">segmentation</span><span class="o">.</span><span class="n">pyannote</span><span class="o">-</span><span class="n">model</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">reverb</span><span class="o">-</span><span class="n">diarization</span><span class="o">-</span><span class="n">v1</span><span class="o">/</span><span class="n">model</span><span class="o">.</span><span class="n">onnx</span> <span class="o">--</span><span class="n">embedding</span><span class="o">.</span><span class="n">model</span><span class="o">=./</span><span class="mi">3</span><span class="n">dspeaker_speech_eres2net_base_sv_zh</span><span class="o">-</span><span class="n">cn_3dspeaker_16k</span><span class="o">.</span><span class="n">onnx</span> <span class="o">./</span><span class="mi">0</span><span class="o">-</span><span class="n">four</span><span class="o">-</span><span class="n">speakers</span><span class="o">-</span><span class="n">zh</span><span class="o">.</span><span class="n">wav</span>
+
+<span class="n">OfflineSpeakerDiarizationConfig</span><span class="p">(</span><span class="n">segmentation</span><span class="o">=</span><span class="n">OfflineSpeakerSegmentationModelConfig</span><span class="p">(</span><span class="n">pyannote</span><span class="o">=</span><span class="n">OfflineSpeakerSegmentationPyannoteModelConfig</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;./sherpa-onnx-reverb-diarization-v1/model.onnx&quot;</span><span class="p">),</span> <span class="n">num_threads</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">provider</span><span class="o">=</span><span class="s2">&quot;cpu&quot;</span><span class="p">),</span> <span class="n">embedding</span><span class="o">=</span><span class="n">SpeakerEmbeddingExtractorConfig</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;./3dspeaker_speech_eres2net_base_sv_zh-cn_3dspeaker_16k.onnx&quot;</span><span class="p">,</span> <span class="n">num_threads</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">provider</span><span class="o">=</span><span class="s2">&quot;cpu&quot;</span><span class="p">),</span> <span class="n">clustering</span><span class="o">=</span><span class="n">FastClusteringConfig</span><span class="p">(</span><span class="n">num_clusters</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">0.5</span><span class="p">),</span> <span class="n">min_duration_on</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">min_duration_off</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+<span class="n">Started</span>
+
+<span class="mf">0.031</span> <span class="o">--</span> <span class="mf">6.798</span> <span class="n">speaker_01</span>
+<span class="mf">7.017</span> <span class="o">--</span> <span class="mf">13.649</span> <span class="n">speaker_00</span>
+<span class="mf">13.801</span> <span class="o">--</span> <span class="mf">16.957</span> <span class="n">speaker_02</span>
+<span class="mf">21.023</span> <span class="o">--</span> <span class="mf">24.820</span> <span class="n">speaker_01</span>
+<span class="mf">27.638</span> <span class="o">--</span> <span class="mf">38.017</span> <span class="n">speaker_03</span>
+<span class="mf">44.345</span> <span class="o">--</span> <span class="mf">45.526</span> <span class="n">speaker_00</span>
+<span class="mf">45.526</span> <span class="o">--</span> <span class="mf">50.268</span> <span class="n">speaker_02</span>
+<span class="mf">52.563</span> <span class="o">--</span> <span class="mf">54.605</span> <span class="n">speaker_01</span>
+
+<span class="n">Duration</span> <span class="p">:</span> <span class="mf">56.861</span> <span class="n">s</span>
+<span class="n">Elapsed</span> <span class="n">seconds</span><span class="p">:</span> <span class="mf">25.715</span> <span class="n">s</span>
+<span class="n">Real</span> <span class="n">time</span> <span class="n">factor</span> <span class="p">(</span><span class="n">RTF</span><span class="p">):</span> <span class="mf">25.715</span> <span class="o">/</span> <span class="mf">56.861</span> <span class="o">=</span> <span class="mf">0.452</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="id7">
+<h4>3D-Speaker + model.int8.onnx<a class="headerlink" href="#id7" title="Permalink to this heading"></a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+./build/bin/sherpa-onnx-offline-speaker-diarization<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--clustering.num-clusters<span class="o">=</span><span class="m">4</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--segmentation.pyannote-model<span class="o">=</span>./sherpa-onnx-reverb-diarization-v1/model.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--embedding.model<span class="o">=</span>./3dspeaker_speech_eres2net_base_sv_zh-cn_3dspeaker_16k.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./0-four-speakers-zh.wav
+</pre></div>
+</div>
+<p>The output is given below:</p>
+<div class="toggle docutils container">
+<div class="header docutils container">
+<p>Click ▶ to see the output.</p>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">fangjun</span><span class="o">/</span><span class="nb">open</span><span class="o">-</span><span class="n">source</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">csrc</span><span class="o">/</span><span class="n">parse</span><span class="o">-</span><span class="n">options</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="n">Read</span><span class="p">:</span><span class="mi">375</span> <span class="o">./</span><span class="n">build</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">offline</span><span class="o">-</span><span class="n">speaker</span><span class="o">-</span><span class="n">diarization</span> <span class="o">--</span><span class="n">clustering</span><span class="o">.</span><span class="n">num</span><span class="o">-</span><span class="n">clusters</span><span class="o">=</span><span class="mi">4</span> <span class="o">--</span><span class="n">segmentation</span><span class="o">.</span><span class="n">pyannote</span><span class="o">-</span><span class="n">model</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">reverb</span><span class="o">-</span><span class="n">diarization</span><span class="o">-</span><span class="n">v1</span><span class="o">/</span><span class="n">model</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span> <span class="o">--</span><span class="n">embedding</span><span class="o">.</span><span class="n">model</span><span class="o">=./</span><span class="mi">3</span><span class="n">dspeaker_speech_eres2net_base_sv_zh</span><span class="o">-</span><span class="n">cn_3dspeaker_16k</span><span class="o">.</span><span class="n">onnx</span> <span class="o">./</span><span class="mi">0</span><span class="o">-</span><span class="n">four</span><span class="o">-</span><span class="n">speakers</span><span class="o">-</span><span class="n">zh</span><span class="o">.</span><span class="n">wav</span>
+
+<span class="n">OfflineSpeakerDiarizationConfig</span><span class="p">(</span><span class="n">segmentation</span><span class="o">=</span><span class="n">OfflineSpeakerSegmentationModelConfig</span><span class="p">(</span><span class="n">pyannote</span><span class="o">=</span><span class="n">OfflineSpeakerSegmentationPyannoteModelConfig</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;./sherpa-onnx-reverb-diarization-v1/model.int8.onnx&quot;</span><span class="p">),</span> <span class="n">num_threads</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">provider</span><span class="o">=</span><span class="s2">&quot;cpu&quot;</span><span class="p">),</span> <span class="n">embedding</span><span class="o">=</span><span class="n">SpeakerEmbeddingExtractorConfig</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;./3dspeaker_speech_eres2net_base_sv_zh-cn_3dspeaker_16k.onnx&quot;</span><span class="p">,</span> <span class="n">num_threads</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">provider</span><span class="o">=</span><span class="s2">&quot;cpu&quot;</span><span class="p">),</span> <span class="n">clustering</span><span class="o">=</span><span class="n">FastClusteringConfig</span><span class="p">(</span><span class="n">num_clusters</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">0.5</span><span class="p">),</span> <span class="n">min_duration_on</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">min_duration_off</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+<span class="n">Started</span>
+
+<span class="mf">0.031</span> <span class="o">--</span> <span class="mf">6.815</span> <span class="n">speaker_01</span>
+<span class="mf">7.017</span> <span class="o">--</span> <span class="mf">13.666</span> <span class="n">speaker_00</span>
+<span class="mf">13.784</span> <span class="o">--</span> <span class="mf">16.973</span> <span class="n">speaker_02</span>
+<span class="mf">21.023</span> <span class="o">--</span> <span class="mf">24.854</span> <span class="n">speaker_01</span>
+<span class="mf">27.655</span> <span class="o">--</span> <span class="mf">38.084</span> <span class="n">speaker_03</span>
+<span class="mf">38.084</span> <span class="o">--</span> <span class="mf">46.943</span> <span class="n">speaker_00</span>
+<span class="mf">45.526</span> <span class="o">--</span> <span class="mf">50.352</span> <span class="n">speaker_02</span>
+<span class="mf">52.580</span> <span class="o">--</span> <span class="mf">54.622</span> <span class="n">speaker_01</span>
+
+<span class="n">Duration</span> <span class="p">:</span> <span class="mf">56.861</span> <span class="n">s</span>
+<span class="n">Elapsed</span> <span class="n">seconds</span><span class="p">:</span> <span class="mf">22.323</span> <span class="n">s</span>
+<span class="n">Real</span> <span class="n">time</span> <span class="n">factor</span> <span class="p">(</span><span class="n">RTF</span><span class="p">):</span> <span class="mf">22.323</span> <span class="o">/</span> <span class="mf">56.861</span> <span class="o">=</span> <span class="mf">0.393</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="id8">
+<h4>NeMo + model.onnx<a class="headerlink" href="#id8" title="Permalink to this heading"></a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+./build/bin/sherpa-onnx-offline-speaker-diarization<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--clustering.num-clusters<span class="o">=</span><span class="m">4</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--segmentation.pyannote-model<span class="o">=</span>./sherpa-onnx-reverb-diarization-v1/model.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--embedding.model<span class="o">=</span>./nemo_en_titanet_small.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./0-four-speakers-zh.wav
+</pre></div>
+</div>
+<p>The output is given below:</p>
+<div class="toggle docutils container">
+<div class="header docutils container">
+<p>Click ▶ to see the output.</p>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">fangjun</span><span class="o">/</span><span class="nb">open</span><span class="o">-</span><span class="n">source</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">csrc</span><span class="o">/</span><span class="n">parse</span><span class="o">-</span><span class="n">options</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="n">Read</span><span class="p">:</span><span class="mi">375</span> <span class="o">./</span><span class="n">build</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">offline</span><span class="o">-</span><span class="n">speaker</span><span class="o">-</span><span class="n">diarization</span> <span class="o">--</span><span class="n">clustering</span><span class="o">.</span><span class="n">num</span><span class="o">-</span><span class="n">clusters</span><span class="o">=</span><span class="mi">4</span> <span class="o">--</span><span class="n">segmentation</span><span class="o">.</span><span class="n">pyannote</span><span class="o">-</span><span class="n">model</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">reverb</span><span class="o">-</span><span class="n">diarization</span><span class="o">-</span><span class="n">v1</span><span class="o">/</span><span class="n">model</span><span class="o">.</span><span class="n">onnx</span> <span class="o">--</span><span class="n">embedding</span><span class="o">.</span><span class="n">model</span><span class="o">=./</span><span class="n">nemo_en_titanet_small</span><span class="o">.</span><span class="n">onnx</span> <span class="o">./</span><span class="mi">0</span><span class="o">-</span><span class="n">four</span><span class="o">-</span><span class="n">speakers</span><span class="o">-</span><span class="n">zh</span><span class="o">.</span><span class="n">wav</span> 
+
+<span class="n">OfflineSpeakerDiarizationConfig</span><span class="p">(</span><span class="n">segmentation</span><span class="o">=</span><span class="n">OfflineSpeakerSegmentationModelConfig</span><span class="p">(</span><span class="n">pyannote</span><span class="o">=</span><span class="n">OfflineSpeakerSegmentationPyannoteModelConfig</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;./sherpa-onnx-reverb-diarization-v1/model.onnx&quot;</span><span class="p">),</span> <span class="n">num_threads</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">provider</span><span class="o">=</span><span class="s2">&quot;cpu&quot;</span><span class="p">),</span> <span class="n">embedding</span><span class="o">=</span><span class="n">SpeakerEmbeddingExtractorConfig</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;./nemo_en_titanet_small.onnx&quot;</span><span class="p">,</span> <span class="n">num_threads</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">provider</span><span class="o">=</span><span class="s2">&quot;cpu&quot;</span><span class="p">),</span> <span class="n">clustering</span><span class="o">=</span><span class="n">FastClusteringConfig</span><span class="p">(</span><span class="n">num_clusters</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">0.5</span><span class="p">),</span> <span class="n">min_duration_on</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">min_duration_off</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+<span class="n">Started</span>
+
+<span class="mf">0.031</span> <span class="o">--</span> <span class="mf">6.798</span> <span class="n">speaker_01</span>
+<span class="mf">7.017</span> <span class="o">--</span> <span class="mf">13.649</span> <span class="n">speaker_00</span>
+<span class="mf">13.801</span> <span class="o">--</span> <span class="mf">16.957</span> <span class="n">speaker_02</span>
+<span class="mf">21.023</span> <span class="o">--</span> <span class="mf">24.820</span> <span class="n">speaker_01</span>
+<span class="mf">27.638</span> <span class="o">--</span> <span class="mf">38.017</span> <span class="n">speaker_02</span>
+<span class="mf">44.345</span> <span class="o">--</span> <span class="mf">45.357</span> <span class="n">speaker_03</span>
+<span class="mf">45.290</span> <span class="o">--</span> <span class="mf">50.268</span> <span class="n">speaker_02</span>
+<span class="mf">52.563</span> <span class="o">--</span> <span class="mf">54.605</span> <span class="n">speaker_01</span>
+
+<span class="n">Duration</span> <span class="p">:</span> <span class="mf">56.861</span> <span class="n">s</span>
+<span class="n">Elapsed</span> <span class="n">seconds</span><span class="p">:</span> <span class="mf">11.465</span> <span class="n">s</span>
+<span class="n">Real</span> <span class="n">time</span> <span class="n">factor</span> <span class="p">(</span><span class="n">RTF</span><span class="p">):</span> <span class="mf">11.465</span> <span class="o">/</span> <span class="mf">56.861</span> <span class="o">=</span> <span class="mf">0.202</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="id9">
+<h4>NeMo + model.int8.onnx<a class="headerlink" href="#id9" title="Permalink to this heading"></a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+./build/bin/sherpa-onnx-offline-speaker-diarization<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--clustering.num-clusters<span class="o">=</span><span class="m">4</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--segmentation.pyannote-model<span class="o">=</span>./sherpa-onnx-reverb-diarization-v1/model.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--embedding.model<span class="o">=</span>./nemo_en_titanet_small.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./0-four-speakers-zh.wav
+</pre></div>
+</div>
+<p>The output is given below:</p>
+<div class="toggle docutils container">
+<div class="header docutils container">
+<p>Click ▶ to see the output.</p>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">fangjun</span><span class="o">/</span><span class="nb">open</span><span class="o">-</span><span class="n">source</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">csrc</span><span class="o">/</span><span class="n">parse</span><span class="o">-</span><span class="n">options</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="n">Read</span><span class="p">:</span><span class="mi">375</span> <span class="o">./</span><span class="n">build</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">offline</span><span class="o">-</span><span class="n">speaker</span><span class="o">-</span><span class="n">diarization</span> <span class="o">--</span><span class="n">clustering</span><span class="o">.</span><span class="n">num</span><span class="o">-</span><span class="n">clusters</span><span class="o">=</span><span class="mi">4</span> <span class="o">--</span><span class="n">segmentation</span><span class="o">.</span><span class="n">pyannote</span><span class="o">-</span><span class="n">model</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">reverb</span><span class="o">-</span><span class="n">diarization</span><span class="o">-</span><span class="n">v1</span><span class="o">/</span><span class="n">model</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span> <span class="o">--</span><span class="n">embedding</span><span class="o">.</span><span class="n">model</span><span class="o">=./</span><span class="n">nemo_en_titanet_small</span><span class="o">.</span><span class="n">onnx</span> <span class="o">./</span><span class="mi">0</span><span class="o">-</span><span class="n">four</span><span class="o">-</span><span class="n">speakers</span><span class="o">-</span><span class="n">zh</span><span class="o">.</span><span class="n">wav</span> 
+
+<span class="n">OfflineSpeakerDiarizationConfig</span><span class="p">(</span><span class="n">segmentation</span><span class="o">=</span><span class="n">OfflineSpeakerSegmentationModelConfig</span><span class="p">(</span><span class="n">pyannote</span><span class="o">=</span><span class="n">OfflineSpeakerSegmentationPyannoteModelConfig</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;./sherpa-onnx-reverb-diarization-v1/model.int8.onnx&quot;</span><span class="p">),</span> <span class="n">num_threads</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">provider</span><span class="o">=</span><span class="s2">&quot;cpu&quot;</span><span class="p">),</span> <span class="n">embedding</span><span class="o">=</span><span class="n">SpeakerEmbeddingExtractorConfig</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;./nemo_en_titanet_small.onnx&quot;</span><span class="p">,</span> <span class="n">num_threads</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">provider</span><span class="o">=</span><span class="s2">&quot;cpu&quot;</span><span class="p">),</span> <span class="n">clustering</span><span class="o">=</span><span class="n">FastClusteringConfig</span><span class="p">(</span><span class="n">num_clusters</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">0.5</span><span class="p">),</span> <span class="n">min_duration_on</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">min_duration_off</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+<span class="n">Started</span>
+
+<span class="mf">0.031</span> <span class="o">--</span> <span class="mf">6.815</span> <span class="n">speaker_01</span>
+<span class="mf">7.017</span> <span class="o">--</span> <span class="mf">13.666</span> <span class="n">speaker_00</span>
+<span class="mf">13.784</span> <span class="o">--</span> <span class="mf">16.973</span> <span class="n">speaker_02</span>
+<span class="mf">21.023</span> <span class="o">--</span> <span class="mf">24.854</span> <span class="n">speaker_01</span>
+<span class="mf">27.655</span> <span class="o">--</span> <span class="mf">38.877</span> <span class="n">speaker_02</span>
+<span class="mf">38.168</span> <span class="o">--</span> <span class="mf">45.914</span> <span class="n">speaker_03</span>
+<span class="mf">45.526</span> <span class="o">--</span> <span class="mf">50.352</span> <span class="n">speaker_02</span>
+<span class="mf">52.580</span> <span class="o">--</span> <span class="mf">54.622</span> <span class="n">speaker_01</span>
+
+<span class="n">Duration</span> <span class="p">:</span> <span class="mf">56.861</span> <span class="n">s</span>
+<span class="n">Elapsed</span> <span class="n">seconds</span><span class="p">:</span> <span class="mf">9.688</span> <span class="n">s</span>
+<span class="n">Real</span> <span class="n">time</span> <span class="n">factor</span> <span class="p">(</span><span class="n">RTF</span><span class="p">):</span> <span class="mf">9.688</span> <span class="o">/</span> <span class="mf">56.861</span> <span class="o">=</span> <span class="mf">0.170</span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Speaker Diarization" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="hf.html" class="btn btn-neutral float-right" title="Hugginface space for speaker diarization" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

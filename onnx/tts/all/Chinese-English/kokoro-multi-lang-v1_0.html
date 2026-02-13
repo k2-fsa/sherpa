@@ -1,0 +1,545 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>kokoro-multi-lang-v1_0 - sherpa-onnx text-to-speech samples</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="../favicon-8114d1fc.png">
+        <link rel="stylesheet" href="../css/variables-8adf115d.css">
+        <link rel="stylesheet" href="../css/general-2459343d.css">
+        <link rel="stylesheet" href="../css/chrome-ae938929.css">
+        <link rel="stylesheet" href="../css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="../highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="../tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../searchindex-dc0051fe.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc-43339dd9.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">sherpa-onnx text-to-speech samples</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="kokoro-multi-lang-v1_0"><a class="header" href="#kokoro-multi-lang-v1_0">kokoro-multi-lang-v1_0</a></h1>
+<h2 id="info-about-this-model"><a class="header" href="#info-about-this-model">Info about this model</a></h2>
+<p>This model is kokoro v1.0 and it is from <a href="https://huggingface.co/hexgrad/Kokoro-82M">https://huggingface.co/hexgrad/Kokoro-82M</a></p>
+<p>It supports both <code>Chinese</code> and <code>English</code>.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Number of speakers</th><th>Sample rate</th></tr>
+</thead>
+<tbody>
+<tr><td>53</td><td>24000</td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="meaning-of-speaker-prefix"><a class="header" href="#meaning-of-speaker-prefix">Meaning of speaker prefix</a></h3>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Prefix</th><th>Meaning</th><th>sid range</th><th>Number of speakers</th></tr>
+</thead>
+<tbody>
+<tr><td>af</td><td>American female</td><td>0 - 10</td><td>11</td></tr>
+<tr><td>am</td><td>American male</td><td>11 - 19</td><td>9</td></tr>
+<tr><td>bf</td><td>British female</td><td>20 - 23</td><td>4</td></tr>
+<tr><td>bm</td><td>British male</td><td>24 - 27</td><td>4</td></tr>
+<tr><td>ef</td><td>Spanish female</td><td>28</td><td>1</td></tr>
+<tr><td>em</td><td>Spanish male</td><td>29</td><td>1</td></tr>
+<tr><td>ff</td><td>French female</td><td>30</td><td>1</td></tr>
+<tr><td>hf</td><td>Hindi female</td><td>31 - 32</td><td>2</td></tr>
+<tr><td>hm</td><td>Hindi male</td><td>33 - 34</td><td>2</td></tr>
+<tr><td>if</td><td>Italian female</td><td>35</td><td>1</td></tr>
+<tr><td>im</td><td>Italian male</td><td>36</td><td>1</td></tr>
+<tr><td>jf</td><td>Japanese female</td><td>37 - 40</td><td>4</td></tr>
+<tr><td>jm</td><td>Japanese male</td><td>41</td><td>1</td></tr>
+<tr><td>pf</td><td>Brazilian Portuguese female</td><td>42</td><td>1</td></tr>
+<tr><td>pm</td><td>Brazilian Portuguese male</td><td>43 - 44</td><td>2</td></tr>
+<tr><td>zf</td><td>Chinese female</td><td>45 - 48</td><td>4</td></tr>
+<tr><td>zm</td><td>Chinese male</td><td>49 - 52</td><td>4</td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="speaker-id-to-speaker-name-sid---name"><a class="header" href="#speaker-id-to-speaker-name-sid---name">speaker ID to speaker name (sid -&gt; name)</a></h3>
+<p>The mapping from speaker ID (sid) to speaker name is given below:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th><th></th><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td>0 - 3</td><td>0 -&gt; af_alloy</td><td>1 -&gt; af_aoede</td><td>2 -&gt; af_bella</td><td>3 -&gt; af_heart</td></tr>
+<tr><td>4 - 7</td><td>4 -&gt; af_jessica</td><td>5 -&gt; af_kore</td><td>6 -&gt; af_nicole</td><td>7 -&gt; af_nova</td></tr>
+<tr><td>8 - 11</td><td>8 -&gt; af_river</td><td>9 -&gt; af_sarah</td><td>10 -&gt; af_sky</td><td>11 -&gt; am_adam</td></tr>
+<tr><td>12 - 15</td><td>12 -&gt; am_echo</td><td>13 -&gt; am_eric</td><td>14 -&gt; am_fenrir</td><td>15 -&gt; am_liam</td></tr>
+<tr><td>16 - 19</td><td>16 -&gt; am_michael</td><td>17 -&gt; am_onyx</td><td>18 -&gt; am_puck</td><td>19 -&gt; am_santa</td></tr>
+<tr><td>20 - 23</td><td>20 -&gt; bf_alice</td><td>21 -&gt; bf_emma</td><td>22 -&gt; bf_isabella</td><td>23 -&gt; bf_lily</td></tr>
+<tr><td>24 - 27</td><td>24 -&gt; bm_daniel</td><td>25 -&gt; bm_fable</td><td>26 -&gt; bm_george</td><td>27 -&gt; bm_lewis</td></tr>
+<tr><td>28 - 31</td><td>28 -&gt; ef_dora</td><td>29 -&gt; em_alex</td><td>30 -&gt; ff_siwis</td><td>31 -&gt; hf_alpha</td></tr>
+<tr><td>32 - 35</td><td>32 -&gt; hf_beta</td><td>33 -&gt; hm_omega</td><td>34 -&gt; hm_psi</td><td>35 -&gt; if_sara</td></tr>
+<tr><td>36 - 39</td><td>36 -&gt; im_nicola</td><td>37 -&gt; jf_alpha</td><td>38 -&gt; jf_gongitsune</td><td>39 -&gt; jf_nezumi</td></tr>
+<tr><td>40 - 43</td><td>40 -&gt; jf_tebukuro</td><td>41 -&gt; jm_kumo</td><td>42 -&gt; pf_dora</td><td>43 -&gt; pm_alex</td></tr>
+<tr><td>44 - 47</td><td>44 -&gt; pm_santa</td><td>45 -&gt; zf_xiaobei</td><td>46 -&gt; zf_xiaoni</td><td>47 -&gt; zf_xiaoxiao</td></tr>
+<tr><td>48 - 51</td><td>48 -&gt; zf_xiaoyi</td><td>49 -&gt; zm_yunjian</td><td>50 -&gt; zm_yunxi</td><td>51 -&gt; zm_yunxia</td></tr>
+<tr><td>52</td><td>52 -&gt; zm_yunyang</td><td></td><td></td><td></td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="speaker-name-to-speaker-id-name---sid"><a class="header" href="#speaker-name-to-speaker-id-name---sid">speaker name to speaker ID (name -&gt; sid)</a></h3>
+<p>The mapping from speaker name to speaker ID (sid) is given below:</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th><th></th><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td>0 - 3</td><td>af_alloy -&gt; 0</td><td>af_aoede -&gt; 1</td><td>af_bella -&gt; 2</td><td>af_heart -&gt; 3</td></tr>
+<tr><td>4 - 7</td><td>af_jessica -&gt; 4</td><td>af_kore -&gt; 5</td><td>af_nicole -&gt; 6</td><td>af_nova -&gt; 7</td></tr>
+<tr><td>8 - 11</td><td>af_river -&gt; 8</td><td>af_sarah -&gt; 9</td><td>af_sky -&gt; 10</td><td>am_adam -&gt; 11</td></tr>
+<tr><td>12 - 15</td><td>am_echo -&gt; 12</td><td>am_eric -&gt; 13</td><td>am_fenrir -&gt; 14</td><td>am_liam -&gt; 15</td></tr>
+<tr><td>16 - 19</td><td>am_michael -&gt; 16</td><td>am_onyx -&gt; 17</td><td>am_puck -&gt; 18</td><td>am_santa -&gt; 19</td></tr>
+<tr><td>20 - 23</td><td>bf_alice -&gt; 20</td><td>bf_emma -&gt; 21</td><td>bf_isabella -&gt; 22</td><td>bf_lily -&gt; 23</td></tr>
+<tr><td>24 - 27</td><td>bm_daniel -&gt; 24</td><td>bm_fable -&gt; 25</td><td>bm_george -&gt; 26</td><td>bm_lewis -&gt; 27</td></tr>
+<tr><td>28 - 31</td><td>ef_dora -&gt; 28</td><td>em_alex -&gt; 29</td><td>ff_siwis -&gt; 30</td><td>hf_alpha -&gt; 31</td></tr>
+<tr><td>32 - 35</td><td>hf_beta -&gt; 32</td><td>hm_omega -&gt; 33</td><td>hm_psi -&gt; 34</td><td>if_sara -&gt; 35</td></tr>
+<tr><td>36 - 39</td><td>im_nicola -&gt; 36</td><td>jf_alpha -&gt; 37</td><td>jf_gongitsune -&gt; 38</td><td>jf_nezumi -&gt; 39</td></tr>
+<tr><td>40 - 43</td><td>jf_tebukuro -&gt; 40</td><td>jm_kumo -&gt; 41</td><td>pf_dora -&gt; 42</td><td>pm_alex -&gt; 43</td></tr>
+<tr><td>44 - 47</td><td>pm_santa -&gt; 44</td><td>zf_xiaobei -&gt; 45</td><td>zf_xiaoni -&gt; 46</td><td>zf_xiaoxiao -&gt; 47</td></tr>
+<tr><td>48 - 51</td><td>zf_xiaoyi -&gt; 48</td><td>zm_yunjian -&gt; 49</td><td>zm_yunxi -&gt; 50</td><td>zm_yunxia -&gt; 51</td></tr>
+<tr><td>52 - 52</td><td>zm_yunyang -&gt; 52</td><td></td><td></td><td></td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="samples"><a class="header" href="#samples">Samples</a></h2>
+<p>For the following text:</p>
+<pre><code>This model supports both Chinese and English. 小米的核心价值观是什么？答案
+是真诚热爱！有困难，请拨打110 或者18601200909。I am learning 机器学习.
+我在研究 machine learning。What do you think 中英文说的如何呢?
+今天是 2025年6月18号.
+</code></pre>
+<p>sample audios for different speakers are listed below:</p>
+<h3 id="speaker-0---af_alloy"><a class="header" href="#speaker-0---af_alloy">Speaker 0 - af_alloy</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.0/mp3/0-af_alloy.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-1---af_aoede"><a class="header" href="#speaker-1---af_aoede">Speaker 1 - af_aoede</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.0/mp3/1-af_aoede.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-2---af_bella"><a class="header" href="#speaker-2---af_bella">Speaker 2 - af_bella</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.0/mp3/2-af_bella.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-3---af_heart"><a class="header" href="#speaker-3---af_heart">Speaker 3 - af_heart</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.0/mp3/3-af_heart.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-4---af_jessica"><a class="header" href="#speaker-4---af_jessica">Speaker 4 - af_jessica</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.0/mp3/4-af_jessica.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-5---af_kore"><a class="header" href="#speaker-5---af_kore">Speaker 5 - af_kore</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.0/mp3/5-af_kore.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-6---af_nicole"><a class="header" href="#speaker-6---af_nicole">Speaker 6 - af_nicole</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.0/mp3/6-af_nicole.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-7---af_nova"><a class="header" href="#speaker-7---af_nova">Speaker 7 - af_nova</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.0/mp3/7-af_nova.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-8---af_river"><a class="header" href="#speaker-8---af_river">Speaker 8 - af_river</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.0/mp3/8-af_river.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-9---af_sarah"><a class="header" href="#speaker-9---af_sarah">Speaker 9 - af_sarah</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.0/mp3/9-af_sarah.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-10---af_sky"><a class="header" href="#speaker-10---af_sky">Speaker 10 - af_sky</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.0/mp3/10-af_sky.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-11---am_adam"><a class="header" href="#speaker-11---am_adam">Speaker 11 - am_adam</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.0/mp3/11-am_adam.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-12---am_echo"><a class="header" href="#speaker-12---am_echo">Speaker 12 - am_echo</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.0/mp3/12-am_echo.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-13---am_eric"><a class="header" href="#speaker-13---am_eric">Speaker 13 - am_eric</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.0/mp3/13-am_eric.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-14---am_fenrir"><a class="header" href="#speaker-14---am_fenrir">Speaker 14 - am_fenrir</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.0/mp3/14-am_fenrir.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-15---am_liam"><a class="header" href="#speaker-15---am_liam">Speaker 15 - am_liam</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.0/mp3/15-am_liam.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-16---am_michael"><a class="header" href="#speaker-16---am_michael">Speaker 16 - am_michael</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.0/mp3/16-am_michael.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-17---am_onyx"><a class="header" href="#speaker-17---am_onyx">Speaker 17 - am_onyx</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.0/mp3/17-am_onyx.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-18---am_puck"><a class="header" href="#speaker-18---am_puck">Speaker 18 - am_puck</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.0/mp3/18-am_puck.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-19---am_santa"><a class="header" href="#speaker-19---am_santa">Speaker 19 - am_santa</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.0/mp3/19-am_santa.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-20---bf_alice"><a class="header" href="#speaker-20---bf_alice">Speaker 20 - bf_alice</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.0/mp3/20-bf_alice.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-21---bf_emma"><a class="header" href="#speaker-21---bf_emma">Speaker 21 - bf_emma</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.0/mp3/21-bf_emma.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-22---bf_isabella"><a class="header" href="#speaker-22---bf_isabella">Speaker 22 - bf_isabella</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.0/mp3/22-bf_isabella.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-23---bf_lily"><a class="header" href="#speaker-23---bf_lily">Speaker 23 - bf_lily</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.0/mp3/23-bf_lily.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-24---bm_daniel"><a class="header" href="#speaker-24---bm_daniel">Speaker 24 - bm_daniel</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.0/mp3/24-bm_daniel.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-25---bm_fable"><a class="header" href="#speaker-25---bm_fable">Speaker 25 - bm_fable</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.0/mp3/25-bm_fable.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-26---bm_george"><a class="header" href="#speaker-26---bm_george">Speaker 26 - bm_george</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.0/mp3/26-bm_george.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-27---bm_lewis"><a class="header" href="#speaker-27---bm_lewis">Speaker 27 - bm_lewis</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.0/mp3/27-bm_lewis.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-28---ef_dora"><a class="header" href="#speaker-28---ef_dora">Speaker 28 - ef_dora</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.0/mp3/28-ef_dora.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-29---em_alex"><a class="header" href="#speaker-29---em_alex">Speaker 29 - em_alex</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.0/mp3/29-em_alex.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-30---ff_siwis"><a class="header" href="#speaker-30---ff_siwis">Speaker 30 - ff_siwis</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.0/mp3/30-ff_siwis.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-31---hf_alpha"><a class="header" href="#speaker-31---hf_alpha">Speaker 31 - hf_alpha</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.0/mp3/31-hf_alpha.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-32---hf_beta"><a class="header" href="#speaker-32---hf_beta">Speaker 32 - hf_beta</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.0/mp3/32-hf_beta.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-33---hm_omega"><a class="header" href="#speaker-33---hm_omega">Speaker 33 - hm_omega</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.0/mp3/33-hm_omega.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-34---hm_psi"><a class="header" href="#speaker-34---hm_psi">Speaker 34 - hm_psi</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.0/mp3/34-hm_psi.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-35---if_sara"><a class="header" href="#speaker-35---if_sara">Speaker 35 - if_sara</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.0/mp3/35-if_sara.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-36---im_nicola"><a class="header" href="#speaker-36---im_nicola">Speaker 36 - im_nicola</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.0/mp3/36-im_nicola.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-37---jf_alpha"><a class="header" href="#speaker-37---jf_alpha">Speaker 37 - jf_alpha</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.0/mp3/37-jf_alpha.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-38---jf_gongitsune"><a class="header" href="#speaker-38---jf_gongitsune">Speaker 38 - jf_gongitsune</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.0/mp3/38-jf_gongitsune.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-39---jf_nezumi"><a class="header" href="#speaker-39---jf_nezumi">Speaker 39 - jf_nezumi</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.0/mp3/39-jf_nezumi.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-40---jf_tebukuro"><a class="header" href="#speaker-40---jf_tebukuro">Speaker 40 - jf_tebukuro</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.0/mp3/40-jf_tebukuro.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-41---jm_kumo"><a class="header" href="#speaker-41---jm_kumo">Speaker 41 - jm_kumo</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.0/mp3/41-jm_kumo.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-42---pf_dora"><a class="header" href="#speaker-42---pf_dora">Speaker 42 - pf_dora</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.0/mp3/42-pf_dora.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-43---pm_alex"><a class="header" href="#speaker-43---pm_alex">Speaker 43 - pm_alex</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.0/mp3/43-pm_alex.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-44---pm_santa"><a class="header" href="#speaker-44---pm_santa">Speaker 44 - pm_santa</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.0/mp3/44-pm_santa.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-45---zf_xiaobei"><a class="header" href="#speaker-45---zf_xiaobei">Speaker 45 - zf_xiaobei</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.0/mp3/45-zf_xiaobei.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-46---zf_xiaoni"><a class="header" href="#speaker-46---zf_xiaoni">Speaker 46 - zf_xiaoni</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.0/mp3/46-zf_xiaoni.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-47---zf_xiaoxiao"><a class="header" href="#speaker-47---zf_xiaoxiao">Speaker 47 - zf_xiaoxiao</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.0/mp3/47-zf_xiaoxiao.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-48---zf_xiaoyi"><a class="header" href="#speaker-48---zf_xiaoyi">Speaker 48 - zf_xiaoyi</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.0/mp3/48-zf_xiaoyi.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-49---zm_yunjian"><a class="header" href="#speaker-49---zm_yunjian">Speaker 49 - zm_yunjian</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.0/mp3/49-zm_yunjian.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-50---zm_yunxi"><a class="header" href="#speaker-50---zm_yunxi">Speaker 50 - zm_yunxi</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.0/mp3/50-zm_yunxi.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-51---zm_yunxia"><a class="header" href="#speaker-51---zm_yunxia">Speaker 51 - zm_yunxia</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.0/mp3/51-zm_yunxia.mp3" type="audio/mp3">
+</audio>
+<h3 id="speaker-52---zm_yunyang"><a class="header" href="#speaker-52---zm_yunyang">Speaker 52 - zm_yunyang</a></h3>
+<audio controls="">
+  <source src="/sherpa/onnx/tts/all/kokoro/v1.0/mp3/52-zm_yunyang.mp3" type="audio/mp3">
+</audio>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../Chinese-English/matcha-icefall-zh-en.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="../Chinese-English/kokoro-multi-lang-v1_1.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../Chinese-English/matcha-icefall-zh-en.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="../Chinese-English/kokoro-multi-lang-v1_1.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr-ef4e11c1.min.js"></script>
+        <script src="../mark-09e88c2c.min.js"></script>
+        <script src="../searcher-c2a407aa.js"></script>
+
+        <script src="../clipboard-1626706a.min.js"></script>
+        <script src="../highlight-abc7f01d.js"></script>
+        <script src="../book-a0b12cfe.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+
+    </div>
+    </body>
+</html>

@@ -1,0 +1,377 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Speech recognition from URLs &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Streaming WebSocket Server" href="streaming-websocket-server.html" />
+    <link rel="prev" title="Real-time speech recognition from a microphone" href="real-time-speech-recongition-from-a-microphone.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">sherpa-onnx</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../install/index.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../faqs/index.html">Frequently Asked Question (FAQs)</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Python</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="install.html">Install the Python Package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="decode-files.html">Decode files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="real-time-speech-recongition-from-a-microphone.html">Real-time speech recognition from a microphone</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Speech recognition from URLs</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#decode-a-url">Decode a URL</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#rtmp">RTMP</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="streaming-websocket-server.html">Streaming WebSocket Server</a></li>
+<li class="toctree-l3"><a class="reference internal" href="non-streaming-websocket-server.html">Non-Streaming WebSocket Server</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../c-api/index.html">C API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../java-api/index.html">Java API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../javascript-api/index.html">Javascript API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kotlin-api/index.html">Kotlin API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../swift-api/index.html">Swift API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../go-api/index.html">Go API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../csharp-api/index.html">C# API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pascal-api/index.html">Pascal API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lazarus/index.html">Lazarus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../wasm/index.html">WebAssembly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../android/index.html">Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../harmony-os/index.html">HarmonyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ios/index.html">iOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../flutter/index.html">Flutter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../websocket/index.html">WebSocket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../hotwords/index.html">Hotwords (Contextual biasing)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kws/index.html">Keyword spotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../punctuation/index.html">Punctuation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../audio-tagging/index.html">Audio tagging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spoken-language-identification/index.html">Spoken language identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vad/index.html">VAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/index.html">Pre-trained models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/whisper/index.html">Whisper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../moonshine/index.html">Moonshine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../omnilingual-asr/index.html">Omnilingual ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sense-voice/index.html">SenseVoice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../funasr-nano/index.html">FunASR Nano</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../paraformer/index.html">Paraformer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nemo/index.html">NeMo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../FireRedAsr/index.html">FireRedAsr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Dolphin/index.html">Dolphin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../homophone-replacer/index.html">拼音词组匹配替换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-diarization/index.html">Speaker Diarization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-identification/index.html">Speaker Identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speech-enhancement/index.html">Speech enhancement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../source-separation/index.html">Source separation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qnn/index.html">Qualcomm NPU (QNN, HTP)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rknn/index.html">rknn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ascend/index.html">Ascend NPU (昇腾 NPU)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tts/index.html">Text-to-speech (TTS)</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">sherpa-onnx</a> &raquo;</li>
+          <li><a href="index.html">Python</a> &raquo;</li>
+      <li>Speech recognition from URLs</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/onnx/python/speech-recognition-from-urls.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="speech-recognition-from-urls">
+<h1>Speech recognition from URLs<a class="headerlink" href="#speech-recognition-from-urls" title="Permalink to this heading"></a></h1>
+<p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a> also supports decoding from URLs.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>Only streaming models are currently supported. Please modify the
+<a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/blob/master/python-api-examples/speech-recognition-from-url.py">code</a>
+for non-streaming models on need.</p>
+</div>
+<p>All types of URLs supported by <code class="docutils literal notranslate"><span class="pre">ffmpeg</span></code> are supported.</p>
+<p>The following table lists some example URLs.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>Type</p></td>
+<td><p>Example</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://en.wikipedia.org/wiki/Real-Time_Messaging_Protocol">RTMP</a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">rtmp://localhost/live/livestream</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>OPUS file</p></td>
+<td><p><a class="reference external" href="https://huggingface.co/spaces/k2-fsa/automatic-speech-recognition/resolve/main/test_wavs/wenetspeech/DEV_T0000000000.opus">https://huggingface.co/spaces/k2-fsa/automatic-speech-recognition/resolve/main/test_wavs/wenetspeech/DEV_T0000000000.opus</a></p></td>
+</tr>
+<tr class="row-even"><td><p>WAVE file</p></td>
+<td><p><a class="reference external" href="https://huggingface.co/spaces/k2-fsa/automatic-speech-recognition/resolve/main/test_wavs/aishell2/ID0012W0030.wav">https://huggingface.co/spaces/k2-fsa/automatic-speech-recognition/resolve/main/test_wavs/aishell2/ID0012W0030.wav</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>Local WAVE file</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">file:///Users/fangjun/open-source/sherpa-onnx/a.wav</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<p>Before you continue, please install <code class="docutils literal notranslate"><span class="pre">ffmpeg</span></code> first.</p>
+<p>For instance, you can use <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">apt-get</span> <span class="pre">install</span> <span class="pre">ffmpeg</span></code> for Ubuntu
+and <code class="docutils literal notranslate"><span class="pre">brew</span> <span class="pre">install</span> <span class="pre">ffmpeg</span></code> for macOS.</p>
+<p>We use the model <a class="reference internal" href="../pretrained_models/online-transducer/zipformer-transducer-models.html#sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20"><span class="std std-ref">csukuangfj/sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20 (Bilingual, Chinese + English)</span></a>
+for demonstration in the following examples.</p>
+<section id="decode-a-url">
+<h2>Decode a URL<a class="headerlink" href="#decode-a-url" title="Permalink to this heading"></a></h2>
+<p>This example shows you how to decode a URL pointing to a file.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>The file does not need to be a WAVE file. It can be a file of any format
+supported by <code class="docutils literal notranslate"><span class="pre">ffmpeg</span></code>.</p>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>./python-api-examples/speech-recognition-from-url.py<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--encoder<span class="w"> </span>./sherpa-onnx-streaming-zipformer-en-2023-06-26/encoder-epoch-99-avg-1-chunk-16-left-128.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--decoder<span class="w"> </span>./sherpa-onnx-streaming-zipformer-en-2023-06-26/decoder-epoch-99-avg-1-chunk-16-left-128.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--joiner<span class="w"> </span>./sherpa-onnx-streaming-zipformer-en-2023-06-26/joiner-epoch-99-avg-1-chunk-16-left-128.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="w"> </span>./sherpa-onnx-streaming-zipformer-en-2023-06-26/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--url<span class="w"> </span>https://huggingface.co/spaces/k2-fsa/automatic-speech-recognition/resolve/main/test_wavs/librispeech/1089-134686-0001.wav
+</pre></div>
+</div>
+</section>
+<section id="rtmp">
+<h2>RTMP<a class="headerlink" href="#rtmp" title="Permalink to this heading"></a></h2>
+<p>In this example, we use <code class="docutils literal notranslate"><span class="pre">ffmpeg</span></code> to capture a microphone and push the
+audio stream to a server using RTMP, and then we start <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a> to pull
+the audio stream from the server for recognition.</p>
+<section id="install-the-server">
+<h3>Install the server<a class="headerlink" href="#install-the-server" title="Permalink to this heading"></a></h3>
+<p>We will use <a class="reference external" href="https://github.com/ossrs/srs">srs</a> as the server. Let us first install <a class="reference external" href="https://github.com/ossrs/srs">srs</a> from source:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>-b<span class="w"> </span>develop<span class="w"> </span>https://github.com/ossrs/srs.git
+<span class="nb">cd</span><span class="w"> </span>srs/trunk
+./configure
+make
+
+<span class="c1"># Check that we have compiled srs successfully</span>
+./objs/srs<span class="w"> </span>--help
+
+<span class="c1"># Note: ./objs/srs is statically linked and depends only on system libraries.</span>
+</pre></div>
+</div>
+</section>
+<section id="start-the-server">
+<h3>Start the server<a class="headerlink" href="#start-the-server" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">ulimit</span><span class="w"> </span>-HSn<span class="w"> </span><span class="m">10000</span>
+
+<span class="c1"># switch to the directory srs/trunk</span>
+./objs/srs<span class="w"> </span>-c<span class="w"> </span>conf/srs.conf
+</pre></div>
+</div>
+<p>The above command gives the following output:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>srs<span class="o">(</span><span class="m">51047</span>,0x7ff8451198c0<span class="o">)</span><span class="w"> </span>malloc:<span class="w"> </span>nano<span class="w"> </span>zone<span class="w"> </span>abandoned<span class="w"> </span>due<span class="w"> </span>to<span class="w"> </span>inability<span class="w"> </span>to<span class="w"> </span>preallocate<span class="w"> </span>reserved<span class="w"> </span>vm<span class="w"> </span>space.
+Asan:<span class="w"> </span>Please<span class="w"> </span>setup<span class="w"> </span>the<span class="w"> </span>env<span class="w"> </span><span class="nv">MallocNanoZone</span><span class="o">=</span><span class="m">0</span><span class="w"> </span>to<span class="w"> </span>disable<span class="w"> </span>the<span class="w"> </span>warning,<span class="w"> </span>see<span class="w"> </span>https://stackoverflow.com/a/70209891/17679565
+<span class="o">[</span><span class="m">2023</span>-07-05<span class="w"> </span><span class="m">12</span>:19:23.017<span class="o">][</span>INFO<span class="o">][</span><span class="m">51047</span><span class="o">][</span>78gw8v44<span class="o">]</span><span class="w"> </span>XCORE-SRS/6.0.55<span class="o">(</span>Bee<span class="o">)</span>
+<span class="o">[</span><span class="m">2023</span>-07-05<span class="w"> </span><span class="m">12</span>:19:23.021<span class="o">][</span>INFO<span class="o">][</span><span class="m">51047</span><span class="o">][</span>78gw8v44<span class="o">]</span><span class="w"> </span>config<span class="w"> </span>parse<span class="w"> </span><span class="nb">complete</span>
+<span class="o">[</span><span class="m">2023</span>-07-05<span class="w"> </span><span class="m">12</span>:19:23.021<span class="o">][</span>INFO<span class="o">][</span><span class="m">51047</span><span class="o">][</span>78gw8v44<span class="o">]</span><span class="w"> </span>you<span class="w"> </span>can<span class="w"> </span>check<span class="w"> </span>log<span class="w"> </span>by:<span class="w"> </span>tail<span class="w"> </span>-n<span class="w"> </span><span class="m">30</span><span class="w"> </span>-f<span class="w"> </span>./objs/srs.log
+<span class="o">[</span><span class="m">2023</span>-07-05<span class="w"> </span><span class="m">12</span>:19:23.021<span class="o">][</span>INFO<span class="o">][</span><span class="m">51047</span><span class="o">][</span>78gw8v44<span class="o">]</span><span class="w"> </span>please<span class="w"> </span>check<span class="w"> </span>SRS<span class="w"> </span>by:<span class="w"> </span>./etc/init.d/srs<span class="w"> </span>status
+</pre></div>
+</div>
+<p>To check the status of <a class="reference external" href="https://github.com/ossrs/srs">srs</a>, use</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./etc/init.d/srs<span class="w"> </span>status
+</pre></div>
+</div>
+<p>which gives the following output:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>SRS<span class="o">(</span>pid<span class="w"> </span><span class="m">51548</span><span class="o">)</span><span class="w"> </span>is<span class="w"> </span>running.<span class="w">                                 </span><span class="o">[</span><span class="w">  </span>OK<span class="w">  </span><span class="o">]</span>
+</pre></div>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>If you fail to start the <a class="reference external" href="https://github.com/ossrs/srs">srs</a> server, please check the log file
+<code class="docutils literal notranslate"><span class="pre">./objs/srs.log</span></code> for a fix.</p>
+</div>
+</section>
+<section id="start-ffmpeg-to-push-audio-stream">
+<h3>Start ffmpeg to push audio stream<a class="headerlink" href="#start-ffmpeg-to-push-audio-stream" title="Permalink to this heading"></a></h3>
+<p>First, let us list available recording devices on the current computer
+with the following command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ffmpeg<span class="w"> </span>-hide_banner<span class="w"> </span>-f<span class="w"> </span>avfoundation<span class="w"> </span>-list_devices<span class="w"> </span><span class="nb">true</span><span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;&quot;</span>
+</pre></div>
+</div>
+<p>It gives the following output on my computer:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">[</span>AVFoundation<span class="w"> </span>indev<span class="w"> </span>@<span class="w"> </span>0x7f9f41904840<span class="o">]</span><span class="w"> </span>AVFoundation<span class="w"> </span>video<span class="w"> </span>devices:
+<span class="o">[</span>AVFoundation<span class="w"> </span>indev<span class="w"> </span>@<span class="w"> </span>0x7f9f41904840<span class="o">]</span><span class="w"> </span><span class="o">[</span><span class="m">0</span><span class="o">]</span><span class="w"> </span>FaceTime<span class="w"> </span>HD<span class="w"> </span>Camera<span class="w"> </span><span class="o">(</span>Built-in<span class="o">)</span>
+<span class="o">[</span>AVFoundation<span class="w"> </span>indev<span class="w"> </span>@<span class="w"> </span>0x7f9f41904840<span class="o">]</span><span class="w"> </span><span class="o">[</span><span class="m">1</span><span class="o">]</span><span class="w"> </span>Capture<span class="w"> </span>screen<span class="w"> </span><span class="m">0</span>
+<span class="o">[</span>AVFoundation<span class="w"> </span>indev<span class="w"> </span>@<span class="w"> </span>0x7f9f41904840<span class="o">]</span><span class="w"> </span>AVFoundation<span class="w"> </span>audio<span class="w"> </span>devices:
+<span class="o">[</span>AVFoundation<span class="w"> </span>indev<span class="w"> </span>@<span class="w"> </span>0x7f9f41904840<span class="o">]</span><span class="w"> </span><span class="o">[</span><span class="m">0</span><span class="o">]</span><span class="w"> </span>Background<span class="w"> </span>Music
+<span class="o">[</span>AVFoundation<span class="w"> </span>indev<span class="w"> </span>@<span class="w"> </span>0x7f9f41904840<span class="o">]</span><span class="w"> </span><span class="o">[</span><span class="m">1</span><span class="o">]</span><span class="w"> </span>MacBook<span class="w"> </span>Pro<span class="w"> </span>Microphone
+<span class="o">[</span>AVFoundation<span class="w"> </span>indev<span class="w"> </span>@<span class="w"> </span>0x7f9f41904840<span class="o">]</span><span class="w"> </span><span class="o">[</span><span class="m">2</span><span class="o">]</span><span class="w"> </span>Background<span class="w"> </span>Music<span class="w"> </span><span class="o">(</span>UI<span class="w"> </span>Sounds<span class="o">)</span>
+<span class="o">[</span>AVFoundation<span class="w"> </span>indev<span class="w"> </span>@<span class="w"> </span>0x7f9f41904840<span class="o">]</span><span class="w"> </span><span class="o">[</span><span class="m">3</span><span class="o">]</span><span class="w"> </span>WeMeet<span class="w"> </span>Audio<span class="w"> </span>Device
+:<span class="w"> </span>Input/output<span class="w"> </span>error
+</pre></div>
+</div>
+<p>We will use the device <code class="docutils literal notranslate"><span class="pre">[1]</span> <span class="pre">MacBook</span> <span class="pre">Pro</span> <span class="pre">Microphone</span></code>. Note that its index
+is <code class="docutils literal notranslate"><span class="pre">1</span></code>, so we will use <code class="docutils literal notranslate"><span class="pre">-i</span> <span class="pre">&quot;:1&quot;</span></code> in the following command to start
+recording and push the recorded audio stream to the server under the
+address <code class="docutils literal notranslate"><span class="pre">rtmp://localhost/live/livestream</span></code>.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>The default TCP port for <a class="reference external" href="https://en.wikipedia.org/wiki/Real-Time_Messaging_Protocol">RTMP</a> is <code class="docutils literal notranslate"><span class="pre">1935</span></code>.</p>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ffmpeg<span class="w"> </span>-hide_banner<span class="w"> </span>-f<span class="w"> </span>avfoundation<span class="w"> </span>-i<span class="w"> </span><span class="s2">&quot;:1&quot;</span><span class="w"> </span>-acodec<span class="w"> </span>aac<span class="w"> </span>-ab<span class="w"> </span>64k<span class="w"> </span>-ar<span class="w"> </span><span class="m">16000</span><span class="w"> </span>-ac<span class="w"> </span><span class="m">1</span><span class="w"> </span>-f<span class="w"> </span>flv<span class="w"> </span>rtmp://localhost/live/livestream
+</pre></div>
+</div>
+<p>The above command gives the following output:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Input<span class="w"> </span><span class="c1">#0, avfoundation, from &#39;:1&#39;:</span>
+<span class="w">  </span>Duration:<span class="w"> </span>N/A,<span class="w"> </span>start:<span class="w"> </span><span class="m">830938</span>.803938,<span class="w"> </span>bitrate:<span class="w"> </span><span class="m">1536</span><span class="w"> </span>kb/s
+<span class="w">  </span>Stream<span class="w"> </span><span class="c1">#0:0: Audio: pcm_f32le, 48000 Hz, mono, flt, 1536 kb/s</span>
+Stream<span class="w"> </span>mapping:
+<span class="w">  </span>Stream<span class="w"> </span><span class="c1">#0:0 -&gt; #0:0 (pcm_f32le (native) -&gt; aac (native))</span>
+Press<span class="w"> </span><span class="o">[</span>q<span class="o">]</span><span class="w"> </span>to<span class="w"> </span>stop,<span class="w"> </span><span class="o">[</span>?<span class="o">]</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="nb">help</span>
+Output<span class="w"> </span><span class="c1">#0, flv, to &#39;rtmp://localhost/live/livestream&#39;:</span>
+<span class="w">  </span>Metadata:
+<span class="w">    </span>encoder<span class="w">         </span>:<span class="w"> </span>Lavf60.3.100
+<span class="w">  </span>Stream<span class="w"> </span><span class="c1">#0:0: Audio: aac (LC) ([10][0][0][0] / 0x000A), 16000 Hz, mono, fltp, 64 kb/s</span>
+<span class="w">    </span>Metadata:
+<span class="w">      </span>encoder<span class="w">         </span>:<span class="w"> </span>Lavc60.3.100<span class="w"> </span>aac
+<span class="nv">size</span><span class="o">=</span><span class="w">      </span>64kB<span class="w"> </span><span class="nv">time</span><span class="o">=</span><span class="m">00</span>:00:08.39<span class="w"> </span><span class="nv">bitrate</span><span class="o">=</span><span class="w">  </span><span class="m">62</span>.3kbits/s<span class="w"> </span><span class="nv">speed</span><span class="o">=</span><span class="m">0</span>.977x
+</pre></div>
+</div>
+</section>
+<section id="start-sherpa-onnx-to-pull-audio-stream">
+<h3>Start sherpa-onnx to pull audio stream<a class="headerlink" href="#start-sherpa-onnx-to-pull-audio-stream" title="Permalink to this heading"></a></h3>
+<p>Now we can start <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a> to pull audio stream from <code class="docutils literal notranslate"><span class="pre">rtmp://localhost/live/livestream</span></code>
+for speech recognition.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>./python-api-examples/speech-recognition-from-url.py<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--encoder<span class="w"> </span>./sherpa-onnx-streaming-zipformer-en-2023-06-26/encoder-epoch-99-avg-1-chunk-16-left-128.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--decoder<span class="w"> </span>./sherpa-onnx-streaming-zipformer-en-2023-06-26/decoder-epoch-99-avg-1-chunk-16-left-128.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--joiner<span class="w"> </span>./sherpa-onnx-streaming-zipformer-en-2023-06-26/joiner-epoch-99-avg-1-chunk-16-left-128.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="w"> </span>./sherpa-onnx-streaming-zipformer-en-2023-06-26/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--url<span class="w"> </span>rtmp://localhost/live/livestream
+</pre></div>
+</div>
+<p>You should see the recognition result printed to the console as you speak.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>You can replace <code class="docutils literal notranslate"><span class="pre">localhost</span></code> with your server IP
+and start <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a> on many computers at the same time to pull
+audio stream from the address <a class="reference external" href="rtmp://your_server_ip/live/livestream">rtmp://your_server_ip/live/livestream</a>.</p>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="real-time-speech-recongition-from-a-microphone.html" class="btn btn-neutral float-left" title="Real-time speech recognition from a microphone" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="streaming-websocket-server.html" class="btn btn-neutral float-right" title="Streaming WebSocket Server" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

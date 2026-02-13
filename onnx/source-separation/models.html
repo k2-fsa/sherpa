@@ -1,0 +1,796 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Source separation models &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Qualcomm NPU (QNN, HTP)" href="../qnn/index.html" />
+    <link rel="prev" title="Hugginface space for source separation" href="hf.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">sherpa-onnx</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../install/index.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../faqs/index.html">Frequently Asked Question (FAQs)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python/index.html">Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../c-api/index.html">C API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../java-api/index.html">Java API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../javascript-api/index.html">Javascript API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kotlin-api/index.html">Kotlin API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../swift-api/index.html">Swift API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../go-api/index.html">Go API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../csharp-api/index.html">C# API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pascal-api/index.html">Pascal API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lazarus/index.html">Lazarus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../wasm/index.html">WebAssembly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../android/index.html">Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../harmony-os/index.html">HarmonyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ios/index.html">iOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../flutter/index.html">Flutter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../websocket/index.html">WebSocket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../hotwords/index.html">Hotwords (Contextual biasing)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kws/index.html">Keyword spotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../punctuation/index.html">Punctuation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../audio-tagging/index.html">Audio tagging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spoken-language-identification/index.html">Spoken language identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vad/index.html">VAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/index.html">Pre-trained models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/whisper/index.html">Whisper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../moonshine/index.html">Moonshine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../omnilingual-asr/index.html">Omnilingual ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sense-voice/index.html">SenseVoice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../funasr-nano/index.html">FunASR Nano</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../paraformer/index.html">Paraformer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nemo/index.html">NeMo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../FireRedAsr/index.html">FireRedAsr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Dolphin/index.html">Dolphin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../homophone-replacer/index.html">拼音词组匹配替换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-diarization/index.html">Speaker Diarization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-identification/index.html">Speaker Identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speech-enhancement/index.html">Speech enhancement</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Source separation</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="hf.html">Hugginface space for source separation</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Source separation models</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#spleeter">Spleeter</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#uvr">UVR</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../qnn/index.html">Qualcomm NPU (QNN, HTP)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rknn/index.html">rknn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ascend/index.html">Ascend NPU (昇腾 NPU)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tts/index.html">Text-to-speech (TTS)</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">sherpa-onnx</a> &raquo;</li>
+          <li><a href="index.html">Source separation</a> &raquo;</li>
+      <li>Source separation models</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/onnx/source-separation/models.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="source-separation-models">
+<h1>Source separation models<a class="headerlink" href="#source-separation-models" title="Permalink to this heading"></a></h1>
+<p>This page lists the source separation models supported in <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>.</p>
+<p>We only describe <code class="docutils literal notranslate"><span class="pre">some</span></code> of the models. You can find <code class="docutils literal notranslate"><span class="pre">ALL</span></code> models from
+the following address:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/tag/source-separation-models">https://github.com/k2-fsa/sherpa-onnx/releases/tag/source-separation-models</a></p>
+</div></blockquote>
+<section id="spleeter">
+<h2>Spleeter<a class="headerlink" href="#spleeter" title="Permalink to this heading"></a></h2>
+<p>It is from <a class="reference external" href="https://github.com/deezer/spleeter">https://github.com/deezer/spleeter</a>.</p>
+<p>We only support the <code class="docutils literal notranslate"><span class="pre">2-stem</span></code> model at present.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>For those who want to learn how to convert the PyTorch checkpoint to
+the model supported in <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>, please see the scripts in following
+address:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/tree/master/scripts/spleeter">https://github.com/k2-fsa/sherpa-onnx/tree/master/scripts/spleeter</a></p>
+</div></blockquote>
+</div>
+<p>There variants of the <code class="docutils literal notranslate"><span class="pre">2-stem</span></code> models are given below:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>Model</p></td>
+<td><p>Comment</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/download/source-separation-models/sherpa-onnx-spleeter-2stems.tar.bz2">sherpa-onnx-spleeter-2stems.tar.bz2</a></p></td>
+<td><p>No quantization</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/download/source-separation-models/sherpa-onnx-spleeter-2stems-int8.tar.bz2">sherpa-onnx-spleeter-2stems-int8.tar.bz2</a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">int8</span></code> quantization</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/download/source-separation-models/sherpa-onnx-spleeter-2stems-fp16.tar.bz2">sherpa-onnx-spleeter-2stems-fp16.tar.bz2</a></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">fp16</span></code> quantization</p></td>
+</tr>
+</tbody>
+</table>
+<p>We describe how to use the <code class="docutils literal notranslate"><span class="pre">fp16</span></code> quantized model. Steps below are also applicable to other variants.</p>
+<section id="download-the-model">
+<h3>Download the model<a class="headerlink" href="#download-the-model" title="Permalink to this heading"></a></h3>
+<p>Please use the following commands to download it:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/source-separation-models/sherpa-onnx-spleeter-2stems-fp16.tar.bz2
+tar<span class="w"> </span>xvf<span class="w"> </span>sherpa-onnx-spleeter-2stems-fp16.tar.bz2
+rm<span class="w"> </span>sherpa-onnx-spleeter-2stems-fp16.tar.bz2
+
+ls<span class="w"> </span>-lh<span class="w"> </span>sherpa-onnx-spleeter-2stems-fp16
+</pre></div>
+</div>
+<p>You should see the following output:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>ls<span class="w"> </span>-lh<span class="w"> </span>sherpa-onnx-spleeter-2stems-fp16/
+
+total<span class="w"> </span><span class="m">76880</span>
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">    </span>19M<span class="w"> </span>May<span class="w"> </span><span class="m">23</span><span class="w"> </span><span class="m">15</span>:27<span class="w"> </span>accompaniment.fp16.onnx
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">    </span>19M<span class="w"> </span>May<span class="w"> </span><span class="m">23</span><span class="w"> </span><span class="m">15</span>:27<span class="w"> </span>vocals.fp16.onnx
+</pre></div>
+</div>
+</section>
+<section id="download-test-files">
+<h3>Download test files<a class="headerlink" href="#download-test-files" title="Permalink to this heading"></a></h3>
+<p>We use the following two test wave files:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/source-separation-models/qi-feng-le-zh.wav
+
+wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/source-separation-models/audio_example.wav
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ls<span class="w"> </span>-lh<span class="w"> </span>audio_example.wav<span class="w"> </span>qi-feng-le-zh.wav
+
+-rw-r--r--@<span class="w"> </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">   </span><span class="m">1</span>.8M<span class="w"> </span>May<span class="w"> </span><span class="m">23</span><span class="w"> </span><span class="m">15</span>:59<span class="w"> </span>audio_example.wav
+-rw-r--r--@<span class="w"> </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">   </span><span class="m">4</span>.4M<span class="w"> </span>May<span class="w"> </span><span class="m">23</span><span class="w"> </span><span class="m">22</span>:06<span class="w"> </span>qi-feng-le-zh.wav
+</pre></div>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>To make things easier, we support only <code class="docutils literal notranslate"><span class="pre">*.wav</span></code> files. If you have other formats, e.g.,
+<code class="docutils literal notranslate"><span class="pre">*.mp3</span></code>, <code class="docutils literal notranslate"><span class="pre">*.mp4</span></code>, or <code class="docutils literal notranslate"><span class="pre">*.mov</span></code>, you can use</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ffmpeg<span class="w"> </span>-i<span class="w"> </span>your.mp3<span class="w"> </span>-vn<span class="w"> </span>-acodec<span class="w"> </span>pcm_s16le<span class="w"> </span>-ar<span class="w"> </span><span class="m">44100</span><span class="w"> </span>-ac<span class="w"> </span><span class="m">2</span><span class="w"> </span>your.wav
+ffmpeg<span class="w"> </span>-i<span class="w"> </span>your.mp4<span class="w"> </span>-vn<span class="w"> </span>-acodec<span class="w"> </span>pcm_s16le<span class="w"> </span>-ar<span class="w"> </span><span class="m">44100</span><span class="w"> </span>-ac<span class="w"> </span><span class="m">2</span><span class="w"> </span>your.wav
+ffmpeg<span class="w"> </span>-i<span class="w"> </span>your.mov<span class="w"> </span>-vn<span class="w"> </span>-acodec<span class="w"> </span>pcm_s16le<span class="w"> </span>-ar<span class="w"> </span><span class="m">44100</span><span class="w"> </span>-ac<span class="w"> </span><span class="m">2</span><span class="w"> </span>your.wav
+</pre></div>
+</div>
+</div></blockquote>
+<p>to convert them to <code class="docutils literal notranslate"><span class="pre">*.wav</span></code> files.</p>
+</div>
+<p>The downloaded test files are given below.</p>
+<table>
+  <tr>
+    <th>Wave filename</th>
+    <th>Content</th>
+  </tr>
+  <tr>
+    <td>qi-feng-le-zh.wav</td>
+    <td>
+     <audio title="qi-feng-le-zh.wav" controls="controls">
+           <source src="/sherpa/_static/source-separation/qi-feng-le-zh.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+  </tr>
+
+  <tr>
+    <td>audio_example.wav</td>
+    <td>
+     <audio title="audio_example.wav" controls="controls">
+           <source src="/sherpa/_static/source-separation/audio_example.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+  </tr>
+</table></section>
+<section id="example-1-2-with-qi-feng-le-zh-wav">
+<h3>Example 1/2 with qi-feng-le-zh.wav<a class="headerlink" href="#example-1-2-with-qi-feng-le-zh-wav" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./build/bin/sherpa-onnx-offline-source-separation<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--spleeter-vocals<span class="o">=</span>sherpa-onnx-spleeter-2stems-fp16/vocals.fp16.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--spleeter-accompaniment<span class="o">=</span>sherpa-onnx-spleeter-2stems-fp16/accompaniment.fp16.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--num-threads<span class="o">=</span><span class="m">1</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--input-wav<span class="o">=</span>./qi-feng-le-zh.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--output-vocals-wav<span class="o">=</span>spleeter_qi_feng_le_vocals.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--output-accompaniment-wav<span class="o">=</span>spleeter_qi_feng_le_non_vocals.wav
+</pre></div>
+</div>
+<p>Output logs are given below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">OfflineSourceSeparationConfig</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">OfflineSourceSeparationModelConfig</span><span class="p">(</span><span class="n">spleeter</span><span class="o">=</span><span class="n">OfflineSourceSeparationSpleeterModelConfig</span><span class="p">(</span><span class="n">vocals</span><span class="o">=</span><span class="s2">&quot;sherpa-onnx-spleeter-2stems-fp16/vocals.fp16.onnx&quot;</span><span class="p">,</span> <span class="n">accompaniment</span><span class="o">=</span><span class="s2">&quot;sherpa-onnx-spleeter-2stems-fp16/accompaniment.fp16.onnx&quot;</span><span class="p">),</span> <span class="n">uvr</span><span class="o">=</span><span class="n">OfflineSourceSeparationUvrModelConfig</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">),</span> <span class="n">num_threads</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">provider</span><span class="o">=</span><span class="s2">&quot;cpu&quot;</span><span class="p">))</span>
+<span class="n">Started</span>
+<span class="n">Done</span>
+<span class="n">Saved</span> <span class="n">to</span> <span class="n">write</span> <span class="n">to</span> <span class="s1">&#39;spleeter_qi_feng_le_vocals.wav&#39;</span> <span class="ow">and</span> <span class="s1">&#39;spleeter_qi_feng_le_non_vocals.wav&#39;</span>
+<span class="n">num</span> <span class="n">threads</span><span class="p">:</span> <span class="mi">1</span>
+<span class="n">Elapsed</span> <span class="n">seconds</span><span class="p">:</span> <span class="mf">2.052</span> <span class="n">s</span>
+<span class="n">Real</span> <span class="n">time</span> <span class="n">factor</span> <span class="p">(</span><span class="n">RTF</span><span class="p">):</span> <span class="mf">2.052</span> <span class="o">/</span> <span class="mf">26.102</span> <span class="o">=</span> <span class="mf">0.079</span>
+</pre></div>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>Pay special attention to its <code class="docutils literal notranslate"><span class="pre">RTF</span></code>. It is super fast, on CPU, with only 1 thread!</p>
+</div>
+<table>
+  <tr>
+    <th>Wave filename</th>
+    <th>Content</th>
+  </tr>
+  <tr>
+    <td>qi-feng-le-zh.wav</td>
+    <td>
+     <audio title="qi-feng-le-zh.wav" controls="controls">
+           <source src="/sherpa/_static/source-separation/qi-feng-le-zh.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+  </tr>
+
+  <tr>
+    <td>spleeter_qi_feng_le_<b style="color:red;">vocals</b>.wav</td>
+    <td>
+     <audio title="spleeter_qi_feng_le_vocals.wav" controls="controls">
+           <source src="/sherpa/_static/source-separation/spleeter_qi_feng_le_vocals.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+  </tr>
+
+  <tr>
+    <td>spleeter_qi_feng_le_<b style="color:red;">non_vocals</b>.wav</td>
+    <td>
+     <audio title="spleeter_qi_feng_le_non_vocals.wav" controls="controls">
+           <source src="/sherpa/_static/source-separation/spleeter_qi_feng_le_non_vocals.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+  </tr>
+
+</table></section>
+<section id="example-2-2-with-audio-example-wav">
+<h3>Example 2/2 with audio_example.wav<a class="headerlink" href="#example-2-2-with-audio-example-wav" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./build/bin/sherpa-onnx-offline-source-separation<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--spleeter-vocals<span class="o">=</span>sherpa-onnx-spleeter-2stems-fp16/vocals.fp16.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--spleeter-accompaniment<span class="o">=</span>sherpa-onnx-spleeter-2stems-fp16/accompaniment.fp16.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--num-threads<span class="o">=</span><span class="m">1</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--input-wav<span class="o">=</span>./audio_example.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--output-vocals-wav<span class="o">=</span>spleeter_audio_example_vocals.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--output-accompaniment-wav<span class="o">=</span>spleeter_audio_example_non_vocals.wav
+</pre></div>
+</div>
+<p>Output logs are given below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">fangjun</span><span class="o">/</span><span class="nb">open</span><span class="o">-</span><span class="n">source</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">csrc</span><span class="o">/</span><span class="n">parse</span><span class="o">-</span><span class="n">options</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="n">Read</span><span class="p">:</span><span class="mi">372</span> <span class="o">./</span><span class="n">build</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">offline</span><span class="o">-</span><span class="n">source</span><span class="o">-</span><span class="n">separation</span> <span class="o">--</span><span class="n">spleeter</span><span class="o">-</span><span class="n">vocals</span><span class="o">=</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">spleeter</span><span class="o">-</span><span class="mi">2</span><span class="n">stems</span><span class="o">-</span><span class="n">fp16</span><span class="o">/</span><span class="n">vocals</span><span class="o">.</span><span class="n">fp16</span><span class="o">.</span><span class="n">onnx</span> <span class="o">--</span><span class="n">spleeter</span><span class="o">-</span><span class="n">accompaniment</span><span class="o">=</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">spleeter</span><span class="o">-</span><span class="mi">2</span><span class="n">stems</span><span class="o">-</span><span class="n">fp16</span><span class="o">/</span><span class="n">accompaniment</span><span class="o">.</span><span class="n">fp16</span><span class="o">.</span><span class="n">onnx</span> <span class="o">--</span><span class="n">num</span><span class="o">-</span><span class="n">threads</span><span class="o">=</span><span class="mi">1</span> <span class="o">--</span><span class="nb">input</span><span class="o">-</span><span class="n">wav</span><span class="o">=./</span><span class="n">audio_example</span><span class="o">.</span><span class="n">wav</span> <span class="o">--</span><span class="n">output</span><span class="o">-</span><span class="n">vocals</span><span class="o">-</span><span class="n">wav</span><span class="o">=</span><span class="n">spleeter_audio_example_vocals</span><span class="o">.</span><span class="n">wav</span> <span class="o">--</span><span class="n">output</span><span class="o">-</span><span class="n">accompaniment</span><span class="o">-</span><span class="n">wav</span><span class="o">=</span><span class="n">spleeter_audio_example_non_vocals</span><span class="o">.</span><span class="n">wav</span>
+
+<span class="n">OfflineSourceSeparationConfig</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">OfflineSourceSeparationModelConfig</span><span class="p">(</span><span class="n">spleeter</span><span class="o">=</span><span class="n">OfflineSourceSeparationSpleeterModelConfig</span><span class="p">(</span><span class="n">vocals</span><span class="o">=</span><span class="s2">&quot;sherpa-onnx-spleeter-2stems-fp16/vocals.fp16.onnx&quot;</span><span class="p">,</span> <span class="n">accompaniment</span><span class="o">=</span><span class="s2">&quot;sherpa-onnx-spleeter-2stems-fp16/accompaniment.fp16.onnx&quot;</span><span class="p">),</span> <span class="n">uvr</span><span class="o">=</span><span class="n">OfflineSourceSeparationUvrModelConfig</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">),</span> <span class="n">num_threads</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">provider</span><span class="o">=</span><span class="s2">&quot;cpu&quot;</span><span class="p">))</span>
+<span class="n">Started</span>
+<span class="n">Done</span>
+<span class="n">Saved</span> <span class="n">to</span> <span class="n">write</span> <span class="n">to</span> <span class="s1">&#39;spleeter_audio_example_vocals.wav&#39;</span> <span class="ow">and</span> <span class="s1">&#39;spleeter_audio_example_non_vocals.wav&#39;</span>
+<span class="n">num</span> <span class="n">threads</span><span class="p">:</span> <span class="mi">1</span>
+<span class="n">Elapsed</span> <span class="n">seconds</span><span class="p">:</span> <span class="mf">0.787</span> <span class="n">s</span>
+<span class="n">Real</span> <span class="n">time</span> <span class="n">factor</span> <span class="p">(</span><span class="n">RTF</span><span class="p">):</span> <span class="mf">0.787</span> <span class="o">/</span> <span class="mf">10.919</span> <span class="o">=</span> <span class="mf">0.072</span>
+</pre></div>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>Pay special attention to its <code class="docutils literal notranslate"><span class="pre">RTF</span></code>. It is super fast, on CPU, with only 1 thread!</p>
+</div>
+<table>
+  <tr>
+    <th>Wave filename</th>
+    <th>Content</th>
+  </tr>
+  <tr>
+    <td>audio_example.wav</td>
+    <td>
+     <audio title="audio_example.wav" controls="controls">
+           <source src="/sherpa/_static/source-separation/audio_example.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+  </tr>
+
+  <tr>
+    <td>spleeter_audio_example_<b style="color:red;">vocals</b>.wav</td>
+    <td>
+     <audio title="spleeter_audio_example_vocals.wav" controls="controls">
+           <source src="/sherpa/_static/source-separation/spleeter_audio_example_vocals.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+  </tr>
+
+  <tr>
+    <td>spleeter_audio_example_<b style="color:red;">non_vocals</b>.wav</td>
+    <td>
+     <audio title="spleeter_audio_example_non_vocals.wav" controls="controls">
+           <source src="/sherpa/_static/source-separation/spleeter_audio_example_non_vocals.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+  </tr>
+
+</table></section>
+<section id="rtf-on-rk3588">
+<h3>RTF on RK3588<a class="headerlink" href="#rtf-on-rk3588" title="Permalink to this heading"></a></h3>
+<p>We use the following code to test the RTF of <cite>Spleeter</cite> on RK3588
+with Cortex <code class="docutils literal notranslate"><span class="pre">A76</span></code> CPU.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># 1 thread</span>
+taskset<span class="w"> </span>0x80<span class="w">  </span>./build/bin/sherpa-onnx-offline-source-separation<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--num-threads<span class="o">=</span><span class="m">1</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--spleeter-vocals<span class="o">=</span>sherpa-onnx-spleeter-2stems-fp16/vocals.fp16.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--spleeter-accompaniment<span class="o">=</span>sherpa-onnx-spleeter-2stems-fp16/accompaniment.fp16.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--input-wav<span class="o">=</span>./qi-feng-le-zh.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--output-vocals-wav<span class="o">=</span>spleeter_qi_feng_le_vocals.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--output-accompaniment-wav<span class="o">=</span>spleeter_qi_feng_le_non_vocals.wav
+
+<span class="c1"># 2 threads</span>
+taskset<span class="w"> </span>0xc0<span class="w">  </span>./build/bin/sherpa-onnx-offline-source-separation<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--num-threads<span class="o">=</span><span class="m">2</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--spleeter-vocals<span class="o">=</span>sherpa-onnx-spleeter-2stems-fp16/vocals.fp16.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--spleeter-accompaniment<span class="o">=</span>sherpa-onnx-spleeter-2stems-fp16/accompaniment.fp16.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--input-wav<span class="o">=</span>./qi-feng-le-zh.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--output-vocals-wav<span class="o">=</span>spleeter_qi_feng_le_vocals.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--output-accompaniment-wav<span class="o">=</span>spleeter_qi_feng_le_non_vocals.wav
+
+<span class="c1"># 3 threads</span>
+taskset<span class="w"> </span>0xe0<span class="w">  </span>./build/bin/sherpa-onnx-offline-source-separation<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--num-threads<span class="o">=</span><span class="m">3</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--spleeter-vocals<span class="o">=</span>sherpa-onnx-spleeter-2stems-fp16/vocals.fp16.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--spleeter-accompaniment<span class="o">=</span>sherpa-onnx-spleeter-2stems-fp16/accompaniment.fp16.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--input-wav<span class="o">=</span>./qi-feng-le-zh.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--output-vocals-wav<span class="o">=</span>spleeter_qi_feng_le_vocals.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--output-accompaniment-wav<span class="o">=</span>spleeter_qi_feng_le_non_vocals.wav
+
+<span class="c1"># 4 threads</span>
+taskset<span class="w"> </span>0xf0<span class="w">  </span>./build/bin/sherpa-onnx-offline-source-separation<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--num-threads<span class="o">=</span><span class="m">4</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--spleeter-vocals<span class="o">=</span>sherpa-onnx-spleeter-2stems-fp16/vocals.fp16.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--spleeter-accompaniment<span class="o">=</span>sherpa-onnx-spleeter-2stems-fp16/accompaniment.fp16.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--input-wav<span class="o">=</span>./qi-feng-le-zh.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--output-vocals-wav<span class="o">=</span>spleeter_qi_feng_le_vocals.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--output-accompaniment-wav<span class="o">=</span>spleeter_qi_feng_le_non_vocals.wav
+</pre></div>
+</div>
+<p>The results are given below:</p>
+<blockquote>
+<div><table class="docutils align-default">
+<colgroup>
+<col style="width: 46%" />
+<col style="width: 13%" />
+<col style="width: 13%" />
+<col style="width: 13%" />
+<col style="width: 13%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>num_threads</p></th>
+<th class="head"><p>1</p></th>
+<th class="head"><p>2</p></th>
+<th class="head"><p>3</p></th>
+<th class="head"><p>4</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>RTF on Cortex A76 CPU</p></td>
+<td><p>0.258</p></td>
+<td><p>0.176</p></td>
+<td><p>0.138</p></td>
+<td><p>0.127</p></td>
+</tr>
+</tbody>
+</table>
+</div></blockquote>
+</section>
+<section id="python-example">
+<h3>Python example<a class="headerlink" href="#python-example" title="Permalink to this heading"></a></h3>
+<p>Please see</p>
+<blockquote>
+<div><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/blob/master/python-api-examples/offline-source-separation-spleeter.py">https://github.com/k2-fsa/sherpa-onnx/blob/master/python-api-examples/offline-source-separation-spleeter.py</a></p>
+</div></blockquote>
+</section>
+</section>
+<section id="uvr">
+<h2>UVR<a class="headerlink" href="#uvr" title="Permalink to this heading"></a></h2>
+<p>It is from <a class="reference external" href="https://github.com/TRvlvr/model_repo/releases/tag/all_public_uvr_models">https://github.com/TRvlvr/model_repo/releases/tag/all_public_uvr_models</a>.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>For those who want to learn how to add meta data to the original ONNX models,
+please see the scripts in following address:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/blob/master/scripts/uvr_mdx/">https://github.com/k2-fsa/sherpa-onnx/blob/master/scripts/uvr_mdx/</a></p>
+</div></blockquote>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Please download  <code class="docutils literal notranslate"><span class="pre">UVR</span></code> models from <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/tag/source-separation-models">https://github.com/k2-fsa/sherpa-onnx/releases/tag/source-separation-models</a></p>
+<p>Please <code class="docutils literal notranslate"><span class="pre">don't</span></code> download <code class="docutils literal notranslate"><span class="pre">UVR</span></code> models from <a class="reference external" href="https://github.com/TRvlvr/model_repo/releases/tag/all_public_uvr_models">https://github.com/TRvlvr/model_repo/releases/tag/all_public_uvr_models</a></p>
+</div>
+<p>We support the following <code class="docutils literal notranslate"><span class="pre">UVR</span></code> models for source separation.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>Model</p></td>
+<td><p>File size (MB)</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/download/source-separation-models/UVR-MDX-NET-Inst_1.onnx">UVR-MDX-NET-Inst_1.onnx</a></p></td>
+<td><p>63.7</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/download/source-separation-models/UVR-MDX-NET-Inst_2.onnx">UVR-MDX-NET-Inst_2.onnx</a></p></td>
+<td><p>63.7</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/download/source-separation-models/UVR-MDX-NET-Inst_3.onnx">UVR-MDX-NET-Inst_3.onnx</a></p></td>
+<td><p>63.7</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/download/source-separation-models/UVR-MDX-NET-Inst_HQ_1.onnx">UVR-MDX-NET-Inst_HQ_1.onnx</a></p></td>
+<td><p>63.7</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/download/source-separation-models/UVR-MDX-NET-Inst_HQ_2.onnx">UVR-MDX-NET-Inst_HQ_2.onnx</a></p></td>
+<td><p>63.7</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/download/source-separation-models/UVR-MDX-NET-Inst_HQ_3.onnx">UVR-MDX-NET-Inst_HQ_3.onnx</a></p></td>
+<td><p>63.7</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/download/source-separation-models/UVR-MDX-NET-Inst_HQ_4.onnx">UVR-MDX-NET-Inst_HQ_4.onnx</a></p></td>
+<td><p>56.3</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/download/source-separation-models/UVR-MDX-NET-Inst_HQ_5.onnx">UVR-MDX-NET-Inst_HQ_5.onnx</a></p></td>
+<td><p>56.3</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/download/source-separation-models/UVR-MDX-NET-Inst_Main.onnx">UVR-MDX-NET-Inst_Main.onnx</a></p></td>
+<td><p>50.3</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/download/source-separation-models/UVR-MDX-NET-Voc_FT.onnx">UVR-MDX-NET-Voc_FT.onnx</a></p></td>
+<td><p>63.7</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/download/source-separation-models/UVR-MDX-NET_Crowd_HQ_1.onnx">UVR-MDX-NET_Crowd_HQ_1.onnx</a></p></td>
+<td><p>56.3</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/download/source-separation-models/UVR_MDXNET_1_9703.onnx">UVR_MDXNET_1_9703.onnx</a></p></td>
+<td><p>28.3</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/download/source-separation-models/UVR_MDXNET_2_9682.onnx">UVR_MDXNET_2_9682.onnx</a></p></td>
+<td><p>28.3</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/download/source-separation-models/UVR_MDXNET_3_9662.onnx">UVR_MDXNET_3_9662.onnx</a></p></td>
+<td><p>28.3</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/download/source-separation-models/UVR_MDXNET_9482.onnx">UVR_MDXNET_9482.onnx</a></p></td>
+<td><p>28.3</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/download/source-separation-models/UVR_MDXNET_KARA.onnx">UVR_MDXNET_KARA.onnx</a></p></td>
+<td><p>28.3</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/download/source-separation-models/UVR_MDXNET_KARA_2.onnx">UVR_MDXNET_KARA_2.onnx</a></p></td>
+<td><p>50.3</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/download/source-separation-models/UVR_MDXNET_Main.onnx">UVR_MDXNET_Main.onnx</a></p></td>
+<td><p>63.7</p></td>
+</tr>
+</tbody>
+</table>
+<p>In the following, we show how to use the model
+<a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/download/source-separation-models/UVR_MDXNET_9482.onnx">UVR_MDXNET_9482.onnx</a></p>
+<section id="id4">
+<h3>Download the model<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h3>
+<p>Please use the following commands to download it:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/source-separation-models/UVR_MDXNET_9482.onnx
+
+ls<span class="w"> </span>-lh<span class="w"> </span>UVR_MDXNET_9482.onnx
+</pre></div>
+</div>
+<p>You should see the following output:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ls<span class="w"> </span>-lh<span class="w"> </span>UVR_MDXNET_9482.onnx
+
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">    </span>28M<span class="w"> </span>May<span class="w"> </span><span class="m">31</span><span class="w"> </span><span class="m">13</span>:33<span class="w"> </span>UVR_MDXNET_9482.onnx
+</pre></div>
+</div>
+</section>
+<section id="id5">
+<h3>Download test files<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h3>
+<p>We use the following two test wave files:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/source-separation-models/qi-feng-le-zh.wav
+
+wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/source-separation-models/audio_example.wav
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ls<span class="w"> </span>-lh<span class="w"> </span>audio_example.wav<span class="w"> </span>qi-feng-le-zh.wav
+
+-rw-r--r--@<span class="w"> </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">   </span><span class="m">1</span>.8M<span class="w"> </span>May<span class="w"> </span><span class="m">23</span><span class="w"> </span><span class="m">15</span>:59<span class="w"> </span>audio_example.wav
+-rw-r--r--@<span class="w"> </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">   </span><span class="m">4</span>.4M<span class="w"> </span>May<span class="w"> </span><span class="m">23</span><span class="w"> </span><span class="m">22</span>:06<span class="w"> </span>qi-feng-le-zh.wav
+</pre></div>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>To make things easier, we support only <code class="docutils literal notranslate"><span class="pre">*.wav</span></code> files. If you have other formats, e.g.,
+<code class="docutils literal notranslate"><span class="pre">*.mp3</span></code>, <code class="docutils literal notranslate"><span class="pre">*.mp4</span></code>, or <code class="docutils literal notranslate"><span class="pre">*.mov</span></code>, you can use</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ffmpeg<span class="w"> </span>-i<span class="w"> </span>your.mp3<span class="w"> </span>-vn<span class="w"> </span>-acodec<span class="w"> </span>pcm_s16le<span class="w"> </span>-ar<span class="w"> </span><span class="m">44100</span><span class="w"> </span>-ac<span class="w"> </span><span class="m">2</span><span class="w"> </span>your.wav
+ffmpeg<span class="w"> </span>-i<span class="w"> </span>your.mp4<span class="w"> </span>-vn<span class="w"> </span>-acodec<span class="w"> </span>pcm_s16le<span class="w"> </span>-ar<span class="w"> </span><span class="m">44100</span><span class="w"> </span>-ac<span class="w"> </span><span class="m">2</span><span class="w"> </span>your.wav
+ffmpeg<span class="w"> </span>-i<span class="w"> </span>your.mov<span class="w"> </span>-vn<span class="w"> </span>-acodec<span class="w"> </span>pcm_s16le<span class="w"> </span>-ar<span class="w"> </span><span class="m">44100</span><span class="w"> </span>-ac<span class="w"> </span><span class="m">2</span><span class="w"> </span>your.wav
+</pre></div>
+</div>
+</div></blockquote>
+<p>to convert them to <code class="docutils literal notranslate"><span class="pre">*.wav</span></code> files.</p>
+</div>
+<p>The downloaded test files are given below.</p>
+<table>
+  <tr>
+    <th>Wave filename</th>
+    <th>Content</th>
+  </tr>
+  <tr>
+    <td>qi-feng-le-zh.wav</td>
+    <td>
+     <audio title="qi-feng-le-zh.wav" controls="controls">
+           <source src="/sherpa/_static/source-separation/qi-feng-le-zh.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+  </tr>
+
+  <tr>
+    <td>audio_example.wav</td>
+    <td>
+     <audio title="audio_example.wav" controls="controls">
+           <source src="/sherpa/_static/source-separation/audio_example.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+  </tr>
+</table></section>
+<section id="id6">
+<h3>Example 1/2 with qi-feng-le-zh.wav<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./build/bin/sherpa-onnx-offline-source-separation<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--num-threads<span class="o">=</span><span class="m">1</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--uvr-model<span class="o">=</span>./UVR_MDXNET_9482.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--input-wav<span class="o">=</span>./qi-feng-le-zh.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--output-vocals-wav<span class="o">=</span>uvr_qi_feng_le_vocals.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--output-accompaniment-wav<span class="o">=</span>uvr_qi_feng_le_non_vocals.wav
+</pre></div>
+</div>
+<p>Output logs are given below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">fangjun</span><span class="o">/</span><span class="nb">open</span><span class="o">-</span><span class="n">source</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">csrc</span><span class="o">/</span><span class="n">parse</span><span class="o">-</span><span class="n">options</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="n">Read</span><span class="p">:</span><span class="mi">372</span> <span class="o">./</span><span class="n">build</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">offline</span><span class="o">-</span><span class="n">source</span><span class="o">-</span><span class="n">separation</span> <span class="o">--</span><span class="n">num</span><span class="o">-</span><span class="n">threads</span><span class="o">=</span><span class="mi">1</span> <span class="o">--</span><span class="n">uvr</span><span class="o">-</span><span class="n">model</span><span class="o">=./</span><span class="n">UVR_MDXNET_9482</span><span class="o">.</span><span class="n">onnx</span> <span class="o">--</span><span class="nb">input</span><span class="o">-</span><span class="n">wav</span><span class="o">=./</span><span class="n">qi</span><span class="o">-</span><span class="n">feng</span><span class="o">-</span><span class="n">le</span><span class="o">-</span><span class="n">zh</span><span class="o">.</span><span class="n">wav</span> <span class="o">--</span><span class="n">output</span><span class="o">-</span><span class="n">vocals</span><span class="o">-</span><span class="n">wav</span><span class="o">=</span><span class="n">uvr_qi_feng_le_vocals</span><span class="o">.</span><span class="n">wav</span> <span class="o">--</span><span class="n">output</span><span class="o">-</span><span class="n">accompaniment</span><span class="o">-</span><span class="n">wav</span><span class="o">=</span><span class="n">uvr_qi_feng_le_non_vocals</span><span class="o">.</span><span class="n">wav</span>
+
+<span class="n">OfflineSourceSeparationConfig</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">OfflineSourceSeparationModelConfig</span><span class="p">(</span><span class="n">spleeter</span><span class="o">=</span><span class="n">OfflineSourceSeparationSpleeterModelConfig</span><span class="p">(</span><span class="n">vocals</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">accompaniment</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">),</span> <span class="n">uvr</span><span class="o">=</span><span class="n">OfflineSourceSeparationUvrModelConfig</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;./UVR_MDXNET_9482.onnx&quot;</span><span class="p">),</span> <span class="n">num_threads</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">provider</span><span class="o">=</span><span class="s2">&quot;cpu&quot;</span><span class="p">))</span>
+<span class="n">Started</span>
+<span class="n">Done</span>
+<span class="n">Saved</span> <span class="n">to</span> <span class="n">write</span> <span class="n">to</span> <span class="s1">&#39;uvr_qi_feng_le_vocals.wav&#39;</span> <span class="ow">and</span> <span class="s1">&#39;uvr_qi_feng_le_non_vocals.wav&#39;</span>
+<span class="n">num</span> <span class="n">threads</span><span class="p">:</span> <span class="mi">1</span>
+<span class="n">Elapsed</span> <span class="n">seconds</span><span class="p">:</span> <span class="mf">19.110</span> <span class="n">s</span>
+<span class="n">Real</span> <span class="n">time</span> <span class="n">factor</span> <span class="p">(</span><span class="n">RTF</span><span class="p">):</span> <span class="mf">19.110</span> <span class="o">/</span> <span class="mf">26.102</span> <span class="o">=</span> <span class="mf">0.732</span>
+</pre></div>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>It is <code class="docutils literal notranslate"><span class="pre">10x</span></code> slower than <code class="docutils literal notranslate"><span class="pre">Spleeter</span></code>! Also, we have selected a small model.
+If you select a model with more parameters, it is even slower.</p>
+</div>
+<table>
+  <tr>
+    <th>Wave filename</th>
+    <th>Content</th>
+  </tr>
+  <tr>
+    <td>qi-feng-le-zh.wav</td>
+    <td>
+     <audio title="qi-feng-le-zh.wav" controls="controls">
+           <source src="/sherpa/_static/source-separation/qi-feng-le-zh.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+  </tr>
+
+  <tr>
+    <td>uvr_qi_feng_le_<b style="color:red;">vocals</b>.wav</td>
+    <td>
+     <audio title="uvr_qi_feng_le_vocals.wav" controls="controls">
+           <source src="/sherpa/_static/source-separation/uvr_qi_feng_le_vocals.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+  </tr>
+
+  <tr>
+    <td>uvr_qi_feng_le_<b style="color:red;">non_vocals</b>.wav</td>
+    <td>
+     <audio title="uvr_qi_feng_le_non_vocals.wav" controls="controls">
+           <source src="/sherpa/_static/source-separation/uvr_qi_feng_le_non_vocals.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+  </tr>
+
+</table></section>
+<section id="id7">
+<h3>Example 2/2 with audio_example.wav<a class="headerlink" href="#id7" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./build/bin/sherpa-onnx-offline-source-separation<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--num-threads<span class="o">=</span><span class="m">1</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--uvr-model<span class="o">=</span>./UVR_MDXNET_9482.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--input-wav<span class="o">=</span>./audio_example.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--output-vocals-wav<span class="o">=</span>uvr_audio_example_vocals.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--output-accompaniment-wav<span class="o">=</span>uvr_audio_example_non_vocals.wav
+</pre></div>
+</div>
+<p>Output logs are given below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">fangjun</span><span class="o">/</span><span class="nb">open</span><span class="o">-</span><span class="n">source</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">csrc</span><span class="o">/</span><span class="n">parse</span><span class="o">-</span><span class="n">options</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="n">Read</span><span class="p">:</span><span class="mi">372</span> <span class="o">./</span><span class="n">build</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">offline</span><span class="o">-</span><span class="n">source</span><span class="o">-</span><span class="n">separation</span> <span class="o">--</span><span class="n">num</span><span class="o">-</span><span class="n">threads</span><span class="o">=</span><span class="mi">1</span> <span class="o">--</span><span class="n">uvr</span><span class="o">-</span><span class="n">model</span><span class="o">=./</span><span class="n">UVR_MDXNET_9482</span><span class="o">.</span><span class="n">onnx</span> <span class="o">--</span><span class="nb">input</span><span class="o">-</span><span class="n">wav</span><span class="o">=./</span><span class="n">audio_example</span><span class="o">.</span><span class="n">wav</span> <span class="o">--</span><span class="n">output</span><span class="o">-</span><span class="n">vocals</span><span class="o">-</span><span class="n">wav</span><span class="o">=</span><span class="n">uvr_audio_example_vocals</span><span class="o">.</span><span class="n">wav</span> <span class="o">--</span><span class="n">output</span><span class="o">-</span><span class="n">accompaniment</span><span class="o">-</span><span class="n">wav</span><span class="o">=</span><span class="n">uvr_audio_example_non_vocals</span><span class="o">.</span><span class="n">wav</span>
+
+<span class="n">OfflineSourceSeparationConfig</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">OfflineSourceSeparationModelConfig</span><span class="p">(</span><span class="n">spleeter</span><span class="o">=</span><span class="n">OfflineSourceSeparationSpleeterModelConfig</span><span class="p">(</span><span class="n">vocals</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">accompaniment</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">),</span> <span class="n">uvr</span><span class="o">=</span><span class="n">OfflineSourceSeparationUvrModelConfig</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;./UVR_MDXNET_9482.onnx&quot;</span><span class="p">),</span> <span class="n">num_threads</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">provider</span><span class="o">=</span><span class="s2">&quot;cpu&quot;</span><span class="p">))</span>
+<span class="n">Started</span>
+<span class="n">Done</span>
+<span class="n">Saved</span> <span class="n">to</span> <span class="n">write</span> <span class="n">to</span> <span class="s1">&#39;uvr_audio_example_vocals.wav&#39;</span> <span class="ow">and</span> <span class="s1">&#39;uvr_audio_example_non_vocals.wav&#39;</span>
+<span class="n">num</span> <span class="n">threads</span><span class="p">:</span> <span class="mi">1</span>
+<span class="n">Elapsed</span> <span class="n">seconds</span><span class="p">:</span> <span class="mf">6.420</span> <span class="n">s</span>
+<span class="n">Real</span> <span class="n">time</span> <span class="n">factor</span> <span class="p">(</span><span class="n">RTF</span><span class="p">):</span> <span class="mf">6.420</span> <span class="o">/</span> <span class="mf">10.919</span> <span class="o">=</span> <span class="mf">0.588</span>
+</pre></div>
+</div>
+<table>
+  <tr>
+    <th>Wave filename</th>
+    <th>Content</th>
+  </tr>
+  <tr>
+    <td>audio_example.wav</td>
+    <td>
+     <audio title="audio_example.wav" controls="controls">
+           <source src="/sherpa/_static/source-separation/audio_example.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+  </tr>
+
+  <tr>
+    <td>uvr_audio_example_<b style="color:red;">vocals</b>.wav</td>
+    <td>
+     <audio title="uvr_audio_example_vocals.wav" controls="controls">
+           <source src="/sherpa/_static/source-separation/uvr_audio_example_vocals.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+  </tr>
+
+  <tr>
+    <td>uvr_audio_example_<b style="color:red;">non_vocals</b>.wav</td>
+    <td>
+     <audio title="uvr_audio_example_non_vocals.wav" controls="controls">
+           <source src="/sherpa/_static/source-separation/uvr_audio_example_non_vocals.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+  </tr>
+
+</table></section>
+<section id="id8">
+<h3>Python example<a class="headerlink" href="#id8" title="Permalink to this heading"></a></h3>
+<p>Please see</p>
+<blockquote>
+<div><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/blob/master/python-api-examples/offline-source-separation-uvr.py">https://github.com/k2-fsa/sherpa-onnx/blob/master/python-api-examples/offline-source-separation-uvr.py</a></p>
+</div></blockquote>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="hf.html" class="btn btn-neutral float-left" title="Hugginface space for source separation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../qnn/index.html" class="btn btn-neutral float-right" title="Qualcomm NPU (QNN, HTP)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>
