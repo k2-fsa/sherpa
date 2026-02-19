@@ -109,6 +109,9 @@ Args:
     Used only when the passed ``nn_model`` is a transducer model.
     Valid values are: ``greedy_search``, ``modified_beam_search``, and
     ``fast_beam_search``.
+  use_amp:
+    ``True`` to use automatic-mixed-precision (amp) during neural network
+    computation.
 )doc";
 
 static void PybindOfflineCtcDecoderConfig(py::module &m) {  // NOLINT
@@ -163,8 +166,9 @@ static void PybindOfflineRecognizerConfig(py::module &m) {  // NOLINT
                        const OfflineCtcDecoderConfig &ctc_decoder_config = {},
                        const FeatureConfig &feat_config = {},
                        const FastBeamSearchConfig &fast_beam_search_config = {},
-                       const std::string &decoding_method = "greedy_search")
-                        -> std::unique_ptr<OfflineRecognizerConfig> {
+                       const std::string &decoding_method = "greedy_search",
+                       bool use_amp =
+                           false) -> std::unique_ptr<OfflineRecognizerConfig> {
              auto config = std::make_unique<OfflineRecognizerConfig>();
 
              config->ctc_decoder_config = ctc_decoder_config;
@@ -174,6 +178,7 @@ static void PybindOfflineRecognizerConfig(py::module &m) {  // NOLINT
              config->nn_model = nn_model;
              config->tokens = tokens;
              config->use_gpu = use_gpu;
+             config->use_amp = use_amp;
              config->decoding_method = decoding_method;
              config->num_active_paths = num_active_paths;
              config->context_score = context_score;
@@ -190,7 +195,7 @@ static void PybindOfflineRecognizerConfig(py::module &m) {  // NOLINT
            py::arg("feat_config") = FeatureConfig(),
            py::arg("fast_beam_search_config") = FastBeamSearchConfig(),
            py::arg("decoding_method") = "greedy_search",
-           kOfflineRecognizerConfigInitDoc)
+           py::arg("use_amp") = false, kOfflineRecognizerConfigInitDoc)
       .def("__str__",
            [](const PyClass &self) -> std::string { return self.ToString(); })
       .def_readwrite("ctc_decoder_config", &PyClass::ctc_decoder_config)
@@ -200,6 +205,7 @@ static void PybindOfflineRecognizerConfig(py::module &m) {  // NOLINT
       .def_readwrite("nn_model", &PyClass::nn_model)
       .def_readwrite("tokens", &PyClass::tokens)
       .def_readwrite("use_gpu", &PyClass::use_gpu)
+      .def_readwrite("use_amp", &PyClass::use_amp)
       .def_readwrite("decoding_method", &PyClass::decoding_method)
       .def_readwrite("num_active_paths", &PyClass::num_active_paths)
       .def_readwrite("context_score", &PyClass::context_score)
