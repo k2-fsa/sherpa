@@ -1,6 +1,9 @@
 Huggingface space
 =================
 
+Moonshine v1 (English only)
+---------------------------
+
 You can try `Moonshine`_ in `sherpa-onnx`_ with the following huggingface spaces
 
   - For short audio: `<https://huggingface.co/spaces/k2-fsa/automatic-speech-recognition>`_
@@ -26,3 +29,12 @@ You can try `Moonshine`_ in `sherpa-onnx`_ with the following huggingface spaces
    :width: 600
 
    Try `Moonshine`_ in our Huggingface space with `sherpa-onnx`_ for generating subtitles
+
+Moonshine v2 (Arabic, Chinese, English, Japanese, Korean, Spanish, Ukrainian, Vietnamese)
+-----------------------------------------------------------------------------------------------------
+
+For Moonshine v2 models, please also visit `<https://huggingface.co/spaces/k2-fsa/automatic-speech-recognition>`_
+to try them.
+
+For instance, to try the model for ``Korean`` speech recognition, please first select
+the language ``Korean``, and then select the model ``moonshine_tiny-ko``.

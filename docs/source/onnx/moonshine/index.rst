@@ -10,6 +10,7 @@ This section describes how to use models from `<https://github.com/usefulsensors
 
    ./huggingface-space.rst
    ./models.rst
+   ./models-v2.rst
    ./android.rst
    ./c.rst
    ./csharp.rst
@@ -20,5 +21,6 @@ This section describes how to use models from `<https://github.com/usefulsensors
    ./kotlin.rst
    ./pascal.rst
    ./python.rst
+   ./rust.rst
    ./swift.rst
 

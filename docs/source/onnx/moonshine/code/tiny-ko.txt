@@ -1,0 +1,19 @@
+/workspace/sherpa-onnx/csrc/parse-options.cc:Read:373 sherpa-onnx-offline --moonshine-encoder=./sherpa-onnx-moonshine-tiny-ko-quantized-2026-02-27/encoder_model.ort --moonshine-merged-decoder=./sherpa-onnx-moonshine-tiny-ko-quantized-2026-02-27/decoder_model_merged.ort --tokens=./sherpa-onnx-moonshine-tiny-ko-quantized-2026-02-27/tokens.txt ./sherpa-onnx-moonshine-tiny-ko-quantized-2026-02-27/test_wavs/0.wav 
+
+OfflineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80, low_freq=20, high_freq=-400, dither=0, normalize_samples=True, snip_edges=False), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename="", decoder_filename="", joiner_filename=""), paraformer=OfflineParaformerModelConfig(model=""), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=""), whisper=OfflineWhisperModelConfig(encoder="", decoder="", language="", task="transcribe", tail_paddings=-1, enable_token_timestamps=False, enable_segment_timestamps=False), fire_red_asr=OfflineFireRedAsrModelConfig(encoder="", decoder=""), tdnn=OfflineTdnnModelConfig(model=""), zipformer_ctc=OfflineZipformerCtcModelConfig(model=""), wenet_ctc=OfflineWenetCtcModelConfig(model=""), sense_voice=OfflineSenseVoiceModelConfig(model="", language="auto", use_itn=False), moonshine=OfflineMoonshineModelConfig(preprocessor="", encoder="./sherpa-onnx-moonshine-tiny-ko-quantized-2026-02-27/encoder_model.ort", uncached_decoder="", cached_decoder="", merged_decoder="./sherpa-onnx-moonshine-tiny-ko-quantized-2026-02-27/decoder_model_merged.ort"), dolphin=OfflineDolphinModelConfig(model=""), canary=OfflineCanaryModelConfig(encoder="", decoder="", src_lang="", tgt_lang="", use_pnc=True), omnilingual=OfflineOmnilingualAsrCtcModelConfig(model=""), funasr_nano=OfflineFunASRNanoModelConfig(encoder_adaptor="", llm="", embedding="", tokenizer="", system_prompt="You are a helpful assistant.", user_prompt="语音转写：", max_new_tokens=512, temperature=1e-06, top_p=0.8, seed=42, language="", itn=True, hotwords=""), medasr=OfflineMedAsrCtcModelConfig(model=""), fire_red_asr_ctc=OfflineFireRedAsrCtcModelConfig(model=""), telespeech_ctc="", tokens="./sherpa-onnx-moonshine-tiny-ko-quantized-2026-02-27/tokens.txt", num_threads=2, debug=False, provider="cpu", model_type="", modeling_unit="cjkchar", bpe_vocab=""), lm_config=OfflineLMConfig(model="", scale=0.5, lodr_scale=0.01, lodr_fst="", lodr_backoff_id=-1), ctc_fst_decoder_config=OfflineCtcFstDecoderConfig(graph="", max_active=3000), decoding_method="greedy_search", max_active_paths=4, hotwords_file="", hotwords_score=1.5, blank_penalty=0, rule_fsts="", rule_fars="", hr=HomophoneReplacerConfig(lexicon="", rule_fsts=""))
+Creating recognizer ...
+recognizer created in 0.797 s
+Started
+/workspace/sherpa-onnx/csrc/offline-stream.cc:AcceptWaveformImpl:129 Creating a resampler:
+   in_sample_rate: 22050
+   output_sample_rate: 16000
+
+Done!
+
+./sherpa-onnx-moonshine-tiny-ko-quantized-2026-02-27/test_wavs/0.wav
+{"lang": "", "emotion": "", "event": "", "text": " ▁조국이 당신을 위해 무엇을 해줄 수 있는지 묻지 말고 당신이 조국을 위해 무엇을 할 수 있는지 물으십시오.", "timestamps": [], "durations": [], "tokens":[" ▁", "조", "국", "이", " ", "<0xEB>", "<0x8B>", "<0xB9>", "신", "을", " ", "위", "해", " ", "무", "<0xEC>", "<0x97>", "<0x87>", "을", " ", "해", "<0xEC>", "<0xA4>", "<0x84>", " ", "수", " ", "<0xEC>", "<0x9E>", "<0x88>", "는", "지", " ", "<0xEB>", "<0xAC>", "<0xBB>", "지", " ", "<0xEB>", "<0xA7>", "<0x90>", "고", " ", "<0xEB>", "<0x8B>", "<0xB9>", "신", "이", " ", "조", "국", "을", " ", "위", "해", " ", "무", "<0xEC>", "<0x97>", "<0x87>", "을", " ", "<0xED>", "<0x95>", "<0xA0>", " ", "수", " ", "<0xEC>", "<0x9E>", "<0x88>", "는", "지", " ", "<0xEB>", "<0xAC>", "<0xBC>", "<0xEC>", "<0x9C>", "<0xBC>", "<0xEC>", "<0x8B>", "<0xAD>", "시", "오", "."], "ys_log_probs": [], "words": []}
+----
+num threads: 2
+decoding method: greedy_search
+Elapsed seconds: 0.869 s
+Real time factor (RTF): 0.869 / 6.917 = 0.126

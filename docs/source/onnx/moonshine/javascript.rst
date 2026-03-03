@@ -17,6 +17,8 @@ The example for `Moonshine`_ can be found at
   - `<https://github.com/k2-fsa/sherpa-onnx/blob/master/nodejs-examples/test-offline-moonshine.js>`_
   - `<https://github.com/k2-fsa/sherpa-onnx/blob/master/nodejs-examples/test-vad-with-non-streaming-asr-moonshine.js>`_
 
+  - `<https://github.com/k2-fsa/sherpa-onnx/blob/master/nodejs-examples/test-offline-moonshine-v2.js>`_
+
 node-addon based npm package
 ----------------------------
 
@@ -36,4 +38,6 @@ The example for `Moonshine`_ can be found at
 
   - `<https://github.com/k2-fsa/sherpa-onnx/blob/master/nodejs-addon-examples/test_asr_non_streaming_moonshine.js>`_
   - `<https://github.com/k2-fsa/sherpa-onnx/blob/master/nodejs-addon-examples/test_vad_asr_non_streaming_moonshine_microphone.js>`_
+
+  - `<https://github.com/k2-fsa/sherpa-onnx/blob/master/nodejs-addon-examples/test_asr_non_streaming_moonshine_v2.js>`_
 

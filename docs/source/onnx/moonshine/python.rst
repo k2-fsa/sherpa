@@ -12,5 +12,6 @@ Please see
   - `<https://github.com/k2-fsa/sherpa-onnx/blob/master/python-api-examples/offline-moonshine-decode-files.py>`_
   - `<https://github.com/k2-fsa/sherpa-onnx/blob/master/python-api-examples/vad-with-non-streaming-asr.py>`_
   - `<https://github.com/k2-fsa/sherpa-onnx/blob/master/python-api-examples/non_streaming_server.py>`_
+  - `<https://github.com/k2-fsa/sherpa-onnx/blob/master/python-api-examples/offline-moonshine-decode-files-v2.py>`_
 
 for usages.
