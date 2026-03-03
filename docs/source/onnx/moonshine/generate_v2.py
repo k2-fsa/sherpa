@@ -2,6 +2,11 @@
 from jinja2 import Environment, FileSystemLoader
 
 
+def get_code(m):
+    code = m.split("-")[-1]
+    return code
+
+
 def get_lang(m):
     code = m.split("-")[-1]
     code2lang = {
@@ -57,6 +62,7 @@ def main():
             apk_name=get_apk_name(m),
             m=m,
             decode_out=decode_out,
+            code=get_code(m),
         )
 
         # Write to file

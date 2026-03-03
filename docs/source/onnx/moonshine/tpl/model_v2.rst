@@ -11,11 +11,11 @@ Real-time/streaming speech recognition on Android
 Pease visit `<https://k2-fsa.github.io/sherpa/onnx/android/apk.html>`_
 and select the file
 
-  ``sherpa-onnx-<version>-arm64-v8a-simulated_streaming_asr-{{lang}}-moonshine_{{apk_name}}_2026_02_27.apk``
+  ``sherpa-onnx-<version>-arm64-v8a-simulated_streaming_asr-{{code}}-moonshine_{{apk_name}}_2026_02_27.apk``
 
 .. note::
 
-   For instance, if you choose version ``1.12.27``, you should use `sherpa-onnx-1.12.27-arm64-v8a-simulated_streaming_asr-{{lang}}-moonshine_{{apk_name}}_2026_02_27.apk <https://huggingface.co/csukuangfj2/sherpa-onnx-apk/resolve/main/vad-asr-simulated-streaming/1.12.27/sherpa-onnx-1.12.27-arm64-v8a-simulated_streaming_asr-{{lang}}-moonshine_{{apk_name}}_2026_02_27.apk>`_
+   For instance, if you choose version ``1.12.27``, you should use `sherpa-onnx-1.12.27-arm64-v8a-simulated_streaming_asr-{{code}}-moonshine_{{apk_name}}_2026_02_27.apk <https://huggingface.co/csukuangfj2/sherpa-onnx-apk/resolve/main/vad-asr-simulated-streaming/1.12.27/sherpa-onnx-1.12.27-arm64-v8a-simulated_streaming_asr-{{code}}-moonshine_{{apk_name}}_2026_02_27.apk>`_
 
 
 The source code for the APK can be found at
