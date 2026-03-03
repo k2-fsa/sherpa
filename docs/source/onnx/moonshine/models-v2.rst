@@ -1,7 +1,7 @@
-.. _moonsine-models-v2:
+.. _moonshine-models-v2:
 
 Models v2
-========
+=========
 
 .. include:: ./generated/v2/base-ar.rst
 .. include:: ./generated/v2/base-en.rst

@@ -1,4 +1,4 @@
-.. _moonsine-models-v1:
+.. _moonshine-models-v1:
 
 Models
 ======
@@ -7,7 +7,7 @@ Models
 
    This page is for Moonshine v1, which supports only English.
 
-   Please see :ref:`moonsine-models-v2` for models supporting
+   Please see :ref:`moonshine-models-v2` for models supporting
    Arabic, Chinese, English, Japanese, Korean, Spanish, Ukrainian, and Vietnamese.
 
 We provide 8-bit quantized ONNX models for `Moonshine`_.
