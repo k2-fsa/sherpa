@@ -11,7 +11,8 @@ BUILDDIR      = build
 # List all scripts to run before HTML build, with their paths
 SCRIPTS = \
     source/onnx/install/windows/run.sh \
-		source/onnx/pretrained_models/offline-ctc/wenet/run.sh
+		source/onnx/pretrained_models/offline-ctc/wenet/run.sh \
+		source/onnx/moonshine/run.sh
 
 
 # Put it first so that "make" without argument is like "make help".
