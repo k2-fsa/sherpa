@@ -5,7 +5,7 @@ from jinja2 import Environment, FileSystemLoader
 def get_lang(m):
     code = m.split("-")[-1]
     code2lang = {
-        "ko": "Korea",
+        "ko": "Korean",
         "ja": "Japanese",
         "en": "English",
         "zh": "Chinese",
