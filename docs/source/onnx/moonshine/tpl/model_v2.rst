@@ -8,7 +8,7 @@ This model supports only ``{{lang}}``. In the following, we describe how to use 
 Real-time/streaming speech recognition on Android
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Pease visit `<https://k2-fsa.github.io/sherpa/onnx/android/apk.html>`_
+Pease visit `<https://k2-fsa.github.io/sherpa/onnx/android/apk-simulate-streaming-asr.html>`_
 and select the file
 
   ``sherpa-onnx-<version>-arm64-v8a-simulated_streaming_asr-{{code}}-moonshine_{{apk_name}}_2026_02_27.apk``
