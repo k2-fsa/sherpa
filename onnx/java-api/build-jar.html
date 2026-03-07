@@ -1,0 +1,223 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Build the jar package &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../index.html">sherpa-onnx</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Build the jar package</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/onnx/java-api/build-jar.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="build-the-jar-package">
+<h1>Build the jar package<a class="headerlink" href="#build-the-jar-package" title="Permalink to this heading"></a></h1>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Please see the end of this page for how to download pre-built <code class="docutils literal notranslate"><span class="pre">jar</span></code>.</p>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>sherpa-onnx/sherpa-onnx/java-api
+ls<span class="w"> </span>-lh
+</pre></div>
+</div>
+<p>You should see the following output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(py311) fangjun@ubuntu23-04:/mnt/sdb/shared/sherpa-onnx/sherpa-onnx/java-api$ ls -lh
+
+total 8.0K
+-rw-rw-r-- 1 fangjun fangjun 2.5K May  8 06:17 Makefile
+drwxrwxr-x 3 fangjun fangjun 4.0K Mar  1 04:29 src
+</pre></div>
+</div>
+<p>Please run the following command in the directory <code class="docutils literal notranslate"><span class="pre">sherpa-onnx/java-api</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>make
+</pre></div>
+</div>
+<p>You should see the following output after running <code class="docutils literal notranslate"><span class="pre">make</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>(py311) fangjun@ubuntu23-04:/mnt/sdb/shared/sherpa-onnx/sherpa-onnx/java-api$ ls -lh
+total 12K
+drwxrwxr-x 3 fangjun fangjun 4.0K May 15 03:59 build
+-rw-rw-r-- 1 fangjun fangjun 2.5K May  8 06:17 Makefile
+drwxrwxr-x 3 fangjun fangjun 4.0K Mar  1 04:29 src
+(py311) fangjun@ubuntu23-04:/mnt/sdb/shared/sherpa-onnx/sherpa-onnx/java-api$ ls -lh build/
+total 60K
+drwxrwxr-x 3 fangjun fangjun 4.0K May 15 03:58 com
+-rw-rw-r-- 1 fangjun fangjun  53K May 15 03:59 sherpa-onnx.jar
+</pre></div>
+</div>
+<p>Congratulations! You have generated <code class="docutils literal notranslate"><span class="pre">sherpa-onnx.jar</span></code> successfully.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>You can find the Java API source files at</p>
+<blockquote>
+<div><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/tree/master/sherpa-onnx/java-api/src/com/k2fsa/sherpa/onnx">https://github.com/k2-fsa/sherpa-onnx/tree/master/sherpa-onnx/java-api/src/com/k2fsa/sherpa/onnx</a></p>
+</div></blockquote>
+</div>
+<section id="download-pre-built-jar">
+<h2>Download pre-built jar<a class="headerlink" href="#download-pre-built-jar" title="Permalink to this heading"></a></h2>
+<p>If you don’t want to build <code class="docutils literal notranslate"><span class="pre">jar</span></code> by yourself, you can download pre-built <code class="docutils literal notranslate"><span class="pre">jar</span></code> from
+from</p>
+<blockquote>
+<div><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases">https://github.com/k2-fsa/sherpa-onnx/releases</a></p>
+</div></blockquote>
+<p>Please always use the latest version. In the following, we describe how to download
+the version <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/tag/v1.12.1">1.12.1</a>.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># For java 8 or java 1.8</span>
+wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.12.1/sherpa-onnx-v1.12.1-java8.jar
+
+<span class="c1"># For Java 11</span>
+wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.12.1/sherpa-onnx-v1.12.1-java11.jar
+
+<span class="c1"># For Java 16</span>
+wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.12.1/sherpa-onnx-v1.12.1-java16.jar
+
+<span class="c1"># For Java 17</span>
+wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.12.1/sherpa-onnx-v1.12.1-java17.jar
+
+<span class="c1"># For Java 18</span>
+wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.12.1/sherpa-onnx-v1.12.1-java18.jar
+
+<span class="c1"># For Java 19</span>
+wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.12.1/sherpa-onnx-v1.12.1-java19.jar
+
+<span class="c1"># For Java 20</span>
+wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.12.1/sherpa-onnx-v1.12.1-java20.jar
+
+<span class="c1"># For Java 21</span>
+wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.12.1/sherpa-onnx-v1.12.1-java21.jar
+
+<span class="c1"># For Java 22</span>
+wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.12.1/sherpa-onnx-v1.12.1-java22.jar
+
+<span class="c1"># For Java 23</span>
+wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.12.1/sherpa-onnx-v1.12.1-java23.jar
+
+<span class="c1"># For Java 24</span>
+wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.12.1/sherpa-onnx-v1.12.1-java24.jar
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,306 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>T-one CTC-based Models &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/clipboard.min.js"></script>
+        <script src="../../../_static/copybutton.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Offline transducer models" href="../offline-transducer/index.html" />
+    <link rel="prev" title="Zipformer-CTC-based Models" href="zipformer-ctc-models.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">sherpa-onnx</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../install/index.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../faqs/index.html">Frequently Asked Question (FAQs)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../python/index.html">Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../c-api/index.html">C API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../java-api/index.html">Java API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../javascript-api/index.html">Javascript API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../kotlin-api/index.html">Kotlin API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../swift-api/index.html">Swift API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../go-api/index.html">Go API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../csharp-api/index.html">C# API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../pascal-api/index.html">Pascal API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../lazarus/index.html">Lazarus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../wasm/index.html">WebAssembly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../android/index.html">Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../harmony-os/index.html">HarmonyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ios/index.html">iOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../flutter/index.html">Flutter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../websocket/index.html">WebSocket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../hotwords/index.html">Hotwords (Contextual biasing)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../kws/index.html">Keyword spotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../punctuation/index.html">Punctuation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../audio-tagging/index.html">Audio tagging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../spoken-language-identification/index.html">Spoken language identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../vad/index.html">VAD</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">Pre-trained models</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../online-transducer/index.html">Online transducer models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../online-paraformer/index.html">Online paraformer models</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">Online CTC models</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="zipformer-ctc-models.html">Zipformer-CTC-based Models</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">T-one CTC-based Models</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../offline-transducer/index.html">Offline transducer models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../offline-paraformer/index.html">Offline paraformer models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../offline-ctc/index.html">Offline CTC models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../telespeech/index.html">TeleSpeech</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../whisper/index.html">Whisper</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../wenet/index.html">WeNet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../small-online-models.html">Small models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../sense-voice/index.html">SenseVoice</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../whisper/index.html">Whisper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../moonshine/index.html">Moonshine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../omnilingual-asr/index.html">Omnilingual ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../sense-voice/index.html">SenseVoice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../funasr-nano/index.html">FunASR Nano</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../paraformer/index.html">Paraformer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../nemo/index.html">NeMo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../FireRedAsr/index.html">FireRedAsr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Dolphin/index.html">Dolphin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../homophone-replacer/index.html">拼音词组匹配替换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../speaker-diarization/index.html">Speaker Diarization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../speaker-identification/index.html">Speaker Identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../speech-enhancement/index.html">Speech enhancement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../source-separation/index.html">Source separation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../qnn/index.html">Qualcomm NPU (QNN, HTP)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../rknn/index.html">rknn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ascend/index.html">Ascend NPU (昇腾 NPU)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tts/index.html">Text-to-speech (TTS)</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html">sherpa-onnx</a> &raquo;</li>
+          <li><a href="../index.html">Pre-trained models</a> &raquo;</li>
+          <li><a href="index.html">Online CTC models</a> &raquo;</li>
+      <li>T-one CTC-based Models</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/onnx/pretrained_models/online-ctc/t-one-ctc-models.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="t-one-ctc-based-models">
+<span id="sherpa-onnx-t-one-ctc-models"></span><h1>T-one CTC-based Models<a class="headerlink" href="#t-one-ctc-based-models" title="Permalink to this heading"></a></h1>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>Please refer to <a class="reference internal" href="../../install/index.html#install-sherpa-onnx"><span class="std std-ref">Installation</span></a> to install <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>
+before you read this section.</p>
+</div>
+<section id="sherpa-onnx-streaming-t-one-russian-2025-09-08-russian">
+<span id="sherpa-onnx-streaming-t-one-russian-2025-09-08"></span><h2>sherpa-onnx-streaming-t-one-russian-2025-09-08 (Russian, 俄语)<a class="headerlink" href="#sherpa-onnx-streaming-t-one-russian-2025-09-08-russian" title="Permalink to this heading"></a></h2>
+<p>This model is converted from <a class="reference external" href="https://github.com/voicekit-team/T-one">https://github.com/voicekit-team/T-one</a>
+using scripts from <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/tree/master/scripts/t-one">https://github.com/k2-fsa/sherpa-onnx/tree/master/scripts/t-one</a></p>
+<p>It expects sample rate 8000 Hz.</p>
+<section id="download-the-model">
+<h3>Download the model<a class="headerlink" href="#download-the-model" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-t-one-russian-2025-09-08.tar.bz2
+tar<span class="w"> </span>xvf<span class="w"> </span>sherpa-onnx-streaming-t-one-russian-2025-09-08.tar.bz2
+rm<span class="w"> </span>sherpa-onnx-streaming-t-one-russian-2025-09-08.tar.bz2
+
+ls<span class="w"> </span>-lh<span class="w"> </span>sherpa-onnx-streaming-t-one-russian-2025-09-08
+</pre></div>
+</div>
+<p>The output is given below:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">    </span>99K<span class="w"> </span>Sep<span class="w">  </span><span class="m">8</span><span class="w"> </span><span class="m">17</span>:12<span class="w"> </span><span class="m">0</span>.wav
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">   </span>553B<span class="w"> </span>Sep<span class="w">  </span><span class="m">8</span><span class="w"> </span><span class="m">17</span>:12<span class="w"> </span>LICENSE
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">   </span>126B<span class="w"> </span>Sep<span class="w">  </span><span class="m">8</span><span class="w"> </span><span class="m">17</span>:12<span class="w"> </span>README.md
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">   </span>138M<span class="w"> </span>Sep<span class="w">  </span><span class="m">8</span><span class="w"> </span><span class="m">17</span>:12<span class="w"> </span>model.onnx
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">   </span>202B<span class="w"> </span>Sep<span class="w">  </span><span class="m">8</span><span class="w"> </span><span class="m">17</span>:12<span class="w"> </span>tokens.txt
+</pre></div>
+</div>
+</section>
+<section id="decode-a-single-wave-file">
+<h3>Decode a single wave file<a class="headerlink" href="#decode-a-single-wave-file" title="Permalink to this heading"></a></h3>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>It supports decoding only wave files of a single channel with 16-bit
+encoded samples, while the sampling rate does not need to be 8 kHz.</p>
+</div>
+<p>The following code shows how to use the model to decode a wave file:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+./build/bin/sherpa-onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--t-one-ctc-model<span class="o">=</span>./sherpa-onnx-streaming-t-one-russian-2025-09-08/model.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span>./sherpa-onnx-streaming-t-one-russian-2025-09-08/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-streaming-t-one-russian-2025-09-08/0.wav
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Please use <code class="docutils literal notranslate"><span class="pre">./build/bin/Release/sherpa-onnx.exe</span></code> for Windows.</p>
+</div>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>If you use Windows and get encoding issues, please run:</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>CHCP<span class="w"> </span><span class="m">65001</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>in your commandline.</p>
+</div>
+<p>You should see the following output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">Users</span><span class="o">/</span><span class="n">fangjun</span><span class="o">/</span><span class="nb">open</span><span class="o">-</span><span class="n">source</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">csrc</span><span class="o">/</span><span class="n">parse</span><span class="o">-</span><span class="n">options</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="n">Read</span><span class="p">:</span><span class="mi">372</span> <span class="o">./</span><span class="n">build</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span> <span class="o">--</span><span class="n">t</span><span class="o">-</span><span class="n">one</span><span class="o">-</span><span class="n">ctc</span><span class="o">-</span><span class="n">model</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">streaming</span><span class="o">-</span><span class="n">t</span><span class="o">-</span><span class="n">one</span><span class="o">-</span><span class="n">russian</span><span class="o">-</span><span class="mi">2025</span><span class="o">-</span><span class="mi">09</span><span class="o">-</span><span class="mi">08</span><span class="o">/</span><span class="n">model</span><span class="o">.</span><span class="n">onnx</span> <span class="o">--</span><span class="n">tokens</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">streaming</span><span class="o">-</span><span class="n">t</span><span class="o">-</span><span class="n">one</span><span class="o">-</span><span class="n">russian</span><span class="o">-</span><span class="mi">2025</span><span class="o">-</span><span class="mi">09</span><span class="o">-</span><span class="mi">08</span><span class="o">/</span><span class="n">tokens</span><span class="o">.</span><span class="n">txt</span> <span class="o">./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">streaming</span><span class="o">-</span><span class="n">t</span><span class="o">-</span><span class="n">one</span><span class="o">-</span><span class="n">russian</span><span class="o">-</span><span class="mi">2025</span><span class="o">-</span><span class="mi">09</span><span class="o">-</span><span class="mi">08</span><span class="o">/</span><span class="mf">0.</span><span class="n">wav</span> 
+
+<span class="n">OnlineRecognizerConfig</span><span class="p">(</span><span class="n">feat_config</span><span class="o">=</span><span class="n">FeatureExtractorConfig</span><span class="p">(</span><span class="n">sampling_rate</span><span class="o">=</span><span class="mi">16000</span><span class="p">,</span> <span class="n">feature_dim</span><span class="o">=</span><span class="mi">80</span><span class="p">,</span> <span class="n">low_freq</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">high_freq</span><span class="o">=-</span><span class="mi">400</span><span class="p">,</span> <span class="n">dither</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">normalize_samples</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">snip_edges</span><span class="o">=</span><span class="kc">False</span><span class="p">),</span> <span class="n">model_config</span><span class="o">=</span><span class="n">OnlineModelConfig</span><span class="p">(</span><span class="n">transducer</span><span class="o">=</span><span class="n">OnlineTransducerModelConfig</span><span class="p">(</span><span class="n">encoder</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">decoder</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">joiner</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">),</span> <span class="n">paraformer</span><span class="o">=</span><span class="n">OnlineParaformerModelConfig</span><span class="p">(</span><span class="n">encoder</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">decoder</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">),</span> <span class="n">wenet_ctc</span><span class="o">=</span><span class="n">OnlineWenetCtcModelConfig</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">chunk_size</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">num_left_chunks</span><span class="o">=</span><span class="mi">4</span><span class="p">),</span> <span class="n">zipformer2_ctc</span><span class="o">=</span><span class="n">OnlineZipformer2CtcModelConfig</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">),</span> <span class="n">nemo_ctc</span><span class="o">=</span><span class="n">OnlineNeMoCtcModelConfig</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">),</span> <span class="n">t_one_ctc</span><span class="o">=</span><span class="n">OnlineToneCtcModelConfig</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;./sherpa-onnx-streaming-t-one-russian-2025-09-08/model.onnx&quot;</span><span class="p">),</span> <span class="n">provider_config</span><span class="o">=</span><span class="n">ProviderConfig</span><span class="p">(</span><span class="n">device</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">provider</span><span class="o">=</span><span class="s2">&quot;cpu&quot;</span><span class="p">,</span> <span class="n">cuda_config</span><span class="o">=</span><span class="n">CudaConfig</span><span class="p">(</span><span class="n">cudnn_conv_algo_search</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">trt_config</span><span class="o">=</span><span class="n">TensorrtConfig</span><span class="p">(</span><span class="n">trt_max_workspace_size</span><span class="o">=</span><span class="mi">2147483647</span><span class="p">,</span> <span class="n">trt_max_partition_iterations</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">trt_min_subgraph_size</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">trt_fp16_enable</span><span class="o">=</span><span class="s2">&quot;True&quot;</span><span class="p">,</span> <span class="n">trt_detailed_build_log</span><span class="o">=</span><span class="s2">&quot;False&quot;</span><span class="p">,</span> <span class="n">trt_engine_cache_enable</span><span class="o">=</span><span class="s2">&quot;True&quot;</span><span class="p">,</span> <span class="n">trt_engine_cache_path</span><span class="o">=</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="n">trt_timing_cache_enable</span><span class="o">=</span><span class="s2">&quot;True&quot;</span><span class="p">,</span> <span class="n">trt_timing_cache_path</span><span class="o">=</span><span class="s2">&quot;.&quot;</span><span class="p">,</span><span class="n">trt_dump_subgraphs</span><span class="o">=</span><span class="s2">&quot;False&quot;</span> <span class="p">)),</span> <span class="n">tokens</span><span class="o">=</span><span class="s2">&quot;./sherpa-onnx-streaming-t-one-russian-2025-09-08/tokens.txt&quot;</span><span class="p">,</span> <span class="n">num_threads</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">warm_up</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">model_type</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">modeling_unit</span><span class="o">=</span><span class="s2">&quot;cjkchar&quot;</span><span class="p">,</span> <span class="n">bpe_vocab</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">),</span> <span class="n">lm_config</span><span class="o">=</span><span class="n">OnlineLMConfig</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">lodr_scale</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">lodr_fst</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">lodr_backoff_id</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">shallow_fusion</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span> <span class="n">endpoint_config</span><span class="o">=</span><span class="n">EndpointConfig</span><span class="p">(</span><span class="n">rule1</span><span class="o">=</span><span class="n">EndpointRule</span><span class="p">(</span><span class="n">must_contain_nonsilence</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">min_trailing_silence</span><span class="o">=</span><span class="mf">2.4</span><span class="p">,</span> <span class="n">min_utterance_length</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">rule2</span><span class="o">=</span><span class="n">EndpointRule</span><span class="p">(</span><span class="n">must_contain_nonsilence</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">min_trailing_silence</span><span class="o">=</span><span class="mf">1.2</span><span class="p">,</span> <span class="n">min_utterance_length</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span> <span class="n">rule3</span><span class="o">=</span><span class="n">EndpointRule</span><span class="p">(</span><span class="n">must_contain_nonsilence</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">min_trailing_silence</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">min_utterance_length</span><span class="o">=</span><span class="mi">20</span><span class="p">)),</span> <span class="n">ctc_fst_decoder_config</span><span class="o">=</span><span class="n">OnlineCtcFstDecoderConfig</span><span class="p">(</span><span class="n">graph</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">max_active</span><span class="o">=</span><span class="mi">3000</span><span class="p">),</span> <span class="n">enable_endpoint</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">max_active_paths</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">hotwords_score</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">hotwords_file</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">decoding_method</span><span class="o">=</span><span class="s2">&quot;greedy_search&quot;</span><span class="p">,</span> <span class="n">blank_penalty</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">temperature_scale</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">rule_fsts</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">rule_fars</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">reset_encoder</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">hr</span><span class="o">=</span><span class="n">HomophoneReplacerConfig</span><span class="p">(</span><span class="n">dict_dir</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">lexicon</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">rule_fsts</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">))</span>
+<span class="o">./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">streaming</span><span class="o">-</span><span class="n">t</span><span class="o">-</span><span class="n">one</span><span class="o">-</span><span class="n">russian</span><span class="o">-</span><span class="mi">2025</span><span class="o">-</span><span class="mi">09</span><span class="o">-</span><span class="mi">08</span><span class="o">/</span><span class="mf">0.</span><span class="n">wav</span>
+<span class="n">Number</span> <span class="n">of</span> <span class="n">threads</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="n">Elapsed</span> <span class="n">seconds</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="n">Audio</span> <span class="n">duration</span> <span class="p">(</span><span class="n">s</span><span class="p">):</span> <span class="mf">6.4</span><span class="p">,</span> <span class="n">Real</span> <span class="n">time</span> <span class="n">factor</span> <span class="p">(</span><span class="n">RTF</span><span class="p">)</span> <span class="o">=</span> <span class="mi">2</span><span class="o">/</span><span class="mf">6.4</span> <span class="o">=</span> <span class="mf">0.32</span>
+<span class="n">ну</span> <span class="n">сейчас</span> <span class="n">к</span> <span class="n">тебе</span> <span class="n">приедет</span> <span class="n">бригада</span> <span class="n">давай</span> <span class="n">давай</span> <span class="n">я</span> <span class="n">жду</span>
+<span class="p">{</span> <span class="s2">&quot;text&quot;</span><span class="p">:</span> <span class="s2">&quot;ну сейчас к тебе приедет бригада давай давай я жду&quot;</span><span class="p">,</span> <span class="s2">&quot;tokens&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;н&quot;</span><span class="p">,</span> <span class="s2">&quot;у&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;с&quot;</span><span class="p">,</span> <span class="s2">&quot;е&quot;</span><span class="p">,</span> <span class="s2">&quot;й&quot;</span><span class="p">,</span> <span class="s2">&quot;ч&quot;</span><span class="p">,</span> <span class="s2">&quot;а&quot;</span><span class="p">,</span> <span class="s2">&quot;с&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;к&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;т&quot;</span><span class="p">,</span> <span class="s2">&quot;е&quot;</span><span class="p">,</span> <span class="s2">&quot;б&quot;</span><span class="p">,</span> <span class="s2">&quot;е&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;п&quot;</span><span class="p">,</span> <span class="s2">&quot;р&quot;</span><span class="p">,</span> <span class="s2">&quot;и&quot;</span><span class="p">,</span> <span class="s2">&quot;е&quot;</span><span class="p">,</span> <span class="s2">&quot;д&quot;</span><span class="p">,</span> <span class="s2">&quot;е&quot;</span><span class="p">,</span> <span class="s2">&quot;т&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;б&quot;</span><span class="p">,</span> <span class="s2">&quot;р&quot;</span><span class="p">,</span> <span class="s2">&quot;и&quot;</span><span class="p">,</span> <span class="s2">&quot;г&quot;</span><span class="p">,</span> <span class="s2">&quot;а&quot;</span><span class="p">,</span> <span class="s2">&quot;д&quot;</span><span class="p">,</span> <span class="s2">&quot;а&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;д&quot;</span><span class="p">,</span> <span class="s2">&quot;а&quot;</span><span class="p">,</span> <span class="s2">&quot;в&quot;</span><span class="p">,</span> <span class="s2">&quot;а&quot;</span><span class="p">,</span> <span class="s2">&quot;й&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;д&quot;</span><span class="p">,</span> <span class="s2">&quot;а&quot;</span><span class="p">,</span> <span class="s2">&quot;в&quot;</span><span class="p">,</span> <span class="s2">&quot;а&quot;</span><span class="p">,</span> <span class="s2">&quot;й&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;я&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;ж&quot;</span><span class="p">,</span> <span class="s2">&quot;д&quot;</span><span class="p">,</span> <span class="s2">&quot;у&quot;</span><span class="p">],</span> <span class="s2">&quot;timestamps&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.75</span><span class="p">,</span> <span class="mf">0.78</span><span class="p">,</span> <span class="mf">0.84</span><span class="p">,</span> <span class="mf">0.96</span><span class="p">,</span> <span class="mf">0.99</span><span class="p">,</span> <span class="mf">1.02</span><span class="p">,</span> <span class="mf">1.05</span><span class="p">,</span> <span class="mf">1.08</span><span class="p">,</span> <span class="mf">1.14</span><span class="p">,</span> <span class="mf">1.23</span><span class="p">,</span> <span class="mf">1.50</span><span class="p">,</span> <span class="mf">1.56</span><span class="p">,</span> <span class="mf">1.62</span><span class="p">,</span> <span class="mf">1.65</span><span class="p">,</span> <span class="mf">1.68</span><span class="p">,</span> <span class="mf">1.74</span><span class="p">,</span> <span class="mf">1.98</span><span class="p">,</span> <span class="mf">2.16</span><span class="p">,</span> <span class="mf">2.19</span><span class="p">,</span> <span class="mf">2.25</span><span class="p">,</span> <span class="mf">2.28</span><span class="p">,</span> <span class="mf">2.34</span><span class="p">,</span> <span class="mf">2.37</span><span class="p">,</span> <span class="mf">2.43</span><span class="p">,</span> <span class="mf">2.55</span><span class="p">,</span> <span class="mf">2.70</span><span class="p">,</span> <span class="mf">2.76</span><span class="p">,</span> <span class="mf">2.79</span><span class="p">,</span> <span class="mf">2.85</span><span class="p">,</span> <span class="mf">2.88</span><span class="p">,</span> <span class="mf">2.97</span><span class="p">,</span> <span class="mf">3.03</span><span class="p">,</span> <span class="mf">3.24</span><span class="p">,</span> <span class="mf">3.33</span><span class="p">,</span> <span class="mf">3.39</span><span class="p">,</span> <span class="mf">3.45</span><span class="p">,</span> <span class="mf">3.48</span><span class="p">,</span> <span class="mf">3.57</span><span class="p">,</span> <span class="mf">6.42</span><span class="p">,</span> <span class="mf">6.48</span><span class="p">,</span> <span class="mf">6.54</span><span class="p">,</span> <span class="mf">6.60</span><span class="p">,</span> <span class="mf">6.63</span><span class="p">,</span> <span class="mf">6.66</span><span class="p">,</span> <span class="mf">6.69</span><span class="p">,</span> <span class="mf">6.75</span><span class="p">,</span> <span class="mf">6.78</span><span class="p">,</span> <span class="mf">6.81</span><span class="p">,</span> <span class="mf">6.84</span><span class="p">,</span> <span class="mf">6.90</span><span class="p">],</span> <span class="s2">&quot;ys_probs&quot;</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">&quot;lm_probs&quot;</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">&quot;context_scores&quot;</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">&quot;segment&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;words&quot;</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">&quot;start_time&quot;</span><span class="p">:</span> <span class="mf">0.00</span><span class="p">,</span> <span class="s2">&quot;is_final&quot;</span><span class="p">:</span> <span class="n">false</span><span class="p">,</span> <span class="s2">&quot;is_eof&quot;</span><span class="p">:</span> <span class="n">false</span><span class="p">}</span>
+
+</pre></div>
+</div>
+</section>
+<section id="real-time-speech-recognition-from-a-microphone">
+<h3>Real-time speech recognition from a microphone<a class="headerlink" href="#real-time-speech-recognition-from-a-microphone" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+./build/bin/sherpa-onnx-microphone<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--t-one-ctc-model<span class="o">=</span>./sherpa-onnx-streaming-t-one-russian-2025-09-08/model.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span>./sherpa-onnx-streaming-t-one-russian-2025-09-08/tokens.txt
+</pre></div>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>If your system is Linux (including embedded Linux), you can also use
+<a class="reference internal" href="../../install/aarch64-embedded-linux.html#sherpa-onnx-alsa"><span class="std std-ref">sherpa-onnx-alsa</span></a> to do real-time speech recognition with your
+microphone if <code class="docutils literal notranslate"><span class="pre">sherpa-onnx-microphone</span></code> does not work for you.</p>
+</div>
+</section>
+<section id="huggingface-space">
+<h3>Huggingface space<a class="headerlink" href="#huggingface-space" title="Permalink to this heading"></a></h3>
+<p>You can try this model by visiting</p>
+<blockquote>
+<div><p><a class="reference external" href="https://huggingface.co/spaces/k2-fsa/automatic-speech-recognition">https://huggingface.co/spaces/k2-fsa/automatic-speech-recognition</a></p>
+</div></blockquote>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="zipformer-ctc-models.html" class="btn btn-neutral float-left" title="Zipformer-CTC-based Models" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../offline-transducer/index.html" class="btn btn-neutral float-right" title="Offline transducer models" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

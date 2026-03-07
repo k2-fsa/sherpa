@@ -1,0 +1,496 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>sherpa-ncnn &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/clipboard.min.js"></script>
+        <script src="../_static/copybutton.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Tutorials" href="tutorials/index.html" />
+    <link rel="prev" title="Online transducer models" href="../sherpa/pretrained_models/online_transducer.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">sherpa-ncnn</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="install/index.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="python/index.html">Python API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wasm/index.html">WebAssembly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="c-api/index.html">C API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="endpoint.html">Endpointing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="android/index.html">Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="ios/index.html">iOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pretrained_models/index.html">Pre-trained models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/index.html">Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vad/index.html">VAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="sense-voice/index.html">SenseVoice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="faq.html">FAQs</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../onnx/index.html">sherpa-onnx</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>sherpa-ncnn</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/ncnn/index.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="sherpa-ncnn">
+<h1>sherpa-ncnn<a class="headerlink" href="#sherpa-ncnn" title="Permalink to this heading"></a></h1>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>During speech recognition, it does not need to access the Internet.
+Everything is processed locally on your device.</p>
+</div>
+<p>We support using <a class="reference external" href="https://github.com/tencent/ncnn">ncnn</a> to replace PyTorch for neural network computation.
+The code is put in a separate repository <a class="reference external" href="https://github.com/k2-fsa/sherpa-ncnn">sherpa-ncnn</a></p>
+<p><a class="reference external" href="https://github.com/k2-fsa/sherpa-ncnn">sherpa-ncnn</a> is self-contained and everything can be compiled from source.</p>
+<p>Please refer to <a class="reference external" href="https://k2-fsa.github.io/icefall/model-export/export-ncnn.html">https://k2-fsa.github.io/icefall/model-export/export-ncnn.html</a>
+for how to export models to <a class="reference external" href="https://github.com/tencent/ncnn">ncnn</a> format.</p>
+<p>In the following, we describe how to build <a class="reference external" href="https://github.com/k2-fsa/sherpa-ncnn">sherpa-ncnn</a> for Linux, macOS,
+Windows, embedded systems, Android, and iOS.</p>
+<p>Also, we show how to use it for speech recognition with pre-trained models.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/index.html">Tutorials</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/cn.html">中文资料 (Chinese tutorials)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/cn.html#sherpa-ncnn-windows">Sherpa-ncnn (Windows電腦抓取麥克風聲音即時轉錄文字)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/cn.html#androidsherpancnn">2024 Android整合SherpaNcnn实现离线语音识别（支持中文，手把手带你从编译动态库开始）</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/cn.html#unity-sherpa-ncnn">2024 在Unity环境下，借助sherpa-ncnn框架，实现实时并准确的中英双语语音识别功能</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/cn.html#rv1126sherpatts">2024-02-22【RV1126】移植sherpa实时语音识别和TTS文字转语音功能</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/cn.html#sherpa-ncnn">2023-12-31 离线语音识别 sherpa-ncnn 尝鲜体验</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/cn.html#rv1126kaldi">2023-04-26【RV1126】移植kaldi实时语音识别</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tutorials/cn.html#id1">2023-02-19 离线语音识别库sherpa-ncnn安装和简单测试笔记</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="install/index.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="install/videos.html">Installation videos</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="install/videos.html#window-64-bit">Window (64-bit)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="install/linux.html">Linux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="install/macos.html">macOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="install/windows.html">Windows</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="install/windows.html#bit-windows-x64">64-bit Windows (x64)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="install/windows.html#bit-windows-x86">32-bit Windows (x86)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="install/arm-embedded-linux.html">Embedded Linux (arm)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="install/arm-embedded-linux.html#install-toolchain">Install toolchain</a></li>
+<li class="toctree-l3"><a class="reference internal" href="install/arm-embedded-linux.html#build-sherpa-ncnn">Build sherpa-ncnn</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="install/aarch64-embedded-linux.html">Embedded Linux (aarch64)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="install/aarch64-embedded-linux.html#install-toolchain">Install toolchain</a></li>
+<li class="toctree-l3"><a class="reference internal" href="install/aarch64-embedded-linux.html#build-sherpa-ncnn">Build sherpa-ncnn</a></li>
+<li class="toctree-l3"><a class="reference internal" href="install/aarch64-embedded-linux.html#sherpa-ncnn-alsa">sherpa-ncnn-alsa</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="install/riscv64-embedded-linux.html">Embedded Linux (riscv64)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="install/riscv64-embedded-linux.html#install-toolchain">Install toolchain</a></li>
+<li class="toctree-l3"><a class="reference internal" href="install/riscv64-embedded-linux.html#build-sherpa-ncnn">Build sherpa-ncnn</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="python/index.html">Python API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="python/index.html#installation">Installation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="python/index.html#method-1">Method 1</a></li>
+<li class="toctree-l3"><a class="reference internal" href="python/index.html#method-2">Method 2</a></li>
+<li class="toctree-l3"><a class="reference internal" href="python/index.html#method-3">Method 3</a></li>
+<li class="toctree-l3"><a class="reference internal" href="python/index.html#method-4-for-developers-and-embedded-boards">Method 4 (For developers and embedded boards)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="python/index.html#real-time-recognition-with-a-microphone">Real-time recognition with a microphone</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="python/index.html#import-the-required-packages">1. Import the required packages</a></li>
+<li class="toctree-l3"><a class="reference internal" href="python/index.html#create-the-recognizer">2. Create the recognizer</a></li>
+<li class="toctree-l3"><a class="reference internal" href="python/index.html#start-recording">3. Start recording</a></li>
+<li class="toctree-l3"><a class="reference internal" href="python/index.html#read-audio-samples-from-the-microphone">4. Read audio samples from the microphone</a></li>
+<li class="toctree-l3"><a class="reference internal" href="python/index.html#invoke-the-recognizer-with-audio-samples">5. Invoke the recognizer with audio samples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="python/index.html#get-the-recognition-result">6. Get the recognition result</a></li>
+<li class="toctree-l3"><a class="reference internal" href="python/index.html#summary">Summary</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="python/index.html#recognize-a-file">Recognize a file</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="wasm/index.html">WebAssembly</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="wasm/install-emscripten.html">Install Emscripten</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wasm/build.html">Build</a></li>
+<li class="toctree-l2"><a class="reference internal" href="wasm/prebuilt.html">Use pre-built WebAssembly library</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="wasm/prebuilt.html#download">Download</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="wasm/hf-spaces.html">Huggingface Spaces (WebAssembly)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="wasm/hf-spaces.html#english-only">English only</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wasm/hf-spaces.html#chinese-english">Chinese + English</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="c-api/index.html">C API</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="c-api/index.html#generate-required-files">Generate required files</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="c-api/index.html#build-shared-libraries">Build shared libraries</a></li>
+<li class="toctree-l3"><a class="reference internal" href="c-api/index.html#build-static-libraries">Build static libraries</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="c-api/index.html#build-decode-file-c-api-c-with-generated-files">Build decode-file-c-api.c with generated files</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="endpoint.html">Endpointing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="endpoint.html#rule-1">Rule 1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="endpoint.html#rule-2">Rule 2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="endpoint.html#rule-3">Rule 3</a></li>
+<li class="toctree-l2"><a class="reference internal" href="endpoint.html#demo">Demo</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="endpoint.html#multilingual-chinese-english">Multilingual (Chinese + English)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="endpoint.html#faqs">FAQs</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="endpoint.html#how-to-compute-duration-of-silence">How to compute duration of silence</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="android/index.html">Android</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="android/demo-videos.html">Video demos</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="android/demo-videos.html#video-1-chinese">Video 1: Chinese</a></li>
+<li class="toctree-l3"><a class="reference internal" href="android/demo-videos.html#video-2-chinese-english">Video 2: Chinese + English</a></li>
+<li class="toctree-l3"><a class="reference internal" href="android/demo-videos.html#video-3-chinese-with-background-noise">Video 3: Chinese with background noise</a></li>
+<li class="toctree-l3"><a class="reference internal" href="android/demo-videos.html#video-4-chinese-poem-with-background-music">Video 4: Chinese poem with background music</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="android/build-sherpa-ncnn.html">Build sherpa-ncnn for Android</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="android/build-sherpa-ncnn.html#install-android-studio">Install Android Studio</a></li>
+<li class="toctree-l3"><a class="reference internal" href="android/build-sherpa-ncnn.html#download-sherpa-ncnn">Download sherpa-ncnn</a></li>
+<li class="toctree-l3"><a class="reference internal" href="android/build-sherpa-ncnn.html#install-ndk">Install NDK</a></li>
+<li class="toctree-l3"><a class="reference internal" href="android/build-sherpa-ncnn.html#build-sherpa-ncnn-c-code">Build sherpa-ncnn (C++ code)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="android/build-sherpa-ncnn.html#build-for-arm64-v8a">Build for arm64-v8a</a></li>
+<li class="toctree-l4"><a class="reference internal" href="android/build-sherpa-ncnn.html#build-for-armeabi-v7a">Build for armeabi-v7a</a></li>
+<li class="toctree-l4"><a class="reference internal" href="android/build-sherpa-ncnn.html#build-for-x86-64">Build for x86_64</a></li>
+<li class="toctree-l4"><a class="reference internal" href="android/build-sherpa-ncnn.html#build-for-x86">Build for x86</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="android/build-sherpa-ncnn.html#download-pre-trained-models">Download pre-trained models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="android/build-sherpa-ncnn.html#generate-apk">Generate APK</a></li>
+<li class="toctree-l3"><a class="reference internal" href="android/build-sherpa-ncnn.html#analyze-the-apk">Analyze the APK</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="ios/index.html">iOS</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="ios/demo-videos.html">Video demos</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="ios/demo-videos.html#video-1-chinese-english-on-iphone-14-pro-simulator">Video 1: Chinese + English on iPhone 14 Pro (simulator)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ios/demo-videos.html#video-2-chinese-english-on-ipad-11-pro-simulator">Video 2: Chinese + English on iPad 11 Pro (simulator)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="ios/build-sherpa-ncnn-swift.html">Build sherpa-ncnn for iOS</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="ios/build-sherpa-ncnn-swift.html#requirement">Requirement</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ios/build-sherpa-ncnn-swift.html#download-sherpa-ncnn">Download sherpa-ncnn</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ios/build-sherpa-ncnn-swift.html#build-sherpa-ncnn-in-commandline-c-part">Build sherpa-ncnn (in commandline, C++ Part)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ios/build-sherpa-ncnn-swift.html#build-sherpa-ncnn-in-xcode">Build sherpa-ncnn (in Xcode)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="ios/build-sherpa-ncnn-swift.html#run-sherpa-ncnn-on-your-iphone-ipad">Run sherpa-ncnn on your iPhone/iPad</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="ios/for-the-more-curious-swift.html">For the more curious</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="ios/for-the-more-curious-swift.html#files-generated-by-running-build-ios-sh">Files generated by running ./build-ios.sh</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="ios/for-the-more-curious-swift.html#openmp-xcframework">openmp.xcframework</a></li>
+<li class="toctree-l4"><a class="reference internal" href="ios/for-the-more-curious-swift.html#sherpa-ncnn-xcframework">sherpa-ncnn.xcframework</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="ios/for-the-more-curious-swift.html#how-to-use-files-generated-by-build-ios-sh-in-xcode">How to use files generated by ./build-ios.sh in Xcode</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="pretrained_models/index.html">Pre-trained models</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pretrained_models/small-models.html">Small models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pretrained_models/zipformer-transucer-models.html">Zipformer-transducer-based Models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pretrained_models/zipformer-transucer-models.html#marcoyang-sherpa-ncnn-streaming-zipformer-zh-14m-2023-02-23-chinese">marcoyang/sherpa-ncnn-streaming-zipformer-zh-14M-2023-02-23 (Chinese)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/zipformer-transucer-models.html#download-the-model">Download the model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/zipformer-transucer-models.html#decode-a-single-wave-file">Decode a single wave file</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/zipformer-transucer-models.html#real-time-speech-recognition-from-a-microphone">Real-time speech recognition from a microphone</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pretrained_models/zipformer-transucer-models.html#marcoyang-sherpa-ncnn-streaming-zipformer-20m-2023-02-17-english">marcoyang/sherpa-ncnn-streaming-zipformer-20M-2023-02-17 (English)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/zipformer-transucer-models.html#id2">Download the model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/zipformer-transucer-models.html#id3">Decode a single wave file</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/zipformer-transucer-models.html#id4">Real-time speech recognition from a microphone</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pretrained_models/zipformer-transucer-models.html#csukuangfj-sherpa-ncnn-streaming-zipformer-en-2023-02-13-english">csukuangfj/sherpa-ncnn-streaming-zipformer-en-2023-02-13 (English)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/zipformer-transucer-models.html#id6">Download the model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/zipformer-transucer-models.html#id7">Decode a single wave file</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/zipformer-transucer-models.html#id8">Real-time speech recognition from a microphone</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pretrained_models/zipformer-transucer-models.html#csukuangfj-sherpa-ncnn-streaming-zipformer-bilingual-zh-en-2023-02-13-bilingual-chinese-english">csukuangfj/sherpa-ncnn-streaming-zipformer-bilingual-zh-en-2023-02-13 (Bilingual, Chinese + English)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/zipformer-transucer-models.html#id9">Download the model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/zipformer-transucer-models.html#id10">Decode a single wave file</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/zipformer-transucer-models.html#id11">Real-time speech recognition from a microphone</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pretrained_models/zipformer-transucer-models.html#csukuangfj-sherpa-ncnn-streaming-zipformer-small-bilingual-zh-en-2023-02-16-bilingual-chinese-english">csukuangfj/sherpa-ncnn-streaming-zipformer-small-bilingual-zh-en-2023-02-16 (Bilingual, Chinese + English)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/zipformer-transucer-models.html#id12">Download the model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/zipformer-transucer-models.html#id13">Decode a single wave file</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/zipformer-transucer-models.html#id14">Real-time speech recognition from a microphone</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/zipformer-transucer-models.html#a-faster-model-of-sherpa-ncnn-streaming-zipformer-small-bilingual-zh-en-2023-02-16">A faster model of sherpa-ncnn-streaming-zipformer-small-bilingual-zh-en-2023-02-16</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pretrained_models/zipformer-transucer-models.html#shaojieli-sherpa-ncnn-streaming-zipformer-fr-2023-04-14">shaojieli/sherpa-ncnn-streaming-zipformer-fr-2023-04-14</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/zipformer-transucer-models.html#id15">Download the model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/zipformer-transucer-models.html#id16">Real-time speech recognition from a microphone</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pretrained_models/lstm-transducer-models.html">LSTM-transducer-based Models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pretrained_models/lstm-transducer-models.html#marcoyang-sherpa-ncnn-lstm-transducer-small-2023-02-13-bilingual-chinese-english">marcoyang/sherpa-ncnn-lstm-transducer-small-2023-02-13 (Bilingual, Chinese + English)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/lstm-transducer-models.html#decode-a-single-wave-file-with-build-bin-sherpa-ncnn">Decode a single wave file with ./build/bin/sherpa-ncnn</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pretrained_models/lstm-transducer-models.html#csukuangfj-sherpa-ncnn-2022-09-05-english">csukuangfj/sherpa-ncnn-2022-09-05 (English)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pretrained_models/lstm-transducer-models.html#csukuangfj-sherpa-ncnn-2022-09-30-chinese">csukuangfj/sherpa-ncnn-2022-09-30 (Chinese)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="pretrained_models/conv-emformer-transducer-models.html">Conv-Emformer-transducer-based Models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="pretrained_models/conv-emformer-transducer-models.html#marcoyang-sherpa-ncnn-conv-emformer-transducer-small-2023-01-09-english">marcoyang/sherpa-ncnn-conv-emformer-transducer-small-2023-01-09 (English)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/conv-emformer-transducer-models.html#decode-a-single-wave-file-with-build-bin-sherpa-ncnn">Decode a single wave file with ./build/bin/sherpa-ncnn</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/conv-emformer-transducer-models.html#decode-a-single-wave-file-with-build-bin-sherpa-ncnn-with-int8-quantization">Decode a single wave file with ./build/bin/sherpa-ncnn (with int8 quantization)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pretrained_models/conv-emformer-transducer-models.html#csukuangfj-sherpa-ncnn-conv-emformer-transducer-2022-12-06-chinese-english">csukuangfj/sherpa-ncnn-conv-emformer-transducer-2022-12-06 (Chinese + English)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/conv-emformer-transducer-models.html#id3">Decode a single wave file with ./build/bin/sherpa-ncnn</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/conv-emformer-transducer-models.html#real-time-speech-recognition-from-a-microphone-with-build-bin-sherpa-ncnn-microphone">Real-time speech recognition from a microphone with build/bin/sherpa-ncnn-microphone</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pretrained_models/conv-emformer-transducer-models.html#csukuangfj-sherpa-ncnn-conv-emformer-transducer-2022-12-08-chinese">csukuangfj/sherpa-ncnn-conv-emformer-transducer-2022-12-08 (Chinese)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/conv-emformer-transducer-models.html#id4">Decode a single wave file with ./build/bin/sherpa-ncnn</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/conv-emformer-transducer-models.html#id5">Real-time speech recognition from a microphone with build/bin/sherpa-ncnn-microphone</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="pretrained_models/conv-emformer-transducer-models.html#csukuangfj-sherpa-ncnn-conv-emformer-transducer-2022-12-04-english">csukuangfj/sherpa-ncnn-conv-emformer-transducer-2022-12-04 (English)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/conv-emformer-transducer-models.html#id6">Decode a single wave file with ./build/bin/sherpa-ncnn</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pretrained_models/conv-emformer-transducer-models.html#id7">Real-time speech recognition from a microphone with build/bin/sherpa-ncnn-microphone</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="examples/index.html">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="examples/raspberry-pi-3.html">Raspberry Pi 3B E14</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples/raspberry-pi-3.html#board-info">Board info</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/raspberry-pi-3.html#os-release">OS release</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/raspberry-pi-3.html#lscpu">lscpu</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/raspberry-pi-3.html#cpuinfo">cpuinfo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/raspberry-pi-3.html#rtf-1-thread">RTF (1 thread)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/raspberry-pi-3.html#rtf-2-threads">RTF (2 threads)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="examples/jetson-nano.html">Jetson Nano</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples/jetson-nano.html#board-info">Board info</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/jetson-nano.html#rtf-4-threads">RTF (4 threads)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="examples/jetson-nx.html">Jetson NX</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples/jetson-nx.html#board-info">Board info</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/jetson-nx.html#rtf-2-threads">RTF (2 threads)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/jetson-nx.html#rtf-4-threads">RTF (4 threads)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/jetson-nx.html#rtf-6-threads">RTF (6 threads)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="examples/vision-five-2.html">VisionFive 2</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples/vision-five-2.html#board-info">Board info</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/vision-five-2.html#rtf-4-threads">RTF (4 threads)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/vision-five-2.html#real-time-speech-recognition-with-a-microphone">Real-time speech recognition with a microphone</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="vad/index.html">VAD</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="vad/silero-vad.html">silero-vad</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="vad/silero-vad.html#sherpa-ncnn-silero-vad">sherpa-ncnn-silero-vad</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="vad/silero-vad.html#download-the-model">Download the model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="vad/silero-vad.html#c-examples">C++ examples</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="sense-voice/index.html">SenseVoice</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="sense-voice/export.html">Export SenseVoice to sherpa-ncnn</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="sense-voice/export.html#the-code">The code</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="sense-voice/pretrained.html">Pre-trained Models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="sense-voice/pretrained.html#sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2024-07-17-chinese-english-japanese-korean-cantonese">sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2024-07-17 (Chinese, English, Japanese, Korean, Cantonese, 中英日韩粤语)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="sense-voice/pretrained.html#download">Download</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sense-voice/pretrained.html#decode-a-file">Decode a file</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="sense-voice/pretrained.html#without-inverse-text-normalization">Without inverse text normalization</a></li>
+<li class="toctree-l5"><a class="reference internal" href="sense-voice/pretrained.html#with-inverse-text-normalization">With inverse text normalization</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="sense-voice/pretrained.html#real-time-speech-recognition-from-a-microphone">Real-time Speech recognition from a microphone</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sense-voice/pretrained.html#speed-test-on-rk3588-cpu">Speed test on RK3588 CPU</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="sense-voice/pretrained.html#cortex-a55">Cortex A55</a></li>
+<li class="toctree-l5"><a class="reference internal" href="sense-voice/pretrained.html#cortex-a76">Cortex A76</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="sense-voice/pretrained.html#sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09-chinese-english-japanese-korean-cantonese">sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2025-09-09 (Chinese, English, Japanese, Korean, Cantonese, 中英日韩粤语)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="sense-voice/pretrained.html#id1">Download</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sense-voice/pretrained.html#yue-0-wav">yue-0.wav</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sense-voice/pretrained.html#yue-1-wav">yue-1.wav</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sense-voice/pretrained.html#yue-2-wav">yue-2.wav</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sense-voice/pretrained.html#yue-3-wav">yue-3.wav</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sense-voice/pretrained.html#yue-4-wav">yue-4.wav</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sense-voice/pretrained.html#yue-5-wav">yue-5.wav</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sense-voice/pretrained.html#yue-6-wav">yue-6.wav</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sense-voice/pretrained.html#yue-7-wav">yue-7.wav</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sense-voice/pretrained.html#yue-8-wav">yue-8.wav</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sense-voice/pretrained.html#yue-9-wav">yue-9.wav</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sense-voice/pretrained.html#yue-10-wav">yue-10.wav</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sense-voice/pretrained.html#yue-11-wav">yue-11.wav</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sense-voice/pretrained.html#yue-12-wav">yue-12.wav</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sense-voice/pretrained.html#yue-13-wav">yue-13.wav</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sense-voice/pretrained.html#yue-14-wav">yue-14.wav</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sense-voice/pretrained.html#yue-15-wav">yue-15.wav</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sense-voice/pretrained.html#yue-16-wav">yue-16.wav</a></li>
+<li class="toctree-l4"><a class="reference internal" href="sense-voice/pretrained.html#yue-17-wav">yue-17.wav</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">FAQs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="faq.html#where-to-get-help">Where to get help</a></li>
+<li class="toctree-l2"><a class="reference internal" href="faq.html#no-default-input-device-found">No default input device found</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../sherpa/pretrained_models/online_transducer.html" class="btn btn-neutral float-left" title="Online transducer models" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="tutorials/index.html" class="btn btn-neutral float-right" title="Tutorials" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

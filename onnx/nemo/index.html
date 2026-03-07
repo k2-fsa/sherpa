@@ -1,0 +1,343 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NeMo &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Non-streaming Canary models" href="canary.html" />
+    <link rel="prev" title="Paraformer" href="../paraformer/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">sherpa-onnx</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../install/index.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../faqs/index.html">Frequently Asked Question (FAQs)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python/index.html">Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../c-api/index.html">C API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../java-api/index.html">Java API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../javascript-api/index.html">Javascript API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kotlin-api/index.html">Kotlin API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../swift-api/index.html">Swift API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../go-api/index.html">Go API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../csharp-api/index.html">C# API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pascal-api/index.html">Pascal API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lazarus/index.html">Lazarus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../wasm/index.html">WebAssembly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../android/index.html">Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../harmony-os/index.html">HarmonyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ios/index.html">iOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../flutter/index.html">Flutter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../websocket/index.html">WebSocket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../hotwords/index.html">Hotwords (Contextual biasing)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kws/index.html">Keyword spotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../punctuation/index.html">Punctuation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../audio-tagging/index.html">Audio tagging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spoken-language-identification/index.html">Spoken language identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vad/index.html">VAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/index.html">Pre-trained models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/whisper/index.html">Whisper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../moonshine/index.html">Moonshine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../omnilingual-asr/index.html">Omnilingual ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sense-voice/index.html">SenseVoice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../funasr-nano/index.html">FunASR Nano</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../paraformer/index.html">Paraformer</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">NeMo</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#speech-recognition-models">Speech Recognition models</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../pretrained_models/offline-ctc/nemo/index.html">NeMo CTC-based models</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pretrained_models/offline-transducer/nemo-transducer-models.html">NeMo transducer-based Models</a></li>
+<li class="toctree-l4"><a class="reference internal" href="canary.html">Non-streaming Canary models</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#speaker-embedding-models">Speaker Embedding models</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../FireRedAsr/index.html">FireRedAsr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Dolphin/index.html">Dolphin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../homophone-replacer/index.html">拼音词组匹配替换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-diarization/index.html">Speaker Diarization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-identification/index.html">Speaker Identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speech-enhancement/index.html">Speech enhancement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../source-separation/index.html">Source separation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qnn/index.html">Qualcomm NPU (QNN, HTP)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rknn/index.html">rknn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ascend/index.html">Ascend NPU (昇腾 NPU)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tts/index.html">Text-to-speech (TTS)</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">sherpa-onnx</a> &raquo;</li>
+      <li>NeMo</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/onnx/nemo/index.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="nemo">
+<span id="onnx-nemo"></span><h1>NeMo<a class="headerlink" href="#nemo" title="Permalink to this heading"></a></h1>
+<p>This page lists models from <a class="reference external" href="https://github.com/NVIDIA/NeMo">NeMo</a>.</p>
+<section id="speech-recognition-models">
+<h2>Speech Recognition models<a class="headerlink" href="#speech-recognition-models" title="Permalink to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../pretrained_models/offline-ctc/nemo/index.html">NeMo CTC-based models</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/offline-ctc/nemo/how-to-export.html">How to export models from NeMo to sherpa-onnx</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/offline-ctc/nemo/how-to-export.html#step-1-export-model-onnx">Step 1: Export model.onnx</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/offline-ctc/nemo/how-to-export.html#step-2-add-metadata">Step 2: Add metadata</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/offline-ctc/nemo/how-to-export.html#step-3-obtain-model-int8-onnx">Step 3: Obtain model.int8.onnx</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/offline-ctc/nemo/how-to-export.html#step-4-obtain-tokens-txt">Step 4: Obtain tokens.txt</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/offline-ctc/nemo/english.html">English</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/offline-ctc/nemo/english.html#sherpa-onnx-nemo-parakeet-tdt-ctc-110m-en-36000-int8-english">sherpa-onnx-nemo-parakeet_tdt_ctc_110m-en-36000-int8 (English, 英语)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../pretrained_models/offline-ctc/nemo/english.html#download-the-model">Download the model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pretrained_models/offline-ctc/nemo/english.html#decode-wave-files">Decode wave files</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pretrained_models/offline-ctc/nemo/english.html#speech-recognition-from-a-microphone">Speech recognition from a microphone</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pretrained_models/offline-ctc/nemo/english.html#speech-recognition-from-a-microphone-with-vad">Speech recognition from a microphone with VAD</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/offline-ctc/nemo/english.html#stt-en-citrinet-512">stt_en_citrinet_512</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../pretrained_models/offline-ctc/nemo/english.html#id1">Download the model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pretrained_models/offline-ctc/nemo/english.html#id2">Decode wave files</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/offline-ctc/nemo/english.html#stt-en-conformer-ctc-small">stt_en_conformer_ctc_small</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../pretrained_models/offline-ctc/nemo/english.html#id3">Download the model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pretrained_models/offline-ctc/nemo/english.html#id4">Decode wave files</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/offline-ctc/nemo/english.html#stt-en-conformer-ctc-medium">stt_en_conformer_ctc_medium</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../pretrained_models/offline-ctc/nemo/english.html#id5">Download the model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pretrained_models/offline-ctc/nemo/english.html#id6">Decode wave files</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/offline-ctc/nemo/english.html#stt-en-conformer-ctc-large">stt_en_conformer_ctc_large</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../pretrained_models/offline-ctc/nemo/english.html#id7">Download the model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pretrained_models/offline-ctc/nemo/english.html#id8">Decode wave files</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/offline-ctc/nemo/russian.html">Russian</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/offline-ctc/nemo/russian.html#sherpa-onnx-nemo-ctc-giga-am-v2-russian-2025-04-19">sherpa-onnx-nemo-ctc-giga-am-v2-russian-2025-04-19</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../pretrained_models/offline-ctc/nemo/russian.html#download-the-model">Download the model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pretrained_models/offline-ctc/nemo/russian.html#decode-wave-files">Decode wave files</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pretrained_models/offline-ctc/nemo/russian.html#speech-recognition-from-a-microphone">Speech recognition from a microphone</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pretrained_models/offline-ctc/nemo/russian.html#speech-recognition-from-a-microphone-with-vad">Speech recognition from a microphone with VAD</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/offline-ctc/nemo/russian.html#sherpa-onnx-nemo-ctc-giga-am-russian-2024-10-24">sherpa-onnx-nemo-ctc-giga-am-russian-2024-10-24</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../pretrained_models/offline-ctc/nemo/russian.html#id2">Download the model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pretrained_models/offline-ctc/nemo/russian.html#id3">Decode wave files</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pretrained_models/offline-ctc/nemo/russian.html#id4">Speech recognition from a microphone</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pretrained_models/offline-ctc/nemo/russian.html#id5">Speech recognition from a microphone with VAD</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/offline-ctc/nemo/japanese.html">Japanese</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/offline-ctc/nemo/japanese.html#sherpa-onnx-nemo-parakeet-tdt-ctc-0-6b-ja-35000-int8-japanese">sherpa-onnx-nemo-parakeet-tdt_ctc-0.6b-ja-35000-int8 (Japanese, 日语)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../pretrained_models/offline-ctc/nemo/japanese.html#download-the-model">Download the model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pretrained_models/offline-ctc/nemo/japanese.html#decode-wave-files">Decode wave files</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pretrained_models/offline-ctc/nemo/japanese.html#speech-recognition-from-a-microphone">Speech recognition from a microphone</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../pretrained_models/offline-ctc/nemo/japanese.html#speech-recognition-from-a-microphone-with-vad">Speech recognition from a microphone with VAD</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../pretrained_models/offline-transducer/nemo-transducer-models.html">NeMo transducer-based Models</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/offline-transducer/nemo-transducer-models.html#sherpa-onnx-nemo-parakeet-tdt-0-6b-v3-int8-25-european-languages">sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8 (25 European Languages)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/offline-transducer/nemo-transducer-models.html#colab">Colab</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/offline-transducer/nemo-transducer-models.html#huggingface-space">Huggingface space</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/offline-transducer/nemo-transducer-models.html#download-the-model">Download the model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/offline-transducer/nemo-transducer-models.html#decode-wave-files">Decode wave files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/offline-transducer/nemo-transducer-models.html#real-time-streaming-speech-recognition-from-a-microphone-with-vad">Real-time/Streaming Speech recognition from a microphone with VAD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/offline-transducer/nemo-transducer-models.html#speech-recognition-from-a-microphone">Speech recognition from a microphone</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/offline-transducer/nemo-transducer-models.html#speech-recognition-from-a-microphone-with-vad">Speech recognition from a microphone with VAD</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/offline-transducer/nemo-transducer-models.html#sherpa-onnx-nemo-parakeet-tdt-0-6b-v2-int8-english">sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8 (English, 英语)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/offline-transducer/nemo-transducer-models.html#id1">Download the model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/offline-transducer/nemo-transducer-models.html#id2">Decode wave files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/offline-transducer/nemo-transducer-models.html#id3">Real-time/Streaming Speech recognition from a microphone with VAD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/offline-transducer/nemo-transducer-models.html#id4">Speech recognition from a microphone</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/offline-transducer/nemo-transducer-models.html#id5">Speech recognition from a microphone with VAD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/offline-transducer/nemo-transducer-models.html#rtf-on-rk3588-with-cortex-a76-cpu">RTF on RK3588 with Cortex A76 CPU</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/offline-transducer/nemo-transducer-models.html#sherpa-onnx-nemo-transducer-giga-am-v2-russian-2025-04-19-russian">sherpa-onnx-nemo-transducer-giga-am-v2-russian-2025-04-19 (Russian, 俄语)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/offline-transducer/nemo-transducer-models.html#id6">Download the model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/offline-transducer/nemo-transducer-models.html#id7">Decode wave files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/offline-transducer/nemo-transducer-models.html#id8">Real-time/Streaming Speech recognition from a microphone with VAD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/offline-transducer/nemo-transducer-models.html#id9">Speech recognition from a microphone</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/offline-transducer/nemo-transducer-models.html#id10">Speech recognition from a microphone with VAD</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/offline-transducer/nemo-transducer-models.html#sherpa-onnx-nemo-transducer-giga-am-russian-2024-10-24-russian">sherpa-onnx-nemo-transducer-giga-am-russian-2024-10-24 (Russian, 俄语)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/offline-transducer/nemo-transducer-models.html#id12">Download the model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/offline-transducer/nemo-transducer-models.html#id13">Decode wave files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/offline-transducer/nemo-transducer-models.html#id14">Real-time/Streaming Speech recognition from a microphone with VAD</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/offline-transducer/nemo-transducer-models.html#id15">Speech recognition from a microphone</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/offline-transducer/nemo-transducer-models.html#id16">Speech recognition from a microphone with VAD</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="canary.html">Non-streaming Canary models</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="canary.html#sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8-english-spanish-german-french">sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8 (English + Spanish + German + French, 英语+西班牙语+德语+法语)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="canary.html#download-the-model">Download the model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="canary.html#decode-wave-files">Decode wave files</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="canary.html#input-english-output-english">Input English, output English</a></li>
+<li class="toctree-l4"><a class="reference internal" href="canary.html#input-english-output-german">Input English, output German</a></li>
+<li class="toctree-l4"><a class="reference internal" href="canary.html#input-english-output-spanish">Input English, output Spanish</a></li>
+<li class="toctree-l4"><a class="reference internal" href="canary.html#input-english-output-french">Input English, output French</a></li>
+<li class="toctree-l4"><a class="reference internal" href="canary.html#input-german-output-english">Input German, output English</a></li>
+<li class="toctree-l4"><a class="reference internal" href="canary.html#input-german-output-german">Input German, output German</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="canary.html#python-api-examples">Python API examples</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="speaker-embedding-models">
+<h2>Speaker Embedding models<a class="headerlink" href="#speaker-embedding-models" title="Permalink to this heading"></a></h2>
+<p>Please see <a class="reference internal" href="../speaker-identification/index.html#onnx-speaker-identification"><span class="std std-ref">Speaker Identification</span></a>.</p>
+<p>Models from <a class="reference external" href="https://github.com/NVIDIA/NeMo">NeMo</a> are prefixed with <code class="docutils literal notranslate"><span class="pre">nemo</span></code>, e.g.,</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/download/speaker-recongition-models/nemo_en_titanet_small.onnx">nemo_en_titanet_small.onnx</a></p></li>
+<li><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/download/speaker-recongition-models/nemo_en_titanet_large.onnx">nemo_en_titanet_large.onnx</a></p></li>
+<li><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/download/speaker-recongition-models/nemo_en_speakerverification_speakernet.onnx">nemo_en_speakerverification_speakernet.onnx</a></p></li>
+</ul>
+</div></blockquote>
+<p>You can find the export scripts at <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/tree/master/scripts/nemo/speaker-verification">https://github.com/k2-fsa/sherpa-onnx/tree/master/scripts/nemo/speaker-verification</a></p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../paraformer/index.html" class="btn btn-neutral float-left" title="Paraformer" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="canary.html" class="btn btn-neutral float-right" title="Non-streaming Canary models" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

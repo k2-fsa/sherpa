@@ -1,0 +1,407 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LibriSpeech demo &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/clipboard.min.js"></script>
+        <script src="../../../_static/copybutton.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../onnx/index.html">sherpa-onnx</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>LibriSpeech demo</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/python/offline_asr/conformer/librispeech.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="librispeech-demo">
+<h1>LibriSpeech demo<a class="headerlink" href="#librispeech-demo" title="Permalink to this heading"></a></h1>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>Please first refer to <a class="reference internal" href="../../installation/index.html#installation"><span class="std std-ref">Installation</span></a> to install <a class="reference external" href="https://github.com/k2-fsa/sherpa">sherpa</a>
+before proceeding.</p>
+</div>
+<p>In this section, we demonstrate how to use <a class="reference external" href="https://github.com/k2-fsa/sherpa">sherpa</a> for offline ASR
+using a <a class="reference external" href="https://arxiv.org/abs/2005.08100">Conformer</a> <a class="reference external" href="https://arxiv.org/pdf/1211.3711.pdf">transducer</a> model trained on the <a class="reference external" href="https://www.openslr.org/12">LibriSpeech</a> dataset.</p>
+<section id="download-the-pre-trained-model">
+<h2>Download the pre-trained model<a class="headerlink" href="#download-the-pre-trained-model" title="Permalink to this heading"></a></h2>
+<p>The pre-trained model is in a git repository hosted on
+<a class="reference external" href="https://huggingface.co/">huggingface</a>.</p>
+<p>Since the pre-trained model is over 10 MB and is managed by
+<a class="reference external" href="https://git-lfs.github.com/">git LFS</a>, you have
+to first install <code class="docutils literal notranslate"><span class="pre">git-lfs</span></code> before you continue.</p>
+<p>On Ubuntu, you can install <code class="docutils literal notranslate"><span class="pre">git-lfs</span></code> using</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>git-lfs
+</pre></div>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>If you are using other operating systems, please refer to
+<a class="reference external" href="https://git-lfs.github.com/">https://git-lfs.github.com/</a> for how to install <code class="docutils literal notranslate"><span class="pre">git-lfs</span></code> on your
+systems.</p>
+</div>
+<p>After installing <code class="docutils literal notranslate"><span class="pre">git-lfs</span></code>, we are ready to download the pre-trained model:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>lfs<span class="w"> </span>install
+git<span class="w"> </span>clone<span class="w"> </span>https://huggingface.co/csukuangfj/icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13
+</pre></div>
+</div>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>It is important that you did not forget to run <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">lfs</span> <span class="pre">install</span></code>.
+Otherwise, you will be SAD later.</p>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">3</span></code> most important files you just downloaded are:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/
+
+$<span class="w"> </span>ls<span class="w"> </span>-lh<span class="w"> </span>exp/*jit*
+lrwxrwxrwx<span class="w"> </span><span class="m">1</span><span class="w"> </span>kuangfangjun<span class="w"> </span>root<span class="w">   </span><span class="m">10</span><span class="w"> </span>Jun<span class="w"> </span><span class="m">17</span><span class="w"> </span><span class="m">21</span>:52<span class="w"> </span>exp/cpu_jit-torch-1.10.0.pt<span class="w"> </span>-&gt;<span class="w"> </span>cpu_jit.pt
+-rw-r--r--<span class="w"> </span><span class="m">1</span><span class="w"> </span>kuangfangjun<span class="w"> </span>root<span class="w"> </span>326M<span class="w"> </span>Jun<span class="w"> </span><span class="m">18</span><span class="w"> </span><span class="m">08</span>:58<span class="w"> </span>exp/cpu_jit-torch-1.6.0.pt
+-rw-r--r--<span class="w"> </span><span class="m">1</span><span class="w"> </span>kuangfangjun<span class="w"> </span>root<span class="w"> </span>326M<span class="w"> </span>May<span class="w"> </span><span class="m">23</span><span class="w"> </span><span class="m">00</span>:05<span class="w"> </span>exp/cpu_jit.pt
+
+
+$<span class="w"> </span>ls<span class="w"> </span>-lh<span class="w"> </span>data/lang_bpe_500/bpe.mode
+-rw-r--r--<span class="w"> </span><span class="m">1</span><span class="w"> </span>kuangfangjun<span class="w"> </span>root<span class="w"> </span>240K<span class="w"> </span>Mar<span class="w"> </span><span class="m">12</span><span class="w"> </span><span class="m">14</span>:43<span class="w"> </span>data/lang_bpe_500/bpe.model
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">exp/cpu_jit-torch-1.10.0.pt</span></code> is a torchscript model
+exported using torch 1.10, while <code class="docutils literal notranslate"><span class="pre">exp/cpu_jit-torch-1.6.0.pt</span></code>
+is exported using torch 1.6.0.</p>
+<p>If you are using a version of PyTorch that is older than 1.10, please select
+<code class="docutils literal notranslate"><span class="pre">exp/cpu_jit-torch-1.6.0.pt</span></code>. Otherwise, please use
+<code class="docutils literal notranslate"><span class="pre">exp/cpu_jit-torch-1.10.0.pt</span></code>.</p>
+<p><code class="docutils literal notranslate"><span class="pre">data/lang_bpe_500/bpe.model</span></code> is the BPE model that we used during training.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>At present, we only implement <code class="docutils literal notranslate"><span class="pre">greedy_search</span></code> and <code class="docutils literal notranslate"><span class="pre">modified</span> <span class="pre">beam_search</span></code>
+for decoding, so you only need a torchscript model file and a <code class="docutils literal notranslate"><span class="pre">bpe.model</span></code>
+to start the server.</p>
+<p>After we implement <code class="docutils literal notranslate"><span class="pre">fast_beam_search</span></code>, you can also use an FST-based
+n-gram LM during decoding.</p>
+</div>
+</section>
+<section id="start-the-server">
+<h2>Start the server<a class="headerlink" href="#start-the-server" title="Permalink to this heading"></a></h2>
+<p>The entry point of the server is
+<a class="reference external" href="https://github.com/k2-fsa/sherpa/blob/master/sherpa/bin/pruned_transducer_statelessX/offline_server.py">sherpa/bin/pruned_transducer_statelessX/offline_server.py</a>.</p>
+<p>One thing worth mentioning is that the entry point is a Python script.
+In <a class="reference external" href="https://github.com/k2-fsa/sherpa">sherpa</a>, the server is implemented using <a class="reference external" href="https://docs.python.org/3/library/asyncio.html">asyncio</a>, where <strong>IO-bound</strong>
+tasks, such as communicating with clients, are implemented in Python,
+while <strong>CPU-bound</strong> tasks, such as neural network computation, are implemented
+in C++ and are invoked by a pool of threads created and managed by Python.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>When a thread calls into C++ from Python, it releases the
+<a class="reference external" href="https://wiki.python.org/moin/GlobalInterpreterLock">global interpreter lock (GIL)</a>
+and regains the <code class="docutils literal notranslate"><span class="pre">GIL</span></code> just before it returns.</p>
+<p>In this way, we can maximize the utilization of multi CPU cores.</p>
+</div>
+<p>To view the usage information of the server, you can use:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>./sherpa/bin/pruned_transducer_statelessX/offline_server.py<span class="w"> </span>--help
+</pre></div>
+</div>
+<p>which gives the following output:</p>
+<div class="literal-block-wrapper docutils container" id="id4">
+<div class="code-block-caption"><span class="caption-text">Output of <code class="docutils literal notranslate"><span class="pre">./sherpa/bin/pruned_transducer_statelessX/offline_server.py</span> <span class="pre">--help</span></code></span><a class="headerlink" href="#id4" title="Permalink to this code"></a></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>usage: offline_server.py [-h] [--port PORT] [--num-device NUM_DEVICE]
+                         [--max-batch-size MAX_BATCH_SIZE]
+                         [--max-wait-ms MAX_WAIT_MS]
+                         [--feature-extractor-pool-size FEATURE_EXTRACTOR_POOL_SIZE]
+                         [--nn-pool-size NN_POOL_SIZE]
+                         [--nn-model-filename NN_MODEL_FILENAME]
+                         [--bpe-model-filename BPE_MODEL_FILENAME]
+                         [--token-filename TOKEN_FILENAME]
+                         [--max-message-size MAX_MESSAGE_SIZE]
+                         [--max-queue-size MAX_QUEUE_SIZE]
+                         [--max-active-connections MAX_ACTIVE_CONNECTIONS]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --port PORT           The server will listen on this port (default: 6006)
+  --num-device NUM_DEVICE
+                        Number of GPU devices to use. Set it to 0 to use CPU
+                        for computation. If positive, then GPUs with ID 0, 1,
+                        ..., num_device-1 will be used for computation. You
+                        can use the environment variable CUDA_VISIBLE_DEVICES
+                        to map available GPU devices. (default: 1)
+  --max-batch-size MAX_BATCH_SIZE
+                        Max batch size for computation. Note if there are not
+                        enough requests in the queue, it will wait for
+                        max_wait_ms time. After that, even if there are not
+                        enough requests, it still sends the available requests
+                        in the queue for computation. (default: 25)
+  --max-wait-ms MAX_WAIT_MS
+                        Max time in millisecond to wait to build batches for
+                        inference. If there are not enough requests in the
+                        feature queue to build a batch of max_batch_size, it
+                        waits up to this time before fetching available
+                        requests for computation. (default: 5)
+  --feature-extractor-pool-size FEATURE_EXTRACTOR_POOL_SIZE
+                        Number of threads for feature extraction. By default,
+                        feature extraction are run on CPU. (default: 5)
+  --nn-pool-size NN_POOL_SIZE
+                        Number of threads for NN computation and decoding.
+                        Note: It should be in general less than or equal to
+                        num_device if num_device is positive. (default: 1)
+  --nn-model-filename NN_MODEL_FILENAME
+                        The torchscript model. You can use icefall/egs/librisp
+                        eech/ASR/pruned_transducer_statelessX/export.py
+                        --jit=1 to generate this model. (default: None)
+  --bpe-model-filename BPE_MODEL_FILENAME
+                        The BPE model You can find it in the directory
+                        egs/librispeech/ASR/data/lang_bpe_xxx from icefall,
+                        where xxx is the number of BPE tokens you used to
+                        train the model. Note: Use it only when your model is
+                        using BPE. You don&#39;t need to provide it if you provide
+                        `--token-filename` (default: None)
+  --token-filename TOKEN_FILENAME
+                        Filename for tokens.txt You can find it in the
+                        directory egs/aishell/ASR/data/lang_char/tokens.txt
+                        from icefall. Note: You don&#39;t need to provide it if
+                        you provide `--bpe-model` (default: None)
+  --max-message-size MAX_MESSAGE_SIZE
+                        Max message size in bytes. The max size per message
+                        cannot exceed this limit. (default: 1048576)
+  --max-queue-size MAX_QUEUE_SIZE
+                        Max number of messages in the queue for each
+                        connection. (default: 32)
+  --max-active-connections MAX_ACTIVE_CONNECTIONS
+                        Maximum number of active connections. The server will
+                        refuse to accept new connections once the current
+                        number of active connections equals to this limit.
+                        (default: 500)
+</pre></div>
+</div>
+</div>
+<p>The following shows an example about how to use the above pre-trained model
+to start the server:</p>
+<div class="literal-block-wrapper docutils container" id="id5">
+<div class="code-block-caption"><span class="caption-text">Command to start the server using the above pre-trained model</span><a class="headerlink" href="#id5" title="Permalink to this code"></a></div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env bash</span>
+
+<span class="nb">export</span><span class="w"> </span><span class="nv">CUDA_VISIBLE_DEVICES</span><span class="o">=</span><span class="m">0</span>
+
+<span class="nv">nn_model_filename</span><span class="o">=</span>./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/exp/cpu_jit-torch-1.6.0.pt
+<span class="nv">bpe_model</span><span class="o">=</span>./icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13/data/lang_bpe_500/bpe.model
+
+sherpa/bin/pruned_transducer_statelessX/offline_server.py<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--port<span class="w"> </span><span class="m">6010</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--num-device<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--max-batch-size<span class="w"> </span><span class="m">10</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--max-wait-ms<span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--feature-extractor-pool-size<span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--nn-pool-size<span class="w"> </span><span class="m">2</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--max-active-connections<span class="w"> </span><span class="m">10</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--nn-model-filename<span class="w"> </span><span class="nv">$nn_model_filename</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--bpe-model-filename<span class="w"> </span><span class="nv">$bpe_model</span>
+</pre></div>
+</div>
+</div>
+<p>When the server is started, you should see something like below:</p>
+<div class="literal-block-wrapper docutils container" id="id6">
+<div class="code-block-caption"><span class="caption-text">Output after starting the server</span><a class="headerlink" href="#id6" title="Permalink to this code"></a></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">2022</span><span class="o">-</span><span class="mi">06</span><span class="o">-</span><span class="mi">21</span> <span class="mi">18</span><span class="p">:</span><span class="mi">51</span><span class="p">:</span><span class="mi">58</span><span class="p">,</span><span class="mi">424</span> <span class="n">INFO</span> <span class="p">[</span><span class="n">offline_server</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">371</span><span class="p">]</span> <span class="n">started</span>
+<span class="mi">2022</span><span class="o">-</span><span class="mi">06</span><span class="o">-</span><span class="mi">21</span> <span class="mi">18</span><span class="p">:</span><span class="mi">51</span><span class="p">:</span><span class="mi">58</span><span class="p">,</span><span class="mi">426</span> <span class="n">INFO</span> <span class="p">[</span><span class="n">server</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">707</span><span class="p">]</span> <span class="n">server</span> <span class="n">listening</span> <span class="n">on</span> <span class="mf">0.0.0.0</span><span class="p">:</span><span class="mi">6010</span>
+<span class="mi">2022</span><span class="o">-</span><span class="mi">06</span><span class="o">-</span><span class="mi">21</span> <span class="mi">18</span><span class="p">:</span><span class="mi">51</span><span class="p">:</span><span class="mi">58</span><span class="p">,</span><span class="mi">426</span> <span class="n">INFO</span> <span class="p">[</span><span class="n">server</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">707</span><span class="p">]</span> <span class="n">server</span> <span class="n">listening</span> <span class="n">on</span> <span class="p">[::]:</span><span class="mi">6010</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="start-the-client">
+<h2>Start the client<a class="headerlink" href="#start-the-client" title="Permalink to this heading"></a></h2>
+<p>We also provide a Python script
+<a class="reference external" href="https://github.com/k2-fsa/sherpa/blob/master/sherpa/bin/pruned_transducer_statelessX/offline_client.py">sherpa/bin/pruned_transducer_statelessX/offline_client.py</a> for the client.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./sherpa/bin/pruned_transducer_statelessX/offline_client.py<span class="w"> </span>--help
+</pre></div>
+</div>
+<p>shows the following help information:</p>
+<div class="literal-block-wrapper docutils container" id="id7">
+<div class="code-block-caption"><span class="caption-text">Output of <code class="docutils literal notranslate"><span class="pre">./sherpa/bin/pruned_transducer_statelessX/offline_client.py</span> <span class="pre">--help</span></code></span><a class="headerlink" href="#id7" title="Permalink to this code"></a></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">offline_client</span><span class="o">.</span><span class="n">py</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">server</span><span class="o">-</span><span class="n">addr</span> <span class="n">SERVER_ADDR</span><span class="p">]</span> <span class="p">[</span><span class="o">--</span><span class="n">server</span><span class="o">-</span><span class="n">port</span> <span class="n">SERVER_PORT</span><span class="p">]</span> <span class="n">sound_files</span> <span class="p">[</span><span class="n">sound_files</span> <span class="o">...</span><span class="p">]</span>
+
+<span class="n">positional</span> <span class="n">arguments</span><span class="p">:</span>
+  <span class="n">sound_files</span>           <span class="n">The</span> <span class="nb">input</span> <span class="n">sound</span> <span class="n">file</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="n">to</span> <span class="n">transcribe</span><span class="o">.</span> <span class="n">Supported</span> <span class="n">formats</span> <span class="n">are</span> <span class="n">those</span> <span class="n">supported</span> <span class="n">by</span> <span class="n">torchaudio</span><span class="o">.</span><span class="n">load</span><span class="p">()</span><span class="o">.</span> <span class="n">For</span>
+                        <span class="n">example</span><span class="p">,</span> <span class="n">wav</span> <span class="ow">and</span> <span class="n">flac</span> <span class="n">are</span> <span class="n">supported</span><span class="o">.</span> <span class="n">The</span> <span class="n">sample</span> <span class="n">rate</span> <span class="n">has</span> <span class="n">to</span> <span class="n">be</span> <span class="mi">16</span><span class="n">kHz</span><span class="o">.</span>
+
+<span class="n">optional</span> <span class="n">arguments</span><span class="p">:</span>
+  <span class="o">-</span><span class="n">h</span><span class="p">,</span> <span class="o">--</span><span class="n">help</span>            <span class="n">show</span> <span class="n">this</span> <span class="n">help</span> <span class="n">message</span> <span class="ow">and</span> <span class="n">exit</span>
+  <span class="o">--</span><span class="n">server</span><span class="o">-</span><span class="n">addr</span> <span class="n">SERVER_ADDR</span>
+                        <span class="n">Address</span> <span class="n">of</span> <span class="n">the</span> <span class="n">server</span> <span class="p">(</span><span class="n">default</span><span class="p">:</span> <span class="n">localhost</span><span class="p">)</span>
+  <span class="o">--</span><span class="n">server</span><span class="o">-</span><span class="n">port</span> <span class="n">SERVER_PORT</span>
+                        <span class="n">Port</span> <span class="n">of</span> <span class="n">the</span> <span class="n">server</span> <span class="p">(</span><span class="n">default</span><span class="p">:</span> <span class="mi">6006</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>We provide some test waves in the git repo you just cloned. The following command
+shows you how to start the client:</p>
+<div class="literal-block-wrapper docutils container" id="id8">
+<div class="code-block-caption"><span class="caption-text">Start the client and send multiple sound files for recognition</span><a class="headerlink" href="#id8" title="Permalink to this code"></a></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env bash</span>
+
+<span class="n">export</span> <span class="n">CUDA_VISIBLE_DEVICES</span><span class="o">=</span><span class="mi">0</span>
+
+<span class="n">sherpa</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">pruned_transducer_statelessX</span><span class="o">/</span><span class="n">offline_client</span><span class="o">.</span><span class="n">py</span> \
+  <span class="o">--</span><span class="n">server</span><span class="o">-</span><span class="n">addr</span> <span class="n">localhost</span> \
+  <span class="o">--</span><span class="n">server</span><span class="o">-</span><span class="n">port</span> <span class="mi">6010</span> \
+  <span class="o">./</span><span class="n">icefall</span><span class="o">-</span><span class="n">asr</span><span class="o">-</span><span class="n">librispeech</span><span class="o">-</span><span class="n">pruned</span><span class="o">-</span><span class="n">transducer</span><span class="o">-</span><span class="n">stateless3</span><span class="o">-</span><span class="mi">2022</span><span class="o">-</span><span class="mi">05</span><span class="o">-</span><span class="mi">13</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mi">1089</span><span class="o">-</span><span class="mi">134686</span><span class="o">-</span><span class="mf">0001.</span><span class="n">wav</span> \
+  <span class="o">./</span><span class="n">icefall</span><span class="o">-</span><span class="n">asr</span><span class="o">-</span><span class="n">librispeech</span><span class="o">-</span><span class="n">pruned</span><span class="o">-</span><span class="n">transducer</span><span class="o">-</span><span class="n">stateless3</span><span class="o">-</span><span class="mi">2022</span><span class="o">-</span><span class="mi">05</span><span class="o">-</span><span class="mi">13</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mi">1221</span><span class="o">-</span><span class="mi">135766</span><span class="o">-</span><span class="mf">0001.</span><span class="n">wav</span> \
+  <span class="o">./</span><span class="n">icefall</span><span class="o">-</span><span class="n">asr</span><span class="o">-</span><span class="n">librispeech</span><span class="o">-</span><span class="n">pruned</span><span class="o">-</span><span class="n">transducer</span><span class="o">-</span><span class="n">stateless3</span><span class="o">-</span><span class="mi">2022</span><span class="o">-</span><span class="mi">05</span><span class="o">-</span><span class="mi">13</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mi">1221</span><span class="o">-</span><span class="mi">135766</span><span class="o">-</span><span class="mf">0002.</span><span class="n">wav</span>
+</pre></div>
+</div>
+</div>
+<p>You will see the following output from the client side:</p>
+<div class="literal-block-wrapper docutils container" id="id9">
+<div class="code-block-caption"><span class="caption-text">Recogntion results received by the client</span><a class="headerlink" href="#id9" title="Permalink to this code"></a></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Sending</span> <span class="o">./</span><span class="n">icefall</span><span class="o">-</span><span class="n">asr</span><span class="o">-</span><span class="n">librispeech</span><span class="o">-</span><span class="n">pruned</span><span class="o">-</span><span class="n">transducer</span><span class="o">-</span><span class="n">stateless3</span><span class="o">-</span><span class="mi">2022</span><span class="o">-</span><span class="mi">05</span><span class="o">-</span><span class="mi">13</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mi">1089</span><span class="o">-</span><span class="mi">134686</span><span class="o">-</span><span class="mf">0001.</span><span class="n">wav</span>
+<span class="o">./</span><span class="n">icefall</span><span class="o">-</span><span class="n">asr</span><span class="o">-</span><span class="n">librispeech</span><span class="o">-</span><span class="n">pruned</span><span class="o">-</span><span class="n">transducer</span><span class="o">-</span><span class="n">stateless3</span><span class="o">-</span><span class="mi">2022</span><span class="o">-</span><span class="mi">05</span><span class="o">-</span><span class="mi">13</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mi">1089</span><span class="o">-</span><span class="mi">134686</span><span class="o">-</span><span class="mf">0001.</span><span class="n">wav</span>
+ <span class="n">AFTER</span> <span class="n">EARLY</span> <span class="n">NIGHTFALL</span> <span class="n">THE</span> <span class="n">YELLOW</span> <span class="n">LAMPS</span> <span class="n">WOULD</span> <span class="n">LIGHT</span> <span class="n">UP</span> <span class="n">HERE</span> <span class="n">AND</span> <span class="n">THERE</span> <span class="n">THE</span> <span class="n">SQUALID</span> <span class="n">QUARTER</span> <span class="n">OF</span> <span class="n">THE</span> <span class="n">BROTHELS</span>
+
+<span class="n">Sending</span> <span class="o">./</span><span class="n">icefall</span><span class="o">-</span><span class="n">asr</span><span class="o">-</span><span class="n">librispeech</span><span class="o">-</span><span class="n">pruned</span><span class="o">-</span><span class="n">transducer</span><span class="o">-</span><span class="n">stateless3</span><span class="o">-</span><span class="mi">2022</span><span class="o">-</span><span class="mi">05</span><span class="o">-</span><span class="mi">13</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mi">1221</span><span class="o">-</span><span class="mi">135766</span><span class="o">-</span><span class="mf">0001.</span><span class="n">wav</span>
+<span class="o">./</span><span class="n">icefall</span><span class="o">-</span><span class="n">asr</span><span class="o">-</span><span class="n">librispeech</span><span class="o">-</span><span class="n">pruned</span><span class="o">-</span><span class="n">transducer</span><span class="o">-</span><span class="n">stateless3</span><span class="o">-</span><span class="mi">2022</span><span class="o">-</span><span class="mi">05</span><span class="o">-</span><span class="mi">13</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mi">1221</span><span class="o">-</span><span class="mi">135766</span><span class="o">-</span><span class="mf">0001.</span><span class="n">wav</span>
+ <span class="n">GOD</span> <span class="n">AS</span> <span class="n">A</span> <span class="n">DIRECT</span> <span class="n">CONSEQUENCE</span> <span class="n">OF</span> <span class="n">THE</span> <span class="n">SIN</span> <span class="n">WHICH</span> <span class="n">MAN</span> <span class="n">THUS</span> <span class="n">PUNISHED</span> <span class="n">HAD</span> <span class="n">GIVEN</span> <span class="n">HER</span> <span class="n">A</span> <span class="n">LOVELY</span> <span class="n">CHILD</span> <span class="n">WHOSE</span> <span class="n">PLACE</span> <span class="n">WAS</span> <span class="n">ON</span> <span class="n">THAT</span> <span class="n">SAME</span> <span class="n">DISHONORED</span> <span class="n">BOSOM</span> <span class="n">TO</span> <span class="n">CONNECT</span> <span class="n">HER</span> <span class="n">PARENT</span> <span class="n">FOREVER</span> <span class="n">WITH</span> <span class="n">THE</span> <span class="n">RACE</span> <span class="n">AND</span> <span class="n">DESCENT</span> <span class="n">OF</span> <span class="n">MORTALS</span> <span class="n">AND</span> <span class="n">TO</span> <span class="n">BE</span> <span class="n">FINALLY</span> <span class="n">A</span> <span class="n">BLESSED</span> <span class="n">SOUL</span> <span class="n">IN</span> <span class="n">HEAVEN</span>
+
+<span class="n">Sending</span> <span class="o">./</span><span class="n">icefall</span><span class="o">-</span><span class="n">asr</span><span class="o">-</span><span class="n">librispeech</span><span class="o">-</span><span class="n">pruned</span><span class="o">-</span><span class="n">transducer</span><span class="o">-</span><span class="n">stateless3</span><span class="o">-</span><span class="mi">2022</span><span class="o">-</span><span class="mi">05</span><span class="o">-</span><span class="mi">13</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mi">1221</span><span class="o">-</span><span class="mi">135766</span><span class="o">-</span><span class="mf">0002.</span><span class="n">wav</span>
+<span class="o">./</span><span class="n">icefall</span><span class="o">-</span><span class="n">asr</span><span class="o">-</span><span class="n">librispeech</span><span class="o">-</span><span class="n">pruned</span><span class="o">-</span><span class="n">transducer</span><span class="o">-</span><span class="n">stateless3</span><span class="o">-</span><span class="mi">2022</span><span class="o">-</span><span class="mi">05</span><span class="o">-</span><span class="mi">13</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mi">1221</span><span class="o">-</span><span class="mi">135766</span><span class="o">-</span><span class="mf">0002.</span><span class="n">wav</span>
+ <span class="n">YET</span> <span class="n">THESE</span> <span class="n">THOUGHTS</span> <span class="n">AFFECTED</span> <span class="n">HESTER</span> <span class="n">PRYNNE</span> <span class="n">LESS</span> <span class="n">WITH</span> <span class="n">HOPE</span> <span class="n">THAN</span> <span class="n">APPREHENSION</span>
+</pre></div>
+</div>
+</div>
+<p>while the server side log is:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="mi">2022</span><span class="o">-</span><span class="mi">06</span><span class="o">-</span><span class="mi">21</span> <span class="mi">18</span><span class="p">:</span><span class="mi">51</span><span class="p">:</span><span class="mi">58</span><span class="p">,</span><span class="mi">424</span> <span class="n">INFO</span> <span class="p">[</span><span class="n">offline_server</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">371</span><span class="p">]</span> <span class="n">started</span>
+<span class="mi">2022</span><span class="o">-</span><span class="mi">06</span><span class="o">-</span><span class="mi">21</span> <span class="mi">18</span><span class="p">:</span><span class="mi">51</span><span class="p">:</span><span class="mi">58</span><span class="p">,</span><span class="mi">426</span> <span class="n">INFO</span> <span class="p">[</span><span class="n">server</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">707</span><span class="p">]</span> <span class="n">server</span> <span class="n">listening</span> <span class="n">on</span> <span class="mf">0.0.0.0</span><span class="p">:</span><span class="mi">6010</span>
+<span class="mi">2022</span><span class="o">-</span><span class="mi">06</span><span class="o">-</span><span class="mi">21</span> <span class="mi">18</span><span class="p">:</span><span class="mi">51</span><span class="p">:</span><span class="mi">58</span><span class="p">,</span><span class="mi">426</span> <span class="n">INFO</span> <span class="p">[</span><span class="n">server</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">707</span><span class="p">]</span> <span class="n">server</span> <span class="n">listening</span> <span class="n">on</span> <span class="p">[::]:</span><span class="mi">6010</span>
+<span class="mi">2022</span><span class="o">-</span><span class="mi">06</span><span class="o">-</span><span class="mi">21</span> <span class="mi">18</span><span class="p">:</span><span class="mi">54</span><span class="p">:</span><span class="mi">05</span><span class="p">,</span><span class="mi">655</span> <span class="n">INFO</span> <span class="p">[</span><span class="n">server</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">642</span><span class="p">]</span> <span class="n">connection</span> <span class="nb">open</span>
+<span class="mi">2022</span><span class="o">-</span><span class="mi">06</span><span class="o">-</span><span class="mi">21</span> <span class="mi">18</span><span class="p">:</span><span class="mi">54</span><span class="p">:</span><span class="mi">05</span><span class="p">,</span><span class="mi">655</span> <span class="n">INFO</span> <span class="p">[</span><span class="n">offline_server</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">552</span><span class="p">]</span> <span class="n">Connected</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="mi">33228</span><span class="p">)</span><span class="o">.</span> <span class="n">Number</span> <span class="n">of</span> <span class="n">connections</span><span class="p">:</span> <span class="mi">1</span><span class="o">/</span><span class="mi">10</span>
+<span class="mi">2022</span><span class="o">-</span><span class="mi">06</span><span class="o">-</span><span class="mi">21</span> <span class="mi">18</span><span class="p">:</span><span class="mi">54</span><span class="p">:</span><span class="mi">09</span><span class="p">,</span><span class="mi">391</span> <span class="n">INFO</span> <span class="p">[</span><span class="n">offline_server</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">573</span><span class="p">]</span> <span class="n">Disconnected</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;127.0.0.1&#39;</span><span class="p">,</span> <span class="mi">33228</span><span class="p">)</span>
+<span class="mi">2022</span><span class="o">-</span><span class="mi">06</span><span class="o">-</span><span class="mi">21</span> <span class="mi">18</span><span class="p">:</span><span class="mi">54</span><span class="p">:</span><span class="mi">09</span><span class="p">,</span><span class="mi">392</span> <span class="n">INFO</span> <span class="p">[</span><span class="n">server</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">260</span><span class="p">]</span> <span class="n">connection</span> <span class="n">closed</span>
+</pre></div>
+</div>
+<p>Congratulations! You have succeeded in starting the server and client using
+a pre-trained model with <a class="reference external" href="https://github.com/k2-fsa/sherpa">sherpa</a>.</p>
+<p>We provide a colab notebook
+<a class="reference external" href="https://colab.research.google.com/drive/1JX5Ph2onYm1ZjNP_94eGqZ-DIRMLlIca?usp=sharing"><img alt="offline asr with librispeech colab notebook" src="https://github.com/k2-fsa/sherpa/releases/download/doc/colab-badge.jpg" /></a>
+for you to try this tutorial step by step.</p>
+<p>It describes not only how to setup the environment, but it also
+shows you how to compute the <code class="docutils literal notranslate"><span class="pre">WER</span></code> and <code class="docutils literal notranslate"><span class="pre">RTF</span></code> of the <a class="reference external" href="https://www.openslr.org/12">LibriSpeech</a>
+<strong>test-clean</strong> dataset.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

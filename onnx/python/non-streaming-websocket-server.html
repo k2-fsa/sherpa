@@ -1,0 +1,505 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Non-Streaming WebSocket Server &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="C API" href="../c-api/index.html" />
+    <link rel="prev" title="Streaming WebSocket Server" href="streaming-websocket-server.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">sherpa-onnx</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../install/index.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../faqs/index.html">Frequently Asked Question (FAQs)</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Python</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="install.html">Install the Python Package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="decode-files.html">Decode files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="real-time-speech-recongition-from-a-microphone.html">Real-time speech recognition from a microphone</a></li>
+<li class="toctree-l3"><a class="reference internal" href="speech-recognition-from-urls.html">Speech recognition from URLs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="streaming-websocket-server.html">Streaming WebSocket Server</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Non-Streaming WebSocket Server</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#non-streaming-transducer">Non-streaming transducer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#non-streaming-paraformer">Non-streaming paraformer</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#non-streaming-ctc-model-from-nemo">Non-streaming CTC model from NeMo</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#non-streaming-whisper-tiny-en">Non-streaming Whisper tiny.en</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#colab">colab</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../c-api/index.html">C API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../java-api/index.html">Java API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../javascript-api/index.html">Javascript API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kotlin-api/index.html">Kotlin API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../swift-api/index.html">Swift API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../go-api/index.html">Go API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../csharp-api/index.html">C# API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pascal-api/index.html">Pascal API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lazarus/index.html">Lazarus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../wasm/index.html">WebAssembly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../android/index.html">Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../harmony-os/index.html">HarmonyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ios/index.html">iOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../flutter/index.html">Flutter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../websocket/index.html">WebSocket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../hotwords/index.html">Hotwords (Contextual biasing)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kws/index.html">Keyword spotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../punctuation/index.html">Punctuation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../audio-tagging/index.html">Audio tagging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spoken-language-identification/index.html">Spoken language identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vad/index.html">VAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/index.html">Pre-trained models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/whisper/index.html">Whisper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../moonshine/index.html">Moonshine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../omnilingual-asr/index.html">Omnilingual ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sense-voice/index.html">SenseVoice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../funasr-nano/index.html">FunASR Nano</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../paraformer/index.html">Paraformer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nemo/index.html">NeMo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../FireRedAsr/index.html">FireRedAsr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Dolphin/index.html">Dolphin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../homophone-replacer/index.html">拼音词组匹配替换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-diarization/index.html">Speaker Diarization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-identification/index.html">Speaker Identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speech-enhancement/index.html">Speech enhancement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../source-separation/index.html">Source separation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qnn/index.html">Qualcomm NPU (QNN, HTP)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rknn/index.html">rknn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ascend/index.html">Ascend NPU (昇腾 NPU)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tts/index.html">Text-to-speech (TTS)</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">sherpa-onnx</a> &raquo;</li>
+          <li><a href="index.html">Python</a> &raquo;</li>
+      <li>Non-Streaming WebSocket Server</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/onnx/python/non-streaming-websocket-server.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="non-streaming-websocket-server">
+<h1>Non-Streaming WebSocket Server<a class="headerlink" href="#non-streaming-websocket-server" title="Permalink to this heading"></a></h1>
+<p>This section describes how to use the Python non-streaming WebSocket server
+of <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a> for speech recognition.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>The server supports multiple clients connecting at the same time.</p>
+</div>
+<p>The code for the non-streaming server can be found at</p>
+<blockquote>
+<div><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/blob/master/python-api-examples/non_streaming_server.py">https://github.com/k2-fsa/sherpa-onnx/blob/master/python-api-examples/non_streaming_server.py</a></p>
+</div></blockquote>
+<p>Please refer to <a class="reference internal" href="../pretrained_models/index.html#sherpa-onnx-pre-trained-models"><span class="std std-ref">Pre-trained models</span></a> to download a non-streaming model
+before you continue.</p>
+<p>We use the following types of models for demonstration.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>Description</p></td>
+<td><p>URL</p></td>
+</tr>
+<tr class="row-even"><td><p>Non-streaming transducer</p></td>
+<td><p><a class="reference internal" href="../pretrained_models/offline-transducer/zipformer-transducer-models.html#sherpa-onnx-zipformer-en-2023-06-26-english"><span class="std std-ref">csukuangfj/sherpa-onnx-zipformer-en-2023-06-26 (English)</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>Non-streaming paraformer</p></td>
+<td><p><a class="reference internal" href="../pretrained_models/offline-paraformer/paraformer-models.html#sherpa-onnx-offline-paraformer-zh-2023-03-28-chinese"><span class="std std-ref">csukuangfj/sherpa-onnx-paraformer-zh-2023-03-28 (Chinese + English)</span></a></p></td>
+</tr>
+<tr class="row-even"><td><p>Non-streaming CTC model from NeMo</p></td>
+<td><p><a class="reference internal" href="../pretrained_models/offline-ctc/nemo/english.html#stt-en-conformer-ctc-medium-nemo-sherpa-onnx"><span class="std std-ref">stt_en_conformer_ctc_medium</span></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>Non-streaming Whisper tiny.en</p></td>
+<td><p><a class="reference internal" href="../pretrained_models/whisper/tiny.en.html#whisper-tiny-en-sherpa-onnx"><span class="std std-ref">tiny.en</span></a></p></td>
+</tr>
+</tbody>
+</table>
+<section id="non-streaming-transducer">
+<h2>Non-streaming transducer<a class="headerlink" href="#non-streaming-transducer" title="Permalink to this heading"></a></h2>
+<section id="start-the-server">
+<h3>Start the server<a class="headerlink" href="#start-the-server" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-en-2023-06-26.tar.bz2
+tar<span class="w"> </span>xvf<span class="w"> </span>sherpa-onnx-zipformer-en-2023-06-26.tar.bz2
+rm<span class="w"> </span>sherpa-onnx-zipformer-en-2023-06-26.tar.bz2
+
+python3<span class="w"> </span>./python-api-examples/non_streaming_server.py<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--encoder<span class="w"> </span>./sherpa-onnx-zipformer-en-2023-06-26/encoder-epoch-99-avg-1.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--decoder<span class="w"> </span>./sherpa-onnx-zipformer-en-2023-06-26/decoder-epoch-99-avg-1.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--joiner<span class="w"> </span>./sherpa-onnx-zipformer-en-2023-06-26/joiner-epoch-99-avg-1.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="w"> </span>./sherpa-onnx-zipformer-en-2023-06-26/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--port<span class="w"> </span><span class="m">6006</span>
+</pre></div>
+</div>
+</section>
+<section id="start-the-client">
+<h3>Start the client<a class="headerlink" href="#start-the-client" title="Permalink to this heading"></a></h3>
+<p><strong>Decode multiple files in parallel</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>./python-api-examples/offline-websocket-client-decode-files-paralell.py<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--server-addr<span class="w"> </span>localhost<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--server-port<span class="w"> </span><span class="m">6006</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-zipformer-en-2023-06-26/test_wavs/0.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-zipformer-en-2023-06-26/test_wavs/1.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-zipformer-en-2023-06-26/test_wavs/8k.wav
+</pre></div>
+</div>
+<p>You should see the following output:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="m">2023</span>-08-11<span class="w"> </span><span class="m">18</span>:19:26,000<span class="w"> </span>INFO<span class="w"> </span><span class="o">[</span>offline-websocket-client-decode-files-paralell.py:139<span class="o">]</span><span class="w"> </span><span class="o">{</span><span class="s1">&#39;server_addr&#39;</span>:<span class="w"> </span><span class="s1">&#39;localhost&#39;</span>,<span class="w"> </span><span class="s1">&#39;server_port&#39;</span>:<span class="w"> </span><span class="m">6006</span>,<span class="w"> </span><span class="s1">&#39;sound_files&#39;</span>:<span class="w"> </span><span class="o">[</span><span class="s1">&#39;./sherpa-onnx-zipformer-en-2023-06-26/test_wavs/0.wav&#39;</span>,<span class="w"> </span><span class="s1">&#39;./sherpa-onnx-zipformer-en-2023-06-26/test_wavs/1.wav&#39;</span>,<span class="w"> </span><span class="s1">&#39;./sherpa-onnx-zipformer-en-2023-06-26/test_wavs/8k.wav&#39;</span><span class="o">]}</span>
+<span class="m">2023</span>-08-11<span class="w"> </span><span class="m">18</span>:19:26,034<span class="w"> </span>INFO<span class="w"> </span><span class="o">[</span>offline-websocket-client-decode-files-paralell.py:113<span class="o">]</span><span class="w"> </span>Sending<span class="w"> </span>./sherpa-onnx-zipformer-en-2023-06-26/test_wavs/8k.wav
+<span class="m">2023</span>-08-11<span class="w"> </span><span class="m">18</span>:19:26,058<span class="w"> </span>INFO<span class="w"> </span><span class="o">[</span>offline-websocket-client-decode-files-paralell.py:113<span class="o">]</span><span class="w"> </span>Sending<span class="w"> </span>./sherpa-onnx-zipformer-en-2023-06-26/test_wavs/1.wav
+<span class="m">2023</span>-08-11<span class="w"> </span><span class="m">18</span>:19:26,205<span class="w"> </span>INFO<span class="w"> </span><span class="o">[</span>offline-websocket-client-decode-files-paralell.py:113<span class="o">]</span><span class="w"> </span>Sending<span class="w"> </span>./sherpa-onnx-zipformer-en-2023-06-26/test_wavs/0.wav
+<span class="m">2023</span>-08-11<span class="w"> </span><span class="m">18</span>:19:26,262<span class="w"> </span>INFO<span class="w"> </span><span class="o">[</span>offline-websocket-client-decode-files-paralell.py:131<span class="o">]</span><span class="w"> </span>./sherpa-onnx-zipformer-en-2023-06-26/test_wavs/8k.wav
+<span class="w"> </span>YET<span class="w"> </span>THESE<span class="w"> </span>THOUGHTS<span class="w"> </span>AFFECTED<span class="w"> </span>HESTER<span class="w"> </span>PRYNNE<span class="w"> </span>LESS<span class="w"> </span>WITH<span class="w"> </span>HOPE<span class="w"> </span>THAN<span class="w"> </span>APPREHENSION
+<span class="m">2023</span>-08-11<span class="w"> </span><span class="m">18</span>:19:26,609<span class="w"> </span>INFO<span class="w"> </span><span class="o">[</span>offline-websocket-client-decode-files-paralell.py:131<span class="o">]</span><span class="w"> </span>./sherpa-onnx-zipformer-en-2023-06-26/test_wavs/1.wav
+<span class="w"> </span>GOD<span class="w"> </span>AS<span class="w"> </span>A<span class="w"> </span>DIRECT<span class="w"> </span>CONSEQUENCE<span class="w"> </span>OF<span class="w"> </span>THE<span class="w"> </span>SIN<span class="w"> </span>WHICH<span class="w"> </span>MAN<span class="w"> </span>THUS<span class="w"> </span>PUNISHED<span class="w"> </span>HAD<span class="w"> </span>GIVEN<span class="w"> </span>HER<span class="w"> </span>A<span class="w"> </span>LOVELY<span class="w"> </span>CHILD<span class="w"> </span>WHOSE<span class="w"> </span>PLACE<span class="w"> </span>WAS<span class="w"> </span>ON<span class="w"> </span>THAT<span class="w"> </span>SAME<span class="w"> </span>DISHONORED<span class="w"> </span>BOSOM<span class="w"> </span>TO<span class="w"> </span>CONNECT<span class="w"> </span>HER<span class="w"> </span>PARENT<span class="w"> </span>FOREVER<span class="w"> </span>WITH<span class="w"> </span>THE<span class="w"> </span>RACE<span class="w"> </span>AND<span class="w"> </span>DESCENT<span class="w"> </span>OF<span class="w"> </span>MORTALS<span class="w"> </span>AND<span class="w"> </span>TO<span class="w"> </span>BE<span class="w"> </span>FINALLY<span class="w"> </span>A<span class="w"> </span>BLESSED<span class="w"> </span>SOUL<span class="w"> </span>IN<span class="w"> </span>HEAVEN
+<span class="m">2023</span>-08-11<span class="w"> </span><span class="m">18</span>:19:26,773<span class="w"> </span>INFO<span class="w"> </span><span class="o">[</span>offline-websocket-client-decode-files-paralell.py:131<span class="o">]</span><span class="w"> </span>./sherpa-onnx-zipformer-en-2023-06-26/test_wavs/0.wav
+<span class="w"> </span>AFTER<span class="w"> </span>EARLY<span class="w"> </span>NIGHTFALL<span class="w"> </span>THE<span class="w"> </span>YELLOW<span class="w"> </span>LAMPS<span class="w"> </span>WOULD<span class="w"> </span>LIGHT<span class="w"> </span>UP<span class="w"> </span>HERE<span class="w"> </span>AND<span class="w"> </span>THERE<span class="w"> </span>THE<span class="w"> </span>SQUALID<span class="w"> </span>QUARTER<span class="w"> </span>OF<span class="w"> </span>THE<span class="w"> </span>BROTHELS
+</pre></div>
+</div>
+<p><strong>Decode multiple files sequentially</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>./python-api-examples/offline-websocket-client-decode-files-sequential.py<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--server-addr<span class="w"> </span>localhost<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--server-port<span class="w"> </span><span class="m">6006</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-zipformer-en-2023-06-26/test_wavs/0.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-zipformer-en-2023-06-26/test_wavs/1.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-zipformer-en-2023-06-26/test_wavs/8k.wav
+</pre></div>
+</div>
+<p>You should see the following output:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="m">2023</span>-08-11<span class="w"> </span><span class="m">18</span>:20:36,677<span class="w"> </span>INFO<span class="w"> </span><span class="o">[</span>offline-websocket-client-decode-files-sequential.py:114<span class="o">]</span><span class="w"> </span>Sending<span class="w"> </span>./sherpa-onnx-zipformer-en-2023-06-26/test_wavs/0.wav
+<span class="w"> </span>AFTER<span class="w"> </span>EARLY<span class="w"> </span>NIGHTFALL<span class="w"> </span>THE<span class="w"> </span>YELLOW<span class="w"> </span>LAMPS<span class="w"> </span>WOULD<span class="w"> </span>LIGHT<span class="w"> </span>UP<span class="w"> </span>HERE<span class="w"> </span>AND<span class="w"> </span>THERE<span class="w"> </span>THE<span class="w"> </span>SQUALID<span class="w"> </span>QUARTER<span class="w"> </span>OF<span class="w"> </span>THE<span class="w"> </span>BROTHELS
+<span class="m">2023</span>-08-11<span class="w"> </span><span class="m">18</span>:20:36,861<span class="w"> </span>INFO<span class="w"> </span><span class="o">[</span>offline-websocket-client-decode-files-sequential.py:114<span class="o">]</span><span class="w"> </span>Sending<span class="w"> </span>./sherpa-onnx-zipformer-en-2023-06-26/test_wavs/1.wav
+<span class="w"> </span>GOD<span class="w"> </span>AS<span class="w"> </span>A<span class="w"> </span>DIRECT<span class="w"> </span>CONSEQUENCE<span class="w"> </span>OF<span class="w"> </span>THE<span class="w"> </span>SIN<span class="w"> </span>WHICH<span class="w"> </span>MAN<span class="w"> </span>THUS<span class="w"> </span>PUNISHED<span class="w"> </span>HAD<span class="w"> </span>GIVEN<span class="w"> </span>HER<span class="w"> </span>A<span class="w"> </span>LOVELY<span class="w"> </span>CHILD<span class="w"> </span>WHOSE<span class="w"> </span>PLACE<span class="w"> </span>WAS<span class="w"> </span>ON<span class="w"> </span>THAT<span class="w"> </span>SAME<span class="w"> </span>DISHONORED<span class="w"> </span>BOSOM<span class="w"> </span>TO<span class="w"> </span>CONNECT<span class="w"> </span>HER<span class="w"> </span>PARENT<span class="w"> </span>FOREVER<span class="w"> </span>WITH<span class="w"> </span>THE<span class="w"> </span>RACE<span class="w"> </span>AND<span class="w"> </span>DESCENT<span class="w"> </span>OF<span class="w"> </span>MORTALS<span class="w"> </span>AND<span class="w"> </span>TO<span class="w"> </span>BE<span class="w"> </span>FINALLY<span class="w"> </span>A<span class="w"> </span>BLESSED<span class="w"> </span>SOUL<span class="w"> </span>IN<span class="w"> </span>HEAVEN
+<span class="m">2023</span>-08-11<span class="w"> </span><span class="m">18</span>:20:37,375<span class="w"> </span>INFO<span class="w"> </span><span class="o">[</span>offline-websocket-client-decode-files-sequential.py:114<span class="o">]</span><span class="w"> </span>Sending<span class="w"> </span>./sherpa-onnx-zipformer-en-2023-06-26/test_wavs/8k.wav
+<span class="w"> </span>YET<span class="w"> </span>THESE<span class="w"> </span>THOUGHTS<span class="w"> </span>AFFECTED<span class="w"> </span>HESTER<span class="w"> </span>PRYNNE<span class="w"> </span>LESS<span class="w"> </span>WITH<span class="w"> </span>HOPE<span class="w"> </span>THAN<span class="w"> </span>APPREHENSION
+</pre></div>
+</div>
+</section>
+</section>
+<section id="non-streaming-paraformer">
+<h2>Non-streaming paraformer<a class="headerlink" href="#non-streaming-paraformer" title="Permalink to this heading"></a></h2>
+<section id="id1">
+<h3>Start the server<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-paraformer-zh-2023-03-28.tar.bz2
+tar<span class="w"> </span>xvf<span class="w"> </span>sherpa-onnx-paraformer-zh-2023-03-28.tar.bz2
+rm<span class="w"> </span>sherpa-onnx-paraformer-zh-2023-03-28.tar.bz2
+
+python3<span class="w"> </span>./python-api-examples/non_streaming_server.py<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--paraformer<span class="w"> </span>./sherpa-onnx-paraformer-zh-2023-03-28/model.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="w"> </span>./sherpa-onnx-paraformer-zh-2023-03-28/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--port<span class="w"> </span><span class="m">6006</span>
+</pre></div>
+</div>
+</section>
+<section id="id2">
+<h3>Start the client<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h3>
+<p><strong>Decode multiple files in parallel</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>./python-api-examples/offline-websocket-client-decode-files-paralell.py<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--server-addr<span class="w"> </span>localhost<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--server-port<span class="w"> </span><span class="m">6006</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-paraformer-zh-2023-03-28/test_wavs/0.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-paraformer-zh-2023-03-28/test_wavs/1.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-paraformer-zh-2023-03-28/test_wavs/2.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-paraformer-zh-2023-03-28/test_wavs/8k.wav
+</pre></div>
+</div>
+<p>You should see the following output:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="m">2023</span>-08-11<span class="w"> </span><span class="m">18</span>:22:54,189<span class="w"> </span>INFO<span class="w"> </span><span class="o">[</span>offline-websocket-client-decode-files-paralell.py:113<span class="o">]</span><span class="w"> </span>Sending<span class="w"> </span>./sherpa-onnx-paraformer-zh-2023-03-28/test_wavs/0.wav
+<span class="m">2023</span>-08-11<span class="w"> </span><span class="m">18</span>:22:54,233<span class="w"> </span>INFO<span class="w"> </span><span class="o">[</span>offline-websocket-client-decode-files-paralell.py:113<span class="o">]</span><span class="w"> </span>Sending<span class="w"> </span>./sherpa-onnx-paraformer-zh-2023-03-28/test_wavs/1.wav
+<span class="m">2023</span>-08-11<span class="w"> </span><span class="m">18</span>:22:54,275<span class="w"> </span>INFO<span class="w"> </span><span class="o">[</span>offline-websocket-client-decode-files-paralell.py:113<span class="o">]</span><span class="w"> </span>Sending<span class="w"> </span>./sherpa-onnx-paraformer-zh-2023-03-28/test_wavs/8k.wav
+<span class="m">2023</span>-08-11<span class="w"> </span><span class="m">18</span>:22:54,295<span class="w"> </span>INFO<span class="w"> </span><span class="o">[</span>offline-websocket-client-decode-files-paralell.py:113<span class="o">]</span><span class="w"> </span>Sending<span class="w"> </span>./sherpa-onnx-paraformer-zh-2023-03-28/test_wavs/2.wav
+<span class="m">2023</span>-08-11<span class="w"> </span><span class="m">18</span>:22:54,380<span class="w"> </span>INFO<span class="w"> </span><span class="o">[</span>offline-websocket-client-decode-files-paralell.py:131<span class="o">]</span><span class="w"> </span>./sherpa-onnx-paraformer-zh-2023-03-28/test_wavs/0.wav
+对我做了介绍啊那么我想说的是呢大家如果对我的研究感兴趣呢你
+<span class="m">2023</span>-08-11<span class="w"> </span><span class="m">18</span>:22:54,673<span class="w"> </span>INFO<span class="w"> </span><span class="o">[</span>offline-websocket-client-decode-files-paralell.py:131<span class="o">]</span><span class="w"> </span>./sherpa-onnx-paraformer-zh-2023-03-28/test_wavs/8k.wav
+甚至出现交易几乎停滞的情况
+<span class="m">2023</span>-08-11<span class="w"> </span><span class="m">18</span>:22:54,673<span class="w"> </span>INFO<span class="w"> </span><span class="o">[</span>offline-websocket-client-decode-files-paralell.py:131<span class="o">]</span><span class="w"> </span>./sherpa-onnx-paraformer-zh-2023-03-28/test_wavs/2.wav
+深入的分析这一次全球金融动荡背后的根源
+<span class="m">2023</span>-08-11<span class="w"> </span><span class="m">18</span>:22:54,674<span class="w"> </span>INFO<span class="w"> </span><span class="o">[</span>offline-websocket-client-decode-files-paralell.py:131<span class="o">]</span><span class="w"> </span>./sherpa-onnx-paraformer-zh-2023-03-28/test_wavs/1.wav
+重点呢想谈三个问题首先呢就是这一轮全球金融动荡的表现
+</pre></div>
+</div>
+<p><strong>Decode multiple files sequentially</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>./python-api-examples/offline-websocket-client-decode-files-sequential.py<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--server-addr<span class="w"> </span>localhost<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--server-port<span class="w"> </span><span class="m">6006</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-paraformer-zh-2023-03-28/test_wavs/0.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-paraformer-zh-2023-03-28/test_wavs/1.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-paraformer-zh-2023-03-28/test_wavs/2.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-paraformer-zh-2023-03-28/test_wavs/8k.wav
+</pre></div>
+</div>
+<p>You should see the following output:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="m">2023</span>-08-11<span class="w"> </span><span class="m">18</span>:24:32,678<span class="w"> </span>INFO<span class="w"> </span><span class="o">[</span>offline-websocket-client-decode-files-sequential.py:141<span class="o">]</span><span class="w"> </span><span class="o">{</span><span class="s1">&#39;server_addr&#39;</span>:<span class="w"> </span><span class="s1">&#39;localhost&#39;</span>,<span class="w"> </span><span class="s1">&#39;server_port&#39;</span>:<span class="w"> </span><span class="m">6006</span>,<span class="w"> </span><span class="s1">&#39;sound_files&#39;</span>:<span class="w"> </span><span class="o">[</span><span class="s1">&#39;./sherpa-onnx-paraformer-zh-2023-03-28/test_wavs/0.wav&#39;</span>,<span class="w"> </span><span class="s1">&#39;./sherpa-onnx-paraformer-zh-2023-03-28/test_wavs/1.wav&#39;</span>,<span class="w"> </span><span class="s1">&#39;./sherpa-onnx-paraformer-zh-2023-03-28/test_wavs/2.wav&#39;</span>,<span class="w"> </span><span class="s1">&#39;./sherpa-onnx-paraformer-zh-2023-03-28/test_wavs/8k.wav&#39;</span><span class="o">]}</span>
+<span class="m">2023</span>-08-11<span class="w"> </span><span class="m">18</span>:24:32,709<span class="w"> </span>INFO<span class="w"> </span><span class="o">[</span>offline-websocket-client-decode-files-sequential.py:114<span class="o">]</span><span class="w"> </span>Sending<span class="w"> </span>./sherpa-onnx-paraformer-zh-2023-03-28/test_wavs/0.wav
+对我做了介绍啊那么我想说的是呢大家如果对我的研究感兴趣呢你
+<span class="m">2023</span>-08-11<span class="w"> </span><span class="m">18</span>:24:32,883<span class="w"> </span>INFO<span class="w"> </span><span class="o">[</span>offline-websocket-client-decode-files-sequential.py:114<span class="o">]</span><span class="w"> </span>Sending<span class="w"> </span>./sherpa-onnx-paraformer-zh-2023-03-28/test_wavs/1.wav
+重点呢想谈三个问题首先呢就是这一轮全球金融动荡的表现
+<span class="m">2023</span>-08-11<span class="w"> </span><span class="m">18</span>:24:33,042<span class="w"> </span>INFO<span class="w"> </span><span class="o">[</span>offline-websocket-client-decode-files-sequential.py:114<span class="o">]</span><span class="w"> </span>Sending<span class="w"> </span>./sherpa-onnx-paraformer-zh-2023-03-28/test_wavs/2.wav
+深入的分析这一次全球金融动荡背后的根源
+<span class="m">2023</span>-08-11<span class="w"> </span><span class="m">18</span>:24:33,175<span class="w"> </span>INFO<span class="w"> </span><span class="o">[</span>offline-websocket-client-decode-files-sequential.py:114<span class="o">]</span><span class="w"> </span>Sending<span class="w"> </span>./sherpa-onnx-paraformer-zh-2023-03-28/test_wavs/8k.wav
+甚至出现交易几乎停滞的情况
+</pre></div>
+</div>
+</section>
+</section>
+<section id="non-streaming-ctc-model-from-nemo">
+<h2>Non-streaming CTC model from NeMo<a class="headerlink" href="#non-streaming-ctc-model-from-nemo" title="Permalink to this heading"></a></h2>
+<section id="id3">
+<h3>Start the server<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-nemo-ctc-en-conformer-medium.tar.bz2
+tar<span class="w"> </span>xvf<span class="w"> </span>sherpa-onnx-nemo-ctc-en-conformer-medium.tar.bz2
+rm<span class="w"> </span>sherpa-onnx-nemo-ctc-en-conformer-medium.tar.bz2
+
+python3<span class="w"> </span>./python-api-examples/non_streaming_server.py<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--nemo-ctc<span class="w"> </span>./sherpa-onnx-nemo-ctc-en-conformer-medium/model.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="w"> </span>./sherpa-onnx-nemo-ctc-en-conformer-medium/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--port<span class="w"> </span><span class="m">6006</span>
+</pre></div>
+</div>
+</section>
+<section id="id4">
+<h3>Start the client<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h3>
+<p><strong>Decode multiple files in parallel</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>./python-api-examples/offline-websocket-client-decode-files-paralell.py<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--server-addr<span class="w"> </span>localhost<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--server-port<span class="w"> </span><span class="m">6006</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-nemo-ctc-en-conformer-medium/test_wavs/0.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-nemo-ctc-en-conformer-medium/test_wavs/1.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-nemo-ctc-en-conformer-medium/test_wavs/8k.wav
+</pre></div>
+</div>
+<p>You should see the following output:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="m">2023</span>-08-11<span class="w"> </span><span class="m">18</span>:31:32,432<span class="w"> </span>INFO<span class="w"> </span><span class="o">[</span>offline-websocket-client-decode-files-paralell.py:139<span class="o">]</span><span class="w"> </span><span class="o">{</span><span class="s1">&#39;server_addr&#39;</span>:<span class="w"> </span><span class="s1">&#39;localhost&#39;</span>,<span class="w"> </span><span class="s1">&#39;server_port&#39;</span>:<span class="w"> </span><span class="m">6006</span>,<span class="w"> </span><span class="s1">&#39;sound_files&#39;</span>:<span class="w"> </span><span class="o">[</span><span class="s1">&#39;./sherpa-onnx-nemo-ctc-en-conformer-medium/test_wavs/0.wav&#39;</span>,<span class="w"> </span><span class="s1">&#39;./sherpa-onnx-nemo-ctc-en-conformer-medium/test_wavs/1.wav&#39;</span>,<span class="w"> </span><span class="s1">&#39;./sherpa-onnx-nemo-ctc-en-conformer-medium/test_wavs/8k.wav&#39;</span><span class="o">]}</span>
+<span class="m">2023</span>-08-11<span class="w"> </span><span class="m">18</span>:31:32,462<span class="w"> </span>INFO<span class="w"> </span><span class="o">[</span>offline-websocket-client-decode-files-paralell.py:113<span class="o">]</span><span class="w"> </span>Sending<span class="w"> </span>./sherpa-onnx-nemo-ctc-en-conformer-medium/test_wavs/0.wav
+<span class="m">2023</span>-08-11<span class="w"> </span><span class="m">18</span>:31:32,513<span class="w"> </span>INFO<span class="w"> </span><span class="o">[</span>offline-websocket-client-decode-files-paralell.py:113<span class="o">]</span><span class="w"> </span>Sending<span class="w"> </span>./sherpa-onnx-nemo-ctc-en-conformer-medium/test_wavs/8k.wav
+<span class="m">2023</span>-08-11<span class="w"> </span><span class="m">18</span>:31:32,533<span class="w"> </span>INFO<span class="w"> </span><span class="o">[</span>offline-websocket-client-decode-files-paralell.py:113<span class="o">]</span><span class="w"> </span>Sending<span class="w"> </span>./sherpa-onnx-nemo-ctc-en-conformer-medium/test_wavs/1.wav
+<span class="m">2023</span>-08-11<span class="w"> </span><span class="m">18</span>:31:32,670<span class="w"> </span>INFO<span class="w"> </span><span class="o">[</span>offline-websocket-client-decode-files-paralell.py:131<span class="o">]</span><span class="w"> </span>./sherpa-onnx-nemo-ctc-en-conformer-medium/test_wavs/0.wav
+<span class="w"> </span>after<span class="w"> </span>early<span class="w"> </span>nightfall<span class="w"> </span>the<span class="w"> </span>yellow<span class="w"> </span>lamps<span class="w"> </span>would<span class="w"> </span>light<span class="w"> </span>up<span class="w"> </span>here<span class="w"> </span>and<span class="w"> </span>there<span class="w"> </span>the<span class="w"> </span>squalid<span class="w"> </span>quarter<span class="w"> </span>of<span class="w"> </span>the<span class="w"> </span>brothels
+<span class="m">2023</span>-08-11<span class="w"> </span><span class="m">18</span>:31:32,741<span class="w"> </span>INFO<span class="w"> </span><span class="o">[</span>offline-websocket-client-decode-files-paralell.py:131<span class="o">]</span><span class="w"> </span>./sherpa-onnx-nemo-ctc-en-conformer-medium/test_wavs/8k.wav
+<span class="w"> </span>yet<span class="w"> </span>these<span class="w"> </span>thoughts<span class="w"> </span>affected<span class="w"> </span>hester<span class="w"> </span>pryne<span class="w"> </span>less<span class="w"> </span>with<span class="w"> </span>hope<span class="w"> </span>than<span class="w"> </span>apprehension
+<span class="m">2023</span>-08-11<span class="w"> </span><span class="m">18</span>:31:33,117<span class="w"> </span>INFO<span class="w"> </span><span class="o">[</span>offline-websocket-client-decode-files-paralell.py:131<span class="o">]</span><span class="w"> </span>./sherpa-onnx-nemo-ctc-en-conformer-medium/test_wavs/1.wav
+<span class="w"> </span>god<span class="w"> </span>as<span class="w"> </span>a<span class="w"> </span>direct<span class="w"> </span>consequence<span class="w"> </span>of<span class="w"> </span>the<span class="w"> </span>sin<span class="w"> </span>which<span class="w"> </span>man<span class="w"> </span>thus<span class="w"> </span>punished<span class="w"> </span>had<span class="w"> </span>given<span class="w"> </span>her<span class="w"> </span>a<span class="w"> </span>lovely<span class="w"> </span>child<span class="w"> </span>whose<span class="w"> </span>place<span class="w"> </span>was<span class="w"> </span>on<span class="w"> </span>that<span class="w"> </span>same<span class="w"> </span>dishonored<span class="w"> </span>bosom<span class="w"> </span>to<span class="w"> </span>connect<span class="w"> </span>her<span class="w"> </span>parent<span class="w"> </span><span class="k">for</span><span class="w"> </span>ever<span class="w"> </span>with<span class="w"> </span>the<span class="w"> </span>race<span class="w"> </span>and<span class="w"> </span>descent<span class="w"> </span>of<span class="w"> </span>mortals<span class="w"> </span>and<span class="w"> </span>to<span class="w"> </span>be<span class="w"> </span>finally<span class="w"> </span>a<span class="w"> </span>blessed<span class="w"> </span>soul<span class="w"> </span><span class="k">in</span><span class="w"> </span>heaven
+</pre></div>
+</div>
+<p><strong>Decode multiple files sequentially</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>./python-api-examples/offline-websocket-client-decode-files-sequential.py<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--server-addr<span class="w"> </span>localhost<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--server-port<span class="w"> </span><span class="m">6006</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-nemo-ctc-en-conformer-medium/test_wavs/0.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-nemo-ctc-en-conformer-medium/test_wavs/1.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-nemo-ctc-en-conformer-medium/test_wavs/8k.wav
+</pre></div>
+</div>
+<p>You should see the following output:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="m">2023</span>-08-11<span class="w"> </span><span class="m">18</span>:33:14,520<span class="w"> </span>INFO<span class="w"> </span><span class="o">[</span>offline-websocket-client-decode-files-sequential.py:141<span class="o">]</span><span class="w"> </span><span class="o">{</span><span class="s1">&#39;server_addr&#39;</span>:<span class="w"> </span><span class="s1">&#39;localhost&#39;</span>,<span class="w"> </span><span class="s1">&#39;server_port&#39;</span>:<span class="w"> </span><span class="m">6006</span>,<span class="w"> </span><span class="s1">&#39;sound_files&#39;</span>:<span class="w"> </span><span class="o">[</span><span class="s1">&#39;./sherpa-onnx-nemo-ctc-en-conformer-medium/test_wavs/0.wav&#39;</span>,<span class="w"> </span><span class="s1">&#39;./sherpa-onnx-nemo-ctc-en-conformer-medium/test_wavs/1.wav&#39;</span>,<span class="w"> </span><span class="s1">&#39;./sherpa-onnx-nemo-ctc-en-conformer-medium/test_wavs/8k.wav&#39;</span><span class="o">]}</span>
+<span class="m">2023</span>-08-11<span class="w"> </span><span class="m">18</span>:33:14,547<span class="w"> </span>INFO<span class="w"> </span><span class="o">[</span>offline-websocket-client-decode-files-sequential.py:114<span class="o">]</span><span class="w"> </span>Sending<span class="w"> </span>./sherpa-onnx-nemo-ctc-en-conformer-medium/test_wavs/0.wav
+<span class="w"> </span>after<span class="w"> </span>early<span class="w"> </span>nightfall<span class="w"> </span>the<span class="w"> </span>yellow<span class="w"> </span>lamps<span class="w"> </span>would<span class="w"> </span>light<span class="w"> </span>up<span class="w"> </span>here<span class="w"> </span>and<span class="w"> </span>there<span class="w"> </span>the<span class="w"> </span>squalid<span class="w"> </span>quarter<span class="w"> </span>of<span class="w"> </span>the<span class="w"> </span>brothels
+<span class="m">2023</span>-08-11<span class="w"> </span><span class="m">18</span>:33:14,716<span class="w"> </span>INFO<span class="w"> </span><span class="o">[</span>offline-websocket-client-decode-files-sequential.py:114<span class="o">]</span><span class="w"> </span>Sending<span class="w"> </span>./sherpa-onnx-nemo-ctc-en-conformer-medium/test_wavs/1.wav
+<span class="w"> </span>god<span class="w"> </span>as<span class="w"> </span>a<span class="w"> </span>direct<span class="w"> </span>consequence<span class="w"> </span>of<span class="w"> </span>the<span class="w"> </span>sin<span class="w"> </span>which<span class="w"> </span>man<span class="w"> </span>thus<span class="w"> </span>punished<span class="w"> </span>had<span class="w"> </span>given<span class="w"> </span>her<span class="w"> </span>a<span class="w"> </span>lovely<span class="w"> </span>child<span class="w"> </span>whose<span class="w"> </span>place<span class="w"> </span>was<span class="w"> </span>on<span class="w"> </span>that<span class="w"> </span>same<span class="w"> </span>dishonored<span class="w"> </span>bosom<span class="w"> </span>to<span class="w"> </span>connect<span class="w"> </span>her<span class="w"> </span>parent<span class="w"> </span><span class="k">for</span><span class="w"> </span>ever<span class="w"> </span>with<span class="w"> </span>the<span class="w"> </span>race<span class="w"> </span>and<span class="w"> </span>descent<span class="w"> </span>of<span class="w"> </span>mortals<span class="w"> </span>and<span class="w"> </span>to<span class="w"> </span>be<span class="w"> </span>finally<span class="w"> </span>a<span class="w"> </span>blessed<span class="w"> </span>soul<span class="w"> </span><span class="k">in</span><span class="w"> </span>heaven
+<span class="m">2023</span>-08-11<span class="w"> </span><span class="m">18</span>:33:15,218<span class="w"> </span>INFO<span class="w"> </span><span class="o">[</span>offline-websocket-client-decode-files-sequential.py:114<span class="o">]</span><span class="w"> </span>Sending<span class="w"> </span>./sherpa-onnx-nemo-ctc-en-conformer-medium/test_wavs/8k.wav
+<span class="w"> </span>yet<span class="w"> </span>these<span class="w"> </span>thoughts<span class="w"> </span>affected<span class="w"> </span>hester<span class="w"> </span>pryne<span class="w"> </span>less<span class="w"> </span>with<span class="w"> </span>hope<span class="w"> </span>than<span class="w"> </span>apprehension
+</pre></div>
+</div>
+</section>
+</section>
+<section id="non-streaming-whisper-tiny-en">
+<h2>Non-streaming Whisper tiny.en<a class="headerlink" href="#non-streaming-whisper-tiny-en" title="Permalink to this heading"></a></h2>
+<section id="id5">
+<h3>Start the server<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-whisper-tiny.en.tar.bz2
+tar<span class="w"> </span>xvf<span class="w"> </span>sherpa-onnx-whisper-tiny.en.tar.bz2
+rm<span class="w"> </span>sherpa-onnx-whisper-tiny.en.tar.bz2
+
+python3<span class="w"> </span>./python-api-examples/non_streaming_server.py<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--whisper-encoder<span class="o">=</span>./sherpa-onnx-whisper-tiny.en/tiny.en-encoder.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--whisper-decoder<span class="o">=</span>./sherpa-onnx-whisper-tiny.en/tiny.en-decoder.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span>./sherpa-onnx-whisper-tiny.en/tiny.en-tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--port<span class="w"> </span><span class="m">6006</span>
+</pre></div>
+</div>
+</section>
+<section id="id6">
+<h3>Start the client<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h3>
+<p><strong>Decode multiple files in parallel</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>./python-api-examples/offline-websocket-client-decode-files-paralell.py<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--server-addr<span class="w"> </span>localhost<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--server-port<span class="w"> </span><span class="m">6006</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-whisper-tiny.en/test_wavs/0.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-whisper-tiny.en/test_wavs/1.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-whisper-tiny.en/test_wavs/8k.wav
+</pre></div>
+</div>
+<p>You should see the following output:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="m">2023</span>-08-11<span class="w"> </span><span class="m">18</span>:35:28,866<span class="w"> </span>INFO<span class="w"> </span><span class="o">[</span>offline-websocket-client-decode-files-paralell.py:139<span class="o">]</span><span class="w"> </span><span class="o">{</span><span class="s1">&#39;server_addr&#39;</span>:<span class="w"> </span><span class="s1">&#39;localhost&#39;</span>,<span class="w"> </span><span class="s1">&#39;server_port&#39;</span>:<span class="w"> </span><span class="m">6006</span>,<span class="w"> </span><span class="s1">&#39;sound_files&#39;</span>:<span class="w"> </span><span class="o">[</span><span class="s1">&#39;./sherpa-onnx-whisper-tiny.en/test_wavs/0.wav&#39;</span>,<span class="w"> </span><span class="s1">&#39;./sherpa-onnx-whisper-tiny.en/test_wavs/1.wav&#39;</span>,<span class="w"> </span><span class="s1">&#39;./sherpa-onnx-whisper-tiny.en/test_wavs/8k.wav&#39;</span><span class="o">]}</span>
+<span class="m">2023</span>-08-11<span class="w"> </span><span class="m">18</span>:35:28,894<span class="w"> </span>INFO<span class="w"> </span><span class="o">[</span>offline-websocket-client-decode-files-paralell.py:113<span class="o">]</span><span class="w"> </span>Sending<span class="w"> </span>./sherpa-onnx-whisper-tiny.en/test_wavs/0.wav
+<span class="m">2023</span>-08-11<span class="w"> </span><span class="m">18</span>:35:28,947<span class="w"> </span>INFO<span class="w"> </span><span class="o">[</span>offline-websocket-client-decode-files-paralell.py:113<span class="o">]</span><span class="w"> </span>Sending<span class="w"> </span>./sherpa-onnx-whisper-tiny.en/test_wavs/1.wav
+<span class="m">2023</span>-08-11<span class="w"> </span><span class="m">18</span>:35:29,082<span class="w"> </span>INFO<span class="w"> </span><span class="o">[</span>offline-websocket-client-decode-files-paralell.py:113<span class="o">]</span><span class="w"> </span>Sending<span class="w"> </span>./sherpa-onnx-whisper-tiny.en/test_wavs/8k.wav
+<span class="m">2023</span>-08-11<span class="w"> </span><span class="m">18</span>:35:29,754<span class="w"> </span>INFO<span class="w"> </span><span class="o">[</span>offline-websocket-client-decode-files-paralell.py:131<span class="o">]</span><span class="w"> </span>./sherpa-onnx-whisper-tiny.en/test_wavs/0.wav
+<span class="w"> </span>After<span class="w"> </span>early<span class="w"> </span>nightfall,<span class="w"> </span>the<span class="w"> </span>yellow<span class="w"> </span>lamps<span class="w"> </span>would<span class="w"> </span>light<span class="w"> </span>up<span class="w"> </span>here<span class="w"> </span>and<span class="w"> </span>there,<span class="w"> </span>the<span class="w"> </span>squalid<span class="w"> </span>quarter<span class="w"> </span>of<span class="w"> </span>the<span class="w"> </span>brothels.
+<span class="m">2023</span>-08-11<span class="w"> </span><span class="m">18</span>:35:30,276<span class="w"> </span>INFO<span class="w"> </span><span class="o">[</span>offline-websocket-client-decode-files-paralell.py:131<span class="o">]</span><span class="w"> </span>./sherpa-onnx-whisper-tiny.en/test_wavs/8k.wav
+<span class="w"> </span>Yet<span class="w"> </span>these<span class="w"> </span>thoughts<span class="w"> </span>affected<span class="w"> </span>Hester<span class="w"> </span>Prin<span class="w"> </span>less<span class="w"> </span>with<span class="w"> </span>hope<span class="w"> </span>than<span class="w"> </span>apprehension.
+<span class="m">2023</span>-08-11<span class="w"> </span><span class="m">18</span>:35:31,592<span class="w"> </span>INFO<span class="w"> </span><span class="o">[</span>offline-websocket-client-decode-files-paralell.py:131<span class="o">]</span><span class="w"> </span>./sherpa-onnx-whisper-tiny.en/test_wavs/1.wav
+<span class="w"> </span>God,<span class="w"> </span>as<span class="w"> </span>a<span class="w"> </span>direct<span class="w"> </span>consequence<span class="w"> </span>of<span class="w"> </span>the<span class="w"> </span>sin<span class="w"> </span>which<span class="w"> </span>man<span class="w"> </span>thus<span class="w"> </span>punished,<span class="w"> </span>had<span class="w"> </span>given<span class="w"> </span>her<span class="w"> </span>a<span class="w"> </span>lovely<span class="w"> </span>child,<span class="w"> </span>whose<span class="w"> </span>place<span class="w"> </span>was<span class="w"> </span>on<span class="w"> </span>that<span class="w"> </span>same<span class="w"> </span>dishonored<span class="w"> </span>bosom<span class="w"> </span>to<span class="w"> </span>connect<span class="w"> </span>her<span class="w"> </span>parent<span class="w"> </span>forever<span class="w"> </span>with<span class="w"> </span>the<span class="w"> </span>race<span class="w"> </span>and<span class="w"> </span>descent<span class="w"> </span>of<span class="w"> </span>mortals,<span class="w"> </span>and<span class="w"> </span>to<span class="w"> </span>be<span class="w"> </span>finally<span class="w"> </span>a<span class="w"> </span>blessed<span class="w"> </span>soul<span class="w"> </span><span class="k">in</span><span class="w"> </span>heaven.
+</pre></div>
+</div>
+<p><strong>Decode multiple files sequentially</strong></p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>./python-api-examples/offline-websocket-client-decode-files-sequential.py<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--server-addr<span class="w"> </span>localhost<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--server-port<span class="w"> </span><span class="m">6006</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-whisper-tiny.en/test_wavs/0.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-whisper-tiny.en/test_wavs/1.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-whisper-tiny.en/test_wavs/8k.wav
+</pre></div>
+</div>
+<p>You should see the following output:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="m">2023</span>-08-11<span class="w"> </span><span class="m">18</span>:36:42,148<span class="w"> </span>INFO<span class="w"> </span><span class="o">[</span>offline-websocket-client-decode-files-sequential.py:141<span class="o">]</span><span class="w"> </span><span class="o">{</span><span class="s1">&#39;server_addr&#39;</span>:<span class="w"> </span><span class="s1">&#39;localhost&#39;</span>,<span class="w"> </span><span class="s1">&#39;server_port&#39;</span>:<span class="w"> </span><span class="m">6006</span>,<span class="w"> </span><span class="s1">&#39;sound_files&#39;</span>:<span class="w"> </span><span class="o">[</span><span class="s1">&#39;./sherpa-onnx-whisper-tiny.en/test_wavs/0.wav&#39;</span>,<span class="w"> </span><span class="s1">&#39;./sherpa-onnx-whisper-tiny.en/test_wavs/1.wav&#39;</span>,<span class="w"> </span><span class="s1">&#39;./sherpa-onnx-whisper-tiny.en/test_wavs/8k.wav&#39;</span><span class="o">]}</span>
+<span class="m">2023</span>-08-11<span class="w"> </span><span class="m">18</span>:36:42,176<span class="w"> </span>INFO<span class="w"> </span><span class="o">[</span>offline-websocket-client-decode-files-sequential.py:114<span class="o">]</span><span class="w"> </span>Sending<span class="w"> </span>./sherpa-onnx-whisper-tiny.en/test_wavs/0.wav
+<span class="w"> </span>After<span class="w"> </span>early<span class="w"> </span>nightfall,<span class="w"> </span>the<span class="w"> </span>yellow<span class="w"> </span>lamps<span class="w"> </span>would<span class="w"> </span>light<span class="w"> </span>up<span class="w"> </span>here<span class="w"> </span>and<span class="w"> </span>there,<span class="w"> </span>the<span class="w"> </span>squalid<span class="w"> </span>quarter<span class="w"> </span>of<span class="w"> </span>the<span class="w"> </span>brothels.
+<span class="m">2023</span>-08-11<span class="w"> </span><span class="m">18</span>:36:42,926<span class="w"> </span>INFO<span class="w"> </span><span class="o">[</span>offline-websocket-client-decode-files-sequential.py:114<span class="o">]</span><span class="w"> </span>Sending<span class="w"> </span>./sherpa-onnx-whisper-tiny.en/test_wavs/1.wav
+<span class="w"> </span>God,<span class="w"> </span>as<span class="w"> </span>a<span class="w"> </span>direct<span class="w"> </span>consequence<span class="w"> </span>of<span class="w"> </span>the<span class="w"> </span>sin<span class="w"> </span>which<span class="w"> </span>man<span class="w"> </span>thus<span class="w"> </span>punished,<span class="w"> </span>had<span class="w"> </span>given<span class="w"> </span>her<span class="w"> </span>a<span class="w"> </span>lovely<span class="w"> </span>child,<span class="w"> </span>whose<span class="w"> </span>place<span class="w"> </span>was<span class="w"> </span>on<span class="w"> </span>that<span class="w"> </span>same<span class="w"> </span>dishonored<span class="w"> </span>bosom<span class="w"> </span>to<span class="w"> </span>connect<span class="w"> </span>her<span class="w"> </span>parent<span class="w"> </span>forever<span class="w"> </span>with<span class="w"> </span>the<span class="w"> </span>race<span class="w"> </span>and<span class="w"> </span>descent<span class="w"> </span>of<span class="w"> </span>mortals,<span class="w"> </span>and<span class="w"> </span>to<span class="w"> </span>be<span class="w"> </span>finally<span class="w"> </span>a<span class="w"> </span>blessed<span class="w"> </span>soul<span class="w"> </span><span class="k">in</span><span class="w"> </span>heaven.
+<span class="m">2023</span>-08-11<span class="w"> </span><span class="m">18</span>:36:44,314<span class="w"> </span>INFO<span class="w"> </span><span class="o">[</span>offline-websocket-client-decode-files-sequential.py:114<span class="o">]</span><span class="w"> </span>Sending<span class="w"> </span>./sherpa-onnx-whisper-tiny.en/test_wavs/8k.wav
+<span class="w"> </span>Yet<span class="w"> </span>these<span class="w"> </span>thoughts<span class="w"> </span>affected<span class="w"> </span>Hester<span class="w"> </span>Prin<span class="w"> </span>less<span class="w"> </span>with<span class="w"> </span>hope<span class="w"> </span>than<span class="w"> </span>apprehension.
+</pre></div>
+</div>
+</section>
+</section>
+<section id="colab">
+<h2>colab<a class="headerlink" href="#colab" title="Permalink to this heading"></a></h2>
+<p>We provide a colab notebook
+<a class="reference external" href="https://github.com/k2-fsa/colab/blob/master/sherpa-onnx/sherpa_onnx_python_non_streaming_websocket_server.ipynb"><img alt="Sherpa-onnx python non-streaming websocket example colab notebook" src="https://github.com/k2-fsa/sherpa/releases/download/doc/colab-badge.jpg" /></a>
+for you to try the Python non-streaming websocket server example of <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="streaming-websocket-server.html" class="btn btn-neutral float-left" title="Streaming WebSocket Server" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../c-api/index.html" class="btn btn-neutral float-right" title="C API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>
