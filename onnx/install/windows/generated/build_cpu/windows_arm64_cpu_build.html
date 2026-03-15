@@ -1,0 +1,703 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Build sherpa-onnx on Windows (ARM64) &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js"></script>
+        <script src="../../../../../_static/jquery.js"></script>
+        <script src="../../../../../_static/underscore.js"></script>
+        <script src="../../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../../../_static/doctools.js"></script>
+        <script src="../../../../../_static/clipboard.min.js"></script>
+        <script src="../../../../../_static/copybutton.js"></script>
+    <script src="../../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" />
+    <link rel="next" title="Build from source for Windows (With NVIDIA GPU)" href="../../build-cuda.html" />
+    <link rel="prev" title="Build sherpa-onnx on Windows (x86)" href="windows_x86_cpu_build.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../../../index.html">sherpa-onnx</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../../../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../../../index.html">Installation</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../../../linux.html">Linux</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../macos.html">macOS</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="../../../windows.html">Windows</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="../../download-pre-compiled.html">Download pre-compiled libs and binaries for Windows</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="../../build-cpu.html">Build from source for Windows (CPU only)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../build-cuda.html">Build from source for Windows (With NVIDIA GPU)</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../../../aarch64-embedded-linux.html">Embedded Linux (aarch64)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../arm-embedded-linux.html">Embedded Linux (arm)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../../riscv64-embedded-linux.html">Embedded Linux (riscv64)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../faqs/index.html">Frequently Asked Question (FAQs)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../python/index.html">Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../c-api/index.html">C API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../java-api/index.html">Java API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../javascript-api/index.html">Javascript API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../kotlin-api/index.html">Kotlin API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../swift-api/index.html">Swift API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../go-api/index.html">Go API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../csharp-api/index.html">C# API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../pascal-api/index.html">Pascal API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../lazarus/index.html">Lazarus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../wasm/index.html">WebAssembly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../android/index.html">Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../harmony-os/index.html">HarmonyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ios/index.html">iOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../flutter/index.html">Flutter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../websocket/index.html">WebSocket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../hotwords/index.html">Hotwords (Contextual biasing)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../kws/index.html">Keyword spotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../punctuation/index.html">Punctuation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../audio-tagging/index.html">Audio tagging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../spoken-language-identification/index.html">Spoken language identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../vad/index.html">VAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../pretrained_models/index.html">Pre-trained models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../pretrained_models/whisper/index.html">Whisper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../moonshine/index.html">Moonshine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../omnilingual-asr/index.html">Omnilingual ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../sense-voice/index.html">SenseVoice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../funasr-nano/index.html">FunASR Nano</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../paraformer/index.html">Paraformer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../nemo/index.html">NeMo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../FireRedAsr/index.html">FireRedAsr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../Dolphin/index.html">Dolphin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../homophone-replacer/index.html">拼音词组匹配替换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../speaker-diarization/index.html">Speaker Diarization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../speaker-identification/index.html">Speaker Identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../speech-enhancement/index.html">Speech enhancement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../source-separation/index.html">Source separation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../qnn/index.html">Qualcomm NPU (QNN, HTP)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../rknn/index.html">rknn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../ascend/index.html">Ascend NPU (昇腾 NPU)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../../../tts/index.html">Text-to-speech (TTS)</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../../../index.html">sherpa-onnx</a> &raquo;</li>
+          <li><a href="../../../index.html">Installation</a> &raquo;</li>
+          <li><a href="../../../windows.html">Windows</a> &raquo;</li>
+          <li><a href="../../build-cpu.html">Build from source for Windows (CPU only)</a> &raquo;</li>
+      <li>Build sherpa-onnx on Windows (ARM64)</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/onnx/install/windows/generated/build_cpu/windows_arm64_cpu_build.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="build-sherpa-onnx-on-windows-arm64">
+<h1>Build sherpa-onnx on Windows (ARM64)<a class="headerlink" href="#build-sherpa-onnx-on-windows-arm64" title="Permalink to this heading"></a></h1>
+<p>This section describes how to build <strong>sherpa-onnx</strong> on Windows for the
+<strong>ARM64</strong> architecture using CPU only.</p>
+<p>You can choose your build configuration depending on:</p>
+<ul class="simple">
+<li><p>Runtime: MD (dynamic CRT), MT (static CRT)</p></li>
+<li><p>Library type: shared or static</p></li>
+<li><p>Build type: Debug, Release, MinSizeRel, RelWithDebInfo</p></li>
+</ul>
+<section id="prerequisites">
+<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p>Windows 10 or later</p></li>
+<li><p><strong>Visual Studio 2022</strong> or newer</p></li>
+<li><p>CMake 3.20 or newer</p></li>
+<li><p>A C++ compiler provided by Visual Studio</p></li>
+<li><p>Optional: PortAudio and eSpeak NG (disabled in examples)</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>MinGW is not supported.</p>
+</div>
+</section>
+<section id="build-configurations">
+<h2>Build Configurations<a class="headerlink" href="#build-configurations" title="Permalink to this heading"></a></h2>
+<section id="shared-md-release">
+<h3>Shared + MD + Release<a class="headerlink" href="#shared-md-release" title="Permalink to this heading"></a></h3>
+<section id="build-commands">
+<h4>Build commands<a class="headerlink" href="#build-commands" title="Permalink to this heading"></a></h4>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mkdir</span> <span class="n">build</span>
+<span class="n">cd</span> <span class="n">build</span>
+<span class="n">cmake</span> \
+  <span class="o">-</span><span class="n">A</span> <span class="n">ARM64</span> \
+  <span class="o">-</span><span class="n">DSHERPA_ONNX_ENABLE_TTS</span><span class="o">=</span><span class="n">ON</span> \
+  <span class="o">-</span><span class="n">DSHERPA_ONNX_USE_STATIC_CRT</span><span class="o">=</span><span class="n">OFF</span> \
+  <span class="o">-</span><span class="n">DCMAKE_BUILD_TYPE</span><span class="o">=</span><span class="n">Release</span> \
+  <span class="o">-</span><span class="n">DSHERPA_ONNX_ENABLE_PORTAUDIO</span><span class="o">=</span><span class="n">OFF</span> \
+  <span class="o">-</span><span class="n">DBUILD_SHARED_LIBS</span><span class="o">=</span><span class="n">ON</span> \
+  <span class="o">-</span><span class="n">DCMAKE_INSTALL_PREFIX</span><span class="o">=./</span><span class="n">install</span> \
+  <span class="o">-</span><span class="n">DBUILD_ESPEAK_NG_EXE</span><span class="o">=</span><span class="n">OFF</span> \
+  <span class="o">..</span>
+<span class="n">cmake</span> <span class="o">--</span><span class="n">build</span> <span class="o">.</span> <span class="o">--</span><span class="n">config</span> <span class="n">Release</span> <span class="o">--</span> <span class="o">-</span><span class="n">m</span><span class="p">:</span><span class="mi">2</span>
+<span class="n">cmake</span> <span class="o">--</span><span class="n">build</span> <span class="o">.</span> <span class="o">--</span><span class="n">config</span> <span class="n">Release</span> <span class="o">--</span><span class="n">target</span> <span class="n">install</span> <span class="o">--</span> <span class="o">-</span><span class="n">m</span><span class="p">:</span><span class="mi">2</span>
+</pre></div>
+</div>
+</section>
+<section id="check-runtime-dependencies">
+<h4>Check runtime dependencies<a class="headerlink" href="#check-runtime-dependencies" title="Permalink to this heading"></a></h4>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dumpbin</span> <span class="o">/</span><span class="n">dependents</span> <span class="n">build</span>\<span class="nb">bin</span>\<span class="n">Release</span>\<span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">.</span><span class="n">exe</span>
+</pre></div>
+</div>
+<section id="expected-output">
+<h5>Expected output<a class="headerlink" href="#expected-output" title="Permalink to this heading"></a></h5>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Dump</span> <span class="n">of</span> <span class="n">file</span> <span class="n">build</span>\<span class="nb">bin</span>\<span class="n">Release</span>\<span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">.</span><span class="n">exe</span>
+
+<span class="n">File</span> <span class="n">Type</span><span class="p">:</span> <span class="n">EXECUTABLE</span> <span class="n">IMAGE</span>
+
+  <span class="n">Image</span> <span class="n">has</span> <span class="n">the</span> <span class="n">following</span> <span class="n">dependencies</span><span class="p">:</span>
+
+    <span class="n">onnxruntime</span><span class="o">.</span><span class="n">dll</span>
+    <span class="n">KERNEL32</span><span class="o">.</span><span class="n">dll</span>
+    <span class="n">MSVCP140</span><span class="o">.</span><span class="n">dll</span>
+    <span class="n">VCRUNTIME140</span><span class="o">.</span><span class="n">dll</span>
+    <span class="n">api</span><span class="o">-</span><span class="n">ms</span><span class="o">-</span><span class="n">win</span><span class="o">-</span><span class="n">crt</span><span class="o">-</span><span class="n">runtime</span><span class="o">-</span><span class="n">l1</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mf">0.</span><span class="n">dll</span>
+    <span class="n">api</span><span class="o">-</span><span class="n">ms</span><span class="o">-</span><span class="n">win</span><span class="o">-</span><span class="n">crt</span><span class="o">-</span><span class="n">heap</span><span class="o">-</span><span class="n">l1</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mf">0.</span><span class="n">dll</span>
+    <span class="n">api</span><span class="o">-</span><span class="n">ms</span><span class="o">-</span><span class="n">win</span><span class="o">-</span><span class="n">crt</span><span class="o">-</span><span class="n">stdio</span><span class="o">-</span><span class="n">l1</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mf">0.</span><span class="n">dll</span>
+    <span class="n">api</span><span class="o">-</span><span class="n">ms</span><span class="o">-</span><span class="n">win</span><span class="o">-</span><span class="n">crt</span><span class="o">-</span><span class="n">filesystem</span><span class="o">-</span><span class="n">l1</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mf">0.</span><span class="n">dll</span>
+    <span class="n">api</span><span class="o">-</span><span class="n">ms</span><span class="o">-</span><span class="n">win</span><span class="o">-</span><span class="n">crt</span><span class="o">-</span><span class="n">string</span><span class="o">-</span><span class="n">l1</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mf">0.</span><span class="n">dll</span>
+    <span class="n">api</span><span class="o">-</span><span class="n">ms</span><span class="o">-</span><span class="n">win</span><span class="o">-</span><span class="n">crt</span><span class="o">-</span><span class="n">convert</span><span class="o">-</span><span class="n">l1</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mf">0.</span><span class="n">dll</span>
+    <span class="n">api</span><span class="o">-</span><span class="n">ms</span><span class="o">-</span><span class="n">win</span><span class="o">-</span><span class="n">crt</span><span class="o">-</span><span class="n">math</span><span class="o">-</span><span class="n">l1</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mf">0.</span><span class="n">dll</span>
+    <span class="n">api</span><span class="o">-</span><span class="n">ms</span><span class="o">-</span><span class="n">win</span><span class="o">-</span><span class="n">crt</span><span class="o">-</span><span class="n">utility</span><span class="o">-</span><span class="n">l1</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mf">0.</span><span class="n">dll</span>
+    <span class="n">api</span><span class="o">-</span><span class="n">ms</span><span class="o">-</span><span class="n">win</span><span class="o">-</span><span class="n">crt</span><span class="o">-</span><span class="n">environment</span><span class="o">-</span><span class="n">l1</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mf">0.</span><span class="n">dll</span>
+    <span class="n">api</span><span class="o">-</span><span class="n">ms</span><span class="o">-</span><span class="n">win</span><span class="o">-</span><span class="n">crt</span><span class="o">-</span><span class="n">locale</span><span class="o">-</span><span class="n">l1</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mf">0.</span><span class="n">dll</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+<section id="shared-md-debug">
+<h3>Shared + MD + Debug<a class="headerlink" href="#shared-md-debug" title="Permalink to this heading"></a></h3>
+<section id="id1">
+<h4>Build commands<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h4>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mkdir</span> <span class="n">build</span>
+<span class="n">cd</span> <span class="n">build</span>
+<span class="n">cmake</span> \
+  <span class="o">-</span><span class="n">A</span> <span class="n">ARM64</span> \
+  <span class="o">-</span><span class="n">DSHERPA_ONNX_ENABLE_TTS</span><span class="o">=</span><span class="n">ON</span> \
+  <span class="o">-</span><span class="n">DSHERPA_ONNX_USE_STATIC_CRT</span><span class="o">=</span><span class="n">OFF</span> \
+  <span class="o">-</span><span class="n">DCMAKE_BUILD_TYPE</span><span class="o">=</span><span class="n">Debug</span> \
+  <span class="o">-</span><span class="n">DSHERPA_ONNX_ENABLE_PORTAUDIO</span><span class="o">=</span><span class="n">OFF</span> \
+  <span class="o">-</span><span class="n">DBUILD_SHARED_LIBS</span><span class="o">=</span><span class="n">ON</span> \
+  <span class="o">-</span><span class="n">DCMAKE_INSTALL_PREFIX</span><span class="o">=./</span><span class="n">install</span> \
+  <span class="o">-</span><span class="n">DBUILD_ESPEAK_NG_EXE</span><span class="o">=</span><span class="n">OFF</span> \
+  <span class="o">..</span>
+<span class="n">cmake</span> <span class="o">--</span><span class="n">build</span> <span class="o">.</span> <span class="o">--</span><span class="n">config</span> <span class="n">Debug</span> <span class="o">--</span> <span class="o">-</span><span class="n">m</span><span class="p">:</span><span class="mi">2</span>
+<span class="n">cmake</span> <span class="o">--</span><span class="n">build</span> <span class="o">.</span> <span class="o">--</span><span class="n">config</span> <span class="n">Debug</span> <span class="o">--</span><span class="n">target</span> <span class="n">install</span> <span class="o">--</span> <span class="o">-</span><span class="n">m</span><span class="p">:</span><span class="mi">2</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="shared-md-minsizerel">
+<h3>Shared + MD + MinSizeRel<a class="headerlink" href="#shared-md-minsizerel" title="Permalink to this heading"></a></h3>
+<section id="id2">
+<h4>Build commands<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h4>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mkdir</span> <span class="n">build</span>
+<span class="n">cd</span> <span class="n">build</span>
+<span class="n">cmake</span> \
+  <span class="o">-</span><span class="n">A</span> <span class="n">ARM64</span> \
+  <span class="o">-</span><span class="n">DSHERPA_ONNX_ENABLE_TTS</span><span class="o">=</span><span class="n">ON</span> \
+  <span class="o">-</span><span class="n">DSHERPA_ONNX_USE_STATIC_CRT</span><span class="o">=</span><span class="n">OFF</span> \
+  <span class="o">-</span><span class="n">DCMAKE_BUILD_TYPE</span><span class="o">=</span><span class="n">MinSizeRel</span> \
+  <span class="o">-</span><span class="n">DSHERPA_ONNX_ENABLE_PORTAUDIO</span><span class="o">=</span><span class="n">OFF</span> \
+  <span class="o">-</span><span class="n">DBUILD_SHARED_LIBS</span><span class="o">=</span><span class="n">ON</span> \
+  <span class="o">-</span><span class="n">DCMAKE_INSTALL_PREFIX</span><span class="o">=./</span><span class="n">install</span> \
+  <span class="o">-</span><span class="n">DBUILD_ESPEAK_NG_EXE</span><span class="o">=</span><span class="n">OFF</span> \
+  <span class="o">..</span>
+<span class="n">cmake</span> <span class="o">--</span><span class="n">build</span> <span class="o">.</span> <span class="o">--</span><span class="n">config</span> <span class="n">MinSizeRel</span> <span class="o">--</span> <span class="o">-</span><span class="n">m</span><span class="p">:</span><span class="mi">2</span>
+<span class="n">cmake</span> <span class="o">--</span><span class="n">build</span> <span class="o">.</span> <span class="o">--</span><span class="n">config</span> <span class="n">MinSizeRel</span> <span class="o">--</span><span class="n">target</span> <span class="n">install</span> <span class="o">--</span> <span class="o">-</span><span class="n">m</span><span class="p">:</span><span class="mi">2</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="shared-md-relwithdebinfo">
+<h3>Shared + MD + RelWithDebInfo<a class="headerlink" href="#shared-md-relwithdebinfo" title="Permalink to this heading"></a></h3>
+<section id="id3">
+<h4>Build commands<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h4>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mkdir</span> <span class="n">build</span>
+<span class="n">cd</span> <span class="n">build</span>
+<span class="n">cmake</span> \
+  <span class="o">-</span><span class="n">A</span> <span class="n">ARM64</span> \
+  <span class="o">-</span><span class="n">DSHERPA_ONNX_ENABLE_TTS</span><span class="o">=</span><span class="n">ON</span> \
+  <span class="o">-</span><span class="n">DSHERPA_ONNX_USE_STATIC_CRT</span><span class="o">=</span><span class="n">OFF</span> \
+  <span class="o">-</span><span class="n">DCMAKE_BUILD_TYPE</span><span class="o">=</span><span class="n">RelWithDebInfo</span> \
+  <span class="o">-</span><span class="n">DSHERPA_ONNX_ENABLE_PORTAUDIO</span><span class="o">=</span><span class="n">OFF</span> \
+  <span class="o">-</span><span class="n">DBUILD_SHARED_LIBS</span><span class="o">=</span><span class="n">ON</span> \
+  <span class="o">-</span><span class="n">DCMAKE_INSTALL_PREFIX</span><span class="o">=./</span><span class="n">install</span> \
+  <span class="o">-</span><span class="n">DBUILD_ESPEAK_NG_EXE</span><span class="o">=</span><span class="n">OFF</span> \
+  <span class="o">..</span>
+<span class="n">cmake</span> <span class="o">--</span><span class="n">build</span> <span class="o">.</span> <span class="o">--</span><span class="n">config</span> <span class="n">RelWithDebInfo</span> <span class="o">--</span> <span class="o">-</span><span class="n">m</span><span class="p">:</span><span class="mi">2</span>
+<span class="n">cmake</span> <span class="o">--</span><span class="n">build</span> <span class="o">.</span> <span class="o">--</span><span class="n">config</span> <span class="n">RelWithDebInfo</span> <span class="o">--</span><span class="n">target</span> <span class="n">install</span> <span class="o">--</span> <span class="o">-</span><span class="n">m</span><span class="p">:</span><span class="mi">2</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="shared-mt-release">
+<h3>Shared + MT + Release<a class="headerlink" href="#shared-mt-release" title="Permalink to this heading"></a></h3>
+<section id="id4">
+<h4>Build commands<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h4>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mkdir</span> <span class="n">build</span>
+<span class="n">cd</span> <span class="n">build</span>
+<span class="n">cmake</span> \
+  <span class="o">-</span><span class="n">A</span> <span class="n">ARM64</span> \
+  <span class="o">-</span><span class="n">DSHERPA_ONNX_ENABLE_TTS</span><span class="o">=</span><span class="n">ON</span> \
+  <span class="o">-</span><span class="n">DSHERPA_ONNX_USE_STATIC_CRT</span><span class="o">=</span><span class="n">ON</span> \
+  <span class="o">-</span><span class="n">DCMAKE_BUILD_TYPE</span><span class="o">=</span><span class="n">Release</span> \
+  <span class="o">-</span><span class="n">DSHERPA_ONNX_ENABLE_PORTAUDIO</span><span class="o">=</span><span class="n">OFF</span> \
+  <span class="o">-</span><span class="n">DBUILD_SHARED_LIBS</span><span class="o">=</span><span class="n">ON</span> \
+  <span class="o">-</span><span class="n">DCMAKE_INSTALL_PREFIX</span><span class="o">=./</span><span class="n">install</span> \
+  <span class="o">-</span><span class="n">DBUILD_ESPEAK_NG_EXE</span><span class="o">=</span><span class="n">OFF</span> \
+  <span class="o">..</span>
+<span class="n">cmake</span> <span class="o">--</span><span class="n">build</span> <span class="o">.</span> <span class="o">--</span><span class="n">config</span> <span class="n">Release</span> <span class="o">--</span> <span class="o">-</span><span class="n">m</span><span class="p">:</span><span class="mi">2</span>
+<span class="n">cmake</span> <span class="o">--</span><span class="n">build</span> <span class="o">.</span> <span class="o">--</span><span class="n">config</span> <span class="n">Release</span> <span class="o">--</span><span class="n">target</span> <span class="n">install</span> <span class="o">--</span> <span class="o">-</span><span class="n">m</span><span class="p">:</span><span class="mi">2</span>
+</pre></div>
+</div>
+</section>
+<section id="id5">
+<h4>Check runtime dependencies<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h4>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dumpbin</span> <span class="o">/</span><span class="n">dependents</span> <span class="n">build</span>\<span class="nb">bin</span>\<span class="n">Release</span>\<span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">.</span><span class="n">exe</span>
+</pre></div>
+</div>
+<section id="id6">
+<h5>Expected output<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h5>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Dump</span> <span class="n">of</span> <span class="n">file</span> <span class="n">build</span>\<span class="nb">bin</span>\<span class="n">Release</span>\<span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">.</span><span class="n">exe</span>
+
+<span class="n">File</span> <span class="n">Type</span><span class="p">:</span> <span class="n">EXECUTABLE</span> <span class="n">IMAGE</span>
+
+  <span class="n">Image</span> <span class="n">has</span> <span class="n">the</span> <span class="n">following</span> <span class="n">dependencies</span><span class="p">:</span>
+
+    <span class="n">onnxruntime</span><span class="o">.</span><span class="n">dll</span>
+    <span class="n">KERNEL32</span><span class="o">.</span><span class="n">dll</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+<section id="shared-mt-debug">
+<h3>Shared + MT + Debug<a class="headerlink" href="#shared-mt-debug" title="Permalink to this heading"></a></h3>
+<section id="id7">
+<h4>Build commands<a class="headerlink" href="#id7" title="Permalink to this heading"></a></h4>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mkdir</span> <span class="n">build</span>
+<span class="n">cd</span> <span class="n">build</span>
+<span class="n">cmake</span> \
+  <span class="o">-</span><span class="n">A</span> <span class="n">ARM64</span> \
+  <span class="o">-</span><span class="n">DSHERPA_ONNX_ENABLE_TTS</span><span class="o">=</span><span class="n">ON</span> \
+  <span class="o">-</span><span class="n">DSHERPA_ONNX_USE_STATIC_CRT</span><span class="o">=</span><span class="n">ON</span> \
+  <span class="o">-</span><span class="n">DCMAKE_BUILD_TYPE</span><span class="o">=</span><span class="n">Debug</span> \
+  <span class="o">-</span><span class="n">DSHERPA_ONNX_ENABLE_PORTAUDIO</span><span class="o">=</span><span class="n">OFF</span> \
+  <span class="o">-</span><span class="n">DBUILD_SHARED_LIBS</span><span class="o">=</span><span class="n">ON</span> \
+  <span class="o">-</span><span class="n">DCMAKE_INSTALL_PREFIX</span><span class="o">=./</span><span class="n">install</span> \
+  <span class="o">-</span><span class="n">DBUILD_ESPEAK_NG_EXE</span><span class="o">=</span><span class="n">OFF</span> \
+  <span class="o">..</span>
+<span class="n">cmake</span> <span class="o">--</span><span class="n">build</span> <span class="o">.</span> <span class="o">--</span><span class="n">config</span> <span class="n">Debug</span> <span class="o">--</span> <span class="o">-</span><span class="n">m</span><span class="p">:</span><span class="mi">2</span>
+<span class="n">cmake</span> <span class="o">--</span><span class="n">build</span> <span class="o">.</span> <span class="o">--</span><span class="n">config</span> <span class="n">Debug</span> <span class="o">--</span><span class="n">target</span> <span class="n">install</span> <span class="o">--</span> <span class="o">-</span><span class="n">m</span><span class="p">:</span><span class="mi">2</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="shared-mt-minsizerel">
+<h3>Shared + MT + MinSizeRel<a class="headerlink" href="#shared-mt-minsizerel" title="Permalink to this heading"></a></h3>
+<section id="id8">
+<h4>Build commands<a class="headerlink" href="#id8" title="Permalink to this heading"></a></h4>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mkdir</span> <span class="n">build</span>
+<span class="n">cd</span> <span class="n">build</span>
+<span class="n">cmake</span> \
+  <span class="o">-</span><span class="n">A</span> <span class="n">ARM64</span> \
+  <span class="o">-</span><span class="n">DSHERPA_ONNX_ENABLE_TTS</span><span class="o">=</span><span class="n">ON</span> \
+  <span class="o">-</span><span class="n">DSHERPA_ONNX_USE_STATIC_CRT</span><span class="o">=</span><span class="n">ON</span> \
+  <span class="o">-</span><span class="n">DCMAKE_BUILD_TYPE</span><span class="o">=</span><span class="n">MinSizeRel</span> \
+  <span class="o">-</span><span class="n">DSHERPA_ONNX_ENABLE_PORTAUDIO</span><span class="o">=</span><span class="n">OFF</span> \
+  <span class="o">-</span><span class="n">DBUILD_SHARED_LIBS</span><span class="o">=</span><span class="n">ON</span> \
+  <span class="o">-</span><span class="n">DCMAKE_INSTALL_PREFIX</span><span class="o">=./</span><span class="n">install</span> \
+  <span class="o">-</span><span class="n">DBUILD_ESPEAK_NG_EXE</span><span class="o">=</span><span class="n">OFF</span> \
+  <span class="o">..</span>
+<span class="n">cmake</span> <span class="o">--</span><span class="n">build</span> <span class="o">.</span> <span class="o">--</span><span class="n">config</span> <span class="n">MinSizeRel</span> <span class="o">--</span> <span class="o">-</span><span class="n">m</span><span class="p">:</span><span class="mi">2</span>
+<span class="n">cmake</span> <span class="o">--</span><span class="n">build</span> <span class="o">.</span> <span class="o">--</span><span class="n">config</span> <span class="n">MinSizeRel</span> <span class="o">--</span><span class="n">target</span> <span class="n">install</span> <span class="o">--</span> <span class="o">-</span><span class="n">m</span><span class="p">:</span><span class="mi">2</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="shared-mt-relwithdebinfo">
+<h3>Shared + MT + RelWithDebInfo<a class="headerlink" href="#shared-mt-relwithdebinfo" title="Permalink to this heading"></a></h3>
+<section id="id9">
+<h4>Build commands<a class="headerlink" href="#id9" title="Permalink to this heading"></a></h4>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mkdir</span> <span class="n">build</span>
+<span class="n">cd</span> <span class="n">build</span>
+<span class="n">cmake</span> \
+  <span class="o">-</span><span class="n">A</span> <span class="n">ARM64</span> \
+  <span class="o">-</span><span class="n">DSHERPA_ONNX_ENABLE_TTS</span><span class="o">=</span><span class="n">ON</span> \
+  <span class="o">-</span><span class="n">DSHERPA_ONNX_USE_STATIC_CRT</span><span class="o">=</span><span class="n">ON</span> \
+  <span class="o">-</span><span class="n">DCMAKE_BUILD_TYPE</span><span class="o">=</span><span class="n">RelWithDebInfo</span> \
+  <span class="o">-</span><span class="n">DSHERPA_ONNX_ENABLE_PORTAUDIO</span><span class="o">=</span><span class="n">OFF</span> \
+  <span class="o">-</span><span class="n">DBUILD_SHARED_LIBS</span><span class="o">=</span><span class="n">ON</span> \
+  <span class="o">-</span><span class="n">DCMAKE_INSTALL_PREFIX</span><span class="o">=./</span><span class="n">install</span> \
+  <span class="o">-</span><span class="n">DBUILD_ESPEAK_NG_EXE</span><span class="o">=</span><span class="n">OFF</span> \
+  <span class="o">..</span>
+<span class="n">cmake</span> <span class="o">--</span><span class="n">build</span> <span class="o">.</span> <span class="o">--</span><span class="n">config</span> <span class="n">RelWithDebInfo</span> <span class="o">--</span> <span class="o">-</span><span class="n">m</span><span class="p">:</span><span class="mi">2</span>
+<span class="n">cmake</span> <span class="o">--</span><span class="n">build</span> <span class="o">.</span> <span class="o">--</span><span class="n">config</span> <span class="n">RelWithDebInfo</span> <span class="o">--</span><span class="n">target</span> <span class="n">install</span> <span class="o">--</span> <span class="o">-</span><span class="n">m</span><span class="p">:</span><span class="mi">2</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="static-md-release">
+<h3>Static + MD + Release<a class="headerlink" href="#static-md-release" title="Permalink to this heading"></a></h3>
+<section id="id10">
+<h4>Build commands<a class="headerlink" href="#id10" title="Permalink to this heading"></a></h4>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mkdir</span> <span class="n">build</span>
+<span class="n">cd</span> <span class="n">build</span>
+<span class="n">cmake</span> \
+  <span class="o">-</span><span class="n">A</span> <span class="n">ARM64</span> \
+  <span class="o">-</span><span class="n">DSHERPA_ONNX_ENABLE_TTS</span><span class="o">=</span><span class="n">ON</span> \
+  <span class="o">-</span><span class="n">DSHERPA_ONNX_USE_STATIC_CRT</span><span class="o">=</span><span class="n">OFF</span> \
+  <span class="o">-</span><span class="n">DCMAKE_BUILD_TYPE</span><span class="o">=</span><span class="n">Release</span> \
+  <span class="o">-</span><span class="n">DSHERPA_ONNX_ENABLE_PORTAUDIO</span><span class="o">=</span><span class="n">OFF</span> \
+  <span class="o">-</span><span class="n">DBUILD_SHARED_LIBS</span><span class="o">=</span><span class="n">OFF</span> \
+  <span class="o">-</span><span class="n">DCMAKE_INSTALL_PREFIX</span><span class="o">=./</span><span class="n">install</span> \
+  <span class="o">-</span><span class="n">DBUILD_ESPEAK_NG_EXE</span><span class="o">=</span><span class="n">OFF</span> \
+  <span class="o">..</span>
+<span class="n">cmake</span> <span class="o">--</span><span class="n">build</span> <span class="o">.</span> <span class="o">--</span><span class="n">config</span> <span class="n">Release</span> <span class="o">--</span> <span class="o">-</span><span class="n">m</span><span class="p">:</span><span class="mi">2</span>
+<span class="n">cmake</span> <span class="o">--</span><span class="n">build</span> <span class="o">.</span> <span class="o">--</span><span class="n">config</span> <span class="n">Release</span> <span class="o">--</span><span class="n">target</span> <span class="n">install</span> <span class="o">--</span> <span class="o">-</span><span class="n">m</span><span class="p">:</span><span class="mi">2</span>
+</pre></div>
+</div>
+</section>
+<section id="id11">
+<h4>Check runtime dependencies<a class="headerlink" href="#id11" title="Permalink to this heading"></a></h4>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dumpbin</span> <span class="o">/</span><span class="n">dependents</span> <span class="n">build</span>\<span class="nb">bin</span>\<span class="n">Release</span>\<span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">.</span><span class="n">exe</span>
+</pre></div>
+</div>
+<section id="id12">
+<h5>Expected output<a class="headerlink" href="#id12" title="Permalink to this heading"></a></h5>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Dump</span> <span class="n">of</span> <span class="n">file</span> <span class="n">build</span>\<span class="nb">bin</span>\<span class="n">Release</span>\<span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">.</span><span class="n">exe</span>
+
+<span class="n">File</span> <span class="n">Type</span><span class="p">:</span> <span class="n">EXECUTABLE</span> <span class="n">IMAGE</span>
+
+  <span class="n">Image</span> <span class="n">has</span> <span class="n">the</span> <span class="n">following</span> <span class="n">dependencies</span><span class="p">:</span>
+
+    <span class="n">KERNEL32</span><span class="o">.</span><span class="n">dll</span>
+    <span class="n">ADVAPI32</span><span class="o">.</span><span class="n">dll</span>
+    <span class="n">MSVCP140</span><span class="o">.</span><span class="n">dll</span>
+    <span class="n">MSVCP140_1</span><span class="o">.</span><span class="n">dll</span>
+    <span class="n">dbghelp</span><span class="o">.</span><span class="n">dll</span>
+    <span class="n">api</span><span class="o">-</span><span class="n">ms</span><span class="o">-</span><span class="n">win</span><span class="o">-</span><span class="n">core</span><span class="o">-</span><span class="n">path</span><span class="o">-</span><span class="n">l1</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mf">0.</span><span class="n">dll</span>
+    <span class="n">SETUPAPI</span><span class="o">.</span><span class="n">dll</span>
+    <span class="n">dxgi</span><span class="o">.</span><span class="n">dll</span>
+    <span class="n">VCRUNTIME140</span><span class="o">.</span><span class="n">dll</span>
+    <span class="n">api</span><span class="o">-</span><span class="n">ms</span><span class="o">-</span><span class="n">win</span><span class="o">-</span><span class="n">crt</span><span class="o">-</span><span class="n">stdio</span><span class="o">-</span><span class="n">l1</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mf">0.</span><span class="n">dll</span>
+    <span class="n">api</span><span class="o">-</span><span class="n">ms</span><span class="o">-</span><span class="n">win</span><span class="o">-</span><span class="n">crt</span><span class="o">-</span><span class="n">heap</span><span class="o">-</span><span class="n">l1</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mf">0.</span><span class="n">dll</span>
+    <span class="n">api</span><span class="o">-</span><span class="n">ms</span><span class="o">-</span><span class="n">win</span><span class="o">-</span><span class="n">crt</span><span class="o">-</span><span class="n">runtime</span><span class="o">-</span><span class="n">l1</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mf">0.</span><span class="n">dll</span>
+    <span class="n">api</span><span class="o">-</span><span class="n">ms</span><span class="o">-</span><span class="n">win</span><span class="o">-</span><span class="n">crt</span><span class="o">-</span><span class="n">string</span><span class="o">-</span><span class="n">l1</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mf">0.</span><span class="n">dll</span>
+    <span class="n">api</span><span class="o">-</span><span class="n">ms</span><span class="o">-</span><span class="n">win</span><span class="o">-</span><span class="n">crt</span><span class="o">-</span><span class="n">convert</span><span class="o">-</span><span class="n">l1</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mf">0.</span><span class="n">dll</span>
+    <span class="n">api</span><span class="o">-</span><span class="n">ms</span><span class="o">-</span><span class="n">win</span><span class="o">-</span><span class="n">crt</span><span class="o">-</span><span class="n">filesystem</span><span class="o">-</span><span class="n">l1</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mf">0.</span><span class="n">dll</span>
+    <span class="n">api</span><span class="o">-</span><span class="n">ms</span><span class="o">-</span><span class="n">win</span><span class="o">-</span><span class="n">crt</span><span class="o">-</span><span class="n">math</span><span class="o">-</span><span class="n">l1</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mf">0.</span><span class="n">dll</span>
+    <span class="n">api</span><span class="o">-</span><span class="n">ms</span><span class="o">-</span><span class="n">win</span><span class="o">-</span><span class="n">crt</span><span class="o">-</span><span class="n">utility</span><span class="o">-</span><span class="n">l1</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mf">0.</span><span class="n">dll</span>
+    <span class="n">api</span><span class="o">-</span><span class="n">ms</span><span class="o">-</span><span class="n">win</span><span class="o">-</span><span class="n">crt</span><span class="o">-</span><span class="n">time</span><span class="o">-</span><span class="n">l1</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mf">0.</span><span class="n">dll</span>
+    <span class="n">api</span><span class="o">-</span><span class="n">ms</span><span class="o">-</span><span class="n">win</span><span class="o">-</span><span class="n">crt</span><span class="o">-</span><span class="n">locale</span><span class="o">-</span><span class="n">l1</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mf">0.</span><span class="n">dll</span>
+    <span class="n">api</span><span class="o">-</span><span class="n">ms</span><span class="o">-</span><span class="n">win</span><span class="o">-</span><span class="n">crt</span><span class="o">-</span><span class="n">environment</span><span class="o">-</span><span class="n">l1</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mf">0.</span><span class="n">dll</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+<section id="static-md-debug">
+<h3>Static + MD + Debug<a class="headerlink" href="#static-md-debug" title="Permalink to this heading"></a></h3>
+<section id="id13">
+<h4>Build commands<a class="headerlink" href="#id13" title="Permalink to this heading"></a></h4>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mkdir</span> <span class="n">build</span>
+<span class="n">cd</span> <span class="n">build</span>
+<span class="n">cmake</span> \
+  <span class="o">-</span><span class="n">A</span> <span class="n">ARM64</span> \
+  <span class="o">-</span><span class="n">DSHERPA_ONNX_ENABLE_TTS</span><span class="o">=</span><span class="n">ON</span> \
+  <span class="o">-</span><span class="n">DSHERPA_ONNX_USE_STATIC_CRT</span><span class="o">=</span><span class="n">OFF</span> \
+  <span class="o">-</span><span class="n">DCMAKE_BUILD_TYPE</span><span class="o">=</span><span class="n">Debug</span> \
+  <span class="o">-</span><span class="n">DSHERPA_ONNX_ENABLE_PORTAUDIO</span><span class="o">=</span><span class="n">OFF</span> \
+  <span class="o">-</span><span class="n">DBUILD_SHARED_LIBS</span><span class="o">=</span><span class="n">OFF</span> \
+  <span class="o">-</span><span class="n">DCMAKE_INSTALL_PREFIX</span><span class="o">=./</span><span class="n">install</span> \
+  <span class="o">-</span><span class="n">DBUILD_ESPEAK_NG_EXE</span><span class="o">=</span><span class="n">OFF</span> \
+  <span class="o">..</span>
+<span class="n">cmake</span> <span class="o">--</span><span class="n">build</span> <span class="o">.</span> <span class="o">--</span><span class="n">config</span> <span class="n">Debug</span> <span class="o">--</span> <span class="o">-</span><span class="n">m</span><span class="p">:</span><span class="mi">2</span>
+<span class="n">cmake</span> <span class="o">--</span><span class="n">build</span> <span class="o">.</span> <span class="o">--</span><span class="n">config</span> <span class="n">Debug</span> <span class="o">--</span><span class="n">target</span> <span class="n">install</span> <span class="o">--</span> <span class="o">-</span><span class="n">m</span><span class="p">:</span><span class="mi">2</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="static-md-minsizerel">
+<h3>Static + MD + MinSizeRel<a class="headerlink" href="#static-md-minsizerel" title="Permalink to this heading"></a></h3>
+<section id="id14">
+<h4>Build commands<a class="headerlink" href="#id14" title="Permalink to this heading"></a></h4>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mkdir</span> <span class="n">build</span>
+<span class="n">cd</span> <span class="n">build</span>
+<span class="n">cmake</span> \
+  <span class="o">-</span><span class="n">A</span> <span class="n">ARM64</span> \
+  <span class="o">-</span><span class="n">DSHERPA_ONNX_ENABLE_TTS</span><span class="o">=</span><span class="n">ON</span> \
+  <span class="o">-</span><span class="n">DSHERPA_ONNX_USE_STATIC_CRT</span><span class="o">=</span><span class="n">OFF</span> \
+  <span class="o">-</span><span class="n">DCMAKE_BUILD_TYPE</span><span class="o">=</span><span class="n">MinSizeRel</span> \
+  <span class="o">-</span><span class="n">DSHERPA_ONNX_ENABLE_PORTAUDIO</span><span class="o">=</span><span class="n">OFF</span> \
+  <span class="o">-</span><span class="n">DBUILD_SHARED_LIBS</span><span class="o">=</span><span class="n">OFF</span> \
+  <span class="o">-</span><span class="n">DCMAKE_INSTALL_PREFIX</span><span class="o">=./</span><span class="n">install</span> \
+  <span class="o">-</span><span class="n">DBUILD_ESPEAK_NG_EXE</span><span class="o">=</span><span class="n">OFF</span> \
+  <span class="o">..</span>
+<span class="n">cmake</span> <span class="o">--</span><span class="n">build</span> <span class="o">.</span> <span class="o">--</span><span class="n">config</span> <span class="n">MinSizeRel</span> <span class="o">--</span> <span class="o">-</span><span class="n">m</span><span class="p">:</span><span class="mi">2</span>
+<span class="n">cmake</span> <span class="o">--</span><span class="n">build</span> <span class="o">.</span> <span class="o">--</span><span class="n">config</span> <span class="n">MinSizeRel</span> <span class="o">--</span><span class="n">target</span> <span class="n">install</span> <span class="o">--</span> <span class="o">-</span><span class="n">m</span><span class="p">:</span><span class="mi">2</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="static-md-relwithdebinfo">
+<h3>Static + MD + RelWithDebInfo<a class="headerlink" href="#static-md-relwithdebinfo" title="Permalink to this heading"></a></h3>
+<section id="id15">
+<h4>Build commands<a class="headerlink" href="#id15" title="Permalink to this heading"></a></h4>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mkdir</span> <span class="n">build</span>
+<span class="n">cd</span> <span class="n">build</span>
+<span class="n">cmake</span> \
+  <span class="o">-</span><span class="n">A</span> <span class="n">ARM64</span> \
+  <span class="o">-</span><span class="n">DSHERPA_ONNX_ENABLE_TTS</span><span class="o">=</span><span class="n">ON</span> \
+  <span class="o">-</span><span class="n">DSHERPA_ONNX_USE_STATIC_CRT</span><span class="o">=</span><span class="n">OFF</span> \
+  <span class="o">-</span><span class="n">DCMAKE_BUILD_TYPE</span><span class="o">=</span><span class="n">RelWithDebInfo</span> \
+  <span class="o">-</span><span class="n">DSHERPA_ONNX_ENABLE_PORTAUDIO</span><span class="o">=</span><span class="n">OFF</span> \
+  <span class="o">-</span><span class="n">DBUILD_SHARED_LIBS</span><span class="o">=</span><span class="n">OFF</span> \
+  <span class="o">-</span><span class="n">DCMAKE_INSTALL_PREFIX</span><span class="o">=./</span><span class="n">install</span> \
+  <span class="o">-</span><span class="n">DBUILD_ESPEAK_NG_EXE</span><span class="o">=</span><span class="n">OFF</span> \
+  <span class="o">..</span>
+<span class="n">cmake</span> <span class="o">--</span><span class="n">build</span> <span class="o">.</span> <span class="o">--</span><span class="n">config</span> <span class="n">RelWithDebInfo</span> <span class="o">--</span> <span class="o">-</span><span class="n">m</span><span class="p">:</span><span class="mi">2</span>
+<span class="n">cmake</span> <span class="o">--</span><span class="n">build</span> <span class="o">.</span> <span class="o">--</span><span class="n">config</span> <span class="n">RelWithDebInfo</span> <span class="o">--</span><span class="n">target</span> <span class="n">install</span> <span class="o">--</span> <span class="o">-</span><span class="n">m</span><span class="p">:</span><span class="mi">2</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="static-mt-release">
+<h3>Static + MT + Release<a class="headerlink" href="#static-mt-release" title="Permalink to this heading"></a></h3>
+<section id="id16">
+<h4>Build commands<a class="headerlink" href="#id16" title="Permalink to this heading"></a></h4>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mkdir</span> <span class="n">build</span>
+<span class="n">cd</span> <span class="n">build</span>
+<span class="n">cmake</span> \
+  <span class="o">-</span><span class="n">A</span> <span class="n">ARM64</span> \
+  <span class="o">-</span><span class="n">DSHERPA_ONNX_ENABLE_TTS</span><span class="o">=</span><span class="n">ON</span> \
+  <span class="o">-</span><span class="n">DSHERPA_ONNX_USE_STATIC_CRT</span><span class="o">=</span><span class="n">ON</span> \
+  <span class="o">-</span><span class="n">DCMAKE_BUILD_TYPE</span><span class="o">=</span><span class="n">Release</span> \
+  <span class="o">-</span><span class="n">DSHERPA_ONNX_ENABLE_PORTAUDIO</span><span class="o">=</span><span class="n">OFF</span> \
+  <span class="o">-</span><span class="n">DBUILD_SHARED_LIBS</span><span class="o">=</span><span class="n">OFF</span> \
+  <span class="o">-</span><span class="n">DCMAKE_INSTALL_PREFIX</span><span class="o">=./</span><span class="n">install</span> \
+  <span class="o">-</span><span class="n">DBUILD_ESPEAK_NG_EXE</span><span class="o">=</span><span class="n">OFF</span> \
+  <span class="o">..</span>
+<span class="n">cmake</span> <span class="o">--</span><span class="n">build</span> <span class="o">.</span> <span class="o">--</span><span class="n">config</span> <span class="n">Release</span> <span class="o">--</span> <span class="o">-</span><span class="n">m</span><span class="p">:</span><span class="mi">2</span>
+<span class="n">cmake</span> <span class="o">--</span><span class="n">build</span> <span class="o">.</span> <span class="o">--</span><span class="n">config</span> <span class="n">Release</span> <span class="o">--</span><span class="n">target</span> <span class="n">install</span> <span class="o">--</span> <span class="o">-</span><span class="n">m</span><span class="p">:</span><span class="mi">2</span>
+</pre></div>
+</div>
+</section>
+<section id="id17">
+<h4>Check runtime dependencies<a class="headerlink" href="#id17" title="Permalink to this heading"></a></h4>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dumpbin</span> <span class="o">/</span><span class="n">dependents</span> <span class="n">build</span>\<span class="nb">bin</span>\<span class="n">Release</span>\<span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">.</span><span class="n">exe</span>
+</pre></div>
+</div>
+<section id="id18">
+<h5>Expected output<a class="headerlink" href="#id18" title="Permalink to this heading"></a></h5>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Dump</span> <span class="n">of</span> <span class="n">file</span> <span class="n">build</span>\<span class="nb">bin</span>\<span class="n">Release</span>\<span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">.</span><span class="n">exe</span>
+
+<span class="n">File</span> <span class="n">Type</span><span class="p">:</span> <span class="n">EXECUTABLE</span> <span class="n">IMAGE</span>
+
+  <span class="n">Image</span> <span class="n">has</span> <span class="n">the</span> <span class="n">following</span> <span class="n">dependencies</span><span class="p">:</span>
+
+    <span class="n">KERNEL32</span><span class="o">.</span><span class="n">dll</span>
+    <span class="n">ADVAPI32</span><span class="o">.</span><span class="n">dll</span>
+    <span class="n">dbghelp</span><span class="o">.</span><span class="n">dll</span>
+    <span class="n">api</span><span class="o">-</span><span class="n">ms</span><span class="o">-</span><span class="n">win</span><span class="o">-</span><span class="n">core</span><span class="o">-</span><span class="n">path</span><span class="o">-</span><span class="n">l1</span><span class="o">-</span><span class="mi">1</span><span class="o">-</span><span class="mf">0.</span><span class="n">dll</span>
+    <span class="n">SETUPAPI</span><span class="o">.</span><span class="n">dll</span>
+    <span class="n">dxgi</span><span class="o">.</span><span class="n">dll</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+<section id="static-mt-debug">
+<h3>Static + MT + Debug<a class="headerlink" href="#static-mt-debug" title="Permalink to this heading"></a></h3>
+<section id="id19">
+<h4>Build commands<a class="headerlink" href="#id19" title="Permalink to this heading"></a></h4>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mkdir</span> <span class="n">build</span>
+<span class="n">cd</span> <span class="n">build</span>
+<span class="n">cmake</span> \
+  <span class="o">-</span><span class="n">A</span> <span class="n">ARM64</span> \
+  <span class="o">-</span><span class="n">DSHERPA_ONNX_ENABLE_TTS</span><span class="o">=</span><span class="n">ON</span> \
+  <span class="o">-</span><span class="n">DSHERPA_ONNX_USE_STATIC_CRT</span><span class="o">=</span><span class="n">ON</span> \
+  <span class="o">-</span><span class="n">DCMAKE_BUILD_TYPE</span><span class="o">=</span><span class="n">Debug</span> \
+  <span class="o">-</span><span class="n">DSHERPA_ONNX_ENABLE_PORTAUDIO</span><span class="o">=</span><span class="n">OFF</span> \
+  <span class="o">-</span><span class="n">DBUILD_SHARED_LIBS</span><span class="o">=</span><span class="n">OFF</span> \
+  <span class="o">-</span><span class="n">DCMAKE_INSTALL_PREFIX</span><span class="o">=./</span><span class="n">install</span> \
+  <span class="o">-</span><span class="n">DBUILD_ESPEAK_NG_EXE</span><span class="o">=</span><span class="n">OFF</span> \
+  <span class="o">..</span>
+<span class="n">cmake</span> <span class="o">--</span><span class="n">build</span> <span class="o">.</span> <span class="o">--</span><span class="n">config</span> <span class="n">Debug</span> <span class="o">--</span> <span class="o">-</span><span class="n">m</span><span class="p">:</span><span class="mi">2</span>
+<span class="n">cmake</span> <span class="o">--</span><span class="n">build</span> <span class="o">.</span> <span class="o">--</span><span class="n">config</span> <span class="n">Debug</span> <span class="o">--</span><span class="n">target</span> <span class="n">install</span> <span class="o">--</span> <span class="o">-</span><span class="n">m</span><span class="p">:</span><span class="mi">2</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="static-mt-minsizerel">
+<h3>Static + MT + MinSizeRel<a class="headerlink" href="#static-mt-minsizerel" title="Permalink to this heading"></a></h3>
+<section id="id20">
+<h4>Build commands<a class="headerlink" href="#id20" title="Permalink to this heading"></a></h4>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mkdir</span> <span class="n">build</span>
+<span class="n">cd</span> <span class="n">build</span>
+<span class="n">cmake</span> \
+  <span class="o">-</span><span class="n">A</span> <span class="n">ARM64</span> \
+  <span class="o">-</span><span class="n">DSHERPA_ONNX_ENABLE_TTS</span><span class="o">=</span><span class="n">ON</span> \
+  <span class="o">-</span><span class="n">DSHERPA_ONNX_USE_STATIC_CRT</span><span class="o">=</span><span class="n">ON</span> \
+  <span class="o">-</span><span class="n">DCMAKE_BUILD_TYPE</span><span class="o">=</span><span class="n">MinSizeRel</span> \
+  <span class="o">-</span><span class="n">DSHERPA_ONNX_ENABLE_PORTAUDIO</span><span class="o">=</span><span class="n">OFF</span> \
+  <span class="o">-</span><span class="n">DBUILD_SHARED_LIBS</span><span class="o">=</span><span class="n">OFF</span> \
+  <span class="o">-</span><span class="n">DCMAKE_INSTALL_PREFIX</span><span class="o">=./</span><span class="n">install</span> \
+  <span class="o">-</span><span class="n">DBUILD_ESPEAK_NG_EXE</span><span class="o">=</span><span class="n">OFF</span> \
+  <span class="o">..</span>
+<span class="n">cmake</span> <span class="o">--</span><span class="n">build</span> <span class="o">.</span> <span class="o">--</span><span class="n">config</span> <span class="n">MinSizeRel</span> <span class="o">--</span> <span class="o">-</span><span class="n">m</span><span class="p">:</span><span class="mi">2</span>
+<span class="n">cmake</span> <span class="o">--</span><span class="n">build</span> <span class="o">.</span> <span class="o">--</span><span class="n">config</span> <span class="n">MinSizeRel</span> <span class="o">--</span><span class="n">target</span> <span class="n">install</span> <span class="o">--</span> <span class="o">-</span><span class="n">m</span><span class="p">:</span><span class="mi">2</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="static-mt-relwithdebinfo">
+<h3>Static + MT + RelWithDebInfo<a class="headerlink" href="#static-mt-relwithdebinfo" title="Permalink to this heading"></a></h3>
+<section id="id21">
+<h4>Build commands<a class="headerlink" href="#id21" title="Permalink to this heading"></a></h4>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mkdir</span> <span class="n">build</span>
+<span class="n">cd</span> <span class="n">build</span>
+<span class="n">cmake</span> \
+  <span class="o">-</span><span class="n">A</span> <span class="n">ARM64</span> \
+  <span class="o">-</span><span class="n">DSHERPA_ONNX_ENABLE_TTS</span><span class="o">=</span><span class="n">ON</span> \
+  <span class="o">-</span><span class="n">DSHERPA_ONNX_USE_STATIC_CRT</span><span class="o">=</span><span class="n">ON</span> \
+  <span class="o">-</span><span class="n">DCMAKE_BUILD_TYPE</span><span class="o">=</span><span class="n">RelWithDebInfo</span> \
+  <span class="o">-</span><span class="n">DSHERPA_ONNX_ENABLE_PORTAUDIO</span><span class="o">=</span><span class="n">OFF</span> \
+  <span class="o">-</span><span class="n">DBUILD_SHARED_LIBS</span><span class="o">=</span><span class="n">OFF</span> \
+  <span class="o">-</span><span class="n">DCMAKE_INSTALL_PREFIX</span><span class="o">=./</span><span class="n">install</span> \
+  <span class="o">-</span><span class="n">DBUILD_ESPEAK_NG_EXE</span><span class="o">=</span><span class="n">OFF</span> \
+  <span class="o">..</span>
+<span class="n">cmake</span> <span class="o">--</span><span class="n">build</span> <span class="o">.</span> <span class="o">--</span><span class="n">config</span> <span class="n">RelWithDebInfo</span> <span class="o">--</span> <span class="o">-</span><span class="n">m</span><span class="p">:</span><span class="mi">2</span>
+<span class="n">cmake</span> <span class="o">--</span><span class="n">build</span> <span class="o">.</span> <span class="o">--</span><span class="n">config</span> <span class="n">RelWithDebInfo</span> <span class="o">--</span><span class="n">target</span> <span class="n">install</span> <span class="o">--</span> <span class="o">-</span><span class="n">m</span><span class="p">:</span><span class="mi">2</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">MT</span></code> builds do <strong>not</strong> depend on the MSVC runtime DLLs.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">MD</span></code> builds require the Microsoft Visual C++ Redistributable.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">shared</span></code> builds depend on <code class="docutils literal notranslate"><span class="pre">onnxruntime.dll</span></code> at runtime.</p></li>
+<li><p>Users can enable or disable TTS by changing <code class="docutils literal notranslate"><span class="pre">-DSHERPA_ONNX_ENABLE_TTS=ON</span></code> or <code class="docutils literal notranslate"><span class="pre">OFF</span></code>.</p></li>
+</ul>
+</div>
+</section>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="windows_x86_cpu_build.html" class="btn btn-neutral float-left" title="Build sherpa-onnx on Windows (x86)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../../build-cuda.html" class="btn btn-neutral float-right" title="Build from source for Windows (With NVIDIA GPU)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,431 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>C API for SenseVoice &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Dart API for SenseVoice" href="dart-api.html" />
+    <link rel="prev" title="Pre-trained Models" href="pretrained.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">sherpa-onnx</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../install/index.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../faqs/index.html">Frequently Asked Question (FAQs)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python/index.html">Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../c-api/index.html">C API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../java-api/index.html">Java API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../javascript-api/index.html">Javascript API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kotlin-api/index.html">Kotlin API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../swift-api/index.html">Swift API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../go-api/index.html">Go API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../csharp-api/index.html">C# API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pascal-api/index.html">Pascal API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lazarus/index.html">Lazarus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../wasm/index.html">WebAssembly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../android/index.html">Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../harmony-os/index.html">HarmonyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ios/index.html">iOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../flutter/index.html">Flutter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../websocket/index.html">WebSocket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../hotwords/index.html">Hotwords (Contextual biasing)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kws/index.html">Keyword spotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../punctuation/index.html">Punctuation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../audio-tagging/index.html">Audio tagging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spoken-language-identification/index.html">Spoken language identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vad/index.html">VAD</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../pretrained_models/index.html">Pre-trained models</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/online-transducer/index.html">Online transducer models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/online-paraformer/index.html">Online paraformer models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/online-ctc/index.html">Online CTC models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/offline-transducer/index.html">Offline transducer models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/offline-paraformer/index.html">Offline paraformer models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/offline-ctc/index.html">Offline CTC models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/telespeech/index.html">TeleSpeech</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/whisper/index.html">Whisper</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/wenet/index.html">WeNet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/small-online-models.html">Small models</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">SenseVoice</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="huggingface-space.html">Huggingface space</a></li>
+<li class="toctree-l4"><a class="reference internal" href="export.html">Export SenseVoice to sherpa-onnx</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pretrained.html">Pre-trained Models</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">C API for SenseVoice</a></li>
+<li class="toctree-l4"><a class="reference internal" href="dart-api.html">Dart API for SenseVoice</a></li>
+<li class="toctree-l4"><a class="reference internal" href="python-api.html">Python API for SenseVoice</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/whisper/index.html">Whisper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../moonshine/index.html">Moonshine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../omnilingual-asr/index.html">Omnilingual ASR</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">SenseVoice</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="huggingface-space.html">Huggingface space</a></li>
+<li class="toctree-l3"><a class="reference internal" href="export.html">Export SenseVoice to sherpa-onnx</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pretrained.html">Pre-trained Models</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">C API for SenseVoice</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#explanations">Explanations</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="dart-api.html">Dart API for SenseVoice</a></li>
+<li class="toctree-l3"><a class="reference internal" href="python-api.html">Python API for SenseVoice</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../funasr-nano/index.html">FunASR Nano</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../paraformer/index.html">Paraformer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nemo/index.html">NeMo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../FireRedAsr/index.html">FireRedAsr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Dolphin/index.html">Dolphin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../homophone-replacer/index.html">拼音词组匹配替换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-diarization/index.html">Speaker Diarization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-identification/index.html">Speaker Identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speech-enhancement/index.html">Speech enhancement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../source-separation/index.html">Source separation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qnn/index.html">Qualcomm NPU (QNN, HTP)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rknn/index.html">rknn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ascend/index.html">Ascend NPU (昇腾 NPU)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tts/index.html">Text-to-speech (TTS)</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">sherpa-onnx</a> &raquo;</li>
+          <li><a href="../pretrained_models/index.html">Pre-trained models</a> &raquo;</li>
+          <li><a href="index.html">SenseVoice</a> &raquo;</li>
+      <li>C API for SenseVoice</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/onnx/sense-voice/c-api.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="c-api-for-sensevoice">
+<h1>C API for SenseVoice<a class="headerlink" href="#c-api-for-sensevoice" title="Permalink to this heading"></a></h1>
+<p>This page describes how to use the C API for <a class="reference external" href="https://github.com/FunAudioLLM/SenseVoice">SenseVoice</a>.</p>
+<p>Please refer to <a class="reference internal" href="../c-api/index.html#sherpa-onnx-c-api"><span class="std std-ref">C API</span></a> for how to build <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>.</p>
+<p>The following is a very quick introduction for using the C API of <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>
+in the form of shared libraries on macOS and Linux.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>We do support static libraries and also support Windows.</p>
+</div>
+<p>If you copy, paste, and run the following commands in your terminal, you should be able
+to see the following recognition result:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Decoded</span> <span class="n">text</span><span class="p">:</span> <span class="n">The</span> <span class="n">tribal</span> <span class="n">chieftain</span> <span class="n">called</span> <span class="k">for</span> <span class="n">the</span> <span class="n">boy</span> <span class="ow">and</span> <span class="n">presented</span> <span class="n">him</span> <span class="k">with</span> <span class="mi">50</span> <span class="n">pieces</span> <span class="n">of</span> <span class="n">gold</span><span class="o">.</span>
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/tmp
+
+git<span class="w"> </span>clone<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx
+<span class="nb">cd</span><span class="w"> </span>sherpa-onnx
+
+curl<span class="w"> </span>-SL<span class="w"> </span>-O<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17.tar.bz2
+tar<span class="w"> </span>xvf<span class="w"> </span>sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17.tar.bz2
+rm<span class="w"> </span>sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17.tar.bz2
+
+
+ls<span class="w"> </span>-lh<span class="w"> </span>sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17
+
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;---&quot;</span>
+
+ls<span class="w"> </span>-lh<span class="w"> </span>sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/test_wavs
+
+mkdir<span class="w"> </span>build
+<span class="nb">cd</span><span class="w"> </span>build
+cmake<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-D<span class="w"> </span><span class="nv">CMAKE_BUILD_TYPE</span><span class="o">=</span>Release<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-D<span class="w"> </span><span class="nv">BUILD_SHARED_LIBS</span><span class="o">=</span>ON<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-D<span class="w"> </span><span class="nv">CMAKE_INSTALL_PREFIX</span><span class="o">=</span>./install<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-D<span class="w"> </span><span class="nv">SHERPA_ONNX_ENABLE_BINARY</span><span class="o">=</span>OFF<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>..
+
+make<span class="w"> </span>-j2<span class="w"> </span>install
+
+ls<span class="w"> </span>-lh<span class="w"> </span>install/lib
+ls<span class="w"> </span>-lh<span class="w"> </span>install/include
+
+<span class="nb">cd</span><span class="w"> </span>..
+
+gcc<span class="w"> </span>-o<span class="w"> </span>sense-voice-c-api<span class="w"> </span>./c-api-examples/sense-voice-c-api.c<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-I<span class="w"> </span>./build/install/include<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-L<span class="w"> </span>./build/install/lib/<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-l<span class="w"> </span>sherpa-onnx-c-api<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-l<span class="w"> </span>onnxruntime
+
+ls<span class="w"> </span>-lh<span class="w"> </span>sense-voice-c-api
+
+<span class="nb">export</span><span class="w"> </span><span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span><span class="nv">$PWD</span>/build/install/lib:<span class="nv">$LD_LIBRARY_PATH</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">DYLD_LIBRARY_PATH</span><span class="o">=</span><span class="nv">$PWD</span>/build/install/lib:<span class="nv">$DYLD_LIBRARY_PATH</span>
+
+./sense-voice-c-api
+</pre></div>
+</div>
+<p>Note that we have hard-coded the file paths inside <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/blob/master/c-api-examples/sense-voice-c-api.c">sense-voice-c-api.c</a></p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>Since we are using shared libraries in the above example, you have to set
+the environemnt variable <code class="docutils literal notranslate"><span class="pre">LD_LIBRARY_PATH</span></code> for Linux and <code class="docutils literal notranslate"><span class="pre">DYLD_LIBRARY_PATH</span></code>
+for macOS. Otherwise, you would get runtime errors when running <code class="docutils literal notranslate"><span class="pre">./sense-voice-c-api</span></code>.</p>
+</div>
+<section id="explanations">
+<h2>Explanations<a class="headerlink" href="#explanations" title="Permalink to this heading"></a></h2>
+<section id="download-sherpa-onnx">
+<h3>1. Download <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a><a class="headerlink" href="#download-sherpa-onnx" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/tmp
+
+git<span class="w"> </span>clone<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx
+<span class="nb">cd</span><span class="w"> </span>sherpa-onnx
+</pre></div>
+</div>
+<p>In this example, we download <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a> and place it inside the directory
+<code class="docutils literal notranslate"><span class="pre">/tmp/</span></code>. You can replace <code class="docutils literal notranslate"><span class="pre">/tmp/</span></code> with any directory you like.</p>
+<p>Please always download the latest master of <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>.</p>
+</section>
+<section id="download-the-model">
+<h3>2. Download the model<a class="headerlink" href="#download-the-model" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>-SL<span class="w"> </span>-O<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17.tar.bz2
+tar<span class="w"> </span>xvf<span class="w"> </span>sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17.tar.bz2
+rm<span class="w"> </span>sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17.tar.bz2
+</pre></div>
+</div>
+<p>Note that we have placed the model in the directory <code class="docutils literal notranslate"><span class="pre">/tmp/sherpa-onnx</span></code>.</p>
+</section>
+<section id="build-sherpa-onnx">
+<h3>3. Build sherpa-onnx<a class="headerlink" href="#build-sherpa-onnx" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>build
+<span class="nb">cd</span><span class="w"> </span>build
+cmake<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-D<span class="w"> </span><span class="nv">CMAKE_BUILD_TYPE</span><span class="o">=</span>Release<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-D<span class="w"> </span><span class="nv">BUILD_SHARED_LIBS</span><span class="o">=</span>ON<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-D<span class="w"> </span><span class="nv">CMAKE_INSTALL_PREFIX</span><span class="o">=</span>./install<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-D<span class="w"> </span><span class="nv">SHERPA_ONNX_ENABLE_BINARY</span><span class="o">=</span>OFF<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>..
+
+make<span class="w"> </span>-j2<span class="w"> </span>install
+</pre></div>
+</div>
+<p>We build a Release version of <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>. Also, we use shared libraries here.
+The header file <code class="docutils literal notranslate"><span class="pre">c-api.h</span></code> and shared libraries are installed into the directory
+<code class="docutils literal notranslate"><span class="pre">./build/install</span></code>.</p>
+<p>If you are using Linux, you should see the following content:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Install</span> <span class="n">the</span> <span class="n">project</span><span class="o">...</span>
+<span class="o">--</span> <span class="n">Install</span> <span class="n">configuration</span><span class="p">:</span> <span class="s2">&quot;Release&quot;</span>
+<span class="o">--</span> <span class="n">Installing</span><span class="p">:</span> <span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">build</span><span class="o">/</span><span class="n">install</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libonnxruntime</span><span class="o">.</span><span class="n">so</span>
+<span class="o">--</span> <span class="n">Installing</span><span class="p">:</span> <span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">build</span><span class="o">/</span><span class="n">install</span><span class="o">/./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">.</span><span class="n">pc</span>
+<span class="o">--</span> <span class="n">Installing</span><span class="p">:</span> <span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">build</span><span class="o">/</span><span class="n">install</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libsherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">c</span><span class="o">-</span><span class="n">api</span><span class="o">.</span><span class="n">so</span>
+<span class="o">--</span> <span class="n">Set</span> <span class="n">non</span><span class="o">-</span><span class="n">toolchain</span> <span class="n">portion</span> <span class="n">of</span> <span class="n">runtime</span> <span class="n">path</span> <span class="n">of</span> <span class="s2">&quot;/tmp/sherpa-onnx/build/install/lib/libsherpa-onnx-c-api.so&quot;</span> <span class="n">to</span> <span class="s2">&quot;$ORIGIN&quot;</span>
+<span class="o">--</span> <span class="n">Installing</span><span class="p">:</span> <span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">build</span><span class="o">/</span><span class="n">install</span><span class="o">/</span><span class="n">include</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">c</span><span class="o">-</span><span class="n">api</span><span class="o">/</span><span class="n">c</span><span class="o">-</span><span class="n">api</span><span class="o">.</span><span class="n">h</span>
+</pre></div>
+</div>
+<p>If you are using macOS, you should see:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Install</span> <span class="n">the</span> <span class="n">project</span><span class="o">...</span>
+<span class="o">--</span> <span class="n">Install</span> <span class="n">configuration</span><span class="p">:</span> <span class="s2">&quot;Release&quot;</span>
+<span class="o">--</span> <span class="n">Installing</span><span class="p">:</span> <span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">build</span><span class="o">/</span><span class="n">install</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libonnxruntime</span><span class="mf">.1.17.1</span><span class="o">.</span><span class="n">dylib</span>
+<span class="o">--</span> <span class="n">Installing</span><span class="p">:</span> <span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">build</span><span class="o">/</span><span class="n">install</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libonnxruntime</span><span class="o">.</span><span class="n">dylib</span>
+<span class="o">--</span> <span class="n">Installing</span><span class="p">:</span> <span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">build</span><span class="o">/</span><span class="n">install</span><span class="o">/./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">.</span><span class="n">pc</span>
+<span class="o">--</span> <span class="n">Installing</span><span class="p">:</span> <span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">build</span><span class="o">/</span><span class="n">install</span><span class="o">/</span><span class="n">lib</span><span class="o">/</span><span class="n">libsherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">c</span><span class="o">-</span><span class="n">api</span><span class="o">.</span><span class="n">dylib</span>
+<span class="o">--</span> <span class="n">Installing</span><span class="p">:</span> <span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">build</span><span class="o">/</span><span class="n">install</span><span class="o">/</span><span class="n">include</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">c</span><span class="o">-</span><span class="n">api</span><span class="o">/</span><span class="n">c</span><span class="o">-</span><span class="n">api</span><span class="o">.</span><span class="n">h</span>
+</pre></div>
+</div>
+</section>
+<section id="view-the-build-result">
+<h3>4. View the build result<a class="headerlink" href="#view-the-build-result" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>ls<span class="w"> </span>-lh<span class="w"> </span>install/lib
+ls<span class="w"> </span>-lh<span class="w"> </span>install/include
+</pre></div>
+</div>
+<p>If you are using Linux, you should see the following content:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">total</span> <span class="mi">19</span><span class="n">M</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="n">runner</span> <span class="n">docker</span>  <span class="mi">15</span><span class="n">M</span> <span class="n">Jul</span> <span class="mi">22</span> <span class="mi">08</span><span class="p">:</span><span class="mi">47</span> <span class="n">libonnxruntime</span><span class="o">.</span><span class="n">so</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="n">runner</span> <span class="n">docker</span> <span class="mf">4.1</span><span class="n">M</span> <span class="n">Jul</span> <span class="mi">22</span> <span class="mi">08</span><span class="p">:</span><span class="mi">47</span> <span class="n">libsherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">c</span><span class="o">-</span><span class="n">api</span><span class="o">.</span><span class="n">so</span>
+<span class="n">drwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span> <span class="mi">2</span> <span class="n">runner</span> <span class="n">docker</span> <span class="mf">4.0</span><span class="n">K</span> <span class="n">Jul</span> <span class="mi">22</span> <span class="mi">08</span><span class="p">:</span><span class="mi">47</span> <span class="n">pkgconfig</span>
+<span class="n">total</span> <span class="mf">4.0</span><span class="n">K</span>
+<span class="n">drwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span> <span class="mi">3</span> <span class="n">runner</span> <span class="n">docker</span> <span class="mf">4.0</span><span class="n">K</span> <span class="n">Jul</span> <span class="mi">22</span> <span class="mi">08</span><span class="p">:</span><span class="mi">47</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span>
+</pre></div>
+</div>
+<p>If you are using macOS, you should see the following content:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">total</span> <span class="mi">53976</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>  <span class="mi">1</span> <span class="n">runner</span>  <span class="n">staff</span>    <span class="mi">23</span><span class="n">M</span> <span class="n">Jul</span> <span class="mi">22</span> <span class="mi">08</span><span class="p">:</span><span class="mi">48</span> <span class="n">libonnxruntime</span><span class="mf">.1.17.1</span><span class="o">.</span><span class="n">dylib</span>
+<span class="n">lrwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span>  <span class="mi">1</span> <span class="n">runner</span>  <span class="n">staff</span>    <span class="mi">27</span><span class="n">B</span> <span class="n">Jul</span> <span class="mi">22</span> <span class="mi">08</span><span class="p">:</span><span class="mi">48</span> <span class="n">libonnxruntime</span><span class="o">.</span><span class="n">dylib</span> <span class="o">-&gt;</span> <span class="n">libonnxruntime</span><span class="mf">.1.17.1</span><span class="o">.</span><span class="n">dylib</span>
+<span class="o">-</span><span class="n">rwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span>  <span class="mi">1</span> <span class="n">runner</span>  <span class="n">staff</span>   <span class="mf">3.5</span><span class="n">M</span> <span class="n">Jul</span> <span class="mi">22</span> <span class="mi">08</span><span class="p">:</span><span class="mi">48</span> <span class="n">libsherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">c</span><span class="o">-</span><span class="n">api</span><span class="o">.</span><span class="n">dylib</span>
+<span class="n">drwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span>  <span class="mi">3</span> <span class="n">runner</span>  <span class="n">staff</span>    <span class="mi">96</span><span class="n">B</span> <span class="n">Jul</span> <span class="mi">22</span> <span class="mi">08</span><span class="p">:</span><span class="mi">48</span> <span class="n">pkgconfig</span>
+<span class="n">total</span> <span class="mi">0</span>
+<span class="n">drwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span>  <span class="mi">3</span> <span class="n">runner</span>  <span class="n">staff</span>    <span class="mi">96</span><span class="n">B</span> <span class="n">Jul</span> <span class="mi">22</span> <span class="mi">08</span><span class="p">:</span><span class="mi">48</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span>
+</pre></div>
+</div>
+</section>
+<section id="build-the-c-api-example">
+<h3>5. Build the C API example<a class="headerlink" href="#build-the-c-api-example" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>..
+
+gcc<span class="w"> </span>-o<span class="w"> </span>sense-voice-c-api<span class="w"> </span>./c-api-examples/sense-voice-c-api.c<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-I<span class="w"> </span>./build/install/include<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-L<span class="w"> </span>./build/install/lib/<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-l<span class="w"> </span>sherpa-onnx-c-api
+
+ls<span class="w"> </span>-lh<span class="w"> </span>sense-voice-c-api
+</pre></div>
+</div>
+<p>Note that:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">-I</span> <span class="pre">./build/install/include</span></code> is to add the directory <code class="docutils literal notranslate"><span class="pre">./build/install/include</span></code>
+to the header search path so that <code class="docutils literal notranslate"><span class="pre">#include</span> <span class="pre">&quot;sherpa-onnx/c-api/c-api.h</span></code> won’t throw an error.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-L</span> <span class="pre">./build/install/lib/</span></code> is to add the directory <code class="docutils literal notranslate"><span class="pre">./build/install/lib</span></code>
+to the library search path so that it can find <code class="docutils literal notranslate"><span class="pre">-l</span> <span class="pre">sherpa-onnx-c-api</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-l</span> <span class="pre">sherpa-onnx-c-api</span></code> is to link the library <code class="docutils literal notranslate"><span class="pre">libsherpa-onnx-c-api.so</span></code> for Linux
+and <code class="docutils literal notranslate"><span class="pre">libsherpa-onnx-c-api.dylib</span></code> for macOS.</p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="run-it">
+<h3>6. Run it<a class="headerlink" href="#run-it" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span><span class="nv">$PWD</span>/build/install/lib:<span class="nv">$LD_LIBRARY_PATH</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">DYLD_LIBRARY_PATH</span><span class="o">=</span><span class="nv">$PWD</span>/build/install/lib:<span class="nv">$DYLD_LIBRARY_PATH</span>
+
+./sense-voice-c-api
+</pre></div>
+</div>
+<p>Note that we have to use:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># For Linux
+export LD_LIBRARY_PATH=$PWD/build/install/lib:$LD_LIBRARY_PATH
+</pre></div>
+</div>
+<p>and:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># for macOS
+export DYLD_LIBRARY_PATH=$PWD/build/install/lib:$DYLD_LIBRARY_PATH
+</pre></div>
+</div>
+<p>Otherwise, it cannot find <code class="docutils literal notranslate"><span class="pre">libsherpa-onnx-c-api.so</span></code> for Linux
+and <code class="docutils literal notranslate"><span class="pre">libsherpa-onnx-c-api.dylib</span></code> at <code class="docutils literal notranslate"><span class="pre">runtime</span></code>.</p>
+</section>
+<section id="where-to-find-sense-voice-c-api-c">
+<h3>7. Where to find sense-voice-c-api.c<a class="headerlink" href="#where-to-find-sense-voice-c-api-c" title="Permalink to this heading"></a></h3>
+<p>You can find <code class="docutils literal notranslate"><span class="pre">sense-voice-c-api.c</span></code> at the following address:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/blob/master/c-api-examples/sense-voice-c-api.c">https://github.com/k2-fsa/sherpa-onnx/blob/master/c-api-examples/sense-voice-c-api.c</a></p>
+</div></blockquote>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="pretrained.html" class="btn btn-neutral float-left" title="Pre-trained Models" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="dart-api.html" class="btn btn-neutral float-right" title="Dart API for SenseVoice" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

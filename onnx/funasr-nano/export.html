@@ -1,0 +1,268 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Export FunASR Nano to sherpa-onnx &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Pre-trained Models" href="pretrained.html" />
+    <link rel="prev" title="Huggingface space" href="huggingface-space.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">sherpa-onnx</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../install/index.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../faqs/index.html">Frequently Asked Question (FAQs)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python/index.html">Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../c-api/index.html">C API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../java-api/index.html">Java API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../javascript-api/index.html">Javascript API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kotlin-api/index.html">Kotlin API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../swift-api/index.html">Swift API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../go-api/index.html">Go API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../csharp-api/index.html">C# API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pascal-api/index.html">Pascal API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lazarus/index.html">Lazarus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../wasm/index.html">WebAssembly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../android/index.html">Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../harmony-os/index.html">HarmonyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ios/index.html">iOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../flutter/index.html">Flutter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../websocket/index.html">WebSocket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../hotwords/index.html">Hotwords (Contextual biasing)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kws/index.html">Keyword spotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../punctuation/index.html">Punctuation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../audio-tagging/index.html">Audio tagging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spoken-language-identification/index.html">Spoken language identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vad/index.html">VAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/index.html">Pre-trained models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/whisper/index.html">Whisper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../moonshine/index.html">Moonshine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../omnilingual-asr/index.html">Omnilingual ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sense-voice/index.html">SenseVoice</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">FunASR Nano</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="index.html#fun-asr-nano-2512">Fun-ASR-Nano-2512</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="huggingface-space.html">Huggingface space</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Export FunASR Nano to sherpa-onnx</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pretrained.html">Pre-trained Models</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../paraformer/index.html">Paraformer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nemo/index.html">NeMo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../FireRedAsr/index.html">FireRedAsr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Dolphin/index.html">Dolphin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../homophone-replacer/index.html">拼音词组匹配替换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-diarization/index.html">Speaker Diarization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-identification/index.html">Speaker Identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speech-enhancement/index.html">Speech enhancement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../source-separation/index.html">Source separation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qnn/index.html">Qualcomm NPU (QNN, HTP)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rknn/index.html">rknn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ascend/index.html">Ascend NPU (昇腾 NPU)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tts/index.html">Text-to-speech (TTS)</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">sherpa-onnx</a> &raquo;</li>
+          <li><a href="index.html">FunASR Nano</a> &raquo;</li>
+      <li>Export FunASR Nano to sherpa-onnx</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/onnx/funasr-nano/export.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="export-funasr-nano-to-sherpa-onnx">
+<h1>Export FunASR Nano to sherpa-onnx<a class="headerlink" href="#export-funasr-nano-to-sherpa-onnx" title="Permalink to this heading"></a></h1>
+<p>This page describes how to export <a class="reference external" href="https://www.modelscope.cn/models/FunAudioLLM/Fun-ASR-Nano-2512">Fun-ASR-Nano-2512</a> to onnx so that you can use
+it with <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>.</p>
+<section id="the-code">
+<h2>The code<a class="headerlink" href="#the-code" title="Permalink to this heading"></a></h2>
+<p>Please refer to <a class="reference external" href="https://github.com/Wasser1462/FunASR-nano-onnx">https://github.com/Wasser1462/FunASR-nano-onnx</a></p>
+</section>
+<section id="where-to-find-exported-models">
+<h2>Where to find exported models<a class="headerlink" href="#where-to-find-exported-models" title="Permalink to this heading"></a></h2>
+<p>You can find the exported <a class="reference external" href="https://www.modelscope.cn/models/FunAudioLLM/Fun-ASR-Nano-2512">Fun-ASR-Nano-2512</a> models at</p>
+<blockquote>
+<div><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/tag/asr-models">https://github.com/k2-fsa/sherpa-onnx/releases/tag/asr-models</a></p>
+</div></blockquote>
+<p>The following is an example about how to download an exported <a class="reference external" href="https://www.modelscope.cn/models/FunAudioLLM/Fun-ASR-Nano-2512">Fun-ASR-Nano-2512</a> model:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">wget</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">k2</span><span class="o">-</span><span class="n">fsa</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="n">download</span><span class="o">/</span><span class="n">asr</span><span class="o">-</span><span class="n">models</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">funasr</span><span class="o">-</span><span class="n">nano</span><span class="o">-</span><span class="n">int8</span><span class="o">-</span><span class="mi">2025</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mf">30.</span><span class="n">tar</span><span class="o">.</span><span class="n">bz2</span>
+
+<span class="n">tar</span> <span class="n">xvf</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">funasr</span><span class="o">-</span><span class="n">nano</span><span class="o">-</span><span class="n">int8</span><span class="o">-</span><span class="mi">2025</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mf">30.</span><span class="n">tar</span><span class="o">.</span><span class="n">bz2</span>
+<span class="n">rm</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">funasr</span><span class="o">-</span><span class="n">nano</span><span class="o">-</span><span class="n">int8</span><span class="o">-</span><span class="mi">2025</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mf">30.</span><span class="n">tar</span><span class="o">.</span><span class="n">bz2</span>
+</pre></div>
+</div>
+<p>To view the downloaded files, please use:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ls</span> <span class="o">-</span><span class="n">lh</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">funasr</span><span class="o">-</span><span class="n">nano</span><span class="o">-</span><span class="n">int8</span><span class="o">-</span><span class="mi">2025</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">30</span><span class="o">/</span>
+
+<span class="n">total</span> <span class="mi">948</span><span class="n">M</span>
+<span class="n">drwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span>  <span class="mi">5</span> <span class="n">kuangfangjun</span> <span class="n">root</span>    <span class="mi">0</span> <span class="n">Jan</span>  <span class="mi">7</span> <span class="mi">19</span><span class="p">:</span><span class="mi">28</span> <span class="n">Qwen3</span><span class="o">-</span><span class="mf">0.6</span><span class="n">B</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>  <span class="mi">1</span> <span class="n">kuangfangjun</span> <span class="n">root</span>  <span class="mi">253</span> <span class="n">Jan</span>  <span class="mi">7</span> <span class="mi">19</span><span class="p">:</span><span class="mi">33</span> <span class="n">README</span><span class="o">.</span><span class="n">md</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>  <span class="mi">1</span> <span class="n">kuangfangjun</span> <span class="n">root</span> <span class="mi">149</span><span class="n">M</span> <span class="n">Jan</span>  <span class="mi">7</span> <span class="mi">19</span><span class="p">:</span><span class="mi">33</span> <span class="n">embedding</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>  <span class="mi">1</span> <span class="n">kuangfangjun</span> <span class="n">root</span> <span class="mi">227</span><span class="n">M</span> <span class="n">Jan</span>  <span class="mi">7</span> <span class="mi">19</span><span class="p">:</span><span class="mi">34</span> <span class="n">encoder_adaptor</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>  <span class="mi">1</span> <span class="n">kuangfangjun</span> <span class="n">root</span> <span class="mi">573</span><span class="n">M</span> <span class="n">Jan</span>  <span class="mi">7</span> <span class="mi">19</span><span class="p">:</span><span class="mi">34</span> <span class="n">llm</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span>
+<span class="n">drwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span> <span class="mi">27</span> <span class="n">kuangfangjun</span> <span class="n">root</span>    <span class="mi">0</span> <span class="n">Jan</span>  <span class="mi">7</span> <span class="mi">19</span><span class="p">:</span><span class="mi">28</span> <span class="n">test_wavs</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ls</span> <span class="o">-</span><span class="n">lh</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">funasr</span><span class="o">-</span><span class="n">nano</span><span class="o">-</span><span class="n">int8</span><span class="o">-</span><span class="mi">2025</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">30</span><span class="o">/</span><span class="n">Qwen3</span><span class="o">-</span><span class="mf">0.6</span><span class="n">B</span><span class="o">/</span>
+<span class="n">total</span> <span class="mi">16</span><span class="n">M</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="n">kuangfangjun</span> <span class="n">root</span> <span class="mf">1.6</span><span class="n">M</span> <span class="n">Jan</span>  <span class="mi">7</span> <span class="mi">19</span><span class="p">:</span><span class="mi">34</span> <span class="n">merges</span><span class="o">.</span><span class="n">txt</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="n">kuangfangjun</span> <span class="n">root</span>  <span class="mi">11</span><span class="n">M</span> <span class="n">Jan</span>  <span class="mi">7</span> <span class="mi">19</span><span class="p">:</span><span class="mi">34</span> <span class="n">tokenizer</span><span class="o">.</span><span class="n">json</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="n">kuangfangjun</span> <span class="n">root</span> <span class="mf">2.7</span><span class="n">M</span> <span class="n">Jan</span>  <span class="mi">7</span> <span class="mi">19</span><span class="p">:</span><span class="mi">34</span> <span class="n">vocab</span><span class="o">.</span><span class="n">json</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ls</span> <span class="o">-</span><span class="n">lh</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">funasr</span><span class="o">-</span><span class="n">nano</span><span class="o">-</span><span class="n">int8</span><span class="o">-</span><span class="mi">2025</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">30</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span>
+<span class="n">total</span> <span class="mf">9.7</span><span class="n">M</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="n">kuangfangjun</span> <span class="n">root</span> <span class="mf">6.9</span><span class="n">K</span> <span class="n">Jan</span>  <span class="mi">7</span> <span class="mi">19</span><span class="p">:</span><span class="mi">33</span> <span class="n">README</span><span class="o">.</span><span class="n">md</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="n">kuangfangjun</span> <span class="n">root</span> <span class="mi">220</span><span class="n">K</span> <span class="n">Jan</span>  <span class="mi">7</span> <span class="mi">19</span><span class="p">:</span><span class="mi">33</span> <span class="n">dia_hunan</span><span class="o">.</span><span class="n">wav</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="n">kuangfangjun</span> <span class="n">root</span> <span class="mi">253</span><span class="n">K</span> <span class="n">Jan</span>  <span class="mi">7</span> <span class="mi">19</span><span class="p">:</span><span class="mi">33</span> <span class="n">dia_minnan</span><span class="o">.</span><span class="n">wav</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="n">kuangfangjun</span> <span class="n">root</span> <span class="mi">229</span><span class="n">K</span> <span class="n">Jan</span>  <span class="mi">7</span> <span class="mi">19</span><span class="p">:</span><span class="mi">33</span> <span class="n">dia_sh</span><span class="o">.</span><span class="n">wav</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="n">kuangfangjun</span> <span class="n">root</span> <span class="mi">297</span><span class="n">K</span> <span class="n">Jan</span>  <span class="mi">7</span> <span class="mi">19</span><span class="p">:</span><span class="mi">33</span> <span class="n">dia_yue</span><span class="o">.</span><span class="n">wav</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="n">kuangfangjun</span> <span class="n">root</span> <span class="mi">215</span><span class="n">K</span> <span class="n">Jan</span>  <span class="mi">7</span> <span class="mi">19</span><span class="p">:</span><span class="mi">33</span> <span class="n">far_2</span><span class="o">.</span><span class="n">wav</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="n">kuangfangjun</span> <span class="n">root</span> <span class="mi">682</span><span class="n">K</span> <span class="n">Jan</span>  <span class="mi">7</span> <span class="mi">19</span><span class="p">:</span><span class="mi">33</span> <span class="n">far_3</span><span class="o">.</span><span class="n">wav</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="n">kuangfangjun</span> <span class="n">root</span> <span class="mi">284</span><span class="n">K</span> <span class="n">Jan</span>  <span class="mi">7</span> <span class="mi">19</span><span class="p">:</span><span class="mi">33</span> <span class="n">far_4</span><span class="o">.</span><span class="n">wav</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="n">kuangfangjun</span> <span class="n">root</span> <span class="mi">279</span><span class="n">K</span> <span class="n">Jan</span>  <span class="mi">7</span> <span class="mi">19</span><span class="p">:</span><span class="mi">33</span> <span class="n">far_5</span><span class="o">.</span><span class="n">wav</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="n">kuangfangjun</span> <span class="n">root</span> <span class="mi">254</span><span class="n">K</span> <span class="n">Jan</span>  <span class="mi">7</span> <span class="mi">19</span><span class="p">:</span><span class="mi">33</span> <span class="n">ja</span><span class="o">.</span><span class="n">wav</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="n">kuangfangjun</span> <span class="n">root</span> <span class="mi">255</span><span class="n">K</span> <span class="n">Jan</span>  <span class="mi">7</span> <span class="mi">19</span><span class="p">:</span><span class="mi">33</span> <span class="n">ja_en_codeswitch</span><span class="o">.</span><span class="n">wav</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="n">kuangfangjun</span> <span class="n">root</span> <span class="mi">259</span><span class="n">K</span> <span class="n">Jan</span>  <span class="mi">7</span> <span class="mi">19</span><span class="p">:</span><span class="mi">33</span> <span class="n">lyrics</span><span class="o">.</span><span class="n">wav</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="n">kuangfangjun</span> <span class="n">root</span> <span class="mi">431</span><span class="n">K</span> <span class="n">Jan</span>  <span class="mi">7</span> <span class="mi">19</span><span class="p">:</span><span class="mi">33</span> <span class="n">lyrics_2</span><span class="o">.</span><span class="n">wav</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="n">kuangfangjun</span> <span class="n">root</span> <span class="mi">546</span><span class="n">K</span> <span class="n">Jan</span>  <span class="mi">7</span> <span class="mi">19</span><span class="p">:</span><span class="mi">33</span> <span class="n">lyrics_3</span><span class="o">.</span><span class="n">wav</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="n">kuangfangjun</span> <span class="n">root</span> <span class="mf">1.3</span><span class="n">M</span> <span class="n">Jan</span>  <span class="mi">7</span> <span class="mi">19</span><span class="p">:</span><span class="mi">33</span> <span class="n">lyrics_en_1</span><span class="o">.</span><span class="n">wav</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="n">kuangfangjun</span> <span class="n">root</span> <span class="mi">679</span><span class="n">K</span> <span class="n">Jan</span>  <span class="mi">7</span> <span class="mi">19</span><span class="p">:</span><span class="mi">33</span> <span class="n">lyrics_en_2</span><span class="o">.</span><span class="n">wav</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="n">kuangfangjun</span> <span class="n">root</span> <span class="mf">1.7</span><span class="n">M</span> <span class="n">Jan</span>  <span class="mi">7</span> <span class="mi">19</span><span class="p">:</span><span class="mi">33</span> <span class="n">lyrics_en_3</span><span class="o">.</span><span class="n">wav</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="n">kuangfangjun</span> <span class="n">root</span> <span class="mi">331</span><span class="n">K</span> <span class="n">Jan</span>  <span class="mi">7</span> <span class="mi">19</span><span class="p">:</span><span class="mi">33</span> <span class="n">noise_en</span><span class="o">.</span><span class="n">wav</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="n">kuangfangjun</span> <span class="n">root</span> <span class="mi">267</span><span class="n">K</span> <span class="n">Jan</span>  <span class="mi">7</span> <span class="mi">19</span><span class="p">:</span><span class="mi">33</span> <span class="n">rag_biochemistry</span><span class="o">.</span><span class="n">wav</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="n">kuangfangjun</span> <span class="n">root</span> <span class="mi">214</span><span class="n">K</span> <span class="n">Jan</span>  <span class="mi">7</span> <span class="mi">19</span><span class="p">:</span><span class="mi">33</span> <span class="n">rag_chemistry</span><span class="o">.</span><span class="n">wav</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="n">kuangfangjun</span> <span class="n">root</span> <span class="mi">248</span><span class="n">K</span> <span class="n">Jan</span>  <span class="mi">7</span> <span class="mi">19</span><span class="p">:</span><span class="mi">33</span> <span class="n">rag_history</span><span class="o">.</span><span class="n">wav</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="n">kuangfangjun</span> <span class="n">root</span> <span class="mi">173</span><span class="n">K</span> <span class="n">Jan</span>  <span class="mi">7</span> <span class="mi">19</span><span class="p">:</span><span class="mi">33</span> <span class="n">rag_math</span><span class="o">.</span><span class="n">wav</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="n">kuangfangjun</span> <span class="n">root</span> <span class="mi">192</span><span class="n">K</span> <span class="n">Jan</span>  <span class="mi">7</span> <span class="mi">19</span><span class="p">:</span><span class="mi">33</span> <span class="n">rag_medical</span><span class="o">.</span><span class="n">wav</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="n">kuangfangjun</span> <span class="n">root</span> <span class="mi">379</span><span class="n">K</span> <span class="n">Jan</span>  <span class="mi">7</span> <span class="mi">19</span><span class="p">:</span><span class="mi">33</span> <span class="n">rag_physics</span><span class="o">.</span><span class="n">wav</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="n">kuangfangjun</span> <span class="n">root</span> <span class="mi">224</span><span class="n">K</span> <span class="n">Jan</span>  <span class="mi">7</span> <span class="mi">19</span><span class="p">:</span><span class="mi">33</span> <span class="n">vietnamese</span><span class="o">.</span><span class="n">wav</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="huggingface-space.html" class="btn btn-neutral float-left" title="Huggingface space" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="pretrained.html" class="btn btn-neutral float-right" title="Pre-trained Models" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

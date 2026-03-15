@@ -1,0 +1,270 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Build &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Huggingface Spaces (WebAssembly)" href="hf-spaces.html" />
+    <link rel="prev" title="Install Emscripten" href="install-emscripten.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">sherpa-onnx</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../install/index.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../faqs/index.html">Frequently Asked Question (FAQs)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python/index.html">Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../c-api/index.html">C API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../java-api/index.html">Java API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../javascript-api/index.html">Javascript API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kotlin-api/index.html">Kotlin API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../swift-api/index.html">Swift API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../go-api/index.html">Go API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../csharp-api/index.html">C# API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pascal-api/index.html">Pascal API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lazarus/index.html">Lazarus</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">WebAssembly</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="install-emscripten.html">Install Emscripten</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Build</a></li>
+<li class="toctree-l3"><a class="reference internal" href="hf-spaces.html">Huggingface Spaces (WebAssembly)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../android/index.html">Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../harmony-os/index.html">HarmonyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ios/index.html">iOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../flutter/index.html">Flutter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../websocket/index.html">WebSocket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../hotwords/index.html">Hotwords (Contextual biasing)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kws/index.html">Keyword spotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../punctuation/index.html">Punctuation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../audio-tagging/index.html">Audio tagging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spoken-language-identification/index.html">Spoken language identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vad/index.html">VAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/index.html">Pre-trained models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/whisper/index.html">Whisper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../moonshine/index.html">Moonshine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../omnilingual-asr/index.html">Omnilingual ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sense-voice/index.html">SenseVoice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../funasr-nano/index.html">FunASR Nano</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../paraformer/index.html">Paraformer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nemo/index.html">NeMo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../FireRedAsr/index.html">FireRedAsr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Dolphin/index.html">Dolphin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../homophone-replacer/index.html">拼音词组匹配替换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-diarization/index.html">Speaker Diarization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-identification/index.html">Speaker Identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speech-enhancement/index.html">Speech enhancement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../source-separation/index.html">Source separation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qnn/index.html">Qualcomm NPU (QNN, HTP)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rknn/index.html">rknn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ascend/index.html">Ascend NPU (昇腾 NPU)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tts/index.html">Text-to-speech (TTS)</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">sherpa-onnx</a> &raquo;</li>
+          <li><a href="index.html">WebAssembly</a> &raquo;</li>
+      <li>Build</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/onnx/wasm/build.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="build">
+<h1>Build<a class="headerlink" href="#build" title="Permalink to this heading"></a></h1>
+<p>After installing <a class="reference external" href="https://emscripten.org/index.html">emscripten</a>, we can build <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a> for <a class="reference external" href="https://en.wikipedia.org/wiki/WebAssembly">WebAssembly</a> now.</p>
+<p>Please use the following command to build it:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx
+<span class="nb">cd</span><span class="w"> </span>sherpa-onnx
+
+<span class="nb">cd</span><span class="w"> </span>wasm/asr/assets
+
+wget<span class="w"> </span>-q<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20.tar.bz2
+tar<span class="w"> </span>xvf<span class="w"> </span>sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20.tar.bz2
+rm<span class="w"> </span>sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20.tar.bz2
+
+<span class="c1"># Note it is not an error that we rename encoder.int8.onnx to encoder.onnx</span>
+
+mv<span class="w"> </span>sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20/encoder-epoch-99-avg-1.int8.onnx<span class="w"> </span>encoder.onnx
+mv<span class="w"> </span>sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20/decoder-epoch-99-avg-1.onnx<span class="w"> </span>decoder.onnx
+mv<span class="w"> </span>sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20/joiner-epoch-99-avg-1.int8.onnx<span class="w"> </span>joiner.onnx
+mv<span class="w"> </span>sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20/tokens.txt<span class="w"> </span>./
+rm<span class="w"> </span>-rf<span class="w"> </span>sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20/
+
+<span class="nb">cd</span><span class="w"> </span>../../..
+
+./build-wasm-simd-asr.sh
+</pre></div>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>You can visit <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/tag/asr-models">https://github.com/k2-fsa/sherpa-onnx/releases/tag/asr-models</a>
+to download a different model.</p>
+<p>If you want to use a streaming Paraformer model, please see
+<a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/blob/master/wasm/asr/assets/README.md#paraformer">https://github.com/k2-fsa/sherpa-onnx/blob/master/wasm/asr/assets/README.md#paraformer</a></p>
+</div>
+<p>After building, you should see the following output:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Install<span class="w"> </span>the<span class="w"> </span>project...
+--<span class="w"> </span>Install<span class="w"> </span>configuration:<span class="w"> </span><span class="s2">&quot;Release&quot;</span>
+--<span class="w"> </span>Installing:<span class="w"> </span>/Users/fangjun/open-source/sherpa-onnx/build-wasm-simd-asr/install/bin/wasm/asr/sherpa-onnx-wasm-asr-main.js
+--<span class="w"> </span>Up-to-date:<span class="w"> </span>/Users/fangjun/open-source/sherpa-onnx/build-wasm-simd-asr/install/bin/wasm/asr/sherpa-onnx-wasm-asr-main.js
+--<span class="w"> </span>Installing:<span class="w"> </span>/Users/fangjun/open-source/sherpa-onnx/build-wasm-simd-asr/install/bin/wasm/asr/index.html
+--<span class="w"> </span>Installing:<span class="w"> </span>/Users/fangjun/open-source/sherpa-onnx/build-wasm-simd-asr/install/bin/wasm/asr/sherpa-onnx.js
+--<span class="w"> </span>Installing:<span class="w"> </span>/Users/fangjun/open-source/sherpa-onnx/build-wasm-simd-asr/install/bin/wasm/asr/app.js
+--<span class="w"> </span>Installing:<span class="w"> </span>/Users/fangjun/open-source/sherpa-onnx/build-wasm-simd-asr/install/bin/wasm/asr/sherpa-onnx-wasm-asr-main.wasm
+--<span class="w"> </span>Installing:<span class="w"> </span>/Users/fangjun/open-source/sherpa-onnx/build-wasm-simd-asr/install/bin/wasm/asr/sherpa-onnx-wasm-asr-main.data
++<span class="w"> </span>ls<span class="w"> </span>-lh<span class="w"> </span>install/bin/wasm/asr
+total<span class="w"> </span><span class="m">440080</span>
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">   </span><span class="m">9</span>.0K<span class="w"> </span>Feb<span class="w"> </span><span class="m">23</span><span class="w"> </span><span class="m">17</span>:39<span class="w"> </span>app.js
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">   </span>978B<span class="w"> </span>Feb<span class="w"> </span><span class="m">23</span><span class="w"> </span><span class="m">17</span>:39<span class="w"> </span>index.html
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">   </span>199M<span class="w"> </span>Feb<span class="w"> </span><span class="m">23</span><span class="w"> </span><span class="m">18</span>:34<span class="w"> </span>sherpa-onnx-wasm-asr-main.data
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">    </span>90K<span class="w"> </span>Feb<span class="w"> </span><span class="m">23</span><span class="w"> </span><span class="m">18</span>:38<span class="w"> </span>sherpa-onnx-wasm-asr-main.js
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">    </span>10M<span class="w"> </span>Feb<span class="w"> </span><span class="m">23</span><span class="w"> </span><span class="m">18</span>:38<span class="w"> </span>sherpa-onnx-wasm-asr-main.wasm
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">   </span><span class="m">9</span>.1K<span class="w"> </span>Feb<span class="w"> </span><span class="m">23</span><span class="w"> </span><span class="m">17</span>:39<span class="w"> </span>sherpa-onnx.js
+</pre></div>
+</div>
+<p>Now you can use the following command to run it:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>build-wasm-simd-asr/install/bin/wasm/asr
+python3<span class="w"> </span>-m<span class="w"> </span>http.server<span class="w"> </span><span class="m">6006</span>
+</pre></div>
+</div>
+<p>Start your browser and visit <a class="reference external" href="http://localhost:6006/">http://localhost:6006/</a>; you should see the following
+page:</p>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../../_images/wasm-asr-sherpa-onnx-1.png"><img alt="start page of wasm" src="../../_images/wasm-asr-sherpa-onnx-1.png" style="width: 800px;" /></a>
+</figure>
+<p>Now click start and speak! You should see the recognition results in the text box.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>We are using a bilingual model (Chinese + English) in the above example, which means
+you can only speak Chinese or English in this case.</p>
+</div>
+<p>A screenshot is given below:</p>
+<figure class="align-default">
+<a class="reference internal image-reference" href="../../_images/wasm-asr-sherpa-onnx-2.png"><img alt="recognition result" src="../../_images/wasm-asr-sherpa-onnx-2.png" style="width: 800px;" /></a>
+</figure>
+<p>Congratulations! You have successfully run real-time speech recognition with <a class="reference external" href="https://en.wikipedia.org/wiki/WebAssembly">WebAssembly</a>
+in your browser.</p>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="install-emscripten.html" class="btn btn-neutral float-left" title="Install Emscripten" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="hf-spaces.html" class="btn btn-neutral float-right" title="Huggingface Spaces (WebAssembly)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

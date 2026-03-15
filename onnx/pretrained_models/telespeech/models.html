@@ -1,0 +1,297 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Models &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/clipboard.min.js"></script>
+        <script src="../../../_static/copybutton.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Whisper" href="../whisper/index.html" />
+    <link rel="prev" title="How to export models from Tele-AI/TeleSpeech-ASR to sherpa-onnx" href="how-to-export.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">sherpa-onnx</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../install/index.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../faqs/index.html">Frequently Asked Question (FAQs)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../python/index.html">Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../c-api/index.html">C API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../java-api/index.html">Java API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../javascript-api/index.html">Javascript API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../kotlin-api/index.html">Kotlin API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../swift-api/index.html">Swift API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../go-api/index.html">Go API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../csharp-api/index.html">C# API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../pascal-api/index.html">Pascal API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../lazarus/index.html">Lazarus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../wasm/index.html">WebAssembly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../android/index.html">Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../harmony-os/index.html">HarmonyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ios/index.html">iOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../flutter/index.html">Flutter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../websocket/index.html">WebSocket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../hotwords/index.html">Hotwords (Contextual biasing)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../kws/index.html">Keyword spotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../punctuation/index.html">Punctuation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../audio-tagging/index.html">Audio tagging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../spoken-language-identification/index.html">Spoken language identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../vad/index.html">VAD</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">Pre-trained models</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../online-transducer/index.html">Online transducer models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../online-paraformer/index.html">Online paraformer models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../online-ctc/index.html">Online CTC models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../offline-transducer/index.html">Offline transducer models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../offline-paraformer/index.html">Offline paraformer models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../offline-ctc/index.html">Offline CTC models</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">TeleSpeech</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="how-to-export.html">How to export models from Tele-AI/TeleSpeech-ASR to sherpa-onnx</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Models</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../whisper/index.html">Whisper</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../wenet/index.html">WeNet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../small-online-models.html">Small models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../sense-voice/index.html">SenseVoice</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../whisper/index.html">Whisper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../moonshine/index.html">Moonshine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../omnilingual-asr/index.html">Omnilingual ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../sense-voice/index.html">SenseVoice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../funasr-nano/index.html">FunASR Nano</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../paraformer/index.html">Paraformer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../nemo/index.html">NeMo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../FireRedAsr/index.html">FireRedAsr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Dolphin/index.html">Dolphin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../homophone-replacer/index.html">拼音词组匹配替换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../speaker-diarization/index.html">Speaker Diarization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../speaker-identification/index.html">Speaker Identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../speech-enhancement/index.html">Speech enhancement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../source-separation/index.html">Source separation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../qnn/index.html">Qualcomm NPU (QNN, HTP)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../rknn/index.html">rknn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ascend/index.html">Ascend NPU (昇腾 NPU)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tts/index.html">Text-to-speech (TTS)</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html">sherpa-onnx</a> &raquo;</li>
+          <li><a href="../index.html">Pre-trained models</a> &raquo;</li>
+          <li><a href="index.html">TeleSpeech</a> &raquo;</li>
+      <li>Models</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/onnx/pretrained_models/telespeech/models.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="models">
+<h1>Models<a class="headerlink" href="#models" title="Permalink to this heading"></a></h1>
+<section id="sherpa-onnx-telespeech-ctc-int8-zh-2024-06-04">
+<h2>sherpa-onnx-telespeech-ctc-int8-zh-2024-06-04 (支持非常多种方言)<a class="headerlink" href="#sherpa-onnx-telespeech-ctc-int8-zh-2024-06-04" title="Permalink to this heading"></a></h2>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>这个模型支持很多种方言。</p>
+</div>
+<p>Please use the following commands to download it.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-telespeech-ctc-int8-zh-2024-06-04.tar.bz2
+
+tar<span class="w"> </span>xvf<span class="w"> </span>sherpa-onnx-telespeech-ctc-int8-zh-2024-06-04.tar.bz2
+rm<span class="w"> </span>sherpa-onnx-telespeech-ctc-int8-zh-2024-06-04.tar.bz2
+</pre></div>
+</div>
+<p>Please check that the file sizes of the pre-trained models are correct. See
+the file sizes of <code class="docutils literal notranslate"><span class="pre">*.onnx</span></code> files below.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>ls<span class="w"> </span>-lh<span class="w"> </span>*.onnx
+-rw-r--r--<span class="w">  </span><span class="m">1</span><span class="w"> </span>fangjun<span class="w">  </span>staff<span class="w">   </span>325M<span class="w"> </span>Jun<span class="w">  </span><span class="m">4</span><span class="w"> </span><span class="m">11</span>:56<span class="w"> </span>model.int8.onnx
+</pre></div>
+</div>
+<section id="decode-wave-files">
+<h3>Decode wave files<a class="headerlink" href="#decode-wave-files" title="Permalink to this heading"></a></h3>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>It supports decoding only wave files of a single channel with 16-bit
+encoded samples, while the sampling rate does not need to be 16 kHz.</p>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+./build/bin/sherpa-onnx-offline<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--telespeech-ctc<span class="o">=</span>./sherpa-onnx-telespeech-ctc-int8-zh-2024-06-04/model.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span>./sherpa-onnx-telespeech-ctc-int8-zh-2024-06-04/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--model-type<span class="o">=</span>telespeech_ctc<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--num-threads<span class="o">=</span><span class="m">1</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-telespeech-ctc-int8-zh-2024-06-04/test_wavs/3-sichuan.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-telespeech-ctc-int8-zh-2024-06-04/test_wavs/4-tianjin.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-telespeech-ctc-int8-zh-2024-06-04/test_wavs/5-henan.wav
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Please use <code class="docutils literal notranslate"><span class="pre">./build/bin/Release/sherpa-onnx-offline.exe</span></code> for Windows.</p>
+</div>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>If you use Windows and get encoding issues, please run:</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>CHCP<span class="w"> </span><span class="m">65001</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>in your commandline.</p>
+</div>
+<p>You should see the following output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:361 ./build/bin/sherpa-onnx-offline --telespeech-ctc=./sherpa-onnx-telespeech-ctc-int8-zh-2024-06-04/model.int8.onnx --tokens=./sherpa-onnx-telespeech-ctc-int8-zh-2024-06-04/tokens.txt --model-type=telespeech_ctc --num-threads=1 ./sherpa-onnx-telespeech-ctc-int8-zh-2024-06-04/test_wavs/3-sichuan.wav ./sherpa-onnx-telespeech-ctc-int8-zh-2024-06-04/test_wavs/4-tianjin.wav ./sherpa-onnx-telespeech-ctc-int8-zh-2024-06-04/test_wavs/5-henan.wav 
+
+OfflineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80, low_freq=20, high_freq=-400, dither=0), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename=&quot;&quot;, decoder_filename=&quot;&quot;, joiner_filename=&quot;&quot;), paraformer=OfflineParaformerModelConfig(model=&quot;&quot;), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=&quot;&quot;), whisper=OfflineWhisperModelConfig(encoder=&quot;&quot;, decoder=&quot;&quot;, language=&quot;&quot;, task=&quot;transcribe&quot;, tail_paddings=-1), tdnn=OfflineTdnnModelConfig(model=&quot;&quot;), zipformer_ctc=OfflineZipformerCtcModelConfig(model=&quot;&quot;), wenet_ctc=OfflineWenetCtcModelConfig(model=&quot;&quot;), telespeech_ctc=&quot;./sherpa-onnx-telespeech-ctc-int8-zh-2024-06-04/model.int8.onnx&quot;, tokens=&quot;./sherpa-onnx-telespeech-ctc-int8-zh-2024-06-04/tokens.txt&quot;, num_threads=1, debug=False, provider=&quot;cpu&quot;, model_type=&quot;telespeech_ctc&quot;, modeling_unit=&quot;cjkchar&quot;, bpe_vocab=&quot;&quot;), lm_config=OfflineLMConfig(model=&quot;&quot;, scale=0.5), ctc_fst_decoder_config=OfflineCtcFstDecoderConfig(graph=&quot;&quot;, max_active=3000), decoding_method=&quot;greedy_search&quot;, max_active_paths=4, hotwords_file=&quot;&quot;, hotwords_score=1.5, blank_penalty=0)
+Creating recognizer ...
+Started
+Done!
+
+./sherpa-onnx-telespeech-ctc-int8-zh-2024-06-04/test_wavs/3-sichuan.wav
+{&quot;text&quot;: &quot;自己就是在那个在那个就是在情界里面就是感觉演得特别好就是好像很真实样知道吧&quot;, &quot;timestamps&quot;: [0.08, 0.36, 0.52, 0.72, 0.92, 1.16, 1.36, 1.88, 2.20, 2.36, 3.16, 3.28, 3.40, 3.60, 3.80, 3.92, 4.08, 4.24, 4.40, 4.56, 4.76, 5.16, 5.32, 5.44, 5.64, 5.76, 5.88, 6.04, 6.16, 6.28, 6.40, 6.60, 6.88, 7.12, 7.40, 7.52, 7.64], &quot;tokens&quot;:[&quot;自&quot;, &quot;己&quot;, &quot;就&quot;, &quot;是&quot;, &quot;在&quot;, &quot;那&quot;, &quot;个&quot;, &quot;在&quot;, &quot;那&quot;, &quot;个&quot;, &quot;就&quot;, &quot;是&quot;, &quot;在&quot;, &quot;情&quot;, &quot;界&quot;, &quot;里&quot;, &quot;面&quot;, &quot;就&quot;, &quot;是&quot;, &quot;感&quot;, &quot;觉&quot;, &quot;演&quot;, &quot;得&quot;, &quot;特&quot;, &quot;别&quot;, &quot;好&quot;, &quot;就&quot;, &quot;是&quot;, &quot;好&quot;, &quot;像&quot;, &quot;很&quot;, &quot;真&quot;, &quot;实&quot;, &quot;样&quot;, &quot;知&quot;, &quot;道&quot;, &quot;吧&quot;]}
+----
+./sherpa-onnx-telespeech-ctc-int8-zh-2024-06-04/test_wavs/4-tianjin.wav
+{&quot;text&quot;: &quot;他就每个人手法就这意思法律意识太单薄了而且就是也不顾及到别人的感受&quot;, &quot;timestamps&quot;: [0.36, 0.56, 1.04, 1.16, 1.24, 1.64, 1.88, 2.24, 2.40, 2.60, 2.80, 3.12, 3.32, 3.64, 3.80, 3.96, 4.16, 4.44, 4.68, 4.80, 5.00, 5.16, 5.28, 6.12, 6.28, 6.44, 6.60, 6.72, 6.88, 7.04, 7.12, 7.32, 7.52], &quot;tokens&quot;:[&quot;他&quot;, &quot;就&quot;, &quot;每&quot;, &quot;个&quot;, &quot;人&quot;, &quot;手&quot;, &quot;法&quot;, &quot;就&quot;, &quot;这&quot;, &quot;意&quot;, &quot;思&quot;, &quot;法&quot;, &quot;律&quot;, &quot;意&quot;, &quot;识&quot;, &quot;太&quot;, &quot;单&quot;, &quot;薄&quot;, &quot;了&quot;, &quot;而&quot;, &quot;且&quot;, &quot;就&quot;, &quot;是&quot;, &quot;也&quot;, &quot;不&quot;, &quot;顾&quot;, &quot;及&quot;, &quot;到&quot;, &quot;别&quot;, &quot;人&quot;, &quot;的&quot;, &quot;感&quot;, &quot;受&quot;]}
+----
+./sherpa-onnx-telespeech-ctc-int8-zh-2024-06-04/test_wavs/5-henan.wav
+{&quot;text&quot;: &quot;他这个管一都通到有时候都通到七八层楼高然它这个管箱就可交到那个那珠子上&quot;, &quot;timestamps&quot;: [0.04, 0.12, 0.24, 0.40, 1.00, 1.24, 1.44, 1.68, 2.32, 2.48, 2.60, 2.64, 2.80, 3.00, 3.16, 3.32, 3.52, 3.68, 3.92, 5.00, 5.16, 5.28, 5.32, 5.44, 5.84, 6.00, 6.12, 6.48, 6.68, 6.84, 7.00, 7.16, 7.32, 7.56, 7.68], &quot;tokens&quot;:[&quot;他&quot;, &quot;这&quot;, &quot;个&quot;, &quot;管&quot;, &quot;一&quot;, &quot;都&quot;, &quot;通&quot;, &quot;到&quot;, &quot;有&quot;, &quot;时&quot;, &quot;候&quot;, &quot;都&quot;, &quot;通&quot;, &quot;到&quot;, &quot;七&quot;, &quot;八&quot;, &quot;层&quot;, &quot;楼&quot;, &quot;高&quot;, &quot;然&quot;, &quot;它&quot;, &quot;这&quot;, &quot;个&quot;, &quot;管&quot;, &quot;箱&quot;, &quot;就&quot;, &quot;可&quot;, &quot;交&quot;, &quot;到&quot;, &quot;那&quot;, &quot;个&quot;, &quot;那&quot;, &quot;珠&quot;, &quot;子&quot;, &quot;上&quot;]}
+----
+num threads: 1
+decoding method: greedy_search
+Elapsed seconds: 3.406 s
+Real time factor (RTF): 3.406 / 23.634 = 0.144
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">feature_dim=80</span></code> is incorrect in the above logs. The actual value is 40.</p>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>There is also a float32 model. Please see <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-telespeech-ctc-zh-2024-06-04.tar.bz2">https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-telespeech-ctc-zh-2024-06-04.tar.bz2</a></p>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="how-to-export.html" class="btn btn-neutral float-left" title="How to export models from Tele-AI/TeleSpeech-ASR to sherpa-onnx" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../whisper/index.html" class="btn btn-neutral float-right" title="Whisper" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

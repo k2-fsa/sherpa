@@ -1,0 +1,291 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Build sherpa-onnx on Windows ({{ arch }}) &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/clipboard.min.js"></script>
+        <script src="../../../../_static/copybutton.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">sherpa-onnx</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Build sherpa-onnx on Windows ({{ arch }})</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/onnx/install/windows/tpl/build-cpu.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="build-sherpa-onnx-on-windows-arch">
+<h1>Build sherpa-onnx on Windows ({{ arch }})<a class="headerlink" href="#build-sherpa-onnx-on-windows-arch" title="Permalink to this heading"></a></h1>
+<p>This section describes how to build <strong>sherpa-onnx</strong> on Windows for the
+<strong>{{ arch }}</strong> architecture using CPU only.</p>
+<p>You can choose your build configuration depending on:</p>
+<ul class="simple">
+<li><p>Runtime: MD (dynamic CRT), MT (static CRT)</p></li>
+<li><p>Library type: shared or static</p></li>
+<li><p>Build type: Debug, Release, MinSizeRel, RelWithDebInfo</p></li>
+</ul>
+<section id="prerequisites">
+<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p>Windows 10 or later</p></li>
+<li><p><strong>Visual Studio 2022</strong> or newer</p></li>
+<li><p>CMake 3.20 or newer</p></li>
+<li><p>A C++ compiler provided by Visual Studio</p></li>
+<li><p>Optional: PortAudio and eSpeak NG (disabled in examples)</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>MinGW is not supported.</p>
+</div>
+</section>
+<section id="build-configurations">
+<h2>Build Configurations<a class="headerlink" href="#build-configurations" title="Permalink to this heading"></a></h2>
+<p>{% for lib_type in lib_types %}
+{% for runtime in runtimes %}
+{% for build_type in build_types %}
+{{ lib_type | capitalize }} + {{ runtime }} + {{ build_type }}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~</p>
+<section id="build-commands">
+<h3>Build commands<a class="headerlink" href="#build-commands" title="Permalink to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">mkdir</span> <span class="n">build</span>
+<span class="n">cd</span> <span class="n">build</span>
+<span class="n">cmake</span> \
+  <span class="o">-</span><span class="n">A</span> <span class="p">{{</span> <span class="n">cmake_arch</span> <span class="p">}}</span> \
+  <span class="o">-</span><span class="n">DSHERPA_ONNX_ENABLE_TTS</span><span class="o">=</span><span class="n">ON</span> \
+  <span class="o">-</span><span class="n">DSHERPA_ONNX_USE_STATIC_CRT</span><span class="o">=</span><span class="p">{{</span> <span class="s1">&#39;ON&#39;</span> <span class="k">if</span> <span class="n">runtime</span><span class="o">==</span><span class="s1">&#39;MT&#39;</span> <span class="k">else</span> <span class="s1">&#39;OFF&#39;</span> <span class="p">}}</span> \
+  <span class="o">-</span><span class="n">DCMAKE_BUILD_TYPE</span><span class="o">=</span><span class="p">{{</span> <span class="n">build_type</span> <span class="p">}}</span> \
+  <span class="o">-</span><span class="n">DSHERPA_ONNX_ENABLE_PORTAUDIO</span><span class="o">=</span><span class="n">OFF</span> \
+  <span class="o">-</span><span class="n">DBUILD_SHARED_LIBS</span><span class="o">=</span><span class="p">{{</span> <span class="s1">&#39;ON&#39;</span> <span class="k">if</span> <span class="n">lib_type</span><span class="o">==</span><span class="s1">&#39;shared&#39;</span> <span class="k">else</span> <span class="s1">&#39;OFF&#39;</span> <span class="p">}}</span> \
+  <span class="o">-</span><span class="n">DCMAKE_INSTALL_PREFIX</span><span class="o">=./</span><span class="n">install</span> \
+  <span class="o">-</span><span class="n">DBUILD_ESPEAK_NG_EXE</span><span class="o">=</span><span class="n">OFF</span> \
+  <span class="o">..</span>
+<span class="n">cmake</span> <span class="o">--</span><span class="n">build</span> <span class="o">.</span> <span class="o">--</span><span class="n">config</span> <span class="p">{{</span> <span class="n">build_type</span> <span class="p">}}</span> <span class="o">--</span> <span class="o">-</span><span class="n">m</span><span class="p">:</span><span class="mi">2</span>
+<span class="n">cmake</span> <span class="o">--</span><span class="n">build</span> <span class="o">.</span> <span class="o">--</span><span class="n">config</span> <span class="p">{{</span> <span class="n">build_type</span> <span class="p">}}</span> <span class="o">--</span><span class="n">target</span> <span class="n">install</span> <span class="o">--</span> <span class="o">-</span><span class="n">m</span><span class="p">:</span><span class="mi">2</span>
+</pre></div>
+</div>
+<p>{% if build_type == “Release” %}
+Check runtime dependencies
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">dumpbin</span> <span class="o">/</span><span class="n">dependents</span> <span class="n">build</span>\<span class="nb">bin</span>\<span class="n">Release</span>\<span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">.</span><span class="n">exe</span>
+</pre></div>
+</div>
+<section id="expected-output">
+<h4>Expected output<a class="headerlink" href="#expected-output" title="Permalink to this heading"></a></h4>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span><span class="o">%</span> <span class="k">if</span> <span class="n">lib_type</span><span class="o">==</span><span class="s1">&#39;shared&#39;</span> <span class="ow">and</span> <span class="n">runtime</span><span class="o">==</span><span class="s1">&#39;MD&#39;</span> <span class="o">%</span><span class="p">}</span>
+</pre></div>
+</div>
+<blockquote>
+<div><p>Dump of file buildbinReleasesherpa-onnx.exe</p>
+<p>File Type: EXECUTABLE IMAGE</p>
+<blockquote>
+<div><p>Image has the following dependencies:</p>
+<blockquote>
+<div><p>onnxruntime.dll
+KERNEL32.dll
+MSVCP140.dll
+VCRUNTIME140.dll
+api-ms-win-crt-runtime-l1-1-0.dll
+api-ms-win-crt-heap-l1-1-0.dll
+api-ms-win-crt-stdio-l1-1-0.dll
+api-ms-win-crt-filesystem-l1-1-0.dll
+api-ms-win-crt-string-l1-1-0.dll
+api-ms-win-crt-convert-l1-1-0.dll
+api-ms-win-crt-math-l1-1-0.dll
+api-ms-win-crt-utility-l1-1-0.dll
+api-ms-win-crt-environment-l1-1-0.dll
+api-ms-win-crt-locale-l1-1-0.dll</p>
+</div></blockquote>
+</div></blockquote>
+</div></blockquote>
+<dl>
+<dt>{% elif lib_type==’static’ and runtime==’MD’ %}</dt><dd><p>Dump of file buildbinReleasesherpa-onnx.exe</p>
+<p>File Type: EXECUTABLE IMAGE</p>
+<blockquote>
+<div><p>Image has the following dependencies:</p>
+<blockquote>
+<div><p>KERNEL32.dll
+ADVAPI32.dll
+MSVCP140.dll
+MSVCP140_1.dll
+dbghelp.dll
+api-ms-win-core-path-l1-1-0.dll
+SETUPAPI.dll
+dxgi.dll
+VCRUNTIME140.dll
+api-ms-win-crt-stdio-l1-1-0.dll
+api-ms-win-crt-heap-l1-1-0.dll
+api-ms-win-crt-runtime-l1-1-0.dll
+api-ms-win-crt-string-l1-1-0.dll
+api-ms-win-crt-convert-l1-1-0.dll
+api-ms-win-crt-filesystem-l1-1-0.dll
+api-ms-win-crt-math-l1-1-0.dll
+api-ms-win-crt-utility-l1-1-0.dll
+api-ms-win-crt-time-l1-1-0.dll
+api-ms-win-crt-locale-l1-1-0.dll
+api-ms-win-crt-environment-l1-1-0.dll</p>
+</div></blockquote>
+</div></blockquote>
+</dd>
+<dt>{% elif lib_type==’shared’ and runtime==’MT’ %}</dt><dd><p>Dump of file buildbinReleasesherpa-onnx.exe</p>
+<p>File Type: EXECUTABLE IMAGE</p>
+<blockquote>
+<div><p>Image has the following dependencies:</p>
+<blockquote>
+<div><p>onnxruntime.dll
+KERNEL32.dll</p>
+</div></blockquote>
+</div></blockquote>
+</dd>
+<dt>{% elif lib_type==’static’ and runtime==’MT’ %}</dt><dd><p>Dump of file buildbinReleasesherpa-onnx.exe</p>
+<p>File Type: EXECUTABLE IMAGE</p>
+<blockquote>
+<div><p>Image has the following dependencies:</p>
+<blockquote>
+<div><p>KERNEL32.dll
+ADVAPI32.dll
+dbghelp.dll
+api-ms-win-core-path-l1-1-0.dll
+SETUPAPI.dll
+dxgi.dll</p>
+</div></blockquote>
+</div></blockquote>
+</dd>
+</dl>
+<p>{% endif %}
+{% endif %}   {# closes the build_type == Release if #}</p>
+<p>{% endfor %}
+{% endfor %}
+{% endfor %}</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">MT</span></code> builds do <strong>not</strong> depend on the MSVC runtime DLLs.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">MD</span></code> builds require the Microsoft Visual C++ Redistributable.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">shared</span></code> builds depend on <code class="docutils literal notranslate"><span class="pre">onnxruntime.dll</span></code> at runtime.</p></li>
+<li><p>Users can enable or disable TTS by changing <code class="docutils literal notranslate"><span class="pre">-DSHERPA_ONNX_ENABLE_TTS=ON</span></code> or <code class="docutils literal notranslate"><span class="pre">OFF</span></code>.</p></li>
+</ul>
+</div>
+</section>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

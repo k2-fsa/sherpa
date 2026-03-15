@@ -1,0 +1,184 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Streaming ASR &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../onnx/index.html">sherpa-onnx</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Streaming ASR</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/cpp/online_asr/index.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="streaming-asr">
+<span id="cpp-streaming-asr"></span><h1>Streaming ASR<a class="headerlink" href="#streaming-asr" title="Permalink to this heading"></a></h1>
+<p>This page describes how to use the C++ API of <a class="reference external" href="https://github.com/k2-fsa/sherpa">sherpa</a> for
+streaming/online ASR.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>It supports only models from
+<a class="reference external" href="https://github.com/k2-fsa/icefall/tree/master/egs/librispeech/ASR/conv_emformer_transducer_stateless2">https://github.com/k2-fsa/icefall/tree/master/egs/librispeech/ASR/conv_emformer_transducer_stateless2</a>
+at present.</p>
+</div>
+<p>Please refer to <a class="reference internal" href="../installation/index.html#cpp-installation"><span class="std std-ref">Installation</span></a> for installation.</p>
+<p>After running <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">-j</span></code>, you should find the following files:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">lib/libsherpa_online_recognizer.so</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">include/sherpa/cpp_api/online_recognizer.h</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">include/sherpa/cpp_api/online_stream.h</span></code></p></li>
+</ul>
+</div></blockquote>
+<p>You can include the above two header files in your application and link
+<code class="docutils literal notranslate"><span class="pre">libsherpa_online_recognizer.so</span></code> with you executable to use the C++ APIs.</p>
+<p><a class="reference external" href="https://github.com/k2-fsa/sherpa/blob/master/sherpa/cpp_api/test_online_recognizer_microphone.cc">https://github.com/k2-fsa/sherpa/blob/master/sherpa/cpp_api/test_online_recognizer_microphone.cc</a>
+shows how to use the C++ API for real-time speech recognition with a microphone.
+After running <code class="docutils literal notranslate"><span class="pre">make</span> <span class="pre">-j</span></code>, you can also find an executable <code class="docutils literal notranslate"><span class="pre">bin/test_online_recognizer_microphone</span></code>.
+The following shows how to use it:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa/build
+
+git<span class="w"> </span>lfs<span class="w"> </span>install
+git<span class="w"> </span>clone<span class="w"> </span>https://huggingface.co/Zengwei/icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05
+
+./bin/test_online_recognizer_microphone<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05/exp/cpu-jit-epoch-30-avg-10-torch-1.10.0.pt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05/data/lang_bpe_500/tokens.txt
+</pre></div>
+</div>
+<p>It will print something like below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">num</span> <span class="n">devices</span><span class="p">:</span> <span class="mi">4</span>
+<span class="n">Use</span> <span class="n">default</span> <span class="n">device</span><span class="p">:</span> <span class="mi">2</span>
+  <span class="n">Name</span><span class="p">:</span> <span class="n">MacBook</span> <span class="n">Pro</span> <span class="n">Microphone</span>
+  <span class="n">Max</span> <span class="nb">input</span> <span class="n">channels</span><span class="p">:</span> <span class="mi">1</span>
+<span class="n">Started</span>
+</pre></div>
+</div>
+<p>Say something and you will see the recognition result printed to the console in real-time.</p>
+<p>You can find a demo below:</p>
+<div class="video_wrapper" style="padding-bottom: 67.500000%; padding-top: 30px; position: relative; width: 120%">
+<iframe allowfullscreen="true" src="https://www.youtube.com/embed/86-YLg3u-WY" style="border: 0; height: 100%; left: 0; position: absolute; top: 0; width: 100%">
+</iframe></div></section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>
