@@ -1,5 +1,8 @@
-Hugginface space for speech enhancement
-=======================================
+Hugging Face resources for speech enhancement
+=============================================
+
+GTCRN demo
+----------
 
 Please visit
 
@@ -15,3 +18,15 @@ For modelscope users, you can visit
 
   `<https://modelscope.cn/studios/csukuangfj/wasm-speech-enhancement-gtcrn>`_
 
+DPDFNet demo
+------------
+
+You can try DPDFNet in your browser at
+
+  `<https://huggingface.co/spaces/Ceva-IP/DPDFNetDemo>`_
+
+The pre-trained DPDFNet model files are hosted at
+
+  `<https://huggingface.co/Ceva-IP/DPDFNet>`_
+
+Please refer to :doc:`./dpdfnet` for a summary of the available variants.
