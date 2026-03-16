@@ -25,8 +25,5 @@ You can try DPDFNet in your browser at
 
   `<https://huggingface.co/spaces/Ceva-IP/DPDFNetDemo>`_
 
-The pre-trained DPDFNet model files are hosted at
-
-  `<https://huggingface.co/Ceva-IP/DPDFNet>`_
-
-Please refer to :doc:`./dpdfnet` for a summary of the available variants.
+Please refer to :doc:`./dpdfnet` for the released model download links and a
+summary of the available variants.

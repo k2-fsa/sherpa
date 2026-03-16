@@ -17,7 +17,7 @@ Download a DPDFNet model and a test wave file:
 
 .. code-block:: bash
 
-   wget https://huggingface.co/Ceva-IP/DPDFNet/resolve/main/onnx/dpdfnet2.onnx
+   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/speech-enhancement-models/dpdfnet2.onnx
    wget https://github.com/k2-fsa/sherpa-onnx/releases/download/speech-enhancement-models/inp_16k.wav
 
 The following example uses
@@ -76,14 +76,14 @@ The example script is available at
 Streaming status
 ----------------
 
-The current ``dpdfnet`` branch of `sherpa-onnx`_ contains the offline Python
-bindings and offline example shown above.
+The current `sherpa-onnx`_ Python API contains the offline DPDFNet bindings and
+the offline example shown above.
 
 .. note::
 
    The online streaming DPDFNet denoiser is available in the core runtime and
-   C API on the current branch, but a corresponding Python binding/example is
-   not present in this branch yet. Please refer to :doc:`./dpdfnet-c-api` for
+   C API, but a corresponding Python binding/example is
+   not present in the current Python API yet. Please refer to :doc:`./dpdfnet-c-api` for
    streaming usage.
 
 Hints
@@ -91,5 +91,5 @@ Hints
 
 You can try DPDFNet in your browser at
 `Ceva-IP/DPDFNetDemo <https://huggingface.co/spaces/Ceva-IP/DPDFNetDemo>`_
-and download the official model files from
-`Ceva-IP/DPDFNet <https://huggingface.co/Ceva-IP/DPDFNet>`_.
+and download the model files from the
+`speech-enhancement-models release <https://github.com/k2-fsa/sherpa-onnx/releases/tag/speech-enhancement-models>`_.

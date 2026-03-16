@@ -6,17 +6,18 @@ single-channel speech enhancement models for real-time noise suppression.
 It extends DeepFilterNet2 with Dual-Path RNN (DPRNN) blocks in the encoder
 for stronger long-range temporal and cross-band modeling while staying
 streaming-friendly. The paper is available on
-`arXiv <https://arxiv.org/abs/2512.16420>`_, and the pre-trained model files
-are hosted on `Hugging Face <https://huggingface.co/Ceva-IP/DPDFNet>`_.
+`arXiv <https://arxiv.org/abs/2512.16420>`_. The source project is hosted at
+`GitHub <https://github.com/ceva-ip/DPDFNet>`_ and the pre-trained ONNX models
+used by `sherpa-onnx`_ are published in the
+`speech-enhancement-models release <https://github.com/k2-fsa/sherpa-onnx/releases/tag/speech-enhancement-models>`_.
 
 In `sherpa-onnx`_, DPDFNet supports offline speech enhancement and online
 streaming speech enhancement in the runtime and C API.
 
 .. note::
 
-   The current ``dpdfnet`` branch of `sherpa-onnx`_ downloads DPDFNet ONNX
-   models from the official Hugging Face repository. Sample wave files such as
-   ``inp_16k.wav`` and ``speech_with_noise.wav`` are hosted in the
+   DPDFNet ONNX models and sample wave files such as ``inp_16k.wav`` and
+   ``speech_with_noise.wav`` are available from the
    ``speech-enhancement-models`` GitHub release.
 
 Model variants
@@ -30,7 +31,7 @@ Model variants
      - MACs (G)
      - Sample rate
      - Intended use
-   * - ``baseline``
+   * - ``dpdfnet_baseline``
      - 2.31
      - 0.36
      - 16 kHz
@@ -58,9 +59,9 @@ Model variants
 
 .. hint::
 
-   Use ``baseline``, ``dpdfnet2``, ``dpdfnet4``, or ``dpdfnet8`` for 16 kHz
-   downstream ASR or speech recognition. Use ``dpdfnet2_48khz_hr`` when you
-   want 48 kHz enhancement output.
+   Use ``dpdfnet_baseline``, ``dpdfnet2``, ``dpdfnet4``, or ``dpdfnet8`` for
+   16 kHz downstream ASR or speech recognition. Use
+   ``dpdfnet2_48khz_hr`` when you want 48 kHz enhancement output.
 
 Download pre-trained models
 ---------------------------
@@ -70,11 +71,11 @@ wave file:
 
 .. code-block:: bash
 
-   wget https://huggingface.co/Ceva-IP/DPDFNet/resolve/main/onnx/baseline.onnx
-   wget https://huggingface.co/Ceva-IP/DPDFNet/resolve/main/onnx/dpdfnet2.onnx
-   wget https://huggingface.co/Ceva-IP/DPDFNet/resolve/main/onnx/dpdfnet4.onnx
-   wget https://huggingface.co/Ceva-IP/DPDFNet/resolve/main/onnx/dpdfnet8.onnx
-   wget https://huggingface.co/Ceva-IP/DPDFNet/resolve/main/onnx/dpdfnet2_48khz_hr.onnx
+   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/speech-enhancement-models/dpdfnet_baseline.onnx
+   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/speech-enhancement-models/dpdfnet2.onnx
+   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/speech-enhancement-models/dpdfnet4.onnx
+   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/speech-enhancement-models/dpdfnet8.onnx
+   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/speech-enhancement-models/dpdfnet2_48khz_hr.onnx
 
    wget https://github.com/k2-fsa/sherpa-onnx/releases/download/speech-enhancement-models/inp_16k.wav
 

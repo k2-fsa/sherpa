@@ -8,8 +8,8 @@ Please refer to :ref:`sherpa-onnx-c-api` for how to build `sherpa-onnx`_.
 Offline speech enhancement
 --------------------------
 
-The ``dpdfnet`` branch of `sherpa-onnx`_ contains a ready-to-build example
-named ``speech-enhancement-dpdfnet-c-api.c``.
+`sherpa-onnx`_ contains a ready-to-build example named
+``speech-enhancement-dpdfnet-c-api.c``.
 
 .. code-block:: bash
 
@@ -17,7 +17,7 @@ named ``speech-enhancement-dpdfnet-c-api.c``.
    git clone https://github.com/k2-fsa/sherpa-onnx
    cd sherpa-onnx
 
-   wget https://huggingface.co/Ceva-IP/DPDFNet/resolve/main/onnx/dpdfnet2.onnx
+   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/speech-enhancement-models/dpdfnet2.onnx
    wget https://github.com/k2-fsa/sherpa-onnx/releases/download/speech-enhancement-models/inp_16k.wav
 
    mkdir build
