@@ -4,6 +4,11 @@ Pre-trained models
 Pre-trained models can be found
 at `<https://github.com/k2-fsa/sherpa-onnx/releases/tag/speech-enhancement-models>`_
 
+.. note::
+
+   This page documents the GTCRN model. For DPDFNet, please refer to
+   :doc:`./dpdfnet`.
+
 gtcrn_simple
 ------------
 
