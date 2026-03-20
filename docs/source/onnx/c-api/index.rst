@@ -5,6 +5,10 @@ C API
 
 In this section, we describe how to use the C API of `sherpa-onnx`_.
 
+.. toctree::
+   :maxdepth: 8
+
+   ./doc.rst
 
 Specifically, we will describe:
 
