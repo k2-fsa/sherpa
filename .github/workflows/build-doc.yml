@@ -98,7 +98,7 @@ jobs:
 
           doxygen ./Doxyfile
 
-          ls -lh doxygen-doc/html
+          ls -lh doxygen-docs/html
 
           popd
           mv sherpa-onnx/sherpa-onnx/c-api/doxygen-docs/html ./c-api-doc
