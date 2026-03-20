@@ -94,7 +94,12 @@ jobs:
 
           pushd sherpa-onnx/sherpa-onnx/c-api
 
-          doxygen -g Doxyfile
+          ls -lh
+
+          doxygen ./Doxyfile
+
+          ls -lh doxygen-doc/html
+
           popd
           mv sherpa-onnx/sherpa-onnx/c-api/doxygen-docs/html ./c-api-doc
 
