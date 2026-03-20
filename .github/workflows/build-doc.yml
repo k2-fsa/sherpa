@@ -77,6 +77,11 @@ jobs:
 
           which mdbook
 
+      - name: Instal doxygen
+        shell: bash
+        run: |
+          sudo apt install doxygen graphviz
+
       - name: Build TTS samples
         shell: bash
         run: |
@@ -86,6 +91,12 @@ jobs:
           export SHERPA_ONNX_VERSION
 
           echo "SHERPA_ONNX_VERSION: $SHERPA_ONNX_VERSION"
+
+          pushd sherpa-onnx/sherpa-onnx/c-api
+
+          doxygen -g Doxyfile
+          popd
+          mv sherpa-onnx/sherpa-onnx/c-api/doxygen-docs/html ./c-api-doc
 
           rm -rf sherpa-onnx
 
@@ -281,6 +292,13 @@ jobs:
           popd
 
           git diff
+
+      - name: Copy C API docs for sherpa-onnx
+        shell: bash
+        run: |
+          sudo chown -R $USER docs/build
+
+          sudo mv c-api-doc docs/build/html/onnx/c-api/html
 
       - name: Copy tts samples
         shell: bash
