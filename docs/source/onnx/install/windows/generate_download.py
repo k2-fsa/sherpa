@@ -7,7 +7,7 @@ import os
 
 
 def get_sherpa_onnx_version():
-    return os.environ.get("SHERPA_ONNX_VERSION", "1.12.23")
+    return os.environ.get("SHERPA_ONNX_VERSION", "1.12.32")
 
 
 def main():

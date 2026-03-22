@@ -79,9 +79,11 @@ GPU (CUDA 12.8, CUDNN 9, Linux x64)
 
     You can download pre-build libraries and executables of sherpa-onnx for CUDA 12.x with CUDNN 9
     at `<https://github.com/k2-fsa/sherpa-onnx/releases>`_. Please always use the latest version.
-    For instance, for the version ``1.12.13``, you can use::
+    For instance, for the version |sherpa_onnx_release_version|, you can use:
 
-      wget https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.12.13/sherpa-onnx-v1.12.13-cuda-12.x-cudnn-9.x-linux-x64-gpu.tar.bz2
+    .. parsed-literal::
+
+      wget |sherpa_onnx_cuda_linux_archive_url|
 
 GPU (CUDA 10.2, CUDNN8, Linux arm64, e.g., Jetson Nano B01)
 -----------------------------------------------------------

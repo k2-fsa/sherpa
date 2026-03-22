@@ -11,18 +11,18 @@ Before you continue, we assume you have followed :ref:`sherpa-onnx-rknn-install`
 to install `sherpa-onnx`_. The following is an example of installing
 `sherpa-onnx`_ with RKNN support on OrangePi 5 max.
 
-.. code-block::
+.. parsed-literal::
 
   (py310) orangepi@orangepi5max:~/t$ uname -a
   Linux orangepi5max 6.1.43-rockchip-rk3588 #1.0.0 SMP Mon Jul  8 11:54:40 CST 2024 aarch64 aarch64 aarch64 GNU/Linux
 
-  (py310) orangepi@orangepi5max:~/t$ ls -lh sherpa_onnx-1.12.13-cp310-cp310-manylinux_2_27_aarch64.whl
-  -rw-r--r-- 1 orangepi orangepi 22M Mar 11 14:58 sherpa_onnx-1.12.13-cp310-cp310-manylinux_2_27_aarch64.whl
+  (py310) orangepi@orangepi5max:~/t$ ls -lh |sherpa_onnx_rknn_wheel_file|
+  -rw-r--r-- 1 orangepi orangepi 22M Mar 11 14:58 |sherpa_onnx_rknn_wheel_file|
 
-  (py310) orangepi@orangepi5max:~/t$ pip install ./sherpa_onnx-1.12.13-cp310-cp310-manylinux_2_27_aarch64.whl
-  Processing ./sherpa_onnx-1.12.13-cp310-cp310-manylinux_2_27_aarch64.whl
+  (py310) orangepi@orangepi5max:~/t$ pip install ./|sherpa_onnx_rknn_wheel_file|
+  Processing ./|sherpa_onnx_rknn_wheel_file|
   Installing collected packages: sherpa-onnx
-  Successfully installed sherpa-onnx-1.12.13
+  |sherpa_onnx_rknn_installed|
 
   (py310) orangepi@orangepi5max:~/t$ which sherpa-onnx
   /home/orangepi/py310/bin/sherpa-onnx

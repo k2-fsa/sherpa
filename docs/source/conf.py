@@ -39,6 +39,9 @@ def get_version():
 # The full version, including alpha/beta/rc tags
 version = get_version()
 release = version
+sherpa_onnx_version = os.environ.get("SHERPA_ONNX_VERSION", "1.12.32")
+sherpa_onnx_version_cuda = f"{sherpa_onnx_version}+cuda"
+sherpa_onnx_version_cuda12_cudnn9 = f"{sherpa_onnx_version}+cuda12.cudnn9"
 
 
 # -- General configuration ---------------------------------------------------
@@ -108,7 +111,7 @@ html_theme_options = {
     "prev_next_buttons_location": "bottom",
     "style_external_links": True,
 }
-rst_epilog = """
+rst_epilog = f"""
 .. _BPE: https://arxiv.org/pdf/1508.07909v5.pdf
 .. _Conformer: https://arxiv.org/abs/2005.08100
 .. _ConvEmformer: https://arxiv.org/pdf/2110.05241.pdf
@@ -185,6 +188,47 @@ rst_epilog = """
 .. _Dolphin: https://github.com/DataoceanAI/Dolphin
 .. _k2-fsa: https://github.com/k2-fsa
 .. _Fun-ASR-Nano-2512: https://www.modelscope.cn/models/FunAudioLLM/Fun-ASR-Nano-2512
+.. |sherpa_onnx_version| replace:: {sherpa_onnx_version}
+.. |sherpa_onnx_version_cuda| replace:: {sherpa_onnx_version_cuda}
+.. |sherpa_onnx_version_cuda12_cudnn9| replace:: {sherpa_onnx_version_cuda12_cudnn9}
+.. |sherpa_onnx_release_version| replace:: ``v{sherpa_onnx_version}``
+.. |sherpa_onnx_release_tag_url| replace:: https://github.com/k2-fsa/sherpa-onnx/releases/tag/v{sherpa_onnx_version}
+.. |sherpa_onnx_crate_dependency| replace:: sherpa-onnx = "{sherpa_onnx_version}"
+.. |sherpa_onnx_crate_shared_dependency| replace:: sherpa-onnx = {{ version = "{sherpa_onnx_version}", default-features = false, features = ["shared"] }}
+.. |sherpa_onnx_version_output| replace:: Version : {sherpa_onnx_version}
+.. |sherpa_onnx_linux_static_lib_dir| replace:: /path/to/sherpa-onnx-v{sherpa_onnx_version}-linux-x64-static-lib/lib
+.. |sherpa_onnx_android_archive_name| replace:: ``sherpa-onnx-v{sherpa_onnx_version}-android.tar.bz2``
+.. |sherpa_onnx_android_rknn_archive_name| replace:: ``sherpa-onnx-v{sherpa_onnx_version}-android-rknn.tar.bz2``
+.. |sherpa_onnx_android_archive_file| replace:: sherpa-onnx-v{sherpa_onnx_version}-android.tar.bz2
+.. |sherpa_onnx_android_rknn_archive_file| replace:: sherpa-onnx-v{sherpa_onnx_version}-android-rknn.tar.bz2
+.. |sherpa_onnx_android_archive_url| replace:: https://github.com/k2-fsa/sherpa-onnx/releases/download/v{sherpa_onnx_version}/sherpa-onnx-v{sherpa_onnx_version}-android.tar.bz2
+.. |sherpa_onnx_cuda_linux_archive_name| replace:: ``sherpa-onnx-v{sherpa_onnx_version}-cuda-12.x-cudnn-9.x-linux-x64-gpu.tar.bz2``
+.. |sherpa_onnx_cuda_linux_archive_file| replace:: sherpa-onnx-v{sherpa_onnx_version}-cuda-12.x-cudnn-9.x-linux-x64-gpu.tar.bz2
+.. |sherpa_onnx_cuda_linux_archive_url| replace:: https://github.com/k2-fsa/sherpa-onnx/releases/download/v{sherpa_onnx_version}/sherpa-onnx-v{sherpa_onnx_version}-cuda-12.x-cudnn-9.x-linux-x64-gpu.tar.bz2
+.. |sherpa_onnx_cuda_windows_archive_name| replace:: ``sherpa-onnx-v{sherpa_onnx_version}-cuda-12.x-cudnn-9.x-win-x64-cuda.tar.bz2``
+.. |sherpa_onnx_cuda_windows_archive_file| replace:: sherpa-onnx-v{sherpa_onnx_version}-cuda-12.x-cudnn-9.x-win-x64-cuda.tar.bz2
+.. |sherpa_onnx_cuda_windows_archive_url| replace:: https://github.com/k2-fsa/sherpa-onnx/releases/download/v{sherpa_onnx_version}/sherpa-onnx-v{sherpa_onnx_version}-cuda-12.x-cudnn-9.x-win-x64-cuda.tar.bz2
+.. |sherpa_onnx_rknn_static_archive_name| replace:: ``sherpa-onnx-v{sherpa_onnx_version}-rknn-linux-aarch64-static.tar.bz2``
+.. |sherpa_onnx_rknn_shared_archive_name| replace:: ``sherpa-onnx-v{sherpa_onnx_version}-rknn-linux-aarch64-shared.tar.bz2``
+.. |sherpa_onnx_rknn_static_archive_file| replace:: sherpa-onnx-v{sherpa_onnx_version}-rknn-linux-aarch64-static.tar.bz2
+.. |sherpa_onnx_rknn_shared_archive_file| replace:: sherpa-onnx-v{sherpa_onnx_version}-rknn-linux-aarch64-shared.tar.bz2
+.. |sherpa_onnx_rknn_shared_dir| replace:: sherpa-onnx-v{sherpa_onnx_version}-rknn-linux-aarch64-shared
+.. |sherpa_onnx_rknn_shared_archive_url| replace:: https://github.com/k2-fsa/sherpa-onnx/releases/download/v{sherpa_onnx_version}/sherpa-onnx-v{sherpa_onnx_version}-rknn-linux-aarch64-shared.tar.bz2
+.. |sherpa_onnx_rknn_wheel_file| replace:: sherpa_onnx-{sherpa_onnx_version}-cp310-cp310-manylinux_2_27_aarch64.whl
+.. |sherpa_onnx_rknn_installed| replace:: Successfully installed sherpa-onnx-{sherpa_onnx_version}
+.. |sherpa_onnx_python_cpu_bin_wheel_url| replace:: https://huggingface.co/csukuangfj2/sherpa-onnx-wheels/resolve/main/cpu/{sherpa_onnx_version}/sherpa_onnx_bin-{sherpa_onnx_version}-py3-none-manylinux2014_x86_64.whl
+.. |sherpa_onnx_python_cpu_core_wheel_url| replace:: https://huggingface.co/csukuangfj2/sherpa-onnx-wheels/resolve/main/cpu/{sherpa_onnx_version}/sherpa_onnx_core-{sherpa_onnx_version}-py3-none-manylinux2014_x86_64.whl
+.. |sherpa_onnx_python_cpu_wheel_url| replace:: https://huggingface.co/csukuangfj2/sherpa-onnx-wheels/resolve/main/cpu/{sherpa_onnx_version}/sherpa_onnx-{sherpa_onnx_version}-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl
+.. |sherpa_onnx_python_cuda_spec| replace:: sherpa-onnx=="{sherpa_onnx_version_cuda}"
+.. |sherpa_onnx_python_cuda_collecting| replace:: Collecting sherpa-onnx=={sherpa_onnx_version_cuda}
+.. |sherpa_onnx_python_cuda_wheel_url| replace:: https://huggingface.co/csukuangfj2/sherpa-onnx-wheels/resolve/main/cuda/{sherpa_onnx_version}/sherpa_onnx-{sherpa_onnx_version}%2Bcuda-cp312-cp312-linux_x86_64.whl
+.. |sherpa_onnx_python_cuda12_spec| replace:: sherpa-onnx=={sherpa_onnx_version_cuda12_cudnn9}
+.. |sherpa_onnx_python_cuda12_collecting| replace:: Collecting sherpa-onnx=={sherpa_onnx_version_cuda12_cudnn9}
+.. |sherpa_onnx_python_cuda12_wheel_url| replace:: https://huggingface.co/csukuangfj/sherpa-onnx-wheels/resolve/main/cuda/{sherpa_onnx_version}/sherpa_onnx-{sherpa_onnx_version}%2Bcuda12.cudnn9-cp312-cp312-linux_x86_64.whl
+.. |sherpa_onnx_python_cuda12_installed| replace:: Successfully installed sherpa-onnx-{sherpa_onnx_version_cuda12_cudnn9}
+.. _sherpa_onnx_release_tag: https://github.com/k2-fsa/sherpa-onnx/releases/tag/v{sherpa_onnx_version}
+.. _sherpa_onnx_rknn_static_archive: https://github.com/k2-fsa/sherpa-onnx/releases/download/v{sherpa_onnx_version}/sherpa-onnx-v{sherpa_onnx_version}-rknn-linux-aarch64-static.tar.bz2
+.. _sherpa_onnx_rknn_shared_archive: https://github.com/k2-fsa/sherpa-onnx/releases/download/v{sherpa_onnx_version}/sherpa-onnx-v{sherpa_onnx_version}-rknn-linux-aarch64-shared.tar.bz2
 """
 
 
