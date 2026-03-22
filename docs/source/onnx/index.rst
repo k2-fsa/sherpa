@@ -33,6 +33,7 @@ Also, we show how to use it for speech recognition with pre-trained models.
    ./kotlin-api/index
    ./swift-api/index
    ./go-api/index
+   ./rust-api/index
    ./csharp-api/index
    ./pascal-api/index
    ./lazarus/index

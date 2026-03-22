@@ -79,34 +79,34 @@ You can download pre-compiled binaries from
 
   `<https://github.com/k2-fsa/sherpa-onnx/releases>`_
 
-Please always use the ``latest version``. For the version ``v1.12.13``, you can visit
+Please always use the ``latest version``. For the version |sherpa_onnx_release_version|, you can visit
 
-  `<https://github.com/k2-fsa/sherpa-onnx/releases/tag/v1.12.13>`_
+  `release page <sherpa_onnx_release_tag_>`_
 
 and select
 
-  - Static link: `sherpa-onnx-v1.12.13-rknn-linux-aarch64-static.tar.bz2 <https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.12.13/sherpa-onnx-v1.12.13-rknn-linux-aarch64-static.tar.bz2>`_
-  - Dynamic link: `sherpa-onnx-v1.12.13-rknn-linux-aarch64-shared.tar.bz2 <https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.12.13/sherpa-onnx-v1.12.13-rknn-linux-aarch64-shared.tar.bz2>`_
+  - Static link: `download the static archive <sherpa_onnx_rknn_static_archive_>`_ named |sherpa_onnx_rknn_static_archive_name|
+  - Dynamic link: `download the shared archive <sherpa_onnx_rknn_shared_archive_>`_ named |sherpa_onnx_rknn_shared_archive_name|
 
 We use the dynamically linked binaries as an example below.
 
-.. code-block:: bash
+.. parsed-literal::
 
-   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.12.13/sherpa-onnx-v1.12.13-rknn-linux-aarch64-shared.tar.bz2
-   tar xvf sherpa-onnx-v1.12.13-rknn-linux-aarch64-shared.tar.bz2
+   wget |sherpa_onnx_rknn_shared_archive_url|
+   tar xvf |sherpa_onnx_rknn_shared_archive_file|
 
-.. code-block:: bash
+.. parsed-literal::
 
-  orangepi@orangepi5max:~$ ls -lh sherpa-onnx-v1.12.13-rknn-linux-aarch64-shared
+  orangepi@orangepi5max:~$ ls -lh |sherpa_onnx_rknn_shared_dir|
   total 8.0K
   drwxr-xr-x 2 orangepi orangepi 4.0K Sep 12  2025 bin
   drwxr-xr-x 2 orangepi orangepi 4.0K Sep 12  2025 lib
-  orangepi@orangepi5max:~$ ls -lh sherpa-onnx-v1.12.13-rknn-linux-aarch64-shared/lib/
+  orangepi@orangepi5max:~$ ls -lh |sherpa_onnx_rknn_shared_dir|/lib/
   total 18M
   -rw-r--r-- 1 orangepi orangepi  13M Sep 12  2025 libonnxruntime.so
   -rwxr-xr-x 1 orangepi orangepi 4.7M Sep 12  2025 libsherpa-onnx-c-api.so
   -rwxr-xr-x 1 orangepi orangepi 217K Sep 12  2025 libsherpa-onnx-cxx-api.so
-  orangepi@orangepi5max:~$ ls  sherpa-onnx-v1.12.13-rknn-linux-aarch64-shared/bin/
+  orangepi@orangepi5max:~$ ls |sherpa_onnx_rknn_shared_dir|/bin/
   sherpa-onnx                                            sherpa-onnx-offline                          sherpa-onnx-offline-zeroshot-tts
   sherpa-onnx-alsa                                       sherpa-onnx-offline-audio-tagging            sherpa-onnx-online-punctuation
   sherpa-onnx-alsa-offline                               sherpa-onnx-offline-denoiser                 sherpa-onnx-online-websocket-client
@@ -120,9 +120,9 @@ We use the dynamically linked binaries as an example below.
   sherpa-onnx-microphone-offline-audio-tagging           sherpa-onnx-offline-tts-play-alsa            sherpa-onnx-vad-with-online-asr
   sherpa-onnx-microphone-offline-speaker-identification  sherpa-onnx-offline-websocket-server         sherpa-onnx-version
 
-.. code-block:: bash
+.. parsed-literal::
 
-  orangepi@orangepi5max:~$ ldd sherpa-onnx-v1.12.13-rknn-linux-aarch64-shared/bin/sherpa-onnx
+  orangepi@orangepi5max:~$ ldd |sherpa_onnx_rknn_shared_dir|/bin/sherpa-onnx
 
           linux-vdso.so.1 (0x0000007fae61e000)
           librknnrt.so (0x0000007fadee0000)
@@ -137,9 +137,9 @@ We use the dynamically linked binaries as an example below.
           /lib/ld-linux-aarch64.so.1 (0x0000007fae5e5000)
 
 
-.. code-block:: bash
+.. parsed-literal::
 
-  orangepi@orangepi5max:~$ readelf -d sherpa-onnx-v1.12.13-rknn-linux-aarch64-shared/bin/sherpa-onnx
+  orangepi@orangepi5max:~$ readelf -d |sherpa_onnx_rknn_shared_dir|/bin/sherpa-onnx
 
   Dynamic section at offset 0x1dfc20 contains 31 entries:
     Tag        Type                         Name/Value
@@ -175,9 +175,11 @@ We use the dynamically linked binaries as an example below.
    0x000000006ffffff0 (VERSYM)             0x405ab2
    0x0000000000000000 (NULL)               0x0
 
-To check that you have configured it correctly, run::
+To check that you have configured it correctly, run:
 
-  orangepi@orangepi5max:~$ ./sherpa-onnx-v1.12.13-rknn-linux-aarch64-shared/bin/sherpa-onnx --help
+.. parsed-literal::
+
+  orangepi@orangepi5max:~$ ./|sherpa_onnx_rknn_shared_dir|/bin/sherpa-onnx --help
 
 It should print help information for the binary ``sherpa-onnx``.
 
