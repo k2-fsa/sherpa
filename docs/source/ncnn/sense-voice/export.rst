@@ -7,7 +7,7 @@ it with `sherpa-ncnn`_.
 The code
 --------
 
-Please refer to `export-ncnn.py <https://github.com/k2-fsa/sherpa-ncnn/blob/master/scripts/sense-voice/export-ncnn.py>`_
+See `export-ncnn.py <https://github.com/k2-fsa/sherpa-ncnn/blob/master/scripts/sense-voice/export-ncnn.py>`_
 
 The entrypoint is at
 

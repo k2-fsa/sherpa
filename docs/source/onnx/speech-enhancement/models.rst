@@ -6,7 +6,7 @@ at `<https://github.com/k2-fsa/sherpa-onnx/releases/tag/speech-enhancement-model
 
 .. note::
 
-   This page documents the GTCRN model. For DPDFNet, please refer to
+   This page documents the GTCRN model. For DPDFNet, see
    :doc:`./dpdfnet`.
 
 gtcrn_simple

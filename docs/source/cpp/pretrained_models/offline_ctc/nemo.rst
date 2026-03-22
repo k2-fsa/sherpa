@@ -290,7 +290,7 @@ You can find a list of pre-trained models from `NeMo`_ by visiting:
 
   `<https://catalog.ngc.nvidia.com/orgs/nvidia/collections/nemo_asr>`_.
 
-Let us take ``stt_en_conformer_ctc_small`` as an example.
+Let's take ``stt_en_conformer_ctc_small`` as an example.
 
 You can use the following code to obtain ``model.pt`` and ``tokens.txt``:
 

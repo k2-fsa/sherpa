@@ -108,8 +108,8 @@ After finishing the build, you should see the following screenshot:
 
      Screenshot after finishing the build.
 
-Congratulations! You have successfully built the project. Let us run the
-project by selecting ``Product -> Run``, which is shown in the following
+Congratulations! You have successfully built the project. Run it by selecting
+``Product -> Run``, as shown in the following
 screenshot:
 
   .. figure:: ./pic/run-the-project.png
@@ -144,10 +144,11 @@ shown in the screenshot below:
 
      Screenshot for the pre-selected pre-trained model
 
-Let us add the pre-trained model :ref:`sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20`
-to Xcode. Please follow :ref:`sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20`
+Next, add the pre-trained model
+:ref:`sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20` to Xcode.
+Follow :ref:`sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20`
 to download it from `huggingface <https://huggingface.co/csukuangfj/sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20>`_.
-You can download it to any directory as you like.
+You can download it to any directory you like.
 
 Please right click the project ``SherpaOnnx`` and select ``Add Files to "SherpaOnnx"...``
 in the popup menu, as is shown in the screenshot below:

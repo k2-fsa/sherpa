@@ -5,7 +5,7 @@ Zipformer-transducer-based Models
 
 .. hint::
 
-   Please refer to :ref:`install_sherpa_onnx` to install `sherpa-onnx`_
+   See :ref:`install_sherpa_onnx` to install `sherpa-onnx`_
    before you read this section.
 
 .. _sherpa-onnx-streaming-zipformer-bn-vosk-2026-02-09:
@@ -445,7 +445,7 @@ It supports only Chinese.
 PyTorch checkpoint with optimizer state can be found at
 `<https://huggingface.co/zrjin/icefall-asr-multi-zh-hans-zipformer-ctc-streaming-2023-11-05>`_
 
-Please refer to `<https://github.com/k2-fsa/icefall/tree/master/egs/multi_zh-hans/ASR#included-training-sets>`_
+See `<https://github.com/k2-fsa/icefall/tree/master/egs/multi_zh-hans/ASR#included-training-sets>`_
 for the detailed information about the training data. In total, there are 14k hours of training data.
 
 In the following, we describe how to download it and use it with `sherpa-onnx`_.
@@ -637,7 +637,7 @@ This model is from
 
 which supports only Chinese as it is trained on the `WenetSpeech`_ corpus.
 
-If you are interested in how the model is trained, please refer to
+If you are interested in how the model is trained, see
 `<https://github.com/k2-fsa/icefall/pull/1130>`_.
 
 In the following, we describe how to download it and use it with `sherpa-onnx`_.
@@ -776,7 +776,7 @@ This model is converted from
 
 which supports only English as it is trained on the `LibriSpeech`_ corpus.
 
-If you are interested in how the model is trained, please refer to
+If you are interested in how the model is trained, see
 `<https://github.com/k2-fsa/icefall/pull/1058>`_.
 
 In the following, we describe how to download it and use it with `sherpa-onnx`_.
@@ -897,7 +897,7 @@ This model is converted from
 
 which supports only English as it is trained on the `LibriSpeech`_ and `GigaSpeech`_ corpus.
 
-If you are interested in how the model is trained, please refer to
+If you are interested in how the model is trained, see
 `<https://github.com/k2-fsa/icefall/pull/984>`_.
 
 In the following, we describe how to download it and use it with `sherpa-onnx`_.

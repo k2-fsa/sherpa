@@ -3,7 +3,7 @@ Paraformer models
 
 .. hint::
 
-   Please refer to :ref:`install_sherpa_onnx` to install `sherpa-onnx`_
+   See :ref:`install_sherpa_onnx` to install `sherpa-onnx`_
    before you read this section.
 
 .. _sherpa-onnx-paraformer-zh-int8-2025-10-07:
@@ -18,7 +18,7 @@ This model is converted from
 It is fine-tuned on :ref:`sherpa_onnx_offline_paraformer_zh_2023_03_28_chinese` with 10k hours
 of ``Sichuanese`` (川渝方言) data.
 
-In the following, we describe how to use it.
+The sections below show how to use it.
 
 Huggingface space
 ^^^^^^^^^^^^^^^^^

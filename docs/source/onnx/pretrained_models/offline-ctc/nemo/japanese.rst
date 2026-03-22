@@ -3,7 +3,7 @@ Japanese
 
 .. hint::
 
-   Please refer to :ref:`install_sherpa_onnx` to install `sherpa-onnx`_
+   See :ref:`install_sherpa_onnx` to install `sherpa-onnx`_
    before you read this section.
 
 This page lists offline CTC models from `NeMo`_ for Japanese.

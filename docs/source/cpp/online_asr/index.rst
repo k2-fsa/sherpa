@@ -12,7 +12,7 @@ streaming/online ASR.
    `<https://github.com/k2-fsa/icefall/tree/master/egs/librispeech/ASR/conv_emformer_transducer_stateless2>`_
    at present.
 
-Please refer to :ref:`cpp_installation` for installation.
+See :ref:`cpp_installation` for installation.
 
 
 After running ``make -j``, you should find the following files:

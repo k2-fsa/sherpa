@@ -301,7 +301,7 @@ Please use the following command to download the model:
     tar xvf sherpa-onnx-streaming-zipformer-en-20M-2023-02-17.tar.bz2
     rm sherpa-onnx-streaming-zipformer-en-20M-2023-02-17.tar.bz2
 
-Now you can use the following command to run it with ``qemu-riscv64``::
+Now use the following command to run it with ``qemu-riscv64``::
 
   cd /path/to/sherpa-onnx
 

@@ -22,5 +22,5 @@ After building, you will find an executable ``sherpa-onnx`` inside the ``bin`` d
 
 That's it!
 
-Please refer to :ref:`sherpa-onnx-pre-trained-models` for a list of pre-trained
+See :ref:`sherpa-onnx-pre-trained-models` for a list of pre-trained
 models.

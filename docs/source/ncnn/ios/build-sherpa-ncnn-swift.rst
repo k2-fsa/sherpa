@@ -118,8 +118,8 @@ After finishing the build, you should see the following screenshot:
 
      Screenshot after finishing the build.
 
-Congratulations! You have successfully built the project. Let us run the
-project by selecting ``Product -> Run``, which is shown in the following
+Congratulations! You have successfully built the project. Run it by selecting
+``Product -> Run``, as shown in the following
 screenshot:
 
   .. figure:: ./pic/run-the-project.png
@@ -154,10 +154,11 @@ shown in the screenshot below:
 
      Screenshot for the pre-selected pre-trained model
 
-Let us add the pre-trained model :ref:`sherpa-ncnn-mixed-english-chinese-conv-emformer-model`
-to Xcode. Please follow :ref:`sherpa-ncnn-mixed-english-chinese-conv-emformer-model`
+Next, add the pre-trained model
+:ref:`sherpa-ncnn-mixed-english-chinese-conv-emformer-model` to Xcode.
+Follow :ref:`sherpa-ncnn-mixed-english-chinese-conv-emformer-model`
 to download it from `huggingface <https://huggingface.co/csukuangfj/sherpa-ncnn-conv-emformer-transducer-2022-12-06>`_.
-You can download it to any directory as you like.
+You can download it to any directory you like.
 
 Please right click the project ``SherpaNcnn`` and select ``Add Files to "SherpaNcnn"...``
 in the popup menu, as is shown in the screenshot below:

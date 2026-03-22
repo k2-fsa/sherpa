@@ -85,7 +85,7 @@ Method 2 (From pre-compiled wheels, CPU + CUDA 11.8)
 
    By default, ``provider`` is set to ``cpu``.
 
-   Remeber to follow `<https://onnxruntime.ai/docs/execution-providers/CUDA-ExecutionProvider.html#requirements>`_
+   Remember to follow `<https://onnxruntime.ai/docs/execution-providers/CUDA-ExecutionProvider.html#requirements>`_
    to install CUDA 11.8.
 
    If you have issues about installing CUDA 11.8, please have a look at
@@ -298,11 +298,11 @@ It should print some output like below:
 
   /Users/fangjun/py38/lib/python3.8/site-packages/sherpa_onnx/__init__.py
 
-Please refer to:
+See:
 
   `<https://github.com/k2-fsa/sherpa-onnx/tree/master/python-api-examples>`_
 
 for usages.
 
-Please refer to :ref:`sherpa-onnx-pre-trained-models` for a list of pre-trained
+See :ref:`sherpa-onnx-pre-trained-models` for a list of pre-trained
 models.

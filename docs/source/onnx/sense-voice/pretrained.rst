@@ -24,13 +24,13 @@ It supports the following 5 languages:
   - Japanese
   - Korean
 
-In the following, we describe how to use it.
+The sections below show how to use it.
 
 .. hint::
 
-   For ``RKNN`` users, please refer to :ref:`sherpa-onnx-rk3588-20-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17`.
+   For ``RKNN`` users, see :ref:`sherpa-onnx-rk3588-20-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17`.
 
-   For ``ncnn`` users, please refer to :ref:`sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2024-07-17`.
+   For ``ncnn`` users, see :ref:`sherpa-ncnn-sense-voice-zh-en-ja-ko-yue-2024-07-17`.
 
 Huggingface space
 ^^^^^^^^^^^^^^^^^
@@ -308,9 +308,9 @@ It supports the following 5 languages:
 
 .. hint::
 
-   For RKNN users, please refer to :ref:`sherpa-onnx-rk3588-20-seconds-sense-voice-zh-en-ja-ko-yue-2025-09-09`.
+   For RKNN users, see :ref:`sherpa-onnx-rk3588-20-seconds-sense-voice-zh-en-ja-ko-yue-2025-09-09`.
 
-In the following, we describe how to use it.
+The sections below show how to use it.
 
 Huggingface space
 ^^^^^^^^^^^^^^^^^

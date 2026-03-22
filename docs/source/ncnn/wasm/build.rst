@@ -55,7 +55,7 @@ After building, you should see the following output:
   -rw-r--r--  1 fangjun  staff   1.7M Feb  6 17:06 sherpa-ncnn-wasm-main.wasm
   -rw-r--r--  1 fangjun  staff   6.9K Feb  6 15:42 sherpa-ncnn.js
 
-Now you can use the following command to run it:
+Now use the following command to run it:
 
 .. code-block:: bash
 

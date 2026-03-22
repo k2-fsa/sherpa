@@ -25,5 +25,5 @@ You can try DPDFNet in your browser at
 
   `<https://huggingface.co/spaces/Ceva-IP/DPDFNetDemo>`_
 
-Please refer to :doc:`./dpdfnet` for the released model download links and a
+See :doc:`./dpdfnet` for the released model download links and a
 summary of the available variants.

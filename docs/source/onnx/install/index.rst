@@ -24,5 +24,5 @@ In this section, we describe how to install `sherpa-onnx`_ on various platforms.
    ./arm-embedded-linux.rst
    ./riscv64-embedded-linux.rst
 
-If you want to build an Android app, please refer to :ref:`sherpa-onnx-android`.
-If you want to build an iOS app, please refer to :ref:`sherpa-onnx-ios`.
+If you want to build an Android app, see :ref:`sherpa-onnx-android`.
+If you want to build an iOS app, see :ref:`sherpa-onnx-ios`.

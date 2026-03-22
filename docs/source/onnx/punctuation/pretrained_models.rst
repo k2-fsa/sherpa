@@ -43,7 +43,7 @@ Note you only need two files:
 C++ binary examples
 ^^^^^^^^^^^^^^^^^^^
 
-After installing `sherpa-onnx`_, you can use the following command to add punctuations to text
+After installing `sherpa-onnx`_, use the following command to add punctuations to text
 with the ``model.onnx``::
 
   ./bin/sherpa-onnx-online-punctuation \
@@ -125,7 +125,7 @@ how the model is converted to `sherpa-onnx`_.
 C++ binary examples
 ^^^^^^^^^^^^^^^^^^^
 
-After installing `sherpa-onnx`_, you can use the following command to add punctuations to text::
+After installing `sherpa-onnx`_, use the following command to add punctuations to text::
 
    ./bin/sherpa-onnx-offline-punctuation \
      --ct-transformer=./sherpa-onnx-punct-ct-transformer-zh-en-vocab272727-2024-04-12-int8/model.int8.onnx \
@@ -222,7 +222,7 @@ how the model is converted to `sherpa-onnx`_.
 C++ binary examples
 ^^^^^^^^^^^^^^^^^^^
 
-After installing `sherpa-onnx`_, you can use the following command to add punctuations to text::
+After installing `sherpa-onnx`_, use the following command to add punctuations to text::
 
    ./bin/sherpa-onnx-offline-punctuation \
      --ct-transformer=./sherpa-onnx-punct-ct-transformer-zh-en-vocab272727-2024-04-12/model.onnx \

@@ -3,9 +3,8 @@
 Build JNI interface
 ===================
 
-For macOS users, please refer to :ref:`sherpa-onnx-jni-macos-build`.
-
-For Linux users, please refer to :ref:`sherpa-onnx-jni-linux-build`.
+Build the JNI interface with the standard `sherpa-onnx`_ CMake workflow on
+macOS or Linux.
 
 .. hint::
 

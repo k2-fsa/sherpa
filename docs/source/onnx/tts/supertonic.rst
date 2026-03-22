@@ -3,10 +3,11 @@
 SupertonicTTS
 =============
 
-This page shows how to use `sherpa-onnx`_ with SupertonicTTS.
+This page explains how to use `sherpa-onnx`_ with SupertonicTTS.
 
-SupertonicTTS is an offline multi-speaker, multi-language TTS model. Typical
-usage selects a speaker with ``--sid`` and a language with ``--lang``.
+SupertonicTTS is an offline multi-speaker, multi-language TTS model. In a
+typical setup, you select a speaker with ``--sid`` and a language with
+``--lang``.
 
 Download a pre-trained model
 ----------------------------
@@ -20,10 +21,10 @@ Download the released SupertonicTTS archive from
    tar xf sherpa-onnx-supertonic-tts-int8-2026-03-06.tar.bz2
    rm sherpa-onnx-supertonic-tts-int8-2026-03-06.tar.bz2
 
-Run it from the command line
-----------------------------
+Run a command-line example
+--------------------------
 
-The following command matches the model configuration used by
+The following command uses the same model files as
 `rust-api-examples/examples/supertonic_tts.rs <https://github.com/k2-fsa/sherpa-onnx/blob/master/rust-api-examples/examples/supertonic_tts.rs>`_:
 
 .. code-block:: bash
@@ -41,14 +42,14 @@ The following command matches the model configuration used by
      --output-filename=./supertonic.wav \
      "Today as always, men fall into two groups: slaves and free men."
 
-The tracked helper script in the repo is:
+You can also use this tracked helper script:
 
 - `rust-api-examples/run-supertonic-tts.sh <https://github.com/k2-fsa/sherpa-onnx/blob/master/rust-api-examples/run-supertonic-tts.sh>`_
 
 API examples
 ------------
 
-Please see the following tracked example code:
+Additional example code is available here:
 
 - Rust
 

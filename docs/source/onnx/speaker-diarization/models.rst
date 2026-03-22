@@ -24,7 +24,7 @@ sherpa-onnx-pyannote-segmentation-3-0
 This model is converted from `<https://huggingface.co/pyannote/segmentation-3.0>`_.
 You can find the conversion script at `<https://github.com/k2-fsa/sherpa-onnx/tree/master/scripts/pyannote/segmentation>`_.
 
-In the following, we describe how to use it together with
+The sections below show how to use it together with
 a speaker embedding extraction model for speaker diarization.
 
 Download the model
@@ -181,7 +181,7 @@ You can find the conversion script at `<https://github.com/k2-fsa/sherpa-onnx/tr
    It is accessible under a ``non-commercial`` license.
    You can find its license at `<https://huggingface.co/Revai/reverb-diarization-v1/blob/main/LICENSE>`_.
 
-In the following, we describe how to use it together with
+The sections below show how to use it together with
 a speaker embedding extraction model for speaker diarization.
 
 Download the model

@@ -1,26 +1,29 @@
 TensorRT acceleration
 =====================
 
-This page shows how to use TensorRT engine to accelerate inference speed for K2 models
+This page explains how to use the TensorRT engine to accelerate inference for
+K2 models.
 
 Preparation
 -----------
 
-First of all, you have to install the TensorRT. Here we suggest you to use docker container to run TRT. Just run the following command:
+First, install TensorRT. We recommend using a Docker container for TRT. Run:
 
 .. code-block:: bash
 
    docker run --gpus '"device=0"' -it --rm --net host -v $PWD/:/k2 nvcr.io/nvidia/tensorrt:22.12-py3
 
 
-You can also see `here <https://github.com/NVIDIA/TensorRT#build>`_ to build TRT on your machine.
+You can also see `the official TensorRT instructions <https://github.com/NVIDIA/TensorRT#build>`_
+to build TRT on your machine.
 
 .. note::
 
-   Please pay attention that, the TRT version must have to >= 8.5.3!!!
+   Use TensorRT version ``8.5.3`` or newer.
 
 
-If your TRT version is < 8.5.3, you can download the desired TRT version and then run the following command inside the docker container to use the TRT you just download:
+If your TRT version is earlier than ``8.5.3``, download a newer TensorRT
+release and run the following command inside the Docker container to use it:
 
 
 .. code-block:: bash

@@ -4,7 +4,7 @@ Install Emscripten
 We need to compile the C/C++ files in `sherpa-ncnn`_ with the help of
 `emscripten`_.
 
-Please refer to `<https://emscripten.org/docs/getting_started/downloads>`_
+See `<https://emscripten.org/docs/getting_started/downloads>`_
 for detailed installation instructions.
 
 The following is an example to show you how to install it on Linux/macOS.

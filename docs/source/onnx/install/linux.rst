@@ -16,7 +16,7 @@ CPU (Linux x64 or Linux arm64)
   mkdir build
   cd build
 
-  # By default, it builds static libaries and uses static link.
+  # By default, it builds static libraries and uses static linking.
   cmake -DCMAKE_BUILD_TYPE=Release ..
 
   # If you have GCC<=10, e.g., use Ubuntu <= 18.04 or use CentOS<=7, please
@@ -77,7 +77,7 @@ GPU (CUDA 12.8, CUDNN 9, Linux x64)
 
 .. note::
 
-    You can download pre-build libraries and executables of sherpa-onnx for CUDA 12.x with CUDNN 9
+    You can download pre-built libraries and executables of sherpa-onnx for CUDA 12.x with CUDNN 9
     at `<https://github.com/k2-fsa/sherpa-onnx/releases>`_. Please always use the latest version.
     For instance, for the version |sherpa_onnx_release_version|, you can use:
 
@@ -147,5 +147,5 @@ After building, you will find an executable ``sherpa-onnx`` inside the ``bin`` d
 
 That's it!
 
-Please refer to :ref:`sherpa-onnx-pre-trained-models` for a list of pre-trained
+See :ref:`sherpa-onnx-pre-trained-models` for a list of pre-trained
 models.

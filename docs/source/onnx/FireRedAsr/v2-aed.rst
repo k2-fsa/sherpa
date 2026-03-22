@@ -5,7 +5,7 @@ sherpa-onnx-fire-red-asr2-zh_en-int8-2026-02-26 (v2, AED, Chinese + English, 普
 
 This model is converted from `<https://www.modelscope.cn/models/FireRedTeam/FireRedASR2-AED>`_.
 
-It supports both Chinese and English. Also, it supports more than 20 dialects/accents.
+It supports both Chinese and English, as well as more than 20 dialects and accents.
 
 .. note::
 
@@ -13,7 +13,7 @@ It supports both Chinese and English. Also, it supports more than 20 dialects/ac
    福建话、甘肃话、贵州话、河北话、河南话、湖北话、湖南话、江西话、辽宁话、宁夏话、
    陕西话、山西话、山东话、天津话、云南话等。
 
-In the following, we describe how to use it.
+The sections below show how to use it.
 
 Download
 ^^^^^^^^
@@ -134,4 +134,3 @@ Speech recognition from a microphone with VAD
     --fire-red-asr-encoder=./sherpa-onnx-fire-red-asr2-zh_en-int8-2026-02-26/encoder.int8.onnx \
     --fire-red-asr-decoder=./sherpa-onnx-fire-red-asr2-zh_en-int8-2026-02-26/decoder.int8.onnx \
     --tokens=./sherpa-onnx-fire-red-asr2-zh_en-int8-2026-02-26/tokens.txt
-

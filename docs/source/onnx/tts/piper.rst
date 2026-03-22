@@ -68,7 +68,7 @@ Download espeak-ng-data
    tar xf espeak-ng-data.tar.bz2
 
 Note that ``espeak-ng-data.tar.bz2`` is shared by all models from `piper`_, no matter
-which language your are using for your model.
+which language you are using for your model.
 
 Test your converted model
 -------------------------
@@ -121,5 +121,4 @@ The above command should generate a wave file ``test.wav``.
 
 
 Congratulations! You have successfully converted a model from `piper`_ and run it with `sherpa-onnx`_.
-
 

@@ -33,7 +33,7 @@ The first step is to install a toolchain for cross-compiling.
 .. warning::
 
   You can use any toolchain that is suitable for your platform. The toolchain
-  we use below is just an example.
+  the command below is only an example.
 
 Visit `<https://developer.arm.com/tools-and-software/open-source-software/developer-tools/gnu-toolchain/gnu-a/downloads/8-3-2019-03>`_ to download the toolchain:
 

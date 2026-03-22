@@ -33,7 +33,7 @@ The first step is to install a toolchain for cross-compiling.
 .. warning::
 
   You can use any toolchain that is suitable for your platform. The toolchain
-  we use below is just an example.
+  the command below is only an example.
 
 Visit `<https://releases.linaro.org/components/toolchain/binaries/latest-7/aarch64-linux-gnu/>`_
 to download the toolchain.

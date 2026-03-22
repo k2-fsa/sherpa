@@ -7,7 +7,7 @@ Introduction
 with various language bindings.
 
 If you are interested in how to train your own model or fine tune a pre-trained
-model, please refer to `icefall`_.
+model, see `icefall`_.
 
 At present, `sherpa`_ has the following sub-projects:
 

@@ -5,7 +5,7 @@ Zipformer-transducer-based Models
 
 .. hint::
 
-   Please refer to :ref:`install_sherpa_onnx` to install `sherpa-onnx`
+   See :ref:`install_sherpa_onnx` to install `sherpa-onnx`
    before you read this section.
 
 .. _sherpa-onnx-zipformer-vi-30M-int8-2026-02-09:
@@ -1500,7 +1500,7 @@ This model is from
 
 which supports Chinese as it is trained on whatever datasets involved in the `multi-zh_hans <https://github.com/k2-fsa/icefall/tree/master/egs/multi_zh-hans/ASR/>`_ recipe.
 
-If you are interested in how the model is trained, please refer to
+If you are interested in how the model is trained, see
 `<https://github.com/k2-fsa/icefall/pull/1238>`_.
 
 In the following, we describe how to download it and use it with `sherpa-onnx`_.
@@ -1615,7 +1615,7 @@ This model is from
 
 which supports only English as it is trained on the `CommonVoice`_ English dataset.
 
-If you are interested in how the model is trained, please refer to
+If you are interested in how the model is trained, see
 `<https://github.com/k2-fsa/icefall/pull/997>`_.
 
 In the following, we describe how to download it and use it with `sherpa-onnx`_.
@@ -1779,7 +1779,7 @@ This model is from
 
 which supports only Chinese as it is trained on the `WenetSpeech`_ corpus.
 
-If you are interested in how the model is trained, please refer to
+If you are interested in how the model is trained, see
 `<https://github.com/k2-fsa/icefall/pull/1130>`_.
 
 In the following, we describe how to download it and use it with `sherpa-onnx`_.

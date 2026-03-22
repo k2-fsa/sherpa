@@ -50,6 +50,6 @@ You could save the below results with a ``-f log.txt`` option.
 
 .. note::
 
-   Please refer to
+   See
    `<https://github.com/triton-inference-server/server/blob/main/docs/user_guide/perf_analyzer.md>`_
    for advanced usuage.

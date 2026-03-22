@@ -3,7 +3,7 @@ Python API for SenseVoice
 
 This page describes how to use the Python API for `SenseVoice`_.
 
-Please refer to :ref:`install_sherpa_onnx_python` for how to install the Python package
+See :ref:`install_sherpa_onnx_python` for how to install the Python package
 of `sherpa-onnx`_.
 
 The following is a quick way to do that::

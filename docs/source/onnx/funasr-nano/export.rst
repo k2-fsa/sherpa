@@ -8,7 +8,7 @@ it with `sherpa-onnx`_.
 The code
 --------
 
-Please refer to `<https://github.com/Wasser1462/FunASR-nano-onnx>`_
+See `<https://github.com/Wasser1462/FunASR-nano-onnx>`_
 
 Where to find exported models
 ------------------------------

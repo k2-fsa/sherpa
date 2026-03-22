@@ -3,7 +3,7 @@ DPDFNet Python API
 
 This page describes how to use the Python API for DPDFNet with `sherpa-onnx`_.
 
-Please refer to :ref:`install_sherpa_onnx_python` for how to install the
+See :ref:`install_sherpa_onnx_python` for how to install the
 Python package of `sherpa-onnx`_.
 
 The following is a quick way to do that::
@@ -83,7 +83,7 @@ the offline example shown above.
 
    The online streaming DPDFNet denoiser is available in the core runtime and
    C API, but a corresponding Python binding/example is
-   not present in the current Python API yet. Please refer to :doc:`./dpdfnet-c-api` for
+   not present in the current Python API yet. See :doc:`./dpdfnet-c-api` for
    streaming usage.
 
 Hints

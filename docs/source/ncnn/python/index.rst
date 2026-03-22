@@ -124,7 +124,7 @@ Method 4 (For developers and embedded boards)
 
         export PYTHONPATH=$PWD/lib:$PWD/../sherpa-ncnn/python:$PYTHONPATH
 
-Let us check whether `sherpa-ncnn`_ was installed successfully:
+Let's check whether `sherpa-ncnn`_ was installed successfully:
 
 .. code-block:: bash
 
@@ -197,7 +197,7 @@ We use the model :ref:`sherpa-ncnn-mixed-english-chinese-conv-emformer-model`
 as an example, which is able to recognize both English and Chinese.
 You can replace it with other pre-trained models.
 
-Please refer to :ref:`sherpa-ncnn-pre-trained-models` for more models.
+See :ref:`sherpa-ncnn-pre-trained-models` for more models.
 
 .. hint::
 
@@ -338,7 +338,7 @@ We use the model :ref:`sherpa-ncnn-mixed-english-chinese-conv-emformer-model`
 as an example, which is able to recognize both English and Chinese.
 You can replace it with other pre-trained models.
 
-Please refer to :ref:`sherpa-ncnn-pre-trained-models` for more models.
+See :ref:`sherpa-ncnn-pre-trained-models` for more models.
 
 .. hint::
 

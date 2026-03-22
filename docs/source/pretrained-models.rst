@@ -25,7 +25,7 @@ There are at least two methods for downloading:
   - Using ``git lfs``
   - Using ``wget``
 
-In the following, we use the pre-trained model :ref:`sherpa-onnx-wenetspeech-2023-06-15-streaming`
+Below, we use the pre-trained model :ref:`sherpa-onnx-wenetspeech-2023-06-15-streaming`
 as an example.
 
 Using git lfs

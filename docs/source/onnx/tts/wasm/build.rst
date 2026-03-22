@@ -73,7 +73,7 @@ After building, you should see the following output:
   -rw-r--r--  1 fangjun  staff    11M Feb 22 10:39 sherpa-onnx-wasm-main.wasm
   -rw-r--r--  1 fangjun  staff   4.5K Feb 22 09:18 sherpa-onnx.js
 
-Now you can use the following command to run it:
+Now use the following command to run it:
 
 .. code-block:: bash
 

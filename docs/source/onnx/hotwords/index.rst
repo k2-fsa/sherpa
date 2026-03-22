@@ -35,7 +35,7 @@ How do we implement it with an Aho-corasick
 -------------------------------------------
 
 We first construct an Aho-corasick automaton on those given hotwords (after tokenizing
-into tokens). Please refer to `<https://en.wikipedia.org/wiki/Aho%E2%80%93Corasick_algorithm>`_
+into tokens). See `<https://en.wikipedia.org/wiki/Aho%E2%80%93Corasick_algorithm>`_
 for the construction details of Aho-corasick.
 
 The figure below is the aho-corasick on "HE/SHE/SHELL/HIS/THIS" with ``hotwords-score==1``.

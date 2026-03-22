@@ -152,7 +152,7 @@ The original PyTorch checkpoint is available at
 
   `<https://huggingface.co/ASLP-lab/WSYue-ASR/tree/main/sensevoice_small_yue>`_
 
-Please refer to :ref:`sherpa-onnx-ascend-910B-cann-8.0-sense-voice-zh-en-ja-ko-yue-2024-07-17` for how to use this model.
+See :ref:`sherpa-onnx-ascend-910B-cann-8.0-sense-voice-zh-en-ja-ko-yue-2024-07-17` for how to use this model.
 
 .. _sherpa-onnx-ascend-910B-cann-8.0-paraformer-zh-2023-03-28:
 
@@ -295,7 +295,7 @@ The original PyTorch checkpoint is available at
    It supports dynamic input shapes, but the batch size is fixed to 1 at present.
 
 
-Please refer to :ref:`sherpa-onnx-ascend-910B-cann-8.0-paraformer-zh-2023-03-28` for how to use this model.
+See :ref:`sherpa-onnx-ascend-910B-cann-8.0-paraformer-zh-2023-03-28` for how to use this model.
 
 .. _sherpa-onnx-ascend-910B-cann-7.0-5-seconds-zipformer-ctc-zh-2025-07-03:
 

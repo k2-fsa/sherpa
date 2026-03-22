@@ -27,7 +27,7 @@ On Ubuntu, you can install ``git-lfs`` using
 
 .. hint::
 
-   If you are using other operating systems, please refer to
+   If you are using other operating systems, see
    `<https://git-lfs.github.com/>`_ for how to install ``git-lfs`` on your
    systems.
 

@@ -14,7 +14,7 @@ and ``text-to-speech`` (TTS).
    you can download pre-built shared libraries by visiting the release page
    `<https://github.com/k2-fsa/sherpa-onnx/releases/>`_
 
-   For instance, for the relase |sherpa_onnx_release_version|, you can visit the
+   For instance, for the release |sherpa_onnx_release_version|, you can visit the
    `release page <sherpa_onnx_release_tag_>`_ and download the file
    |sherpa_onnx_android_archive_name|
    using the following command:
@@ -51,7 +51,7 @@ Install Android Studio
 
 The first step is to download and install Android Studio.
 
-Please refer to `<https://developer.android.com/studio>`_ for how to install
+See `<https://developer.android.com/studio>`_ for how to install
 Android Studio.
 
 .. hint::
@@ -316,7 +316,7 @@ Download pre-trained models
 Please read :ref:`sherpa-onnx-pre-trained-models` for all available pre-trained
 models.
 
-In the following, we use a pre-trained model :ref:`sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20`,
+Below, we use a pre-trained model :ref:`sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20`,
 which supports both Chinese and English.
 
 .. hint::
@@ -431,7 +431,7 @@ libraries, is only ``7.2 MB``.
 
     `<https://mvnrepository.com/artifact/com.microsoft.onnxruntime/onnxruntime-android/1.17.1>`_
 
-  Please refer to `<https://onnxruntime.ai/docs/build/custom.html>`_ for a
+  See `<https://onnxruntime.ai/docs/build/custom.html>`_ for a
   custom build to reduce the file size of ``libonnxruntime.so``.
 
   Note that we are constantly updating the version of ``onnxruntime``. By

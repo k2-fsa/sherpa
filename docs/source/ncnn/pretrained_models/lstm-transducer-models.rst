@@ -3,7 +3,7 @@ LSTM-transducer-based Models
 
 .. hint::
 
-   Please refer to :ref:`install_sherpa_ncnn` to install `sherpa-ncnn`_
+   See :ref:`install_sherpa_ncnn` to install `sherpa-ncnn`_
    before you read this section.
 
 .. _marcoyang_sherpa_ncnn_lstm_transducer_small_2023_02_13_bilingual:
@@ -35,7 +35,7 @@ Please use the following commands to download it.
 
 .. note::
 
-  Please refer to :ref:`sherpa-ncnn-embedded-linux-arm-install` for how to
+  See :ref:`sherpa-ncnn-embedded-linux-arm-install` for how to
   compile `sherpa-ncnn`_ for a 32-bit ARM platform.
 
 Decode a single wave file with ./build/bin/sherpa-ncnn
