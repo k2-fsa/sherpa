@@ -6,7 +6,7 @@ models for offline (i.e., non-streaming) speech recognition.
 
 .. hint::
 
-  Please refer to :ref:`offline_transducer_pretrained_models` for a list of
+  See :ref:`offline_transducer_pretrained_models` for a list of
   available pre-trained `transducer`_ models to download.
 
 .. hint::
@@ -31,7 +31,7 @@ models for offline (i.e., non-streaming) speech recognition.
    Please visit `<https://github.com/k2-fsa/colab>`_ for a list of available
    colab notebooks about the next-gen Kaldi project.
 
-In the following, we use the pre-trained model
+Below, we use the pre-trained model
 :ref:`icefall-asr-librispeech-pruned-transducer-stateless8-2022-12-02`
 to demonstrate how to decode sound files.
 
@@ -39,13 +39,13 @@ to demonstrate how to decode sound files.
 
    Make sure you have installed `sherpa`_ before you continue.
 
-   Please refer to :ref:`install_sherpa_from_source` to install `sherpa`_
+   See :ref:`install_sherpa_from_source` to install `sherpa`_
    from source.
 
 Download the pre-trained model
 ------------------------------
 
-Please refer to :ref:`icefall-asr-librispeech-pruned-transducer-stateless8-2022-12-02`
+See :ref:`icefall-asr-librispeech-pruned-transducer-stateless8-2022-12-02`
 for detailed instructions.
 
 For ease of reference, we duplicate the download commands below:

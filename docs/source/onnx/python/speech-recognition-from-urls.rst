@@ -63,7 +63,7 @@ the audio stream from the server for recognition.
 Install the server
 ~~~~~~~~~~~~~~~~~~
 
-We will use `srs`_ as the server. Let us first install `srs`_ from source:
+We will use `srs`_ as the server. Let's first install `srs`_ from source:
 
 .. code-block:: bash
 

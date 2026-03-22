@@ -12,7 +12,7 @@ The code for the non-streaming server can be found at
 
   `<https://github.com/k2-fsa/sherpa-onnx/blob/master/python-api-examples/non_streaming_server.py>`_
 
-Please refer to :ref:`sherpa-onnx-pre-trained-models` to download a non-streaming model
+See :ref:`sherpa-onnx-pre-trained-models` to download a non-streaming model
 before you continue.
 
 We use the following types of models for demonstration.

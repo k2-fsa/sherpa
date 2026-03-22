@@ -5,7 +5,7 @@ Streaming WebSocket server and client
 
 .. hint::
 
-   Please refer to :ref:`install_sherpa_onnx` to install `sherpa-onnx`_
+   See :ref:`install_sherpa_onnx` to install `sherpa-onnx`_
    before you read this section.
 
 Build `sherpa-onnx` with WebSocket support
@@ -20,7 +20,7 @@ By default, it will generate the following binaries after :ref:`install_sherpa_o
   -rwxr-xr-x  1 fangjun  staff   1.0M Mar 31 22:09 build/bin/sherpa-onnx-online-websocket-client
   -rwxr-xr-x  1 fangjun  staff   1.2M Mar 31 22:09 build/bin/sherpa-onnx-online-websocket-server
 
-Please refer to :ref:`onnx_non_streaming_websocket_server_and_client`
+See :ref:`onnx_non_streaming_websocket_server_and_client`
 for the usage of ``sherpa-onnx-offline-websocket-server``.
 
 View the server usage
@@ -41,7 +41,7 @@ Start the server
 
 .. hint::
 
-  Please refer to :ref:`sherpa-onnx-pre-trained-models`
+  See :ref:`sherpa-onnx-pre-trained-models`
   for a list of pre-trained models.
 
 .. code-block:: bash
@@ -81,7 +81,7 @@ Start the server
 View the usage of the client (C++)
 ----------------------------------
 
-Let us view the usage of the C++ `WebSocket`_ client:
+To see the usage of the C++ `WebSocket`_ client, run:
 
 .. code-block:: bash
 
@@ -95,11 +95,8 @@ The above command will print the following help information:
 
    We only support using IP address for ``--server-ip``.
 
-   For instance, please don't use ``--server-ip=localhost``, use ``--server-ip=127.0.0.1`` instead.
-
-   For instance, please don't use ``--server-ip=localhost``, use ``--server-ip=127.0.0.1`` instead.
-
-   For instance, please don't use ``--server-ip=localhost``, use ``--server-ip=127.0.0.1`` instead.
+   For example, do not use ``--server-ip=localhost``. Use
+   ``--server-ip=127.0.0.1`` instead.
 
 Start the client (C++)
 ----------------------

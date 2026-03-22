@@ -83,7 +83,7 @@ You will find the following output:
     ./sherpa-onnx-zipformer-en-2023-04-01/test_wavs/1.wav \
     ./sherpa-onnx-zipformer-en-2023-04-01/test_wavs/8k.wav
 
-  Please refer to
+  See
   https://k2-fsa.github.io/sherpa/onnx/pretrained_models/offline-transducer/index.html
   to download pre-trained non-streaming zipformer models.
 
@@ -97,7 +97,7 @@ You will find the following output:
     ./sherpa-onnx-paraformer-zh-2023-03-28/test_wavs/1.wav \
     ./sherpa-onnx-paraformer-zh-2023-03-28/test_wavs/2.wav \
     ./sherpa-onnx-paraformer-zh-2023-03-28/test_wavs/8k.wav
-  Please refer to
+  See
   https://k2-fsa.github.io/sherpa/onnx/pretrained_models/offline-paraformer/index.html
   to download pre-trained paraformer models
 
@@ -111,7 +111,7 @@ You will find the following output:
     ./sherpa-onnx-nemo-ctc-en-conformer-medium/test_wavs/1.wav \
     ./sherpa-onnx-nemo-ctc-en-conformer-medium/test_wavs/8k.wav
 
-  Please refer to
+  See
   https://k2-fsa.github.io/sherpa/onnx/pretrained_models/offline-ctc/index.html
   to download pre-trained paraformer models
 
@@ -299,7 +299,7 @@ You will find the following output:
       --files ./sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20/test_wavs/0.wav \
       ./sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20/test_wavs/1.wav
 
-    Please refer to
+    See
     https://k2-fsa.github.io/sherpa/onnx/pretrained_models/online-transducer/index.html
     to download pre-trained streaming models.
 
@@ -414,7 +414,7 @@ You will find the following output:
       --decoder ./icefall-asr-zipformer-streaming-wenetspeech-20230615/exp/decoder-epoch-12-avg-4-chunk-16-left-128.onnx \
       --joiner ./icefall-asr-zipformer-streaming-wenetspeech-20230615/exp/joiner-epoch-12-avg-4-chunk-16-left-128.onnx \
 
-    Please refer to
+    See
     https://k2-fsa.github.io/sherpa/onnx/pretrained_models/online-transducer/index.html
     to download pre-trained streaming models.
 

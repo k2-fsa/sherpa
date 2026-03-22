@@ -81,7 +81,7 @@ first segment reaches a given value, which is ``20`` seconds in this case.
 
 .. note::
 
-  If you want to deactive this rule, please provide a very large value
+  If you want to disable this rule, please provide a very large value
   for ``rule3_min_utterance_length`` or ``rule3.min_utterance_length``.
 
 Demo

@@ -83,7 +83,7 @@ The first step is to install a toolchain for cross-compiling.
 .. warning::
 
   You can use any toolchain that is suitable for your platform. The toolchain
-  we use below is just an example.
+  the command below is only an example.
 
 Visit `<https://releases.linaro.org/components/toolchain/binaries/latest-7/aarch64-linux-gnu/>`_
 
@@ -98,7 +98,7 @@ Assume you want to install it in the folder ``$HOME/software``:
    cd $HOME/software
 
    # Note: the following toolchain gcc 7.5 is for building shared libraries.
-   # Please see below to use gcc 10 to build static libaries.
+   # Please see below to use gcc 10 to build static libraries.
    #
    # You would get link errors if you use gcc 7.5 to build static libraries.
    #

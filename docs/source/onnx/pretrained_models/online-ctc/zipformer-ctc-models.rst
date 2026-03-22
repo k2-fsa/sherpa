@@ -5,7 +5,7 @@ Zipformer-CTC-based Models
 
 .. hint::
 
-   Please refer to :ref:`install_sherpa_onnx` to install `sherpa-onnx`_
+   See :ref:`install_sherpa_onnx` to install `sherpa-onnx`_
    before you read this section.
 
 .. _sherpa-onnx-streaming-zipformer-ctc-zh-xlarge-int8-2025-06-30:
@@ -389,7 +389,7 @@ sherpa-onnx-streaming-zipformer-ctc-multi-zh-hans-2023-12-13 (Chinese)
 Training code for this model can be found at `<https://github.com/k2-fsa/icefall/pull/1369>`_.
 It supports only Chinese.
 
-Please refer to `<https://github.com/k2-fsa/icefall/tree/master/egs/multi_zh-hans/ASR#included-training-sets>`_
+See `<https://github.com/k2-fsa/icefall/tree/master/egs/multi_zh-hans/ASR#included-training-sets>`_
 for the detailed information about the training data. In total, there are 14k hours of training data.
 
 In the following, we describe how to download it and use it with `sherpa-onnx`_.

@@ -27,7 +27,7 @@ It supports the following 3 languages:
 
    此外还支持歌词识别和说唱语音识别。
 
-In the following, we describe how to use it.
+The sections below show how to use it.
 
 Huggingface space
 ^^^^^^^^^^^^^^^^^

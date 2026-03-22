@@ -6,7 +6,7 @@ sherpa-onnx-fire-red-asr2-ctc-zh_en-int8-2026-02-25 (v2, CTC, Chinese + English,
 This model is converted from `<https://www.modelscope.cn/models/FireRedTeam/FireRedASR2-AED>`_. Note that only the CTC branch
 is converted. The attention decoder branch is excluded.
 
-It supports both Chinese and English. Also, it supports more than 20 dialects/accents.
+It supports both Chinese and English, as well as more than 20 dialects and accents.
 
 .. note::
 
@@ -14,12 +14,12 @@ It supports both Chinese and English. Also, it supports more than 20 dialects/ac
    福建话、甘肃话、贵州话、河北话、河南话、湖北话、湖南话、江西话、辽宁话、宁夏话、
    陕西话、山西话、山东话、天津话、云南话等。
 
-In the following, we describe how to use it.
+The sections below show how to use it.
 
 Real-time/streaming speech recognition on Android
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Pease visit `<https://k2-fsa.github.io/sherpa/onnx/android/apk.html>`_
+Please visit `<https://k2-fsa.github.io/sherpa/onnx/android/apk.html>`_
 and select the file
 
   ``sherpa-onnx-<version>-arm64-v8a-simulated_streaming_asr-zh_en-fire_red_asr2_ctc_int8_2026_02_25.apk``
@@ -34,7 +34,7 @@ The source code for the APK can be found at
 
   `<https://github.com/k2-fsa/sherpa-onnx/tree/master/android/SherpaOnnxSimulateStreamingAsr>`_
 
-Please refer to :ref:`sherpa-onnx-install-android-studio` for how to build our Android demo.
+See :ref:`sherpa-onnx-install-android-studio` for how to build our Android demo.
 
 Download
 ^^^^^^^^
@@ -161,4 +161,3 @@ Speech recognition from a microphone with VAD
     --silero-vad-model=./silero_vad.onnx \
     --fire-red-asr-ctc=./sherpa-onnx-fire-red-asr2-ctc-zh_en-int8-2026-02-25/model.int8.onnx \
     --tokens=./sherpa-onnx-fire-red-asr2-ctc-zh_en-int8-2026-02-25/tokens.txt
-

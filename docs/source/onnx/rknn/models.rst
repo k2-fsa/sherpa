@@ -3,7 +3,7 @@ Pre-trained models
 
 You can download pre-trained models for RKNPU from `<https://github.com/k2-fsa/sherpa-onnx/releases/tag/asr-models>`_.
 
-In the following, we use models for ``rk3588`` as an example. You can replace
+Below, we use models for ``rk3588`` as an example. You can replace
 ``rk3588`` with ``rk3576``, ``rk3568``, ``rk3566`` or ``rk3562``.
 
 
@@ -531,7 +531,7 @@ The original PyTorch checkpoint is available at
 
   `<https://huggingface.co/ASLP-lab/WSYue-ASR/tree/main/sensevoice_small_yue>`_
 
-Please refer to :ref:`sherpa-onnx-rk3588-20-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17` for how to use this model.
+See :ref:`sherpa-onnx-rk3588-20-seconds-sense-voice-zh-en-ja-ko-yue-2024-07-17` for how to use this model.
 
 sherpa-onnx-rk3588-15-seconds-paraformer-zh-2025-10-07
 -----------------------------------------------------------------------

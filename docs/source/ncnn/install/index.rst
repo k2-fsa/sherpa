@@ -5,7 +5,7 @@ Installation
 
 .. hint::
 
-  Please refer to :ref:`sherpa-ncnn-python-api` for its usage with Python.
+  See :ref:`sherpa-ncnn-python-api` for its usage with Python.
 
 In this section, we describe how to install `sherpa-ncnn`_ for the following
 platforms:
@@ -21,5 +21,5 @@ platforms:
    aarch64-embedded-linux
    riscv64-embedded-linux
 
-If you want to build an Android app, please refer to :ref:`sherpa-ncnn-android`.
-If you want to build an iOS app, please refer to :ref:`sherpa-ncnn-ios`.
+If you want to build an Android app, see :ref:`sherpa-ncnn-android`.
+If you want to build an iOS app, see :ref:`sherpa-ncnn-ios`.

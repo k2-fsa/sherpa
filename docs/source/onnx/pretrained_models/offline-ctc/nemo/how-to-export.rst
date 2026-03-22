@@ -5,13 +5,13 @@ This section describes how to export CTC models from NeMo to `sherpa-onnx`_.
 
 .. hint::
 
-   Please refer to `<https://catalog.ngc.nvidia.com/orgs/nvidia/collections/nemo_asr>`_
+   See `<https://catalog.ngc.nvidia.com/orgs/nvidia/collections/nemo_asr>`_
    for a list of pre-trained NeMo models.
 
    You can use method described in this section to convert more models
    to `sherpa-onnx`_.
 
-Let us take the following model as an example:
+Let's take the following model as an example:
 
 `<https://ngc.nvidia.com/models/nvidia:nemo:stt_en_conformer_ctc_small>`_.
 

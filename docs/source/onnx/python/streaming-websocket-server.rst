@@ -42,7 +42,7 @@ Start the server
           --certificate=./python-api-examples/web/cert.pem
 
 
-Please refer to :ref:`sherpa-onnx-pre-trained-models` to download a streaming model
+See :ref:`sherpa-onnx-pre-trained-models` to download a streaming model
 before you continue.
 
 We will use :ref:`sherpa-onnx-streaming-zipformer-en-2023-06-26-english` as an example.

@@ -26,7 +26,7 @@ Currently, we support whisper multilingual models for spoken language identifica
       `<https://github.com/k2-fsa/sherpa-onnx/releases/tag/asr-models>`_
 
 
-In the following, we use the ``tiny`` model as an example. You can
+Below, we use the ``tiny`` model as an example. You can
 replace ``tiny`` with ``base``, ``small``, or ``medium`` and everything still holds.
 
 Download the model

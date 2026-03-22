@@ -6,7 +6,7 @@ From pre-compiled wheels
 .. note::
 
    This method supports only Linux and macOS for now. If you want to
-   use Windows, please refer to :ref:`install_sherpa_from_source`.
+   use Windows, see :ref:`install_sherpa_from_source`.
 
 You can find a list of pre-compiled wheels at the following URLs:
 

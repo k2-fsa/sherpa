@@ -3,10 +3,10 @@
 PocketTTS
 =========
 
-This page shows how to use `sherpa-onnx`_ with PocketTTS.
+This page explains how to use `sherpa-onnx`_ with PocketTTS.
 
-PocketTTS is an offline zero-shot text-to-speech model. It uses a short reference
-audio clip to clone the target voice.
+PocketTTS is an offline zero-shot text-to-speech model. It uses a short
+reference audio clip to clone the target voice.
 
 Unlike :ref:`onnx-tts-zipvoice`, PocketTTS does **not** require a reference
 transcript. You only need ``--reference-audio``.
@@ -23,10 +23,10 @@ Download the released PocketTTS archive from
    tar xf sherpa-onnx-pocket-tts-int8-2026-01-26.tar.bz2
    rm sherpa-onnx-pocket-tts-int8-2026-01-26.tar.bz2
 
-Run it from the command line
-----------------------------
+Run a command-line example
+--------------------------
 
-The following command matches the model configuration used by
+The following command uses the same model files as
 `rust-api-examples/examples/pocket_tts.rs <https://github.com/k2-fsa/sherpa-onnx/blob/master/rust-api-examples/examples/pocket_tts.rs>`_:
 
 .. code-block:: bash
@@ -44,14 +44,14 @@ The following command matches the model configuration used by
      --output-filename=./pocket.wav \
      "Today as always, men fall into two groups: slaves and free men."
 
-The tracked helper script in the repo is:
+You can also use this tracked helper script:
 
 - `rust-api-examples/run-pocket-tts.sh <https://github.com/k2-fsa/sherpa-onnx/blob/master/rust-api-examples/run-pocket-tts.sh>`_
 
 API examples
 ------------
 
-Please see the following tracked example code:
+Additional example code is available here:
 
 - Rust
 

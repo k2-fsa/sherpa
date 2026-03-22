@@ -8,7 +8,7 @@ Install Android Studio
 
 The first step is to download and install Android Studio.
 
-Please refer to `<https://developer.android.com/studio>`_ for how to install
+See `<https://developer.android.com/studio>`_ for how to install
 Android Studio.
 
 .. hint::
@@ -271,7 +271,7 @@ Download pre-trained models
 Please read :ref:`sherpa-ncnn-pre-trained-models` for all available pre-trained
 models.
 
-In the following, we use a pre-trained model from
+Below, we use a pre-trained model from
 `<https://huggingface.co/csukuangfj/sherpa-ncnn-conv-emformer-transducer-2022-12-06>`_,
 which supports both Chinese and English.
 
@@ -381,5 +381,5 @@ libraries, is only ``1.7 MB``.
   We have pre-built APKs that can be downloaded from
   `<https://huggingface.co/csukuangfj/sherpa-ncnn-apk>`_
 
-  Please refer to demo videos about using the above
+  See demo videos about using the above
   APKs: :ref:`sherpa-ncnn-android-video-demos`.

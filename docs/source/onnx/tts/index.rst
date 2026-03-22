@@ -1,11 +1,11 @@
 Text-to-speech (TTS)
 ====================
 
-This page describes how to use `sherpa-onnx`_ for text-to-speech (TTS).
+This section explains how to use `sherpa-onnx`_ for text-to-speech (TTS).
 
 
-Please first follow :ref:`install_sherpa_onnx` and/or :ref:`install_sherpa_onnx_python`
-to install `sherpa-onnx`_ before you continue.
+Before you continue, please follow :ref:`install_sherpa_onnx` and/or
+:ref:`install_sherpa_onnx_python` to install `sherpa-onnx`_.
 
 .. toctree::
    :maxdepth: 8

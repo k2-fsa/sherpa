@@ -3,10 +3,12 @@
 KittenTTS
 =========
 
-This page shows how to use `sherpa-onnx`_ with `KittenTTS <https://github.com/KittenML/KittenTTS>`_.
+This page explains how to use `sherpa-onnx`_ with
+`KittenTTS <https://github.com/KittenML/KittenTTS>`_.
 
-KittenTTS is a compact English text-to-speech model. It does not need a reference
-audio prompt. You select a speaker with ``--sid`` and synthesize audio directly.
+KittenTTS is a compact English text-to-speech model. It does not require a
+reference audio prompt. You select a speaker with ``--sid`` and synthesize
+audio directly.
 
 Download a pre-trained model
 ----------------------------
@@ -24,10 +26,10 @@ For example:
 
 Other released KittenTTS models are listed in :ref:`kitten-nano-v01`.
 
-Run it from the command line
-----------------------------
+Run a command-line example
+--------------------------
 
-The following command matches the model configuration used by
+The following command uses the same model files as
 `rust-api-examples/examples/kitten_tts_en.rs <https://github.com/k2-fsa/sherpa-onnx/blob/master/rust-api-examples/examples/kitten_tts_en.rs>`_:
 
 .. code-block:: bash
@@ -41,14 +43,15 @@ The following command matches the model configuration used by
      --output-filename=./kitten-en.wav \
      "Today as always, men fall into two groups: slaves and free men."
 
-The tracked helper script in the repo is:
+You can also use this tracked helper script:
 
 - `rust-api-examples/run-kitten-tts-en.sh <https://github.com/k2-fsa/sherpa-onnx/blob/master/rust-api-examples/run-kitten-tts-en.sh>`_
 
 API examples
 ------------
 
-Please see the following tracked example code in `k2-fsa/sherpa-onnx <https://github.com/k2-fsa/sherpa-onnx>`_:
+Additional example code is available in
+`k2-fsa/sherpa-onnx <https://github.com/k2-fsa/sherpa-onnx>`_:
 
 - Rust
 

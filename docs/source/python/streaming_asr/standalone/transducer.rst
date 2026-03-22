@@ -7,10 +7,10 @@ models for online (i.e., streaming) speech recognition.
 
 .. hint::
 
-  Please refer to :ref:`online_transducer_pretrained_models` for a list of
+  See :ref:`online_transducer_pretrained_models` for a list of
   available pre-trained `transducer`_ models to download.
 
-In the following, we use the pre-trained model
+Below, we use the pre-trained model
 :ref:`icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29`
 to demonstrate how to decode sound files.
 
@@ -18,13 +18,13 @@ to demonstrate how to decode sound files.
 
    Make sure you have installed `sherpa`_ before you continue.
 
-   Please refer to :ref:`install_sherpa_from_source` to install `sherpa`_
+   See :ref:`install_sherpa_from_source` to install `sherpa`_
    from source.
 
 Download the pre-trained model
 ------------------------------
 
-Please refer to :ref:`icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29`
+See :ref:`icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29`
 for detailed instructions.
 
 For ease of reference, we duplicate the download commands below:

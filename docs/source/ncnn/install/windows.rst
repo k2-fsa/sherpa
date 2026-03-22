@@ -5,7 +5,7 @@ This page describes how to build `sherpa-ncnn`_ on Windows.
 
 .. hint::
 
-  For the Python API, please refer to :ref:`sherpa-ncnn-python-api`.
+  For the Python API, see :ref:`sherpa-ncnn-python-api`.
 
 .. hint::
 

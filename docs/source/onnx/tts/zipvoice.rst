@@ -3,9 +3,9 @@
 ZipVoice
 ========
 
-This page shows how to use `sherpa-onnx`_ with ZipVoice.
+This page explains how to use `sherpa-onnx`_ with ZipVoice.
 
-ZipVoice is an offline zero-shot voice cloning model. It uses both a reference
+ZipVoice is an offline zero-shot voice-cloning model. It uses both a reference
 audio clip and the matching reference text.
 
 Unlike :ref:`onnx-tts-pocket`, ZipVoice requires both ``--reference-audio`` and
@@ -29,10 +29,10 @@ You also need to download the vocoder model ``vocos_24khz.onnx``:
 
    wget https://github.com/k2-fsa/sherpa-onnx/releases/download/vocoder-models/vocos_24khz.onnx
 
-Run it from the command line
-----------------------------
+Run a command-line example
+--------------------------
 
-The following command matches the model configuration used by
+The following command uses the same model files as
 `rust-api-examples/examples/zipvoice_tts.rs <https://github.com/k2-fsa/sherpa-onnx/blob/master/rust-api-examples/examples/zipvoice_tts.rs>`_:
 
 .. code-block:: bash
@@ -50,7 +50,7 @@ The following command matches the model configuration used by
      --output-filename=./zipvoice.wav \
      "小米的价值观是真诚, 热爱, 真诚，就是不欺人也不自欺."
 
-The tracked helper script in the repo is:
+You can also use this tracked helper script:
 
 - `rust-api-examples/run-zipvoice-tts.sh <https://github.com/k2-fsa/sherpa-onnx/blob/master/rust-api-examples/run-zipvoice-tts.sh>`_
 
@@ -62,7 +62,7 @@ The tracked helper script in the repo is:
 API examples
 ------------
 
-Please see the following tracked example code:
+Additional example code is available here:
 
 - Rust
 

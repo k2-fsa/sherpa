@@ -3,7 +3,7 @@ C API for SenseVoice
 
 This page describes how to use the C API for `SenseVoice`_.
 
-Please refer to :ref:`sherpa-onnx-c-api` for how to build `sherpa-onnx`_.
+See :ref:`sherpa-onnx-c-api` for how to build `sherpa-onnx`_.
 
 The following is a very quick introduction for using the C API of `sherpa-onnx`_
 in the form of shared libraries on macOS and Linux.

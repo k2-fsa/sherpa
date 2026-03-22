@@ -5,7 +5,7 @@ available keyword spotting pre-trained models.
 
 .. hint::
 
-   Please refer to :ref:`install_sherpa_onnx` to install `sherpa-onnx`_
+   See :ref:`install_sherpa_onnx` to install `sherpa-onnx`_
    before you read this section.
 
 

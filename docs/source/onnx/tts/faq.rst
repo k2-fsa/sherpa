@@ -63,7 +63,7 @@ supports a variety of platforms, such as:
 If you want to build the `sherpa-onnx`_ Python package from source, please
 refer to :ref:`install_sherpa_onnx_python`.
 
-After installation, please refer to
+After installation, see
 `<https://github.com/k2-fsa/sherpa-onnx/blob/master/python-api-examples/offline-tts.py>`_
 for example usage.
 
@@ -85,12 +85,12 @@ for example usage.
 Build from source
 ^^^^^^^^^^^^^^^^^
 
-Please refer to :ref:`install_sherpa_onnx`.
+See :ref:`install_sherpa_onnx`.
 
 Where to get pre-trained TTS models
 -----------------------------------
 
-Please refer to :ref:`onnx-tts-pretrained-models`.
+See :ref:`onnx-tts-pretrained-models`.
 
 How to handle OOVs
 ------------------

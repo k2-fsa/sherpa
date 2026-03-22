@@ -85,7 +85,7 @@ After downloading, you should have files similar to the following:
 
    ls -lh *.onnx inp_16k.wav
 
-Please refer to :doc:`./dpdfnet-python-api` for Python usage and
+See :doc:`./dpdfnet-python-api` for Python usage and
 :doc:`./dpdfnet-c-api` for C API examples.
 
 Demo and project links

@@ -8,7 +8,7 @@ it with `sherpa-onnx`_.
 The code
 --------
 
-Please refer to `export-onnx.py <https://github.com/k2-fsa/sherpa-onnx/blob/master/scripts/sense-voice/export-onnx.py>`_
+See `export-onnx.py <https://github.com/k2-fsa/sherpa-onnx/blob/master/scripts/sense-voice/export-onnx.py>`_
 
 The entry point is `run.sh <https://github.com/k2-fsa/sherpa-onnx/blob/master/scripts/sense-voice/run.sh>`_
 

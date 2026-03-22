@@ -3,7 +3,7 @@ Conv-Emformer-transducer-based Models
 
 .. hint::
 
-   Please refer to :ref:`install_sherpa_ncnn` to install `sherpa-ncnn`_
+   See :ref:`install_sherpa_ncnn` to install `sherpa-ncnn`_
    before you read this section.
 
 .. _marcoyang_sherpa_ncnn_conv_emformer_transducer_small_2023_01_09_english:
@@ -36,7 +36,7 @@ Please use the following commands to download it.
 
 .. note::
 
-  Please refer to :ref:`sherpa-ncnn-embedded-linux-arm-install` for how to
+  See :ref:`sherpa-ncnn-embedded-linux-arm-install` for how to
   compile `sherpa-ncnn`_ for a 32-bit ARM platform. In the following, we
   test the pre-trained model on an embedded device, whose CPU is
   `RV1126 <https://www.rock-chips.com/a/en/products/RV11_Series/2020/0427/1076.html>`_
@@ -146,7 +146,7 @@ which supports both Chinese and English.
 .. hint::
 
   If you want to train your own model that is able to support both Chinese and
-  English, please refer to our training code:
+  English, see our training code:
 
     `<https://github.com/k2-fsa/icefall/tree/master/egs/tal_csasr/ASR>`_
 

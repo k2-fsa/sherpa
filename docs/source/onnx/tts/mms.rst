@@ -65,7 +65,7 @@ Please save the following code into a file with name ``./vits-mms.py``:
 
 .. literalinclude:: ./code/vits-mms.py
 
-The you can run it with:
+You can then run it with:
 
 .. code-block:: bash
 

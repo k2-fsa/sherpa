@@ -3,7 +3,7 @@ Zipformer-transducer-based Models
 
 .. hint::
 
-   Please refer to :ref:`install_sherpa_ncnn` to install `sherpa-ncnn`_
+   See :ref:`install_sherpa_ncnn` to install `sherpa-ncnn`_
    before you read this section.
 
 .. _marcoyang_sherpa_ncnn_streaming_zipformer_small_14M_2023_02_23_chinese:

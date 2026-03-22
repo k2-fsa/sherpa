@@ -3,7 +3,7 @@ DPDFNet C API
 
 This page describes how to use DPDFNet with the C API of `sherpa-onnx`_.
 
-Please refer to :ref:`sherpa-onnx-c-api` for how to build `sherpa-onnx`_.
+See :ref:`sherpa-onnx-c-api` for how to build `sherpa-onnx`_.
 
 Offline speech enhancement
 --------------------------

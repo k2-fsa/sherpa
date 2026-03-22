@@ -5,7 +5,7 @@ Non-streaming WebSocket server and client
 
 .. hint::
 
-   Please refer to :ref:`install_sherpa_onnx` to install `sherpa-onnx`_
+   See :ref:`install_sherpa_onnx` to install `sherpa-onnx`_
    before you read this section.
 
 Build `sherpa-onnx` with WebSocket support
@@ -20,7 +20,7 @@ By default, it will generate the following binaries after :ref:`install_sherpa_o
   -rwxr-xr-x  1 fangjun  staff   1.0M Mar 31 22:09 build/bin/sherpa-onnx-online-websocket-client
   -rwxr-xr-x  1 fangjun  staff   1.2M Mar 31 22:09 build/bin/sherpa-onnx-online-websocket-server
 
-Please refer to :ref:`onnx_streaming_websocket_server_and_client`
+See :ref:`onnx_streaming_websocket_server_and_client`
 for the usage of ``sherpa-onnx-online-websocket-server``
 and ``sherpa-onnx-online-websocket-client``.
 
@@ -42,7 +42,7 @@ Start the server
 
 .. hint::
 
-  Please refer to :ref:`sherpa-onnx-pre-trained-models`
+  See :ref:`sherpa-onnx-pre-trained-models`
   for a list of pre-trained models.
 
 Start the server with a transducer model

@@ -3,12 +3,12 @@
 {{model_name}} ({{lang}})
 ----------------------------------------------------------------------
 
-This model supports only ``{{lang}}``. In the following, we describe how to use it with `sherpa-onnx`_.
+This model supports only ``{{lang}}``. The sections below show how to use it with `sherpa-onnx`_.
 
 Real-time/streaming speech recognition on Android
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Pease visit `<https://k2-fsa.github.io/sherpa/onnx/android/apk-simulate-streaming-asr.html>`_
+Please visit `<https://k2-fsa.github.io/sherpa/onnx/android/apk-simulate-streaming-asr.html>`_
 and select the file
 
   ``sherpa-onnx-<version>-arm64-v8a-simulated_streaming_asr-{{code}}-moonshine_{{apk_name}}_2026_02_27.apk``
@@ -22,7 +22,7 @@ The source code for the APK can be found at
 
   `<https://github.com/k2-fsa/sherpa-onnx/tree/master/android/SherpaOnnxSimulateStreamingAsr>`_
 
-Please refer to :ref:`sherpa-onnx-install-android-studio` for how to build our Android demo.
+See :ref:`sherpa-onnx-install-android-studio` for how to build our Android demo.
 
 
 Download the model

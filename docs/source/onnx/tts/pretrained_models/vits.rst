@@ -113,7 +113,7 @@ This model is converted from `<https://huggingface.co/myshell-ai/MeloTTS-Chinese
 and it supports only 1 speaker. It supports both Chinese and English.
 
 Note that if you input English words, only those that are present in the ``lexicon.txt``
-can be pronounced. Please refer to
+can be pronounced. See
 `<https://github.com/k2-fsa/sherpa-onnx/pull/1209>`_
 for how to add new words.
 

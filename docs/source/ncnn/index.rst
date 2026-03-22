@@ -12,7 +12,7 @@ The code is put in a separate repository `sherpa-ncnn`_
 
 `sherpa-ncnn`_ is self-contained and everything can be compiled from source.
 
-Please refer to `<https://k2-fsa.github.io/icefall/model-export/export-ncnn.html>`_
+See `<https://k2-fsa.github.io/icefall/model-export/export-ncnn.html>`_
 for how to export models to `ncnn`_ format.
 
 In the following, we describe how to build `sherpa-ncnn`_ for Linux, macOS,

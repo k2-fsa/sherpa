@@ -5,7 +5,7 @@ T-one CTC-based Models
 
 .. hint::
 
-   Please refer to :ref:`install_sherpa_onnx` to install `sherpa-onnx`_
+   See :ref:`install_sherpa_onnx` to install `sherpa-onnx`_
    before you read this section.
 
 .. _sherpa-onnx-streaming-t-one-russian-2025-09-08:

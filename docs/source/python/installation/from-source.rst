@@ -35,12 +35,12 @@ are listed as follows:
 Install `PyTorch`_
 ------------------
 
-Please refer to `<https://pytorch.org/get-started/locally/>`_ to install PyTorch.
+See `<https://pytorch.org/get-started/locally/>`_ to install PyTorch.
 
 Install `k2`_
 -------------
 
-Please refer to `<https://k2-fsa.github.io/k2/installation/index.html>`_
+See `<https://k2-fsa.github.io/k2/installation/index.html>`_
 to install `k2`_. You have to install ``k2 >= v1.16``.
 
 Install `sherpa`_
@@ -95,8 +95,7 @@ It should print the version of `sherpa`_.
 
 **Congratulations!**
 
-You have installed `sherpa`_ successfully. Let us start
-to play with it.
+You have installed `sherpa`_ successfully. Now let's try it out.
 
 The following shows you a `YouTube video <https://www.youtube.com/watch?v=z7HgaZv5W0U>`_,
 demonstrating streaming ASR with `sherpa`_.

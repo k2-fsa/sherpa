@@ -54,7 +54,7 @@ GPU (CUDA 12.x)
 
 .. note::
 
-    You can download pre-build libraries and executables of sherpa-onnx for CUDA 12.x with CUDNN 9
+    You can download pre-built libraries and executables of sherpa-onnx for CUDA 12.x with CUDNN 9
     at `<https://github.com/k2-fsa/sherpa-onnx/releases>`_. Please always use the latest version.
     For instance, for the version |sherpa_onnx_release_version|, you can use:
 
@@ -66,5 +66,5 @@ After building, you will find an executable ``sherpa-onnx.exe`` inside the ``bin
 
 That's it!
 
-Please refer to :ref:`sherpa-onnx-pre-trained-models` for a list of pre-trained
+See :ref:`sherpa-onnx-pre-trained-models` for a list of pre-trained
 models.
