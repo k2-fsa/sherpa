@@ -12,6 +12,10 @@ to install `sherpa-onnx`_ before you continue.
 
    ./all-in-one.rst
    ./hf-space.rst
+   ./kitten
+   ./pocket
+   ./supertonic
+   ./zipvoice
    ./pretrained_models/index
    ./wasm/index
    ./piper
