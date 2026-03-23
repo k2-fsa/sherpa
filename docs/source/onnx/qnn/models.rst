@@ -35,4 +35,8 @@ in this section as an example.
 
 .. include:: ./model-zipformer-2025-07-03.rst
 
+.. include:: ./model-paraformer-2023-03-28.rst
+
+.. include:: ./model-paraformer-2025-10-07.rst
+
 .. include:: ./model-sense-voice-2024-07-17.rst
