@@ -49,6 +49,7 @@ Also, we show how to use it for speech recognition with pre-trained models.
    ./audio-tagging/index
    ./spoken-language-identification/index
    ./vad/index
+   ./medasr/index
    ./pretrained_models/index
    ./pretrained_models/whisper/index
    ./moonshine/index

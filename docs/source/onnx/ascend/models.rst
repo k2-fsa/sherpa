@@ -297,6 +297,64 @@ The original PyTorch checkpoint is available at
 
 See :ref:`sherpa-onnx-ascend-910B-cann-8.0-paraformer-zh-2023-03-28` for how to use this model.
 
+.. _sherpa-onnx-ascend-910B-cann-8.0-whisper-medium-en:
+
+sherpa-onnx-ascend-910B-cann-8.0-whisper-medium.en
+--------------------------------------------------
+
+This model is converted from OpenAI Whisper using code from the following URL:
+
+  `<https://github.com/k2-fsa/sherpa-onnx/tree/master/scripts/whisper/ascend-npu>`_
+
+.. hint::
+
+   You can find how to run the export code at
+
+      `<https://github.com/k2-fsa/sherpa-onnx/blob/master/.github/workflows/export-whisper-to-ascend-npu.yaml>`_
+
+The export workflow currently covers the following Whisper variants:
+
+  - ``turbo``
+  - ``distil-medium.en``
+  - ``distil-small.en``
+  - ``tiny.en``
+  - ``base.en``
+  - ``small.en``
+  - ``medium.en``
+  - ``tiny``
+  - ``base``
+  - ``small``
+  - ``medium``
+  - ``medium-aishell``
+
+The following example uses ``medium.en``.
+
+.. code-block:: bash
+
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models-ascend/sherpa-onnx-ascend-910B-cann-8.0-whisper-medium.en.tar.bz2
+  tar xvf sherpa-onnx-ascend-910B-cann-8.0-whisper-medium.en.tar.bz2
+  rm sherpa-onnx-ascend-910B-cann-8.0-whisper-medium.en.tar.bz2
+
+  ls -lh sherpa-onnx-ascend-910B-cann-8.0-whisper-medium.en
+
+Then run:
+
+.. code-block:: bash
+
+  cd /path/to/sherpa-onnx/build
+
+  ./bin/sherpa-onnx-offline \
+    --provider=ascend \
+    --whisper-encoder=./sherpa-onnx-ascend-910B-cann-8.0-whisper-medium.en/medium.en-encoder.om \
+    --whisper-decoder=./sherpa-onnx-ascend-910B-cann-8.0-whisper-medium.en/medium.en-decoder.om \
+    --tokens=./sherpa-onnx-ascend-910B-cann-8.0-whisper-medium.en/medium.en-tokens.txt \
+    --whisper-language=en \
+    --whisper-task=transcribe \
+    ./sherpa-onnx-ascend-910B-cann-8.0-whisper-medium.en/test_wavs/0.wav
+
+The released archive also contains ``test_om.py`` so you can run the generated ``*.om``
+files directly with Ascend tooling for quick verification.
+
 .. _sherpa-onnx-ascend-910B-cann-7.0-5-seconds-zipformer-ctc-zh-2025-07-03:
 
 sherpa-onnx-ascend-910B-cann-7.0-5-seconds-zipformer-ctc-zh-2025-07-03 (中文)
