@@ -1,0 +1,63 @@
+/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:373 ./build/bin/sherpa-onnx-vad-with-offline-asr --silero-vad-model=./silero_vad.onnx --silero-vad-threshold=0.2 --silero-vad-min-speech-duration=0.2 --cohere-transcribe-encoder=./sherpa-onnx-cohere-transcribe-14-lang-int8-2026-04-01/encoder.int8.onnx --cohere-transcribe-decoder=./sherpa-onnx-cohere-transcribe-14-lang-int8-2026-04-01/decoder.int8.onnx --tokens=./sherpa-onnx-cohere-transcribe-14-lang-int8-2026-04-01/tokens.txt --cohere-transcribe-language=zh --cohere-transcribe-use-punct=1 --cohere-transcribe-use-itn=1 --num-threads=2 ./lei-jun-test.wav 
+
+VadModelConfig(silero_vad=SileroVadModelConfig(model="./silero_vad.onnx", threshold=0.2, min_silence_duration=0.5, min_speech_duration=0.2, max_speech_duration=20, window_size=512, neg_threshold=-1), ten_vad=TenVadModelConfig(model="", threshold=0.5, min_silence_duration=0.5, min_speech_duration=0.25, max_speech_duration=20, window_size=256), sample_rate=16000, num_threads=1, provider="cpu", debug=False)
+OfflineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80, low_freq=20, high_freq=-400, dither=0, normalize_samples=True, snip_edges=False), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename="", decoder_filename="", joiner_filename=""), paraformer=OfflineParaformerModelConfig(model=""), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=""), whisper=OfflineWhisperModelConfig(encoder="", decoder="", language="", task="transcribe", tail_paddings=-1, enable_token_timestamps=False, enable_segment_timestamps=False), fire_red_asr=OfflineFireRedAsrModelConfig(encoder="", decoder=""), tdnn=OfflineTdnnModelConfig(model=""), zipformer_ctc=OfflineZipformerCtcModelConfig(model=""), wenet_ctc=OfflineWenetCtcModelConfig(model=""), sense_voice=OfflineSenseVoiceModelConfig(model="", language="auto", use_itn=False), moonshine=OfflineMoonshineModelConfig(preprocessor="", encoder="", uncached_decoder="", cached_decoder="", merged_decoder=""), dolphin=OfflineDolphinModelConfig(model=""), canary=OfflineCanaryModelConfig(encoder="", decoder="", src_lang="", tgt_lang="", use_pnc=True), cohere_transcribe=OfflineCohereTranscribeModelConfig(encoder="./sherpa-onnx-cohere-transcribe-14-lang-int8-2026-04-01/encoder.int8.onnx", decoder="./sherpa-onnx-cohere-transcribe-14-lang-int8-2026-04-01/decoder.int8.onnx", language="zh", use_punct=True, use_itn=True), omnilingual=OfflineOmnilingualAsrCtcModelConfig(model=""), funasr_nano=OfflineFunASRNanoModelConfig(encoder_adaptor="", llm="", embedding="", tokenizer="", system_prompt="You are a helpful assistant.", user_prompt="语音转写：", max_new_tokens=512, temperature=1e-06, top_p=0.8, seed=42, language="", itn=True, hotwords=""), medasr=OfflineMedAsrCtcModelConfig(model=""), fire_red_asr_ctc=OfflineFireRedAsrCtcModelConfig(model=""), qwen3_asr=OfflineQwen3ASRModelConfig(conv_frontend="", encoder="", decoder="", tokenizer="", hotwords="", max_total_len=512, max_new_tokens=128, temperature=1e-06, top_p=0.8, seed=42), telespeech_ctc="", tokens="./sherpa-onnx-cohere-transcribe-14-lang-int8-2026-04-01/tokens.txt", num_threads=2, debug=False, provider="cpu", model_type="", modeling_unit="cjkchar", bpe_vocab=""), lm_config=OfflineLMConfig(model="", scale=0.5, lodr_scale=0.01, lodr_fst="", lodr_backoff_id=-1), ctc_fst_decoder_config=OfflineCtcFstDecoderConfig(graph="", max_active=3000), decoding_method="greedy_search", max_active_paths=4, hotwords_file="", hotwords_score=1.5, blank_penalty=0, rule_fsts="", rule_fars="", hr=HomophoneReplacerConfig(lexicon="", rule_fsts=""))
+Creating recognizer ...
+Recognizer created!
+Started
+Reading: ./lei-jun-test.wav
+Started!
+
+29.776 -- 35.788:  晚上好欢迎大家来参加今天晚上的活动谢谢大家
+42.160 -- 45.996:  这是我第四次年度演讲
+47.024 -- 49.868:  前三次呢因为情的原因
+50.512 -- 55.340:  都在小米科技内办现场的人很少
+56.176 -- 57.388:  这是第四次
+58.192 -- 66.892:  我们想了想我们孩子想一个比较大的会然后呢让我们的新朋友老朋友一起一
+67.760 -- 70.828:  今天的话呢我们就在北京的
+71.664 -- 74.828:  国家会议中心呢办了这么一个活动
+75.472 -- 85.868:  现场呢来了很多人大概有三千五百人还有很多很多的朋友呢通过观看直播的方式来参与
+86.352 -- 91.308:  再一次呢对大家的参加表示感谢谢大家
+98.512 -- 99.692:  两个月前。
+100.400 -- 104.396:  我参加了今年武大学的业礼
+105.936 -- 107.276:  今年的是。
+107.888 -- 110.572:  武大学建校一百三十周年。
+111.760 -- 117.196:  作为校友被母校请在业礼上自
+118.032 -- 122.732:  这对我来说是至高无上的。
+123.664 -- 128.556:  站在讲台的那一刻面对全校师生
+129.200 -- 134.252:  关于武大的所有的记一下子现在海里
+134.960 -- 139.436:  今天呢我就先和大家聊聊五大往事
+141.840 -- 143.980:  那还是三十六年前。
+145.936 -- 147.660:  一九八七年。
+148.688 -- 151.564:  我呢考上了武大学的计算机系。
+152.688 -- 156.748:  在武大学的图书里看了一本书
+157.584 -- 161.804:  谷火。建立了我一生的想。
+163.312 -- 164.652:  看完书以后
+165.264 -- 166.636:  热血
+167.600 -- 169.548:  激动的睡不着觉。
+170.416 -- 171.404:  我还记得。
+172.016 -- 174.700:  那天晚上星光很。
+175.408 -- 179.820:  我就在五大的操场上就是幕上这个操场
+180.816 -- 185.228:  走了一又一走了整整一个晚上
+186.480 -- 187.916:  我心里有火
+188.912 -- 192.076:  我也想办一个大的公司
+193.968 -- 195.020:  就是这样。
+197.648 -- 202.316:  想之火在我心里底点燃了
+209.968 -- 212.396:  是一个大一的心声
+220.496 -- 222.636:  是一个大一的心声
+223.984 -- 226.892:  一个从城里出来的年轻人
+228.368 -- 230.604:  什么也不会什么也没有
+231.568 -- 236.204:  就想一家大的公司,这不就是天夜
+237.616 -- 239.788:  这么离的一个想。
+240.400 -- 242.316:  该如何实现呢
+243.856 -- 246.924:  那天晚上我想了一整晚上。
+247.952 -- 249.068:  说实话。
+250.352 -- 253.868:  越想越,完全不清头
+254.960 -- 265.836:  后来我在想,哎,干别想了,把书念好是正式。所以呢,我就下定决心,跟跟真正读书。
+266.640 -- 267.468:  那么。
+268.496 -- 271.564:  我怎么能够把书读的不同反响呢?
+
+num threads: 2
+decoding method: greedy_search
+Elapsed seconds: 22.658 s
+Real time factor (RTF): 22.658 / 272.448 = 0.083

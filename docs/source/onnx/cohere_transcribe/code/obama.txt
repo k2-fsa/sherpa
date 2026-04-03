@@ -1,0 +1,55 @@
+/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:373 ./build/bin/sherpa-onnx-vad-with-offline-asr --silero-vad-model=./silero_vad.onnx --silero-vad-threshold=0.2 --silero-vad-min-speech-duration=0.2 --cohere-transcribe-encoder=./sherpa-onnx-cohere-transcribe-14-lang-int8-2026-04-01/encoder.int8.onnx --cohere-transcribe-decoder=./sherpa-onnx-cohere-transcribe-14-lang-int8-2026-04-01/decoder.int8.onnx --tokens=./sherpa-onnx-cohere-transcribe-14-lang-int8-2026-04-01/tokens.txt --cohere-transcribe-language=en --cohere-transcribe-use-punct=1 --cohere-transcribe-use-itn=1 --num-threads=2 ./Obama.wav 
+
+VadModelConfig(silero_vad=SileroVadModelConfig(model="./silero_vad.onnx", threshold=0.2, min_silence_duration=0.5, min_speech_duration=0.2, max_speech_duration=20, window_size=512, neg_threshold=-1), ten_vad=TenVadModelConfig(model="", threshold=0.5, min_silence_duration=0.5, min_speech_duration=0.25, max_speech_duration=20, window_size=256), sample_rate=16000, num_threads=1, provider="cpu", debug=False)
+OfflineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80, low_freq=20, high_freq=-400, dither=0, normalize_samples=True, snip_edges=False), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename="", decoder_filename="", joiner_filename=""), paraformer=OfflineParaformerModelConfig(model=""), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=""), whisper=OfflineWhisperModelConfig(encoder="", decoder="", language="", task="transcribe", tail_paddings=-1, enable_token_timestamps=False, enable_segment_timestamps=False), fire_red_asr=OfflineFireRedAsrModelConfig(encoder="", decoder=""), tdnn=OfflineTdnnModelConfig(model=""), zipformer_ctc=OfflineZipformerCtcModelConfig(model=""), wenet_ctc=OfflineWenetCtcModelConfig(model=""), sense_voice=OfflineSenseVoiceModelConfig(model="", language="auto", use_itn=False), moonshine=OfflineMoonshineModelConfig(preprocessor="", encoder="", uncached_decoder="", cached_decoder="", merged_decoder=""), dolphin=OfflineDolphinModelConfig(model=""), canary=OfflineCanaryModelConfig(encoder="", decoder="", src_lang="", tgt_lang="", use_pnc=True), cohere_transcribe=OfflineCohereTranscribeModelConfig(encoder="./sherpa-onnx-cohere-transcribe-14-lang-int8-2026-04-01/encoder.int8.onnx", decoder="./sherpa-onnx-cohere-transcribe-14-lang-int8-2026-04-01/decoder.int8.onnx", language="en", use_punct=True, use_itn=True), omnilingual=OfflineOmnilingualAsrCtcModelConfig(model=""), funasr_nano=OfflineFunASRNanoModelConfig(encoder_adaptor="", llm="", embedding="", tokenizer="", system_prompt="You are a helpful assistant.", user_prompt="语音转写：", max_new_tokens=512, temperature=1e-06, top_p=0.8, seed=42, language="", itn=True, hotwords=""), medasr=OfflineMedAsrCtcModelConfig(model=""), fire_red_asr_ctc=OfflineFireRedAsrCtcModelConfig(model=""), qwen3_asr=OfflineQwen3ASRModelConfig(conv_frontend="", encoder="", decoder="", tokenizer="", hotwords="", max_total_len=512, max_new_tokens=128, temperature=1e-06, top_p=0.8, seed=42), telespeech_ctc="", tokens="./sherpa-onnx-cohere-transcribe-14-lang-int8-2026-04-01/tokens.txt", num_threads=2, debug=False, provider="cpu", model_type="", modeling_unit="cjkchar", bpe_vocab=""), lm_config=OfflineLMConfig(model="", scale=0.5, lodr_scale=0.01, lodr_fst="", lodr_backoff_id=-1), ctc_fst_decoder_config=OfflineCtcFstDecoderConfig(graph="", max_active=3000), decoding_method="greedy_search", max_active_paths=4, hotwords_file="", hotwords_score=1.5, blank_penalty=0, rule_fsts="", rule_fars="", hr=HomophoneReplacerConfig(lexicon="", rule_fsts=""))
+Creating recognizer ...
+Recognizer created!
+Started
+Reading: ./Obama.wav
+Started!
+
+7.248 -- 8.204:  Thank you.
+8.976 -- 12.140:  Thank you, everybody. All right, everybody go ahead and have a seat.
+13.104 -- 14.540:  How's everybody doing today?
+18.704 -- 22.892:  How about Tim Spicer?
+25.936 -- 31.884:  I am here with students at Wakefield High School in Arlington, Virginia.
+32.720 -- 48.844:  And we've got students tuning in from all across America, from kindergarten through 12th grade. And I am just so glad that all could join us today. And I want to thank Wakefield for being such an outstanding host. Give yourselves a big round of applause.
+54.416 -- 55.436:  Now I know that
+56.240 -- 58.892:  For many of you, today is the first day of school.
+59.600 -- 69.452:  And for those of you in kindergarten or starting middle or high school, it's your first day in a new school, so it's understandable if you're a little nervous.
+70.640 -- 76.332:  I imagine there's some seniors out there who are feeling pretty good right now. With just one more year to go.
+78.800 -- 87.180:  And no matter what grade you're in, some of you are probably wishing it were still summer and you could have stayed in bed just a little bit longer this morning.
+87.984 -- 89.100:  I know that feeling.
+91.664 -- 111.708:  When I was young, my family lived overseas. I lived in Indonesia for a few years. And my mother, she didn't have the money to send me where all the American kids went to school. But she thought it was important for me to keep up with American education. So she decided to teach me extra lessons herself.
+112.240 -- 118.700:  Monday through Friday, but because she had to go to work, the only time she could do it was at 4 30 in the morning.
+120.048 -- 127.244:  Now, as you might imagine, I wasn't too happy about getting up that early. A lot of times I'd fall asleep right there at the kitchen table.
+128.272 -- 135.340:  But whenever I complained, my mother would just give me one of those looks, and she'd say, This is no picnic for me either, Buster.
+137.104 -- 145.132:  So, I know that some of you are still adjusting to being back at school, but I'm here today because I have something important to discuss with you.
+145.808 -- 153.740:  I'm here because I want to talk with you about your education and what's expected of all of you in this new school year.
+154.448 -- 160.268:  I've given a lot of speeches about education, and I've talked about responsibility a lot.
+160.816 -- 178.220:  I've talked about teachers' responsibility for inspiring students and pushing you to learn. I've talked about your parents' responsibility for making sure you stay on track and you get your homework done and don't spend every waking hour in front of the TV or with the Xbox.
+179.088 -- 180.716:  I've talked a lot about
+181.360 -- 193.452:  Your government's responsibility for setting high standards and supporting teachers and principals and turning around schools that aren't working, where students aren't getting the opportunities that they deserve.
+194.000 -- 195.276:  But at the end of the day
+196.016 -- 206.156:  We can have the most dedicated teachers, the most supportive parents, the best schools in the world, and none of it will make a difference. None of it will matter.
+206.704 -- 210.604:  unless all of you fulfill your responsibilities.
+211.248 -- 223.404:  Unless you show up to those schools, unless you pay attention to those teachers, unless you listen to your parents and grandparents and other adults and put in the hard work it takes to succeed.
+224.656 -- 230.924:  And that's what I want to focus on today the responsibility each of you has for your education.
+231.728 -- 234.796:  I want to start with the responsibility you have to yourself.
+235.696 -- 238.988:  Every single one of you has something that you're good at.
+239.760 -- 242.412:  Every single one of you has something to offer.
+242.992 -- 247.404:  And you have a responsibility to yourself to discover what that is.
+248.336 -- 251.564:  That's the opportunity an education can provide.
+252.336 -- 265.900:  Maybe you could be a great writer, maybe even good enough to write a book or articles in a newspaper, but you might not know it until you write that English paper, that English class paper that's assigned to you.
+266.704 -- 278.668:  Maybe you could be an innovator or an inventor, maybe even good enough to come up with the next iPhone or the new medicine or vaccine. But you might not know it until you do your project for your science class.
+279.824 -- 289.964:  Maybe you could be a mayor, or a senator, or a Supreme Court justice. But you might not know that until you join student government or the debate team.
+291.568 -- 309.516:  And no matter what you want to do with your life, I guarantee that you'll need an education to do it. You want to be a doctor or a teacher or a police officer. You want to be a nurse or an architect, a lawyer or a member of our military. You're going to need a good education for every single one of those careers.
+310.064 -- 314.348:  You cannot drop out of school and just drop into a good job.
+315.184 -- 319.852:  You've got to train for it and work for it and learn for it.
+320.528 -- 323.628:  And this isn't just important for your own life and your own future.
+324.688 -- 332.812:  What you make of your education will decide nothing less than the future of this country. The future of America depends on you.
+
+num threads: 2
+decoding method: greedy_search
+Elapsed seconds: 34.787 s
+Real time factor (RTF): 34.787 / 334.234 = 0.104
