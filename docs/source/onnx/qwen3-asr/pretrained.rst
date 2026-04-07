@@ -75,14 +75,6 @@ After downloading, you should find the following files::
 
 .. code-block::
 
-  ls -lh sherpa-onnx-funasr-nano-int8-2025-12-30/Qwen3-0.6B/
-  total 16M
-  -rw-r--r-- 1 kuangfangjun root 1.6M Jan  7 19:34 merges.txt
-  -rw-r--r-- 1 kuangfangjun root  11M Jan  7 19:34 tokenizer.json
-  -rw-r--r-- 1 kuangfangjun root 2.7M Jan  7 19:34 vocab.json
-
-.. code-block::
-
   ls -lh sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/tokenizer
 
   total 8728
@@ -139,7 +131,7 @@ After downloading, you should find the following files::
 
    If you need the ``float32`` model file, please visit `<https://modelscope.cn/models/zengshuishui/Qwen3-ASR-onnx/tree/master/model_0.6B>`_
 
-   If you need the ``1.7B`` model, please visit `<https://modelscope.cn/models/zengshuishui/Qwen3-ASR-onnx/tree/master/model_1.7B>`_
+   If you need the ``1.7B`` model, please visit `<https://modelscope.cn/models/zengshuishui/Qwen3-ASR-onnx/tree/master/model_1.7B>`_.
 
 .. hint::
 
@@ -152,7 +144,7 @@ raokouling.wav (绕口令, 中文)
 
 To decode the test file
 
-  ``./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/test_wavs/test_wavs/raokouling.wav``:
+  ``./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/test_wavs/raokouling.wav``:
 
 .. code-block:: bash
 
