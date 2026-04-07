@@ -27,7 +27,7 @@ The following is an example about how to download an exported `Qwen3-ASR`_ model
 
    To download the ``fp32`` model, please visit `<https://modelscope.cn/models/zengshuishui/Qwen3-ASR-onnx/tree/master/model_0.6B>`_.
 
-   To download the ``1.7B`` model, please visit `<https://modelscope.cn/models/zengshuishui/Qwen3-ASR-onnx/tree/master/model_1.7B>`_
+   To download the ``1.7B`` model, please visit `<https://modelscope.cn/models/zengshuishui/Qwen3-ASR-onnx/tree/master/model_1.7B>`_.
 
 To view the downloaded files, please use::
 
