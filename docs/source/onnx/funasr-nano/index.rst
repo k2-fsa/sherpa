@@ -33,9 +33,11 @@ We have converted `Fun-ASR-Nano-2512`_ to onnx and provided APIs for the followi
   - 5. Go
   - 6. Kotlin
   - 7. Java
-  - 8. JavaScript (Support `WebAssembly`_ and `Node`_)
+  - 8. JavaScript
   - 9. Swift
   - 10. `Dart`_ (Support `Flutter`_)
+  - 11. Rust
+  - 12. Pascal
 
 You can find the onnx export script at `<https://github.com/Wasser1462/FunASR-nano-onnx>`_
 

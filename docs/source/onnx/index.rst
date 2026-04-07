@@ -57,6 +57,7 @@ Also, we show how to use it for speech recognition with pre-trained models.
    ./sense-voice/index
    ./cohere_transcribe/index
    ./funasr-nano/index
+   ./qwen3-asr/index
    ./paraformer/index
    ./nemo/index
    ./FireRedAsr/index
