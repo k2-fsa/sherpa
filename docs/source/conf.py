@@ -230,6 +230,7 @@ rst_epilog = f"""
 .. _sherpa_onnx_rknn_static_archive: https://github.com/k2-fsa/sherpa-onnx/releases/download/v{sherpa_onnx_version}/sherpa-onnx-v{sherpa_onnx_version}-rknn-linux-aarch64-static.tar.bz2
 .. _sherpa_onnx_rknn_shared_archive: https://github.com/k2-fsa/sherpa-onnx/releases/download/v{sherpa_onnx_version}/sherpa-onnx-v{sherpa_onnx_version}-rknn-linux-aarch64-shared.tar.bz2
 .. _Cohere Transcribe: https://huggingface.co/CohereLabs/cohere-transcribe-03-2026
+.. _Qwen3-ASR: https://github.com/QwenLM/Qwen3-ASR
 """
 
 
