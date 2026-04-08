@@ -38,14 +38,14 @@ The config file is a plain text file.
 
 - Empty lines are ignored
 - Lines starting with ``#`` are ignored
-- Each entry uses ``key: value`` format
+- Each entry uses ``key=value`` format or ``key = value``
 
 For example:
 
 .. code-block:: text
 
    # Example SpacemiT provider config
-   SPACEMIT_EP_INTRA_THREAD_NUM: 4
+   SPACEMIT_EP_INTRA_THREAD_NUM=4
 
 Common options
 --------------
@@ -106,5 +106,5 @@ You can create a minimal provider config file like this:
 
 .. code-block:: text
 
-   SPACEMIT_EP_INTRA_THREAD_NUM:4
-   SPACEMIT_EP_USE_GLOBAL_INTRA_THREAD:1
+   SPACEMIT_EP_INTRA_THREAD_NUM=4
+   SPACEMIT_EP_USE_GLOBAL_INTRA_THREAD=1
