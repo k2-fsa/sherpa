@@ -230,6 +230,9 @@ You should see the following output:
 .. literalinclude:: ./code/lei-jun.txt
 
 .. include:: ./ex-raokouling.rst
+.. include:: ./ex-fast1.rst
 .. include:: ./ex-cantonese.rst
 .. include:: ./ex-de.rst
 .. include:: ./ex-es1.rst
+.. include:: ./ex-f1_noise.rst
+.. include:: ./ex-fr1.rst
