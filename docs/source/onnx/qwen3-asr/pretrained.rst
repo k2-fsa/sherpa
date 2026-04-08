@@ -125,8 +125,6 @@ After downloading, you should find the following files::
   ru1.wav Барсук, живущий в киевском зоопарке, совершил побег из своего вольера.
   ja1.wav 抜群の運動神経を持ち合わせ、どんな要求にも応えてきた。
 
-
-
 .. hint::
 
    If you need the ``float32`` model file, please visit `<https://modelscope.cn/models/zengshuishui/Qwen3-ASR-onnx/tree/master/model_0.6B>`_
@@ -139,154 +137,18 @@ After downloading, you should find the following files::
 
     `<https://qwen.ai/blog?id=qwen3asr>`_
 
-raokouling.wav (绕口令, 中文)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-To decode the test file
-
-  ``./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/test_wavs/raokouling.wav``:
-
-.. code-block:: bash
-
-  ./build/bin/sherpa-onnx-offline \
-    --qwen3-asr-conv-frontend=./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/conv_frontend.onnx \
-    --qwen3-asr-encoder=./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/encoder.int8.onnx \
-    --qwen3-asr-decoder=./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/decoder.int8.onnx \
-    --qwen3-asr-tokenizer=./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/tokenizer \
-    --qwen3-asr-max-new-tokens=512 \
-    --num-threads=2 \
-    ./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/test_wavs/raokouling.wav
-
-You should see the following output:
-
-.. literalinclude:: ./code/raokouling.txt
-
-.. raw:: html
-
-  <table>
-    <tr>
-      <th>Wave filename</th>
-      <th>Content</th>
-      <th>Ground truth</th>
-    </tr>
-    <tr>
-      <td>raokouling.wav</td>
-      <td>
-       <audio title="raokouling.wav" controls="controls">
-             <source src="/sherpa/_static/qwen3-asr-0.6b/raokouling.wav" type="audio/wav">
-             Your browser does not support the <code>audio</code> element.
-       </audio>
-      </td>
-      <td>
-      广西壮族自治区爱吃红鲤鱼与绿鲤鱼与驴的出租车司机，拉着苗族土家族自治州爱喝自制的刘奶奶榴莲牛奶的骨质疏松症患者，遇见别着喇叭的哑巴，打败咬死山前四十四棵紫色柿子树的四十四只石狮子之后，碰到年年恋牛娘的牛郎，念着灰黑灰化肥发黑会挥发，走出香港官方网站设置组，到广西壮族自治区首府南宁市民族医院就医。
-      </td>
-    </tr>
-  </table>
-
-.. code-block:: bash
-
-  # Use hotwords. Note you use , to separate multiple hotwords
-
-  ./build/bin/sherpa-onnx-offline \
-    --qwen3-asr-conv-frontend=./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/conv_frontend.onnx \
-    --qwen3-asr-encoder=./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/encoder.int8.onnx \
-    --qwen3-asr-decoder=./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/decoder.int8.onnx \
-    --qwen3-asr-tokenizer=./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/tokenizer \
-    --qwen3-asr-max-new-tokens=512 \
-    --num-threads=2 \
-    --qwen3-asr-hotwords="骨质疏松症患者,咬死山前,紫色柿子树,年年恋牛娘,灰黑灰化肥,走出香港" \
-    ./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/test_wavs/raokouling.wav
-
-You should see the following output:
-
-.. literalinclude:: ./code/raokouling-hotwords.txt
-
-Decode a long audio file with VAD (Example 1/2, English)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-The following examples show how to decode a very long audio file with the help
-of VAD.
-
-.. code-block:: bash
-
-  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/silero_vad.onnx
-  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/Obama.wav
-
-  ./build/bin/sherpa-onnx-vad-with-offline-asr \
-    --silero-vad-model=./silero_vad.onnx \
-    --silero-vad-threshold=0.2 \
-    --silero-vad-min-speech-duration=0.2 \
-    --qwen3-asr-conv-frontend=./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/conv_frontend.onnx \
-    --qwen3-asr-encoder=./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/encoder.int8.onnx \
-    --qwen3-asr-decoder=./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/decoder.int8.onnx \
-    --qwen3-asr-tokenizer=./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/tokenizer \
-    --qwen3-asr-max-new-tokens=512 \
-    --num-threads=2 \
-    ./Obama.wav
-
-.. raw:: html
-
-  <table>
-    <tr>
-      <th>Wave filename</th>
-      <th>Content</th>
-    </tr>
-    <tr>
-      <td>Obama.wav</td>
-      <td>
-       <audio title="Obama.wav" controls="controls">
-             <source src="/sherpa/_static/sense-voice/Obama.wav" type="audio/wav">
-             Your browser does not support the <code>audio</code> element.
-       </audio>
-      </td>
-    </tr>
-  </table>
-
-You should see the following output:
-
-.. literalinclude:: ./code/obama.txt
-
-Decode a long audio file with VAD (Example 2/2, Chinese)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-The following examples show how to decode a very long audio file with the help
-of VAD.
-
-.. code-block:: bash
-
-  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/silero_vad.onnx
-  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/lei-jun-test.wav
-
-  ./build/bin/sherpa-onnx-vad-with-offline-asr \
-    --silero-vad-model=./silero_vad.onnx \
-    --silero-vad-threshold=0.2 \
-    --silero-vad-min-speech-duration=0.2 \
-    --qwen3-asr-conv-frontend=./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/conv_frontend.onnx \
-    --qwen3-asr-encoder=./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/encoder.int8.onnx \
-    --qwen3-asr-decoder=./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/decoder.int8.onnx \
-    --qwen3-asr-tokenizer=./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/tokenizer \
-    --qwen3-asr-max-new-tokens=512 \
-    --num-threads=2 \
-    ./lei-jun-test.wav
-
-.. raw:: html
-
-  <table>
-    <tr>
-      <th>Wave filename</th>
-      <th>Content</th>
-    </tr>
-    <tr>
-      <td>lei-jun-test.wav</td>
-      <td>
-       <audio title="lei-jun-test.wav" controls="controls">
-             <source src="/sherpa/_static/sense-voice/lei-jun-test.wav" type="audio/wav">
-             Your browser does not support the <code>audio</code> element.
-       </audio>
-      </td>
-    </tr>
-  </table>
-
-You should see the following output:
-
-.. literalinclude:: ./code/lei-jun.txt
+.. include:: ./real-time.rst
+.. include:: ./long-audio-en.rst
+.. include:: ./long-audio-zh.rst
+.. include:: ./ex-raokouling.rst
+.. include:: ./ex-noise2.rst
+.. include:: ./ex-fast1.rst
+.. include:: ./ex-cantonese.rst
+.. include:: ./ex-qiqiu1.rst
+.. include:: ./ex-de.rst
+.. include:: ./ex-es1.rst
+.. include:: ./ex-f1_noise.rst
+.. include:: ./ex-fr1.rst
+.. include:: ./ex-ja1.rst
+.. include:: ./ex-rap1.rst
