@@ -8,7 +8,7 @@ Links for pre-built Apps can be found in the following tables.
    It runs locally, without internet connection.
 
 Non-Streaming Speech Recognition from File
------------------------------------------
+------------------------------------------
 
 .. hint::
 
