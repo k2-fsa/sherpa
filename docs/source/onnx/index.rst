@@ -42,6 +42,7 @@ Also, we show how to use it for speech recognition with pre-trained models.
    ./harmony-os/index.rst
    ./ios/index
    ./flutter/index
+   ./tauri/index
    ./websocket/index
    ./hotwords/index
    ./kws/index

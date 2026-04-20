@@ -217,6 +217,15 @@ jobs:
           cd ..
           rm -rf huggingface
 
+
+          mkdir -p build/html/onnx/tauri/app
+          git clone https://huggingface.co/csukuangfj2/tauri-app huggingface
+          cd huggingface
+          python3 ./generate-vad-asr.py
+          mv -v *.html ../build/html/onnx/tauri/app/
+          cd ..
+          rm -rf huggingface
+
           git clone https://huggingface.co/csukuangfj/sherpa huggingface
           cd huggingface
           ./run.sh
