@@ -39,7 +39,7 @@ def get_version():
 # The full version, including alpha/beta/rc tags
 version = get_version()
 release = version
-sherpa_onnx_version = os.environ.get("SHERPA_ONNX_VERSION", "1.12.32")
+sherpa_onnx_version = os.environ.get("SHERPA_ONNX_VERSION", "1.12.39")
 sherpa_onnx_version_cuda = f"{sherpa_onnx_version}+cuda"
 sherpa_onnx_version_cuda12_cudnn9 = f"{sherpa_onnx_version}+cuda12.cudnn9"
 

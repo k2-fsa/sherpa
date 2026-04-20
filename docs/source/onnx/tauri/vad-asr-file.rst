@@ -1,4 +1,4 @@
-.. _vad-asr-file:
+.. _tauri-vad-asr-file:
 
 Non-Streaming Speech Recognition from File
 ==========================================
@@ -17,7 +17,7 @@ speech segments and then runs an offline ASR model on each segment.
 Features
 --------
 
-- 62 ASR models supported (SenseVoice, Paraformer, Whisper, Transducer,
+- 62+ ASR models supported (SenseVoice, Paraformer, Whisper, Transducer,
   Moonshine, Parakeet, Canary, Qwen3 ASR, etc.)
 - Audio/video playback with waveform display
 - SRT subtitle export
@@ -38,9 +38,9 @@ Any format supported by symphonia:
 Pre-built Apps
 --------------
 
-Pre-built apps for all 62 models and 4 platforms are available at:
+Pre-built apps for 62+ models and 4 platforms are available at:
 
-  `<https://huggingface.co/csukuangfj2/tauri-app>`_
+  `<https://k2-fsa.github.io/sherpa/onnx/tauri/pre-built-app.html#non-streaming-speech-recognition-from-file>`_
 
 The filename follows the pattern:
 
@@ -64,11 +64,14 @@ Prerequisites
 ~~~~~~~~~~~~~
 
 - `Rust <https://www.rust-lang.org/tools/install>`_ (stable)
-- `Tauri CLI <https://v2.tauri.app/start/prerequisites/>`_:
+- `Node.js <https://nodejs.org/>`_ (for the Tauri CLI)
+- `Tauri CLI prerequisites <https://v2.tauri.app/start/prerequisites/>`_
+
+Install npm dependencies:
 
 .. code-block:: bash
 
-   cargo install tauri-cli
+   npm install
 
 Example 1: SenseVoice (multilingual, Chinese/English/Japanese/Korean/Cantonese)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -145,13 +148,13 @@ Step 4: Build and run
 
 .. code-block:: bash
 
-   cargo tauri dev
+   npm run dev
 
 To build a release binary:
 
 .. code-block:: bash
 
-   cargo tauri build
+   npm run build
 
 The output is in ``src-tauri/target/release/bundle/``.
 
@@ -216,15 +219,15 @@ Step 4: Build and run
 
 .. code-block:: bash
 
-   cargo tauri dev
+   npm run dev
 
    # Or build a release binary
-   cargo tauri build
+   npm run build
 
 Using a Different Model
 -----------------------
 
-The app supports 62 models (types 0–61) defined in
+The app supports 62+ models (types 0–61) defined in
 `src-tauri/src/model_registry.rs <https://github.com/k2-fsa/sherpa-onnx/blob/master/tauri-examples/non-streaming-speech-recognition-from-file/src-tauri/src/model_registry.rs>`_.
 To use a different model:
 

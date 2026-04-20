@@ -11,4 +11,5 @@ The source code of the apps is at `<https://github.com/k2-fsa/sherpa-onnx/tree/m
    :maxdepth: 1
    :caption: Contents:
 
+   pre-built-app
    vad-asr-file
