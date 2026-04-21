@@ -141,6 +141,56 @@ Speech recognition from a microphone with VAD
     --tokens=./sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8/tokens.txt \
     --model-type=nemo_transducer
 
+Decode a long audio file with VAD
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The following examples show how to decode a very long audio file with the help
+of VAD.
+
+.. code-block:: bash
+
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/silero_vad.onnx
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/Obama.wav
+
+  ./build/bin/sherpa-onnx-vad-with-offline-asr \
+    --silero-vad-model=./silero_vad.onnx \
+    --silero-vad-threshold=0.2 \
+    --silero-vad-min-speech-duration=0.2 \
+    --encoder=./sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8/encoder.int8.onnx \
+    --decoder=./sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8/decoder.int8.onnx \
+    --joiner=./sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8/joiner.int8.onnx \
+    --tokens=./sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8/tokens.txt \
+    --model-type=nemo_transducer \
+    ./Obama.wav
+
+.. raw:: html
+
+  <table>
+    <tr>
+      <th>Wave filename</th>
+      <th>Content</th>
+    </tr>
+    <tr>
+      <td>Obama.wav</td>
+      <td>
+       <audio title="Obama.wav" controls="controls">
+             <source src="/sherpa/_static/sense-voice/Obama.wav" type="audio/wav">
+             Your browser does not support the <code>audio</code> element.
+       </audio>
+      </td>
+    </tr>
+  </table>
+
+You should see the following output:
+
+.. literalinclude:: ./code-nemo/obama-tdt-v3.txt
+
+.. hint::
+
+   If you want to use a GUI version and want to export ``SRT`` format, please visit
+   `<https://k2-fsa.github.io/sherpa/onnx/tauri/app/vad-asr-file.html>`_ and search for
+   ``en-parakeet_tdt_v3``. Please always use the latest version.
+
 .. _sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8:
 
 sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8 (English, 英语)
@@ -260,6 +310,56 @@ Speech recognition from a microphone with VAD
     --joiner=./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/joiner.int8.onnx \
     --tokens=./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/tokens.txt \
     --model-type=nemo_transducer
+
+Decode a long audio file with VAD
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The following examples show how to decode a very long audio file with the help
+of VAD.
+
+.. code-block:: bash
+
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/silero_vad.onnx
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/Obama.wav
+
+  ./build/bin/sherpa-onnx-vad-with-offline-asr \
+    --silero-vad-model=./silero_vad.onnx \
+    --silero-vad-threshold=0.2 \
+    --silero-vad-min-speech-duration=0.2 \
+    --encoder=./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/encoder.int8.onnx \
+    --decoder=./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/decoder.int8.onnx \
+    --joiner=./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/joiner.int8.onnx \
+    --tokens=./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/tokens.txt \
+    --model-type=nemo_transducer \
+    ./Obama.wav
+
+.. raw:: html
+
+  <table>
+    <tr>
+      <th>Wave filename</th>
+      <th>Content</th>
+    </tr>
+    <tr>
+      <td>Obama.wav</td>
+      <td>
+       <audio title="Obama.wav" controls="controls">
+             <source src="/sherpa/_static/sense-voice/Obama.wav" type="audio/wav">
+             Your browser does not support the <code>audio</code> element.
+       </audio>
+      </td>
+    </tr>
+  </table>
+
+You should see the following output:
+
+.. literalinclude:: ./code-nemo/obama-tdt-v2.txt
+
+.. hint::
+
+   If you want to use a GUI version and want to export ``SRT`` format, please visit
+   `<https://k2-fsa.github.io/sherpa/onnx/tauri/app/vad-asr-file.html>`_ and search for
+   ``en-parakeet_tdt``. Please always use the latest version.
 
 RTF on RK3588 with Cortex A76 CPU
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
