@@ -41,10 +41,31 @@ Non-Streaming Speech Recognition from File
     - English audio: `Obama.wav <https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/Obama.wav>`_
     - English video: `Obama.mov <https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/Obama.mov>`_
 
+Screenshots
+~~~~~~~~~~~
+
+.. list-table::
+   :align: center
+
+   * - .. image:: ./pic/vad-asr-file-1.png
+          :width: 200px
+     - .. image:: ./pic/vad-asr-file-2.png
+          :width: 200px
+     - .. image:: ./pic/vad-asr-file-3.png
+          :width: 200px
+
+Video demo
+~~~~~~~~~~
+
+.. raw:: html
+
+  <iframe src="//player.bilibili.com/player.html?bvid=BV1cXoKBhEdz&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" width="600" height="600"> </iframe>
+
+
 Notes for macOS users
 ~~~~~~~~~~~~~~~~~~~~~
 
-After double click the ``app``, if you get the following dialog: 
+After double click the ``app``, if you get the following dialog:
 
   .. figure:: ./pic/1-done.jpg
      :alt: Click Done
