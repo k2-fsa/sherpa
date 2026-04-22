@@ -97,3 +97,33 @@ Click ``Open Anyway`` and enter your password. You should see the following scre
      :width: 350
 
      Step 4: Started
+
+Non-Streaming Speech Recognition from Microphone
+-------------------------------------------------
+
+.. hint::
+
+   You can use it for live microphone transcription with wall-clock timestamps,
+   recording playback, SRT export, and segment WAV export.
+
+.. hint::
+
+   The code is available at
+
+      `<https://github.com/k2-fsa/sherpa-onnx/tree/master/tauri-examples/non-streaming-speech-recognition-from-microphone>`_
+
+.. list-table::
+
+ * - ****
+   - Chinese users
+   - URL
+ * - All platforms
+   - `地址 <https://k2-fsa.github.io/sherpa/onnx/tauri/app/vad-asr-mic-cn.html>`_
+   - `Here <https://k2-fsa.github.io/sherpa/onnx/tauri/app/vad-asr-mic.html>`_
+
+
+.. hint::
+
+   The pre-built APPs support Linux (x64, aarch64), macOS (x64, arm64), and Windows (x64).
+
+   The macOS notes above apply to this app as well.
