@@ -13,3 +13,4 @@ The source code of the apps is at `<https://github.com/k2-fsa/sherpa-onnx/tree/m
 
    pre-built-app
    vad-asr-file
+   vad-asr-mic
