@@ -16,4 +16,5 @@ The following boards are known to work:
 
    ./tutorials.rst
    ./install.rst
+   ./export.rst
    ./models.rst
