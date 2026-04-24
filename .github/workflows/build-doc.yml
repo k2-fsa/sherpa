@@ -112,8 +112,19 @@ jobs:
           rm -rf sherpa-onnx
 
           git clone https://huggingface.co/csukuangfj/sherpa-onnx-tts-samples
+          git clone https://huggingface.co/csukuangfj2/sherpa-onnx-tts-samples sherpa-onnx-tts-samples-2
+
+          pushd sherpa-onnx-tts-samples-2
+          git lfs pull
+          popd
+
           pushd sherpa-onnx-tts-samples
           git lfs pull
+
+          cp -av ../sherpa-onnx-tts-samples-2/* ./
+
+          rm -rf ../sherpa-onnx-tts-samples-2
+          echo "------copied----"
 
           echo "---"
 
@@ -127,6 +138,7 @@ jobs:
           cp -av ../kitten ./book/
 
           popd
+
 
       - name: Copy wave files
         shell: bash
