@@ -26,6 +26,17 @@ lists the model for each chunk size:
    - 1120 ms
    - `Download address <https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-nemotron-speech-streaming-en-0.6b-1120ms-int8-2026-04-25.tar.bz2>`_
 
+.. hint::
+
+   The larger the chunk size, the higher the accuracy.
+
+   The following figure is from `<https://huggingface.co/nvidia/nemotron-speech-streaming-en-0.6b>`_.
+
+   .. image:: ./pic/results_wer_and_scaling_nemotron_streaming_0.6b.png
+      :align: center
+      :alt: WER vs chunk size
+      :width: 600
+
 The following shows how to use the model with chunk size ``560ms``
 
 sherpa-onnx-nemotron-speech-streaming-en-0.6b-560ms-int8-2026-04-25 (English)
@@ -101,7 +112,7 @@ The output of the above command is given below:
 Real-time speech recognition from a microphone
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Please use the following command to decode a wave file:
+Please use the following command real-time speech recognition with a microphone:
 
 .. code-block::
 
