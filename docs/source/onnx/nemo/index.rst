@@ -14,6 +14,7 @@ Speech Recognition models
    ../pretrained_models/offline-ctc/nemo/index.rst
    ../pretrained_models/offline-transducer/nemo-transducer-models.rst
    ./canary.rst
+   ./nemotron-streaming.rst
 
 Speaker Embedding models
 ------------------------
