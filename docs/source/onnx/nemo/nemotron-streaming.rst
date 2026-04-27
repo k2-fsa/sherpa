@@ -112,7 +112,7 @@ The output of the above command is given below:
 Real-time speech recognition from a microphone
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Please use the following command real-time speech recognition with a microphone:
+Please use the following command for real-time speech recognition with a microphone:
 
 .. code-block::
 

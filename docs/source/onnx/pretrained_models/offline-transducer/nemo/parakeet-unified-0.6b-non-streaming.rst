@@ -38,7 +38,7 @@ Please use the following commands to download it.
    tar xvf sherpa-onnx-nemo-parakeet-unified-en-0.6b-int8-non-streaming.tar.bz2
    rm sherpa-onnx-nemo-parakeet-unified-en-0.6b-int8-non-streaming.tar.bz2
 
-   ls -lh sherpa-onnx-nemo-parakeet-unified-en-0.6b-int8-non-streaming.tar.bz2
+   ls -lh sherpa-onnx-nemo-parakeet-unified-en-0.6b-int8-non-streaming
 
 You should see something like below after downloading::
 

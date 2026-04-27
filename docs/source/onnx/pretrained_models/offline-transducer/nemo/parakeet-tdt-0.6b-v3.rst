@@ -38,7 +38,7 @@ Android APK for real-time speech recognition
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Please visit `<https://k2-fsa.github.io/sherpa/onnx/android/apk-simulate-streaming-asr.html>`_
-and search for ``1parakeet_tdt_0.6b_v3``.
+and search for ``parakeet_tdt_0.6b_v3``.
 
 .. hint::
 
