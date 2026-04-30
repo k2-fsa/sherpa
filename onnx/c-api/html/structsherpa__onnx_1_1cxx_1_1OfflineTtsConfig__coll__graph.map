@@ -1,0 +1,31 @@
+<map id="sherpa_onnx::cxx::OfflineTtsConfig" name="sherpa_onnx::cxx::OfflineTtsConfig">
+<area shape="rect" id="Node000001" title="Configuration for offline TTS." alt="" coords="1045,241,1232,281"/>
+<area shape="rect" id="Node000002" href="$structsherpa__onnx_1_1cxx_1_1OfflineTtsModelConfig.html" title="Model configuration for offline TTS." alt="" coords="765,440,952,480"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="898,430,1108,279,1111,284,901,434"/>
+<area shape="rect" id="Node000003" href="$structsherpa__onnx_1_1cxx_1_1OfflineTtsVitsModelConfig.html" title="VITS model configuration." alt="" coords="455,225,641,265"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="591,271,830,438,827,442,588,275"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="193,447,280,473"/>
+<area shape="poly" id="edge18_Node000001_Node000004" title=" " alt="" coords="236,433,241,356,252,255,271,159,285,122,302,97,350,60,402,35,457,20,514,13,573,14,633,22,694,36,753,54,867,100,969,151,1052,201,1111,239,1108,243,1049,205,966,156,865,104,752,59,692,41,633,27,573,20,514,18,458,25,403,40,353,65,306,101,290,124,276,160,257,255,246,356,242,434"/>
+<area shape="poly" id="edge17_Node000002_Node000004" title=" " alt="" coords="237,434,242,363,253,272,272,188,286,155,302,134,340,110,380,97,420,95,462,101,503,115,544,136,585,162,624,192,697,260,761,330,846,438,841,442,757,333,693,263,620,196,581,166,541,141,501,120,460,106,420,100,381,102,342,115,306,138,290,158,277,189,258,273,247,363,242,434"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="234,434,236,390,245,336,253,309,265,282,282,259,302,239,323,227,346,218,394,211,442,214,486,223,485,228,442,219,394,217,347,223,326,231,306,243,286,262,270,285,258,311,250,337,241,390,240,434"/>
+<area shape="rect" id="Node000006" href="$structsherpa__onnx_1_1cxx_1_1OfflineTtsMatchaModelConfig.html" title="Matcha model configuration." alt="" coords="455,341,641,381"/>
+<area shape="poly" id="edge6_Node000006_Node000004" title=" " alt="" coords="244,433,265,390,282,370,303,354,344,338,389,332,433,333,473,339,473,344,432,338,389,337,346,343,305,358,285,374,270,393,249,435"/>
+<area shape="rect" id="Node000007" href="$structsherpa__onnx_1_1cxx_1_1OfflineTtsKokoroModelConfig.html" title="Kokoro model configuration." alt="" coords="455,440,641,480"/>
+<area shape="poly" id="edge8_Node000007_Node000004" title=" " alt="" coords="294,457,454,457,454,463,294,463"/>
+<area shape="rect" id="Node000008" href="$structsherpa__onnx_1_1cxx_1_1OfflineTtsKittenModelConfig.html" title="Kitten model configuration." alt="" coords="455,516,641,556"/>
+<area shape="poly" id="edge10_Node000008_Node000004" title=" " alt="" coords="257,482,278,504,305,522,341,534,380,541,455,544,454,549,379,546,340,539,303,526,275,508,253,486"/>
+<area shape="rect" id="Node000009" href="$structsherpa__onnx_1_1cxx_1_1OfflineTtsZipvoiceModelConfig.html" title="ZipVoice model configuration." alt="" coords="455,607,641,647"/>
+<area shape="poly" id="edge12_Node000009_Node000004" title=" " alt="" coords="241,486,246,523,256,565,275,606,289,623,306,638,327,650,350,657,400,662,450,656,494,644,495,649,451,661,401,667,349,662,325,655,302,642,285,627,271,608,251,566,241,523,236,487"/>
+<area shape="rect" id="Node000010" href="$structsherpa__onnx_1_1cxx_1_1OfflineTtsPocketModelConfig.html" title="Pocket TTS model configuration." alt="" coords="455,725,641,765"/>
+<area shape="poly" id="edge14_Node000010_Node000004" title=" " alt="" coords="242,486,248,555,259,641,278,721,291,751,306,770,328,784,353,791,380,794,407,792,460,780,506,763,508,768,462,786,408,798,380,799,352,797,326,789,302,774,286,754,273,723,254,642,243,555,237,487"/>
+<area shape="rect" id="Node000011" href="$structsherpa__onnx_1_1cxx_1_1OfflineTtsSupertonicModelConfig.html" title="Supertonic model configuration." alt="" coords="452,899,644,939"/>
+<area shape="poly" id="edge16_Node000011_Node000004" title=" " alt="" coords="240,487,242,581,250,707,259,770,270,826,286,872,306,902,338,923,376,934,416,938,455,936,455,941,416,943,375,940,336,928,302,906,281,875,265,828,253,771,245,707,237,581,235,487"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="5,440,144,480"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="157,457,193,457,193,463,157,463"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="626,383,796,437,794,442,624,388"/>
+<area shape="poly" id="edge7_Node000002_Node000007" title=" " alt="" coords="655,457,765,457,765,463,655,463"/>
+<area shape="poly" id="edge9_Node000002_Node000008" title=" " alt="" coords="643,510,775,477,777,483,645,515"/>
+<area shape="poly" id="edge11_Node000002_Node000009" title=" " alt="" coords="598,598,740,522,820,478,823,482,743,526,601,603"/>
+<area shape="poly" id="edge13_Node000002_Node000010" title=" " alt="" coords="583,715,656,653,739,578,837,478,841,482,743,582,660,657,586,719"/>
+<area shape="poly" id="edge15_Node000002_Node000011" title=" " alt="" coords="573,886,649,788,739,663,801,560,845,479,849,481,805,563,744,665,654,791,577,889"/>
+</map>

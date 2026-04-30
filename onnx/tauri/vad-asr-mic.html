@@ -1,0 +1,442 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Non-Streaming Speech Recognition from Microphone &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="WebSocket" href="../websocket/index.html" />
+    <link rel="prev" title="Non-Streaming Speech Recognition from File" href="vad-asr-file.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">sherpa-onnx</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../install/index.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../faqs/index.html">Frequently Asked Question (FAQs)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python/index.html">Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../c-api/index.html">C API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../java-api/index.html">Java API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../javascript-api/index.html">Javascript API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kotlin-api/index.html">Kotlin API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../swift-api/index.html">Swift API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../go-api/index.html">Go API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rust-api/index.html">Rust API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../csharp-api/index.html">C# API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pascal-api/index.html">Pascal API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lazarus/index.html">Lazarus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../wasm/index.html">WebAssembly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../android/index.html">Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../harmony-os/index.html">HarmonyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ios/index.html">iOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../flutter/index.html">Flutter</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Tauri Desktop Apps</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="pre-built-app.html">Pre-built Tauri Apps</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vad-asr-file.html">Non-Streaming Speech Recognition from File</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Non-Streaming Speech Recognition from Microphone</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#features">Features</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pre-built-apps">Pre-built Apps</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#building-the-app">Building the App</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#using-a-different-model">Using a Different Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#how-it-works">How It Works</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#license">License</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../websocket/index.html">WebSocket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../hotwords/index.html">Hotwords (Contextual biasing)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kws/index.html">Keyword spotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../punctuation/index.html">Punctuation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../audio-tagging/index.html">Audio tagging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spoken-language-identification/index.html">Spoken language identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vad/index.html">VAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../medasr/index.html">Google MedASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/index.html">Pre-trained models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/whisper/index.html">Whisper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../moonshine/index.html">Moonshine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../omnilingual-asr/index.html">Omnilingual ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sense-voice/index.html">SenseVoice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cohere_transcribe/index.html">Cohere Transcribe</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../funasr-nano/index.html">FunASR Nano</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qwen3-asr/index.html">Qwen3-ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../paraformer/index.html">Paraformer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nemo/index.html">NeMo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../FireRedAsr/index.html">FireRedAsr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Dolphin/index.html">Dolphin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../homophone-replacer/index.html">拼音词组匹配替换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-diarization/index.html">Speaker Diarization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-identification/index.html">Speaker Identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speech-enhancement/index.html">Speech enhancement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../source-separation/index.html">Source separation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qnn/index.html">Qualcomm NPU (QNN, HTP)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rknn/index.html">rknn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spacemit/index.html">SpacemiT CPUs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ascend/index.html">Ascend NPU (昇腾 NPU)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tts/index.html">Text-to-speech (TTS)</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">sherpa-onnx</a> &raquo;</li>
+          <li><a href="index.html">Tauri Desktop Apps</a> &raquo;</li>
+      <li>Non-Streaming Speech Recognition from Microphone</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/onnx/tauri/vad-asr-mic.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="non-streaming-speech-recognition-from-microphone">
+<span id="tauri-vad-asr-mic"></span><h1>Non-Streaming Speech Recognition from Microphone<a class="headerlink" href="#non-streaming-speech-recognition-from-microphone" title="Permalink to this heading"></a></h1>
+<p>This app is a <a class="reference external" href="https://v2.tauri.app/">Tauri v2</a> desktop application that
+performs <strong>non-streaming speech recognition from live microphone input</strong>.
+It uses <a class="reference external" href="https://github.com/snakers4/silero-vad">Silero VAD</a> to detect
+speech segments and then runs an offline ASR model on each segment.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This app captures audio from a <strong>microphone</strong>, not from files.
+It displays wall-clock timestamps, supports recording playback,
+SRT export, and segment WAV export. If you want to transcribe
+audio/video files instead, see <a class="reference internal" href="vad-asr-file.html#tauri-vad-asr-file"><span class="std std-ref">Non-Streaming Speech Recognition from File</span></a>.</p>
+</div>
+<section id="features">
+<h2>Features<a class="headerlink" href="#features" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p>62+ ASR models supported (SenseVoice, Paraformer, Whisper, Transducer,
+Moonshine, Parakeet, Canary, Qwen3 ASR, etc.)</p></li>
+<li><p>Live microphone capture via <a class="reference external" href="https://github.com/RustAudioGroup/cpal">cpal</a> —
+cross-platform (ALSA, CoreAudio, WASAPI)</p></li>
+<li><p>Microphone device selection — choose from available input devices</p></li>
+<li><p>Wall-clock timestamps on each recognized segment</p></li>
+<li><p>Recording playback — listen back to the full recording after stopping</p></li>
+<li><p>SRT subtitle export</p></li>
+<li><p>Segment WAV export — save individual speech segments as WAV files</p></li>
+<li><p>Append mode — stop and restart recording without losing previous results</p></li>
+<li><p>Cross-platform — macOS (universal), Linux (x64/aarch64), Windows (x64)</p></li>
+</ul>
+</section>
+<section id="pre-built-apps">
+<h2>Pre-built Apps<a class="headerlink" href="#pre-built-apps" title="Permalink to this heading"></a></h2>
+<p>Pre-built apps for 62+ models and 4 platforms are available at:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://k2-fsa.github.io/sherpa/onnx/tauri/pre-built-app.html#non-streaming-speech-recognition-from-microphone">https://k2-fsa.github.io/sherpa/onnx/tauri/pre-built-app.html#non-streaming-speech-recognition-from-microphone</a></p>
+</div></blockquote>
+<p>The filename follows the pattern:</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">vad-asr-mic-{version}-{lang}-{model}-{platform}.{ext}</span></code></p>
+</div></blockquote>
+<p>where:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">version</span></code>: the current version, e.g., 1.13.0</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">lang</span></code>: the language of the model, e.g., <code class="docutils literal notranslate"><span class="pre">en</span></code> for English, <code class="docutils literal notranslate"><span class="pre">zh</span></code> for Chinese</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">model</span></code>: the name of the model used in the app</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">platform</span></code>: one of <code class="docutils literal notranslate"><span class="pre">linux-x64</span></code>, <code class="docutils literal notranslate"><span class="pre">linux-aarch64</span></code>, <code class="docutils literal notranslate"><span class="pre">universal.app</span></code> (macOS), <code class="docutils literal notranslate"><span class="pre">windows-x64</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ext</span></code>: <code class="docutils literal notranslate"><span class="pre">.tar.gz</span></code> for Linux, <code class="docutils literal notranslate"><span class="pre">.tar.bz2</span></code> for macOS, <code class="docutils literal notranslate"><span class="pre">.zip</span></code> for Windows</p></li>
+</ul>
+<p>You can download all supported models from
+<a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/tag/asr-models">https://github.com/k2-fsa/sherpa-onnx/releases/tag/asr-models</a>.</p>
+</section>
+<section id="building-the-app">
+<h2>Building the App<a class="headerlink" href="#building-the-app" title="Permalink to this heading"></a></h2>
+<section id="prerequisites">
+<h3>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this heading"></a></h3>
+<ul class="simple">
+<li><p><a class="reference external" href="https://www.rust-lang.org/tools/install">Rust</a> (stable)</p></li>
+<li><p><a class="reference external" href="https://nodejs.org/">Node.js</a> (for the Tauri CLI)</p></li>
+<li><p><a class="reference external" href="https://v2.tauri.app/start/prerequisites/">Tauri CLI prerequisites</a></p></li>
+<li><p>On Linux, install ALSA development headers: <code class="docutils literal notranslate"><span class="pre">sudo</span> <span class="pre">apt-get</span> <span class="pre">install</span> <span class="pre">libasound2-dev</span></code></p></li>
+</ul>
+<p>Install npm dependencies:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>npm<span class="w"> </span>install
+</pre></div>
+</div>
+</section>
+<section id="example-1-sensevoice-multilingual-chinese-english-japanese-korean-cantonese">
+<h3>Example 1: SenseVoice (multilingual, Chinese/English/Japanese/Korean/Cantonese)<a class="headerlink" href="#example-1-sensevoice-multilingual-chinese-english-japanese-korean-cantonese" title="Permalink to this heading"></a></h3>
+<p>This example uses <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/blob/master/tauri-examples/non-streaming-speech-recognition-from-microphone/src-tauri/src/model_registry.rs">model type 15</a> — <code class="docutils literal notranslate"><span class="pre">sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17</span></code>.
+It supports Chinese, English, Japanese, Korean, and Cantonese.</p>
+<section id="step-1-download-the-model-and-silero-vad">
+<h4>Step 1: Download the model and Silero VAD<a class="headerlink" href="#step-1-download-the-model-and-silero-vad" title="Permalink to this heading"></a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>tauri-examples/non-streaming-speech-recognition-from-microphone
+
+curl<span class="w"> </span>-SL<span class="w"> </span>-O<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17.tar.bz2
+tar<span class="w"> </span>xvf<span class="w"> </span>sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17.tar.bz2
+rm<span class="w"> </span>sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17.tar.bz2
+
+curl<span class="w"> </span>-SL<span class="w"> </span>-O<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/silero_vad.onnx
+</pre></div>
+</div>
+</section>
+<section id="step-2-copy-assets">
+<h4>Step 2: Copy assets<a class="headerlink" href="#step-2-copy-assets" title="Permalink to this heading"></a></h4>
+<p>Tauri bundles files from <code class="docutils literal notranslate"><span class="pre">src-tauri/assets/</span></code>. Place the model directory
+and <code class="docutils literal notranslate"><span class="pre">silero_vad.onnx</span></code> inside it:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>-p<span class="w"> </span>src-tauri/assets
+cp<span class="w"> </span>-a<span class="w"> </span>sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17<span class="w"> </span>src-tauri/assets/
+cp<span class="w"> </span>-a<span class="w"> </span>silero_vad.onnx<span class="w"> </span>src-tauri/assets/
+</pre></div>
+</div>
+<p>After copying, you can delete the original model directory to save disk space:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>rm<span class="w"> </span>-rf<span class="w"> </span>sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17
+</pre></div>
+</div>
+<p>This gives:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>src-tauri/assets/
+├── silero_vad.onnx
+└── sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17/
+    ├── model.int8.onnx
+    └── tokens.txt
+</pre></div>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<p>SenseVoice supports a homophone replacer. To enable it, also download
+<code class="docutils literal notranslate"><span class="pre">lexicon.txt</span></code> and <code class="docutils literal notranslate"><span class="pre">replace.fst</span></code> into <code class="docutils literal notranslate"><span class="pre">src-tauri/assets/</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>curl<span class="w"> </span>-SL<span class="w"> </span>-O<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/hr-files/lexicon.txt
+curl<span class="w"> </span>-SL<span class="w"> </span>-O<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/hr-files/replace.fst
+cp<span class="w"> </span>-a<span class="w"> </span>lexicon.txt<span class="w"> </span>replace.fst<span class="w"> </span>src-tauri/assets/
+</pre></div>
+</div>
+<p>The app works fine without these files.</p>
+</div>
+</section>
+<section id="step-3-set-model-type">
+<h4>Step 3: Set model type<a class="headerlink" href="#step-3-set-model-type" title="Permalink to this heading"></a></h4>
+<p>Edit <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/blob/master/tauri-examples/non-streaming-speech-recognition-from-microphone/src-tauri/src/lib.rs">src-tauri/src/lib.rs</a> and make sure the constants match:</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">const</span><span class="w"> </span><span class="n">MODEL_TYPE</span><span class="p">:</span><span class="w"> </span><span class="kt">u32</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">15</span><span class="p">;</span>
+<span class="k">const</span><span class="w"> </span><span class="n">MODEL_NAME</span><span class="p">:</span><span class="w"> </span><span class="kp">&amp;</span><span class="kt">str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17&quot;</span><span class="p">;</span>
+</pre></div>
+</div>
+</section>
+<section id="step-4-build-and-run">
+<h4>Step 4: Build and run<a class="headerlink" href="#step-4-build-and-run" title="Permalink to this heading"></a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>npm<span class="w"> </span>run<span class="w"> </span>dev
+</pre></div>
+</div>
+<p>To build a release binary:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>npm<span class="w"> </span>run<span class="w"> </span>build
+</pre></div>
+</div>
+<p>The output is in <code class="docutils literal notranslate"><span class="pre">src-tauri/target/release/bundle/</span></code>.</p>
+</section>
+</section>
+<section id="example-2-parakeet-tdt-0-6b-v2-english">
+<h3>Example 2: Parakeet TDT 0.6b v2 (English)<a class="headerlink" href="#example-2-parakeet-tdt-0-6b-v2-english" title="Permalink to this heading"></a></h3>
+<p>This example uses <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/blob/master/tauri-examples/non-streaming-speech-recognition-from-microphone/src-tauri/src/model_registry.rs">model type 30</a> — <code class="docutils literal notranslate"><span class="pre">sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8</span></code>.
+It supports English only.</p>
+<section id="id1">
+<h4>Step 1: Download the model and Silero VAD<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>tauri-examples/non-streaming-speech-recognition-from-microphone
+
+curl<span class="w"> </span>-SL<span class="w"> </span>-O<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8.tar.bz2
+tar<span class="w"> </span>xvf<span class="w"> </span>sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8.tar.bz2
+rm<span class="w"> </span>sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8.tar.bz2
+
+curl<span class="w"> </span>-SL<span class="w"> </span>-O<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/silero_vad.onnx
+</pre></div>
+</div>
+</section>
+<section id="id2">
+<h4>Step 2: Copy assets<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>-p<span class="w"> </span>src-tauri/assets
+cp<span class="w"> </span>-a<span class="w"> </span>sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8<span class="w"> </span>src-tauri/assets/
+cp<span class="w"> </span>-a<span class="w"> </span>silero_vad.onnx<span class="w"> </span>src-tauri/assets/
+</pre></div>
+</div>
+<p>After copying, you can delete the original model directory to save disk space:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>rm<span class="w"> </span>-rf<span class="w"> </span>sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8
+</pre></div>
+</div>
+<p>This gives:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>src-tauri/assets/
+├── silero_vad.onnx
+└── sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/
+    ├── encoder.int8.onnx
+    ├── decoder.int8.onnx
+    ├── joiner.int8.onnx
+    └── tokens.txt
+</pre></div>
+</div>
+</section>
+<section id="id3">
+<h4>Step 3: Set model type<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h4>
+<p>Edit <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/blob/master/tauri-examples/non-streaming-speech-recognition-from-microphone/src-tauri/src/lib.rs">src-tauri/src/lib.rs</a>:</p>
+<div class="highlight-rust notranslate"><div class="highlight"><pre><span></span><span class="k">const</span><span class="w"> </span><span class="n">MODEL_TYPE</span><span class="p">:</span><span class="w"> </span><span class="kt">u32</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">30</span><span class="p">;</span>
+<span class="k">const</span><span class="w"> </span><span class="n">MODEL_NAME</span><span class="p">:</span><span class="w"> </span><span class="kp">&amp;</span><span class="kt">str</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8&quot;</span><span class="p">;</span>
+</pre></div>
+</div>
+</section>
+<section id="id5">
+<h4>Step 4: Build and run<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>npm<span class="w"> </span>run<span class="w"> </span>dev
+
+<span class="c1"># Or build a release binary</span>
+npm<span class="w"> </span>run<span class="w"> </span>build
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+<section id="using-a-different-model">
+<h2>Using a Different Model<a class="headerlink" href="#using-a-different-model" title="Permalink to this heading"></a></h2>
+<p>The app supports 62+ models (types 0–61) defined in
+<a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/blob/master/tauri-examples/non-streaming-speech-recognition-from-microphone/src-tauri/src/model_registry.rs">src-tauri/src/model_registry.rs</a>.
+To use a different model:</p>
+<ol class="arabic simple">
+<li><p>Choose a model type from the registry (0–61).</p></li>
+<li><p>Set <code class="docutils literal notranslate"><span class="pre">MODEL_TYPE</span></code> and <code class="docutils literal notranslate"><span class="pre">MODEL_NAME</span></code> in <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/blob/master/tauri-examples/non-streaming-speech-recognition-from-microphone/src-tauri/src/lib.rs">src-tauri/src/lib.rs</a>.</p></li>
+<li><p>Download the corresponding model and place it in <code class="docutils literal notranslate"><span class="pre">src-tauri/assets/</span></code>.</p></li>
+<li><p>Always include <code class="docutils literal notranslate"><span class="pre">silero_vad.onnx</span></code> in <code class="docutils literal notranslate"><span class="pre">src-tauri/assets/</span></code>.</p></li>
+</ol>
+<p>The model files required depend on the model family:</p>
+<ul class="simple">
+<li><p><strong>Paraformer</strong>: <code class="docutils literal notranslate"><span class="pre">model.int8.onnx</span></code>, <code class="docutils literal notranslate"><span class="pre">tokens.txt</span></code></p></li>
+<li><p><strong>Transducer</strong>: <code class="docutils literal notranslate"><span class="pre">encoder*.onnx</span></code>, <code class="docutils literal notranslate"><span class="pre">decoder*.onnx</span></code>, <code class="docutils literal notranslate"><span class="pre">joiner*.onnx</span></code>, <code class="docutils literal notranslate"><span class="pre">tokens.txt</span></code></p></li>
+<li><p><strong>Whisper</strong>: <code class="docutils literal notranslate"><span class="pre">*-encoder*.onnx</span></code>, <code class="docutils literal notranslate"><span class="pre">*-decoder*.onnx</span></code>, <code class="docutils literal notranslate"><span class="pre">tokens.txt</span></code></p></li>
+<li><p><strong>SenseVoice</strong>: <code class="docutils literal notranslate"><span class="pre">model.int8.onnx</span></code>, <code class="docutils literal notranslate"><span class="pre">tokens.txt</span></code></p></li>
+<li><p><strong>Moonshine</strong>: <code class="docutils literal notranslate"><span class="pre">encode.onnx</span></code>, <code class="docutils literal notranslate"><span class="pre">decode.onnx</span></code>, <code class="docutils literal notranslate"><span class="pre">tokens.txt</span></code></p></li>
+<li><p><strong>NeMo CTC</strong>: <code class="docutils literal notranslate"><span class="pre">model.onnx</span></code>, <code class="docutils literal notranslate"><span class="pre">tokens.txt</span></code></p></li>
+</ul>
+</section>
+<section id="how-it-works">
+<h2>How It Works<a class="headerlink" href="#how-it-works" title="Permalink to this heading"></a></h2>
+<ol class="arabic simple">
+<li><p>Select a microphone from the device dropdown (or use the default).</p></li>
+<li><p>Click <strong>Start Recording</strong> — the app begins capturing audio from the microphone.</p></li>
+<li><p>Audio is resampled to 16 kHz if needed and fed to the VAD in 512-sample (32 ms) chunks.</p></li>
+<li><p>Each detected speech segment is decoded by the offline recognizer.</p></li>
+<li><p>Results appear in a table with wall-clock timestamps and recognized text.</p></li>
+<li><p>Click <strong>Stop Recording</strong> — remaining audio is flushed through the VAD.</p></li>
+<li><p>The full recording is available for playback. Click any table row to seek to that segment.</p></li>
+<li><p>You can export results as SRT, copy text with timestamps, or save individual segments as WAV.</p></li>
+<li><p>Click <strong>Start Recording</strong> again to append new audio to the existing recording.</p></li>
+<li><p>Click <strong>Clear</strong> to discard all results and recorded audio.</p></li>
+</ol>
+</section>
+<section id="license">
+<h2>License<a class="headerlink" href="#license" title="Permalink to this heading"></a></h2>
+<p>The code is licensed under
+<a class="reference external" href="https://www.apache.org/licenses/LICENSE-2.0">Apache-2.0</a>.
+Please check the license of your selected model separately.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="vad-asr-file.html" class="btn btn-neutral float-left" title="Non-Streaming Speech Recognition from File" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../websocket/index.html" class="btn btn-neutral float-right" title="WebSocket" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

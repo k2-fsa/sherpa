@@ -1,0 +1,7 @@
+<map id="sherpa_onnx::cxx::OfflineSpeechDenoiserDpdfNetModelConfig" name="sherpa_onnx::cxx::OfflineSpeechDenoiserDpdfNetModelConfig">
+<area shape="rect" id="Node000001" title="DPDFNet speech denoiser model configuration." alt="" coords="5,183,268,223"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="93,95,180,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="139,134,139,182,134,182,134,134"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="67,5,206,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="139,59,139,94,134,94,134,59"/>
+</map>

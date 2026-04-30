@@ -1,0 +1,310 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Provider configuration for SpacemiT &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Examples" href="examples.html" />
+    <link rel="prev" title="Build sherpa-onnx for SpacemiT CPUs" href="build.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">sherpa-onnx</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../install/index.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../faqs/index.html">Frequently Asked Question (FAQs)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python/index.html">Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../c-api/index.html">C API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../java-api/index.html">Java API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../javascript-api/index.html">Javascript API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kotlin-api/index.html">Kotlin API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../swift-api/index.html">Swift API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../go-api/index.html">Go API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rust-api/index.html">Rust API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../csharp-api/index.html">C# API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pascal-api/index.html">Pascal API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lazarus/index.html">Lazarus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../wasm/index.html">WebAssembly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../android/index.html">Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../harmony-os/index.html">HarmonyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ios/index.html">iOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../flutter/index.html">Flutter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tauri/index.html">Tauri Desktop Apps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../websocket/index.html">WebSocket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../hotwords/index.html">Hotwords (Contextual biasing)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kws/index.html">Keyword spotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../punctuation/index.html">Punctuation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../audio-tagging/index.html">Audio tagging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spoken-language-identification/index.html">Spoken language identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vad/index.html">VAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../medasr/index.html">Google MedASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/index.html">Pre-trained models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/whisper/index.html">Whisper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../moonshine/index.html">Moonshine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../omnilingual-asr/index.html">Omnilingual ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sense-voice/index.html">SenseVoice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cohere_transcribe/index.html">Cohere Transcribe</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../funasr-nano/index.html">FunASR Nano</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qwen3-asr/index.html">Qwen3-ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../paraformer/index.html">Paraformer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nemo/index.html">NeMo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../FireRedAsr/index.html">FireRedAsr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Dolphin/index.html">Dolphin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../homophone-replacer/index.html">拼音词组匹配替换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-diarization/index.html">Speaker Diarization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-identification/index.html">Speaker Identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speech-enhancement/index.html">Speech enhancement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../source-separation/index.html">Source separation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qnn/index.html">Qualcomm NPU (QNN, HTP)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rknn/index.html">rknn</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">SpacemiT CPUs</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="build.html">Build sherpa-onnx for SpacemiT CPUs</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Provider configuration for SpacemiT</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#basic-usage">Basic usage</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#config-file-format">Config file format</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#common-options">Common options</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#threading-behavior">Threading behavior</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#common-recommendations">Common recommendations</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#starter-template">Starter template</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="examples.html">Examples</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../ascend/index.html">Ascend NPU (昇腾 NPU)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tts/index.html">Text-to-speech (TTS)</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">sherpa-onnx</a> &raquo;</li>
+          <li><a href="index.html">SpacemiT CPUs</a> &raquo;</li>
+      <li>Provider configuration for SpacemiT</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/onnx/spacemit/provider-config.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="provider-configuration-for-spacemit">
+<span id="spacemit-provider-config"></span><h1>Provider configuration for SpacemiT<a class="headerlink" href="#provider-configuration-for-spacemit" title="Permalink to this heading"></a></h1>
+<p>For the complete and authoritative provider option list, please refer to:</p>
+<p><a class="reference external" href="https://github.com/spacemit-com/docs-ai/blob/main/zh/compute_stack/ai_compute_stack/onnxruntime.md">SpacemiT-ONNXRuntime ProviderOption documentation</a></p>
+<p>This page only keeps the usage pattern in <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a> and a few commonly
+used options.</p>
+<section id="basic-usage">
+<h2>Basic usage<a class="headerlink" href="#basic-usage" title="Permalink to this heading"></a></h2>
+<p>The simplest form is:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>--provider<span class="o">=</span>spacemit
+</pre></div>
+</div>
+<p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a> also supports loading a provider config file by appending a
+path after <code class="docutils literal notranslate"><span class="pre">:</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>--provider<span class="o">=</span>spacemit:path/to/provider.config
+</pre></div>
+</div>
+<p>The provider string is split into two parts:</p>
+<ul class="simple">
+<li><p>The provider name, for example <code class="docutils literal notranslate"><span class="pre">spacemit</span></code></p></li>
+<li><p>The config file path after <code class="docutils literal notranslate"><span class="pre">:</span></code></p></li>
+</ul>
+</section>
+<section id="config-file-format">
+<h2>Config file format<a class="headerlink" href="#config-file-format" title="Permalink to this heading"></a></h2>
+<p>The config file is a plain text file.</p>
+<ul class="simple">
+<li><p>Empty lines are ignored</p></li>
+<li><p>Lines starting with <code class="docutils literal notranslate"><span class="pre">#</span></code> are ignored</p></li>
+<li><p>Each entry uses <code class="docutils literal notranslate"><span class="pre">key=value</span></code> format or <code class="docutils literal notranslate"><span class="pre">key</span> <span class="pre">=</span> <span class="pre">value</span></code></p></li>
+</ul>
+<p>For example:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># Example SpacemiT provider config
+SPACEMIT_EP_INTRA_THREAD_NUM=4
+</pre></div>
+</div>
+</section>
+<section id="common-options">
+<h2>Common options<a class="headerlink" href="#common-options" title="Permalink to this heading"></a></h2>
+<p>Please check the external SpacemiT-ONNXRuntime documentation for the full
+description. The options below are usually the most relevant when using
+<a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>.</p>
+<dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">SPACEMIT_EP_INTRA_THREAD_NUM</span></code></dt><dd><p>Controls the EP intra-thread count. This is the first option to tune when
+you want to adjust CPU utilization.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">SPACEMIT_EP_USE_GLOBAL_INTRA_THREAD</span></code></dt><dd><p>Lets multiple sessions share the same EP intra-thread pool in one process.
+This is useful only when you clearly control session scheduling.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">SPACEMIT_EP_DUMP_SUBGRAPHS</span></code></dt><dd><p>Dumps EP subgraphs for debugging graph partition behavior.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">SPACEMIT_EP_DEBUG_PROFILE</span></code></dt><dd><p>Writes EP profiling data that can be inspected with timeline tools.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">SPACEMIT_EP_DUMP_TENSORS</span></code></dt><dd><p>Dumps intermediate tensors for debugging correctness issues.</p>
+</dd>
+</dl>
+</section>
+<section id="threading-behavior">
+<h2>Threading behavior<a class="headerlink" href="#threading-behavior" title="Permalink to this heading"></a></h2>
+<p>When the SpacemiT execution provider is enabled, <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a> adjusts ORT
+threading internally:</p>
+<ul class="simple">
+<li><p>Intra-op threads are set to <code class="docutils literal notranslate"><span class="pre">1</span></code></p></li>
+<li><p>Inter-op threads are set to <code class="docutils literal notranslate"><span class="pre">1</span></code></p></li>
+<li><p>If <code class="docutils literal notranslate"><span class="pre">SPACEMIT_EP_INTRA_THREAD_NUM</span></code> is not present in the provider config,
+<a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a> uses <code class="docutils literal notranslate"><span class="pre">--num-threads</span></code> to populate it automatically</p></li>
+</ul>
+<p>This means the following command is valid even without an explicit config file:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sherpa-onnx-offline<span class="w"> </span>--provider<span class="o">=</span>spacemit<span class="w"> </span>--num-threads<span class="o">=</span><span class="m">4</span><span class="w"> </span>...
+</pre></div>
+</div>
+</section>
+<section id="common-recommendations">
+<h2>Common recommendations<a class="headerlink" href="#common-recommendations" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><dl class="simple">
+<dt>Start with <code class="docutils literal notranslate"><span class="pre">--provider=spacemit</span></code> and <code class="docutils literal notranslate"><span class="pre">--num-threads=N</span></code> before creating a</dt><dd><p>custom config file.</p>
+</dd>
+</dl>
+</li>
+<li><p>Add a config file only when you need explicit EP tuning or debugging.</p></li>
+<li><dl class="simple">
+<dt>Use <code class="docutils literal notranslate"><span class="pre">SPACEMIT_EP_DUMP_SUBGRAPHS</span></code> and <code class="docutils literal notranslate"><span class="pre">SPACEMIT_EP_DEBUG_PROFILE</span></code> when you</dt><dd><p>investigate partition or performance issues.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Use <code class="docutils literal notranslate"><span class="pre">SPACEMIT_EP_DISABLE_OP_TYPE_FILTER</span></code> for temporary compatibility</dt><dd><p>workarounds when a specific operator type should fall back to CPU.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</section>
+<section id="starter-template">
+<h2>Starter template<a class="headerlink" href="#starter-template" title="Permalink to this heading"></a></h2>
+<p>You can create a minimal provider config file like this:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>SPACEMIT_EP_INTRA_THREAD_NUM=4
+SPACEMIT_EP_USE_GLOBAL_INTRA_THREAD=1
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="build.html" class="btn btn-neutral float-left" title="Build sherpa-onnx for SpacemiT CPUs" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="examples.html" class="btn btn-neutral float-right" title="Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,984 @@
+.. _sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03:
+
+sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03 (吴语)
+------------------------------------------------------------------------------------------------
+
+This model is converted from
+
+  `<https://huggingface.co/ASLP-lab/WenetSpeech-Wu-Speech-Understanding/tree/main/u2++>`_
+
+It uses 8k hours of training data.
+
+It supports Shanghainese, Suzhounese, Shaoxingnese, Ningbonese, Hangzhounese, Jiaxingnese, Taizhounese, and Wenzhounese.
+
+.. hint::
+
+   该模型支持
+
+    1. 普通话
+    2. 上海话
+    3. 苏州话
+    4. 绍兴话
+    5. 宁波话
+    6. 杭州话
+    7. 嘉兴话
+    8. 台州话
+    9. 温州话
+
+Huggingface space
+~~~~~~~~~~~~~~~~~~
+
+You can visit
+
+  `<https://huggingface.co/spaces/k2-fsa/automatic-speech-recognition>`_
+
+to try this model in your browser.
+
+.. hint::
+
+   You need to first select the language ``吴语``
+   and then select the model  ``csukuangfj2/sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03``.
+
+Android APKs
+~~~~~~~~~~~~~~~~~~
+
+Real-time speech recognition Android APKs can be found at
+
+  `<https://k2-fsa.github.io/sherpa/onnx/android/apk-simulate-streaming-asr.html>`_
+
+.. hint::
+
+   Please always download the latest version.
+
+   Please search for ``wu-wenetspeech_wu_u2pconformer_ctc_2026_02_03``.
+
+Download
+~~~~~~~~~~~~~~~~~~
+
+Please use the following commands to download it::
+
+  cd /path/to/sherpa-onnx
+
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03.tar.bz2
+  tar xf sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03.tar.bz2
+  rm sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03.tar.bz2
+
+After downloading, you should find the following files::
+
+  ls -lh sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/
+  total 264120
+  -rw-r--r--@  1 fangjun  staff   127M  3 Feb 18:44 model.int8.onnx
+  -rw-r--r--@  1 fangjun  staff   239B  3 Feb 18:44 README.md
+  drwxr-xr-x@ 27 fangjun  staff   864B  3 Feb 18:44 test_wavs
+  -rw-r--r--@  1 fangjun  staff    51K  3 Feb 18:44 tokens.txt
+
+  ls -lh sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/test_wavs/
+  total 10888
+  -rw-r--r--@ 1 fangjun  staff   184K  3 Feb 18:44 1.wav
+  -rw-r--r--@ 1 fangjun  staff   238K  3 Feb 18:44 10.wav
+  -rw-r--r--@ 1 fangjun  staff   228K  3 Feb 18:44 11.wav
+  -rw-r--r--@ 1 fangjun  staff   179K  3 Feb 18:44 12.wav
+  -rw-r--r--@ 1 fangjun  staff   214K  3 Feb 18:44 13.wav
+  -rw-r--r--@ 1 fangjun  staff   374K  3 Feb 18:44 14.wav
+  -rw-r--r--@ 1 fangjun  staff   383K  3 Feb 18:44 15.wav
+  -rw-r--r--@ 1 fangjun  staff   181K  3 Feb 18:44 16.wav
+  -rw-r--r--@ 1 fangjun  staff   181K  3 Feb 18:44 17.wav
+  -rw-r--r--@ 1 fangjun  staff   186K  3 Feb 18:44 18.wav
+  -rw-r--r--@ 1 fangjun  staff   181K  3 Feb 18:44 19.wav
+  -rw-r--r--@ 1 fangjun  staff   183K  3 Feb 18:44 2.wav
+  -rw-r--r--@ 1 fangjun  staff   238K  3 Feb 18:44 20.wav
+  -rw-r--r--@ 1 fangjun  staff   193K  3 Feb 18:44 21.wav
+  -rw-r--r--@ 1 fangjun  staff   184K  3 Feb 18:44 22.wav
+  -rw-r--r--@ 1 fangjun  staff   264K  3 Feb 18:44 23.wav
+  -rw-r--r--@ 1 fangjun  staff   180K  3 Feb 18:44 24.wav
+  -rw-r--r--@ 1 fangjun  staff   251K  3 Feb 18:44 3.wav
+  -rw-r--r--@ 1 fangjun  staff   229K  3 Feb 18:44 4.wav
+  -rw-r--r--@ 1 fangjun  staff   257K  3 Feb 18:44 5.wav
+  -rw-r--r--@ 1 fangjun  staff   218K  3 Feb 18:44 6.wav
+  -rw-r--r--@ 1 fangjun  staff   241K  3 Feb 18:44 7.wav
+  -rw-r--r--@ 1 fangjun  staff   183K  3 Feb 18:44 8.wav
+  -rw-r--r--@ 1 fangjun  staff   234K  3 Feb 18:44 9.wav
+  -rw-r--r--@ 1 fangjun  staff   2.0K  3 Feb 18:44 transcript.txt
+
+Real-time/Streaming Speech recognition from a microphone with VAD
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block::
+
+  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/silero_vad.onnx
+
+  ./build/bin/sherpa-onnx-vad-microphone-simulated-streaming-asr \
+    --silero-vad-model=./silero_vad.onnx \
+    --tokens=./sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/tokens.txt \
+    --wenet-ctc-model=./sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/model.int8.onnx \
+    --num-threads=1
+
+
+Decode wave files
+~~~~~~~~~~~~~~~~~~
+
+
+1.wav
+"""""
+
+.. raw:: html
+
+  <table>
+    <tr>
+      <th>Wave filename</th>
+      <th>Content</th>
+      <th>Ground truth</th>
+    </tr>
+    <tr>
+      <td>1.wav</td>
+      <td>
+       <audio title="1.wav" controls="controls">
+             <source src="/sherpa/_static/sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/1.wav" type="audio/wav">
+             Your browser does not support the <code>audio</code> element.
+       </audio>
+      </td>
+      <td>
+      而宋子文搭子宋美龄搭子端纳呢侪没经过搜查
+      </td>
+    </tr>
+  </table>
+
+.. code-block:: bash
+
+  ./build/bin/sherpa-onnx-offline \
+    --tokens=./sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/tokens.txt \
+    --wenet-ctc-model=./sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/model.int8.onnx \
+    --num-threads=1 \
+    ./sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/test_wavs/1.wav
+
+.. literalinclude:: ./code/sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/1.txt
+
+
+2.wav
+"""""
+
+.. raw:: html
+
+  <table>
+    <tr>
+      <th>Wave filename</th>
+      <th>Content</th>
+      <th>Ground truth</th>
+    </tr>
+    <tr>
+      <td>2.wav</td>
+      <td>
+       <audio title="2.wav" controls="controls">
+             <source src="/sherpa/_static/sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/2.wav" type="audio/wav">
+             Your browser does not support the <code>audio</code> element.
+       </audio>
+      </td>
+      <td>
+      借搿个机会纷纷响应搿个辰光奥地利个老皇帝已经死脱了
+      </td>
+    </tr>
+  </table>
+
+.. code-block:: bash
+
+  ./build/bin/sherpa-onnx-offline \
+    --tokens=./sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/tokens.txt \
+    --wenet-ctc-model=./sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/model.int8.onnx \
+    --num-threads=1 \
+    ./sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/test_wavs/2.wav
+
+.. literalinclude:: ./code/sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/2.txt
+
+
+3.wav
+"""""
+
+.. raw:: html
+
+  <table>
+    <tr>
+      <th>Wave filename</th>
+      <th>Content</th>
+      <th>Ground truth</th>
+    </tr>
+    <tr>
+      <td>3.wav</td>
+      <td>
+       <audio title="3.wav" controls="controls">
+             <source src="/sherpa/_static/sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/3.wav" type="audio/wav">
+             Your browser does not support the <code>audio</code> element.
+       </audio>
+      </td>
+      <td>
+      呃大灰狼就跟山羊奶奶讲山羊奶奶侬一家头蹲阿拉决定拿这点物事侪送拨侬
+      </td>
+    </tr>
+  </table>
+
+.. code-block:: bash
+
+  ./build/bin/sherpa-onnx-offline \
+    --tokens=./sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/tokens.txt \
+    --wenet-ctc-model=./sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/model.int8.onnx \
+    --num-threads=1 \
+    ./sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/test_wavs/3.wav
+
+.. literalinclude:: ./code/sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/3.txt
+
+
+4.wav
+"""""
+
+.. raw:: html
+
+  <table>
+    <tr>
+      <th>Wave filename</th>
+      <th>Content</th>
+      <th>Ground truth</th>
+    </tr>
+    <tr>
+      <td>4.wav</td>
+      <td>
+       <audio title="4.wav" controls="controls">
+             <source src="/sherpa/_static/sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/4.wav" type="audio/wav">
+             Your browser does not support the <code>audio</code> element.
+       </audio>
+      </td>
+      <td>
+      胖胖又得意了啥人会得想到玩具汽车里头还囥了物事呢
+      </td>
+    </tr>
+  </table>
+
+.. code-block:: bash
+
+  ./build/bin/sherpa-onnx-offline \
+    --tokens=./sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/tokens.txt \
+    --wenet-ctc-model=./sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/model.int8.onnx \
+    --num-threads=1 \
+    ./sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/test_wavs/4.wav
+
+.. literalinclude:: ./code/sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/4.txt
+
+
+5.wav
+"""""
+
+.. raw:: html
+
+  <table>
+    <tr>
+      <th>Wave filename</th>
+      <th>Content</th>
+      <th>Ground truth</th>
+    </tr>
+    <tr>
+      <td>5.wav</td>
+      <td>
+       <audio title="5.wav" controls="controls">
+             <source src="/sherpa/_static/sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/5.wav" type="audio/wav">
+             Your browser does not support the <code>audio</code> element.
+       </audio>
+      </td>
+      <td>
+      这物事里头是有利益分配的讲好个埃种大生意难做一趟做两三年也做不出的
+      </td>
+    </tr>
+  </table>
+
+.. code-block:: bash
+
+  ./build/bin/sherpa-onnx-offline \
+    --tokens=./sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/tokens.txt \
+    --wenet-ctc-model=./sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/model.int8.onnx \
+    --num-threads=1 \
+    ./sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/test_wavs/5.wav
+
+.. literalinclude:: ./code/sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/5.txt
+
+
+6.wav
+"""""
+
+.. raw:: html
+
+  <table>
+    <tr>
+      <th>Wave filename</th>
+      <th>Content</th>
+      <th>Ground truth</th>
+    </tr>
+    <tr>
+      <td>6.wav</td>
+      <td>
+       <audio title="6.wav" controls="controls">
+             <source src="/sherpa/_static/sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/6.wav" type="audio/wav">
+             Your browser does not support the <code>audio</code> element.
+       </audio>
+      </td>
+      <td>
+      这个新生儿啊相对来讲偏少大家侪不愿意生嘛
+      </td>
+    </tr>
+  </table>
+
+.. code-block:: bash
+
+  ./build/bin/sherpa-onnx-offline \
+    --tokens=./sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/tokens.txt \
+    --wenet-ctc-model=./sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/model.int8.onnx \
+    --num-threads=1 \
+    ./sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/test_wavs/6.wav
+
+.. literalinclude:: ./code/sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/6.txt
+
+
+7.wav
+"""""
+
+.. raw:: html
+
+  <table>
+    <tr>
+      <th>Wave filename</th>
+      <th>Content</th>
+      <th>Ground truth</th>
+    </tr>
+    <tr>
+      <td>7.wav</td>
+      <td>
+       <audio title="7.wav" controls="controls">
+             <source src="/sherpa/_static/sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/7.wav" type="audio/wav">
+             Your browser does not support the <code>audio</code> element.
+       </audio>
+      </td>
+      <td>
+      这自然应该是像上海大都市这能介告诉伊虽然伊同样是外来的闲话
+      </td>
+    </tr>
+  </table>
+
+.. code-block:: bash
+
+  ./build/bin/sherpa-onnx-offline \
+    --tokens=./sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/tokens.txt \
+    --wenet-ctc-model=./sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/model.int8.onnx \
+    --num-threads=1 \
+    ./sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/test_wavs/7.wav
+
+.. literalinclude:: ./code/sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/7.txt
+
+
+8.wav
+"""""
+
+.. raw:: html
+
+  <table>
+    <tr>
+      <th>Wave filename</th>
+      <th>Content</th>
+      <th>Ground truth</th>
+    </tr>
+    <tr>
+      <td>8.wav</td>
+      <td>
+       <audio title="8.wav" controls="controls">
+             <source src="/sherpa/_static/sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/8.wav" type="audio/wav">
+             Your browser does not support the <code>audio</code> element.
+       </audio>
+      </td>
+      <td>
+      已经有西南亚洲的外国人居住辣辣埃及从事贸易活动
+      </td>
+    </tr>
+  </table>
+
+.. code-block:: bash
+
+  ./build/bin/sherpa-onnx-offline \
+    --tokens=./sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/tokens.txt \
+    --wenet-ctc-model=./sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/model.int8.onnx \
+    --num-threads=1 \
+    ./sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/test_wavs/8.wav
+
+.. literalinclude:: ./code/sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/8.txt
+
+
+9.wav
+"""""
+
+.. raw:: html
+
+  <table>
+    <tr>
+      <th>Wave filename</th>
+      <th>Content</th>
+      <th>Ground truth</th>
+    </tr>
+    <tr>
+      <td>9.wav</td>
+      <td>
+       <audio title="9.wav" controls="controls">
+             <source src="/sherpa/_static/sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/9.wav" type="audio/wav">
+             Your browser does not support the <code>audio</code> element.
+       </audio>
+      </td>
+      <td>
+      青春的舞龙唱出短暂的曲子的清风里后世
+      </td>
+    </tr>
+  </table>
+
+.. code-block:: bash
+
+  ./build/bin/sherpa-onnx-offline \
+    --tokens=./sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/tokens.txt \
+    --wenet-ctc-model=./sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/model.int8.onnx \
+    --num-threads=1 \
+    ./sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/test_wavs/9.wav
+
+.. literalinclude:: ./code/sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/9.txt
+
+
+10.wav
+""""""
+
+.. raw:: html
+
+  <table>
+    <tr>
+      <th>Wave filename</th>
+      <th>Content</th>
+      <th>Ground truth</th>
+    </tr>
+    <tr>
+      <td>10.wav</td>
+      <td>
+       <audio title="10.wav" controls="controls">
+             <source src="/sherpa/_static/sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/10.wav" type="audio/wav">
+             Your browser does not support the <code>audio</code> element.
+       </audio>
+      </td>
+      <td>
+      肠道菌群也就是阿拉肠道当中不同种类的细菌等微生物会的影响大脑的健康
+      </td>
+    </tr>
+  </table>
+
+.. code-block:: bash
+
+  ./build/bin/sherpa-onnx-offline \
+    --tokens=./sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/tokens.txt \
+    --wenet-ctc-model=./sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/model.int8.onnx \
+    --num-threads=1 \
+    ./sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/test_wavs/10.wav
+
+.. literalinclude:: ./code/sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/10.txt
+
+
+11.wav
+""""""
+
+.. raw:: html
+
+  <table>
+    <tr>
+      <th>Wave filename</th>
+      <th>Content</th>
+      <th>Ground truth</th>
+    </tr>
+    <tr>
+      <td>11.wav</td>
+      <td>
+       <audio title="11.wav" controls="controls">
+             <source src="/sherpa/_static/sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/11.wav" type="audio/wav">
+             Your browser does not support the <code>audio</code> element.
+       </audio>
+      </td>
+      <td>
+      老百姓大家知了伊也勿中浪向摊头浪向吃两碗豆腐花
+      </td>
+    </tr>
+  </table>
+
+.. code-block:: bash
+
+  ./build/bin/sherpa-onnx-offline \
+    --tokens=./sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/tokens.txt \
+    --wenet-ctc-model=./sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/model.int8.onnx \
+    --num-threads=1 \
+    ./sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/test_wavs/11.wav
+
+.. literalinclude:: ./code/sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/11.txt
+
+
+12.wav
+""""""
+
+.. raw:: html
+
+  <table>
+    <tr>
+      <th>Wave filename</th>
+      <th>Content</th>
+      <th>Ground truth</th>
+    </tr>
+    <tr>
+      <td>12.wav</td>
+      <td>
+       <audio title="12.wav" controls="controls">
+             <source src="/sherpa/_static/sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/12.wav" type="audio/wav">
+             Your browser does not support the <code>audio</code> element.
+       </audio>
+      </td>
+      <td>
+      孙女告娘当我儿子看我讲的闲话
+      </td>
+    </tr>
+  </table>
+
+.. code-block:: bash
+
+  ./build/bin/sherpa-onnx-offline \
+    --tokens=./sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/tokens.txt \
+    --wenet-ctc-model=./sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/model.int8.onnx \
+    --num-threads=1 \
+    ./sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/test_wavs/12.wav
+
+.. literalinclude:: ./code/sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/12.txt
+
+
+13.wav
+""""""
+
+.. raw:: html
+
+  <table>
+    <tr>
+      <th>Wave filename</th>
+      <th>Content</th>
+      <th>Ground truth</th>
+    </tr>
+    <tr>
+      <td>13.wav</td>
+      <td>
+       <audio title="13.wav" controls="controls">
+             <source src="/sherpa/_static/sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/13.wav" type="audio/wav">
+             Your browser does not support the <code>audio</code> element.
+       </audio>
+      </td>
+      <td>
+      呃对伐现在实际上是新上海人越来越多了外加未来我觉着这群新上海人会得取代脱阿拉
+      </td>
+    </tr>
+  </table>
+
+.. code-block:: bash
+
+  ./build/bin/sherpa-onnx-offline \
+    --tokens=./sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/tokens.txt \
+    --wenet-ctc-model=./sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/model.int8.onnx \
+    --num-threads=1 \
+    ./sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/test_wavs/13.wav
+
+.. literalinclude:: ./code/sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/13.txt
+
+
+14.wav
+""""""
+
+.. raw:: html
+
+  <table>
+    <tr>
+      <th>Wave filename</th>
+      <th>Content</th>
+      <th>Ground truth</th>
+    </tr>
+    <tr>
+      <td>14.wav</td>
+      <td>
+       <audio title="14.wav" controls="controls">
+             <source src="/sherpa/_static/sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/14.wav" type="audio/wav">
+             Your browser does not support the <code>audio</code> element.
+       </audio>
+      </td>
+      <td>
+      有搿种爷娘对伐但是我觉着现在好像就讲上海哦现在勿是侪讲房子也没人住嘛外国人跑得一批还有就是叫低生育率帮低结婚率嗯
+      </td>
+    </tr>
+  </table>
+
+.. code-block:: bash
+
+  ./build/bin/sherpa-onnx-offline \
+    --tokens=./sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/tokens.txt \
+    --wenet-ctc-model=./sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/model.int8.onnx \
+    --num-threads=1 \
+    ./sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/test_wavs/14.wav
+
+.. literalinclude:: ./code/sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/14.txt
+
+
+15.wav
+""""""
+
+.. raw:: html
+
+  <table>
+    <tr>
+      <th>Wave filename</th>
+      <th>Content</th>
+      <th>Ground truth</th>
+    </tr>
+    <tr>
+      <td>15.wav</td>
+      <td>
+       <audio title="15.wav" controls="controls">
+             <source src="/sherpa/_static/sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/15.wav" type="audio/wav">
+             Your browser does not support the <code>audio</code> element.
+       </audio>
+      </td>
+      <td>
+      当侬老了一个人头发花白坐辣盖落花旁边轻轻的从书架上面取下一本书来慢慢叫的阅读
+      </td>
+    </tr>
+  </table>
+
+.. code-block:: bash
+
+  ./build/bin/sherpa-onnx-offline \
+    --tokens=./sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/tokens.txt \
+    --wenet-ctc-model=./sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/model.int8.onnx \
+    --num-threads=1 \
+    ./sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/test_wavs/15.wav
+
+.. literalinclude:: ./code/sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/15.txt
+
+
+16.wav
+""""""
+
+.. raw:: html
+
+  <table>
+    <tr>
+      <th>Wave filename</th>
+      <th>Content</th>
+      <th>Ground truth</th>
+    </tr>
+    <tr>
+      <td>16.wav</td>
+      <td>
+       <audio title="16.wav" controls="controls">
+             <source src="/sherpa/_static/sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/16.wav" type="audio/wav">
+             Your browser does not support the <code>audio</code> element.
+       </audio>
+      </td>
+      <td>
+      伴着夕阳的余晖一切侪是最美好的样子
+      </td>
+    </tr>
+  </table>
+
+.. code-block:: bash
+
+  ./build/bin/sherpa-onnx-offline \
+    --tokens=./sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/tokens.txt \
+    --wenet-ctc-model=./sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/model.int8.onnx \
+    --num-threads=1 \
+    ./sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/test_wavs/16.wav
+
+.. literalinclude:: ./code/sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/16.txt
+
+
+17.wav
+""""""
+
+.. raw:: html
+
+  <table>
+    <tr>
+      <th>Wave filename</th>
+      <th>Content</th>
+      <th>Ground truth</th>
+    </tr>
+    <tr>
+      <td>17.wav</td>
+      <td>
+       <audio title="17.wav" controls="controls">
+             <source src="/sherpa/_static/sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/17.wav" type="audio/wav">
+             Your browser does not support the <code>audio</code> element.
+       </audio>
+      </td>
+      <td>
+      勿晓得个呀老早勿是讲旧社会个辰光嘛搿种流氓阿了
+      </td>
+    </tr>
+  </table>
+
+.. code-block:: bash
+
+  ./build/bin/sherpa-onnx-offline \
+    --tokens=./sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/tokens.txt \
+    --wenet-ctc-model=./sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/model.int8.onnx \
+    --num-threads=1 \
+    ./sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/test_wavs/17.wav
+
+.. literalinclude:: ./code/sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/17.txt
+
+
+18.wav
+""""""
+
+.. raw:: html
+
+  <table>
+    <tr>
+      <th>Wave filename</th>
+      <th>Content</th>
+      <th>Ground truth</th>
+    </tr>
+    <tr>
+      <td>18.wav</td>
+      <td>
+       <audio title="18.wav" controls="controls">
+             <source src="/sherpa/_static/sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/18.wav" type="audio/wav">
+             Your browser does not support the <code>audio</code> element.
+       </audio>
+      </td>
+      <td>
+      观众朋友们就是教个小诀窍就是屋里向大家一直拌馄饨芯子啊
+      </td>
+    </tr>
+  </table>
+
+.. code-block:: bash
+
+  ./build/bin/sherpa-onnx-offline \
+    --tokens=./sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/tokens.txt \
+    --wenet-ctc-model=./sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/model.int8.onnx \
+    --num-threads=1 \
+    ./sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/test_wavs/18.wav
+
+.. literalinclude:: ./code/sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/18.txt
+
+
+19.wav
+""""""
+
+.. raw:: html
+
+  <table>
+    <tr>
+      <th>Wave filename</th>
+      <th>Content</th>
+      <th>Ground truth</th>
+    </tr>
+    <tr>
+      <td>19.wav</td>
+      <td>
+       <audio title="19.wav" controls="controls">
+             <source src="/sherpa/_static/sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/19.wav" type="audio/wav">
+             Your browser does not support the <code>audio</code> element.
+       </audio>
+      </td>
+      <td>
+      哦对的对的侬讲了对的哎哟这小米侬还是侬脑子好
+      </td>
+    </tr>
+  </table>
+
+.. code-block:: bash
+
+  ./build/bin/sherpa-onnx-offline \
+    --tokens=./sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/tokens.txt \
+    --wenet-ctc-model=./sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/model.int8.onnx \
+    --num-threads=1 \
+    ./sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/test_wavs/19.wav
+
+.. literalinclude:: ./code/sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/19.txt
+
+
+20.wav
+""""""
+
+.. raw:: html
+
+  <table>
+    <tr>
+      <th>Wave filename</th>
+      <th>Content</th>
+      <th>Ground truth</th>
+    </tr>
+    <tr>
+      <td>20.wav</td>
+      <td>
+       <audio title="20.wav" controls="controls">
+             <source src="/sherpa/_static/sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/20.wav" type="audio/wav">
+             Your browser does not support the <code>audio</code> element.
+       </audio>
+      </td>
+      <td>
+      嗯沿海各地包括㑚南翔连是日本海的前头一个费城
+      </td>
+    </tr>
+  </table>
+
+.. code-block:: bash
+
+  ./build/bin/sherpa-onnx-offline \
+    --tokens=./sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/tokens.txt \
+    --wenet-ctc-model=./sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/model.int8.onnx \
+    --num-threads=1 \
+    ./sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/test_wavs/20.wav
+
+.. literalinclude:: ./code/sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/20.txt
+
+
+21.wav
+""""""
+
+.. raw:: html
+
+  <table>
+    <tr>
+      <th>Wave filename</th>
+      <th>Content</th>
+      <th>Ground truth</th>
+    </tr>
+    <tr>
+      <td>21.wav</td>
+      <td>
+       <audio title="21.wav" controls="controls">
+             <source src="/sherpa/_static/sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/21.wav" type="audio/wav">
+             Your browser does not support the <code>audio</code> element.
+       </audio>
+      </td>
+      <td>
+      侬就没命了为了不叫类似的事体再发生张晨
+      </td>
+    </tr>
+  </table>
+
+.. code-block:: bash
+
+  ./build/bin/sherpa-onnx-offline \
+    --tokens=./sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/tokens.txt \
+    --wenet-ctc-model=./sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/model.int8.onnx \
+    --num-threads=1 \
+    ./sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/test_wavs/21.wav
+
+.. literalinclude:: ./code/sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/21.txt
+
+
+22.wav
+""""""
+
+.. raw:: html
+
+  <table>
+    <tr>
+      <th>Wave filename</th>
+      <th>Content</th>
+      <th>Ground truth</th>
+    </tr>
+    <tr>
+      <td>22.wav</td>
+      <td>
+       <audio title="22.wav" controls="controls">
+             <source src="/sherpa/_static/sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/22.wav" type="audio/wav">
+             Your browser does not support the <code>audio</code> element.
+       </audio>
+      </td>
+      <td>
+      其实这两年我也就是行尸走肉因为老婆没了
+      </td>
+    </tr>
+  </table>
+
+.. code-block:: bash
+
+  ./build/bin/sherpa-onnx-offline \
+    --tokens=./sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/tokens.txt \
+    --wenet-ctc-model=./sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/model.int8.onnx \
+    --num-threads=1 \
+    ./sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/test_wavs/22.wav
+
+.. literalinclude:: ./code/sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/22.txt
+
+
+23.wav
+""""""
+
+.. raw:: html
+
+  <table>
+    <tr>
+      <th>Wave filename</th>
+      <th>Content</th>
+      <th>Ground truth</th>
+    </tr>
+    <tr>
+      <td>23.wav</td>
+      <td>
+       <audio title="23.wav" controls="controls">
+             <source src="/sherpa/_static/sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/23.wav" type="audio/wav">
+             Your browser does not support the <code>audio</code> element.
+       </audio>
+      </td>
+      <td>
+      对的呀末伊拉这评论里向有种侬要讲一个人真个红了对勿啦就讲侬粉丝超过一万了嘛侬这种黑粉丝多
+      </td>
+    </tr>
+  </table>
+
+.. code-block:: bash
+
+  ./build/bin/sherpa-onnx-offline \
+    --tokens=./sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/tokens.txt \
+    --wenet-ctc-model=./sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/model.int8.onnx \
+    --num-threads=1 \
+    ./sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/test_wavs/23.wav
+
+.. literalinclude:: ./code/sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/23.txt
+
+
+24.wav
+""""""
+
+.. raw:: html
+
+  <table>
+    <tr>
+      <th>Wave filename</th>
+      <th>Content</th>
+      <th>Ground truth</th>
+    </tr>
+    <tr>
+      <td>24.wav</td>
+      <td>
+       <audio title="24.wav" controls="controls">
+             <source src="/sherpa/_static/sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/24.wav" type="audio/wav">
+             Your browser does not support the <code>audio</code> element.
+       </audio>
+      </td>
+      <td>
+      正常保养电池呃电瓶啊搿种轮胎啊还有
+      </td>
+    </tr>
+  </table>
+
+.. code-block:: bash
+
+  ./build/bin/sherpa-onnx-offline \
+    --tokens=./sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/tokens.txt \
+    --wenet-ctc-model=./sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/model.int8.onnx \
+    --num-threads=1 \
+    ./sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/test_wavs/24.wav
+
+.. literalinclude:: ./code/sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03/24.txt
+
+

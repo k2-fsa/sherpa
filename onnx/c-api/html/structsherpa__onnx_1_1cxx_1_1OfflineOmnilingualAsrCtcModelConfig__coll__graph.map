@@ -1,0 +1,7 @@
+<map id="sherpa_onnx::cxx::OfflineOmnilingualAsrCtcModelConfig" name="sherpa_onnx::cxx::OfflineOmnilingualAsrCtcModelConfig">
+<area shape="rect" id="Node000001" title="Offline omnilingual ASR CTC model file." alt="" coords="5,183,229,223"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="74,95,161,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="120,134,120,182,115,182,115,134"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="48,5,187,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="120,59,120,94,115,94,115,59"/>
+</map>

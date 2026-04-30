@@ -1,0 +1,8 @@
+var searchData=
+[
+  ['readwave_0',['ReadWave',['../namespacesherpa__onnx_1_1cxx.html#aa0289861fd3ef4b14fc1e057e8833386',1,'sherpa_onnx::cxx']]],
+  ['release_1',['Release',['../classsherpa__onnx_1_1cxx_1_1MoveOnly.html#a4ba635f12753958f5e7081f7df8bcd78',1,'sherpa_onnx::cxx::MoveOnly']]],
+  ['resample_2',['Resample',['../classsherpa__onnx_1_1cxx_1_1LinearResampler.html#a6fd41c391622496bbd9530b91518a03a',1,'sherpa_onnx::cxx::LinearResampler']]],
+  ['reset_3',['reset',['../classsherpa__onnx_1_1cxx_1_1OnlineRecognizer.html#a3ca7042b86d0e9ff7960560c0b47b460',1,'sherpa_onnx::cxx::OnlineRecognizer::Reset()'],['../classsherpa__onnx_1_1cxx_1_1KeywordSpotter.html#af08273285b9e78fbdf48ffaad9aa3f87',1,'sherpa_onnx::cxx::KeywordSpotter::Reset()'],['../classsherpa__onnx_1_1cxx_1_1OnlineSpeechDenoiser.html#ac9e1808489ceb8e1ff142b22c225e878',1,'sherpa_onnx::cxx::OnlineSpeechDenoiser::Reset()'],['../classsherpa__onnx_1_1cxx_1_1CircularBuffer.html#ad8a0926de6e7beea7ee7d12b804a4414',1,'sherpa_onnx::cxx::CircularBuffer::Reset()'],['../classsherpa__onnx_1_1cxx_1_1VoiceActivityDetector.html#af9765e05e6976d7e45b613d4739efff5',1,'sherpa_onnx::cxx::VoiceActivityDetector::Reset()'],['../classsherpa__onnx_1_1cxx_1_1LinearResampler.html#ab4f9d97e602a7a549d1464f5d9c4278e',1,'sherpa_onnx::cxx::LinearResampler::Reset()']]],
+  ['run_4',['run',['../classsherpa__onnx_1_1cxx_1_1OfflineSpeechDenoiser.html#a0929cf09b6cb336bc963a832cb3ebe5e',1,'sherpa_onnx::cxx::OfflineSpeechDenoiser::Run()'],['../classsherpa__onnx_1_1cxx_1_1OnlineSpeechDenoiser.html#a3660867626af6504059f8e3a3ad74eed',1,'sherpa_onnx::cxx::OnlineSpeechDenoiser::Run()']]]
+];

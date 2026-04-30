@@ -1,0 +1,1080 @@
+<h1> Tauri desktop apps for non-streaming speech recognition from microphone </h1>
+This page lists the <strong>non-streaming speech recognition</strong> Tauri desktop apps for <a href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>, one of the deployment frameworks of <a href="https://github.com/k2-fsa">the Next-gen Kaldi project</a>.
+<br/>
+The apps listed on this page use <strong>live microphone</strong> input with VAD to detect speech segments, then recognize each segment with an offline ASR model. They display wall-clock timestamps, support recording playback, SRT export, and segment WAV export.
+<br/>
+The source code of the app is at <a href="https://github.com/k2-fsa/sherpa-onnx/tree/master/tauri-examples/non-streaming-speech-recognition-from-microphone">https://github.com/k2-fsa/sherpa-onnx/tree/master/tauri-examples/non-streaming-speech-recognition-from-microphone</a>
+<br/>
+You can find pre-built apps at <a href="https://huggingface.co/csukuangfj2/tauri-app">https://huggingface.co/csukuangfj2/tauri-app</a>
+<br/>
+<br/>
+The name of an archive has the following rule:
+<ul>
+ <li> vad-asr-mic-{version}-{lang}-{model}-{platform}.{ext}
+</ul>
+where
+<ul>
+ <li> version: It specifies the current version, e.g., 1.12.39
+ <li> lang: The language of the model used in the app, e.g., en for English, zh for Chinese
+ <li> model: The name of the model used in the app
+ <li> platform: The target platform, e.g., linux-x64, linux-aarch64, universal.app (macOS), windows-x64
+ <li> ext: .tar.gz for Linux, .tar.bz2 for macOS, .zip for Windows
+</ul>
+<br/>
+You can download all supported models from <a href="https://github.com/k2-fsa/sherpa-onnx/releases/tag/asr-models">https://github.com/k2-fsa/sherpa-onnx/releases/tag/asr-models</a>
+<br/>
+<br/>
+<strong>Note about the license</strong> The code of Next-gen Kaldi is using <a href="https://www.apache.org/licenses/LICENSE-2.0">Apache-2.0 license</a>. However, we support models from different frameworks. Please check the license of your selected model.
+<br/>
+<br/>
+<style type="text/css">.tg  {border-collapse:collapse;border-spacing:0;}.tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;overflow:hidden;padding:10px 5px;word-break:normal;}.tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}.tg .tg-0pky{border-color:inherit;text-align:left;vertical-align:top}.tg .tg-0lax{text-align:left;vertical-align:top}</style>
+<table class="tg">
+<thead>
+  <tr>
+    <th class="tg-0pky">App</th>
+    <th class="tg-0lax">Comment</th>
+    <th class="tg-0pky">Model</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td class="tg-0pky">vad-asr-mic-x.y.z-ar-moonshine_v2_base_ar-platform.ext</td>
+    <td class="tg-0lax">It supports only Arabic.</td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-moonshine-base-ar-quantized-2026-02-27.tar.bz2">sherpa-onnx-moonshine-base-ar-quantized-2026-02-27.tar.bz2</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">vad-asr-mic-x.y.z-de-nemo_ctc_de-platform.ext</td>
+    <td class="tg-0lax">It supports only German. It uses the CTC branch.</td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-nemo-stt_de_fastconformer_hybrid_large_pc-int8.tar.bz2">sherpa-onnx-nemo-stt_de_fastconformer_hybrid_large_pc-int8.tar.bz2</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">vad-asr-mic-x.y.z-de-nemo_transducer_de-platform.ext</td>
+    <td class="tg-0lax">It supports only German. It uses the transducer branch.</td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-nemo-transducer-stt_de_fastconformer_hybrid_large_pc-int8.tar.bz2">sherpa-onnx-nemo-transducer-stt_de_fastconformer_hybrid_large_pc-int8.tar.bz2</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">vad-asr-mic-x.y.z-en-medasr-platform.ext</td>
+    <td class="tg-0lax">It supports only English. It is a medical ASR model.</td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-medasr-ctc-en-int8-2025-12-25.tar.bz2">sherpa-onnx-medasr-ctc-en-int8-2025-12-25.tar.bz2</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">vad-asr-mic-x.y.z-en-moonshine_base-platform.ext</td>
+    <td class="tg-0lax">It supports only English.</td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-moonshine-base-en-quantized-2026-02-27.tar.bz2">sherpa-onnx-moonshine-base-en-quantized-2026-02-27.tar.bz2</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">vad-asr-mic-x.y.z-en-moonshine_tiny-platform.ext</td>
+    <td class="tg-0lax">It supports only English. It is very small and fast.</td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-moonshine-tiny-en-quantized-2026-02-27.tar.bz2">sherpa-onnx-moonshine-tiny-en-quantized-2026-02-27.tar.bz2</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">vad-asr-mic-x.y.z-en-moonshine_v2_base_en-platform.ext</td>
+    <td class="tg-0lax">It supports only English.</td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-moonshine-base-en-quantized-2026-02-27.tar.bz2">sherpa-onnx-moonshine-base-en-quantized-2026-02-27.tar.bz2</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">vad-asr-mic-x.y.z-en-moonshine_v2_tiny_en-platform.ext</td>
+    <td class="tg-0lax">It supports only English. It is very small and fast.</td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-moonshine-tiny-en-quantized-2026-02-27.tar.bz2">sherpa-onnx-moonshine-tiny-en-quantized-2026-02-27.tar.bz2</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">vad-asr-mic-x.y.z-en-nemo_conformer-platform.ext</td>
+    <td class="tg-0lax">It supports only English.</td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-nemo-fast-conformer-ctc-en-24500.tar.bz2">sherpa-onnx-nemo-fast-conformer-ctc-en-24500.tar.bz2</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">vad-asr-mic-x.y.z-en-nemo_ctc-platform.ext</td>
+    <td class="tg-0lax">It supports only English.</td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-nemo-ctc-en-citrinet-512.tar.bz2">sherpa-onnx-nemo-ctc-en-citrinet-512.tar.bz2</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">vad-asr-mic-x.y.z-en-parakeet_tdt-platform.ext</td>
+    <td class="tg-0lax">It supports only English.</td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8.tar.bz2">sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8.tar.bz2</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">vad-asr-mic-x.y.z-en-parakeet_tdt_ctc-platform.ext</td>
+    <td class="tg-0lax">It supports only English. It uses both TDT and CTC branches.</td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-nemo-parakeet_tdt_ctc_110m-en-36000-int8.tar.bz2">sherpa-onnx-nemo-parakeet_tdt_ctc_110m-en-36000-int8.tar.bz2</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">vad-asr-mic-x.y.z-en-parakeet_tdt_v3-platform.ext</td>
+    <td class="tg-0lax">It supports only English.</td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8.tar.bz2">sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8.tar.bz2</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">vad-asr-mic-x.y.z-en-parakeet_unified_en_0.6b_int8-platform.ext</td>
+    <td class="tg-0lax"></td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/parakeet_unified_en_0.6b_int8.tar.bz2">parakeet_unified_en_0.6b_int8.tar.bz2</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">vad-asr-mic-x.y.z-en-whisper_base-platform.ext</td>
+    <td class="tg-0lax">It supports only English. It is converted from OpenAI whisper base.</td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-whisper-base.en.tar.bz2">sherpa-onnx-whisper-base.en.tar.bz2</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">vad-asr-mic-x.y.z-en-whisper_tiny-platform.ext</td>
+    <td class="tg-0lax">It supports only English. It is converted from OpenAI whisper tiny.</td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-whisper-tiny.en.tar.bz2">sherpa-onnx-whisper-tiny.en.tar.bz2</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">vad-asr-mic-x.y.z-en_de_es_fr-nemo_conformer-platform.ext</td>
+    <td class="tg-0lax">It supports English, German, Spanish, French, and many other languages.</td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-nemo-fast-conformer-ctc-be-de-en-es-fr-hr-it-pl-ru-uk-20k.tar.bz2">sherpa-onnx-nemo-fast-conformer-ctc-be-de-en-es-fr-hr-it-pl-ru-uk-20k.tar.bz2</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">vad-asr-mic-x.y.z-en_de_fr-zipformer-platform.ext</td>
+    <td class="tg-0lax">It supports English, German, and French.</td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-multi-zh-hans-2023-9-2.tar.bz2">sherpa-onnx-zipformer-multi-zh-hans-2023-9-2.tar.bz2</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">vad-asr-mic-x.y.z-en_es_de_fr-canary-platform.ext</td>
+    <td class="tg-0lax">It supports English, Spanish, German, and French.</td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8.tar.bz2">sherpa-onnx-nemo-canary-180m-flash-en-es-de-fr-int8.tar.bz2</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">vad-asr-mic-x.y.z-es-moonshine_v2_base_es-platform.ext</td>
+    <td class="tg-0lax">It supports only Spanish.</td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-moonshine-base-es-quantized-2026-02-27.tar.bz2">sherpa-onnx-moonshine-base-es-quantized-2026-02-27.tar.bz2</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">vad-asr-mic-x.y.z-es-nemo_conformer-platform.ext</td>
+    <td class="tg-0lax">It supports only Spanish.</td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-nemo-fast-conformer-ctc-es-1424.tar.bz2">sherpa-onnx-nemo-fast-conformer-ctc-es-1424.tar.bz2</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">vad-asr-mic-x.y.z-ja-moonshine_v2_base_ja-platform.ext</td>
+    <td class="tg-0lax">It supports only Japanese.</td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-moonshine-base-ja-quantized-2026-02-27.tar.bz2">sherpa-onnx-moonshine-base-ja-quantized-2026-02-27.tar.bz2</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">vad-asr-mic-x.y.z-ja-moonshine_v2_tiny_ja-platform.ext</td>
+    <td class="tg-0lax">It supports only Japanese. It is very small and fast.</td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-moonshine-tiny-ja-quantized-2026-02-27.tar.bz2">sherpa-onnx-moonshine-tiny-ja-quantized-2026-02-27.tar.bz2</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">vad-asr-mic-x.y.z-ja-parakeet_ja-platform.ext</td>
+    <td class="tg-0lax">It supports only Japanese.</td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-nemo-parakeet-tdt_ctc-0.6b-ja-35000-int8.tar.bz2">sherpa-onnx-nemo-parakeet-tdt_ctc-0.6b-ja-35000-int8.tar.bz2</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">vad-asr-mic-x.y.z-ja-zipformer-platform.ext</td>
+    <td class="tg-0lax">It supports only Japanese.</td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-ja-reazonspeech-2024-08-01.tar.bz2">sherpa-onnx-zipformer-ja-reazonspeech-2024-08-01.tar.bz2</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">vad-asr-mic-x.y.z-ko-moonshine_v2_tiny_ko-platform.ext</td>
+    <td class="tg-0lax">It supports only Korean. It is very small and fast.</td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-moonshine-tiny-ko-quantized-2026-02-27.tar.bz2">sherpa-onnx-moonshine-tiny-ko-quantized-2026-02-27.tar.bz2</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">vad-asr-mic-x.y.z-ko-zipformer-platform.ext</td>
+    <td class="tg-0lax">It supports only Korean.</td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-korean-2024-06-24.tar.bz2">sherpa-onnx-zipformer-korean-2024-06-24.tar.bz2</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">vad-asr-mic-x.y.z-multi-dolphin-platform.ext</td>
+    <td class="tg-0lax">It supports many languages.</td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-dolphin-base-ctc-multi-lang-int8-2025-04-02.tar.bz2">sherpa-onnx-dolphin-base-ctc-multi-lang-int8-2025-04-02.tar.bz2</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">vad-asr-mic-x.y.z-multi-funasr_nano-platform.ext</td>
+    <td class="tg-0lax">It supports many languages. It is converted from FunASR.</td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-funasr-nano-int8-2025-12-30.tar.bz2">sherpa-onnx-funasr-nano-int8-2025-12-30.tar.bz2</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">vad-asr-mic-x.y.z-multi-nemo_conformer-platform.ext</td>
+    <td class="tg-0lax">It supports many languages.</td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-nemo-fast-conformer-ctc-en-de-es-fr-14288.tar.bz2">sherpa-onnx-nemo-fast-conformer-ctc-en-de-es-fr-14288.tar.bz2</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">vad-asr-mic-x.y.z-multi-omnilingual-platform.ext</td>
+    <td class="tg-0lax">It supports about 1600 languages.</td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-omnilingual-asr-1600-languages-300M-ctc-int8-2025-11-12.tar.bz2">sherpa-onnx-omnilingual-asr-1600-languages-300M-ctc-int8-2025-11-12.tar.bz2</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">vad-asr-mic-x.y.z-multi-qwen3_asr-platform.ext</td>
+    <td class="tg-0lax">It supports many languages. It is converted from Qwen3.</td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25.tar.bz2">sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25.tar.bz2</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">vad-asr-mic-x.y.z-pt-nemo_ctc_pt-platform.ext</td>
+    <td class="tg-0lax">It supports only Portuguese. It uses the CTC branch.</td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-nemo-stt_pt_fastconformer_hybrid_large_pc-int8.tar.bz2">sherpa-onnx-nemo-stt_pt_fastconformer_hybrid_large_pc-int8.tar.bz2</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">vad-asr-mic-x.y.z-pt-nemo_transducer_pt-platform.ext</td>
+    <td class="tg-0lax">It supports only Portuguese. It uses the transducer branch.</td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-nemo-transducer-stt_pt_fastconformer_hybrid_large_pc-int8.tar.bz2">sherpa-onnx-nemo-transducer-stt_pt_fastconformer_hybrid_large_pc-int8.tar.bz2</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">vad-asr-mic-x.y.z-ru-nemo_ctc-platform.ext</td>
+    <td class="tg-0lax">It supports only Russian. It uses the CTC branch.</td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-nemo-ctc-giga-am-russian-2024-10-24.tar.bz2">sherpa-onnx-nemo-ctc-giga-am-russian-2024-10-24.tar.bz2</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">vad-asr-mic-x.y.z-ru-nemo_ctc_v2-platform.ext</td>
+    <td class="tg-0lax">It supports only Russian. It uses the CTC branch. v2.</td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-nemo-ctc-giga-am-v2-russian-2025-04-19.tar.bz2">sherpa-onnx-nemo-ctc-giga-am-v2-russian-2025-04-19.tar.bz2</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">vad-asr-mic-x.y.z-ru-nemo_transducer-platform.ext</td>
+    <td class="tg-0lax">It supports only Russian. It uses the transducer branch.</td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-nemo-transducer-giga-am-russian-2024-10-24.tar.bz2">sherpa-onnx-nemo-transducer-giga-am-russian-2024-10-24.tar.bz2</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">vad-asr-mic-x.y.z-ru-nemo_transducer_v2-platform.ext</td>
+    <td class="tg-0lax">It supports only Russian. It uses the transducer branch. v2.</td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-nemo-transducer-giga-am-v2-russian-2025-04-19.tar.bz2">sherpa-onnx-nemo-transducer-giga-am-v2-russian-2025-04-19.tar.bz2</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">vad-asr-mic-x.y.z-ru-small_zipformer-platform.ext</td>
+    <td class="tg-0lax">It supports only Russian. It is small and fast.</td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-small-zipformer-ru-2024-09-18.tar.bz2">sherpa-onnx-small-zipformer-ru-2024-09-18.tar.bz2</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">vad-asr-mic-x.y.z-ru-zipformer-platform.ext</td>
+    <td class="tg-0lax">It supports only Russian.</td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-ru-2024-09-18.tar.bz2">sherpa-onnx-zipformer-ru-2024-09-18.tar.bz2</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">vad-asr-mic-x.y.z-ru-zipformer_int8-platform.ext</td>
+    <td class="tg-0lax">It supports only Russian. int8 version.</td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-ru-int8-2025-04-20.tar.bz2">sherpa-onnx-zipformer-ru-int8-2025-04-20.tar.bz2</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">vad-asr-mic-x.y.z-th-zipformer-platform.ext</td>
+    <td class="tg-0lax">It supports only Thai.</td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-thai-2024-06-20.tar.bz2">sherpa-onnx-zipformer-thai-2024-06-20.tar.bz2</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">vad-asr-mic-x.y.z-uk-moonshine_v2_base_uk-platform.ext</td>
+    <td class="tg-0lax">It supports only Ukrainian.</td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-moonshine-base-uk-quantized-2026-02-27.tar.bz2">sherpa-onnx-moonshine-base-uk-quantized-2026-02-27.tar.bz2</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">vad-asr-mic-x.y.z-vi-moonshine_v2_base_vi-platform.ext</td>
+    <td class="tg-0lax">It supports only Vietnamese.</td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-moonshine-base-vi-quantized-2026-02-27.tar.bz2">sherpa-onnx-moonshine-base-vi-quantized-2026-02-27.tar.bz2</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">vad-asr-mic-x.y.z-vi-zipformer-platform.ext</td>
+    <td class="tg-0lax">It supports only Vietnamese.</td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-vi-int8-2025-04-20.tar.bz2">sherpa-onnx-zipformer-vi-int8-2025-04-20.tar.bz2</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">vad-asr-mic-x.y.z-vi-zipformer_vi-platform.ext</td>
+    <td class="tg-0lax">It supports only Vietnamese. It is small and fast.</td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-vi-30M-int8-2026-02-09.tar.bz2">sherpa-onnx-zipformer-vi-30M-int8-2026-02-09.tar.bz2</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">vad-asr-mic-x.y.z-zh-moonshine_v2_base_zh-platform.ext</td>
+    <td class="tg-0lax">It supports only Chinese.</td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-moonshine-base-zh-quantized-2026-02-27.tar.bz2">sherpa-onnx-moonshine-base-zh-quantized-2026-02-27.tar.bz2</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">vad-asr-mic-x.y.z-zh-telespeech-platform.ext</td>
+    <td class="tg-0lax">It supports only Chinese.</td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-telespeech-ctc-int8-zh-2024-06-04.tar.bz2">sherpa-onnx-telespeech-ctc-int8-zh-2024-06-04.tar.bz2</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">vad-asr-mic-x.y.z-zh-wenet_wu-platform.ext</td>
+    <td class="tg-0lax">It supports only Chinese (Wu dialect).</td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03.tar.bz2">sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-int8-2026-02-03.tar.bz2</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">vad-asr-mic-x.y.z-zh-wenet_wu_fp32-platform.ext</td>
+    <td class="tg-0lax">It supports only Chinese (Wu dialect). fp32 version.</td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-2026-02-03.tar.bz2">sherpa-onnx-wenetspeech-wu-u2pp-conformer-ctc-zh-2026-02-03.tar.bz2</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">vad-asr-mic-x.y.z-zh-zipformer-platform.ext</td>
+    <td class="tg-0lax">It supports only Chinese.</td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-wenetspeech-20230615.tar.bz2">sherpa-onnx-zipformer-wenetspeech-20230615.tar.bz2</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">vad-asr-mic-x.y.z-zh-zipformer_ctc-platform.ext</td>
+    <td class="tg-0lax">It supports only Chinese. It uses the CTC branch.</td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-ctc-zh-int8-2025-07-03.tar.bz2">sherpa-onnx-zipformer-ctc-zh-int8-2025-07-03.tar.bz2</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">vad-asr-mic-x.y.z-zh-zipformer_ctc_small-platform.ext</td>
+    <td class="tg-0lax">It supports only Chinese. It is small and fast.</td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-ctc-small-zh-int8-2025-07-16.tar.bz2">sherpa-onnx-zipformer-ctc-small-zh-int8-2025-07-16.tar.bz2</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">vad-asr-mic-x.y.z-zh_en-fire_red_asr-platform.ext</td>
+    <td class="tg-0lax">It supports both Chinese and English.</td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-fire-red-asr-large-zh_en-2025-02-16.tar.bz2">sherpa-onnx-fire-red-asr-large-zh_en-2025-02-16.tar.bz2</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">vad-asr-mic-x.y.z-zh_en-fire_red_asr2_ctc-platform.ext</td>
+    <td class="tg-0lax">It supports both Chinese and English. v2 CTC.</td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-fire-red-asr2-ctc-zh_en-int8-2026-02-25.tar.bz2">sherpa-onnx-fire-red-asr2-ctc-zh_en-int8-2026-02-25.tar.bz2</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">vad-asr-mic-x.y.z-zh_en-paraformer-platform.ext</td>
+    <td class="tg-0lax">It supports both Chinese and English.</td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-paraformer-zh-2023-09-14.tar.bz2">sherpa-onnx-paraformer-zh-2023-09-14.tar.bz2</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">vad-asr-mic-x.y.z-zh_en-paraformer_v2-platform.ext</td>
+    <td class="tg-0lax">It supports both Chinese and English. v2.</td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-paraformer-zh-int8-2025-10-07.tar.bz2">sherpa-onnx-paraformer-zh-int8-2025-10-07.tar.bz2</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">vad-asr-mic-x.y.z-zh_en-small_paraformer-platform.ext</td>
+    <td class="tg-0lax">It supports both Chinese and English. It is small and fast.</td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-paraformer-zh-small-2024-03-09.tar.bz2">sherpa-onnx-paraformer-zh-small-2024-03-09.tar.bz2</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">vad-asr-mic-x.y.z-zh_en-zipformer-platform.ext</td>
+    <td class="tg-0lax">It supports both Chinese and English.</td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-zh-en-2023-11-22.tar.bz2">sherpa-onnx-zipformer-zh-en-2023-11-22.tar.bz2</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">vad-asr-mic-x.y.z-zh_en_ko_ja_yue-sense_voice_2024_07_17_int8-platform.ext</td>
+    <td class="tg-0lax">It supports Chinese, English, Japanese, Korean, and Cantonese.</td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17.tar.bz2">sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17.tar.bz2</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">vad-asr-mic-x.y.z-zh_en_ko_ja_yue-sense_voice_2025_09_09_int8-platform.ext</td>
+    <td class="tg-0lax">It supports Chinese, English, Japanese, Korean, and Cantonese. Updated version.</td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09.tar.bz2">sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2025-09-09.tar.bz2</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">vad-asr-mic-x.y.z-zh_en_yue-wenet_yue-platform.ext</td>
+    <td class="tg-0lax">It supports Chinese, English, and Cantonese.</td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-wenetspeech-yue-u2pp-conformer-ctc-zh-en-cantonese-int8-2025-09-10.tar.bz2">sherpa-onnx-wenetspeech-yue-u2pp-conformer-ctc-zh-en-cantonese-int8-2025-09-10.tar.bz2</a></td>
+  </tr>
+</tbody>
+</table>
+<br/>
+<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-ar-moonshine_v2_base_ar-linux-x64.tar.gz" />vad-asr-mic-1.13.0-ar-moonshine_v2_base_ar-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-ar-moonshine_v2_base_ar-universal.app.tar.bz2" />vad-asr-mic-1.13.0-ar-moonshine_v2_base_ar-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-ar-moonshine_v2_base_ar-windows-x64.zip" />vad-asr-mic-1.13.0-ar-moonshine_v2_base_ar-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-de-nemo_ctc_de-linux-x64.tar.gz" />vad-asr-mic-1.13.0-de-nemo_ctc_de-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-de-nemo_ctc_de-linux-aarch64.tar.gz" />vad-asr-mic-1.13.0-de-nemo_ctc_de-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-de-nemo_ctc_de-universal.app.tar.bz2" />vad-asr-mic-1.13.0-de-nemo_ctc_de-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-de-nemo_ctc_de-windows-x64.zip" />vad-asr-mic-1.13.0-de-nemo_ctc_de-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-de-nemo_transducer_de-linux-x64.tar.gz" />vad-asr-mic-1.13.0-de-nemo_transducer_de-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-de-nemo_transducer_de-linux-aarch64.tar.gz" />vad-asr-mic-1.13.0-de-nemo_transducer_de-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-de-nemo_transducer_de-universal.app.tar.bz2" />vad-asr-mic-1.13.0-de-nemo_transducer_de-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-de-nemo_transducer_de-windows-x64.zip" />vad-asr-mic-1.13.0-de-nemo_transducer_de-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-en-medasr-linux-x64.tar.gz" />vad-asr-mic-1.13.0-en-medasr-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-en-medasr-linux-aarch64.tar.gz" />vad-asr-mic-1.13.0-en-medasr-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-en-medasr-universal.app.tar.bz2" />vad-asr-mic-1.13.0-en-medasr-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-en-medasr-windows-x64.zip" />vad-asr-mic-1.13.0-en-medasr-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-en-moonshine_base-linux-x64.tar.gz" />vad-asr-mic-1.13.0-en-moonshine_base-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-en-moonshine_base-linux-aarch64.tar.gz" />vad-asr-mic-1.13.0-en-moonshine_base-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-en-moonshine_base-universal.app.tar.bz2" />vad-asr-mic-1.13.0-en-moonshine_base-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-en-moonshine_base-windows-x64.zip" />vad-asr-mic-1.13.0-en-moonshine_base-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-en-moonshine_tiny-linux-x64.tar.gz" />vad-asr-mic-1.13.0-en-moonshine_tiny-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-en-moonshine_tiny-linux-aarch64.tar.gz" />vad-asr-mic-1.13.0-en-moonshine_tiny-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-en-moonshine_tiny-universal.app.tar.bz2" />vad-asr-mic-1.13.0-en-moonshine_tiny-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-en-moonshine_tiny-windows-x64.zip" />vad-asr-mic-1.13.0-en-moonshine_tiny-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-en-moonshine_v2_base_en-linux-x64.tar.gz" />vad-asr-mic-1.13.0-en-moonshine_v2_base_en-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-en-moonshine_v2_base_en-linux-aarch64.tar.gz" />vad-asr-mic-1.13.0-en-moonshine_v2_base_en-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-en-moonshine_v2_base_en-universal.app.tar.bz2" />vad-asr-mic-1.13.0-en-moonshine_v2_base_en-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-en-moonshine_v2_base_en-windows-x64.zip" />vad-asr-mic-1.13.0-en-moonshine_v2_base_en-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-en-moonshine_v2_tiny_en-linux-x64.tar.gz" />vad-asr-mic-1.13.0-en-moonshine_v2_tiny_en-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-en-moonshine_v2_tiny_en-linux-aarch64.tar.gz" />vad-asr-mic-1.13.0-en-moonshine_v2_tiny_en-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-en-moonshine_v2_tiny_en-universal.app.tar.bz2" />vad-asr-mic-1.13.0-en-moonshine_v2_tiny_en-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-en-moonshine_v2_tiny_en-windows-x64.zip" />vad-asr-mic-1.13.0-en-moonshine_v2_tiny_en-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-en-nemo_conformer-linux-x64.tar.gz" />vad-asr-mic-1.13.0-en-nemo_conformer-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-en-nemo_conformer-linux-aarch64.tar.gz" />vad-asr-mic-1.13.0-en-nemo_conformer-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-en-nemo_conformer-windows-x64.zip" />vad-asr-mic-1.13.0-en-nemo_conformer-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-en-nemo_ctc-linux-x64.tar.gz" />vad-asr-mic-1.13.0-en-nemo_ctc-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-en-nemo_ctc-linux-aarch64.tar.gz" />vad-asr-mic-1.13.0-en-nemo_ctc-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-en-nemo_ctc-windows-x64.zip" />vad-asr-mic-1.13.0-en-nemo_ctc-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-en-parakeet_tdt-linux-x64.tar.gz" />vad-asr-mic-1.13.0-en-parakeet_tdt-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-en-parakeet_tdt-linux-aarch64.tar.gz" />vad-asr-mic-1.13.0-en-parakeet_tdt-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-en-parakeet_tdt-universal.app.tar.bz2" />vad-asr-mic-1.13.0-en-parakeet_tdt-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-en-parakeet_tdt-windows-x64.zip" />vad-asr-mic-1.13.0-en-parakeet_tdt-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-en-parakeet_tdt_ctc-linux-x64.tar.gz" />vad-asr-mic-1.13.0-en-parakeet_tdt_ctc-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-en-parakeet_tdt_ctc-linux-aarch64.tar.gz" />vad-asr-mic-1.13.0-en-parakeet_tdt_ctc-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-en-parakeet_tdt_ctc-universal.app.tar.bz2" />vad-asr-mic-1.13.0-en-parakeet_tdt_ctc-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-en-parakeet_tdt_ctc-windows-x64.zip" />vad-asr-mic-1.13.0-en-parakeet_tdt_ctc-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-en-parakeet_tdt_v3-linux-x64.tar.gz" />vad-asr-mic-1.13.0-en-parakeet_tdt_v3-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-en-parakeet_tdt_v3-linux-aarch64.tar.gz" />vad-asr-mic-1.13.0-en-parakeet_tdt_v3-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-en-parakeet_tdt_v3-universal.app.tar.bz2" />vad-asr-mic-1.13.0-en-parakeet_tdt_v3-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-en-parakeet_tdt_v3-windows-x64.zip" />vad-asr-mic-1.13.0-en-parakeet_tdt_v3-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-en-parakeet_unified_en_0.6b_int8-linux-x64.tar.gz" />vad-asr-mic-1.13.0-en-parakeet_unified_en_0.6b_int8-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-en-parakeet_unified_en_0.6b_int8-linux-aarch64.tar.gz" />vad-asr-mic-1.13.0-en-parakeet_unified_en_0.6b_int8-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-en-parakeet_unified_en_0.6b_int8-universal.app.tar.bz2" />vad-asr-mic-1.13.0-en-parakeet_unified_en_0.6b_int8-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-en-parakeet_unified_en_0.6b_int8-windows-x64.zip" />vad-asr-mic-1.13.0-en-parakeet_unified_en_0.6b_int8-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-en-whisper_base-linux-x64.tar.gz" />vad-asr-mic-1.13.0-en-whisper_base-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-en-whisper_base-universal.app.tar.bz2" />vad-asr-mic-1.13.0-en-whisper_base-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-en-whisper_base-windows-x64.zip" />vad-asr-mic-1.13.0-en-whisper_base-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-en-whisper_tiny-linux-x64.tar.gz" />vad-asr-mic-1.13.0-en-whisper_tiny-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-en-whisper_tiny-universal.app.tar.bz2" />vad-asr-mic-1.13.0-en-whisper_tiny-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-en-whisper_tiny-windows-x64.zip" />vad-asr-mic-1.13.0-en-whisper_tiny-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-en_de_es_fr-nemo_conformer-linux-x64.tar.gz" />vad-asr-mic-1.13.0-en_de_es_fr-nemo_conformer-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-en_de_es_fr-nemo_conformer-linux-aarch64.tar.gz" />vad-asr-mic-1.13.0-en_de_es_fr-nemo_conformer-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-en_de_es_fr-nemo_conformer-windows-x64.zip" />vad-asr-mic-1.13.0-en_de_es_fr-nemo_conformer-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-en_de_fr-zipformer-linux-x64.tar.gz" />vad-asr-mic-1.13.0-en_de_fr-zipformer-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-en_de_fr-zipformer-universal.app.tar.bz2" />vad-asr-mic-1.13.0-en_de_fr-zipformer-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-en_de_fr-zipformer-windows-x64.zip" />vad-asr-mic-1.13.0-en_de_fr-zipformer-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-en_es_de_fr-canary-linux-x64.tar.gz" />vad-asr-mic-1.13.0-en_es_de_fr-canary-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-en_es_de_fr-canary-linux-aarch64.tar.gz" />vad-asr-mic-1.13.0-en_es_de_fr-canary-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-en_es_de_fr-canary-universal.app.tar.bz2" />vad-asr-mic-1.13.0-en_es_de_fr-canary-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-en_es_de_fr-canary-windows-x64.zip" />vad-asr-mic-1.13.0-en_es_de_fr-canary-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-es-moonshine_v2_base_es-linux-x64.tar.gz" />vad-asr-mic-1.13.0-es-moonshine_v2_base_es-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-es-moonshine_v2_base_es-linux-aarch64.tar.gz" />vad-asr-mic-1.13.0-es-moonshine_v2_base_es-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-es-moonshine_v2_base_es-universal.app.tar.bz2" />vad-asr-mic-1.13.0-es-moonshine_v2_base_es-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-es-moonshine_v2_base_es-windows-x64.zip" />vad-asr-mic-1.13.0-es-moonshine_v2_base_es-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-es-nemo_conformer-linux-x64.tar.gz" />vad-asr-mic-1.13.0-es-nemo_conformer-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-es-nemo_conformer-linux-aarch64.tar.gz" />vad-asr-mic-1.13.0-es-nemo_conformer-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-es-nemo_conformer-windows-x64.zip" />vad-asr-mic-1.13.0-es-nemo_conformer-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-ja-moonshine_v2_base_ja-linux-x64.tar.gz" />vad-asr-mic-1.13.0-ja-moonshine_v2_base_ja-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-ja-moonshine_v2_base_ja-linux-aarch64.tar.gz" />vad-asr-mic-1.13.0-ja-moonshine_v2_base_ja-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-ja-moonshine_v2_base_ja-universal.app.tar.bz2" />vad-asr-mic-1.13.0-ja-moonshine_v2_base_ja-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-ja-moonshine_v2_base_ja-windows-x64.zip" />vad-asr-mic-1.13.0-ja-moonshine_v2_base_ja-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-ja-moonshine_v2_tiny_ja-linux-x64.tar.gz" />vad-asr-mic-1.13.0-ja-moonshine_v2_tiny_ja-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-ja-moonshine_v2_tiny_ja-linux-aarch64.tar.gz" />vad-asr-mic-1.13.0-ja-moonshine_v2_tiny_ja-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-ja-moonshine_v2_tiny_ja-universal.app.tar.bz2" />vad-asr-mic-1.13.0-ja-moonshine_v2_tiny_ja-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-ja-moonshine_v2_tiny_ja-windows-x64.zip" />vad-asr-mic-1.13.0-ja-moonshine_v2_tiny_ja-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-ja-parakeet_ja-linux-x64.tar.gz" />vad-asr-mic-1.13.0-ja-parakeet_ja-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-ja-parakeet_ja-linux-aarch64.tar.gz" />vad-asr-mic-1.13.0-ja-parakeet_ja-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-ja-parakeet_ja-universal.app.tar.bz2" />vad-asr-mic-1.13.0-ja-parakeet_ja-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-ja-parakeet_ja-windows-x64.zip" />vad-asr-mic-1.13.0-ja-parakeet_ja-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-ja-zipformer-linux-x64.tar.gz" />vad-asr-mic-1.13.0-ja-zipformer-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-ja-zipformer-linux-aarch64.tar.gz" />vad-asr-mic-1.13.0-ja-zipformer-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-ja-zipformer-universal.app.tar.bz2" />vad-asr-mic-1.13.0-ja-zipformer-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-ja-zipformer-windows-x64.zip" />vad-asr-mic-1.13.0-ja-zipformer-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-ko-moonshine_v2_tiny_ko-linux-x64.tar.gz" />vad-asr-mic-1.13.0-ko-moonshine_v2_tiny_ko-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-ko-moonshine_v2_tiny_ko-linux-aarch64.tar.gz" />vad-asr-mic-1.13.0-ko-moonshine_v2_tiny_ko-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-ko-moonshine_v2_tiny_ko-universal.app.tar.bz2" />vad-asr-mic-1.13.0-ko-moonshine_v2_tiny_ko-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-ko-moonshine_v2_tiny_ko-windows-x64.zip" />vad-asr-mic-1.13.0-ko-moonshine_v2_tiny_ko-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-ko-zipformer-linux-x64.tar.gz" />vad-asr-mic-1.13.0-ko-zipformer-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-ko-zipformer-linux-aarch64.tar.gz" />vad-asr-mic-1.13.0-ko-zipformer-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-ko-zipformer-universal.app.tar.bz2" />vad-asr-mic-1.13.0-ko-zipformer-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-ko-zipformer-windows-x64.zip" />vad-asr-mic-1.13.0-ko-zipformer-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-multi-dolphin-linux-x64.tar.gz" />vad-asr-mic-1.13.0-multi-dolphin-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-multi-dolphin-linux-aarch64.tar.gz" />vad-asr-mic-1.13.0-multi-dolphin-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-multi-dolphin-universal.app.tar.bz2" />vad-asr-mic-1.13.0-multi-dolphin-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-multi-dolphin-windows-x64.zip" />vad-asr-mic-1.13.0-multi-dolphin-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-multi-funasr_nano-linux-x64.tar.gz" />vad-asr-mic-1.13.0-multi-funasr_nano-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-multi-funasr_nano-linux-aarch64.tar.gz" />vad-asr-mic-1.13.0-multi-funasr_nano-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-multi-funasr_nano-universal.app.tar.bz2" />vad-asr-mic-1.13.0-multi-funasr_nano-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-multi-funasr_nano-windows-x64.zip" />vad-asr-mic-1.13.0-multi-funasr_nano-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-multi-nemo_conformer-linux-x64.tar.gz" />vad-asr-mic-1.13.0-multi-nemo_conformer-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-multi-nemo_conformer-linux-aarch64.tar.gz" />vad-asr-mic-1.13.0-multi-nemo_conformer-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-multi-nemo_conformer-windows-x64.zip" />vad-asr-mic-1.13.0-multi-nemo_conformer-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-multi-omnilingual-linux-x64.tar.gz" />vad-asr-mic-1.13.0-multi-omnilingual-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-multi-omnilingual-linux-aarch64.tar.gz" />vad-asr-mic-1.13.0-multi-omnilingual-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-multi-omnilingual-universal.app.tar.bz2" />vad-asr-mic-1.13.0-multi-omnilingual-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-multi-omnilingual-windows-x64.zip" />vad-asr-mic-1.13.0-multi-omnilingual-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-multi-qwen3_asr-linux-x64.tar.gz" />vad-asr-mic-1.13.0-multi-qwen3_asr-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-multi-qwen3_asr-linux-aarch64.tar.gz" />vad-asr-mic-1.13.0-multi-qwen3_asr-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-multi-qwen3_asr-windows-x64.zip" />vad-asr-mic-1.13.0-multi-qwen3_asr-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-pt-nemo_ctc_pt-linux-x64.tar.gz" />vad-asr-mic-1.13.0-pt-nemo_ctc_pt-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-pt-nemo_ctc_pt-linux-aarch64.tar.gz" />vad-asr-mic-1.13.0-pt-nemo_ctc_pt-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-pt-nemo_ctc_pt-universal.app.tar.bz2" />vad-asr-mic-1.13.0-pt-nemo_ctc_pt-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-pt-nemo_ctc_pt-windows-x64.zip" />vad-asr-mic-1.13.0-pt-nemo_ctc_pt-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-pt-nemo_transducer_pt-linux-x64.tar.gz" />vad-asr-mic-1.13.0-pt-nemo_transducer_pt-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-pt-nemo_transducer_pt-linux-aarch64.tar.gz" />vad-asr-mic-1.13.0-pt-nemo_transducer_pt-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-pt-nemo_transducer_pt-universal.app.tar.bz2" />vad-asr-mic-1.13.0-pt-nemo_transducer_pt-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-pt-nemo_transducer_pt-windows-x64.zip" />vad-asr-mic-1.13.0-pt-nemo_transducer_pt-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-ru-nemo_ctc-linux-x64.tar.gz" />vad-asr-mic-1.13.0-ru-nemo_ctc-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-ru-nemo_ctc-linux-aarch64.tar.gz" />vad-asr-mic-1.13.0-ru-nemo_ctc-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-ru-nemo_ctc-universal.app.tar.bz2" />vad-asr-mic-1.13.0-ru-nemo_ctc-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-ru-nemo_ctc-windows-x64.zip" />vad-asr-mic-1.13.0-ru-nemo_ctc-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-ru-nemo_ctc_v2-linux-x64.tar.gz" />vad-asr-mic-1.13.0-ru-nemo_ctc_v2-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-ru-nemo_ctc_v2-linux-aarch64.tar.gz" />vad-asr-mic-1.13.0-ru-nemo_ctc_v2-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-ru-nemo_ctc_v2-universal.app.tar.bz2" />vad-asr-mic-1.13.0-ru-nemo_ctc_v2-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-ru-nemo_ctc_v2-windows-x64.zip" />vad-asr-mic-1.13.0-ru-nemo_ctc_v2-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-ru-nemo_transducer-linux-x64.tar.gz" />vad-asr-mic-1.13.0-ru-nemo_transducer-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-ru-nemo_transducer-linux-aarch64.tar.gz" />vad-asr-mic-1.13.0-ru-nemo_transducer-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-ru-nemo_transducer-universal.app.tar.bz2" />vad-asr-mic-1.13.0-ru-nemo_transducer-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-ru-nemo_transducer-windows-x64.zip" />vad-asr-mic-1.13.0-ru-nemo_transducer-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-ru-nemo_transducer_v2-linux-x64.tar.gz" />vad-asr-mic-1.13.0-ru-nemo_transducer_v2-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-ru-nemo_transducer_v2-linux-aarch64.tar.gz" />vad-asr-mic-1.13.0-ru-nemo_transducer_v2-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-ru-nemo_transducer_v2-universal.app.tar.bz2" />vad-asr-mic-1.13.0-ru-nemo_transducer_v2-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-ru-nemo_transducer_v2-windows-x64.zip" />vad-asr-mic-1.13.0-ru-nemo_transducer_v2-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-ru-small_zipformer-linux-x64.tar.gz" />vad-asr-mic-1.13.0-ru-small_zipformer-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-ru-small_zipformer-linux-aarch64.tar.gz" />vad-asr-mic-1.13.0-ru-small_zipformer-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-ru-small_zipformer-universal.app.tar.bz2" />vad-asr-mic-1.13.0-ru-small_zipformer-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-ru-small_zipformer-windows-x64.zip" />vad-asr-mic-1.13.0-ru-small_zipformer-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-ru-zipformer-linux-x64.tar.gz" />vad-asr-mic-1.13.0-ru-zipformer-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-ru-zipformer-linux-aarch64.tar.gz" />vad-asr-mic-1.13.0-ru-zipformer-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-ru-zipformer-universal.app.tar.bz2" />vad-asr-mic-1.13.0-ru-zipformer-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-ru-zipformer-windows-x64.zip" />vad-asr-mic-1.13.0-ru-zipformer-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-ru-zipformer_int8-linux-x64.tar.gz" />vad-asr-mic-1.13.0-ru-zipformer_int8-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-ru-zipformer_int8-linux-aarch64.tar.gz" />vad-asr-mic-1.13.0-ru-zipformer_int8-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-ru-zipformer_int8-universal.app.tar.bz2" />vad-asr-mic-1.13.0-ru-zipformer_int8-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-ru-zipformer_int8-windows-x64.zip" />vad-asr-mic-1.13.0-ru-zipformer_int8-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-th-zipformer-linux-x64.tar.gz" />vad-asr-mic-1.13.0-th-zipformer-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-th-zipformer-linux-aarch64.tar.gz" />vad-asr-mic-1.13.0-th-zipformer-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-th-zipformer-universal.app.tar.bz2" />vad-asr-mic-1.13.0-th-zipformer-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-th-zipformer-windows-x64.zip" />vad-asr-mic-1.13.0-th-zipformer-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-uk-moonshine_v2_base_uk-linux-x64.tar.gz" />vad-asr-mic-1.13.0-uk-moonshine_v2_base_uk-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-uk-moonshine_v2_base_uk-linux-aarch64.tar.gz" />vad-asr-mic-1.13.0-uk-moonshine_v2_base_uk-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-uk-moonshine_v2_base_uk-universal.app.tar.bz2" />vad-asr-mic-1.13.0-uk-moonshine_v2_base_uk-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-uk-moonshine_v2_base_uk-windows-x64.zip" />vad-asr-mic-1.13.0-uk-moonshine_v2_base_uk-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-vi-moonshine_v2_base_vi-linux-x64.tar.gz" />vad-asr-mic-1.13.0-vi-moonshine_v2_base_vi-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-vi-moonshine_v2_base_vi-linux-aarch64.tar.gz" />vad-asr-mic-1.13.0-vi-moonshine_v2_base_vi-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-vi-moonshine_v2_base_vi-universal.app.tar.bz2" />vad-asr-mic-1.13.0-vi-moonshine_v2_base_vi-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-vi-moonshine_v2_base_vi-windows-x64.zip" />vad-asr-mic-1.13.0-vi-moonshine_v2_base_vi-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-vi-zipformer-linux-x64.tar.gz" />vad-asr-mic-1.13.0-vi-zipformer-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-vi-zipformer-linux-aarch64.tar.gz" />vad-asr-mic-1.13.0-vi-zipformer-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-vi-zipformer-universal.app.tar.bz2" />vad-asr-mic-1.13.0-vi-zipformer-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-vi-zipformer-windows-x64.zip" />vad-asr-mic-1.13.0-vi-zipformer-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-vi-zipformer_vi-linux-x64.tar.gz" />vad-asr-mic-1.13.0-vi-zipformer_vi-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-vi-zipformer_vi-linux-aarch64.tar.gz" />vad-asr-mic-1.13.0-vi-zipformer_vi-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-vi-zipformer_vi-universal.app.tar.bz2" />vad-asr-mic-1.13.0-vi-zipformer_vi-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-vi-zipformer_vi-windows-x64.zip" />vad-asr-mic-1.13.0-vi-zipformer_vi-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-zh-moonshine_v2_base_zh-linux-x64.tar.gz" />vad-asr-mic-1.13.0-zh-moonshine_v2_base_zh-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-zh-moonshine_v2_base_zh-linux-aarch64.tar.gz" />vad-asr-mic-1.13.0-zh-moonshine_v2_base_zh-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-zh-moonshine_v2_base_zh-universal.app.tar.bz2" />vad-asr-mic-1.13.0-zh-moonshine_v2_base_zh-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-zh-moonshine_v2_base_zh-windows-x64.zip" />vad-asr-mic-1.13.0-zh-moonshine_v2_base_zh-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-zh-telespeech-linux-x64.tar.gz" />vad-asr-mic-1.13.0-zh-telespeech-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-zh-telespeech-linux-aarch64.tar.gz" />vad-asr-mic-1.13.0-zh-telespeech-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-zh-telespeech-windows-x64.zip" />vad-asr-mic-1.13.0-zh-telespeech-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-zh-wenet_wu-linux-x64.tar.gz" />vad-asr-mic-1.13.0-zh-wenet_wu-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-zh-wenet_wu-linux-aarch64.tar.gz" />vad-asr-mic-1.13.0-zh-wenet_wu-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-zh-wenet_wu-universal.app.tar.bz2" />vad-asr-mic-1.13.0-zh-wenet_wu-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-zh-wenet_wu-windows-x64.zip" />vad-asr-mic-1.13.0-zh-wenet_wu-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-zh-wenet_wu_fp32-linux-x64.tar.gz" />vad-asr-mic-1.13.0-zh-wenet_wu_fp32-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-zh-wenet_wu_fp32-linux-aarch64.tar.gz" />vad-asr-mic-1.13.0-zh-wenet_wu_fp32-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-zh-wenet_wu_fp32-universal.app.tar.bz2" />vad-asr-mic-1.13.0-zh-wenet_wu_fp32-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-zh-wenet_wu_fp32-windows-x64.zip" />vad-asr-mic-1.13.0-zh-wenet_wu_fp32-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-zh-zipformer-linux-x64.tar.gz" />vad-asr-mic-1.13.0-zh-zipformer-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-zh-zipformer-universal.app.tar.bz2" />vad-asr-mic-1.13.0-zh-zipformer-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-zh-zipformer-windows-x64.zip" />vad-asr-mic-1.13.0-zh-zipformer-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-zh-zipformer_ctc-linux-x64.tar.gz" />vad-asr-mic-1.13.0-zh-zipformer_ctc-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-zh-zipformer_ctc-linux-aarch64.tar.gz" />vad-asr-mic-1.13.0-zh-zipformer_ctc-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-zh-zipformer_ctc-universal.app.tar.bz2" />vad-asr-mic-1.13.0-zh-zipformer_ctc-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-zh-zipformer_ctc-windows-x64.zip" />vad-asr-mic-1.13.0-zh-zipformer_ctc-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-zh-zipformer_ctc_small-linux-x64.tar.gz" />vad-asr-mic-1.13.0-zh-zipformer_ctc_small-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-zh-zipformer_ctc_small-linux-aarch64.tar.gz" />vad-asr-mic-1.13.0-zh-zipformer_ctc_small-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-zh-zipformer_ctc_small-universal.app.tar.bz2" />vad-asr-mic-1.13.0-zh-zipformer_ctc_small-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-zh-zipformer_ctc_small-windows-x64.zip" />vad-asr-mic-1.13.0-zh-zipformer_ctc_small-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-zh_en-fire_red_asr-linux-x64.tar.gz" />vad-asr-mic-1.13.0-zh_en-fire_red_asr-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-zh_en-fire_red_asr-linux-aarch64.tar.gz" />vad-asr-mic-1.13.0-zh_en-fire_red_asr-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-zh_en-fire_red_asr-universal.app.tar.bz2" />vad-asr-mic-1.13.0-zh_en-fire_red_asr-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-zh_en-fire_red_asr-windows-x64.zip" />vad-asr-mic-1.13.0-zh_en-fire_red_asr-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-zh_en-fire_red_asr2_ctc-linux-x64.tar.gz" />vad-asr-mic-1.13.0-zh_en-fire_red_asr2_ctc-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-zh_en-fire_red_asr2_ctc-linux-aarch64.tar.gz" />vad-asr-mic-1.13.0-zh_en-fire_red_asr2_ctc-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-zh_en-fire_red_asr2_ctc-universal.app.tar.bz2" />vad-asr-mic-1.13.0-zh_en-fire_red_asr2_ctc-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-zh_en-fire_red_asr2_ctc-windows-x64.zip" />vad-asr-mic-1.13.0-zh_en-fire_red_asr2_ctc-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-zh_en-paraformer-linux-x64.tar.gz" />vad-asr-mic-1.13.0-zh_en-paraformer-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-zh_en-paraformer-universal.app.tar.bz2" />vad-asr-mic-1.13.0-zh_en-paraformer-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-zh_en-paraformer-windows-x64.zip" />vad-asr-mic-1.13.0-zh_en-paraformer-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-zh_en-paraformer_v2-linux-x64.tar.gz" />vad-asr-mic-1.13.0-zh_en-paraformer_v2-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-zh_en-paraformer_v2-linux-aarch64.tar.gz" />vad-asr-mic-1.13.0-zh_en-paraformer_v2-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-zh_en-paraformer_v2-universal.app.tar.bz2" />vad-asr-mic-1.13.0-zh_en-paraformer_v2-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-zh_en-paraformer_v2-windows-x64.zip" />vad-asr-mic-1.13.0-zh_en-paraformer_v2-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-zh_en-small_paraformer-linux-x64.tar.gz" />vad-asr-mic-1.13.0-zh_en-small_paraformer-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-zh_en-small_paraformer-linux-aarch64.tar.gz" />vad-asr-mic-1.13.0-zh_en-small_paraformer-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-zh_en-small_paraformer-universal.app.tar.bz2" />vad-asr-mic-1.13.0-zh_en-small_paraformer-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-zh_en-small_paraformer-windows-x64.zip" />vad-asr-mic-1.13.0-zh_en-small_paraformer-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-zh_en-zipformer-linux-x64.tar.gz" />vad-asr-mic-1.13.0-zh_en-zipformer-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-zh_en-zipformer-linux-aarch64.tar.gz" />vad-asr-mic-1.13.0-zh_en-zipformer-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-zh_en-zipformer-universal.app.tar.bz2" />vad-asr-mic-1.13.0-zh_en-zipformer-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-zh_en-zipformer-windows-x64.zip" />vad-asr-mic-1.13.0-zh_en-zipformer-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-zh_en_ko_ja_yue-sense_voice_2024_07_17_int8-linux-x64.tar.gz" />vad-asr-mic-1.13.0-zh_en_ko_ja_yue-sense_voice_2024_07_17_int8-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-zh_en_ko_ja_yue-sense_voice_2024_07_17_int8-linux-aarch64.tar.gz" />vad-asr-mic-1.13.0-zh_en_ko_ja_yue-sense_voice_2024_07_17_int8-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-zh_en_ko_ja_yue-sense_voice_2024_07_17_int8-universal.app.tar.bz2" />vad-asr-mic-1.13.0-zh_en_ko_ja_yue-sense_voice_2024_07_17_int8-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-zh_en_ko_ja_yue-sense_voice_2024_07_17_int8-windows-x64.zip" />vad-asr-mic-1.13.0-zh_en_ko_ja_yue-sense_voice_2024_07_17_int8-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-zh_en_ko_ja_yue-sense_voice_2025_09_09_int8-linux-x64.tar.gz" />vad-asr-mic-1.13.0-zh_en_ko_ja_yue-sense_voice_2025_09_09_int8-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-zh_en_ko_ja_yue-sense_voice_2025_09_09_int8-linux-aarch64.tar.gz" />vad-asr-mic-1.13.0-zh_en_ko_ja_yue-sense_voice_2025_09_09_int8-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-zh_en_ko_ja_yue-sense_voice_2025_09_09_int8-universal.app.tar.bz2" />vad-asr-mic-1.13.0-zh_en_ko_ja_yue-sense_voice_2025_09_09_int8-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-zh_en_ko_ja_yue-sense_voice_2025_09_09_int8-windows-x64.zip" />vad-asr-mic-1.13.0-zh_en_ko_ja_yue-sense_voice_2025_09_09_int8-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-zh_en_yue-wenet_yue-linux-x64.tar.gz" />vad-asr-mic-1.13.0-zh_en_yue-wenet_yue-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-zh_en_yue-wenet_yue-linux-aarch64.tar.gz" />vad-asr-mic-1.13.0-zh_en_yue-wenet_yue-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-zh_en_yue-wenet_yue-universal.app.tar.bz2" />vad-asr-mic-1.13.0-zh_en_yue-wenet_yue-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.13.0/vad-asr-mic-1.13.0-zh_en_yue-wenet_yue-windows-x64.zip" />vad-asr-mic-1.13.0-zh_en_yue-wenet_yue-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-ar-moonshine_v2_base_ar-linux-x64.tar.gz" />vad-asr-mic-1.12.40-ar-moonshine_v2_base_ar-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-ar-moonshine_v2_base_ar-linux-aarch64.tar.gz" />vad-asr-mic-1.12.40-ar-moonshine_v2_base_ar-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-ar-moonshine_v2_base_ar-universal.app.tar.bz2" />vad-asr-mic-1.12.40-ar-moonshine_v2_base_ar-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-ar-moonshine_v2_base_ar-windows-x64.zip" />vad-asr-mic-1.12.40-ar-moonshine_v2_base_ar-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-de-nemo_ctc_de-linux-x64.tar.gz" />vad-asr-mic-1.12.40-de-nemo_ctc_de-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-de-nemo_ctc_de-linux-aarch64.tar.gz" />vad-asr-mic-1.12.40-de-nemo_ctc_de-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-de-nemo_ctc_de-universal.app.tar.bz2" />vad-asr-mic-1.12.40-de-nemo_ctc_de-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-de-nemo_ctc_de-windows-x64.zip" />vad-asr-mic-1.12.40-de-nemo_ctc_de-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-de-nemo_transducer_de-linux-x64.tar.gz" />vad-asr-mic-1.12.40-de-nemo_transducer_de-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-de-nemo_transducer_de-linux-aarch64.tar.gz" />vad-asr-mic-1.12.40-de-nemo_transducer_de-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-de-nemo_transducer_de-universal.app.tar.bz2" />vad-asr-mic-1.12.40-de-nemo_transducer_de-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-de-nemo_transducer_de-windows-x64.zip" />vad-asr-mic-1.12.40-de-nemo_transducer_de-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-en-medasr-linux-x64.tar.gz" />vad-asr-mic-1.12.40-en-medasr-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-en-medasr-linux-aarch64.tar.gz" />vad-asr-mic-1.12.40-en-medasr-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-en-medasr-universal.app.tar.bz2" />vad-asr-mic-1.12.40-en-medasr-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-en-medasr-windows-x64.zip" />vad-asr-mic-1.12.40-en-medasr-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-en-moonshine_base-linux-x64.tar.gz" />vad-asr-mic-1.12.40-en-moonshine_base-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-en-moonshine_base-linux-aarch64.tar.gz" />vad-asr-mic-1.12.40-en-moonshine_base-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-en-moonshine_base-universal.app.tar.bz2" />vad-asr-mic-1.12.40-en-moonshine_base-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-en-moonshine_base-windows-x64.zip" />vad-asr-mic-1.12.40-en-moonshine_base-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-en-moonshine_tiny-linux-x64.tar.gz" />vad-asr-mic-1.12.40-en-moonshine_tiny-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-en-moonshine_tiny-linux-aarch64.tar.gz" />vad-asr-mic-1.12.40-en-moonshine_tiny-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-en-moonshine_tiny-universal.app.tar.bz2" />vad-asr-mic-1.12.40-en-moonshine_tiny-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-en-moonshine_tiny-windows-x64.zip" />vad-asr-mic-1.12.40-en-moonshine_tiny-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-en-moonshine_v2_base_en-linux-x64.tar.gz" />vad-asr-mic-1.12.40-en-moonshine_v2_base_en-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-en-moonshine_v2_base_en-linux-aarch64.tar.gz" />vad-asr-mic-1.12.40-en-moonshine_v2_base_en-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-en-moonshine_v2_base_en-universal.app.tar.bz2" />vad-asr-mic-1.12.40-en-moonshine_v2_base_en-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-en-moonshine_v2_base_en-windows-x64.zip" />vad-asr-mic-1.12.40-en-moonshine_v2_base_en-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-en-moonshine_v2_tiny_en-linux-x64.tar.gz" />vad-asr-mic-1.12.40-en-moonshine_v2_tiny_en-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-en-moonshine_v2_tiny_en-linux-aarch64.tar.gz" />vad-asr-mic-1.12.40-en-moonshine_v2_tiny_en-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-en-moonshine_v2_tiny_en-universal.app.tar.bz2" />vad-asr-mic-1.12.40-en-moonshine_v2_tiny_en-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-en-moonshine_v2_tiny_en-windows-x64.zip" />vad-asr-mic-1.12.40-en-moonshine_v2_tiny_en-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-en-nemo_conformer-linux-x64.tar.gz" />vad-asr-mic-1.12.40-en-nemo_conformer-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-en-nemo_conformer-linux-aarch64.tar.gz" />vad-asr-mic-1.12.40-en-nemo_conformer-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-en-nemo_conformer-universal.app.tar.bz2" />vad-asr-mic-1.12.40-en-nemo_conformer-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-en-nemo_conformer-windows-x64.zip" />vad-asr-mic-1.12.40-en-nemo_conformer-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-en-nemo_ctc-linux-x64.tar.gz" />vad-asr-mic-1.12.40-en-nemo_ctc-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-en-nemo_ctc-linux-aarch64.tar.gz" />vad-asr-mic-1.12.40-en-nemo_ctc-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-en-nemo_ctc-universal.app.tar.bz2" />vad-asr-mic-1.12.40-en-nemo_ctc-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-en-nemo_ctc-windows-x64.zip" />vad-asr-mic-1.12.40-en-nemo_ctc-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-en-parakeet_tdt-linux-x64.tar.gz" />vad-asr-mic-1.12.40-en-parakeet_tdt-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-en-parakeet_tdt-linux-aarch64.tar.gz" />vad-asr-mic-1.12.40-en-parakeet_tdt-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-en-parakeet_tdt-universal.app.tar.bz2" />vad-asr-mic-1.12.40-en-parakeet_tdt-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-en-parakeet_tdt-windows-x64.zip" />vad-asr-mic-1.12.40-en-parakeet_tdt-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-en-parakeet_tdt_ctc-linux-x64.tar.gz" />vad-asr-mic-1.12.40-en-parakeet_tdt_ctc-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-en-parakeet_tdt_ctc-linux-aarch64.tar.gz" />vad-asr-mic-1.12.40-en-parakeet_tdt_ctc-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-en-parakeet_tdt_ctc-universal.app.tar.bz2" />vad-asr-mic-1.12.40-en-parakeet_tdt_ctc-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-en-parakeet_tdt_ctc-windows-x64.zip" />vad-asr-mic-1.12.40-en-parakeet_tdt_ctc-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-en-parakeet_tdt_v3-linux-x64.tar.gz" />vad-asr-mic-1.12.40-en-parakeet_tdt_v3-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-en-parakeet_tdt_v3-linux-aarch64.tar.gz" />vad-asr-mic-1.12.40-en-parakeet_tdt_v3-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-en-parakeet_tdt_v3-universal.app.tar.bz2" />vad-asr-mic-1.12.40-en-parakeet_tdt_v3-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-en-parakeet_tdt_v3-windows-x64.zip" />vad-asr-mic-1.12.40-en-parakeet_tdt_v3-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-en-parakeet_unified_en_0.6b_int8-linux-x64.tar.gz" />vad-asr-mic-1.12.40-en-parakeet_unified_en_0.6b_int8-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-en-parakeet_unified_en_0.6b_int8-linux-aarch64.tar.gz" />vad-asr-mic-1.12.40-en-parakeet_unified_en_0.6b_int8-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-en-parakeet_unified_en_0.6b_int8-universal.app.tar.bz2" />vad-asr-mic-1.12.40-en-parakeet_unified_en_0.6b_int8-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-en-parakeet_unified_en_0.6b_int8-windows-x64.zip" />vad-asr-mic-1.12.40-en-parakeet_unified_en_0.6b_int8-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-en-whisper_base-linux-x64.tar.gz" />vad-asr-mic-1.12.40-en-whisper_base-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-en-whisper_base-linux-aarch64.tar.gz" />vad-asr-mic-1.12.40-en-whisper_base-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-en-whisper_base-universal.app.tar.bz2" />vad-asr-mic-1.12.40-en-whisper_base-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-en-whisper_base-windows-x64.zip" />vad-asr-mic-1.12.40-en-whisper_base-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-en-whisper_tiny-linux-x64.tar.gz" />vad-asr-mic-1.12.40-en-whisper_tiny-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-en-whisper_tiny-linux-aarch64.tar.gz" />vad-asr-mic-1.12.40-en-whisper_tiny-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-en-whisper_tiny-universal.app.tar.bz2" />vad-asr-mic-1.12.40-en-whisper_tiny-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-en-whisper_tiny-windows-x64.zip" />vad-asr-mic-1.12.40-en-whisper_tiny-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-en_de_es_fr-nemo_conformer-linux-x64.tar.gz" />vad-asr-mic-1.12.40-en_de_es_fr-nemo_conformer-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-en_de_es_fr-nemo_conformer-linux-aarch64.tar.gz" />vad-asr-mic-1.12.40-en_de_es_fr-nemo_conformer-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-en_de_es_fr-nemo_conformer-universal.app.tar.bz2" />vad-asr-mic-1.12.40-en_de_es_fr-nemo_conformer-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-en_de_es_fr-nemo_conformer-windows-x64.zip" />vad-asr-mic-1.12.40-en_de_es_fr-nemo_conformer-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-en_de_fr-zipformer-linux-x64.tar.gz" />vad-asr-mic-1.12.40-en_de_fr-zipformer-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-en_de_fr-zipformer-linux-aarch64.tar.gz" />vad-asr-mic-1.12.40-en_de_fr-zipformer-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-en_de_fr-zipformer-universal.app.tar.bz2" />vad-asr-mic-1.12.40-en_de_fr-zipformer-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-en_de_fr-zipformer-windows-x64.zip" />vad-asr-mic-1.12.40-en_de_fr-zipformer-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-en_es_de_fr-canary-linux-x64.tar.gz" />vad-asr-mic-1.12.40-en_es_de_fr-canary-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-en_es_de_fr-canary-linux-aarch64.tar.gz" />vad-asr-mic-1.12.40-en_es_de_fr-canary-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-en_es_de_fr-canary-universal.app.tar.bz2" />vad-asr-mic-1.12.40-en_es_de_fr-canary-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-en_es_de_fr-canary-windows-x64.zip" />vad-asr-mic-1.12.40-en_es_de_fr-canary-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-es-moonshine_v2_base_es-linux-x64.tar.gz" />vad-asr-mic-1.12.40-es-moonshine_v2_base_es-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-es-moonshine_v2_base_es-linux-aarch64.tar.gz" />vad-asr-mic-1.12.40-es-moonshine_v2_base_es-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-es-moonshine_v2_base_es-universal.app.tar.bz2" />vad-asr-mic-1.12.40-es-moonshine_v2_base_es-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-es-moonshine_v2_base_es-windows-x64.zip" />vad-asr-mic-1.12.40-es-moonshine_v2_base_es-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-es-nemo_conformer-linux-x64.tar.gz" />vad-asr-mic-1.12.40-es-nemo_conformer-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-es-nemo_conformer-linux-aarch64.tar.gz" />vad-asr-mic-1.12.40-es-nemo_conformer-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-es-nemo_conformer-universal.app.tar.bz2" />vad-asr-mic-1.12.40-es-nemo_conformer-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-es-nemo_conformer-windows-x64.zip" />vad-asr-mic-1.12.40-es-nemo_conformer-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-ja-moonshine_v2_base_ja-linux-x64.tar.gz" />vad-asr-mic-1.12.40-ja-moonshine_v2_base_ja-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-ja-moonshine_v2_base_ja-linux-aarch64.tar.gz" />vad-asr-mic-1.12.40-ja-moonshine_v2_base_ja-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-ja-moonshine_v2_base_ja-universal.app.tar.bz2" />vad-asr-mic-1.12.40-ja-moonshine_v2_base_ja-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-ja-moonshine_v2_base_ja-windows-x64.zip" />vad-asr-mic-1.12.40-ja-moonshine_v2_base_ja-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-ja-moonshine_v2_tiny_ja-linux-x64.tar.gz" />vad-asr-mic-1.12.40-ja-moonshine_v2_tiny_ja-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-ja-moonshine_v2_tiny_ja-linux-aarch64.tar.gz" />vad-asr-mic-1.12.40-ja-moonshine_v2_tiny_ja-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-ja-moonshine_v2_tiny_ja-universal.app.tar.bz2" />vad-asr-mic-1.12.40-ja-moonshine_v2_tiny_ja-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-ja-moonshine_v2_tiny_ja-windows-x64.zip" />vad-asr-mic-1.12.40-ja-moonshine_v2_tiny_ja-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-ja-parakeet_ja-linux-x64.tar.gz" />vad-asr-mic-1.12.40-ja-parakeet_ja-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-ja-parakeet_ja-linux-aarch64.tar.gz" />vad-asr-mic-1.12.40-ja-parakeet_ja-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-ja-parakeet_ja-universal.app.tar.bz2" />vad-asr-mic-1.12.40-ja-parakeet_ja-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-ja-parakeet_ja-windows-x64.zip" />vad-asr-mic-1.12.40-ja-parakeet_ja-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-ja-zipformer-linux-x64.tar.gz" />vad-asr-mic-1.12.40-ja-zipformer-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-ja-zipformer-linux-aarch64.tar.gz" />vad-asr-mic-1.12.40-ja-zipformer-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-ja-zipformer-universal.app.tar.bz2" />vad-asr-mic-1.12.40-ja-zipformer-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-ja-zipformer-windows-x64.zip" />vad-asr-mic-1.12.40-ja-zipformer-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-ko-moonshine_v2_tiny_ko-linux-x64.tar.gz" />vad-asr-mic-1.12.40-ko-moonshine_v2_tiny_ko-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-ko-moonshine_v2_tiny_ko-linux-aarch64.tar.gz" />vad-asr-mic-1.12.40-ko-moonshine_v2_tiny_ko-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-ko-moonshine_v2_tiny_ko-universal.app.tar.bz2" />vad-asr-mic-1.12.40-ko-moonshine_v2_tiny_ko-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-ko-moonshine_v2_tiny_ko-windows-x64.zip" />vad-asr-mic-1.12.40-ko-moonshine_v2_tiny_ko-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-ko-zipformer-linux-x64.tar.gz" />vad-asr-mic-1.12.40-ko-zipformer-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-ko-zipformer-linux-aarch64.tar.gz" />vad-asr-mic-1.12.40-ko-zipformer-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-ko-zipformer-universal.app.tar.bz2" />vad-asr-mic-1.12.40-ko-zipformer-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-ko-zipformer-windows-x64.zip" />vad-asr-mic-1.12.40-ko-zipformer-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-multi-dolphin-linux-x64.tar.gz" />vad-asr-mic-1.12.40-multi-dolphin-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-multi-dolphin-linux-aarch64.tar.gz" />vad-asr-mic-1.12.40-multi-dolphin-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-multi-dolphin-universal.app.tar.bz2" />vad-asr-mic-1.12.40-multi-dolphin-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-multi-dolphin-windows-x64.zip" />vad-asr-mic-1.12.40-multi-dolphin-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-multi-funasr_nano-linux-x64.tar.gz" />vad-asr-mic-1.12.40-multi-funasr_nano-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-multi-funasr_nano-linux-aarch64.tar.gz" />vad-asr-mic-1.12.40-multi-funasr_nano-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-multi-funasr_nano-universal.app.tar.bz2" />vad-asr-mic-1.12.40-multi-funasr_nano-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-multi-funasr_nano-windows-x64.zip" />vad-asr-mic-1.12.40-multi-funasr_nano-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-multi-nemo_conformer-linux-x64.tar.gz" />vad-asr-mic-1.12.40-multi-nemo_conformer-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-multi-nemo_conformer-linux-aarch64.tar.gz" />vad-asr-mic-1.12.40-multi-nemo_conformer-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-multi-nemo_conformer-universal.app.tar.bz2" />vad-asr-mic-1.12.40-multi-nemo_conformer-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-multi-nemo_conformer-windows-x64.zip" />vad-asr-mic-1.12.40-multi-nemo_conformer-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-multi-omnilingual-linux-x64.tar.gz" />vad-asr-mic-1.12.40-multi-omnilingual-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-multi-omnilingual-linux-aarch64.tar.gz" />vad-asr-mic-1.12.40-multi-omnilingual-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-multi-omnilingual-universal.app.tar.bz2" />vad-asr-mic-1.12.40-multi-omnilingual-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-multi-omnilingual-windows-x64.zip" />vad-asr-mic-1.12.40-multi-omnilingual-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-multi-qwen3_asr-linux-x64.tar.gz" />vad-asr-mic-1.12.40-multi-qwen3_asr-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-multi-qwen3_asr-linux-aarch64.tar.gz" />vad-asr-mic-1.12.40-multi-qwen3_asr-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-multi-qwen3_asr-universal.app.tar.bz2" />vad-asr-mic-1.12.40-multi-qwen3_asr-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-multi-qwen3_asr-windows-x64.zip" />vad-asr-mic-1.12.40-multi-qwen3_asr-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-pt-nemo_ctc_pt-linux-x64.tar.gz" />vad-asr-mic-1.12.40-pt-nemo_ctc_pt-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-pt-nemo_ctc_pt-linux-aarch64.tar.gz" />vad-asr-mic-1.12.40-pt-nemo_ctc_pt-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-pt-nemo_ctc_pt-universal.app.tar.bz2" />vad-asr-mic-1.12.40-pt-nemo_ctc_pt-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-pt-nemo_ctc_pt-windows-x64.zip" />vad-asr-mic-1.12.40-pt-nemo_ctc_pt-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-pt-nemo_transducer_pt-linux-x64.tar.gz" />vad-asr-mic-1.12.40-pt-nemo_transducer_pt-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-pt-nemo_transducer_pt-linux-aarch64.tar.gz" />vad-asr-mic-1.12.40-pt-nemo_transducer_pt-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-pt-nemo_transducer_pt-universal.app.tar.bz2" />vad-asr-mic-1.12.40-pt-nemo_transducer_pt-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-pt-nemo_transducer_pt-windows-x64.zip" />vad-asr-mic-1.12.40-pt-nemo_transducer_pt-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-ru-nemo_ctc-linux-x64.tar.gz" />vad-asr-mic-1.12.40-ru-nemo_ctc-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-ru-nemo_ctc-linux-aarch64.tar.gz" />vad-asr-mic-1.12.40-ru-nemo_ctc-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-ru-nemo_ctc-universal.app.tar.bz2" />vad-asr-mic-1.12.40-ru-nemo_ctc-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-ru-nemo_ctc-windows-x64.zip" />vad-asr-mic-1.12.40-ru-nemo_ctc-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-ru-nemo_ctc_v2-linux-x64.tar.gz" />vad-asr-mic-1.12.40-ru-nemo_ctc_v2-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-ru-nemo_ctc_v2-linux-aarch64.tar.gz" />vad-asr-mic-1.12.40-ru-nemo_ctc_v2-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-ru-nemo_ctc_v2-universal.app.tar.bz2" />vad-asr-mic-1.12.40-ru-nemo_ctc_v2-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-ru-nemo_ctc_v2-windows-x64.zip" />vad-asr-mic-1.12.40-ru-nemo_ctc_v2-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-ru-nemo_transducer-linux-x64.tar.gz" />vad-asr-mic-1.12.40-ru-nemo_transducer-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-ru-nemo_transducer-linux-aarch64.tar.gz" />vad-asr-mic-1.12.40-ru-nemo_transducer-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-ru-nemo_transducer-universal.app.tar.bz2" />vad-asr-mic-1.12.40-ru-nemo_transducer-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-ru-nemo_transducer-windows-x64.zip" />vad-asr-mic-1.12.40-ru-nemo_transducer-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-ru-nemo_transducer_v2-linux-x64.tar.gz" />vad-asr-mic-1.12.40-ru-nemo_transducer_v2-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-ru-nemo_transducer_v2-linux-aarch64.tar.gz" />vad-asr-mic-1.12.40-ru-nemo_transducer_v2-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-ru-nemo_transducer_v2-universal.app.tar.bz2" />vad-asr-mic-1.12.40-ru-nemo_transducer_v2-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-ru-nemo_transducer_v2-windows-x64.zip" />vad-asr-mic-1.12.40-ru-nemo_transducer_v2-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-ru-small_zipformer-linux-x64.tar.gz" />vad-asr-mic-1.12.40-ru-small_zipformer-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-ru-small_zipformer-linux-aarch64.tar.gz" />vad-asr-mic-1.12.40-ru-small_zipformer-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-ru-small_zipformer-universal.app.tar.bz2" />vad-asr-mic-1.12.40-ru-small_zipformer-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-ru-small_zipformer-windows-x64.zip" />vad-asr-mic-1.12.40-ru-small_zipformer-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-ru-zipformer-linux-x64.tar.gz" />vad-asr-mic-1.12.40-ru-zipformer-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-ru-zipformer-linux-aarch64.tar.gz" />vad-asr-mic-1.12.40-ru-zipformer-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-ru-zipformer-universal.app.tar.bz2" />vad-asr-mic-1.12.40-ru-zipformer-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-ru-zipformer-windows-x64.zip" />vad-asr-mic-1.12.40-ru-zipformer-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-ru-zipformer_int8-linux-x64.tar.gz" />vad-asr-mic-1.12.40-ru-zipformer_int8-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-ru-zipformer_int8-linux-aarch64.tar.gz" />vad-asr-mic-1.12.40-ru-zipformer_int8-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-ru-zipformer_int8-universal.app.tar.bz2" />vad-asr-mic-1.12.40-ru-zipformer_int8-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-ru-zipformer_int8-windows-x64.zip" />vad-asr-mic-1.12.40-ru-zipformer_int8-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-th-zipformer-linux-x64.tar.gz" />vad-asr-mic-1.12.40-th-zipformer-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-th-zipformer-linux-aarch64.tar.gz" />vad-asr-mic-1.12.40-th-zipformer-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-th-zipformer-universal.app.tar.bz2" />vad-asr-mic-1.12.40-th-zipformer-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-th-zipformer-windows-x64.zip" />vad-asr-mic-1.12.40-th-zipformer-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-uk-moonshine_v2_base_uk-linux-x64.tar.gz" />vad-asr-mic-1.12.40-uk-moonshine_v2_base_uk-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-uk-moonshine_v2_base_uk-linux-aarch64.tar.gz" />vad-asr-mic-1.12.40-uk-moonshine_v2_base_uk-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-uk-moonshine_v2_base_uk-universal.app.tar.bz2" />vad-asr-mic-1.12.40-uk-moonshine_v2_base_uk-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-uk-moonshine_v2_base_uk-windows-x64.zip" />vad-asr-mic-1.12.40-uk-moonshine_v2_base_uk-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-vi-moonshine_v2_base_vi-linux-x64.tar.gz" />vad-asr-mic-1.12.40-vi-moonshine_v2_base_vi-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-vi-moonshine_v2_base_vi-linux-aarch64.tar.gz" />vad-asr-mic-1.12.40-vi-moonshine_v2_base_vi-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-vi-moonshine_v2_base_vi-universal.app.tar.bz2" />vad-asr-mic-1.12.40-vi-moonshine_v2_base_vi-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-vi-moonshine_v2_base_vi-windows-x64.zip" />vad-asr-mic-1.12.40-vi-moonshine_v2_base_vi-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-vi-zipformer-linux-x64.tar.gz" />vad-asr-mic-1.12.40-vi-zipformer-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-vi-zipformer-linux-aarch64.tar.gz" />vad-asr-mic-1.12.40-vi-zipformer-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-vi-zipformer-universal.app.tar.bz2" />vad-asr-mic-1.12.40-vi-zipformer-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-vi-zipformer-windows-x64.zip" />vad-asr-mic-1.12.40-vi-zipformer-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-vi-zipformer_vi-linux-x64.tar.gz" />vad-asr-mic-1.12.40-vi-zipformer_vi-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-vi-zipformer_vi-linux-aarch64.tar.gz" />vad-asr-mic-1.12.40-vi-zipformer_vi-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-vi-zipformer_vi-universal.app.tar.bz2" />vad-asr-mic-1.12.40-vi-zipformer_vi-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-vi-zipformer_vi-windows-x64.zip" />vad-asr-mic-1.12.40-vi-zipformer_vi-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-zh-moonshine_v2_base_zh-linux-x64.tar.gz" />vad-asr-mic-1.12.40-zh-moonshine_v2_base_zh-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-zh-moonshine_v2_base_zh-linux-aarch64.tar.gz" />vad-asr-mic-1.12.40-zh-moonshine_v2_base_zh-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-zh-moonshine_v2_base_zh-universal.app.tar.bz2" />vad-asr-mic-1.12.40-zh-moonshine_v2_base_zh-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-zh-moonshine_v2_base_zh-windows-x64.zip" />vad-asr-mic-1.12.40-zh-moonshine_v2_base_zh-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-zh-telespeech-linux-x64.tar.gz" />vad-asr-mic-1.12.40-zh-telespeech-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-zh-telespeech-linux-aarch64.tar.gz" />vad-asr-mic-1.12.40-zh-telespeech-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-zh-telespeech-universal.app.tar.bz2" />vad-asr-mic-1.12.40-zh-telespeech-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-zh-telespeech-windows-x64.zip" />vad-asr-mic-1.12.40-zh-telespeech-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-zh-wenet_wu-linux-x64.tar.gz" />vad-asr-mic-1.12.40-zh-wenet_wu-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-zh-wenet_wu-linux-aarch64.tar.gz" />vad-asr-mic-1.12.40-zh-wenet_wu-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-zh-wenet_wu-universal.app.tar.bz2" />vad-asr-mic-1.12.40-zh-wenet_wu-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-zh-wenet_wu-windows-x64.zip" />vad-asr-mic-1.12.40-zh-wenet_wu-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-zh-wenet_wu_fp32-linux-x64.tar.gz" />vad-asr-mic-1.12.40-zh-wenet_wu_fp32-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-zh-wenet_wu_fp32-linux-aarch64.tar.gz" />vad-asr-mic-1.12.40-zh-wenet_wu_fp32-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-zh-wenet_wu_fp32-universal.app.tar.bz2" />vad-asr-mic-1.12.40-zh-wenet_wu_fp32-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-zh-wenet_wu_fp32-windows-x64.zip" />vad-asr-mic-1.12.40-zh-wenet_wu_fp32-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-zh-zipformer-linux-x64.tar.gz" />vad-asr-mic-1.12.40-zh-zipformer-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-zh-zipformer-linux-aarch64.tar.gz" />vad-asr-mic-1.12.40-zh-zipformer-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-zh-zipformer-universal.app.tar.bz2" />vad-asr-mic-1.12.40-zh-zipformer-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-zh-zipformer-windows-x64.zip" />vad-asr-mic-1.12.40-zh-zipformer-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-zh-zipformer_ctc-linux-x64.tar.gz" />vad-asr-mic-1.12.40-zh-zipformer_ctc-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-zh-zipformer_ctc-linux-aarch64.tar.gz" />vad-asr-mic-1.12.40-zh-zipformer_ctc-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-zh-zipformer_ctc-universal.app.tar.bz2" />vad-asr-mic-1.12.40-zh-zipformer_ctc-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-zh-zipformer_ctc-windows-x64.zip" />vad-asr-mic-1.12.40-zh-zipformer_ctc-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-zh-zipformer_ctc_small-linux-x64.tar.gz" />vad-asr-mic-1.12.40-zh-zipformer_ctc_small-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-zh-zipformer_ctc_small-linux-aarch64.tar.gz" />vad-asr-mic-1.12.40-zh-zipformer_ctc_small-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-zh-zipformer_ctc_small-universal.app.tar.bz2" />vad-asr-mic-1.12.40-zh-zipformer_ctc_small-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-zh-zipformer_ctc_small-windows-x64.zip" />vad-asr-mic-1.12.40-zh-zipformer_ctc_small-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-zh_en-fire_red_asr-linux-x64.tar.gz" />vad-asr-mic-1.12.40-zh_en-fire_red_asr-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-zh_en-fire_red_asr-linux-aarch64.tar.gz" />vad-asr-mic-1.12.40-zh_en-fire_red_asr-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-zh_en-fire_red_asr-universal.app.tar.bz2" />vad-asr-mic-1.12.40-zh_en-fire_red_asr-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-zh_en-fire_red_asr-windows-x64.zip" />vad-asr-mic-1.12.40-zh_en-fire_red_asr-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-zh_en-fire_red_asr2_ctc-linux-x64.tar.gz" />vad-asr-mic-1.12.40-zh_en-fire_red_asr2_ctc-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-zh_en-fire_red_asr2_ctc-linux-aarch64.tar.gz" />vad-asr-mic-1.12.40-zh_en-fire_red_asr2_ctc-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-zh_en-fire_red_asr2_ctc-universal.app.tar.bz2" />vad-asr-mic-1.12.40-zh_en-fire_red_asr2_ctc-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-zh_en-fire_red_asr2_ctc-windows-x64.zip" />vad-asr-mic-1.12.40-zh_en-fire_red_asr2_ctc-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-zh_en-paraformer-linux-x64.tar.gz" />vad-asr-mic-1.12.40-zh_en-paraformer-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-zh_en-paraformer-linux-aarch64.tar.gz" />vad-asr-mic-1.12.40-zh_en-paraformer-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-zh_en-paraformer-universal.app.tar.bz2" />vad-asr-mic-1.12.40-zh_en-paraformer-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-zh_en-paraformer-windows-x64.zip" />vad-asr-mic-1.12.40-zh_en-paraformer-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-zh_en-paraformer_v2-linux-x64.tar.gz" />vad-asr-mic-1.12.40-zh_en-paraformer_v2-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-zh_en-paraformer_v2-linux-aarch64.tar.gz" />vad-asr-mic-1.12.40-zh_en-paraformer_v2-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-zh_en-paraformer_v2-universal.app.tar.bz2" />vad-asr-mic-1.12.40-zh_en-paraformer_v2-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-zh_en-paraformer_v2-windows-x64.zip" />vad-asr-mic-1.12.40-zh_en-paraformer_v2-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-zh_en-small_paraformer-linux-x64.tar.gz" />vad-asr-mic-1.12.40-zh_en-small_paraformer-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-zh_en-small_paraformer-linux-aarch64.tar.gz" />vad-asr-mic-1.12.40-zh_en-small_paraformer-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-zh_en-small_paraformer-universal.app.tar.bz2" />vad-asr-mic-1.12.40-zh_en-small_paraformer-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-zh_en-small_paraformer-windows-x64.zip" />vad-asr-mic-1.12.40-zh_en-small_paraformer-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-zh_en-zipformer-linux-x64.tar.gz" />vad-asr-mic-1.12.40-zh_en-zipformer-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-zh_en-zipformer-linux-aarch64.tar.gz" />vad-asr-mic-1.12.40-zh_en-zipformer-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-zh_en-zipformer-universal.app.tar.bz2" />vad-asr-mic-1.12.40-zh_en-zipformer-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-zh_en-zipformer-windows-x64.zip" />vad-asr-mic-1.12.40-zh_en-zipformer-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-zh_en_ko_ja_yue-sense_voice_2024_07_17_int8-linux-x64.tar.gz" />vad-asr-mic-1.12.40-zh_en_ko_ja_yue-sense_voice_2024_07_17_int8-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-zh_en_ko_ja_yue-sense_voice_2024_07_17_int8-linux-aarch64.tar.gz" />vad-asr-mic-1.12.40-zh_en_ko_ja_yue-sense_voice_2024_07_17_int8-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-zh_en_ko_ja_yue-sense_voice_2024_07_17_int8-universal.app.tar.bz2" />vad-asr-mic-1.12.40-zh_en_ko_ja_yue-sense_voice_2024_07_17_int8-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-zh_en_ko_ja_yue-sense_voice_2024_07_17_int8-windows-x64.zip" />vad-asr-mic-1.12.40-zh_en_ko_ja_yue-sense_voice_2024_07_17_int8-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-zh_en_ko_ja_yue-sense_voice_2025_09_09_int8-linux-x64.tar.gz" />vad-asr-mic-1.12.40-zh_en_ko_ja_yue-sense_voice_2025_09_09_int8-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-zh_en_ko_ja_yue-sense_voice_2025_09_09_int8-linux-aarch64.tar.gz" />vad-asr-mic-1.12.40-zh_en_ko_ja_yue-sense_voice_2025_09_09_int8-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-zh_en_ko_ja_yue-sense_voice_2025_09_09_int8-universal.app.tar.bz2" />vad-asr-mic-1.12.40-zh_en_ko_ja_yue-sense_voice_2025_09_09_int8-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-zh_en_ko_ja_yue-sense_voice_2025_09_09_int8-windows-x64.zip" />vad-asr-mic-1.12.40-zh_en_ko_ja_yue-sense_voice_2025_09_09_int8-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-zh_en_yue-wenet_yue-linux-x64.tar.gz" />vad-asr-mic-1.12.40-zh_en_yue-wenet_yue-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-zh_en_yue-wenet_yue-linux-aarch64.tar.gz" />vad-asr-mic-1.12.40-zh_en_yue-wenet_yue-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-zh_en_yue-wenet_yue-universal.app.tar.bz2" />vad-asr-mic-1.12.40-zh_en_yue-wenet_yue-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.40/vad-asr-mic-1.12.40-zh_en_yue-wenet_yue-windows-x64.zip" />vad-asr-mic-1.12.40-zh_en_yue-wenet_yue-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-ar-moonshine_v2_base_ar-linux-x64.tar.gz" />vad-asr-mic-1.12.39-ar-moonshine_v2_base_ar-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-ar-moonshine_v2_base_ar-linux-aarch64.tar.gz" />vad-asr-mic-1.12.39-ar-moonshine_v2_base_ar-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-ar-moonshine_v2_base_ar-universal.app.tar.bz2" />vad-asr-mic-1.12.39-ar-moonshine_v2_base_ar-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-ar-moonshine_v2_base_ar-windows-x64.zip" />vad-asr-mic-1.12.39-ar-moonshine_v2_base_ar-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-de-nemo_ctc_de-linux-x64.tar.gz" />vad-asr-mic-1.12.39-de-nemo_ctc_de-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-de-nemo_ctc_de-linux-aarch64.tar.gz" />vad-asr-mic-1.12.39-de-nemo_ctc_de-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-de-nemo_ctc_de-universal.app.tar.bz2" />vad-asr-mic-1.12.39-de-nemo_ctc_de-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-de-nemo_ctc_de-windows-x64.zip" />vad-asr-mic-1.12.39-de-nemo_ctc_de-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-de-nemo_transducer_de-linux-x64.tar.gz" />vad-asr-mic-1.12.39-de-nemo_transducer_de-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-de-nemo_transducer_de-linux-aarch64.tar.gz" />vad-asr-mic-1.12.39-de-nemo_transducer_de-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-de-nemo_transducer_de-universal.app.tar.bz2" />vad-asr-mic-1.12.39-de-nemo_transducer_de-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-de-nemo_transducer_de-windows-x64.zip" />vad-asr-mic-1.12.39-de-nemo_transducer_de-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-en-medasr-linux-x64.tar.gz" />vad-asr-mic-1.12.39-en-medasr-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-en-medasr-linux-aarch64.tar.gz" />vad-asr-mic-1.12.39-en-medasr-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-en-medasr-universal.app.tar.bz2" />vad-asr-mic-1.12.39-en-medasr-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-en-medasr-windows-x64.zip" />vad-asr-mic-1.12.39-en-medasr-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-en-moonshine_base-linux-x64.tar.gz" />vad-asr-mic-1.12.39-en-moonshine_base-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-en-moonshine_base-linux-aarch64.tar.gz" />vad-asr-mic-1.12.39-en-moonshine_base-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-en-moonshine_base-universal.app.tar.bz2" />vad-asr-mic-1.12.39-en-moonshine_base-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-en-moonshine_base-windows-x64.zip" />vad-asr-mic-1.12.39-en-moonshine_base-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-en-moonshine_tiny-linux-x64.tar.gz" />vad-asr-mic-1.12.39-en-moonshine_tiny-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-en-moonshine_tiny-linux-aarch64.tar.gz" />vad-asr-mic-1.12.39-en-moonshine_tiny-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-en-moonshine_tiny-universal.app.tar.bz2" />vad-asr-mic-1.12.39-en-moonshine_tiny-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-en-moonshine_tiny-windows-x64.zip" />vad-asr-mic-1.12.39-en-moonshine_tiny-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-en-moonshine_v2_base_en-linux-x64.tar.gz" />vad-asr-mic-1.12.39-en-moonshine_v2_base_en-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-en-moonshine_v2_base_en-linux-aarch64.tar.gz" />vad-asr-mic-1.12.39-en-moonshine_v2_base_en-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-en-moonshine_v2_base_en-universal.app.tar.bz2" />vad-asr-mic-1.12.39-en-moonshine_v2_base_en-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-en-moonshine_v2_base_en-windows-x64.zip" />vad-asr-mic-1.12.39-en-moonshine_v2_base_en-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-en-moonshine_v2_tiny_en-linux-x64.tar.gz" />vad-asr-mic-1.12.39-en-moonshine_v2_tiny_en-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-en-moonshine_v2_tiny_en-linux-aarch64.tar.gz" />vad-asr-mic-1.12.39-en-moonshine_v2_tiny_en-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-en-moonshine_v2_tiny_en-universal.app.tar.bz2" />vad-asr-mic-1.12.39-en-moonshine_v2_tiny_en-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-en-moonshine_v2_tiny_en-windows-x64.zip" />vad-asr-mic-1.12.39-en-moonshine_v2_tiny_en-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-en-nemo_conformer-linux-x64.tar.gz" />vad-asr-mic-1.12.39-en-nemo_conformer-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-en-nemo_conformer-linux-aarch64.tar.gz" />vad-asr-mic-1.12.39-en-nemo_conformer-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-en-nemo_conformer-universal.app.tar.bz2" />vad-asr-mic-1.12.39-en-nemo_conformer-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-en-nemo_conformer-windows-x64.zip" />vad-asr-mic-1.12.39-en-nemo_conformer-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-en-nemo_ctc-linux-x64.tar.gz" />vad-asr-mic-1.12.39-en-nemo_ctc-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-en-nemo_ctc-linux-aarch64.tar.gz" />vad-asr-mic-1.12.39-en-nemo_ctc-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-en-nemo_ctc-universal.app.tar.bz2" />vad-asr-mic-1.12.39-en-nemo_ctc-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-en-nemo_ctc-windows-x64.zip" />vad-asr-mic-1.12.39-en-nemo_ctc-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-en-parakeet_tdt-linux-x64.tar.gz" />vad-asr-mic-1.12.39-en-parakeet_tdt-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-en-parakeet_tdt-linux-aarch64.tar.gz" />vad-asr-mic-1.12.39-en-parakeet_tdt-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-en-parakeet_tdt-universal.app.tar.bz2" />vad-asr-mic-1.12.39-en-parakeet_tdt-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-en-parakeet_tdt-windows-x64.zip" />vad-asr-mic-1.12.39-en-parakeet_tdt-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-en-parakeet_tdt_ctc-linux-x64.tar.gz" />vad-asr-mic-1.12.39-en-parakeet_tdt_ctc-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-en-parakeet_tdt_ctc-linux-aarch64.tar.gz" />vad-asr-mic-1.12.39-en-parakeet_tdt_ctc-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-en-parakeet_tdt_ctc-universal.app.tar.bz2" />vad-asr-mic-1.12.39-en-parakeet_tdt_ctc-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-en-parakeet_tdt_ctc-windows-x64.zip" />vad-asr-mic-1.12.39-en-parakeet_tdt_ctc-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-en-parakeet_tdt_v3-linux-x64.tar.gz" />vad-asr-mic-1.12.39-en-parakeet_tdt_v3-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-en-parakeet_tdt_v3-linux-aarch64.tar.gz" />vad-asr-mic-1.12.39-en-parakeet_tdt_v3-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-en-parakeet_tdt_v3-universal.app.tar.bz2" />vad-asr-mic-1.12.39-en-parakeet_tdt_v3-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-en-parakeet_tdt_v3-windows-x64.zip" />vad-asr-mic-1.12.39-en-parakeet_tdt_v3-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-en-whisper_base-linux-x64.tar.gz" />vad-asr-mic-1.12.39-en-whisper_base-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-en-whisper_base-linux-aarch64.tar.gz" />vad-asr-mic-1.12.39-en-whisper_base-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-en-whisper_base-universal.app.tar.bz2" />vad-asr-mic-1.12.39-en-whisper_base-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-en-whisper_base-windows-x64.zip" />vad-asr-mic-1.12.39-en-whisper_base-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-en-whisper_tiny-linux-x64.tar.gz" />vad-asr-mic-1.12.39-en-whisper_tiny-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-en-whisper_tiny-linux-aarch64.tar.gz" />vad-asr-mic-1.12.39-en-whisper_tiny-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-en-whisper_tiny-universal.app.tar.bz2" />vad-asr-mic-1.12.39-en-whisper_tiny-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-en-whisper_tiny-windows-x64.zip" />vad-asr-mic-1.12.39-en-whisper_tiny-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-en_de_es_fr-nemo_conformer-linux-x64.tar.gz" />vad-asr-mic-1.12.39-en_de_es_fr-nemo_conformer-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-en_de_es_fr-nemo_conformer-linux-aarch64.tar.gz" />vad-asr-mic-1.12.39-en_de_es_fr-nemo_conformer-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-en_de_es_fr-nemo_conformer-universal.app.tar.bz2" />vad-asr-mic-1.12.39-en_de_es_fr-nemo_conformer-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-en_de_es_fr-nemo_conformer-windows-x64.zip" />vad-asr-mic-1.12.39-en_de_es_fr-nemo_conformer-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-en_de_fr-zipformer-linux-x64.tar.gz" />vad-asr-mic-1.12.39-en_de_fr-zipformer-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-en_de_fr-zipformer-linux-aarch64.tar.gz" />vad-asr-mic-1.12.39-en_de_fr-zipformer-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-en_de_fr-zipformer-universal.app.tar.bz2" />vad-asr-mic-1.12.39-en_de_fr-zipformer-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-en_de_fr-zipformer-windows-x64.zip" />vad-asr-mic-1.12.39-en_de_fr-zipformer-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-en_es_de_fr-canary-linux-x64.tar.gz" />vad-asr-mic-1.12.39-en_es_de_fr-canary-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-en_es_de_fr-canary-linux-aarch64.tar.gz" />vad-asr-mic-1.12.39-en_es_de_fr-canary-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-en_es_de_fr-canary-universal.app.tar.bz2" />vad-asr-mic-1.12.39-en_es_de_fr-canary-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-en_es_de_fr-canary-windows-x64.zip" />vad-asr-mic-1.12.39-en_es_de_fr-canary-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-es-moonshine_v2_base_es-linux-x64.tar.gz" />vad-asr-mic-1.12.39-es-moonshine_v2_base_es-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-es-moonshine_v2_base_es-linux-aarch64.tar.gz" />vad-asr-mic-1.12.39-es-moonshine_v2_base_es-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-es-moonshine_v2_base_es-universal.app.tar.bz2" />vad-asr-mic-1.12.39-es-moonshine_v2_base_es-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-es-moonshine_v2_base_es-windows-x64.zip" />vad-asr-mic-1.12.39-es-moonshine_v2_base_es-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-es-nemo_conformer-linux-x64.tar.gz" />vad-asr-mic-1.12.39-es-nemo_conformer-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-es-nemo_conformer-linux-aarch64.tar.gz" />vad-asr-mic-1.12.39-es-nemo_conformer-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-es-nemo_conformer-universal.app.tar.bz2" />vad-asr-mic-1.12.39-es-nemo_conformer-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-es-nemo_conformer-windows-x64.zip" />vad-asr-mic-1.12.39-es-nemo_conformer-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-ja-moonshine_v2_base_ja-linux-x64.tar.gz" />vad-asr-mic-1.12.39-ja-moonshine_v2_base_ja-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-ja-moonshine_v2_base_ja-linux-aarch64.tar.gz" />vad-asr-mic-1.12.39-ja-moonshine_v2_base_ja-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-ja-moonshine_v2_base_ja-universal.app.tar.bz2" />vad-asr-mic-1.12.39-ja-moonshine_v2_base_ja-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-ja-moonshine_v2_base_ja-windows-x64.zip" />vad-asr-mic-1.12.39-ja-moonshine_v2_base_ja-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-ja-moonshine_v2_tiny_ja-linux-x64.tar.gz" />vad-asr-mic-1.12.39-ja-moonshine_v2_tiny_ja-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-ja-moonshine_v2_tiny_ja-linux-aarch64.tar.gz" />vad-asr-mic-1.12.39-ja-moonshine_v2_tiny_ja-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-ja-moonshine_v2_tiny_ja-universal.app.tar.bz2" />vad-asr-mic-1.12.39-ja-moonshine_v2_tiny_ja-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-ja-moonshine_v2_tiny_ja-windows-x64.zip" />vad-asr-mic-1.12.39-ja-moonshine_v2_tiny_ja-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-ja-parakeet_ja-linux-x64.tar.gz" />vad-asr-mic-1.12.39-ja-parakeet_ja-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-ja-parakeet_ja-linux-aarch64.tar.gz" />vad-asr-mic-1.12.39-ja-parakeet_ja-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-ja-parakeet_ja-universal.app.tar.bz2" />vad-asr-mic-1.12.39-ja-parakeet_ja-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-ja-parakeet_ja-windows-x64.zip" />vad-asr-mic-1.12.39-ja-parakeet_ja-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-ja-zipformer-linux-x64.tar.gz" />vad-asr-mic-1.12.39-ja-zipformer-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-ja-zipformer-linux-aarch64.tar.gz" />vad-asr-mic-1.12.39-ja-zipformer-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-ja-zipformer-universal.app.tar.bz2" />vad-asr-mic-1.12.39-ja-zipformer-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-ja-zipformer-windows-x64.zip" />vad-asr-mic-1.12.39-ja-zipformer-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-ko-moonshine_v2_tiny_ko-linux-x64.tar.gz" />vad-asr-mic-1.12.39-ko-moonshine_v2_tiny_ko-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-ko-moonshine_v2_tiny_ko-linux-aarch64.tar.gz" />vad-asr-mic-1.12.39-ko-moonshine_v2_tiny_ko-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-ko-moonshine_v2_tiny_ko-universal.app.tar.bz2" />vad-asr-mic-1.12.39-ko-moonshine_v2_tiny_ko-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-ko-moonshine_v2_tiny_ko-windows-x64.zip" />vad-asr-mic-1.12.39-ko-moonshine_v2_tiny_ko-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-ko-zipformer-linux-x64.tar.gz" />vad-asr-mic-1.12.39-ko-zipformer-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-ko-zipformer-linux-aarch64.tar.gz" />vad-asr-mic-1.12.39-ko-zipformer-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-ko-zipformer-universal.app.tar.bz2" />vad-asr-mic-1.12.39-ko-zipformer-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-ko-zipformer-windows-x64.zip" />vad-asr-mic-1.12.39-ko-zipformer-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-multi-dolphin-linux-x64.tar.gz" />vad-asr-mic-1.12.39-multi-dolphin-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-multi-dolphin-linux-aarch64.tar.gz" />vad-asr-mic-1.12.39-multi-dolphin-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-multi-dolphin-universal.app.tar.bz2" />vad-asr-mic-1.12.39-multi-dolphin-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-multi-dolphin-windows-x64.zip" />vad-asr-mic-1.12.39-multi-dolphin-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-multi-funasr_nano-linux-x64.tar.gz" />vad-asr-mic-1.12.39-multi-funasr_nano-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-multi-funasr_nano-linux-aarch64.tar.gz" />vad-asr-mic-1.12.39-multi-funasr_nano-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-multi-funasr_nano-universal.app.tar.bz2" />vad-asr-mic-1.12.39-multi-funasr_nano-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-multi-funasr_nano-windows-x64.zip" />vad-asr-mic-1.12.39-multi-funasr_nano-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-multi-nemo_conformer-linux-x64.tar.gz" />vad-asr-mic-1.12.39-multi-nemo_conformer-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-multi-nemo_conformer-linux-aarch64.tar.gz" />vad-asr-mic-1.12.39-multi-nemo_conformer-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-multi-nemo_conformer-universal.app.tar.bz2" />vad-asr-mic-1.12.39-multi-nemo_conformer-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-multi-nemo_conformer-windows-x64.zip" />vad-asr-mic-1.12.39-multi-nemo_conformer-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-multi-omnilingual-linux-x64.tar.gz" />vad-asr-mic-1.12.39-multi-omnilingual-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-multi-omnilingual-linux-aarch64.tar.gz" />vad-asr-mic-1.12.39-multi-omnilingual-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-multi-omnilingual-universal.app.tar.bz2" />vad-asr-mic-1.12.39-multi-omnilingual-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-multi-omnilingual-windows-x64.zip" />vad-asr-mic-1.12.39-multi-omnilingual-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-multi-qwen3_asr-linux-x64.tar.gz" />vad-asr-mic-1.12.39-multi-qwen3_asr-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-multi-qwen3_asr-linux-aarch64.tar.gz" />vad-asr-mic-1.12.39-multi-qwen3_asr-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-multi-qwen3_asr-universal.app.tar.bz2" />vad-asr-mic-1.12.39-multi-qwen3_asr-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-multi-qwen3_asr-windows-x64.zip" />vad-asr-mic-1.12.39-multi-qwen3_asr-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-pt-nemo_ctc_pt-linux-x64.tar.gz" />vad-asr-mic-1.12.39-pt-nemo_ctc_pt-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-pt-nemo_ctc_pt-linux-aarch64.tar.gz" />vad-asr-mic-1.12.39-pt-nemo_ctc_pt-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-pt-nemo_ctc_pt-universal.app.tar.bz2" />vad-asr-mic-1.12.39-pt-nemo_ctc_pt-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-pt-nemo_ctc_pt-windows-x64.zip" />vad-asr-mic-1.12.39-pt-nemo_ctc_pt-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-pt-nemo_transducer_pt-linux-x64.tar.gz" />vad-asr-mic-1.12.39-pt-nemo_transducer_pt-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-pt-nemo_transducer_pt-linux-aarch64.tar.gz" />vad-asr-mic-1.12.39-pt-nemo_transducer_pt-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-pt-nemo_transducer_pt-universal.app.tar.bz2" />vad-asr-mic-1.12.39-pt-nemo_transducer_pt-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-pt-nemo_transducer_pt-windows-x64.zip" />vad-asr-mic-1.12.39-pt-nemo_transducer_pt-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-ru-nemo_ctc-linux-x64.tar.gz" />vad-asr-mic-1.12.39-ru-nemo_ctc-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-ru-nemo_ctc-linux-aarch64.tar.gz" />vad-asr-mic-1.12.39-ru-nemo_ctc-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-ru-nemo_ctc-universal.app.tar.bz2" />vad-asr-mic-1.12.39-ru-nemo_ctc-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-ru-nemo_ctc-windows-x64.zip" />vad-asr-mic-1.12.39-ru-nemo_ctc-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-ru-nemo_ctc_v2-linux-x64.tar.gz" />vad-asr-mic-1.12.39-ru-nemo_ctc_v2-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-ru-nemo_ctc_v2-linux-aarch64.tar.gz" />vad-asr-mic-1.12.39-ru-nemo_ctc_v2-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-ru-nemo_ctc_v2-universal.app.tar.bz2" />vad-asr-mic-1.12.39-ru-nemo_ctc_v2-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-ru-nemo_ctc_v2-windows-x64.zip" />vad-asr-mic-1.12.39-ru-nemo_ctc_v2-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-ru-nemo_transducer-linux-x64.tar.gz" />vad-asr-mic-1.12.39-ru-nemo_transducer-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-ru-nemo_transducer-linux-aarch64.tar.gz" />vad-asr-mic-1.12.39-ru-nemo_transducer-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-ru-nemo_transducer-universal.app.tar.bz2" />vad-asr-mic-1.12.39-ru-nemo_transducer-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-ru-nemo_transducer-windows-x64.zip" />vad-asr-mic-1.12.39-ru-nemo_transducer-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-ru-nemo_transducer_v2-linux-x64.tar.gz" />vad-asr-mic-1.12.39-ru-nemo_transducer_v2-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-ru-nemo_transducer_v2-linux-aarch64.tar.gz" />vad-asr-mic-1.12.39-ru-nemo_transducer_v2-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-ru-nemo_transducer_v2-universal.app.tar.bz2" />vad-asr-mic-1.12.39-ru-nemo_transducer_v2-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-ru-nemo_transducer_v2-windows-x64.zip" />vad-asr-mic-1.12.39-ru-nemo_transducer_v2-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-ru-small_zipformer-linux-x64.tar.gz" />vad-asr-mic-1.12.39-ru-small_zipformer-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-ru-small_zipformer-linux-aarch64.tar.gz" />vad-asr-mic-1.12.39-ru-small_zipformer-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-ru-small_zipformer-universal.app.tar.bz2" />vad-asr-mic-1.12.39-ru-small_zipformer-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-ru-small_zipformer-windows-x64.zip" />vad-asr-mic-1.12.39-ru-small_zipformer-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-ru-zipformer-linux-x64.tar.gz" />vad-asr-mic-1.12.39-ru-zipformer-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-ru-zipformer-linux-aarch64.tar.gz" />vad-asr-mic-1.12.39-ru-zipformer-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-ru-zipformer-universal.app.tar.bz2" />vad-asr-mic-1.12.39-ru-zipformer-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-ru-zipformer-windows-x64.zip" />vad-asr-mic-1.12.39-ru-zipformer-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-ru-zipformer_int8-linux-x64.tar.gz" />vad-asr-mic-1.12.39-ru-zipformer_int8-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-ru-zipformer_int8-linux-aarch64.tar.gz" />vad-asr-mic-1.12.39-ru-zipformer_int8-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-ru-zipformer_int8-universal.app.tar.bz2" />vad-asr-mic-1.12.39-ru-zipformer_int8-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-ru-zipformer_int8-windows-x64.zip" />vad-asr-mic-1.12.39-ru-zipformer_int8-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-th-zipformer-linux-x64.tar.gz" />vad-asr-mic-1.12.39-th-zipformer-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-th-zipformer-linux-aarch64.tar.gz" />vad-asr-mic-1.12.39-th-zipformer-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-th-zipformer-universal.app.tar.bz2" />vad-asr-mic-1.12.39-th-zipformer-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-th-zipformer-windows-x64.zip" />vad-asr-mic-1.12.39-th-zipformer-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-uk-moonshine_v2_base_uk-linux-x64.tar.gz" />vad-asr-mic-1.12.39-uk-moonshine_v2_base_uk-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-uk-moonshine_v2_base_uk-linux-aarch64.tar.gz" />vad-asr-mic-1.12.39-uk-moonshine_v2_base_uk-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-uk-moonshine_v2_base_uk-universal.app.tar.bz2" />vad-asr-mic-1.12.39-uk-moonshine_v2_base_uk-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-uk-moonshine_v2_base_uk-windows-x64.zip" />vad-asr-mic-1.12.39-uk-moonshine_v2_base_uk-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-vi-moonshine_v2_base_vi-linux-x64.tar.gz" />vad-asr-mic-1.12.39-vi-moonshine_v2_base_vi-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-vi-moonshine_v2_base_vi-linux-aarch64.tar.gz" />vad-asr-mic-1.12.39-vi-moonshine_v2_base_vi-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-vi-moonshine_v2_base_vi-universal.app.tar.bz2" />vad-asr-mic-1.12.39-vi-moonshine_v2_base_vi-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-vi-moonshine_v2_base_vi-windows-x64.zip" />vad-asr-mic-1.12.39-vi-moonshine_v2_base_vi-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-vi-zipformer-linux-x64.tar.gz" />vad-asr-mic-1.12.39-vi-zipformer-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-vi-zipformer-linux-aarch64.tar.gz" />vad-asr-mic-1.12.39-vi-zipformer-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-vi-zipformer-universal.app.tar.bz2" />vad-asr-mic-1.12.39-vi-zipformer-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-vi-zipformer-windows-x64.zip" />vad-asr-mic-1.12.39-vi-zipformer-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-vi-zipformer_vi-linux-x64.tar.gz" />vad-asr-mic-1.12.39-vi-zipformer_vi-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-vi-zipformer_vi-linux-aarch64.tar.gz" />vad-asr-mic-1.12.39-vi-zipformer_vi-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-vi-zipformer_vi-universal.app.tar.bz2" />vad-asr-mic-1.12.39-vi-zipformer_vi-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-vi-zipformer_vi-windows-x64.zip" />vad-asr-mic-1.12.39-vi-zipformer_vi-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-zh-moonshine_v2_base_zh-linux-x64.tar.gz" />vad-asr-mic-1.12.39-zh-moonshine_v2_base_zh-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-zh-moonshine_v2_base_zh-linux-aarch64.tar.gz" />vad-asr-mic-1.12.39-zh-moonshine_v2_base_zh-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-zh-moonshine_v2_base_zh-universal.app.tar.bz2" />vad-asr-mic-1.12.39-zh-moonshine_v2_base_zh-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-zh-moonshine_v2_base_zh-windows-x64.zip" />vad-asr-mic-1.12.39-zh-moonshine_v2_base_zh-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-zh-telespeech-linux-x64.tar.gz" />vad-asr-mic-1.12.39-zh-telespeech-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-zh-telespeech-linux-aarch64.tar.gz" />vad-asr-mic-1.12.39-zh-telespeech-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-zh-telespeech-universal.app.tar.bz2" />vad-asr-mic-1.12.39-zh-telespeech-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-zh-telespeech-windows-x64.zip" />vad-asr-mic-1.12.39-zh-telespeech-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-zh-wenet_wu-linux-x64.tar.gz" />vad-asr-mic-1.12.39-zh-wenet_wu-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-zh-wenet_wu-linux-aarch64.tar.gz" />vad-asr-mic-1.12.39-zh-wenet_wu-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-zh-wenet_wu-universal.app.tar.bz2" />vad-asr-mic-1.12.39-zh-wenet_wu-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-zh-wenet_wu-windows-x64.zip" />vad-asr-mic-1.12.39-zh-wenet_wu-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-zh-wenet_wu_fp32-linux-x64.tar.gz" />vad-asr-mic-1.12.39-zh-wenet_wu_fp32-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-zh-wenet_wu_fp32-linux-aarch64.tar.gz" />vad-asr-mic-1.12.39-zh-wenet_wu_fp32-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-zh-wenet_wu_fp32-universal.app.tar.bz2" />vad-asr-mic-1.12.39-zh-wenet_wu_fp32-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-zh-wenet_wu_fp32-windows-x64.zip" />vad-asr-mic-1.12.39-zh-wenet_wu_fp32-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-zh-zipformer-linux-x64.tar.gz" />vad-asr-mic-1.12.39-zh-zipformer-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-zh-zipformer-linux-aarch64.tar.gz" />vad-asr-mic-1.12.39-zh-zipformer-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-zh-zipformer-universal.app.tar.bz2" />vad-asr-mic-1.12.39-zh-zipformer-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-zh-zipformer-windows-x64.zip" />vad-asr-mic-1.12.39-zh-zipformer-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-zh-zipformer_ctc-linux-x64.tar.gz" />vad-asr-mic-1.12.39-zh-zipformer_ctc-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-zh-zipformer_ctc-linux-aarch64.tar.gz" />vad-asr-mic-1.12.39-zh-zipformer_ctc-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-zh-zipformer_ctc-universal.app.tar.bz2" />vad-asr-mic-1.12.39-zh-zipformer_ctc-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-zh-zipformer_ctc-windows-x64.zip" />vad-asr-mic-1.12.39-zh-zipformer_ctc-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-zh-zipformer_ctc_small-linux-x64.tar.gz" />vad-asr-mic-1.12.39-zh-zipformer_ctc_small-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-zh-zipformer_ctc_small-linux-aarch64.tar.gz" />vad-asr-mic-1.12.39-zh-zipformer_ctc_small-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-zh-zipformer_ctc_small-universal.app.tar.bz2" />vad-asr-mic-1.12.39-zh-zipformer_ctc_small-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-zh-zipformer_ctc_small-windows-x64.zip" />vad-asr-mic-1.12.39-zh-zipformer_ctc_small-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-zh_en-fire_red_asr-linux-x64.tar.gz" />vad-asr-mic-1.12.39-zh_en-fire_red_asr-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-zh_en-fire_red_asr-linux-aarch64.tar.gz" />vad-asr-mic-1.12.39-zh_en-fire_red_asr-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-zh_en-fire_red_asr-universal.app.tar.bz2" />vad-asr-mic-1.12.39-zh_en-fire_red_asr-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-zh_en-fire_red_asr-windows-x64.zip" />vad-asr-mic-1.12.39-zh_en-fire_red_asr-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-zh_en-fire_red_asr2_ctc-linux-x64.tar.gz" />vad-asr-mic-1.12.39-zh_en-fire_red_asr2_ctc-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-zh_en-fire_red_asr2_ctc-linux-aarch64.tar.gz" />vad-asr-mic-1.12.39-zh_en-fire_red_asr2_ctc-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-zh_en-fire_red_asr2_ctc-universal.app.tar.bz2" />vad-asr-mic-1.12.39-zh_en-fire_red_asr2_ctc-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-zh_en-fire_red_asr2_ctc-windows-x64.zip" />vad-asr-mic-1.12.39-zh_en-fire_red_asr2_ctc-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-zh_en-paraformer-linux-x64.tar.gz" />vad-asr-mic-1.12.39-zh_en-paraformer-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-zh_en-paraformer-linux-aarch64.tar.gz" />vad-asr-mic-1.12.39-zh_en-paraformer-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-zh_en-paraformer-universal.app.tar.bz2" />vad-asr-mic-1.12.39-zh_en-paraformer-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-zh_en-paraformer-windows-x64.zip" />vad-asr-mic-1.12.39-zh_en-paraformer-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-zh_en-paraformer_v2-linux-x64.tar.gz" />vad-asr-mic-1.12.39-zh_en-paraformer_v2-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-zh_en-paraformer_v2-linux-aarch64.tar.gz" />vad-asr-mic-1.12.39-zh_en-paraformer_v2-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-zh_en-paraformer_v2-universal.app.tar.bz2" />vad-asr-mic-1.12.39-zh_en-paraformer_v2-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-zh_en-paraformer_v2-windows-x64.zip" />vad-asr-mic-1.12.39-zh_en-paraformer_v2-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-zh_en-small_paraformer-linux-x64.tar.gz" />vad-asr-mic-1.12.39-zh_en-small_paraformer-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-zh_en-small_paraformer-linux-aarch64.tar.gz" />vad-asr-mic-1.12.39-zh_en-small_paraformer-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-zh_en-small_paraformer-universal.app.tar.bz2" />vad-asr-mic-1.12.39-zh_en-small_paraformer-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-zh_en-small_paraformer-windows-x64.zip" />vad-asr-mic-1.12.39-zh_en-small_paraformer-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-zh_en-zipformer-linux-x64.tar.gz" />vad-asr-mic-1.12.39-zh_en-zipformer-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-zh_en-zipformer-linux-aarch64.tar.gz" />vad-asr-mic-1.12.39-zh_en-zipformer-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-zh_en-zipformer-universal.app.tar.bz2" />vad-asr-mic-1.12.39-zh_en-zipformer-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-zh_en-zipformer-windows-x64.zip" />vad-asr-mic-1.12.39-zh_en-zipformer-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-zh_en_ko_ja_yue-sense_voice_2024_07_17_int8-linux-x64.tar.gz" />vad-asr-mic-1.12.39-zh_en_ko_ja_yue-sense_voice_2024_07_17_int8-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-zh_en_ko_ja_yue-sense_voice_2024_07_17_int8-linux-aarch64.tar.gz" />vad-asr-mic-1.12.39-zh_en_ko_ja_yue-sense_voice_2024_07_17_int8-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-zh_en_ko_ja_yue-sense_voice_2024_07_17_int8-universal.app.tar.bz2" />vad-asr-mic-1.12.39-zh_en_ko_ja_yue-sense_voice_2024_07_17_int8-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-zh_en_ko_ja_yue-sense_voice_2024_07_17_int8-windows-x64.zip" />vad-asr-mic-1.12.39-zh_en_ko_ja_yue-sense_voice_2024_07_17_int8-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-zh_en_ko_ja_yue-sense_voice_2025_09_09_int8-linux-x64.tar.gz" />vad-asr-mic-1.12.39-zh_en_ko_ja_yue-sense_voice_2025_09_09_int8-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-zh_en_ko_ja_yue-sense_voice_2025_09_09_int8-linux-aarch64.tar.gz" />vad-asr-mic-1.12.39-zh_en_ko_ja_yue-sense_voice_2025_09_09_int8-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-zh_en_ko_ja_yue-sense_voice_2025_09_09_int8-universal.app.tar.bz2" />vad-asr-mic-1.12.39-zh_en_ko_ja_yue-sense_voice_2025_09_09_int8-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-zh_en_ko_ja_yue-sense_voice_2025_09_09_int8-windows-x64.zip" />vad-asr-mic-1.12.39-zh_en_ko_ja_yue-sense_voice_2025_09_09_int8-windows-x64.zip<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-zh_en_yue-wenet_yue-linux-x64.tar.gz" />vad-asr-mic-1.12.39-zh_en_yue-wenet_yue-linux-x64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-zh_en_yue-wenet_yue-linux-aarch64.tar.gz" />vad-asr-mic-1.12.39-zh_en_yue-wenet_yue-linux-aarch64.tar.gz<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-zh_en_yue-wenet_yue-universal.app.tar.bz2" />vad-asr-mic-1.12.39-zh_en_yue-wenet_yue-universal.app.tar.bz2<br/>
+<a href="https://hf-mirror.com/csukuangfj2/tauri-app/resolve/main/vad-asr-mic/1.12.39/vad-asr-mic-1.12.39-zh_en_yue-wenet_yue-windows-x64.zip" />vad-asr-mic-1.12.39-zh_en_yue-wenet_yue-windows-x64.zip<br/>

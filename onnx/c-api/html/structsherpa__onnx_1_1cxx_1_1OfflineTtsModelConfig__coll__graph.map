@@ -1,0 +1,28 @@
+<map id="sherpa_onnx::cxx::OfflineTtsModelConfig" name="sherpa_onnx::cxx::OfflineTtsModelConfig">
+<area shape="rect" id="Node000001" title="Model configuration for offline TTS." alt="" coords="765,365,952,405"/>
+<area shape="rect" id="Node000002" href="$structsherpa__onnx_1_1cxx_1_1OfflineTtsVitsModelConfig.html" title="VITS model configuration." alt="" coords="455,113,641,153"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="590,160,743,278,838,363,834,367,740,282,587,164"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="193,377,280,402"/>
+<area shape="poly" id="edge16_Node000001_Node000003" title=" " alt="" coords="236,363,240,284,250,181,258,130,270,84,284,47,302,22,320,11,341,5,391,5,446,15,503,34,601,76,645,99,684,128,719,163,779,238,823,310,851,364,846,366,819,313,775,241,715,166,681,132,643,104,599,81,501,39,445,21,390,10,342,11,322,16,306,26,289,49,275,85,264,131,255,182,245,284,241,363"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="238,363,246,305,258,235,277,170,289,145,302,129,323,116,346,107,394,100,442,102,486,111,485,116,442,108,394,105,347,112,325,120,306,133,293,148,282,172,264,236,251,306,243,363"/>
+<area shape="rect" id="Node000005" href="$structsherpa__onnx_1_1cxx_1_1OfflineTtsMatchaModelConfig.html" title="Matcha model configuration." alt="" coords="455,220,641,260"/>
+<area shape="poly" id="edge5_Node000005_Node000003" title=" " alt="" coords="240,362,247,335,259,304,277,275,302,251,338,234,377,224,416,220,454,221,454,227,417,226,378,229,340,239,306,256,282,278,264,307,252,337,245,364"/>
+<area shape="rect" id="Node000006" href="$structsherpa__onnx_1_1cxx_1_1OfflineTtsKokoroModelConfig.html" title="Kokoro model configuration." alt="" coords="455,336,641,376"/>
+<area shape="poly" id="edge7_Node000006_Node000003" title=" " alt="" coords="293,373,304,371,381,362,454,356,455,362,381,367,304,376,294,378"/>
+<area shape="rect" id="Node000007" href="$structsherpa__onnx_1_1cxx_1_1OfflineTtsKittenModelConfig.html" title="Kitten model configuration." alt="" coords="455,407,641,447"/>
+<area shape="poly" id="edge9_Node000007_Node000003" title=" " alt="" coords="262,409,282,424,305,435,342,444,380,447,454,443,454,449,380,452,341,449,303,440,279,428,259,413"/>
+<area shape="rect" id="Node000008" href="$structsherpa__onnx_1_1cxx_1_1OfflineTtsZipvoiceModelConfig.html" title="ZipVoice model configuration." alt="" coords="455,497,641,537"/>
+<area shape="poly" id="edge11_Node000008_Node000003" title=" " alt="" coords="243,415,249,446,261,481,279,514,306,541,329,552,354,559,407,560,458,550,502,535,504,540,459,555,407,565,353,564,327,557,302,545,275,518,256,483,244,447,238,416"/>
+<area shape="rect" id="Node000009" href="$structsherpa__onnx_1_1cxx_1_1OfflineTtsPocketModelConfig.html" title="Pocket TTS model configuration." alt="" coords="455,616,641,656"/>
+<area shape="poly" id="edge13_Node000009_Node000003" title=" " alt="" coords="243,415,249,477,262,554,280,626,292,652,306,669,329,682,355,690,382,691,410,688,464,674,510,654,512,659,466,679,411,694,382,697,354,695,327,687,302,673,288,655,275,627,257,556,244,478,237,416"/>
+<area shape="rect" id="Node000010" href="$structsherpa__onnx_1_1cxx_1_1OfflineTtsSupertonicModelConfig.html" title="Supertonic model configuration." alt="" coords="452,789,644,829"/>
+<area shape="poly" id="edge15_Node000010_Node000003" title=" " alt="" coords="241,416,243,504,252,620,261,678,272,731,287,772,306,800,323,812,343,821,385,831,430,832,472,827,473,832,430,837,385,837,341,826,321,817,302,803,282,775,267,732,255,679,247,621,238,504,235,416"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="5,369,144,409"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="157,387,193,387,193,392,157,392"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="606,264,816,363,814,368,603,269"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="655,364,765,374,765,379,655,369"/>
+<area shape="poly" id="edge8_Node000001_Node000007" title=" " alt="" coords="655,410,765,395,765,400,656,415"/>
+<area shape="poly" id="edge10_Node000001_Node000008" title=" " alt="" coords="608,490,810,403,812,408,610,495"/>
+<area shape="poly" id="edge12_Node000001_Node000009" title=" " alt="" coords="584,605,740,481,832,404,835,408,743,485,587,610"/>
+<area shape="poly" id="edge14_Node000001_Node000010" title=" " alt="" coords="572,776,739,556,842,404,846,407,744,559,576,779"/>
+</map>

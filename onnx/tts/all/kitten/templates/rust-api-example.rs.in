@@ -1,0 +1,52 @@
+use sherpa_onnx::{
+    GenerationConfig, OfflineTts, OfflineTtsConfig, OfflineTtsKittenModelConfig,
+};
+
+fn main() {
+    let config = OfflineTtsConfig {
+        model: sherpa_onnx::OfflineTtsModelConfig {
+            kitten: OfflineTtsKittenModelConfig {
+                model: Some("{{model}}".into()),
+                voices: Some("{{voices}}".into()),
+                tokens: Some("{{tokens}}".into()),
+                data_dir: Some("{{data_dir}}".into()),
+                ..Default::default()
+            },
+            num_threads: 2,
+            debug: false,
+            ..Default::default()
+        },
+        ..Default::default()
+    };
+
+    let tts = OfflineTts::create(&config).expect("Failed to create OfflineTts");
+
+    println!("Sample rate: {}", tts.sample_rate());
+    println!("Num speakers: {}", tts.num_speakers());
+
+    let text = "{{text}}";
+
+    let gen_config = GenerationConfig {
+        sid: {{sid}},
+        speed: 1.0,
+        ..Default::default()
+    };
+
+    let audio = tts
+        .generate_with_config(
+            text,
+            &gen_config,
+            Some(|_samples: &[f32], progress: f32| -> bool {
+                println!("Progress: {:.1}%", progress * 100.0);
+                true
+            }),
+        )
+        .expect("Generation failed");
+
+    let filename = "./test.wav";
+    if audio.save(filename) {
+        println!("Saved to: {}", filename);
+    } else {
+        eprintln!("Failed to save {}", filename);
+    }
+}

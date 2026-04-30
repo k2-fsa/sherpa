@@ -1,0 +1,293 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pre-trained models &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Offline CTC models" href="offline_ctc/index.html" />
+    <link rel="prev" title="Check your installation" href="../install/check_your_installation.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">sherpa</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../install/index.html">Installation</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Pre-trained models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="offline_ctc/index.html">Offline CTC models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="offline_transducer.html">Offline transducer models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="online_transducer.html">Online transducer models</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../onnx/index.html">sherpa-onnx</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">sherpa</a> &raquo;</li>
+      <li>Pre-trained models</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/sherpa/pretrained_models/index.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="pre-trained-models">
+<span id="k2-fsa-sherpa-pretrained-models"></span><h1>Pre-trained models<a class="headerlink" href="#pre-trained-models" title="Permalink to this heading"></a></h1>
+<p>Two kinds of end-to-end (E2E) models are supported by <a class="reference external" href="http://github.com/k2-fsa/sherpa">k2-fsa/sherpa</a>:</p>
+<ul class="simple">
+<li><p>CTC</p></li>
+<li><p>Transducer</p></li>
+</ul>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>For transducer-based models, we only support stateless transducers.
+To the best of our knowledge, only <a class="reference external" href="https://github.com/k2-fsa/icefall">icefall</a> supports that. In other words,
+only transducer models from <a class="reference external" href="https://github.com/k2-fsa/icefall">icefall</a> are currently supported.</p>
+<p>For CTC-based models, we support any type of models trained using CTC loss
+as long as you can export the model via torchscript. Models from the following
+frameworks are currently supported: <a class="reference external" href="https://github.com/k2-fsa/icefall">icefall</a>, <a class="reference external" href="https://github.com/wenet-e2e/wenet">WeNet</a>, and <a class="reference external" href="https://github.com/pytorch/audio">torchaudio</a> (Wav2Vec 2.0).
+If you have a CTC model and want it to be supported in <a class="reference external" href="http://github.com/k2-fsa/sherpa">k2-fsa/sherpa</a>, please
+create an issue at <a class="reference external" href="https://github.com/k2-fsa/sherpa/issues">https://github.com/k2-fsa/sherpa/issues</a>.</p>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>You can try the pre-trained models in your browser without installing
+anything. See <a class="reference external" href="https://huggingface.co/spaces/k2-fsa/automatic-speech-recognition">https://huggingface.co/spaces/k2-fsa/automatic-speech-recognition</a>.</p>
+</div>
+<p>This page lists all available pre-trained models that you can download.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>We provide pre-trained models for the following languages:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Arabic</p></li>
+<li><p>Chinese</p></li>
+<li><p>English</p></li>
+<li><p>German</p></li>
+<li><p>Tibetan</p></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>We provide a colab notebook
+<a class="reference external" href="https://github.com/k2-fsa/colab/blob/master/sherpa/sherpa_offline_recognition_python_api_demo.ipynb"><img alt="Sherpa offline recognition python api colab notebook" src="https://github.com/k2-fsa/sherpa/releases/download/doc/colab-badge.jpg" /></a>
+for you to try offline recognition step by step.</p>
+<p>It shows how to install sherpa and use it as offline recognizer,
+which supports the models from icefall, the <a class="reference external" href="https://github.com/wenet-e2e/wenet">WeNet</a> framework and torchaudio.</p>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Pretrained models</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="offline_ctc/index.html">Offline CTC models</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="offline_ctc/icefall.html">icefall</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="offline_ctc/icefall.html#icefall-asr-gigaspeech-conformer-ctc-english">icefall-asr-gigaspeech-conformer-ctc (English)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="offline_ctc/icefall.html#icefall-asr-librispeech-conformer-ctc-jit-bpe-500-2021-11-09-english">icefall-asr-librispeech-conformer-ctc-jit-bpe-500-2021-11-09 (English)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="offline_ctc/icefall.html#icefall-asr-tedlium3-conformer-ctc2-english">icefall-asr-tedlium3-conformer-ctc2 (English)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="offline_ctc/icefall.html#icefall-asr-librispeech-conformer-ctc-english">icefall_asr_librispeech_conformer_ctc (English)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="offline_ctc/icefall.html#icefall-asr-aishell-conformer-ctc-chinese">icefall_asr_aishell_conformer_ctc (Chinese)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="offline_ctc/icefall.html#icefall-asr-mgb2-conformer-ctc-2022-27-06-arabic">icefall-asr-mgb2-conformer_ctc-2022-27-06 (Arabic)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="offline_ctc/wenet.html">WeNet</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="offline_ctc/wenet.html#wenet-english-model-english">wenet-english-model (English)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="offline_ctc/wenet.html#wenet-chinese-model-chinese">wenet-chinese-model (Chinese)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="offline_ctc/torchaudio.html">torchaudio</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="offline_ctc/torchaudio.html#wav2vec2-asr-base-english">wav2vec2_asr_base (English)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="offline_ctc/torchaudio.html#voxpopuli-asr-base-german">voxpopuli_asr_base (German)</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="offline_ctc/nemo.html">NeMo</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="offline_ctc/nemo.html#sherpa-nemo-ctc-en-citrinet-512-english">sherpa-nemo-ctc-en-citrinet-512 (English)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="offline_ctc/nemo.html#sherpa-nemo-ctc-zh-citrinet-512-chinese">sherpa-nemo-ctc-zh-citrinet-512 (Chinese)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="offline_ctc/nemo.html#sherpa-nemo-ctc-zh-citrinet-1024-gamma-0-25-chinese">sherpa-nemo-ctc-zh-citrinet-1024-gamma-0-25 (Chinese)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="offline_ctc/nemo.html#sherpa-nemo-ctc-de-citrinet-1024-german">sherpa-nemo-ctc-de-citrinet-1024 (German)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="offline_ctc/nemo.html#sherpa-nemo-ctc-en-conformer-small-english">sherpa-nemo-ctc-en-conformer-small (English)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="offline_ctc/nemo.html#sherpa-nemo-ctc-en-conformer-medium-english">sherpa-nemo-ctc-en-conformer-medium (English)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="offline_ctc/nemo.html#sherpa-nemo-ctc-en-conformer-large-english">sherpa-nemo-ctc-en-conformer-large (English)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="offline_ctc/nemo.html#sherpa-nemo-ctc-de-conformer-large-german">sherpa-nemo-ctc-de-conformer-large (German)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="offline_ctc/nemo.html#how-to-convert-nemo-models-to-sherpa">How to convert NeMo models to sherpa</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="offline_transducer.html">Offline transducer models</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="offline_transducer.html#icefall">icefall</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="offline_transducer.html#english">English</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="offline_transducer.html#icefall-asr-librispeech-zipformer-2023-05-15">icefall-asr-librispeech-zipformer-2023-05-15</a></li>
+<li class="toctree-l4"><a class="reference internal" href="offline_transducer.html#icefall-asr-librispeech-zipformer-small-2023-05-16">icefall-asr-librispeech-zipformer-small-2023-05-16</a></li>
+<li class="toctree-l4"><a class="reference internal" href="offline_transducer.html#icefall-asr-librispeech-zipformer-large-2023-05-16">icefall-asr-librispeech-zipformer-large-2023-05-16</a></li>
+<li class="toctree-l4"><a class="reference internal" href="offline_transducer.html#icefall-asr-multidataset-pruned-transducer-stateless7-2023-05-04">icefall-asr-multidataset-pruned_transducer_stateless7-2023-05-04</a></li>
+<li class="toctree-l4"><a class="reference internal" href="offline_transducer.html#icefall-asr-librispeech-pruned-transducer-stateless8-2022-12-02">icefall-asr-librispeech-pruned-transducer-stateless8-2022-12-02</a></li>
+<li class="toctree-l4"><a class="reference internal" href="offline_transducer.html#icefall-asr-librispeech-pruned-transducer-stateless8-2022-11-14">icefall-asr-librispeech-pruned-transducer-stateless8-2022-11-14</a></li>
+<li class="toctree-l4"><a class="reference internal" href="offline_transducer.html#icefall-asr-librispeech-pruned-transducer-stateless7-2022-11-11">icefall-asr-librispeech-pruned-transducer-stateless7-2022-11-11</a></li>
+<li class="toctree-l4"><a class="reference internal" href="offline_transducer.html#icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13">icefall-asr-librispeech-pruned-transducer-stateless3-2022-05-13</a></li>
+<li class="toctree-l4"><a class="reference internal" href="offline_transducer.html#icefall-asr-gigaspeech-pruned-transducer-stateless2">icefall-asr-gigaspeech-pruned-transducer-stateless2</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="offline_transducer.html#chinese">Chinese</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="offline_transducer.html#icefall-asr-wenetspeech-pruned-transducer-stateless2">icefall_asr_wenetspeech_pruned_transducer_stateless2</a></li>
+<li class="toctree-l4"><a class="reference internal" href="offline_transducer.html#icefall-asr-aidatatang-200zh-pruned-transducer-stateless2">icefall_asr_aidatatang-200zh_pruned_transducer_stateless2</a></li>
+<li class="toctree-l4"><a class="reference internal" href="offline_transducer.html#icefall-asr-alimeeting-pruned-transducer-stateless7">icefall-asr-alimeeting-pruned-transducer-stateless7</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="offline_transducer.html#chinese-english">Chinese + English</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="offline_transducer.html#icefall-asr-tal-csasr-pruned-transducer-stateless5">icefall_asr_tal-csasr_pruned_transducer_stateless5</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="offline_transducer.html#tibetan">Tibetan</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="offline_transducer.html#icefall-asr-xbmu-amdo31-pruned-transducer-stateless7-2022-12-02">icefall-asr-xbmu-amdo31-pruned-transducer-stateless7-2022-12-02</a></li>
+<li class="toctree-l4"><a class="reference internal" href="offline_transducer.html#icefall-asr-xbmu-amdo31-pruned-transducer-stateless5-2022-11-29">icefall-asr-xbmu-amdo31-pruned-transducer-stateless5-2022-11-29</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="online_transducer.html">Online transducer models</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="online_transducer.html#icefall">icefall</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="online_transducer.html#english">English</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="online_transducer.html#icefall-asr-librispeech-streaming-zipformer-2023-05-17">icefall-asr-librispeech-streaming-zipformer-2023-05-17</a></li>
+<li class="toctree-l4"><a class="reference internal" href="online_transducer.html#icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29">icefall-asr-librispeech-pruned-transducer-stateless7-streaming-2022-12-29</a></li>
+<li class="toctree-l4"><a class="reference internal" href="online_transducer.html#icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05">icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05</a></li>
+<li class="toctree-l4"><a class="reference internal" href="online_transducer.html#icefall-asr-librispeech-lstm-transducer-stateless2-2022-09-03">icefall-asr-librispeech-lstm-transducer-stateless2-2022-09-03</a></li>
+<li class="toctree-l4"><a class="reference internal" href="online_transducer.html#icefall-asr-librispeech-pruned-stateless-emformer-rnnt2-2022-06-01">icefall-asr-librispeech-pruned-stateless-emformer-rnnt2-2022-06-01</a></li>
+<li class="toctree-l4"><a class="reference internal" href="online_transducer.html#icefall-librispeech-streaming-pruned-transducer-stateless4-20220625">icefall_librispeech_streaming_pruned_transducer_stateless4_20220625</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="online_transducer.html#chinese">Chinese</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="online_transducer.html#icefall-asr-wenetspeech-pruned-transducer-stateless5-streaming">icefall_asr_wenetspeech_pruned_transducer_stateless5_streaming</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="online_transducer.html#chinese-english-all-in-one">Chinese + English (all-in-one)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="online_transducer.html#pfluo-k2fsa-zipformer-chinese-english-mixed">pfluo/k2fsa-zipformer-chinese-english-mixed</a></li>
+<li class="toctree-l4"><a class="reference internal" href="online_transducer.html#icefall-asr-conv-emformer-transducer-stateless2-zh">icefall-asr-conv-emformer-transducer-stateless2-zh</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../install/check_your_installation.html" class="btn btn-neutral float-left" title="Check your installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="offline_ctc/index.html" class="btn btn-neutral float-right" title="Offline CTC models" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

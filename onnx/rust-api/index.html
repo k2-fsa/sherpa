@@ -1,0 +1,522 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rust API &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Install the Rust crate" href="install.html" />
+    <link rel="prev" title="Go API" href="../go-api/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">sherpa-onnx</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../install/index.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../faqs/index.html">Frequently Asked Question (FAQs)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python/index.html">Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../c-api/index.html">C API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../java-api/index.html">Java API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../javascript-api/index.html">Javascript API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kotlin-api/index.html">Kotlin API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../swift-api/index.html">Swift API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../go-api/index.html">Go API</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Rust API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="install.html">Install the Rust crate</a></li>
+<li class="toctree-l3"><a class="reference internal" href="advanced-install.html">Advanced installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/index.html">Rust examples</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../csharp-api/index.html">C# API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pascal-api/index.html">Pascal API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lazarus/index.html">Lazarus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../wasm/index.html">WebAssembly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../android/index.html">Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../harmony-os/index.html">HarmonyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ios/index.html">iOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../flutter/index.html">Flutter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tauri/index.html">Tauri Desktop Apps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../websocket/index.html">WebSocket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../hotwords/index.html">Hotwords (Contextual biasing)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kws/index.html">Keyword spotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../punctuation/index.html">Punctuation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../audio-tagging/index.html">Audio tagging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spoken-language-identification/index.html">Spoken language identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vad/index.html">VAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../medasr/index.html">Google MedASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/index.html">Pre-trained models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/whisper/index.html">Whisper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../moonshine/index.html">Moonshine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../omnilingual-asr/index.html">Omnilingual ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sense-voice/index.html">SenseVoice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cohere_transcribe/index.html">Cohere Transcribe</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../funasr-nano/index.html">FunASR Nano</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qwen3-asr/index.html">Qwen3-ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../paraformer/index.html">Paraformer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nemo/index.html">NeMo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../FireRedAsr/index.html">FireRedAsr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Dolphin/index.html">Dolphin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../homophone-replacer/index.html">拼音词组匹配替换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-diarization/index.html">Speaker Diarization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-identification/index.html">Speaker Identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speech-enhancement/index.html">Speech enhancement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../source-separation/index.html">Source separation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qnn/index.html">Qualcomm NPU (QNN, HTP)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rknn/index.html">rknn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spacemit/index.html">SpacemiT CPUs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ascend/index.html">Ascend NPU (昇腾 NPU)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tts/index.html">Text-to-speech (TTS)</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">sherpa-onnx</a> &raquo;</li>
+      <li>Rust API</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/onnx/rust-api/index.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="rust-api">
+<span id="sherpa-onnx-rust-api"></span><h1>Rust API<a class="headerlink" href="#rust-api" title="Permalink to this heading"></a></h1>
+<p>In this section, we describe how to use the <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/tree/master/rust-api-examples">Rust</a> API of <code class="docutils literal notranslate"><span class="pre">sherpa-onnx</span></code>.</p>
+<p>The Rust crate lives in the <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/tree/master/sherpa-onnx/rust">sherpa-onnx repository</a> and is published on crates.io as
+<a class="reference external" href="https://crates.io/crates/sherpa-onnx">sherpa-onnx</a>. API documentation is
+available at <a class="reference external" href="https://docs.rs/sherpa-onnx">docs.rs</a>.</p>
+<p>We also provide a collection of runnable examples in
+<a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/tree/master/rust-api-examples">rust-api-examples</a>.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Install the Rust crate</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="install.html#add-it-to-your-project">Add it to your project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="install.html#check-that-the-installation-works">Check that the installation works</a></li>
+<li class="toctree-l2"><a class="reference internal" href="install.html#where-to-go-next">Where to go next</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="advanced-install.html">Advanced installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="advanced-install.html#use-shared-libraries">Use shared libraries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced-install.html#use-your-own-sherpa-onnx-libraries">Use your own sherpa-onnx libraries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced-install.html#automatic-download-behavior">Automatic download behavior</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced-install.html#enable-microphone-examples">Enable microphone examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="advanced-install.html#runtime-notes-for-shared-builds">Runtime notes for shared builds</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="examples/index.html">Rust examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="examples/version.html">version</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples/version.html#source-file">Source file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/version.html#how-to-run">How to run</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/version.html#helper-script-s">Helper script(s)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/version.html#run-it-directly-with-cargo">Run it directly with Cargo</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="examples/version.html#notes">Notes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="examples/pocket_tts.html">pocket_tts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples/pocket_tts.html#source-file">Source file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/pocket_tts.html#how-to-run">How to run</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/pocket_tts.html#helper-script-s">Helper script(s)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/pocket_tts.html#run-it-directly-with-cargo">Run it directly with Cargo</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="examples/supertonic_tts.html">supertonic_tts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples/supertonic_tts.html#source-file">Source file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/supertonic_tts.html#how-to-run">How to run</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/supertonic_tts.html#helper-script-s">Helper script(s)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/supertonic_tts.html#run-it-directly-with-cargo">Run it directly with Cargo</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="examples/zipvoice_tts.html">zipvoice_tts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples/zipvoice_tts.html#source-file">Source file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/zipvoice_tts.html#how-to-run">How to run</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/zipvoice_tts.html#helper-script-s">Helper script(s)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/zipvoice_tts.html#run-it-directly-with-cargo">Run it directly with Cargo</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="examples/vits_tts.html">vits_tts</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples/vits_tts.html#source-file">Source file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/vits_tts.html#how-to-run">How to run</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/vits_tts.html#helper-script-s">Helper script(s)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/vits_tts.html#run-it-directly-with-cargo">Run it directly with Cargo</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="examples/vits_tts.html#notes">Notes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="examples/matcha_tts_en.html">matcha_tts_en</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples/matcha_tts_en.html#source-file">Source file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/matcha_tts_en.html#how-to-run">How to run</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/matcha_tts_en.html#helper-script-s">Helper script(s)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/matcha_tts_en.html#run-it-directly-with-cargo">Run it directly with Cargo</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="examples/matcha_tts_zh.html">matcha_tts_zh</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples/matcha_tts_zh.html#source-file">Source file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/matcha_tts_zh.html#how-to-run">How to run</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/matcha_tts_zh.html#helper-script-s">Helper script(s)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/matcha_tts_zh.html#run-it-directly-with-cargo">Run it directly with Cargo</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="examples/kokoro_tts_en.html">kokoro_tts_en</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples/kokoro_tts_en.html#source-file">Source file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/kokoro_tts_en.html#how-to-run">How to run</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/kokoro_tts_en.html#helper-script-s">Helper script(s)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/kokoro_tts_en.html#run-it-directly-with-cargo">Run it directly with Cargo</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="examples/kokoro_tts_zh_en.html">kokoro_tts_zh_en</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples/kokoro_tts_zh_en.html#source-file">Source file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/kokoro_tts_zh_en.html#how-to-run">How to run</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/kokoro_tts_zh_en.html#helper-script-s">Helper script(s)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/kokoro_tts_zh_en.html#run-it-directly-with-cargo">Run it directly with Cargo</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="examples/kitten_tts_en.html">kitten_tts_en</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples/kitten_tts_en.html#source-file">Source file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/kitten_tts_en.html#how-to-run">How to run</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/kitten_tts_en.html#helper-script-s">Helper script(s)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/kitten_tts_en.html#run-it-directly-with-cargo">Run it directly with Cargo</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="examples/streaming_zipformer.html">streaming_zipformer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples/streaming_zipformer.html#source-file">Source file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/streaming_zipformer.html#how-to-run">How to run</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/streaming_zipformer.html#helper-script-s">Helper script(s)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/streaming_zipformer.html#run-it-directly-with-cargo">Run it directly with Cargo</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="examples/streaming_zipformer.html#notes">Notes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="examples/streaming_zipformer_microphone.html">streaming_zipformer_microphone</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples/streaming_zipformer_microphone.html#source-file">Source file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/streaming_zipformer_microphone.html#how-to-run">How to run</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/streaming_zipformer_microphone.html#helper-script-s">Helper script(s)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/streaming_zipformer_microphone.html#run-it-directly-with-cargo">Run it directly with Cargo</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="examples/streaming_zipformer_microphone.html#notes">Notes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="examples/zipformer.html">zipformer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples/zipformer.html#source-file">Source file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/zipformer.html#how-to-run">How to run</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/zipformer.html#helper-script-s">Helper script(s)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/zipformer.html#run-it-directly-with-cargo">Run it directly with Cargo</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="examples/zipformer.html#notes">Notes</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="examples/nemo_parakeet.html">nemo_parakeet</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples/nemo_parakeet.html#source-file">Source file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/nemo_parakeet.html#how-to-run">How to run</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/nemo_parakeet.html#helper-script-s">Helper script(s)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/nemo_parakeet.html#run-it-directly-with-cargo">Run it directly with Cargo</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="examples/fire_red_asr_ctc.html">fire_red_asr_ctc</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples/fire_red_asr_ctc.html#source-file">Source file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/fire_red_asr_ctc.html#how-to-run">How to run</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/fire_red_asr_ctc.html#helper-script-s">Helper script(s)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/fire_red_asr_ctc.html#run-it-directly-with-cargo">Run it directly with Cargo</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="examples/moonshine_v2.html">moonshine_v2</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples/moonshine_v2.html#source-file">Source file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/moonshine_v2.html#how-to-run">How to run</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/moonshine_v2.html#helper-script-s">Helper script(s)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/moonshine_v2.html#run-it-directly-with-cargo">Run it directly with Cargo</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="examples/sense_voice.html">sense_voice</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples/sense_voice.html#source-file">Source file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/sense_voice.html#how-to-run">How to run</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/sense_voice.html#helper-script-s">Helper script(s)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/sense_voice.html#run-it-directly-with-cargo">Run it directly with Cargo</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="examples/silero_vad_remove_silence.html">silero_vad_remove_silence</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples/silero_vad_remove_silence.html#source-file">Source file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/silero_vad_remove_silence.html#how-to-run">How to run</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/silero_vad_remove_silence.html#helper-script-s">Helper script(s)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/silero_vad_remove_silence.html#run-it-directly-with-cargo">Run it directly with Cargo</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="examples/offline_speech_enhancement_gtcrn.html">offline_speech_enhancement_gtcrn</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples/offline_speech_enhancement_gtcrn.html#source-file">Source file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/offline_speech_enhancement_gtcrn.html#how-to-run">How to run</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/offline_speech_enhancement_gtcrn.html#helper-script-s">Helper script(s)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/offline_speech_enhancement_gtcrn.html#run-it-directly-with-cargo">Run it directly with Cargo</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="examples/offline_speech_enhancement_dpdfnet.html">offline_speech_enhancement_dpdfnet</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples/offline_speech_enhancement_dpdfnet.html#source-file">Source file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/offline_speech_enhancement_dpdfnet.html#how-to-run">How to run</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/offline_speech_enhancement_dpdfnet.html#helper-script-s">Helper script(s)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/offline_speech_enhancement_dpdfnet.html#run-it-directly-with-cargo">Run it directly with Cargo</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="examples/streaming_speech_enhancement_gtcrn.html">streaming_speech_enhancement_gtcrn</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples/streaming_speech_enhancement_gtcrn.html#source-file">Source file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/streaming_speech_enhancement_gtcrn.html#how-to-run">How to run</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/streaming_speech_enhancement_gtcrn.html#helper-script-s">Helper script(s)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/streaming_speech_enhancement_gtcrn.html#run-it-directly-with-cargo">Run it directly with Cargo</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="examples/streaming_speech_enhancement_dpdfnet.html">streaming_speech_enhancement_dpdfnet</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples/streaming_speech_enhancement_dpdfnet.html#source-file">Source file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/streaming_speech_enhancement_dpdfnet.html#how-to-run">How to run</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/streaming_speech_enhancement_dpdfnet.html#helper-script-s">Helper script(s)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/streaming_speech_enhancement_dpdfnet.html#run-it-directly-with-cargo">Run it directly with Cargo</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="examples/online_punctuation.html">online_punctuation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples/online_punctuation.html#source-file">Source file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/online_punctuation.html#how-to-run">How to run</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/online_punctuation.html#helper-script-s">Helper script(s)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/online_punctuation.html#run-it-directly-with-cargo">Run it directly with Cargo</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="examples/keyword_spotter.html">keyword_spotter</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples/keyword_spotter.html#source-file">Source file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/keyword_spotter.html#how-to-run">How to run</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/keyword_spotter.html#helper-script-s">Helper script(s)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/keyword_spotter.html#run-it-directly-with-cargo">Run it directly with Cargo</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="examples/spoken_language_identification.html">spoken_language_identification</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples/spoken_language_identification.html#source-file">Source file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/spoken_language_identification.html#how-to-run">How to run</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/spoken_language_identification.html#helper-script-s">Helper script(s)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/spoken_language_identification.html#run-it-directly-with-cargo">Run it directly with Cargo</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="examples/offline_punctuation.html">offline_punctuation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples/offline_punctuation.html#source-file">Source file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/offline_punctuation.html#how-to-run">How to run</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/offline_punctuation.html#helper-script-s">Helper script(s)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/offline_punctuation.html#run-it-directly-with-cargo">Run it directly with Cargo</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="examples/audio_tagging_zipformer.html">audio_tagging_zipformer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples/audio_tagging_zipformer.html#source-file">Source file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/audio_tagging_zipformer.html#how-to-run">How to run</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/audio_tagging_zipformer.html#helper-script-s">Helper script(s)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/audio_tagging_zipformer.html#run-it-directly-with-cargo">Run it directly with Cargo</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="examples/audio_tagging_ced.html">audio_tagging_ced</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples/audio_tagging_ced.html#source-file">Source file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/audio_tagging_ced.html#how-to-run">How to run</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/audio_tagging_ced.html#helper-script-s">Helper script(s)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/audio_tagging_ced.html#run-it-directly-with-cargo">Run it directly with Cargo</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="examples/speaker_embedding_extractor.html">speaker_embedding_extractor</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples/speaker_embedding_extractor.html#source-file">Source file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/speaker_embedding_extractor.html#how-to-run">How to run</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/speaker_embedding_extractor.html#helper-script-s">Helper script(s)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/speaker_embedding_extractor.html#run-it-directly-with-cargo">Run it directly with Cargo</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="examples/speaker_embedding_manager.html">speaker_embedding_manager</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples/speaker_embedding_manager.html#source-file">Source file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/speaker_embedding_manager.html#how-to-run">How to run</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/speaker_embedding_manager.html#helper-script-s">Helper script(s)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/speaker_embedding_manager.html#run-it-directly-with-cargo">Run it directly with Cargo</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="examples/speaker_embedding_cosine_similarity.html">speaker_embedding_cosine_similarity</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples/speaker_embedding_cosine_similarity.html#source-file">Source file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/speaker_embedding_cosine_similarity.html#how-to-run">How to run</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/speaker_embedding_cosine_similarity.html#helper-script-s">Helper script(s)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/speaker_embedding_cosine_similarity.html#run-it-directly-with-cargo">Run it directly with Cargo</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="examples/offline_speaker_diarization.html">offline_speaker_diarization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples/offline_speaker_diarization.html#source-file">Source file</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/offline_speaker_diarization.html#how-to-run">How to run</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/offline_speaker_diarization.html#helper-script-s">Helper script(s)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/offline_speaker_diarization.html#run-it-directly-with-cargo">Run it directly with Cargo</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../go-api/index.html" class="btn btn-neutral float-left" title="Go API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="install.html" class="btn btn-neutral float-right" title="Install the Rust crate" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

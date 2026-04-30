@@ -1,0 +1,5 @@
+<map id="sherpa_onnx::cxx::SpeechSegment" name="sherpa_onnx::cxx::SpeechSegment">
+<area shape="rect" id="Node000001" title="One speech segment produced by the VAD wrapper." alt="" coords="5,93,196,133"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="25,5,176,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="103,44,103,93,98,93,98,44"/>
+</map>

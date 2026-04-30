@@ -1,0 +1,48 @@
+program test_matcha;
+
+{$mode objfpc}
+
+uses
+  SysUtils,
+  sherpa_onnx;
+
+var
+  Config: TSherpaOnnxOfflineTtsConfig;
+  Tts: TSherpaOnnxOfflineTts;
+  Audio: TSherpaOnnxGeneratedAudio;
+  GenConfig: TSherpaOnnxGenerationConfig;
+
+begin
+  FillChar(Config, SizeOf(Config), 0);
+
+  Config.Model.Matcha.AcousticModel := '{{acoustic_model}}';
+  Config.Model.Matcha.Vocoder := '{{vocoder}}';
+  Config.Model.Matcha.Tokens := '{{tokens}}';
+{%- if data_dir %}
+  Config.Model.Matcha.DataDir := '{{data_dir}}';
+{%- endif %}
+{%- if lexicon %}
+  Config.Model.Matcha.Lexicon := '{{lexicon}}';
+{%- endif %}
+  Config.Model.NumThreads := 1;
+  Config.Model.Debug := True;
+{%- if rule_fsts %}
+  Config.RuleFsts := '{{rule_fsts}}';
+{%- endif %}
+  Config.MaxNumSentences := 1;
+
+  Tts := TSherpaOnnxOfflineTts.Create(@Config);
+
+  GenConfig.Sid := 0;
+  GenConfig.Speed := 1.0;
+  GenConfig.SilenceScale := 0.2;
+
+  Audio := Tts.GenerateWithConfig('{{text}}', @GenConfig, nil);
+
+  WriteWave('./test.wav', Audio.Samples, Audio.N, Audio.SampleRate);
+
+  WriteLn('Saved to ./test.wav');
+
+  Audio.Free;
+  Tts.Free;
+end.

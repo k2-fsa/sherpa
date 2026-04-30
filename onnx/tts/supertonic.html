@@ -1,0 +1,325 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SupertonicTTS &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="ZipVoice" href="zipvoice.html" />
+    <link rel="prev" title="PocketTTS" href="pocket.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">sherpa-onnx</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../install/index.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../faqs/index.html">Frequently Asked Question (FAQs)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python/index.html">Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../c-api/index.html">C API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../java-api/index.html">Java API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../javascript-api/index.html">Javascript API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kotlin-api/index.html">Kotlin API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../swift-api/index.html">Swift API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../go-api/index.html">Go API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rust-api/index.html">Rust API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../csharp-api/index.html">C# API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pascal-api/index.html">Pascal API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lazarus/index.html">Lazarus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../wasm/index.html">WebAssembly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../android/index.html">Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../harmony-os/index.html">HarmonyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ios/index.html">iOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../flutter/index.html">Flutter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tauri/index.html">Tauri Desktop Apps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../websocket/index.html">WebSocket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../hotwords/index.html">Hotwords (Contextual biasing)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kws/index.html">Keyword spotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../punctuation/index.html">Punctuation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../audio-tagging/index.html">Audio tagging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spoken-language-identification/index.html">Spoken language identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vad/index.html">VAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../medasr/index.html">Google MedASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/index.html">Pre-trained models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/whisper/index.html">Whisper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../moonshine/index.html">Moonshine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../omnilingual-asr/index.html">Omnilingual ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sense-voice/index.html">SenseVoice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cohere_transcribe/index.html">Cohere Transcribe</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../funasr-nano/index.html">FunASR Nano</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qwen3-asr/index.html">Qwen3-ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../paraformer/index.html">Paraformer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nemo/index.html">NeMo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../FireRedAsr/index.html">FireRedAsr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Dolphin/index.html">Dolphin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../homophone-replacer/index.html">拼音词组匹配替换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-diarization/index.html">Speaker Diarization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-identification/index.html">Speaker Identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speech-enhancement/index.html">Speech enhancement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../source-separation/index.html">Source separation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qnn/index.html">Qualcomm NPU (QNN, HTP)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rknn/index.html">rknn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spacemit/index.html">SpacemiT CPUs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ascend/index.html">Ascend NPU (昇腾 NPU)</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Text-to-speech (TTS)</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="all-in-one.html">All-in-one</a></li>
+<li class="toctree-l3"><a class="reference internal" href="hf-space.html">Huggingface space</a></li>
+<li class="toctree-l3"><a class="reference internal" href="kitten.html">KittenTTS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pocket.html">PocketTTS</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">SupertonicTTS</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#download-a-pre-trained-model">Download a pre-trained model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#run-a-command-line-example">Run a command-line example</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#api-examples">API examples</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#notes">Notes</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="zipvoice.html">ZipVoice</a></li>
+<li class="toctree-l3"><a class="reference internal" href="pretrained_models/index.html">Pre-trained models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="wasm/index.html">WebAssembly</a></li>
+<li class="toctree-l3"><a class="reference internal" href="piper.html">Piper</a></li>
+<li class="toctree-l3"><a class="reference internal" href="mms.html">MMS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="faq.html">Frequently Asked Question (FAQs)</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">sherpa-onnx</a> &raquo;</li>
+          <li><a href="index.html">Text-to-speech (TTS)</a> &raquo;</li>
+      <li>SupertonicTTS</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/onnx/tts/supertonic.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="supertonictts">
+<span id="onnx-tts-supertonic"></span><h1>SupertonicTTS<a class="headerlink" href="#supertonictts" title="Permalink to this heading"></a></h1>
+<p>This page explains how to use <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a> with SupertonicTTS.</p>
+<p>SupertonicTTS is an offline multi-speaker, multi-language TTS model. In a
+typical setup, you select a speaker with <code class="docutils literal notranslate"><span class="pre">--sid</span></code> and a language with
+<code class="docutils literal notranslate"><span class="pre">--lang</span></code>.</p>
+<section id="download-a-pre-trained-model">
+<h2>Download a pre-trained model<a class="headerlink" href="#download-a-pre-trained-model" title="Permalink to this heading"></a></h2>
+<p>Download the released SupertonicTTS archive from
+<a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/tag/tts-models">https://github.com/k2-fsa/sherpa-onnx/releases/tag/tts-models</a>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/sherpa-onnx-supertonic-tts-int8-2026-03-06.tar.bz2
+tar<span class="w"> </span>xf<span class="w"> </span>sherpa-onnx-supertonic-tts-int8-2026-03-06.tar.bz2
+rm<span class="w"> </span>sherpa-onnx-supertonic-tts-int8-2026-03-06.tar.bz2
+</pre></div>
+</div>
+</section>
+<section id="run-a-command-line-example">
+<h2>Run a command-line example<a class="headerlink" href="#run-a-command-line-example" title="Permalink to this heading"></a></h2>
+<p>The following command uses the same model files as
+<a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/blob/master/rust-api-examples/examples/supertonic_tts.rs">rust-api-examples/examples/supertonic_tts.rs</a>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./build/bin/sherpa-onnx-offline-tts<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--supertonic-duration-predictor<span class="o">=</span>./sherpa-onnx-supertonic-tts-int8-2026-03-06/duration_predictor.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--supertonic-text-encoder<span class="o">=</span>./sherpa-onnx-supertonic-tts-int8-2026-03-06/text_encoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--supertonic-vector-estimator<span class="o">=</span>./sherpa-onnx-supertonic-tts-int8-2026-03-06/vector_estimator.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--supertonic-vocoder<span class="o">=</span>./sherpa-onnx-supertonic-tts-int8-2026-03-06/vocoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--supertonic-tts-json<span class="o">=</span>./sherpa-onnx-supertonic-tts-int8-2026-03-06/tts.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--supertonic-unicode-indexer<span class="o">=</span>./sherpa-onnx-supertonic-tts-int8-2026-03-06/unicode_indexer.bin<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--supertonic-voice-style<span class="o">=</span>./sherpa-onnx-supertonic-tts-int8-2026-03-06/voice.bin<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--sid<span class="o">=</span><span class="m">0</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--lang<span class="o">=</span>en<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--output-filename<span class="o">=</span>./supertonic.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;Today as always, men fall into two groups: slaves and free men.&quot;</span>
+</pre></div>
+</div>
+<p>You can also use this tracked helper script:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/blob/master/rust-api-examples/run-supertonic-tts.sh">rust-api-examples/run-supertonic-tts.sh</a></p></li>
+</ul>
+</section>
+<section id="api-examples">
+<h2>API examples<a class="headerlink" href="#api-examples" title="Permalink to this heading"></a></h2>
+<p>Additional example code is available here:</p>
+<ul class="simple">
+<li><p>Rust</p>
+<ul>
+<li><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/blob/master/rust-api-examples/examples/supertonic_tts.rs">rust-api-examples/examples/supertonic_tts.rs</a></p></li>
+<li><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/blob/master/rust-api-examples/run-supertonic-tts.sh">rust-api-examples/run-supertonic-tts.sh</a></p></li>
+</ul>
+</li>
+<li><p>C++ and C</p>
+<ul>
+<li><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/blob/master/cxx-api-examples/supertonic-tts-en-cxx-api.cc">cxx-api-examples/supertonic-tts-en-cxx-api.cc</a></p></li>
+<li><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/blob/master/c-api-examples/supertonic-tts-en-c-api.c">c-api-examples/supertonic-tts-en-c-api.c</a></p></li>
+</ul>
+</li>
+<li><p>Python</p>
+<ul>
+<li><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/blob/master/python-api-examples/supertonic-tts.py">python-api-examples/supertonic-tts.py</a></p></li>
+</ul>
+</li>
+<li><p>Go</p>
+<ul>
+<li><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/blob/master/go-api-examples/supertonic-tts/main.go">go-api-examples/supertonic-tts/main.go</a></p></li>
+<li><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/blob/master/go-api-examples/supertonic-tts/run.sh">go-api-examples/supertonic-tts/run.sh</a></p></li>
+</ul>
+</li>
+<li><p>Java and Kotlin</p>
+<ul>
+<li><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/blob/master/java-api-examples/SupertonicTts.java">java-api-examples/SupertonicTts.java</a></p></li>
+<li><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/blob/master/java-api-examples/run-supertonic-tts.sh">java-api-examples/run-supertonic-tts.sh</a></p></li>
+<li><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/blob/master/kotlin-api-examples/test_supertonic_tts.kt">kotlin-api-examples/test_supertonic_tts.kt</a></p></li>
+</ul>
+</li>
+<li><p>Dart and Swift</p>
+<ul>
+<li><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/blob/master/dart-api-examples/tts/bin/supertonic-en.dart">dart-api-examples/tts/bin/supertonic-en.dart</a></p></li>
+<li><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/blob/master/dart-api-examples/tts/run-supertonic-en.sh">dart-api-examples/tts/run-supertonic-en.sh</a></p></li>
+<li><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/blob/master/swift-api-examples/tts-supertonic-en.swift">swift-api-examples/tts-supertonic-en.swift</a></p></li>
+<li><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/blob/master/swift-api-examples/run-tts-supertonic-en.sh">swift-api-examples/run-tts-supertonic-en.sh</a></p></li>
+</ul>
+</li>
+<li><p>.NET</p>
+<ul>
+<li><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/blob/master/dotnet-examples/supertonic-tts/Program.cs">dotnet-examples/supertonic-tts/Program.cs</a></p></li>
+<li><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/blob/master/dotnet-examples/supertonic-tts/run.sh">dotnet-examples/supertonic-tts/run.sh</a></p></li>
+</ul>
+</li>
+<li><p>JavaScript</p>
+<ul>
+<li><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/blob/master/nodejs-addon-examples/test_tts_non_streaming_supertonic_en.js">nodejs-addon-examples/test_tts_non_streaming_supertonic_en.js</a></p></li>
+<li><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/blob/master/nodejs-addon-examples/test_tts_non_streaming_supertonic_en_async.js">nodejs-addon-examples/test_tts_non_streaming_supertonic_en_async.js</a></p></li>
+<li><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/blob/master/nodejs-addon-examples/test_tts_non_streaming_supertonic_en_play_async.js">nodejs-addon-examples/test_tts_non_streaming_supertonic_en_play_async.js</a></p></li>
+</ul>
+</li>
+<li><p>Pascal</p>
+<ul>
+<li><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/blob/master/pascal-api-examples/tts/supertonic-en.pas">pascal-api-examples/tts/supertonic-en.pas</a></p></li>
+<li><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/blob/master/pascal-api-examples/tts/run-supertonic-en.sh">pascal-api-examples/tts/run-supertonic-en.sh</a></p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="notes">
+<h2>Notes<a class="headerlink" href="#notes" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">--sid</span></code> to choose a speaker.</p></li>
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">--lang</span></code> to select the synthesis language.</p></li>
+<li><p>The model files include <code class="docutils literal notranslate"><span class="pre">tts.json</span></code> and <code class="docutils literal notranslate"><span class="pre">unicode_indexer.bin</span></code> in addition to ONNX files.</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="pocket.html" class="btn btn-neutral float-left" title="PocketTTS" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="zipvoice.html" class="btn btn-neutral float-right" title="ZipVoice" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

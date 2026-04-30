@@ -1,0 +1,291 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Export Qwen3-ASR to sherpa-onnx &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Pre-trained Models" href="pretrained.html" />
+    <link rel="prev" title="Huggingface space" href="huggingface-space.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">sherpa-onnx</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../install/index.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../faqs/index.html">Frequently Asked Question (FAQs)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python/index.html">Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../c-api/index.html">C API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../java-api/index.html">Java API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../javascript-api/index.html">Javascript API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kotlin-api/index.html">Kotlin API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../swift-api/index.html">Swift API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../go-api/index.html">Go API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rust-api/index.html">Rust API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../csharp-api/index.html">C# API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pascal-api/index.html">Pascal API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lazarus/index.html">Lazarus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../wasm/index.html">WebAssembly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../android/index.html">Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../harmony-os/index.html">HarmonyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ios/index.html">iOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../flutter/index.html">Flutter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tauri/index.html">Tauri Desktop Apps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../websocket/index.html">WebSocket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../hotwords/index.html">Hotwords (Contextual biasing)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kws/index.html">Keyword spotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../punctuation/index.html">Punctuation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../audio-tagging/index.html">Audio tagging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spoken-language-identification/index.html">Spoken language identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vad/index.html">VAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../medasr/index.html">Google MedASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/index.html">Pre-trained models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/whisper/index.html">Whisper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../moonshine/index.html">Moonshine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../omnilingual-asr/index.html">Omnilingual ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sense-voice/index.html">SenseVoice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cohere_transcribe/index.html">Cohere Transcribe</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../funasr-nano/index.html">FunASR Nano</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Qwen3-ASR</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="index.html#qwen3-asr-0-6b">Qwen3-ASR-0.6B</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="huggingface-space.html">Huggingface space</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Export Qwen3-ASR to sherpa-onnx</a></li>
+<li class="toctree-l4"><a class="reference internal" href="pretrained.html">Pre-trained Models</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../paraformer/index.html">Paraformer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nemo/index.html">NeMo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../FireRedAsr/index.html">FireRedAsr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Dolphin/index.html">Dolphin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../homophone-replacer/index.html">拼音词组匹配替换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-diarization/index.html">Speaker Diarization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-identification/index.html">Speaker Identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speech-enhancement/index.html">Speech enhancement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../source-separation/index.html">Source separation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qnn/index.html">Qualcomm NPU (QNN, HTP)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rknn/index.html">rknn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spacemit/index.html">SpacemiT CPUs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ascend/index.html">Ascend NPU (昇腾 NPU)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tts/index.html">Text-to-speech (TTS)</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">sherpa-onnx</a> &raquo;</li>
+          <li><a href="index.html">Qwen3-ASR</a> &raquo;</li>
+      <li>Export Qwen3-ASR to sherpa-onnx</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/onnx/qwen3-asr/export.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="export-qwen3-asr-to-sherpa-onnx">
+<h1>Export Qwen3-ASR to sherpa-onnx<a class="headerlink" href="#export-qwen3-asr-to-sherpa-onnx" title="Permalink to this heading"></a></h1>
+<p>This page describes how to export <a class="reference external" href="https://github.com/QwenLM/Qwen3-ASR">Qwen3-ASR</a> to onnx so that you can use
+it with <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>.</p>
+<section id="the-code">
+<h2>The code<a class="headerlink" href="#the-code" title="Permalink to this heading"></a></h2>
+<p>See <a class="reference external" href="https://github.com/Wasser1462/Qwen3-ASR-onnx">https://github.com/Wasser1462/Qwen3-ASR-onnx</a></p>
+</section>
+<section id="where-to-find-exported-models">
+<h2>Where to find exported models<a class="headerlink" href="#where-to-find-exported-models" title="Permalink to this heading"></a></h2>
+<p>You can find the exported <a class="reference external" href="https://github.com/QwenLM/Qwen3-ASR">Qwen3-ASR</a> models at</p>
+<blockquote>
+<div><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/tag/asr-models">https://github.com/k2-fsa/sherpa-onnx/releases/tag/asr-models</a></p>
+</div></blockquote>
+<p>The following is an example about how to download an exported <a class="reference external" href="https://github.com/QwenLM/Qwen3-ASR">Qwen3-ASR</a> model:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">wget</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">k2</span><span class="o">-</span><span class="n">fsa</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="n">download</span><span class="o">/</span><span class="n">asr</span><span class="o">-</span><span class="n">models</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">qwen3</span><span class="o">-</span><span class="n">asr</span><span class="o">-</span><span class="mf">0.6</span><span class="n">B</span><span class="o">-</span><span class="n">int8</span><span class="o">-</span><span class="mi">2026</span><span class="o">-</span><span class="mi">03</span><span class="o">-</span><span class="mf">25.</span><span class="n">tar</span><span class="o">.</span><span class="n">bz2</span>
+<span class="n">tar</span> <span class="n">xvf</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">qwen3</span><span class="o">-</span><span class="n">asr</span><span class="o">-</span><span class="mf">0.6</span><span class="n">B</span><span class="o">-</span><span class="n">int8</span><span class="o">-</span><span class="mi">2026</span><span class="o">-</span><span class="mi">03</span><span class="o">-</span><span class="mf">25.</span><span class="n">tar</span><span class="o">.</span><span class="n">bz2</span>
+<span class="n">rm</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">qwen3</span><span class="o">-</span><span class="n">asr</span><span class="o">-</span><span class="mf">0.6</span><span class="n">B</span><span class="o">-</span><span class="n">int8</span><span class="o">-</span><span class="mi">2026</span><span class="o">-</span><span class="mi">03</span><span class="o">-</span><span class="mf">25.</span><span class="n">tar</span><span class="o">.</span><span class="n">bz2</span>
+</pre></div>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>To download the <code class="docutils literal notranslate"><span class="pre">fp32</span></code> model, please visit <a class="reference external" href="https://modelscope.cn/models/zengshuishui/Qwen3-ASR-onnx/tree/master/model_0.6B">https://modelscope.cn/models/zengshuishui/Qwen3-ASR-onnx/tree/master/model_0.6B</a>.</p>
+<p>To download the <code class="docutils literal notranslate"><span class="pre">1.7B</span></code> model, please visit <a class="reference external" href="https://modelscope.cn/models/zengshuishui/Qwen3-ASR-onnx/tree/master/model_1.7B">https://modelscope.cn/models/zengshuishui/Qwen3-ASR-onnx/tree/master/model_1.7B</a>.</p>
+</div>
+<p>To view the downloaded files, please use:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ls</span> <span class="o">-</span><span class="n">lh</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">qwen3</span><span class="o">-</span><span class="n">asr</span><span class="o">-</span><span class="mf">0.6</span><span class="n">B</span><span class="o">-</span><span class="n">int8</span><span class="o">-</span><span class="mi">2026</span><span class="o">-</span><span class="mi">03</span><span class="o">-</span><span class="mi">25</span>
+
+<span class="n">total</span> <span class="mi">1954552</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--@</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>    <span class="mi">42</span><span class="n">M</span>  <span class="mi">7</span> <span class="n">Apr</span> <span class="mi">17</span><span class="p">:</span><span class="mi">45</span> <span class="n">conv_frontend</span><span class="o">.</span><span class="n">onnx</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--@</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">721</span><span class="n">M</span>  <span class="mi">7</span> <span class="n">Apr</span> <span class="mi">17</span><span class="p">:</span><span class="mi">50</span> <span class="n">decoder</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--@</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">174</span><span class="n">M</span>  <span class="mi">7</span> <span class="n">Apr</span> <span class="mi">17</span><span class="p">:</span><span class="mi">50</span> <span class="n">encoder</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--@</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">328</span><span class="n">B</span>  <span class="mi">7</span> <span class="n">Apr</span> <span class="mi">17</span><span class="p">:</span><span class="mi">51</span> <span class="n">README</span><span class="o">.</span><span class="n">md</span>
+<span class="n">drwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span><span class="o">@</span> <span class="mi">19</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">608</span><span class="n">B</span>  <span class="mi">7</span> <span class="n">Apr</span> <span class="mi">17</span><span class="p">:</span><span class="mi">45</span> <span class="n">test_wavs</span>
+<span class="n">drwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span><span class="o">@</span>  <span class="mi">5</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">160</span><span class="n">B</span>  <span class="mi">7</span> <span class="n">Apr</span> <span class="mi">17</span><span class="p">:</span><span class="mi">51</span> <span class="n">tokenizer</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ls</span> <span class="o">-</span><span class="n">lh</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">qwen3</span><span class="o">-</span><span class="n">asr</span><span class="o">-</span><span class="mf">0.6</span><span class="n">B</span><span class="o">-</span><span class="n">int8</span><span class="o">-</span><span class="mi">2026</span><span class="o">-</span><span class="mi">03</span><span class="o">-</span><span class="mi">25</span><span class="o">/</span><span class="n">tokenizer</span>
+
+<span class="n">total</span> <span class="mi">8728</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--@</span> <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mf">1.6</span><span class="n">M</span>  <span class="mi">7</span> <span class="n">Apr</span> <span class="mi">17</span><span class="p">:</span><span class="mi">50</span> <span class="n">merges</span><span class="o">.</span><span class="n">txt</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--@</span> <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>    <span class="mi">12</span><span class="n">K</span>  <span class="mi">7</span> <span class="n">Apr</span> <span class="mi">17</span><span class="p">:</span><span class="mi">51</span> <span class="n">tokenizer_config</span><span class="o">.</span><span class="n">json</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--@</span> <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mf">2.6</span><span class="n">M</span>  <span class="mi">7</span> <span class="n">Apr</span> <span class="mi">17</span><span class="p">:</span><span class="mi">51</span> <span class="n">vocab</span><span class="o">.</span><span class="n">json</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ls</span> <span class="o">-</span><span class="n">lh</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">qwen3</span><span class="o">-</span><span class="n">asr</span><span class="o">-</span><span class="mf">0.6</span><span class="n">B</span><span class="o">-</span><span class="n">int8</span><span class="o">-</span><span class="mi">2026</span><span class="o">-</span><span class="mi">03</span><span class="o">-</span><span class="mi">25</span><span class="o">/</span><span class="n">test_wavs</span>
+
+<span class="n">total</span> <span class="mi">25624</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--@</span> <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">164</span><span class="n">K</span>  <span class="mi">7</span> <span class="n">Apr</span> <span class="mi">17</span><span class="p">:</span><span class="mi">45</span> <span class="n">ar1</span><span class="o">.</span><span class="n">wav</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--@</span> <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">514</span><span class="n">K</span>  <span class="mi">7</span> <span class="n">Apr</span> <span class="mi">17</span><span class="p">:</span><span class="mi">45</span> <span class="n">cantonese</span><span class="o">.</span><span class="n">wav</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--@</span> <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">537</span><span class="n">K</span>  <span class="mi">7</span> <span class="n">Apr</span> <span class="mi">17</span><span class="p">:</span><span class="mi">45</span> <span class="n">codeswitch</span><span class="o">.</span><span class="n">wav</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--@</span> <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">210</span><span class="n">K</span>  <span class="mi">7</span> <span class="n">Apr</span> <span class="mi">17</span><span class="p">:</span><span class="mi">45</span> <span class="n">de</span><span class="o">.</span><span class="n">wav</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--@</span> <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">161</span><span class="n">K</span>  <span class="mi">7</span> <span class="n">Apr</span> <span class="mi">17</span><span class="p">:</span><span class="mi">45</span> <span class="n">es1</span><span class="o">.</span><span class="n">wav</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--@</span> <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mf">1.6</span><span class="n">M</span>  <span class="mi">7</span> <span class="n">Apr</span> <span class="mi">17</span><span class="p">:</span><span class="mi">45</span> <span class="n">f1_noise</span><span class="o">.</span><span class="n">wav</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--@</span> <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">980</span><span class="n">K</span>  <span class="mi">7</span> <span class="n">Apr</span> <span class="mi">17</span><span class="p">:</span><span class="mi">45</span> <span class="n">fast1</span><span class="o">.</span><span class="n">wav</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--@</span> <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">187</span><span class="n">K</span>  <span class="mi">7</span> <span class="n">Apr</span> <span class="mi">17</span><span class="p">:</span><span class="mi">45</span> <span class="n">fr1</span><span class="o">.</span><span class="n">wav</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--@</span> <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">438</span><span class="n">K</span>  <span class="mi">7</span> <span class="n">Apr</span> <span class="mi">17</span><span class="p">:</span><span class="mi">45</span> <span class="n">ja1</span><span class="o">.</span><span class="n">wav</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--@</span> <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mf">2.7</span><span class="n">M</span>  <span class="mi">7</span> <span class="n">Apr</span> <span class="mi">17</span><span class="p">:</span><span class="mi">45</span> <span class="n">noise1</span><span class="o">-</span><span class="n">en</span><span class="o">.</span><span class="n">wav</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--@</span> <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">724</span><span class="n">K</span>  <span class="mi">7</span> <span class="n">Apr</span> <span class="mi">17</span><span class="p">:</span><span class="mi">45</span> <span class="n">noise2</span><span class="o">.</span><span class="n">wav</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--@</span> <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mf">1.6</span><span class="n">M</span>  <span class="mi">7</span> <span class="n">Apr</span> <span class="mi">17</span><span class="p">:</span><span class="mi">45</span> <span class="n">qiqiu1</span><span class="o">.</span><span class="n">wav</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--@</span> <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mf">1.7</span><span class="n">M</span>  <span class="mi">7</span> <span class="n">Apr</span> <span class="mi">17</span><span class="p">:</span><span class="mi">45</span> <span class="n">raokouling</span><span class="o">.</span><span class="n">wav</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--@</span> <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">914</span><span class="n">K</span>  <span class="mi">7</span> <span class="n">Apr</span> <span class="mi">17</span><span class="p">:</span><span class="mi">45</span> <span class="n">rap1</span><span class="o">.</span><span class="n">wav</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--@</span> <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>    <span class="mi">76</span><span class="n">B</span>  <span class="mi">7</span> <span class="n">Apr</span> <span class="mi">17</span><span class="p">:</span><span class="mi">45</span> <span class="n">README</span><span class="o">.</span><span class="n">md</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--@</span> <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">149</span><span class="n">K</span>  <span class="mi">7</span> <span class="n">Apr</span> <span class="mi">17</span><span class="p">:</span><span class="mi">45</span> <span class="n">ru1</span><span class="o">.</span><span class="n">wav</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--@</span> <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mf">5.3</span><span class="n">K</span>  <span class="mi">7</span> <span class="n">Apr</span> <span class="mi">17</span><span class="p">:</span><span class="mi">45</span> <span class="n">transcript</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>cat sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/test_wavs/transcript.txt
+
+fast1.wav 蹦出来之后，左手、右手接一个慢动作，右边再直接拉到这上面之后，直接拉到这个轮胎上，上边再接过去之后，然后上边再直接拉到这个位置了之后，右边再直接这个位置接倒过去的之后，再倒一下，然后右边再直接抓住这个上边了之后，直接从这边上边过去了之后，直接抓住这个树杈，然后这个位置直接倒到这个树杈
+raokouling.wav 广西壮族自治区爱吃红鲤鱼与绿鲤鱼与驴的出租车司机，拉着苗族土家族自治州爱喝自制的刘奶奶榴莲牛奶的骨质疏松症患者，遇见别着喇叭的哑巴，打败咬死山前四十四棵紫色柿子树的四十四只石狮子之后，碰到年年恋牛娘的牛郎，念着灰黑灰化肥发黑会挥发，走出香港官方网站设置组，到广西壮族自治区首府南宁市民族医院就医。
+noise2.wav 拨号，请再说一次，请说出您要拨打的号码。幺三五八幺八八七五七。一三五八二八八八幺八八。纠正纠正。九六九。纠正纠正，不是九六。
+qiqiu1.wav 黑的白的红的粉的紫的绿的蓝的灰的，你的我的他的她的大的小的圆的扁的，好的坏的美的丑的新的旧的，各种款式各种花式，让我选择。飞得高喽，越远越好，天都沦陷，他就死掉，说明多能高兴就好，喜欢就好，没大不了，越变越小，越来越小，快要死掉也很骄傲。你不想说就别再说，我不想听不想再听，就把一切誓言当作气球一般随它而去，我不在意不会在意，随它而去随它而去。气球飘进眼里，飘进风里，结束生命。气球飘进爱里，飘进心里，慢慢死去。
+cantonese.wav 今次寻寻觅觅，终于揾到my princess，肯借个场俾我哋玩。你知啦，喺香港地喺繁忙时间要揾个场嚟拍嘢系非常之难嘅。再一次多谢你哋，亦都好多谢片入边嘅每一个人。下一次我哋斗啲咩好？喺下面留言话我哋知啦。拜拜。
+f1_noise.wav Okay, Charles. It looks like we have a problem with the radio. What happened? Yeah, someone spilled water on their machine. I uh, yeah. Charles, can you hear us? Mamma mia.
+noise1-en.wav My girls, my girls, my girls, my girls. Ready? Hey, babe. Hey, babe. Where are you? I&#39;m actually crazy traffic right now. Oh, really? Yeah. It&#39;s crazy. The freeway is completely stopped. Oh, you&#39;re still coming to my parents&#39; house, right? Um, I can&#39;t really hear you, babe. What? Mariachi band playing live music, yeah. Babe. I can&#39;t. They&#39;re really loud, and I can&#39;t hear. Babe. What? Yeah, they&#39;re being really loud right now. I&#39;m sorry. What were you saying? You&#39;re still coming to my parents&#39; house, right? It actually started raining like crazy. What? It&#39;s raining and thundering like crazy, man. I can&#39;t hear shit. Where are you? Out of nowhere, it&#39;s just pouring. It&#39;s pouring. It&#39;s pouring like crazy. What? Insane. I don&#39;t think I can get anywhere today. It&#39;s crazy day. Babe, that&#39;s crazy. Where are you? Oh my God! Someone just hit my car. Come on, get in the car, Gabe. Oh my God! He&#39;s getting out of his car. He&#39;s getting out of his car. What? Hey, Mari, you just hit my car! Oh, babe, this guy&#39;s crazy. What the fuck? Out, out, out, out, out! How you like that? Oh, babe, he&#39;s beating the shit out of you. Hold on a sec, babe. Oh, you know I&#39;m gonna get my gun. Here&#39;s a gun. Oh, babe, he shot me. He shot me in the leg. He shot. Oh, babe, oh fuck! Babe, I need a driveway. I need to get out of here. I need to get out of here. I&#39;m driving away. Where are you? Babe, this is crazy. No, I&#39;m okay. I&#39;ll be fine. I&#39;m okay. I&#39;m okay. I just had to drive. Oh shit, babe, I think I&#39;m getting pulled over now. I think I&#39;m getting pulled over. Pull over your vehicle. Oh my God, babe, hold on a sec. Baby, talk to me. Oh shit. License and registration, sir. Yeah, of course, officer. Of course. Ah, babe, this is the worst day of my life. I just got pulled over. Oh my God. Oh my God. Officer, police. Oh my God. I think a riot&#39;s breaking out. We got a crazy riot. People are going crazy. Get out of here! It&#39;s like a lotus matter. There&#39;s like a war going on or some shit.
+rap1.wav Sometimes I just feel like quitting. I still might. Why do I put up this fight? Why do I still write? Sometimes it&#39;s hard enough just dealing with real life. Sometimes I wanna jump a state and just kill mics. And so these people want my level of skills, like, but I&#39;m still white. Sometimes I just hate life. Something ain&#39;t right. Hit the brake lights. Taste of the state&#39;s right. Drawing the blank line. It ain&#39;t my fault.
+codeswitch.wav I&#39;m alone, all by myself. Je suis tout seul. Sono tutto. Estoy solo.
+ar1.wav إطلالات مكياج عيون ذهبي لسهرات صيف عشرين واحد وعشرين بأسلوب النجمات.
+de.wav Raptorium Bergbau scheint profitierter als Monroe als Reaktion auf die wirtschaftlichen Ausfälle zu sein.
+es1.wav Esta prenda es amplia, recomiendo elegir una talla menor a la habitual.
+fr1.wav Alice et moi sommes allés à Paris voyager en train au printemps, c&#39;était très amusant.
+ru1.wav Барсук, живущий в киевском зоопарке, совершил побег из своего вольера.
+ja1.wav 抜群の運動神経を持ち合わせ、どんな要求にも応えてきた。
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="huggingface-space.html" class="btn btn-neutral float-left" title="Huggingface space" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="pretrained.html" class="btn btn-neutral float-right" title="Pre-trained Models" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,15 @@
+<map id="sherpa_onnx::cxx::OnlineSpeechDenoiserConfig" name="sherpa_onnx::cxx::OnlineSpeechDenoiserConfig">
+<area shape="rect" id="Node000001" title="Configuration for online speech denoising." alt="" coords="1040,39,1227,79"/>
+<area shape="rect" id="Node000002" href="$structsherpa__onnx_1_1cxx_1_1OfflineSpeechDenoiserModelConfig.html" title="Speech denoiser model configuration." alt="" coords="739,39,947,79"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="960,56,1040,56,1040,61,960,61"/>
+<area shape="rect" id="Node000003" href="$structsherpa__onnx_1_1cxx_1_1OfflineSpeechDenoiserGtcrnModelConfig.html" title="GTCRN speech denoiser model configuration." alt="" coords="383,39,626,79"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="640,56,738,56,738,61,640,61"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="193,46,280,71"/>
+<area shape="poly" id="edge7_Node000002_Node000004" title=" " alt="" coords="290,40,303,36,338,28,373,24,505,17,636,24,676,29,715,36,739,40,738,45,714,41,675,34,636,29,505,22,374,29,339,34,305,41,291,45"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="293,56,383,56,383,61,293,61"/>
+<area shape="rect" id="Node000006" href="$structsherpa__onnx_1_1cxx_1_1OfflineSpeechDenoiserDpdfNetModelConfig.html" title="DPDFNet speech denoiser model configuration." alt="" coords="373,103,636,143"/>
+<area shape="poly" id="edge6_Node000006_Node000004" title=" " alt="" coords="292,73,305,76,406,100,405,105,303,81,291,78"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="5,39,144,79"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="157,56,193,56,193,61,157,61"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="624,97,738,76,739,81,625,103"/>
+</map>

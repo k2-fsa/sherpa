@@ -1,0 +1,355 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pre-built Tauri Apps &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Non-Streaming Speech Recognition from File" href="vad-asr-file.html" />
+    <link rel="prev" title="Tauri Desktop Apps" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">sherpa-onnx</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../install/index.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../faqs/index.html">Frequently Asked Question (FAQs)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python/index.html">Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../c-api/index.html">C API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../java-api/index.html">Java API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../javascript-api/index.html">Javascript API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kotlin-api/index.html">Kotlin API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../swift-api/index.html">Swift API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../go-api/index.html">Go API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rust-api/index.html">Rust API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../csharp-api/index.html">C# API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pascal-api/index.html">Pascal API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lazarus/index.html">Lazarus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../wasm/index.html">WebAssembly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../android/index.html">Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../harmony-os/index.html">HarmonyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ios/index.html">iOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../flutter/index.html">Flutter</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Tauri Desktop Apps</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Pre-built Tauri Apps</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#non-streaming-speech-recognition-from-file">Non-Streaming Speech Recognition from File</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#non-streaming-speech-recognition-from-microphone">Non-Streaming Speech Recognition from Microphone</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="vad-asr-file.html">Non-Streaming Speech Recognition from File</a></li>
+<li class="toctree-l3"><a class="reference internal" href="vad-asr-mic.html">Non-Streaming Speech Recognition from Microphone</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../websocket/index.html">WebSocket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../hotwords/index.html">Hotwords (Contextual biasing)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kws/index.html">Keyword spotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../punctuation/index.html">Punctuation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../audio-tagging/index.html">Audio tagging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spoken-language-identification/index.html">Spoken language identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vad/index.html">VAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../medasr/index.html">Google MedASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/index.html">Pre-trained models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/whisper/index.html">Whisper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../moonshine/index.html">Moonshine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../omnilingual-asr/index.html">Omnilingual ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sense-voice/index.html">SenseVoice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cohere_transcribe/index.html">Cohere Transcribe</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../funasr-nano/index.html">FunASR Nano</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qwen3-asr/index.html">Qwen3-ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../paraformer/index.html">Paraformer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nemo/index.html">NeMo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../FireRedAsr/index.html">FireRedAsr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Dolphin/index.html">Dolphin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../homophone-replacer/index.html">拼音词组匹配替换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-diarization/index.html">Speaker Diarization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-identification/index.html">Speaker Identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speech-enhancement/index.html">Speech enhancement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../source-separation/index.html">Source separation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qnn/index.html">Qualcomm NPU (QNN, HTP)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rknn/index.html">rknn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spacemit/index.html">SpacemiT CPUs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ascend/index.html">Ascend NPU (昇腾 NPU)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tts/index.html">Text-to-speech (TTS)</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">sherpa-onnx</a> &raquo;</li>
+          <li><a href="index.html">Tauri Desktop Apps</a> &raquo;</li>
+      <li>Pre-built Tauri Apps</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/onnx/tauri/pre-built-app.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="pre-built-tauri-apps">
+<h1>Pre-built Tauri Apps<a class="headerlink" href="#pre-built-tauri-apps" title="Permalink to this heading"></a></h1>
+<p>Links for pre-built Apps can be found in the following tables.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>It runs locally, without internet connection.</p>
+</div>
+<section id="non-streaming-speech-recognition-from-file">
+<h2>Non-Streaming Speech Recognition from File<a class="headerlink" href="#non-streaming-speech-recognition-from-file" title="Permalink to this heading"></a></h2>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>You can use it to generate subtitles for Audio and Video files.</p>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>The code is available at</p>
+<blockquote>
+<div><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/tree/master/tauri-examples/non-streaming-speech-recognition-from-file">https://github.com/k2-fsa/sherpa-onnx/tree/master/tauri-examples/non-streaming-speech-recognition-from-file</a></p>
+</div></blockquote>
+</div>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td></td>
+<td><p>Chinese users</p></td>
+<td><p>URL</p></td>
+</tr>
+<tr class="row-even"><td><p>All platforms</p></td>
+<td><p><a class="reference external" href="https://k2-fsa.github.io/sherpa/onnx/tauri/app/vad-asr-file-cn.html">地址</a></p></td>
+<td><p><a class="reference external" href="https://k2-fsa.github.io/sherpa/onnx/tauri/app/vad-asr-file.html">Here</a></p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>The pre-built APPs support Linux (x64, aarch64), macOS (x64, arm64), and Windows (x64).</p>
+<p>You can use the following files to test the APPs:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Chinese audio: <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/lei-jun-test.wav">lei-jun-test.wav</a></p></li>
+<li><p>Chinese video: <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/lei-jun-test.mov">lei-jun-test.mov</a></p></li>
+<li><p>English audio: <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/Obama.wav">Obama.wav</a></p></li>
+<li><p>English video: <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/Obama.mov">Obama.mov</a></p></li>
+</ul>
+</div></blockquote>
+</div>
+<section id="screenshots">
+<h3>Screenshots<a class="headerlink" href="#screenshots" title="Permalink to this heading"></a></h3>
+<table class="docutils align-center">
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><a class="reference internal image-reference" href="../../_images/vad-asr-file-1.png"><img alt="../../_images/vad-asr-file-1.png" src="../../_images/vad-asr-file-1.png" style="width: 200px;" /></a>
+</td>
+<td><a class="reference internal image-reference" href="../../_images/vad-asr-file-2.png"><img alt="../../_images/vad-asr-file-2.png" src="../../_images/vad-asr-file-2.png" style="width: 200px;" /></a>
+</td>
+<td><a class="reference internal image-reference" href="../../_images/vad-asr-file-3.png"><img alt="../../_images/vad-asr-file-3.png" src="../../_images/vad-asr-file-3.png" style="width: 200px;" /></a>
+</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="video-demo">
+<h3>Video demo<a class="headerlink" href="#video-demo" title="Permalink to this heading"></a></h3>
+<iframe src="//player.bilibili.com/player.html?bvid=BV1cXoKBhEdz&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" width="600" height="600"> </iframe></section>
+<section id="notes-for-macos-users">
+<h3>Notes for macOS users<a class="headerlink" href="#notes-for-macos-users" title="Permalink to this heading"></a></h3>
+<p>After double click the <code class="docutils literal notranslate"><span class="pre">app</span></code>, if you get the following dialog:</p>
+<blockquote>
+<div><figure class="align-default" id="id6">
+<a class="reference internal image-reference" href="../../_images/1-done.jpg"><img alt="Click Done" src="../../_images/1-done.jpg" style="width: 250px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 124 </span><span class="caption-text">Step 1: Click <code class="docutils literal notranslate"><span class="pre">Done</span></code>.</span><a class="headerlink" href="#id6" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+</div></blockquote>
+<p>Please click <code class="docutils literal notranslate"><span class="pre">Done</span></code>. And then start your <code class="docutils literal notranslate"><span class="pre">Settings</span></code>, click <code class="docutils literal notranslate"><span class="pre">Privacy</span> <span class="pre">&amp;</span> <span class="pre">Security</span></code>, and then click
+<code class="docutils literal notranslate"><span class="pre">Open</span> <span class="pre">Anyway</span></code>, as shown below:</p>
+<blockquote>
+<div><figure class="align-default" id="id7">
+<a class="reference internal image-reference" href="../../_images/2-open.jpg"><img alt="Click Done" src="../../_images/2-open.jpg" style="width: 250px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 125 </span><span class="caption-text">Step 2: Click <code class="docutils literal notranslate"><span class="pre">Open</span> <span class="pre">Anyway</span></code>.</span><a class="headerlink" href="#id7" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+</div></blockquote>
+<p>It will pop a new window, click <code class="docutils literal notranslate"><span class="pre">Open</span> <span class="pre">Anyway</span></code>, as shown below:</p>
+<blockquote>
+<div><figure class="align-default" id="id8">
+<a class="reference internal image-reference" href="../../_images/3-open.jpg"><img alt="Click Done" src="../../_images/3-open.jpg" style="width: 250px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 126 </span><span class="caption-text">Step 3: Click <code class="docutils literal notranslate"><span class="pre">Open</span> <span class="pre">Anyway</span></code>.</span><a class="headerlink" href="#id8" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+</div></blockquote>
+<p>Click <code class="docutils literal notranslate"><span class="pre">Open</span> <span class="pre">Anyway</span></code> and enter your password. You should see the following screenshot:</p>
+<blockquote>
+<div><figure class="align-default" id="id9">
+<a class="reference internal image-reference" href="../../_images/4-started.jpg"><img alt="Click Done" src="../../_images/4-started.jpg" style="width: 350px;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 127 </span><span class="caption-text">Step 4: Started</span><a class="headerlink" href="#id9" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+</div></blockquote>
+</section>
+</section>
+<section id="non-streaming-speech-recognition-from-microphone">
+<h2>Non-Streaming Speech Recognition from Microphone<a class="headerlink" href="#non-streaming-speech-recognition-from-microphone" title="Permalink to this heading"></a></h2>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>You can use it for live microphone transcription with wall-clock timestamps,
+recording playback, SRT export, and segment WAV export.</p>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>The code is available at</p>
+<blockquote>
+<div><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/tree/master/tauri-examples/non-streaming-speech-recognition-from-microphone">https://github.com/k2-fsa/sherpa-onnx/tree/master/tauri-examples/non-streaming-speech-recognition-from-microphone</a></p>
+</div></blockquote>
+</div>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td></td>
+<td><p>Chinese users</p></td>
+<td><p>URL</p></td>
+</tr>
+<tr class="row-even"><td><p>All platforms</p></td>
+<td><p><a class="reference external" href="https://k2-fsa.github.io/sherpa/onnx/tauri/app/vad-asr-mic-cn.html">地址</a></p></td>
+<td><p><a class="reference external" href="https://k2-fsa.github.io/sherpa/onnx/tauri/app/vad-asr-mic.html">Here</a></p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>The pre-built APPs support Linux (x64, aarch64), macOS (x64, arm64), and Windows (x64).</p>
+<p>The macOS notes above apply to this app as well.</p>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Tauri Desktop Apps" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="vad-asr-file.html" class="btn btn-neutral float-right" title="Non-Streaming Speech Recognition from File" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

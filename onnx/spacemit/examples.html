@@ -1,0 +1,284 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Examples &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Ascend NPU (昇腾 NPU)" href="../ascend/index.html" />
+    <link rel="prev" title="Provider configuration for SpacemiT" href="provider-config.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">sherpa-onnx</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../install/index.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../faqs/index.html">Frequently Asked Question (FAQs)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python/index.html">Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../c-api/index.html">C API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../java-api/index.html">Java API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../javascript-api/index.html">Javascript API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kotlin-api/index.html">Kotlin API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../swift-api/index.html">Swift API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../go-api/index.html">Go API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rust-api/index.html">Rust API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../csharp-api/index.html">C# API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pascal-api/index.html">Pascal API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lazarus/index.html">Lazarus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../wasm/index.html">WebAssembly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../android/index.html">Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../harmony-os/index.html">HarmonyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ios/index.html">iOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../flutter/index.html">Flutter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tauri/index.html">Tauri Desktop Apps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../websocket/index.html">WebSocket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../hotwords/index.html">Hotwords (Contextual biasing)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kws/index.html">Keyword spotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../punctuation/index.html">Punctuation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../audio-tagging/index.html">Audio tagging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spoken-language-identification/index.html">Spoken language identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vad/index.html">VAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../medasr/index.html">Google MedASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/index.html">Pre-trained models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/whisper/index.html">Whisper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../moonshine/index.html">Moonshine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../omnilingual-asr/index.html">Omnilingual ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sense-voice/index.html">SenseVoice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cohere_transcribe/index.html">Cohere Transcribe</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../funasr-nano/index.html">FunASR Nano</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qwen3-asr/index.html">Qwen3-ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../paraformer/index.html">Paraformer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nemo/index.html">NeMo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../FireRedAsr/index.html">FireRedAsr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Dolphin/index.html">Dolphin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../homophone-replacer/index.html">拼音词组匹配替换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-diarization/index.html">Speaker Diarization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-identification/index.html">Speaker Identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speech-enhancement/index.html">Speech enhancement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../source-separation/index.html">Source separation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qnn/index.html">Qualcomm NPU (QNN, HTP)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rknn/index.html">rknn</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">SpacemiT CPUs</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="build.html">Build sherpa-onnx for SpacemiT CPUs</a></li>
+<li class="toctree-l3"><a class="reference internal" href="provider-config.html">Provider configuration for SpacemiT</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Examples</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#prepare-models">Prepare models</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#offline-tts">Offline TTS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#offline-asr">Offline ASR</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../ascend/index.html">Ascend NPU (昇腾 NPU)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tts/index.html">Text-to-speech (TTS)</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">sherpa-onnx</a> &raquo;</li>
+          <li><a href="index.html">SpacemiT CPUs</a> &raquo;</li>
+      <li>Examples</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/onnx/spacemit/examples.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="examples">
+<span id="spacemit-provider-examples"></span><h1>Examples<a class="headerlink" href="#examples" title="Permalink to this heading"></a></h1>
+<p>This page collects starter examples for running <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a> with the
+SpacemiT execution provider.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The first inference run is usually used for initialization, so its timing
+is not representative. In real usage, you can run a first inference with
+empty data and ignore that timing result.</p>
+</div>
+<section id="prepare-models">
+<h2>Prepare models<a class="headerlink" href="#prepare-models" title="Permalink to this heading"></a></h2>
+<p>You can use <cite>xslim</cite> to quantize your ONNX models to <cite>dynamic int8</cite> format or <cite>static int8</cite> format, which is optimized for SpacemiT. For example, you can quantize a VITS TTS model with:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># You can install xslim with pip, or build it from source. For building from source, please refer to</span>
+<span class="c1"># https://github.com/spacemit-com/xslim</span>
+<span class="c1"># pip install xslim</span>
+
+python3<span class="w"> </span>-m<span class="w"> </span>xslim<span class="w"> </span>-i<span class="w"> </span>./model.onnx<span class="w"> </span>-o<span class="w"> </span>./model.dynq.onnx<span class="w"> </span>--dynq
+</pre></div>
+</div>
+</section>
+<section id="offline-tts">
+<h2>Offline TTS<a class="headerlink" href="#offline-tts" title="Permalink to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="si">${</span><span class="nv">SHERPA_ONNX_INSTALL_DIR</span><span class="si">}</span>/bin/sherpa-onnx-offline-tts<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--provider<span class="o">=</span>spacemit<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--vits-model<span class="o">=</span>./en_US-lessac-medium.dynq.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--vits-data-dir<span class="o">=</span>./espeak-ng-data<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--vits-tokens<span class="o">=</span>./tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--output-filename<span class="o">=</span>./liliana-piper-en_US-lessac-medium.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span><span class="s1">&#39;liliana, the most beautiful and lovely assistant of our team!&#39;</span>
+</pre></div>
+</div>
+</section>
+<section id="offline-asr">
+<h2>Offline ASR<a class="headerlink" href="#offline-asr" title="Permalink to this heading"></a></h2>
+<p>The local SpacemiT test directory also contains an offline ASR example based on
+SenseVoice:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="si">${</span><span class="nv">SHERPA_ONNX_INSTALL_DIR</span><span class="si">}</span>/bin/sherpa-onnx-offline<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--provider<span class="o">=</span>spacemit<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span>./tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--sense-voice-model<span class="o">=</span>./model.dynq.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--num-threads<span class="o">=</span><span class="m">4</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./test_wavs/zh.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./test_wavs/en.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./test_wavs/ja.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./test_wavs/ko.wav
+</pre></div>
+</div>
+<p>You should see the following output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Creating recognizer ...
+........./sherpa-onnx/sherpa-onnx/csrc/session.cc:SpiltProviderAndConfig:63 Provider string: spacemit
+........./sherpa-onnx/sherpa-onnx/csrc/session.cc:GetSessionOptionsImpl:337 Use SpacemiT Execution Provider
+........./sherpa-onnx/sherpa-onnx/csrc/session.cc:GetSessionOptionsImpl:347 Set IntraOpNumThreads to 1
+........./sherpa-onnx/sherpa-onnx/csrc/session.cc:GetSessionOptionsImpl:349 Set InterOpNumThreads to 1
+........./sherpa-onnx/sherpa-onnx/csrc/session.cc:GetSessionOptionsImpl:354 Set SPACEMIT_EP_INTRA_THREAD_NUM to 4
+recognizer created in 4.014 s
+Started
+Done!
+
+./test_wavs/zh.wav
+{&quot;lang&quot;: &quot;&lt;|zh|&gt;&quot;, &quot;emotion&quot;: &quot;&lt;|NEUTRAL|&gt;&quot;, &quot;event&quot;: &quot;&lt;|Speech|&gt;&quot;, &quot;text&quot;: &quot;开饭时间早上九点至下午五点&quot;, &quot;timestamps&quot;: [0.72, 0.96, 1.26, 1.44, 1.92, 2.10, 2.58, 2.82, 3.30, 3.90, 4.20, 4.56, 4.74], &quot;durations&quot;: [], &quot;tokens&quot;:[&quot;开&quot;, &quot;饭&quot;, &quot;时&quot;, &quot;间&quot;, &quot;早&quot;, &quot;上&quot;, &quot;九&quot;, &quot;点&quot;, &quot;至&quot;, &quot;下&quot;, &quot;午&quot;, &quot;五&quot;, &quot;点&quot;], &quot;ys_log_probs&quot;: [], &quot;words&quot;: []}
+----
+./test_wavs/en.wav
+{&quot;lang&quot;: &quot;&lt;|en|&gt;&quot;, &quot;emotion&quot;: &quot;&lt;|NEUTRAL|&gt;&quot;, &quot;event&quot;: &quot;&lt;|Speech|&gt;&quot;, &quot;text&quot;: &quot;the tribal chieftain called for the boy and presented him with fifty pieces of gold&quot;, &quot;timestamps&quot;: [0.90, 1.26, 1.56, 1.80, 2.16, 2.46, 2.76, 2.94, 3.12, 3.60, 3.96, 4.50, 4.74, 5.10, 5.46, 5.88, 6.18], &quot;durations&quot;: [], &quot;tokens&quot;:[&quot;the&quot;, &quot; tri&quot;, &quot;bal&quot;, &quot; chief&quot;, &quot;tain&quot;, &quot; called&quot;, &quot; for&quot;, &quot; the&quot;, &quot; boy&quot;, &quot; and&quot;, &quot; presented&quot;, &quot; him&quot;, &quot; with&quot;, &quot; fifty&quot;, &quot; pieces&quot;, &quot; of&quot;, &quot; gold&quot;], &quot;ys_log_probs&quot;: [], &quot;words&quot;: []}
+----
+./test_wavs/ja.wav
+{&quot;lang&quot;: &quot;&lt;|ja|&gt;&quot;, &quot;emotion&quot;: &quot;&lt;|NEUTRAL|&gt;&quot;, &quot;event&quot;: &quot;&lt;|Speech|&gt;&quot;, &quot;text&quot;: &quot;うちの中学は弁当制で持っていけない場合は50円の学校販売のパンを買う&quot;, &quot;timestamps&quot;: [0.42, 0.60, 0.72, 0.90, 1.08, 1.26, 1.44, 1.62, 1.80, 2.04, 2.46, 2.52, 2.64, 2.76, 2.88, 3.00, 3.12, 3.24, 3.36, 3.48, 3.78, 3.96, 4.20, 4.38, 4.56, 4.68, 4.92, 5.10, 5.28, 5.40, 5.52, 5.70, 5.82, 6.00], &quot;durations&quot;: [], &quot;tokens&quot;:[&quot;う&quot;, &quot;ち&quot;, &quot;の&quot;, &quot;中&quot;, &quot;学&quot;, &quot;は&quot;, &quot;弁&quot;, &quot;当&quot;, &quot;制&quot;, &quot;で&quot;, &quot;持&quot;, &quot;っ&quot;, &quot;て&quot;, &quot;い&quot;, &quot;け&quot;, &quot;な&quot;, &quot;い&quot;, &quot;場&quot;, &quot;合&quot;, &quot;は&quot;, &quot;5&quot;, &quot;0&quot;, &quot;円&quot;, &quot;の&quot;, &quot;学&quot;, &quot;校&quot;, &quot;販&quot;, &quot;売&quot;, &quot;の&quot;, &quot;パ&quot;, &quot;ン&quot;, &quot;を&quot;, &quot;買&quot;, &quot;う&quot;], &quot;ys_log_probs&quot;: [], &quot;words&quot;: []}
+----
+./test_wavs/ko.wav
+{&quot;lang&quot;: &quot;&lt;|ko|&gt;&quot;, &quot;emotion&quot;: &quot;&lt;|NEUTRAL|&gt;&quot;, &quot;event&quot;: &quot;&lt;|Speech|&gt;&quot;, &quot;text&quot;: &quot;조 금만 생각 을 하 면서 살 면 훨씬 편할 거야&quot;, &quot;timestamps&quot;: [0.78, 0.96, 1.14, 1.32, 1.56, 1.62, 1.80, 1.86, 1.98, 2.22, 2.40, 2.76, 3.06, 3.30, 3.42, 3.54], &quot;durations&quot;: [], &quot;tokens&quot;:[&quot;조&quot;, &quot; 금&quot;, &quot;만&quot;, &quot; 생각&quot;, &quot; &quot;, &quot;을&quot;, &quot; 하&quot;, &quot; &quot;, &quot;면서&quot;, &quot; 살&quot;, &quot; 면&quot;, &quot; 훨씬&quot;, &quot; 편&quot;, &quot;할&quot;, &quot; 거&quot;, &quot;야&quot;], &quot;ys_log_probs&quot;: [], &quot;words&quot;: []}
+----
+num threads: 4
+decoding method: greedy_search
+Elapsed seconds: 6.831 s
+Real time factor (RTF): 6.831 / 24.552 = 0.278
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="provider-config.html" class="btn btn-neutral float-left" title="Provider configuration for SpacemiT" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../ascend/index.html" class="btn btn-neutral float-right" title="Ascend NPU (昇腾 NPU)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

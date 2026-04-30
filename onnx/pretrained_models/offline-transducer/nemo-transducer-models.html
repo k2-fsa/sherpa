@@ -1,0 +1,1292 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NeMo transducer-based Models &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/clipboard.min.js"></script>
+        <script src="../../../_static/copybutton.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Offline paraformer models" href="../offline-paraformer/index.html" />
+    <link rel="prev" title="Conformer-transducer-based Models" href="conformer-transducer-models.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">sherpa-onnx</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../install/index.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../faqs/index.html">Frequently Asked Question (FAQs)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../python/index.html">Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../c-api/index.html">C API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../java-api/index.html">Java API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../javascript-api/index.html">Javascript API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../kotlin-api/index.html">Kotlin API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../swift-api/index.html">Swift API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../go-api/index.html">Go API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../rust-api/index.html">Rust API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../csharp-api/index.html">C# API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../pascal-api/index.html">Pascal API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../lazarus/index.html">Lazarus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../wasm/index.html">WebAssembly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../android/index.html">Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../harmony-os/index.html">HarmonyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ios/index.html">iOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../flutter/index.html">Flutter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tauri/index.html">Tauri Desktop Apps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../websocket/index.html">WebSocket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../hotwords/index.html">Hotwords (Contextual biasing)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../kws/index.html">Keyword spotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../punctuation/index.html">Punctuation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../audio-tagging/index.html">Audio tagging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../spoken-language-identification/index.html">Spoken language identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../vad/index.html">VAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../medasr/index.html">Google MedASR</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">Pre-trained models</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../online-transducer/index.html">Online transducer models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../online-paraformer/index.html">Online paraformer models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../online-ctc/index.html">Online CTC models</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">Offline transducer models</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="zipformer-transducer-models.html">Zipformer-transducer-based Models</a></li>
+<li class="toctree-l4"><a class="reference internal" href="conformer-transducer-models.html">Conformer-transducer-based Models</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">NeMo transducer-based Models</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../offline-paraformer/index.html">Offline paraformer models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../offline-ctc/index.html">Offline CTC models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../telespeech/index.html">TeleSpeech</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../whisper/index.html">Whisper</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../wenet/index.html">WeNet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../small-online-models.html">Small models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../sense-voice/index.html">SenseVoice</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../whisper/index.html">Whisper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../moonshine/index.html">Moonshine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../omnilingual-asr/index.html">Omnilingual ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../sense-voice/index.html">SenseVoice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cohere_transcribe/index.html">Cohere Transcribe</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../funasr-nano/index.html">FunASR Nano</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../qwen3-asr/index.html">Qwen3-ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../paraformer/index.html">Paraformer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../nemo/index.html">NeMo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../FireRedAsr/index.html">FireRedAsr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Dolphin/index.html">Dolphin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../homophone-replacer/index.html">拼音词组匹配替换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../speaker-diarization/index.html">Speaker Diarization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../speaker-identification/index.html">Speaker Identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../speech-enhancement/index.html">Speech enhancement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../source-separation/index.html">Source separation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../qnn/index.html">Qualcomm NPU (QNN, HTP)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../rknn/index.html">rknn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../spacemit/index.html">SpacemiT CPUs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ascend/index.html">Ascend NPU (昇腾 NPU)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tts/index.html">Text-to-speech (TTS)</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html">sherpa-onnx</a> &raquo;</li>
+          <li><a href="../index.html">Pre-trained models</a> &raquo;</li>
+          <li><a href="index.html">Offline transducer models</a> &raquo;</li>
+      <li>NeMo transducer-based Models</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/onnx/pretrained_models/offline-transducer/nemo-transducer-models.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="nemo-transducer-based-models">
+<span id="sherpa-onnx-offline-nemo-transducer-models"></span><h1>NeMo transducer-based Models<a class="headerlink" href="#nemo-transducer-based-models" title="Permalink to this heading"></a></h1>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>See <a class="reference internal" href="../../install/index.html#install-sherpa-onnx"><span class="std std-ref">Installation</span></a> to install <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>
+before you read this section.</p>
+</div>
+<section id="sherpa-onnx-nemo-parakeet-unified-en-0-6b-int8-non-streaming-english">
+<h2>sherpa-onnx-nemo-parakeet-unified-en-0.6b-int8-non-streaming (English)<a class="headerlink" href="#sherpa-onnx-nemo-parakeet-unified-en-0-6b-int8-non-streaming-english" title="Permalink to this heading"></a></h2>
+<p>This model is converted from <a class="reference external" href="https://huggingface.co/nvidia/parakeet-unified-en-0.6b">https://huggingface.co/nvidia/parakeet-unified-en-0.6b</a>.</p>
+<p>Note that only the non-streaming mode is supported by this ONNX model.</p>
+<p>You can find the conversion script at</p>
+<blockquote>
+<div><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/tree/master/scripts/nemo/parakeet-unified-en-0.6b">https://github.com/k2-fsa/sherpa-onnx/tree/master/scripts/nemo/parakeet-unified-en-0.6b</a></p>
+</div></blockquote>
+<p>In the following, we describe how to download it and use it with <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>This model supports punctuations and cases.</p>
+</div>
+<section id="android-apk-for-real-time-speech-recognition">
+<h3>Android APK for real-time speech recognition<a class="headerlink" href="#android-apk-for-real-time-speech-recognition" title="Permalink to this heading"></a></h3>
+<p>Please visit <a class="reference external" href="https://k2-fsa.github.io/sherpa/onnx/android/apk-simulate-streaming-asr.html">https://k2-fsa.github.io/sherpa/onnx/android/apk-simulate-streaming-asr.html</a>
+and search for <code class="docutils literal notranslate"><span class="pre">parakeet_unified_en_non_streaming_0.6b_int8</span></code>.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>Please always use the latest version. For instance, you can use
+<a class="reference external" href="https://huggingface.co/csukuangfj2/sherpa-onnx-apk/resolve/main/vad-asr-simulated-streaming/1.12.40/sherpa-onnx-1.12.40-arm64-v8a-simulated_streaming_asr-en-parakeet_unified_en_non_streaming_0.6b_int8.apk">sherpa-onnx-1.12.40-arm64-v8a-simulated_streaming_asr-en-parakeet_unified_en_non_streaming_0.6b_int8.apk</a>
+for <code class="docutils literal notranslate"><span class="pre">arm64-v8a</span></code>.</p>
+</div>
+</section>
+<section id="download-the-model">
+<h3>Download the model<a class="headerlink" href="#download-the-model" title="Permalink to this heading"></a></h3>
+<p>Please use the following commands to download it.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-nemo-parakeet-unified-en-0.6b-int8-non-streaming.tar.bz2
+tar<span class="w"> </span>xvf<span class="w"> </span>sherpa-onnx-nemo-parakeet-unified-en-0.6b-int8-non-streaming.tar.bz2
+rm<span class="w"> </span>sherpa-onnx-nemo-parakeet-unified-en-0.6b-int8-non-streaming.tar.bz2
+
+ls<span class="w"> </span>-lh<span class="w"> </span>sherpa-onnx-nemo-parakeet-unified-en-0.6b-int8-non-streaming
+</pre></div>
+</div>
+<p>You should see something like below after downloading:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ls</span> <span class="o">-</span><span class="n">lh</span>  <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">nemo</span><span class="o">-</span><span class="n">parakeet</span><span class="o">-</span><span class="n">unified</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="mf">0.6</span><span class="n">b</span><span class="o">-</span><span class="n">int8</span><span class="o">-</span><span class="n">non</span><span class="o">-</span><span class="n">streaming</span>
+
+<span class="n">total</span> <span class="mi">1296016</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--@</span> <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mf">1.0</span><span class="n">K</span> <span class="mi">27</span> <span class="n">Apr</span> <span class="mi">15</span><span class="p">:</span><span class="mi">47</span> <span class="n">bias</span><span class="o">.</span><span class="n">md</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--@</span> <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mf">6.9</span><span class="n">M</span> <span class="mi">27</span> <span class="n">Apr</span> <span class="mi">15</span><span class="p">:</span><span class="mi">47</span> <span class="n">decoder</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--@</span> <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">624</span><span class="n">M</span> <span class="mi">27</span> <span class="n">Apr</span> <span class="mi">15</span><span class="p">:</span><span class="mi">47</span> <span class="n">encoder</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--@</span> <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mf">2.4</span><span class="n">K</span> <span class="mi">27</span> <span class="n">Apr</span> <span class="mi">15</span><span class="p">:</span><span class="mi">47</span> <span class="n">explainability</span><span class="o">.</span><span class="n">md</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--@</span> <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mf">1.7</span><span class="n">M</span> <span class="mi">27</span> <span class="n">Apr</span> <span class="mi">15</span><span class="p">:</span><span class="mi">47</span> <span class="n">joiner</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--@</span> <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mf">4.0</span><span class="n">K</span> <span class="mi">27</span> <span class="n">Apr</span> <span class="mi">15</span><span class="p">:</span><span class="mi">47</span> <span class="n">privacy</span><span class="o">.</span><span class="n">md</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--@</span> <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">782</span><span class="n">B</span> <span class="mi">27</span> <span class="n">Apr</span> <span class="mi">15</span><span class="p">:</span><span class="mi">47</span> <span class="n">safety</span><span class="o">.</span><span class="n">md</span>
+<span class="n">drwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span><span class="o">@</span> <span class="mi">3</span> <span class="n">fangjun</span>  <span class="n">staff</span>    <span class="mi">96</span><span class="n">B</span> <span class="mi">27</span> <span class="n">Apr</span> <span class="mi">15</span><span class="p">:</span><span class="mi">47</span> <span class="n">test_wavs</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--@</span> <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mf">8.7</span><span class="n">K</span> <span class="mi">27</span> <span class="n">Apr</span> <span class="mi">15</span><span class="p">:</span><span class="mi">47</span> <span class="n">tokens</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>To use the <code class="docutils literal notranslate"><span class="pre">fp32</span></code> model, please visit <a class="reference external" href="https://huggingface.co/csukuangfj2/sherpa-onnx-nemo-parakeet-unified-en-0.6b-non-streaming">https://huggingface.co/csukuangfj2/sherpa-onnx-nemo-parakeet-unified-en-0.6b-non-streaming</a></p>
+</div>
+</section>
+<section id="decode-wave-files">
+<h3>Decode wave files<a class="headerlink" href="#decode-wave-files" title="Permalink to this heading"></a></h3>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>It supports decoding only wave files of a single channel with 16-bit
+encoded samples, while the sampling rate does not need to be 16 kHz.</p>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+./build/bin/sherpa-onnx-offline<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--encoder<span class="o">=</span>./sherpa-onnx-nemo-parakeet-unified-en-0.6b-int8-non-streaming/encoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--decoder<span class="o">=</span>./sherpa-onnx-nemo-parakeet-unified-en-0.6b-int8-non-streaming/decoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--joiner<span class="o">=</span>./sherpa-onnx-nemo-parakeet-unified-en-0.6b-int8-non-streaming/joiner.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span>./sherpa-onnx-nemo-parakeet-unified-en-0.6b-int8-non-streaming/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--model-type<span class="o">=</span>nemo_transducer<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-nemo-parakeet-unified-en-0.6b-int8-non-streaming/test_wavs/0.wav
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Please use <code class="docutils literal notranslate"><span class="pre">./build/bin/Release/sherpa-onnx-offline.exe</span></code> for Windows.</p>
+</div>
+<p>You should see the following output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:373 ./build/bin/sherpa-onnx-offline --encoder=./sherpa-onnx-nemo-parakeet-unified-en-0.6b-int8-non-streaming/encoder.int8.onnx --decoder=./sherpa-onnx-nemo-parakeet-unified-en-0.6b-int8-non-streaming/decoder.int8.onnx --joiner=./sherpa-onnx-nemo-parakeet-unified-en-0.6b-int8-non-streaming/joiner.int8.onnx --tokens=./sherpa-onnx-nemo-parakeet-unified-en-0.6b-int8-non-streaming/tokens.txt --model-type=nemo_transducer ./sherpa-onnx-nemo-parakeet-unified-en-0.6b-int8-non-streaming/test_wavs/0.wav 
+
+OfflineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80, low_freq=20, high_freq=-400, dither=0, normalize_samples=True, snip_edges=False), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename=&quot;./sherpa-onnx-nemo-parakeet-unified-en-0.6b-int8-non-streaming/encoder.int8.onnx&quot;, decoder_filename=&quot;./sherpa-onnx-nemo-parakeet-unified-en-0.6b-int8-non-streaming/decoder.int8.onnx&quot;, joiner_filename=&quot;./sherpa-onnx-nemo-parakeet-unified-en-0.6b-int8-non-streaming/joiner.int8.onnx&quot;), paraformer=OfflineParaformerModelConfig(model=&quot;&quot;), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=&quot;&quot;), whisper=OfflineWhisperModelConfig(encoder=&quot;&quot;, decoder=&quot;&quot;, language=&quot;&quot;, task=&quot;transcribe&quot;, tail_paddings=-1, enable_token_timestamps=False, enable_segment_timestamps=False), fire_red_asr=OfflineFireRedAsrModelConfig(encoder=&quot;&quot;, decoder=&quot;&quot;), tdnn=OfflineTdnnModelConfig(model=&quot;&quot;), zipformer_ctc=OfflineZipformerCtcModelConfig(model=&quot;&quot;), wenet_ctc=OfflineWenetCtcModelConfig(model=&quot;&quot;), sense_voice=OfflineSenseVoiceModelConfig(model=&quot;&quot;, language=&quot;auto&quot;, use_itn=False), moonshine=OfflineMoonshineModelConfig(preprocessor=&quot;&quot;, encoder=&quot;&quot;, uncached_decoder=&quot;&quot;, cached_decoder=&quot;&quot;, merged_decoder=&quot;&quot;), dolphin=OfflineDolphinModelConfig(model=&quot;&quot;), canary=OfflineCanaryModelConfig(encoder=&quot;&quot;, decoder=&quot;&quot;, src_lang=&quot;&quot;, tgt_lang=&quot;&quot;, use_pnc=True), cohere_transcribe=OfflineCohereTranscribeModelConfig(encoder=&quot;&quot;, decoder=&quot;&quot;, language=&quot;&quot;, use_punct=True, use_itn=True), omnilingual=OfflineOmnilingualAsrCtcModelConfig(model=&quot;&quot;), funasr_nano=OfflineFunASRNanoModelConfig(encoder_adaptor=&quot;&quot;, llm=&quot;&quot;, embedding=&quot;&quot;, tokenizer=&quot;&quot;, system_prompt=&quot;You are a helpful assistant.&quot;, user_prompt=&quot;语音转写：&quot;, max_new_tokens=512, temperature=1e-06, top_p=0.8, seed=42, language=&quot;&quot;, itn=True, hotwords=&quot;&quot;), medasr=OfflineMedAsrCtcModelConfig(model=&quot;&quot;), fire_red_asr_ctc=OfflineFireRedAsrCtcModelConfig(model=&quot;&quot;), qwen3_asr=OfflineQwen3ASRModelConfig(conv_frontend=&quot;&quot;, encoder=&quot;&quot;, decoder=&quot;&quot;, tokenizer=&quot;&quot;, hotwords=&quot;&quot;, max_total_len=512, max_new_tokens=128, temperature=1e-06, top_p=0.8, seed=42), telespeech_ctc=&quot;&quot;, tokens=&quot;./sherpa-onnx-nemo-parakeet-unified-en-0.6b-int8-non-streaming/tokens.txt&quot;, num_threads=2, debug=False, provider=&quot;cpu&quot;, model_type=&quot;nemo_transducer&quot;, modeling_unit=&quot;cjkchar&quot;, bpe_vocab=&quot;&quot;), lm_config=OfflineLMConfig(model=&quot;&quot;, scale=0.5, lodr_scale=0.01, lodr_fst=&quot;&quot;, lodr_backoff_id=-1), ctc_fst_decoder_config=OfflineCtcFstDecoderConfig(graph=&quot;&quot;, max_active=3000), decoding_method=&quot;greedy_search&quot;, max_active_paths=4, hotwords_file=&quot;&quot;, hotwords_score=1.5, blank_penalty=0, rule_fsts=&quot;&quot;, rule_fars=&quot;&quot;, hr=HomophoneReplacerConfig(lexicon=&quot;&quot;, rule_fsts=&quot;&quot;))
+Creating recognizer ...
+recognizer created in 0.865 s
+Started
+Done!
+
+./sherpa-onnx-nemo-parakeet-unified-en-0.6b-int8-non-streaming/test_wavs/0.wav
+----
+num threads: 2
+decoding method: greedy_search
+Elapsed seconds: 0.239 s
+Real time factor (RTF): 0.239 / 7.435 = 0.032
+{&quot;lang&quot;: &quot;&quot;, &quot;emotion&quot;: &quot;&quot;, &quot;event&quot;: &quot;&quot;, &quot;text&quot;: &quot;Well, I don&#39;t wish to see it any more, observed Phoebe, turning away her eyes. It is certainly very like the old portrait&quot;, &quot;timestamps&quot;: [1.04, 1.04, 1.12, 1.20, 1.20, 1.20, 1.20, 1.36, 1.36, 1.52, 1.60, 1.76, 1.92, 2.08, 2.08, 2.32, 2.48, 2.56, 2.56, 2.56, 2.88, 2.88, 2.96, 2.96, 2.96, 3.44, 3.60, 3.60, 3.60, 3.92, 3.92, 4.16, 4.24, 4.24, 5.28, 5.36, 5.52, 5.60, 5.60, 5.68, 6.08, 6.08, 6.24, 6.24, 6.48, 6.56, 6.80, 6.80, 6.88, 6.88], &quot;durations&quot;: [], &quot;tokens&quot;:[&quot; We&quot;, &quot;ll&quot;, &quot;,&quot;, &quot; I&quot;, &quot; don&quot;, &quot;&#39;&quot;, &quot;t&quot;, &quot; w&quot;, &quot;ish&quot;, &quot; to&quot;, &quot; see&quot;, &quot; it&quot;, &quot; any&quot;, &quot; m&quot;, &quot;ore&quot;, &quot;,&quot;, &quot; ob&quot;, &quot;s&quot;, &quot;er&quot;, &quot;ved&quot;, &quot; P&quot;, &quot;h&quot;, &quot;o&quot;, &quot;e&quot;, &quot;be&quot;, &quot;,&quot;, &quot; t&quot;, &quot;ur&quot;, &quot;ning&quot;, &quot; a&quot;, &quot;way&quot;, &quot; her&quot;, &quot; ey&quot;, &quot;es&quot;, &quot;.&quot;, &quot; It&quot;, &quot; is&quot;, &quot; cer&quot;, &quot;tain&quot;, &quot;ly&quot;, &quot; &quot;, &quot;very&quot;, &quot; li&quot;, &quot;ke&quot;, &quot; the&quot;, &quot; old&quot;, &quot; p&quot;, &quot;ort&quot;, &quot;ra&quot;, &quot;it&quot;], &quot;ys_log_probs&quot;: [-0.002837, -0.000404, -0.060576, -0.000764, -0.087673, -0.013725, -0.003364, -0.000482, -0.001379, -0.008597, -0.584622, -0.003071, -0.003346, -0.010230, -0.004766, -0.106256, -0.000535, -0.003118, -0.000858, -0.000817, -0.000728, -0.427547, -0.020174, -0.003041, -0.000414, -0.355250, -0.000522, -0.105855, -0.066512, -0.002785, -0.000128, -0.003458, -0.055273, -0.005603, -0.665277, -0.283939, -0.003394, -0.000947, -0.017923, -0.020271, -0.000881, -0.000180, -0.003973, -0.001357, -0.002804, -0.006177, -0.001759, -0.002761, -0.033035, -0.003634], &quot;words&quot;: []}
+</pre></div>
+</div>
+</section>
+<section id="real-time-streaming-speech-recognition-from-a-microphone-with-vad">
+<h3>Real-time/Streaming Speech recognition from a microphone with VAD<a class="headerlink" href="#real-time-streaming-speech-recognition-from-a-microphone-with-vad" title="Permalink to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">wget</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">k2</span><span class="o">-</span><span class="n">fsa</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="n">download</span><span class="o">/</span><span class="n">asr</span><span class="o">-</span><span class="n">models</span><span class="o">/</span><span class="n">silero_vad</span><span class="o">.</span><span class="n">onnx</span>
+
+<span class="o">./</span><span class="n">build</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">vad</span><span class="o">-</span><span class="n">microphone</span><span class="o">-</span><span class="n">simulated</span><span class="o">-</span><span class="n">streaming</span><span class="o">-</span><span class="n">asr</span> \
+  <span class="o">--</span><span class="n">silero</span><span class="o">-</span><span class="n">vad</span><span class="o">-</span><span class="n">model</span><span class="o">=./</span><span class="n">silero_vad</span><span class="o">.</span><span class="n">onnx</span> \
+  <span class="o">--</span><span class="n">encoder</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">nemo</span><span class="o">-</span><span class="n">parakeet</span><span class="o">-</span><span class="n">unified</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="mf">0.6</span><span class="n">b</span><span class="o">-</span><span class="n">int8</span><span class="o">-</span><span class="n">non</span><span class="o">-</span><span class="n">streaming</span><span class="o">/</span><span class="n">encoder</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span> \
+  <span class="o">--</span><span class="n">decoder</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">nemo</span><span class="o">-</span><span class="n">parakeet</span><span class="o">-</span><span class="n">unified</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="mf">0.6</span><span class="n">b</span><span class="o">-</span><span class="n">int8</span><span class="o">-</span><span class="n">non</span><span class="o">-</span><span class="n">streaming</span><span class="o">/</span><span class="n">decoder</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span> \
+  <span class="o">--</span><span class="n">joiner</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">nemo</span><span class="o">-</span><span class="n">parakeet</span><span class="o">-</span><span class="n">unified</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="mf">0.6</span><span class="n">b</span><span class="o">-</span><span class="n">int8</span><span class="o">-</span><span class="n">non</span><span class="o">-</span><span class="n">streaming</span><span class="o">/</span><span class="n">joiner</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span> \
+  <span class="o">--</span><span class="n">tokens</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">nemo</span><span class="o">-</span><span class="n">parakeet</span><span class="o">-</span><span class="n">unified</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="mf">0.6</span><span class="n">b</span><span class="o">-</span><span class="n">int8</span><span class="o">-</span><span class="n">non</span><span class="o">-</span><span class="n">streaming</span><span class="o">/</span><span class="n">tokens</span><span class="o">.</span><span class="n">txt</span> \
+  <span class="o">--</span><span class="n">model</span><span class="o">-</span><span class="nb">type</span><span class="o">=</span><span class="n">nemo_transducer</span>
+</pre></div>
+</div>
+</section>
+<section id="speech-recognition-from-a-microphone">
+<h3>Speech recognition from a microphone<a class="headerlink" href="#speech-recognition-from-a-microphone" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+./build/bin/sherpa-onnx-microphone-offline<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--encoder<span class="o">=</span>./sherpa-onnx-nemo-parakeet-unified-en-0.6b-int8-non-streaming/encoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--decoder<span class="o">=</span>./sherpa-onnx-nemo-parakeet-unified-en-0.6b-int8-non-streaming/decoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--joiner<span class="o">=</span>./sherpa-onnx-nemo-parakeet-unified-en-0.6b-int8-non-streaming/joiner.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span>./sherpa-onnx-nemo-parakeet-unified-en-0.6b-int8-non-streaming/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--model-type<span class="o">=</span>nemo_transducer
+</pre></div>
+</div>
+</section>
+<section id="speech-recognition-from-a-microphone-with-vad">
+<h3>Speech recognition from a microphone with VAD<a class="headerlink" href="#speech-recognition-from-a-microphone-with-vad" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/silero_vad.onnx
+
+./build/bin/sherpa-onnx-vad-microphone-offline-asr<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--silero-vad-model<span class="o">=</span>./silero_vad.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--encoder<span class="o">=</span>./sherpa-onnx-nemo-parakeet-unified-en-0.6b-int8-non-streaming/encoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--decoder<span class="o">=</span>./sherpa-onnx-nemo-parakeet-unified-en-0.6b-int8-non-streaming/decoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--joiner<span class="o">=</span>./sherpa-onnx-nemo-parakeet-unified-en-0.6b-int8-non-streaming/joiner.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span>./sherpa-onnx-nemo-parakeet-unified-en-0.6b-int8-non-streaming/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--model-type<span class="o">=</span>nemo_transducer
+</pre></div>
+</div>
+</section>
+<section id="decode-a-long-audio-file-with-vad">
+<h3>Decode a long audio file with VAD<a class="headerlink" href="#decode-a-long-audio-file-with-vad" title="Permalink to this heading"></a></h3>
+<p>The following examples show how to decode a very long audio file with the help
+of VAD.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/silero_vad.onnx
+wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/Obama.wav
+
+./build/bin/sherpa-onnx-vad-with-offline-asr<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--silero-vad-model<span class="o">=</span>./silero_vad.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--silero-vad-threshold<span class="o">=</span><span class="m">0</span>.2<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--silero-vad-min-speech-duration<span class="o">=</span><span class="m">0</span>.2<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--encoder<span class="o">=</span>./sherpa-onnx-nemo-parakeet-unified-en-0.6b-int8-non-streaming/encoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--decoder<span class="o">=</span>./sherpa-onnx-nemo-parakeet-unified-en-0.6b-int8-non-streaming/decoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--joiner<span class="o">=</span>./sherpa-onnx-nemo-parakeet-unified-en-0.6b-int8-non-streaming/joiner.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span>./sherpa-onnx-nemo-parakeet-unified-en-0.6b-int8-non-streaming/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--model-type<span class="o">=</span>nemo_transducer<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./Obama.wav
+</pre></div>
+</div>
+<table>
+  <tr>
+    <th>Wave filename</th>
+    <th>Content</th>
+  </tr>
+  <tr>
+    <td>Obama.wav</td>
+    <td>
+     <audio title="Obama.wav" controls="controls">
+           <source src="/sherpa/_static/sense-voice/Obama.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+  </tr>
+</table><p>You should see the following output:</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>If you want to use a GUI version and want to export <code class="docutils literal notranslate"><span class="pre">SRT</span></code> format, please visit
+<a class="reference external" href="https://k2-fsa.github.io/sherpa/onnx/tauri/app/vad-asr-file.html">https://k2-fsa.github.io/sherpa/onnx/tauri/app/vad-asr-file.html</a> and search for
+<code class="docutils literal notranslate"><span class="pre">parakeet_unified_en_0.6b_int8</span></code>. Please always use the latest version.</p>
+</div>
+</section>
+</section>
+<section id="sherpa-onnx-nemo-parakeet-tdt-0-6b-v3-int8-25-european-languages">
+<span id="sherpa-onnx-nemo-parakeet-tdt-0-6b-v3-int8"></span><h2>sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8 (25 European Languages)<a class="headerlink" href="#sherpa-onnx-nemo-parakeet-tdt-0-6b-v3-int8-25-european-languages" title="Permalink to this heading"></a></h2>
+<p>This model is converted from</p>
+<blockquote>
+<div><p><a class="reference external" href="https://huggingface.co/nvidia/parakeet-tdt-0.6b-v3">https://huggingface.co/nvidia/parakeet-tdt-0.6b-v3</a></p>
+</div></blockquote>
+<p>You can find the conversion script at</p>
+<blockquote>
+<div><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/tree/master/scripts/nemo/parakeet-tdt-0.6b-v3">https://github.com/k2-fsa/sherpa-onnx/tree/master/scripts/nemo/parakeet-tdt-0.6b-v3</a></p>
+</div></blockquote>
+<p>It supports 25 European languages:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Bulgarian (bg), Croatian (hr), Czech (cs), Danish (da), Dutch (nl)</p></li>
+<li><p>English (en), Estonian (et), Finnish (fi), French (fr), German (de)</p></li>
+<li><p>Greek (el), Hungarian (hu), Italian (it), Latvian (lv), Lithuanian (lt)</p></li>
+<li><p>Maltese (mt), Polish (pl), Portuguese (pt), Romanian (ro), Slovak (sk)</p></li>
+<li><p>Slovenian (sl), Spanish (es), Swedish (sv), Russian (ru), Ukrainian (uk)</p></li>
+</ul>
+</div></blockquote>
+<p>In the following, we describe how to download it and use it with <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>.</p>
+<section id="colab">
+<h3>Colab<a class="headerlink" href="#colab" title="Permalink to this heading"></a></h3>
+<p>We provide two colab notebooks for this model:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><a class="reference external" href="https://colab.research.google.com/drive/1ixBBirCv7vOcM0QNITwad9iSGFpG5an4?usp=sharing">Colab with CPU</a></p></li>
+<li><p><a class="reference external" href="https://colab.research.google.com/drive/1EUgBbM165YZLnef2iYf_ZIv6mBn9GhLG?usp=sharing">Colab with NVIDIA GPU</a></p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="huggingface-space">
+<h3>Huggingface space<a class="headerlink" href="#huggingface-space" title="Permalink to this heading"></a></h3>
+<p>You can try it by visiting <a class="reference external" href="https://huggingface.co/spaces/k2-fsa/automatic-speech-recognition">https://huggingface.co/spaces/k2-fsa/automatic-speech-recognition</a></p>
+</section>
+<section id="id1">
+<h3>Android APK for real-time speech recognition<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h3>
+<p>Please visit <a class="reference external" href="https://k2-fsa.github.io/sherpa/onnx/android/apk-simulate-streaming-asr.html">https://k2-fsa.github.io/sherpa/onnx/android/apk-simulate-streaming-asr.html</a>
+and search for <code class="docutils literal notranslate"><span class="pre">parakeet_tdt_0.6b_v3</span></code>.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>Please always use the latest version. For instance, you can use
+<a class="reference external" href="https://huggingface.co/csukuangfj2/sherpa-onnx-apk/resolve/main/vad-asr-simulated-streaming/1.12.40/sherpa-onnx-1.12.40-arm64-v8a-simulated_streaming_asr-multi-parakeet_tdt_0.6b_v3.apk">sherpa-onnx-1.12.40-arm64-v8a-simulated_streaming_asr-multi-parakeet_tdt_0.6b_v3.apk</a>
+for <code class="docutils literal notranslate"><span class="pre">arm64-v8a</span></code>.</p>
+</div>
+</section>
+<section id="id3">
+<h3>Download the model<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h3>
+<p>Please use the following commands to download it.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8.tar.bz2
+tar<span class="w"> </span>xvf<span class="w"> </span>sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8.tar.bz2
+rm<span class="w"> </span>sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8.tar.bz2
+</pre></div>
+</div>
+<p>You should see something like below after downloading:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ls</span> <span class="o">-</span><span class="n">lh</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">nemo</span><span class="o">-</span><span class="n">parakeet</span><span class="o">-</span><span class="n">tdt</span><span class="o">-</span><span class="mf">0.6</span><span class="n">b</span><span class="o">-</span><span class="n">v3</span><span class="o">-</span><span class="n">int8</span><span class="o">/</span>
+
+<span class="n">total</span> <span class="mi">640</span><span class="n">M</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="mi">501</span> <span class="n">staff</span>  <span class="mi">12</span><span class="n">M</span> <span class="n">Aug</span> <span class="mi">16</span> <span class="mi">09</span><span class="p">:</span><span class="mi">00</span> <span class="n">decoder</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="mi">501</span> <span class="n">staff</span> <span class="mi">622</span><span class="n">M</span> <span class="n">Aug</span> <span class="mi">16</span> <span class="mi">09</span><span class="p">:</span><span class="mi">00</span> <span class="n">encoder</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="mi">501</span> <span class="n">staff</span> <span class="mf">6.1</span><span class="n">M</span> <span class="n">Aug</span> <span class="mi">16</span> <span class="mi">09</span><span class="p">:</span><span class="mi">00</span> <span class="n">joiner</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span>
+<span class="n">drwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span> <span class="mi">2</span> <span class="mi">501</span> <span class="n">staff</span> <span class="mf">4.0</span><span class="n">K</span> <span class="n">Aug</span> <span class="mi">16</span> <span class="mi">09</span><span class="p">:</span><span class="mi">00</span> <span class="n">test_wavs</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="mi">501</span> <span class="n">staff</span>  <span class="mi">92</span><span class="n">K</span> <span class="n">Aug</span> <span class="mi">16</span> <span class="mi">09</span><span class="p">:</span><span class="mi">00</span> <span class="n">tokens</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
+</div>
+</section>
+<section id="id4">
+<h3>Decode wave files<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h3>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>It supports decoding only wave files of a single channel with 16-bit
+encoded samples, while the sampling rate does not need to be 16 kHz.</p>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+build/bin/sherpa-onnx-offline<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--encoder<span class="o">=</span>./sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8/encoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--decoder<span class="o">=</span>./sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8/decoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--joiner<span class="o">=</span>./sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8/joiner.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span>./sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--model-type<span class="o">=</span>nemo_transducer<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8/test_wavs/en.wav
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Please use <code class="docutils literal notranslate"><span class="pre">./build/bin/Release/sherpa-onnx-offline.exe</span></code> for Windows.</p>
+</div>
+<p>You should see the following output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/project/sherpa-onnx/csrc/parse-options.cc:Read:372 sherpa-onnx-offline --encoder=./sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8/encoder.int8.onnx --decoder=./sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8/decoder.int8.onnx --joiner=./sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8/joiner.int8.onnx --tokens=./sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8/tokens.txt --model-type=nemo_transducer ./sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8/test_wavs/en.wav
+
+OfflineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80, low_freq=20, high_freq=-400, dither=0, normalize_samples=True, snip_edges=False), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename=&quot;./sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8/encoder.int8.onnx&quot;, decoder_filename=&quot;./sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8/decoder.int8.onnx&quot;, joiner_filename=&quot;./sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8/joiner.int8.onnx&quot;), paraformer=OfflineParaformerModelConfig(model=&quot;&quot;), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=&quot;&quot;), whisper=OfflineWhisperModelConfig(encoder=&quot;&quot;, decoder=&quot;&quot;, language=&quot;&quot;, task=&quot;transcribe&quot;, tail_paddings=-1), fire_red_asr=OfflineFireRedAsrModelConfig(encoder=&quot;&quot;, decoder=&quot;&quot;), tdnn=OfflineTdnnModelConfig(model=&quot;&quot;), zipformer_ctc=OfflineZipformerCtcModelConfig(model=&quot;&quot;), wenet_ctc=OfflineWenetCtcModelConfig(model=&quot;&quot;), sense_voice=OfflineSenseVoiceModelConfig(model=&quot;&quot;, language=&quot;auto&quot;, use_itn=False), moonshine=OfflineMoonshineModelConfig(preprocessor=&quot;&quot;, encoder=&quot;&quot;, uncached_decoder=&quot;&quot;, cached_decoder=&quot;&quot;), dolphin=OfflineDolphinModelConfig(model=&quot;&quot;), canary=OfflineCanaryModelConfig(encoder=&quot;&quot;, decoder=&quot;&quot;, src_lang=&quot;&quot;, tgt_lang=&quot;&quot;, use_pnc=True), telespeech_ctc=&quot;&quot;, tokens=&quot;./sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8/tokens.txt&quot;, num_threads=2, debug=False, provider=&quot;cpu&quot;, model_type=&quot;nemo_transducer&quot;, modeling_unit=&quot;cjkchar&quot;, bpe_vocab=&quot;&quot;), lm_config=OfflineLMConfig(model=&quot;&quot;, scale=0.5, lodr_scale=0.01, lodr_fst=&quot;&quot;, lodr_backoff_id=-1), ctc_fst_decoder_config=OfflineCtcFstDecoderConfig(graph=&quot;&quot;, max_active=3000), decoding_method=&quot;greedy_search&quot;, max_active_paths=4, hotwords_file=&quot;&quot;, hotwords_score=1.5, blank_penalty=0, rule_fsts=&quot;&quot;, rule_fars=&quot;&quot;, hr=HomophoneReplacerConfig(dict_dir=&quot;&quot;, lexicon=&quot;&quot;, rule_fsts=&quot;&quot;))
+Creating recognizer ...
+Started
+/project/sherpa-onnx/csrc/offline-stream.cc:AcceptWaveformImpl:160 Creating a resampler:
+   in_sample_rate: 24000
+   output_sample_rate: 16000
+
+Done!
+
+./sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8/test_wavs/en.wav
+{&quot;lang&quot;: &quot;&quot;, &quot;emotion&quot;: &quot;&quot;, &quot;event&quot;: &quot;&quot;, &quot;text&quot;: &quot; Ask not what your country can do for you, ask what you can do for your country.&quot;, &quot;timestamps&quot;: [0.00, 0.08, 0.40, 0.64, 0.80, 0.96, 1.04, 1.04, 1.04, 1.28, 1.44, 1.60, 1.68, 1.84, 2.08, 2.16, 2.40, 2.56, 2.64, 2.80, 2.96, 3.12, 3.28, 3.36, 3.36, 3.36, 3.68], &quot;tokens&quot;:[&quot; A&quot;, &quot;sk&quot;, &quot; not&quot;, &quot; what&quot;, &quot; your&quot;, &quot; co&quot;, &quot;un&quot;, &quot;tr&quot;, &quot;y&quot;, &quot; can&quot;, &quot; do&quot;, &quot; for&quot;, &quot; you&quot;, &quot;,&quot;, &quot; a&quot;, &quot;sk&quot;, &quot; what&quot;, &quot; you&quot;, &quot; can&quot;, &quot; do&quot;, &quot; for&quot;, &quot; your&quot;, &quot; co&quot;, &quot;un&quot;, &quot;tr&quot;, &quot;y&quot;, &quot;.&quot;], &quot;words&quot;: []}
+----
+num threads: 2
+decoding method: greedy_search
+Elapsed seconds: 1.249 s
+Real time factor (RTF): 1.249 / 3.845 = 0.325
+</pre></div>
+</div>
+</section>
+<section id="id5">
+<h3>Real-time/Streaming Speech recognition from a microphone with VAD<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">wget</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">k2</span><span class="o">-</span><span class="n">fsa</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="n">download</span><span class="o">/</span><span class="n">asr</span><span class="o">-</span><span class="n">models</span><span class="o">/</span><span class="n">silero_vad</span><span class="o">.</span><span class="n">onnx</span>
+
+<span class="o">./</span><span class="n">build</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">vad</span><span class="o">-</span><span class="n">microphone</span><span class="o">-</span><span class="n">simulated</span><span class="o">-</span><span class="n">streaming</span><span class="o">-</span><span class="n">asr</span> \
+  <span class="o">--</span><span class="n">silero</span><span class="o">-</span><span class="n">vad</span><span class="o">-</span><span class="n">model</span><span class="o">=./</span><span class="n">silero_vad</span><span class="o">.</span><span class="n">onnx</span> \
+  <span class="o">--</span><span class="n">encoder</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">nemo</span><span class="o">-</span><span class="n">parakeet</span><span class="o">-</span><span class="n">tdt</span><span class="o">-</span><span class="mf">0.6</span><span class="n">b</span><span class="o">-</span><span class="n">v3</span><span class="o">-</span><span class="n">int8</span><span class="o">/</span><span class="n">encoder</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span> \
+  <span class="o">--</span><span class="n">decoder</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">nemo</span><span class="o">-</span><span class="n">parakeet</span><span class="o">-</span><span class="n">tdt</span><span class="o">-</span><span class="mf">0.6</span><span class="n">b</span><span class="o">-</span><span class="n">v3</span><span class="o">-</span><span class="n">int8</span><span class="o">/</span><span class="n">decoder</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span> \
+  <span class="o">--</span><span class="n">joiner</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">nemo</span><span class="o">-</span><span class="n">parakeet</span><span class="o">-</span><span class="n">tdt</span><span class="o">-</span><span class="mf">0.6</span><span class="n">b</span><span class="o">-</span><span class="n">v3</span><span class="o">-</span><span class="n">int8</span><span class="o">/</span><span class="n">joiner</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span> \
+  <span class="o">--</span><span class="n">tokens</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">nemo</span><span class="o">-</span><span class="n">parakeet</span><span class="o">-</span><span class="n">tdt</span><span class="o">-</span><span class="mf">0.6</span><span class="n">b</span><span class="o">-</span><span class="n">v3</span><span class="o">-</span><span class="n">int8</span><span class="o">/</span><span class="n">tokens</span><span class="o">.</span><span class="n">txt</span> \
+  <span class="o">--</span><span class="n">model</span><span class="o">-</span><span class="nb">type</span><span class="o">=</span><span class="n">nemo_transducer</span>
+</pre></div>
+</div>
+</section>
+<section id="id6">
+<h3>Speech recognition from a microphone<a class="headerlink" href="#id6" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+./build/bin/sherpa-onnx-microphone-offline<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--encoder<span class="o">=</span>./sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8/encoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--decoder<span class="o">=</span>./sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8/decoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--joiner<span class="o">=</span>./sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8/joiner.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span>./sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--model-type<span class="o">=</span>nemo_transducer
+</pre></div>
+</div>
+</section>
+<section id="id7">
+<h3>Speech recognition from a microphone with VAD<a class="headerlink" href="#id7" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/silero_vad.onnx
+
+./build/bin/sherpa-onnx-vad-microphone-offline-asr<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--silero-vad-model<span class="o">=</span>./silero_vad.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--encoder<span class="o">=</span>./sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8/encoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--decoder<span class="o">=</span>./sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8/decoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--joiner<span class="o">=</span>./sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8/joiner.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span>./sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--model-type<span class="o">=</span>nemo_transducer
+</pre></div>
+</div>
+</section>
+<section id="id8">
+<h3>Decode a long audio file with VAD<a class="headerlink" href="#id8" title="Permalink to this heading"></a></h3>
+<p>The following examples show how to decode a very long audio file with the help
+of VAD.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/silero_vad.onnx
+wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/Obama.wav
+
+./build/bin/sherpa-onnx-vad-with-offline-asr<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--silero-vad-model<span class="o">=</span>./silero_vad.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--silero-vad-threshold<span class="o">=</span><span class="m">0</span>.2<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--silero-vad-min-speech-duration<span class="o">=</span><span class="m">0</span>.2<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--encoder<span class="o">=</span>./sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8/encoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--decoder<span class="o">=</span>./sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8/decoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--joiner<span class="o">=</span>./sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8/joiner.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span>./sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--model-type<span class="o">=</span>nemo_transducer<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./Obama.wav
+</pre></div>
+</div>
+<table>
+  <tr>
+    <th>Wave filename</th>
+    <th>Content</th>
+  </tr>
+  <tr>
+    <td>Obama.wav</td>
+    <td>
+     <audio title="Obama.wav" controls="controls">
+           <source src="/sherpa/_static/sense-voice/Obama.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+  </tr>
+</table><p>You should see the following output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:373 ./build/bin/sherpa-onnx-vad-with-offline-asr --silero-vad-model=./silero_vad.onnx --silero-vad-threshold=0.2 --silero-vad-min-speech-duration=0.2 --encoder=./sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8/encoder.int8.onnx --decoder=./sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8/decoder.int8.onnx --joiner=./sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8/joiner.int8.onnx --tokens=./sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8/tokens.txt --model-type=nemo_transducer ./Obama.wav
+
+VadModelConfig(silero_vad=SileroVadModelConfig(model=&quot;./silero_vad.onnx&quot;, threshold=0.2, min_silence_duration=0.5, min_speech_duration=0.2, max_speech_duration=20, window_size=512, neg_threshold=-1), ten_vad=TenVadModelConfig(model=&quot;&quot;, threshold=0.5, min_silence_duration=0.5, min_speech_duration=0.25, max_speech_duration=20, window_size=256), sample_rate=16000, num_threads=1, provider=&quot;cpu&quot;, debug=False)
+OfflineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80, low_freq=20, high_freq=-400, dither=0, normalize_samples=True, snip_edges=False), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename=&quot;./sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8/encoder.int8.onnx&quot;, decoder_filename=&quot;./sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8/decoder.int8.onnx&quot;, joiner_filename=&quot;./sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8/joiner.int8.onnx&quot;), paraformer=OfflineParaformerModelConfig(model=&quot;&quot;), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=&quot;&quot;), whisper=OfflineWhisperModelConfig(encoder=&quot;&quot;, decoder=&quot;&quot;, language=&quot;&quot;, task=&quot;transcribe&quot;, tail_paddings=-1, enable_token_timestamps=False, enable_segment_timestamps=False), fire_red_asr=OfflineFireRedAsrModelConfig(encoder=&quot;&quot;, decoder=&quot;&quot;), tdnn=OfflineTdnnModelConfig(model=&quot;&quot;), zipformer_ctc=OfflineZipformerCtcModelConfig(model=&quot;&quot;), wenet_ctc=OfflineWenetCtcModelConfig(model=&quot;&quot;), sense_voice=OfflineSenseVoiceModelConfig(model=&quot;&quot;, language=&quot;auto&quot;, use_itn=False), moonshine=OfflineMoonshineModelConfig(preprocessor=&quot;&quot;, encoder=&quot;&quot;, uncached_decoder=&quot;&quot;, cached_decoder=&quot;&quot;, merged_decoder=&quot;&quot;), dolphin=OfflineDolphinModelConfig(model=&quot;&quot;), canary=OfflineCanaryModelConfig(encoder=&quot;&quot;, decoder=&quot;&quot;, src_lang=&quot;&quot;, tgt_lang=&quot;&quot;, use_pnc=True), cohere_transcribe=OfflineCohereTranscribeModelConfig(encoder=&quot;&quot;, decoder=&quot;&quot;, language=&quot;&quot;, use_punct=True, use_itn=True), omnilingual=OfflineOmnilingualAsrCtcModelConfig(model=&quot;&quot;), funasr_nano=OfflineFunASRNanoModelConfig(encoder_adaptor=&quot;&quot;, llm=&quot;&quot;, embedding=&quot;&quot;, tokenizer=&quot;&quot;, system_prompt=&quot;You are a helpful assistant.&quot;, user_prompt=&quot;语音转写：&quot;, max_new_tokens=512, temperature=1e-06, top_p=0.8, seed=42, language=&quot;&quot;, itn=True, hotwords=&quot;&quot;), medasr=OfflineMedAsrCtcModelConfig(model=&quot;&quot;), fire_red_asr_ctc=OfflineFireRedAsrCtcModelConfig(model=&quot;&quot;), qwen3_asr=OfflineQwen3ASRModelConfig(conv_frontend=&quot;&quot;, encoder=&quot;&quot;, decoder=&quot;&quot;, tokenizer=&quot;&quot;, hotwords=&quot;&quot;, max_total_len=512, max_new_tokens=128, temperature=1e-06, top_p=0.8, seed=42), telespeech_ctc=&quot;&quot;, tokens=&quot;./sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8/tokens.txt&quot;, num_threads=2, debug=False, provider=&quot;cpu&quot;, model_type=&quot;nemo_transducer&quot;, modeling_unit=&quot;cjkchar&quot;, bpe_vocab=&quot;&quot;), lm_config=OfflineLMConfig(model=&quot;&quot;, scale=0.5, lodr_scale=0.01, lodr_fst=&quot;&quot;, lodr_backoff_id=-1), ctc_fst_decoder_config=OfflineCtcFstDecoderConfig(graph=&quot;&quot;, max_active=3000), decoding_method=&quot;greedy_search&quot;, max_active_paths=4, hotwords_file=&quot;&quot;, hotwords_score=1.5, blank_penalty=0, rule_fsts=&quot;&quot;, rule_fars=&quot;&quot;, hr=HomophoneReplacerConfig(lexicon=&quot;&quot;, rule_fsts=&quot;&quot;))
+Creating recognizer ...
+Recognizer created!
+Started
+Reading: ./Obama.wav
+
+Started!
+
+7.248 -- 8.204: Thank you.
+8.976 -- 12.140: Thank you, everybody. All right, everybody go ahead and have a seat.
+13.104 -- 14.540: How&#39;s everybody doing today?
+18.704 -- 22.892: How about Tim Spicer?
+25.936 -- 31.884: I am here with students at Wakefield High School in Arlington, Virginia.
+32.720 -- 48.844: And we&#39;ve got students tuning in from all across America, from kindergarten through 12th grade. And I am just so glad that all could join us today, and I want to thank Wakefield for being such an outstanding host. Give yourselves a big round of applause.
+54.416 -- 55.436: I know that
+56.240 -- 58.892: For many of you, today is the first day of school.
+59.600 -- 69.452: And for those of you in kindergarten or starting middle or high school, it&#39;s your first day in a new school, so it&#39;s understandable if you&#39;re a little nervous.
+70.640 -- 76.332: I imagine there&#39;s some seniors out there who are feeling pretty good right now. With just one more year to go.
+78.800 -- 87.180: And no matter what grade you&#39;re in, some of you are probably wishing it were still summer, and you could have stayed just a little bit longer this morning.
+87.984 -- 89.100: I know that feeling.
+91.664 -- 111.708: When I was young, my family lived overseas. I lived in Indonesia for a few years. And my mother, she didn&#39;t have the money to send me where all the American kids went to school, but she thought it was important for me to keep up with an American education. So she decided to teach me extra lessons herself.
+112.240 -- 118.700: Monday through Friday, but because she had to go to work, the only time she could do it was at 430 in the morning.
+120.048 -- 127.244: Now, as you might imagine, I wasn&#39;t too happy about getting up that early. A lot of times I&#39;d fall asleep right there at the kitchen table.
+128.272 -- 135.340: But whenever I&#39;d complain, my mother would just give me one of those looks and she&#39;d say, this is no picnic for me either, Buster.
+137.104 -- 145.132: So I know that some of you are still adjusting to being back at school, but I&#39;m here today because I have something important to discuss with you.
+145.808 -- 153.740: I&#39;m here because I want to talk with you about your education and what&#39;s expected of all of you in this new school year.
+154.448 -- 160.268: I&#39;ve given a lot of speeches about education and I&#39;ve talked about responsibility a lot.
+160.816 -- 178.220: I&#39;ve talked about teachers&#39; responsibility for inspiring students and pushing you to learn. I&#39;ve talked about your parents&#39; responsibility for making sure you stay on track and you get your homework done and don&#39;t spend every waking hour in front of the TV or with the Xbox.
+179.088 -- 180.716: I&#39;ve talked a lot about
+181.360 -- 193.452: Your government&#39;s responsibility for setting high standards and supporting teachers and principals and turning around schools that aren&#39;t working, where students aren&#39;t getting the opportunities that they deserve.
+194.000 -- 195.276: But at the end of the day.
+196.016 -- 206.156: We can have the most dedicated teachers, the most supportive parents, the best schools in the world, and none of it will make a difference. None of it will matter.
+206.704 -- 210.604: unless all of you fulfill your responsibilities.
+211.248 -- 223.404: unless you show up to those schools, unless you pay attention to those teachers, unless you listen to your parents and grandparents and other adults, and put in the hard work it takes to succeed.
+224.656 -- 230.924: That&#39;s what I want to focus on today. The responsibility each of you has for your education.
+231.728 -- 234.796: I want to start with the responsibility you have to yourself.
+235.696 -- 238.988: Every single one of you has something that you&#39;re good at.
+239.760 -- 242.412: Every single one of you has something to offer.
+242.992 -- 247.404: And you have a responsibility to yourself to discover what that is.
+248.336 -- 251.564: That&#39;s the opportunity an education can provide.
+252.336 -- 265.900: Maybe you could be a great writer, maybe even good enough to write a book, or articles in a newspaper, but you might not know it until you write that English paper, that English class paper that&#39;s assigned to you.
+266.704 -- 278.668: Maybe you could be an innovator or an inventor, maybe even good enough to come up with the next iPhone or the new medicine or vaccine, but you might not know it until you do your project for your science class.
+279.824 -- 289.964: Maybe you could be a mayor, or a senator, or a Supreme Court Justice, but you might not know that until you join student government or the debate team.
+291.568 -- 309.516: And no matter what you want to do with your life, I guarantee that you&#39;ll need an education to do it. You want to be a doctor or a teacher or a police officer, you want to be a nurse or an architect, a lawyer, or a member of our military, you&#39;re going to need a good education for every single one of those careers.
+310.064 -- 314.348: You cannot drop out of school and just drop into a good job.
+315.184 -- 319.852: You&#39;ve got to train for it and work for it and learn for it.
+320.528 -- 323.628: And this isn&#39;t just important for your own life and your own future.
+324.688 -- 332.812: What you make of your education will decide nothing less than the future of this country. The future of America depends on you.
+
+num threads: 2
+decoding method: greedy_search
+Elapsed seconds: 9.372 s
+Real time factor (RTF): 9.372 / 334.234 = 0.028
+</pre></div>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>If you want to use a GUI version and want to export <code class="docutils literal notranslate"><span class="pre">SRT</span></code> format, please visit
+<a class="reference external" href="https://k2-fsa.github.io/sherpa/onnx/tauri/app/vad-asr-file.html">https://k2-fsa.github.io/sherpa/onnx/tauri/app/vad-asr-file.html</a> and search for
+<code class="docutils literal notranslate"><span class="pre">en-parakeet_tdt_v3</span></code>. Please always use the latest version.</p>
+</div>
+</section>
+</section>
+<section id="sherpa-onnx-nemo-parakeet-tdt-0-6b-v2-int8-english">
+<span id="sherpa-onnx-nemo-parakeet-tdt-0-6b-v2-int8"></span><h2>sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8 (English, 英语)<a class="headerlink" href="#sherpa-onnx-nemo-parakeet-tdt-0-6b-v2-int8-english" title="Permalink to this heading"></a></h2>
+<p>This model is converted from</p>
+<blockquote>
+<div><p><a class="reference external" href="https://huggingface.co/nvidia/parakeet-tdt-0.6b-v2">https://huggingface.co/nvidia/parakeet-tdt-0.6b-v2</a></p>
+</div></blockquote>
+<p>You can find the conversion script at</p>
+<blockquote>
+<div><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/tree/master/scripts/nemo/parakeet-tdt-0.6b-v2">https://github.com/k2-fsa/sherpa-onnx/tree/master/scripts/nemo/parakeet-tdt-0.6b-v2</a></p>
+</div></blockquote>
+<p>In the following, we describe how to download it and use it with <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>This model supports punctuations and cases.</p>
+</div>
+<section id="id10">
+<h3>Android APK for real-time speech recognition<a class="headerlink" href="#id10" title="Permalink to this heading"></a></h3>
+<p>Please visit <a class="reference external" href="https://k2-fsa.github.io/sherpa/onnx/android/apk-simulate-streaming-asr.html">https://k2-fsa.github.io/sherpa/onnx/android/apk-simulate-streaming-asr.html</a>
+and search for <code class="docutils literal notranslate"><span class="pre">parakeet_tdt_0.6b_v2</span></code>.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>Please always use the latest version. For instance, you can use
+<a class="reference external" href="https://huggingface.co/csukuangfj2/sherpa-onnx-apk/resolve/main/vad-asr-simulated-streaming/1.12.40/sherpa-onnx-1.12.40-arm64-v8a-simulated_streaming_asr-en-parakeet_tdt_0.6b_v2.apk">sherpa-onnx-1.12.40-arm64-v8a-simulated_streaming_asr-en-parakeet_tdt_0.6b_v2.apk</a>
+for <code class="docutils literal notranslate"><span class="pre">arm64-v8a</span></code>.</p>
+</div>
+</section>
+<section id="id12">
+<h3>Download the model<a class="headerlink" href="#id12" title="Permalink to this heading"></a></h3>
+<p>Please use the following commands to download it.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8.tar.bz2
+tar<span class="w"> </span>xvf<span class="w"> </span>sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8.tar.bz2
+rm<span class="w"> </span>sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8.tar.bz2
+</pre></div>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>If you want to try <code class="docutils literal notranslate"><span class="pre">float16</span></code> quantized model, please use  <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-fp16.tar.bz2">sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-fp16.tar.bz2</a>.</p>
+<p>If you want to try <code class="docutils literal notranslate"><span class="pre">non-quantized</span></code> decoder and joiner models, please use <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-nemo-parakeet-tdt-0.6b-v2.tar.bz2">sherpa-onnx-nemo-parakeet-tdt-0.6b-v2.tar.bz2</a></p>
+</div>
+<p>You should see something like below after downloading:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ls</span> <span class="o">-</span><span class="n">lh</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">nemo</span><span class="o">-</span><span class="n">parakeet</span><span class="o">-</span><span class="n">tdt</span><span class="o">-</span><span class="mf">0.6</span><span class="n">b</span><span class="o">-</span><span class="n">v2</span><span class="o">-</span><span class="n">int8</span><span class="o">/</span>
+<span class="n">total</span> <span class="mi">1295752</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mf">6.9</span><span class="n">M</span> <span class="n">May</span>  <span class="mi">6</span> <span class="mi">16</span><span class="p">:</span><span class="mi">24</span> <span class="n">decoder</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">622</span><span class="n">M</span> <span class="n">May</span>  <span class="mi">6</span> <span class="mi">16</span><span class="p">:</span><span class="mi">24</span> <span class="n">encoder</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mf">1.7</span><span class="n">M</span> <span class="n">May</span>  <span class="mi">6</span> <span class="mi">16</span><span class="p">:</span><span class="mi">24</span> <span class="n">joiner</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span>
+<span class="n">drwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span>  <span class="mi">3</span> <span class="n">fangjun</span>  <span class="n">staff</span>    <span class="mi">96</span><span class="n">B</span> <span class="n">May</span>  <span class="mi">6</span> <span class="mi">16</span><span class="p">:</span><span class="mi">24</span> <span class="n">test_wavs</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mf">9.2</span><span class="n">K</span> <span class="n">May</span>  <span class="mi">6</span> <span class="mi">16</span><span class="p">:</span><span class="mi">24</span> <span class="n">tokens</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
+</div>
+</section>
+<section id="id13">
+<h3>Decode wave files<a class="headerlink" href="#id13" title="Permalink to this heading"></a></h3>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>It supports decoding only wave files of a single channel with 16-bit
+encoded samples, while the sampling rate does not need to be 16 kHz.</p>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+./build/bin/sherpa-onnx-offline<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--encoder<span class="o">=</span>./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/encoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--decoder<span class="o">=</span>./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/decoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--joiner<span class="o">=</span>./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/joiner.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span>./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--model-type<span class="o">=</span>nemo_transducer<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/test_wavs/0.wav
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Please use <code class="docutils literal notranslate"><span class="pre">./build/bin/Release/sherpa-onnx-offline.exe</span></code> for Windows.</p>
+</div>
+<p>You should see the following output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:372 ./build/bin/sherpa-onnx-offline --encoder=./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/encoder.int8.onnx --decoder=./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/decoder.int8.onnx --joiner=./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/joiner.int8.onnx --tokens=./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/tokens.txt --model-type=nemo_transducer ./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/test_wavs/0.wav
+
+OfflineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80, low_freq=20, high_freq=-400, dither=0, normalize_samples=True, snip_edges=False), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename=&quot;./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/encoder.int8.onnx&quot;, decoder_filename=&quot;./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/decoder.int8.onnx&quot;, joiner_filename=&quot;./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/joiner.int8.onnx&quot;), paraformer=OfflineParaformerModelConfig(model=&quot;&quot;), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=&quot;&quot;), whisper=OfflineWhisperModelConfig(encoder=&quot;&quot;, decoder=&quot;&quot;, language=&quot;&quot;, task=&quot;transcribe&quot;, tail_paddings=-1), fire_red_asr=OfflineFireRedAsrModelConfig(encoder=&quot;&quot;, decoder=&quot;&quot;), tdnn=OfflineTdnnModelConfig(model=&quot;&quot;), zipformer_ctc=OfflineZipformerCtcModelConfig(model=&quot;&quot;), wenet_ctc=OfflineWenetCtcModelConfig(model=&quot;&quot;), sense_voice=OfflineSenseVoiceModelConfig(model=&quot;&quot;, language=&quot;auto&quot;, use_itn=False), moonshine=OfflineMoonshineModelConfig(preprocessor=&quot;&quot;, encoder=&quot;&quot;, uncached_decoder=&quot;&quot;, cached_decoder=&quot;&quot;), dolphin=OfflineDolphinModelConfig(model=&quot;&quot;), telespeech_ctc=&quot;&quot;, tokens=&quot;./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/tokens.txt&quot;, num_threads=2, debug=False, provider=&quot;cpu&quot;, model_type=&quot;nemo_transducer&quot;, modeling_unit=&quot;cjkchar&quot;, bpe_vocab=&quot;&quot;), lm_config=OfflineLMConfig(model=&quot;&quot;, scale=0.5), ctc_fst_decoder_config=OfflineCtcFstDecoderConfig(graph=&quot;&quot;, max_active=3000), decoding_method=&quot;greedy_search&quot;, max_active_paths=4, hotwords_file=&quot;&quot;, hotwords_score=1.5, blank_penalty=0, rule_fsts=&quot;&quot;, rule_fars=&quot;&quot;, hr=HomophoneReplacerConfig(dict_dir=&quot;&quot;, lexicon=&quot;&quot;, rule_fsts=&quot;&quot;))
+Creating recognizer ...
+Started
+Done!
+
+./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/test_wavs/0.wav
+{&quot;lang&quot;: &quot;&quot;, &quot;emotion&quot;: &quot;&quot;, &quot;event&quot;: &quot;&quot;, &quot;text&quot;: &quot; Well, I don&#39;t wish to see it any more, observed Phebe, turning away her eyes. It is certainly very like the old portrait.&quot;, &quot;timestamps&quot;: [0.32, 0.64, 0.72, 0.80, 0.88, 0.96, 1.04, 1.12, 1.28, 1.44, 1.60, 1.76, 1.92, 2.00, 2.24, 2.32, 2.40, 2.48, 2.64, 2.72, 2.88, 3.12, 3.36, 3.44, 3.52, 3.68, 3.76, 3.92, 4.16, 4.24, 4.32, 4.64, 4.96, 5.12, 5.36, 5.44, 5.52, 5.60, 5.76, 6.00, 6.24, 6.40, 6.48, 6.64, 6.72, 6.80, 6.88, 7.04], &quot;tokens&quot;:[&quot; Well&quot;, &quot;,&quot;, &quot; I&quot;, &quot; don&quot;, &quot;&#39;&quot;, &quot;t&quot;, &quot; w&quot;, &quot;ish&quot;, &quot; to&quot;, &quot; see&quot;, &quot; it&quot;, &quot; any&quot;, &quot; more&quot;, &quot;,&quot;, &quot; ob&quot;, &quot;s&quot;, &quot;er&quot;, &quot;ved&quot;, &quot; P&quot;, &quot;he&quot;, &quot;be&quot;, &quot;,&quot;, &quot; t&quot;, &quot;ur&quot;, &quot;ning&quot;, &quot; a&quot;, &quot;way&quot;, &quot; her&quot;, &quot; e&quot;, &quot;y&quot;, &quot;es&quot;, &quot;.&quot;, &quot; It&quot;, &quot; is&quot;, &quot; c&quot;, &quot;ert&quot;, &quot;ain&quot;, &quot;ly&quot;, &quot; very&quot;, &quot; like&quot;, &quot; the&quot;, &quot; o&quot;, &quot;ld&quot;, &quot; p&quot;, &quot;ort&quot;, &quot;ra&quot;, &quot;it&quot;, &quot;.&quot;], &quot;words&quot;: []}
+----
+num threads: 2
+decoding method: greedy_search
+Elapsed seconds: 0.874 s
+Real time factor (RTF): 0.874 / 7.435 = 0.118
+</pre></div>
+</div>
+</section>
+<section id="id14">
+<h3>Real-time/Streaming Speech recognition from a microphone with VAD<a class="headerlink" href="#id14" title="Permalink to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">wget</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">k2</span><span class="o">-</span><span class="n">fsa</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="n">download</span><span class="o">/</span><span class="n">asr</span><span class="o">-</span><span class="n">models</span><span class="o">/</span><span class="n">silero_vad</span><span class="o">.</span><span class="n">onnx</span>
+
+<span class="o">./</span><span class="n">build</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">vad</span><span class="o">-</span><span class="n">microphone</span><span class="o">-</span><span class="n">simulated</span><span class="o">-</span><span class="n">streaming</span><span class="o">-</span><span class="n">asr</span> \
+  <span class="o">--</span><span class="n">silero</span><span class="o">-</span><span class="n">vad</span><span class="o">-</span><span class="n">model</span><span class="o">=./</span><span class="n">silero_vad</span><span class="o">.</span><span class="n">onnx</span> \
+  <span class="o">--</span><span class="n">encoder</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">nemo</span><span class="o">-</span><span class="n">parakeet</span><span class="o">-</span><span class="n">tdt</span><span class="o">-</span><span class="mf">0.6</span><span class="n">b</span><span class="o">-</span><span class="n">v2</span><span class="o">-</span><span class="n">int8</span><span class="o">/</span><span class="n">encoder</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span> \
+  <span class="o">--</span><span class="n">decoder</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">nemo</span><span class="o">-</span><span class="n">parakeet</span><span class="o">-</span><span class="n">tdt</span><span class="o">-</span><span class="mf">0.6</span><span class="n">b</span><span class="o">-</span><span class="n">v2</span><span class="o">-</span><span class="n">int8</span><span class="o">/</span><span class="n">decoder</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span> \
+  <span class="o">--</span><span class="n">joiner</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">nemo</span><span class="o">-</span><span class="n">parakeet</span><span class="o">-</span><span class="n">tdt</span><span class="o">-</span><span class="mf">0.6</span><span class="n">b</span><span class="o">-</span><span class="n">v2</span><span class="o">-</span><span class="n">int8</span><span class="o">/</span><span class="n">joiner</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span> \
+  <span class="o">--</span><span class="n">tokens</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">nemo</span><span class="o">-</span><span class="n">parakeet</span><span class="o">-</span><span class="n">tdt</span><span class="o">-</span><span class="mf">0.6</span><span class="n">b</span><span class="o">-</span><span class="n">v2</span><span class="o">-</span><span class="n">int8</span><span class="o">/</span><span class="n">tokens</span><span class="o">.</span><span class="n">txt</span> \
+  <span class="o">--</span><span class="n">model</span><span class="o">-</span><span class="nb">type</span><span class="o">=</span><span class="n">nemo_transducer</span>
+</pre></div>
+</div>
+</section>
+<section id="id15">
+<h3>Speech recognition from a microphone<a class="headerlink" href="#id15" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+./build/bin/sherpa-onnx-microphone-offline<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--encoder<span class="o">=</span>./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/encoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--decoder<span class="o">=</span>./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/decoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--joiner<span class="o">=</span>./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/joiner.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span>./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--model-type<span class="o">=</span>nemo_transducer
+</pre></div>
+</div>
+</section>
+<section id="id16">
+<h3>Speech recognition from a microphone with VAD<a class="headerlink" href="#id16" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/silero_vad.onnx
+
+./build/bin/sherpa-onnx-vad-microphone-offline-asr<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--silero-vad-model<span class="o">=</span>./silero_vad.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--encoder<span class="o">=</span>./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/encoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--decoder<span class="o">=</span>./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/decoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--joiner<span class="o">=</span>./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/joiner.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span>./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--model-type<span class="o">=</span>nemo_transducer
+</pre></div>
+</div>
+</section>
+<section id="id17">
+<h3>Decode a long audio file with VAD<a class="headerlink" href="#id17" title="Permalink to this heading"></a></h3>
+<p>The following examples show how to decode a very long audio file with the help
+of VAD.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/silero_vad.onnx
+wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/Obama.wav
+
+./build/bin/sherpa-onnx-vad-with-offline-asr<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--silero-vad-model<span class="o">=</span>./silero_vad.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--silero-vad-threshold<span class="o">=</span><span class="m">0</span>.2<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--silero-vad-min-speech-duration<span class="o">=</span><span class="m">0</span>.2<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--encoder<span class="o">=</span>./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/encoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--decoder<span class="o">=</span>./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/decoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--joiner<span class="o">=</span>./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/joiner.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span>./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--model-type<span class="o">=</span>nemo_transducer<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./Obama.wav
+</pre></div>
+</div>
+<table>
+  <tr>
+    <th>Wave filename</th>
+    <th>Content</th>
+  </tr>
+  <tr>
+    <td>Obama.wav</td>
+    <td>
+     <audio title="Obama.wav" controls="controls">
+           <source src="/sherpa/_static/sense-voice/Obama.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+  </tr>
+</table><p>You should see the following output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:373 ./build/bin/sherpa-onnx-vad-with-offline-asr --silero-vad-model=./silero_vad.onnx --silero-vad-threshold=0.2 --silero-vad-min-speech-duration=0.2 --encoder=./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/encoder.int8.onnx --decoder=./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/decoder.int8.onnx --joiner=./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/joiner.int8.onnx --tokens=./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/tokens.txt --model-type=nemo_transducer ./Obama.wav 
+
+VadModelConfig(silero_vad=SileroVadModelConfig(model=&quot;./silero_vad.onnx&quot;, threshold=0.2, min_silence_duration=0.5, min_speech_duration=0.2, max_speech_duration=20, window_size=512, neg_threshold=-1), ten_vad=TenVadModelConfig(model=&quot;&quot;, threshold=0.5, min_silence_duration=0.5, min_speech_duration=0.25, max_speech_duration=20, window_size=256), sample_rate=16000, num_threads=1, provider=&quot;cpu&quot;, debug=False)
+OfflineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80, low_freq=20, high_freq=-400, dither=0, normalize_samples=True, snip_edges=False), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename=&quot;./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/encoder.int8.onnx&quot;, decoder_filename=&quot;./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/decoder.int8.onnx&quot;, joiner_filename=&quot;./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/joiner.int8.onnx&quot;), paraformer=OfflineParaformerModelConfig(model=&quot;&quot;), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=&quot;&quot;), whisper=OfflineWhisperModelConfig(encoder=&quot;&quot;, decoder=&quot;&quot;, language=&quot;&quot;, task=&quot;transcribe&quot;, tail_paddings=-1, enable_token_timestamps=False, enable_segment_timestamps=False), fire_red_asr=OfflineFireRedAsrModelConfig(encoder=&quot;&quot;, decoder=&quot;&quot;), tdnn=OfflineTdnnModelConfig(model=&quot;&quot;), zipformer_ctc=OfflineZipformerCtcModelConfig(model=&quot;&quot;), wenet_ctc=OfflineWenetCtcModelConfig(model=&quot;&quot;), sense_voice=OfflineSenseVoiceModelConfig(model=&quot;&quot;, language=&quot;auto&quot;, use_itn=False), moonshine=OfflineMoonshineModelConfig(preprocessor=&quot;&quot;, encoder=&quot;&quot;, uncached_decoder=&quot;&quot;, cached_decoder=&quot;&quot;, merged_decoder=&quot;&quot;), dolphin=OfflineDolphinModelConfig(model=&quot;&quot;), canary=OfflineCanaryModelConfig(encoder=&quot;&quot;, decoder=&quot;&quot;, src_lang=&quot;&quot;, tgt_lang=&quot;&quot;, use_pnc=True), cohere_transcribe=OfflineCohereTranscribeModelConfig(encoder=&quot;&quot;, decoder=&quot;&quot;, language=&quot;&quot;, use_punct=True, use_itn=True), omnilingual=OfflineOmnilingualAsrCtcModelConfig(model=&quot;&quot;), funasr_nano=OfflineFunASRNanoModelConfig(encoder_adaptor=&quot;&quot;, llm=&quot;&quot;, embedding=&quot;&quot;, tokenizer=&quot;&quot;, system_prompt=&quot;You are a helpful assistant.&quot;, user_prompt=&quot;语音转写：&quot;, max_new_tokens=512, temperature=1e-06, top_p=0.8, seed=42, language=&quot;&quot;, itn=True, hotwords=&quot;&quot;), medasr=OfflineMedAsrCtcModelConfig(model=&quot;&quot;), fire_red_asr_ctc=OfflineFireRedAsrCtcModelConfig(model=&quot;&quot;), qwen3_asr=OfflineQwen3ASRModelConfig(conv_frontend=&quot;&quot;, encoder=&quot;&quot;, decoder=&quot;&quot;, tokenizer=&quot;&quot;, hotwords=&quot;&quot;, max_total_len=512, max_new_tokens=128, temperature=1e-06, top_p=0.8, seed=42), telespeech_ctc=&quot;&quot;, tokens=&quot;./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/tokens.txt&quot;, num_threads=2, debug=False, provider=&quot;cpu&quot;, model_type=&quot;nemo_transducer&quot;, modeling_unit=&quot;cjkchar&quot;, bpe_vocab=&quot;&quot;), lm_config=OfflineLMConfig(model=&quot;&quot;, scale=0.5, lodr_scale=0.01, lodr_fst=&quot;&quot;, lodr_backoff_id=-1), ctc_fst_decoder_config=OfflineCtcFstDecoderConfig(graph=&quot;&quot;, max_active=3000), decoding_method=&quot;greedy_search&quot;, max_active_paths=4, hotwords_file=&quot;&quot;, hotwords_score=1.5, blank_penalty=0, rule_fsts=&quot;&quot;, rule_fars=&quot;&quot;, hr=HomophoneReplacerConfig(lexicon=&quot;&quot;, rule_fsts=&quot;&quot;))
+Creating recognizer ...
+Recognizer created!
+Started
+Reading: ./Obama.wav
+
+Started!
+
+7.248 -- 8.204: Thank you.
+8.976 -- 12.140: Thank you, everybody. All right, everybody, go ahead and have a seat.
+13.104 -- 14.540: How&#39;s everybody doing today?
+18.704 -- 22.892: How about Tim Spicer?
+25.936 -- 31.884: I am here with students at Wakefield High School in Arlington, Virginia.
+32.720 -- 48.844: And we&#39;ve got students tuning in from all across America, from kindergarten through 12th grade. And I am just so glad that all could join us today. And I want to thank Wakefield for being such an outstanding host. Give yourselves a big round of applause.
+54.416 -- 55.436: I know that
+56.240 -- 58.892: For many of you, today is the first day of school.
+59.600 -- 69.452: And for those of you in kindergarten or starting middle or high school, it&#39;s your first day in a new school, so it&#39;s understandable if you&#39;re a little nervous.
+70.640 -- 76.332: I imagine there&#39;s some seniors out there who are feeling pretty good right now. With just one more year to go.
+78.800 -- 87.180: And no matter what grade you&#39;re in, some of you are probably wishing it was still summer and you could have stayed in bed just a little bit longer this morning.
+87.984 -- 89.100: I know that feeling.
+91.664 -- 111.708: When I was young, my family lived overseas. I lived in Indonesia for a few years. And my mother, she didn&#39;t have the money to send me where all the American kids went to school. But she thought it was important for me to keep up with American education. So she decided to teach me extra lessons herself.
+112.240 -- 118.700: Monday through Friday, but because she had to go to work, the only time she could do it was at 4:30 in the morning.
+120.048 -- 127.244: Now, as you might imagine, I wasn&#39;t too happy about getting up that early. And a lot of times I&#39;d fall asleep right there at the kitchen table.
+128.272 -- 135.340: But whenever I&#39;d complain, my mother would just give me one of those looks and she&#39;d say, This is no picnic for me either, Buster.
+137.104 -- 145.132: So I know that some of you are still adjusting to being back at school, but I&#39;m here today because I have something important to discuss with you.
+145.808 -- 153.740: I&#39;m here because I want to talk with you about your education and what&#39;s expected of all of you in this new school year.
+154.448 -- 160.268: I&#39;ve given a lot of speeches about education, and I&#39;ve talked about responsibility a lot.
+160.816 -- 178.220: I&#39;ve talked about teachers&#39; responsibility for inspiring students and pushing you to learn. I&#39;ve talked about your parents&#39; responsibility for making sure you stay on track and you get your homework done and don&#39;t spend every waking hour in front of the T V or with the Xbox.
+179.088 -- 180.716: I&#39;ve talked a lot about
+181.360 -- 193.452: Your government&#39;s responsibility for setting high standards and supporting teachers and principals and turning around schools that aren&#39;t working, where students aren&#39;t getting the opportunities that they deserve.
+194.000 -- 195.276: But at the end of the day,
+196.016 -- 206.156: We can have the most dedicated teachers, the most supportive parents, the best schools in the world, and none of it will make a difference. None of it will matter.
+206.704 -- 210.604: unless all of you fulfill your responsibilities.
+211.248 -- 223.404: Unless you show up to those schools, unless you pay attention to those teachers, unless you listen to your parents and grandparents and other adults and put in the hard work it takes to succeed.
+224.656 -- 230.924: And that&#39;s what I want to focus on today: the responsibility each of you has for your education.
+231.728 -- 234.796: I want to start with the responsibility you have to yourself.
+235.696 -- 238.988: Every single one of you has something that you&#39;re good at.
+239.760 -- 242.412: Every single one of you has something to offer.
+242.992 -- 247.404: And you have a responsibility to yourself to discover what that is.
+248.336 -- 251.564: That&#39;s the opportunity an education can provide.
+252.336 -- 265.900: Maybe you could be a great writer, maybe even good enough to write a book or articles in a newspaper, but you might not know it until you write that English paper, that English class paper that&#39;s assigned to you.
+266.704 -- 278.668: Maybe you could be an innovator or an inventor, maybe even good enough to come up with the next iPhone or the new medicine or vaccine. But you might not know it until you do your project for your science class.
+279.824 -- 289.964: Maybe you could be a mayor or a senator or a Supreme Court justice. But you might not know that until you join student government or the debate team.
+291.568 -- 309.516: And no matter what you want to do with your life, I guarantee that you&#39;ll need an education to do it. You want to be a doctor or a teacher or a police officer, you want to be a nurse or an architect, a lawyer or a member of our military, you&#39;re going to need a good education for every single one of those careers.
+310.064 -- 314.348: You cannot drop out of school and just drop into a good job.
+315.184 -- 319.852: You&#39;ve got to train for it and work for it and learn for it.
+320.528 -- 323.628: And this isn&#39;t just important for your own life and your own future.
+324.688 -- 332.812: What you make of your education will decide nothing less than the future of this country. The future of America depends on you.
+
+num threads: 2
+decoding method: greedy_search
+Elapsed seconds: 9.406 s
+Real time factor (RTF): 9.406 / 334.234 = 0.028
+</pre></div>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>If you want to use a GUI version and want to export <code class="docutils literal notranslate"><span class="pre">SRT</span></code> format, please visit
+<a class="reference external" href="https://k2-fsa.github.io/sherpa/onnx/tauri/app/vad-asr-file.html">https://k2-fsa.github.io/sherpa/onnx/tauri/app/vad-asr-file.html</a> and search for
+<code class="docutils literal notranslate"><span class="pre">en-parakeet_tdt</span></code>. Please always use the latest version.</p>
+</div>
+</section>
+<section id="rtf-on-rk3588-with-cortex-a76-cpu">
+<h3>RTF on RK3588 with Cortex A76 CPU<a class="headerlink" href="#rtf-on-rk3588-with-cortex-a76-cpu" title="Permalink to this heading"></a></h3>
+<p>In the following, we test this model on RK3588 with Cortex A76 CPU.</p>
+<p>Information about the CPUs on the board is given below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Architecture</span><span class="p">:</span>                    <span class="n">aarch64</span>
+<span class="n">CPU</span> <span class="n">op</span><span class="o">-</span><span class="n">mode</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>                  <span class="mi">32</span><span class="o">-</span><span class="n">bit</span><span class="p">,</span> <span class="mi">64</span><span class="o">-</span><span class="n">bit</span>
+<span class="n">Byte</span> <span class="n">Order</span><span class="p">:</span>                      <span class="n">Little</span> <span class="n">Endian</span>
+<span class="n">CPU</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>                          <span class="mi">8</span>
+<span class="n">On</span><span class="o">-</span><span class="n">line</span> <span class="n">CPU</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="nb">list</span><span class="p">:</span>             <span class="mi">0</span><span class="o">-</span><span class="mi">7</span>
+<span class="n">Vendor</span> <span class="n">ID</span><span class="p">:</span>                       <span class="n">ARM</span>
+<span class="n">Model</span> <span class="n">name</span><span class="p">:</span>                      <span class="n">Cortex</span><span class="o">-</span><span class="n">A55</span>
+<span class="n">Model</span><span class="p">:</span>                           <span class="mi">0</span>
+<span class="n">Thread</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="n">per</span> <span class="n">core</span><span class="p">:</span>              <span class="mi">1</span>
+<span class="n">Core</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="n">per</span> <span class="n">socket</span><span class="p">:</span>              <span class="mi">4</span>
+<span class="n">Socket</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>                       <span class="mi">1</span>
+<span class="n">Stepping</span><span class="p">:</span>                        <span class="n">r2p0</span>
+<span class="n">CPU</span> <span class="nb">max</span> <span class="n">MHz</span><span class="p">:</span>                     <span class="mf">1800.0000</span>
+<span class="n">CPU</span> <span class="nb">min</span> <span class="n">MHz</span><span class="p">:</span>                     <span class="mf">408.0000</span>
+<span class="n">BogoMIPS</span><span class="p">:</span>                        <span class="mf">48.00</span>
+<span class="n">Flags</span><span class="p">:</span>                           <span class="n">fp</span> <span class="n">asimd</span> <span class="n">evtstrm</span> <span class="n">aes</span> <span class="n">pmull</span> <span class="n">sha1</span> <span class="n">sha2</span> <span class="n">crc32</span> <span class="n">atomics</span> <span class="n">fphp</span> <span class="n">asimdhp</span> <span class="n">cpuid</span> <span class="n">asimdrdm</span> <span class="n">lrcpc</span> <span class="n">dcpop</span> <span class="n">asimddp</span>
+<span class="n">Model</span> <span class="n">name</span><span class="p">:</span>                      <span class="n">Cortex</span><span class="o">-</span><span class="n">A76</span>
+<span class="n">Model</span><span class="p">:</span>                           <span class="mi">0</span>
+<span class="n">Thread</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="n">per</span> <span class="n">core</span><span class="p">:</span>              <span class="mi">1</span>
+<span class="n">Core</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="n">per</span> <span class="n">socket</span><span class="p">:</span>              <span class="mi">4</span>
+<span class="n">Socket</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>                       <span class="mi">1</span>
+<span class="n">Stepping</span><span class="p">:</span>                        <span class="n">r4p0</span>
+<span class="n">CPU</span> <span class="nb">max</span> <span class="n">MHz</span><span class="p">:</span>                     <span class="mf">2304.0000</span>
+<span class="n">CPU</span> <span class="nb">min</span> <span class="n">MHz</span><span class="p">:</span>                     <span class="mf">408.0000</span>
+<span class="n">BogoMIPS</span><span class="p">:</span>                        <span class="mf">48.00</span>
+<span class="n">Flags</span><span class="p">:</span>                           <span class="n">fp</span> <span class="n">asimd</span> <span class="n">evtstrm</span> <span class="n">aes</span> <span class="n">pmull</span> <span class="n">sha1</span> <span class="n">sha2</span> <span class="n">crc32</span> <span class="n">atomics</span> <span class="n">fphp</span> <span class="n">asimdhp</span> <span class="n">cpuid</span> <span class="n">asimdrdm</span> <span class="n">lrcpc</span> <span class="n">dcpop</span> <span class="n">asimddp</span>
+<span class="n">L1d</span> <span class="n">cache</span><span class="p">:</span>                       <span class="mi">384</span> <span class="n">KiB</span> <span class="p">(</span><span class="mi">8</span> <span class="n">instances</span><span class="p">)</span>
+<span class="n">L1i</span> <span class="n">cache</span><span class="p">:</span>                       <span class="mi">384</span> <span class="n">KiB</span> <span class="p">(</span><span class="mi">8</span> <span class="n">instances</span><span class="p">)</span>
+<span class="n">L2</span> <span class="n">cache</span><span class="p">:</span>                        <span class="mf">2.5</span> <span class="n">MiB</span> <span class="p">(</span><span class="mi">8</span> <span class="n">instances</span><span class="p">)</span>
+<span class="n">L3</span> <span class="n">cache</span><span class="p">:</span>                        <span class="mi">3</span> <span class="n">MiB</span> <span class="p">(</span><span class="mi">1</span> <span class="n">instance</span><span class="p">)</span>
+<span class="n">Vulnerability</span> <span class="n">Itlb</span> <span class="n">multihit</span><span class="p">:</span>     <span class="n">Not</span> <span class="n">affected</span>
+<span class="n">Vulnerability</span> <span class="n">L1tf</span><span class="p">:</span>              <span class="n">Not</span> <span class="n">affected</span>
+<span class="n">Vulnerability</span> <span class="n">Mds</span><span class="p">:</span>               <span class="n">Not</span> <span class="n">affected</span>
+<span class="n">Vulnerability</span> <span class="n">Meltdown</span><span class="p">:</span>          <span class="n">Not</span> <span class="n">affected</span>
+<span class="n">Vulnerability</span> <span class="n">Mmio</span> <span class="n">stale</span> <span class="n">data</span><span class="p">:</span>   <span class="n">Not</span> <span class="n">affected</span>
+<span class="n">Vulnerability</span> <span class="n">Retbleed</span><span class="p">:</span>          <span class="n">Not</span> <span class="n">affected</span>
+<span class="n">Vulnerability</span> <span class="n">Spec</span> <span class="n">store</span> <span class="n">bypass</span><span class="p">:</span> <span class="n">Mitigation</span><span class="p">;</span> <span class="n">Speculative</span> <span class="n">Store</span> <span class="n">Bypass</span> <span class="n">disabled</span> <span class="n">via</span> <span class="n">prctl</span>
+<span class="n">Vulnerability</span> <span class="n">Spectre</span> <span class="n">v1</span><span class="p">:</span>        <span class="n">Mitigation</span><span class="p">;</span> <span class="n">__user</span> <span class="n">pointer</span> <span class="n">sanitization</span>
+<span class="n">Vulnerability</span> <span class="n">Spectre</span> <span class="n">v2</span><span class="p">:</span>        <span class="n">Vulnerable</span><span class="p">:</span> <span class="n">Unprivileged</span> <span class="n">eBPF</span> <span class="n">enabled</span>
+<span class="n">Vulnerability</span> <span class="n">Srbds</span><span class="p">:</span>             <span class="n">Not</span> <span class="n">affected</span>
+<span class="n">Vulnerability</span> <span class="n">Tsx</span> <span class="k">async</span> <span class="n">abort</span><span class="p">:</span>   <span class="n">Not</span> <span class="n">affected</span>
+</pre></div>
+</div>
+<p>You can see that it has 8 CPUs: 4 Cortex A55 + 4 Cortex A76.</p>
+<p>We use <code class="docutils literal notranslate"><span class="pre">taskset</span></code> below to test the RTF on Cortex A76.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>taskset<span class="w"> </span>0x80<span class="w"> </span>sherpa-onnx-offline<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--num-threads<span class="o">=</span><span class="m">1</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--encoder<span class="o">=</span>./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/encoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--decoder<span class="o">=</span>./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/decoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--joiner<span class="o">=</span>./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/joiner.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span>./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--model-type<span class="o">=</span>nemo_transducer<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/test_wavs/0.wav
+</pre></div>
+</div>
+<p>Its output is given below:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/project/sherpa-onnx/csrc/parse-options.cc:Read:372 sherpa-onnx-offline --num-threads=1 --encoder=./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/encoder.int8.onnx --decoder=./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/decoder.int8.onnx --joiner=./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/joiner.int8.onnx --tokens=./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/tokens.txt --model-type=nemo_transducer ./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/test_wavs/0.wav 
+
+OfflineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80, low_freq=20, high_freq=-400, dither=0, normalize_samples=True, snip_edges=False), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename=&quot;./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/encoder.int8.onnx&quot;, decoder_filename=&quot;./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/decoder.int8.onnx&quot;, joiner_filename=&quot;./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/joiner.int8.onnx&quot;), paraformer=OfflineParaformerModelConfig(model=&quot;&quot;), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=&quot;&quot;), whisper=OfflineWhisperModelConfig(encoder=&quot;&quot;, decoder=&quot;&quot;, language=&quot;&quot;, task=&quot;transcribe&quot;, tail_paddings=-1), fire_red_asr=OfflineFireRedAsrModelConfig(encoder=&quot;&quot;, decoder=&quot;&quot;), tdnn=OfflineTdnnModelConfig(model=&quot;&quot;), zipformer_ctc=OfflineZipformerCtcModelConfig(model=&quot;&quot;), wenet_ctc=OfflineWenetCtcModelConfig(model=&quot;&quot;), sense_voice=OfflineSenseVoiceModelConfig(model=&quot;&quot;, language=&quot;auto&quot;, use_itn=False), moonshine=OfflineMoonshineModelConfig(preprocessor=&quot;&quot;, encoder=&quot;&quot;, uncached_decoder=&quot;&quot;, cached_decoder=&quot;&quot;), dolphin=OfflineDolphinModelConfig(model=&quot;&quot;), telespeech_ctc=&quot;&quot;, tokens=&quot;./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/tokens.txt&quot;, num_threads=1, debug=False, provider=&quot;cpu&quot;, model_type=&quot;nemo_transducer&quot;, modeling_unit=&quot;cjkchar&quot;, bpe_vocab=&quot;&quot;), lm_config=OfflineLMConfig(model=&quot;&quot;, scale=0.5), ctc_fst_decoder_config=OfflineCtcFstDecoderConfig(graph=&quot;&quot;, max_active=3000), decoding_method=&quot;greedy_search&quot;, max_active_paths=4, hotwords_file=&quot;&quot;, hotwords_score=1.5, blank_penalty=0, rule_fsts=&quot;&quot;, rule_fars=&quot;&quot;, hr=HomophoneReplacerConfig(dict_dir=&quot;&quot;, lexicon=&quot;&quot;, rule_fsts=&quot;&quot;))
+Creating recognizer ...
+Started
+Done!
+
+./sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8/test_wavs/0.wav
+{&quot;lang&quot;: &quot;&quot;, &quot;emotion&quot;: &quot;&quot;, &quot;event&quot;: &quot;&quot;, &quot;text&quot;: &quot; Well, I don&#39;t wish to see it any more, observed Phebe, turning away her eyes. It is certainly very like the old portrait.&quot;, &quot;timestamps&quot;: [0.32, 0.64, 0.72, 0.80, 0.88, 0.96, 1.04, 1.12, 1.28, 1.44, 1.60, 1.76, 1.92, 2.00, 2.24, 2.32, 2.40, 2.48, 2.64, 2.72, 2.88, 3.12, 3.36, 3.44, 3.52, 3.68, 3.76, 3.92, 4.16, 4.24, 4.32, 4.64, 4.96, 5.12, 5.36, 5.44, 5.52, 5.60, 5.76, 6.00, 6.24, 6.40, 6.48, 6.64, 6.72, 6.80, 6.88, 7.04], &quot;tokens&quot;:[&quot; Well&quot;, &quot;,&quot;, &quot; I&quot;, &quot; don&quot;, &quot;&#39;&quot;, &quot;t&quot;, &quot; w&quot;, &quot;ish&quot;, &quot; to&quot;, &quot; see&quot;, &quot; it&quot;, &quot; any&quot;, &quot; more&quot;, &quot;,&quot;, &quot; ob&quot;, &quot;s&quot;, &quot;er&quot;, &quot;ved&quot;, &quot; P&quot;, &quot;he&quot;, &quot;be&quot;, &quot;,&quot;, &quot; t&quot;, &quot;ur&quot;, &quot;ning&quot;, &quot; a&quot;, &quot;way&quot;, &quot; her&quot;, &quot; e&quot;, &quot;y&quot;, &quot;es&quot;, &quot;.&quot;, &quot; It&quot;, &quot; is&quot;, &quot; c&quot;, &quot;ert&quot;, &quot;ain&quot;, &quot;ly&quot;, &quot; very&quot;, &quot; like&quot;, &quot; the&quot;, &quot; o&quot;, &quot;ld&quot;, &quot; p&quot;, &quot;ort&quot;, &quot;ra&quot;, &quot;it&quot;, &quot;.&quot;], &quot;words&quot;: []}
+----
+num threads: 1
+decoding method: greedy_search
+Elapsed seconds: 1.639 s
+Real time factor (RTF): 1.639 / 7.435 = 0.220
+</pre></div>
+</div>
+<p>To test the RTF with different <code class="docutils literal notranslate"><span class="pre">--num-threads</span></code>, we use:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">taskset</span> <span class="mh">0xc0</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">offline</span> \
+  <span class="o">--</span><span class="n">num</span><span class="o">-</span><span class="n">threads</span><span class="o">=</span><span class="mi">2</span> \
+  <span class="o">--</span><span class="n">encoder</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">nemo</span><span class="o">-</span><span class="n">parakeet</span><span class="o">-</span><span class="n">tdt</span><span class="o">-</span><span class="mf">0.6</span><span class="n">b</span><span class="o">-</span><span class="n">v2</span><span class="o">-</span><span class="n">int8</span><span class="o">/</span><span class="n">encoder</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span> \
+  <span class="o">--</span><span class="n">decoder</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">nemo</span><span class="o">-</span><span class="n">parakeet</span><span class="o">-</span><span class="n">tdt</span><span class="o">-</span><span class="mf">0.6</span><span class="n">b</span><span class="o">-</span><span class="n">v2</span><span class="o">-</span><span class="n">int8</span><span class="o">/</span><span class="n">decoder</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span> \
+  <span class="o">--</span><span class="n">joiner</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">nemo</span><span class="o">-</span><span class="n">parakeet</span><span class="o">-</span><span class="n">tdt</span><span class="o">-</span><span class="mf">0.6</span><span class="n">b</span><span class="o">-</span><span class="n">v2</span><span class="o">-</span><span class="n">int8</span><span class="o">/</span><span class="n">joiner</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span> \
+  <span class="o">--</span><span class="n">tokens</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">nemo</span><span class="o">-</span><span class="n">parakeet</span><span class="o">-</span><span class="n">tdt</span><span class="o">-</span><span class="mf">0.6</span><span class="n">b</span><span class="o">-</span><span class="n">v2</span><span class="o">-</span><span class="n">int8</span><span class="o">/</span><span class="n">tokens</span><span class="o">.</span><span class="n">txt</span> \
+  <span class="o">--</span><span class="n">model</span><span class="o">-</span><span class="nb">type</span><span class="o">=</span><span class="n">nemo_transducer</span> \
+  <span class="o">./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">nemo</span><span class="o">-</span><span class="n">parakeet</span><span class="o">-</span><span class="n">tdt</span><span class="o">-</span><span class="mf">0.6</span><span class="n">b</span><span class="o">-</span><span class="n">v2</span><span class="o">-</span><span class="n">int8</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">0.</span><span class="n">wav</span>
+
+<span class="n">taskset</span> <span class="mh">0xe0</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">offline</span> \
+  <span class="o">--</span><span class="n">num</span><span class="o">-</span><span class="n">threads</span><span class="o">=</span><span class="mi">3</span> \
+  <span class="o">--</span><span class="n">encoder</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">nemo</span><span class="o">-</span><span class="n">parakeet</span><span class="o">-</span><span class="n">tdt</span><span class="o">-</span><span class="mf">0.6</span><span class="n">b</span><span class="o">-</span><span class="n">v2</span><span class="o">-</span><span class="n">int8</span><span class="o">/</span><span class="n">encoder</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span> \
+  <span class="o">--</span><span class="n">decoder</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">nemo</span><span class="o">-</span><span class="n">parakeet</span><span class="o">-</span><span class="n">tdt</span><span class="o">-</span><span class="mf">0.6</span><span class="n">b</span><span class="o">-</span><span class="n">v2</span><span class="o">-</span><span class="n">int8</span><span class="o">/</span><span class="n">decoder</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span> \
+  <span class="o">--</span><span class="n">joiner</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">nemo</span><span class="o">-</span><span class="n">parakeet</span><span class="o">-</span><span class="n">tdt</span><span class="o">-</span><span class="mf">0.6</span><span class="n">b</span><span class="o">-</span><span class="n">v2</span><span class="o">-</span><span class="n">int8</span><span class="o">/</span><span class="n">joiner</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span> \
+  <span class="o">--</span><span class="n">tokens</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">nemo</span><span class="o">-</span><span class="n">parakeet</span><span class="o">-</span><span class="n">tdt</span><span class="o">-</span><span class="mf">0.6</span><span class="n">b</span><span class="o">-</span><span class="n">v2</span><span class="o">-</span><span class="n">int8</span><span class="o">/</span><span class="n">tokens</span><span class="o">.</span><span class="n">txt</span> \
+  <span class="o">--</span><span class="n">model</span><span class="o">-</span><span class="nb">type</span><span class="o">=</span><span class="n">nemo_transducer</span> \
+  <span class="o">./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">nemo</span><span class="o">-</span><span class="n">parakeet</span><span class="o">-</span><span class="n">tdt</span><span class="o">-</span><span class="mf">0.6</span><span class="n">b</span><span class="o">-</span><span class="n">v2</span><span class="o">-</span><span class="n">int8</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">0.</span><span class="n">wav</span>
+
+<span class="n">taskset</span> <span class="mh">0xf0</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">offline</span> \
+  <span class="o">--</span><span class="n">num</span><span class="o">-</span><span class="n">threads</span><span class="o">=</span><span class="mi">4</span> \
+  <span class="o">--</span><span class="n">encoder</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">nemo</span><span class="o">-</span><span class="n">parakeet</span><span class="o">-</span><span class="n">tdt</span><span class="o">-</span><span class="mf">0.6</span><span class="n">b</span><span class="o">-</span><span class="n">v2</span><span class="o">-</span><span class="n">int8</span><span class="o">/</span><span class="n">encoder</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span> \
+  <span class="o">--</span><span class="n">decoder</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">nemo</span><span class="o">-</span><span class="n">parakeet</span><span class="o">-</span><span class="n">tdt</span><span class="o">-</span><span class="mf">0.6</span><span class="n">b</span><span class="o">-</span><span class="n">v2</span><span class="o">-</span><span class="n">int8</span><span class="o">/</span><span class="n">decoder</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span> \
+  <span class="o">--</span><span class="n">joiner</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">nemo</span><span class="o">-</span><span class="n">parakeet</span><span class="o">-</span><span class="n">tdt</span><span class="o">-</span><span class="mf">0.6</span><span class="n">b</span><span class="o">-</span><span class="n">v2</span><span class="o">-</span><span class="n">int8</span><span class="o">/</span><span class="n">joiner</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span> \
+  <span class="o">--</span><span class="n">tokens</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">nemo</span><span class="o">-</span><span class="n">parakeet</span><span class="o">-</span><span class="n">tdt</span><span class="o">-</span><span class="mf">0.6</span><span class="n">b</span><span class="o">-</span><span class="n">v2</span><span class="o">-</span><span class="n">int8</span><span class="o">/</span><span class="n">tokens</span><span class="o">.</span><span class="n">txt</span> \
+  <span class="o">--</span><span class="n">model</span><span class="o">-</span><span class="nb">type</span><span class="o">=</span><span class="n">nemo_transducer</span> \
+  <span class="o">./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">nemo</span><span class="o">-</span><span class="n">parakeet</span><span class="o">-</span><span class="n">tdt</span><span class="o">-</span><span class="mf">0.6</span><span class="n">b</span><span class="o">-</span><span class="n">v2</span><span class="o">-</span><span class="n">int8</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="mf">0.</span><span class="n">wav</span>
+</pre></div>
+</div>
+<p>The results are summarized below:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p>Number of threads</p></td>
+<td><p>1</p></td>
+<td><p>2</p></td>
+<td><p>3</p></td>
+<td><p>4</p></td>
+</tr>
+<tr class="row-even"><td><p>RTF on Cortex A76 CPU</p></td>
+<td><p>0.220</p></td>
+<td><p>0.142</p></td>
+<td><p>0.118</p></td>
+<td><p>0.088</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+<section id="sherpa-onnx-nemo-transducer-giga-am-v2-russian-2025-04-19-russian">
+<h2>sherpa-onnx-nemo-transducer-giga-am-v2-russian-2025-04-19 (Russian, 俄语)<a class="headerlink" href="#sherpa-onnx-nemo-transducer-giga-am-v2-russian-2025-04-19-russian" title="Permalink to this heading"></a></h2>
+<p>This model is converted from</p>
+<blockquote>
+<div><p><a class="reference external" href="https://github.com/salute-developers/GigaAM">https://github.com/salute-developers/GigaAM</a></p>
+</div></blockquote>
+<p>You can find the conversion script at</p>
+<blockquote>
+<div><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/blob/master/scripts/nemo/GigaAM/run-rnnt-v2.sh">https://github.com/k2-fsa/sherpa-onnx/blob/master/scripts/nemo/GigaAM/run-rnnt-v2.sh</a></p>
+</div></blockquote>
+<p>In the following, we describe how to download it and use it with <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>.</p>
+<section id="id19">
+<h3>Android APK for real-time speech recognition<a class="headerlink" href="#id19" title="Permalink to this heading"></a></h3>
+<p>Please visit <a class="reference external" href="https://k2-fsa.github.io/sherpa/onnx/android/apk-simulate-streaming-asr.html">https://k2-fsa.github.io/sherpa/onnx/android/apk-simulate-streaming-asr.html</a>
+and search for <code class="docutils literal notranslate"><span class="pre">nemo_transducer_giga_am_v2_2025_04_19</span></code>.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>Please always use the latest version. For instance, you can use
+<a class="reference external" href="https://huggingface.co/csukuangfj2/sherpa-onnx-apk/resolve/main/vad-asr-simulated-streaming/1.12.40/sherpa-onnx-1.12.40-arm64-v8a-simulated_streaming_asr-ru-nemo_transducer_giga_am_v2_2025_04_19.apk">sherpa-onnx-1.12.40-arm64-v8a-simulated_streaming_asr-ru-nemo_transducer_giga_am_v2_2025_04_19.apk</a>
+for <code class="docutils literal notranslate"><span class="pre">arm64-v8a</span></code>.</p>
+</div>
+</section>
+<section id="id21">
+<h3>Download the model<a class="headerlink" href="#id21" title="Permalink to this heading"></a></h3>
+<p>Please use the following commands to download it.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-nemo-transducer-giga-am-v2-russian-2025-04-19.tar.bz2
+tar<span class="w"> </span>xvf<span class="w"> </span>sherpa-onnx-nemo-transducer-giga-am-v2-russian-2025-04-19.tar.bz2
+rm<span class="w"> </span>sherpa-onnx-nemo-transducer-giga-am-v2-russian-2025-04-19.tar.bz2
+</pre></div>
+</div>
+<p>You should see something like below after downloading:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ls</span> <span class="o">-</span><span class="n">lh</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">nemo</span><span class="o">-</span><span class="n">transducer</span><span class="o">-</span><span class="n">giga</span><span class="o">-</span><span class="n">am</span><span class="o">-</span><span class="n">v2</span><span class="o">-</span><span class="n">russian</span><span class="o">-</span><span class="mi">2025</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">19</span>
+
+<span class="n">total</span> <span class="mi">231</span><span class="n">M</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="mi">501</span> <span class="n">staff</span> <span class="mf">3.2</span><span class="n">M</span> <span class="n">Apr</span> <span class="mi">20</span> <span class="mi">01</span><span class="p">:</span><span class="mi">58</span> <span class="n">decoder</span><span class="o">.</span><span class="n">onnx</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="mi">501</span> <span class="n">staff</span> <span class="mi">226</span><span class="n">M</span> <span class="n">Apr</span> <span class="mi">20</span> <span class="mi">01</span><span class="p">:</span><span class="mi">59</span> <span class="n">encoder</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="mi">501</span> <span class="n">staff</span> <span class="mf">1.4</span><span class="n">M</span> <span class="n">Apr</span> <span class="mi">20</span> <span class="mi">01</span><span class="p">:</span><span class="mi">58</span> <span class="n">joiner</span><span class="o">.</span><span class="n">onnx</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="mi">501</span> <span class="n">staff</span> <span class="mi">219</span><span class="n">K</span> <span class="n">Apr</span> <span class="mi">20</span> <span class="mi">01</span><span class="p">:</span><span class="mi">59</span> <span class="n">LICENSE</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="mi">501</span> <span class="n">staff</span>  <span class="mi">302</span> <span class="n">Apr</span> <span class="mi">20</span> <span class="mi">01</span><span class="p">:</span><span class="mi">59</span> <span class="n">README</span><span class="o">.</span><span class="n">md</span>
+<span class="o">-</span><span class="n">rwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span> <span class="mi">1</span> <span class="mi">501</span> <span class="n">staff</span>  <span class="mi">868</span> <span class="n">Apr</span> <span class="mi">20</span> <span class="mi">01</span><span class="p">:</span><span class="mi">51</span> <span class="n">run</span><span class="o">-</span><span class="n">rnnt</span><span class="o">-</span><span class="n">v2</span><span class="o">.</span><span class="n">sh</span>
+<span class="o">-</span><span class="n">rwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span> <span class="mi">1</span> <span class="mi">501</span> <span class="n">staff</span> <span class="mf">8.9</span><span class="n">K</span> <span class="n">Apr</span> <span class="mi">20</span> <span class="mi">01</span><span class="p">:</span><span class="mi">59</span> <span class="n">test</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">rnnt</span><span class="o">.</span><span class="n">py</span>
+<span class="n">drwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span> <span class="mi">2</span> <span class="mi">501</span> <span class="n">staff</span> <span class="mf">4.0</span><span class="n">K</span> <span class="n">Apr</span> <span class="mi">21</span> <span class="mi">09</span><span class="p">:</span><span class="mi">35</span> <span class="n">test_wavs</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="mi">501</span> <span class="n">staff</span>  <span class="mi">196</span> <span class="n">Apr</span> <span class="mi">20</span> <span class="mi">01</span><span class="p">:</span><span class="mi">58</span> <span class="n">tokens</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
+</div>
+</section>
+<section id="id22">
+<h3>Decode wave files<a class="headerlink" href="#id22" title="Permalink to this heading"></a></h3>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>It supports decoding only wave files of a single channel with 16-bit
+encoded samples, while the sampling rate does not need to be 16 kHz.</p>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+./build/bin/sherpa-onnx-offline<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--encoder<span class="o">=</span>./sherpa-onnx-nemo-transducer-giga-am-v2-russian-2025-04-19/encoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--decoder<span class="o">=</span>./sherpa-onnx-nemo-transducer-giga-am-v2-russian-2025-04-19/decoder.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--joiner<span class="o">=</span>./sherpa-onnx-nemo-transducer-giga-am-v2-russian-2025-04-19/joiner.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span>./sherpa-onnx-nemo-transducer-giga-am-v2-russian-2025-04-19/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--model-type<span class="o">=</span>nemo_transducer<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-nemo-transducer-giga-am-v2-russian-2025-04-19/test_wavs/example.wav
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Please use <code class="docutils literal notranslate"><span class="pre">./build/bin/Release/sherpa-onnx-offline.exe</span></code> for Windows.</p>
+</div>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>If you use Windows and get encoding issues, please run:</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>CHCP<span class="w"> </span><span class="m">65001</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>in your commandline.</p>
+</div>
+<p>You should see the following output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/project/sherpa-onnx/csrc/parse-options.cc:Read:375 sherpa-onnx-offline --encoder=./sherpa-onnx-nemo-transducer-giga-am-v2-russian-2025-04-19/encoder.int8.onnx --decoder=./sherpa-onnx-nemo-transducer-giga-am-v2-russian-2025-04-19/decoder.onnx --joiner=./sherpa-onnx-nemo-transducer-giga-am-v2-russian-2025-04-19/joiner.onnx --tokens=./sherpa-onnx-nemo-transducer-giga-am-v2-russian-2025-04-19/tokens.txt --model-type=nemo_transducer ./sherpa-onnx-nemo-transducer-giga-am-v2-russian-2025-04-19/test_wavs/example.wav
+
+OfflineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80, low_freq=20, high_freq=-400, dither=0, normalize_samples=True, snip_edges=False), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename=&quot;./sherpa-onnx-nemo-transducer-giga-am-v2-russian-2025-04-19/encoder.int8.onnx&quot;, decoder_filename=&quot;./sherpa-onnx-nemo-transducer-giga-am-v2-russian-2025-04-19/decoder.onnx&quot;, joiner_filename=&quot;./sherpa-onnx-nemo-transducer-giga-am-v2-russian-2025-04-19/joiner.onnx&quot;), paraformer=OfflineParaformerModelConfig(model=&quot;&quot;), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=&quot;&quot;), whisper=OfflineWhisperModelConfig(encoder=&quot;&quot;, decoder=&quot;&quot;, language=&quot;&quot;, task=&quot;transcribe&quot;, tail_paddings=-1), fire_red_asr=OfflineFireRedAsrModelConfig(encoder=&quot;&quot;, decoder=&quot;&quot;), tdnn=OfflineTdnnModelConfig(model=&quot;&quot;), zipformer_ctc=OfflineZipformerCtcModelConfig(model=&quot;&quot;), wenet_ctc=OfflineWenetCtcModelConfig(model=&quot;&quot;), sense_voice=OfflineSenseVoiceModelConfig(model=&quot;&quot;, language=&quot;auto&quot;, use_itn=False), moonshine=OfflineMoonshineModelConfig(preprocessor=&quot;&quot;, encoder=&quot;&quot;, uncached_decoder=&quot;&quot;, cached_decoder=&quot;&quot;), dolphin=OfflineDolphinModelConfig(model=&quot;&quot;), telespeech_ctc=&quot;&quot;, tokens=&quot;./sherpa-onnx-nemo-transducer-giga-am-v2-russian-2025-04-19/tokens.txt&quot;, num_threads=2, debug=False, provider=&quot;cpu&quot;, model_type=&quot;nemo_transducer&quot;, modeling_unit=&quot;cjkchar&quot;, bpe_vocab=&quot;&quot;), lm_config=OfflineLMConfig(model=&quot;&quot;, scale=0.5), ctc_fst_decoder_config=OfflineCtcFstDecoderConfig(graph=&quot;&quot;, max_active=3000), decoding_method=&quot;greedy_search&quot;, max_active_paths=4, hotwords_file=&quot;&quot;, hotwords_score=1.5, blank_penalty=0, rule_fsts=&quot;&quot;, rule_fars=&quot;&quot;)
+Creating recognizer ...
+Started
+Done!
+
+./sherpa-onnx-nemo-transducer-giga-am-v2-russian-2025-04-19/test_wavs/example.wav
+{&quot;lang&quot;: &quot;&quot;, &quot;emotion&quot;: &quot;&quot;, &quot;event&quot;: &quot;&quot;, &quot;text&quot;: &quot;ничьих не требуя похвал счастлив уж я надеждой сладкой что дева с трепетом любви посмотрит может быть украдкой на песни грешные мои у лукоморья дуб зеленый&quot;, &quot;timestamps&quot;: [0.04, 0.12, 0.16, 0.24, 0.32, 0.40, 0.44, 0.52, 0.56, 0.60, 0.64, 0.72, 0.76, 0.80, 0.88, 0.96, 1.04, 1.12, 1.16, 1.24, 1.32, 1.36, 1.44, 1.56, 1.76, 1.84, 1.88, 1.96, 2.00, 2.04, 2.08, 2.16, 2.24, 2.28, 2.36, 2.40, 2.48, 2.60, 2.68, 2.72, 2.76, 2.84, 2.92, 2.96, 3.04, 3.08, 3.16, 3.20, 3.24, 3.32, 3.36, 3.44, 3.52, 3.56, 3.64, 3.68, 3.72, 3.76, 3.80, 3.88, 3.92, 4.00, 4.08, 4.16, 4.20, 4.24, 4.28, 4.32, 4.36, 4.44, 4.52, 4.56, 4.64, 4.68, 4.76, 4.80, 4.88, 4.92, 5.00, 5.08, 5.16, 5.36, 5.44, 5.52, 5.60, 5.68, 5.72, 5.76, 5.84, 5.92, 6.00, 6.04, 6.12, 6.16, 6.20, 6.24, 6.28, 6.32, 6.40, 6.44, 6.48, 6.52, 6.56, 6.64, 6.72, 6.76, 6.84, 6.92, 7.00, 7.04, 7.12, 7.16, 7.20, 7.24, 7.32, 7.36, 7.40, 7.48, 7.60, 7.64, 7.72, 7.76, 7.84, 7.88, 8.00, 8.08, 8.16, 8.24, 8.28, 8.32, 8.44, 8.76, 9.24, 9.32, 9.40, 9.44, 9.52, 9.60, 9.68, 9.76, 9.84, 9.92, 10.00, 10.08, 10.12, 10.24, 10.32, 10.44, 10.52, 10.56, 10.60, 10.68, 10.72, 10.84, 10.92], &quot;tokens&quot;:[&quot;н&quot;, &quot;и&quot;, &quot;ч&quot;, &quot;ь&quot;, &quot;и&quot;, &quot;х&quot;, &quot; &quot;, &quot;н&quot;, &quot;е&quot;, &quot; &quot;, &quot;т&quot;, &quot;р&quot;, &quot;е&quot;, &quot;б&quot;, &quot;у&quot;, &quot;я&quot;, &quot; &quot;, &quot;п&quot;, &quot;о&quot;, &quot;х&quot;, &quot;в&quot;, &quot;а&quot;, &quot;л&quot;, &quot; &quot;, &quot;с&quot;, &quot;ч&quot;, &quot;а&quot;, &quot;с&quot;, &quot;т&quot;, &quot;л&quot;, &quot;и&quot;, &quot;в&quot;, &quot; &quot;, &quot;у&quot;, &quot;ж&quot;, &quot; &quot;, &quot;я&quot;, &quot; &quot;, &quot;н&quot;, &quot;а&quot;, &quot;д&quot;, &quot;е&quot;, &quot;ж&quot;, &quot;д&quot;, &quot;о&quot;, &quot;й&quot;, &quot; &quot;, &quot;с&quot;, &quot;л&quot;, &quot;а&quot;, &quot;д&quot;, &quot;к&quot;, &quot;о&quot;, &quot;й&quot;, &quot; &quot;, &quot;ч&quot;, &quot;т&quot;, &quot;о&quot;, &quot; &quot;, &quot;д&quot;, &quot;е&quot;, &quot;в&quot;, &quot;а&quot;, &quot; &quot;, &quot;с&quot;, &quot; &quot;, &quot;т&quot;, &quot;р&quot;, &quot;е&quot;, &quot;п&quot;, &quot;е&quot;, &quot;т&quot;, &quot;о&quot;, &quot;м&quot;, &quot; &quot;, &quot;л&quot;, &quot;ю&quot;, &quot;б&quot;, &quot;в&quot;, &quot;и&quot;, &quot; &quot;, &quot;п&quot;, &quot;о&quot;, &quot;с&quot;, &quot;м&quot;, &quot;о&quot;, &quot;т&quot;, &quot;р&quot;, &quot;и&quot;, &quot;т&quot;, &quot; &quot;, &quot;м&quot;, &quot;о&quot;, &quot;ж&quot;, &quot;е&quot;, &quot;т&quot;, &quot; &quot;, &quot;б&quot;, &quot;ы&quot;, &quot;т&quot;, &quot;ь&quot;, &quot; &quot;, &quot;у&quot;, &quot;к&quot;, &quot;р&quot;, &quot;а&quot;, &quot;д&quot;, &quot;к&quot;, &quot;о&quot;, &quot;й&quot;, &quot; &quot;, &quot;н&quot;, &quot;а&quot;, &quot; &quot;, &quot;п&quot;, &quot;е&quot;, &quot;с&quot;, &quot;н&quot;, &quot;и&quot;, &quot; &quot;, &quot;г&quot;, &quot;р&quot;, &quot;е&quot;, &quot;ш&quot;, &quot;н&quot;, &quot;ы&quot;, &quot;е&quot;, &quot; &quot;, &quot;м&quot;, &quot;о&quot;, &quot;и&quot;, &quot; &quot;, &quot;у&quot;, &quot; &quot;, &quot;л&quot;, &quot;у&quot;, &quot;к&quot;, &quot;о&quot;, &quot;м&quot;, &quot;о&quot;, &quot;р&quot;, &quot;ь&quot;, &quot;я&quot;, &quot; &quot;, &quot;д&quot;, &quot;у&quot;, &quot;б&quot;, &quot; &quot;, &quot;з&quot;, &quot;е&quot;, &quot;л&quot;, &quot;е&quot;, &quot;н&quot;, &quot;ы&quot;, &quot;й&quot;], &quot;words&quot;: []}
+----
+num threads: 2
+decoding method: greedy_search
+Elapsed seconds: 4.317 s
+Real time factor (RTF): 4.317 / 11.290 = 0.382
+</pre></div>
+</div>
+</section>
+<section id="id23">
+<h3>Real-time/Streaming Speech recognition from a microphone with VAD<a class="headerlink" href="#id23" title="Permalink to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">wget</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">k2</span><span class="o">-</span><span class="n">fsa</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="n">download</span><span class="o">/</span><span class="n">asr</span><span class="o">-</span><span class="n">models</span><span class="o">/</span><span class="n">silero_vad</span><span class="o">.</span><span class="n">onnx</span>
+
+<span class="o">./</span><span class="n">build</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">vad</span><span class="o">-</span><span class="n">microphone</span><span class="o">-</span><span class="n">simulated</span><span class="o">-</span><span class="n">streaming</span><span class="o">-</span><span class="n">asr</span> \
+  <span class="o">--</span><span class="n">silero</span><span class="o">-</span><span class="n">vad</span><span class="o">-</span><span class="n">model</span><span class="o">=./</span><span class="n">silero_vad</span><span class="o">.</span><span class="n">onnx</span> \
+  <span class="o">--</span><span class="n">encoder</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">nemo</span><span class="o">-</span><span class="n">transducer</span><span class="o">-</span><span class="n">giga</span><span class="o">-</span><span class="n">am</span><span class="o">-</span><span class="n">v2</span><span class="o">-</span><span class="n">russian</span><span class="o">-</span><span class="mi">2025</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">19</span><span class="o">/</span><span class="n">encoder</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span> \
+  <span class="o">--</span><span class="n">decoder</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">nemo</span><span class="o">-</span><span class="n">transducer</span><span class="o">-</span><span class="n">giga</span><span class="o">-</span><span class="n">am</span><span class="o">-</span><span class="n">v2</span><span class="o">-</span><span class="n">russian</span><span class="o">-</span><span class="mi">2025</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">19</span><span class="o">/</span><span class="n">decoder</span><span class="o">.</span><span class="n">onnx</span> \
+  <span class="o">--</span><span class="n">joiner</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">nemo</span><span class="o">-</span><span class="n">transducer</span><span class="o">-</span><span class="n">giga</span><span class="o">-</span><span class="n">am</span><span class="o">-</span><span class="n">v2</span><span class="o">-</span><span class="n">russian</span><span class="o">-</span><span class="mi">2025</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">19</span><span class="o">/</span><span class="n">joiner</span><span class="o">.</span><span class="n">onnx</span> \
+  <span class="o">--</span><span class="n">tokens</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">nemo</span><span class="o">-</span><span class="n">transducer</span><span class="o">-</span><span class="n">giga</span><span class="o">-</span><span class="n">am</span><span class="o">-</span><span class="n">v2</span><span class="o">-</span><span class="n">russian</span><span class="o">-</span><span class="mi">2025</span><span class="o">-</span><span class="mi">04</span><span class="o">-</span><span class="mi">19</span><span class="o">/</span><span class="n">tokens</span><span class="o">.</span><span class="n">txt</span> \
+  <span class="o">--</span><span class="n">model</span><span class="o">-</span><span class="nb">type</span><span class="o">=</span><span class="n">nemo_transducer</span>
+</pre></div>
+</div>
+</section>
+<section id="id24">
+<h3>Speech recognition from a microphone<a class="headerlink" href="#id24" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+./build/bin/sherpa-onnx-microphone-offline<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--encoder<span class="o">=</span>./sherpa-onnx-nemo-transducer-giga-am-v2-russian-2025-04-19/encoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--decoder<span class="o">=</span>./sherpa-onnx-nemo-transducer-giga-am-v2-russian-2025-04-19/decoder.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--joiner<span class="o">=</span>./sherpa-onnx-nemo-transducer-giga-am-v2-russian-2025-04-19/joiner.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span>./sherpa-onnx-nemo-transducer-giga-am-v2-russian-2025-04-19/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--model-type<span class="o">=</span>nemo_transducer
+</pre></div>
+</div>
+</section>
+<section id="id25">
+<h3>Speech recognition from a microphone with VAD<a class="headerlink" href="#id25" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/silero_vad.onnx
+
+./build/bin/sherpa-onnx-vad-microphone-offline-asr<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--silero-vad-model<span class="o">=</span>./silero_vad.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--encoder<span class="o">=</span>./sherpa-onnx-nemo-transducer-giga-am-v2-russian-2025-04-19/encoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--decoder<span class="o">=</span>./sherpa-onnx-nemo-transducer-giga-am-v2-russian-2025-04-19/decoder.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--joiner<span class="o">=</span>./sherpa-onnx-nemo-transducer-giga-am-v2-russian-2025-04-19/joiner.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span>./sherpa-onnx-nemo-transducer-giga-am-v2-russian-2025-04-19/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--model-type<span class="o">=</span>nemo_transducer
+</pre></div>
+</div>
+</section>
+</section>
+<section id="sherpa-onnx-nemo-transducer-giga-am-russian-2024-10-24-russian">
+<h2>sherpa-onnx-nemo-transducer-giga-am-russian-2024-10-24 (Russian, 俄语)<a class="headerlink" href="#sherpa-onnx-nemo-transducer-giga-am-russian-2024-10-24-russian" title="Permalink to this heading"></a></h2>
+<p>This model is converted from</p>
+<blockquote>
+<div><p><a class="reference external" href="https://github.com/salute-developers/GigaAM">https://github.com/salute-developers/GigaAM</a></p>
+</div></blockquote>
+<p>You can find the conversion script at</p>
+<blockquote>
+<div><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/blob/master/scripts/nemo/GigaAM/run-rnnt.sh">https://github.com/k2-fsa/sherpa-onnx/blob/master/scripts/nemo/GigaAM/run-rnnt.sh</a></p>
+</div></blockquote>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The license of the model can be found at <a class="reference external" href="https://github.com/salute-developers/GigaAM/blob/main/GigaAM%20License_NC.pdf">https://github.com/salute-developers/GigaAM/blob/main/GigaAM%20License_NC.pdf</a>.</p>
+<p>It is for non-commercial use only.</p>
+</div>
+<p>In the following, we describe how to download it and use it with <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>.</p>
+<section id="id27">
+<h3>Download the model<a class="headerlink" href="#id27" title="Permalink to this heading"></a></h3>
+<p>Please use the following commands to download it.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-nemo-transducer-giga-am-russian-2024-10-24.tar.bz2
+tar<span class="w"> </span>xvf<span class="w"> </span>sherpa-onnx-nemo-transducer-giga-am-russian-2024-10-24.tar.bz2
+rm<span class="w"> </span>sherpa-onnx-nemo-transducer-giga-am-russian-2024-10-24.tar.bz2
+</pre></div>
+</div>
+<p>You should see something like below after downloading:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ls</span> <span class="o">-</span><span class="n">lh</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">nemo</span><span class="o">-</span><span class="n">transducer</span><span class="o">-</span><span class="n">giga</span><span class="o">-</span><span class="n">am</span><span class="o">-</span><span class="n">russian</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">24</span><span class="o">/</span>
+<span class="n">total</span> <span class="mi">548472</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>    <span class="mi">89</span><span class="n">K</span> <span class="n">Oct</span> <span class="mi">25</span> <span class="mi">13</span><span class="p">:</span><span class="mi">36</span> <span class="n">GigaAM</span><span class="o">%</span><span class="mi">20</span><span class="n">License_NC</span><span class="o">.</span><span class="n">pdf</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">318</span><span class="n">B</span> <span class="n">Oct</span> <span class="mi">25</span> <span class="mi">13</span><span class="p">:</span><span class="mi">37</span> <span class="n">README</span><span class="o">.</span><span class="n">md</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mf">3.8</span><span class="n">M</span> <span class="n">Oct</span> <span class="mi">25</span> <span class="mi">13</span><span class="p">:</span><span class="mi">36</span> <span class="n">decoder</span><span class="o">.</span><span class="n">onnx</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">262</span><span class="n">M</span> <span class="n">Oct</span> <span class="mi">25</span> <span class="mi">13</span><span class="p">:</span><span class="mi">37</span> <span class="n">encoder</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mf">3.8</span><span class="n">K</span> <span class="n">Oct</span> <span class="mi">25</span> <span class="mi">13</span><span class="p">:</span><span class="mi">32</span> <span class="n">export</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">rnnt</span><span class="o">.</span><span class="n">py</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mf">2.0</span><span class="n">M</span> <span class="n">Oct</span> <span class="mi">25</span> <span class="mi">13</span><span class="p">:</span><span class="mi">36</span> <span class="n">joiner</span><span class="o">.</span><span class="n">onnx</span>
+<span class="o">-</span><span class="n">rwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mf">2.0</span><span class="n">K</span> <span class="n">Oct</span> <span class="mi">25</span> <span class="mi">13</span><span class="p">:</span><span class="mi">32</span> <span class="n">run</span><span class="o">-</span><span class="n">rnnt</span><span class="o">.</span><span class="n">sh</span>
+<span class="o">-</span><span class="n">rwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mf">8.7</span><span class="n">K</span> <span class="n">Oct</span> <span class="mi">25</span> <span class="mi">13</span><span class="p">:</span><span class="mi">32</span> <span class="n">test</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">rnnt</span><span class="o">.</span><span class="n">py</span>
+<span class="n">drwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span>  <span class="mi">4</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">128</span><span class="n">B</span> <span class="n">Oct</span> <span class="mi">25</span> <span class="mi">13</span><span class="p">:</span><span class="mi">37</span> <span class="n">test_wavs</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mf">5.8</span><span class="n">K</span> <span class="n">Oct</span> <span class="mi">25</span> <span class="mi">13</span><span class="p">:</span><span class="mi">36</span> <span class="n">tokens</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
+</div>
+</section>
+<section id="id28">
+<h3>Decode wave files<a class="headerlink" href="#id28" title="Permalink to this heading"></a></h3>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>It supports decoding only wave files of a single channel with 16-bit
+encoded samples, while the sampling rate does not need to be 16 kHz.</p>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+./build/bin/sherpa-onnx-offline<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--encoder<span class="o">=</span>./sherpa-onnx-nemo-transducer-giga-am-russian-2024-10-24/encoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--decoder<span class="o">=</span>./sherpa-onnx-nemo-transducer-giga-am-russian-2024-10-24/decoder.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--joiner<span class="o">=</span>./sherpa-onnx-nemo-transducer-giga-am-russian-2024-10-24/joiner.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span>./sherpa-onnx-nemo-transducer-giga-am-russian-2024-10-24/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--model-type<span class="o">=</span>nemo_transducer<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-nemo-transducer-giga-am-russian-2024-10-24/test_wavs/example.wav
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Please use <code class="docutils literal notranslate"><span class="pre">./build/bin/Release/sherpa-onnx-offline.exe</span></code> for Windows.</p>
+</div>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>If you use Windows and get encoding issues, please run:</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>CHCP<span class="w"> </span><span class="m">65001</span>
+</pre></div>
+</div>
+</div></blockquote>
+<p>in your commandline.</p>
+</div>
+<p>You should see the following output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:375 ./build/bin/sherpa-onnx-offline --encoder=./sherpa-onnx-nemo-transducer-giga-am-russian-2024-10-24/encoder.int8.onnx --decoder=./sherpa-onnx-nemo-transducer-giga-am-russian-2024-10-24/decoder.onnx --joiner=./sherpa-onnx-nemo-transducer-giga-am-russian-2024-10-24/joiner.onnx --tokens=./sherpa-onnx-nemo-transducer-giga-am-russian-2024-10-24/tokens.txt --model-type=nemo_transducer ./sherpa-onnx-nemo-transducer-giga-am-russian-2024-10-24/test_wavs/example.wav 
+
+OfflineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80, low_freq=20, high_freq=-400, dither=0), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename=&quot;./sherpa-onnx-nemo-transducer-giga-am-russian-2024-10-24/encoder.int8.onnx&quot;, decoder_filename=&quot;./sherpa-onnx-nemo-transducer-giga-am-russian-2024-10-24/decoder.onnx&quot;, joiner_filename=&quot;./sherpa-onnx-nemo-transducer-giga-am-russian-2024-10-24/joiner.onnx&quot;), paraformer=OfflineParaformerModelConfig(model=&quot;&quot;), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=&quot;&quot;), whisper=OfflineWhisperModelConfig(encoder=&quot;&quot;, decoder=&quot;&quot;, language=&quot;&quot;, task=&quot;transcribe&quot;, tail_paddings=-1), tdnn=OfflineTdnnModelConfig(model=&quot;&quot;), zipformer_ctc=OfflineZipformerCtcModelConfig(model=&quot;&quot;), wenet_ctc=OfflineWenetCtcModelConfig(model=&quot;&quot;), sense_voice=OfflineSenseVoiceModelConfig(model=&quot;&quot;, language=&quot;auto&quot;, use_itn=False), telespeech_ctc=&quot;&quot;, tokens=&quot;./sherpa-onnx-nemo-transducer-giga-am-russian-2024-10-24/tokens.txt&quot;, num_threads=2, debug=False, provider=&quot;cpu&quot;, model_type=&quot;nemo_transducer&quot;, modeling_unit=&quot;cjkchar&quot;, bpe_vocab=&quot;&quot;), lm_config=OfflineLMConfig(model=&quot;&quot;, scale=0.5), ctc_fst_decoder_config=OfflineCtcFstDecoderConfig(graph=&quot;&quot;, max_active=3000), decoding_method=&quot;greedy_search&quot;, max_active_paths=4, hotwords_file=&quot;&quot;, hotwords_score=1.5, blank_penalty=0, rule_fsts=&quot;&quot;, rule_fars=&quot;&quot;)
+Creating recognizer ...
+Started
+Done!
+
+./sherpa-onnx-nemo-transducer-giga-am-russian-2024-10-24/test_wavs/example.wav
+{&quot;lang&quot;: &quot;&quot;, &quot;emotion&quot;: &quot;&quot;, &quot;event&quot;: &quot;&quot;, &quot;text&quot;: &quot; ничьих не требуя похвал счастлив уж я надеждой сладкой что дева с трепетом любви посмотрит может быть украдкой на песни грешные мои у лукоморья дуб зеленый&quot;, &quot;timestamps&quot;: [0.04, 0.16, 0.24, 0.28, 0.40, 0.48, 0.60, 0.68, 0.80, 0.92, 1.04, 1.20, 1.28, 1.44, 1.76, 1.88, 2.00, 2.08, 2.16, 2.28, 2.36, 2.44, 2.64, 2.76, 2.92, 3.00, 3.04, 3.16, 3.24, 3.36, 3.48, 3.56, 3.68, 3.88, 4.04, 4.16, 4.24, 4.32, 4.40, 4.56, 4.76, 4.88, 4.92, 5.36, 5.64, 5.84, 5.92, 6.04, 6.32, 6.52, 6.60, 6.72, 6.84, 6.92, 7.04, 7.16, 7.28, 7.36, 7.44, 7.56, 7.68, 7.72, 7.88, 8.00, 8.20, 8.36, 9.28, 9.40, 9.44, 9.52, 9.68, 9.84, 9.88, 9.92, 10.12, 10.32, 10.40, 10.52, 10.56, 10.76, 10.84], &quot;tokens&quot;:[&quot; ни&quot;, &quot;ч&quot;, &quot;ь&quot;, &quot;и&quot;, &quot;х&quot;, &quot; не&quot;, &quot; т&quot;, &quot;ре&quot;, &quot;бу&quot;, &quot;я&quot;, &quot; по&quot;, &quot;х&quot;, &quot;ва&quot;, &quot;л&quot;, &quot; с&quot;, &quot;ча&quot;, &quot;ст&quot;, &quot;ли&quot;, &quot;в&quot;, &quot; у&quot;, &quot;ж&quot;, &quot; я&quot;, &quot; на&quot;, &quot;де&quot;, &quot;ж&quot;, &quot;до&quot;, &quot;й&quot;, &quot; с&quot;, &quot;ла&quot;, &quot;д&quot;, &quot;ко&quot;, &quot;й&quot;, &quot; что&quot;, &quot; де&quot;, &quot;ва&quot;, &quot; с&quot;, &quot; т&quot;, &quot;ре&quot;, &quot;пе&quot;, &quot;том&quot;, &quot; лю&quot;, &quot;б&quot;, &quot;ви&quot;, &quot; пос&quot;, &quot;мот&quot;, &quot;ри&quot;, &quot;т&quot;, &quot; может&quot;, &quot; быть&quot;, &quot; у&quot;, &quot;к&quot;, &quot;ра&quot;, &quot;д&quot;, &quot;ко&quot;, &quot;й&quot;, &quot; на&quot;, &quot; п&quot;, &quot;е&quot;, &quot;с&quot;, &quot;ни&quot;, &quot; г&quot;, &quot;ре&quot;, &quot;ш&quot;, &quot;ные&quot;, &quot; мо&quot;, &quot;и&quot;, &quot; у&quot;, &quot; &quot;, &quot;лу&quot;, &quot;ко&quot;, &quot;мо&quot;, &quot;р&quot;, &quot;ь&quot;, &quot;я&quot;, &quot; ду&quot;, &quot;б&quot;, &quot; з&quot;, &quot;е&quot;, &quot;лен&quot;, &quot;ы&quot;, &quot;й&quot;], &quot;words&quot;: []}
+----
+num threads: 2
+decoding method: greedy_search
+Elapsed seconds: 1.775 s
+Real time factor (RTF): 1.775 / 11.290 = 0.157
+</pre></div>
+</div>
+</section>
+<section id="id29">
+<h3>Real-time/Streaming Speech recognition from a microphone with VAD<a class="headerlink" href="#id29" title="Permalink to this heading"></a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">wget</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">k2</span><span class="o">-</span><span class="n">fsa</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="n">download</span><span class="o">/</span><span class="n">asr</span><span class="o">-</span><span class="n">models</span><span class="o">/</span><span class="n">silero_vad</span><span class="o">.</span><span class="n">onnx</span>
+
+<span class="o">./</span><span class="n">build</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">vad</span><span class="o">-</span><span class="n">microphone</span><span class="o">-</span><span class="n">simulated</span><span class="o">-</span><span class="n">streaming</span><span class="o">-</span><span class="n">asr</span> \
+  <span class="o">--</span><span class="n">silero</span><span class="o">-</span><span class="n">vad</span><span class="o">-</span><span class="n">model</span><span class="o">=./</span><span class="n">silero_vad</span><span class="o">.</span><span class="n">onnx</span> \
+  <span class="o">--</span><span class="n">encoder</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">nemo</span><span class="o">-</span><span class="n">transducer</span><span class="o">-</span><span class="n">giga</span><span class="o">-</span><span class="n">am</span><span class="o">-</span><span class="n">russian</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">24</span><span class="o">/</span><span class="n">encoder</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span> \
+  <span class="o">--</span><span class="n">decoder</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">nemo</span><span class="o">-</span><span class="n">transducer</span><span class="o">-</span><span class="n">giga</span><span class="o">-</span><span class="n">am</span><span class="o">-</span><span class="n">russian</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">24</span><span class="o">/</span><span class="n">decoder</span><span class="o">.</span><span class="n">onnx</span> \
+  <span class="o">--</span><span class="n">joiner</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">nemo</span><span class="o">-</span><span class="n">transducer</span><span class="o">-</span><span class="n">giga</span><span class="o">-</span><span class="n">am</span><span class="o">-</span><span class="n">russian</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">24</span><span class="o">/</span><span class="n">joiner</span><span class="o">.</span><span class="n">onnx</span> \
+  <span class="o">--</span><span class="n">tokens</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">nemo</span><span class="o">-</span><span class="n">transducer</span><span class="o">-</span><span class="n">giga</span><span class="o">-</span><span class="n">am</span><span class="o">-</span><span class="n">russian</span><span class="o">-</span><span class="mi">2024</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">24</span><span class="o">/</span><span class="n">tokens</span><span class="o">.</span><span class="n">txt</span> \
+  <span class="o">--</span><span class="n">model</span><span class="o">-</span><span class="nb">type</span><span class="o">=</span><span class="n">nemo_transducer</span>
+</pre></div>
+</div>
+</section>
+<section id="id30">
+<h3>Speech recognition from a microphone<a class="headerlink" href="#id30" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+./build/bin/sherpa-onnx-microphone-offline<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--encoder<span class="o">=</span>./sherpa-onnx-nemo-transducer-giga-am-russian-2024-10-24/encoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--decoder<span class="o">=</span>./sherpa-onnx-nemo-transducer-giga-am-russian-2024-10-24/decoder.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--joiner<span class="o">=</span>./sherpa-onnx-nemo-transducer-giga-am-russian-2024-10-24/joiner.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span>./sherpa-onnx-nemo-transducer-giga-am-russian-2024-10-24/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--model-type<span class="o">=</span>nemo_transducer
+</pre></div>
+</div>
+</section>
+<section id="id31">
+<h3>Speech recognition from a microphone with VAD<a class="headerlink" href="#id31" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/silero_vad.onnx
+
+./build/bin/sherpa-onnx-vad-microphone-offline-asr<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--silero-vad-model<span class="o">=</span>./silero_vad.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--encoder<span class="o">=</span>./sherpa-onnx-nemo-transducer-giga-am-russian-2024-10-24/encoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--decoder<span class="o">=</span>./sherpa-onnx-nemo-transducer-giga-am-russian-2024-10-24/decoder.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--joiner<span class="o">=</span>./sherpa-onnx-nemo-transducer-giga-am-russian-2024-10-24/joiner.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span>./sherpa-onnx-nemo-transducer-giga-am-russian-2024-10-24/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--model-type<span class="o">=</span>nemo_transducer
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="conformer-transducer-models.html" class="btn btn-neutral float-left" title="Conformer-transducer-based Models" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../offline-paraformer/index.html" class="btn btn-neutral float-right" title="Offline paraformer models" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>
