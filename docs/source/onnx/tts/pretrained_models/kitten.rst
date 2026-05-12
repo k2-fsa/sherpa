@@ -1,6 +1,8 @@
 KittenTTS
 =========
 
+Please see also `<https://k2-fsa.github.io/sherpa/onnx/tts/kitten>`_.
+
 This page lists pre-trained models from `<https://github.com/KittenML/KittenTTS>`_.
 
 .. _kitten-nano-v01:

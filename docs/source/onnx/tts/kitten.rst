@@ -6,6 +6,30 @@ KittenTTS
 This page explains how to use `sherpa-onnx`_ with
 `KittenTTS <https://github.com/KittenML/KittenTTS>`_.
 
+The following KittenTTS models are available. Visit the links below for
+detailed documentation, download instructions, and code examples for each model.
+
+.. list-table::
+   :header-rows: 1
+   :widths: 40 60
+
+   * - Model
+     - Documentation
+   * - kitten-nano-en-v0_1-fp16
+     - `kitten-nano-en-v0_1 <https://k2-fsa.github.io/sherpa/onnx/tts/all/English/kitten-nano-en-v0_1.html>`_
+   * - kitten-nano-en-v0_2-fp16
+     - `kitten-nano-en-v0_2 <https://k2-fsa.github.io/sherpa/onnx/tts/all/English/kitten-nano-en-v0_2.html>`_
+   * - kitten-mini-en-v0_1-fp16
+     - `kitten-mini-en-v0_1 <https://k2-fsa.github.io/sherpa/onnx/tts/all/English/kitten-mini-en-v0_1.html>`_
+   * - kitten-nano-en-v0_8-fp32
+     - `kitten-nano-en-v0_8-fp32 <https://k2-fsa.github.io/sherpa/onnx/tts/all/English/kitten-nano-en-v0_8-fp32.html>`_
+   * - kitten-nano-en-v0_8-int8
+     - `kitten-nano-en-v0_8-int8 <https://k2-fsa.github.io/sherpa/onnx/tts/all/English/kitten-nano-en-v0_8-int8.html>`_
+   * - kitten-micro-en-v0_8
+     - `kitten-micro-en-v0_8 <https://k2-fsa.github.io/sherpa/onnx/tts/all/English/kitten-micro-en-v0_8.html>`_
+   * - kitten-mini-en-v0_8
+     - `kitten-mini-en-v0_8 <https://k2-fsa.github.io/sherpa/onnx/tts/all/English/kitten-mini-en-v0_8.html>`_
+
 KittenTTS is a compact English text-to-speech model. It does not require a
 reference audio prompt. You select a speaker with ``--sid`` and synthesize
 audio directly.
