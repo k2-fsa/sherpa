@@ -352,7 +352,9 @@ jobs:
 
           sudo rm -rf docs/build/html/onnx/tts/all/kitten/__pycache__
           sudo rm -rf docs/build/html/onnx/tts/all/kitten/*.py
-          sudo rm -rf docs/build/html/onnx/tts/all/kitten/nano_v0_1
+          sudo rm -rf docs/build/html/onnx/tts/all/kitten/nano_v0_1/*.py
+          sudo rm -rf docs/build/html/onnx/tts/all/kitten/nano_v0_1/__pycache__
+          sudo rm -rf docs/build/html/onnx/tts/all/kitten/v0_8
 
           rm -v docs/build/html/onnx/tts/all/.gitignore
           echo "---"
