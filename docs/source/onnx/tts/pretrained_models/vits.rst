@@ -6,6 +6,8 @@ This page lists pre-trained `vits`_ models.
 All models in a single table
 -----------------------------
 
+See also `<https://k2-fsa.github.io/sherpa/onnx/tts/all/>`_
+
 The following table summarizes the information of all models in this page.
 
 .. note::
@@ -615,6 +617,8 @@ vits-piper-en_US-libritts_r-medium (English, 904 speakers)
 
 This model is converted from `<https://huggingface.co/rhasspy/piper-voices/tree/main/en/en_US/libritts_r/medium>`_
 and it supports 904 speakers. It supports only English.
+
+See also `<https://k2-fsa.github.io/sherpa/onnx/tts/all/English/vits-piper-en_US-libritts_r-medium.html>`_.
 
 In the following, we describe how to download it and use it with `sherpa-onnx`_.
 
@@ -2242,6 +2246,8 @@ The dataset used to train the model is `lessac_blizzard2013`_.
 .. hint::
 
   The model is from `piper`_.
+
+See also `<https://k2-fsa.github.io/sherpa/onnx/tts/all/English/vits-piper-en_US-lessac-medium.html>`_.
 
 In the following, we describe how to download it and use it with `sherpa-onnx`_.
 
