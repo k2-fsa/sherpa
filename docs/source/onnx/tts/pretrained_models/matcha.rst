@@ -22,6 +22,9 @@ The dataset used to train the model is from
 
   `<https://keithito.com/LJ-Speech-Dataset//>`_.
 
+
+See also `<https://k2-fsa.github.io/sherpa/onnx/tts/all/English/matcha-icefall-en_US-ljspeech.html>`_
+
 In the following, we describe how to download it and use it with `sherpa-onnx`_.
 
 Download the model
@@ -212,6 +215,8 @@ The dataset used to train the model is from
 .. caution::
 
    The dataset is for ``non-commercial`` use only.
+
+See also `<https://k2-fsa.github.io/sherpa/onnx/tts/all/Chinese/matcha-icefall-zh-baker.html>`_
 
 In the following, we describe how to download it and use it with `sherpa-onnx`_.
 
