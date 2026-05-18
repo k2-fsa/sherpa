@@ -1,0 +1,56 @@
+// Copyright (c)  2024  Xiaomi Corporation
+//
+// Text-to-speech with the VITS Coqui German (CSS10) model.
+//
+// Usage:
+//   node tts_vits_coqui_de.js
+//
+const sherpa_onnx = require('sherpa-onnx-node');
+
+function createOfflineTts() {
+  const config = {
+    model: {
+      vits: {
+        model: './vits-coqui-de-css10/model.onnx',
+        tokens: './vits-coqui-de-css10/tokens.txt',
+      },
+      debug: true,
+      numThreads: 1,
+      provider: 'cpu',
+    },
+    maxNumSentences: 1,
+  };
+  return new sherpa_onnx.OfflineTts(config);
+}
+
+const tts = createOfflineTts();
+
+const text = 'Alles hat ein Ende, nur die Wurst hat zwei.';
+
+const generationConfig = new sherpa_onnx.GenerationConfig({
+  sid: 0,
+  speed: 1.0,
+  silenceScale: 0.2,
+});
+
+let start = Date.now();
+const audio = tts.generate({
+  text: text,
+  generationConfig,
+  enableExternalBuffer: true,
+});
+let stop = Date.now();
+const elapsed_seconds = (stop - start) / 1000;
+const duration = audio.samples.length / audio.sampleRate;
+const real_time_factor = elapsed_seconds / duration;
+console.log('Wave duration', duration.toFixed(3), 'seconds');
+console.log('Elapsed', elapsed_seconds.toFixed(3), 'seconds');
+console.log(
+    `RTF = ${elapsed_seconds.toFixed(3)}/${duration.toFixed(3)} =`,
+    real_time_factor.toFixed(3));
+
+const filename = 'test-vits-coqui-de.wav';
+sherpa_onnx.writeWave(
+    filename, {samples: audio.samples, sampleRate: audio.sampleRate});
+
+console.log(`Saved to ${filename}`);
