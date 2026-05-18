@@ -57,6 +57,16 @@ jobs:
         with:
           fetch-depth: 0
 
+      - uses: actions/setup-node@v4
+        with:
+          registry-url: 'https://registry.npmjs.org'
+          node-version: '24'
+
+      - name: Display node version
+        shell: bash
+        run: |
+          node --version
+
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
@@ -90,6 +100,23 @@ jobs:
           echo "SHERPA_ONNX_VERSION=$SHERPA_ONNX_VERSION" >> "$GITHUB_ENV"
           echo "SHERPA_ONNX_VERSION: $SHERPA_ONNX_VERSION"
           rm -rf sherpa-onnx
+
+      - name: Build node-addon api doc for sherpa-onnx
+        shell: bash
+        run: |
+          d=$PWD
+          git clone https://github.com/k2-fsa/sherpa-onnx
+          pushd sherpa-onnx/scripts/node-addon-api
+
+          npm install --save-dev typescript typedoc
+          npm install --save-dev @types/node
+          npx typedoc   --tsconfig ./tsconfig.json   --out docs   lib/**/*.js
+
+          mv docs ../../../js-api-doc
+          popd
+          rm -rf sherpa-onnx
+
+          ls -lh js-api-doc
 
       - name: Build TTS samples
         shell: bash
@@ -326,6 +353,7 @@ jobs:
           sudo chown -R $USER docs/build
 
           sudo mv c-api-doc docs/build/html/onnx/c-api/html
+          sudo mv js-api-doc docs/build/html/onnx/javascript-api/html
 
       - name: Copy tts samples
         shell: bash

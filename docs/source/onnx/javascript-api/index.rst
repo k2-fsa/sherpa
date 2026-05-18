@@ -16,3 +16,4 @@ way to use sherpa-onnx from Node.js.
 
    ./install.rst
    ./examples/index.rst
+   ./api-doc.rst
