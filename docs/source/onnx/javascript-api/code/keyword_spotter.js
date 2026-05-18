@@ -1,0 +1,71 @@
+// Copyright (c)  2024  Xiaomi Corporation
+//
+// Keyword spotting: detect predefined keywords in audio using a
+// streaming Zipformer transducer model.
+//
+// Usage:
+//   node keyword_spotter.js
+//
+const sherpa_onnx = require('sherpa-onnx-node');
+
+// Download models from
+// https://github.com/k2-fsa/sherpa-onnx/releases/tag/kws-models
+const config = {
+  'featConfig': {
+    'sampleRate': 16000,
+    'featureDim': 80,
+  },
+  'modelConfig': {
+    'transducer': {
+      'encoder':
+          './sherpa-onnx-kws-zipformer-wenetspeech-3.3M-2024-01-01/encoder-epoch-12-avg-2-chunk-16-left-64.onnx',
+      'decoder':
+          './sherpa-onnx-kws-zipformer-wenetspeech-3.3M-2024-01-01/decoder-epoch-12-avg-2-chunk-16-left-64.onnx',
+      'joiner':
+          './sherpa-onnx-kws-zipformer-wenetspeech-3.3M-2024-01-01/joiner-epoch-12-avg-2-chunk-16-left-64.onnx',
+    },
+    'tokens':
+        './sherpa-onnx-kws-zipformer-wenetspeech-3.3M-2024-01-01/tokens.txt',
+    'numThreads': 1,
+    'provider': 'cpu',
+    'debug': 1,
+  },
+  'keywordsFile':
+      './sherpa-onnx-kws-zipformer-wenetspeech-3.3M-2024-01-01/test_wavs/test_keywords.txt',
+};
+
+const waveFilename =
+    './sherpa-onnx-kws-zipformer-wenetspeech-3.3M-2024-01-01/test_wavs/3.wav';
+
+const kws = new sherpa_onnx.KeywordSpotter(config);
+const stream = kws.createStream();
+
+const wave = sherpa_onnx.readWave(waveFilename);
+stream.acceptWaveform({sampleRate: wave.sampleRate, samples: wave.samples});
+
+// Append tail padding.
+const tailPadding = new Float32Array(wave.sampleRate * 0.4);
+stream.acceptWaveform({samples: tailPadding, sampleRate: wave.sampleRate});
+
+// Decode and collect detected keywords.
+const detectedKeywords = [];
+let start = Date.now();
+while (kws.isReady(stream)) {
+  kws.decode(stream);
+  const keyword = kws.getResult(stream).keyword;
+  if (keyword != '') {
+    detectedKeywords.push(keyword);
+  }
+}
+let stop = Date.now();
+
+const elapsed_seconds = (stop - start) / 1000;
+const duration = wave.samples.length / wave.sampleRate;
+const real_time_factor = elapsed_seconds / duration;
+console.log('Wave duration', duration.toFixed(3), 'seconds');
+console.log('Elapsed', elapsed_seconds.toFixed(3), 'seconds');
+console.log(
+    `RTF = ${elapsed_seconds.toFixed(3)}/${duration.toFixed(3)} =`,
+    real_time_factor.toFixed(3));
+console.log(waveFilename);
+console.log('Detected keywords:', detectedKeywords);

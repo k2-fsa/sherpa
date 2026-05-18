@@ -1,14 +1,18 @@
 .. _sherpa-onnx-javascript-api:
 
-Javascript API
-==============
+Javascript API (Node-Addon)
+============================
 
-For using Javascript in the browser, please see our :ref:`sherpa-onnx-wasm` doc.
+This section describes how to use `sherpa-onnx-node`_, the Node.js native
+addon for ``sherpa-onnx``. It supports multi-threading and is the recommended
+way to use sherpa-onnx from Node.js.
 
-This section describes how to use `sherpa-onnx`_ in Node with Javascript API.
+.. hint::
+
+   For using JavaScript in the browser, please see :ref:`sherpa-onnx-wasm`.
 
 .. toctree::
    :maxdepth: 5
 
    ./install.rst
-   ./examples.rst
+   ./examples/index.rst
