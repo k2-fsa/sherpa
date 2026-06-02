@@ -1,0 +1,5 @@
+<map id="sherpa_onnx::cxx::OfflineSpeechDenoiser" name="sherpa_onnx::cxx::OfflineSpeechDenoiser">
+<area shape="rect" id="Node000001" title="RAII wrapper for offline speech denoising." alt="" coords="321,13,508,53"/>
+<area shape="rect" id="Node000002" href="$classsherpa__onnx_1_1cxx_1_1MoveOnly.html" title=" " alt="" coords="5,5,273,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="287,30,321,30,321,35,287,35"/>
+</map>

@@ -1,0 +1,237 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Decode a long audio file with VAD (Example 2/2, Chinese) &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../index.html">sherpa-onnx</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Decode a long audio file with VAD (Example 2/2, Chinese)</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/onnx/qwen3-asr/long-audio-zh.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="decode-a-long-audio-file-with-vad-example-2-2-chinese">
+<h1>Decode a long audio file with VAD (Example 2/2, Chinese)<a class="headerlink" href="#decode-a-long-audio-file-with-vad-example-2-2-chinese" title="Permalink to this heading"></a></h1>
+<p>The following examples show how to decode a very long audio file with the help
+of VAD.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/silero_vad.onnx
+wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/lei-jun-test.wav
+
+./build/bin/sherpa-onnx-vad-with-offline-asr<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--silero-vad-model<span class="o">=</span>./silero_vad.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--silero-vad-threshold<span class="o">=</span><span class="m">0</span>.2<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--silero-vad-min-speech-duration<span class="o">=</span><span class="m">0</span>.2<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-conv-frontend<span class="o">=</span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/conv_frontend.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-encoder<span class="o">=</span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/encoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-decoder<span class="o">=</span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/decoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-tokenizer<span class="o">=</span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/tokenizer<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-max-new-tokens<span class="o">=</span><span class="m">512</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--num-threads<span class="o">=</span><span class="m">2</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./lei-jun-test.wav
+</pre></div>
+</div>
+<table>
+  <tr>
+    <th>Wave filename</th>
+    <th>Content</th>
+  </tr>
+  <tr>
+    <td>lei-jun-test.wav</td>
+    <td>
+     <audio title="lei-jun-test.wav" controls="controls">
+           <source src="/sherpa/_static/sense-voice/lei-jun-test.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+  </tr>
+</table><p>You should see the following output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:373 ./build/bin/sherpa-onnx-vad-with-offline-asr --silero-vad-model=./silero_vad.onnx --silero-vad-threshold=0.2 --silero-vad-min-speech-duration=0.2 --qwen3-asr-conv-frontend=./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/conv_frontend.onnx --qwen3-asr-encoder=./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/encoder.int8.onnx --qwen3-asr-decoder=./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/decoder.int8.onnx --qwen3-asr-tokenizer=./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/tokenizer --qwen3-asr-max-new-tokens=512 --num-threads=2 ./lei-jun-test.wav 
+
+VadModelConfig(silero_vad=SileroVadModelConfig(model=&quot;./silero_vad.onnx&quot;, threshold=0.2, min_silence_duration=0.5, min_speech_duration=0.2, max_speech_duration=20, window_size=512, neg_threshold=-1), ten_vad=TenVadModelConfig(model=&quot;&quot;, threshold=0.5, min_silence_duration=0.5, min_speech_duration=0.25, max_speech_duration=20, window_size=256), sample_rate=16000, num_threads=1, provider=&quot;cpu&quot;, debug=False)
+OfflineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80, low_freq=20, high_freq=-400, dither=0, normalize_samples=True, snip_edges=False), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename=&quot;&quot;, decoder_filename=&quot;&quot;, joiner_filename=&quot;&quot;), paraformer=OfflineParaformerModelConfig(model=&quot;&quot;), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=&quot;&quot;), whisper=OfflineWhisperModelConfig(encoder=&quot;&quot;, decoder=&quot;&quot;, language=&quot;&quot;, task=&quot;transcribe&quot;, tail_paddings=-1, enable_token_timestamps=False, enable_segment_timestamps=False), fire_red_asr=OfflineFireRedAsrModelConfig(encoder=&quot;&quot;, decoder=&quot;&quot;), tdnn=OfflineTdnnModelConfig(model=&quot;&quot;), zipformer_ctc=OfflineZipformerCtcModelConfig(model=&quot;&quot;), wenet_ctc=OfflineWenetCtcModelConfig(model=&quot;&quot;), sense_voice=OfflineSenseVoiceModelConfig(model=&quot;&quot;, language=&quot;auto&quot;, use_itn=False), moonshine=OfflineMoonshineModelConfig(preprocessor=&quot;&quot;, encoder=&quot;&quot;, uncached_decoder=&quot;&quot;, cached_decoder=&quot;&quot;, merged_decoder=&quot;&quot;), dolphin=OfflineDolphinModelConfig(model=&quot;&quot;), canary=OfflineCanaryModelConfig(encoder=&quot;&quot;, decoder=&quot;&quot;, src_lang=&quot;&quot;, tgt_lang=&quot;&quot;, use_pnc=True), cohere_transcribe=OfflineCohereTranscribeModelConfig(encoder=&quot;&quot;, decoder=&quot;&quot;, language=&quot;&quot;, use_punct=True, use_itn=True), omnilingual=OfflineOmnilingualAsrCtcModelConfig(model=&quot;&quot;), funasr_nano=OfflineFunASRNanoModelConfig(encoder_adaptor=&quot;&quot;, llm=&quot;&quot;, embedding=&quot;&quot;, tokenizer=&quot;&quot;, system_prompt=&quot;You are a helpful assistant.&quot;, user_prompt=&quot;语音转写：&quot;, max_new_tokens=512, temperature=1e-06, top_p=0.8, seed=42, language=&quot;&quot;, itn=True, hotwords=&quot;&quot;), medasr=OfflineMedAsrCtcModelConfig(model=&quot;&quot;), fire_red_asr_ctc=OfflineFireRedAsrCtcModelConfig(model=&quot;&quot;), qwen3_asr=OfflineQwen3ASRModelConfig(conv_frontend=&quot;./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/conv_frontend.onnx&quot;, encoder=&quot;./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/encoder.int8.onnx&quot;, decoder=&quot;./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/decoder.int8.onnx&quot;, tokenizer=&quot;./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/tokenizer&quot;, hotwords=&quot;&quot;, max_total_len=512, max_new_tokens=512, temperature=1e-06, top_p=0.8, seed=42), telespeech_ctc=&quot;&quot;, tokens=&quot;&quot;, num_threads=2, debug=False, provider=&quot;cpu&quot;, model_type=&quot;&quot;, modeling_unit=&quot;cjkchar&quot;, bpe_vocab=&quot;&quot;), lm_config=OfflineLMConfig(model=&quot;&quot;, scale=0.5, lodr_scale=0.01, lodr_fst=&quot;&quot;, lodr_backoff_id=-1), ctc_fst_decoder_config=OfflineCtcFstDecoderConfig(graph=&quot;&quot;, max_active=3000), decoding_method=&quot;greedy_search&quot;, max_active_paths=4, hotwords_file=&quot;&quot;, hotwords_score=1.5, blank_penalty=0, rule_fsts=&quot;&quot;, rule_fars=&quot;&quot;, hr=HomophoneReplacerConfig(lexicon=&quot;&quot;, rule_fsts=&quot;&quot;))
+Creating recognizer ...
+Recognizer created!
+Started
+Reading: ./lei-jun-test.wav
+Started!
+
+29.776 -- 35.788: 晚上好，欢迎大家来参加今天晚上的活动。谢谢大家。
+42.160 -- 45.996: 这是我第四次办年度演讲。
+47.024 -- 49.868: 前三次呢，因为疫情的原因。
+50.512 -- 55.340: 都在小米科技园内举办，现场的人很少。
+56.176 -- 57.388: 这是第四次。
+58.192 -- 66.892: 我们仔细想了想，我们还是想办一个比较大的聚会，然后呢，让我们的新朋友、老朋友一起聚一聚。
+67.760 -- 70.828: 今天的话呢，我们就在北京的。
+71.664 -- 74.828: 国家会议中心呢，举办了这么一个活动。
+75.472 -- 85.868: 现场呢，来了很多人，大概有三千五百人，还有很多很多的朋友呢，通过观看直播的方式来参与。
+86.352 -- 91.308: 再一次呢，对大家的参加表示感谢，谢谢大家。
+98.512 -- 99.692: 两个月前。
+100.400 -- 104.396: 我参加了今年武汉大学的毕业典礼。
+105.936 -- 107.276: 今年呢是。
+107.888 -- 110.572: 武汉大学建校一百三十周年。
+111.760 -- 117.196: 作为校友，被母校邀请，在毕业典礼上致辞。
+118.032 -- 122.732: 这对我来说是至高无上的荣誉。
+123.664 -- 128.556: 站在讲台的那一刻，面对全校师生。
+129.200 -- 134.252: 关于武大的所有的记忆，一下子涌现在脑海里。
+134.960 -- 139.436: 今天呢，我就先和大家聊聊五大往事。
+141.840 -- 143.980: 那还是三十六年前。
+145.936 -- 147.660: 一九八七年。
+148.688 -- 151.564: 我呢，考上了武汉大学的计算机系。
+152.688 -- 156.748: 在武汉大学的图书馆里，看了一本书。
+157.584 -- 161.804: 硅谷之火，建立了我一生的梦想。
+163.312 -- 164.652: 看完书以后。
+165.264 -- 166.636: 热血沸腾。
+167.600 -- 169.548: 激动得睡不着觉。
+170.416 -- 171.404: 我还记得。
+172.016 -- 174.700: 那天晚上，星光很亮。
+175.408 -- 179.820: 我就在武大的操场上，就是屏幕上这个操场。
+180.816 -- 185.228: 走了一圈又一圈，走了整整一个晚上。
+186.480 -- 187.916: 我心里有团火。
+188.912 -- 192.076: 我也想搬一个伟大的公司。
+193.968 -- 195.020: 就是这样。
+197.648 -- 202.316: 梦想之火，在我心里彻底点燃了。
+209.968 -- 212.396: 是一个大一的新生。
+220.496 -- 222.636: 是一个大一的新生。
+223.984 -- 226.892: 一个从县城里出来的年轻人。
+228.368 -- 230.604: 什么也不会，什么也没有。
+231.568 -- 236.204: 就想创办一家伟大的公司，这不就是天方夜谭吗？
+237.616 -- 239.788: 这么离谱的一个梦想。
+240.400 -- 242.316: 该如何实现呢？
+243.856 -- 246.924: 那天晚上，我想了一整晚上。
+247.952 -- 249.068: 说实话。
+250.352 -- 253.868: 越想越糊涂，完全理不清头绪。
+254.960 -- 265.836: 后来我在想：“哎，干脆别想了，把书念好是正事。”所以呢，我就下定决心，认认真真读书。
+266.640 -- 267.468: 那么。
+268.496 -- 271.564: 我怎么能够把书读得不同凡响呢？
+
+num threads: 2
+decoding method: greedy_search
+Elapsed seconds: 20.968 s
+Real time factor (RTF): 20.968 / 272.448 = 0.077
+</pre></div>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

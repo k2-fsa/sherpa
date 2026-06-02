@@ -1,0 +1,409 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VAD with Microphone &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/clipboard.min.js"></script>
+        <script src="../../../_static/copybutton.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Speaker Diarization" href="speaker_diarization.html" />
+    <link rel="prev" title="Non-Streaming ASR" href="non_streaming_asr.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">sherpa-onnx</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../install/index.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../faqs/index.html">Frequently Asked Question (FAQs)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../python/index.html">Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../c-api/index.html">C API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../java-api/index.html">Java API</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">Javascript API (Node-Addon)</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../install.html">Install</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">Node-Addon Examples</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="index.html#text-to-speech-tts">Text-to-Speech (TTS)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="index.html#speech-recognition-asr">Speech Recognition (ASR)</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="index.html#voice-activity-detection-vad">Voice Activity Detection (VAD)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="index.html#speaker-tasks">Speaker Tasks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="index.html#other-features">Other Features</a></li>
+<li class="toctree-l4"><a class="reference internal" href="index.html#api-reference">API Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api-doc.html">API doc</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../kotlin-api/index.html">Kotlin API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../swift-api/index.html">Swift API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../go-api/index.html">Go API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../rust-api/index.html">Rust API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../csharp-api/index.html">C# API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../pascal-api/index.html">Pascal API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../lazarus/index.html">Lazarus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../wasm/index.html">WebAssembly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../android/index.html">Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../harmony-os/index.html">HarmonyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ios/index.html">iOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../flutter/index.html">Flutter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tauri/index.html">Tauri Desktop Apps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../websocket/index.html">WebSocket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../hotwords/index.html">Hotwords (Contextual biasing)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../kws/index.html">Keyword spotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../punctuation/index.html">Punctuation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../audio-tagging/index.html">Audio tagging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../spoken-language-identification/index.html">Spoken language identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../vad/index.html">VAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../medasr/index.html">Google MedASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../pretrained_models/index.html">Pre-trained models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../pretrained_models/whisper/index.html">Whisper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../moonshine/index.html">Moonshine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../omnilingual-asr/index.html">Omnilingual ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../sense-voice/index.html">SenseVoice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cohere_transcribe/index.html">Cohere Transcribe</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../funasr-nano/index.html">FunASR Nano</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../qwen3-asr/index.html">Qwen3-ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../paraformer/index.html">Paraformer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../nemo/index.html">NeMo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../FireRedAsr/index.html">FireRedAsr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Dolphin/index.html">Dolphin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../homophone-replacer/index.html">拼音词组匹配替换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../speaker-diarization/index.html">Speaker Diarization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../speaker-identification/index.html">Speaker Identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../speech-enhancement/index.html">Speech enhancement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../source-separation/index.html">Source separation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../qnn/index.html">Qualcomm NPU (QNN, HTP)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../rknn/index.html">rknn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../spacemit/index.html">SpacemiT CPUs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ascend/index.html">Ascend NPU (昇腾 NPU)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tts/index.html">Text-to-speech (TTS)</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html">sherpa-onnx</a> &raquo;</li>
+          <li><a href="../index.html">Javascript API (Node-Addon)</a> &raquo;</li>
+          <li><a href="index.html">Node-Addon Examples</a> &raquo;</li>
+      <li>VAD with Microphone</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/onnx/javascript-api/examples/vad_microphone.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="vad-with-microphone">
+<h1>VAD with Microphone<a class="headerlink" href="#vad-with-microphone" title="Permalink to this heading"></a></h1>
+<p>Detect speech from a microphone in real time using Silero VAD (Voice Activity
+Detection). Each detected speech segment is saved as a separate WAV file.</p>
+<section id="source-file">
+<h2>Source file<a class="headerlink" href="#source-file" title="Permalink to this heading"></a></h2>
+<p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/blob/master/nodejs-addon-examples/test_vad_microphone.js">nodejs-addon-examples/test_vad_microphone.js</a></p>
+</section>
+<section id="code">
+<h2>Code<a class="headerlink" href="#code" title="Permalink to this heading"></a></h2>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="linenos">  1</span><span class="c1">// Copyright (c)  2023-2024  Xiaomi Corporation</span>
+<span class="linenos">  2</span><span class="c1">//</span>
+<span class="linenos">  3</span><span class="c1">// Voice activity detection (VAD) from a microphone using Silero VAD.</span>
+<span class="linenos">  4</span><span class="c1">// Detected speech segments are saved as WAV files.</span>
+<span class="linenos">  5</span><span class="c1">//</span>
+<span class="linenos">  6</span><span class="c1">// Usage:</span>
+<span class="linenos">  7</span><span class="c1">//   npm install node-cpal</span>
+<span class="linenos">  8</span><span class="c1">//   node vad_microphone.js</span>
+<span class="linenos">  9</span><span class="c1">//</span>
+<span class="linenos"> 10</span><span class="kd">const</span><span class="w"> </span><span class="nx">cpal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;node-cpal&#39;</span><span class="p">);</span>
+<span class="linenos"> 11</span><span class="kd">const</span><span class="w"> </span><span class="nx">sherpa_onnx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;sherpa-onnx-node&#39;</span><span class="p">);</span>
+<span class="linenos"> 12</span>
+<span class="linenos"> 13</span><span class="kd">function</span><span class="w"> </span><span class="nx">createVad</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 14</span><span class="w">  </span><span class="c1">// Download silero_vad.onnx from</span>
+<span class="linenos"> 15</span><span class="w">  </span><span class="c1">// https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/silero_vad.onnx</span>
+<span class="linenos"> 16</span><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">config</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 17</span><span class="w">    </span><span class="nx">sileroVad</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 18</span><span class="w">      </span><span class="nx">model</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;./silero_vad.onnx&#39;</span><span class="p">,</span>
+<span class="linenos"> 19</span><span class="w">      </span><span class="nx">threshold</span><span class="o">:</span><span class="w"> </span><span class="mf">0.5</span><span class="p">,</span>
+<span class="linenos"> 20</span><span class="w">      </span><span class="nx">minSpeechDuration</span><span class="o">:</span><span class="w"> </span><span class="mf">0.25</span><span class="p">,</span>
+<span class="linenos"> 21</span><span class="w">      </span><span class="nx">minSilenceDuration</span><span class="o">:</span><span class="w"> </span><span class="mf">0.5</span><span class="p">,</span>
+<span class="linenos"> 22</span><span class="w">      </span><span class="nx">windowSize</span><span class="o">:</span><span class="w"> </span><span class="mf">512</span><span class="p">,</span>
+<span class="linenos"> 23</span><span class="w">    </span><span class="p">},</span>
+<span class="linenos"> 24</span><span class="w">    </span><span class="nx">tenVad</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 25</span><span class="w">      </span><span class="nx">model</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="p">,</span>
+<span class="linenos"> 26</span><span class="w">      </span><span class="nx">threshold</span><span class="o">:</span><span class="w"> </span><span class="mf">0.5</span><span class="p">,</span>
+<span class="linenos"> 27</span><span class="w">      </span><span class="nx">minSpeechDuration</span><span class="o">:</span><span class="w"> </span><span class="mf">0.25</span><span class="p">,</span>
+<span class="linenos"> 28</span><span class="w">      </span><span class="nx">minSilenceDuration</span><span class="o">:</span><span class="w"> </span><span class="mf">0.5</span><span class="p">,</span>
+<span class="linenos"> 29</span><span class="w">      </span><span class="nx">windowSize</span><span class="o">:</span><span class="w"> </span><span class="mf">256</span><span class="p">,</span>
+<span class="linenos"> 30</span><span class="w">    </span><span class="p">},</span>
+<span class="linenos"> 31</span><span class="w">    </span><span class="nx">sampleRate</span><span class="o">:</span><span class="w"> </span><span class="mf">16000</span><span class="p">,</span>
+<span class="linenos"> 32</span><span class="w">    </span><span class="nx">debug</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="linenos"> 33</span><span class="w">    </span><span class="nx">numThreads</span><span class="o">:</span><span class="w"> </span><span class="mf">1</span><span class="p">,</span>
+<span class="linenos"> 34</span><span class="w">  </span><span class="p">};</span>
+<span class="linenos"> 35</span>
+<span class="linenos"> 36</span><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">bufferSizeInSeconds</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">60</span><span class="p">;</span>
+<span class="linenos"> 37</span><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">sherpa_onnx</span><span class="p">.</span><span class="nx">Vad</span><span class="p">(</span><span class="nx">config</span><span class="p">,</span><span class="w"> </span><span class="nx">bufferSizeInSeconds</span><span class="p">);</span>
+<span class="linenos"> 38</span><span class="p">}</span>
+<span class="linenos"> 39</span>
+<span class="linenos"> 40</span><span class="kd">const</span><span class="w"> </span><span class="nx">vad</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">createVad</span><span class="p">();</span>
+<span class="linenos"> 41</span>
+<span class="linenos"> 42</span><span class="c1">// CircularBuffer stores incoming audio samples.</span>
+<span class="linenos"> 43</span><span class="kd">const</span><span class="w"> </span><span class="nx">bufferSizeInSeconds</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">30</span><span class="p">;</span>
+<span class="linenos"> 44</span><span class="kd">const</span><span class="w"> </span><span class="nx">buffer</span><span class="w"> </span><span class="o">=</span>
+<span class="linenos"> 45</span><span class="w">    </span><span class="ow">new</span><span class="w"> </span><span class="nx">sherpa_onnx</span><span class="p">.</span><span class="nx">CircularBuffer</span><span class="p">(</span><span class="nx">bufferSizeInSeconds</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="nx">vad</span><span class="p">.</span><span class="nx">config</span><span class="p">.</span><span class="nx">sampleRate</span><span class="p">);</span>
+<span class="linenos"> 46</span>
+<span class="linenos"> 47</span><span class="c1">// Open the default microphone via node-cpal.</span>
+<span class="linenos"> 48</span><span class="kd">const</span><span class="w"> </span><span class="nx">inputDevice</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">cpal</span><span class="p">.</span><span class="nx">getDefaultInputDevice</span><span class="p">();</span>
+<span class="linenos"> 49</span><span class="kd">const</span><span class="w"> </span><span class="nx">deviceConfig</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">cpal</span><span class="p">.</span><span class="nx">getDefaultInputConfig</span><span class="p">(</span><span class="nx">inputDevice</span><span class="p">.</span><span class="nx">deviceId</span><span class="p">);</span>
+<span class="linenos"> 50</span><span class="kd">const</span><span class="w"> </span><span class="nx">nativeSampleRate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">deviceConfig</span><span class="p">.</span><span class="nx">sampleRate</span><span class="p">;</span>
+<span class="linenos"> 51</span><span class="kd">const</span><span class="w"> </span><span class="nx">targetSampleRate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">vad</span><span class="p">.</span><span class="nx">config</span><span class="p">.</span><span class="nx">sampleRate</span><span class="p">;</span>
+<span class="linenos"> 52</span><span class="kd">const</span><span class="w"> </span><span class="nx">resampler</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">sherpa_onnx</span><span class="p">.</span><span class="nx">LinearResampler</span><span class="p">(</span><span class="nx">nativeSampleRate</span><span class="p">,</span><span class="w"> </span><span class="nx">targetSampleRate</span><span class="p">);</span>
+<span class="linenos"> 53</span>
+<span class="linenos"> 54</span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span>
+<span class="linenos"> 55</span><span class="w">    </span><span class="sb">`Device: </span><span class="si">${</span><span class="nx">inputDevice</span><span class="p">.</span><span class="nx">name</span><span class="si">}</span><span class="sb">, native sample rate: </span><span class="si">${</span><span class="nx">nativeSampleRate</span><span class="si">}</span><span class="sb"> Hz`</span><span class="p">);</span>
+<span class="linenos"> 56</span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="sb">`Resampling from </span><span class="si">${</span><span class="nx">nativeSampleRate</span><span class="si">}</span><span class="sb"> to </span><span class="si">${</span><span class="nx">targetSampleRate</span><span class="si">}</span><span class="sb"> Hz`</span><span class="p">);</span>
+<span class="linenos"> 57</span>
+<span class="linenos"> 58</span><span class="kd">const</span><span class="w"> </span><span class="nx">inputStream</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">cpal</span><span class="p">.</span><span class="nx">createStream</span><span class="p">(</span>
+<span class="linenos"> 59</span><span class="w">    </span><span class="nx">inputDevice</span><span class="p">.</span><span class="nx">deviceId</span><span class="p">,</span>
+<span class="linenos"> 60</span><span class="w">    </span><span class="kc">true</span><span class="p">,</span><span class="w">  </span><span class="c1">// true = input/recording stream</span>
+<span class="linenos"> 61</span><span class="w">    </span><span class="p">{</span>
+<span class="linenos"> 62</span><span class="w">      </span><span class="nx">sampleRate</span><span class="o">:</span><span class="w"> </span><span class="nx">nativeSampleRate</span><span class="p">,</span>
+<span class="linenos"> 63</span><span class="w">      </span><span class="nx">channels</span><span class="o">:</span><span class="w"> </span><span class="mf">1</span><span class="p">,</span>
+<span class="linenos"> 64</span><span class="w">      </span><span class="nx">format</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;f32&#39;</span><span class="p">,</span>
+<span class="linenos"> 65</span><span class="w">    </span><span class="p">},</span>
+<span class="linenos"> 66</span><span class="w">    </span><span class="p">(</span><span class="nx">data</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 67</span><span class="w">      </span><span class="c1">// data is a Float32Array of audio samples at nativeSampleRate.</span>
+<span class="linenos"> 68</span><span class="w">      </span><span class="c1">// Resample to targetSampleRate before processing.</span>
+<span class="linenos"> 69</span><span class="w">      </span><span class="kd">const</span><span class="w"> </span><span class="nx">resampled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">resampler</span><span class="p">.</span><span class="nx">resample</span><span class="p">(</span><span class="nx">data</span><span class="p">);</span>
+<span class="linenos"> 70</span>
+<span class="linenos"> 71</span><span class="w">      </span><span class="kd">const</span><span class="w"> </span><span class="nx">windowSize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">vad</span><span class="p">.</span><span class="nx">config</span><span class="p">.</span><span class="nx">sileroVad</span><span class="p">.</span><span class="nx">model</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="w"> </span><span class="o">?</span>
+<span class="linenos"> 72</span><span class="w">          </span><span class="nx">vad</span><span class="p">.</span><span class="nx">config</span><span class="p">.</span><span class="nx">sileroVad</span><span class="p">.</span><span class="nx">windowSize</span><span class="w"> </span><span class="o">:</span>
+<span class="linenos"> 73</span><span class="w">          </span><span class="nx">vad</span><span class="p">.</span><span class="nx">config</span><span class="p">.</span><span class="nx">tenVad</span><span class="p">.</span><span class="nx">windowSize</span><span class="p">;</span>
+<span class="linenos"> 74</span>
+<span class="linenos"> 75</span><span class="w">      </span><span class="nx">buffer</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">resampled</span><span class="p">);</span>
+<span class="linenos"> 76</span>
+<span class="linenos"> 77</span><span class="w">      </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="nx">buffer</span><span class="p">.</span><span class="nx">size</span><span class="p">()</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="nx">windowSize</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 78</span><span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">samples</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">buffer</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">buffer</span><span class="p">.</span><span class="nx">head</span><span class="p">(),</span><span class="w"> </span><span class="nx">windowSize</span><span class="p">);</span>
+<span class="linenos"> 79</span><span class="w">        </span><span class="nx">buffer</span><span class="p">.</span><span class="nx">pop</span><span class="p">(</span><span class="nx">windowSize</span><span class="p">);</span>
+<span class="linenos"> 80</span><span class="w">        </span><span class="nx">vad</span><span class="p">.</span><span class="nx">acceptWaveform</span><span class="p">(</span><span class="nx">samples</span><span class="p">);</span>
+<span class="linenos"> 81</span>
+<span class="linenos"> 82</span><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">vad</span><span class="p">.</span><span class="nx">isDetected</span><span class="p">()</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">!</span><span class="nx">printed</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 83</span><span class="w">          </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="sb">`</span><span class="si">${</span><span class="nx">index</span><span class="si">}</span><span class="sb">: Detected speech`</span><span class="p">);</span>
+<span class="linenos"> 84</span><span class="w">          </span><span class="nx">printed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">true</span><span class="p">;</span>
+<span class="linenos"> 85</span><span class="w">        </span><span class="p">}</span>
+<span class="linenos"> 86</span>
+<span class="linenos"> 87</span><span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">vad</span><span class="p">.</span><span class="nx">isDetected</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 88</span><span class="w">          </span><span class="nx">printed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span>
+<span class="linenos"> 89</span><span class="w">        </span><span class="p">}</span>
+<span class="linenos"> 90</span>
+<span class="linenos"> 91</span><span class="w">        </span><span class="c1">// Extract completed speech segments.</span>
+<span class="linenos"> 92</span><span class="w">        </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="nx">vad</span><span class="p">.</span><span class="nx">isEmpty</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 93</span><span class="w">          </span><span class="kd">const</span><span class="w"> </span><span class="nx">segment</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">vad</span><span class="p">.</span><span class="nx">front</span><span class="p">();</span>
+<span class="linenos"> 94</span><span class="w">          </span><span class="nx">vad</span><span class="p">.</span><span class="nx">pop</span><span class="p">();</span>
+<span class="linenos"> 95</span><span class="w">          </span><span class="kd">const</span><span class="w"> </span><span class="nx">filename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="sb">`</span><span class="si">${</span>
+<span class="linenos"> 96</span><span class="w">                               </span><span class="nx">index</span><span class="si">}</span><span class="sb">-</span><span class="si">${</span>
+<span class="linenos"> 97</span><span class="w">                               </span><span class="ow">new</span><span class="w"> </span><span class="nb">Date</span><span class="p">()</span>
+<span class="linenos"> 98</span><span class="w">                                   </span><span class="p">.</span><span class="nx">toLocaleTimeString</span><span class="p">(</span><span class="s1">&#39;en-US&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="nx">hour12</span><span class="o">:</span><span class="w"> </span><span class="kc">false</span><span class="si">}</span><span class="sb">)</span>
+<span class="linenos"> 99</span><span class="sb">                                   .split(&#39; &#39;)[0]}.wav`</span>
+<span class="linenos">100</span><span class="w">                               </span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="sr">/:/g</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;-&#39;</span><span class="p">);</span>
+<span class="linenos">101</span><span class="w">          </span><span class="nx">sherpa_onnx</span><span class="p">.</span><span class="nx">writeWave</span><span class="p">(</span>
+<span class="linenos">102</span><span class="w">              </span><span class="nx">filename</span><span class="p">,</span>
+<span class="linenos">103</span><span class="w">              </span><span class="p">{</span><span class="nx">samples</span><span class="o">:</span><span class="w"> </span><span class="nx">segment</span><span class="p">.</span><span class="nx">samples</span><span class="p">,</span><span class="w"> </span><span class="nx">sampleRate</span><span class="o">:</span><span class="w"> </span><span class="nx">vad</span><span class="p">.</span><span class="nx">config</span><span class="p">.</span><span class="nx">sampleRate</span><span class="p">});</span>
+<span class="linenos">104</span><span class="w">          </span><span class="kd">const</span><span class="w"> </span><span class="nx">duration</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">segment</span><span class="p">.</span><span class="nx">samples</span><span class="p">.</span><span class="nx">length</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nx">vad</span><span class="p">.</span><span class="nx">config</span><span class="p">.</span><span class="nx">sampleRate</span><span class="p">;</span>
+<span class="linenos">105</span><span class="w">          </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span>
+<span class="linenos">106</span><span class="w">              </span><span class="sb">`</span><span class="si">${</span><span class="nx">index</span><span class="si">}</span><span class="sb"> End of speech. Duration: </span><span class="si">${</span><span class="nx">duration</span><span class="si">}</span><span class="sb"> seconds`</span><span class="p">);</span>
+<span class="linenos">107</span><span class="w">          </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="sb">`Saved to </span><span class="si">${</span><span class="nx">filename</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
+<span class="linenos">108</span><span class="w">          </span><span class="nx">index</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mf">1</span><span class="p">;</span>
+<span class="linenos">109</span><span class="w">        </span><span class="p">}</span>
+<span class="linenos">110</span><span class="w">      </span><span class="p">}</span>
+<span class="linenos">111</span><span class="w">    </span><span class="p">});</span>
+<span class="linenos">112</span>
+<span class="linenos">113</span><span class="kd">let</span><span class="w"> </span><span class="nx">printed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="p">;</span>
+<span class="linenos">114</span><span class="kd">let</span><span class="w"> </span><span class="nx">index</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0</span><span class="p">;</span>
+<span class="linenos">115</span>
+<span class="linenos">116</span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Started! Please speak&#39;</span><span class="p">);</span>
+<span class="linenos">117</span>
+<span class="linenos">118</span><span class="c1">// Keep the process running. Press Ctrl+C to stop.</span>
+<span class="linenos">119</span><span class="nx">process</span><span class="p">.</span><span class="nx">on</span><span class="p">(</span><span class="s1">&#39;SIGINT&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">()</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">120</span><span class="w">  </span><span class="nx">cpal</span><span class="p">.</span><span class="nx">closeStream</span><span class="p">(</span><span class="nx">inputStream</span><span class="p">);</span>
+<span class="linenos">121</span><span class="w">  </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Free resources&#39;</span><span class="p">);</span>
+<span class="linenos">122</span><span class="w">  </span><span class="nx">process</span><span class="p">.</span><span class="nx">exit</span><span class="p">(</span><span class="mf">0</span><span class="p">);</span>
+<span class="linenos">123</span><span class="p">});</span>
+</pre></div>
+</div>
+</section>
+<section id="how-to-run">
+<h2>How to run<a class="headerlink" href="#how-to-run" title="Permalink to this heading"></a></h2>
+<ol class="arabic">
+<li><p>Install the packages:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">npm</span> <span class="n">install</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">node</span>
+<span class="n">npm</span> <span class="n">install</span> <span class="n">node</span><span class="o">-</span><span class="n">cpal</span>
+</pre></div>
+</div>
+</li>
+<li><p>Download the VAD model:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">curl</span> <span class="o">-</span><span class="n">SL</span> <span class="o">-</span><span class="n">O</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">k2</span><span class="o">-</span><span class="n">fsa</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="n">download</span><span class="o">/</span><span class="n">asr</span><span class="o">-</span><span class="n">models</span><span class="o">/</span><span class="n">silero_vad</span><span class="o">.</span><span class="n">onnx</span>
+</pre></div>
+</div>
+</li>
+<li><p>Set the library path and run:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># macOS</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">DYLD_LIBRARY_PATH</span><span class="o">=</span><span class="k">$(</span>npm<span class="w"> </span>root<span class="k">)</span>/sherpa-onnx-node/lib:<span class="nv">$DYLD_LIBRARY_PATH</span>
+
+<span class="c1"># Linux</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span><span class="k">$(</span>npm<span class="w"> </span>root<span class="k">)</span>/sherpa-onnx-node/lib:<span class="nv">$LD_LIBRARY_PATH</span>
+
+node<span class="w"> </span>vad_microphone.js
+</pre></div>
+</div>
+</li>
+<li><p>Speak into the microphone. Detected speech segments will be printed and
+saved as WAV files. Press <code class="docutils literal notranslate"><span class="pre">Ctrl+C</span></code> to stop.</p></li>
+</ol>
+<section id="expected-output">
+<h3>Expected output<a class="headerlink" href="#expected-output" title="Permalink to this heading"></a></h3>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Started! Please speak
+0: Detected speech
+0 End of speech. Duration: 2.345 seconds
+Saved to 0-14-30-25.wav
+</pre></div>
+</div>
+</section>
+</section>
+<section id="notes">
+<h2>Notes<a class="headerlink" href="#notes" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/saeta-eth/node-cpal">node-cpal</a> provides
+cross-platform microphone access via Rust’s CPAL library. Install it with
+<code class="docutils literal notranslate"><span class="pre">npm</span> <span class="pre">install</span> <span class="pre">node-cpal</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cpal.getDefaultInputDevice()</span></code> returns the default microphone device
+object. Use <code class="docutils literal notranslate"><span class="pre">device.deviceId</span></code> to get the device ID string.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cpal.getDefaultInputConfig(deviceId)</span></code> returns the device’s native
+sample rate and format.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cpal.createStream(deviceId,</span> <span class="pre">true,</span> <span class="pre">config,</span> <span class="pre">callback)</span></code> opens an input
+stream. The callback receives a <code class="docutils literal notranslate"><span class="pre">Float32Array</span></code> of audio samples.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">new</span> <span class="pre">sherpa_onnx.LinearResampler(inputRate,</span> <span class="pre">outputRate)</span></code> creates a
+resampler to convert audio from the device’s native sample rate to the
+rate required by the model (e.g., 16kHz).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">resampler.resample(samples)</span></code> resamples a <code class="docutils literal notranslate"><span class="pre">Float32Array</span></code> chunk and
+returns the resampled <code class="docutils literal notranslate"><span class="pre">Float32Array</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">CircularBuffer</span></code> stores incoming microphone samples. The VAD processes
+audio in fixed-size windows (512 samples for Silero VAD at 16kHz).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">isDetected()</span></code> returns <code class="docutils literal notranslate"><span class="pre">true</span></code> when speech is currently being detected.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">isEmpty()</span></code> / <code class="docutils literal notranslate"><span class="pre">front()</span></code> / <code class="docutils literal notranslate"><span class="pre">pop()</span></code> are used to extract completed
+speech segments (speech followed by enough silence).</p></li>
+<li><p>You can also use <code class="docutils literal notranslate"><span class="pre">ten-vad.onnx</span></code> instead of <code class="docutils literal notranslate"><span class="pre">silero_vad.onnx</span></code>.</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="non_streaming_asr.html" class="btn btn-neutral float-left" title="Non-Streaming ASR" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="speaker_diarization.html" class="btn btn-neutral float-right" title="Speaker Diarization" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

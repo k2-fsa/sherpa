@@ -1,0 +1,22 @@
+<map id="sherpa_onnx::cxx::OnlineModelConfig" name="sherpa_onnx::cxx::OnlineModelConfig">
+<area shape="rect" id="Node000001" title="Acoustic model configuration for streaming ASR." alt="" coords="732,212,919,252"/>
+<area shape="rect" id="Node000002" href="$structsherpa__onnx_1_1cxx_1_1OnlineTransducerModelConfig.html" title="Streaming transducer model files." alt="" coords="391,115,577,155"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="584,155,709,189,770,209,768,214,707,195,582,161"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="193,219,280,245"/>
+<area shape="poly" id="edge12_Node000001_Node000003" title=" " alt="" coords="242,205,262,155,280,129,303,108,323,100,351,94,426,90,510,92,583,100,648,115,709,143,761,176,803,210,800,214,758,180,707,148,647,120,582,105,509,97,427,95,352,100,324,105,305,113,284,133,267,157,247,207"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="260,208,303,179,346,162,390,149,391,154,348,167,305,184,263,212"/>
+<area shape="rect" id="Node000005" href="$structsherpa__onnx_1_1cxx_1_1OnlineParaformerModelConfig.html" title="Streaming Paraformer model files." alt="" coords="391,179,577,219"/>
+<area shape="poly" id="edge5_Node000005_Node000003" title=" " alt="" coords="293,222,390,209,391,214,294,227"/>
+<area shape="rect" id="Node000006" href="$structsherpa__onnx_1_1cxx_1_1OnlineZipformer2CtcModelConfig.html" title="Streaming Zipformer2 CTC model file." alt="" coords="385,243,583,283"/>
+<area shape="poly" id="edge7_Node000006_Node000003" title=" " alt="" coords="294,245,304,247,385,256,385,261,304,252,293,250"/>
+<area shape="rect" id="Node000007" href="$structsherpa__onnx_1_1cxx_1_1OnlineNemoCtcModelConfig.html" title="Streaming NeMo CTC model file." alt="" coords="391,307,577,347"/>
+<area shape="poly" id="edge9_Node000007_Node000003" title=" " alt="" coords="266,250,305,274,348,291,392,304,390,309,346,296,303,278,264,255"/>
+<area shape="rect" id="Node000008" href="$structsherpa__onnx_1_1cxx_1_1OnlineToneCtcModelConfig.html" title="Streaming T&#45;One CTC model file." alt="" coords="391,371,577,411"/>
+<area shape="poly" id="edge11_Node000008_Node000003" title=" " alt="" coords="255,255,277,286,306,315,355,346,407,368,405,373,352,351,302,319,273,289,251,258"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="5,212,144,252"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="157,229,193,229,193,235,157,235"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="591,206,732,220,732,226,591,212"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="596,255,708,247,731,244,732,249,708,252,597,261"/>
+<area shape="poly" id="edge8_Node000001_Node000007" title=" " alt="" coords="590,303,707,273,775,250,776,255,709,279,592,308"/>
+<area shape="poly" id="edge10_Node000001_Node000008" title=" " alt="" coords="584,364,646,344,707,318,758,284,800,250,804,254,762,289,709,322,648,349,586,369"/>
+</map>

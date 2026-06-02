@@ -1,0 +1,190 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>rap1.wav (English, Rap) &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../index.html">sherpa-onnx</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>rap1.wav (English, Rap)</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/onnx/qwen3-asr/ex-rap1.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="rap1-wav-english-rap">
+<h1>rap1.wav (English, Rap)<a class="headerlink" href="#rap1-wav-english-rap" title="Permalink to this heading"></a></h1>
+<p>To decode the test file</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/test_wavs/rap1.wav</span></code></p>
+</div></blockquote>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./build/bin/sherpa-onnx-offline<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-conv-frontend<span class="o">=</span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/conv_frontend.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-encoder<span class="o">=</span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/encoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-decoder<span class="o">=</span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/decoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-tokenizer<span class="o">=</span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/tokenizer<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-max-total-len<span class="o">=</span><span class="m">1024</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-max-new-tokens<span class="o">=</span><span class="m">1024</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--num-threads<span class="o">=</span><span class="m">2</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/test_wavs/rap1.wav
+</pre></div>
+</div>
+<p>You should see the following output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:373 ./build/bin/sherpa-onnx-offline --qwen3-asr-conv-frontend=./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/conv_frontend.onnx --qwen3-asr-encoder=./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/encoder.int8.onnx --qwen3-asr-decoder=./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/decoder.int8.onnx --qwen3-asr-tokenizer=./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/tokenizer --qwen3-asr-max-total-len=1024 --qwen3-asr-max-new-tokens=1024 --num-threads=2 ./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/test_wavs/rap1.wav 
+
+OfflineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80, low_freq=20, high_freq=-400, dither=0, normalize_samples=True, snip_edges=False), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename=&quot;&quot;, decoder_filename=&quot;&quot;, joiner_filename=&quot;&quot;), paraformer=OfflineParaformerModelConfig(model=&quot;&quot;), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=&quot;&quot;), whisper=OfflineWhisperModelConfig(encoder=&quot;&quot;, decoder=&quot;&quot;, language=&quot;&quot;, task=&quot;transcribe&quot;, tail_paddings=-1, enable_token_timestamps=False, enable_segment_timestamps=False), fire_red_asr=OfflineFireRedAsrModelConfig(encoder=&quot;&quot;, decoder=&quot;&quot;), tdnn=OfflineTdnnModelConfig(model=&quot;&quot;), zipformer_ctc=OfflineZipformerCtcModelConfig(model=&quot;&quot;), wenet_ctc=OfflineWenetCtcModelConfig(model=&quot;&quot;), sense_voice=OfflineSenseVoiceModelConfig(model=&quot;&quot;, language=&quot;auto&quot;, use_itn=False), moonshine=OfflineMoonshineModelConfig(preprocessor=&quot;&quot;, encoder=&quot;&quot;, uncached_decoder=&quot;&quot;, cached_decoder=&quot;&quot;, merged_decoder=&quot;&quot;), dolphin=OfflineDolphinModelConfig(model=&quot;&quot;), canary=OfflineCanaryModelConfig(encoder=&quot;&quot;, decoder=&quot;&quot;, src_lang=&quot;&quot;, tgt_lang=&quot;&quot;, use_pnc=True), cohere_transcribe=OfflineCohereTranscribeModelConfig(encoder=&quot;&quot;, decoder=&quot;&quot;, language=&quot;&quot;, use_punct=True, use_itn=True), omnilingual=OfflineOmnilingualAsrCtcModelConfig(model=&quot;&quot;), funasr_nano=OfflineFunASRNanoModelConfig(encoder_adaptor=&quot;&quot;, llm=&quot;&quot;, embedding=&quot;&quot;, tokenizer=&quot;&quot;, system_prompt=&quot;You are a helpful assistant.&quot;, user_prompt=&quot;语音转写：&quot;, max_new_tokens=512, temperature=1e-06, top_p=0.8, seed=42, language=&quot;&quot;, itn=True, hotwords=&quot;&quot;), medasr=OfflineMedAsrCtcModelConfig(model=&quot;&quot;), fire_red_asr_ctc=OfflineFireRedAsrCtcModelConfig(model=&quot;&quot;), qwen3_asr=OfflineQwen3ASRModelConfig(conv_frontend=&quot;./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/conv_frontend.onnx&quot;, encoder=&quot;./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/encoder.int8.onnx&quot;, decoder=&quot;./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/decoder.int8.onnx&quot;, tokenizer=&quot;./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/tokenizer&quot;, hotwords=&quot;&quot;, max_total_len=1024, max_new_tokens=1024, temperature=1e-06, top_p=0.8, seed=42), telespeech_ctc=&quot;&quot;, tokens=&quot;&quot;, num_threads=2, debug=False, provider=&quot;cpu&quot;, model_type=&quot;&quot;, modeling_unit=&quot;cjkchar&quot;, bpe_vocab=&quot;&quot;), lm_config=OfflineLMConfig(model=&quot;&quot;, scale=0.5, lodr_scale=0.01, lodr_fst=&quot;&quot;, lodr_backoff_id=-1), ctc_fst_decoder_config=OfflineCtcFstDecoderConfig(graph=&quot;&quot;, max_active=3000), decoding_method=&quot;greedy_search&quot;, max_active_paths=4, hotwords_file=&quot;&quot;, hotwords_score=1.5, blank_penalty=0, rule_fsts=&quot;&quot;, rule_fars=&quot;&quot;, hr=HomophoneReplacerConfig(lexicon=&quot;&quot;, rule_fsts=&quot;&quot;))
+Creating recognizer ...
+recognizer created in 1.192 s
+Started
+Done!
+
+./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/test_wavs/rap1.wav
+----
+num threads: 2
+decoding method: greedy_search
+Elapsed seconds: 3.711 s
+Real time factor (RTF): 3.711 / 28.982 = 0.128
+{&quot;lang&quot;: &quot;&quot;, &quot;emotion&quot;: &quot;&quot;, &quot;event&quot;: &quot;&quot;, &quot;text&quot;: &quot;Sometimes I just feel like quitting. I still might. Why do I put up this fight? Why do I still write? Sometimes it&#39;s hard enough just dealing with real life. Sometimes I want to jump on stage and just kill mics. And so these people on my level of skills like, but I&#39;m still white. Sometimes I just hate life. Something ain&#39;t right. Hit the brake lights. Taste of the stage fright. Drawing the blank like. I&#39;m gonna fight. It ain&#39;t my fault. I&#39;ve been.&quot;, &quot;timestamps&quot;: [], &quot;durations&quot;: [], &quot;tokens&quot;:[&quot;Sometimes&quot;, &quot; I&quot;, &quot; just&quot;, &quot; feel&quot;, &quot; like&quot;, &quot; quitting&quot;, &quot;.&quot;, &quot; I&quot;, &quot; still&quot;, &quot; might&quot;, &quot;.&quot;, &quot; Why&quot;, &quot; do&quot;, &quot; I&quot;, &quot; put&quot;, &quot; up&quot;, &quot; this&quot;, &quot; fight&quot;, &quot;?&quot;, &quot; Why&quot;, &quot; do&quot;, &quot; I&quot;, &quot; still&quot;, &quot; write&quot;, &quot;?&quot;, &quot; Sometimes&quot;, &quot; it&quot;, &quot;&#39;s&quot;, &quot; hard&quot;, &quot; enough&quot;, &quot; just&quot;, &quot; dealing&quot;, &quot; with&quot;, &quot; real&quot;, &quot; life&quot;, &quot;.&quot;, &quot; Sometimes&quot;, &quot; I&quot;, &quot; want&quot;, &quot; to&quot;, &quot; jump&quot;, &quot; on&quot;, &quot; stage&quot;, &quot; and&quot;, &quot; just&quot;, &quot; kill&quot;, &quot; m&quot;, &quot;ics&quot;, &quot;.&quot;, &quot; And&quot;, &quot; so&quot;, &quot; these&quot;, &quot; people&quot;, &quot; on&quot;, &quot; my&quot;, &quot; level&quot;, &quot; of&quot;, &quot; skills&quot;, &quot; like&quot;, &quot;,&quot;, &quot; but&quot;, &quot; I&quot;, &quot;&#39;m&quot;, &quot; still&quot;, &quot; white&quot;, &quot;.&quot;, &quot; Sometimes&quot;, &quot; I&quot;, &quot; just&quot;, &quot; hate&quot;, &quot; life&quot;, &quot;.&quot;, &quot; Something&quot;, &quot; ain&quot;, &quot;&#39;t&quot;, &quot; right&quot;, &quot;.&quot;, &quot; Hit&quot;, &quot; the&quot;, &quot; brake&quot;, &quot; lights&quot;, &quot;.&quot;, &quot; Taste&quot;, &quot; of&quot;, &quot; the&quot;, &quot; stage&quot;, &quot; fright&quot;, &quot;.&quot;, &quot; Drawing&quot;, &quot; the&quot;, &quot; blank&quot;, &quot; like&quot;, &quot;.&quot;, &quot; I&quot;, &quot;&#39;m&quot;, &quot; gonna&quot;, &quot; fight&quot;, &quot;.&quot;, &quot; It&quot;, &quot; ain&quot;, &quot;&#39;t&quot;, &quot; my&quot;, &quot; fault&quot;, &quot;.&quot;, &quot; I&quot;, &quot;&#39;ve&quot;, &quot; been&quot;, &quot;.&quot;], &quot;ys_log_probs&quot;: [], &quot;words&quot;: []}
+</pre></div>
+</div>
+<table>
+  <tr>
+    <th>Wave filename</th>
+    <th>Content</th>
+    <th>Ground truth</th>
+  </tr>
+  <tr>
+    <td>rap1.wav</td>
+    <td>
+     <audio title="rap1.wav" controls="controls">
+           <source src="/sherpa/_static/qwen3-asr-0.6b/rap1.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+    <td>
+      Sometimes I just feel like quitting. I still might. Why do I put up this fight? Why do I still write? Sometimes it's hard enough just dealing with real life. Sometimes I wanna jump a state and just kill mics. And so these people want my level of skills, like, but I'm still white. Sometimes I just hate life. Something ain't right. Hit the brake lights. Taste of the state's right. Drawing the blank line. It ain't my fault.
+    </td>
+  </tr>
+</table></section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

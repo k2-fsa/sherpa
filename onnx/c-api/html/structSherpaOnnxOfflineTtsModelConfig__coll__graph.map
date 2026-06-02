@@ -1,0 +1,17 @@
+<map id="SherpaOnnxOfflineTtsModelConfig" name="SherpaOnnxOfflineTtsModelConfig">
+<area shape="rect" id="Node000001" title="Configuration shared by offline TTS models." alt="" coords="360,197,564,237"/>
+<area shape="rect" id="Node000002" href="$structSherpaOnnxOfflineTtsVitsModelConfig.html" title="Configuration for a VITS TTS model." alt="" coords="27,5,217,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="219,47,240,55,291,78,338,108,395,153,441,195,438,199,392,157,334,113,288,83,238,60,217,52"/>
+<area shape="rect" id="Node000003" href="$structSherpaOnnxOfflineTtsMatchaModelConfig.html" title="Configuration for a Matcha TTS model." alt="" coords="16,69,228,109"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="215,111,240,119,338,157,420,195,418,200,336,162,238,124,213,116"/>
+<area shape="rect" id="Node000004" href="$structSherpaOnnxOfflineTtsKokoroModelConfig.html" title="Configuration for a Kokoro TTS model." alt="" coords="18,133,226,173"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="240,173,360,196,359,201,239,178"/>
+<area shape="rect" id="Node000005" href="$structSherpaOnnxOfflineTtsKittenModelConfig.html" title="Configuration for a Kitten TTS model." alt="" coords="21,197,223,237"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="237,215,360,215,360,220,237,220"/>
+<area shape="rect" id="Node000006" href="$structSherpaOnnxOfflineTtsZipvoiceModelConfig.html" title="Configuration for a ZipVoice TTS model." alt="" coords="12,261,232,301"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="242,256,359,234,360,239,243,261"/>
+<area shape="rect" id="Node000007" href="$structSherpaOnnxOfflineTtsPocketModelConfig.html" title="Configuration for a Pocket TTS model." alt="" coords="19,325,225,365"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="213,319,238,311,336,272,419,235,421,240,338,277,240,316,215,324"/>
+<area shape="rect" id="Node000008" href="$structSherpaOnnxOfflineTtsSupertonicModelConfig.html" title="Configuration for a Supertonic TTS model." alt="" coords="5,389,239,429"/>
+<area shape="poly" id="edge7_Node000001_Node000008" title=" " alt="" coords="217,383,238,375,288,353,334,323,392,278,438,236,442,240,396,282,338,328,291,357,240,380,219,388"/>
+</map>

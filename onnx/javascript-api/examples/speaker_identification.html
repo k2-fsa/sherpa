@@ -1,0 +1,397 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Speaker Identification &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/clipboard.min.js"></script>
+        <script src="../../../_static/copybutton.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Audio Tagging" href="audio_tagging.html" />
+    <link rel="prev" title="Speaker Diarization" href="speaker_diarization.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">sherpa-onnx</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../install/index.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../faqs/index.html">Frequently Asked Question (FAQs)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../python/index.html">Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../c-api/index.html">C API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../java-api/index.html">Java API</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">Javascript API (Node-Addon)</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../install.html">Install</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">Node-Addon Examples</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="index.html#text-to-speech-tts">Text-to-Speech (TTS)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="index.html#speech-recognition-asr">Speech Recognition (ASR)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="index.html#voice-activity-detection-vad">Voice Activity Detection (VAD)</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="index.html#speaker-tasks">Speaker Tasks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="index.html#other-features">Other Features</a></li>
+<li class="toctree-l4"><a class="reference internal" href="index.html#api-reference">API Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api-doc.html">API doc</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../kotlin-api/index.html">Kotlin API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../swift-api/index.html">Swift API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../go-api/index.html">Go API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../rust-api/index.html">Rust API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../csharp-api/index.html">C# API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../pascal-api/index.html">Pascal API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../lazarus/index.html">Lazarus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../wasm/index.html">WebAssembly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../android/index.html">Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../harmony-os/index.html">HarmonyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ios/index.html">iOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../flutter/index.html">Flutter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tauri/index.html">Tauri Desktop Apps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../websocket/index.html">WebSocket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../hotwords/index.html">Hotwords (Contextual biasing)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../kws/index.html">Keyword spotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../punctuation/index.html">Punctuation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../audio-tagging/index.html">Audio tagging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../spoken-language-identification/index.html">Spoken language identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../vad/index.html">VAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../medasr/index.html">Google MedASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../pretrained_models/index.html">Pre-trained models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../pretrained_models/whisper/index.html">Whisper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../moonshine/index.html">Moonshine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../omnilingual-asr/index.html">Omnilingual ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../sense-voice/index.html">SenseVoice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cohere_transcribe/index.html">Cohere Transcribe</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../funasr-nano/index.html">FunASR Nano</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../qwen3-asr/index.html">Qwen3-ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../paraformer/index.html">Paraformer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../nemo/index.html">NeMo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../FireRedAsr/index.html">FireRedAsr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Dolphin/index.html">Dolphin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../homophone-replacer/index.html">拼音词组匹配替换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../speaker-diarization/index.html">Speaker Diarization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../speaker-identification/index.html">Speaker Identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../speech-enhancement/index.html">Speech enhancement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../source-separation/index.html">Source separation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../qnn/index.html">Qualcomm NPU (QNN, HTP)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../rknn/index.html">rknn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../spacemit/index.html">SpacemiT CPUs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ascend/index.html">Ascend NPU (昇腾 NPU)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tts/index.html">Text-to-speech (TTS)</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html">sherpa-onnx</a> &raquo;</li>
+          <li><a href="../index.html">Javascript API (Node-Addon)</a> &raquo;</li>
+          <li><a href="index.html">Node-Addon Examples</a> &raquo;</li>
+      <li>Speaker Identification</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/onnx/javascript-api/examples/speaker_identification.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="speaker-identification">
+<h1>Speaker Identification<a class="headerlink" href="#speaker-identification" title="Permalink to this heading"></a></h1>
+<p>Identify and verify speakers using speaker embeddings. This example enrolls
+two speakers, then identifies test utterances and verifies a specific speaker.</p>
+<section id="source-file">
+<h2>Source file<a class="headerlink" href="#source-file" title="Permalink to this heading"></a></h2>
+<p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/blob/master/nodejs-addon-examples/test_speaker_identification.js">nodejs-addon-examples/test_speaker_identification.js</a></p>
+</section>
+<section id="code">
+<h2>Code<a class="headerlink" href="#code" title="Permalink to this heading"></a></h2>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="linenos">  1</span><span class="c1">// Copyright (c)  2024  Xiaomi Corporation</span>
+<span class="linenos">  2</span><span class="c1">//</span>
+<span class="linenos">  3</span><span class="c1">// Speaker identification and verification using speaker embeddings.</span>
+<span class="linenos">  4</span><span class="c1">//</span>
+<span class="linenos">  5</span><span class="c1">// Usage:</span>
+<span class="linenos">  6</span><span class="c1">//   node speaker_identification.js</span>
+<span class="linenos">  7</span><span class="c1">//</span>
+<span class="linenos">  8</span><span class="kd">const</span><span class="w"> </span><span class="nx">sherpa_onnx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;sherpa-onnx-node&#39;</span><span class="p">);</span>
+<span class="linenos">  9</span><span class="kd">const</span><span class="w"> </span><span class="nx">assert</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;node:assert&#39;</span><span class="p">);</span>
+<span class="linenos"> 10</span>
+<span class="linenos"> 11</span><span class="c1">// Download the embedding model from</span>
+<span class="linenos"> 12</span><span class="c1">// https://github.com/k2-fsa/sherpa-onnx/releases/tag/speaker-recongition-models</span>
+<span class="linenos"> 13</span><span class="kd">function</span><span class="w"> </span><span class="nx">createSpeakerEmbeddingExtractor</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 14</span><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">config</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 15</span><span class="w">    </span><span class="nx">model</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;./3dspeaker_speech_eres2net_base_sv_zh-cn_3dspeaker_16k.onnx&#39;</span><span class="p">,</span>
+<span class="linenos"> 16</span><span class="w">    </span><span class="nx">numThreads</span><span class="o">:</span><span class="w"> </span><span class="mf">1</span><span class="p">,</span>
+<span class="linenos"> 17</span><span class="w">    </span><span class="nx">debug</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="linenos"> 18</span><span class="w">  </span><span class="p">};</span>
+<span class="linenos"> 19</span><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">sherpa_onnx</span><span class="p">.</span><span class="nx">SpeakerEmbeddingExtractor</span><span class="p">(</span><span class="nx">config</span><span class="p">);</span>
+<span class="linenos"> 20</span><span class="p">}</span>
+<span class="linenos"> 21</span>
+<span class="linenos"> 22</span><span class="c1">// Helper: read a WAV file and compute its speaker embedding.</span>
+<span class="linenos"> 23</span><span class="kd">function</span><span class="w"> </span><span class="nx">computeEmbedding</span><span class="p">(</span><span class="nx">extractor</span><span class="p">,</span><span class="w"> </span><span class="nx">filename</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 24</span><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">stream</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">extractor</span><span class="p">.</span><span class="nx">createStream</span><span class="p">();</span>
+<span class="linenos"> 25</span><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">wave</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">sherpa_onnx</span><span class="p">.</span><span class="nx">readWave</span><span class="p">(</span><span class="nx">filename</span><span class="p">);</span>
+<span class="linenos"> 26</span><span class="w">  </span><span class="nx">stream</span><span class="p">.</span><span class="nx">acceptWaveform</span><span class="p">({</span><span class="nx">sampleRate</span><span class="o">:</span><span class="w"> </span><span class="nx">wave</span><span class="p">.</span><span class="nx">sampleRate</span><span class="p">,</span><span class="w"> </span><span class="nx">samples</span><span class="o">:</span><span class="w"> </span><span class="nx">wave</span><span class="p">.</span><span class="nx">samples</span><span class="p">});</span>
+<span class="linenos"> 27</span><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="nx">extractor</span><span class="p">.</span><span class="nx">compute</span><span class="p">(</span><span class="nx">stream</span><span class="p">);</span>
+<span class="linenos"> 28</span><span class="p">}</span>
+<span class="linenos"> 29</span>
+<span class="linenos"> 30</span><span class="kd">const</span><span class="w"> </span><span class="nx">extractor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">createSpeakerEmbeddingExtractor</span><span class="p">();</span>
+<span class="linenos"> 31</span>
+<span class="linenos"> 32</span><span class="c1">// SpeakerEmbeddingManager stores speaker embeddings and supports</span>
+<span class="linenos"> 33</span><span class="c1">// search, verify, add, and remove operations.</span>
+<span class="linenos"> 34</span><span class="kd">const</span><span class="w"> </span><span class="nx">manager</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">sherpa_onnx</span><span class="p">.</span><span class="nx">SpeakerEmbeddingManager</span><span class="p">(</span><span class="nx">extractor</span><span class="p">.</span><span class="nx">dim</span><span class="p">);</span>
+<span class="linenos"> 35</span>
+<span class="linenos"> 36</span><span class="c1">// --- Enroll speakers ---</span>
+<span class="linenos"> 37</span><span class="c1">// Download test files from https://github.com/csukuangfj/sr-data</span>
+<span class="linenos"> 38</span><span class="kd">const</span><span class="w"> </span><span class="nx">spk1Files</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span>
+<span class="linenos"> 39</span><span class="w">  </span><span class="s1">&#39;./sr-data/enroll/fangjun-sr-1.wav&#39;</span><span class="p">,</span>
+<span class="linenos"> 40</span><span class="w">  </span><span class="s1">&#39;./sr-data/enroll/fangjun-sr-2.wav&#39;</span><span class="p">,</span>
+<span class="linenos"> 41</span><span class="w">  </span><span class="s1">&#39;./sr-data/enroll/fangjun-sr-3.wav&#39;</span><span class="p">,</span>
+<span class="linenos"> 42</span><span class="p">];</span>
+<span class="linenos"> 43</span>
+<span class="linenos"> 44</span><span class="kd">let</span><span class="w"> </span><span class="nx">spk1Vec</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[];</span>
+<span class="linenos"> 45</span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kd">let</span><span class="w"> </span><span class="nx">f</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nx">spk1Files</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 46</span><span class="w">  </span><span class="nx">spk1Vec</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">computeEmbedding</span><span class="p">(</span><span class="nx">extractor</span><span class="p">,</span><span class="w"> </span><span class="nx">f</span><span class="p">));</span>
+<span class="linenos"> 47</span><span class="p">}</span>
+<span class="linenos"> 48</span>
+<span class="linenos"> 49</span><span class="kd">const</span><span class="w"> </span><span class="nx">spk2Files</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span>
+<span class="linenos"> 50</span><span class="w">  </span><span class="s1">&#39;./sr-data/enroll/leijun-sr-1.wav&#39;</span><span class="p">,</span>
+<span class="linenos"> 51</span><span class="w">  </span><span class="s1">&#39;./sr-data/enroll/leijun-sr-2.wav&#39;</span><span class="p">,</span>
+<span class="linenos"> 52</span><span class="p">];</span>
+<span class="linenos"> 53</span>
+<span class="linenos"> 54</span><span class="kd">let</span><span class="w"> </span><span class="nx">spk2Vec</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[];</span>
+<span class="linenos"> 55</span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kd">let</span><span class="w"> </span><span class="nx">f</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nx">spk2Files</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 56</span><span class="w">  </span><span class="nx">spk2Vec</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">computeEmbedding</span><span class="p">(</span><span class="nx">extractor</span><span class="p">,</span><span class="w"> </span><span class="nx">f</span><span class="p">));</span>
+<span class="linenos"> 57</span><span class="p">}</span>
+<span class="linenos"> 58</span>
+<span class="linenos"> 59</span><span class="c1">// addMulti() registers a speaker with multiple enrollment utterances.</span>
+<span class="linenos"> 60</span><span class="kd">let</span><span class="w"> </span><span class="nx">ok</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">manager</span><span class="p">.</span><span class="nx">addMulti</span><span class="p">({</span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;fangjun&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">v</span><span class="o">:</span><span class="w"> </span><span class="nx">spk1Vec</span><span class="p">});</span>
+<span class="linenos"> 61</span><span class="nx">assert</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="nx">ok</span><span class="p">,</span><span class="w"> </span><span class="kc">true</span><span class="p">);</span>
+<span class="linenos"> 62</span>
+<span class="linenos"> 63</span><span class="nx">ok</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">manager</span><span class="p">.</span><span class="nx">addMulti</span><span class="p">({</span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;leijun&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">v</span><span class="o">:</span><span class="w"> </span><span class="nx">spk2Vec</span><span class="p">});</span>
+<span class="linenos"> 64</span><span class="nx">assert</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="nx">ok</span><span class="p">,</span><span class="w"> </span><span class="kc">true</span><span class="p">);</span>
+<span class="linenos"> 65</span>
+<span class="linenos"> 66</span><span class="nx">assert</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="nx">manager</span><span class="p">.</span><span class="nx">getNumSpeakers</span><span class="p">(),</span><span class="w"> </span><span class="mf">2</span><span class="p">);</span>
+<span class="linenos"> 67</span><span class="nx">assert</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="nx">manager</span><span class="p">.</span><span class="nx">contains</span><span class="p">(</span><span class="s1">&#39;fangjun&#39;</span><span class="p">),</span><span class="w"> </span><span class="kc">true</span><span class="p">);</span>
+<span class="linenos"> 68</span><span class="nx">assert</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="nx">manager</span><span class="p">.</span><span class="nx">contains</span><span class="p">(</span><span class="s1">&#39;leijun&#39;</span><span class="p">),</span><span class="w"> </span><span class="kc">true</span><span class="p">);</span>
+<span class="linenos"> 69</span>
+<span class="linenos"> 70</span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;--- All speakers ---&#39;</span><span class="p">);</span>
+<span class="linenos"> 71</span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">manager</span><span class="p">.</span><span class="nx">getAllSpeakerNames</span><span class="p">());</span>
+<span class="linenos"> 72</span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;--------------------&#39;</span><span class="p">);</span>
+<span class="linenos"> 73</span>
+<span class="linenos"> 74</span><span class="c1">// --- Identify test utterances ---</span>
+<span class="linenos"> 75</span><span class="kd">const</span><span class="w"> </span><span class="nx">testFiles</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span>
+<span class="linenos"> 76</span><span class="w">  </span><span class="s1">&#39;./sr-data/test/fangjun-test-sr-1.wav&#39;</span><span class="p">,</span>
+<span class="linenos"> 77</span><span class="w">  </span><span class="s1">&#39;./sr-data/test/leijun-test-sr-1.wav&#39;</span><span class="p">,</span>
+<span class="linenos"> 78</span><span class="w">  </span><span class="s1">&#39;./sr-data/test/liudehua-test-sr-1.wav&#39;</span><span class="p">,</span>
+<span class="linenos"> 79</span><span class="p">];</span>
+<span class="linenos"> 80</span>
+<span class="linenos"> 81</span><span class="kd">const</span><span class="w"> </span><span class="nx">threshold</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.6</span><span class="p">;</span>
+<span class="linenos"> 82</span>
+<span class="linenos"> 83</span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kd">let</span><span class="w"> </span><span class="nx">f</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="nx">testFiles</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 84</span><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">embedding</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">computeEmbedding</span><span class="p">(</span><span class="nx">extractor</span><span class="p">,</span><span class="w"> </span><span class="nx">f</span><span class="p">);</span>
+<span class="linenos"> 85</span>
+<span class="linenos"> 86</span><span class="w">  </span><span class="c1">// search() returns the speaker name, or &#39;&#39; if no match above threshold.</span>
+<span class="linenos"> 87</span><span class="w">  </span><span class="kd">let</span><span class="w"> </span><span class="nx">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">manager</span><span class="p">.</span><span class="nx">search</span><span class="p">({</span><span class="nx">v</span><span class="o">:</span><span class="w"> </span><span class="nx">embedding</span><span class="p">,</span><span class="w"> </span><span class="nx">threshold</span><span class="o">:</span><span class="w"> </span><span class="nx">threshold</span><span class="p">});</span>
+<span class="linenos"> 88</span><span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">name</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos"> 89</span><span class="w">    </span><span class="nx">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;&lt;Unknown&gt;&#39;</span><span class="p">;</span>
+<span class="linenos"> 90</span><span class="w">  </span><span class="p">}</span>
+<span class="linenos"> 91</span><span class="w">  </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="sb">`</span><span class="si">${</span><span class="nx">f</span><span class="si">}</span><span class="sb">: </span><span class="si">${</span><span class="nx">name</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
+<span class="linenos"> 92</span><span class="p">}</span>
+<span class="linenos"> 93</span>
+<span class="linenos"> 94</span><span class="c1">// --- Verify a specific speaker ---</span>
+<span class="linenos"> 95</span><span class="nx">ok</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">manager</span><span class="p">.</span><span class="nx">verify</span><span class="p">({</span>
+<span class="linenos"> 96</span><span class="w">  </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;fangjun&#39;</span><span class="p">,</span>
+<span class="linenos"> 97</span><span class="w">  </span><span class="nx">v</span><span class="o">:</span><span class="w"> </span><span class="nx">computeEmbedding</span><span class="p">(</span><span class="nx">extractor</span><span class="p">,</span><span class="w"> </span><span class="nx">testFiles</span><span class="p">[</span><span class="mf">0</span><span class="p">]),</span>
+<span class="linenos"> 98</span><span class="w">  </span><span class="nx">threshold</span><span class="o">:</span><span class="w"> </span><span class="nx">threshold</span>
+<span class="linenos"> 99</span><span class="p">});</span>
+<span class="linenos">100</span><span class="nx">assert</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="nx">ok</span><span class="p">,</span><span class="w"> </span><span class="kc">true</span><span class="p">);</span>
+<span class="linenos">101</span>
+<span class="linenos">102</span><span class="c1">// --- Remove a speaker ---</span>
+<span class="linenos">103</span><span class="nx">ok</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">manager</span><span class="p">.</span><span class="nx">remove</span><span class="p">(</span><span class="s1">&#39;fangjun&#39;</span><span class="p">);</span>
+<span class="linenos">104</span><span class="nx">assert</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="nx">ok</span><span class="p">,</span><span class="w"> </span><span class="kc">true</span><span class="p">);</span>
+<span class="linenos">105</span>
+<span class="linenos">106</span><span class="nx">ok</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">manager</span><span class="p">.</span><span class="nx">verify</span><span class="p">({</span>
+<span class="linenos">107</span><span class="w">  </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;fangjun&#39;</span><span class="p">,</span>
+<span class="linenos">108</span><span class="w">  </span><span class="nx">v</span><span class="o">:</span><span class="w"> </span><span class="nx">computeEmbedding</span><span class="p">(</span><span class="nx">extractor</span><span class="p">,</span><span class="w"> </span><span class="nx">testFiles</span><span class="p">[</span><span class="mf">0</span><span class="p">]),</span>
+<span class="linenos">109</span><span class="w">  </span><span class="nx">threshold</span><span class="o">:</span><span class="w"> </span><span class="nx">threshold</span>
+<span class="linenos">110</span><span class="p">});</span>
+<span class="linenos">111</span><span class="nx">assert</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="nx">ok</span><span class="p">,</span><span class="w"> </span><span class="kc">false</span><span class="p">);</span>
+<span class="linenos">112</span>
+<span class="linenos">113</span><span class="nx">assert</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="nx">manager</span><span class="p">.</span><span class="nx">getNumSpeakers</span><span class="p">(),</span><span class="w"> </span><span class="mf">1</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="how-to-run">
+<h2>How to run<a class="headerlink" href="#how-to-run" title="Permalink to this heading"></a></h2>
+<ol class="arabic">
+<li><p>Install the package:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">npm</span> <span class="n">install</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">node</span>
+</pre></div>
+</div>
+</li>
+<li><p>Download the embedding model:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">curl</span> <span class="o">-</span><span class="n">SL</span> <span class="o">-</span><span class="n">O</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">k2</span><span class="o">-</span><span class="n">fsa</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="n">download</span><span class="o">/</span><span class="n">speaker</span><span class="o">-</span><span class="n">recongition</span><span class="o">-</span><span class="n">models</span><span class="o">/</span><span class="mi">3</span><span class="n">dspeaker_speech_eres2net_base_sv_zh</span><span class="o">-</span><span class="n">cn_3dspeaker_16k</span><span class="o">.</span><span class="n">onnx</span>
+</pre></div>
+</div>
+</li>
+<li><p>Download test audio files:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">csukuangfj</span><span class="o">/</span><span class="n">sr</span><span class="o">-</span><span class="n">data</span>
+</pre></div>
+</div>
+</li>
+<li><p>Set the library path and run:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># macOS</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">DYLD_LIBRARY_PATH</span><span class="o">=</span><span class="k">$(</span>npm<span class="w"> </span>root<span class="k">)</span>/sherpa-onnx-node/lib:<span class="nv">$DYLD_LIBRARY_PATH</span>
+
+<span class="c1"># Linux</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span><span class="k">$(</span>npm<span class="w"> </span>root<span class="k">)</span>/sherpa-onnx-node/lib:<span class="nv">$LD_LIBRARY_PATH</span>
+
+node<span class="w"> </span>speaker_identification.js
+</pre></div>
+</div>
+</li>
+</ol>
+<section id="expected-output">
+<h3>Expected output<a class="headerlink" href="#expected-output" title="Permalink to this heading"></a></h3>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>--- All speakers ---
+[ &#39;fangjun&#39;, &#39;leijun&#39; ]
+--------------------
+./sr-data/test/fangjun-test-sr-1.wav: fangjun
+./sr-data/test/leijun-test-sr-1.wav: leijun
+./sr-data/test/liudehua-test-sr-1.wav: &lt;Unknown&gt;
+</pre></div>
+</div>
+</section>
+</section>
+<section id="notes">
+<h2>Notes<a class="headerlink" href="#notes" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">SpeakerEmbeddingExtractor</span></code> computes a fixed-dimensional embedding vector
+from a WAV file.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">SpeakerEmbeddingManager</span></code> stores embeddings and provides three operations:</p>
+<ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">search({v,</span> <span class="pre">threshold})</span></code>: Find the best matching speaker, or return
+<code class="docutils literal notranslate"><span class="pre">''</span></code> if none match above the threshold.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">verify({name,</span> <span class="pre">v,</span> <span class="pre">threshold})</span></code>: Check if the embedding matches a
+specific enrolled speaker.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">addMulti({name,</span> <span class="pre">v})</span></code>: Enroll a speaker with multiple utterances for
+better accuracy.</p></li>
+</ul>
+</li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">threshold</span></code> controls the trade-off between false accepts and false
+rejects. Tune it for your use case.</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="speaker_diarization.html" class="btn btn-neutral float-left" title="Speaker Diarization" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="audio_tagging.html" class="btn btn-neutral float-right" title="Audio Tagging" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

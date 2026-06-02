@@ -1,0 +1,404 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TTS: Kokoro (English) &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/clipboard.min.js"></script>
+        <script src="../../../_static/copybutton.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="TTS: Kokoro (Chinese + English)" href="tts_kokoro_zh_en.html" />
+    <link rel="prev" title="TTS: Kitten" href="tts_kitten.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../../index.html">sherpa-onnx</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../install/index.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../faqs/index.html">Frequently Asked Question (FAQs)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../python/index.html">Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../c-api/index.html">C API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../java-api/index.html">Java API</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../index.html">Javascript API (Node-Addon)</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../install.html">Install</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">Node-Addon Examples</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="index.html#text-to-speech-tts">Text-to-Speech (TTS)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="index.html#speech-recognition-asr">Speech Recognition (ASR)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="index.html#voice-activity-detection-vad">Voice Activity Detection (VAD)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="index.html#speaker-tasks">Speaker Tasks</a></li>
+<li class="toctree-l4"><a class="reference internal" href="index.html#other-features">Other Features</a></li>
+<li class="toctree-l4"><a class="reference internal" href="index.html#api-reference">API Reference</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="../api-doc.html">API doc</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../kotlin-api/index.html">Kotlin API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../swift-api/index.html">Swift API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../go-api/index.html">Go API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../rust-api/index.html">Rust API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../csharp-api/index.html">C# API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../pascal-api/index.html">Pascal API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../lazarus/index.html">Lazarus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../wasm/index.html">WebAssembly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../android/index.html">Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../harmony-os/index.html">HarmonyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ios/index.html">iOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../flutter/index.html">Flutter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tauri/index.html">Tauri Desktop Apps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../websocket/index.html">WebSocket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../hotwords/index.html">Hotwords (Contextual biasing)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../kws/index.html">Keyword spotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../punctuation/index.html">Punctuation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../audio-tagging/index.html">Audio tagging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../spoken-language-identification/index.html">Spoken language identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../vad/index.html">VAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../medasr/index.html">Google MedASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../pretrained_models/index.html">Pre-trained models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../pretrained_models/whisper/index.html">Whisper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../moonshine/index.html">Moonshine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../omnilingual-asr/index.html">Omnilingual ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../sense-voice/index.html">SenseVoice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../cohere_transcribe/index.html">Cohere Transcribe</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../funasr-nano/index.html">FunASR Nano</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../qwen3-asr/index.html">Qwen3-ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../paraformer/index.html">Paraformer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../nemo/index.html">NeMo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../FireRedAsr/index.html">FireRedAsr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../Dolphin/index.html">Dolphin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../homophone-replacer/index.html">拼音词组匹配替换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../speaker-diarization/index.html">Speaker Diarization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../speaker-identification/index.html">Speaker Identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../speech-enhancement/index.html">Speech enhancement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../source-separation/index.html">Source separation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../qnn/index.html">Qualcomm NPU (QNN, HTP)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../rknn/index.html">rknn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../spacemit/index.html">SpacemiT CPUs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../ascend/index.html">Ascend NPU (昇腾 NPU)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../tts/index.html">Text-to-speech (TTS)</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html">sherpa-onnx</a> &raquo;</li>
+          <li><a href="../index.html">Javascript API (Node-Addon)</a> &raquo;</li>
+          <li><a href="index.html">Node-Addon Examples</a> &raquo;</li>
+      <li>TTS: Kokoro (English)</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/onnx/javascript-api/examples/tts_kokoro_en.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="tts-kokoro-english">
+<h1>TTS: Kokoro (English)<a class="headerlink" href="#tts-kokoro-english" title="Permalink to this heading"></a></h1>
+<p>Generate speech with the Kokoro English (v0.19) model. Kokoro is a
+high-quality TTS model with multiple speaker voices. It supports both
+synchronous and asynchronous generation.</p>
+<p>For model documentation, see
+<a class="reference external" href="https://k2-fsa.github.io/sherpa/onnx/tts/all/">Kokoro English</a>.</p>
+<section id="source-files">
+<h2>Source files<a class="headerlink" href="#source-files" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p>Sync: <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/blob/master/nodejs-addon-examples/test_tts_non_streaming_kokoro_en.js">test_tts_non_streaming_kokoro_en.js</a></p></li>
+<li><p>Async: <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/blob/master/nodejs-addon-examples/test_tts_non_streaming_kokoro_en_async.js">test_tts_non_streaming_kokoro_en_async.js</a></p></li>
+</ul>
+</section>
+<section id="synchronous-generation">
+<h2>Synchronous generation<a class="headerlink" href="#synchronous-generation" title="Permalink to this heading"></a></h2>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="c1">// Copyright (c)  2025  Xiaomi Corporation</span>
+<span class="linenos"> 2</span><span class="c1">//</span>
+<span class="linenos"> 3</span><span class="c1">// Text-to-speech with the Kokoro English model.</span>
+<span class="linenos"> 4</span><span class="c1">//</span>
+<span class="linenos"> 5</span><span class="c1">// Usage:</span>
+<span class="linenos"> 6</span><span class="c1">//   node tts_kokoro_en.js</span>
+<span class="linenos"> 7</span><span class="c1">//</span>
+<span class="linenos"> 8</span><span class="kd">const</span><span class="w"> </span><span class="nx">sherpa_onnx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;sherpa-onnx-node&#39;</span><span class="p">);</span>
+<span class="linenos"> 9</span>
+<span class="linenos">10</span><span class="kd">function</span><span class="w"> </span><span class="nx">createOfflineTts</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">11</span><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">config</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">12</span><span class="w">    </span><span class="nx">model</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">13</span><span class="w">      </span><span class="nx">kokoro</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">14</span><span class="w">        </span><span class="nx">model</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;./kokoro-en-v0_19/model.onnx&#39;</span><span class="p">,</span>
+<span class="linenos">15</span><span class="w">        </span><span class="nx">voices</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;./kokoro-en-v0_19/voices.bin&#39;</span><span class="p">,</span>
+<span class="linenos">16</span><span class="w">        </span><span class="nx">tokens</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;./kokoro-en-v0_19/tokens.txt&#39;</span><span class="p">,</span>
+<span class="linenos">17</span><span class="w">        </span><span class="nx">dataDir</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;./kokoro-en-v0_19/espeak-ng-data&#39;</span><span class="p">,</span>
+<span class="linenos">18</span><span class="w">      </span><span class="p">},</span>
+<span class="linenos">19</span><span class="w">      </span><span class="nx">debug</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="linenos">20</span><span class="w">      </span><span class="nx">numThreads</span><span class="o">:</span><span class="w"> </span><span class="mf">1</span><span class="p">,</span>
+<span class="linenos">21</span><span class="w">      </span><span class="nx">provider</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;cpu&#39;</span><span class="p">,</span>
+<span class="linenos">22</span><span class="w">    </span><span class="p">},</span>
+<span class="linenos">23</span><span class="w">    </span><span class="nx">maxNumSentences</span><span class="o">:</span><span class="w"> </span><span class="mf">1</span><span class="p">,</span>
+<span class="linenos">24</span><span class="w">  </span><span class="p">};</span>
+<span class="linenos">25</span><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">sherpa_onnx</span><span class="p">.</span><span class="nx">OfflineTts</span><span class="p">(</span><span class="nx">config</span><span class="p">);</span>
+<span class="linenos">26</span><span class="p">}</span>
+<span class="linenos">27</span>
+<span class="linenos">28</span><span class="kd">const</span><span class="w"> </span><span class="nx">tts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">createOfflineTts</span><span class="p">();</span>
+<span class="linenos">29</span>
+<span class="linenos">30</span><span class="kd">const</span><span class="w"> </span><span class="nx">text</span><span class="w"> </span><span class="o">=</span>
+<span class="linenos">31</span><span class="w">    </span><span class="s1">&#39;Today as always, men fall into two groups: slaves and free men. Whoever does not have two-thirds of his day for himself, is a slave, whatever he may be: a statesman, a businessman, an official, or a scholar.&#39;</span><span class="p">;</span>
+<span class="linenos">32</span>
+<span class="linenos">33</span><span class="kd">const</span><span class="w"> </span><span class="nx">generationConfig</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">sherpa_onnx</span><span class="p">.</span><span class="nx">GenerationConfig</span><span class="p">({</span>
+<span class="linenos">34</span><span class="w">  </span><span class="nx">sid</span><span class="o">:</span><span class="w"> </span><span class="mf">6</span><span class="p">,</span>
+<span class="linenos">35</span><span class="w">  </span><span class="nx">speed</span><span class="o">:</span><span class="w"> </span><span class="mf">1.0</span><span class="p">,</span>
+<span class="linenos">36</span><span class="w">  </span><span class="nx">silenceScale</span><span class="o">:</span><span class="w"> </span><span class="mf">0.2</span><span class="p">,</span>
+<span class="linenos">37</span><span class="p">});</span>
+<span class="linenos">38</span>
+<span class="linenos">39</span><span class="kd">let</span><span class="w"> </span><span class="nx">start</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">();</span>
+<span class="linenos">40</span><span class="kd">const</span><span class="w"> </span><span class="nx">audio</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">tts</span><span class="p">.</span><span class="nx">generate</span><span class="p">({</span><span class="nx">text</span><span class="p">,</span><span class="w"> </span><span class="nx">generationConfig</span><span class="p">});</span>
+<span class="linenos">41</span><span class="kd">let</span><span class="w"> </span><span class="nx">stop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">();</span>
+<span class="linenos">42</span><span class="kd">const</span><span class="w"> </span><span class="nx">elapsed_seconds</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="nx">stop</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nx">start</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">1000</span><span class="p">;</span>
+<span class="linenos">43</span><span class="kd">const</span><span class="w"> </span><span class="nx">duration</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">audio</span><span class="p">.</span><span class="nx">samples</span><span class="p">.</span><span class="nx">length</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nx">audio</span><span class="p">.</span><span class="nx">sampleRate</span><span class="p">;</span>
+<span class="linenos">44</span><span class="kd">const</span><span class="w"> </span><span class="nx">real_time_factor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">elapsed_seconds</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nx">duration</span><span class="p">;</span>
+<span class="linenos">45</span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Wave duration&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">duration</span><span class="p">.</span><span class="nx">toFixed</span><span class="p">(</span><span class="mf">3</span><span class="p">),</span><span class="w"> </span><span class="s1">&#39;seconds&#39;</span><span class="p">);</span>
+<span class="linenos">46</span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Elapsed&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">elapsed_seconds</span><span class="p">.</span><span class="nx">toFixed</span><span class="p">(</span><span class="mf">3</span><span class="p">),</span><span class="w"> </span><span class="s1">&#39;seconds&#39;</span><span class="p">);</span>
+<span class="linenos">47</span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span>
+<span class="linenos">48</span><span class="w">    </span><span class="sb">`RTF = </span><span class="si">${</span><span class="nx">elapsed_seconds</span><span class="p">.</span><span class="nx">toFixed</span><span class="p">(</span><span class="mf">3</span><span class="p">)</span><span class="si">}</span><span class="sb">/</span><span class="si">${</span><span class="nx">duration</span><span class="p">.</span><span class="nx">toFixed</span><span class="p">(</span><span class="mf">3</span><span class="p">)</span><span class="si">}</span><span class="sb"> =`</span><span class="p">,</span>
+<span class="linenos">49</span><span class="w">    </span><span class="nx">real_time_factor</span><span class="p">.</span><span class="nx">toFixed</span><span class="p">(</span><span class="mf">3</span><span class="p">));</span>
+<span class="linenos">50</span>
+<span class="linenos">51</span><span class="kd">const</span><span class="w"> </span><span class="nx">filename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;test-kokoro-en.wav&#39;</span><span class="p">;</span>
+<span class="linenos">52</span><span class="nx">sherpa_onnx</span><span class="p">.</span><span class="nx">writeWave</span><span class="p">(</span>
+<span class="linenos">53</span><span class="w">    </span><span class="nx">filename</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="nx">samples</span><span class="o">:</span><span class="w"> </span><span class="nx">audio</span><span class="p">.</span><span class="nx">samples</span><span class="p">,</span><span class="w"> </span><span class="nx">sampleRate</span><span class="o">:</span><span class="w"> </span><span class="nx">audio</span><span class="p">.</span><span class="nx">sampleRate</span><span class="p">});</span>
+<span class="linenos">54</span>
+<span class="linenos">55</span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="sb">`Saved to </span><span class="si">${</span><span class="nx">filename</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
+</pre></div>
+</div>
+</section>
+<section id="asynchronous-generation">
+<h2>Asynchronous generation<a class="headerlink" href="#asynchronous-generation" title="Permalink to this heading"></a></h2>
+<div class="highlight-javascript notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="c1">// Copyright (c)  2026  Xiaomi Corporation</span>
+<span class="linenos"> 2</span><span class="c1">//</span>
+<span class="linenos"> 3</span><span class="c1">// Asynchronous text-to-speech with the Kokoro English model.</span>
+<span class="linenos"> 4</span><span class="c1">//</span>
+<span class="linenos"> 5</span><span class="c1">// Usage:</span>
+<span class="linenos"> 6</span><span class="c1">//   node tts_kokoro_en_async.js</span>
+<span class="linenos"> 7</span><span class="c1">//</span>
+<span class="linenos"> 8</span><span class="kd">const</span><span class="w"> </span><span class="nx">sherpa_onnx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s1">&#39;sherpa-onnx-node&#39;</span><span class="p">);</span>
+<span class="linenos"> 9</span>
+<span class="linenos">10</span><span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">createOfflineTts</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">11</span><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">config</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">12</span><span class="w">    </span><span class="nx">model</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">13</span><span class="w">      </span><span class="nx">kokoro</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">14</span><span class="w">        </span><span class="nx">model</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;./kokoro-en-v0_19/model.onnx&#39;</span><span class="p">,</span>
+<span class="linenos">15</span><span class="w">        </span><span class="nx">voices</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;./kokoro-en-v0_19/voices.bin&#39;</span><span class="p">,</span>
+<span class="linenos">16</span><span class="w">        </span><span class="nx">tokens</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;./kokoro-en-v0_19/tokens.txt&#39;</span><span class="p">,</span>
+<span class="linenos">17</span><span class="w">        </span><span class="nx">dataDir</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;./kokoro-en-v0_19/espeak-ng-data&#39;</span><span class="p">,</span>
+<span class="linenos">18</span><span class="w">      </span><span class="p">},</span>
+<span class="linenos">19</span><span class="w">      </span><span class="nx">debug</span><span class="o">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="linenos">20</span><span class="w">      </span><span class="nx">numThreads</span><span class="o">:</span><span class="w"> </span><span class="mf">1</span><span class="p">,</span>
+<span class="linenos">21</span><span class="w">      </span><span class="nx">provider</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;cpu&#39;</span><span class="p">,</span>
+<span class="linenos">22</span><span class="w">    </span><span class="p">},</span>
+<span class="linenos">23</span><span class="w">    </span><span class="nx">maxNumSentences</span><span class="o">:</span><span class="w"> </span><span class="mf">1</span><span class="p">,</span>
+<span class="linenos">24</span><span class="w">  </span><span class="p">};</span>
+<span class="linenos">25</span><span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">sherpa_onnx</span><span class="p">.</span><span class="nx">OfflineTts</span><span class="p">.</span><span class="nx">createAsync</span><span class="p">(</span><span class="nx">config</span><span class="p">);</span>
+<span class="linenos">26</span><span class="p">}</span>
+<span class="linenos">27</span>
+<span class="linenos">28</span><span class="k">async</span><span class="w"> </span><span class="kd">function</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">29</span><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">tts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">createOfflineTts</span><span class="p">();</span>
+<span class="linenos">30</span>
+<span class="linenos">31</span><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">text</span><span class="w"> </span><span class="o">=</span>
+<span class="linenos">32</span><span class="w">      </span><span class="s1">&#39;Today as always, men fall into two groups: slaves and free men. Whoever does not have two-thirds of his day for himself, is a slave, whatever he may be: a statesman, a businessman, an official, or a scholar.&#39;</span><span class="p">;</span>
+<span class="linenos">33</span>
+<span class="linenos">34</span><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">generationConfig</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="ow">new</span><span class="w"> </span><span class="nx">sherpa_onnx</span><span class="p">.</span><span class="nx">GenerationConfig</span><span class="p">({</span>
+<span class="linenos">35</span><span class="w">    </span><span class="nx">sid</span><span class="o">:</span><span class="w"> </span><span class="mf">6</span><span class="p">,</span>
+<span class="linenos">36</span><span class="w">    </span><span class="nx">speed</span><span class="o">:</span><span class="w"> </span><span class="mf">1.0</span><span class="p">,</span>
+<span class="linenos">37</span><span class="w">    </span><span class="nx">silenceScale</span><span class="o">:</span><span class="w"> </span><span class="mf">0.2</span><span class="p">,</span>
+<span class="linenos">38</span><span class="w">  </span><span class="p">});</span>
+<span class="linenos">39</span>
+<span class="linenos">40</span><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">start</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">();</span>
+<span class="linenos">41</span><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">audio</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">await</span><span class="w"> </span><span class="nx">tts</span><span class="p">.</span><span class="nx">generateAsync</span><span class="p">({</span>
+<span class="linenos">42</span><span class="w">    </span><span class="nx">text</span><span class="p">,</span>
+<span class="linenos">43</span><span class="w">    </span><span class="nx">enableExternalBuffer</span><span class="o">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span>
+<span class="linenos">44</span><span class="w">    </span><span class="nx">generationConfig</span><span class="p">,</span>
+<span class="linenos">45</span><span class="w">    </span><span class="nx">onProgress</span><span class="o">:</span><span class="w"> </span><span class="p">({</span><span class="nx">samples</span><span class="p">,</span><span class="w"> </span><span class="nx">progress</span><span class="p">})</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">46</span><span class="w">      </span><span class="nx">process</span><span class="p">.</span><span class="nx">stdout</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span>
+<span class="linenos">47</span><span class="w">          </span><span class="sb">`Progress: </span><span class="si">${</span><span class="p">(</span><span class="nx">progress</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">100</span><span class="p">).</span><span class="nx">toFixed</span><span class="p">(</span><span class="mf">1</span><span class="p">)</span><span class="si">}</span><span class="sb">%, `</span><span class="w"> </span><span class="o">+</span>
+<span class="linenos">48</span><span class="w">          </span><span class="sb">`Samples: </span><span class="si">${</span><span class="nx">samples</span><span class="p">.</span><span class="nx">length</span><span class="si">}</span><span class="sb">\r`</span><span class="p">);</span>
+<span class="linenos">49</span><span class="w">      </span><span class="k">return</span><span class="w"> </span><span class="mf">1</span><span class="p">;</span>
+<span class="linenos">50</span><span class="w">    </span><span class="p">},</span>
+<span class="linenos">51</span><span class="w">  </span><span class="p">});</span>
+<span class="linenos">52</span>
+<span class="linenos">53</span><span class="w">  </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">);</span>
+<span class="linenos">54</span><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">stop</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">();</span>
+<span class="linenos">55</span><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">elapsed_seconds</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="nx">stop</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nx">start</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">1000</span><span class="p">;</span>
+<span class="linenos">56</span><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">duration</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">audio</span><span class="p">.</span><span class="nx">samples</span><span class="p">.</span><span class="nx">length</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nx">audio</span><span class="p">.</span><span class="nx">sampleRate</span><span class="p">;</span>
+<span class="linenos">57</span><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">real_time_factor</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">elapsed_seconds</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="nx">duration</span><span class="p">;</span>
+<span class="linenos">58</span><span class="w">  </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Wave duration&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">duration</span><span class="p">.</span><span class="nx">toFixed</span><span class="p">(</span><span class="mf">3</span><span class="p">),</span><span class="w"> </span><span class="s1">&#39;seconds&#39;</span><span class="p">);</span>
+<span class="linenos">59</span><span class="w">  </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Elapsed&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">elapsed_seconds</span><span class="p">.</span><span class="nx">toFixed</span><span class="p">(</span><span class="mf">3</span><span class="p">),</span><span class="w"> </span><span class="s1">&#39;seconds&#39;</span><span class="p">);</span>
+<span class="linenos">60</span><span class="w">  </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span>
+<span class="linenos">61</span><span class="w">      </span><span class="sb">`RTF = </span><span class="si">${</span><span class="nx">elapsed_seconds</span><span class="p">.</span><span class="nx">toFixed</span><span class="p">(</span><span class="mf">3</span><span class="p">)</span><span class="si">}</span><span class="sb">/</span><span class="si">${</span><span class="nx">duration</span><span class="p">.</span><span class="nx">toFixed</span><span class="p">(</span><span class="mf">3</span><span class="p">)</span><span class="si">}</span><span class="sb"> =`</span><span class="p">,</span>
+<span class="linenos">62</span><span class="w">      </span><span class="nx">real_time_factor</span><span class="p">.</span><span class="nx">toFixed</span><span class="p">(</span><span class="mf">3</span><span class="p">));</span>
+<span class="linenos">63</span>
+<span class="linenos">64</span><span class="w">  </span><span class="kd">const</span><span class="w"> </span><span class="nx">filename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;test-kokoro-en-async.wav&#39;</span><span class="p">;</span>
+<span class="linenos">65</span><span class="w">  </span><span class="nx">sherpa_onnx</span><span class="p">.</span><span class="nx">writeWave</span><span class="p">(</span>
+<span class="linenos">66</span><span class="w">      </span><span class="nx">filename</span><span class="p">,</span><span class="w"> </span><span class="p">{</span><span class="nx">samples</span><span class="o">:</span><span class="w"> </span><span class="nx">audio</span><span class="p">.</span><span class="nx">samples</span><span class="p">,</span><span class="w"> </span><span class="nx">sampleRate</span><span class="o">:</span><span class="w"> </span><span class="nx">audio</span><span class="p">.</span><span class="nx">sampleRate</span><span class="p">});</span>
+<span class="linenos">67</span><span class="w">  </span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="sb">`Saved to </span><span class="si">${</span><span class="nx">filename</span><span class="si">}</span><span class="sb">`</span><span class="p">);</span>
+<span class="linenos">68</span><span class="p">}</span>
+<span class="linenos">69</span>
+<span class="linenos">70</span><span class="nx">main</span><span class="p">().</span><span class="k">catch</span><span class="p">((</span><span class="nx">err</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="linenos">71</span><span class="w">  </span><span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s1">&#39;Error:&#39;</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="p">);</span>
+<span class="linenos">72</span><span class="p">});</span>
+</pre></div>
+</div>
+</section>
+<section id="how-to-run">
+<h2>How to run<a class="headerlink" href="#how-to-run" title="Permalink to this heading"></a></h2>
+<ol class="arabic">
+<li><p>Install the package:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">npm</span> <span class="n">install</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">node</span>
+</pre></div>
+</div>
+</li>
+<li><p>Download the model:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">curl</span> <span class="o">-</span><span class="n">SL</span> <span class="o">-</span><span class="n">O</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">k2</span><span class="o">-</span><span class="n">fsa</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="n">download</span><span class="o">/</span><span class="n">tts</span><span class="o">-</span><span class="n">models</span><span class="o">/</span><span class="n">kokoro</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="n">v0_19</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">bz2</span>
+<span class="n">tar</span> <span class="n">xf</span> <span class="n">kokoro</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="n">v0_19</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">bz2</span>
+<span class="n">rm</span> <span class="n">kokoro</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="n">v0_19</span><span class="o">.</span><span class="n">tar</span><span class="o">.</span><span class="n">bz2</span>
+</pre></div>
+</div>
+</li>
+<li><p>Set the library path and run:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># macOS</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">DYLD_LIBRARY_PATH</span><span class="o">=</span><span class="k">$(</span>npm<span class="w"> </span>root<span class="k">)</span>/sherpa-onnx-node/lib:<span class="nv">$DYLD_LIBRARY_PATH</span>
+
+<span class="c1"># Linux</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">LD_LIBRARY_PATH</span><span class="o">=</span><span class="k">$(</span>npm<span class="w"> </span>root<span class="k">)</span>/sherpa-onnx-node/lib:<span class="nv">$LD_LIBRARY_PATH</span>
+
+<span class="c1"># Choose one:</span>
+node<span class="w"> </span>tts_kokoro_en.js
+node<span class="w"> </span>tts_kokoro_en_async.js
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="notes">
+<h2>Notes<a class="headerlink" href="#notes" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p>The config key is <code class="docutils literal notranslate"><span class="pre">kokoro</span></code> with fields: <code class="docutils literal notranslate"><span class="pre">model</span></code>, <code class="docutils literal notranslate"><span class="pre">voices</span></code>, <code class="docutils literal notranslate"><span class="pre">tokens</span></code>,
+<code class="docutils literal notranslate"><span class="pre">dataDir</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sid</span></code> selects the speaker voice (valid range depends on the model).</p></li>
+<li><p>The sync API uses <code class="docutils literal notranslate"><span class="pre">new</span> <span class="pre">sherpa_onnx.OfflineTts(config)</span></code> and
+<code class="docutils literal notranslate"><span class="pre">tts.generate({text,</span> <span class="pre">generationConfig})</span></code>.</p></li>
+<li><p>The async API uses <code class="docutils literal notranslate"><span class="pre">OfflineTts.createAsync()</span></code> and <code class="docutils literal notranslate"><span class="pre">tts.generateAsync()</span></code>
+with an <code class="docutils literal notranslate"><span class="pre">onProgress</span></code> callback.</p></li>
+<li><p>For Chinese+English, see <a class="reference internal" href="tts_kokoro_zh_en.html"><span class="doc">TTS: Kokoro (Chinese + English)</span></a>.</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="tts_kitten.html" class="btn btn-neutral float-left" title="TTS: Kitten" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="tts_kokoro_zh_en.html" class="btn btn-neutral float-right" title="TTS: Kokoro (Chinese + English)" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

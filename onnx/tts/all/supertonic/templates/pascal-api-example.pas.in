@@ -1,0 +1,44 @@
+program test_supertonic;
+
+{$mode objfpc}
+
+uses
+  SysUtils,
+  sherpa_onnx;
+
+var
+  Config: TSherpaOnnxOfflineTtsConfig;
+  Tts: TSherpaOnnxOfflineTts;
+  Audio: TSherpaOnnxGeneratedAudio;
+  GenConfig: TSherpaOnnxGenerationConfig;
+
+begin
+  FillChar(Config, SizeOf(Config), 0);
+
+  Config.Model.Supertonic.DurationPredictor := '{{model_dir}}/duration_predictor.int8.onnx';
+  Config.Model.Supertonic.TextEncoder := '{{model_dir}}/text_encoder.int8.onnx';
+  Config.Model.Supertonic.VectorEstimator := '{{model_dir}}/vector_estimator.int8.onnx';
+  Config.Model.Supertonic.Vocoder := '{{model_dir}}/vocoder.int8.onnx';
+  Config.Model.Supertonic.TtsJson := '{{model_dir}}/tts.json';
+  Config.Model.Supertonic.UnicodeIndexer := '{{model_dir}}/unicode_indexer.bin';
+  Config.Model.Supertonic.VoiceStyle := '{{model_dir}}/voice.bin';
+
+  Config.Model.NumThreads := 2;
+  Config.Model.Debug := True;
+
+  Tts := TSherpaOnnxOfflineTts.Create(@Config);
+
+  GenConfig.Sid := 0;
+  GenConfig.NumSteps := 8;
+  GenConfig.Speed := 1.0;
+  GenConfig.Extra := '{"lang": "{{lang}}"}';
+
+  Audio := Tts.GenerateWithConfig('{{text}}', @GenConfig, nil);
+
+  WriteWave('./test.wav', Audio.Samples, Audio.N, Audio.SampleRate);
+
+  WriteLn('Saved to ./test.wav');
+
+  Audio.Free;
+  Tts.Free;
+end.
