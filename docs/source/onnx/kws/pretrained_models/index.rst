@@ -14,6 +14,7 @@ sherpa-onnx-kws-zipformer-zh-en-3M-2025-12-20 (Chinese & English)
 
 In the following, we describe how to download it and use it with `sherpa-onnx`_.
 
+
 Download the model
 ~~~~~~~~~~~~~~~~~~
 
@@ -200,6 +201,14 @@ sherpa-onnx-kws-zipformer-wenetspeech-3.3M-2024-01-01 (Chinese)
 
 Training code for this model can be found at `<https://github.com/k2-fsa/icefall/pull/1428>`_.
 The model is trained on WenetSpeech L subset (10000 hours), it supports only Chinese.
+
+.. hint::
+
+   To download the PyTorch checkpoint for this model, please visit
+
+    `<https://github.com/pkufool/keyword-spotting-models/releases/download/v0.11/icefall-kws-zipformer-wenetspeech-20240219.tar.gz>`_.
+
+   See also `<https://github.com/k2-fsa/icefall/blob/master/egs/wenetspeech/KWS/RESULTS.md#zipformer-transducer-model>`_.
 
 In the following, we describe how to download it and use it with `sherpa-onnx`_.
 
