@@ -204,8 +204,16 @@ jobs:
           export GIT_LFS_SKIP_SMUDGE=1
           git clone https://huggingface.co/csukuangfj/sherpa-onnx-apk huggingface
           git clone https://huggingface.co/csukuangfj2/sherpa-onnx-apk huggingface2
+          echo "---huggingface2---"
+          ls -lh huggingface2
+
           cp -a huggingface2/* huggingface
+
           rm -rf huggingface2
+
+          echo "---huggingface---"
+          ls -lh huggingface
+
           cd huggingface
           ./generate-asr.py
           ./generate-asr-2pass.py
@@ -221,11 +229,14 @@ jobs:
           ./generate-vad-asr.py
           ./generate-vad-asr-simulated-streaming.py
           ./generate-qnn-vad-asr-simulated-streaming.py
+          ./generate-qnn-asr-streaming.py
 
           mv -v apk-simulate-streaming-asr.html ../build/html/onnx/android/
           mv -v apk-simulate-streaming-asr-cn.html ../build/html/onnx/android/
           mv -v apk-qnn-simulate-streaming-asr.html ../build/html/onnx/android/
           mv -v apk-qnn-simulate-streaming-asr-cn.html ../build/html/onnx/android/
+          mv -v apk-qnn-asr-streaming.html ../build/html/onnx/android/
+          mv -v apk-qnn-asr-streaming-cn.html ../build/html/onnx/android/
 
           mv -v apk-asr.html ../build/html/onnx/android/apk.html
           mv -v apk-asr-2pass.html ../build/html/onnx/android/apk-2pass.html
