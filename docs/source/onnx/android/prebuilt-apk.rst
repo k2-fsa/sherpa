@@ -27,6 +27,11 @@ Links for pre-built APKs can be found in the following table:
      | using ``QNN``
    - `Here <https://k2-fsa.github.io/sherpa/onnx/android/apk-qnn-simulate-streaming-asr-cn.html>`_
    - `<https://k2-fsa.github.io/sherpa/onnx/android/apk-qnn-simulate-streaming-asr.html>`_
+ * - | Streaming speech recognition
+     | with ``Qualcomm NPU``
+     | using ``QNN``
+   - `Here <https://k2-fsa.github.io/sherpa/onnx/android/apk-qnn-asr-streaming-cn.html>`_
+   - `<https://k2-fsa.github.io/sherpa/onnx/android/apk-qnn-asr-streaming.html>`_
  * - Text-to-speech engine
    - `Here <https://k2-fsa.github.io/sherpa/onnx/tts/apk-engine-cn.html>`_
    - `<https://k2-fsa.github.io/sherpa/onnx/tts/apk-engine.html>`_
