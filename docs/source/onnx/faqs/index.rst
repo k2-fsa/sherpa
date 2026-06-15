@@ -13,6 +13,7 @@ This page contains frequently asked questions for `sherpa-onnx`_.
    ./fix-libtoolize.rst
    ./static-onnxruntime-linux-x64.rst
    ./cann.rst
+   ./tts-ios-add-folder.rst
 
 
 OSError: PortAudio library not found
