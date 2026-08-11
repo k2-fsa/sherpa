@@ -1,4 +1,4 @@
-Non-android Java
+Non-Android Java
 ====================
 
 We provide plenty of examples about using non-Android Java API of `sherpa-onnx`_
@@ -11,97 +11,128 @@ In this section, we describe how to run the examples in the following platforms:
   - macOS (x64)
   - macOS (arm64)
   - Windows (x64)
+  - Windows (arm64)
 
-Download jar files
-------------------
+Prerequisites
+-------------
 
-You need to download two ``jar`` files.
+- JDK 8 or above
+- Gradle 8.x+ (or use the included Gradle wrapper, no separate install needed)
 
-The first ``jar`` file is shared by all platforms built from pure Java source code.
-You can download it from our GitHub release page at
+Create a Gradle project
+-----------------------
 
-  `<https://github.com/k2-fsa/sherpa-onnx/releases>`_
+Create a new directory for your project and add the following files.
 
-We recommend always using the latest version. For instance, to download the version
-``v1.12.10``, visit `<https://github.com/k2-fsa/sherpa-onnx/releases/tag/v1.12.10>`_,
-and run::
+.. warning::
 
-  wget https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.12.10/sherpa-onnx-v1.12.10.jar
+  The sherpa-onnx Java packages are hosted on `JitPack <https://jitpack.io/>`_, so you need
+  to add the JitPack repository.
 
-The second ``jar`` file contains shared libraries for different platforms built from
-C++ code. The following table lists the download links for version ``v1.12.10``.
+``build.gradle.kts``
+::::::::::::::::::::
 
-.. list-table::
+.. code-block:: kotlin
 
- * - Platform
-   - URL
- * - Linux x64
-   - `sherpa-onnx-native-lib-linux-x64-v1.12.10.jar <https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.12.10/sherpa-onnx-native-lib-linux-x64-v1.12.10.jar>`_
- * - Linux arm64
-   - `sherpa-onnx-native-lib-linux-aarch64-v1.12.10.jar <https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.12.10/sherpa-onnx-native-lib-linux-aarch64-v1.12.10.jar>`_
- * - macOS x64
-   - `sherpa-onnx-native-lib-osx-x64-v1.12.10.jar <https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.12.10/sherpa-onnx-native-lib-osx-x64-v1.12.10.jar>`_
- * - macOS arm64
-   - `sherpa-onnx-native-lib-osx-aarch64-v1.12.10.jar <https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.12.10/sherpa-onnx-native-lib-osx-aarch64-v1.12.10.jar>`_
- * - Windows x64
-   - `sherpa-onnx-native-lib-win-x64-v1.12.10.jar <https://github.com/k2-fsa/sherpa-onnx/releases/download/v1.12.10/sherpa-onnx-native-lib-win-x64-v1.12.10.jar>`_
+   plugins {
+       application
+       java
+   }
 
-Usage
------
+   application {
+       mainClass.set("com.k2fsa.sherpa.onnx.example.YourApp")
+   }
 
-Linux x64
-:::::::::
+   repositories {
+       mavenCentral()
+       // sherpa-onnx packages are hosted on JitPack
+       maven { url = uri("https://jitpack.io") }
+   }
 
-.. code-block::
+   // Auto-detect current OS and architecture
+   val osName = System.getProperty("os.name").lowercase()
+   val osArch = System.getProperty("os.arch").lowercase()
 
-   java -cp "./sherpa-onnx-v1.12.10.jar:./sherpa-onnx-native-lib-linux-x64-v1.12.10.jar"  SomeExample.java
+   val targetNativeClassifier = when {
+       osName.contains("mac") || osName.contains("darwin") -> {
+           if (osArch == "aarch64" || osArch == "arm64") "osx-aarch64" else "osx-x64"
+       }
+       osName.contains("linux") -> {
+           if (osArch == "aarch64" || osArch == "arm64") "linux-aarch64" else "linux-x64"
+       }
+       osName.contains("win") -> {
+           if (osArch == "aarch64" || osArch == "arm64") "win-arm64" else "win-x64"
+       }
+       else -> throw GradleException("Unsupported OS: $osName, Arch: $osArch")
+   }
 
+   logger.lifecycle("--> Auto-detected platform native lib: $targetNativeClassifier")
 
-Linux arm64
-:::::::::::
+   dependencies {
+       // 1. JVM core API
+       implementation("com.github.k2-fsa.sherpa-onnx:sherpa-onnx-jvm:v1.13.5")
 
-.. code-block::
+       // 2. Platform native lib (auto-detected)
+       implementation("com.github.k2-fsa.sherpa-onnx:sherpa-onnx-native-lib-$targetNativeClassifier:v1.13.5")
+   }
 
-   java -cp "./sherpa-onnx-v1.12.10.jar:./sherpa-onnx-native-lib-linux-aarch64-v1.12.10.jar"  SomeExample.java
+   java {
+       sourceCompatibility = JavaVersion.VERSION_1_8
+       targetCompatibility = JavaVersion.VERSION_1_8
+   }
 
-macOS x64
-:::::::::
+``settings.gradle.kts``
+:::::::::::::::::::::::
 
-.. code-block::
+.. code-block:: kotlin
 
-   java -cp "./sherpa-onnx-v1.12.10.jar:./sherpa-onnx-native-lib-osx-x64-v1.12.10.jar"  SomeExample.java
+   rootProject.name = "sherpa-onnx-java-example"
 
+Generate the Gradle wrapper
+:::::::::::::::::::::::::::
 
-macOS arm64
-:::::::::::
+.. code-block:: bash
 
-.. code-block::
+   gradle wrapper
 
-   java -cp "./sherpa-onnx-v1.12.10.jar:./sherpa-onnx-native-lib-osx-aarch64-v1.12.10.jar"  SomeExample.java
+This creates ``gradlew``, ``gradlew.bat``, and the ``gradle/`` directory so that
+anyone can build the project without installing Gradle separately.
 
-Windows x64
-:::::::::::
+Build and run
+-------------
 
-.. code-block::
+.. code-block:: bash
 
-   java -cp "./sherpa-onnx-v1.12.10.jar;./sherpa-onnx-native-lib-win-x64-v1.12.10.jar"  SomeExample.java
+   # Build
+   ./gradlew build
 
-.. caution::
+   # Run
+   ./gradlew run
 
-   It uses ``;`` to separate the two ``jar`` files for Windows.
+On Windows, use ``gradlew.bat`` instead:
 
-.. caution::
+.. code-block:: cmd
 
-   It uses ``;`` to separate the two ``jar`` files for Windows.
+   gradlew.bat build
+   gradlew.bat run
 
-.. caution::
+The build output will show the auto-detected platform::
 
-   It uses ``;`` to separate the two ``jar`` files for Windows.
+   --> Auto-detected platform native lib: osx-aarch64
 
-Colab notebook example
-----------------------
+.. note::
 
-We provide a colab notebook to guide you step by step to run ``sherpa-onnx`` with its Java API.
-Please see
+   The Gradle Kotlin DSL build file **automatically detects** your OS and architecture
+   at build time, so there is no need to manually select platform-specific native
+   libraries.
 
-  `<https://github.com/k2-fsa/colab/blob/master/sherpa-onnx/sherpa_onnx_java_api_linux_example.ipynb>`_
+Useful links
+------------
+
+- Java API examples: `<https://github.com/k2-fsa/sherpa-onnx/tree/master/java-api-examples>`_
+
+  - Maven examples: `<https://github.com/k2-fsa/sherpa-onnx/tree/master/java-api-examples/maven-examples>`_
+  - Gradle examples: `<https://github.com/k2-fsa/sherpa-onnx/tree/master/java-api-examples/gradle-examples>`_
+  - Gradle KTS examples: `<https://github.com/k2-fsa/sherpa-onnx/tree/master/java-api-examples/gradle-kts-examples>`_
+
+- Java API source files: `<https://github.com/k2-fsa/sherpa-onnx/tree/master/sherpa-onnx/java-api/src/com/k2fsa/sherpa/onnx>`_
