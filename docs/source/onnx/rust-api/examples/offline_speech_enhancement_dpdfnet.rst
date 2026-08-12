@@ -1,7 +1,21 @@
 offline_speech_enhancement_dpdfnet
 ==================================
 
-Run offline speech enhancement with a DPDFNet model.
+Run offline speech enhancement with any of the supported 8, 16, or 48 kHz
+DPDFNet models listed in :doc:`../../speech-enhancement/dpdfnet`.
+
+The example sets the new offline attenuation limit to ``12`` dB:
+
+.. code-block:: rust
+
+  dpdfnet: OfflineSpeechDenoiserDpdfNetModelConfig {
+      model: Some(args.model),
+      attenuation_limit_db: 12.0,
+  },
+
+Set ``attenuation_limit_db`` to ``0.0`` to disable the limit. Finite values
+must be in ``[0, 100]``; see
+:ref:`dpdfnet-offline-attenuation-limit` for details.
 
 Source file
 -----------
@@ -24,7 +38,7 @@ Helper script(s)
   ./run-offline-speech-enhancement-dpdfnet.sh
 
 Run it directly with Cargo
-^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. code-block:: bash
 

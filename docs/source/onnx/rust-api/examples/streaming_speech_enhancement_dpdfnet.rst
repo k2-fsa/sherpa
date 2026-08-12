@@ -1,7 +1,13 @@
 streaming_speech_enhancement_dpdfnet
 ====================================
 
-Run streaming speech enhancement with a DPDFNet model.
+Run streaming speech enhancement with any of the supported 8, 16, or 48 kHz
+DPDFNet models listed in :doc:`../../speech-enhancement/dpdfnet`.
+
+The shared DPDFNet model configuration now contains
+``attenuation_limit_db``, so this streaming example uses
+``..Default::default()`` when constructing it. The attenuation limit is
+offline-only and is not applied by ``OnlineSpeechDenoiser``.
 
 Source file
 -----------
@@ -24,7 +30,7 @@ Helper script(s)
   ./run-streaming-speech-enhancement-dpdfnet.sh
 
 Run it directly with Cargo
-^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. code-block:: bash
 

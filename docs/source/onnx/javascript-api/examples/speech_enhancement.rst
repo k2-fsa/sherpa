@@ -56,4 +56,7 @@ Notes
   returns ``{samples, sampleRate}``.
 - ``enableExternalBuffer: true`` enables zero-copy buffer sharing.
 - The output sample rate matches the input sample rate (16kHz in this example).
-- You can also use ``dpdfnet_baseline.onnx`` as an alternative model.
+- To use DPDFNet instead, replace the ``gtcrn`` model entry with, for example,
+  ``dpdfnet: {model: './dpdfnet2.onnx', attenuationLimitDb: 12}``. See
+  :doc:`../../speech-enhancement/dpdfnet` for the supported 8, 16, and 48 kHz
+  variants and attenuation-limit behavior.
