@@ -20,6 +20,9 @@ Download a DPDFNet model and a test wave file:
    wget https://github.com/k2-fsa/sherpa-onnx/releases/download/speech-enhancement-models/dpdfnet2.onnx
    wget https://github.com/k2-fsa/sherpa-onnx/releases/download/speech-enhancement-models/inp_16k.wav
 
+All of the 8, 16, and 48 kHz models in :doc:`./dpdfnet` can be used with
+this API.
+
 The following example uses
 ``OfflineSpeechDenoiserDpdfNetModelConfig`` and
 ``OfflineSpeechDenoiser``:
@@ -45,6 +48,7 @@ The following example uses
        model=sherpa_onnx.OfflineSpeechDenoiserModelConfig(
            dpdfnet=sherpa_onnx.OfflineSpeechDenoiserDpdfNetModelConfig(
                model="./dpdfnet2.onnx",
+               attenuation_limit_db=12.0,
            ),
            num_threads=1,
            debug=False,
@@ -61,6 +65,12 @@ The following example uses
    sf.write("enhanced.wav", denoised.samples, denoised.sample_rate)
    print(f"Saved to enhanced.wav at {denoised.sample_rate} Hz")
 
+``attenuation_limit_db`` is optional and defaults to ``0`` (disabled). A
+positive value limits offline suppression by blending aligned noisy spectra
+back into the enhanced spectra. Finite values must be in ``[0, 100]``;
+infinity also disables the limit. See :ref:`dpdfnet-offline-attenuation-limit`
+for the exact behavior.
+
 You can also run the upstream example directly:
 
 .. code-block:: bash
@@ -73,18 +83,57 @@ The example script is available at
 
   `<https://github.com/k2-fsa/sherpa-onnx/blob/master/python-api-examples/offline-speech-enhancement-dpdfnet.py>`_
 
-Streaming status
-----------------
+Online streaming speech enhancement
+-----------------------------------
 
-The current `sherpa-onnx`_ Python API contains the offline DPDFNet bindings and
-the offline example shown above.
+The Python API also provides ``OnlineSpeechDenoiser``. The following example
+feeds one model frame shift at a time and calls ``flush()`` to retrieve the
+tail and reset the stream:
 
-.. note::
+.. code-block:: python
 
-   The online streaming DPDFNet denoiser is available in the core runtime and
-   C API, but a corresponding Python binding/example is
-   not present in the current Python API yet. See :doc:`./dpdfnet-c-api` for
-   streaming usage.
+   config = sherpa_onnx.OnlineSpeechDenoiserConfig(
+       model=sherpa_onnx.OfflineSpeechDenoiserModelConfig(
+           dpdfnet=sherpa_onnx.OfflineSpeechDenoiserDpdfNetModelConfig(
+               model="./dpdfnet2.onnx",
+           ),
+           num_threads=1,
+           debug=False,
+           provider="cpu",
+       )
+   )
+
+   assert config.validate(), config
+
+   denoiser = sherpa_onnx.OnlineSpeechDenoiser(config)
+   samples, sample_rate = load_audio("./inp_16k.wav")
+   output = []
+
+   for start in range(0, len(samples), denoiser.frame_shift_in_samples):
+       chunk = samples[start : start + denoiser.frame_shift_in_samples]
+       denoised = denoiser.run(chunk, sample_rate)
+       output.append(np.asarray(denoised.samples, dtype=np.float32))
+
+   output.append(
+       np.asarray(denoiser.flush().samples, dtype=np.float32)
+   )
+   enhanced = np.concatenate(output)
+   sf.write("enhanced-streaming.wav", enhanced, denoiser.sample_rate)
+
+The streaming denoiser supports every model listed in :doc:`./dpdfnet` and
+resamples input to the model's native sample rate when necessary. The input
+sample rate must stay fixed until ``flush()`` or ``reset()``. The offline
+``attenuation_limit_db`` setting is not applied in streaming mode.
+
+You can also run the upstream streaming example directly:
+
+.. code-block:: bash
+
+   python3 ./python-api-examples/online-speech-enhancement-dpdfnet.py
+
+The streaming example source is available at
+
+  `<https://github.com/k2-fsa/sherpa-onnx/blob/master/python-api-examples/online-speech-enhancement-dpdfnet.py>`_
 
 Hints
 -----

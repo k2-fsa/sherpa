@@ -20,6 +20,9 @@ Offline speech enhancement
    wget https://github.com/k2-fsa/sherpa-onnx/releases/download/speech-enhancement-models/dpdfnet2.onnx
    wget https://github.com/k2-fsa/sherpa-onnx/releases/download/speech-enhancement-models/inp_16k.wav
 
+   # All 8, 16, and 48 kHz models are available from the same release.
+   # See the DPDFNet model page linked below for all download commands.
+
    mkdir build
    cd build
 
@@ -63,14 +66,24 @@ The core offline configuration is shown below:
      memset(&config, 0, sizeof(config));
 
      config.model.dpdfnet.model = "./dpdfnet2.onnx";
+     config.model.dpdfnet.attenuation_limit_db = 12.0f;
      config.model.num_threads = 1;
      config.model.debug = 0;
      config.model.provider = "cpu";
 
      const SherpaOnnxOfflineSpeechDenoiser *sd =
          SherpaOnnxCreateOfflineSpeechDenoiser(&config);
+     if (sd == NULL) {
+       fprintf(stderr, "Failed to create offline speech denoiser\n");
+       return -1;
+     }
 
      const SherpaOnnxWave *wave = SherpaOnnxReadWave("./inp_16k.wav");
+     if (wave == NULL) {
+       SherpaOnnxDestroyOfflineSpeechDenoiser(sd);
+       fprintf(stderr, "Failed to read input wave\n");
+       return -1;
+     }
      const SherpaOnnxDenoisedAudio *denoised =
          SherpaOnnxOfflineSpeechDenoiserRun(
              sd, wave->samples, wave->num_samples, wave->sample_rate);
@@ -85,6 +98,13 @@ The core offline configuration is shown below:
      return 0;
    }
 
+``attenuation_limit_db`` belongs to
+``SherpaOnnxOfflineSpeechDenoiserDpdfNetModelConfig``. It defaults to ``0``
+when the configuration is zero-initialized. A positive value limits offline
+suppression; finite values must be in ``[0, 100]``, and infinity disables the
+limit. Invalid values cause ``SherpaOnnxCreateOfflineSpeechDenoiser()`` to
+return ``NULL``. See :ref:`dpdfnet-offline-attenuation-limit` for details.
+
 Streaming speech enhancement
 ----------------------------
 
@@ -95,6 +115,9 @@ DPDFNet is also available through the streaming denoiser API:
   - ``SherpaOnnxOnlineSpeechDenoiserRun()``
   - ``SherpaOnnxOnlineSpeechDenoiserFlush()``
   - ``SherpaOnnxOnlineSpeechDenoiserReset()``
+
+The online API supports all official DPDFNet exports listed in
+:doc:`./dpdfnet`: two 8 kHz models, four 16 kHz models, and two 48 kHz models.
 
 The following example processes a wave file frame by frame and writes the
 streaming output to ``enhanced-streaming.wav``:
@@ -212,4 +235,5 @@ streaming output to ``enhanced-streaming.wav``:
    ``SherpaOnnxOnlineSpeechDenoiserRun()`` can return ``NULL`` until enough
    input audio has been buffered. Call
    ``SherpaOnnxOnlineSpeechDenoiserFlush()`` at the end of the stream to
-   retrieve the final tail samples and reset the denoiser state.
+   retrieve the final tail samples and reset the denoiser state. The offline
+   ``attenuation_limit_db`` field is not applied in streaming mode.

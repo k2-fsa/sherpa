@@ -29,7 +29,9 @@ Constructor
 - ``model`` (object, optional) — Model configuration with one of:
 
   - ``gtcrn`` — ``{ model: string }`` path to the GTCRN ONNX model.
-  - ``dpdfnet`` — ``{ model: string }`` path to the DPDFNet ONNX model.
+  - ``dpdfnet`` — ``{ model: string, attenuationLimitDb?: number }``. The
+    attenuation limit is offline-only, defaults to ``0`` (disabled), and
+    accepts finite values in ``[0, 100]``; infinity also disables it.
 
   Plus common fields: ``numThreads``, ``debug``, ``provider``.
 
@@ -73,7 +75,8 @@ Constructor
 - ``model`` (object, optional) — Model configuration with one of:
 
   - ``gtcrn`` — ``{ model: string }`` path to the GTCRN ONNX model.
-  - ``dpdfnet`` — ``{ model: string }`` path to the DPDFNet ONNX model.
+  - ``dpdfnet`` — ``{ model: string }`` path to the DPDFNet ONNX model. All
+    official 8, 16, and 48 kHz DPDFNet streaming exports are supported.
 
   Plus common fields: ``numThreads``, ``debug``, ``provider``.
 
@@ -157,3 +160,6 @@ Notes
 - ``OnlineSpeechDenoiser`` processes audio incrementally; call ``flush()`` after
   the last chunk to get any remaining buffered audio.
 - Call ``reset()`` on the online denoiser to reuse it for new audio.
+- DPDFNet's ``attenuationLimitDb`` is applied only by
+  ``OfflineSpeechDenoiser``. See
+  :ref:`dpdfnet-offline-attenuation-limit` for its exact behavior.
