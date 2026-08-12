@@ -48,6 +48,15 @@ set(sherpa_srcs
   speaker-embedding-extractor-model.cc
   speaker-embedding-extractor.cc
   speaker-embedding-extractor-impl.cc
+  #
+  offline-speaker-diarization-result.cc
+  offline-speaker-segmentation-model-config.cc
+  offline-speaker-segmentation-pyannote-model-config.cc
+  fast-clustering-config.cc
+  fast-clustering.cc
+  offline-speaker-segmentation-pyannote-model.cc
+  ./offline-speaker-diarization-impl.cc
+  ./offline-speaker-diarization.cc
 )
 
 add_library(sherpa_core ${sherpa_srcs})
@@ -136,6 +145,9 @@ target_link_libraries(sherpa-vad sherpa_core)
 add_executable(sherpa-compute-speaker-similarity sherpa-compute-speaker-similarity.cc)
 target_link_libraries(sherpa-compute-speaker-similarity sherpa_core)
 
+add_executable(sherpa-speaker-diarization sherpa-speaker-diarization.cc)
+target_link_libraries(sherpa-speaker-diarization sherpa_core)
+
 install(TARGETS
     sherpa_core
   DESTINATION lib
@@ -146,5 +158,6 @@ install(
    sherpa-version
    sherpa-vad
    sherpa-compute-speaker-similarity
+   sherpa-speaker-diarization
   DESTINATION  bin
 )

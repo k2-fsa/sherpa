@@ -12,7 +12,7 @@
 
 int32_t main(int32_t argc, char *argv[]) {
   const char *kUsageMessage = R"usage(
-This program uses a VAD models to add timestamps to a audio file
+This program uses a VAD model to add timestamps to a audio file
 Usage:
 
 sherpa-vad \
