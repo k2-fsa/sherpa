@@ -33,9 +33,10 @@ Please use the following commands to download it.
 
 .. code-block:: bash
 
+   # Requires git-lfs (https://git-lfs.com); run `git lfs install` once first.
    GIT_LFS_SKIP_SMUDGE=1 git clone https://huggingface.co/jeswinjestin/sherpa-onnx-nemo-ctc-indicconformer-malayalam
    cd sherpa-onnx-nemo-ctc-indicconformer-malayalam
-   git lfs pull --include "model.onnx"
+   git lfs pull --include "model.onnx,test_wavs/0.wav"
 
 You should see something like below after downloading::
 
@@ -73,6 +74,6 @@ Decode a wave file
 
           CHCP 65001
 
-   in your commandline.
+   in your command line.
 
 .. _AI4Bharat IndicConformer: https://github.com/AI4Bharat/IndicConformerASR
