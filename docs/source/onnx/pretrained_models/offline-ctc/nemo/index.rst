@@ -17,3 +17,4 @@ This page lists all offline CTC models from `NeMo`_.
    english
    russian
    japanese
+   malayalam
