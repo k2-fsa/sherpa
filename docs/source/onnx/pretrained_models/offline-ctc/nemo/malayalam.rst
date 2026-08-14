@@ -62,6 +62,12 @@ Decode a wave file
      --num-threads=2 \
      ./sherpa-onnx-nemo-ctc-indicconformer-malayalam/test_wavs/0.wav
 
+You should see the following output:
+
+.. code-block:: text
+
+   ഹായ്, ഇത് ഒരു ഡെമോ ടെസ്റ്റ് റൺ ആണ്.
+
 .. note::
 
    Please use ``./build/bin/Release/sherpa-onnx-offline.exe`` for Windows.
