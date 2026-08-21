@@ -1,0 +1,45 @@
+program test_kokoro;
+
+{$mode objfpc}
+
+uses
+  SysUtils,
+  sherpa_onnx;
+
+var
+  Config: TSherpaOnnxOfflineTtsConfig;
+  Tts: TSherpaOnnxOfflineTts;
+  Audio: TSherpaOnnxGeneratedAudio;
+  GenConfig: TSherpaOnnxGenerationConfig;
+
+begin
+  FillChar(Config, SizeOf(Config), 0);
+
+  Config.Model.Kokoro.Model := '{{model}}';
+  Config.Model.Kokoro.Voices := '{{voices}}';
+  Config.Model.Kokoro.Tokens := '{{tokens}}';
+{%- if data_dir %}
+  Config.Model.Kokoro.DataDir := '{{data_dir}}';
+{%- endif %}
+{%- if lexicon %}
+  Config.Model.Kokoro.Lexicon := '{{lexicon}}';
+{%- endif %}
+  Config.Model.NumThreads := 1;
+  Config.Model.Debug := True;
+  Config.MaxNumSentences := 1;
+
+  Tts := TSherpaOnnxOfflineTts.Create(@Config);
+
+  GenConfig.Sid := {{sid}};
+  GenConfig.Speed := 1.0;
+  GenConfig.SilenceScale := 0.2;
+
+  Audio := Tts.GenerateWithConfig('{{text}}', @GenConfig, nil);
+
+  WriteWave('./test.wav', Audio.Samples, Audio.N, Audio.SampleRate);
+
+  WriteLn('Saved to ./test.wav');
+
+  Audio.Free;
+  Tts.Free;
+end.

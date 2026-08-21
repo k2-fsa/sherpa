@@ -1,0 +1,7 @@
+<map id="sherpa_onnx::cxx::OfflineSourceSeparationUvrModelConfig" name="sherpa_onnx::cxx::OfflineSourceSeparationUvrModelConfig">
+<area shape="rect" id="Node000001" title="UVR (MDX&#45;Net) source&#45;separation model configuration." alt="" coords="5,183,245,223"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="82,95,169,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="128,134,128,182,123,182,123,134"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="56,5,195,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="128,59,128,94,123,94,123,59"/>
+</map>

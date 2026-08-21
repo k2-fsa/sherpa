@@ -1,0 +1,7 @@
+<map id="SherpaOnnxVadModelConfig" name="SherpaOnnxVadModelConfig">
+<area shape="rect" id="Node000001" title="Configuration shared by voice activity detectors." alt="" coords="123,108,330,133"/>
+<area shape="rect" id="Node000002" href="$structSherpaOnnxSileroVadModelConfig.html" title="Configuration for a Silero VAD model." alt="" coords="5,5,208,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="143,52,214,106,210,110,140,56"/>
+<area shape="rect" id="Node000003" href="$structSherpaOnnxTenVadModelConfig.html" title="Configuration for a Ten VAD model." alt="" coords="233,13,461,38"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="323,49,243,110,240,106,319,44"/>
+</map>

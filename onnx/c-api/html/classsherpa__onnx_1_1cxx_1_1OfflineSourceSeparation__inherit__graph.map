@@ -1,0 +1,5 @@
+<map id="sherpa_onnx::cxx::OfflineSourceSeparation" name="sherpa_onnx::cxx::OfflineSourceSeparation">
+<area shape="rect" id="Node000001" title="RAII wrapper for offline source separation." alt="" coords="331,13,517,53"/>
+<area shape="rect" id="Node000002" href="$classsherpa__onnx_1_1cxx_1_1MoveOnly.html" title=" " alt="" coords="5,5,283,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="296,30,331,30,331,35,296,35"/>
+</map>

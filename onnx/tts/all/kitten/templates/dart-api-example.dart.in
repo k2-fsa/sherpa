@@ -1,0 +1,36 @@
+import 'package:sherpa_onnx/sherpa_onnx.dart' as sherpa_onnx;
+
+void main() {
+  final kitten = sherpa_onnx.OfflineTtsKittenModelConfig(
+    model: '{{model}}',
+    voices: '{{voices}}',
+    tokens: '{{tokens}}',
+    dataDir: '{{data_dir}}',
+  );
+
+  final modelConfig = sherpa_onnx.OfflineTtsModelConfig(
+    kitten: kitten,
+    numThreads: 1,
+    debug: true,
+  );
+  final config = sherpa_onnx.OfflineTtsConfig(
+    model: modelConfig,
+    maxNumSenetences: 1,
+  );
+
+  final tts = sherpa_onnx.OfflineTts(config);
+  final genConfig = sherpa_onnx.OfflineTtsGenerationConfig(
+    sid: {{sid}},
+    speed: 1.0,
+    silenceScale: 0.2,
+  );
+  final audio = tts.generateWithConfig(text: '{{text}}', config: genConfig);
+  tts.free();
+
+  sherpa_onnx.writeWave(
+    filename: 'test.wav',
+    samples: audio.samples,
+    sampleRate: audio.sampleRate,
+  );
+  print('Saved to test.wav');
+}
