@@ -1,0 +1,61 @@
+<map id="sherpa_onnx::cxx::OfflineModelConfig" name="sherpa_onnx::cxx::OfflineModelConfig">
+<area shape="rect" id="Node000001" title="Acoustic model configuration for offline ASR." alt="" coords="843,672,1029,712"/>
+<area shape="rect" id="Node000002" href="$structsherpa__onnx_1_1cxx_1_1OfflineTransducerModelConfig.html" title="Offline transducer model files." alt="" coords="468,160,655,200"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="669,171,708,176,749,185,787,201,821,225,845,259,866,310,884,373,900,442,923,576,935,671,930,672,918,577,895,443,879,374,861,312,840,262,817,229,784,205,747,190,707,181,668,177"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="193,674,280,699"/>
+<area shape="poly" id="edge12_Node000001_Node000003" title=" " alt="" coords="237,660,243,539,256,375,275,223,288,170,302,141,322,127,346,116,408,100,481,92,561,91,641,97,714,110,776,130,820,155,835,172,849,194,872,254,891,326,907,407,927,563,936,671,931,672,922,564,901,407,886,328,867,255,844,197,831,175,817,159,774,135,713,115,640,103,561,96,482,97,409,105,348,121,324,132,306,144,293,171,281,224,261,375,249,540,242,660"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="235,660,237,564,246,433,254,367,266,308,281,258,302,225,329,209,370,197,467,183,468,188,371,202,331,214,306,229,286,261,271,309,259,368,251,434,243,564,241,660"/>
+<area shape="rect" id="Node000005" href="$structsherpa__onnx_1_1cxx_1_1OfflineParaformerModelConfig.html" title="Offline Paraformer model file." alt="" coords="468,224,655,264"/>
+<area shape="poly" id="edge5_Node000005_Node000003" title=" " alt="" coords="236,660,239,572,248,456,257,398,268,345,283,302,302,273,329,258,370,249,468,241,468,246,371,254,331,263,306,277,288,304,273,347,262,399,253,457,244,573,241,660"/>
+<area shape="rect" id="Node000006" href="$structsherpa__onnx_1_1cxx_1_1OfflineNemoEncDecCtcModelConfig.html" title="Offline NeMo EncDec CTC model file." alt="" coords="456,288,667,328"/>
+<area shape="poly" id="edge7_Node000006_Node000003" title=" " alt="" coords="236,660,239,579,249,473,258,421,269,374,284,335,302,310,328,298,365,293,456,294,456,299,366,298,329,303,306,314,288,338,274,375,263,422,255,474,245,579,241,660"/>
+<area shape="rect" id="Node000007" href="$structsherpa__onnx_1_1cxx_1_1OfflineWhisperModelConfig.html" title="Offline Whisper model configuration." alt="" coords="468,352,655,392"/>
+<area shape="poly" id="edge9_Node000007_Node000003" title=" " alt="" coords="238,660,245,598,257,519,276,447,288,418,302,399,330,385,371,377,467,369,468,374,371,382,332,391,306,403,293,421,281,448,263,521,250,598,243,661"/>
+<area shape="rect" id="Node000008" href="$structsherpa__onnx_1_1cxx_1_1OfflineTdnnModelConfig.html" title="Offline TDNN model file." alt="" coords="468,416,655,456"/>
+<area shape="poly" id="edge11_Node000008_Node000003" title=" " alt="" coords="239,660,261,547,280,490,290,469,302,454,340,432,382,420,426,415,468,416,468,422,426,421,383,425,342,437,306,458,295,471,284,492,267,548,244,661"/>
+<area shape="rect" id="Node000009" href="$structsherpa__onnx_1_1cxx_1_1OfflineSenseVoiceModelConfig.html" title="Offline SenseVoice model configuration." alt="" coords="468,480,655,520"/>
+<area shape="poly" id="edge14_Node000009_Node000003" title=" " alt="" coords="236,660,241,623,251,581,271,539,285,520,303,504,331,494,372,488,468,489,467,494,372,494,332,499,305,509,289,524,276,541,257,582,246,624,242,660"/>
+<area shape="rect" id="Node000010" href="$structsherpa__onnx_1_1cxx_1_1OfflineMoonshineModelConfig.html" title="Offline Moonshine model configuration." alt="" coords="468,544,655,584"/>
+<area shape="poly" id="edge16_Node000010_Node000003" title=" " alt="" coords="252,661,274,635,303,612,332,601,373,590,467,573,468,579,374,596,333,606,305,617,278,639,256,664"/>
+<area shape="rect" id="Node000011" href="$structsherpa__onnx_1_1cxx_1_1OfflineFireRedAsrModelConfig.html" title="Offline FireRed ASR model files." alt="" coords="468,608,655,648"/>
+<area shape="poly" id="edge18_Node000011_Node000003" title=" " alt="" coords="293,670,303,668,467,639,468,644,305,673,294,676"/>
+<area shape="rect" id="Node000012" href="$structsherpa__onnx_1_1cxx_1_1OfflineDolphinModelConfig.html" title="Offline Dolphin model file." alt="" coords="468,672,655,712"/>
+<area shape="poly" id="edge20_Node000012_Node000003" title=" " alt="" coords="294,685,468,688,468,693,294,690"/>
+<area shape="rect" id="Node000013" href="$structsherpa__onnx_1_1cxx_1_1OfflineZipformerCtcModelConfig.html" title="Offline Zipformer CTC model file." alt="" coords="467,736,656,776"/>
+<area shape="poly" id="edge22_Node000013_Node000003" title=" " alt="" coords="286,701,305,707,387,725,467,740,466,745,386,731,303,712,284,706"/>
+<area shape="rect" id="Node000014" href="$structsherpa__onnx_1_1cxx_1_1OfflineCanaryModelConfig.html" title="Offline Canary model configuration." alt="" coords="468,800,655,840"/>
+<area shape="poly" id="edge24_Node000014_Node000003" title=" " alt="" coords="248,711,269,757,285,779,305,796,344,814,385,825,427,829,468,829,468,835,427,835,384,830,342,819,303,801,281,782,264,759,243,713"/>
+<area shape="rect" id="Node000015" href="$structsherpa__onnx_1_1cxx_1_1OfflineWenetCtcModelConfig.html" title="Offline WeNet CTC model file." alt="" coords="468,864,655,904"/>
+<area shape="poly" id="edge26_Node000015_Node000003" title=" " alt="" coords="243,712,249,745,260,782,279,819,306,849,343,870,384,883,427,890,468,891,468,896,426,895,383,888,340,875,302,853,274,822,255,784,244,746,238,713"/>
+<area shape="rect" id="Node000016" href="$structsherpa__onnx_1_1cxx_1_1OfflineOmnilingualAsrCtcModelConfig.html" title="Offline omnilingual ASR CTC model file." alt="" coords="449,928,673,968"/>
+<area shape="poly" id="edge28_Node000016_Node000003" title=" " alt="" coords="240,713,242,757,251,810,271,864,287,888,306,908,323,915,357,922,449,935,449,940,356,928,322,921,302,913,282,891,267,866,246,812,237,757,235,713"/>
+<area shape="rect" id="Node000017" href="$structsherpa__onnx_1_1cxx_1_1OfflineMedAsrCtcModelConfig.html" title="Offline MedASR CTC model file." alt="" coords="468,992,655,1032"/>
+<area shape="poly" id="edge30_Node000017_Node000003" title=" " alt="" coords="244,712,265,843,283,909,294,934,306,951,362,967,468,991,467,996,361,973,302,956,289,937,278,911,260,844,238,713"/>
+<area shape="rect" id="Node000018" href="$structsherpa__onnx_1_1cxx_1_1OfflineFunASRNanoModelConfig.html" title="Offline FunASR Nano model configuration." alt="" coords="468,1059,655,1099"/>
+<area shape="poly" id="edge32_Node000018_Node000003" title=" " alt="" coords="241,713,243,802,251,921,260,980,271,1034,286,1076,306,1103,317,1110,334,1113,378,1113,430,1107,482,1096,483,1101,431,1112,379,1119,333,1118,316,1115,302,1107,282,1078,266,1035,254,981,246,922,237,803,235,713"/>
+<area shape="rect" id="Node000019" href="$structsherpa__onnx_1_1cxx_1_1OfflineFireRedAsrCtcModelConfig.html" title="Offline FireRed ASR CTC model file." alt="" coords="464,1128,659,1168"/>
+<area shape="poly" id="edge34_Node000019_Node000003" title=" " alt="" coords="240,713,242,808,250,936,258,1000,270,1058,285,1104,306,1134,324,1148,345,1158,390,1169,437,1170,482,1165,482,1171,437,1176,389,1174,343,1163,321,1152,302,1138,281,1106,264,1059,253,1001,244,936,236,808,235,713"/>
+<area shape="rect" id="Node000020" href="$structsherpa__onnx_1_1cxx_1_1OfflineQwen3ASRModelConfig.html" title="Offline Qwen3&#45;ASR model configuration." alt="" coords="468,1207,655,1247"/>
+<area shape="poly" id="edge36_Node000020_Node000003" title=" " alt="" coords="242,713,248,837,261,1009,280,1167,292,1222,306,1250,329,1266,356,1274,384,1278,413,1276,471,1263,519,1244,521,1249,472,1268,414,1281,384,1283,355,1280,327,1270,302,1254,287,1224,275,1168,255,1009,243,838,236,713"/>
+<area shape="rect" id="Node000021" href="$structsherpa__onnx_1_1cxx_1_1OfflineCohereTranscribeModelConfig.html" title="Offline Cohere Transcribe model configuration." alt="" coords="454,1301,669,1341"/>
+<area shape="poly" id="edge38_Node000021_Node000003" title=" " alt="" coords="241,713,246,852,258,1049,277,1231,291,1295,298,1316,306,1327,328,1343,352,1352,378,1357,406,1359,460,1352,508,1339,510,1344,461,1357,406,1364,378,1363,351,1358,325,1347,302,1331,293,1318,285,1296,272,1232,252,1049,241,852,236,713"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="5,667,144,707"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="157,684,193,684,193,689,157,689"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="669,237,708,242,748,252,787,268,820,291,859,335,888,386,909,441,923,496,932,550,937,599,938,672,933,672,931,600,927,551,918,497,904,442,883,388,854,338,817,295,784,272,747,257,707,247,668,243"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="681,307,717,313,754,324,789,340,820,362,853,397,879,438,898,482,913,527,931,611,937,671,931,672,925,612,908,528,894,484,874,441,849,401,817,366,787,345,752,329,716,319,680,312"/>
+<area shape="poly" id="edge8_Node000001_Node000007" title=" " alt="" coords="669,374,708,381,748,393,786,410,820,433,847,459,870,490,903,558,924,622,934,671,929,672,919,624,898,560,865,493,843,463,817,437,783,414,746,398,707,387,668,379"/>
+<area shape="poly" id="edge10_Node000001_Node000008" title=" " alt="" coords="670,445,747,466,785,483,820,505,861,544,892,590,915,635,930,671,925,673,911,637,888,593,856,547,817,509,783,488,745,471,668,450"/>
+<area shape="poly" id="edge13_Node000001_Node000009" title=" " alt="" coords="669,516,745,539,784,555,820,574,851,596,879,622,922,670,918,674,876,626,848,600,817,578,781,560,743,544,667,521"/>
+<area shape="poly" id="edge15_Node000001_Node000010" title=" " alt="" coords="669,584,743,604,820,630,902,669,899,674,818,634,742,609,667,589"/>
+<area shape="poly" id="edge17_Node000001_Node000011" title=" " alt="" coords="669,644,819,669,843,673,842,679,818,675,668,649"/>
+<area shape="poly" id="edge19_Node000001_Node000012" title=" " alt="" coords="669,689,842,689,842,695,669,695"/>
+<area shape="poly" id="edge21_Node000001_Node000013" title=" " alt="" coords="669,735,818,709,842,705,843,711,819,715,670,740"/>
+<area shape="poly" id="edge23_Node000001_Node000014" title=" " alt="" coords="667,795,742,775,818,750,899,710,902,715,820,754,743,780,669,800"/>
+<area shape="poly" id="edge25_Node000001_Node000015" title=" " alt="" coords="667,863,743,840,781,824,817,806,848,784,876,758,918,710,922,714,879,762,851,788,820,810,784,829,745,845,669,868"/>
+<area shape="poly" id="edge27_Node000001_Node000016" title=" " alt="" coords="646,922,673,913,697,905,732,899,761,896,787,891,817,875,857,837,888,792,911,747,925,711,930,713,916,749,892,794,861,840,820,879,789,896,762,902,733,904,698,911,674,919,648,927"/>
+<area shape="poly" id="edge29_Node000001_Node000017" title=" " alt="" coords="655,985,672,978,696,962,731,951,761,948,788,943,817,926,841,902,862,874,895,814,916,756,928,711,933,713,921,758,899,816,866,877,845,905,820,930,790,948,761,953,732,956,698,966,675,982,657,990"/>
+<area shape="poly" id="edge31_Node000001_Node000018" title=" " alt="" coords="646,1052,672,1042,696,1028,732,1016,762,1011,789,1003,817,982,844,950,867,914,885,876,900,837,920,765,930,712,935,712,925,766,905,839,890,878,871,917,848,953,820,986,791,1007,763,1016,733,1021,698,1033,674,1046,648,1057"/>
+<area shape="poly" id="edge33_Node000001_Node000019" title=" " alt="" coords="649,1121,748,1087,790,1068,817,1049,848,1008,873,962,893,914,907,865,925,776,931,712,936,713,930,777,913,867,898,916,878,965,853,1011,821,1053,793,1073,750,1092,650,1127"/>
+<area shape="poly" id="edge35_Node000001_Node000020" title=" " alt="" coords="667,1206,707,1194,747,1176,785,1154,817,1125,854,1074,882,1018,902,958,917,897,931,788,933,712,938,712,936,788,922,898,908,959,887,1020,858,1077,821,1128,788,1158,750,1181,709,1199,669,1211"/>
+<area shape="poly" id="edge37_Node000001_Node000021" title=" " alt="" coords="681,1297,718,1283,755,1266,788,1244,817,1217,840,1176,861,1117,880,1046,895,967,918,816,930,712,935,712,923,817,900,968,885,1047,866,1119,845,1179,821,1220,791,1248,757,1271,720,1288,683,1302"/>
+</map>

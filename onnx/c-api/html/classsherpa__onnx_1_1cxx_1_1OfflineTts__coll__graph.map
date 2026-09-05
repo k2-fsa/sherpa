@@ -1,0 +1,5 @@
+<map id="sherpa_onnx::cxx::OfflineTts" name="sherpa_onnx::cxx::OfflineTts">
+<area shape="rect" id="Node000001" title="RAII wrapper for offline TTS." alt="" coords="35,93,241,119"/>
+<area shape="rect" id="Node000002" href="$classsherpa__onnx_1_1cxx_1_1MoveOnly.html" title=" " alt="" coords="5,5,271,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="141,59,141,93,135,93,135,59"/>
+</map>
