@@ -1,0 +1,299 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Embedded Linux (riscv64) &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Python API" href="../python/index.html" />
+    <link rel="prev" title="Embedded Linux (aarch64)" href="aarch64-embedded-linux.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">sherpa-ncnn</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Installation</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="videos.html">Installation videos</a></li>
+<li class="toctree-l3"><a class="reference internal" href="linux.html">Linux</a></li>
+<li class="toctree-l3"><a class="reference internal" href="macos.html">macOS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="windows.html">Windows</a></li>
+<li class="toctree-l3"><a class="reference internal" href="arm-embedded-linux.html">Embedded Linux (arm)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="aarch64-embedded-linux.html">Embedded Linux (aarch64)</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Embedded Linux (riscv64)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#install-toolchain">Install toolchain</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#build-sherpa-ncnn">Build sherpa-ncnn</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../python/index.html">Python API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../wasm/index.html">WebAssembly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../c-api/index.html">C API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../endpoint.html">Endpointing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../android/index.html">Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ios/index.html">iOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/index.html">Pre-trained models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/index.html">Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vad/index.html">VAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sense-voice/index.html">SenseVoice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../faq.html">FAQs</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../onnx/index.html">sherpa-onnx</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">sherpa-ncnn</a> &raquo;</li>
+          <li><a href="index.html">Installation</a> &raquo;</li>
+      <li>Embedded Linux (riscv64)</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/ncnn/install/riscv64-embedded-linux.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="embedded-linux-riscv64">
+<h1>Embedded Linux (riscv64)<a class="headerlink" href="#embedded-linux-riscv64" title="Permalink to this heading"></a></h1>
+<p>This page describes how to build <a class="reference external" href="https://github.com/k2-fsa/sherpa-ncnn">sherpa-ncnn</a> for embedded Linux (RISC-V, 64-bit)
+with cross-compiling on an x64 machine with Ubuntu OS.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>We provide a colab notebook
+<a class="reference external" href="https://github.com/k2-fsa/colab/blob/master/sherpa-ncnn/sherpa_ncnn_RISC_V.ipynb"><img alt="build sherpa-ncnn for risc-v colab notebook" src="https://github.com/k2-fsa/sherpa/releases/download/doc/colab-badge.jpg" /></a>
+for you to try this section step by step.</p>
+<p>If you are using Windows/macOS or you don’t want to setup your local environment
+for cross-compiling, please use the above colab notebook.</p>
+</div>
+<section id="install-toolchain">
+<h2>Install toolchain<a class="headerlink" href="#install-toolchain" title="Permalink to this heading"></a></h2>
+<p>The first step is to install a toolchain for cross-compiling.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>gcc-riscv64-linux-gnu
+sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>g++-riscv64-linux-gnu
+</pre></div>
+</div>
+<p>To check that you have installed the toolchain successfully, please run</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>riscv64-linux-gnu-gcc<span class="w"> </span>--version
+riscv64-linux-gnu-gcc<span class="w"> </span><span class="o">(</span>Ubuntu<span class="w"> </span><span class="m">7</span>.5.0-3ubuntu1~18.04<span class="o">)</span><span class="w"> </span><span class="m">7</span>.5.0
+Copyright<span class="w"> </span><span class="o">(</span>C<span class="o">)</span><span class="w"> </span><span class="m">2017</span><span class="w"> </span>Free<span class="w"> </span>Software<span class="w"> </span>Foundation,<span class="w"> </span>Inc.
+This<span class="w"> </span>is<span class="w"> </span>free<span class="w"> </span>software<span class="p">;</span><span class="w"> </span>see<span class="w"> </span>the<span class="w"> </span><span class="nb">source</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>copying<span class="w"> </span>conditions.<span class="w">  </span>There<span class="w"> </span>is<span class="w"> </span>NO
+warranty<span class="p">;</span><span class="w"> </span>not<span class="w"> </span>even<span class="w"> </span><span class="k">for</span><span class="w"> </span>MERCHANTABILITY<span class="w"> </span>or<span class="w"> </span>FITNESS<span class="w"> </span>FOR<span class="w"> </span>A<span class="w"> </span>PARTICULAR<span class="w"> </span>PURPOSE.
+
+$<span class="w"> </span>riscv64-linux-gnu-g++<span class="w"> </span>--version
+riscv64-linux-gnu-g++<span class="w"> </span><span class="o">(</span>Ubuntu<span class="w"> </span><span class="m">7</span>.5.0-3ubuntu1~18.04<span class="o">)</span><span class="w"> </span><span class="m">7</span>.5.0
+Copyright<span class="w"> </span><span class="o">(</span>C<span class="o">)</span><span class="w"> </span><span class="m">2017</span><span class="w"> </span>Free<span class="w"> </span>Software<span class="w"> </span>Foundation,<span class="w"> </span>Inc.
+This<span class="w"> </span>is<span class="w"> </span>free<span class="w"> </span>software<span class="p">;</span><span class="w"> </span>see<span class="w"> </span>the<span class="w"> </span><span class="nb">source</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>copying<span class="w"> </span>conditions.<span class="w">  </span>There<span class="w"> </span>is<span class="w"> </span>NO
+warranty<span class="p">;</span><span class="w"> </span>not<span class="w"> </span>even<span class="w"> </span><span class="k">for</span><span class="w"> </span>MERCHANTABILITY<span class="w"> </span>or<span class="w"> </span>FITNESS<span class="w"> </span>FOR<span class="w"> </span>A<span class="w"> </span>PARTICULAR<span class="w"> </span>PURPOSE.
+</pre></div>
+</div>
+</section>
+<section id="build-sherpa-ncnn">
+<h2>Build sherpa-ncnn<a class="headerlink" href="#build-sherpa-ncnn" title="Permalink to this heading"></a></h2>
+<p>Next, let us build <a class="reference external" href="https://github.com/k2-fsa/sherpa-ncnn">sherpa-ncnn</a>.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/k2-fsa/sherpa-ncnn
+<span class="nb">cd</span><span class="w"> </span>sherpa-ncnn
+./build-riscv64-linux-gnu.sh
+</pre></div>
+</div>
+<p>After building, you will get two binaries:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>ls<span class="w"> </span>-lh<span class="w"> </span>build-riscv64-linux-gnu/install/bin/
+total<span class="w"> </span><span class="m">3</span>.8M
+-rwxr-xr-x<span class="w"> </span><span class="m">1</span><span class="w"> </span>kuangfangjun<span class="w"> </span>root<span class="w"> </span><span class="m">1</span>.9M<span class="w"> </span>May<span class="w"> </span><span class="m">23</span><span class="w"> </span><span class="m">22</span>:12<span class="w"> </span>sherpa-ncnn
+-rwxr-xr-x<span class="w"> </span><span class="m">1</span><span class="w"> </span>kuangfangjun<span class="w"> </span>root<span class="w"> </span><span class="m">1</span>.9M<span class="w"> </span>May<span class="w"> </span><span class="m">23</span><span class="w"> </span><span class="m">22</span>:12<span class="w"> </span>sherpa-ncnn-alsa
+</pre></div>
+</div>
+<p>That’s it!</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">sherpa-ncnn</span></code> is for decoding a single file</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sherpa-ncnn-alsa</span></code> is for real-time speech recongition by reading
+the microphone with <a class="reference external" href="https://en.wikipedia.org/wiki/Advanced_Linux_Sound_Architecture">ALSA</a></p></li>
+</ul>
+</div>
+<p id="sherpa-ncnn-alsa">Please read <a class="reference internal" href="../pretrained_models/index.html#sherpa-ncnn-pre-trained-models"><span class="std std-ref">Pre-trained models</span></a> for usages about
+the generated binaries.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>If you want to select a pre-trained model for <a class="reference external" href="https://www.starfivetech.com/en/site/boards">VisionFive 2</a>
+that can be run on real-time, we recommend you to use
+<a class="reference internal" href="../pretrained_models/zipformer-transucer-models.html#sherpa-ncnn-streaming-zipformer-small-bilingual-zh-en-2023-02-16"><span class="std std-ref">csukuangfj/sherpa-ncnn-streaming-zipformer-small-bilingual-zh-en-2023-02-16 (Bilingual, Chinese + English)</span></a>.</p>
+<p>You can use the following command with the above model:</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./sherpa-ncnn<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-ncnn-streaming-zipformer-small-bilingual-zh-en-2023-02-16/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-ncnn-streaming-zipformer-small-bilingual-zh-en-2023-02-16/64/encoder_jit_trace-pnnx.ncnn.param<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-ncnn-streaming-zipformer-small-bilingual-zh-en-2023-02-16/64/encoder_jit_trace-pnnx.ncnn.bin<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-ncnn-streaming-zipformer-small-bilingual-zh-en-2023-02-16/64/decoder_jit_trace-pnnx.ncnn.param<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-ncnn-streaming-zipformer-small-bilingual-zh-en-2023-02-16/64/decoder_jit_trace-pnnx.ncnn.bin<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-ncnn-streaming-zipformer-small-bilingual-zh-en-2023-02-16/64/joiner_jit_trace-pnnx.ncnn.param<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-ncnn-streaming-zipformer-small-bilingual-zh-en-2023-02-16/64/joiner_jit_trace-pnnx.ncnn.bin<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-ncnn-streaming-zipformer-small-bilingual-zh-en-2023-02-16/test_wavs/5.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="m">4</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>greedy_search
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<p>Read below if you want to learn more.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>By default, all external dependencies are statically linked. That means,
+the generated binaries are self-contained.</p>
+<p>You can use the following commands to check that and you will find
+they depend only on system libraries.</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>readelf<span class="w"> </span>-d<span class="w"> </span>build-riscv64-linux-gnu/install/bin/sherpa-ncnn
+
+Dynamic<span class="w"> </span>section<span class="w"> </span>at<span class="w"> </span>offset<span class="w"> </span>0x1d6dc0<span class="w"> </span>contains<span class="w"> </span><span class="m">31</span><span class="w"> </span>entries:
+<span class="w">  </span>Tag<span class="w">        </span>Type<span class="w">                         </span>Name/Value
+<span class="w"> </span>0x0000000000000001<span class="w"> </span><span class="o">(</span>NEEDED<span class="o">)</span><span class="w">             </span>Shared<span class="w"> </span>library:<span class="w"> </span><span class="o">[</span>libgomp.so.1<span class="o">]</span>
+<span class="w"> </span>0x0000000000000001<span class="w"> </span><span class="o">(</span>NEEDED<span class="o">)</span><span class="w">             </span>Shared<span class="w"> </span>library:<span class="w"> </span><span class="o">[</span>libpthread.so.0<span class="o">]</span>
+<span class="w"> </span>0x0000000000000001<span class="w"> </span><span class="o">(</span>NEEDED<span class="o">)</span><span class="w">             </span>Shared<span class="w"> </span>library:<span class="w"> </span><span class="o">[</span>libstdc++.so.6<span class="o">]</span>
+<span class="w"> </span>0x0000000000000001<span class="w"> </span><span class="o">(</span>NEEDED<span class="o">)</span><span class="w">             </span>Shared<span class="w"> </span>library:<span class="w"> </span><span class="o">[</span>libm.so.6<span class="o">]</span>
+<span class="w"> </span>0x0000000000000001<span class="w"> </span><span class="o">(</span>NEEDED<span class="o">)</span><span class="w">             </span>Shared<span class="w"> </span>library:<span class="w"> </span><span class="o">[</span>libgcc_s.so.1<span class="o">]</span>
+<span class="w"> </span>0x0000000000000001<span class="w"> </span><span class="o">(</span>NEEDED<span class="o">)</span><span class="w">             </span>Shared<span class="w"> </span>library:<span class="w"> </span><span class="o">[</span>libc.so.6<span class="o">]</span>
+<span class="w"> </span>0x0000000000000001<span class="w"> </span><span class="o">(</span>NEEDED<span class="o">)</span><span class="w">             </span>Shared<span class="w"> </span>library:<span class="w"> </span><span class="o">[</span>ld-linux-riscv64-lp64d.so.1<span class="o">]</span>
+<span class="w"> </span>0x000000000000001d<span class="w"> </span><span class="o">(</span>RUNPATH<span class="o">)</span><span class="w">            </span>Library<span class="w"> </span>runpath:<span class="w"> </span><span class="o">[</span><span class="nv">$ORIGIN</span><span class="o">]</span>
+<span class="w"> </span>0x0000000000000020<span class="w"> </span><span class="o">(</span>PREINIT_ARRAY<span class="o">)</span><span class="w">      </span>0x1e18e0
+<span class="w"> </span>0x0000000000000021<span class="w"> </span><span class="o">(</span>PREINIT_ARRAYSZ<span class="o">)</span><span class="w">    </span>0x8
+
+$<span class="w"> </span>readelf<span class="w"> </span>-d<span class="w"> </span>build-riscv64-linux-gnu/install/bin/sherpa-ncnn-alsa
+
+Dynamic<span class="w"> </span>section<span class="w"> </span>at<span class="w"> </span>offset<span class="w"> </span>0x1d3db0<span class="w"> </span>contains<span class="w"> </span><span class="m">32</span><span class="w"> </span>entries:
+<span class="w">  </span>Tag<span class="w">        </span>Type<span class="w">                         </span>Name/Value
+<span class="w"> </span>0x0000000000000001<span class="w"> </span><span class="o">(</span>NEEDED<span class="o">)</span><span class="w">             </span>Shared<span class="w"> </span>library:<span class="w"> </span><span class="o">[</span>libasound.so.2<span class="o">]</span>
+<span class="w"> </span>0x0000000000000001<span class="w"> </span><span class="o">(</span>NEEDED<span class="o">)</span><span class="w">             </span>Shared<span class="w"> </span>library:<span class="w"> </span><span class="o">[</span>libgomp.so.1<span class="o">]</span>
+<span class="w"> </span>0x0000000000000001<span class="w"> </span><span class="o">(</span>NEEDED<span class="o">)</span><span class="w">             </span>Shared<span class="w"> </span>library:<span class="w"> </span><span class="o">[</span>libpthread.so.0<span class="o">]</span>
+<span class="w"> </span>0x0000000000000001<span class="w"> </span><span class="o">(</span>NEEDED<span class="o">)</span><span class="w">             </span>Shared<span class="w"> </span>library:<span class="w"> </span><span class="o">[</span>libstdc++.so.6<span class="o">]</span>
+<span class="w"> </span>0x0000000000000001<span class="w"> </span><span class="o">(</span>NEEDED<span class="o">)</span><span class="w">             </span>Shared<span class="w"> </span>library:<span class="w"> </span><span class="o">[</span>libm.so.6<span class="o">]</span>
+<span class="w"> </span>0x0000000000000001<span class="w"> </span><span class="o">(</span>NEEDED<span class="o">)</span><span class="w">             </span>Shared<span class="w"> </span>library:<span class="w"> </span><span class="o">[</span>libgcc_s.so.1<span class="o">]</span>
+<span class="w"> </span>0x0000000000000001<span class="w"> </span><span class="o">(</span>NEEDED<span class="o">)</span><span class="w">             </span>Shared<span class="w"> </span>library:<span class="w"> </span><span class="o">[</span>libc.so.6<span class="o">]</span>
+<span class="w"> </span>0x0000000000000001<span class="w"> </span><span class="o">(</span>NEEDED<span class="o">)</span><span class="w">             </span>Shared<span class="w"> </span>library:<span class="w"> </span><span class="o">[</span>ld-linux-riscv64-lp64d.so.1<span class="o">]</span>
+<span class="w"> </span>0x000000000000001d<span class="w"> </span><span class="o">(</span>RUNPATH<span class="o">)</span><span class="w">            </span>Library<span class="w"> </span>runpath:<span class="w"> </span><span class="o">[</span><span class="nv">$ORIGIN</span><span class="o">]</span>
+<span class="w"> </span>0x0000000000000020<span class="w"> </span><span class="o">(</span>PREINIT_ARRAY<span class="o">)</span><span class="w">      </span>0x1de8c8
+<span class="w"> </span>0x0000000000000021<span class="w"> </span><span class="o">(</span>PREINIT_ARRAYSZ<span class="o">)</span><span class="w">    </span>0x8
+</pre></div>
+</div>
+</div></blockquote>
+</div>
+<p>Please create an issue at <a class="reference external" href="https://github.com/k2-fsa/sherpa-ncnn/issues">https://github.com/k2-fsa/sherpa-ncnn/issues</a>
+if you have any problems.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="aarch64-embedded-linux.html" class="btn btn-neutral float-left" title="Embedded Linux (aarch64)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../python/index.html" class="btn btn-neutral float-right" title="Python API" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

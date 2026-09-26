@@ -1,0 +1,5 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="Node000000" href="$classsherpa__onnx_1_1cxx_1_1MoveOnly.html" title=" " alt="" coords="5,5,268,60"/>
+<area shape="rect" id="Node000001" href="$classsherpa__onnx_1_1cxx_1_1CircularBuffer.html" title="RAII wrapper for the circular buffer helper used by VAD." alt="" coords="316,13,511,53"/>
+<area shape="poly" id="edge2_Node000000_Node000001" title=" " alt="" coords="282,30,316,30,316,35,282,35"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="sherpa_onnx::cxx::SpeakerEmbeddingExtractor" name="sherpa_onnx::cxx::SpeakerEmbeddingExtractor">
+<area shape="rect" id="Node000001" title="RAII wrapper for speaker embedding extraction." alt="" coords="357,13,553,53"/>
+<area shape="rect" id="Node000002" href="$classsherpa__onnx_1_1cxx_1_1MoveOnly.html" title=" " alt="" coords="5,5,309,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="323,30,357,30,357,35,323,35"/>
+</map>

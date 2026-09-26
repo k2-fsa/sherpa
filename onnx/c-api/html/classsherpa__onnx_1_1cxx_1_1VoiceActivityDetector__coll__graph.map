@@ -1,0 +1,5 @@
+<map id="sherpa_onnx::cxx::VoiceActivityDetector" name="sherpa_onnx::cxx::VoiceActivityDetector">
+<area shape="rect" id="Node000001" title="RAII wrapper for voice activity detection." alt="" coords="315,13,544,53"/>
+<area shape="rect" id="Node000002" href="$classsherpa__onnx_1_1cxx_1_1MoveOnly.html" title=" " alt="" coords="5,5,267,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="280,30,315,30,315,35,280,35"/>
+</map>

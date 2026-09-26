@@ -1,0 +1,7 @@
+<map id="sherpa_onnx::cxx::OnlineZipformer2CtcModelConfig" name="sherpa_onnx::cxx::OnlineZipformer2CtcModelConfig">
+<area shape="rect" id="Node000001" title="Streaming Zipformer2 CTC model file." alt="" coords="5,183,203,223"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="61,95,147,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="107,134,107,182,101,182,101,134"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="35,5,173,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="107,59,107,94,101,94,101,59"/>
+</map>

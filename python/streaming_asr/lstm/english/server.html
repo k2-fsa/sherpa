@@ -1,0 +1,225 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Server &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/clipboard.min.js"></script>
+        <script src="../../../../_static/copybutton.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../onnx/index.html">sherpa-onnx</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Server</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/python/streaming_asr/lstm/english/server.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="server">
+<span id="lstm-server-english"></span><h1>Server<a class="headerlink" href="#server" title="Permalink to this heading"></a></h1>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>Please first refer to <a class="reference internal" href="../../../installation/index.html#installation"><span class="std std-ref">Installation</span></a> to install <a class="reference external" href="https://github.com/k2-fsa/sherpa">sherpa</a>
+before proceeding.</p>
+</div>
+<p>The server is responsible for accepting audio samples from the client,
+decoding it, and sending the recognition results back to the client.</p>
+<section id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this heading"></a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">sherpa</span>
+<span class="o">./</span><span class="n">sherpa</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">lstm_transducer_stateless</span><span class="o">/</span><span class="n">streaming_server</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">help</span>
+</pre></div>
+</div>
+<p>shows the usage message.</p>
+<p>You need the following files to start the server:</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p>The neural network model</p></li>
+<li><p>The BPE model <code class="docutils literal notranslate"><span class="pre">bpe.model</span></code>.</p></li>
+</ol>
+</div></blockquote>
+<p>The neural network model has three parts, the encoder, the decoder, and
+the joiner, which are all exported using <code class="docutils literal notranslate"><span class="pre">torch.jit.trace</span></code>.</p>
+<p>The above two files can be obtained after training your model
+with <a class="reference external" href="https://github.com/k2-fsa/icefall/tree/master/egs/librispeech/ASR/lstm_transducer_stateless">https://github.com/k2-fsa/icefall/tree/master/egs/librispeech/ASR/lstm_transducer_stateless</a>.</p>
+<p>If you don’t want to train a model by yourself, you can try the
+pretrained model: <a class="reference external" href="https://huggingface.co/Zengwei/icefall-asr-librispeech-lstm-transducer-stateless-2022-08-18">https://huggingface.co/Zengwei/icefall-asr-librispeech-lstm-transducer-stateless-2022-08-18</a></p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>You can find pretrained models in <code class="docutils literal notranslate"><span class="pre">RESULTS.md</span></code> for all the recipes in
+<a class="reference external" href="https://github.com/k2-fsa/icefall">icefall</a>.</p>
+<p>For instance, the pretrained models for the LibriSpeech dataset can be
+found at <a class="reference external" href="https://github.com/k2-fsa/icefall/blob/master/egs/librispeech/ASR/RESULTS.md">https://github.com/k2-fsa/icefall/blob/master/egs/librispeech/ASR/RESULTS.md</a>.</p>
+</div>
+<p>The following shows you how to start the server with the above pretrained model.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa
+
+git<span class="w"> </span>lfs<span class="w"> </span>install
+git<span class="w"> </span>clone<span class="w"> </span>https://huggingface.co/Zengwei/icefall-asr-librispeech-lstm-transducer-stateless-2022-08-18
+
+./sherpa/bin/lstm_transducer_stateless/streaming_server.py<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--endpoint.rule3.min-utterance-length<span class="w"> </span><span class="m">1000</span>.0<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--port<span class="w"> </span><span class="m">6007</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--max-batch-size<span class="w"> </span><span class="m">50</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--max-wait-ms<span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--nn-pool-size<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--nn-encoder-filename<span class="w"> </span>./icefall-asr-librispeech-lstm-transducer-stateless-2022-08-18/exp/encoder_jit_trace.pt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--nn-decoder-filename<span class="w"> </span>./icefall-asr-librispeech-lstm-transducer-stateless-2022-08-18/exp/decoder_jit_trace.pt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--nn-joiner-filename<span class="w"> </span>./icefall-asr-librispeech-lstm-transducer-stateless-2022-08-18/exp/joiner_jit_trace.pt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--bpe-model-filename<span class="w"> </span>./icefall-asr-librispeech-lstm-transducer-stateless-2022-08-18/data/lang_bpe_500/bpe.model
+</pre></div>
+</div>
+<p>That’s it!</p>
+<p>Now you can start the <a class="reference internal" href="client.html#lstm-client-english"><span class="std std-ref">Client</span></a>, record your voice in real-time,
+and check the recognition results from the server.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>You can also try the following pretrained model trained using <a class="reference external" href="https://github.com/SpeechColab/GigaSpeech">GigaSpeech</a>
+and <a class="reference external" href="https://www.openslr.org/12">LibriSpeech</a> and has a lower WER than the above one:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://huggingface.co/csukuangfj/icefall-asr-librispeech-lstm-transducer-stateless2-2022-09-03
+
+<span class="nv">nn_encoder_filename</span><span class="o">=</span>./icefall-asr-librispeech-lstm-transducer-stateless2-2022-09-03/exp/encoder_jit_trace-iter-468000-avg-16.pt
+<span class="nv">nn_decoder_filename</span><span class="o">=</span>./icefall-asr-librispeech-lstm-transducer-stateless2-2022-09-03/exp/decoder_jit_trace-iter-468000-avg-16.pt
+<span class="nv">nn_joiner_filename</span><span class="o">=</span>./icefall-asr-librispeech-lstm-transducer-stateless2-2022-09-03/exp/joiner_jit_trace-iter-468000-avg-16.pt
+
+<span class="nv">bpe_model_filename</span><span class="o">=</span>./icefall-asr-librispeech-lstm-transducer-stateless2-2022-09-03/data/lang_bpe_500/bpe.model
+
+./sherpa/bin/lstm_transducer_stateless/streaming_server.py<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--endpoint.rule1.must-contain-nonsilence<span class="o">=</span><span class="nb">false</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--endpoint.rule1.min-trailing-silence<span class="o">=</span><span class="m">5</span>.0<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--endpoint.rule2.min-trailing-silence<span class="o">=</span><span class="m">2</span>.0<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--endpoint.rule3.min-utterance-length<span class="o">=</span><span class="m">50</span>.0<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--port<span class="w"> </span><span class="m">6006</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--decoding-method<span class="w"> </span>greedy_search<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--max-batch-size<span class="w"> </span><span class="m">50</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--max-wait-ms<span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--nn-pool-size<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--max-active-connections<span class="w"> </span><span class="m">10</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--nn-encoder-filename<span class="w"> </span><span class="nv">$nn_encoder_filename</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--nn-decoder-filename<span class="w"> </span><span class="nv">$nn_decoder_filename</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--nn-joiner-filename<span class="w"> </span><span class="nv">$nn_joiner_filename</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--bpe-model-filename<span class="w"> </span><span class="nv">$bpe_model_filename</span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,192 @@
+
+<h1> HAPs for VAD + non-streaming speech recognition (HarmonyOS) </h1>
+This page lists the <strong>VAD + non-streaming speech recognition</strong> HAPs for <a href="http://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>,
+one of the deployment frameworks of <a href="https://github.com/k2-fsa">the Next-gen Kaldi project</a>.
+<br/>
+The name of an HAP has the following rule:
+<ul>
+ <li> sherpa-onnx-{version}-vad_asr-{lang}-{model}.hap
+</ul>
+where
+<ul>
+ <li> version: It specifies the current version, e.g., 1.9.23
+ <li> lang: The lang of the model used in the HAP, e.g., en for English, zh for Chinese
+ <li> model: The name of the model used in the HAP
+</ul>
+
+<br/>
+
+You can download all supported models from
+<a href="https://github.com/k2-fsa/sherpa-onnx/releases/tag/asr-models">https://github.com/k2-fsa/sherpa-onnx/releases/tag/asr-models</a>
+
+<br/>
+<br/>
+
+<strong>Note about the license</strong> The code of Next-gen Kaldi is using
+<a href="https://www.apache.org/licenses/LICENSE-2.0">Apache-2.0 license</a>. However,
+we support models from different frameworks. Please check the license of your selected model.
+
+<br/>
+<br/>
+
+<!--
+see https://www.tablesgenerator.com/html_tables#
+-->
+
+<style type="text/css">
+.tg  {border-collapse:collapse;border-spacing:0;}
+.tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+  overflow:hidden;padding:10px 5px;word-break:normal;}
+.tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+  font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+.tg .tg-0pky{border-color:inherit;text-align:left;vertical-align:top}
+.tg .tg-0lax{text-align:left;vertical-align:top}
+</style>
+<table class="tg">
+<thead>
+  <tr>
+    <th class="tg-0pky">HAP</th>
+    <th class="tg-0lax">Comment</th>
+    <th class="tg-0pky">VAD model</th>
+    <th class="tg-0pky">Non-streaming ASR model</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td class="tg-0pky">sherpa-onnx-x.y.z-vad_asr-ja-zipformer_reazonspeech.hap</td>
+    <td class="tg-0lax">It supports only Japanese. It is from <a href="https://github.com/reazon-research/ReazonSpeech">https://github.com/reazon-research/ReazonSpeech</a></td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/silero_vad.onnx">silero_vad.onnx</a></td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-ja-reazonspeech-2024-08-01.tar.bz2">sherpa-onnx-zipformer-ja-reazonspeech-2024-08-01.tar.bz2</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">sherpa-onnx-x.y.z-vad_asr-zh_en_ko_ja_yue-sense_voice.hap</td>
+    <td class="tg-0lax">It supports Chinese, Cantonese, English, Korean, and Japanese (中、英、粤、日、韩5种语音). It is converted from <a href="https://github.com/FunAudioLLM/SenseVoice">https://github.com/FunAudioLLM/SenseVoice</a></td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/silero_vad.onnx">silero_vad.onnx</a></td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17.tar.bz2">sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17.tar.bz2</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">sherpa-onnx-x.y.z-vad_asr-zh-telespeech.hap</td>
+    <td class="tg-0lax">支持非常多种中文方言. It is converted from <a href="https://github.com/Tele-AI/TeleSpeech-ASR">https://github.com/Tele-AI/TeleSpeech-ASR</a></td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/silero_vad.onnx">silero_vad.onnx</a></td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-telespeech-ctc-int8-zh-2024-06-04.tar.bz2">sherpa-onnx-telespeech-ctc-int8-zh-2024-06-04.tar.bz2</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">sherpa-onnx-x.y.z-vad_asr-th-zipformer.hap</td>
+    <td class="tg-0lax">It supports only Thai. It is converted from <a href="https://huggingface.co/yfyeung/icefall-asr-gigaspeech2-th-zipformer-2024-06-20/tree/main">https://huggingface.co/yfyeung/icefall-asr-gigaspeech2-th-zipformer-2024-06-20/tree/main</a></td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/silero_vad.onnx">silero_vad.onnx</a></td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-thai-2024-06-20.tar.bz2">sherpa-onnx-zipformer-thai-2024-06-20.tar.bz2</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">sherpa-onnx-x.y.z-vad_asr-ko-zipformer.hap</td>
+    <td class="tg-0lax">It supports only Korean. It is converted from <a href="https://huggingface.co/johnBamma/icefall-asr-ksponspeech-zipformer-2024-06-24">https://huggingface.co/johnBamma/icefall-asr-ksponspeech-zipformer-2024-06-24</a></td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/silero_vad.onnx">silero_vad.onnx</a></td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-korean-2024-06-24.tar.bz2">sherpa-onnx-zipformer-korean-2024-06-24.tar.bz2</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">sherpa-onnx-x.y.z-vad_asr-be_de_en_es_fr_hr_it_pl_ru_uk-fast_conformer_ctc_20k.hap</td>
+    <td class="tg-0lax">It supports <span style="color:red;">10 languages</span>: Belarusian, German, English, Spanish, French, Croatian, Italian, Polish, Russian, and Ukrainian. It is converted from <a href="https://catalog.ngc.nvidia.com/orgs/nvidia/teams/nemo/models/stt_multilingual_fastconformer_hybrid_large_pc">STT Multilingual FastConformer Hybrid Transducer-CTC Large P&C</a> from <a href="https://github.com/NVIDIA/NeMo/">NVIDIA/NeMo</a>. Note that only the CTC branch is used. It is trained on ~20000 hours of data.</td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/silero_vad.onnx">silero_vad.onnx</a></td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-nemo-fast-conformer-transducer-be-de-en-es-fr-hr-it-pl-ru-uk-20k.tar.bz2">sherpa-onnx-nemo-fast-conformer-transducer-be-de-en-es-fr-hr-it-pl-ru-uk-20k.tar.bz2</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">sherpa-onnx-x.y.z-vad_asr-en_des_es_fr-fast_conformer_ctc_14288.hap</td>
+    <td class="tg-0lax">It supports <span style="color:red;">4 languages</span>:  German, English, Spanish, and French . It is converted from <a href="https://catalog.ngc.nvidia.com/orgs/nvidia/teams/nemo/models/stt_multilingual_fastconformer_hybrid_large_pc_blend_eu">STT European FastConformer Hybrid Transducer-CTC Large P&C</a> from <a href="https://github.com/NVIDIA/NeMo/">NVIDIA/NeMo</a>. Note that only the CTC branch is used. It is trained on 14288 hours of data.</td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/silero_vad.onnx">silero_vad.onnx</a></td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-nemo-fast-conformer-transducer-en-de-es-fr-14288.tar.bz2">sherpa-onnx-nemo-fast-conformer-transducer-en-de-es-fr-14288.tar.bz2</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">sherpa-onnx-x.y.z-vad_asr-es-fast_conformer_ctc_1424.hap</td>
+    <td class="tg-0lax">It supports only Spanish. It is converted from <a href="https://catalog.ngc.nvidia.com/orgs/nvidia/teams/nemo/models/stt_es_fastconformer_hybrid_large_pc">STT Es FastConformer Hybrid Transducer-CTC Large P&C</a> from <a href="https://github.com/NVIDIA/NeMo/">NVIDIA/NeMo</a>. Note that only the CTC branch is used. It is trained on 1424 hours of data.</td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/silero_vad.onnx">silero_vad.onnx</a></td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-nemo-fast-conformer-transducer-es-1424.tar.bz2">sherpa-onnx-nemo-fast-conformer-transducer-es-1424.tar.bz2</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">sherpa-onnx-x.y.z-vad_asr-en-fast_conformer_ctc_24500.hap</td>
+    <td class="tg-0lax">It supports only English. It is converted from <a href="https://catalog.ngc.nvidia.com/orgs/nvidia/teams/nemo/models/stt_en_fastconformer_hybrid_large_pc">STT En FastConformer Hybrid Transducer-CTC Large P&C</a> from <a href="https://github.com/NVIDIA/NeMo/">NVIDIA/NeMo</a>. Note that only the CTC branch is used. It is trained on 8500 hours of data.</td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/silero_vad.onnx">silero_vad.onnx</a></td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-nemo-fast-conformer-transducer-en-24500.tar.bz2">sherpa-onnx-nemo-fast-conformer-transducer-en-24500.tar.bz2</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">sherpa-onnx-x.y.z-vad_asr-zh-zipformer.hap</td>
+    <td class="tg-0lax">It supports only Chinese.</td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/silero_vad.onnx">silero_vad.onnx</a></td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/icefall-asr-zipformer-wenetspeech-20230615.tar.bz2">icefall-asr-zipformer-wenetspeech-20230615</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">sherpa-onnx-x.y.z-vad_asr-zh-paraformer.hap</td>
+    <td class="tg-0lax"><span style="font-weight:400;font-style:normal">It supports both Chinese and English.</span></td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/silero_vad.onnx">silero_vad.onnx</a></td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-paraformer-zh-2023-03-28.tar.bz2">sherpa-onnx-paraformer-zh-2023-03-28</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">sherpa-onnx-x.y.z-vad_asr-en-whisper_tiny.hap</td>
+    <td class="tg-0lax">It supports only English.</td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/silero_vad.onnx">silero_vad.onnx</a></td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-whisper-tiny.en.tar.bz2">sherpa-onnx-whisper-tiny.en</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">sherpa-onnx-x.y.z-vad_asr-en-moonshine_tiny_int8.hap</td>
+    <td class="tg-0lax">It supports only English.</td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/silero_vad.onnx">silero_vad.onnx</a></td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-moonshine-tiny-en-int8.tar.bz2
+">sherpa-onnx-moonshine-tiny-en-int8</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">sherpa-onnx-x.y.z-vad_asr-ru-nemo_transducer_giga_am.hap</td>
+    <td class="tg-0lax">It supports only Russian.</td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/silero_vad.onnx">silero_vad.onnx</a></td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-nemo-transducer-giga-am-russian-2024-10-24.tar.bz2">sherpa-onnx-nemo-transducer-giga-am-russian-2024-10-24.tar.bz2</a> <br/>Please see also <a href="https://github.com/salute-developers/GigaAM">https://github.com/salute-developers/GigaAM</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">sherpa-onnx-x.y.z-vad_asr-ru-nemo_ctc_giga_am.hap</td>
+    <td class="tg-0lax">It supports only Russian.</td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/silero_vad.onnx">silero_vad.onnx</a></td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-nemo-ctc-giga-am-russian-2024-10-24.tar.bz2">sherpa-onnx-nemo-ctc-giga-am-russian-2024-10-24.tar.bz2</a> <br/>Please see also <a href="https://github.com/salute-developers/GigaAM">https://github.com/salute-developers/GigaAM</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">sherpa-onnx-x.y.z-vad_asr-ru-small_zipformer.hap</td>
+    <td class="tg-0lax">It supports only Russian.</td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/silero_vad.onnx">silero_vad.onnx</a></td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-small-zipformer-ru-2024-09-18.tar.bz2">sherpa-onnx-small-zipformer-ru-2024-09-18.tar.bz2</a></td>
+  </tr>
+  <tr>
+    <td class="tg-0pky">sherpa-onnx-x.y.z-vad_asr-ru-zipformer.hap</td>
+    <td class="tg-0lax">It supports only Russian.</td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/silero_vad.onnx">silero_vad.onnx</a></td>
+    <td class="tg-0pky"><a href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-zipformer-ru-2024-09-18.tar.bz2">sherpa-onnx-zipformer-ru-2024-09-18.tar.bz2</a></td>
+  </tr>
+</tbody>
+</table>
+
+<br/>
+<br/>
+
+<div/>
+    
+        For Chinese users, please <a href="./vad-asr-cn.html">visit this address</a>,
+        which replaces <a href="huggingface.co">huggingface.co</a> with <a href="hf-mirror.com">hf-mirror.com</a>
+        <br/>
+        <br/>
+        中国用户, 请访问<a href="./vad-asr-cn.html">这个地址</a>
+        <br/>
+        <br/>
+        
+<a href="https://huggingface.co/csukuangfj/sherpa-onnx-harmony-os/resolve/main/hap/vad-asr/1.10.32/sherpa-onnx-1.10.32-vad_asr-zh_en_ko_ja_yue-sense_voice.hap" />sherpa-onnx-1.10.32-vad_asr-zh_en_ko_ja_yue-sense_voice.hap<br/>
+<a href="https://huggingface.co/csukuangfj/sherpa-onnx-harmony-os/resolve/main/hap/vad-asr/1.10.32/sherpa-onnx-1.10.32-vad_asr-zh_en-small_paraformer.hap" />sherpa-onnx-1.10.32-vad_asr-zh_en-small_paraformer.hap<br/>
+<a href="https://huggingface.co/csukuangfj/sherpa-onnx-harmony-os/resolve/main/hap/vad-asr/1.10.32/sherpa-onnx-1.10.32-vad_asr-zh_en-paraformer.hap" />sherpa-onnx-1.10.32-vad_asr-zh_en-paraformer.hap<br/>
+<a href="https://huggingface.co/csukuangfj/sherpa-onnx-harmony-os/resolve/main/hap/vad-asr/1.10.32/sherpa-onnx-1.10.32-vad_asr-zh-zipformer.hap" />sherpa-onnx-1.10.32-vad_asr-zh-zipformer.hap<br/>
+<a href="https://huggingface.co/csukuangfj/sherpa-onnx-harmony-os/resolve/main/hap/vad-asr/1.10.32/sherpa-onnx-1.10.32-vad_asr-zh-telespeech.hap" />sherpa-onnx-1.10.32-vad_asr-zh-telespeech.hap<br/>
+<a href="https://huggingface.co/csukuangfj/sherpa-onnx-harmony-os/resolve/main/hap/vad-asr/1.10.32/sherpa-onnx-1.10.32-vad_asr-th-zipformer.hap" />sherpa-onnx-1.10.32-vad_asr-th-zipformer.hap<br/>
+<a href="https://huggingface.co/csukuangfj/sherpa-onnx-harmony-os/resolve/main/hap/vad-asr/1.10.32/sherpa-onnx-1.10.32-vad_asr-ru-small_zipformer.hap" />sherpa-onnx-1.10.32-vad_asr-ru-small_zipformer.hap<br/>
+<a href="https://huggingface.co/csukuangfj/sherpa-onnx-harmony-os/resolve/main/hap/vad-asr/1.10.32/sherpa-onnx-1.10.32-vad_asr-ru-zipformer.hap" />sherpa-onnx-1.10.32-vad_asr-ru-zipformer.hap<br/>
+<a href="https://huggingface.co/csukuangfj/sherpa-onnx-harmony-os/resolve/main/hap/vad-asr/1.10.32/sherpa-onnx-1.10.32-vad_asr-ru-nemo_transducer_giga_am.hap" />sherpa-onnx-1.10.32-vad_asr-ru-nemo_transducer_giga_am.hap<br/>
+<a href="https://huggingface.co/csukuangfj/sherpa-onnx-harmony-os/resolve/main/hap/vad-asr/1.10.32/sherpa-onnx-1.10.32-vad_asr-ru-nemo_ctc_giga_am.hap" />sherpa-onnx-1.10.32-vad_asr-ru-nemo_ctc_giga_am.hap<br/>
+<a href="https://huggingface.co/csukuangfj/sherpa-onnx-harmony-os/resolve/main/hap/vad-asr/1.10.32/sherpa-onnx-1.10.32-vad_asr-ko-zipformer.hap" />sherpa-onnx-1.10.32-vad_asr-ko-zipformer.hap<br/>
+<a href="https://huggingface.co/csukuangfj/sherpa-onnx-harmony-os/resolve/main/hap/vad-asr/1.10.32/sherpa-onnx-1.10.32-vad_asr-ja-zipformer_reazonspeech.hap" />sherpa-onnx-1.10.32-vad_asr-ja-zipformer_reazonspeech.hap<br/>
+<a href="https://huggingface.co/csukuangfj/sherpa-onnx-harmony-os/resolve/main/hap/vad-asr/1.10.32/sherpa-onnx-1.10.32-vad_asr-es-fast_conformer_ctc_1424.hap" />sherpa-onnx-1.10.32-vad_asr-es-fast_conformer_ctc_1424.hap<br/>
+<a href="https://huggingface.co/csukuangfj/sherpa-onnx-harmony-os/resolve/main/hap/vad-asr/1.10.32/sherpa-onnx-1.10.32-vad_asr-en_de_es_fr-fast_conformer_ctc_14288.hap" />sherpa-onnx-1.10.32-vad_asr-en_de_es_fr-fast_conformer_ctc_14288.hap<br/>
+<a href="https://huggingface.co/csukuangfj/sherpa-onnx-harmony-os/resolve/main/hap/vad-asr/1.10.32/sherpa-onnx-1.10.32-vad_asr-en-whisper_tiny.hap" />sherpa-onnx-1.10.32-vad_asr-en-whisper_tiny.hap<br/>
+<a href="https://huggingface.co/csukuangfj/sherpa-onnx-harmony-os/resolve/main/hap/vad-asr/1.10.32/sherpa-onnx-1.10.32-vad_asr-en-moonshine_tiny_int8.hap" />sherpa-onnx-1.10.32-vad_asr-en-moonshine_tiny_int8.hap<br/>
+<a href="https://huggingface.co/csukuangfj/sherpa-onnx-harmony-os/resolve/main/hap/vad-asr/1.10.32/sherpa-onnx-1.10.32-vad_asr-en-moonshine_base_int8.hap" />sherpa-onnx-1.10.32-vad_asr-en-moonshine_base_int8.hap<br/>
+<a href="https://huggingface.co/csukuangfj/sherpa-onnx-harmony-os/resolve/main/hap/vad-asr/1.10.32/sherpa-onnx-1.10.32-vad_asr-en-fast_conformer_ctc_24500.hap" />sherpa-onnx-1.10.32-vad_asr-en-fast_conformer_ctc_24500.hap<br/>
+<a href="https://huggingface.co/csukuangfj/sherpa-onnx-harmony-os/resolve/main/hap/vad-asr/1.10.32/sherpa-onnx-1.10.32-vad_asr-be_de_en_es_fr_hr_it_pl_ru_uk-fast_conformer_ctc_20k.hap" />sherpa-onnx-1.10.32-vad_asr-be_de_en_es_fr_hr_it_pl_ru_uk-fast_conformer_ctc_20k.hap<br/>

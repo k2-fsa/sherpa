@@ -1,0 +1,34 @@
+func run() {
+  let kitten = sherpaOnnxOfflineTtsKittenModelConfig(
+    model: "{{model}}",
+    voices: "{{voices}}",
+    tokens: "{{tokens}}",
+    dataDir: "{{data_dir}}"
+  )
+  let modelConfig = sherpaOnnxOfflineTtsModelConfig(kitten: kitten)
+  var ttsConfig = sherpaOnnxOfflineTtsConfig(model: modelConfig)
+
+  let tts = SherpaOnnxOfflineTtsWrapper(config: &ttsConfig)
+
+  let text = "{{text}}"
+  var genConfig = SherpaOnnxGenerationConfigSwift()
+  genConfig.sid = {{sid}}
+  genConfig.speed = 1.0
+  genConfig.silenceScale = 0.2
+
+  let audio = tts.generateWithConfig(text: text, config: genConfig, callback: nil, arg: nil)
+  let filename = "test.wav"
+  let ok = audio.save(filename: filename)
+  if ok == 1 {
+    print("Saved to \(filename)")
+  } else {
+    print("Failed to save \(filename)")
+  }
+}
+
+@main
+struct App {
+  static func main() {
+    run()
+  }
+}
