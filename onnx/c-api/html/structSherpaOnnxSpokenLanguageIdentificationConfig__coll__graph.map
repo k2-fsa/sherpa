@@ -1,0 +1,5 @@
+<map id="SherpaOnnxSpokenLanguageIdentificationConfig" name="SherpaOnnxSpokenLanguageIdentificationConfig">
+<area shape="rect" id="Node000001" title="Configuration for spoken language identification." alt="" coords="5,108,216,148"/>
+<area shape="rect" id="Node000002" href="$structSherpaOnnxSpokenLanguageIdentificationWhisperConfig.html" title="Whisper&#45;based model files for spoken language identification." alt="" coords="5,5,216,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="113,59,113,108,108,108,108,59"/>
+</map>

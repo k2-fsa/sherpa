@@ -1,0 +1,5 @@
+<map id="sherpa_onnx::cxx::AudioTagging" name="sherpa_onnx::cxx::AudioTagging">
+<area shape="rect" id="Node000001" title="RAII wrapper for audio tagging." alt="" coords="14,108,245,133"/>
+<area shape="rect" id="Node000002" href="$classsherpa__onnx_1_1cxx_1_1MoveOnly.html" title=" " alt="" coords="5,5,253,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="132,74,132,108,127,108,127,74"/>
+</map>

@@ -1,0 +1,33 @@
+<map id="sherpa_onnx::cxx::OnlineRecognizerConfig" name="sherpa_onnx::cxx::OnlineRecognizerConfig">
+<area shape="rect" id="Node000001" title="Configuration for streaming ASR." alt="" coords="1187,336,1373,376"/>
+<area shape="rect" id="Node000002" href="$structsherpa__onnx_1_1cxx_1_1FeatureConfig.html" title="Feature extraction settings shared by ASR and KWS wrappers." alt="" coords="853,5,1047,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1061,22,1115,35,1141,46,1164,62,1194,92,1219,128,1238,166,1253,206,1272,280,1280,335,1275,336,1267,281,1248,208,1233,168,1214,131,1190,96,1161,66,1139,51,1114,40,1060,27"/>
+<area shape="rect" id="Node000003" href="$structsherpa__onnx_1_1cxx_1_1OnlineModelConfig.html" title="Acoustic model configuration for streaming ASR." alt="" coords="857,336,1043,376"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="1057,353,1186,353,1186,359,1057,359"/>
+<area shape="rect" id="Node000004" href="$structsherpa__onnx_1_1cxx_1_1OnlineTransducerModelConfig.html" title="Streaming transducer model files." alt="" coords="391,256,577,296"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="591,285,706,301,830,323,876,333,875,339,829,328,705,307,590,291"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="193,391,280,417"/>
+<area shape="poly" id="edge15_Node000001_Node000005" title=" " alt="" coords="240,377,253,321,279,249,298,214,322,180,350,152,384,130,445,106,509,91,574,84,639,85,705,93,770,105,834,123,896,144,1012,194,1114,247,1196,296,1252,334,1249,338,1193,300,1112,251,1010,199,894,149,832,128,769,111,704,98,639,91,574,90,510,96,447,111,387,134,353,156,326,184,303,216,284,252,258,322,245,378"/>
+<area shape="poly" id="edge14_Node000003_Node000005" title=" " alt="" coords="240,377,247,349,259,317,277,285,302,258,323,246,341,242,385,241,512,228,612,221,660,224,710,231,766,246,830,268,859,282,886,299,929,334,926,338,883,303,857,287,828,273,765,251,709,237,659,229,612,226,512,233,386,247,342,247,325,251,306,262,282,288,264,319,252,351,245,379"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="254,379,276,355,303,334,348,310,395,293,397,299,350,315,305,338,279,359,258,382"/>
+<area shape="rect" id="Node000007" href="$structsherpa__onnx_1_1cxx_1_1OnlineParaformerModelConfig.html" title="Streaming Paraformer model files." alt="" coords="391,320,577,360"/>
+<area shape="poly" id="edge7_Node000007_Node000005" title=" " alt="" coords="291,385,303,381,397,357,398,363,305,387,293,390"/>
+<area shape="rect" id="Node000008" href="$structsherpa__onnx_1_1cxx_1_1OnlineZipformer2CtcModelConfig.html" title="Streaming Zipformer2 CTC model file." alt="" coords="385,384,583,424"/>
+<area shape="poly" id="edge9_Node000008_Node000005" title=" " alt="" coords="294,401,385,401,385,407,294,407"/>
+<area shape="rect" id="Node000009" href="$structsherpa__onnx_1_1cxx_1_1OnlineNemoCtcModelConfig.html" title="Streaming NeMo CTC model file." alt="" coords="391,448,577,488"/>
+<area shape="poly" id="edge11_Node000009_Node000005" title=" " alt="" coords="293,418,305,421,398,445,397,451,303,427,291,423"/>
+<area shape="rect" id="Node000010" href="$structsherpa__onnx_1_1cxx_1_1OnlineToneCtcModelConfig.html" title="Streaming T&#45;One CTC model file." alt="" coords="391,512,577,552"/>
+<area shape="poly" id="edge13_Node000010_Node000005" title=" " alt="" coords="264,423,305,455,345,479,386,498,418,509,416,514,384,502,342,483,303,460,261,428"/>
+<area shape="rect" id="Node000011" href="$structsherpa__onnx_1_1cxx_1_1OnlineCtcFstDecoderConfig.html" title="Decoder graph configuration for online CTC + FST decoding." alt="" coords="625,549,811,589"/>
+<area shape="poly" id="edge17_Node000011_Node000005" title=" " alt="" coords="252,427,275,467,306,508,342,541,360,552,386,561,446,575,509,581,569,582,624,579,625,584,570,587,509,587,446,581,385,567,358,557,339,546,302,511,270,470,247,430"/>
+<area shape="rect" id="Node000012" href="$structsherpa__onnx_1_1cxx_1_1HomophoneReplacerConfig.html" title="Homophone replacement resources used by some Chinese ASR setups." alt="" coords="607,641,829,681"/>
+<area shape="poly" id="edge19_Node000012_Node000005" title=" " alt="" coords="241,430,245,469,255,516,274,563,288,584,306,602,339,625,375,643,413,656,453,665,532,674,606,673,606,678,532,679,452,671,412,661,373,648,336,630,302,606,284,587,270,566,250,518,239,470,236,430"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="5,384,144,424"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="157,401,193,401,193,407,157,407"/>
+<area shape="poly" id="edge6_Node000003_Node000007" title=" " alt="" coords="591,341,856,350,856,355,591,346"/>
+<area shape="poly" id="edge8_Node000003_Node000008" title=" " alt="" coords="596,392,829,369,856,366,857,371,830,375,597,397"/>
+<area shape="poly" id="edge10_Node000003_Node000009" title=" " alt="" coords="591,457,706,441,768,428,828,412,874,394,914,374,916,378,876,399,830,417,770,434,707,446,591,463"/>
+<area shape="poly" id="edge12_Node000003_Node000010" title=" " alt="" coords="591,524,729,507,788,493,828,475,837,464,840,451,843,437,851,421,879,394,909,374,912,378,882,399,855,424,848,438,846,452,842,466,831,479,790,498,730,512,592,529"/>
+<area shape="poly" id="edge16_Node000001_Node000011" title=" " alt="" coords="787,542,828,527,1227,374,1229,379,830,532,789,547"/>
+<area shape="poly" id="edge18_Node000001_Node000012" title=" " alt="" coords="804,635,921,594,984,567,1045,536,1109,496,1168,451,1256,374,1260,378,1171,455,1112,500,1048,541,987,572,923,599,805,640"/>
+</map>
