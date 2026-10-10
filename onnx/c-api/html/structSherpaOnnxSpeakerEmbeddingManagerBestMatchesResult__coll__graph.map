@@ -1,0 +1,5 @@
+<map id="SherpaOnnxSpeakerEmbeddingManagerBestMatchesResult" name="SherpaOnnxSpeakerEmbeddingManagerBestMatchesResult">
+<area shape="rect" id="Node000001" title="Collection of best speaker matches." alt="" coords="5,108,232,148"/>
+<area shape="rect" id="Node000002" href="$structSherpaOnnxSpeakerEmbeddingManagerSpeakerMatch.html" title="One speaker match returned by the best&#45;matches API." alt="" coords="5,5,232,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="121,59,121,108,116,108,116,59"/>
+</map>

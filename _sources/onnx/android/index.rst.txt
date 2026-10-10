@@ -1,0 +1,22 @@
+.. _sherpa-onnx-android:
+
+Android
+=======
+
+
+In this section, we describe how to build an Android app with `sherpa-onnx`_.
+
+.. hint::
+
+  For real-time speech recognition, it does not need to access the Internet.
+  Everything is processed locally on your phone.
+
+.. hint::
+
+   For Android with QNN, see :ref:`onnx-qnn-qualcomm-npu`.
+
+.. toctree::
+   :maxdepth: 2
+
+   ./prebuilt-apk.rst
+   build-sherpa-onnx

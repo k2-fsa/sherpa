@@ -1,0 +1,17 @@
+<map id="sherpa_onnx::cxx::OfflineSpeakerDiarizationConfig" name="sherpa_onnx::cxx::OfflineSpeakerDiarizationConfig">
+<area shape="rect" id="Node000001" title="Configuration for offline speaker diarization." alt="" coords="1283,109,1469,149"/>
+<area shape="rect" id="Node000002" href="$structsherpa__onnx_1_1cxx_1_1OfflineSpeakerSegmentationModelConfig.html" title="Segmentation model configuration for offline speaker diarization." alt="" coords="893,48,1140,88"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1149,88,1283,111,1282,116,1148,93"/>
+<area shape="rect" id="Node000003" href="$structsherpa__onnx_1_1cxx_1_1OfflineSpeakerSegmentationPyannoteModelConfig.html" title="Pyannote segmentation model configuration." alt="" coords="383,41,649,95"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="663,65,893,65,893,71,663,71"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="193,55,280,81"/>
+<area shape="poly" id="edge5_Node000002_Node000004" title=" " alt="" coords="285,48,332,35,382,25,451,19,522,16,662,20,792,31,902,45,901,51,792,36,662,25,522,22,452,24,383,31,333,40,287,53"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="294,65,382,65,382,71,294,71"/>
+<area shape="rect" id="Node000006" href="$structsherpa__onnx_1_1cxx_1_1SpeakerEmbeddingExtractorConfig.html" title="Configuration for speaker embedding extraction." alt="" coords="673,111,869,151"/>
+<area shape="poly" id="edge7_Node000006_Node000004" title=" " alt="" coords="270,85,305,100,401,120,499,131,592,135,673,134,673,139,592,140,499,136,400,126,303,105,268,90"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="5,48,144,88"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="157,65,193,65,193,71,157,71"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="883,128,1283,127,1283,132,883,133"/>
+<area shape="rect" id="Node000007" href="$structsherpa__onnx_1_1cxx_1_1FastClusteringConfig.html" title="Fast clustering configuration." alt="" coords="899,177,1135,217"/>
+<area shape="poly" id="edge8_Node000001_Node000007" title=" " alt="" coords="1148,179,1258,160,1310,147,1311,152,1259,165,1149,184"/>
+</map>

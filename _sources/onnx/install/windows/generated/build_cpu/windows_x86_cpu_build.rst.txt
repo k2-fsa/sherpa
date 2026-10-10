@@ -1,0 +1,594 @@
+Build sherpa-onnx on Windows (x86)
+=========================================
+
+This section describes how to build **sherpa-onnx** on Windows for the
+**x86** architecture using CPU only.
+
+You can choose your build configuration depending on:
+
+- Runtime: MD (dynamic CRT), MT (static CRT)
+- Library type: shared or static
+- Build type: Debug, Release, MinSizeRel, RelWithDebInfo
+
+Prerequisites
+-------------
+
+- Windows 10 or later
+- **Visual Studio 2022** or newer
+- CMake 3.20 or newer
+- A C++ compiler provided by Visual Studio
+- Optional: PortAudio and eSpeak NG (disabled in examples)
+
+.. note::
+
+   MinGW is not supported.
+
+Build Configurations
+-------------------
+
+
+
+
+Shared + MD + Release
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Build commands
+^^^^^^^^^^^^^^
+
+::
+
+  mkdir build
+  cd build
+  cmake \
+    -A Win32 \
+    -DSHERPA_ONNX_ENABLE_TTS=ON \
+    -DSHERPA_ONNX_USE_STATIC_CRT=OFF \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DSHERPA_ONNX_ENABLE_PORTAUDIO=OFF \
+    -DBUILD_SHARED_LIBS=ON \
+    -DCMAKE_INSTALL_PREFIX=./install \
+    -DBUILD_ESPEAK_NG_EXE=OFF \
+    ..
+  cmake --build . --config Release -- -m:2
+  cmake --build . --config Release --target install -- -m:2
+
+
+Check runtime dependencies
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+::
+
+  dumpbin /dependents build\bin\Release\sherpa-onnx.exe
+
+Expected output
+""""""""""""""""""""
+
+::
+
+
+  Dump of file build\bin\Release\sherpa-onnx.exe
+
+  File Type: EXECUTABLE IMAGE
+
+    Image has the following dependencies:
+
+      onnxruntime.dll
+      KERNEL32.dll
+      MSVCP140.dll
+      VCRUNTIME140.dll
+      api-ms-win-crt-runtime-l1-1-0.dll
+      api-ms-win-crt-heap-l1-1-0.dll
+      api-ms-win-crt-stdio-l1-1-0.dll
+      api-ms-win-crt-filesystem-l1-1-0.dll
+      api-ms-win-crt-string-l1-1-0.dll
+      api-ms-win-crt-convert-l1-1-0.dll
+      api-ms-win-crt-math-l1-1-0.dll
+      api-ms-win-crt-utility-l1-1-0.dll
+      api-ms-win-crt-environment-l1-1-0.dll
+      api-ms-win-crt-locale-l1-1-0.dll
+
+
+   
+
+
+Shared + MD + Debug
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Build commands
+^^^^^^^^^^^^^^
+
+::
+
+  mkdir build
+  cd build
+  cmake \
+    -A Win32 \
+    -DSHERPA_ONNX_ENABLE_TTS=ON \
+    -DSHERPA_ONNX_USE_STATIC_CRT=OFF \
+    -DCMAKE_BUILD_TYPE=Debug \
+    -DSHERPA_ONNX_ENABLE_PORTAUDIO=OFF \
+    -DBUILD_SHARED_LIBS=ON \
+    -DCMAKE_INSTALL_PREFIX=./install \
+    -DBUILD_ESPEAK_NG_EXE=OFF \
+    ..
+  cmake --build . --config Debug -- -m:2
+  cmake --build . --config Debug --target install -- -m:2
+
+   
+
+
+Shared + MD + MinSizeRel
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Build commands
+^^^^^^^^^^^^^^
+
+::
+
+  mkdir build
+  cd build
+  cmake \
+    -A Win32 \
+    -DSHERPA_ONNX_ENABLE_TTS=ON \
+    -DSHERPA_ONNX_USE_STATIC_CRT=OFF \
+    -DCMAKE_BUILD_TYPE=MinSizeRel \
+    -DSHERPA_ONNX_ENABLE_PORTAUDIO=OFF \
+    -DBUILD_SHARED_LIBS=ON \
+    -DCMAKE_INSTALL_PREFIX=./install \
+    -DBUILD_ESPEAK_NG_EXE=OFF \
+    ..
+  cmake --build . --config MinSizeRel -- -m:2
+  cmake --build . --config MinSizeRel --target install -- -m:2
+
+   
+
+
+Shared + MD + RelWithDebInfo
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Build commands
+^^^^^^^^^^^^^^
+
+::
+
+  mkdir build
+  cd build
+  cmake \
+    -A Win32 \
+    -DSHERPA_ONNX_ENABLE_TTS=ON \
+    -DSHERPA_ONNX_USE_STATIC_CRT=OFF \
+    -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+    -DSHERPA_ONNX_ENABLE_PORTAUDIO=OFF \
+    -DBUILD_SHARED_LIBS=ON \
+    -DCMAKE_INSTALL_PREFIX=./install \
+    -DBUILD_ESPEAK_NG_EXE=OFF \
+    ..
+  cmake --build . --config RelWithDebInfo -- -m:2
+  cmake --build . --config RelWithDebInfo --target install -- -m:2
+
+   
+
+
+
+
+Shared + MT + Release
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Build commands
+^^^^^^^^^^^^^^
+
+::
+
+  mkdir build
+  cd build
+  cmake \
+    -A Win32 \
+    -DSHERPA_ONNX_ENABLE_TTS=ON \
+    -DSHERPA_ONNX_USE_STATIC_CRT=ON \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DSHERPA_ONNX_ENABLE_PORTAUDIO=OFF \
+    -DBUILD_SHARED_LIBS=ON \
+    -DCMAKE_INSTALL_PREFIX=./install \
+    -DBUILD_ESPEAK_NG_EXE=OFF \
+    ..
+  cmake --build . --config Release -- -m:2
+  cmake --build . --config Release --target install -- -m:2
+
+
+Check runtime dependencies
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+::
+
+  dumpbin /dependents build\bin\Release\sherpa-onnx.exe
+
+Expected output
+""""""""""""""""""""
+
+::
+
+
+  Dump of file build\bin\Release\sherpa-onnx.exe
+
+  File Type: EXECUTABLE IMAGE
+
+    Image has the following dependencies:
+
+      onnxruntime.dll
+      KERNEL32.dll
+
+
+   
+
+
+Shared + MT + Debug
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Build commands
+^^^^^^^^^^^^^^
+
+::
+
+  mkdir build
+  cd build
+  cmake \
+    -A Win32 \
+    -DSHERPA_ONNX_ENABLE_TTS=ON \
+    -DSHERPA_ONNX_USE_STATIC_CRT=ON \
+    -DCMAKE_BUILD_TYPE=Debug \
+    -DSHERPA_ONNX_ENABLE_PORTAUDIO=OFF \
+    -DBUILD_SHARED_LIBS=ON \
+    -DCMAKE_INSTALL_PREFIX=./install \
+    -DBUILD_ESPEAK_NG_EXE=OFF \
+    ..
+  cmake --build . --config Debug -- -m:2
+  cmake --build . --config Debug --target install -- -m:2
+
+   
+
+
+Shared + MT + MinSizeRel
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Build commands
+^^^^^^^^^^^^^^
+
+::
+
+  mkdir build
+  cd build
+  cmake \
+    -A Win32 \
+    -DSHERPA_ONNX_ENABLE_TTS=ON \
+    -DSHERPA_ONNX_USE_STATIC_CRT=ON \
+    -DCMAKE_BUILD_TYPE=MinSizeRel \
+    -DSHERPA_ONNX_ENABLE_PORTAUDIO=OFF \
+    -DBUILD_SHARED_LIBS=ON \
+    -DCMAKE_INSTALL_PREFIX=./install \
+    -DBUILD_ESPEAK_NG_EXE=OFF \
+    ..
+  cmake --build . --config MinSizeRel -- -m:2
+  cmake --build . --config MinSizeRel --target install -- -m:2
+
+   
+
+
+Shared + MT + RelWithDebInfo
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Build commands
+^^^^^^^^^^^^^^
+
+::
+
+  mkdir build
+  cd build
+  cmake \
+    -A Win32 \
+    -DSHERPA_ONNX_ENABLE_TTS=ON \
+    -DSHERPA_ONNX_USE_STATIC_CRT=ON \
+    -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+    -DSHERPA_ONNX_ENABLE_PORTAUDIO=OFF \
+    -DBUILD_SHARED_LIBS=ON \
+    -DCMAKE_INSTALL_PREFIX=./install \
+    -DBUILD_ESPEAK_NG_EXE=OFF \
+    ..
+  cmake --build . --config RelWithDebInfo -- -m:2
+  cmake --build . --config RelWithDebInfo --target install -- -m:2
+
+   
+
+
+
+
+
+
+Static + MD + Release
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Build commands
+^^^^^^^^^^^^^^
+
+::
+
+  mkdir build
+  cd build
+  cmake \
+    -A Win32 \
+    -DSHERPA_ONNX_ENABLE_TTS=ON \
+    -DSHERPA_ONNX_USE_STATIC_CRT=OFF \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DSHERPA_ONNX_ENABLE_PORTAUDIO=OFF \
+    -DBUILD_SHARED_LIBS=OFF \
+    -DCMAKE_INSTALL_PREFIX=./install \
+    -DBUILD_ESPEAK_NG_EXE=OFF \
+    ..
+  cmake --build . --config Release -- -m:2
+  cmake --build . --config Release --target install -- -m:2
+
+
+Check runtime dependencies
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+::
+
+  dumpbin /dependents build\bin\Release\sherpa-onnx.exe
+
+Expected output
+""""""""""""""""""""
+
+::
+
+
+  Dump of file build\bin\Release\sherpa-onnx.exe
+
+  File Type: EXECUTABLE IMAGE
+
+    Image has the following dependencies:
+
+      KERNEL32.dll
+      ADVAPI32.dll
+      MSVCP140.dll
+      MSVCP140_1.dll
+      dbghelp.dll
+      api-ms-win-core-path-l1-1-0.dll
+      SETUPAPI.dll
+      dxgi.dll
+      VCRUNTIME140.dll
+      api-ms-win-crt-stdio-l1-1-0.dll
+      api-ms-win-crt-heap-l1-1-0.dll
+      api-ms-win-crt-runtime-l1-1-0.dll
+      api-ms-win-crt-string-l1-1-0.dll
+      api-ms-win-crt-convert-l1-1-0.dll
+      api-ms-win-crt-filesystem-l1-1-0.dll
+      api-ms-win-crt-math-l1-1-0.dll
+      api-ms-win-crt-utility-l1-1-0.dll
+      api-ms-win-crt-time-l1-1-0.dll
+      api-ms-win-crt-locale-l1-1-0.dll
+      api-ms-win-crt-environment-l1-1-0.dll
+
+
+   
+
+
+Static + MD + Debug
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Build commands
+^^^^^^^^^^^^^^
+
+::
+
+  mkdir build
+  cd build
+  cmake \
+    -A Win32 \
+    -DSHERPA_ONNX_ENABLE_TTS=ON \
+    -DSHERPA_ONNX_USE_STATIC_CRT=OFF \
+    -DCMAKE_BUILD_TYPE=Debug \
+    -DSHERPA_ONNX_ENABLE_PORTAUDIO=OFF \
+    -DBUILD_SHARED_LIBS=OFF \
+    -DCMAKE_INSTALL_PREFIX=./install \
+    -DBUILD_ESPEAK_NG_EXE=OFF \
+    ..
+  cmake --build . --config Debug -- -m:2
+  cmake --build . --config Debug --target install -- -m:2
+
+   
+
+
+Static + MD + MinSizeRel
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Build commands
+^^^^^^^^^^^^^^
+
+::
+
+  mkdir build
+  cd build
+  cmake \
+    -A Win32 \
+    -DSHERPA_ONNX_ENABLE_TTS=ON \
+    -DSHERPA_ONNX_USE_STATIC_CRT=OFF \
+    -DCMAKE_BUILD_TYPE=MinSizeRel \
+    -DSHERPA_ONNX_ENABLE_PORTAUDIO=OFF \
+    -DBUILD_SHARED_LIBS=OFF \
+    -DCMAKE_INSTALL_PREFIX=./install \
+    -DBUILD_ESPEAK_NG_EXE=OFF \
+    ..
+  cmake --build . --config MinSizeRel -- -m:2
+  cmake --build . --config MinSizeRel --target install -- -m:2
+
+   
+
+
+Static + MD + RelWithDebInfo
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Build commands
+^^^^^^^^^^^^^^
+
+::
+
+  mkdir build
+  cd build
+  cmake \
+    -A Win32 \
+    -DSHERPA_ONNX_ENABLE_TTS=ON \
+    -DSHERPA_ONNX_USE_STATIC_CRT=OFF \
+    -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+    -DSHERPA_ONNX_ENABLE_PORTAUDIO=OFF \
+    -DBUILD_SHARED_LIBS=OFF \
+    -DCMAKE_INSTALL_PREFIX=./install \
+    -DBUILD_ESPEAK_NG_EXE=OFF \
+    ..
+  cmake --build . --config RelWithDebInfo -- -m:2
+  cmake --build . --config RelWithDebInfo --target install -- -m:2
+
+   
+
+
+
+
+Static + MT + Release
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Build commands
+^^^^^^^^^^^^^^
+
+::
+
+  mkdir build
+  cd build
+  cmake \
+    -A Win32 \
+    -DSHERPA_ONNX_ENABLE_TTS=ON \
+    -DSHERPA_ONNX_USE_STATIC_CRT=ON \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DSHERPA_ONNX_ENABLE_PORTAUDIO=OFF \
+    -DBUILD_SHARED_LIBS=OFF \
+    -DCMAKE_INSTALL_PREFIX=./install \
+    -DBUILD_ESPEAK_NG_EXE=OFF \
+    ..
+  cmake --build . --config Release -- -m:2
+  cmake --build . --config Release --target install -- -m:2
+
+
+Check runtime dependencies
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+::
+
+  dumpbin /dependents build\bin\Release\sherpa-onnx.exe
+
+Expected output
+""""""""""""""""""""
+
+::
+
+
+  Dump of file build\bin\Release\sherpa-onnx.exe
+
+  File Type: EXECUTABLE IMAGE
+
+    Image has the following dependencies:
+
+      KERNEL32.dll
+      ADVAPI32.dll
+      dbghelp.dll
+      api-ms-win-core-path-l1-1-0.dll
+      SETUPAPI.dll
+      dxgi.dll
+
+
+   
+
+
+Static + MT + Debug
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Build commands
+^^^^^^^^^^^^^^
+
+::
+
+  mkdir build
+  cd build
+  cmake \
+    -A Win32 \
+    -DSHERPA_ONNX_ENABLE_TTS=ON \
+    -DSHERPA_ONNX_USE_STATIC_CRT=ON \
+    -DCMAKE_BUILD_TYPE=Debug \
+    -DSHERPA_ONNX_ENABLE_PORTAUDIO=OFF \
+    -DBUILD_SHARED_LIBS=OFF \
+    -DCMAKE_INSTALL_PREFIX=./install \
+    -DBUILD_ESPEAK_NG_EXE=OFF \
+    ..
+  cmake --build . --config Debug -- -m:2
+  cmake --build . --config Debug --target install -- -m:2
+
+   
+
+
+Static + MT + MinSizeRel
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Build commands
+^^^^^^^^^^^^^^
+
+::
+
+  mkdir build
+  cd build
+  cmake \
+    -A Win32 \
+    -DSHERPA_ONNX_ENABLE_TTS=ON \
+    -DSHERPA_ONNX_USE_STATIC_CRT=ON \
+    -DCMAKE_BUILD_TYPE=MinSizeRel \
+    -DSHERPA_ONNX_ENABLE_PORTAUDIO=OFF \
+    -DBUILD_SHARED_LIBS=OFF \
+    -DCMAKE_INSTALL_PREFIX=./install \
+    -DBUILD_ESPEAK_NG_EXE=OFF \
+    ..
+  cmake --build . --config MinSizeRel -- -m:2
+  cmake --build . --config MinSizeRel --target install -- -m:2
+
+   
+
+
+Static + MT + RelWithDebInfo
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Build commands
+^^^^^^^^^^^^^^
+
+::
+
+  mkdir build
+  cd build
+  cmake \
+    -A Win32 \
+    -DSHERPA_ONNX_ENABLE_TTS=ON \
+    -DSHERPA_ONNX_USE_STATIC_CRT=ON \
+    -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+    -DSHERPA_ONNX_ENABLE_PORTAUDIO=OFF \
+    -DBUILD_SHARED_LIBS=OFF \
+    -DCMAKE_INSTALL_PREFIX=./install \
+    -DBUILD_ESPEAK_NG_EXE=OFF \
+    ..
+  cmake --build . --config RelWithDebInfo -- -m:2
+  cmake --build . --config RelWithDebInfo --target install -- -m:2
+
+   
+
+
+
+
+
+.. note::
+
+   - ``MT`` builds do **not** depend on the MSVC runtime DLLs.  
+   - ``MD`` builds require the Microsoft Visual C++ Redistributable.  
+   - ``shared`` builds depend on ``onnxruntime.dll`` at runtime.  
+   - Users can enable or disable TTS by changing ``-DSHERPA_ONNX_ENABLE_TTS=ON`` or ``OFF``.

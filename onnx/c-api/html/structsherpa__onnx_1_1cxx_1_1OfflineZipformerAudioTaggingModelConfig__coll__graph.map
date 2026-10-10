@@ -1,0 +1,7 @@
+<map id="sherpa_onnx::cxx::OfflineZipformerAudioTaggingModelConfig" name="sherpa_onnx::cxx::OfflineZipformerAudioTaggingModelConfig">
+<area shape="rect" id="Node000001" title="Zipformer audio&#45;tagging model configuration." alt="" coords="5,183,260,223"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="89,95,176,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="135,134,135,182,130,182,130,134"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="63,5,202,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="135,59,135,94,130,94,130,59"/>
+</map>

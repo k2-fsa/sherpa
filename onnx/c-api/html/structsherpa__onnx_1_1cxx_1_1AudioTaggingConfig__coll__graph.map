@@ -1,0 +1,13 @@
+<map id="sherpa_onnx::cxx::AudioTaggingConfig" name="sherpa_onnx::cxx::AudioTaggingConfig">
+<area shape="rect" id="Node000001" title="Configuration for audio tagging." alt="" coords="5,388,236,428"/>
+<area shape="rect" id="Node000002" href="$structsherpa__onnx_1_1cxx_1_1AudioTaggingModelConfig.html" title="Audio&#45;tagging model configuration." alt="" coords="137,285,368,325"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="218,336,147,390,144,386,215,332"/>
+<area shape="rect" id="Node000003" href="$structsherpa__onnx_1_1cxx_1_1OfflineZipformerAudioTaggingModelConfig.html" title="Zipformer audio&#45;tagging model configuration." alt="" coords="243,183,497,223"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="339,234,276,287,273,283,336,230"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="120,95,207,120"/>
+<area shape="poly" id="edge6_Node000001_Node000004" title=" " alt="" coords="159,134,142,202,127,286,123,341,123,388,118,388,118,341,122,285,137,201,154,132"/>
+<area shape="poly" id="edge5_Node000002_Node000004" title=" " alt="" coords="165,134,167,176,179,222,202,256,230,283,226,287,198,259,174,224,162,177,159,134"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="202,123,329,180,327,185,200,128"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="94,5,233,45"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="166,59,166,94,161,94,161,59"/>
+</map>
