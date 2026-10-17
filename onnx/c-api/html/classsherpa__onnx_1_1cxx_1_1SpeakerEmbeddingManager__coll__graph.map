@@ -1,0 +1,5 @@
+<map id="sherpa_onnx::cxx::SpeakerEmbeddingManager" name="sherpa_onnx::cxx::SpeakerEmbeddingManager">
+<area shape="rect" id="Node000001" title="RAII wrapper for speaker embedding management." alt="" coords="356,13,552,53"/>
+<area shape="rect" id="Node000002" href="$classsherpa__onnx_1_1cxx_1_1MoveOnly.html" title=" " alt="" coords="5,5,308,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="322,30,356,30,356,35,322,35"/>
+</map>

@@ -1,0 +1,9 @@
+<map id="SherpaOnnxOnlineSpeechDenoiserConfig" name="SherpaOnnxOnlineSpeechDenoiserConfig">
+<area shape="rect" id="Node000001" title="Configuration for streaming speech denoising." alt="" coords="700,37,948,77"/>
+<area shape="rect" id="Node000002" href="$structSherpaOnnxOfflineSpeechDenoiserModelConfig.html" title="Speech denoiser model configuration shared by offline and online APIs." alt="" coords="357,37,607,77"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="620,55,700,55,700,60,620,60"/>
+<area shape="rect" id="Node000003" href="$structSherpaOnnxOfflineSpeechDenoiserGtcrnModelConfig.html" title="GTCRN offline denoiser model configuration." alt="" coords="5,5,255,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="269,35,357,43,357,49,268,41"/>
+<area shape="rect" id="Node000004" href="$structSherpaOnnxOfflineSpeechDenoiserDpdfNetModelConfig.html" title="DPDFNet offline denoiser model configuration." alt="" coords="5,69,255,109"/>
+<area shape="poly" id="edge3_Node000002_Node000004" title=" " alt="" coords="268,74,357,66,357,71,269,79"/>
+</map>

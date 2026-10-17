@@ -1,0 +1,13 @@
+<map id="sherpa_onnx::cxx::VadModelConfig" name="sherpa_onnx::cxx::VadModelConfig">
+<area shape="rect" id="Node000001" title="VAD model configuration." alt="" coords="684,37,892,77"/>
+<area shape="rect" id="Node000002" href="$structsherpa__onnx_1_1cxx_1_1SileroVadModelConfig.html" title="Silero VAD model configuration." alt="" coords="378,37,559,77"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="573,55,683,55,683,60,573,60"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="193,45,280,70"/>
+<area shape="poly" id="edge6_Node000001_Node000003" title=" " alt="" coords="290,38,303,35,338,27,373,23,454,17,517,18,660,35,684,38,683,43,660,40,517,23,454,23,374,28,339,32,305,40,291,43"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="293,55,378,55,378,60,293,60"/>
+<area shape="rect" id="Node000005" href="$structsherpa__onnx_1_1cxx_1_1TenVadModelConfig.html" title="Ten VAD model configuration." alt="" coords="373,101,564,141"/>
+<area shape="poly" id="edge5_Node000005_Node000003" title=" " alt="" coords="293,71,305,75,391,99,390,104,303,80,291,76"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="5,37,144,77"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="157,55,193,55,193,60,157,60"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="577,97,687,75,688,80,578,102"/>
+</map>

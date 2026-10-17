@@ -1,0 +1,247 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>From source &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/tabs.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+        <script src="../../_static/tabs.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Check your installation" href="check_your_installation.html" />
+    <link rel="prev" title="From pre-compiled wheels" href="from_wheels.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">sherpa</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Installation</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="from_wheels.html">From pre-compiled wheels</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">From source</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#install-dependencies">Install dependencies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#for-general-users">For general users</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#for-developers-and-advanced-users">For developers and advanced users</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="check_your_installation.html">Check your installation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#where-to-get-help">Where to get help</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/index.html">Pre-trained models</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../onnx/index.html">sherpa-onnx</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">sherpa</a> &raquo;</li>
+          <li><a href="index.html">Installation</a> &raquo;</li>
+      <li>From source</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/sherpa/install/from_source.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="from-source">
+<span id="install-sherpa-from-source"></span><h1>From source<a class="headerlink" href="#from-source" title="Permalink to this heading"></a></h1>
+<p>This section describe how to install <code class="docutils literal notranslate"><span class="pre">k2-fsa/sherpa</span></code> from source.</p>
+<section id="install-dependencies">
+<h2>Install dependencies<a class="headerlink" href="#install-dependencies" title="Permalink to this heading"></a></h2>
+<p>Before installing <code class="docutils literal notranslate"><span class="pre">k2-fsa/sherpa</span></code> from source, we have to install the following
+dependencies.</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><a class="reference external" href="https://pytorch.org/">PyTorch</a></p></li>
+<li><p><a class="reference external" href="https://github.com/k2-fsa/k2">k2</a></p></li>
+<li><p><a class="reference external" href="https://csukuangfj.github.io/kaldifeat/installation/index.html">kaldifeat</a></p></li>
+</ul>
+</div></blockquote>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-0-0-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-0-0-0" name="0-0" role="tab" tabindex="0">CPU</button><button aria-controls="panel-0-0-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-0-0-1" name="0-1" role="tab" tabindex="-1">CUDA</button></div><div aria-labelledby="tab-0-0-0" class="sphinx-tabs-panel" id="panel-0-0-0" name="0-0" role="tabpanel" tabindex="0"><p>Suppose that we select <code class="docutils literal notranslate"><span class="pre">torch==2.0.1</span></code>. We can use the following
+commands to install the dependencies:</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-1-1-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-1-1-0" name="1-0" role="tab" tabindex="0">Linux</button><button aria-controls="panel-1-1-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-1-1-1" name="1-1" role="tab" tabindex="-1">macOS</button><button aria-controls="panel-1-1-2" aria-selected="false" class="sphinx-tabs-tab" id="tab-1-1-2" name="1-2" role="tab" tabindex="-1">Windows</button></div><div aria-labelledby="tab-1-1-0" class="sphinx-tabs-panel" id="panel-1-1-0" name="1-0" role="tabpanel" tabindex="0"><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span><span class="nv">torch</span><span class="o">==</span><span class="m">2</span>.0.1+cpu<span class="w"> </span>-f<span class="w"> </span>https://download.pytorch.org/whl/torch_stable.html
+pip<span class="w"> </span>install<span class="w"> </span><span class="nv">k2</span><span class="o">==</span><span class="m">1</span>.24.4.dev20231220+cpu.torch2.0.1<span class="w"> </span>-f<span class="w"> </span>https://k2-fsa.github.io/k2/cpu.html
+pip<span class="w"> </span>install<span class="w"> </span><span class="nv">kaldifeat</span><span class="o">==</span><span class="m">1</span>.25.3.dev20231221+cpu.torch2.0.1<span class="w"> </span>-f<span class="w"> </span>https://csukuangfj.github.io/kaldifeat/cpu.html
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-1-1-1" class="sphinx-tabs-panel" hidden="true" id="panel-1-1-1" name="1-1" role="tabpanel" tabindex="0"><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span><span class="nv">torch</span><span class="o">==</span><span class="m">2</span>.0.1+cpu<span class="w"> </span>-f<span class="w"> </span>https://download.pytorch.org/whl/torch_stable.html
+pip<span class="w"> </span>install<span class="w"> </span><span class="nv">k2</span><span class="o">==</span><span class="m">1</span>.24.4.dev20231220+cpu.torch2.0.1<span class="w"> </span>-f<span class="w"> </span>https://k2-fsa.github.io/k2/cpu.html
+pip<span class="w"> </span>install<span class="w"> </span><span class="nv">kaldifeat</span><span class="o">==</span><span class="m">1</span>.25.3.dev20231221+cpu.torch2.0.1<span class="w"> </span>-f<span class="w"> </span>https://csukuangfj.github.io/kaldifeat/cpu.html
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-1-1-2" class="sphinx-tabs-panel" hidden="true" id="panel-1-1-2" name="1-2" role="tabpanel" tabindex="0"><p>To be done.</p>
+</div></div>
+</div><div aria-labelledby="tab-0-0-1" class="sphinx-tabs-panel" hidden="true" id="panel-0-0-1" name="0-1" role="tabpanel" tabindex="0"><p>Suppose that we select <code class="docutils literal notranslate"><span class="pre">torch==2.0.1+cu117</span></code>. We can use the following
+commands to install the dependencies:</p>
+<blockquote>
+<div><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span><span class="nv">torch</span><span class="o">==</span><span class="m">2</span>.0.1+cu117<span class="w"> </span>-f<span class="w"> </span>https://download.pytorch.org/whl/torch_stable.html
+pip<span class="w"> </span>install<span class="w"> </span><span class="nv">k2</span><span class="o">==</span><span class="m">1</span>.24.4.dev20231220+cuda11.7.torch2.0.1<span class="w"> </span>-f<span class="w"> </span>https://k2-fsa.github.io/k2/cuda.html
+pip<span class="w"> </span>install<span class="w"> </span><span class="nv">kaldifeat</span><span class="o">==</span><span class="m">1</span>.25.3.dev20231221+cuda11.7.torch2.0.1<span class="w">  </span>-f<span class="w"> </span>https://csukuangfj.github.io/kaldifeat/cuda.html
+</pre></div>
+</div>
+</div></blockquote>
+<p>Next, please follow <a class="reference external" href="https://k2-fsa.github.io/k2/installation/cuda-cudnn.html">https://k2-fsa.github.io/k2/installation/cuda-cudnn.html</a> to install CUDA toolkit.</p>
+</div></div>
+<p>Now we can start to build <code class="docutils literal notranslate"><span class="pre">k2-fsa/sherpa</span></code> from source.</p>
+</section>
+<section id="for-general-users">
+<h2>For general users<a class="headerlink" href="#for-general-users" title="Permalink to this heading"></a></h2>
+<p>You can use the following commands to install <a class="reference external" href="http://github.com/k2-fsa/sherpa">k2-fsa/sherpa</a>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Please make sure you have installed PyTorch, k2, and kaldifeat</span>
+<span class="c1"># before you continue</span>
+<span class="c1">#</span>
+git<span class="w"> </span>clone<span class="w"> </span>http://github.com/k2-fsa/sherpa
+<span class="nb">cd</span><span class="w"> </span>sherpa
+python3<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>--verbose<span class="w"> </span>.
+</pre></div>
+</div>
+<p>To uninstall <a class="reference external" href="http://github.com/k2-fsa/sherpa">k2-fsa/sherpa</a>, please use</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Please run it outside of the k2-fsa/sherpa repo</span>
+<span class="c1">#</span>
+pip<span class="w"> </span>uninstall<span class="w"> </span>k2-sherpa
+</pre></div>
+</div>
+<p>Please see <a class="reference internal" href="check_your_installation.html#check-sherpa-installation"><span class="std std-ref">Check your installation</span></a>.</p>
+</section>
+<section id="for-developers-and-advanced-users">
+<h2>For developers and advanced users<a class="headerlink" href="#for-developers-and-advanced-users" title="Permalink to this heading"></a></h2>
+<p>You can also use the following commands to install <a class="reference external" href="http://github.com/k2-fsa/sherpa">k2-fsa/sherpa</a>.</p>
+<p>The advantage is that you can have several versions of <a class="reference external" href="http://github.com/k2-fsa/sherpa">k2-fsa/sherpa</a>
+in a single environment.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>http://github.com/k2-fsa/sherpa
+<span class="nb">cd</span><span class="w"> </span>sherpa
+mkdir<span class="w"> </span>build
+<span class="nb">cd</span><span class="w"> </span>build
+
+<span class="c1"># For torch &gt;= 2.0, please use</span>
+<span class="c1">#</span>
+<span class="c1">#  cmake -DCMAKE_CXX_STANDARD=17 ..</span>
+<span class="c1">#</span>
+
+cmake<span class="w"> </span>..
+make<span class="w"> </span>-j
+
+<span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span><span class="nv">$PWD</span>/bin:<span class="nv">$PATH</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">PYTHONPATH</span><span class="o">=</span><span class="nv">$PWD</span>/lib:<span class="nv">$PWD</span>/../sherpa/python:<span class="nv">$PYTHONPATH</span>
+</pre></div>
+</div>
+<p>Please see <a class="reference internal" href="check_your_installation.html#check-sherpa-installation"><span class="std std-ref">Check your installation</span></a>.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="from_wheels.html" class="btn btn-neutral float-left" title="From pre-compiled wheels" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="check_your_installation.html" class="btn btn-neutral float-right" title="Check your installation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

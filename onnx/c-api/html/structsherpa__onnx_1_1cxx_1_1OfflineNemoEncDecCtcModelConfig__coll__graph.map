@@ -1,0 +1,7 @@
+<map id="sherpa_onnx::cxx::OfflineNemoEncDecCtcModelConfig" name="sherpa_onnx::cxx::OfflineNemoEncDecCtcModelConfig">
+<area shape="rect" id="Node000001" title="Offline NeMo EncDec CTC model file." alt="" coords="5,183,216,223"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="67,95,154,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="113,134,113,182,108,182,108,134"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="41,5,180,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="113,59,113,94,108,94,108,59"/>
+</map>

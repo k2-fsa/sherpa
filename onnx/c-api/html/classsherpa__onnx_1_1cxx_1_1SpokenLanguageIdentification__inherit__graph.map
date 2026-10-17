@@ -1,0 +1,5 @@
+<map id="sherpa_onnx::cxx::SpokenLanguageIdentification" name="sherpa_onnx::cxx::SpokenLanguageIdentification">
+<area shape="rect" id="Node000001" title="RAII wrapper for spoken language identification." alt="" coords="368,13,559,53"/>
+<area shape="rect" id="Node000002" href="$classsherpa__onnx_1_1cxx_1_1MoveOnly.html" title=" " alt="" coords="5,5,320,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="334,30,368,30,368,35,334,35"/>
+</map>

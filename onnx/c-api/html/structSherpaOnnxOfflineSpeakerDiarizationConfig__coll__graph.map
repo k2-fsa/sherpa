@@ -1,0 +1,11 @@
+<map id="SherpaOnnxOfflineSpeakerDiarizationConfig" name="SherpaOnnxOfflineSpeakerDiarizationConfig">
+<area shape="rect" id="Node000001" title="Configuration for offline speaker diarization." alt="" coords="743,69,939,109"/>
+<area shape="rect" id="Node000002" href="$structSherpaOnnxOfflineSpeakerSegmentationModelConfig.html" title="Segmentation model configuration for offline speaker diarization." alt="" coords="389,5,585,45"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="599,43,743,69,742,74,598,48"/>
+<area shape="rect" id="Node000003" href="$structSherpaOnnxOfflineSpeakerSegmentationPyannoteModelConfig.html" title="Pyannote speaker&#45;segmentation model configuration." alt="" coords="5,5,260,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="274,23,388,23,388,28,274,28"/>
+<area shape="rect" id="Node000004" href="$structSherpaOnnxSpeakerEmbeddingExtractorConfig.html" title="Configuration for speaker embedding extraction." alt="" coords="373,69,600,109"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="614,87,742,87,742,92,614,92"/>
+<area shape="rect" id="Node000005" href="$structSherpaOnnxFastClusteringConfig.html" title="Fast clustering configuration." alt="" coords="390,133,583,173"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="597,131,742,104,743,110,598,136"/>
+</map>
