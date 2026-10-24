@@ -1,0 +1,16 @@
+<map id="sherpa_onnx::cxx::GenerationConfig" name="sherpa_onnx::cxx::GenerationConfig">
+<area shape="rect" id="Node000001" title="Generation&#45;time options for advanced TTS synthesis." alt="" coords="760,126,976,166"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="405,5,556,31"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="570,16,652,26,696,35,737,49,769,65,800,85,848,124,844,128,797,89,767,69,735,54,694,40,652,31,570,22"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="193,96,280,121"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="285,90,304,86,337,84,370,86,578,103,760,127,759,132,577,108,369,91,337,89,304,91,287,95"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="405,119,557,173"/>
+<area shape="poly" id="edge5_Node000005_Node000003" title=" " alt="" coords="294,115,405,132,404,137,293,120"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="5,89,144,129"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="157,106,193,106,193,111,157,111"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="571,143,760,143,760,149,571,149"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="393,198,568,238"/>
+<area shape="poly" id="edge6_Node000001_Node000006" title=" " alt="" coords="581,197,759,163,760,169,582,202"/>
+<area shape="rect" id="Node000007" title=" " alt="" coords="393,262,568,302"/>
+<area shape="poly" id="edge7_Node000001_Node000007" title=" " alt="" coords="581,261,657,241,735,216,788,190,834,164,837,168,791,195,737,220,659,246,582,266"/>
+</map>

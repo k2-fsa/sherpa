@@ -1,0 +1,7 @@
+<map id="sherpa_onnx::cxx::OfflinePunctuationModelConfig" name="sherpa_onnx::cxx::OfflinePunctuationModelConfig">
+<area shape="rect" id="Node000001" title="Offline punctuation model configuration." alt="" coords="5,197,192,237"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="55,95,142,120"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="101,134,101,197,96,197,96,134"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="29,5,168,45"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="101,59,101,94,96,94,96,59"/>
+</map>

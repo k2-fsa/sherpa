@@ -1,0 +1,5 @@
+<map id="sherpa_onnx::cxx::OfflineDiacritization" name="sherpa_onnx::cxx::OfflineDiacritization">
+<area shape="rect" id="Node000001" title="RAII wrapper for offline diacritization." alt="" coords="304,13,491,53"/>
+<area shape="rect" id="Node000002" href="$classsherpa__onnx_1_1cxx_1_1MoveOnly.html" title=" " alt="" coords="5,5,256,60"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="270,30,304,30,304,35,270,35"/>
+</map>

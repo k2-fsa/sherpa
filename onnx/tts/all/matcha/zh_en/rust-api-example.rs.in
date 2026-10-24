@@ -1,0 +1,60 @@
+use sherpa_onnx::{
+    GenerationConfig, OfflineTts, OfflineTtsConfig, OfflineTtsMatchaModelConfig,
+};
+
+fn main() {
+    let config = OfflineTtsConfig {
+        model: sherpa_onnx::OfflineTtsModelConfig {
+            matcha: OfflineTtsMatchaModelConfig {
+                acoustic_model: Some("{{acoustic_model}}".into()),
+                vocoder: Some("{{vocoder}}".into()),
+                tokens: Some("{{tokens}}".into()),
+{%- if data_dir %}
+                data_dir: Some("{{data_dir}}".into()),
+{%- endif %}
+{%- if lexicon %}
+                lexicon: Some("{{lexicon}}".into()),
+{%- endif %}
+                ..Default::default()
+            },
+            num_threads: 2,
+            debug: false,
+            ..Default::default()
+        },
+{%- if rule_fsts %}
+        rule_fsts: Some("{{rule_fsts}}".into()),
+{%- endif %}
+        ..Default::default()
+    };
+
+    let tts = OfflineTts::create(&config).expect("Failed to create OfflineTts");
+
+    println!("Sample rate: {}", tts.sample_rate());
+    println!("Num speakers: {}", tts.num_speakers());
+
+    let text = "{{text}}";
+
+    let gen_config = GenerationConfig {
+        sid: 0,
+        speed: 1.0,
+        ..Default::default()
+    };
+
+    let audio = tts
+        .generate_with_config(
+            text,
+            &gen_config,
+            Some(|_samples: &[f32], progress: f32| -> bool {
+                println!("Progress: {:.1}%", progress * 100.0);
+                true
+            }),
+        )
+        .expect("Generation failed");
+
+    let filename = "./test.wav";
+    if audio.save(filename) {
+        println!("Saved to: {}", filename);
+    } else {
+        eprintln!("Failed to save {}", filename);
+    }
+}
