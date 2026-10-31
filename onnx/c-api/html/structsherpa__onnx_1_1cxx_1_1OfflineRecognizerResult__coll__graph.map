@@ -1,0 +1,12 @@
+<map id="sherpa_onnx::cxx::OfflineRecognizerResult" name="sherpa_onnx::cxx::OfflineRecognizerResult">
+<area shape="rect" id="Node000001" title="Offline ASR result copied into C++ containers." alt="" coords="139,410,325,454"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="31,99,118,127"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="64,145,58,179,52,223,53,269,58,292,67,313,88,344,116,369,148,390,180,409,174,409,145,395,113,374,84,347,62,316,53,293,48,270,46,222,53,178,65,140"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="139,243,324,271"/>
+<area shape="poly" id="edge5_Node000005_Node000002" title=" " alt="" coords="101,135,220,242,215,244,100,140"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="5,5,144,50"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="75,63,77,99,72,99,74,68"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="349,243,498,271"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="402,281,290,388,261,411,258,407,286,384,397,283"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="234,285,234,410,229,408,230,288"/>
+</map>

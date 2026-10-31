@@ -1,0 +1,7 @@
+<map id="sherpa_onnx::cxx::OfflineTtsMatchaModelConfig" name="sherpa_onnx::cxx::OfflineTtsMatchaModelConfig">
+<area shape="rect" id="Node000001" title="Matcha model configuration." alt="" coords="5,312,192,356"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="55,99,142,127"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="101,142,101,311,96,311,96,144"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="29,5,168,50"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="99,63,101,99,96,98,98,68"/>
+</map>

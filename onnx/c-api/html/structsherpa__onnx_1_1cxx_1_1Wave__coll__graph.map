@@ -1,0 +1,5 @@
+<map id="sherpa_onnx::cxx::Wave" name="sherpa_onnx::cxx::Wave">
+<area shape="rect" id="Node000001" title="Mono PCM waveform used by the helper I/O functions." alt="" coords="5,106,185,134"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="20,5,170,33"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="97,47,98,106,92,105,93,50"/>
+</map>

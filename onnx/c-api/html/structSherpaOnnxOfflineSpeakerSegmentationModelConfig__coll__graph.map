@@ -1,0 +1,5 @@
+<map id="SherpaOnnxOfflineSpeakerSegmentationModelConfig" name="SherpaOnnxOfflineSpeakerSegmentationModelConfig">
+<area shape="rect" id="Node000001" title="Segmentation model configuration for offline speaker diarization." alt="" coords="35,123,230,168"/>
+<area shape="rect" id="Node000002" href="$structSherpaOnnxOfflineSpeakerSegmentationPyannoteModelConfig.html" title="Pyannote speaker&#45;segmentation model configuration." alt="" coords="5,5,260,50"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="134,64,135,123,130,122,131,68"/>
+</map>

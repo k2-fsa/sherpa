@@ -1,0 +1,576 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Javascript API (Node-Addon) &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Install" href="install.html" />
+    <link rel="prev" title="Java for Android" href="../java-api/anroid-java.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">sherpa-onnx</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../install/index.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../faqs/index.html">Frequently Asked Question (FAQs)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python/index.html">Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../c-api/index.html">C API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../java-api/index.html">Java API</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Javascript API (Node-Addon)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="install.html">Install</a></li>
+<li class="toctree-l3"><a class="reference internal" href="examples/index.html">Node-Addon Examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="api-doc.html">API doc</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../kotlin-api/index.html">Kotlin API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../swift-api/index.html">Swift API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../go-api/index.html">Go API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rust-api/index.html">Rust API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../csharp-api/index.html">C# API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pascal-api/index.html">Pascal API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lazarus/index.html">Lazarus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../wasm/index.html">WebAssembly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../android/index.html">Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../harmony-os/index.html">HarmonyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ios/index.html">iOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../flutter/index.html">Flutter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tauri/index.html">Tauri Desktop Apps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../websocket/index.html">WebSocket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../hotwords/index.html">Hotwords (Contextual biasing)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kws/index.html">Keyword spotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../punctuation/index.html">Punctuation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../audio-tagging/index.html">Audio tagging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spoken-language-identification/index.html">Spoken language identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vad/index.html">VAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../medasr/index.html">Google MedASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/index.html">Pre-trained models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/whisper/index.html">Whisper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../moonshine/index.html">Moonshine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../omnilingual-asr/index.html">Omnilingual ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sense-voice/index.html">SenseVoice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cohere_transcribe/index.html">Cohere Transcribe</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../funasr-nano/index.html">FunASR Nano</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qwen3-asr/index.html">Qwen3-ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../paraformer/index.html">Paraformer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nemo/index.html">NeMo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../FireRedAsr/index.html">FireRedAsr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Dolphin/index.html">Dolphin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../homophone-replacer/index.html">拼音词组匹配替换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-diarization/index.html">Speaker Diarization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-identification/index.html">Speaker Identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speech-enhancement/index.html">Speech enhancement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../source-separation/index.html">Source separation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qnn/index.html">Qualcomm NPU (QNN, HTP)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rknn/index.html">rknn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spacemit/index.html">SpacemiT CPUs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ascend/index.html">Ascend NPU (昇腾 NPU)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tts/index.html">Text-to-speech (TTS)</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">sherpa-onnx</a> &raquo;</li>
+      <li>Javascript API (Node-Addon)</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/onnx/javascript-api/index.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="javascript-api-node-addon">
+<span id="sherpa-onnx-javascript-api"></span><h1>Javascript API (Node-Addon)<a class="headerlink" href="#javascript-api-node-addon" title="Permalink to this heading"></a></h1>
+<p>This section describes how to use <a href="#id3"><span class="problematic" id="id4">`sherpa-onnx-node`_</span></a>, the Node.js native
+addon for <code class="docutils literal notranslate"><span class="pre">sherpa-onnx</span></code>. It supports multi-threading and is the recommended
+way to use sherpa-onnx from Node.js.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>For using JavaScript in the browser, please see <a class="reference internal" href="../wasm/index.html#sherpa-onnx-wasm"><span class="std std-ref">WebAssembly</span></a>.</p>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Install</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="install.html#set-up-the-library-path">Set up the library path</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="install.html#macos">macOS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="install.html#linux">Linux</a></li>
+<li class="toctree-l3"><a class="reference internal" href="install.html#windows">Windows</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="install.html#optional-dependencies">Optional dependencies</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="install.html#microphone-support">Microphone support</a></li>
+<li class="toctree-l3"><a class="reference internal" href="install.html#speaker-playback">Speaker playback</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="install.html#verify-the-installation">Verify the installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="install.html#where-to-go-next">Where to go next</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="examples/index.html">Node-Addon Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="examples/index.html#text-to-speech-tts">Text-to-Speech (TTS)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples/tts_supertonic.html">TTS: Supertonic</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/tts_supertonic.html#source-files">Source files</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tts_supertonic.html#synchronous-generation">Synchronous generation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tts_supertonic.html#asynchronous-generation">Asynchronous generation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tts_supertonic.html#asynchronous-generation-with-real-time-playback">Asynchronous generation with real-time playback</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tts_supertonic.html#how-to-run">How to run</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tts_supertonic.html#notes">Notes</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="examples/tts_pocket.html">TTS: Pocket (Voice Cloning)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/tts_pocket.html#source-file">Source file</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tts_pocket.html#code">Code</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tts_pocket.html#how-to-run">How to run</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tts_pocket.html#notes">Notes</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="examples/tts_zipvoice.html">TTS: ZipVoice (Voice Cloning)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/tts_zipvoice.html#source-files">Source files</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tts_zipvoice.html#synchronous-generation">Synchronous generation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tts_zipvoice.html#how-to-run">How to run</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tts_zipvoice.html#notes">Notes</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="examples/tts_kitten.html">TTS: Kitten</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/tts_kitten.html#source-files">Source files</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tts_kitten.html#synchronous-generation">Synchronous generation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tts_kitten.html#asynchronous-generation">Asynchronous generation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tts_kitten.html#how-to-run">How to run</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tts_kitten.html#notes">Notes</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="examples/tts_kokoro_en.html">TTS: Kokoro (English)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/tts_kokoro_en.html#source-files">Source files</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tts_kokoro_en.html#synchronous-generation">Synchronous generation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tts_kokoro_en.html#asynchronous-generation">Asynchronous generation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tts_kokoro_en.html#how-to-run">How to run</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tts_kokoro_en.html#notes">Notes</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="examples/tts_kokoro_zh_en.html">TTS: Kokoro (Chinese + English)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/tts_kokoro_zh_en.html#source-files">Source files</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tts_kokoro_zh_en.html#synchronous-generation">Synchronous generation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tts_kokoro_zh_en.html#asynchronous-generation">Asynchronous generation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tts_kokoro_zh_en.html#how-to-run">How to run</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tts_kokoro_zh_en.html#notes">Notes</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="examples/tts_matcha_en.html">TTS: Matcha (English)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/tts_matcha_en.html#source-files">Source files</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tts_matcha_en.html#synchronous-generation">Synchronous generation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tts_matcha_en.html#asynchronous-generation">Asynchronous generation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tts_matcha_en.html#how-to-run">How to run</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tts_matcha_en.html#notes">Notes</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="examples/tts_matcha_zh.html">TTS: Matcha (Chinese)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/tts_matcha_zh.html#source-files">Source files</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tts_matcha_zh.html#synchronous-generation">Synchronous generation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tts_matcha_zh.html#asynchronous-generation">Asynchronous generation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tts_matcha_zh.html#how-to-run">How to run</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tts_matcha_zh.html#notes">Notes</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="examples/tts_vits_piper_en.html">TTS: VITS Piper (English)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/tts_vits_piper_en.html#source-files">Source files</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tts_vits_piper_en.html#synchronous-generation">Synchronous generation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tts_vits_piper_en.html#asynchronous-generation">Asynchronous generation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tts_vits_piper_en.html#how-to-run">How to run</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tts_vits_piper_en.html#notes">Notes</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="examples/tts_vits_coqui_de.html">TTS: VITS Coqui (German)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/tts_vits_coqui_de.html#source-files">Source files</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tts_vits_coqui_de.html#synchronous-generation">Synchronous generation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tts_vits_coqui_de.html#asynchronous-generation">Asynchronous generation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tts_vits_coqui_de.html#how-to-run">How to run</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tts_vits_coqui_de.html#notes">Notes</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="examples/tts_vits_zh_aishell3.html">TTS: VITS (Chinese, AiShell3)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/tts_vits_zh_aishell3.html#source-files">Source files</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tts_vits_zh_aishell3.html#synchronous-generation">Synchronous generation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tts_vits_zh_aishell3.html#asynchronous-generation">Asynchronous generation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tts_vits_zh_aishell3.html#how-to-run">How to run</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tts_vits_zh_aishell3.html#notes">Notes</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="examples/tts_vits_zh_ll.html">TTS: VITS (Chinese, zh-ll)</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/tts_vits_zh_ll.html#source-files">Source files</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tts_vits_zh_ll.html#synchronous-generation">Synchronous generation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tts_vits_zh_ll.html#asynchronous-generation">Asynchronous generation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tts_vits_zh_ll.html#how-to-run">How to run</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/tts_vits_zh_ll.html#notes">Notes</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="examples/index.html#speech-recognition-asr">Speech Recognition (ASR)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples/streaming_asr.html">Streaming ASR</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/streaming_asr.html#source-file">Source file</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/streaming_asr.html#code">Code</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/streaming_asr.html#how-to-run">How to run</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="examples/streaming_asr.html#expected-output">Expected output</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="examples/streaming_asr.html#notes">Notes</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="examples/non_streaming_asr.html">Non-Streaming ASR</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/non_streaming_asr.html#source-file">Source file</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/non_streaming_asr.html#code">Code</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/non_streaming_asr.html#how-to-run">How to run</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="examples/non_streaming_asr.html#expected-output">Expected output</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="examples/non_streaming_asr.html#notes">Notes</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="examples/index.html#voice-activity-detection-vad">Voice Activity Detection (VAD)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples/vad_microphone.html">VAD with Microphone</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/vad_microphone.html#source-file">Source file</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/vad_microphone.html#code">Code</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/vad_microphone.html#how-to-run">How to run</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="examples/vad_microphone.html#expected-output">Expected output</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="examples/vad_microphone.html#notes">Notes</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="examples/index.html#speaker-tasks">Speaker Tasks</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples/speaker_diarization.html">Speaker Diarization</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/speaker_diarization.html#source-file">Source file</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/speaker_diarization.html#code">Code</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/speaker_diarization.html#how-to-run">How to run</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="examples/speaker_diarization.html#expected-output">Expected output</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="examples/speaker_diarization.html#notes">Notes</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="examples/speaker_identification.html">Speaker Identification</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/speaker_identification.html#source-file">Source file</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/speaker_identification.html#code">Code</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/speaker_identification.html#how-to-run">How to run</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="examples/speaker_identification.html#expected-output">Expected output</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="examples/speaker_identification.html#notes">Notes</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="examples/index.html#other-features">Other Features</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples/audio_tagging.html">Audio Tagging</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/audio_tagging.html#source-file">Source file</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/audio_tagging.html#code">Code</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/audio_tagging.html#how-to-run">How to run</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="examples/audio_tagging.html#expected-output">Expected output</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="examples/audio_tagging.html#notes">Notes</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="examples/keyword_spotter.html">Keyword Spotting</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/keyword_spotter.html#source-file">Source file</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/keyword_spotter.html#code">Code</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/keyword_spotter.html#how-to-run">How to run</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="examples/keyword_spotter.html#expected-output">Expected output</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="examples/keyword_spotter.html#notes">Notes</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="examples/offline_punctuation.html">Offline Punctuation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/offline_punctuation.html#source-file">Source file</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/offline_punctuation.html#code">Code</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/offline_punctuation.html#how-to-run">How to run</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="examples/offline_punctuation.html#expected-output">Expected output</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="examples/offline_punctuation.html#notes">Notes</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="examples/spoken_language_identification.html">Spoken Language Identification</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/spoken_language_identification.html#source-file">Source file</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/spoken_language_identification.html#code">Code</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/spoken_language_identification.html#how-to-run">How to run</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="examples/spoken_language_identification.html#expected-output">Expected output</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="examples/spoken_language_identification.html#notes">Notes</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="examples/speech_enhancement.html">Speech Enhancement</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/speech_enhancement.html#source-file">Source file</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/speech_enhancement.html#code">Code</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/speech_enhancement.html#how-to-run">How to run</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="examples/speech_enhancement.html#expected-output">Expected output</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="examples/speech_enhancement.html#notes">Notes</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="examples/index.html#api-reference">API Reference</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="examples/api_vad.html">VAD API</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/api_vad.html#source-file">Source file</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/api_vad.html#api">API</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="examples/api_vad.html#vad">Vad</a></li>
+<li class="toctree-l5"><a class="reference internal" href="examples/api_vad.html#circularbuffer">CircularBuffer</a></li>
+<li class="toctree-l5"><a class="reference internal" href="examples/api_vad.html#example">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="examples/api_vad.html#notes">Notes</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="examples/api_streaming_asr.html">Streaming ASR API</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/api_streaming_asr.html#source-file">Source file</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/api_streaming_asr.html#api">API</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="examples/api_streaming_asr.html#onlinerecognizer">OnlineRecognizer</a></li>
+<li class="toctree-l5"><a class="reference internal" href="examples/api_streaming_asr.html#onlinestream">OnlineStream</a></li>
+<li class="toctree-l5"><a class="reference internal" href="examples/api_streaming_asr.html#display">Display</a></li>
+<li class="toctree-l5"><a class="reference internal" href="examples/api_streaming_asr.html#example">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="examples/api_streaming_asr.html#notes">Notes</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="examples/api_non_streaming_asr.html">Non-Streaming ASR API</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/api_non_streaming_asr.html#source-file">Source file</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/api_non_streaming_asr.html#api">API</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="examples/api_non_streaming_asr.html#offlinerecognizer">OfflineRecognizer</a></li>
+<li class="toctree-l5"><a class="reference internal" href="examples/api_non_streaming_asr.html#offlinestream">OfflineStream</a></li>
+<li class="toctree-l5"><a class="reference internal" href="examples/api_non_streaming_asr.html#example">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="examples/api_non_streaming_asr.html#notes">Notes</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="examples/api_offline_tts.html">Offline TTS API</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/api_offline_tts.html#source-file">Source file</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/api_offline_tts.html#api">API</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="examples/api_offline_tts.html#offlinetts">OfflineTts</a></li>
+<li class="toctree-l5"><a class="reference internal" href="examples/api_offline_tts.html#generationconfig">GenerationConfig</a></li>
+<li class="toctree-l5"><a class="reference internal" href="examples/api_offline_tts.html#example">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="examples/api_offline_tts.html#notes">Notes</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="examples/api_speaker_diarization.html">Speaker Diarization API</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/api_speaker_diarization.html#source-file">Source file</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/api_speaker_diarization.html#api">API</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="examples/api_speaker_diarization.html#offlinespeakerdiarization">OfflineSpeakerDiarization</a></li>
+<li class="toctree-l5"><a class="reference internal" href="examples/api_speaker_diarization.html#example">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="examples/api_speaker_diarization.html#notes">Notes</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="examples/api_speaker_identification.html">Speaker Identification API</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/api_speaker_identification.html#source-file">Source file</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/api_speaker_identification.html#api">API</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="examples/api_speaker_identification.html#speakerembeddingextractor">SpeakerEmbeddingExtractor</a></li>
+<li class="toctree-l5"><a class="reference internal" href="examples/api_speaker_identification.html#speakerembeddingmanager">SpeakerEmbeddingManager</a></li>
+<li class="toctree-l5"><a class="reference internal" href="examples/api_speaker_identification.html#example">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="examples/api_speaker_identification.html#notes">Notes</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="examples/api_audio_tagging.html">Audio Tagging API</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/api_audio_tagging.html#source-file">Source file</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/api_audio_tagging.html#api">API</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="examples/api_audio_tagging.html#audiotagging">AudioTagging</a></li>
+<li class="toctree-l5"><a class="reference internal" href="examples/api_audio_tagging.html#example">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="examples/api_audio_tagging.html#notes">Notes</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="examples/api_keyword_spotter.html">Keyword Spotter API</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/api_keyword_spotter.html#source-file">Source file</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/api_keyword_spotter.html#api">API</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="examples/api_keyword_spotter.html#keywordspotter">KeywordSpotter</a></li>
+<li class="toctree-l5"><a class="reference internal" href="examples/api_keyword_spotter.html#example">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="examples/api_keyword_spotter.html#notes">Notes</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="examples/api_punctuation.html">Punctuation API</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/api_punctuation.html#source-file">Source file</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/api_punctuation.html#api">API</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="examples/api_punctuation.html#offlinepunctuation">OfflinePunctuation</a></li>
+<li class="toctree-l5"><a class="reference internal" href="examples/api_punctuation.html#onlinepunctuation">OnlinePunctuation</a></li>
+<li class="toctree-l5"><a class="reference internal" href="examples/api_punctuation.html#example">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="examples/api_punctuation.html#notes">Notes</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="examples/api_spoken_language_identification.html">Spoken Language Identification API</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/api_spoken_language_identification.html#source-file">Source file</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/api_spoken_language_identification.html#api">API</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="examples/api_spoken_language_identification.html#spokenlanguageidentification">SpokenLanguageIdentification</a></li>
+<li class="toctree-l5"><a class="reference internal" href="examples/api_spoken_language_identification.html#example">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="examples/api_spoken_language_identification.html#notes">Notes</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="examples/api_speech_denoiser.html">Speech Denoiser API</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/api_speech_denoiser.html#source-file">Source file</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/api_speech_denoiser.html#api">API</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="examples/api_speech_denoiser.html#offlinespeechdenoiser">OfflineSpeechDenoiser</a></li>
+<li class="toctree-l5"><a class="reference internal" href="examples/api_speech_denoiser.html#onlinespeechdenoiser">OnlineSpeechDenoiser</a></li>
+<li class="toctree-l5"><a class="reference internal" href="examples/api_speech_denoiser.html#example">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="examples/api_speech_denoiser.html#notes">Notes</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="examples/resampler.html">LinearResampler</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="examples/resampler.html#source-file">Source file</a></li>
+<li class="toctree-l4"><a class="reference internal" href="examples/resampler.html#api">API</a><ul>
+<li class="toctree-l5"><a class="reference internal" href="examples/resampler.html#constructor">Constructor</a></li>
+<li class="toctree-l5"><a class="reference internal" href="examples/resampler.html#methods">Methods</a></li>
+<li class="toctree-l5"><a class="reference internal" href="examples/resampler.html#properties">Properties</a></li>
+<li class="toctree-l5"><a class="reference internal" href="examples/resampler.html#example">Example</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="examples/resampler.html#notes">Notes</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api-doc.html">API doc</a></li>
+</ul>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../java-api/anroid-java.html" class="btn btn-neutral float-left" title="Java for Android" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="install.html" class="btn btn-neutral float-right" title="Install" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

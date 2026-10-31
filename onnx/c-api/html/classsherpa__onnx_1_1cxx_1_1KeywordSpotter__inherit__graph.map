@@ -1,0 +1,5 @@
+<map id="sherpa_onnx::cxx::KeywordSpotter" name="sherpa_onnx::cxx::KeywordSpotter">
+<area shape="rect" id="Node000001" title="RAII wrapper for keyword spotting." alt="" coords="47,115,246,160"/>
+<area shape="rect" id="Node000002" href="$classsherpa__onnx_1_1cxx_1_1MoveOnly.html" title=" " alt="" coords="5,5,288,67"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="148,81,149,116,144,113,145,85"/>
+</map>

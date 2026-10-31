@@ -1,0 +1,340 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Non-Android Java &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Java for Android" href="anroid-java.html" />
+    <link rel="prev" title="Java API" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">sherpa-onnx</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../install/index.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../faqs/index.html">Frequently Asked Question (FAQs)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python/index.html">Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../c-api/index.html">C API</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Java API</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Non-Android Java</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#prerequisites">Prerequisites</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#create-a-gradle-project">Create a Gradle project</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#build-and-run">Build and run</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#useful-links">Useful links</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="anroid-java.html">Java for Android</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../javascript-api/index.html">Javascript API (Node-Addon)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kotlin-api/index.html">Kotlin API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../swift-api/index.html">Swift API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../go-api/index.html">Go API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rust-api/index.html">Rust API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../csharp-api/index.html">C# API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pascal-api/index.html">Pascal API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lazarus/index.html">Lazarus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../wasm/index.html">WebAssembly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../android/index.html">Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../harmony-os/index.html">HarmonyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ios/index.html">iOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../flutter/index.html">Flutter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tauri/index.html">Tauri Desktop Apps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../websocket/index.html">WebSocket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../hotwords/index.html">Hotwords (Contextual biasing)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kws/index.html">Keyword spotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../punctuation/index.html">Punctuation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../audio-tagging/index.html">Audio tagging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spoken-language-identification/index.html">Spoken language identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vad/index.html">VAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../medasr/index.html">Google MedASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/index.html">Pre-trained models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/whisper/index.html">Whisper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../moonshine/index.html">Moonshine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../omnilingual-asr/index.html">Omnilingual ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sense-voice/index.html">SenseVoice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cohere_transcribe/index.html">Cohere Transcribe</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../funasr-nano/index.html">FunASR Nano</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qwen3-asr/index.html">Qwen3-ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../paraformer/index.html">Paraformer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nemo/index.html">NeMo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../FireRedAsr/index.html">FireRedAsr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Dolphin/index.html">Dolphin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../homophone-replacer/index.html">拼音词组匹配替换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-diarization/index.html">Speaker Diarization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-identification/index.html">Speaker Identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speech-enhancement/index.html">Speech enhancement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../source-separation/index.html">Source separation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qnn/index.html">Qualcomm NPU (QNN, HTP)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rknn/index.html">rknn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spacemit/index.html">SpacemiT CPUs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ascend/index.html">Ascend NPU (昇腾 NPU)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tts/index.html">Text-to-speech (TTS)</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">sherpa-onnx</a> &raquo;</li>
+          <li><a href="index.html">Java API</a> &raquo;</li>
+      <li>Non-Android Java</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/onnx/java-api/non-android-java.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="non-android-java">
+<h1>Non-Android Java<a class="headerlink" href="#non-android-java" title="Permalink to this heading"></a></h1>
+<p>We provide plenty of examples about using non-Android Java API of <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>
+in <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/tree/master/java-api-examples">https://github.com/k2-fsa/sherpa-onnx/tree/master/java-api-examples</a>.</p>
+<p>In this section, we describe how to run the examples in the following platforms:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Linux (x64)</p></li>
+<li><p>Linux (arm64)</p></li>
+<li><p>macOS (x64)</p></li>
+<li><p>macOS (arm64)</p></li>
+<li><p>Windows (x64)</p></li>
+<li><p>Windows (arm64)</p></li>
+</ul>
+</div></blockquote>
+<section id="prerequisites">
+<h2>Prerequisites<a class="headerlink" href="#prerequisites" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p>JDK 8 or above</p></li>
+<li><p>Gradle 8.x+ (or use the included Gradle wrapper, no separate install needed)</p></li>
+</ul>
+</section>
+<section id="create-a-gradle-project">
+<h2>Create a Gradle project<a class="headerlink" href="#create-a-gradle-project" title="Permalink to this heading"></a></h2>
+<p>Create a new directory for your project and add the following files.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The sherpa-onnx Java packages are hosted on <a class="reference external" href="https://jitpack.io/">JitPack</a>, so you need
+to add the JitPack repository.</p>
+</div>
+<section id="build-gradle-kts">
+<h3><code class="docutils literal notranslate"><span class="pre">build.gradle.kts</span></code><a class="headerlink" href="#build-gradle-kts" title="Permalink to this heading"></a></h3>
+<div class="highlight-kotlin notranslate"><div class="highlight"><pre><span></span><span class="n">plugins</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">application</span>
+<span class="w">    </span><span class="n">java</span>
+<span class="p">}</span>
+
+<span class="n">application</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">mainClass</span><span class="p">.</span><span class="na">set</span><span class="p">(</span><span class="s">"com.k2fsa.sherpa.onnx.example.YourApp"</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="n">repositories</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">mavenCentral</span><span class="p">()</span>
+<span class="w">    </span><span class="c1">// sherpa-onnx packages are hosted on JitPack</span>
+<span class="w">    </span><span class="n">maven</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">url</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">uri</span><span class="p">(</span><span class="s">"https://jitpack.io"</span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// Auto-detect current OS and architecture</span>
+<span class="kd">val</span><span class="w"> </span><span class="nv">osName</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">getProperty</span><span class="p">(</span><span class="s">"os.name"</span><span class="p">).</span><span class="na">lowercase</span><span class="p">()</span>
+<span class="kd">val</span><span class="w"> </span><span class="nv">osArch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">getProperty</span><span class="p">(</span><span class="s">"os.arch"</span><span class="p">).</span><span class="na">lowercase</span><span class="p">()</span>
+
+<span class="kd">val</span><span class="w"> </span><span class="nv">targetNativeClassifier</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">when</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">osName</span><span class="p">.</span><span class="na">contains</span><span class="p">(</span><span class="s">"mac"</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">osName</span><span class="p">.</span><span class="na">contains</span><span class="p">(</span><span class="s">"darwin"</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">osArch</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">"aarch64"</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">osArch</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">"arm64"</span><span class="p">)</span><span class="w"> </span><span class="s">"osx-aarch64"</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s">"osx-x64"</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">osName</span><span class="p">.</span><span class="na">contains</span><span class="p">(</span><span class="s">"linux"</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">osArch</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">"aarch64"</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">osArch</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">"arm64"</span><span class="p">)</span><span class="w"> </span><span class="s">"linux-aarch64"</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s">"linux-x64"</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">osName</span><span class="p">.</span><span class="na">contains</span><span class="p">(</span><span class="s">"win"</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">osArch</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">"aarch64"</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">osArch</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s">"arm64"</span><span class="p">)</span><span class="w"> </span><span class="s">"win-arm64"</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s">"win-x64"</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="k">else</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="k">throw</span><span class="w"> </span><span class="n">GradleException</span><span class="p">(</span><span class="s">"Unsupported OS: </span><span class="si">$</span><span class="n">osName</span><span class="s">, Arch: </span><span class="si">$</span><span class="n">osArch</span><span class="s">"</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="n">logger</span><span class="p">.</span><span class="na">lifecycle</span><span class="p">(</span><span class="s">"--&gt; Auto-detected platform native lib: </span><span class="si">$</span><span class="n">targetNativeClassifier</span><span class="s">"</span><span class="p">)</span>
+
+<span class="n">dependencies</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="c1">// 1. JVM core API</span>
+<span class="w">    </span><span class="n">implementation</span><span class="p">(</span><span class="s">"com.github.k2-fsa.sherpa-onnx:sherpa-onnx-jvm:v1.13.5"</span><span class="p">)</span>
+
+<span class="w">    </span><span class="c1">// 2. Platform native lib (auto-detected)</span>
+<span class="w">    </span><span class="n">implementation</span><span class="p">(</span><span class="s">"com.github.k2-fsa.sherpa-onnx:sherpa-onnx-native-lib-</span><span class="si">$</span><span class="n">targetNativeClassifier</span><span class="s">:v1.13.5"</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="n">java</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">sourceCompatibility</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">JavaVersion</span><span class="p">.</span><span class="na">VERSION_1_8</span>
+<span class="w">    </span><span class="n">targetCompatibility</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">JavaVersion</span><span class="p">.</span><span class="na">VERSION_1_8</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="settings-gradle-kts">
+<h3><code class="docutils literal notranslate"><span class="pre">settings.gradle.kts</span></code><a class="headerlink" href="#settings-gradle-kts" title="Permalink to this heading"></a></h3>
+<div class="highlight-kotlin notranslate"><div class="highlight"><pre><span></span><span class="n">rootProject</span><span class="p">.</span><span class="na">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"sherpa-onnx-java-example"</span>
+</pre></div>
+</div>
+</section>
+<section id="generate-the-gradle-wrapper">
+<h3>Generate the Gradle wrapper<a class="headerlink" href="#generate-the-gradle-wrapper" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>gradle<span class="w"> </span>wrapper
+</pre></div>
+</div>
+<p>This creates <code class="docutils literal notranslate"><span class="pre">gradlew</span></code>, <code class="docutils literal notranslate"><span class="pre">gradlew.bat</span></code>, and the <code class="docutils literal notranslate"><span class="pre">gradle/</span></code> directory so that
+anyone can build the project without installing Gradle separately.</p>
+</section>
+</section>
+<section id="build-and-run">
+<h2>Build and run<a class="headerlink" href="#build-and-run" title="Permalink to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Build</span>
+./gradlew<span class="w"> </span>build
+
+<span class="c1"># Run</span>
+./gradlew<span class="w"> </span>run
+</pre></div>
+</div>
+<p>On Windows, use <code class="docutils literal notranslate"><span class="pre">gradlew.bat</span></code> instead:</p>
+<div class="highlight-cmd notranslate"><div class="highlight"><pre><span></span>gradlew.bat build
+gradlew.bat run
+</pre></div>
+</div>
+<p>The build output will show the auto-detected platform:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">--&gt;</span> <span class="n">Auto</span><span class="o">-</span><span class="n">detected</span> <span class="n">platform</span> <span class="n">native</span> <span class="n">lib</span><span class="p">:</span> <span class="n">osx</span><span class="o">-</span><span class="n">aarch64</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The Gradle Kotlin DSL build file <strong>automatically detects</strong> your OS and architecture
+at build time, so there is no need to manually select platform-specific native
+libraries.</p>
+</div>
+</section>
+<section id="useful-links">
+<h2>Useful links<a class="headerlink" href="#useful-links" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p>Java API examples: <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/tree/master/java-api-examples">https://github.com/k2-fsa/sherpa-onnx/tree/master/java-api-examples</a></p>
+<ul>
+<li><p>Maven examples: <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/tree/master/java-api-examples/maven-examples">https://github.com/k2-fsa/sherpa-onnx/tree/master/java-api-examples/maven-examples</a></p></li>
+<li><p>Gradle examples: <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/tree/master/java-api-examples/gradle-examples">https://github.com/k2-fsa/sherpa-onnx/tree/master/java-api-examples/gradle-examples</a></p></li>
+<li><p>Gradle KTS examples: <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/tree/master/java-api-examples/gradle-kts-examples">https://github.com/k2-fsa/sherpa-onnx/tree/master/java-api-examples/gradle-kts-examples</a></p></li>
+</ul>
+</li>
+<li><p>Java API source files: <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/tree/master/sherpa-onnx/java-api/src/com/k2fsa/sherpa/onnx">https://github.com/k2-fsa/sherpa-onnx/tree/master/sherpa-onnx/java-api/src/com/k2fsa/sherpa/onnx</a></p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Java API" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="anroid-java.html" class="btn btn-neutral float-right" title="Java for Android" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

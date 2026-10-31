@@ -1,0 +1,308 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>C API &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/tabs.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+        <script src="../../_static/tabs.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Endpointing" href="../endpoint.html" />
+    <link rel="prev" title="Huggingface Spaces (WebAssembly)" href="../wasm/hf-spaces.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">sherpa-ncnn</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../install/index.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python/index.html">Python API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../wasm/index.html">WebAssembly</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">C API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#generate-required-files">Generate required files</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#build-shared-libraries">Build shared libraries</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#build-static-libraries">Build static libraries</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#build-decode-file-c-api-c-with-generated-files">Build decode-file-c-api.c with generated files</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../endpoint.html">Endpointing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../android/index.html">Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ios/index.html">iOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/index.html">Pre-trained models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/index.html">Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vad/index.html">VAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sense-voice/index.html">SenseVoice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../faq.html">FAQs</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../onnx/index.html">sherpa-onnx</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">sherpa-ncnn</a> &raquo;</li>
+      <li>C API</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/ncnn/c-api/index.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="c-api">
+<span id="sherpa-ncnn-c-api"></span><h1>C API<a class="headerlink" href="#c-api" title="Permalink to this heading"></a></h1>
+<p>In this section, we describe how to use the C API of <a class="reference external" href="https://github.com/k2-fsa/sherpa-ncnn">sherpa-ncnn</a>.</p>
+<p>Specifically, we will describe:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>How to generate required files</p></li>
+<li><p>How to use <code class="docutils literal notranslate"><span class="pre">pkg-config</span></code> with <a class="reference external" href="https://github.com/k2-fsa/sherpa-ncnn">sherpa-ncnn</a></p></li>
+</ul>
+</div></blockquote>
+<section id="generate-required-files">
+<h2>Generate required files<a class="headerlink" href="#generate-required-files" title="Permalink to this heading"></a></h2>
+<p>Before using the C API of <a class="reference external" href="https://github.com/k2-fsa/sherpa-ncnn">sherpa-ncnn</a>, we need to first build required
+libraries. You can choose either to build static libraries or shared libraries.</p>
+<section id="build-shared-libraries">
+<h3>Build shared libraries<a class="headerlink" href="#build-shared-libraries" title="Permalink to this heading"></a></h3>
+<p>Assume that we want to put library files and header files in the directory
+<code class="docutils literal notranslate"><span class="pre">/tmp/sherpa-ncnn/shared</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/k2-fsa/sherpa-ncnn
+<span class="nb">cd</span><span class="w"> </span>sherpa-ncnn
+mkdir<span class="w"> </span>build-shared
+<span class="nb">cd</span><span class="w"> </span>build-shared
+
+cmake<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-DSHERPA_NCNN_ENABLE_C_API<span class="o">=</span>ON<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-DCMAKE_BUILD_TYPE<span class="o">=</span>Release<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-DBUILD_SHARED_LIBS<span class="o">=</span>ON<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-DCMAKE_INSTALL_PREFIX<span class="o">=</span>/tmp/sherpa-ncnn/shared<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>..
+
+make<span class="w"> </span>-j6
+make<span class="w"> </span>install
+</pre></div>
+</div>
+<p>You should find the following files inside <code class="docutils literal notranslate"><span class="pre">/tmp/sherpa-ncnn/shared</span></code>:</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-0-0-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-0-0-0" name="0-0" role="tab" tabindex="0">macOS</button><button aria-controls="panel-0-0-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-0-0-1" name="0-1" role="tab" tabindex="-1">Linux</button></div><div aria-labelledby="tab-0-0-0" class="sphinx-tabs-panel" id="panel-0-0-0" name="0-0" role="tabpanel" tabindex="0"><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>tree<span class="w"> </span>/tmp/sherpa-ncnn/shared/
+/tmp/sherpa-ncnn/shared/
+├──<span class="w"> </span>bin
+│<span class="w">   </span>├──<span class="w"> </span>sherpa-ncnn
+│<span class="w">   </span>└──<span class="w"> </span>sherpa-ncnn-microphone
+├──<span class="w"> </span>include
+│<span class="w">   </span>└──<span class="w"> </span>sherpa-ncnn
+│<span class="w">       </span>└──<span class="w"> </span>c-api
+│<span class="w">           </span>└──<span class="w"> </span>c-api.h
+├──<span class="w"> </span>lib
+│<span class="w">   </span>├──<span class="w"> </span>libkaldi-native-fbank-core.dylib
+│<span class="w">   </span>├──<span class="w"> </span>libncnn.dylib
+│<span class="w">   </span>├──<span class="w"> </span>libsherpa-ncnn-c-api.dylib
+│<span class="w">   </span>└──<span class="w"> </span>libsherpa-ncnn-core.dylib
+└──<span class="w"> </span>sherpa-ncnn.pc
+
+<span class="m">5</span><span class="w"> </span>directories,<span class="w"> </span><span class="m">8</span><span class="w"> </span>files
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-0-0-1" class="sphinx-tabs-panel" hidden="true" id="panel-0-0-1" name="0-1" role="tabpanel" tabindex="0"><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>tree<span class="w"> </span>/tmp/sherpa-ncnn/shared/
+/tmp/sherpa-ncnn/shared/
+├──<span class="w"> </span>bin
+│<span class="w">   </span>├──<span class="w"> </span>sherpa-ncnn
+│<span class="w">   </span>└──<span class="w"> </span>sherpa-ncnn-microphone
+├──<span class="w"> </span>include
+│<span class="w">   </span>└──<span class="w"> </span>sherpa-ncnn
+│<span class="w">       </span>└──<span class="w"> </span>c-api
+│<span class="w">           </span>└──<span class="w"> </span>c-api.h
+├──<span class="w"> </span>lib
+│<span class="w">   </span>├──<span class="w"> </span>libkaldi-native-fbank-core.so
+│<span class="w">   </span>├──<span class="w"> </span>libncnn.so
+│<span class="w">   </span>├──<span class="w"> </span>libsherpa-ncnn-c-api.so
+│<span class="w">   </span>└──<span class="w"> </span>libsherpa-ncnn-core.so
+└──<span class="w"> </span>sherpa-ncnn.pc
+
+<span class="m">5</span><span class="w"> </span>directories,<span class="w"> </span><span class="m">8</span><span class="w"> </span>files
+</pre></div>
+</div>
+</div></div>
+</section>
+<section id="build-static-libraries">
+<h3>Build static libraries<a class="headerlink" href="#build-static-libraries" title="Permalink to this heading"></a></h3>
+<p>Assume that we want to put library files and header files in the directory
+<code class="docutils literal notranslate"><span class="pre">/tmp/sherpa-ncnn/static</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/k2-fsa/sherpa-ncnn
+<span class="nb">cd</span><span class="w"> </span>sherpa-ncnn
+mkdir<span class="w"> </span>build-static
+<span class="nb">cd</span><span class="w"> </span>build-static
+
+cmake<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-DSHERPA_NCNN_ENABLE_C_API<span class="o">=</span>ON<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-DCMAKE_BUILD_TYPE<span class="o">=</span>Release<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-DBUILD_SHARED_LIBS<span class="o">=</span>OFF<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-DCMAKE_INSTALL_PREFIX<span class="o">=</span>/tmp/sherpa-ncnn/static<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>..
+
+make<span class="w"> </span>-j6
+make<span class="w"> </span>install
+</pre></div>
+</div>
+<p>You should find the following files in <code class="docutils literal notranslate"><span class="pre">/tmp/sherpa-ncnn/static</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>tree<span class="w"> </span>/tmp/sherpa-ncnn/static/
+/tmp/sherpa-ncnn/static/
+├──<span class="w"> </span>bin
+│<span class="w">   </span>├──<span class="w"> </span>sherpa-ncnn
+│<span class="w">   </span>└──<span class="w"> </span>sherpa-ncnn-microphone
+├──<span class="w"> </span>include
+│<span class="w">   </span>└──<span class="w"> </span>sherpa-ncnn
+│<span class="w">       </span>└──<span class="w"> </span>c-api
+│<span class="w">           </span>└──<span class="w"> </span>c-api.h
+├──<span class="w"> </span>lib
+│<span class="w">   </span>├──<span class="w"> </span>libkaldi-native-fbank-core.a
+│<span class="w">   </span>├──<span class="w"> </span>libncnn.a
+│<span class="w">   </span>├──<span class="w"> </span>libsherpa-ncnn-c-api.a
+│<span class="w">   </span>└──<span class="w"> </span>libsherpa-ncnn-core.a
+└──<span class="w"> </span>sherpa-ncnn.pc
+
+<span class="m">5</span><span class="w"> </span>directories,<span class="w"> </span><span class="m">8</span><span class="w"> </span>files
+</pre></div>
+</div>
+</section>
+</section>
+<section id="build-decode-file-c-api-c-with-generated-files">
+<h2>Build decode-file-c-api.c with generated files<a class="headerlink" href="#build-decode-file-c-api-c-with-generated-files" title="Permalink to this heading"></a></h2>
+<p>To build the following file:</p>
+<blockquote>
+<div><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-ncnn/blob/master/c-api-examples/decode-file-c-api.c">https://github.com/k2-fsa/sherpa-ncnn/blob/master/c-api-examples/decode-file-c-api.c</a></p>
+</div></blockquote>
+<p>We can use:</p>
+<div class="sphinx-tabs docutils container">
+<div aria-label="Tabbed content" class="closeable" role="tablist"><button aria-controls="panel-1-1-0" aria-selected="true" class="sphinx-tabs-tab" id="tab-1-1-0" name="1-0" role="tab" tabindex="0">static link</button><button aria-controls="panel-1-1-1" aria-selected="false" class="sphinx-tabs-tab" id="tab-1-1-1" name="1-1" role="tab" tabindex="-1">dynamic link</button></div><div aria-labelledby="tab-1-1-0" class="sphinx-tabs-panel" id="panel-1-1-0" name="1-0" role="tabpanel" tabindex="0"><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">PKG_CONFIG_PATH</span><span class="o">=</span>/tmp/sherpa-ncnn/static:<span class="nv">$PKG_CONFIG_PATH</span>
+
+<span class="nb">cd</span><span class="w"> </span>./c-api-examples
+gcc<span class="w"> </span>-o<span class="w"> </span>decode-file-c-api<span class="w"> </span><span class="k">$(</span>pkg-config<span class="w"> </span>--cflags<span class="w"> </span>sherpa-ncnn<span class="k">)</span><span class="w"> </span>./decode-file-c-api.c<span class="w"> </span><span class="k">$(</span>pkg-config<span class="w"> </span>--libs<span class="w"> </span>sherpa-ncnn<span class="k">)</span>
+</pre></div>
+</div>
+</div><div aria-labelledby="tab-1-1-1" class="sphinx-tabs-panel" hidden="true" id="panel-1-1-1" name="1-1" role="tabpanel" tabindex="0"><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">PKG_CONFIG_PATH</span><span class="o">=</span>/tmp/sherpa-ncnn/shared:<span class="nv">$PKG_CONFIG_PATH</span>
+
+<span class="nb">cd</span><span class="w"> </span>./c-api-examples
+gcc<span class="w"> </span>-o<span class="w"> </span>decode-file-c-api<span class="w"> </span><span class="k">$(</span>pkg-config<span class="w"> </span>--cflags<span class="w"> </span>sherpa-ncnn<span class="k">)</span><span class="w"> </span>./decode-file-c-api.c<span class="w"> </span><span class="k">$(</span>pkg-config<span class="w"> </span>--libs<span class="w"> </span>sherpa-ncnn<span class="k">)</span>
+</pre></div>
+</div>
+</div></div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../wasm/hf-spaces.html" class="btn btn-neutral float-left" title="Huggingface Spaces (WebAssembly)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../endpoint.html" class="btn btn-neutral float-right" title="Endpointing" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

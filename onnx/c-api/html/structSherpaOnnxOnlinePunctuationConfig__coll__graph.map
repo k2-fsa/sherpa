@@ -1,0 +1,5 @@
+<map id="SherpaOnnxOnlinePunctuationConfig" name="SherpaOnnxOnlinePunctuationConfig">
+<area shape="rect" id="Node000001" title="Configuration for online punctuation." alt="" coords="5,123,225,168"/>
+<area shape="rect" id="Node000002" href="$structSherpaOnnxOnlinePunctuationModelConfig.html" title="Online punctuation model configuration." alt="" coords="5,5,225,50"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="117,64,118,123,112,122,113,68"/>
+</map>

@@ -1,0 +1,311 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8 (25 European Languages) &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js"></script>
+        <script src="../../../../_static/jquery.js"></script>
+        <script src="../../../../_static/underscore.js"></script>
+        <script src="../../../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../../../_static/doctools.js"></script>
+        <script src="../../../../_static/clipboard.min.js"></script>
+        <script src="../../../../_static/copybutton.js"></script>
+    <script src="../../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">sherpa-onnx</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8 (25 European Languages)</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/onnx/pretrained_models/offline-transducer/nemo/parakeet-tdt-0.6b-v3.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="sherpa-onnx-nemo-parakeet-tdt-0-6b-v3-int8-25-european-languages">
+<span id="sherpa-onnx-nemo-parakeet-tdt-0-6b-v3-int8"></span><h1>sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8 (25 European Languages)<a class="headerlink" href="#sherpa-onnx-nemo-parakeet-tdt-0-6b-v3-int8-25-european-languages" title="Permalink to this heading"></a></h1>
+<p>This model is converted from</p>
+<blockquote>
+<div><p><a class="reference external" href="https://huggingface.co/nvidia/parakeet-tdt-0.6b-v3">https://huggingface.co/nvidia/parakeet-tdt-0.6b-v3</a></p>
+</div></blockquote>
+<p>You can find the conversion script at</p>
+<blockquote>
+<div><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/tree/master/scripts/nemo/parakeet-tdt-0.6b-v3">https://github.com/k2-fsa/sherpa-onnx/tree/master/scripts/nemo/parakeet-tdt-0.6b-v3</a></p>
+</div></blockquote>
+<p>It supports 25 European languages:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Bulgarian (bg), Croatian (hr), Czech (cs), Danish (da), Dutch (nl)</p></li>
+<li><p>English (en), Estonian (et), Finnish (fi), French (fr), German (de)</p></li>
+<li><p>Greek (el), Hungarian (hu), Italian (it), Latvian (lv), Lithuanian (lt)</p></li>
+<li><p>Maltese (mt), Polish (pl), Portuguese (pt), Romanian (ro), Slovak (sk)</p></li>
+<li><p>Slovenian (sl), Spanish (es), Swedish (sv), Russian (ru), Ukrainian (uk)</p></li>
+</ul>
+</div></blockquote>
+<p>In the following, we describe how to download it and use it with <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>.</p>
+<section id="colab">
+<h2>Colab<a class="headerlink" href="#colab" title="Permalink to this heading"></a></h2>
+<p>We provide two colab notebooks for this model:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><a class="reference external" href="https://colab.research.google.com/drive/1ixBBirCv7vOcM0QNITwad9iSGFpG5an4?usp=sharing">Colab with CPU</a></p></li>
+<li><p><a class="reference external" href="https://colab.research.google.com/drive/1EUgBbM165YZLnef2iYf_ZIv6mBn9GhLG?usp=sharing">Colab with NVIDIA GPU</a></p></li>
+</ul>
+</div></blockquote>
+</section>
+<section id="huggingface-space">
+<h2>Huggingface space<a class="headerlink" href="#huggingface-space" title="Permalink to this heading"></a></h2>
+<p>You can try it by visiting <a class="reference external" href="https://huggingface.co/spaces/k2-fsa/automatic-speech-recognition">https://huggingface.co/spaces/k2-fsa/automatic-speech-recognition</a></p>
+</section>
+<section id="android-apk-for-real-time-speech-recognition">
+<h2>Android APK for real-time speech recognition<a class="headerlink" href="#android-apk-for-real-time-speech-recognition" title="Permalink to this heading"></a></h2>
+<p>Please visit <a class="reference external" href="https://k2-fsa.github.io/sherpa/onnx/android/apk-simulate-streaming-asr.html">https://k2-fsa.github.io/sherpa/onnx/android/apk-simulate-streaming-asr.html</a>
+and search for <code class="docutils literal notranslate"><span class="pre">parakeet_tdt_0.6b_v3</span></code>.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>Please always use the latest version. For instance, you can use
+<a class="reference external" href="https://huggingface.co/csukuangfj2/sherpa-onnx-apk/resolve/main/vad-asr-simulated-streaming/1.12.40/sherpa-onnx-1.12.40-arm64-v8a-simulated_streaming_asr-multi-parakeet_tdt_0.6b_v3.apk">sherpa-onnx-1.12.40-arm64-v8a-simulated_streaming_asr-multi-parakeet_tdt_0.6b_v3.apk</a>
+for <code class="docutils literal notranslate"><span class="pre">arm64-v8a</span></code>.</p>
+</div>
+</section>
+<section id="download-the-model">
+<h2>Download the model<a class="headerlink" href="#download-the-model" title="Permalink to this heading"></a></h2>
+<p>Please use the following commands to download it.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8.tar.bz2
+tar<span class="w"> </span>xvf<span class="w"> </span>sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8.tar.bz2
+rm<span class="w"> </span>sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8.tar.bz2
+</pre></div>
+</div>
+<p>You should see something like below after downloading:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ls</span> <span class="o">-</span><span class="n">lh</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">nemo</span><span class="o">-</span><span class="n">parakeet</span><span class="o">-</span><span class="n">tdt</span><span class="o">-</span><span class="mf">0.6</span><span class="n">b</span><span class="o">-</span><span class="n">v3</span><span class="o">-</span><span class="n">int8</span><span class="o">/</span>
+
+<span class="n">total</span> <span class="mi">640</span><span class="n">M</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="mi">501</span> <span class="n">staff</span>  <span class="mi">12</span><span class="n">M</span> <span class="n">Aug</span> <span class="mi">16</span> <span class="mi">09</span><span class="p">:</span><span class="mi">00</span> <span class="n">decoder</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="mi">501</span> <span class="n">staff</span> <span class="mi">622</span><span class="n">M</span> <span class="n">Aug</span> <span class="mi">16</span> <span class="mi">09</span><span class="p">:</span><span class="mi">00</span> <span class="n">encoder</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="mi">501</span> <span class="n">staff</span> <span class="mf">6.1</span><span class="n">M</span> <span class="n">Aug</span> <span class="mi">16</span> <span class="mi">09</span><span class="p">:</span><span class="mi">00</span> <span class="n">joiner</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span>
+<span class="n">drwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span> <span class="mi">2</span> <span class="mi">501</span> <span class="n">staff</span> <span class="mf">4.0</span><span class="n">K</span> <span class="n">Aug</span> <span class="mi">16</span> <span class="mi">09</span><span class="p">:</span><span class="mi">00</span> <span class="n">test_wavs</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--</span> <span class="mi">1</span> <span class="mi">501</span> <span class="n">staff</span>  <span class="mi">92</span><span class="n">K</span> <span class="n">Aug</span> <span class="mi">16</span> <span class="mi">09</span><span class="p">:</span><span class="mi">00</span> <span class="n">tokens</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
+</div>
+</section>
+<section id="decode-wave-files">
+<h2>Decode wave files<a class="headerlink" href="#decode-wave-files" title="Permalink to this heading"></a></h2>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>It supports decoding only wave files of a single channel with 16-bit
+encoded samples, while the sampling rate does not need to be 16 kHz.</p>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+build/bin/sherpa-onnx-offline<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--encoder<span class="o">=</span>./sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8/encoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--decoder<span class="o">=</span>./sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8/decoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--joiner<span class="o">=</span>./sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8/joiner.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span>./sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--model-type<span class="o">=</span>nemo_transducer<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8/test_wavs/en.wav
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Please use <code class="docutils literal notranslate"><span class="pre">./build/bin/Release/sherpa-onnx-offline.exe</span></code> for Windows.</p>
+</div>
+<p>You should see the following output:</p>
+</section>
+<section id="real-time-streaming-speech-recognition-from-a-microphone-with-vad">
+<h2>Real-time/Streaming Speech recognition from a microphone with VAD<a class="headerlink" href="#real-time-streaming-speech-recognition-from-a-microphone-with-vad" title="Permalink to this heading"></a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">wget</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">k2</span><span class="o">-</span><span class="n">fsa</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="n">download</span><span class="o">/</span><span class="n">asr</span><span class="o">-</span><span class="n">models</span><span class="o">/</span><span class="n">silero_vad</span><span class="o">.</span><span class="n">onnx</span>
+
+<span class="o">./</span><span class="n">build</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">vad</span><span class="o">-</span><span class="n">microphone</span><span class="o">-</span><span class="n">simulated</span><span class="o">-</span><span class="n">streaming</span><span class="o">-</span><span class="n">asr</span> \
+  <span class="o">--</span><span class="n">silero</span><span class="o">-</span><span class="n">vad</span><span class="o">-</span><span class="n">model</span><span class="o">=./</span><span class="n">silero_vad</span><span class="o">.</span><span class="n">onnx</span> \
+  <span class="o">--</span><span class="n">encoder</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">nemo</span><span class="o">-</span><span class="n">parakeet</span><span class="o">-</span><span class="n">tdt</span><span class="o">-</span><span class="mf">0.6</span><span class="n">b</span><span class="o">-</span><span class="n">v3</span><span class="o">-</span><span class="n">int8</span><span class="o">/</span><span class="n">encoder</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span> \
+  <span class="o">--</span><span class="n">decoder</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">nemo</span><span class="o">-</span><span class="n">parakeet</span><span class="o">-</span><span class="n">tdt</span><span class="o">-</span><span class="mf">0.6</span><span class="n">b</span><span class="o">-</span><span class="n">v3</span><span class="o">-</span><span class="n">int8</span><span class="o">/</span><span class="n">decoder</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span> \
+  <span class="o">--</span><span class="n">joiner</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">nemo</span><span class="o">-</span><span class="n">parakeet</span><span class="o">-</span><span class="n">tdt</span><span class="o">-</span><span class="mf">0.6</span><span class="n">b</span><span class="o">-</span><span class="n">v3</span><span class="o">-</span><span class="n">int8</span><span class="o">/</span><span class="n">joiner</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span> \
+  <span class="o">--</span><span class="n">tokens</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">nemo</span><span class="o">-</span><span class="n">parakeet</span><span class="o">-</span><span class="n">tdt</span><span class="o">-</span><span class="mf">0.6</span><span class="n">b</span><span class="o">-</span><span class="n">v3</span><span class="o">-</span><span class="n">int8</span><span class="o">/</span><span class="n">tokens</span><span class="o">.</span><span class="n">txt</span> \
+  <span class="o">--</span><span class="n">model</span><span class="o">-</span><span class="nb">type</span><span class="o">=</span><span class="n">nemo_transducer</span>
+</pre></div>
+</div>
+</section>
+<section id="speech-recognition-from-a-microphone">
+<h2>Speech recognition from a microphone<a class="headerlink" href="#speech-recognition-from-a-microphone" title="Permalink to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+./build/bin/sherpa-onnx-microphone-offline<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--encoder<span class="o">=</span>./sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8/encoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--decoder<span class="o">=</span>./sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8/decoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--joiner<span class="o">=</span>./sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8/joiner.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span>./sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--model-type<span class="o">=</span>nemo_transducer
+</pre></div>
+</div>
+</section>
+<section id="speech-recognition-from-a-microphone-with-vad">
+<h2>Speech recognition from a microphone with VAD<a class="headerlink" href="#speech-recognition-from-a-microphone-with-vad" title="Permalink to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa-onnx
+
+wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/silero_vad.onnx
+
+./build/bin/sherpa-onnx-vad-microphone-offline-asr<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--silero-vad-model<span class="o">=</span>./silero_vad.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--encoder<span class="o">=</span>./sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8/encoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--decoder<span class="o">=</span>./sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8/decoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--joiner<span class="o">=</span>./sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8/joiner.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span>./sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--model-type<span class="o">=</span>nemo_transducer
+</pre></div>
+</div>
+</section>
+<section id="decode-a-long-audio-file-with-vad">
+<h2>Decode a long audio file with VAD<a class="headerlink" href="#decode-a-long-audio-file-with-vad" title="Permalink to this heading"></a></h2>
+<p>The following examples show how to decode a very long audio file with the help
+of VAD.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/silero_vad.onnx
+wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/Obama.wav
+
+./build/bin/sherpa-onnx-vad-with-offline-asr<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--silero-vad-model<span class="o">=</span>./silero_vad.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--silero-vad-threshold<span class="o">=</span><span class="m">0</span>.2<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--silero-vad-min-speech-duration<span class="o">=</span><span class="m">0</span>.2<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--encoder<span class="o">=</span>./sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8/encoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--decoder<span class="o">=</span>./sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8/decoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--joiner<span class="o">=</span>./sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8/joiner.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span>./sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--model-type<span class="o">=</span>nemo_transducer<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./Obama.wav
+</pre></div>
+</div>
+<table>
+  <tr>
+    <th>Wave filename</th>
+    <th>Content</th>
+  </tr>
+  <tr>
+    <td>Obama.wav</td>
+    <td>
+     <audio title="Obama.wav" controls="controls">
+           <source src="/sherpa/_static/sense-voice/Obama.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+  </tr>
+</table><p>You should see the following output:</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>If you want to use a GUI version and want to export <code class="docutils literal notranslate"><span class="pre">SRT</span></code> format, please visit
+<a class="reference external" href="https://k2-fsa.github.io/sherpa/onnx/tauri/app/vad-asr-file.html">https://k2-fsa.github.io/sherpa/onnx/tauri/app/vad-asr-file.html</a> and search for
+<code class="docutils literal notranslate"><span class="pre">en-parakeet_tdt_v3</span></code>. Please always use the latest version.</p>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

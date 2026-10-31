@@ -1,0 +1,7 @@
+<map id="sherpa_onnx::cxx::OfflineSpeakerSegmentationPyannoteModelConfig" name="sherpa_onnx::cxx::OfflineSpeakerSegmentationPyannoteModelConfig">
+<area shape="rect" id="Node000001" title="Pyannote segmentation model configuration." alt="" coords="5,200,271,262"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="95,99,181,127"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="140,141,141,200,135,199,136,144"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="69,5,207,50"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="139,63,141,100,135,98,137,68"/>
+</map>

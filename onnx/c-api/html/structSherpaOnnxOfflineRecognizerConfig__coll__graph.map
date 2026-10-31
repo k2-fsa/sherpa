@@ -1,0 +1,49 @@
+<map id="SherpaOnnxOfflineRecognizerConfig" name="SherpaOnnxOfflineRecognizerConfig">
+<area shape="rect" id="Node000001" title="Configuration for a non&#45;streaming ASR recognizer." alt="" coords="875,672,1090,717"/>
+<area shape="rect" id="Node000002" href="$structSherpaOnnxFeatureConfig.html" title="Feature extraction settings for ASR." alt="" coords="457,569,647,596"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="662,583,756,594,805,604,852,617,906,641,952,672,947,672,903,646,850,622,803,609,755,600,663,588"/>
+<area shape="rect" id="Node000003" href="$structSherpaOnnxOfflineModelConfig.html" title="Model configuration shared by offline ASR recognizers." alt="" coords="440,625,664,652"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="679,645,851,665,877,671,872,672,851,670,680,651"/>
+<area shape="rect" id="Node000004" href="$structSherpaOnnxOfflineTransducerModelConfig.html" title="Configuration for a non&#45;streaming transducer model." alt="" coords="26,27,240,72"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="254,27,297,28,339,36,377,51,411,77,418,90,422,111,427,173,425,342,422,512,425,573,429,594,435,606,455,624,450,625,431,609,424,596,420,574,416,512,419,342,422,173,417,112,413,92,407,80,375,56,337,41,296,34,257,32"/>
+<area shape="rect" id="Node000005" href="$structSherpaOnnxOfflineParaformerModelConfig.html" title="Configuration for a non&#45;streaming Paraformer model." alt="" coords="25,96,241,141"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="255,101,298,104,340,113,378,129,411,155,422,172,429,194,435,248,432,312,425,381,418,451,414,515,419,569,425,590,435,606,455,624,450,625,431,610,420,592,414,570,409,515,412,450,420,381,427,312,429,248,424,195,417,175,407,159,375,134,338,118,297,109,258,106"/>
+<area shape="rect" id="Node000006" href="$structSherpaOnnxOfflineNemoEncDecCtcModelConfig.html" title="Configuration for a non&#45;streaming NeMo CTC model." alt="" coords="30,166,236,210"/>
+<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="250,184,347,191,385,200,410,215,421,230,427,249,433,295,431,351,425,411,417,527,421,574,426,592,435,606,455,624,450,625,431,610,422,594,416,575,411,527,420,411,425,351,427,295,422,250,416,232,407,219,383,205,346,196,253,188"/>
+<area shape="rect" id="Node000007" href="$structSherpaOnnxOfflineWhisperModelConfig.html" title="Configuration for a non&#45;streaming Whisper model." alt="" coords="35,235,231,280"/>
+<area shape="poly" id="edge6_Node000003_Node000007" title=" " alt="" coords="246,241,291,242,335,250,376,267,411,294,424,321,429,358,424,451,419,544,423,581,435,606,455,624,450,624,431,609,418,582,414,544,419,451,424,359,419,322,407,298,373,272,333,255,290,247,249,245"/>
+<area shape="rect" id="Node000008" href="$structSherpaOnnxOfflineTdnnModelConfig.html" title="Configuration for a TDNN model." alt="" coords="25,304,241,349"/>
+<area shape="poly" id="edge7_Node000003_Node000008" title=" " alt="" coords="255,323,348,330,386,340,411,354,422,376,427,406,424,481,422,556,425,586,435,606,456,624,451,625,431,609,420,587,416,556,419,481,421,406,417,377,407,358,384,345,347,336,257,327"/>
+<area shape="rect" id="Node000009" href="$structSherpaOnnxOfflineSenseVoiceModelConfig.html" title="Configuration for a SenseVoice model." alt="" coords="24,374,242,418"/>
+<area shape="poly" id="edge8_Node000003_Node000009" title=" " alt="" coords="256,380,299,383,339,392,377,408,411,433,426,454,431,476,429,499,424,521,419,542,418,564,422,585,435,606,457,624,451,625,431,610,417,587,412,564,414,542,419,519,424,498,426,477,421,456,407,436,375,412,338,397,298,388,259,385"/>
+<area shape="rect" id="Node000010" href="$structSherpaOnnxOfflineMoonshineModelConfig.html" title="Configuration for a Moonshine model." alt="" coords="26,443,240,488"/>
+<area shape="poly" id="edge9_Node000003_Node000010" title=" " alt="" coords="255,459,297,464,338,475,376,492,411,517,419,528,424,540,424,563,423,585,427,596,435,606,459,624,454,625,431,610,422,598,418,586,418,563,418,541,415,530,407,520,374,497,336,480,296,470,257,464"/>
+<area shape="rect" id="Node000011" href="$structSherpaOnnxOfflineFireRedAsrModelConfig.html" title="Configuration for a FireRedAsr encoder/decoder model." alt="" coords="37,512,229,557"/>
+<area shape="poly" id="edge10_Node000003_Node000011" title=" " alt="" coords="244,539,328,555,370,567,410,584,423,595,434,606,476,623,471,625,431,610,419,599,407,589,368,572,327,560,246,544"/>
+<area shape="rect" id="Node000012" href="$structSherpaOnnxOfflineDolphinModelConfig.html" title="Configuration for a Dolphin model." alt="" coords="36,582,230,626"/>
+<area shape="poly" id="edge11_Node000003_Node000012" title=" " alt="" coords="244,611,441,628,437,631,246,616"/>
+<area shape="rect" id="Node000013" href="$structSherpaOnnxOfflineZipformerCtcModelConfig.html" title="Configuration for an offline Zipformer CTC model." alt="" coords="29,651,237,696"/>
+<area shape="poly" id="edge12_Node000003_Node000013" title=" " alt="" coords="251,666,408,654,447,652,443,654,409,660,253,670"/>
+<area shape="rect" id="Node000014" href="$structSherpaOnnxOfflineCanaryModelConfig.html" title="Configuration for a Canary model." alt="" coords="18,720,248,765"/>
+<area shape="poly" id="edge13_Node000003_Node000014" title=" " alt="" coords="262,738,337,724,373,711,407,695,415,688,418,681,423,672,431,664,463,651,459,655,434,669,427,676,423,683,419,691,410,699,375,716,338,729,264,743"/>
+<area shape="rect" id="Node000015" href="$structSherpaOnnxOfflineWenetCtcModelConfig.html" title="Configuration for an offline WeNet CTC model." alt="" coords="30,790,236,834"/>
+<area shape="poly" id="edge14_Node000003_Node000015" title=" " alt="" coords="250,819,292,814,334,805,373,790,407,766,416,754,419,743,418,718,417,691,421,678,431,665,453,651,450,655,435,668,426,680,423,692,424,717,425,743,420,757,411,769,375,794,335,810,293,820,253,823"/>
+<area shape="rect" id="Node000016" href="$structSherpaOnnxOfflineOmnilingualAsrCtcModelConfig.html" title="Configuration for an omnilingual offline CTC model." alt="" coords="22,859,244,904"/>
+<area shape="poly" id="edge15_Node000003_Node000016" title=" " alt="" coords="258,895,299,892,339,884,375,869,407,846,422,825,426,803,425,781,419,759,414,736,411,712,416,688,431,665,452,651,448,655,435,668,421,690,417,712,419,735,424,758,430,781,432,804,426,827,411,849,378,874,340,889,300,897,261,900"/>
+<area shape="rect" id="Node000017" href="$structSherpaOnnxOfflineMedAsrCtcModelConfig.html" title="Configuration for a MedASR CTC model." alt="" coords="26,928,240,973"/>
+<area shape="poly" id="edge16_Node000003_Node000017" title=" " alt="" coords="254,969,296,968,337,962,374,948,407,924,417,904,422,874,419,798,416,720,420,688,431,665,451,651,447,655,435,668,425,689,421,720,424,797,427,875,422,906,411,928,377,953,338,967,297,974,256,974"/>
+<area shape="rect" id="Node000018" href="$structSherpaOnnxOfflineFunASRNanoModelConfig.html" title="Configuration for an offline FunASR Nano model." alt="" coords="20,998,246,1042"/>
+<area shape="poly" id="edge17_Node000003_Node000018" title=" " alt="" coords="249,1042,292,1043,334,1038,373,1024,407,1000,415,989,420,974,425,935,420,836,413,736,417,694,431,665,451,651,447,655,435,668,422,696,419,736,425,836,431,936,426,976,420,992,411,1004,376,1029,335,1043,292,1048,251,1047"/>
+<area shape="rect" id="Node000019" href="$structSherpaOnnxOfflineFireRedAsrCtcModelConfig.html" title="Configuration for a FireRedAsr CTC model." alt="" coords="37,1067,229,1112"/>
+<area shape="poly" id="edge18_Node000003_Node000019" title=" " alt="" coords="237,1112,282,1115,328,1111,371,1099,390,1088,407,1074,417,1060,423,1042,429,994,427,937,420,873,414,810,411,751,415,701,421,681,431,665,451,651,447,655,435,668,426,683,420,702,416,751,419,809,426,873,432,936,434,994,428,1043,421,1062,411,1077,393,1092,373,1103,329,1117,282,1120,238,1117"/>
+<area shape="rect" id="Node000020" href="$structSherpaOnnxOfflineQwen3ASRModelConfig.html" title="Configuration for an offline Qwen3&#45;ASR model." alt="" coords="6,1136,260,1181"/>
+<area shape="poly" id="edge19_Node000003_Node000020" title=" " alt="" coords="231,1181,277,1186,325,1184,369,1171,389,1160,407,1146,412,1135,417,1117,421,1062,419,908,417,754,421,697,430,665,450,651,447,655,435,668,426,698,422,754,425,908,426,1062,422,1118,417,1137,411,1149,392,1165,371,1176,325,1189,277,1191,231,1187"/>
+<area shape="rect" id="Node000021" href="$structSherpaOnnxOfflineCohereTranscribeModelConfig.html" title="Configuration for a Cohere Transcribe model." alt="" coords="5,1206,261,1250"/>
+<area shape="poly" id="edge20_Node000003_Node000021" title=" " alt="" coords="227,1251,274,1257,322,1255,368,1243,388,1232,407,1218,413,1206,418,1185,423,1121,420,945,416,767,420,702,424,679,431,665,450,651,447,655,435,668,429,681,425,702,421,767,425,945,428,1122,423,1186,418,1208,411,1221,391,1237,370,1248,323,1261,274,1262,226,1256"/>
+<area shape="rect" id="Node000022" href="$structSherpaOnnxOfflineLMConfig.html" title="Configuration for an offline language model." alt="" coords="450,678,654,706"/>
+<area shape="poly" id="edge21_Node000001_Node000022" title=" " alt="" coords="668,690,695,690,877,693,872,695,695,696,670,695"/>
+<area shape="rect" id="Node000023" href="$structSherpaOnnxHomophoneReplacerConfig.html" title="Configuration for homophone replacement." alt="" coords="434,730,670,774"/>
+<area shape="poly" id="edge22_Node000001_Node000023" title=" " alt="" coords="685,740,851,721,887,716,882,718,851,726,687,745"/>
+<area shape="rect" id="Node000024" href="$structSherpaOnnxOfflineCtcFstDecoderConfig.html" title="Configuration for HLG/FST&#45;based offline CTC decoding." alt="" coords="433,799,671,844"/>
+<area shape="poly" id="edge23_Node000001_Node000024" title=" " alt="" coords="685,807,768,792,850,769,903,744,948,719,953,716,906,748,852,774,769,798,687,812"/>
+</map>
