@@ -1,0 +1,241 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Secure connections &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../onnx/index.html">sherpa-onnx</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Secure connections</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/python/streaming_asr/secure-connections.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="secure-connections">
+<h1>Secure connections<a class="headerlink" href="#secure-connections" title="Permalink to this heading"></a></h1>
+<p>In this section, we describe how to use <code class="docutils literal notranslate"><span class="pre">https</span></code> and
+secure websocket with <code class="docutils literal notranslate"><span class="pre">sherpa</span></code>.</p>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>If you don’t use <code class="docutils literal notranslate"><span class="pre">https</span></code>, you have to use <code class="docutils literal notranslate"><span class="pre">http://localhost:port</span></code>.
+Otherwise, you won’t be able to use the microphone within your browser.</p>
+</div>
+<section id="generate-a-certificate">
+<h2>Generate a certificate<a class="headerlink" href="#generate-a-certificate" title="Permalink to this heading"></a></h2>
+<p>First, you need to have a <a class="reference external" href="https://en.wikipedia.org/wiki/X.509">X.509 certificate</a>.
+If you don’t have one, we provide the following command to generate a
+<code class="docutils literal notranslate"><span class="pre">self-signed</span></code> certificate for you:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">sherpa</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">web</span>
+<span class="o">./</span><span class="n">generate</span><span class="o">-</span><span class="n">certificate</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+<p>It will generate a file <code class="docutils literal notranslate"><span class="pre">cert.pem</span></code>, which is the self-signed certificate.</p>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>You have to make your browser trust the self-signed certificate later
+for both the https server and the websocket server. The reason to trust
+both servers is that they are running on different ports.</p>
+</div>
+</section>
+<section id="start-the-https-server">
+<h2>Start the https server<a class="headerlink" href="#start-the-https-server" title="Permalink to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>sherpa/bin/web
+./start-https-server.py<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--server-address<span class="w"> </span><span class="m">0</span>.0.0.0<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--server-port<span class="w"> </span><span class="m">6007</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--certificate<span class="w"> </span>cert.pem
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">0.0.0.0</span></code> means the https server will listen on all IP addresses of the
+current machine.</p>
+<p>If you are using Firefox, you can visit <a class="reference external" href="https://0.0.0.0:6007">https://0.0.0.0:6007</a>, which
+will show you the following page:</p>
+<figure class="align-center" id="id5" style="width: 600px">
+<img alt="Your-connection-is-not-secure" src="../../_images/1.png" />
+<figcaption>
+<p><span class="caption-text">Click the <code class="docutils literal notranslate"><span class="pre">Advanced</span></code> button.</span><a class="headerlink" href="#id5" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>You get the above message because you are using a self-signed certificate.
+Also, you can use one of the public IP addresses of your machine to
+replace <code class="docutils literal notranslate"><span class="pre">0.0.0.0</span></code> in <a class="reference external" href="https://0.0.0.0:6007">https://0.0.0.0:6007</a>.</p>
+</div>
+<p>After clicking the button <code class="docutils literal notranslate"><span class="pre">Advanced</span></code>, you will see the following page:</p>
+<figure class="align-center" id="id6" style="width: 600px">
+<img alt="After-clicking-the-advanced-button" src="../../_images/2.png" />
+<figcaption>
+<p><span class="caption-text">After clicking the <code class="docutils literal notranslate"><span class="pre">Advanced</span></code> button.</span><a class="headerlink" href="#id6" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+<p>Now click <code class="docutils literal notranslate"><span class="pre">Add</span> <span class="pre">exception</span></code> and then click “Confirm security exception” below:</p>
+<figure class="align-center" id="id7" style="width: 600px">
+<img alt="Click-confirm-security-exception" src="../../_images/3.png" />
+<figcaption>
+<p><span class="caption-text">Click <code class="docutils literal notranslate"><span class="pre">Confirm</span> <span class="pre">security</span> <span class="pre">exception</span></code>.
+After clicking the advanced button</span><a class="headerlink" href="#id7" title="Permalink to this image"></a></p>
+</figcaption>
+</figure>
+<p>At this point, your browser should trust your self-signed certificate
+for the host <code class="docutils literal notranslate"><span class="pre">0.0.0.0:6007</span></code>.</p>
+<p>One thing left is that you should also make your browser trust the
+certificate of the websocket server. Otherwise, you won’t be able
+to make a connection to the websocket server.</p>
+<p>Assume your websocket server runs on the same machine as your https
+server but uses the port <code class="docutils literal notranslate"><span class="pre">6006</span></code>. You can start a https server on
+port <code class="docutils literal notranslate"><span class="pre">6006</span></code> and repeat the above steps to make your browser
+trust the certificate for the host <code class="docutils literal notranslate"><span class="pre">0.0.0.0:6006</span></code> and then kill
+the https server running on port <code class="docutils literal notranslate"><span class="pre">6006</span></code>.</p>
+</section>
+<section id="start-the-websocket-server">
+<h2>Start the websocket server<a class="headerlink" href="#start-the-websocket-server" title="Permalink to this heading"></a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>We use <code class="docutils literal notranslate"><span class="pre">sherpa/bin/conv_emformer_transducer_stateless2/streaming_server.py</span></code>
+as a demo below. The steps should be similar for starting other
+streaming servers.</p>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>/path/to/sherpa
+
+git<span class="w"> </span>lfs<span class="w"> </span>install
+git<span class="w"> </span>clone<span class="w"> </span>https://huggingface.co/Zengwei/icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05
+
+./sherpa/bin/conv_emformer_transducer_stateless2/streaming_server.py<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--endpoint.rule3.min-utterance-length<span class="w"> </span><span class="m">1000</span>.0<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--port<span class="w"> </span><span class="m">6006</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--max-batch-size<span class="w"> </span><span class="m">50</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--max-wait-ms<span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--nn-pool-size<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--nn-model-filename<span class="w"> </span>./icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05/exp/cpu-jit-epoch-30-avg-10-torch-1.10.0.pt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--bpe-model-filename<span class="w"> </span>./icefall-asr-librispeech-conv-emformer-transducer-stateless2-2022-07-05/data/lang_bpe_500/bpe.model<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--certificate<span class="w"> </span>./sherpa/bin/web/cert.pem
+</pre></div>
+</div>
+<p>Now visit <a class="reference external" href="https://0.0.0.0:6007">https://0.0.0.0:6007</a> and you should be able to make a secure
+connection to the websocket server <code class="docutils literal notranslate"><span class="pre">wss://0.0.0.0:6006</span></code>.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

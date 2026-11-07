@@ -1,0 +1,17 @@
+<map id="SherpaOnnxKeywordSpotterConfig" name="SherpaOnnxKeywordSpotterConfig">
+<area shape="rect" id="Node000001" title="Configuration for keyword spotting." alt="" coords="767,116,970,161"/>
+<area shape="rect" id="Node000002" href="$structSherpaOnnxFeatureConfig.html" title="Feature extraction settings for ASR." alt="" coords="417,96,608,124"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="623,116,769,130,764,131,623,122"/>
+<area shape="rect" id="Node000003" href="$structSherpaOnnxOnlineModelConfig.html" title="Model configuration shared by streaming ASR recognizers." alt="" coords="401,152,624,180"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="639,163,743,157,769,156,764,157,743,162,640,168"/>
+<area shape="rect" id="Node000004" href="$structSherpaOnnxOnlineTransducerModelConfig.html" title="Configuration for a streaming transducer model." alt="" coords="20,5,233,50"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="247,33,316,51,349,66,378,86,388,98,391,111,394,123,402,134,431,152,426,152,399,138,389,125,386,112,383,100,375,90,346,71,314,56,248,38"/>
+<area shape="rect" id="Node000005" href="$structSherpaOnnxOnlineParaformerModelConfig.html" title="Configuration for a streaming Paraformer model." alt="" coords="19,75,234,119"/>
+<area shape="poly" id="edge4_Node000003_Node000005" title=" " alt="" coords="249,111,377,133,454,151,449,152,376,138,249,117"/>
+<area shape="rect" id="Node000006" href="$structSherpaOnnxOnlineZipformer2CtcModelConfig.html" title="Configuration for a streaming Zipformer2 CTC model." alt="" coords="19,144,234,189"/>
+<area shape="poly" id="edge5_Node000003_Node000006" title=" " alt="" coords="249,164,402,165,398,168,250,169"/>
+<area shape="rect" id="Node000007" href="$structSherpaOnnxOnlineNemoCtcModelConfig.html" title="Configuration for a streaming NeMo CTC model." alt="" coords="5,213,248,258"/>
+<area shape="poly" id="edge6_Node000003_Node000007" title=" " alt="" coords="262,214,376,194,454,180,448,182,377,199,263,219"/>
+<area shape="rect" id="Node000008" href="$structSherpaOnnxOnlineToneCtcModelConfig.html" title="Configuration for a streaming T&#45;One CTC model." alt="" coords="10,283,243,327"/>
+<area shape="poly" id="edge7_Node000003_Node000008" title=" " alt="" coords="257,278,317,262,376,242,439,210,488,182,493,180,441,215,378,247,319,268,259,284"/>
+</map>

@@ -1,0 +1,7 @@
+<map id="sherpa_onnx::cxx::OfflineSpeechDenoiserVoxLockModelConfig" name="sherpa_onnx::cxx::OfflineSpeechDenoiserVoxLockModelConfig">
+<area shape="rect" id="Node000001" title="VoxLock target&#45;speaker voice isolation model configuration." alt="" coords="5,245,267,289"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="93,99,179,127"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="138,141,139,245,133,244,134,144"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="67,5,205,50"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="137,63,139,99,133,98,135,68"/>
+</map>

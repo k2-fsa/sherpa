@@ -1,0 +1,5 @@
+<map id="sherpa_onnx::cxx::OfflineSpeakerDiarization" name="sherpa_onnx::cxx::OfflineSpeakerDiarization">
+<area shape="rect" id="Node000001" title="RAII wrapper for offline speaker diarization." alt="" coords="339,14,525,58"/>
+<area shape="rect" id="Node000002" href="$classsherpa__onnx_1_1cxx_1_1MoveOnly.html" title=" " alt="" coords="5,5,291,67"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="306,34,341,36,336,36,307,39"/>
+</map>

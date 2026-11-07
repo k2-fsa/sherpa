@@ -1,0 +1,40 @@
+import com.k2fsa.sherpa.onnx.*;
+
+public class TtsDemo {
+  public static void main(String[] args) {
+    var supertonic = new OfflineTtsSupertonicModelConfig();
+    supertonic.setDurationPredictor("{{model_dir}}/duration_predictor.int8.onnx");
+    supertonic.setTextEncoder("{{model_dir}}/text_encoder.int8.onnx");
+    supertonic.setVectorEstimator("{{model_dir}}/vector_estimator.int8.onnx");
+    supertonic.setVocoder("{{model_dir}}/vocoder.int8.onnx");
+    supertonic.setTtsJson("{{model_dir}}/tts.json");
+    supertonic.setUnicodeIndexer("{{model_dir}}/unicode_indexer.bin");
+    supertonic.setVoiceStyle("{{model_dir}}/voice.bin");
+
+    var modelConfig = new OfflineTtsModelConfig();
+    modelConfig.setSupertonic(supertonic);
+    modelConfig.setNumThreads(2);
+    modelConfig.setDebug(true);
+
+    var config = new OfflineTtsConfig();
+    config.setModel(modelConfig);
+
+    var tts = new OfflineTts(config);
+    var text = "{{text}}";
+
+    var genConfig = new GenerationConfig();
+    genConfig.setSid(0);
+    genConfig.setNumSteps(8);
+    genConfig.setSpeed(1.0f);
+    genConfig.setExtra("{\"lang\": \"{{lang}}\"}");
+
+    var audio = tts.generateWithConfigAndCallback(text, genConfig, (samples) -> {
+      // 1 means to continue, 0 means to stop
+      return 1;
+    });
+
+    audio.save("test.wav");
+    tts.release();
+    System.out.println("Saved to test.wav");
+  }
+}

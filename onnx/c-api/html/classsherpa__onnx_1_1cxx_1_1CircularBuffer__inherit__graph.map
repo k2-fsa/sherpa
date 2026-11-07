@@ -1,0 +1,5 @@
+<map id="sherpa_onnx::cxx::CircularBuffer" name="sherpa_onnx::cxx::CircularBuffer">
+<area shape="rect" id="Node000001" title="RAII wrapper for the circular buffer helper used by VAD." alt="" coords="40,115,233,160"/>
+<area shape="rect" id="Node000002" href="$classsherpa__onnx_1_1cxx_1_1MoveOnly.html" title=" " alt="" coords="5,5,268,67"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="138,81,139,116,134,113,135,85"/>
+</map>

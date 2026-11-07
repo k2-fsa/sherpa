@@ -1,0 +1,5 @@
+<map id="sherpa_onnx::cxx::OnlineRecognizer" name="sherpa_onnx::cxx::OnlineRecognizer">
+<area shape="rect" id="Node000001" title="RAII wrapper for a streaming recognizer." alt="" coords="52,115,238,160"/>
+<area shape="rect" id="Node000002" href="$classsherpa__onnx_1_1cxx_1_1MoveOnly.html" title=" " alt="" coords="5,5,285,67"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="147,81,147,116,143,113,143,85"/>
+</map>

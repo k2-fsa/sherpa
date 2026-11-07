@@ -1,0 +1,7 @@
+<map id="sherpa_onnx::cxx::OfflineTtsSupertonicModelConfig" name="sherpa_onnx::cxx::OfflineTtsSupertonicModelConfig">
+<area shape="rect" id="Node000001" title="Supertonic model configuration." alt="" coords="5,334,197,379"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="58,99,144,127"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="104,142,104,334,98,333,98,143"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="32,5,170,50"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="101,63,104,99,98,98,101,68"/>
+</map>

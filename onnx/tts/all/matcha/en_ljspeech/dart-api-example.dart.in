@@ -1,0 +1,41 @@
+import 'package:sherpa_onnx/sherpa_onnx.dart' as sherpa_onnx;
+
+void main() {
+  final matcha = sherpa_onnx.OfflineTtsMatchaModelConfig(
+    acousticModel: '{{acoustic_model}}',
+    vocoder: '{{vocoder}}',
+    tokens: '{{tokens}}',
+{%- if data_dir %}
+    dataDir: '{{data_dir}}',
+{%- endif %}
+{%- if lexicon %}
+    lexicon: '{{lexicon}}',
+{%- endif %}
+  );
+
+  final modelConfig = sherpa_onnx.OfflineTtsModelConfig(
+    matcha: matcha,
+    numThreads: 1,
+    debug: true,
+  );
+  final config = sherpa_onnx.OfflineTtsConfig(
+    model: modelConfig,
+    maxNumSenetences: 1,
+  );
+
+  final tts = sherpa_onnx.OfflineTts(config);
+  final genConfig = sherpa_onnx.OfflineTtsGenerationConfig(
+    sid: 0,
+    speed: 1.0,
+    silenceScale: 0.2,
+  );
+  final audio = tts.generateWithConfig(text: '{{text}}', config: genConfig);
+  tts.free();
+
+  sherpa_onnx.writeWave(
+    filename: 'test.wav',
+    samples: audio.samples,
+    sampleRate: audio.sampleRate,
+  );
+  print('Saved to test.wav');
+}

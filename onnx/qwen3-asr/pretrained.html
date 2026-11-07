@@ -1,0 +1,1211 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pre-trained Models &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Paraformer" href="../paraformer/index.html" />
+    <link rel="prev" title="Export Qwen3-ASR to sherpa-onnx" href="export.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">sherpa-onnx</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../install/index.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../faqs/index.html">Frequently Asked Question (FAQs)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python/index.html">Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../c-api/index.html">C API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../java-api/index.html">Java API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../javascript-api/index.html">Javascript API (Node-Addon)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kotlin-api/index.html">Kotlin API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../swift-api/index.html">Swift API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../go-api/index.html">Go API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rust-api/index.html">Rust API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../csharp-api/index.html">C# API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pascal-api/index.html">Pascal API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lazarus/index.html">Lazarus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../wasm/index.html">WebAssembly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../android/index.html">Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../harmony-os/index.html">HarmonyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ios/index.html">iOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../flutter/index.html">Flutter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tauri/index.html">Tauri Desktop Apps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../websocket/index.html">WebSocket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../hotwords/index.html">Hotwords (Contextual biasing)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kws/index.html">Keyword spotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../punctuation/index.html">Punctuation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../audio-tagging/index.html">Audio tagging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spoken-language-identification/index.html">Spoken language identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vad/index.html">VAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../medasr/index.html">Google MedASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/index.html">Pre-trained models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/whisper/index.html">Whisper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../moonshine/index.html">Moonshine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../omnilingual-asr/index.html">Omnilingual ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sense-voice/index.html">SenseVoice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cohere_transcribe/index.html">Cohere Transcribe</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../funasr-nano/index.html">FunASR Nano</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Qwen3-ASR</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="index.html#qwen3-asr-0-6b">Qwen3-ASR-0.6B</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="huggingface-space.html">Huggingface space</a></li>
+<li class="toctree-l4"><a class="reference internal" href="export.html">Export Qwen3-ASR to sherpa-onnx</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Pre-trained Models</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../paraformer/index.html">Paraformer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nemo/index.html">NeMo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../FireRedAsr/index.html">FireRedAsr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Dolphin/index.html">Dolphin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../homophone-replacer/index.html">拼音词组匹配替换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-diarization/index.html">Speaker Diarization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-identification/index.html">Speaker Identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speech-enhancement/index.html">Speech enhancement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../source-separation/index.html">Source separation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qnn/index.html">Qualcomm NPU (QNN, HTP)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rknn/index.html">rknn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spacemit/index.html">SpacemiT CPUs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ascend/index.html">Ascend NPU (昇腾 NPU)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tts/index.html">Text-to-speech (TTS)</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">sherpa-onnx</a> &raquo;</li>
+          <li><a href="index.html">Qwen3-ASR</a> &raquo;</li>
+      <li>Pre-trained Models</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/onnx/qwen3-asr/pretrained.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="pre-trained-models">
+<h1>Pre-trained Models<a class="headerlink" href="#pre-trained-models" title="Permalink to this heading"></a></h1>
+<p>This page describes how to download pre-trained <a class="reference external" href="https://github.com/QwenLM/Qwen3-ASR">Qwen3-ASR</a> models.</p>
+<section id="sherpa-onnx-qwen3-asr-0-6b-int8-2026-03-25">
+<span id="id1"></span><h2>sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25<a class="headerlink" href="#sherpa-onnx-qwen3-asr-0-6b-int8-2026-03-25" title="Permalink to this heading"></a></h2>
+<p>This model is converted from <a class="reference external" href="https://github.com/QwenLM/Qwen3-ASR">Qwen3-ASR</a>
+using scripts from <a class="reference external" href="https://github.com/Wasser1462/Qwen3-ASR-onnx">https://github.com/Wasser1462/Qwen3-ASR-onnx</a>.</p>
+<p>It supports the following languages:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Chinese (zh), English (en), Cantonese (yue), Arabic (ar), German (de)</p></li>
+<li><p>French (fr), Spanish (es), Portuguese (pt), Indonesian (id)</p></li>
+<li><p>Italian (it), Korean (ko), Russian (ru), Thai (th)</p></li>
+<li><p>Vietnamese (vi), Japanese (ja), Turkish (tr), Hindi (hi)</p></li>
+<li><p>Malay (ms), Dutch (nl), Swedish (sv), Danish (da), Finnish (fi)</p></li>
+<li><p>Polish (pl), Czech (cs), Filipino (fil), Persian (fa), Greek (el)</p></li>
+<li><p>Hungarian (hu), Macedonian (mk), Romanian (ro)</p></li>
+</ul>
+</div></blockquote>
+<p>It also supports the following Chinese dialects:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Anhui, Dongbei, Fujian, Gansu, Guizhou, Hebei, Henan, Hubei, Hunan</p></li>
+<li><p>Jiangxi, Ningxia, Shandong, Shaanxi, Shanxi, Sichuan, Tianjin, Yunnan</p></li>
+<li><p>Zhejiang, Cantonese (Hong Kong accent), Cantonese (Guangdong accent)</p></li>
+<li><p>Wu language, Minnan language.</p></li>
+</ul>
+</div></blockquote>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>支持的语言有:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>中文， 英语，粤语，阿拉伯语，德语，法语，西班牙语</p></li>
+<li><p>葡萄牙语，印尼语，意大利语，韩语，俄语，泰语，越南语</p></li>
+<li><p>日语，土耳其语，印地语，马来语，荷兰语，瑞典语，丹麦语</p></li>
+<li><p>芬兰语，波兰语，捷克语，菲律宾语，波斯语，希腊语，匈牙利语</p></li>
+<li><p>马其顿语，罗马尼亚语</p></li>
+</ul>
+</div></blockquote>
+<p>支持的中文方言有:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>安徽，东北，福建，甘肃，贵州，河北，河南，湖北，湖南，江西</p></li>
+<li><p>宁夏，山东，山西，陕西，四川，天津，云南，浙江，粤语（香港口音）</p></li>
+<li><p>粤语（广东口音）, 吴语, 闽南语</p></li>
+</ul>
+</div></blockquote>
+<p>此外还支持歌词识别和说唱语音识别。</p>
+</div>
+<p>The sections below show how to use it.</p>
+<section id="download">
+<h3>Download<a class="headerlink" href="#download" title="Permalink to this heading"></a></h3>
+<p>Please use the following commands to download it:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span>
+
+<span class="n">wget</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">k2</span><span class="o">-</span><span class="n">fsa</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="n">download</span><span class="o">/</span><span class="n">asr</span><span class="o">-</span><span class="n">models</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">qwen3</span><span class="o">-</span><span class="n">asr</span><span class="o">-</span><span class="mf">0.6</span><span class="n">B</span><span class="o">-</span><span class="n">int8</span><span class="o">-</span><span class="mi">2026</span><span class="o">-</span><span class="mi">03</span><span class="o">-</span><span class="mf">25.</span><span class="n">tar</span><span class="o">.</span><span class="n">bz2</span>
+<span class="n">tar</span> <span class="n">xvf</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">qwen3</span><span class="o">-</span><span class="n">asr</span><span class="o">-</span><span class="mf">0.6</span><span class="n">B</span><span class="o">-</span><span class="n">int8</span><span class="o">-</span><span class="mi">2026</span><span class="o">-</span><span class="mi">03</span><span class="o">-</span><span class="mf">25.</span><span class="n">tar</span><span class="o">.</span><span class="n">bz2</span>
+<span class="n">rm</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">qwen3</span><span class="o">-</span><span class="n">asr</span><span class="o">-</span><span class="mf">0.6</span><span class="n">B</span><span class="o">-</span><span class="n">int8</span><span class="o">-</span><span class="mi">2026</span><span class="o">-</span><span class="mi">03</span><span class="o">-</span><span class="mf">25.</span><span class="n">tar</span><span class="o">.</span><span class="n">bz2</span>
+</pre></div>
+</div>
+<p>After downloading, you should find the following files:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ls</span> <span class="o">-</span><span class="n">lh</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">qwen3</span><span class="o">-</span><span class="n">asr</span><span class="o">-</span><span class="mf">0.6</span><span class="n">B</span><span class="o">-</span><span class="n">int8</span><span class="o">-</span><span class="mi">2026</span><span class="o">-</span><span class="mi">03</span><span class="o">-</span><span class="mi">25</span>
+
+<span class="n">total</span> <span class="mi">1954552</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--@</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>    <span class="mi">42</span><span class="n">M</span>  <span class="mi">7</span> <span class="n">Apr</span> <span class="mi">17</span><span class="p">:</span><span class="mi">45</span> <span class="n">conv_frontend</span><span class="o">.</span><span class="n">onnx</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--@</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">721</span><span class="n">M</span>  <span class="mi">7</span> <span class="n">Apr</span> <span class="mi">17</span><span class="p">:</span><span class="mi">50</span> <span class="n">decoder</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--@</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">174</span><span class="n">M</span>  <span class="mi">7</span> <span class="n">Apr</span> <span class="mi">17</span><span class="p">:</span><span class="mi">50</span> <span class="n">encoder</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--@</span>  <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">328</span><span class="n">B</span>  <span class="mi">7</span> <span class="n">Apr</span> <span class="mi">17</span><span class="p">:</span><span class="mi">51</span> <span class="n">README</span><span class="o">.</span><span class="n">md</span>
+<span class="n">drwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span><span class="o">@</span> <span class="mi">19</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">608</span><span class="n">B</span>  <span class="mi">7</span> <span class="n">Apr</span> <span class="mi">17</span><span class="p">:</span><span class="mi">45</span> <span class="n">test_wavs</span>
+<span class="n">drwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span><span class="o">@</span>  <span class="mi">5</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">160</span><span class="n">B</span>  <span class="mi">7</span> <span class="n">Apr</span> <span class="mi">17</span><span class="p">:</span><span class="mi">51</span> <span class="n">tokenizer</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ls</span> <span class="o">-</span><span class="n">lh</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">qwen3</span><span class="o">-</span><span class="n">asr</span><span class="o">-</span><span class="mf">0.6</span><span class="n">B</span><span class="o">-</span><span class="n">int8</span><span class="o">-</span><span class="mi">2026</span><span class="o">-</span><span class="mi">03</span><span class="o">-</span><span class="mi">25</span><span class="o">/</span><span class="n">tokenizer</span>
+
+<span class="n">total</span> <span class="mi">8728</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--@</span> <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mf">1.6</span><span class="n">M</span>  <span class="mi">7</span> <span class="n">Apr</span> <span class="mi">17</span><span class="p">:</span><span class="mi">50</span> <span class="n">merges</span><span class="o">.</span><span class="n">txt</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--@</span> <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>    <span class="mi">12</span><span class="n">K</span>  <span class="mi">7</span> <span class="n">Apr</span> <span class="mi">17</span><span class="p">:</span><span class="mi">51</span> <span class="n">tokenizer_config</span><span class="o">.</span><span class="n">json</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--@</span> <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mf">2.6</span><span class="n">M</span>  <span class="mi">7</span> <span class="n">Apr</span> <span class="mi">17</span><span class="p">:</span><span class="mi">51</span> <span class="n">vocab</span><span class="o">.</span><span class="n">json</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ls</span> <span class="o">-</span><span class="n">lh</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">qwen3</span><span class="o">-</span><span class="n">asr</span><span class="o">-</span><span class="mf">0.6</span><span class="n">B</span><span class="o">-</span><span class="n">int8</span><span class="o">-</span><span class="mi">2026</span><span class="o">-</span><span class="mi">03</span><span class="o">-</span><span class="mi">25</span><span class="o">/</span><span class="n">test_wavs</span>
+
+<span class="n">total</span> <span class="mi">25624</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--@</span> <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">164</span><span class="n">K</span>  <span class="mi">7</span> <span class="n">Apr</span> <span class="mi">17</span><span class="p">:</span><span class="mi">45</span> <span class="n">ar1</span><span class="o">.</span><span class="n">wav</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--@</span> <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">514</span><span class="n">K</span>  <span class="mi">7</span> <span class="n">Apr</span> <span class="mi">17</span><span class="p">:</span><span class="mi">45</span> <span class="n">cantonese</span><span class="o">.</span><span class="n">wav</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--@</span> <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">537</span><span class="n">K</span>  <span class="mi">7</span> <span class="n">Apr</span> <span class="mi">17</span><span class="p">:</span><span class="mi">45</span> <span class="n">codeswitch</span><span class="o">.</span><span class="n">wav</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--@</span> <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">210</span><span class="n">K</span>  <span class="mi">7</span> <span class="n">Apr</span> <span class="mi">17</span><span class="p">:</span><span class="mi">45</span> <span class="n">de</span><span class="o">.</span><span class="n">wav</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--@</span> <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">161</span><span class="n">K</span>  <span class="mi">7</span> <span class="n">Apr</span> <span class="mi">17</span><span class="p">:</span><span class="mi">45</span> <span class="n">es1</span><span class="o">.</span><span class="n">wav</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--@</span> <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mf">1.6</span><span class="n">M</span>  <span class="mi">7</span> <span class="n">Apr</span> <span class="mi">17</span><span class="p">:</span><span class="mi">45</span> <span class="n">f1_noise</span><span class="o">.</span><span class="n">wav</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--@</span> <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">980</span><span class="n">K</span>  <span class="mi">7</span> <span class="n">Apr</span> <span class="mi">17</span><span class="p">:</span><span class="mi">45</span> <span class="n">fast1</span><span class="o">.</span><span class="n">wav</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--@</span> <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">187</span><span class="n">K</span>  <span class="mi">7</span> <span class="n">Apr</span> <span class="mi">17</span><span class="p">:</span><span class="mi">45</span> <span class="n">fr1</span><span class="o">.</span><span class="n">wav</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--@</span> <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">438</span><span class="n">K</span>  <span class="mi">7</span> <span class="n">Apr</span> <span class="mi">17</span><span class="p">:</span><span class="mi">45</span> <span class="n">ja1</span><span class="o">.</span><span class="n">wav</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--@</span> <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mf">2.7</span><span class="n">M</span>  <span class="mi">7</span> <span class="n">Apr</span> <span class="mi">17</span><span class="p">:</span><span class="mi">45</span> <span class="n">noise1</span><span class="o">-</span><span class="n">en</span><span class="o">.</span><span class="n">wav</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--@</span> <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">724</span><span class="n">K</span>  <span class="mi">7</span> <span class="n">Apr</span> <span class="mi">17</span><span class="p">:</span><span class="mi">45</span> <span class="n">noise2</span><span class="o">.</span><span class="n">wav</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--@</span> <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mf">1.6</span><span class="n">M</span>  <span class="mi">7</span> <span class="n">Apr</span> <span class="mi">17</span><span class="p">:</span><span class="mi">45</span> <span class="n">qiqiu1</span><span class="o">.</span><span class="n">wav</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--@</span> <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mf">1.7</span><span class="n">M</span>  <span class="mi">7</span> <span class="n">Apr</span> <span class="mi">17</span><span class="p">:</span><span class="mi">45</span> <span class="n">raokouling</span><span class="o">.</span><span class="n">wav</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--@</span> <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">914</span><span class="n">K</span>  <span class="mi">7</span> <span class="n">Apr</span> <span class="mi">17</span><span class="p">:</span><span class="mi">45</span> <span class="n">rap1</span><span class="o">.</span><span class="n">wav</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--@</span> <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>    <span class="mi">76</span><span class="n">B</span>  <span class="mi">7</span> <span class="n">Apr</span> <span class="mi">17</span><span class="p">:</span><span class="mi">45</span> <span class="n">README</span><span class="o">.</span><span class="n">md</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--@</span> <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">149</span><span class="n">K</span>  <span class="mi">7</span> <span class="n">Apr</span> <span class="mi">17</span><span class="p">:</span><span class="mi">45</span> <span class="n">ru1</span><span class="o">.</span><span class="n">wav</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--@</span> <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mf">5.3</span><span class="n">K</span>  <span class="mi">7</span> <span class="n">Apr</span> <span class="mi">17</span><span class="p">:</span><span class="mi">45</span> <span class="n">transcript</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>cat sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/test_wavs/transcript.txt
+
+fast1.wav 蹦出来之后，左手、右手接一个慢动作，右边再直接拉到这上面之后，直接拉到这个轮胎上，上边再接过去之后，然后上边再直接拉到这个位置了之后，右边再直接这个位置接倒过去的之后，再倒一下，然后右边再直接抓住这个上边了之后，直接从这边上边过去了之后，直接抓住这个树杈，然后这个位置直接倒到这个树杈
+raokouling.wav 广西壮族自治区爱吃红鲤鱼与绿鲤鱼与驴的出租车司机，拉着苗族土家族自治州爱喝自制的刘奶奶榴莲牛奶的骨质疏松症患者，遇见别着喇叭的哑巴，打败咬死山前四十四棵紫色柿子树的四十四只石狮子之后，碰到年年恋牛娘的牛郎，念着灰黑灰化肥发黑会挥发，走出香港官方网站设置组，到广西壮族自治区首府南宁市民族医院就医。
+noise2.wav 拨号，请再说一次，请说出您要拨打的号码。幺三五八幺八八七五七。一三五八二八八八幺八八。纠正纠正。九六九。纠正纠正，不是九六。
+qiqiu1.wav 黑的白的红的粉的紫的绿的蓝的灰的，你的我的他的她的大的小的圆的扁的，好的坏的美的丑的新的旧的，各种款式各种花式，让我选择。飞得高喽，越远越好，天都沦陷，他就死掉，说明多能高兴就好，喜欢就好，没大不了，越变越小，越来越小，快要死掉也很骄傲。你不想说就别再说，我不想听不想再听，就把一切誓言当作气球一般随它而去，我不在意不会在意，随它而去随它而去。气球飘进眼里，飘进风里，结束生命。气球飘进爱里，飘进心里，慢慢死去。
+cantonese.wav 今次寻寻觅觅，终于揾到my princess，肯借个场俾我哋玩。你知啦，喺香港地喺繁忙时间要揾个场嚟拍嘢系非常之难嘅。再一次多谢你哋，亦都好多谢片入边嘅每一个人。下一次我哋斗啲咩好？喺下面留言话我哋知啦。拜拜。
+f1_noise.wav Okay, Charles. It looks like we have a problem with the radio. What happened? Yeah, someone spilled water on their machine. I uh, yeah. Charles, can you hear us? Mamma mia.
+noise1-en.wav My girls, my girls, my girls, my girls. Ready? Hey, babe. Hey, babe. Where are you? I'm actually crazy traffic right now. Oh, really? Yeah. It's crazy. The freeway is completely stopped. Oh, you're still coming to my parents' house, right? Um, I can't really hear you, babe. What? Mariachi band playing live music, yeah. Babe. I can't. They're really loud, and I can't hear. Babe. What? Yeah, they're being really loud right now. I'm sorry. What were you saying? You're still coming to my parents' house, right? It actually started raining like crazy. What? It's raining and thundering like crazy, man. I can't hear shit. Where are you? Out of nowhere, it's just pouring. It's pouring. It's pouring like crazy. What? Insane. I don't think I can get anywhere today. It's crazy day. Babe, that's crazy. Where are you? Oh my God! Someone just hit my car. Come on, get in the car, Gabe. Oh my God! He's getting out of his car. He's getting out of his car. What? Hey, Mari, you just hit my car! Oh, babe, this guy's crazy. What the fuck? Out, out, out, out, out! How you like that? Oh, babe, he's beating the shit out of you. Hold on a sec, babe. Oh, you know I'm gonna get my gun. Here's a gun. Oh, babe, he shot me. He shot me in the leg. He shot. Oh, babe, oh fuck! Babe, I need a driveway. I need to get out of here. I need to get out of here. I'm driving away. Where are you? Babe, this is crazy. No, I'm okay. I'll be fine. I'm okay. I'm okay. I just had to drive. Oh shit, babe, I think I'm getting pulled over now. I think I'm getting pulled over. Pull over your vehicle. Oh my God, babe, hold on a sec. Baby, talk to me. Oh shit. License and registration, sir. Yeah, of course, officer. Of course. Ah, babe, this is the worst day of my life. I just got pulled over. Oh my God. Oh my God. Officer, police. Oh my God. I think a riot's breaking out. We got a crazy riot. People are going crazy. Get out of here! It's like a lotus matter. There's like a war going on or some shit.
+rap1.wav Sometimes I just feel like quitting. I still might. Why do I put up this fight? Why do I still write? Sometimes it's hard enough just dealing with real life. Sometimes I wanna jump a state and just kill mics. And so these people want my level of skills, like, but I'm still white. Sometimes I just hate life. Something ain't right. Hit the brake lights. Taste of the state's right. Drawing the blank line. It ain't my fault.
+codeswitch.wav I'm alone, all by myself. Je suis tout seul. Sono tutto. Estoy solo.
+ar1.wav إطلالات مكياج عيون ذهبي لسهرات صيف عشرين واحد وعشرين بأسلوب النجمات.
+de.wav Raptorium Bergbau scheint profitierter als Monroe als Reaktion auf die wirtschaftlichen Ausfälle zu sein.
+es1.wav Esta prenda es amplia, recomiendo elegir una talla menor a la habitual.
+fr1.wav Alice et moi sommes allés à Paris voyager en train au printemps, c'était très amusant.
+ru1.wav Барсук, живущий в киевском зоопарке, совершил побег из своего вольера.
+ja1.wav 抜群の運動神経を持ち合わせ、どんな要求にも応えてきた。
+</pre></div>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>If you need the <code class="docutils literal notranslate"><span class="pre">float32</span></code> model file, please visit <a class="reference external" href="https://modelscope.cn/models/zengshuishui/Qwen3-ASR-onnx/tree/master/model_0.6B">https://modelscope.cn/models/zengshuishui/Qwen3-ASR-onnx/tree/master/model_0.6B</a></p>
+<p>If you need the <code class="docutils literal notranslate"><span class="pre">1.7B</span></code> model, please visit <a class="reference external" href="https://modelscope.cn/models/zengshuishui/Qwen3-ASR-onnx/tree/master/model_1.7B">https://modelscope.cn/models/zengshuishui/Qwen3-ASR-onnx/tree/master/model_1.7B</a>.</p>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>The test wave files are from</p>
+<blockquote>
+<div><p><a class="reference external" href="https://qwen.ai/blog?id=qwen3asr">https://qwen.ai/blog?id=qwen3asr</a></p>
+</div></blockquote>
+</div>
+</section>
+<section id="real-time-streaming-speech-recognition-from-a-microphone-with-vad">
+<h3>Real-time/Streaming Speech recognition from a microphone with VAD<a class="headerlink" href="#real-time-streaming-speech-recognition-from-a-microphone-with-vad" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/silero_vad.onnx
+
+./build/bin/sherpa-onnx-vad-microphone-simulated-streaming-asr<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--silero-vad-model<span class="o">=</span>./silero_vad.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-conv-frontend<span class="o">=</span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/conv_frontend.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-encoder<span class="o">=</span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/encoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-decoder<span class="o">=</span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/decoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-tokenizer<span class="o">=</span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/tokenizer<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-max-new-tokens<span class="o">=</span><span class="m">512</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--num-threads<span class="o">=</span><span class="m">3</span>
+</pre></div>
+</div>
+</section>
+<section id="speech-recognition-from-a-microphone">
+<h3>Speech recognition from a microphone<a class="headerlink" href="#speech-recognition-from-a-microphone" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./build/bin/sherpa-onnx-microphone-offline<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span>./sherpa-onnx-sense-voice-zh-en-ja-ko-yue-int8-2024-07-17/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-conv-frontend<span class="o">=</span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/conv_frontend.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-encoder<span class="o">=</span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/encoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-decoder<span class="o">=</span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/decoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-tokenizer<span class="o">=</span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/tokenizer<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-max-new-tokens<span class="o">=</span><span class="m">512</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--num-threads<span class="o">=</span><span class="m">3</span>
+</pre></div>
+</div>
+</section>
+<section id="speech-recognition-from-a-microphone-with-vad">
+<h3>Speech recognition from a microphone with VAD<a class="headerlink" href="#speech-recognition-from-a-microphone-with-vad" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/silero_vad.onnx
+
+./build/bin/sherpa-onnx-vad-microphone-offline-asr<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--silero-vad-model<span class="o">=</span>./silero_vad.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-conv-frontend<span class="o">=</span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/conv_frontend.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-encoder<span class="o">=</span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/encoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-decoder<span class="o">=</span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/decoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-tokenizer<span class="o">=</span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/tokenizer<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-max-new-tokens<span class="o">=</span><span class="m">512</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--num-threads<span class="o">=</span><span class="m">3</span>
+</pre></div>
+</div>
+</section>
+<section id="decode-a-long-audio-file-with-vad-example-1-2-english">
+<h3>Decode a long audio file with VAD (Example 1/2, English)<a class="headerlink" href="#decode-a-long-audio-file-with-vad-example-1-2-english" title="Permalink to this heading"></a></h3>
+<p>The following examples show how to decode a very long audio file with the help
+of VAD.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/silero_vad.onnx
+wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/Obama.wav
+
+./build/bin/sherpa-onnx-vad-with-offline-asr<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--silero-vad-model<span class="o">=</span>./silero_vad.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--silero-vad-threshold<span class="o">=</span><span class="m">0</span>.2<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--silero-vad-min-speech-duration<span class="o">=</span><span class="m">0</span>.2<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-conv-frontend<span class="o">=</span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/conv_frontend.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-encoder<span class="o">=</span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/encoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-decoder<span class="o">=</span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/decoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-tokenizer<span class="o">=</span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/tokenizer<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-max-new-tokens<span class="o">=</span><span class="m">512</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--num-threads<span class="o">=</span><span class="m">2</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./Obama.wav
+</pre></div>
+</div>
+<table>
+  <tr>
+    <th>Wave filename</th>
+    <th>Content</th>
+  </tr>
+  <tr>
+    <td>Obama.wav</td>
+    <td>
+     <audio title="Obama.wav" controls="controls">
+           <source src="/sherpa/_static/sense-voice/Obama.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+  </tr>
+</table><p>You should see the following output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:373 ./build/bin/sherpa-onnx-vad-with-offline-asr --silero-vad-model=./silero_vad.onnx --silero-vad-threshold=0.2 --silero-vad-min-speech-duration=0.2 --qwen3-asr-conv-frontend=./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/conv_frontend.onnx --qwen3-asr-encoder=./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/encoder.int8.onnx --qwen3-asr-decoder=./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/decoder.int8.onnx --qwen3-asr-tokenizer=./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/tokenizer --qwen3-asr-max-new-tokens=512 --num-threads=2 ./Obama.wav 
+
+VadModelConfig(silero_vad=SileroVadModelConfig(model="./silero_vad.onnx", threshold=0.2, min_silence_duration=0.5, min_speech_duration=0.2, max_speech_duration=20, window_size=512, neg_threshold=-1), ten_vad=TenVadModelConfig(model="", threshold=0.5, min_silence_duration=0.5, min_speech_duration=0.25, max_speech_duration=20, window_size=256), sample_rate=16000, num_threads=1, provider="cpu", debug=False)
+OfflineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80, low_freq=20, high_freq=-400, dither=0, normalize_samples=True, snip_edges=False), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename="", decoder_filename="", joiner_filename=""), paraformer=OfflineParaformerModelConfig(model=""), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=""), whisper=OfflineWhisperModelConfig(encoder="", decoder="", language="", task="transcribe", tail_paddings=-1, enable_token_timestamps=False, enable_segment_timestamps=False), fire_red_asr=OfflineFireRedAsrModelConfig(encoder="", decoder=""), tdnn=OfflineTdnnModelConfig(model=""), zipformer_ctc=OfflineZipformerCtcModelConfig(model=""), wenet_ctc=OfflineWenetCtcModelConfig(model=""), sense_voice=OfflineSenseVoiceModelConfig(model="", language="auto", use_itn=False), moonshine=OfflineMoonshineModelConfig(preprocessor="", encoder="", uncached_decoder="", cached_decoder="", merged_decoder=""), dolphin=OfflineDolphinModelConfig(model=""), canary=OfflineCanaryModelConfig(encoder="", decoder="", src_lang="", tgt_lang="", use_pnc=True), cohere_transcribe=OfflineCohereTranscribeModelConfig(encoder="", decoder="", language="", use_punct=True, use_itn=True), omnilingual=OfflineOmnilingualAsrCtcModelConfig(model=""), funasr_nano=OfflineFunASRNanoModelConfig(encoder_adaptor="", llm="", embedding="", tokenizer="", system_prompt="You are a helpful assistant.", user_prompt="语音转写：", max_new_tokens=512, temperature=1e-06, top_p=0.8, seed=42, language="", itn=True, hotwords=""), medasr=OfflineMedAsrCtcModelConfig(model=""), fire_red_asr_ctc=OfflineFireRedAsrCtcModelConfig(model=""), qwen3_asr=OfflineQwen3ASRModelConfig(conv_frontend="./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/conv_frontend.onnx", encoder="./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/encoder.int8.onnx", decoder="./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/decoder.int8.onnx", tokenizer="./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/tokenizer", hotwords="", max_total_len=512, max_new_tokens=512, temperature=1e-06, top_p=0.8, seed=42), telespeech_ctc="", tokens="", num_threads=2, debug=False, provider="cpu", model_type="", modeling_unit="cjkchar", bpe_vocab=""), lm_config=OfflineLMConfig(model="", scale=0.5, lodr_scale=0.01, lodr_fst="", lodr_backoff_id=-1), ctc_fst_decoder_config=OfflineCtcFstDecoderConfig(graph="", max_active=3000), decoding_method="greedy_search", max_active_paths=4, hotwords_file="", hotwords_score=1.5, blank_penalty=0, rule_fsts="", rule_fars="", hr=HomophoneReplacerConfig(lexicon="", rule_fsts=""))
+Creating recognizer ...
+Recognizer created!
+Started
+Reading: ./Obama.wav
+Started!
+8.976 -- 12.140: Thank you, everybody. All right, everybody, go ahead and have a seat.
+13.104 -- 14.540: How's everybody doing today?
+18.704 -- 22.892: How about Tim Spicer?
+25.936 -- 31.884: I am here with students at Wakefield High School in Arlington, Virginia.
+32.720 -- 48.844: And we've got students tuning in from all across America, from kindergarten through twelfth grade. And I am just so glad that all could join us today. And I want to thank Wakefield for being such an outstanding host. Give yourselves a big round of applause.
+54.416 -- 55.436: I know that.
+56.240 -- 58.892: For many of you, today is the first day of school.
+59.600 -- 69.452: And for those of you in kindergarten or starting middle or high school, it's your first day in a new school, so it's understandable if you're a little nervous.
+70.640 -- 76.332: I imagine there is some seniors out there who are feeling pretty good right now. With just one more year to go.
+78.800 -- 87.180: And no matter what grade you're in, some of you are probably wishing it were still summer, and you could have stayed in bed just a little bit longer this morning.
+87.984 -- 89.100: I know that feel.
+91.664 -- 111.708: When I was young, my family lived overseas. I lived in Indonesia for a few years, and my mother, she didn't have the money to send me where all the American kids went to school, but she thought it was important for me to keep up with an American education. So she decided to teach me extra lessons herself.
+112.240 -- 118.700: Monday through Friday, but because she had to go to work, the only time she could do it was at four thirty in the morning.
+120.048 -- 127.244: Now, as you might imagine, I wasn't too happy about getting up that early. A lot of times, I'd fall asleep right there at the kitchen table.
+128.272 -- 135.340: But whenever I'd complain, my mother would just give me one of those looks, and she'd say, "This is no picnic for me either, Buster."
+137.104 -- 145.132: So I know that some of you are still adjusting to being back at school, but I'm here today because I have something important to discuss with you.
+145.808 -- 153.740: I'm here because I want to talk with you about your education, and what's expected of all of you in this new school year.
+154.448 -- 160.268: I've given a lot of speeches about education, and I've talked about responsibility a lot.
+160.816 -- 178.220: I've talked about teachers' responsibility for inspiring students and pushing you to learn. I've talked about your parents' responsibility for making sure you stay on track and you get your homework done and don't spend every waking hour in front of the TV or with the Xbox.
+179.088 -- 180.716: I've talked a lot about.
+181.360 -- 193.452: Your government's responsibility for setting high standards, in supporting teachers and principals, and turning around schools that aren't working, where students aren't getting the opportunities that they deserve.
+194.000 -- 195.276: But at the end of the day.
+196.016 -- 206.156: We can have the most dedicated teachers, the most supportive parents, the best schools in the world, and none of it will make a difference. None of it will matter.
+206.704 -- 210.604: Unless all of you fulfill your responsibilities.
+211.248 -- 223.404: Unless you show up to those schools, unless you pay attention to those teachers, unless you listen to your parents and grandparents and other adults, and put in the hard work it takes to succeed.
+224.656 -- 230.924: That's what I want to focus on today: the responsibility each of you has for your education.
+231.728 -- 234.796: I want to start with the responsibility you have to yourself.
+235.696 -- 238.988: Every single one of you has something that you're good at.
+239.760 -- 242.412: Every single one of you has something to offer.
+242.992 -- 247.404: And you have a responsibility to yourself to discover what that is.
+248.336 -- 251.564: That's the opportunity an education can provide.
+252.336 -- 265.900: Maybe you could be a great writer, maybe even good enough to write a book or articles in a newspaper, but you might not know it until you write that English paper, that English class paper that's assigned to you.
+266.704 -- 278.668: Maybe you could be an innovator, an inventor. Maybe even good enough to come up with the next iPhone or the new medicine or vaccine. But you might not know it until you do your project for your science class.
+279.824 -- 289.964: Maybe you could be a mayor, or a senator, or a Supreme Court justice, but you might not know that until you join student government or the debate team.
+291.568 -- 309.516: And no matter what you want to do with your life, I guarantee that you'll need an education to do it. You want to be a doctor, or a teacher, or a police officer, you want to be a nurse, or an architect, a lawyer, or a member of our military—you are going to need a good education for every single one of those careers.
+310.064 -- 314.348: You cannot drop out of school and just drop into a good job.
+315.184 -- 319.852: You've got to train for it, and work for it, and learn for it.
+320.528 -- 323.628: And this isn't just important for your own life and your own future.
+324.688 -- 332.812: What you make of your education will decide nothing less than the future of this country. The future of America depends on you.
+
+num threads: 2
+decoding method: greedy_search
+Elapsed seconds: 34.480 s
+Real time factor (RTF): 34.480 / 334.234 = 0.103
+</pre></div>
+</div>
+</section>
+<section id="decode-a-long-audio-file-with-vad-example-2-2-chinese">
+<h3>Decode a long audio file with VAD (Example 2/2, Chinese)<a class="headerlink" href="#decode-a-long-audio-file-with-vad-example-2-2-chinese" title="Permalink to this heading"></a></h3>
+<p>The following examples show how to decode a very long audio file with the help
+of VAD.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/silero_vad.onnx
+wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/lei-jun-test.wav
+
+./build/bin/sherpa-onnx-vad-with-offline-asr<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--silero-vad-model<span class="o">=</span>./silero_vad.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--silero-vad-threshold<span class="o">=</span><span class="m">0</span>.2<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--silero-vad-min-speech-duration<span class="o">=</span><span class="m">0</span>.2<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-conv-frontend<span class="o">=</span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/conv_frontend.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-encoder<span class="o">=</span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/encoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-decoder<span class="o">=</span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/decoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-tokenizer<span class="o">=</span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/tokenizer<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-max-new-tokens<span class="o">=</span><span class="m">512</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--num-threads<span class="o">=</span><span class="m">2</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./lei-jun-test.wav
+</pre></div>
+</div>
+<table>
+  <tr>
+    <th>Wave filename</th>
+    <th>Content</th>
+  </tr>
+  <tr>
+    <td>lei-jun-test.wav</td>
+    <td>
+     <audio title="lei-jun-test.wav" controls="controls">
+           <source src="/sherpa/_static/sense-voice/lei-jun-test.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+  </tr>
+</table><p>You should see the following output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:373 ./build/bin/sherpa-onnx-vad-with-offline-asr --silero-vad-model=./silero_vad.onnx --silero-vad-threshold=0.2 --silero-vad-min-speech-duration=0.2 --qwen3-asr-conv-frontend=./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/conv_frontend.onnx --qwen3-asr-encoder=./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/encoder.int8.onnx --qwen3-asr-decoder=./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/decoder.int8.onnx --qwen3-asr-tokenizer=./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/tokenizer --qwen3-asr-max-new-tokens=512 --num-threads=2 ./lei-jun-test.wav 
+
+VadModelConfig(silero_vad=SileroVadModelConfig(model="./silero_vad.onnx", threshold=0.2, min_silence_duration=0.5, min_speech_duration=0.2, max_speech_duration=20, window_size=512, neg_threshold=-1), ten_vad=TenVadModelConfig(model="", threshold=0.5, min_silence_duration=0.5, min_speech_duration=0.25, max_speech_duration=20, window_size=256), sample_rate=16000, num_threads=1, provider="cpu", debug=False)
+OfflineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80, low_freq=20, high_freq=-400, dither=0, normalize_samples=True, snip_edges=False), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename="", decoder_filename="", joiner_filename=""), paraformer=OfflineParaformerModelConfig(model=""), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=""), whisper=OfflineWhisperModelConfig(encoder="", decoder="", language="", task="transcribe", tail_paddings=-1, enable_token_timestamps=False, enable_segment_timestamps=False), fire_red_asr=OfflineFireRedAsrModelConfig(encoder="", decoder=""), tdnn=OfflineTdnnModelConfig(model=""), zipformer_ctc=OfflineZipformerCtcModelConfig(model=""), wenet_ctc=OfflineWenetCtcModelConfig(model=""), sense_voice=OfflineSenseVoiceModelConfig(model="", language="auto", use_itn=False), moonshine=OfflineMoonshineModelConfig(preprocessor="", encoder="", uncached_decoder="", cached_decoder="", merged_decoder=""), dolphin=OfflineDolphinModelConfig(model=""), canary=OfflineCanaryModelConfig(encoder="", decoder="", src_lang="", tgt_lang="", use_pnc=True), cohere_transcribe=OfflineCohereTranscribeModelConfig(encoder="", decoder="", language="", use_punct=True, use_itn=True), omnilingual=OfflineOmnilingualAsrCtcModelConfig(model=""), funasr_nano=OfflineFunASRNanoModelConfig(encoder_adaptor="", llm="", embedding="", tokenizer="", system_prompt="You are a helpful assistant.", user_prompt="语音转写：", max_new_tokens=512, temperature=1e-06, top_p=0.8, seed=42, language="", itn=True, hotwords=""), medasr=OfflineMedAsrCtcModelConfig(model=""), fire_red_asr_ctc=OfflineFireRedAsrCtcModelConfig(model=""), qwen3_asr=OfflineQwen3ASRModelConfig(conv_frontend="./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/conv_frontend.onnx", encoder="./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/encoder.int8.onnx", decoder="./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/decoder.int8.onnx", tokenizer="./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/tokenizer", hotwords="", max_total_len=512, max_new_tokens=512, temperature=1e-06, top_p=0.8, seed=42), telespeech_ctc="", tokens="", num_threads=2, debug=False, provider="cpu", model_type="", modeling_unit="cjkchar", bpe_vocab=""), lm_config=OfflineLMConfig(model="", scale=0.5, lodr_scale=0.01, lodr_fst="", lodr_backoff_id=-1), ctc_fst_decoder_config=OfflineCtcFstDecoderConfig(graph="", max_active=3000), decoding_method="greedy_search", max_active_paths=4, hotwords_file="", hotwords_score=1.5, blank_penalty=0, rule_fsts="", rule_fars="", hr=HomophoneReplacerConfig(lexicon="", rule_fsts=""))
+Creating recognizer ...
+Recognizer created!
+Started
+Reading: ./lei-jun-test.wav
+Started!
+
+29.776 -- 35.788: 晚上好，欢迎大家来参加今天晚上的活动。谢谢大家。
+42.160 -- 45.996: 这是我第四次办年度演讲。
+47.024 -- 49.868: 前三次呢，因为疫情的原因。
+50.512 -- 55.340: 都在小米科技园内举办，现场的人很少。
+56.176 -- 57.388: 这是第四次。
+58.192 -- 66.892: 我们仔细想了想，我们还是想办一个比较大的聚会，然后呢，让我们的新朋友、老朋友一起聚一聚。
+67.760 -- 70.828: 今天的话呢，我们就在北京的。
+71.664 -- 74.828: 国家会议中心呢，举办了这么一个活动。
+75.472 -- 85.868: 现场呢，来了很多人，大概有三千五百人，还有很多很多的朋友呢，通过观看直播的方式来参与。
+86.352 -- 91.308: 再一次呢，对大家的参加表示感谢，谢谢大家。
+98.512 -- 99.692: 两个月前。
+100.400 -- 104.396: 我参加了今年武汉大学的毕业典礼。
+105.936 -- 107.276: 今年呢是。
+107.888 -- 110.572: 武汉大学建校一百三十周年。
+111.760 -- 117.196: 作为校友，被母校邀请，在毕业典礼上致辞。
+118.032 -- 122.732: 这对我来说是至高无上的荣誉。
+123.664 -- 128.556: 站在讲台的那一刻，面对全校师生。
+129.200 -- 134.252: 关于武大的所有的记忆，一下子涌现在脑海里。
+134.960 -- 139.436: 今天呢，我就先和大家聊聊五大往事。
+141.840 -- 143.980: 那还是三十六年前。
+145.936 -- 147.660: 一九八七年。
+148.688 -- 151.564: 我呢，考上了武汉大学的计算机系。
+152.688 -- 156.748: 在武汉大学的图书馆里，看了一本书。
+157.584 -- 161.804: 硅谷之火，建立了我一生的梦想。
+163.312 -- 164.652: 看完书以后。
+165.264 -- 166.636: 热血沸腾。
+167.600 -- 169.548: 激动得睡不着觉。
+170.416 -- 171.404: 我还记得。
+172.016 -- 174.700: 那天晚上，星光很亮。
+175.408 -- 179.820: 我就在武大的操场上，就是屏幕上这个操场。
+180.816 -- 185.228: 走了一圈又一圈，走了整整一个晚上。
+186.480 -- 187.916: 我心里有团火。
+188.912 -- 192.076: 我也想搬一个伟大的公司。
+193.968 -- 195.020: 就是这样。
+197.648 -- 202.316: 梦想之火，在我心里彻底点燃了。
+209.968 -- 212.396: 是一个大一的新生。
+220.496 -- 222.636: 是一个大一的新生。
+223.984 -- 226.892: 一个从县城里出来的年轻人。
+228.368 -- 230.604: 什么也不会，什么也没有。
+231.568 -- 236.204: 就想创办一家伟大的公司，这不就是天方夜谭吗？
+237.616 -- 239.788: 这么离谱的一个梦想。
+240.400 -- 242.316: 该如何实现呢？
+243.856 -- 246.924: 那天晚上，我想了一整晚上。
+247.952 -- 249.068: 说实话。
+250.352 -- 253.868: 越想越糊涂，完全理不清头绪。
+254.960 -- 265.836: 后来我在想：“哎，干脆别想了，把书念好是正事。”所以呢，我就下定决心，认认真真读书。
+266.640 -- 267.468: 那么。
+268.496 -- 271.564: 我怎么能够把书读得不同凡响呢？
+
+num threads: 2
+decoding method: greedy_search
+Elapsed seconds: 20.968 s
+Real time factor (RTF): 20.968 / 272.448 = 0.077
+</pre></div>
+</div>
+</section>
+<section id="raokouling-wav">
+<h3>raokouling.wav (绕口令, 中文)<a class="headerlink" href="#raokouling-wav" title="Permalink to this heading"></a></h3>
+<p>To decode the test file</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/test_wavs/raokouling.wav</span></code></p>
+</div></blockquote>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./build/bin/sherpa-onnx-offline<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-conv-frontend<span class="o">=</span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/conv_frontend.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-encoder<span class="o">=</span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/encoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-decoder<span class="o">=</span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/decoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-tokenizer<span class="o">=</span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/tokenizer<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-max-new-tokens<span class="o">=</span><span class="m">512</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--num-threads<span class="o">=</span><span class="m">2</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/test_wavs/raokouling.wav
+</pre></div>
+</div>
+<p>You should see the following output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:373 ./build/bin/sherpa-onnx-offline --qwen3-asr-conv-frontend=./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/conv_frontend.onnx --qwen3-asr-encoder=./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/encoder.int8.onnx --qwen3-asr-decoder=./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/decoder.int8.onnx --qwen3-asr-tokenizer=./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/tokenizer --qwen3-asr-max-new-tokens=512 --num-threads=2 ./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/test_wavs/raokouling.wav 
+
+OfflineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80, low_freq=20, high_freq=-400, dither=0, normalize_samples=True, snip_edges=False), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename="", decoder_filename="", joiner_filename=""), paraformer=OfflineParaformerModelConfig(model=""), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=""), whisper=OfflineWhisperModelConfig(encoder="", decoder="", language="", task="transcribe", tail_paddings=-1, enable_token_timestamps=False, enable_segment_timestamps=False), fire_red_asr=OfflineFireRedAsrModelConfig(encoder="", decoder=""), tdnn=OfflineTdnnModelConfig(model=""), zipformer_ctc=OfflineZipformerCtcModelConfig(model=""), wenet_ctc=OfflineWenetCtcModelConfig(model=""), sense_voice=OfflineSenseVoiceModelConfig(model="", language="auto", use_itn=False), moonshine=OfflineMoonshineModelConfig(preprocessor="", encoder="", uncached_decoder="", cached_decoder="", merged_decoder=""), dolphin=OfflineDolphinModelConfig(model=""), canary=OfflineCanaryModelConfig(encoder="", decoder="", src_lang="", tgt_lang="", use_pnc=True), cohere_transcribe=OfflineCohereTranscribeModelConfig(encoder="", decoder="", language="", use_punct=True, use_itn=True), omnilingual=OfflineOmnilingualAsrCtcModelConfig(model=""), funasr_nano=OfflineFunASRNanoModelConfig(encoder_adaptor="", llm="", embedding="", tokenizer="", system_prompt="You are a helpful assistant.", user_prompt="语音转写：", max_new_tokens=512, temperature=1e-06, top_p=0.8, seed=42, language="", itn=True, hotwords=""), medasr=OfflineMedAsrCtcModelConfig(model=""), fire_red_asr_ctc=OfflineFireRedAsrCtcModelConfig(model=""), qwen3_asr=OfflineQwen3ASRModelConfig(conv_frontend="./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/conv_frontend.onnx", encoder="./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/encoder.int8.onnx", decoder="./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/decoder.int8.onnx", tokenizer="./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/tokenizer", hotwords="", max_total_len=512, max_new_tokens=512, temperature=1e-06, top_p=0.8, seed=42), telespeech_ctc="", tokens="", num_threads=2, debug=False, provider="cpu", model_type="", modeling_unit="cjkchar", bpe_vocab=""), lm_config=OfflineLMConfig(model="", scale=0.5, lodr_scale=0.01, lodr_fst="", lodr_backoff_id=-1), ctc_fst_decoder_config=OfflineCtcFstDecoderConfig(graph="", max_active=3000), decoding_method="greedy_search", max_active_paths=4, hotwords_file="", hotwords_score=1.5, blank_penalty=0, rule_fsts="", rule_fars="", hr=HomophoneReplacerConfig(lexicon="", rule_fsts=""))
+Creating recognizer ...
+recognizer created in 1.184 s
+Started
+/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/offline-stream.cc:AcceptWaveformImpl:135 Creating a resampler:
+   in_sample_rate: 44100
+   output_sample_rate: 16000
+
+Done!
+
+./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/test_wavs/raokouling.wav
+----
+num threads: 2
+decoding method: greedy_search
+Elapsed seconds: 3.027 s
+Real time factor (RTF): 3.027 / 20.760 = 0.146
+{"lang": "", "emotion": "", "event": "", "text": "广西壮族自治区爱吃红鲤鱼、绿鲤鱼与驴的出租车司机，拉着苗族土家族自治州爱喝自制的刘奶奶榴莲牛奶的古质叔，重症患者遇见别着喇叭的哑巴，打败姚子山前四十四棵死色柿子树的四十四只石狮子之后，碰到年年练流娘的牛郎，念着灰飞灰化肥发黑灰发走出山岗，官方网站设置组到广西壮族自治区首府南宁市民族医院就医。", "timestamps": [], "durations": [], "tokens":["广西", "壮", "族自治", "区", "爱吃", "红", "鲤", "鱼", "、", "绿", "鲤", "鱼", "与", "驴", "的", "出租车", "司机", "，", "拉着", "苗", "族", "土", "家族", "自治", "州", "爱", "喝", "自制", "的", "刘", "奶奶", "榴", "莲", "牛奶", "的", "古", "质", "叔", "，", "重症", "患者", "遇见", "别", "着", "喇叭", "的", "哑", "巴", "，", "打败", "姚", "子", "山", "前", "四", "十四", "棵", "死", "色", "柿", "子", "树", "的", "四十", "四", "只", "石", "狮子", "之后", "，", "碰到", "年", "年", "练", "流", "娘", "的", "牛", "郎", "，", "念", "着", "灰", "飞", "灰", "化肥", "发", "黑", "灰", "发", "走出", "山", "岗", "，", "官方", "网站", "设置", "组", "到", "广西", "壮", "族自治", "区", "首", "府", "南宁", "市", "民族", "医院", "就医", "。"], "ys_log_probs": [], "words": []}
+</pre></div>
+</div>
+<table>
+  <tr>
+    <th>Wave filename</th>
+    <th>Content</th>
+    <th>Ground truth</th>
+  </tr>
+  <tr>
+    <td>raokouling.wav</td>
+    <td>
+     <audio title="raokouling.wav" controls="controls">
+           <source src="/sherpa/_static/qwen3-asr-0.6b/raokouling.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+    <td>
+    广西壮族自治区爱吃红鲤鱼与绿鲤鱼与驴的出租车司机，拉着苗族土家族自治州爱喝自制的刘奶奶榴莲牛奶的骨质疏松症患者，遇见别着喇叭的哑巴，打败咬死山前四十四棵紫色柿子树的四十四只石狮子之后，碰到年年恋牛娘的牛郎，念着灰黑灰化肥发黑会挥发，走出香港官方网站设置组，到广西壮族自治区首府南宁市民族医院就医。
+    </td>
+  </tr>
+</table><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Use hotwords. Note you use , to separate multiple hotwords</span>
+
+./build/bin/sherpa-onnx-offline<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-conv-frontend<span class="o">=</span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/conv_frontend.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-encoder<span class="o">=</span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/encoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-decoder<span class="o">=</span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/decoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-tokenizer<span class="o">=</span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/tokenizer<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-max-new-tokens<span class="o">=</span><span class="m">512</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--num-threads<span class="o">=</span><span class="m">2</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-hotwords<span class="o">=</span><span class="s2">"骨质疏松症患者,咬死山前,紫色柿子树,年年恋牛娘,灰黑灰化肥,走出香港"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/test_wavs/raokouling.wav
+</pre></div>
+</div>
+<p>You should see the following output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:373 ./build/bin/sherpa-onnx-offline --qwen3-asr-conv-frontend=./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/conv_frontend.onnx --qwen3-asr-encoder=./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/encoder.int8.onnx --qwen3-asr-decoder=./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/decoder.int8.onnx --qwen3-asr-tokenizer=./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/tokenizer --qwen3-asr-max-new-tokens=512 --num-threads=2 '--qwen3-asr-hotwords=骨质疏松症患者,咬死山前,紫色柿子树,年年恋牛娘,灰黑灰化肥,走出香港' ./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/test_wavs/raokouling.wav 
+
+OfflineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80, low_freq=20, high_freq=-400, dither=0, normalize_samples=True, snip_edges=False), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename="", decoder_filename="", joiner_filename=""), paraformer=OfflineParaformerModelConfig(model=""), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=""), whisper=OfflineWhisperModelConfig(encoder="", decoder="", language="", task="transcribe", tail_paddings=-1, enable_token_timestamps=False, enable_segment_timestamps=False), fire_red_asr=OfflineFireRedAsrModelConfig(encoder="", decoder=""), tdnn=OfflineTdnnModelConfig(model=""), zipformer_ctc=OfflineZipformerCtcModelConfig(model=""), wenet_ctc=OfflineWenetCtcModelConfig(model=""), sense_voice=OfflineSenseVoiceModelConfig(model="", language="auto", use_itn=False), moonshine=OfflineMoonshineModelConfig(preprocessor="", encoder="", uncached_decoder="", cached_decoder="", merged_decoder=""), dolphin=OfflineDolphinModelConfig(model=""), canary=OfflineCanaryModelConfig(encoder="", decoder="", src_lang="", tgt_lang="", use_pnc=True), cohere_transcribe=OfflineCohereTranscribeModelConfig(encoder="", decoder="", language="", use_punct=True, use_itn=True), omnilingual=OfflineOmnilingualAsrCtcModelConfig(model=""), funasr_nano=OfflineFunASRNanoModelConfig(encoder_adaptor="", llm="", embedding="", tokenizer="", system_prompt="You are a helpful assistant.", user_prompt="语音转写：", max_new_tokens=512, temperature=1e-06, top_p=0.8, seed=42, language="", itn=True, hotwords=""), medasr=OfflineMedAsrCtcModelConfig(model=""), fire_red_asr_ctc=OfflineFireRedAsrCtcModelConfig(model=""), qwen3_asr=OfflineQwen3ASRModelConfig(conv_frontend="./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/conv_frontend.onnx", encoder="./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/encoder.int8.onnx", decoder="./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/decoder.int8.onnx", tokenizer="./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/tokenizer", hotwords="骨质疏松症患者,咬死山前,紫色柿子树,年年恋牛娘,灰黑灰化肥,走出香港", max_total_len=512, max_new_tokens=512, temperature=1e-06, top_p=0.8, seed=42), telespeech_ctc="", tokens="", num_threads=2, debug=False, provider="cpu", model_type="", modeling_unit="cjkchar", bpe_vocab=""), lm_config=OfflineLMConfig(model="", scale=0.5, lodr_scale=0.01, lodr_fst="", lodr_backoff_id=-1), ctc_fst_decoder_config=OfflineCtcFstDecoderConfig(graph="", max_active=3000), decoding_method="greedy_search", max_active_paths=4, hotwords_file="", hotwords_score=1.5, blank_penalty=0, rule_fsts="", rule_fars="", hr=HomophoneReplacerConfig(lexicon="", rule_fsts=""))
+Creating recognizer ...
+recognizer created in 1.271 s
+Started
+/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/offline-stream.cc:AcceptWaveformImpl:135 Creating a resampler:
+   in_sample_rate: 44100
+   output_sample_rate: 16000
+
+Done!
+
+./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/test_wavs/raokouling.wav
+----
+num threads: 2
+decoding method: greedy_search
+Elapsed seconds: 3.243 s
+Real time factor (RTF): 3.243 / 20.760 = 0.156
+{"lang": "", "emotion": "", "event": "", "text": "广西壮族自治区爱吃红鲤鱼、绿鲤鱼与驴的出租车司机，拉着苗族土家族自制粥，爱喝自制的刘奶奶榴莲牛奶的骨质疏松症患者，遇见别着喇叭的哑巴，打败摇死山前四十四棵死色柿子树的四十四只石狮子之后，碰到年年恋牛娘的牛郎，念着灰黑灰化肥发黑会挥发走出香港，官方网站设置组到广西壮族自治区首府南宁市民族医院就医。", "timestamps": [], "durations": [], "tokens":["广西", "壮", "族", "自治区", "爱吃", "红", "鲤", "鱼", "、", "绿", "鲤", "鱼", "与", "驴", "的", "出租车", "司机", "，", "拉着", "苗", "族", "土", "家族", "自制", "粥", "，", "爱", "喝", "自制", "的", "刘", "奶奶", "榴", "莲", "牛奶", "的", "骨", "质", "疏", "松", "症", "患者", "，", "遇见", "别", "着", "喇叭", "的", "哑", "巴", "，", "打败", "摇", "死", "山", "前", "四", "十四", "棵", "死", "色", "柿", "子", "树", "的", "四", "十四", "只", "石", "狮子", "之后", "，", "碰到", "年", "年", "恋", "牛", "娘", "的", "牛", "郎", "，", "念", "着", "灰", "黑", "灰", "化肥", "发", "黑", "会", "挥发", "走出", "香港", "，", "官方网站", "设置", "组", "到", "广西", "壮", "族", "自治区", "首", "府", "南宁", "市", "民族", "医院", "就医", "。"], "ys_log_probs": [], "words": []}
+</pre></div>
+</div>
+</section>
+<section id="noise2-wav">
+<h3>noise2.wav (中文, 带背景噪声)<a class="headerlink" href="#noise2-wav" title="Permalink to this heading"></a></h3>
+<p>To decode the test file</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/test_wavs/noise2.wav</span></code></p>
+</div></blockquote>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./build/bin/sherpa-onnx-offline<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-conv-frontend<span class="o">=</span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/conv_frontend.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-encoder<span class="o">=</span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/encoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-decoder<span class="o">=</span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/decoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-tokenizer<span class="o">=</span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/tokenizer<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-max-new-tokens<span class="o">=</span><span class="m">512</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--num-threads<span class="o">=</span><span class="m">2</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/test_wavs/noise2.wav
+</pre></div>
+</div>
+<p>You should see the following output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:373 ./build/bin/sherpa-onnx-offline --qwen3-asr-conv-frontend=./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/conv_frontend.onnx --qwen3-asr-encoder=./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/encoder.int8.onnx --qwen3-asr-decoder=./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/decoder.int8.onnx --qwen3-asr-tokenizer=./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/tokenizer --qwen3-asr-max-new-tokens=512 --num-threads=2 ./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/test_wavs/noise2.wav 
+
+OfflineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80, low_freq=20, high_freq=-400, dither=0, normalize_samples=True, snip_edges=False), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename="", decoder_filename="", joiner_filename=""), paraformer=OfflineParaformerModelConfig(model=""), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=""), whisper=OfflineWhisperModelConfig(encoder="", decoder="", language="", task="transcribe", tail_paddings=-1, enable_token_timestamps=False, enable_segment_timestamps=False), fire_red_asr=OfflineFireRedAsrModelConfig(encoder="", decoder=""), tdnn=OfflineTdnnModelConfig(model=""), zipformer_ctc=OfflineZipformerCtcModelConfig(model=""), wenet_ctc=OfflineWenetCtcModelConfig(model=""), sense_voice=OfflineSenseVoiceModelConfig(model="", language="auto", use_itn=False), moonshine=OfflineMoonshineModelConfig(preprocessor="", encoder="", uncached_decoder="", cached_decoder="", merged_decoder=""), dolphin=OfflineDolphinModelConfig(model=""), canary=OfflineCanaryModelConfig(encoder="", decoder="", src_lang="", tgt_lang="", use_pnc=True), cohere_transcribe=OfflineCohereTranscribeModelConfig(encoder="", decoder="", language="", use_punct=True, use_itn=True), omnilingual=OfflineOmnilingualAsrCtcModelConfig(model=""), funasr_nano=OfflineFunASRNanoModelConfig(encoder_adaptor="", llm="", embedding="", tokenizer="", system_prompt="You are a helpful assistant.", user_prompt="语音转写：", max_new_tokens=512, temperature=1e-06, top_p=0.8, seed=42, language="", itn=True, hotwords=""), medasr=OfflineMedAsrCtcModelConfig(model=""), fire_red_asr_ctc=OfflineFireRedAsrCtcModelConfig(model=""), qwen3_asr=OfflineQwen3ASRModelConfig(conv_frontend="./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/conv_frontend.onnx", encoder="./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/encoder.int8.onnx", decoder="./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/decoder.int8.onnx", tokenizer="./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/tokenizer", hotwords="", max_total_len=512, max_new_tokens=512, temperature=1e-06, top_p=0.8, seed=42), telespeech_ctc="", tokens="", num_threads=2, debug=False, provider="cpu", model_type="", modeling_unit="cjkchar", bpe_vocab=""), lm_config=OfflineLMConfig(model="", scale=0.5, lodr_scale=0.01, lodr_fst="", lodr_backoff_id=-1), ctc_fst_decoder_config=OfflineCtcFstDecoderConfig(graph="", max_active=3000), decoding_method="greedy_search", max_active_paths=4, hotwords_file="", hotwords_score=1.5, blank_penalty=0, rule_fsts="", rule_fars="", hr=HomophoneReplacerConfig(lexicon="", rule_fsts=""))
+Creating recognizer ...
+recognizer created in 1.187 s
+Started
+Done!
+
+./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/test_wavs/noise2.wav
+----
+num threads: 2
+decoding method: greedy_search
+Elapsed seconds: 2.579 s
+Real time factor (RTF): 2.579 / 22.833 = 0.113
+{"lang": "", "emotion": "", "event": "", "text": "拨号，请再说一次，请说出你要拨打的号码：幺三五八幺八八七五五七。一三五八二八八八幺八八。七百里有减速摄像头，减速一百公里。纠正，纠正，九六九，纠正，纠正，不是九六。", "timestamps": [], "durations": [], "tokens":["拨", "号", "，请", "再说", "一次", "，请", "说出", "你要", "拨打", "的", "号码", "：", "幺", "三", "五", "八", "幺", "八", "八", "七", "五", "五", "七", "。", "一", "三", "五", "八", "二", "八", "八", "八", "幺", "八", "八", "。", "七", "百", "里", "有", "减速", "摄像头", "，", "减速", "一百", "公里", "。", "纠正", "，", "纠正", "，", "九", "六", "九", "，", "纠正", "，", "纠正", "，", "不是", "九", "六", "。"], "ys_log_probs": [], "words": []}
+</pre></div>
+</div>
+<table>
+  <tr>
+    <th>Wave filename</th>
+    <th>Content</th>
+    <th>Ground truth</th>
+  </tr>
+  <tr>
+    <td>noise2.wav</td>
+    <td>
+     <audio title="noise2.wav" controls="controls">
+           <source src="/sherpa/_static/qwen3-asr-0.6b/noise2.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+    <td>
+      拨号，请再说一次，请说出您要拨打的号码。幺三五八幺八八七五七。一三五八二八八八幺八八。纠正纠正。九六九。纠正纠正，不是九六。
+    </td>
+  </tr>
+</table></section>
+<section id="fast1-wav">
+<h3>fast1.wav (中文, 极快语速)<a class="headerlink" href="#fast1-wav" title="Permalink to this heading"></a></h3>
+<p>To decode the test file</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/test_wavs/fast1.wav</span></code></p>
+</div></blockquote>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./build/bin/sherpa-onnx-offline<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-conv-frontend<span class="o">=</span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/conv_frontend.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-encoder<span class="o">=</span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/encoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-decoder<span class="o">=</span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/decoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-tokenizer<span class="o">=</span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/tokenizer<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-max-new-tokens<span class="o">=</span><span class="m">512</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--num-threads<span class="o">=</span><span class="m">2</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/test_wavs/fast1.wav
+</pre></div>
+</div>
+<p>You should see the following output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:373 ./build/bin/sherpa-onnx-offline --qwen3-asr-conv-frontend=./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/conv_frontend.onnx --qwen3-asr-encoder=./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/encoder.int8.onnx --qwen3-asr-decoder=./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/decoder.int8.onnx --qwen3-asr-tokenizer=./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/tokenizer --qwen3-asr-max-new-tokens=512 --num-threads=2 ./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/test_wavs/fast1.wav 
+
+OfflineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80, low_freq=20, high_freq=-400, dither=0, normalize_samples=True, snip_edges=False), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename="", decoder_filename="", joiner_filename=""), paraformer=OfflineParaformerModelConfig(model=""), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=""), whisper=OfflineWhisperModelConfig(encoder="", decoder="", language="", task="transcribe", tail_paddings=-1, enable_token_timestamps=False, enable_segment_timestamps=False), fire_red_asr=OfflineFireRedAsrModelConfig(encoder="", decoder=""), tdnn=OfflineTdnnModelConfig(model=""), zipformer_ctc=OfflineZipformerCtcModelConfig(model=""), wenet_ctc=OfflineWenetCtcModelConfig(model=""), sense_voice=OfflineSenseVoiceModelConfig(model="", language="auto", use_itn=False), moonshine=OfflineMoonshineModelConfig(preprocessor="", encoder="", uncached_decoder="", cached_decoder="", merged_decoder=""), dolphin=OfflineDolphinModelConfig(model=""), canary=OfflineCanaryModelConfig(encoder="", decoder="", src_lang="", tgt_lang="", use_pnc=True), cohere_transcribe=OfflineCohereTranscribeModelConfig(encoder="", decoder="", language="", use_punct=True, use_itn=True), omnilingual=OfflineOmnilingualAsrCtcModelConfig(model=""), funasr_nano=OfflineFunASRNanoModelConfig(encoder_adaptor="", llm="", embedding="", tokenizer="", system_prompt="You are a helpful assistant.", user_prompt="语音转写：", max_new_tokens=512, temperature=1e-06, top_p=0.8, seed=42, language="", itn=True, hotwords=""), medasr=OfflineMedAsrCtcModelConfig(model=""), fire_red_asr_ctc=OfflineFireRedAsrCtcModelConfig(model=""), qwen3_asr=OfflineQwen3ASRModelConfig(conv_frontend="./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/conv_frontend.onnx", encoder="./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/encoder.int8.onnx", decoder="./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/decoder.int8.onnx", tokenizer="./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/tokenizer", hotwords="", max_total_len=512, max_new_tokens=512, temperature=1e-06, top_p=0.8, seed=42), telespeech_ctc="", tokens="", num_threads=2, debug=False, provider="cpu", model_type="", modeling_unit="cjkchar", bpe_vocab=""), lm_config=OfflineLMConfig(model="", scale=0.5, lodr_scale=0.01, lodr_fst="", lodr_backoff_id=-1), ctc_fst_decoder_config=OfflineCtcFstDecoderConfig(graph="", max_active=3000), decoding_method="greedy_search", max_active_paths=4, hotwords_file="", hotwords_score=1.5, blank_penalty=0, rule_fsts="", rule_fars="", hr=HomophoneReplacerConfig(lexicon="", rule_fsts=""))
+Creating recognizer ...
+recognizer created in 1.265 s
+Started
+/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/offline-stream.cc:AcceptWaveformImpl:135 Creating a resampler:
+   in_sample_rate: 44100
+   output_sample_rate: 16000
+
+Done!
+
+./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/test_wavs/fast1.wav
+----
+num threads: 2
+decoding method: greedy_search
+Elapsed seconds: 1.917 s
+Real time factor (RTF): 1.917 / 11.380 = 0.168
+{"lang": "", "emotion": "", "event": "", "text": "放出来之后，左手、右手接一个慢动作。右边再直接拉到车上面之后，直接拉到这个轮胎上。上面再接过去之后，然后上面再直接拉到这个位置。之后右边再直接这个位置接。到不去了之后，再倒一下。然后右边再直接抓住这个上面了之后，直接从这个上面过去了之后，直接抓住这个树杈。然后这个直接抓住这个树杈。", "timestamps": [], "durations": [], "tokens":["放", "出来", "之后", "，", "左手", "、", "右手", "接", "一个", "慢", "动作", "。", "右边", "再", "直接", "拉", "到", "车", "上面", "之后", "，", "直接", "拉", "到", "这个", "轮胎", "上", "。", "上面", "再", "接", "过去", "之后", "，", "然后", "上面", "再", "直接", "拉", "到", "这个", "位置", "。", "之后", "右边", "再", "直接", "这个", "位置", "接", "。", "到", "不", "去了", "之后", "，", "再", "倒", "一下", "。", "然后", "右边", "再", "直接", "抓住", "这个", "上面", "了", "之后", "，", "直接", "从", "这个", "上面", "过去", "了", "之后", "，", "直接", "抓住", "这个", "树", "杈", "。", "然后", "这个", "直接", "抓住", "这个", "树", "杈", "。"], "ys_log_probs": [], "words": []}
+</pre></div>
+</div>
+<table>
+  <tr>
+    <th>Wave filename</th>
+    <th>Content</th>
+    <th>Ground truth</th>
+  </tr>
+  <tr>
+    <td>fast1.wav</td>
+    <td>
+     <audio title="fast1.wav" controls="controls">
+           <source src="/sherpa/_static/qwen3-asr-0.6b/fast1.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+    <td>
+      蹦出来之后，左手、右手接一个慢动作，右边再直接拉到这上面之后，直接拉到这个轮胎上，上边再接过去之后，然后上边再直接拉到这个位置了之后，右边再直接这个位置接倒过去的之后，再倒一下，然后右边再直接抓住这个上边了之后，直接从这边上边过去了之后，直接抓住这个树杈，然后这个位置直接倒到这个树杈
+    </td>
+  </tr>
+</table></section>
+<section id="cantonese-wav">
+<h3>cantonese.wav (粤语, 中文)<a class="headerlink" href="#cantonese-wav" title="Permalink to this heading"></a></h3>
+<p>To decode the test file</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/test_wavs/cantonese.wav</span></code></p>
+</div></blockquote>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./build/bin/sherpa-onnx-offline<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-conv-frontend<span class="o">=</span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/conv_frontend.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-encoder<span class="o">=</span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/encoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-decoder<span class="o">=</span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/decoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-tokenizer<span class="o">=</span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/tokenizer<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-max-new-tokens<span class="o">=</span><span class="m">512</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--num-threads<span class="o">=</span><span class="m">2</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/test_wavs/cantonese.wav
+</pre></div>
+</div>
+<p>You should see the following output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:373 ./build/bin/sherpa-onnx-offline --qwen3-asr-conv-frontend=./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/conv_frontend.onnx --qwen3-asr-encoder=./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/encoder.int8.onnx --qwen3-asr-decoder=./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/decoder.int8.onnx --qwen3-asr-tokenizer=./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/tokenizer --qwen3-asr-max-new-tokens=512 --num-threads=2 ./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/test_wavs/cantonese.wav 
+
+OfflineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80, low_freq=20, high_freq=-400, dither=0, normalize_samples=True, snip_edges=False), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename="", decoder_filename="", joiner_filename=""), paraformer=OfflineParaformerModelConfig(model=""), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=""), whisper=OfflineWhisperModelConfig(encoder="", decoder="", language="", task="transcribe", tail_paddings=-1, enable_token_timestamps=False, enable_segment_timestamps=False), fire_red_asr=OfflineFireRedAsrModelConfig(encoder="", decoder=""), tdnn=OfflineTdnnModelConfig(model=""), zipformer_ctc=OfflineZipformerCtcModelConfig(model=""), wenet_ctc=OfflineWenetCtcModelConfig(model=""), sense_voice=OfflineSenseVoiceModelConfig(model="", language="auto", use_itn=False), moonshine=OfflineMoonshineModelConfig(preprocessor="", encoder="", uncached_decoder="", cached_decoder="", merged_decoder=""), dolphin=OfflineDolphinModelConfig(model=""), canary=OfflineCanaryModelConfig(encoder="", decoder="", src_lang="", tgt_lang="", use_pnc=True), cohere_transcribe=OfflineCohereTranscribeModelConfig(encoder="", decoder="", language="", use_punct=True, use_itn=True), omnilingual=OfflineOmnilingualAsrCtcModelConfig(model=""), funasr_nano=OfflineFunASRNanoModelConfig(encoder_adaptor="", llm="", embedding="", tokenizer="", system_prompt="You are a helpful assistant.", user_prompt="语音转写：", max_new_tokens=512, temperature=1e-06, top_p=0.8, seed=42, language="", itn=True, hotwords=""), medasr=OfflineMedAsrCtcModelConfig(model=""), fire_red_asr_ctc=OfflineFireRedAsrCtcModelConfig(model=""), qwen3_asr=OfflineQwen3ASRModelConfig(conv_frontend="./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/conv_frontend.onnx", encoder="./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/encoder.int8.onnx", decoder="./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/decoder.int8.onnx", tokenizer="./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/tokenizer", hotwords="", max_total_len=512, max_new_tokens=512, temperature=1e-06, top_p=0.8, seed=42), telespeech_ctc="", tokens="", num_threads=2, debug=False, provider="cpu", model_type="", modeling_unit="cjkchar", bpe_vocab=""), lm_config=OfflineLMConfig(model="", scale=0.5, lodr_scale=0.01, lodr_fst="", lodr_backoff_id=-1), ctc_fst_decoder_config=OfflineCtcFstDecoderConfig(graph="", max_active=3000), decoding_method="greedy_search", max_active_paths=4, hotwords_file="", hotwords_score=1.5, blank_penalty=0, rule_fsts="", rule_fars="", hr=HomophoneReplacerConfig(lexicon="", rule_fsts=""))
+Creating recognizer ...
+recognizer created in 1.188 s
+Started
+Done!
+
+./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/test_wavs/cantonese.wav
+----
+num threads: 2
+decoding method: greedy_search
+Elapsed seconds: 2.515 s
+Real time factor (RTF): 2.515 / 16.450 = 0.153
+{"lang": "", "emotion": "", "event": "", "text": "今次寻寻觅觅，终于搵到my princess，肯借个场俾我哋玩。你知啦，喺香港地，喺繁忙时间要搵个场嚟拍嘢，系非常之难嘅。再一次多谢你哋，亦都好多谢片入边嘅每一个人。下一次我哋斗啲咩好，喺下面留言话，我哋知啦。拜拜。", "timestamps": [], "durations": [], "tokens":["今", "次", "寻", "寻", "觅", "觅", "，", "终于", "", "搵", "到", "my", " princess", "，", "肯", "借", "个", "场", "俾", "我", "", "哋", "玩", "。", "你", "知", "啦", "，", "", "喺", "香港", "地", "，", "", "喺", "繁忙", "时间", "要", "", "搵", "个", "场", "", "嚟", "拍", "", "嘢", "，", "系", "非常", "之", "难", "", "嘅", "。", "再一次", "多", "谢", "你", "", "哋", "，", "亦", "都", "好多", "谢", "片", "入", "边", "", "嘅", "每一个人", "。", "下", "一次", "我", "", "哋", "斗", "", "啲", "咩", "好", "，", "", "喺", "下面", "留言", "话", "，", "我", "", "哋", "知", "啦", "。", "拜", "拜", "。"], "ys_log_probs": [], "words": []}
+</pre></div>
+</div>
+<table>
+  <tr>
+    <th>Wave filename</th>
+    <th>Content</th>
+    <th>Ground truth</th>
+  </tr>
+  <tr>
+    <td>cantonese.wav</td>
+    <td>
+     <audio title="cantonese.wav" controls="controls">
+           <source src="/sherpa/_static/qwen3-asr-0.6b/cantonese.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+    <td>
+    今次寻寻觅觅，终于揾到my princess，肯借个场俾我哋玩。你知啦，喺香港地喺繁忙时间要揾个场嚟拍嘢系非常之难嘅。再一次多谢你哋，亦都好多谢片入边嘅每一个人。下一次我哋斗啲咩好？喺下面留言话我哋知啦。拜拜。
+    </td>
+  </tr>
+</table></section>
+<section id="qiqiu1-wav">
+<h3>qiqiu1.wav (中文, 说唱音乐, 语速极快)<a class="headerlink" href="#qiqiu1-wav" title="Permalink to this heading"></a></h3>
+<p>To decode the test file</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/test_wavs/qiqiu1.wav</span></code></p>
+</div></blockquote>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./build/bin/sherpa-onnx-offline<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-conv-frontend<span class="o">=</span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/conv_frontend.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-encoder<span class="o">=</span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/encoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-decoder<span class="o">=</span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/decoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-tokenizer<span class="o">=</span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/tokenizer<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-max-total-len<span class="o">=</span><span class="m">1024</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-max-new-tokens<span class="o">=</span><span class="m">1024</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--num-threads<span class="o">=</span><span class="m">2</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/test_wavs/qiqiu1.wav
+</pre></div>
+</div>
+<p>You should see the following output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:373 ./build/bin/sherpa-onnx-offline --qwen3-asr-conv-frontend=./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/conv_frontend.onnx --qwen3-asr-encoder=./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/encoder.int8.onnx --qwen3-asr-decoder=./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/decoder.int8.onnx --qwen3-asr-tokenizer=./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/tokenizer --qwen3-asr-max-total-len=1024 --qwen3-asr-max-new-tokens=1024 --num-threads=2 ./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/test_wavs/qiqiu1.wav 
+
+OfflineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80, low_freq=20, high_freq=-400, dither=0, normalize_samples=True, snip_edges=False), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename="", decoder_filename="", joiner_filename=""), paraformer=OfflineParaformerModelConfig(model=""), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=""), whisper=OfflineWhisperModelConfig(encoder="", decoder="", language="", task="transcribe", tail_paddings=-1, enable_token_timestamps=False, enable_segment_timestamps=False), fire_red_asr=OfflineFireRedAsrModelConfig(encoder="", decoder=""), tdnn=OfflineTdnnModelConfig(model=""), zipformer_ctc=OfflineZipformerCtcModelConfig(model=""), wenet_ctc=OfflineWenetCtcModelConfig(model=""), sense_voice=OfflineSenseVoiceModelConfig(model="", language="auto", use_itn=False), moonshine=OfflineMoonshineModelConfig(preprocessor="", encoder="", uncached_decoder="", cached_decoder="", merged_decoder=""), dolphin=OfflineDolphinModelConfig(model=""), canary=OfflineCanaryModelConfig(encoder="", decoder="", src_lang="", tgt_lang="", use_pnc=True), cohere_transcribe=OfflineCohereTranscribeModelConfig(encoder="", decoder="", language="", use_punct=True, use_itn=True), omnilingual=OfflineOmnilingualAsrCtcModelConfig(model=""), funasr_nano=OfflineFunASRNanoModelConfig(encoder_adaptor="", llm="", embedding="", tokenizer="", system_prompt="You are a helpful assistant.", user_prompt="语音转写：", max_new_tokens=512, temperature=1e-06, top_p=0.8, seed=42, language="", itn=True, hotwords=""), medasr=OfflineMedAsrCtcModelConfig(model=""), fire_red_asr_ctc=OfflineFireRedAsrCtcModelConfig(model=""), qwen3_asr=OfflineQwen3ASRModelConfig(conv_frontend="./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/conv_frontend.onnx", encoder="./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/encoder.int8.onnx", decoder="./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/decoder.int8.onnx", tokenizer="./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/tokenizer", hotwords="", max_total_len=1024, max_new_tokens=1024, temperature=1e-06, top_p=0.8, seed=42), telespeech_ctc="", tokens="", num_threads=2, debug=False, provider="cpu", model_type="", modeling_unit="cjkchar", bpe_vocab=""), lm_config=OfflineLMConfig(model="", scale=0.5, lodr_scale=0.01, lodr_fst="", lodr_backoff_id=-1), ctc_fst_decoder_config=OfflineCtcFstDecoderConfig(graph="", max_active=3000), decoding_method="greedy_search", max_active_paths=4, hotwords_file="", hotwords_score=1.5, blank_penalty=0, rule_fsts="", rule_fars="", hr=HomophoneReplacerConfig(lexicon="", rule_fsts=""))
+Creating recognizer ...
+recognizer created in 1.175 s
+Started
+Done!
+
+./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/test_wavs/qiqiu1.wav
+----
+num threads: 2
+decoding method: greedy_search
+Elapsed seconds: 7.758 s
+Real time factor (RTF): 7.758 / 50.964 = 0.152
+{"lang": "", "emotion": "", "event": "", "text": "黑的、白的、红的、粉的、紫的、绿的、蓝的、灰的、你的、我的、他的、她的、大的、小的、远的、变得好的、坏的、美得丑的、新的、旧的，各种关系，各种关系，让我选择。飞得高高，越远越好，天能恶心，他就死掉，说明多么高兴，就会喜欢，就好，没得不了，越变越像，越来越像，快要死掉，也很骄傲。你不想说，就别再说，我不想听，不想再听，就把一切誓言当作气球一般随它而去，我不在意，不会在意，随它而去，随它而去。气球，飘进眼里，飘进风里，结束生命；气球，飘进眼里，飘进心里，慢慢死去。", "timestamps": [], "durations": [], "tokens":["黑", "的", "、", "白", "的", "、", "红", "的", "、", "粉", "的", "、", "紫", "的", "、", "绿", "的", "、", "蓝", "的", "、", "灰", "的", "、", "你的", "、", "我的", "、", "他的", "、", "她的", "、", "大的", "、", "小", "的", "、", "远", "的", "、", "变得", "好的", "、", "坏", "的", "、", "美", "得", "丑", "的", "、", "新的", "、", "旧", "的", "，", "各种", "关系", "，", "各种", "关系", "，", "让我", "选择", "。", "飞", "得", "高", "高", "，", "越", "远", "越好", "，", "天", "能", "恶心", "，", "他就", "死", "掉", "，", "说明", "多么", "高兴", "，", "就会", "喜欢", "，", "就好", "，", "没", "得", "不了", "，", "越", "变", "越", "像", "，", "越来越", "像", "，", "快要", "死", "掉", "，", "也很", "骄傲", "。", "你", "不想", "说", "，", "就", "别", "再说", "，", "我不想", "听", "，", "不想", "再", "听", "，", "就把", "一切", "誓言", "当作", "气", "球", "一般", "随", "它", "而去", "，", "我不", "在意", "，", "不会", "在意", "，", "随", "它", "而去", "，", "随", "它", "而去", "。", "气", "球", "，", "飘", "进", "眼里", "，", "飘", "进", "风", "里", "，", "结束", "生命", "；", "气", "球", "，", "飘", "进", "眼里", "，", "飘", "进", "心里", "，", "慢慢", "死去", "。"], "ys_log_probs": [], "words": []}
+</pre></div>
+</div>
+<table>
+  <tr>
+    <th>Wave filename</th>
+    <th>Content</th>
+    <th>Ground truth</th>
+  </tr>
+  <tr>
+    <td>qiqiu1.wav</td>
+    <td>
+     <audio title="qiqiu1.wav" controls="controls">
+           <source src="/sherpa/_static/qwen3-asr-0.6b/qiqiu1.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+    <td>
+      黑的白的红的粉的紫的绿的蓝的灰的，你的我的他的她的大的小的圆的扁的，好的坏的美的丑的新的旧的，各种款式各种花式，让我选择。飞得高喽，越远越好，天都沦陷，他就死掉，说明多能高兴就好，喜欢就好，没大不了，越变越小，越来越小，快要死掉也很骄傲。你不想说就别再说，我不想听不想再听，就把一切誓言当作气球一般随它而去，我不在意不会在意，随它而去随它而去。气球飘进眼里，飘进风里，结束生命。气球飘进爱里，飘进心里，慢慢死去。
+    </td>
+  </tr>
+</table></section>
+<section id="de-wav-german">
+<h3>de.wav (German, 德语)<a class="headerlink" href="#de-wav-german" title="Permalink to this heading"></a></h3>
+<p>To decode the test file</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/test_wavs/de.wav</span></code></p>
+</div></blockquote>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./build/bin/sherpa-onnx-offline<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-conv-frontend<span class="o">=</span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/conv_frontend.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-encoder<span class="o">=</span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/encoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-decoder<span class="o">=</span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/decoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-tokenizer<span class="o">=</span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/tokenizer<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-max-new-tokens<span class="o">=</span><span class="m">512</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--num-threads<span class="o">=</span><span class="m">2</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/test_wavs/de.wav
+</pre></div>
+</div>
+<p>You should see the following output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:373 ./build/bin/sherpa-onnx-offline --qwen3-asr-conv-frontend=./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/conv_frontend.onnx --qwen3-asr-encoder=./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/encoder.int8.onnx --qwen3-asr-decoder=./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/decoder.int8.onnx --qwen3-asr-tokenizer=./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/tokenizer --qwen3-asr-max-new-tokens=512 --num-threads=2 ./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/test_wavs/de.wav 
+
+OfflineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80, low_freq=20, high_freq=-400, dither=0, normalize_samples=True, snip_edges=False), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename="", decoder_filename="", joiner_filename=""), paraformer=OfflineParaformerModelConfig(model=""), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=""), whisper=OfflineWhisperModelConfig(encoder="", decoder="", language="", task="transcribe", tail_paddings=-1, enable_token_timestamps=False, enable_segment_timestamps=False), fire_red_asr=OfflineFireRedAsrModelConfig(encoder="", decoder=""), tdnn=OfflineTdnnModelConfig(model=""), zipformer_ctc=OfflineZipformerCtcModelConfig(model=""), wenet_ctc=OfflineWenetCtcModelConfig(model=""), sense_voice=OfflineSenseVoiceModelConfig(model="", language="auto", use_itn=False), moonshine=OfflineMoonshineModelConfig(preprocessor="", encoder="", uncached_decoder="", cached_decoder="", merged_decoder=""), dolphin=OfflineDolphinModelConfig(model=""), canary=OfflineCanaryModelConfig(encoder="", decoder="", src_lang="", tgt_lang="", use_pnc=True), cohere_transcribe=OfflineCohereTranscribeModelConfig(encoder="", decoder="", language="", use_punct=True, use_itn=True), omnilingual=OfflineOmnilingualAsrCtcModelConfig(model=""), funasr_nano=OfflineFunASRNanoModelConfig(encoder_adaptor="", llm="", embedding="", tokenizer="", system_prompt="You are a helpful assistant.", user_prompt="语音转写：", max_new_tokens=512, temperature=1e-06, top_p=0.8, seed=42, language="", itn=True, hotwords=""), medasr=OfflineMedAsrCtcModelConfig(model=""), fire_red_asr_ctc=OfflineFireRedAsrCtcModelConfig(model=""), qwen3_asr=OfflineQwen3ASRModelConfig(conv_frontend="./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/conv_frontend.onnx", encoder="./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/encoder.int8.onnx", decoder="./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/decoder.int8.onnx", tokenizer="./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/tokenizer", hotwords="", max_total_len=512, max_new_tokens=512, temperature=1e-06, top_p=0.8, seed=42), telespeech_ctc="", tokens="", num_threads=2, debug=False, provider="cpu", model_type="", modeling_unit="cjkchar", bpe_vocab=""), lm_config=OfflineLMConfig(model="", scale=0.5, lodr_scale=0.01, lodr_fst="", lodr_backoff_id=-1), ctc_fst_decoder_config=OfflineCtcFstDecoderConfig(graph="", max_active=3000), decoding_method="greedy_search", max_active_paths=4, hotwords_file="", hotwords_score=1.5, blank_penalty=0, rule_fsts="", rule_fars="", hr=HomophoneReplacerConfig(lexicon="", rule_fsts=""))
+Creating recognizer ...
+recognizer created in 1.279 s
+Started
+Done!
+
+./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/test_wavs/de.wav
+----
+num threads: 2
+decoding method: greedy_search
+Elapsed seconds: 0.743 s
+Real time factor (RTF): 0.743 / 6.720 = 0.111
+{"lang": "", "emotion": "", "event": "", "text": "Raptorium Bergbau scheint profitierter als Monroe als Reaktion auf die wirtschaftlichen Ausfälle zu sein.", "timestamps": [], "durations": [], "tokens":["R", "apt", "or", "ium", " Berg", "bau", " sche", "int", " profit", "ier", "ter", " als", " Monroe", " als", " Re", "aktion", " auf", " die", " w", "irtschaft", "lichen", " Aus", "fälle", " zu", " sein", "."], "ys_log_probs": [], "words": []}
+</pre></div>
+</div>
+<table>
+  <tr>
+    <th>Wave filename</th>
+    <th>Content</th>
+    <th>Ground truth</th>
+  </tr>
+  <tr>
+    <td>de.wav</td>
+    <td>
+     <audio title="de.wav" controls="controls">
+           <source src="/sherpa/_static/qwen3-asr-0.6b/de.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+    <td>
+    Raptorium Bergbau scheint profitierter als Monroe als Reaktion auf die wirtschaftlichen Ausfälle zu sein.
+    </td>
+  </tr>
+</table></section>
+<section id="es1-wav-spanish">
+<h3>es1.wav (Spanish, 西班牙语)<a class="headerlink" href="#es1-wav-spanish" title="Permalink to this heading"></a></h3>
+<p>To decode the test file</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/test_wavs/es1.wav</span></code></p>
+</div></blockquote>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./build/bin/sherpa-onnx-offline<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-conv-frontend<span class="o">=</span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/conv_frontend.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-encoder<span class="o">=</span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/encoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-decoder<span class="o">=</span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/decoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-tokenizer<span class="o">=</span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/tokenizer<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-max-new-tokens<span class="o">=</span><span class="m">512</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--num-threads<span class="o">=</span><span class="m">2</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/test_wavs/es1.wav
+</pre></div>
+</div>
+<p>You should see the following output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:373 ./build/bin/sherpa-onnx-offline --qwen3-asr-conv-frontend=./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/conv_frontend.onnx --qwen3-asr-encoder=./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/encoder.int8.onnx --qwen3-asr-decoder=./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/decoder.int8.onnx --qwen3-asr-tokenizer=./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/tokenizer --qwen3-asr-max-new-tokens=512 --num-threads=2 ./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/test_wavs/es1.wav 
+
+OfflineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80, low_freq=20, high_freq=-400, dither=0, normalize_samples=True, snip_edges=False), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename="", decoder_filename="", joiner_filename=""), paraformer=OfflineParaformerModelConfig(model=""), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=""), whisper=OfflineWhisperModelConfig(encoder="", decoder="", language="", task="transcribe", tail_paddings=-1, enable_token_timestamps=False, enable_segment_timestamps=False), fire_red_asr=OfflineFireRedAsrModelConfig(encoder="", decoder=""), tdnn=OfflineTdnnModelConfig(model=""), zipformer_ctc=OfflineZipformerCtcModelConfig(model=""), wenet_ctc=OfflineWenetCtcModelConfig(model=""), sense_voice=OfflineSenseVoiceModelConfig(model="", language="auto", use_itn=False), moonshine=OfflineMoonshineModelConfig(preprocessor="", encoder="", uncached_decoder="", cached_decoder="", merged_decoder=""), dolphin=OfflineDolphinModelConfig(model=""), canary=OfflineCanaryModelConfig(encoder="", decoder="", src_lang="", tgt_lang="", use_pnc=True), cohere_transcribe=OfflineCohereTranscribeModelConfig(encoder="", decoder="", language="", use_punct=True, use_itn=True), omnilingual=OfflineOmnilingualAsrCtcModelConfig(model=""), funasr_nano=OfflineFunASRNanoModelConfig(encoder_adaptor="", llm="", embedding="", tokenizer="", system_prompt="You are a helpful assistant.", user_prompt="语音转写：", max_new_tokens=512, temperature=1e-06, top_p=0.8, seed=42, language="", itn=True, hotwords=""), medasr=OfflineMedAsrCtcModelConfig(model=""), fire_red_asr_ctc=OfflineFireRedAsrCtcModelConfig(model=""), qwen3_asr=OfflineQwen3ASRModelConfig(conv_frontend="./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/conv_frontend.onnx", encoder="./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/encoder.int8.onnx", decoder="./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/decoder.int8.onnx", tokenizer="./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/tokenizer", hotwords="", max_total_len=512, max_new_tokens=512, temperature=1e-06, top_p=0.8, seed=42), telespeech_ctc="", tokens="", num_threads=2, debug=False, provider="cpu", model_type="", modeling_unit="cjkchar", bpe_vocab=""), lm_config=OfflineLMConfig(model="", scale=0.5, lodr_scale=0.01, lodr_fst="", lodr_backoff_id=-1), ctc_fst_decoder_config=OfflineCtcFstDecoderConfig(graph="", max_active=3000), decoding_method="greedy_search", max_active_paths=4, hotwords_file="", hotwords_score=1.5, blank_penalty=0, rule_fsts="", rule_fars="", hr=HomophoneReplacerConfig(lexicon="", rule_fsts=""))
+Creating recognizer ...
+recognizer created in 1.190 s
+Started
+Done!
+
+./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/test_wavs/es1.wav
+----
+num threads: 2
+decoding method: greedy_search
+Elapsed seconds: 0.568 s
+Real time factor (RTF): 0.568 / 5.150 = 0.110
+{"lang": "", "emotion": "", "event": "", "text": "Esta prenda es amplia, recomiendo elegir una talla menor al habitual.", "timestamps": [], "durations": [], "tokens":["Esta", " pre", "nda", " es", " ampl", "ia", ",", " recom", "iendo", " eleg", "ir", " una", " t", "alla", " menor", " al", " habitual", "."], "ys_log_probs": [], "words": []}
+</pre></div>
+</div>
+<table>
+  <tr>
+    <th>Wave filename</th>
+    <th>Content</th>
+    <th>Ground truth</th>
+  </tr>
+  <tr>
+    <td>es1.wav</td>
+    <td>
+     <audio title="es1.wav" controls="controls">
+           <source src="/sherpa/_static/qwen3-asr-0.6b/es1.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+    <td>
+      Esta prenda es amplia, recomiendo elegir una talla menor a la habitual.
+    </td>
+  </tr>
+</table></section>
+<section id="f1-noise-wav-english-with-nosies">
+<h3>f1_noise.wav (English with nosies)<a class="headerlink" href="#f1-noise-wav-english-with-nosies" title="Permalink to this heading"></a></h3>
+<p>To decode the test file</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/test_wavs/f1_noise.wav</span></code></p>
+</div></blockquote>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./build/bin/sherpa-onnx-offline<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-conv-frontend<span class="o">=</span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/conv_frontend.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-encoder<span class="o">=</span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/encoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-decoder<span class="o">=</span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/decoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-tokenizer<span class="o">=</span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/tokenizer<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-max-new-tokens<span class="o">=</span><span class="m">512</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--num-threads<span class="o">=</span><span class="m">2</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/test_wavs/f1_noise.wav
+</pre></div>
+</div>
+<p>You should see the following output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:373 ./build/bin/sherpa-onnx-offline --qwen3-asr-conv-frontend=./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/conv_frontend.onnx --qwen3-asr-encoder=./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/encoder.int8.onnx --qwen3-asr-decoder=./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/decoder.int8.onnx --qwen3-asr-tokenizer=./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/tokenizer --qwen3-asr-max-new-tokens=512 --num-threads=2 ./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/test_wavs/f1_noise.wav 
+
+OfflineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80, low_freq=20, high_freq=-400, dither=0, normalize_samples=True, snip_edges=False), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename="", decoder_filename="", joiner_filename=""), paraformer=OfflineParaformerModelConfig(model=""), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=""), whisper=OfflineWhisperModelConfig(encoder="", decoder="", language="", task="transcribe", tail_paddings=-1, enable_token_timestamps=False, enable_segment_timestamps=False), fire_red_asr=OfflineFireRedAsrModelConfig(encoder="", decoder=""), tdnn=OfflineTdnnModelConfig(model=""), zipformer_ctc=OfflineZipformerCtcModelConfig(model=""), wenet_ctc=OfflineWenetCtcModelConfig(model=""), sense_voice=OfflineSenseVoiceModelConfig(model="", language="auto", use_itn=False), moonshine=OfflineMoonshineModelConfig(preprocessor="", encoder="", uncached_decoder="", cached_decoder="", merged_decoder=""), dolphin=OfflineDolphinModelConfig(model=""), canary=OfflineCanaryModelConfig(encoder="", decoder="", src_lang="", tgt_lang="", use_pnc=True), cohere_transcribe=OfflineCohereTranscribeModelConfig(encoder="", decoder="", language="", use_punct=True, use_itn=True), omnilingual=OfflineOmnilingualAsrCtcModelConfig(model=""), funasr_nano=OfflineFunASRNanoModelConfig(encoder_adaptor="", llm="", embedding="", tokenizer="", system_prompt="You are a helpful assistant.", user_prompt="语音转写：", max_new_tokens=512, temperature=1e-06, top_p=0.8, seed=42, language="", itn=True, hotwords=""), medasr=OfflineMedAsrCtcModelConfig(model=""), fire_red_asr_ctc=OfflineFireRedAsrCtcModelConfig(model=""), qwen3_asr=OfflineQwen3ASRModelConfig(conv_frontend="./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/conv_frontend.onnx", encoder="./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/encoder.int8.onnx", decoder="./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/decoder.int8.onnx", tokenizer="./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/tokenizer", hotwords="", max_total_len=512, max_new_tokens=512, temperature=1e-06, top_p=0.8, seed=42), telespeech_ctc="", tokens="", num_threads=2, debug=False, provider="cpu", model_type="", modeling_unit="cjkchar", bpe_vocab=""), lm_config=OfflineLMConfig(model="", scale=0.5, lodr_scale=0.01, lodr_fst="", lodr_backoff_id=-1), ctc_fst_decoder_config=OfflineCtcFstDecoderConfig(graph="", max_active=3000), decoding_method="greedy_search", max_active_paths=4, hotwords_file="", hotwords_score=1.5, blank_penalty=0, rule_fsts="", rule_fars="", hr=HomophoneReplacerConfig(lexicon="", rule_fsts=""))
+Creating recognizer ...
+recognizer created in 1.201 s
+Started
+/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/offline-stream.cc:AcceptWaveformImpl:135 Creating a resampler:
+   in_sample_rate: 44100
+   output_sample_rate: 16000
+
+Done!
+
+./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/test_wavs/f1_noise.wav
+----
+num threads: 2
+decoding method: greedy_search
+Elapsed seconds: 1.821 s
+Real time factor (RTF): 1.821 / 19.020 = 0.096
+{"lang": "", "emotion": "", "event": "", "text": "Okay, Charles, it looks like we have a problem with the radio. What happened? Yeah, someone spilled water on their machine. I, yeah, Charles, can you hear us? Oh, my god.", "timestamps": [], "durations": [], "tokens":["Okay", ",", " Charles", ",", " it", " looks", " like", " we", " have", " a", " problem", " with", " the", " radio", ".", " What", " happened", "?", " Yeah", ",", " someone", " spilled", " water", " on", " their", " machine", ".", " I", ",", " yeah", ",", " Charles", ",", " can", " you", " hear", " us", "?", " Oh", ",", " my", " god", "."], "ys_log_probs": [], "words": []}
+</pre></div>
+</div>
+<table>
+  <tr>
+    <th>Wave filename</th>
+    <th>Content</th>
+    <th>Ground truth</th>
+  </tr>
+  <tr>
+    <td>f1_noise.wav</td>
+    <td>
+     <audio title="f1_noise.wav" controls="controls">
+           <source src="/sherpa/_static/qwen3-asr-0.6b/f1_noise.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+    <td>
+      Okay, Charles. It looks like we have a problem with the radio. What happened? Yeah, someone spilled water on their machine. I uh, yeah. Charles, can you hear us? Mamma mia.
+    </td>
+  </tr>
+</table></section>
+<section id="fr1-wav-french">
+<h3>fr1.wav (French, 法语)<a class="headerlink" href="#fr1-wav-french" title="Permalink to this heading"></a></h3>
+<p>To decode the test file</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/test_wavs/fr1.wav</span></code></p>
+</div></blockquote>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./build/bin/sherpa-onnx-offline<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-conv-frontend<span class="o">=</span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/conv_frontend.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-encoder<span class="o">=</span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/encoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-decoder<span class="o">=</span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/decoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-tokenizer<span class="o">=</span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/tokenizer<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-max-new-tokens<span class="o">=</span><span class="m">512</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--num-threads<span class="o">=</span><span class="m">2</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/test_wavs/fr1.wav
+</pre></div>
+</div>
+<p>You should see the following output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:373 ./build/bin/sherpa-onnx-offline --qwen3-asr-conv-frontend=./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/conv_frontend.onnx --qwen3-asr-encoder=./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/encoder.int8.onnx --qwen3-asr-decoder=./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/decoder.int8.onnx --qwen3-asr-tokenizer=./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/tokenizer --qwen3-asr-max-new-tokens=512 --num-threads=2 ./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/test_wavs/fr1.wav 
+
+OfflineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80, low_freq=20, high_freq=-400, dither=0, normalize_samples=True, snip_edges=False), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename="", decoder_filename="", joiner_filename=""), paraformer=OfflineParaformerModelConfig(model=""), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=""), whisper=OfflineWhisperModelConfig(encoder="", decoder="", language="", task="transcribe", tail_paddings=-1, enable_token_timestamps=False, enable_segment_timestamps=False), fire_red_asr=OfflineFireRedAsrModelConfig(encoder="", decoder=""), tdnn=OfflineTdnnModelConfig(model=""), zipformer_ctc=OfflineZipformerCtcModelConfig(model=""), wenet_ctc=OfflineWenetCtcModelConfig(model=""), sense_voice=OfflineSenseVoiceModelConfig(model="", language="auto", use_itn=False), moonshine=OfflineMoonshineModelConfig(preprocessor="", encoder="", uncached_decoder="", cached_decoder="", merged_decoder=""), dolphin=OfflineDolphinModelConfig(model=""), canary=OfflineCanaryModelConfig(encoder="", decoder="", src_lang="", tgt_lang="", use_pnc=True), cohere_transcribe=OfflineCohereTranscribeModelConfig(encoder="", decoder="", language="", use_punct=True, use_itn=True), omnilingual=OfflineOmnilingualAsrCtcModelConfig(model=""), funasr_nano=OfflineFunASRNanoModelConfig(encoder_adaptor="", llm="", embedding="", tokenizer="", system_prompt="You are a helpful assistant.", user_prompt="语音转写：", max_new_tokens=512, temperature=1e-06, top_p=0.8, seed=42, language="", itn=True, hotwords=""), medasr=OfflineMedAsrCtcModelConfig(model=""), fire_red_asr_ctc=OfflineFireRedAsrCtcModelConfig(model=""), qwen3_asr=OfflineQwen3ASRModelConfig(conv_frontend="./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/conv_frontend.onnx", encoder="./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/encoder.int8.onnx", decoder="./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/decoder.int8.onnx", tokenizer="./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/tokenizer", hotwords="", max_total_len=512, max_new_tokens=512, temperature=1e-06, top_p=0.8, seed=42), telespeech_ctc="", tokens="", num_threads=2, debug=False, provider="cpu", model_type="", modeling_unit="cjkchar", bpe_vocab=""), lm_config=OfflineLMConfig(model="", scale=0.5, lodr_scale=0.01, lodr_fst="", lodr_backoff_id=-1), ctc_fst_decoder_config=OfflineCtcFstDecoderConfig(graph="", max_active=3000), decoding_method="greedy_search", max_active_paths=4, hotwords_file="", hotwords_score=1.5, blank_penalty=0, rule_fsts="", rule_fars="", hr=HomophoneReplacerConfig(lexicon="", rule_fsts=""))
+Creating recognizer ...
+recognizer created in 1.248 s
+Started
+Done!
+
+./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/test_wavs/fr1.wav
+----
+num threads: 2
+decoding method: greedy_search
+Elapsed seconds: 0.689 s
+Real time factor (RTF): 0.689 / 5.996 = 0.115
+{"lang": "", "emotion": "", "event": "", "text": "Annie et moi sommes allés à Paris voyager en train au printemps, c'était très amusant.", "timestamps": [], "durations": [], "tokens":["An", "nie", " et", " moi", " sommes", " all", "és", " à", " Paris", " voy", "ager", " en", " train", " au", " print", "em", "ps", ",", " c", "'était", " très", " am", "us", "ant", "."], "ys_log_probs": [], "words": []}
+</pre></div>
+</div>
+<table>
+  <tr>
+    <th>Wave filename</th>
+    <th>Content</th>
+    <th>Ground truth</th>
+  </tr>
+  <tr>
+    <td>fr1.wav</td>
+    <td>
+     <audio title="fr1.wav" controls="controls">
+           <source src="/sherpa/_static/qwen3-asr-0.6b/fr1.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+    <td>
+      Alice et moi sommes allés à Paris voyager en train au printemps, c'était très amusant.
+    </td>
+  </tr>
+</table></section>
+<section id="ja1-wav-japanese">
+<h3>ja1.wav (Japanese, 日语)<a class="headerlink" href="#ja1-wav-japanese" title="Permalink to this heading"></a></h3>
+<p>To decode the test file</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/test_wavs/ja1.wav</span></code></p>
+</div></blockquote>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./build/bin/sherpa-onnx-offline<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-conv-frontend<span class="o">=</span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/conv_frontend.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-encoder<span class="o">=</span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/encoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-decoder<span class="o">=</span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/decoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-tokenizer<span class="o">=</span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/tokenizer<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-max-new-tokens<span class="o">=</span><span class="m">512</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--num-threads<span class="o">=</span><span class="m">2</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/test_wavs/ja1.wav
+</pre></div>
+</div>
+<p>You should see the following output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:373 ./build/bin/sherpa-onnx-offline --qwen3-asr-conv-frontend=./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/conv_frontend.onnx --qwen3-asr-encoder=./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/encoder.int8.onnx --qwen3-asr-decoder=./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/decoder.int8.onnx --qwen3-asr-tokenizer=./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/tokenizer --qwen3-asr-max-new-tokens=512 --num-threads=2 ./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/test_wavs/ja1.wav 
+
+OfflineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80, low_freq=20, high_freq=-400, dither=0, normalize_samples=True, snip_edges=False), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename="", decoder_filename="", joiner_filename=""), paraformer=OfflineParaformerModelConfig(model=""), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=""), whisper=OfflineWhisperModelConfig(encoder="", decoder="", language="", task="transcribe", tail_paddings=-1, enable_token_timestamps=False, enable_segment_timestamps=False), fire_red_asr=OfflineFireRedAsrModelConfig(encoder="", decoder=""), tdnn=OfflineTdnnModelConfig(model=""), zipformer_ctc=OfflineZipformerCtcModelConfig(model=""), wenet_ctc=OfflineWenetCtcModelConfig(model=""), sense_voice=OfflineSenseVoiceModelConfig(model="", language="auto", use_itn=False), moonshine=OfflineMoonshineModelConfig(preprocessor="", encoder="", uncached_decoder="", cached_decoder="", merged_decoder=""), dolphin=OfflineDolphinModelConfig(model=""), canary=OfflineCanaryModelConfig(encoder="", decoder="", src_lang="", tgt_lang="", use_pnc=True), cohere_transcribe=OfflineCohereTranscribeModelConfig(encoder="", decoder="", language="", use_punct=True, use_itn=True), omnilingual=OfflineOmnilingualAsrCtcModelConfig(model=""), funasr_nano=OfflineFunASRNanoModelConfig(encoder_adaptor="", llm="", embedding="", tokenizer="", system_prompt="You are a helpful assistant.", user_prompt="语音转写：", max_new_tokens=512, temperature=1e-06, top_p=0.8, seed=42, language="", itn=True, hotwords=""), medasr=OfflineMedAsrCtcModelConfig(model=""), fire_red_asr_ctc=OfflineFireRedAsrCtcModelConfig(model=""), qwen3_asr=OfflineQwen3ASRModelConfig(conv_frontend="./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/conv_frontend.onnx", encoder="./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/encoder.int8.onnx", decoder="./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/decoder.int8.onnx", tokenizer="./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/tokenizer", hotwords="", max_total_len=512, max_new_tokens=512, temperature=1e-06, top_p=0.8, seed=42), telespeech_ctc="", tokens="", num_threads=2, debug=False, provider="cpu", model_type="", modeling_unit="cjkchar", bpe_vocab=""), lm_config=OfflineLMConfig(model="", scale=0.5, lodr_scale=0.01, lodr_fst="", lodr_backoff_id=-1), ctc_fst_decoder_config=OfflineCtcFstDecoderConfig(graph="", max_active=3000), decoding_method="greedy_search", max_active_paths=4, hotwords_file="", hotwords_score=1.5, blank_penalty=0, rule_fsts="", rule_fars="", hr=HomophoneReplacerConfig(lexicon="", rule_fsts=""))
+Creating recognizer ...
+recognizer created in 1.188 s
+Started
+/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/offline-stream.cc:AcceptWaveformImpl:135 Creating a resampler:
+   in_sample_rate: 44100
+   output_sample_rate: 16000
+
+Done!
+
+./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/test_wavs/ja1.wav
+----
+num threads: 2
+decoding method: greedy_search
+Elapsed seconds: 0.605 s
+Real time factor (RTF): 0.605 / 5.080 = 0.119
+{"lang": "", "emotion": "", "event": "", "text": "抜群の運動神経を用い合わせ、どんな要求にも応えてきた。", "timestamps": [], "durations": [], "tokens":["抜", "群", "の", "運動", "神", "", "経", "を", "用", "い", "合わせ", "、", "どんな", "要求", "にも", "", "応", "えて", "きた", "。"], "ys_log_probs": [], "words": []}
+</pre></div>
+</div>
+<table>
+  <tr>
+    <th>Wave filename</th>
+    <th>Content</th>
+    <th>Ground truth</th>
+  </tr>
+  <tr>
+    <td>ja1.wav</td>
+    <td>
+     <audio title="ja1.wav" controls="controls">
+           <source src="/sherpa/_static/qwen3-asr-0.6b/ja1.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+    <td>
+      抜群の運動神経を持ち合わせ、どんな要求にも応えてきた。
+    </td>
+  </tr>
+</table></section>
+<section id="rap1-wav-english-rap">
+<h3>rap1.wav (English, Rap)<a class="headerlink" href="#rap1-wav-english-rap" title="Permalink to this heading"></a></h3>
+<p>To decode the test file</p>
+<blockquote>
+<div><p><code class="docutils literal notranslate"><span class="pre">./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/test_wavs/rap1.wav</span></code></p>
+</div></blockquote>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./build/bin/sherpa-onnx-offline<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-conv-frontend<span class="o">=</span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/conv_frontend.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-encoder<span class="o">=</span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/encoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-decoder<span class="o">=</span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/decoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-tokenizer<span class="o">=</span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/tokenizer<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-max-total-len<span class="o">=</span><span class="m">1024</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--qwen3-asr-max-new-tokens<span class="o">=</span><span class="m">1024</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--num-threads<span class="o">=</span><span class="m">2</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/test_wavs/rap1.wav
+</pre></div>
+</div>
+<p>You should see the following output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>/Users/fangjun/open-source/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:373 ./build/bin/sherpa-onnx-offline --qwen3-asr-conv-frontend=./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/conv_frontend.onnx --qwen3-asr-encoder=./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/encoder.int8.onnx --qwen3-asr-decoder=./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/decoder.int8.onnx --qwen3-asr-tokenizer=./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/tokenizer --qwen3-asr-max-total-len=1024 --qwen3-asr-max-new-tokens=1024 --num-threads=2 ./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/test_wavs/rap1.wav 
+
+OfflineRecognizerConfig(feat_config=FeatureExtractorConfig(sampling_rate=16000, feature_dim=80, low_freq=20, high_freq=-400, dither=0, normalize_samples=True, snip_edges=False), model_config=OfflineModelConfig(transducer=OfflineTransducerModelConfig(encoder_filename="", decoder_filename="", joiner_filename=""), paraformer=OfflineParaformerModelConfig(model=""), nemo_ctc=OfflineNemoEncDecCtcModelConfig(model=""), whisper=OfflineWhisperModelConfig(encoder="", decoder="", language="", task="transcribe", tail_paddings=-1, enable_token_timestamps=False, enable_segment_timestamps=False), fire_red_asr=OfflineFireRedAsrModelConfig(encoder="", decoder=""), tdnn=OfflineTdnnModelConfig(model=""), zipformer_ctc=OfflineZipformerCtcModelConfig(model=""), wenet_ctc=OfflineWenetCtcModelConfig(model=""), sense_voice=OfflineSenseVoiceModelConfig(model="", language="auto", use_itn=False), moonshine=OfflineMoonshineModelConfig(preprocessor="", encoder="", uncached_decoder="", cached_decoder="", merged_decoder=""), dolphin=OfflineDolphinModelConfig(model=""), canary=OfflineCanaryModelConfig(encoder="", decoder="", src_lang="", tgt_lang="", use_pnc=True), cohere_transcribe=OfflineCohereTranscribeModelConfig(encoder="", decoder="", language="", use_punct=True, use_itn=True), omnilingual=OfflineOmnilingualAsrCtcModelConfig(model=""), funasr_nano=OfflineFunASRNanoModelConfig(encoder_adaptor="", llm="", embedding="", tokenizer="", system_prompt="You are a helpful assistant.", user_prompt="语音转写：", max_new_tokens=512, temperature=1e-06, top_p=0.8, seed=42, language="", itn=True, hotwords=""), medasr=OfflineMedAsrCtcModelConfig(model=""), fire_red_asr_ctc=OfflineFireRedAsrCtcModelConfig(model=""), qwen3_asr=OfflineQwen3ASRModelConfig(conv_frontend="./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/conv_frontend.onnx", encoder="./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/encoder.int8.onnx", decoder="./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/decoder.int8.onnx", tokenizer="./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/tokenizer", hotwords="", max_total_len=1024, max_new_tokens=1024, temperature=1e-06, top_p=0.8, seed=42), telespeech_ctc="", tokens="", num_threads=2, debug=False, provider="cpu", model_type="", modeling_unit="cjkchar", bpe_vocab=""), lm_config=OfflineLMConfig(model="", scale=0.5, lodr_scale=0.01, lodr_fst="", lodr_backoff_id=-1), ctc_fst_decoder_config=OfflineCtcFstDecoderConfig(graph="", max_active=3000), decoding_method="greedy_search", max_active_paths=4, hotwords_file="", hotwords_score=1.5, blank_penalty=0, rule_fsts="", rule_fars="", hr=HomophoneReplacerConfig(lexicon="", rule_fsts=""))
+Creating recognizer ...
+recognizer created in 1.192 s
+Started
+Done!
+
+./sherpa-onnx-qwen3-asr-0.6B-int8-2026-03-25/test_wavs/rap1.wav
+----
+num threads: 2
+decoding method: greedy_search
+Elapsed seconds: 3.711 s
+Real time factor (RTF): 3.711 / 28.982 = 0.128
+{"lang": "", "emotion": "", "event": "", "text": "Sometimes I just feel like quitting. I still might. Why do I put up this fight? Why do I still write? Sometimes it's hard enough just dealing with real life. Sometimes I want to jump on stage and just kill mics. And so these people on my level of skills like, but I'm still white. Sometimes I just hate life. Something ain't right. Hit the brake lights. Taste of the stage fright. Drawing the blank like. I'm gonna fight. It ain't my fault. I've been.", "timestamps": [], "durations": [], "tokens":["Sometimes", " I", " just", " feel", " like", " quitting", ".", " I", " still", " might", ".", " Why", " do", " I", " put", " up", " this", " fight", "?", " Why", " do", " I", " still", " write", "?", " Sometimes", " it", "'s", " hard", " enough", " just", " dealing", " with", " real", " life", ".", " Sometimes", " I", " want", " to", " jump", " on", " stage", " and", " just", " kill", " m", "ics", ".", " And", " so", " these", " people", " on", " my", " level", " of", " skills", " like", ",", " but", " I", "'m", " still", " white", ".", " Sometimes", " I", " just", " hate", " life", ".", " Something", " ain", "'t", " right", ".", " Hit", " the", " brake", " lights", ".", " Taste", " of", " the", " stage", " fright", ".", " Drawing", " the", " blank", " like", ".", " I", "'m", " gonna", " fight", ".", " It", " ain", "'t", " my", " fault", ".", " I", "'ve", " been", "."], "ys_log_probs": [], "words": []}
+</pre></div>
+</div>
+<table>
+  <tr>
+    <th>Wave filename</th>
+    <th>Content</th>
+    <th>Ground truth</th>
+  </tr>
+  <tr>
+    <td>rap1.wav</td>
+    <td>
+     <audio title="rap1.wav" controls="controls">
+           <source src="/sherpa/_static/qwen3-asr-0.6b/rap1.wav" type="audio/wav">
+           Your browser does not support the <code>audio</code> element.
+     </audio>
+    </td>
+    <td>
+      Sometimes I just feel like quitting. I still might. Why do I put up this fight? Why do I still write? Sometimes it's hard enough just dealing with real life. Sometimes I wanna jump a state and just kill mics. And so these people want my level of skills, like, but I'm still white. Sometimes I just hate life. Something ain't right. Hit the brake lights. Taste of the state's right. Drawing the blank line. It ain't my fault.
+    </td>
+  </tr>
+</table></section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="export.html" class="btn btn-neutral float-left" title="Export Qwen3-ASR to sherpa-onnx" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../paraformer/index.html" class="btn btn-neutral float-right" title="Paraformer" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

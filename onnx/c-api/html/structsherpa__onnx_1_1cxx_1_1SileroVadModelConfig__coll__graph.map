@@ -1,0 +1,7 @@
+<map id="sherpa_onnx::cxx::SileroVadModelConfig" name="sherpa_onnx::cxx::SileroVadModelConfig">
+<area shape="rect" id="Node000001" title="Silero VAD model configuration." alt="" coords="5,200,186,245"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="52,99,139,127"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="97,141,98,200,93,199,94,145"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="26,5,165,50"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="96,63,98,99,93,98,95,68"/>
+</map>

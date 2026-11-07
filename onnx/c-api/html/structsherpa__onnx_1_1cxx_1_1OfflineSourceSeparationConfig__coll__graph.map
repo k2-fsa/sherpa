@@ -1,0 +1,15 @@
+<map id="sherpa_onnx::cxx::OfflineSourceSeparationConfig" name="sherpa_onnx::cxx::OfflineSourceSeparationConfig">
+<area shape="rect" id="Node000001" title="Configuration for offline source separation." alt="" coords="1133,74,1319,119"/>
+<area shape="rect" id="Node000002" href="$structsherpa__onnx_1_1cxx_1_1OfflineSourceSeparationModelConfig.html" title="Source&#45;separation model configuration." alt="" coords="820,74,1036,119"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="1052,94,1135,97,1130,97,1052,99"/>
+<area shape="rect" id="Node000003" href="$structsherpa__onnx_1_1cxx_1_1OfflineSourceSeparationSpleeterModelConfig.html" title="Spleeter source&#45;separation model configuration." alt="" coords="440,74,711,119"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="726,94,822,97,817,97,726,99"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="193,83,279,111"/>
+<area shape="poly" id="edge7_Node000002_Node000004" title=" " alt="" coords="259,70,279,54,302,42,364,30,460,28,600,39,796,64,841,74,835,74,795,69,600,44,460,33,365,35,304,47,282,59,262,74"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="295,94,442,96,437,98,295,99"/>
+<area shape="rect" id="Node000006" href="$structsherpa__onnx_1_1cxx_1_1OfflineSourceSeparationUvrModelConfig.html" title="UVR (MDX&#45;Net) source&#45;separation model configuration." alt="" coords="456,144,695,188"/>
+<area shape="poly" id="edge6_Node000006_Node000004" title=" " alt="" coords="278,115,304,125,380,142,458,156,453,157,379,148,303,130,277,120"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="5,74,144,119"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="159,94,195,96,190,98,160,99"/>
+<area shape="poly" id="edge5_Node000002_Node000006" title=" " alt="" coords="710,141,795,125,828,120,833,119,796,130,711,146"/>
+</map>

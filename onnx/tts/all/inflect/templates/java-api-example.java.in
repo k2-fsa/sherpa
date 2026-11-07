@@ -1,0 +1,44 @@
+import com.k2fsa.sherpa.onnx.*;
+
+public class TtsDemo {
+  public static void main(String[] args) {
+    var vits = new OfflineTtsVitsModelConfig();
+    vits.setModel("{{model}}");
+    vits.setTokens("{{tokens}}");
+{%- if data_dir %}
+    vits.setDataDir("{{data_dir}}");
+{%- endif %}
+{%- if lexicon %}
+    vits.setLexicon("{{lexicon}}");
+{%- endif %}
+
+    var modelConfig = new OfflineTtsModelConfig();
+    modelConfig.setVits(vits);
+    modelConfig.setNumThreads(2);
+    modelConfig.setDebug(true);
+
+    var config = new OfflineTtsConfig();
+    config.setModel(modelConfig);
+{%- if rule_fsts %}
+    config.setRuleFsts("{{rule_fsts}}");
+{%- endif %}
+    config.setMaxNumSentences(1);
+
+    var tts = new OfflineTts(config);
+    var text = "{{text}}";
+
+    var genConfig = new GenerationConfig();
+    genConfig.setSid({{sid}});
+    genConfig.setSpeed(1.0f);
+    genConfig.setSilenceScale(0.2f);
+
+    var audio = tts.generateWithConfigAndCallback(text, genConfig, (samples) -> {
+      // 1 means to continue, 0 means to stop
+      return 1;
+    });
+
+    audio.save("test.wav");
+    tts.release();
+    System.out.println("Saved to test.wav");
+  }
+}
