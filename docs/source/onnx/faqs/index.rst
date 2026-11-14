@@ -15,6 +15,7 @@ This page contains frequently asked questions for `sherpa-onnx`_.
    ./cann.rst
    ./tts-ios-add-folder.rst
    ./reduce-memory-usage.rst
+   ./conv-free-decoder.rst
 
 
 OSError: PortAudio library not found
