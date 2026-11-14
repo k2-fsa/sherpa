@@ -1,0 +1,13 @@
+<map id="SherpaOnnxOnlineModelConfig" name="SherpaOnnxOnlineModelConfig">
+<area shape="rect" id="Node000001" title="Model configuration shared by streaming ASR recognizers." alt="" coords="401,152,624,180"/>
+<area shape="rect" id="Node000002" href="$structSherpaOnnxOnlineTransducerModelConfig.html" title="Configuration for a streaming transducer model." alt="" coords="20,5,233,50"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="247,46,313,63,378,85,442,118,494,152,488,152,439,122,376,90,312,68,248,52"/>
+<area shape="rect" id="Node000003" href="$structSherpaOnnxOnlineParaformerModelConfig.html" title="Configuration for a streaming Paraformer model." alt="" coords="19,75,234,119"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="249,111,377,133,454,151,449,152,376,138,249,117"/>
+<area shape="rect" id="Node000004" href="$structSherpaOnnxOnlineZipformer2CtcModelConfig.html" title="Configuration for a streaming Zipformer2 CTC model." alt="" coords="19,144,234,189"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="249,164,402,165,398,168,250,169"/>
+<area shape="rect" id="Node000005" href="$structSherpaOnnxOnlineNemoCtcModelConfig.html" title="Configuration for a streaming NeMo CTC model." alt="" coords="5,213,248,258"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="262,214,376,194,454,180,448,182,377,199,263,219"/>
+<area shape="rect" id="Node000006" href="$structSherpaOnnxOnlineToneCtcModelConfig.html" title="Configuration for a streaming T&#45;One CTC model." alt="" coords="10,283,243,327"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="257,278,317,262,376,242,439,210,488,182,493,180,441,215,378,247,319,268,259,284"/>
+</map>

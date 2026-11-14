@@ -1,0 +1,7 @@
+<map id="sherpa_onnx::cxx::OfflineCohereTranscribeModelConfig" name="sherpa_onnx::cxx::OfflineCohereTranscribeModelConfig">
+<area shape="rect" id="Node000001" title="Offline Cohere Transcribe model configuration." alt="" coords="5,245,220,289"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="69,99,156,127"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="115,141,115,245,110,244,110,144"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="43,5,182,50"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="113,63,115,99,110,98,112,68"/>
+</map>

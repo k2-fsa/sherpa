@@ -1,0 +1,39 @@
+using SherpaOnnx;
+
+var config = new OfflineTtsConfig();
+config.Model.Matcha.AcousticModel = "{{acoustic_model}}";
+config.Model.Matcha.Vocoder = "{{vocoder}}";
+config.Model.Matcha.Tokens = "{{tokens}}";
+{%- if data_dir %}
+config.Model.Matcha.DataDir = "{{data_dir}}";
+{%- endif %}
+{%- if lexicon %}
+config.Model.Matcha.Lexicon = "{{lexicon}}";
+{%- endif %}
+config.Model.NumThreads = 1;
+config.Model.Debug = 1;
+config.Model.Provider = "cpu";
+{%- if rule_fsts %}
+config.RuleFsts = "{{rule_fsts}}";
+{%- endif %}
+config.MaxNumSentences = 1;
+
+var tts = new OfflineTts(config);
+var text = "{{text}}";
+
+OfflineTtsGenerationConfig genConfig = new OfflineTtsGenerationConfig();
+genConfig.Sid = 0;
+genConfig.Speed = 1.0f;
+genConfig.SilenceScale = 0.2f;
+
+var audio = tts.GenerateWithConfig(text, genConfig, null);
+var ok = audio.SaveToWaveFile("./test.wav");
+
+if (ok)
+{
+  Console.WriteLine("Saved to ./test.wav");
+}
+else
+{
+  Console.WriteLine("Failed to save ./test.wav");
+}

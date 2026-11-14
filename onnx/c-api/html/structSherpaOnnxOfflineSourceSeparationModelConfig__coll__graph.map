@@ -1,0 +1,7 @@
+<map id="SherpaOnnxOfflineSourceSeparationModelConfig" name="SherpaOnnxOfflineSourceSeparationModelConfig">
+<area shape="rect" id="Node000001" title="Source&#45;separation model configuration." alt="" coords="372,40,629,85"/>
+<area shape="rect" id="Node000002" href="$structSherpaOnnxOfflineSourceSeparationSpleeterModelConfig.html" title="Spleeter source&#45;separation model configuration." alt="" coords="5,5,263,50"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="278,39,374,50,369,51,278,44"/>
+<area shape="rect" id="Node000003" href="$structSherpaOnnxOfflineSourceSeparationUvrModelConfig.html" title="UVR (MDX&#45;Net) source&#45;separation model configuration." alt="" coords="5,75,263,119"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="278,82,347,75,374,75,368,76,348,81,278,87"/>
+</map>

@@ -1,0 +1,571 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Transducer decoding is slow with many concurrent streams on GPU &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Python" href="../python/index.html" />
+    <link rel="prev" title="Memory usage stays high after decoding long audio files" href="reduce-memory-usage.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">sherpa-onnx</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../install/index.html">Installation</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Frequently Asked Question (FAQs)</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="diff-online-offline.html">在线、离线、流式、非流式的区别</a></li>
+<li class="toctree-l3"><a class="reference internal" href="change-kotlin-and-java-package-name.html">How to change the package name of our kotlin and/or java API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fix-libasound-module-conf-pulse.html">Cannot open shared library libasound_module_conf_pulse.so</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fix-tts-encoding-for-chinese-models.html">TTS 中文模型没有声音</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fix-libtoolize.html">./gitcompile: line 89: libtoolize: command not found</a></li>
+<li class="toctree-l3"><a class="reference internal" href="static-onnxruntime-linux-x64.html">undefined reference to `std::__throw_bad_array_new_length()’</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cann.html">error while loading shared libraries: libascendcl.so</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tts-ios-add-folder.html">SherpaOnnxTts.app/espeak-ng-data/phontab’ does not exist. Please check –vits-data-dir</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reduce-memory-usage.html">Memory usage stays high after decoding long audio files</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Transducer decoding is slow with many concurrent streams on GPU</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#who-should-use-it">Who should use it</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#why-the-conv-serializes">Why the Conv serializes</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#the-rewrite">The rewrite</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#export">Export</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#use-it-in-sherpa-onnx">Use it in sherpa-onnx</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#results">Results</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#alternatives">Alternatives</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#oserror-portaudio-library-not-found">OSError: PortAudio library not found</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#imports-github-com-k2-fsa-sherpa-onnx-go-linux-build-constraints-exclude-all-go-files">imports github.com/k2-fsa/sherpa-onnx-go-linux: build constraints exclude all Go files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#external-buffers-are-not-allowed">External buffers are not allowed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#the-given-version-17-is-not-supported-only-version-1-to-10-is-supported-in-this-build">The given version [17] is not supported, only version 1 to 10 is supported in this build</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../python/index.html">Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../c-api/index.html">C API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../java-api/index.html">Java API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../javascript-api/index.html">Javascript API (Node-Addon)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kotlin-api/index.html">Kotlin API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../swift-api/index.html">Swift API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../go-api/index.html">Go API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rust-api/index.html">Rust API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../csharp-api/index.html">C# API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pascal-api/index.html">Pascal API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lazarus/index.html">Lazarus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../wasm/index.html">WebAssembly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../android/index.html">Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../harmony-os/index.html">HarmonyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ios/index.html">iOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../flutter/index.html">Flutter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tauri/index.html">Tauri Desktop Apps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../websocket/index.html">WebSocket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../hotwords/index.html">Hotwords (Contextual biasing)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kws/index.html">Keyword spotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../punctuation/index.html">Punctuation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../audio-tagging/index.html">Audio tagging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spoken-language-identification/index.html">Spoken language identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vad/index.html">VAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../medasr/index.html">Google MedASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/index.html">Pre-trained models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/whisper/index.html">Whisper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../moonshine/index.html">Moonshine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../omnilingual-asr/index.html">Omnilingual ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sense-voice/index.html">SenseVoice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cohere_transcribe/index.html">Cohere Transcribe</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../funasr-nano/index.html">FunASR Nano</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qwen3-asr/index.html">Qwen3-ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../paraformer/index.html">Paraformer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nemo/index.html">NeMo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../FireRedAsr/index.html">FireRedAsr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Dolphin/index.html">Dolphin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../homophone-replacer/index.html">拼音词组匹配替换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-diarization/index.html">Speaker Diarization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-identification/index.html">Speaker Identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speech-enhancement/index.html">Speech enhancement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../source-separation/index.html">Source separation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qnn/index.html">Qualcomm NPU (QNN, HTP)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rknn/index.html">rknn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spacemit/index.html">SpacemiT CPUs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ascend/index.html">Ascend NPU (昇腾 NPU)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tts/index.html">Text-to-speech (TTS)</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">sherpa-onnx</a> &raquo;</li>
+          <li><a href="index.html">Frequently Asked Question (FAQs)</a> &raquo;</li>
+      <li>Transducer decoding is slow with many concurrent streams on GPU</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/onnx/faqs/conv-free-decoder.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="transducer-decoding-is-slow-with-many-concurrent-streams-on-gpu">
+<h1>Transducer decoding is slow with many concurrent streams on GPU<a class="headerlink" href="#transducer-decoding-is-slow-with-many-concurrent-streams-on-gpu" title="Permalink to this heading"></a></h1>
+<p>The stateless decoder of icefall transducer models (zipformer and others with
+<code class="docutils literal notranslate"><span class="pre">--context-size</span> <span class="pre">2</span></code>) contains one grouped <code class="docutils literal notranslate"><span class="pre">Conv1d</span></code>. When <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a> runs
+that decoder on the GPU for many concurrent streams, the CUDA <code class="docutils literal notranslate"><span class="pre">Conv</span></code> kernel
+of <a class="reference external" href="https://github.com/microsoft/onnxruntime">onnxruntime</a> serializes every decoder run behind a lock.</p>
+<p><a class="reference external" href="https://github.com/k2-fsa/icefall">icefall</a> can export the decoder with that <code class="docutils literal notranslate"><span class="pre">Conv</span></code> replaced by an equivalent
+<code class="docutils literal notranslate"><span class="pre">MatMul</span></code> (<a class="reference external" href="https://github.com/k2-fsa/icefall/pull/2120">k2-fsa/icefall#2120</a>).
+The exported model has the same inputs, outputs and metadata, so <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>
+loads it without any code change.</p>
+<p>On an A10G GPU serving 200-250 concurrent streams, the Conv-free decoder cut
+the decoder’s time per decode call from 80-116 ms to 8-10 ms, p95 latency by
+22-28% and server CPU by about one core. WER did not change.</p>
+<section id="who-should-use-it">
+<h2>Who should use it<a class="headerlink" href="#who-should-use-it" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p>You run a transducer model with <code class="docutils literal notranslate"><span class="pre">--provider=cuda</span></code> or <code class="docutils literal notranslate"><span class="pre">--provider=trt</span></code>.
+With <code class="docutils literal notranslate"><span class="pre">--provider=trt</span></code> only the encoder runs on TensorRT. The decoder and
+joiner run on the CUDA execution provider of <a class="reference external" href="https://github.com/microsoft/onnxruntime">onnxruntime</a> (see
+<code class="docutils literal notranslate"><span class="pre">GetSessionOptions(config,</span> <span class="pre">model_type)</span></code> in <code class="docutils literal notranslate"><span class="pre">sherpa-onnx/csrc/session.cc</span></code>).
+The lock affects both providers.</p></li>
+<li><p>Several threads decode at the same time with changing batch sizes. The
+streaming websocket server (<code class="docutils literal notranslate"><span class="pre">sherpa-onnx-online-websocket-server</span></code>) does
+this, and so does any application that calls <code class="docutils literal notranslate"><span class="pre">DecodeStreams</span></code> from several
+threads.</p></li>
+<li><p>The decoder has a <code class="docutils literal notranslate"><span class="pre">Conv</span></code> node (context size &gt; 1). Models exported with
+<code class="docutils literal notranslate"><span class="pre">--context-size</span> <span class="pre">1</span></code> have no decoder conv and are not affected.</p></li>
+</ul>
+<p>CPU-only deployments are not affected: the CPU <code class="docutils literal notranslate"><span class="pre">Conv</span></code> of <a class="reference external" href="https://github.com/microsoft/onnxruntime">onnxruntime</a>
+takes no lock. The Conv-free export has not been measured on CPU.</p>
+</section>
+<section id="why-the-conv-serializes">
+<h2>Why the Conv serializes<a class="headerlink" href="#why-the-conv-serializes" title="Permalink to this heading"></a></h2>
+<p>The CUDA <code class="docutils literal notranslate"><span class="pre">Conv::ComputeInternal</span></code> of <a class="reference external" href="https://github.com/microsoft/onnxruntime">onnxruntime</a>
+(<code class="docutils literal notranslate"><span class="pre">onnxruntime/core/providers/cuda/nn/conv.cc</span></code>) holds a per-node
+<code class="docutils literal notranslate"><span class="pre">std::mutex</span></code> for the whole call. Inside the lock it compares the input shape
+with the single shape it cached from the previous run. If the shape changed,
+it rebuilds the cuDNN execution plan, which takes about 2 ms.</p>
+<p>A batching server changes the batch size on almost every call, and “the
+previous run” is the previous run on any thread. So nearly every decoder run
+pays the rebuild, one thread at a time. A standalone test with only the
+decoder’s <code class="docutils literal notranslate"><span class="pre">Conv</span></code> (random weights, one shared session, onnxruntime 1.28.2)
+shows the effect (runs per second):</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Input batch sizes</p></th>
+<th class="head"><p>Conv, 1 thread</p></th>
+<th class="head"><p>Conv, 32 threads</p></th>
+<th class="head"><p>MatMul, 1 thread</p></th>
+<th class="head"><p>MatMul, 32 threads</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>constant: 100</p></td>
+<td><p>8,919</p></td>
+<td><p>14,316</p></td>
+<td><p>8,256</p></td>
+<td><p>9,168</p></td>
+</tr>
+<tr class="row-odd"><td><p>alternating: 100, 200</p></td>
+<td><p>969</p></td>
+<td><p>998</p></td>
+<td><p>6,234</p></td>
+<td><p>6,203</p></td>
+</tr>
+<tr class="row-even"><td><p>alternating: 40, 100, 200, 400</p></td>
+<td><p>654</p></td>
+<td><p>655</p></td>
+<td><p>5,477</p></td>
+<td><p>3,739</p></td>
+</tr>
+</tbody>
+</table>
+<p>With a constant shape the <code class="docutils literal notranslate"><span class="pre">Conv</span></code> is fast. As soon as the shape varies, it is
+capped at about 650-1,000 runs/s, regardless of the number of threads.</p>
+</section>
+<section id="the-rewrite">
+<h2>The rewrite<a class="headerlink" href="#the-rewrite" title="Permalink to this heading"></a></h2>
+<p>At inference time the decoder conv sees exactly <code class="docutils literal notranslate"><span class="pre">context_size</span></code> frames and
+produces one frame. A grouped conv with one output frame is a block-diagonal
+linear map of the flattened input:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>y[n, co, 0] = sum_{i,k} W[co, i, k] * x[n, g*cin_g + i, k],   g = co // cout_g
+            = flatten(x)[n, :] @ W_dense[:, co]
+W_dense[(g*cin_g + i)*kernel_size + k, co] = W[co, i, k]
+</pre></div>
+</div>
+<p>So the export replaces</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Conv(x [N, 512, 2], weight [512, 4, 2], group=128)  -&gt;  [N, 512, 1]
+</pre></div>
+</div>
+<p>with</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Reshape(x, [N, 1024]) -&gt; MatMul(., W_dense [1024, 512]) -&gt; Unsqueeze(axis=2)  -&gt;  [N, 512, 1]
+</pre></div>
+</div>
+<p>Every other node is unchanged. For a 512-dim decoder the file grows by about
+2 MB (for example from 3.17 MB to 5.25 MB), because the dense weight stores the
+zeros of the block-diagonal matrix. The extra multiply-adds are negligible on
+the GPU: the decoder run gets faster, not slower.</p>
+</section>
+<section id="export">
+<h2>Export<a class="headerlink" href="#export" title="Permalink to this heading"></a></h2>
+<p>Add <code class="docutils literal notranslate"><span class="pre">--decoder-conv-as-matmul</span> <span class="pre">1</span></code> to <code class="docutils literal notranslate"><span class="pre">zipformer/export-onnx-streaming.py</span></code>
+or <code class="docutils literal notranslate"><span class="pre">zipformer/export-onnx.py</span></code> in <a class="reference external" href="https://github.com/k2-fsa/icefall">icefall</a>. All other arguments are the same
+as for your normal export, for example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span>icefall/egs/librispeech/ASR
+
+./zipformer/export-onnx-streaming.py<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="w"> </span><span class="nv">$repo</span>/data/lang_bpe_500/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--use-averaged-model<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--epoch<span class="w"> </span><span class="m">99</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--avg<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--exp-dir<span class="w"> </span><span class="nv">$repo</span>/exp<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--num-encoder-layers<span class="w"> </span><span class="s2">"2,2,3,4,3,2"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--downsampling-factor<span class="w"> </span><span class="s2">"1,2,4,8,4,2"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--feedforward-dim<span class="w"> </span><span class="s2">"512,768,1024,1536,1024,768"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--num-heads<span class="w"> </span><span class="s2">"4,4,4,8,4,4"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--encoder-dim<span class="w"> </span><span class="s2">"192,256,384,512,384,256"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--query-head-dim<span class="w"> </span><span class="m">32</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--value-head-dim<span class="w"> </span><span class="m">12</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--pos-head-dim<span class="w"> </span><span class="m">4</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--pos-dim<span class="w"> </span><span class="m">48</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--encoder-unmasked-dim<span class="w"> </span><span class="s2">"192,192,256,256,256,192"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--cnn-module-kernel<span class="w"> </span><span class="s2">"31,31,15,15,15,31"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--decoder-dim<span class="w"> </span><span class="m">512</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--joiner-dim<span class="w"> </span><span class="m">512</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--causal<span class="w"> </span>True<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--chunk-size<span class="w"> </span><span class="m">16</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--left-context-frames<span class="w"> </span><span class="m">128</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--decoder-conv-as-matmul<span class="w"> </span><span class="m">1</span>
+</pre></div>
+</div>
+<p>The option is off by default. When it is on, the script also exports the
+original Conv decoder to a temporary file, runs both on the same random token
+ids with <a class="reference external" href="https://github.com/microsoft/onnxruntime">onnxruntime</a> (GPU if available with TF32 off, else CPU) and fails if
+they differ by more than 1e-4. It logs the result, for example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">Checked</span> <span class="n">the</span> <span class="n">decoder</span> <span class="k">with</span> <span class="n">MatMul</span> <span class="n">against</span> <span class="n">the</span> <span class="n">decoder</span> <span class="k">with</span> <span class="n">Conv</span> <span class="p">(</span><span class="n">onnxruntime</span> <span class="n">on</span> <span class="n">cuda</span><span class="p">):</span> <span class="nb">max</span> <span class="nb">abs</span> <span class="n">diff</span> <span class="mf">9.54e-07</span>
+</pre></div>
+</div>
+<p>The encoder and joiner are exported exactly as before. Only the decoder file
+differs.</p>
+<p>To confirm that an exported decoder has no <code class="docutils literal notranslate"><span class="pre">Conv</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">onnx</span>
+
+<span class="n">m</span> <span class="o">=</span> <span class="n">onnx</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">"decoder-epoch-99-avg-1-chunk-16-left-128.onnx"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="nb">sorted</span><span class="p">({</span><span class="n">n</span><span class="o">.</span><span class="n">op_type</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">m</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">node</span><span class="p">}))</span>
+<span class="c1"># Conv-free: no 'Conv' in the list; 'MatMul' and 'Reshape' are present.</span>
+</pre></div>
+</div>
+</section>
+<section id="use-it-in-sherpa-onnx">
+<h2>Use it in sherpa-onnx<a class="headerlink" href="#use-it-in-sherpa-onnx" title="Permalink to this heading"></a></h2>
+<p>Pass the new file as the decoder. Nothing else changes, in any API or
+language binding:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./build/bin/sherpa-onnx-online-websocket-server<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span>./tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--encoder<span class="o">=</span>./encoder.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--decoder<span class="o">=</span>./decoder-conv-as-matmul.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--joiner<span class="o">=</span>./joiner.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--provider<span class="o">=</span>cuda<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--decoding-method<span class="o">=</span>modified_beam_search<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--max-active-paths<span class="o">=</span><span class="m">10</span>
+</pre></div>
+</div>
+<p>To roll back, pass the original <code class="docutils literal notranslate"><span class="pre">decoder.onnx</span></code> again.</p>
+</section>
+<section id="results">
+<h2>Results<a class="headerlink" href="#results" title="Permalink to this heading"></a></h2>
+<p>Setup: 1x NVIDIA A10G, 8 vCPU; onnxruntime 1.28.2 with the CUDA provider,
+TensorRT 10.13, CUDA 12.9, cuDNN 9.10; a streaming zipformer2 English model at
+8 kHz, FP32; <code class="docutils literal notranslate"><span class="pre">modified_beam_search</span></code> with 10 active paths. The Conv-free
+decoder was produced from the same weights by the same graph rewrite
+(Reshape + MatMul + Unsqueeze) and matched the original decoder to within
+1e-6 for batch sizes 1, 7, 100 and 500.</p>
+<section id="decoder-alone">
+<h3>Decoder alone<a class="headerlink" href="#decoder-alone" title="Permalink to this heading"></a></h3>
+<p>One shared decoder session and one shared joiner session (no <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>).
+T threads repeat the server’s per-frame sequence (decoder run, then joiner
+run) with batch sizes drawn from {40, 100, 200, 400}, on the CUDA provider
+with heuristic cuDNN algorithm search, as in <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 17%" />
+<col style="width: 17%" />
+<col style="width: 17%" />
+<col style="width: 17%" />
+<col style="width: 17%" />
+<col style="width: 17%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Threads</p></th>
+<th class="head"><p>Original: runs/s</p></th>
+<th class="head"><p>p50 ms/run</p></th>
+<th class="head"><p>Conv-free: runs/s</p></th>
+<th class="head"><p>p50 ms/run</p></th>
+<th class="head"><p>Speed-up</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>511</p></td>
+<td><p>2.16</p></td>
+<td><p>2,491</p></td>
+<td><p>0.16</p></td>
+<td><p>4.9x</p></td>
+</tr>
+<tr class="row-odd"><td><p>8</p></td>
+<td><p>588</p></td>
+<td><p>13.14</p></td>
+<td><p>4,383</p></td>
+<td><p>0.76</p></td>
+<td><p>7.5x</p></td>
+</tr>
+<tr class="row-even"><td><p>32</p></td>
+<td><p>594</p></td>
+<td><p>53.20</p></td>
+<td><p>4,269</p></td>
+<td><p>0.98</p></td>
+<td><p>7.2x</p></td>
+</tr>
+<tr class="row-odd"><td><p>64</p></td>
+<td><p>588</p></td>
+<td><p>108.65</p></td>
+<td><p>4,119</p></td>
+<td><p>2.35</p></td>
+<td><p>7.0x</p></td>
+</tr>
+</tbody>
+</table>
+<p>The original decoder stays at about 590 runs/s from 8 to 64 threads, and its
+per-run latency grows with the number of waiting threads: one serial section.
+With 32 threads, 88% of all thread time was spent blocked on CUDA-provider
+mutexes. With the Conv-free decoder that wait almost disappears.</p>
+</section>
+<section id="streaming-server">
+<h3>Streaming server<a class="headerlink" href="#streaming-server" title="Permalink to this heading"></a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">sherpa-onnx-online-websocket-server</span></code> with the TensorRT encoder, the decoder
+and joiner on the CUDA provider, <code class="docutils literal notranslate"><span class="pre">--loop-interval-ms=50</span></code>,
+<code class="docutils literal notranslate"><span class="pre">--max-batch-size=50</span></code> and 100 work / I/O / intra-op threads. The load was a
+replicated 500-utterance set at fixed concurrency. Latencies are per-chunk
+server latencies in ms (middle 80% of each run). Each number is from a single
+run, so treat differences under about 10% as noise.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"></th>
+<th class="head"><p>Original, 200 streams</p></th>
+<th class="head"><p>Conv-free, 200 streams</p></th>
+<th class="head"><p>Original, 250 streams</p></th>
+<th class="head"><p>Conv-free, 250 streams</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>p50 latency (ms)</p></td>
+<td><p>244.1</p></td>
+<td><p>164.5</p></td>
+<td><p>316.3</p></td>
+<td><p>200.7</p></td>
+</tr>
+<tr class="row-odd"><td><p>p95 latency (ms)</p></td>
+<td><p>328.9</p></td>
+<td><p>258.0</p></td>
+<td><p>456.9</p></td>
+<td><p>330.3</p></td>
+</tr>
+<tr class="row-even"><td><p>p99 latency (ms)</p></td>
+<td><p>394.2</p></td>
+<td><p>313.8</p></td>
+<td><p>631.6</p></td>
+<td><p>381.2</p></td>
+</tr>
+<tr class="row-odd"><td><p>Decoder time per call (ms)</p></td>
+<td><p>80.4</p></td>
+<td><p>8.2</p></td>
+<td><p>115.5</p></td>
+<td><p>10.4</p></td>
+</tr>
+<tr class="row-even"><td><p>Decoder CPU per call (ms)</p></td>
+<td><p>50.1</p></td>
+<td><p>6.4</p></td>
+<td><p>53.9</p></td>
+<td><p>7.4</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">DecodeStreams</span></code> wall time (ms)</p></td>
+<td><p>185.8</p></td>
+<td><p>103.7</p></td>
+<td><p>247.9</p></td>
+<td><p>135.2</p></td>
+</tr>
+<tr class="row-even"><td><p>Server CPU (cores)</p></td>
+<td><p>3.0</p></td>
+<td><p>2.0</p></td>
+<td><p>3.6</p></td>
+<td><p>2.6</p></td>
+</tr>
+<tr class="row-odd"><td><p>GPU utilization (%)</p></td>
+<td><p>32.4</p></td>
+<td><p>32.9</p></td>
+<td><p>35.2</p></td>
+<td><p>36.5</p></td>
+</tr>
+<tr class="row-even"><td><p>WER (%)</p></td>
+<td><p>8.3</p></td>
+<td><p>8.3</p></td>
+<td><p>8.3</p></td>
+<td><p>8.3</p></td>
+</tr>
+</tbody>
+</table>
+<ul class="simple">
+<li><p>p95 latency is 22% lower at 200 streams and 28% lower at 250. p99 is 20%
+and 40% lower.</p></li>
+<li><p>The decoder’s time per decode call falls by about 10x, and the server needs
+about one CPU core less.</p></li>
+<li><p>GPU utilization and memory are unchanged. The GPU was not the bottleneck;
+the lock was.</p></li>
+<li><p>WER is identical.</p></li>
+</ul>
+<p>With the lock gone, the next costs in a decode call are the CPU log-softmax in
+<code class="docutils literal notranslate"><span class="pre">modified_beam_search</span></code> and the encoder run. Binding the decoder output to the
+GPU (I/O binding) gave a further 21-54% decoder throughput in the isolated
+test, but only once the <code class="docutils literal notranslate"><span class="pre">Conv</span></code> lock was gone (+1-5% with it).</p>
+</section>
+</section>
+<section id="alternatives">
+<h2>Alternatives<a class="headerlink" href="#alternatives" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>Run the original decoder on TensorRT.</strong> In the isolated test the original
+decoder on the TensorRT provider scaled like the Conv-free one (4,094 vs
+4,254 runs/s at 32 threads), but with a higher median latency per run
+(2.49 ms vs 1.03 ms). It also needs a TensorRT engine and shape profile for
+the decoder. <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a> does not run the decoder on TensorRT today, and
+this was not tested in the server.</p></li>
+<li><p><strong>Pad the decoder batch to a fixed size.</strong> With a constant shape the
+<code class="docutils literal notranslate"><span class="pre">Conv</span></code> does not rebuild its plan. Even two alternating sizes already cost
+about 9x, so this would need one fixed size for every call. Not tested.</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="reduce-memory-usage.html" class="btn btn-neutral float-left" title="Memory usage stays high after decoding long audio files" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../python/index.html" class="btn btn-neutral float-right" title="Python" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

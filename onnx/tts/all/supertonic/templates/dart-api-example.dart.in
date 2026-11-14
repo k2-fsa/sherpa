@@ -1,0 +1,39 @@
+import 'package:sherpa_onnx/sherpa_onnx.dart' as sherpa_onnx;
+
+void main() {
+  final supertonic = sherpa_onnx.OfflineTtsSupertonicModelConfig(
+    durationPredictor: '{{model_dir}}/duration_predictor.int8.onnx',
+    textEncoder: '{{model_dir}}/text_encoder.int8.onnx',
+    vectorEstimator: '{{model_dir}}/vector_estimator.int8.onnx',
+    vocoder: '{{model_dir}}/vocoder.int8.onnx',
+    ttsJson: '{{model_dir}}/tts.json',
+    unicodeIndexer: '{{model_dir}}/unicode_indexer.bin',
+    voiceStyle: '{{model_dir}}/voice.bin',
+  );
+
+  final modelConfig = sherpa_onnx.OfflineTtsModelConfig(
+    supertonic: supertonic,
+    numThreads: 2,
+    debug: true,
+  );
+  final config = sherpa_onnx.OfflineTtsConfig(
+    model: modelConfig,
+  );
+
+  final tts = sherpa_onnx.OfflineTts(config);
+  final genConfig = sherpa_onnx.OfflineTtsGenerationConfig(
+    sid: 0,
+    numSteps: 8,
+    speed: 1.0,
+    extra: {'lang': '{{lang}}'},
+  );
+  final audio = tts.generateWithConfig(text: '{{text}}', config: genConfig);
+  tts.free();
+
+  sherpa_onnx.writeWave(
+    filename: 'test.wav',
+    samples: audio.samples,
+    sampleRate: audio.sampleRate,
+  );
+  print('Saved to test.wav');
+}

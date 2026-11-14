@@ -1,0 +1,7 @@
+<map id="sherpa_onnx::cxx::OfflineLMConfig" name="sherpa_onnx::cxx::OfflineLMConfig">
+<area shape="rect" id="Node000001" title="Optional language&#45;model rescoring configuration for offline ASR." alt="" coords="5,200,192,245"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="55,99,142,127"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="100,141,101,200,96,199,97,145"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="29,5,168,50"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="99,63,101,99,96,98,98,68"/>
+</map>

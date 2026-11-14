@@ -1,0 +1,12 @@
+<map id="sherpa_onnx::cxx::KeywordResult" name="sherpa_onnx::cxx::KeywordResult">
+<area shape="rect" id="Node000001" title="Current keyword spotting result copied into C++ containers." alt="" coords="134,320,333,365"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="31,99,118,127"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="65,139,57,193,58,221,67,246,85,270,108,289,162,319,157,321,105,294,81,273,62,249,53,222,51,193,63,144"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="140,210,326,238"/>
+<area shape="poly" id="edge4_Node000004_Node000002" title=" " alt="" coords="106,133,216,208,212,210,106,139"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="5,5,144,50"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="75,63,77,99,72,99,74,68"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="235,251,236,321,231,319,231,255"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="350,210,500,238"/>
+<area shape="poly" id="edge5_Node000001_Node000005" title=" " alt="" coords="393,246,270,322,268,317,388,247"/>
+</map>

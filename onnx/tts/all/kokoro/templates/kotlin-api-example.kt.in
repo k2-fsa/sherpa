@@ -1,0 +1,41 @@
+package com.k2fsa.sherpa.onnx
+
+fun main() {
+  var config = OfflineTtsConfig(
+    model = OfflineTtsModelConfig(
+      kokoro = OfflineTtsKokoroModelConfig(
+        model = "{{model}}",
+        voices = "{{voices}}",
+        tokens = "{{tokens}}",
+{%- if data_dir %}
+        dataDir = "{{data_dir}}",
+{%- endif %}
+{%- if lexicon %}
+        lexicon = "{{lexicon}}",
+{%- endif %}
+      ),
+      numThreads = 1,
+      debug = true,
+    ),
+  )
+  val tts = OfflineTts(config = config)
+  val genConfig = GenerationConfig(
+    sid = {{sid}},
+    speed = 1.0f,
+    silenceScale = 0.2f,
+  )
+  val audio = tts.generateWithConfigAndCallback(
+    text = "{{text}}",
+    config = genConfig,
+    callback = ::callback,
+  )
+  audio.save(filename = "test.wav")
+  tts.release()
+  println("Saved to test.wav")
+}
+
+fun callback(samples: FloatArray): Int {
+  // 1 means to continue
+  // 0 means to stop
+  return 1
+}

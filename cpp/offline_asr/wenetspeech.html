@@ -1,0 +1,346 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pretrained model with WenetSpeech &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../onnx/index.html">sherpa-onnx</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>Pretrained model with WenetSpeech</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/cpp/offline_asr/wenetspeech.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="pretrained-model-with-wenetspeech">
+<h1>Pretrained model with WenetSpeech<a class="headerlink" href="#pretrained-model-with-wenetspeech" title="Permalink to this heading"></a></h1>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>We assume you have installed <code class="docutils literal notranslate"><span class="pre">sherpa</span></code> by following
+<a class="reference internal" href="../installation/index.html#cpp-installation"><span class="std std-ref">Installation</span></a> before you start this section.</p>
+</div>
+<section id="download-the-pretrained-model">
+<h2>Download the pretrained model<a class="headerlink" href="#download-the-pretrained-model" title="Permalink to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>git-lfs
+git<span class="w"> </span>lfs<span class="w"> </span>install
+git<span class="w"> </span>clone<span class="w"> </span>https://huggingface.co/luomingshuang/icefall_asr_wenetspeech_pruned_transducer_stateless2
+</pre></div>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>You can find the training script by visiting
+<a class="reference external" href="https://github.com/k2-fsa/icefall/blob/master/egs/wenetspeech/ASR/RESULTS.md#wenetspeech-char-based-training-results-pruned-transducer-2">https://github.com/k2-fsa/icefall/blob/master/egs/wenetspeech/ASR/RESULTS.md#wenetspeech-char-based-training-results-pruned-transducer-2</a></p>
+<p>The torchscript model is exported using the script
+<a class="reference external" href="https://github.com/k2-fsa/icefall/blob/master/egs/wenetspeech/ASR/pruned_transducer_stateless2/export.py">https://github.com/k2-fsa/icefall/blob/master/egs/wenetspeech/ASR/pruned_transducer_stateless2/export.py</a></p>
+</div>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>You have to use <a class="reference external" href="https://git-lfs.github.com/">git lfs</a> to download/clone the repo.
+Otherwise, you will be SAD later.</p>
+</div>
+<p>After cloning the repo, you will find the following files:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>icefall_asr_wenetspeech_pruned_transducer_stateless2/
+|-- data
+|   `-- lang_char
+|       |-- tokens.txt
+|-- exp
+|   |-- cpu_jit_epoch_10_avg_2_torch_1.11.0.pt
+|   |-- cpu_jit_epoch_10_avg_2_torch_1.7.1.pt
+`-- test_wavs
+    |-- DEV_T0000000000.wav
+    |-- DEV_T0000000001.wav
+    |-- DEV_T0000000002.wav
+</pre></div>
+</div>
+<p>We will use <code class="docutils literal notranslate"><span class="pre">data/lang_char/tokens.txt</span></code> and <code class="docutils literal notranslate"><span class="pre">exp/cpu_jit_epoch_10_avg_2_torch_1.7.1.pt</span></code>
+below.</p>
+</section>
+<section id="decode-a-single-wave">
+<h2>Decode a single wave<a class="headerlink" href="#decode-a-single-wave" title="Permalink to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">nn_model</span><span class="o">=</span>./icefall_asr_wenetspeech_pruned_transducer_stateless2/exp/cpu_jit_epoch_10_avg_2_torch_1.7.1.pt
+<span class="nv">tokens</span><span class="o">=</span>./icefall_asr_wenetspeech_pruned_transducer_stateless2/data/lang_char/tokens.txt
+
+<span class="nv">wav1</span><span class="o">=</span>./icefall_asr_wenetspeech_pruned_transducer_stateless2/test_wavs/DEV_T0000000000.wav
+
+sherpa<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--nn-model<span class="o">=</span><span class="nv">$nn_model</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span><span class="nv">$tokens</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--use-gpu<span class="o">=</span><span class="nb">false</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--decoding-method<span class="o">=</span>greedy_search<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="nv">$wav1</span>
+</pre></div>
+</div>
+<p>You will see the following output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">I</span><span class="p">]</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">share</span><span class="o">/</span><span class="n">miniconda</span><span class="o">/</span><span class="n">envs</span><span class="o">/</span><span class="n">sherpa</span><span class="o">/</span><span class="n">conda</span><span class="o">-</span><span class="n">bld</span><span class="o">/</span><span class="n">sherpa_1661003501349</span><span class="o">/</span><span class="n">work</span><span class="o">/</span><span class="n">sherpa</span><span class="o">/</span><span class="n">csrc</span><span class="o">/</span><span class="n">parse_options</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="mi">495</span><span class="p">:</span><span class="nb">int</span> <span class="n">sherpa</span><span class="p">::</span><span class="n">ParseOptions</span><span class="p">::</span><span class="n">Read</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">const</span> <span class="n">char</span><span class="o">*</span> <span class="n">const</span><span class="o">*</span><span class="p">)</span> <span class="mi">2022</span><span class="o">-</span><span class="mi">08</span><span class="o">-</span><span class="mi">20</span> <span class="mi">23</span><span class="p">:</span><span class="mi">06</span><span class="p">:</span><span class="mi">09</span> <span class="n">sherpa</span> <span class="o">--</span><span class="n">nn</span><span class="o">-</span><span class="n">model</span><span class="o">=./</span><span class="n">icefall_asr_wenetspeech_pruned_transducer_stateless2</span><span class="o">/</span><span class="n">exp</span><span class="o">/</span><span class="n">cpu_jit_epoch_10_avg_2_torch_1</span><span class="mf">.7.1</span><span class="o">.</span><span class="n">pt</span> <span class="o">--</span><span class="n">tokens</span><span class="o">=./</span><span class="n">icefall_asr_wenetspeech_pruned_transducer_stateless2</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">lang_char</span><span class="o">/</span><span class="n">tokens</span><span class="o">.</span><span class="n">txt</span> <span class="o">--</span><span class="n">use</span><span class="o">-</span><span class="n">gpu</span><span class="o">=</span><span class="n">false</span> <span class="o">--</span><span class="n">decoding</span><span class="o">-</span><span class="n">method</span><span class="o">=</span><span class="n">greedy_search</span> <span class="o">./</span><span class="n">icefall_asr_wenetspeech_pruned_transducer_stateless2</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="n">DEV_T0000000000</span><span class="o">.</span><span class="n">wav</span>
+
+<span class="p">[</span><span class="n">I</span><span class="p">]</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">share</span><span class="o">/</span><span class="n">miniconda</span><span class="o">/</span><span class="n">envs</span><span class="o">/</span><span class="n">sherpa</span><span class="o">/</span><span class="n">conda</span><span class="o">-</span><span class="n">bld</span><span class="o">/</span><span class="n">sherpa_1661003501349</span><span class="o">/</span><span class="n">work</span><span class="o">/</span><span class="n">sherpa</span><span class="o">/</span><span class="n">csrc</span><span class="o">/</span><span class="n">sherpa</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="mi">126</span><span class="p">:</span><span class="nb">int</span> <span class="n">main</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">char</span><span class="o">**</span><span class="p">)</span> <span class="mi">2022</span><span class="o">-</span><span class="mi">08</span><span class="o">-</span><span class="mi">20</span> <span class="mi">23</span><span class="p">:</span><span class="mi">06</span><span class="p">:</span><span class="mi">10</span>
+<span class="o">--</span><span class="n">nn</span><span class="o">-</span><span class="n">model</span><span class="o">=./</span><span class="n">icefall_asr_wenetspeech_pruned_transducer_stateless2</span><span class="o">/</span><span class="n">exp</span><span class="o">/</span><span class="n">cpu_jit_epoch_10_avg_2_torch_1</span><span class="mf">.7.1</span><span class="o">.</span><span class="n">pt</span>
+<span class="o">--</span><span class="n">tokens</span><span class="o">=./</span><span class="n">icefall_asr_wenetspeech_pruned_transducer_stateless2</span><span class="o">/</span><span class="n">data</span><span class="o">/</span><span class="n">lang_char</span><span class="o">/</span><span class="n">tokens</span><span class="o">.</span><span class="n">txt</span>
+<span class="o">--</span><span class="n">decoding</span><span class="o">-</span><span class="n">method</span><span class="o">=</span><span class="n">greedy_search</span>
+<span class="o">--</span><span class="n">use</span><span class="o">-</span><span class="n">gpu</span><span class="o">=</span><span class="n">false</span>
+
+<span class="p">[</span><span class="n">I</span><span class="p">]</span> <span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="n">share</span><span class="o">/</span><span class="n">miniconda</span><span class="o">/</span><span class="n">envs</span><span class="o">/</span><span class="n">sherpa</span><span class="o">/</span><span class="n">conda</span><span class="o">-</span><span class="n">bld</span><span class="o">/</span><span class="n">sherpa_1661003501349</span><span class="o">/</span><span class="n">work</span><span class="o">/</span><span class="n">sherpa</span><span class="o">/</span><span class="n">csrc</span><span class="o">/</span><span class="n">sherpa</span><span class="o">.</span><span class="n">cc</span><span class="p">:</span><span class="mi">270</span><span class="p">:</span><span class="nb">int</span> <span class="n">main</span><span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="n">char</span><span class="o">**</span><span class="p">)</span> <span class="mi">2022</span><span class="o">-</span><span class="mi">08</span><span class="o">-</span><span class="mi">20</span> <span class="mi">23</span><span class="p">:</span><span class="mi">06</span><span class="p">:</span><span class="mi">11</span>
+<span class="n">filename</span><span class="p">:</span> <span class="o">./</span><span class="n">icefall_asr_wenetspeech_pruned_transducer_stateless2</span><span class="o">/</span><span class="n">test_wavs</span><span class="o">/</span><span class="n">DEV_T0000000000</span><span class="o">.</span><span class="n">wav</span>
+<span class="n">result</span><span class="p">:</span> <span class="n">对我做了介绍那么我想说的是呢大家如果对我的研究感兴趣呢</span>
+</pre></div>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>You can pass the option <code class="docutils literal notranslate"><span class="pre">--use-gpu=true</span></code> to use GPU for computation (Assume
+you have installed a CUDA version of <code class="docutils literal notranslate"><span class="pre">sherpa</span></code>).</p>
+<p>Also, you can use <code class="docutils literal notranslate"><span class="pre">--decoding-method=modified_beam_search</span></code> to change
+the decoding method.</p>
+</div>
+</section>
+<section id="decode-multiple-waves-in-parallel">
+<h2>Decode multiple waves in parallel<a class="headerlink" href="#decode-multiple-waves-in-parallel" title="Permalink to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">nn_model</span><span class="o">=</span>./icefall_asr_wenetspeech_pruned_transducer_stateless2/exp/cpu_jit_epoch_10_avg_2_torch_1.7.1.pt
+<span class="nv">tokens</span><span class="o">=</span>./icefall_asr_wenetspeech_pruned_transducer_stateless2/data/lang_char/tokens.txt
+
+<span class="nv">wav1</span><span class="o">=</span>./icefall_asr_wenetspeech_pruned_transducer_stateless2/test_wavs/DEV_T0000000000.wav
+<span class="nv">wav2</span><span class="o">=</span>./icefall_asr_wenetspeech_pruned_transducer_stateless2/test_wavs/DEV_T0000000001.wav
+<span class="nv">wav3</span><span class="o">=</span>./icefall_asr_wenetspeech_pruned_transducer_stateless2/test_wavs/DEV_T0000000002.wav
+
+sherpa<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--nn-model<span class="o">=</span><span class="nv">$nn_model</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span><span class="nv">$tokens</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--use-gpu<span class="o">=</span><span class="nb">false</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--decoding-method<span class="o">=</span>greedy_search<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="nv">$wav1</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="nv">$wav2</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="nv">$wav3</span>
+</pre></div>
+</div>
+<p>You will see the following output:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">[</span>I<span class="o">]</span><span class="w"> </span>/usr/share/miniconda/envs/sherpa/conda-bld/sherpa_1661003501349/work/sherpa/csrc/parse_options.cc:495:int<span class="w"> </span>sherpa::ParseOptions::Read<span class="o">(</span>int,<span class="w"> </span>const<span class="w"> </span>char*<span class="w"> </span>const*<span class="o">)</span><span class="w"> </span><span class="m">2022</span>-08-20<span class="w"> </span><span class="m">23</span>:07:05<span class="w"> </span>sherpa<span class="w"> </span>--nn-model<span class="o">=</span>./icefall_asr_wenetspeech_pruned_transducer_stateless2/exp/cpu_jit_epoch_10_avg_2_torch_1.7.1.pt<span class="w"> </span>--tokens<span class="o">=</span>./icefall_asr_wenetspeech_pruned_transducer_stateless2/data/lang_char/tokens.txt<span class="w"> </span>--use-gpu<span class="o">=</span><span class="nb">false</span><span class="w"> </span>--decoding-method<span class="o">=</span>greedy_search<span class="w"> </span>./icefall_asr_wenetspeech_pruned_transducer_stateless2/test_wavs/DEV_T0000000000.wav<span class="w"> </span>./icefall_asr_wenetspeech_pruned_transducer_stateless2/test_wavs/DEV_T0000000001.wav<span class="w"> </span>./icefall_asr_wenetspeech_pruned_transducer_stateless2/test_wavs/DEV_T0000000002.wav
+
+<span class="o">[</span>I<span class="o">]</span><span class="w"> </span>/usr/share/miniconda/envs/sherpa/conda-bld/sherpa_1661003501349/work/sherpa/csrc/sherpa.cc:126:int<span class="w"> </span>main<span class="o">(</span>int,<span class="w"> </span>char**<span class="o">)</span><span class="w"> </span><span class="m">2022</span>-08-20<span class="w"> </span><span class="m">23</span>:07:06
+--nn-model<span class="o">=</span>./icefall_asr_wenetspeech_pruned_transducer_stateless2/exp/cpu_jit_epoch_10_avg_2_torch_1.7.1.pt
+--tokens<span class="o">=</span>./icefall_asr_wenetspeech_pruned_transducer_stateless2/data/lang_char/tokens.txt
+--decoding-method<span class="o">=</span>greedy_search
+--use-gpu<span class="o">=</span><span class="nb">false</span>
+
+<span class="o">[</span>I<span class="o">]</span><span class="w"> </span>/usr/share/miniconda/envs/sherpa/conda-bld/sherpa_1661003501349/work/sherpa/csrc/sherpa.cc:284:int<span class="w"> </span>main<span class="o">(</span>int,<span class="w"> </span>char**<span class="o">)</span><span class="w"> </span><span class="m">2022</span>-08-20<span class="w"> </span><span class="m">23</span>:07:07
+filename:<span class="w"> </span>./icefall_asr_wenetspeech_pruned_transducer_stateless2/test_wavs/DEV_T0000000000.wav
+result:<span class="w"> </span>对我做了介绍那么我想说的是呢大家如果对我的研究感兴趣呢
+
+filename:<span class="w"> </span>./icefall_asr_wenetspeech_pruned_transducer_stateless2/test_wavs/DEV_T0000000001.wav
+result:<span class="w"> </span>重点想谈三个问题首先呢就是这一轮全球金融动荡的表现
+
+filename:<span class="w"> </span>./icefall_asr_wenetspeech_pruned_transducer_stateless2/test_wavs/DEV_T0000000002.wav
+result:<span class="w"> </span>深入地分析这一次全球金融动荡背后的根源
+</pre></div>
+</div>
+</section>
+<section id="decode-wav-scp">
+<h2>Decode wav.scp<a class="headerlink" href="#decode-wav-scp" title="Permalink to this heading"></a></h2>
+<p>If you have some experience with <a class="reference external" href="https://github.com/kaldi-asr/kaldi">Kaldi</a>, you must know what <code class="docutils literal notranslate"><span class="pre">wav.scp</span></code> is.</p>
+<p>We use the following code to generate <code class="docutils literal notranslate"><span class="pre">wav.scp</span></code> for our test data.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cat<span class="w"> </span>&gt;<span class="w"> </span>wav2.scp<span class="w"> </span><span class="s">&lt;&lt;EOF</span>
+<span class="s">wav0 ./icefall_asr_wenetspeech_pruned_transducer_stateless2/test_wavs/DEV_T0000000000.wav</span>
+<span class="s">wav1 ./icefall_asr_wenetspeech_pruned_transducer_stateless2/test_wavs/DEV_T0000000001.wav</span>
+<span class="s">wav2 ./icefall_asr_wenetspeech_pruned_transducer_stateless2/test_wavs/DEV_T0000000002.wav</span>
+<span class="s">EOF</span>
+</pre></div>
+</div>
+<p>With the <code class="docutils literal notranslate"><span class="pre">wav.scp</span></code> ready, we can decode it with the following commands:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">nn_model</span><span class="o">=</span>./icefall_asr_wenetspeech_pruned_transducer_stateless2/exp/cpu_jit_epoch_10_avg_2_torch_1.7.1.pt
+<span class="nv">tokens</span><span class="o">=</span>./icefall_asr_wenetspeech_pruned_transducer_stateless2/data/lang_char/tokens.txt
+
+sherpa<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--nn-model<span class="o">=</span><span class="nv">$nn_model</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span><span class="nv">$tokens</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--use-gpu<span class="o">=</span><span class="nb">false</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--decoding-method<span class="o">=</span>greedy_search<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--use-wav-scp<span class="o">=</span><span class="nb">true</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>scp:wav.scp<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>ark,scp,t:results.ark,results.scp
+</pre></div>
+</div>
+<p>You will see the following output:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">[</span>I<span class="o">]</span><span class="w"> </span>/usr/share/miniconda/envs/sherpa/conda-bld/sherpa_1661003501349/work/sherpa/csrc/parse_options.cc:495:int<span class="w"> </span>sherpa::ParseOptions::Read<span class="o">(</span>int,<span class="w"> </span>const<span class="w"> </span>char*<span class="w"> </span>const*<span class="o">)</span><span class="w"> </span><span class="m">2022</span>-08-20<span class="w"> </span><span class="m">23</span>:10:01<span class="w"> </span>sherpa<span class="w"> </span>--nn-model<span class="o">=</span>./icefall_asr_wenetspeech_pruned_transducer_stateless2/exp/cpu_jit_epoch_10_avg_2_torch_1.7.1.pt<span class="w"> </span>--tokens<span class="o">=</span>./icefall_asr_wenetspeech_pruned_transducer_stateless2/data/lang_char/tokens.txt<span class="w"> </span>--use-gpu<span class="o">=</span><span class="nb">false</span><span class="w"> </span>--decoding-method<span class="o">=</span>greedy_search<span class="w"> </span>--use-wav-scp<span class="o">=</span><span class="nb">true</span><span class="w"> </span>scp:wav.scp<span class="w"> </span>ark,scp,t:results.ark,results.scp
+
+<span class="o">[</span>I<span class="o">]</span><span class="w"> </span>/usr/share/miniconda/envs/sherpa/conda-bld/sherpa_1661003501349/work/sherpa/csrc/sherpa.cc:126:int<span class="w"> </span>main<span class="o">(</span>int,<span class="w"> </span>char**<span class="o">)</span><span class="w"> </span><span class="m">2022</span>-08-20<span class="w"> </span><span class="m">23</span>:10:02
+--nn-model<span class="o">=</span>./icefall_asr_wenetspeech_pruned_transducer_stateless2/exp/cpu_jit_epoch_10_avg_2_torch_1.7.1.pt
+--tokens<span class="o">=</span>./icefall_asr_wenetspeech_pruned_transducer_stateless2/data/lang_char/tokens.txt
+--decoding-method<span class="o">=</span>greedy_search
+--use-gpu<span class="o">=</span><span class="nb">false</span>
+</pre></div>
+</div>
+<p>We can view the recognition results using:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>cat<span class="w"> </span>results.ark
+
+wav0<span class="w"> </span>对我做了介绍那么我想说的是呢大家如果对我的研究感兴趣呢
+wav1<span class="w"> </span>重点想谈三个问题首先呢就是这一轮全球金融动荡的表现
+wav2<span class="w"> </span>深入地分析这一次全球金融动荡背后的根源
+</pre></div>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>You can pass the option <code class="docutils literal notranslate"><span class="pre">--batch-size=20</span></code> to control the batch size to be 20
+during decoding.</p>
+</div>
+</section>
+<section id="decode-feats-scp">
+<h2>Decode feats.scp<a class="headerlink" href="#decode-feats-scp" title="Permalink to this heading"></a></h2>
+<p>If you have precomputed feats, you can decode it with the following code:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">nn_model</span><span class="o">=</span>./icefall_asr_wenetspeech_pruned_transducer_stateless2/exp/cpu_jit_epoch_10_avg_2_torch_1.7.1.pt
+<span class="nv">tokens</span><span class="o">=</span>./icefall_asr_wenetspeech_pruned_transducer_stateless2/data/lang_char/tokens.txt
+
+sherpa<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--nn-model<span class="o">=</span><span class="nv">$nn_model</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span><span class="nv">$tokens</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--use-gpu<span class="o">=</span><span class="nb">false</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--decoding-method<span class="o">=</span>greedy_search<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--use-feats-scp<span class="o">=</span><span class="nb">true</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>scp:feats.scp<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>ark,scp,t:results.ark,results.scp
+</pre></div>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>You can pass the option <code class="docutils literal notranslate"><span class="pre">--batch-size=20</span></code> to control the batch size to be 20
+during decoding.</p>
+</div>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p><code class="docutils literal notranslate"><span class="pre">feats.scp</span></code> generated by kaldi’s <code class="docutils literal notranslate"><span class="pre">compute-fbank-feats</span></code> is using
+unnormalized samples. That is, audio samples are in the range
+<code class="docutils literal notranslate"><span class="pre">[-32768,</span> <span class="pre">32767]</span></code>. However, models from <a class="reference external" href="https://github.com/k2-fsa/icefall">icefall</a> are trained with
+features using normalized samples, i.e., samples in the range <code class="docutils literal notranslate"><span class="pre">[-1,</span> <span class="pre">1]</span></code>.</p>
+<p>You cannot use <code class="docutils literal notranslate"><span class="pre">feats.scp</span></code> generated by Kaldi’s <code class="docutils literal notranslate"><span class="pre">compute-fbank-feats</span></code>
+to test models trained from icefall using normalized audio samples.
+Otherwise, you won’t get good recognition results.</p>
+<p>It is perfectly OK to decode <code class="docutils literal notranslate"><span class="pre">feats.scp</span></code> from Kaldi using a model
+trained with features using unnormalized audio samples.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>We provide a script to generate <code class="docutils literal notranslate"><span class="pre">feats.ark</span></code> and <code class="docutils literal notranslate"><span class="pre">feats.scp</span></code> from
+<code class="docutils literal notranslate"><span class="pre">wav.scp</span></code> that can be used with models trained by icefall. Please see
+<a class="reference external" href="https://github.com/k2-fsa/sherpa/blob/master/.github/scripts/generate_feats_scp.py">https://github.com/k2-fsa/sherpa/blob/master/.github/scripts/generate_feats_scp.py</a></p>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

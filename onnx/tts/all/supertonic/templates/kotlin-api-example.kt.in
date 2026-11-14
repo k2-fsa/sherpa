@@ -1,0 +1,40 @@
+package com.k2fsa.sherpa.onnx
+
+fun main() {
+  var config = OfflineTtsConfig(
+    model = OfflineTtsModelConfig(
+      supertonic = OfflineTtsSupertonicModelConfig(
+        durationPredictor = "{{model_dir}}/duration_predictor.int8.onnx",
+        textEncoder = "{{model_dir}}/text_encoder.int8.onnx",
+        vectorEstimator = "{{model_dir}}/vector_estimator.int8.onnx",
+        vocoder = "{{model_dir}}/vocoder.int8.onnx",
+        ttsJson = "{{model_dir}}/tts.json",
+        unicodeIndexer = "{{model_dir}}/unicode_indexer.bin",
+        voiceStyle = "{{model_dir}}/voice.bin",
+      ),
+      numThreads = 2,
+      debug = true,
+    ),
+  )
+  val tts = OfflineTts(config = config)
+  val genConfig = GenerationConfig(
+    sid = 0,
+    numSteps = 8,
+    speed = 1.0f,
+    extra = mapOf("lang" to "{{lang}}"),
+  )
+  val audio = tts.generateWithConfigAndCallback(
+    text = "{{text}}",
+    config = genConfig,
+    callback = ::callback,
+  )
+  audio.save(filename = "test.wav")
+  tts.release()
+  println("Saved to test.wav")
+}
+
+fun callback(samples: FloatArray): Int {
+  // 1 means to continue
+  // 0 means to stop
+  return 1
+}
