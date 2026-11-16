@@ -137,6 +137,8 @@ rst_epilog = f"""
 .. _onnx: https://github.com/onnx/onnx
 .. _onnxruntime: https://github.com/microsoft/onnxruntime
 .. _sherpa-onnx: https://github.com/k2-fsa/sherpa-onnx
+.. _Montreal Forced Aligner: https://montreal-forced-aligner.readthedocs.io
+.. _fa-models: https://github.com/k2-fsa/sherpa-onnx/releases/tag/fa-models
 .. _torchaudio: https://github.com/pytorch/audio
 .. _Docker: https://www.docker.com
 .. _Triton: https://github.com/triton-inference-server

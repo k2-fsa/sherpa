@@ -118,3 +118,9 @@ Also, we show how to use it for speech recognition with pre-trained models.
    :caption: tts
 
    ./tts/index
+
+.. toctree::
+   :maxdepth: 5
+   :caption: Forced alignment
+
+   ./forced-alignment/index
