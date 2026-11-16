@@ -325,3 +325,145 @@ The output is given below:
       Click ▶ to see the output.
 
     .. literalinclude:: ./code/revai-segmentation-3-0-nemo.int8.txt
+
+.. _sherpa-onnx-nemotron-3-diarization:
+
+sherpa-onnx-nemotron-3-diarization
+----------------------------------
+
+This model is converted from `<https://huggingface.co/nvidia/Nemotron-3-Diarization>`_.
+The conversion script is at `<https://github.com/k2-fsa/sherpa-onnx/tree/master/scripts/nemo/nemotron-3-diarization>`_.
+
+It is a `Sortformer <https://arxiv.org/abs/2409.06656>`_ model. One model does all of the
+speaker diarization. This is different from the models above:
+
+  - You do not need a speaker embedding model.
+  - You do not need clustering. Do not set ``--clustering.num-clusters``
+    or ``--clustering.cluster-threshold``.
+  - The model finds 8 speakers or fewer. It gives speaker numbers in the
+    order in which the speakers start to talk.
+
+When to use this model:
+
+  - Use it if your recordings have 8 speakers or fewer, and you do not know
+    the number of speakers.
+  - Use a pyannote model with an embedding model if your recordings
+    can have more than 8 speakers.
+
+.. caution::
+
+   The license of this model is ``OpenMDW-1.1``.
+   The model archive has the full license in the file ``LICENSE``.
+
+Download the model
+~~~~~~~~~~~~~~~~~~
+
+.. code-block:: bash
+
+   cd /path/to/sherpa-onnx
+
+   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/speaker-segmentation-models/sherpa-onnx-nemotron-3-diarization.tar.bz2
+   tar xvf sherpa-onnx-nemotron-3-diarization.tar.bz2
+   rm sherpa-onnx-nemotron-3-diarization.tar.bz2
+
+The directory has these files:
+
+  - ``model.onnx``: the float32 model (380 MB)
+  - ``model.int8.onnx``: the int8 model (100 MB). It is smaller and faster.
+    Its results can be a little different from ``model.onnx``.
+  - ``test_wavs/0-four-speakers-zh.wav``: a test wave file
+  - ``LICENSE``: the license of the model
+  - ``MODEL_CARD.md``: the model card from NVIDIA
+  - ``README.md``, ``NOTICE``, ``*.py``, ``requirements.txt``, ``run.sh``:
+    the notes and scripts for the conversion
+
+Usage for speaker diarization
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The model expects wave files with a sample rate of 16 kHz, 16-bit samples and one channel.
+
+Download a test wave file:
+
+.. code-block:: bash
+
+   cd /path/to/sherpa-onnx
+
+   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/speaker-segmentation-models/0-four-speakers-zh.wav
+
+Use ``--segmentation.sortformer-model``. Do not use ``--segmentation.pyannote-model``
+or ``--embedding.model``.
+
+model.onnx
+::::::::::
+
+.. code-block:: bash
+
+   cd /path/to/sherpa-onnx
+
+   ./build/bin/sherpa-onnx-offline-speaker-diarization \
+     --segmentation.sortformer-model=./sherpa-onnx-nemotron-3-diarization/model.onnx \
+     ./0-four-speakers-zh.wav
+
+.. hint::
+
+   ``--segmentation.sortformer-threshold`` sets the speech activity threshold for each
+   speaker. The value must be more than 0 and less than 1. The default is 0.5.
+   If you increase it, the model finds less speech.
+
+The output is:
+
+.. container:: toggle
+
+    .. container:: header
+
+      Click ▶ to see the output.
+
+    .. literalinclude:: ./code/nemotron-3-diarization.txt
+
+model.int8.onnx
+:::::::::::::::
+
+.. code-block:: bash
+
+   cd /path/to/sherpa-onnx
+
+   ./build/bin/sherpa-onnx-offline-speaker-diarization \
+     --segmentation.sortformer-model=./sherpa-onnx-nemotron-3-diarization/model.int8.onnx \
+     ./0-four-speakers-zh.wav
+
+The output is:
+
+.. container:: toggle
+
+    .. container:: header
+
+      Click ▶ to see the output.
+
+    .. literalinclude:: ./code/nemotron-3-diarization.int8.txt
+
+Python
+::::::
+
+.. code-block:: python
+
+   import sherpa_onnx
+   import soundfile as sf
+
+   config = sherpa_onnx.OfflineSpeakerDiarizationConfig(
+       segmentation=sherpa_onnx.OfflineSpeakerSegmentationModelConfig(
+           sortformer=sherpa_onnx.OfflineSpeakerSegmentationSortformerModelConfig(
+               model="./sherpa-onnx-nemotron-3-diarization/model.int8.onnx",
+           ),
+       ),
+   )
+   sd = sherpa_onnx.OfflineSpeakerDiarization(config)
+
+   # The file must have a sample rate of 16 kHz and one channel.
+   audio, sample_rate = sf.read("./0-four-speakers-zh.wav", dtype="float32")
+   assert sample_rate == sd.sample_rate
+
+   for r in sd.process(audio).sort_by_start_time():
+       print(f"{r.start:.3f} -- {r.end:.3f} speaker_{r.speaker:02}")
+
+The full example is at
+`<https://github.com/k2-fsa/sherpa-onnx/blob/master/python-api-examples/offline-speaker-diarization-sortformer.py>`_.
