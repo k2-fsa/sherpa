@@ -399,6 +399,26 @@ jobs:
           echo "---"
           ls -lha docs/build/html/onnx/tts/all
 
+      - name: Copy forced-alignment web demos
+        shell: bash
+        run: |
+          sudo chown -R $USER docs/build
+
+          # static web apps of the forced-alignment web demo, one per model;
+          # unzip them into the doc tree so they are served by GitHub Pages
+          mkdir -p docs/build/html/onnx/forced-alignment/demo
+          for model in zh-aishell3-pinyin zh-biaobei-pinyin zh-large-pinyin english-mfa-v2.2.1 english-mfa-v3.0.0 english-mfa-v3.1.0; do
+            curl -SL -o /tmp/fa-$model.zip https://github.com/k2-fsa/sherpa-onnx/releases/download/react-fa/sherpa-onnx-react-fa-$model.zip
+            rm -rf /tmp/fa-unzip
+            mkdir /tmp/fa-unzip
+            unzip -q /tmp/fa-$model.zip -d /tmp/fa-unzip
+            mkdir -p docs/build/html/onnx/forced-alignment/demo/$model
+            cp -a /tmp/fa-unzip/sherpa-onnx-react-fa-$model/. docs/build/html/onnx/forced-alignment/demo/$model/
+            rm -rf /tmp/fa-$model.zip /tmp/fa-unzip
+          done
+
+          ls -lh docs/build/html/onnx/forced-alignment/demo
+
       - name: View generated files
         shell: bash
         run: |

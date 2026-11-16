@@ -3,7 +3,7 @@ Kokoro
 
 This page lists pre-trained models from `<https://huggingface.co/hexgrad/Kokoro-82M>`_.
 
-.. _kokoro-multi-lang-v1_0:
+.. _kokoro-multi-lang-v1_1:
 
 kokoro-multi-lang-v1_1 (Chinese + English, 103 speakers)
 ---------------------------------------------------------
@@ -24,6 +24,8 @@ See also `<https://k2-fsa.github.io/sherpa/onnx/tts/all/Chinese-English/kokoro-m
    - ``int8`` quantization
  * - `kokoro-multi-lang-v1_1.tar.bz2 <https://github.com/k2-fsa/sherpa-onnx/releases/download/tts-models/kokoro-multi-lang-v1_1.tar.bz2>`_
    - No quantization
+
+.. _kokoro-multi-lang-v1_0:
 
 kokoro-multi-lang-v1_0 (Chinese + English, 53 speakers)
 -------------------------------------------------------
@@ -82,7 +84,7 @@ the file sizes of ``*.onnx`` files below.
 Map between speaker ID and speaker name
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This model contains 53 speakers and we use integer IDs ``0-52`` to represent
+This model contains 54 speakers and we use integer IDs ``0-53`` to represent
 each speaker.
 
 Please visit `<https://github.com/k2-fsa/sherpa-onnx/pull/1795>`_ to listen to
@@ -105,7 +107,7 @@ The map is given below:
         39->jf_nezumi, 40->jf_tebukuro, 41->jm_kumo,
         42->pf_dora, 43->pm_alex, 44->pm_santa, 45->zf_xiaobei, 46->zf_xiaoni,
         47->zf_xiaoxiao, 48->zf_xiaoyi,49->zm_yunjian, 50->zm_yunxi,
-        51->zm_yunxia, 52->zm_yunyang,
+        51->zm_yunxia, 52->zm_yunyang,53->em_santa
 
  - **Speaker to ID**
 
@@ -122,7 +124,7 @@ The map is given below:
         jf_nezumi->39, jf_tebukuro->40, jm_kumo->41, pf_dora->42, pm_alex->43,
         pm_santa->44, zf_xiaobei->45, zf_xiaoni->46, zf_xiaoxiao->47,
         zf_xiaoyi->48, zm_yunjian->49, zm_yunxi->50, zm_yunxia->51,
-        zm_yunyang->52
+        zm_yunyang->52,em_santa->53
 
 Generate speech with executables compiled from C++
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
