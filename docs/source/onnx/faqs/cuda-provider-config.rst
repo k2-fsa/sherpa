@@ -14,9 +14,7 @@ Before that fix, using a CUDA configuration file disabled these models'
 CUDA I/O binding, causing extra CPU/GPU cache copies during decoding.
 FireRedASR CTC is not affected by this cache-binding change.
 
-As of November 17, 2026, the fix has not been included in a numbered release;
-``v2.0.1`` and earlier do not contain it. Until a release includes the fix,
-build from source at commit
+``v2.0.1`` and earlier do not contain this fix. For a source build, use commit
 `aa273e8 <https://github.com/k2-fsa/sherpa-onnx/commit/aa273e8029af4e0aabac7d7455a177c5b493aa34>`_
 or a later commit containing it.
 
