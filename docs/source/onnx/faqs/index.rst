@@ -14,6 +14,9 @@ This page contains frequently asked questions for `sherpa-onnx`_.
    ./static-onnxruntime-linux-x64.rst
    ./cann.rst
    ./tts-ios-add-folder.rst
+   ./reduce-memory-usage.rst
+   ./cuda-provider-config.rst
+   ./conv-free-decoder.rst
    ./update-v1.x-to-v2.x-espeak-ng.rst
 
 

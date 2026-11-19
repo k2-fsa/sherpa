@@ -22,7 +22,7 @@ from icefall.utils import (
     setup_logger,
     str2bool,
 )
-from icefall.utils import is_jit_tracing, make_pad_mask
+from icefall.utils import is_jit_tracing, make_pad_mask, subsequent_chunk_mask
 
 class StreamingEncoder(torch.nn.Module):
     """
