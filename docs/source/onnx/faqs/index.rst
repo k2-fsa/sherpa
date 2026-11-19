@@ -14,6 +14,7 @@ This page contains frequently asked questions for `sherpa-onnx`_.
    ./static-onnxruntime-linux-x64.rst
    ./cann.rst
    ./tts-ios-add-folder.rst
+   ./update-v1.x-to-v2.x-espeak-ng.rst
 
 
 OSError: PortAudio library not found
