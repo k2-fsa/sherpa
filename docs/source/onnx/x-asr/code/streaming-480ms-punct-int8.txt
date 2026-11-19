@@ -1,0 +1,6 @@
+Start to create recognizer
+Recognizer created in 1.13888 s
+./sherpa-onnx-x-asr-480ms-streaming-zipformer-transducer-zh-en-punct-int8-2026-06-05/test_wavs/0.wav
+Number of threads: 1, Elapsed seconds: 0.36, Audio duration (s): 10, Real time factor (RTF) = 0.36/10 = 0.036
+昨天是 Monday， today is 礼拜二， the day after tomorrow 是星期三
+{ "text": "昨天是 Monday， today is 礼拜二， the day after tomorrow 是星期三", "tokens": [" 昨", " 天", " 是", " ", "M", "on", "da", "y", " ，", " today", " is", " 礼", " 拜", " 二", " ，", " the", " day", " after", " to", "m", "or", "ro", "w", " 是", " 星", " 期", " 三"], "timestamps": [1.68, 2.04, 2.36, 2.76, 2.80, 2.84, 3.08, 3.32, 4.44, 4.92, 5.76, 6.08, 6.36, 6.68, 7.24, 7.68, 7.92, 8.24, 8.68, 8.92, 9.08, 9.24, 9.28, 9.68, 10.08, 10.36, 10.76], "ys_probs": [-0.485657, -0.020656, -0.670995, -1.413756, -0.081861, -0.510467, -0.485225, -0.203742, -0.892859, -0.741048, -0.470651, -0.411964, -1.222843, -0.530162, -0.878422, -0.802895, -0.157161, -0.756924, -0.660144, -0.488669, -0.045272, -0.355056, -0.614424, -0.680222, -0.349567, -0.194051, -0.286354], "lm_probs": [], "context_scores": [], "segment": 0, "words": [], "num_trailing_blanks": 6, "start_time": 0.00, "is_final": false, "is_eof": false}

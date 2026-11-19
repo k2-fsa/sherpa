@@ -17,6 +17,7 @@ This page contains frequently asked questions for `sherpa-onnx`_.
    ./reduce-memory-usage.rst
    ./cuda-provider-config.rst
    ./conv-free-decoder.rst
+   ./update-v1.x-to-v2.x-espeak-ng.rst
 
 
 OSError: PortAudio library not found

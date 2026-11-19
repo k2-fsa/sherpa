@@ -52,3 +52,4 @@ available pre-trained models for speech recognition.
    wenet/index
    small-online-models
    ../sense-voice/index.rst
+   ../x-asr/index.rst
