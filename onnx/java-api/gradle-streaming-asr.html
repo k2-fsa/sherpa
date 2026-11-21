@@ -1,0 +1,489 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gradle: Streaming ASR &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Gradle: TTS" href="gradle-tts.html" />
+    <link rel="prev" title="Gradle: Offline ASR" href="gradle-asr.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">sherpa-onnx</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../install/index.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../faqs/index.html">Frequently Asked Question (FAQs)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python/index.html">Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../c-api/index.html">C API</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Java API</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="index.html#requirements">Requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#supported-platforms">Supported platforms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#dependencies">Dependencies</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html#examples">Examples</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="android.html">Java for Android</a></li>
+<li class="toctree-l4"><a class="reference internal" href="maven-version-test.html">Maven: Version test</a></li>
+<li class="toctree-l4"><a class="reference internal" href="maven-asr.html">Maven: Offline ASR</a></li>
+<li class="toctree-l4"><a class="reference internal" href="maven-streaming-asr.html">Maven: Streaming ASR</a></li>
+<li class="toctree-l4"><a class="reference internal" href="maven-tts.html">Maven: TTS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="maven-vad.html">Maven: VAD</a></li>
+<li class="toctree-l4"><a class="reference internal" href="maven-forced-alignment.html">Maven: Forced alignment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="maven-kws.html">Maven: Keyword spotting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="maven-punctuation.html">Maven: Punctuation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="maven-diacritics.html">Maven: Diacritics</a></li>
+<li class="toctree-l4"><a class="reference internal" href="maven-speaker-identification.html">Maven: Speaker identification</a></li>
+<li class="toctree-l4"><a class="reference internal" href="maven-audio-tagging.html">Maven: Audio tagging</a></li>
+<li class="toctree-l4"><a class="reference internal" href="maven-speech-enhancement.html">Maven: Speech enhancement</a></li>
+<li class="toctree-l4"><a class="reference internal" href="maven-spoken-language-identification.html">Maven: Spoken language identification</a></li>
+<li class="toctree-l4"><a class="reference internal" href="maven-speaker-diarization.html">Maven: Speaker diarization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="maven-itn.html">Maven: Inverse text normalization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="maven-websocket.html">Maven: WebSocket client</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-version-test.html">Gradle: Version test</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-asr.html">Gradle: Offline ASR</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Gradle: Streaming ASR</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-tts.html">Gradle: TTS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-vad.html">Gradle: VAD</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-forced-alignment.html">Gradle: Forced alignment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-kws.html">Gradle: Keyword spotting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-punctuation.html">Gradle: Punctuation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-diacritics.html">Gradle: Diacritics</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-speaker-identification.html">Gradle: Speaker identification</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-audio-tagging.html">Gradle: Audio tagging</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-speech-enhancement.html">Gradle: Speech enhancement</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-spoken-language-identification.html">Gradle: Spoken language identification</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-speaker-diarization.html">Gradle: Speaker diarization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-itn.html">Gradle: Inverse text normalization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-websocket.html">Gradle: WebSocket client</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-kts-version-test.html">Gradle KTS: Version test</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-kts-asr.html">Gradle KTS: Offline ASR</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-kts-streaming-asr.html">Gradle KTS: Streaming ASR</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-kts-tts.html">Gradle KTS: TTS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-kts-vad.html">Gradle KTS: VAD</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-kts-forced-alignment.html">Gradle KTS: Forced alignment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-kts-kws.html">Gradle KTS: Keyword spotting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-kts-punctuation.html">Gradle KTS: Punctuation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-kts-diacritics.html">Gradle KTS: Diacritics</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-kts-speaker-identification.html">Gradle KTS: Speaker identification</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-kts-audio-tagging.html">Gradle KTS: Audio tagging</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-kts-speech-enhancement.html">Gradle KTS: Speech enhancement</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-kts-spoken-language-identification.html">Gradle KTS: Spoken language identification</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-kts-speaker-diarization.html">Gradle KTS: Speaker diarization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-kts-itn.html">Gradle KTS: Inverse text normalization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-kts-websocket.html">Gradle KTS: WebSocket client</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#useful-links">Useful links</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../javascript-api/index.html">Javascript API (Node-Addon)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kotlin-api/index.html">Kotlin API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../swift-api/index.html">Swift API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../go-api/index.html">Go API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rust-api/index.html">Rust API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../csharp-api/index.html">C# API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pascal-api/index.html">Pascal API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lazarus/index.html">Lazarus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../wasm/index.html">WebAssembly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../android/index.html">Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../harmony-os/index.html">HarmonyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ios/index.html">iOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../flutter/index.html">Flutter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tauri/index.html">Tauri Desktop Apps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../websocket/index.html">WebSocket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../hotwords/index.html">Hotwords (Contextual biasing)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kws/index.html">Keyword spotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../punctuation/index.html">Punctuation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../audio-tagging/index.html">Audio tagging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spoken-language-identification/index.html">Spoken language identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vad/index.html">VAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../medasr/index.html">Google MedASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/index.html">Pre-trained models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/whisper/index.html">Whisper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../moonshine/index.html">Moonshine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../omnilingual-asr/index.html">Omnilingual ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sense-voice/index.html">SenseVoice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cohere_transcribe/index.html">Cohere Transcribe</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../funasr-nano/index.html">FunASR Nano</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qwen3-asr/index.html">Qwen3-ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../paraformer/index.html">Paraformer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nemo/index.html">NeMo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../FireRedAsr/index.html">FireRedAsr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Dolphin/index.html">Dolphin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../homophone-replacer/index.html">拼音词组匹配替换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-diarization/index.html">Speaker Diarization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-identification/index.html">Speaker Identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speech-enhancement/index.html">Speech enhancement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../source-separation/index.html">Source separation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qnn/index.html">Qualcomm NPU (QNN, HTP)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rknn/index.html">rknn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spacemit/index.html">SpacemiT CPUs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ascend/index.html">Ascend NPU (昇腾 NPU)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tts/index.html">Text-to-speech (TTS)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../forced-alignment/index.html">Forced alignment</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">sherpa-onnx</a> &raquo;</li>
+          <li><a href="index.html">Java API</a> &raquo;</li>
+      <li>Gradle: Streaming ASR</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/onnx/java-api/gradle-streaming-asr.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="gradle-streaming-asr">
+<span id="java-gradle-streaming-asr"></span><h1>Gradle: Streaming ASR<a class="headerlink" href="#gradle-streaming-asr" title="Permalink to this heading"></a></h1>
+<p>This example shows how to use an <a class="reference external" href="https://github.com/Gilgamesh-J/X-ASR">X-ASR</a> streaming zipformer transducer model for speech recognition. The audio is fed to the recognizer in small chunks and partial results are printed while the audio is being processed.</p>
+<p>The model used here has a chunk size of 480 ms. Please see <a class="reference internal" href="../x-asr/index.html#onnx-x-asr"><span class="std std-ref">X-ASR</span></a> for the other chunk sizes (160 ms, 960 ms, 1920 ms) and the fp32 and no-punct variants, and <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/tree/master/java-api-examples">java-api-examples</a> for more streaming ASR models, e.g., <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/blob/master/java-api-examples/StreamingDecodeFileParaformer.java">StreamingDecodeFileParaformer.java</a>, <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/blob/master/java-api-examples/StreamingDecodeFileCtc.java">StreamingDecodeFileCtc.java</a>.</p>
+<p>It is the Java version of <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/blob/master/java-api-examples/StreamingDecodeFileXasr.java">StreamingDecodeFileXasr.java</a> in <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/tree/master/java-api-examples">sherpa-onnx/java-api-examples</a>.</p>
+<div class="contents local topic" id="on-this-page">
+<p class="topic-title">On this page</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#requirements" id="id3">Requirements</a></p>
+<ul>
+<li><p><a class="reference internal" href="#step-1-create-the-project-directory" id="id4">Step 1. Create the project directory</a></p></li>
+<li><p><a class="reference internal" href="#step-2-create-the-build-files" id="id5">Step 2. Create the build files</a></p></li>
+<li><p><a class="reference internal" href="#step-3-download-the-model" id="id6">Step 3. Download the model</a></p></li>
+<li><p><a class="reference internal" href="#step-4-save-the-code" id="id7">Step 4. Save the code</a></p></li>
+<li><p><a class="reference internal" href="#step-5-check-the-project-layout" id="id8">Step 5. Check the project layout</a></p></li>
+<li><p><a class="reference internal" href="#step-6-build-and-run" id="id9">Step 6. Build and run</a></p></li>
+<li><p><a class="reference internal" href="#output" id="id10">Output</a></p></li>
+</ul>
+</li>
+</ul>
+</div>
+<section id="requirements">
+<h2><a class="toc-backref" href="#id3">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p>JDK 11 or above</p></li>
+<li><p>Gradle 8.x+ (or use the included Gradle wrapper, no separate install needed)</p></li>
+</ul>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The sherpa-onnx Java packages are hosted on <a class="reference external" href="https://jitpack.io/">JitPack</a>, so you need to add the JitPack repository.</p>
+</div>
+<section id="step-1-create-the-project-directory">
+<h3><a class="toc-backref" href="#id4">Step 1. Create the project directory</a><a class="headerlink" href="#step-1-create-the-project-directory" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>sherpa-onnx-java-demo
+<span class="nb">cd</span><span class="w"> </span>sherpa-onnx-java-demo
+</pre></div>
+</div>
+</section>
+<section id="step-2-create-the-build-files">
+<h3><a class="toc-backref" href="#id5">Step 2. Create the build files</a><a class="headerlink" href="#step-2-create-the-build-files" title="Permalink to this heading"></a></h3>
+<p>Save the following as <code class="docutils literal notranslate"><span class="pre">build.gradle</span></code>:</p>
+<div class="highlight-groovy notranslate"><div class="highlight"><pre><span></span><span class="n">plugins</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="n">id</span><span class="w"> </span><span class="s1">'application'</span>
+<span class="w">    </span><span class="n">id</span><span class="w"> </span><span class="s1">'java'</span>
+<span class="o">}</span>
+
+<span class="n">application</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="n">mainClass</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'StreamingDecodeFileXasr'</span>
+<span class="o">}</span>
+
+<span class="n">repositories</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="n">mavenCentral</span><span class="o">()</span>
+<span class="w">    </span><span class="c1">// sherpa-onnx packages are hosted on JitPack</span>
+<span class="w">    </span><span class="n">maven</span><span class="w"> </span><span class="o">{</span><span class="w"> </span><span class="n">url</span><span class="w"> </span><span class="s1">'https://jitpack.io'</span><span class="w"> </span><span class="o">}</span>
+<span class="o">}</span>
+
+<span class="n">dependencies</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="n">implementation</span><span class="w"> </span><span class="s1">'com.github.k2-fsa:sherpa-onnx:v2.0.1'</span>
+<span class="o">}</span>
+
+<span class="n">java</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="n">sourceCompatibility</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">JavaVersion</span><span class="o">.</span><span class="na">VERSION_11</span>
+<span class="w">    </span><span class="n">targetCompatibility</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">JavaVersion</span><span class="o">.</span><span class="na">VERSION_11</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>Save the following as <code class="docutils literal notranslate"><span class="pre">settings.gradle</span></code>:</p>
+<div class="highlight-groovy notranslate"><div class="highlight"><pre><span></span><span class="n">rootProject</span><span class="o">.</span><span class="na">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'sherpa-onnx-java-example'</span>
+</pre></div>
+</div>
+</section>
+<section id="step-3-download-the-model">
+<h3><a class="toc-backref" href="#id6">Step 3. Download the model</a><a class="headerlink" href="#step-3-download-the-model" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-x-asr-480ms-streaming-zipformer-transducer-zh-en-punct-int8-2026-06-05.tar.bz2
+tar<span class="w"> </span>xf<span class="w"> </span>sherpa-onnx-x-asr-480ms-streaming-zipformer-transducer-zh-en-punct-int8-2026-06-05.tar.bz2
+rm<span class="w"> </span>sherpa-onnx-x-asr-480ms-streaming-zipformer-transducer-zh-en-punct-int8-2026-06-05.tar.bz2
+</pre></div>
+</div>
+</section>
+<section id="step-4-save-the-code">
+<h3><a class="toc-backref" href="#id7">Step 4. Save the code</a><a class="headerlink" href="#step-4-save-the-code" title="Permalink to this heading"></a></h3>
+<p>Save the following as <code class="docutils literal notranslate"><span class="pre">src/main/java/StreamingDecodeFileXasr.java</span></code>:</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="c1">// Copyright 2026 Xiaomi Corporation</span>
+
+<span class="c1">// This file shows how to use an X-ASR streaming zipformer transducer model</span>
+<span class="c1">// to decode files.</span>
+<span class="c1">//</span>
+<span class="c1">// X-ASR is from https://github.com/Gilgamesh-J/X-ASR and supports both</span>
+<span class="c1">// Chinese and English. The punct model used here also adds punctuations to</span>
+<span class="c1">// the recognition result.</span>
+<span class="c1">//</span>
+<span class="c1">// Please see</span>
+<span class="c1">// https://k2-fsa.github.io/sherpa/onnx/x-asr/index.html</span>
+<span class="c1">// to download model files</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">com.k2fsa.sherpa.onnx.*</span><span class="p">;</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">StreamingDecodeFileXasr</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="n">modelDir</span><span class="w"> </span><span class="o">=</span>
+<span class="w">        </span><span class="s">"./sherpa-onnx-x-asr-480ms-streaming-zipformer-transducer-zh-en-punct-int8-2026-06-05"</span><span class="p">;</span>
+<span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="n">encoder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">modelDir</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">"/encoder.int8.onnx"</span><span class="p">;</span>
+<span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="n">decoder</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">modelDir</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">"/decoder.onnx"</span><span class="p">;</span>
+<span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="n">joiner</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">modelDir</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">"/joiner.int8.onnx"</span><span class="p">;</span>
+<span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="n">tokens</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">modelDir</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">"/tokens.txt"</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="n">waveFilename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">modelDir</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">"/test_wavs/0.wav"</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">WaveReader</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">WaveReader</span><span class="p">(</span><span class="n">waveFilename</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">OnlineTransducerModelConfig</span><span class="w"> </span><span class="n">transducer</span><span class="w"> </span><span class="o">=</span>
+<span class="w">        </span><span class="n">OnlineTransducerModelConfig</span><span class="p">.</span><span class="na">builder</span><span class="p">()</span>
+<span class="w">            </span><span class="p">.</span><span class="na">setEncoder</span><span class="p">(</span><span class="n">encoder</span><span class="p">)</span>
+<span class="w">            </span><span class="p">.</span><span class="na">setDecoder</span><span class="p">(</span><span class="n">decoder</span><span class="p">)</span>
+<span class="w">            </span><span class="p">.</span><span class="na">setJoiner</span><span class="p">(</span><span class="n">joiner</span><span class="p">)</span>
+<span class="w">            </span><span class="p">.</span><span class="na">build</span><span class="p">();</span>
+
+<span class="w">    </span><span class="n">OnlineModelConfig</span><span class="w"> </span><span class="n">modelConfig</span><span class="w"> </span><span class="o">=</span>
+<span class="w">        </span><span class="n">OnlineModelConfig</span><span class="p">.</span><span class="na">builder</span><span class="p">()</span>
+<span class="w">            </span><span class="p">.</span><span class="na">setTransducer</span><span class="p">(</span><span class="n">transducer</span><span class="p">)</span>
+<span class="w">            </span><span class="p">.</span><span class="na">setTokens</span><span class="p">(</span><span class="n">tokens</span><span class="p">)</span>
+<span class="w">            </span><span class="p">.</span><span class="na">setNumThreads</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="w">            </span><span class="p">.</span><span class="na">setDebug</span><span class="p">(</span><span class="kc">false</span><span class="p">)</span>
+<span class="w">            </span><span class="p">.</span><span class="na">build</span><span class="p">();</span>
+
+<span class="w">    </span><span class="n">OnlineRecognizerConfig</span><span class="w"> </span><span class="n">config</span><span class="w"> </span><span class="o">=</span>
+<span class="w">        </span><span class="n">OnlineRecognizerConfig</span><span class="p">.</span><span class="na">builder</span><span class="p">()</span>
+<span class="w">            </span><span class="p">.</span><span class="na">setOnlineModelConfig</span><span class="p">(</span><span class="n">modelConfig</span><span class="p">)</span>
+<span class="w">            </span><span class="p">.</span><span class="na">setDecodingMethod</span><span class="p">(</span><span class="s">"greedy_search"</span><span class="p">)</span>
+<span class="w">            </span><span class="p">.</span><span class="na">build</span><span class="p">();</span>
+
+<span class="w">    </span><span class="n">OnlineRecognizer</span><span class="w"> </span><span class="n">recognizer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">OnlineRecognizer</span><span class="p">(</span><span class="n">config</span><span class="p">);</span>
+<span class="w">    </span><span class="kt">long</span><span class="w"> </span><span class="n">start</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">currentTimeMillis</span><span class="p">();</span>
+<span class="w">    </span><span class="n">OnlineStream</span><span class="w"> </span><span class="n">stream</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">recognizer</span><span class="p">.</span><span class="na">createStream</span><span class="p">();</span>
+<span class="w">    </span><span class="n">stream</span><span class="p">.</span><span class="na">acceptWaveform</span><span class="p">(</span><span class="n">reader</span><span class="p">.</span><span class="na">getSamples</span><span class="p">(),</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">getSampleRate</span><span class="p">());</span>
+
+<span class="w">    </span><span class="kt">float</span><span class="o">[]</span><span class="w"> </span><span class="n">tailPaddings</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="kt">float</span><span class="o">[</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="w"> </span><span class="p">(</span><span class="mf">0.8</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">getSampleRate</span><span class="p">())</span><span class="o">]</span><span class="p">;</span>
+<span class="w">    </span><span class="n">stream</span><span class="p">.</span><span class="na">acceptWaveform</span><span class="p">(</span><span class="n">tailPaddings</span><span class="p">,</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">getSampleRate</span><span class="p">());</span>
+
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">recognizer</span><span class="p">.</span><span class="na">isReady</span><span class="p">(</span><span class="n">stream</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="n">recognizer</span><span class="p">.</span><span class="na">decode</span><span class="p">(</span><span class="n">stream</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="n">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">recognizer</span><span class="p">.</span><span class="na">getResult</span><span class="p">(</span><span class="n">stream</span><span class="p">).</span><span class="na">getText</span><span class="p">();</span>
+
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">timeElapsedSeconds</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">System</span><span class="p">.</span><span class="na">currentTimeMillis</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">start</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mf">1000.0f</span><span class="p">;</span>
+<span class="w">    </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">printf</span><span class="p">(</span><span class="s">"filename:%s\nresult:%s\n"</span><span class="p">,</span><span class="w"> </span><span class="n">waveFilename</span><span class="p">,</span><span class="w"> </span><span class="n">text</span><span class="p">);</span>
+<span class="w">    </span><span class="kt">float</span><span class="w"> </span><span class="n">audioDuration</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">getSamples</span><span class="p">().</span><span class="na">length</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="kt">float</span><span class="p">)</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">getSampleRate</span><span class="p">();</span>
+<span class="w">    </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">printf</span><span class="p">(</span><span class="s">"audio duration: %.3f s\n"</span><span class="p">,</span><span class="w"> </span><span class="n">audioDuration</span><span class="p">);</span>
+<span class="w">    </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">printf</span><span class="p">(</span><span class="s">"elapsed seconds: %.3f s\n"</span><span class="p">,</span><span class="w"> </span><span class="n">timeElapsedSeconds</span><span class="p">);</span>
+<span class="w">    </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">printf</span><span class="p">(</span>
+<span class="w">        </span><span class="s">"RTF = %.3f/%.3f = %.3f\n"</span><span class="p">,</span><span class="w"> </span><span class="n">timeElapsedSeconds</span><span class="p">,</span><span class="w"> </span><span class="n">audioDuration</span><span class="p">,</span><span class="w"> </span><span class="n">timeElapsedSeconds</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">audioDuration</span><span class="p">);</span>
+
+
+<span class="w">    </span><span class="n">stream</span><span class="p">.</span><span class="na">release</span><span class="p">();</span>
+<span class="w">    </span><span class="n">recognizer</span><span class="p">.</span><span class="na">release</span><span class="p">();</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="step-5-check-the-project-layout">
+<h3><a class="toc-backref" href="#id8">Step 5. Check the project layout</a><a class="headerlink" href="#step-5-check-the-project-layout" title="Permalink to this heading"></a></h3>
+<p>Your project directory should now look like this:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ tree .
+.
+├── build.gradle
+├── settings.gradle
+├── sherpa-onnx-x-asr-480ms-streaming-zipformer-transducer-zh-en-punct-int8-2026-06-05
+│   ├── bpe.model
+│   ├── decoder.onnx
+│   ├── encoder.int8.onnx
+│   ├── joiner.int8.onnx
+│   ├── README.md
+│   ├── test_onnx.py
+│   ├── test_wavs
+│   │   ├── 0.wav
+│   │   ├── 1.wav
+│   │   ├── 2.wav
+│   │   └── 3.wav
+│   └── tokens.txt
+└── src
+    └── main
+        └── java
+            └── StreamingDecodeFileXasr.java
+
+6 directories, 14 files
+
+$ ls -lh
+total 16
+-rw-r--r--@  1 fangjun  wheel   415B 19 Nov 14:00 build.gradle
+-rw-r--r--@  1 fangjun  wheel    45B 19 Nov 14:00 settings.gradle
+drwxr-xr-x@ 10 fangjun  wheel   320B 29 Jun 16:30 sherpa-onnx-x-asr-480ms-streaming-zipformer-transducer-zh-en-punct-int8-2026-06-05
+drwxr-xr-x@  3 fangjun  wheel    96B 19 Nov 14:00 src
+</pre></div>
+</div>
+</section>
+<section id="step-6-build-and-run">
+<h3><a class="toc-backref" href="#id9">Step 6. Build and run</a><a class="headerlink" href="#step-6-build-and-run" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Generate the Gradle wrapper (only once; requires Gradle to be installed)</span>
+gradle<span class="w"> </span>wrapper
+
+./gradlew<span class="w"> </span>run
+</pre></div>
+</div>
+</section>
+<section id="output">
+<h3><a class="toc-backref" href="#id10">Output</a><a class="headerlink" href="#output" title="Permalink to this heading"></a></h3>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>[Incubating] Problems report is available at: file:///private/tmp/java-doc-work/layouts-java/gradle-streaming-asr/build/reports/problems/problems-report.html
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/9.6.1/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+
+1 actionable task: 1 executed
+Consider enabling configuration cache to speed up this build: https://docs.gradle.org/9.6.1/userguide/configuration_cache_enabling.html
+
+filename:./sherpa-onnx-x-asr-480ms-streaming-zipformer-transducer-zh-en-punct-int8-2026-06-05/test_wavs/0.wav
+result:昨天是 Monday， today is 礼拜二， the day after tomorrow 是星期三
+audio duration: 10.053 s
+elapsed seconds: 0.320 s
+RTF = 0.320/10.053 = 0.032
+
+[Incubating] Problems report is available at: file:///private/tmp/java-doc-work/layouts-java/gradle-streaming-asr/build/reports/problems/problems-report.html
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/9.6.1/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+
+2 actionable tasks: 2 executed
+Consider enabling configuration cache to speed up this build: https://docs.gradle.org/9.6.1/userguide/configuration_cache_enabling.html
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="gradle-asr.html" class="btn btn-neutral float-left" title="Gradle: Offline ASR" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="gradle-tts.html" class="btn btn-neutral float-right" title="Gradle: TTS" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

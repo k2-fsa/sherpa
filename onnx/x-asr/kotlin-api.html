@@ -1,0 +1,876 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kotlin &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Go" href="go-api.html" />
+    <link rel="prev" title="Java" href="java-api.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">sherpa-onnx</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../install/index.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../faqs/index.html">Frequently Asked Question (FAQs)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python/index.html">Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../c-api/index.html">C API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../java-api/index.html">Java API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../javascript-api/index.html">Javascript API (Node-Addon)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kotlin-api/index.html">Kotlin API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../swift-api/index.html">Swift API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../go-api/index.html">Go API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rust-api/index.html">Rust API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../csharp-api/index.html">C# API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pascal-api/index.html">Pascal API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lazarus/index.html">Lazarus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../wasm/index.html">WebAssembly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../android/index.html">Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../harmony-os/index.html">HarmonyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ios/index.html">iOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../flutter/index.html">Flutter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tauri/index.html">Tauri Desktop Apps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../websocket/index.html">WebSocket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../hotwords/index.html">Hotwords (Contextual biasing)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kws/index.html">Keyword spotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../punctuation/index.html">Punctuation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../audio-tagging/index.html">Audio tagging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spoken-language-identification/index.html">Spoken language identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vad/index.html">VAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../medasr/index.html">Google MedASR</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../pretrained_models/index.html">Pre-trained models</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/online-transducer/index.html">Online transducer models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/online-paraformer/index.html">Online paraformer models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/online-ctc/index.html">Online CTC models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/offline-transducer/index.html">Offline transducer models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/offline-paraformer/index.html">Offline paraformer models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/offline-ctc/index.html">Offline CTC models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/telespeech/index.html">TeleSpeech</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/whisper/index.html">Whisper</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/wenet/index.html">WeNet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/small-online-models.html">Small models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sense-voice/index.html">SenseVoice</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">X-ASR</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="index.html#non-streaming-models">Non-streaming models</a></li>
+<li class="toctree-l4"><a class="reference internal" href="index.html#streaming-models">Streaming models</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="index.html#use-x-asr-with-our-apis">Use X-ASR with our APIs</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/whisper/index.html">Whisper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../moonshine/index.html">Moonshine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../omnilingual-asr/index.html">Omnilingual ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sense-voice/index.html">SenseVoice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cohere_transcribe/index.html">Cohere Transcribe</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../funasr-nano/index.html">FunASR Nano</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qwen3-asr/index.html">Qwen3-ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../paraformer/index.html">Paraformer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nemo/index.html">NeMo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../FireRedAsr/index.html">FireRedAsr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Dolphin/index.html">Dolphin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../homophone-replacer/index.html">拼音词组匹配替换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-diarization/index.html">Speaker Diarization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-identification/index.html">Speaker Identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speech-enhancement/index.html">Speech enhancement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../source-separation/index.html">Source separation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qnn/index.html">Qualcomm NPU (QNN, HTP)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rknn/index.html">rknn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spacemit/index.html">SpacemiT CPUs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ascend/index.html">Ascend NPU (昇腾 NPU)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tts/index.html">Text-to-speech (TTS)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../forced-alignment/index.html">Forced alignment</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">sherpa-onnx</a> &raquo;</li>
+          <li><a href="../pretrained_models/index.html">Pre-trained models</a> &raquo;</li>
+          <li><a href="index.html">X-ASR</a> &raquo;</li>
+      <li>Kotlin</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/onnx/x-asr/kotlin-api.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="kotlin">
+<span id="onnx-x-asr-kotlin-api"></span><h1>Kotlin<a class="headerlink" href="#kotlin" title="Permalink to this heading"></a></h1>
+<p>This page shows how to use <a class="reference external" href="https://github.com/Gilgamesh-J/X-ASR">X-ASR</a> models with the Kotlin API of <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>. Two demos are given: one with a non-streaming model and one with a streaming model. You can build the project with either Maven or Gradle (Kotlin DSL).</p>
+<div class="contents local topic" id="on-this-page">
+<p class="topic-title">On this page</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#requirements" id="id10">Requirements</a></p></li>
+<li><p><a class="reference internal" href="#non-streaming-x-asr" id="id11">Non-streaming X-ASR</a></p>
+<ul>
+<li><p><a class="reference internal" href="#step-1-create-the-project-directory" id="id12">Step 1. Create the project directory</a></p></li>
+<li><p><a class="reference internal" href="#step-2-create-the-build-files" id="id13">Step 2. Create the build files</a></p></li>
+<li><p><a class="reference internal" href="#step-3-download-the-model" id="id14">Step 3. Download the model</a></p></li>
+<li><p><a class="reference internal" href="#step-4-save-the-code" id="id15">Step 4. Save the code</a></p></li>
+<li><p><a class="reference internal" href="#step-5-check-the-project-layout" id="id16">Step 5. Check the project layout</a></p></li>
+<li><p><a class="reference internal" href="#step-6-build-and-run" id="id17">Step 6. Build and run</a></p></li>
+<li><p><a class="reference internal" href="#output" id="id18">Output</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#streaming-x-asr" id="id19">Streaming X-ASR</a></p>
+<ul>
+<li><p><a class="reference internal" href="#id1" id="id20">Step 1. Create the project directory</a></p></li>
+<li><p><a class="reference internal" href="#id2" id="id21">Step 2. Create the build files</a></p></li>
+<li><p><a class="reference internal" href="#id3" id="id22">Step 3. Download the model</a></p></li>
+<li><p><a class="reference internal" href="#id4" id="id23">Step 4. Save the code</a></p></li>
+<li><p><a class="reference internal" href="#id5" id="id24">Step 5. Check the project layout</a></p></li>
+<li><p><a class="reference internal" href="#id6" id="id25">Step 6. Build and run</a></p></li>
+<li><p><a class="reference internal" href="#id7" id="id26">Output</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#notes" id="id27">Notes</a></p></li>
+</ul>
+</div>
+<section id="requirements">
+<h2><a class="toc-backref" href="#id10">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p>JDK 11 or above</p></li>
+<li><p>Maven 3.x or Gradle 8.x+</p></li>
+</ul>
+</section>
+<section id="non-streaming-x-asr">
+<h2><a class="toc-backref" href="#id11">Non-streaming X-ASR</a><a class="headerlink" href="#non-streaming-x-asr" title="Permalink to this heading"></a></h2>
+<section id="step-1-create-the-project-directory">
+<h3><a class="toc-backref" href="#id12">Step 1. Create the project directory</a><a class="headerlink" href="#step-1-create-the-project-directory" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>x-asr-demo
+<span class="nb">cd</span><span class="w"> </span>x-asr-demo
+</pre></div>
+</div>
+</section>
+<section id="step-2-create-the-build-files">
+<h3><a class="toc-backref" href="#id13">Step 2. Create the build files</a><a class="headerlink" href="#step-2-create-the-build-files" title="Permalink to this heading"></a></h3>
+<p>If you use Maven, create <code class="docutils literal notranslate"><span class="pre">pom.xml</span></code>. If you use Gradle (Kotlin DSL), create <code class="docutils literal notranslate"><span class="pre">build.gradle.kts</span></code> and <code class="docutils literal notranslate"><span class="pre">settings.gradle.kts</span></code>.</p>
+<p>Save the following as <code class="docutils literal notranslate"><span class="pre">pom.xml</span></code>:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="cp">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+<span class="nt">&lt;project</span><span class="w"> </span><span class="na">xmlns=</span><span class="s">"http://maven.apache.org/POM/4.0.0"</span>
+<span class="w">         </span><span class="na">xmlns:xsi=</span><span class="s">"http://www.w3.org/2001/XMLSchema-instance"</span>
+<span class="w">         </span><span class="na">xsi:schemaLocation=</span><span class="s">"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;modelVersion&gt;</span>4.0.0<span class="nt">&lt;/modelVersion&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;groupId&gt;</span>com.example<span class="nt">&lt;/groupId&gt;</span>
+<span class="w">    </span><span class="nt">&lt;artifactId&gt;</span>x-asr-kotlin-example<span class="nt">&lt;/artifactId&gt;</span>
+<span class="w">    </span><span class="nt">&lt;version&gt;</span>1.0<span class="nt">&lt;/version&gt;</span>
+<span class="w">    </span><span class="nt">&lt;packaging&gt;</span>jar<span class="nt">&lt;/packaging&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;properties&gt;</span>
+<span class="w">        </span><span class="nt">&lt;kotlin.version&gt;</span>2.2.20<span class="nt">&lt;/kotlin.version&gt;</span>
+<span class="w">        </span><span class="nt">&lt;maven.compiler.release&gt;</span>11<span class="nt">&lt;/maven.compiler.release&gt;</span>
+<span class="w">        </span><span class="nt">&lt;project.build.sourceEncoding&gt;</span>UTF-8<span class="nt">&lt;/project.build.sourceEncoding&gt;</span>
+<span class="w">        </span><span class="nt">&lt;sherpa-onnx.version&gt;</span>v2.0.1<span class="nt">&lt;/sherpa-onnx.version&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/properties&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;repositories&gt;</span>
+<span class="w">        </span><span class="cm">&lt;!-- sherpa-onnx packages are hosted on JitPack --&gt;</span>
+<span class="w">        </span><span class="nt">&lt;repository&gt;</span>
+<span class="w">            </span><span class="nt">&lt;id&gt;</span>jitpack.io<span class="nt">&lt;/id&gt;</span>
+<span class="w">            </span><span class="nt">&lt;url&gt;</span>https://jitpack.io<span class="nt">&lt;/url&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/repository&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/repositories&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;dependencies&gt;</span>
+<span class="w">        </span><span class="nt">&lt;dependency&gt;</span>
+<span class="w">            </span><span class="nt">&lt;groupId&gt;</span>org.jetbrains.kotlin<span class="nt">&lt;/groupId&gt;</span>
+<span class="w">            </span><span class="nt">&lt;artifactId&gt;</span>kotlin-stdlib<span class="nt">&lt;/artifactId&gt;</span>
+<span class="w">            </span><span class="nt">&lt;version&gt;</span>${kotlin.version}<span class="nt">&lt;/version&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/dependency&gt;</span>
+<span class="w">        </span><span class="nt">&lt;dependency&gt;</span>
+<span class="w">            </span><span class="nt">&lt;groupId&gt;</span>com.github.k2-fsa<span class="nt">&lt;/groupId&gt;</span>
+<span class="w">            </span><span class="nt">&lt;artifactId&gt;</span>sherpa-onnx<span class="nt">&lt;/artifactId&gt;</span>
+<span class="w">            </span><span class="nt">&lt;version&gt;</span>${sherpa-onnx.version}<span class="nt">&lt;/version&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/dependency&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/dependencies&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;build&gt;</span>
+<span class="w">        </span><span class="nt">&lt;sourceDirectory&gt;</span>${project.basedir}/src/main/kotlin<span class="nt">&lt;/sourceDirectory&gt;</span>
+<span class="w">        </span><span class="nt">&lt;plugins&gt;</span>
+<span class="w">            </span><span class="nt">&lt;plugin&gt;</span>
+<span class="w">                </span><span class="nt">&lt;groupId&gt;</span>org.jetbrains.kotlin<span class="nt">&lt;/groupId&gt;</span>
+<span class="w">                </span><span class="nt">&lt;artifactId&gt;</span>kotlin-maven-plugin<span class="nt">&lt;/artifactId&gt;</span>
+<span class="w">                </span><span class="nt">&lt;version&gt;</span>${kotlin.version}<span class="nt">&lt;/version&gt;</span>
+<span class="w">                </span><span class="nt">&lt;executions&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;execution&gt;</span>
+<span class="w">                        </span><span class="nt">&lt;id&gt;</span>compile<span class="nt">&lt;/id&gt;</span>
+<span class="w">                        </span><span class="nt">&lt;phase&gt;</span>compile<span class="nt">&lt;/phase&gt;</span>
+<span class="w">                        </span><span class="nt">&lt;goals&gt;</span>
+<span class="w">                            </span><span class="nt">&lt;goal&gt;</span>compile<span class="nt">&lt;/goal&gt;</span>
+<span class="w">                        </span><span class="nt">&lt;/goals&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;/execution&gt;</span>
+<span class="w">                </span><span class="nt">&lt;/executions&gt;</span>
+<span class="w">                </span><span class="nt">&lt;configuration&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;jvmTarget&gt;</span>11<span class="nt">&lt;/jvmTarget&gt;</span>
+<span class="w">                </span><span class="nt">&lt;/configuration&gt;</span>
+<span class="w">            </span><span class="nt">&lt;/plugin&gt;</span>
+<span class="w">            </span><span class="nt">&lt;plugin&gt;</span>
+<span class="w">                </span><span class="nt">&lt;groupId&gt;</span>org.apache.maven.plugins<span class="nt">&lt;/groupId&gt;</span>
+<span class="w">                </span><span class="nt">&lt;artifactId&gt;</span>maven-jar-plugin<span class="nt">&lt;/artifactId&gt;</span>
+<span class="w">                </span><span class="nt">&lt;version&gt;</span>3.3.0<span class="nt">&lt;/version&gt;</span>
+<span class="w">                </span><span class="nt">&lt;configuration&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;archive&gt;</span>
+<span class="w">                        </span><span class="nt">&lt;manifest&gt;</span>
+<span class="w">                            </span><span class="nt">&lt;mainClass&gt;</span>XasrOfflineDemoKt<span class="nt">&lt;/mainClass&gt;</span>
+<span class="w">                        </span><span class="nt">&lt;/manifest&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;/archive&gt;</span>
+<span class="w">                </span><span class="nt">&lt;/configuration&gt;</span>
+<span class="w">            </span><span class="nt">&lt;/plugin&gt;</span>
+<span class="w">            </span><span class="nt">&lt;plugin&gt;</span>
+<span class="w">                </span><span class="nt">&lt;groupId&gt;</span>org.apache.maven.plugins<span class="nt">&lt;/groupId&gt;</span>
+<span class="w">                </span><span class="nt">&lt;artifactId&gt;</span>maven-shade-plugin<span class="nt">&lt;/artifactId&gt;</span>
+<span class="w">                </span><span class="nt">&lt;version&gt;</span>3.5.1<span class="nt">&lt;/version&gt;</span>
+<span class="w">                </span><span class="nt">&lt;executions&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;execution&gt;</span>
+<span class="w">                        </span><span class="nt">&lt;phase&gt;</span>package<span class="nt">&lt;/phase&gt;</span>
+<span class="w">                        </span><span class="nt">&lt;goals&gt;</span>
+<span class="w">                            </span><span class="nt">&lt;goal&gt;</span>shade<span class="nt">&lt;/goal&gt;</span>
+<span class="w">                        </span><span class="nt">&lt;/goals&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;/execution&gt;</span>
+<span class="w">                </span><span class="nt">&lt;/executions&gt;</span>
+<span class="w">            </span><span class="nt">&lt;/plugin&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/plugins&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/build&gt;</span>
+<span class="nt">&lt;/project&gt;</span>
+</pre></div>
+</div>
+<p>Save the following as <code class="docutils literal notranslate"><span class="pre">build.gradle.kts</span></code>:</p>
+<div class="highlight-kotlin notranslate"><div class="highlight"><pre><span></span><span class="n">plugins</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">kotlin</span><span class="p">(</span><span class="s">"jvm"</span><span class="p">)</span><span class="w"> </span><span class="n">version</span><span class="w"> </span><span class="s">"2.2.20"</span>
+<span class="w">    </span><span class="n">application</span>
+<span class="p">}</span>
+
+<span class="n">application</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">mainClass</span><span class="p">.</span><span class="na">set</span><span class="p">(</span><span class="s">"XasrOfflineDemoKt"</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="n">repositories</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">mavenCentral</span><span class="p">()</span>
+<span class="w">    </span><span class="c1">// sherpa-onnx packages are hosted on JitPack</span>
+<span class="w">    </span><span class="n">maven</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">url</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">uri</span><span class="p">(</span><span class="s">"https://jitpack.io"</span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">dependencies</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">implementation</span><span class="p">(</span><span class="s">"com.github.k2-fsa:sherpa-onnx:v2.0.1"</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="n">java</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">sourceCompatibility</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">JavaVersion</span><span class="p">.</span><span class="na">VERSION_11</span>
+<span class="w">    </span><span class="n">targetCompatibility</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">JavaVersion</span><span class="p">.</span><span class="na">VERSION_11</span>
+<span class="p">}</span>
+
+<span class="n">kotlin</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">compilerOptions</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">jvmTarget</span><span class="p">.</span><span class="na">set</span><span class="p">(</span><span class="n">org</span><span class="p">.</span><span class="na">jetbrains</span><span class="p">.</span><span class="na">kotlin</span><span class="p">.</span><span class="na">gradle</span><span class="p">.</span><span class="na">dsl</span><span class="p">.</span><span class="na">JvmTarget</span><span class="p">.</span><span class="na">JVM_11</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Save the following as <code class="docutils literal notranslate"><span class="pre">settings.gradle.kts</span></code>:</p>
+<div class="highlight-kotlin notranslate"><div class="highlight"><pre><span></span><span class="n">pluginManagement</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">repositories</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">mavenCentral</span><span class="p">()</span>
+<span class="w">        </span><span class="n">gradlePluginPortal</span><span class="p">()</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">rootProject</span><span class="p">.</span><span class="na">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"x-asr-kotlin-example"</span>
+</pre></div>
+</div>
+</section>
+<section id="step-3-download-the-model">
+<h3><a class="toc-backref" href="#id14">Step 3. Download the model</a><a class="headerlink" href="#step-3-download-the-model" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-x-asr-zipformer-transducer-zh-en-punct-int8-2026-06-03.tar.bz2
+tar<span class="w"> </span>xf<span class="w"> </span>sherpa-onnx-x-asr-zipformer-transducer-zh-en-punct-int8-2026-06-03.tar.bz2
+rm<span class="w"> </span>sherpa-onnx-x-asr-zipformer-transducer-zh-en-punct-int8-2026-06-03.tar.bz2
+</pre></div>
+</div>
+</section>
+<section id="step-4-save-the-code">
+<h3><a class="toc-backref" href="#id15">Step 4. Save the code</a><a class="headerlink" href="#step-4-save-the-code" title="Permalink to this heading"></a></h3>
+<p>Save the following as <code class="docutils literal notranslate"><span class="pre">src/main/kotlin/XasrOfflineDemo.kt</span></code>:</p>
+<div class="highlight-kotlin notranslate"><div class="highlight"><pre><span></span><span class="c1">// This file shows how to use a non-streaming X-ASR model with sherpa-onnx</span>
+<span class="c1">// in Kotlin.</span>
+<span class="c1">//</span>
+<span class="c1">// Before you run it, please download the model:</span>
+<span class="c1">//</span>
+<span class="c1">//   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-x-asr-zipformer-transducer-zh-en-punct-int8-2026-06-03.tar.bz2</span>
+<span class="c1">//   tar xf sherpa-onnx-x-asr-zipformer-transducer-zh-en-punct-int8-2026-06-03.tar.bz2</span>
+<span class="c1">//</span>
+<span class="c1">// Note: this file has a top-level main function, so the generated main</span>
+<span class="c1">// class is XasrOfflineDemoKt (the file name plus the suffix Kt).</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">com.k2fsa.sherpa.onnx.*</span>
+
+<span class="kd">fun</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nv">modelDir</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"./sherpa-onnx-x-asr-zipformer-transducer-zh-en-punct-int8-2026-06-03"</span>
+
+<span class="w">  </span><span class="c1">// Step 1: Create the recognizer from the X-ASR model files.</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nv">transducer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">OfflineTransducerModelConfig</span><span class="p">.</span><span class="na">builder</span><span class="p">()</span>
+<span class="w">    </span><span class="p">.</span><span class="na">setEncoder</span><span class="p">(</span><span class="s">"</span><span class="si">$</span><span class="n">modelDir</span><span class="s">/encoder-epoch-99-avg-1.int8.onnx"</span><span class="p">)</span>
+<span class="w">    </span><span class="p">.</span><span class="na">setDecoder</span><span class="p">(</span><span class="s">"</span><span class="si">$</span><span class="n">modelDir</span><span class="s">/decoder-epoch-99-avg-1.onnx"</span><span class="p">)</span>
+<span class="w">    </span><span class="p">.</span><span class="na">setJoiner</span><span class="p">(</span><span class="s">"</span><span class="si">$</span><span class="n">modelDir</span><span class="s">/joiner-epoch-99-avg-1.int8.onnx"</span><span class="p">)</span>
+<span class="w">    </span><span class="p">.</span><span class="na">build</span><span class="p">()</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nv">modelConfig</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">OfflineModelConfig</span><span class="p">.</span><span class="na">builder</span><span class="p">()</span>
+<span class="w">    </span><span class="p">.</span><span class="na">setTransducer</span><span class="p">(</span><span class="n">transducer</span><span class="p">)</span>
+<span class="w">    </span><span class="p">.</span><span class="na">setTokens</span><span class="p">(</span><span class="s">"</span><span class="si">$</span><span class="n">modelDir</span><span class="s">/tokens.txt"</span><span class="p">)</span>
+<span class="w">    </span><span class="p">.</span><span class="na">setNumThreads</span><span class="p">(</span><span class="m">2</span><span class="p">)</span>
+<span class="w">    </span><span class="p">.</span><span class="na">setDebug</span><span class="p">(</span><span class="kc">false</span><span class="p">)</span>
+<span class="w">    </span><span class="p">.</span><span class="na">build</span><span class="p">()</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nv">config</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">OfflineRecognizerConfig</span><span class="p">.</span><span class="na">builder</span><span class="p">()</span>
+<span class="w">    </span><span class="p">.</span><span class="na">setOfflineModelConfig</span><span class="p">(</span><span class="n">modelConfig</span><span class="p">)</span>
+<span class="w">    </span><span class="p">.</span><span class="na">setDecodingMethod</span><span class="p">(</span><span class="s">"greedy_search"</span><span class="p">)</span>
+<span class="w">    </span><span class="p">.</span><span class="na">build</span><span class="p">()</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nv">recognizer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">OfflineRecognizer</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+
+<span class="w">  </span><span class="c1">// Step 2: Read the wave file you want to transcribe.</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nv">filename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"</span><span class="si">$</span><span class="n">modelDir</span><span class="s">/test_wavs/0.wav"</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nv">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">WaveReader</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+
+<span class="w">  </span><span class="c1">// Step 3: Create a stream, send the whole audio to it, and decode.</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nv">start</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">nanoTime</span><span class="p">()</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nv">stream</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">recognizer</span><span class="p">.</span><span class="na">createStream</span><span class="p">()</span>
+<span class="w">  </span><span class="n">stream</span><span class="p">.</span><span class="na">acceptWaveform</span><span class="p">(</span><span class="n">reader</span><span class="p">.</span><span class="na">getSamples</span><span class="p">(),</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">getSampleRate</span><span class="p">())</span>
+<span class="w">  </span><span class="n">recognizer</span><span class="p">.</span><span class="na">decode</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nv">elapsed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">System</span><span class="p">.</span><span class="na">nanoTime</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">start</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="m">1</span><span class="n">e9</span>
+
+<span class="w">  </span><span class="c1">// Step 4: Print the result. X-ASR punct models also add punctuations.</span>
+<span class="w">  </span><span class="n">println</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+<span class="w">  </span><span class="n">println</span><span class="p">(</span><span class="n">recognizer</span><span class="p">.</span><span class="na">getResult</span><span class="p">(</span><span class="n">stream</span><span class="p">).</span><span class="na">getText</span><span class="p">())</span>
+
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nv">audioDuration</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">getSamples</span><span class="p">().</span><span class="na">size</span><span class="p">.</span><span class="na">toDouble</span><span class="p">()</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">getSampleRate</span><span class="p">()</span>
+<span class="w">  </span><span class="n">println</span><span class="p">(</span><span class="kt">String</span><span class="p">.</span><span class="na">format</span><span class="p">(</span><span class="s">"audio duration: %.3f s"</span><span class="p">,</span><span class="w"> </span><span class="n">audioDuration</span><span class="p">))</span>
+<span class="w">  </span><span class="n">println</span><span class="p">(</span><span class="kt">String</span><span class="p">.</span><span class="na">format</span><span class="p">(</span><span class="s">"elapsed seconds: %.3f s"</span><span class="p">,</span><span class="w"> </span><span class="n">elapsed</span><span class="p">))</span>
+<span class="w">  </span><span class="n">println</span><span class="p">(</span><span class="kt">String</span><span class="p">.</span><span class="na">format</span><span class="p">(</span><span class="s">"RTF = %.3f/%.3f = %.3f"</span><span class="p">,</span><span class="w"> </span><span class="n">elapsed</span><span class="p">,</span><span class="w"> </span><span class="n">audioDuration</span><span class="p">,</span><span class="w"> </span><span class="n">elapsed</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">audioDuration</span><span class="p">))</span>
+
+<span class="w">  </span><span class="n">stream</span><span class="p">.</span><span class="na">release</span><span class="p">()</span>
+<span class="w">  </span><span class="n">recognizer</span><span class="p">.</span><span class="na">release</span><span class="p">()</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="step-5-check-the-project-layout">
+<h3><a class="toc-backref" href="#id16">Step 5. Check the project layout</a><a class="headerlink" href="#step-5-check-the-project-layout" title="Permalink to this heading"></a></h3>
+<p>Your project directory should now look like this:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ tree .
+.
+├── build.gradle.kts
+├── pom.xml
+├── settings.gradle.kts
+├── sherpa-onnx-x-asr-zipformer-transducer-zh-en-punct-int8-2026-06-03
+│   ├── bpe.model
+│   ├── decoder-epoch-99-avg-1.onnx
+│   ├── encoder-epoch-99-avg-1.int8.onnx
+│   ├── joiner-epoch-99-avg-1.int8.onnx
+│   ├── README.md
+│   ├── test_onnx.py
+│   ├── test_wavs
+│   │   ├── 0.wav
+│   │   ├── 1.wav
+│   │   ├── 2.wav
+│   │   └── 3.wav
+│   └── tokens.txt
+└── src
+    └── main
+        └── kotlin
+            └── XasrOfflineDemo.kt
+
+6 directories, 15 files
+
+$ ls -lh
+total 24
+-rw-r--r--@  1 fangjun  wheel   548B 19 Nov 12:23 build.gradle.kts
+-rw-r--r--@  1 fangjun  wheel   3.1K 19 Nov 12:23 pom.xml
+-rw-r--r--@  1 fangjun  wheel   141B 19 Nov 12:23 settings.gradle.kts
+drwxr-xr-x@ 10 fangjun  wheel   320B 29 Jun 16:31 sherpa-onnx-x-asr-zipformer-transducer-zh-en-punct-int8-2026-06-03
+drwxr-xr-x@  3 fangjun  wheel    96B 19 Nov 12:23 src
+</pre></div>
+</div>
+</section>
+<section id="step-6-build-and-run">
+<h3><a class="toc-backref" href="#id17">Step 6. Build and run</a><a class="headerlink" href="#step-6-build-and-run" title="Permalink to this heading"></a></h3>
+<p>From the project directory, run:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Maven</span>
+mvn<span class="w"> </span>-q<span class="w"> </span>package
+java<span class="w"> </span>-jar<span class="w"> </span>target/x-asr-kotlin-example-1.0.jar
+
+<span class="c1"># or Gradle KTS</span>
+gradle<span class="w"> </span>wrapper
+./gradlew<span class="w"> </span>run
+</pre></div>
+</div>
+</section>
+<section id="output">
+<h3><a class="toc-backref" href="#id18">Output</a><a class="headerlink" href="#output" title="Permalink to this heading"></a></h3>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>WARNING: A restricted method in java.lang.System has been called
+WARNING: java.lang.System::load has been called by com.k2fsa.sherpa.onnx.LibraryUtils in an unnamed module (file:/private/tmp/java-doc-work/test-kt-maven/target/x-asr-kotlin-example-1.0.jar)
+WARNING: Use --enable-native-access=ALL-UNNAMED to avoid a warning for callers in this module
+WARNING: Restricted methods will be blocked in a future release unless native access is enabled
+
+./sherpa-onnx-x-asr-zipformer-transducer-zh-en-punct-int8-2026-06-03/test_wavs/0.wav
+昨天是 Monday, today is 礼拜二， the day after tomorrow 是星期三。
+audio duration: 10.053 s
+elapsed seconds: 0.116 s
+RTF = 0.116/10.053 = 0.012
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The timing above was measured on a MacBook Pro (Apple M4) using 2 threads. Please increase the number of threads for a smaller RTF on your machine.</p>
+</div>
+</section>
+</section>
+<section id="streaming-x-asr">
+<h2><a class="toc-backref" href="#id19">Streaming X-ASR</a><a class="headerlink" href="#streaming-x-asr" title="Permalink to this heading"></a></h2>
+<section id="id1">
+<h3><a class="toc-backref" href="#id20">Step 1. Create the project directory</a><a class="headerlink" href="#id1" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>x-asr-demo
+<span class="nb">cd</span><span class="w"> </span>x-asr-demo
+</pre></div>
+</div>
+</section>
+<section id="id2">
+<h3><a class="toc-backref" href="#id21">Step 2. Create the build files</a><a class="headerlink" href="#id2" title="Permalink to this heading"></a></h3>
+<p>If you use Maven, create <code class="docutils literal notranslate"><span class="pre">pom.xml</span></code>. If you use Gradle (Kotlin DSL), create <code class="docutils literal notranslate"><span class="pre">build.gradle.kts</span></code> and <code class="docutils literal notranslate"><span class="pre">settings.gradle.kts</span></code>.</p>
+<p>Save the following as <code class="docutils literal notranslate"><span class="pre">pom.xml</span></code>:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="cp">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+<span class="nt">&lt;project</span><span class="w"> </span><span class="na">xmlns=</span><span class="s">"http://maven.apache.org/POM/4.0.0"</span>
+<span class="w">         </span><span class="na">xmlns:xsi=</span><span class="s">"http://www.w3.org/2001/XMLSchema-instance"</span>
+<span class="w">         </span><span class="na">xsi:schemaLocation=</span><span class="s">"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;modelVersion&gt;</span>4.0.0<span class="nt">&lt;/modelVersion&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;groupId&gt;</span>com.example<span class="nt">&lt;/groupId&gt;</span>
+<span class="w">    </span><span class="nt">&lt;artifactId&gt;</span>x-asr-kotlin-example<span class="nt">&lt;/artifactId&gt;</span>
+<span class="w">    </span><span class="nt">&lt;version&gt;</span>1.0<span class="nt">&lt;/version&gt;</span>
+<span class="w">    </span><span class="nt">&lt;packaging&gt;</span>jar<span class="nt">&lt;/packaging&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;properties&gt;</span>
+<span class="w">        </span><span class="nt">&lt;kotlin.version&gt;</span>2.2.20<span class="nt">&lt;/kotlin.version&gt;</span>
+<span class="w">        </span><span class="nt">&lt;maven.compiler.release&gt;</span>11<span class="nt">&lt;/maven.compiler.release&gt;</span>
+<span class="w">        </span><span class="nt">&lt;project.build.sourceEncoding&gt;</span>UTF-8<span class="nt">&lt;/project.build.sourceEncoding&gt;</span>
+<span class="w">        </span><span class="nt">&lt;sherpa-onnx.version&gt;</span>v2.0.1<span class="nt">&lt;/sherpa-onnx.version&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/properties&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;repositories&gt;</span>
+<span class="w">        </span><span class="cm">&lt;!-- sherpa-onnx packages are hosted on JitPack --&gt;</span>
+<span class="w">        </span><span class="nt">&lt;repository&gt;</span>
+<span class="w">            </span><span class="nt">&lt;id&gt;</span>jitpack.io<span class="nt">&lt;/id&gt;</span>
+<span class="w">            </span><span class="nt">&lt;url&gt;</span>https://jitpack.io<span class="nt">&lt;/url&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/repository&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/repositories&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;dependencies&gt;</span>
+<span class="w">        </span><span class="nt">&lt;dependency&gt;</span>
+<span class="w">            </span><span class="nt">&lt;groupId&gt;</span>org.jetbrains.kotlin<span class="nt">&lt;/groupId&gt;</span>
+<span class="w">            </span><span class="nt">&lt;artifactId&gt;</span>kotlin-stdlib<span class="nt">&lt;/artifactId&gt;</span>
+<span class="w">            </span><span class="nt">&lt;version&gt;</span>${kotlin.version}<span class="nt">&lt;/version&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/dependency&gt;</span>
+<span class="w">        </span><span class="nt">&lt;dependency&gt;</span>
+<span class="w">            </span><span class="nt">&lt;groupId&gt;</span>com.github.k2-fsa<span class="nt">&lt;/groupId&gt;</span>
+<span class="w">            </span><span class="nt">&lt;artifactId&gt;</span>sherpa-onnx<span class="nt">&lt;/artifactId&gt;</span>
+<span class="w">            </span><span class="nt">&lt;version&gt;</span>${sherpa-onnx.version}<span class="nt">&lt;/version&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/dependency&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/dependencies&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;build&gt;</span>
+<span class="w">        </span><span class="nt">&lt;sourceDirectory&gt;</span>${project.basedir}/src/main/kotlin<span class="nt">&lt;/sourceDirectory&gt;</span>
+<span class="w">        </span><span class="nt">&lt;plugins&gt;</span>
+<span class="w">            </span><span class="nt">&lt;plugin&gt;</span>
+<span class="w">                </span><span class="nt">&lt;groupId&gt;</span>org.jetbrains.kotlin<span class="nt">&lt;/groupId&gt;</span>
+<span class="w">                </span><span class="nt">&lt;artifactId&gt;</span>kotlin-maven-plugin<span class="nt">&lt;/artifactId&gt;</span>
+<span class="w">                </span><span class="nt">&lt;version&gt;</span>${kotlin.version}<span class="nt">&lt;/version&gt;</span>
+<span class="w">                </span><span class="nt">&lt;executions&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;execution&gt;</span>
+<span class="w">                        </span><span class="nt">&lt;id&gt;</span>compile<span class="nt">&lt;/id&gt;</span>
+<span class="w">                        </span><span class="nt">&lt;phase&gt;</span>compile<span class="nt">&lt;/phase&gt;</span>
+<span class="w">                        </span><span class="nt">&lt;goals&gt;</span>
+<span class="w">                            </span><span class="nt">&lt;goal&gt;</span>compile<span class="nt">&lt;/goal&gt;</span>
+<span class="w">                        </span><span class="nt">&lt;/goals&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;/execution&gt;</span>
+<span class="w">                </span><span class="nt">&lt;/executions&gt;</span>
+<span class="w">                </span><span class="nt">&lt;configuration&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;jvmTarget&gt;</span>11<span class="nt">&lt;/jvmTarget&gt;</span>
+<span class="w">                </span><span class="nt">&lt;/configuration&gt;</span>
+<span class="w">            </span><span class="nt">&lt;/plugin&gt;</span>
+<span class="w">            </span><span class="nt">&lt;plugin&gt;</span>
+<span class="w">                </span><span class="nt">&lt;groupId&gt;</span>org.apache.maven.plugins<span class="nt">&lt;/groupId&gt;</span>
+<span class="w">                </span><span class="nt">&lt;artifactId&gt;</span>maven-jar-plugin<span class="nt">&lt;/artifactId&gt;</span>
+<span class="w">                </span><span class="nt">&lt;version&gt;</span>3.3.0<span class="nt">&lt;/version&gt;</span>
+<span class="w">                </span><span class="nt">&lt;configuration&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;archive&gt;</span>
+<span class="w">                        </span><span class="nt">&lt;manifest&gt;</span>
+<span class="w">                            </span><span class="nt">&lt;mainClass&gt;</span>XasrStreamingDemoKt<span class="nt">&lt;/mainClass&gt;</span>
+<span class="w">                        </span><span class="nt">&lt;/manifest&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;/archive&gt;</span>
+<span class="w">                </span><span class="nt">&lt;/configuration&gt;</span>
+<span class="w">            </span><span class="nt">&lt;/plugin&gt;</span>
+<span class="w">            </span><span class="nt">&lt;plugin&gt;</span>
+<span class="w">                </span><span class="nt">&lt;groupId&gt;</span>org.apache.maven.plugins<span class="nt">&lt;/groupId&gt;</span>
+<span class="w">                </span><span class="nt">&lt;artifactId&gt;</span>maven-shade-plugin<span class="nt">&lt;/artifactId&gt;</span>
+<span class="w">                </span><span class="nt">&lt;version&gt;</span>3.5.1<span class="nt">&lt;/version&gt;</span>
+<span class="w">                </span><span class="nt">&lt;executions&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;execution&gt;</span>
+<span class="w">                        </span><span class="nt">&lt;phase&gt;</span>package<span class="nt">&lt;/phase&gt;</span>
+<span class="w">                        </span><span class="nt">&lt;goals&gt;</span>
+<span class="w">                            </span><span class="nt">&lt;goal&gt;</span>shade<span class="nt">&lt;/goal&gt;</span>
+<span class="w">                        </span><span class="nt">&lt;/goals&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;/execution&gt;</span>
+<span class="w">                </span><span class="nt">&lt;/executions&gt;</span>
+<span class="w">            </span><span class="nt">&lt;/plugin&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/plugins&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/build&gt;</span>
+<span class="nt">&lt;/project&gt;</span>
+</pre></div>
+</div>
+<p>Save the following as <code class="docutils literal notranslate"><span class="pre">build.gradle.kts</span></code>:</p>
+<div class="highlight-kotlin notranslate"><div class="highlight"><pre><span></span><span class="n">plugins</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">kotlin</span><span class="p">(</span><span class="s">"jvm"</span><span class="p">)</span><span class="w"> </span><span class="n">version</span><span class="w"> </span><span class="s">"2.2.20"</span>
+<span class="w">    </span><span class="n">application</span>
+<span class="p">}</span>
+
+<span class="n">application</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">mainClass</span><span class="p">.</span><span class="na">set</span><span class="p">(</span><span class="s">"XasrStreamingDemoKt"</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="n">repositories</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">mavenCentral</span><span class="p">()</span>
+<span class="w">    </span><span class="c1">// sherpa-onnx packages are hosted on JitPack</span>
+<span class="w">    </span><span class="n">maven</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">url</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">uri</span><span class="p">(</span><span class="s">"https://jitpack.io"</span><span class="p">)</span><span class="w"> </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">dependencies</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">implementation</span><span class="p">(</span><span class="s">"com.github.k2-fsa:sherpa-onnx:v2.0.1"</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="n">java</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">sourceCompatibility</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">JavaVersion</span><span class="p">.</span><span class="na">VERSION_11</span>
+<span class="w">    </span><span class="n">targetCompatibility</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">JavaVersion</span><span class="p">.</span><span class="na">VERSION_11</span>
+<span class="p">}</span>
+
+<span class="n">kotlin</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">compilerOptions</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">jvmTarget</span><span class="p">.</span><span class="na">set</span><span class="p">(</span><span class="n">org</span><span class="p">.</span><span class="na">jetbrains</span><span class="p">.</span><span class="na">kotlin</span><span class="p">.</span><span class="na">gradle</span><span class="p">.</span><span class="na">dsl</span><span class="p">.</span><span class="na">JvmTarget</span><span class="p">.</span><span class="na">JVM_11</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+<p>Save the following as <code class="docutils literal notranslate"><span class="pre">settings.gradle.kts</span></code>:</p>
+<div class="highlight-kotlin notranslate"><div class="highlight"><pre><span></span><span class="n">pluginManagement</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">repositories</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">mavenCentral</span><span class="p">()</span>
+<span class="w">        </span><span class="n">gradlePluginPortal</span><span class="p">()</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">rootProject</span><span class="p">.</span><span class="na">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"x-asr-kotlin-example"</span>
+</pre></div>
+</div>
+</section>
+<section id="id3">
+<h3><a class="toc-backref" href="#id22">Step 3. Download the model</a><a class="headerlink" href="#id3" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-x-asr-480ms-streaming-zipformer-transducer-zh-en-punct-int8-2026-06-05.tar.bz2
+tar<span class="w"> </span>xf<span class="w"> </span>sherpa-onnx-x-asr-480ms-streaming-zipformer-transducer-zh-en-punct-int8-2026-06-05.tar.bz2
+rm<span class="w"> </span>sherpa-onnx-x-asr-480ms-streaming-zipformer-transducer-zh-en-punct-int8-2026-06-05.tar.bz2
+</pre></div>
+</div>
+</section>
+<section id="id4">
+<h3><a class="toc-backref" href="#id23">Step 4. Save the code</a><a class="headerlink" href="#id4" title="Permalink to this heading"></a></h3>
+<p>Save the following as <code class="docutils literal notranslate"><span class="pre">src/main/kotlin/XasrStreamingDemo.kt</span></code>:</p>
+<div class="highlight-kotlin notranslate"><div class="highlight"><pre><span></span><span class="c1">// This file shows how to use a streaming X-ASR model with sherpa-onnx</span>
+<span class="c1">// in Kotlin.</span>
+<span class="c1">//</span>
+<span class="c1">// Before you run it, please download the model:</span>
+<span class="c1">//</span>
+<span class="c1">//   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-x-asr-480ms-streaming-zipformer-transducer-zh-en-punct-int8-2026-06-05.tar.bz2</span>
+<span class="c1">//   tar xf sherpa-onnx-x-asr-480ms-streaming-zipformer-transducer-zh-en-punct-int8-2026-06-05.tar.bz2</span>
+<span class="c1">//</span>
+<span class="c1">// Note: this file has a top-level main function, so the generated main</span>
+<span class="c1">// class is XasrStreamingDemoKt (the file name plus the suffix Kt).</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">com.k2fsa.sherpa.onnx.*</span>
+
+<span class="kd">fun</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nv">modelDir</span><span class="w"> </span><span class="o">=</span>
+<span class="w">    </span><span class="s">"./sherpa-onnx-x-asr-480ms-streaming-zipformer-transducer-zh-en-punct-int8-2026-06-05"</span>
+
+<span class="w">  </span><span class="c1">// Step 1: Create the recognizer from the X-ASR model files.</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nv">transducer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">OnlineTransducerModelConfig</span><span class="p">.</span><span class="na">builder</span><span class="p">()</span>
+<span class="w">    </span><span class="p">.</span><span class="na">setEncoder</span><span class="p">(</span><span class="s">"</span><span class="si">$</span><span class="n">modelDir</span><span class="s">/encoder.int8.onnx"</span><span class="p">)</span>
+<span class="w">    </span><span class="p">.</span><span class="na">setDecoder</span><span class="p">(</span><span class="s">"</span><span class="si">$</span><span class="n">modelDir</span><span class="s">/decoder.onnx"</span><span class="p">)</span>
+<span class="w">    </span><span class="p">.</span><span class="na">setJoiner</span><span class="p">(</span><span class="s">"</span><span class="si">$</span><span class="n">modelDir</span><span class="s">/joiner.int8.onnx"</span><span class="p">)</span>
+<span class="w">    </span><span class="p">.</span><span class="na">build</span><span class="p">()</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nv">modelConfig</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">OnlineModelConfig</span><span class="p">.</span><span class="na">builder</span><span class="p">()</span>
+<span class="w">    </span><span class="p">.</span><span class="na">setTransducer</span><span class="p">(</span><span class="n">transducer</span><span class="p">)</span>
+<span class="w">    </span><span class="p">.</span><span class="na">setTokens</span><span class="p">(</span><span class="s">"</span><span class="si">$</span><span class="n">modelDir</span><span class="s">/tokens.txt"</span><span class="p">)</span>
+<span class="w">    </span><span class="p">.</span><span class="na">setNumThreads</span><span class="p">(</span><span class="m">2</span><span class="p">)</span>
+<span class="w">    </span><span class="p">.</span><span class="na">setDebug</span><span class="p">(</span><span class="kc">false</span><span class="p">)</span>
+<span class="w">    </span><span class="p">.</span><span class="na">build</span><span class="p">()</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nv">config</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">OnlineRecognizerConfig</span><span class="p">.</span><span class="na">builder</span><span class="p">()</span>
+<span class="w">    </span><span class="p">.</span><span class="na">setOnlineModelConfig</span><span class="p">(</span><span class="n">modelConfig</span><span class="p">)</span>
+<span class="w">    </span><span class="p">.</span><span class="na">setDecodingMethod</span><span class="p">(</span><span class="s">"greedy_search"</span><span class="p">)</span>
+<span class="w">    </span><span class="p">.</span><span class="na">build</span><span class="p">()</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nv">recognizer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">OnlineRecognizer</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>
+
+<span class="w">  </span><span class="c1">// Step 2: Read the wave file you want to transcribe.</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nv">filename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"</span><span class="si">$</span><span class="n">modelDir</span><span class="s">/test_wavs/0.wav"</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nv">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">WaveReader</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nv">samples</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">getSamples</span><span class="p">()</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nv">sampleRate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">getSampleRate</span><span class="p">()</span>
+
+<span class="w">  </span><span class="c1">// Step 3: Create a stream and feed the audio in small chunks, just like</span>
+<span class="w">  </span><span class="c1">// a microphone would do in a real-time application.</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nv">start</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">System</span><span class="p">.</span><span class="na">nanoTime</span><span class="p">()</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nv">stream</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">recognizer</span><span class="p">.</span><span class="na">createStream</span><span class="p">()</span>
+
+<span class="w">  </span><span class="c1">// 0.2 second for 16 kHz audio</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nv">chunk</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3200</span>
+
+<span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="nv">last</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">""</span>
+<span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="nv">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span>
+<span class="w">  </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">samples</span><span class="p">.</span><span class="na">size</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">end</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">minOf</span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">chunk</span><span class="p">,</span><span class="w"> </span><span class="n">samples</span><span class="p">.</span><span class="na">size</span><span class="p">)</span>
+<span class="w">    </span><span class="n">stream</span><span class="p">.</span><span class="na">acceptWaveform</span><span class="p">(</span><span class="n">samples</span><span class="p">.</span><span class="na">copyOfRange</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">end</span><span class="p">),</span><span class="w"> </span><span class="n">sampleRate</span><span class="p">)</span>
+
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">recognizer</span><span class="p">.</span><span class="na">isReady</span><span class="p">(</span><span class="n">stream</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="n">recognizer</span><span class="p">.</span><span class="na">decode</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// Print the latest partial result when it changes.</span>
+<span class="w">    </span><span class="kd">val</span><span class="w"> </span><span class="nv">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">recognizer</span><span class="p">.</span><span class="na">getResult</span><span class="p">(</span><span class="n">stream</span><span class="p">).</span><span class="na">getText</span><span class="p">()</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">text</span><span class="p">.</span><span class="na">isNotEmpty</span><span class="p">()</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">text</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">last</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="n">last</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">text</span>
+<span class="w">      </span><span class="n">println</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">    </span><span class="n">i</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">chunk</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="c1">// Send some tail padding so the last words are flushed out.</span>
+<span class="w">  </span><span class="n">stream</span><span class="p">.</span><span class="na">acceptWaveform</span><span class="p">(</span><span class="n">FloatArray</span><span class="p">((</span><span class="m">0.5</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">sampleRate</span><span class="p">).</span><span class="na">toInt</span><span class="p">()),</span><span class="w"> </span><span class="n">sampleRate</span><span class="p">)</span>
+<span class="w">  </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">recognizer</span><span class="p">.</span><span class="na">isReady</span><span class="p">(</span><span class="n">stream</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">recognizer</span><span class="p">.</span><span class="na">decode</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="c1">// Step 4: Print the final result.</span>
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nv">elapsed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">System</span><span class="p">.</span><span class="na">nanoTime</span><span class="p">()</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">start</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="m">1</span><span class="n">e9</span>
+<span class="w">  </span><span class="n">println</span><span class="p">(</span><span class="s">"Final result: "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">recognizer</span><span class="p">.</span><span class="na">getResult</span><span class="p">(</span><span class="n">stream</span><span class="p">).</span><span class="na">getText</span><span class="p">())</span>
+
+<span class="w">  </span><span class="kd">val</span><span class="w"> </span><span class="nv">audioDuration</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">samples</span><span class="p">.</span><span class="na">size</span><span class="p">.</span><span class="na">toDouble</span><span class="p">()</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">sampleRate</span>
+<span class="w">  </span><span class="n">println</span><span class="p">(</span><span class="kt">String</span><span class="p">.</span><span class="na">format</span><span class="p">(</span><span class="s">"audio duration: %.3f s"</span><span class="p">,</span><span class="w"> </span><span class="n">audioDuration</span><span class="p">))</span>
+<span class="w">  </span><span class="n">println</span><span class="p">(</span><span class="kt">String</span><span class="p">.</span><span class="na">format</span><span class="p">(</span><span class="s">"elapsed seconds: %.3f s"</span><span class="p">,</span><span class="w"> </span><span class="n">elapsed</span><span class="p">))</span>
+<span class="w">  </span><span class="n">println</span><span class="p">(</span><span class="kt">String</span><span class="p">.</span><span class="na">format</span><span class="p">(</span><span class="s">"RTF = %.3f/%.3f = %.3f"</span><span class="p">,</span><span class="w"> </span><span class="n">elapsed</span><span class="p">,</span><span class="w"> </span><span class="n">audioDuration</span><span class="p">,</span><span class="w"> </span><span class="n">elapsed</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">audioDuration</span><span class="p">))</span>
+
+<span class="w">  </span><span class="n">stream</span><span class="p">.</span><span class="na">release</span><span class="p">()</span>
+<span class="w">  </span><span class="n">recognizer</span><span class="p">.</span><span class="na">release</span><span class="p">()</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="id5">
+<h3><a class="toc-backref" href="#id24">Step 5. Check the project layout</a><a class="headerlink" href="#id5" title="Permalink to this heading"></a></h3>
+<p>Your project directory should now look like this:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ tree .
+.
+├── build.gradle.kts
+├── pom.xml
+├── settings.gradle.kts
+├── sherpa-onnx-x-asr-480ms-streaming-zipformer-transducer-zh-en-punct-int8-2026-06-05
+│   ├── bpe.model
+│   ├── decoder.onnx
+│   ├── encoder.int8.onnx
+│   ├── joiner.int8.onnx
+│   ├── README.md
+│   ├── test_onnx.py
+│   ├── test_wavs
+│   │   ├── 0.wav
+│   │   ├── 1.wav
+│   │   ├── 2.wav
+│   │   └── 3.wav
+│   └── tokens.txt
+└── src
+    └── main
+        └── kotlin
+            └── XasrStreamingDemo.kt
+
+6 directories, 15 files
+
+$ ls -lh
+total 24
+-rw-r--r--@  1 fangjun  wheel   550B 19 Nov 12:23 build.gradle.kts
+-rw-r--r--@  1 fangjun  wheel   3.1K 19 Nov 12:23 pom.xml
+-rw-r--r--@  1 fangjun  wheel   141B 19 Nov 12:23 settings.gradle.kts
+drwxr-xr-x@ 10 fangjun  wheel   320B 29 Jun 16:30 sherpa-onnx-x-asr-480ms-streaming-zipformer-transducer-zh-en-punct-int8-2026-06-05
+drwxr-xr-x@  3 fangjun  wheel    96B 19 Nov 12:23 src
+</pre></div>
+</div>
+</section>
+<section id="id6">
+<h3><a class="toc-backref" href="#id25">Step 6. Build and run</a><a class="headerlink" href="#id6" title="Permalink to this heading"></a></h3>
+<p>From the project directory, run:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Maven</span>
+mvn<span class="w"> </span>-q<span class="w"> </span>package
+java<span class="w"> </span>-jar<span class="w"> </span>target/x-asr-kotlin-example-1.0.jar
+
+<span class="c1"># or Gradle KTS</span>
+gradle<span class="w"> </span>wrapper
+./gradlew<span class="w"> </span>run
+</pre></div>
+</div>
+</section>
+<section id="id7">
+<h3><a class="toc-backref" href="#id26">Output</a><a class="headerlink" href="#id7" title="Permalink to this heading"></a></h3>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>WARNING: A restricted method in java.lang.System has been called
+WARNING: java.lang.System::load has been called by com.k2fsa.sherpa.onnx.LibraryUtils in an unnamed module (file:/private/tmp/java-doc-work/test-kt-maven-st/target/x-asr-kotlin-example-1.0.jar)
+WARNING: Use --enable-native-access=ALL-UNNAMED to avoid a warning for callers in this module
+WARNING: Restricted methods will be blocked in a future release unless native access is enabled
+
+昨
+昨天是
+昨天是 Mon
+昨天是 Monday
+昨天是 Monday，
+昨天是 Monday， today
+昨天是 Monday， today is 礼
+昨天是 Monday， today is 礼拜二
+昨天是 Monday， today is 礼拜二，
+昨天是 Monday， today is 礼拜二， the day
+昨天是 Monday， today is 礼拜二， the day after
+昨天是 Monday， today is 礼拜二， the day after tomorro
+昨天是 Monday， today is 礼拜二， the day after tomorrow
+昨天是 Monday， today is 礼拜二， the day after tomorrow 是
+Final result: 昨天是 Monday， today is 礼拜二， the day after tomorrow 是星期
+audio duration: 10.053 s
+elapsed seconds: 0.314 s
+RTF = 0.314/10.053 = 0.031
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The timing above was measured on a MacBook Pro (Apple M4) using 2 threads. Please increase the number of threads for a smaller RTF on your machine.</p>
+</div>
+</section>
+</section>
+<section id="notes">
+<h2><a class="toc-backref" href="#id27">Notes</a><a class="headerlink" href="#notes" title="Permalink to this heading"></a></h2>
+<p>A Kotlin file with a top-level <code class="docutils literal notranslate"><span class="pre">main</span></code> function is compiled to a class named after the file plus the suffix <code class="docutils literal notranslate"><span class="pre">Kt</span></code>, e.g., <code class="docutils literal notranslate"><span class="pre">XasrOfflineDemo.kt</span></code> -&gt; <code class="docutils literal notranslate"><span class="pre">XasrOfflineDemoKt</span></code>. This is why the main class in the build files above ends with <code class="docutils literal notranslate"><span class="pre">Kt</span></code>.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="java-api.html" class="btn btn-neutral float-left" title="Java" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="go-api.html" class="btn btn-neutral float-right" title="Go" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

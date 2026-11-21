@@ -1,0 +1,7 @@
+<map id="sherpa_onnx::cxx::AudioEvent" name="sherpa_onnx::cxx::AudioEvent">
+<area shape="rect" id="Node000001" title="One audio&#45;tagging event returned by the C++ wrapper." alt="" coords="5,200,223,228"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="71,99,157,127"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="116,141,117,200,111,199,112,144"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="45,5,183,50"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="115,63,117,100,111,98,113,68"/>
+</map>

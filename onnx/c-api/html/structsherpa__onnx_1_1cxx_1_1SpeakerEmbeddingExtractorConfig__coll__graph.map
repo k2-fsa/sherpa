@@ -1,0 +1,7 @@
+<map id="sherpa_onnx::cxx::SpeakerEmbeddingExtractorConfig" name="sherpa_onnx::cxx::SpeakerEmbeddingExtractorConfig">
+<area shape="rect" id="Node000001" title="Configuration for speaker embedding extraction." alt="" coords="5,222,201,267"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="60,99,146,127"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="105,141,106,223,100,221,101,144"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="34,5,172,50"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="104,63,106,99,100,98,102,68"/>
+</map>

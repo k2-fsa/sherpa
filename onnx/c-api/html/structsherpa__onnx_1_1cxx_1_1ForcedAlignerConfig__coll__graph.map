@@ -1,0 +1,9 @@
+<map id="sherpa_onnx::cxx::ForcedAlignerConfig" name="sherpa_onnx::cxx::ForcedAlignerConfig">
+<area shape="rect" id="Node000001" title="Configuration of a forced aligner." alt="" coords="61,239,248,284"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="31,108,118,136"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="91,147,145,238,139,239,88,151"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="5,5,144,50"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="75,63,77,108,72,107,74,68"/>
+<area shape="rect" id="Node000004" href="$structsherpa__onnx_1_1cxx_1_1ForcedAlignmentOptions.html" title="Options of a forced aligner." alt="" coords="141,99,328,144"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="230,157,221,189,207,217,186,241,182,237,203,214,216,187,226,161"/>
+</map>

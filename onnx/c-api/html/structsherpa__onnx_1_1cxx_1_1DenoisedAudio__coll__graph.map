@@ -1,0 +1,5 @@
+<map id="sherpa_onnx::cxx::DenoisedAudio" name="sherpa_onnx::cxx::DenoisedAudio">
+<area shape="rect" id="Node000001" title="Denoised waveform returned by speech enhancement wrappers." alt="" coords="5,106,210,151"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="33,5,182,33"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="109,47,110,106,105,105,106,51"/>
+</map>

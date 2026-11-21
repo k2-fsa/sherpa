@@ -1,0 +1,7 @@
+<map id="SherpaOnnxAudioTaggingConfig" name="SherpaOnnxAudioTaggingConfig">
+<area shape="rect" id="Node000001" title="Configuration for audio tagging." alt="" coords="5,241,234,268"/>
+<area shape="rect" id="Node000002" href="$structSherpaOnnxAudioTaggingModelConfig.html" title="Audio&#45;tagging model configuration." alt="" coords="6,123,233,168"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="122,181,122,241,117,239,117,185"/>
+<area shape="rect" id="Node000003" href="$structSherpaOnnxOfflineZipformerAudioTaggingModelConfig.html" title="Zipformer audio&#45;tagging model configuration." alt="" coords="15,5,224,50"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="121,64,122,123,117,122,118,68"/>
+</map>

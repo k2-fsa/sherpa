@@ -1,0 +1,492 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Maven: WebSocket client &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Gradle: Version test" href="gradle-version-test.html" />
+    <link rel="prev" title="Maven: Inverse text normalization" href="maven-itn.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">sherpa-onnx</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../install/index.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../faqs/index.html">Frequently Asked Question (FAQs)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python/index.html">Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../c-api/index.html">C API</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Java API</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="index.html#requirements">Requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#supported-platforms">Supported platforms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#dependencies">Dependencies</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html#examples">Examples</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="android.html">Java for Android</a></li>
+<li class="toctree-l4"><a class="reference internal" href="maven-version-test.html">Maven: Version test</a></li>
+<li class="toctree-l4"><a class="reference internal" href="maven-asr.html">Maven: Offline ASR</a></li>
+<li class="toctree-l4"><a class="reference internal" href="maven-streaming-asr.html">Maven: Streaming ASR</a></li>
+<li class="toctree-l4"><a class="reference internal" href="maven-tts.html">Maven: TTS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="maven-vad.html">Maven: VAD</a></li>
+<li class="toctree-l4"><a class="reference internal" href="maven-forced-alignment.html">Maven: Forced alignment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="maven-kws.html">Maven: Keyword spotting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="maven-punctuation.html">Maven: Punctuation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="maven-diacritics.html">Maven: Diacritics</a></li>
+<li class="toctree-l4"><a class="reference internal" href="maven-speaker-identification.html">Maven: Speaker identification</a></li>
+<li class="toctree-l4"><a class="reference internal" href="maven-audio-tagging.html">Maven: Audio tagging</a></li>
+<li class="toctree-l4"><a class="reference internal" href="maven-speech-enhancement.html">Maven: Speech enhancement</a></li>
+<li class="toctree-l4"><a class="reference internal" href="maven-spoken-language-identification.html">Maven: Spoken language identification</a></li>
+<li class="toctree-l4"><a class="reference internal" href="maven-speaker-diarization.html">Maven: Speaker diarization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="maven-itn.html">Maven: Inverse text normalization</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Maven: WebSocket client</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-version-test.html">Gradle: Version test</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-asr.html">Gradle: Offline ASR</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-streaming-asr.html">Gradle: Streaming ASR</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-tts.html">Gradle: TTS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-vad.html">Gradle: VAD</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-forced-alignment.html">Gradle: Forced alignment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-kws.html">Gradle: Keyword spotting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-punctuation.html">Gradle: Punctuation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-diacritics.html">Gradle: Diacritics</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-speaker-identification.html">Gradle: Speaker identification</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-audio-tagging.html">Gradle: Audio tagging</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-speech-enhancement.html">Gradle: Speech enhancement</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-spoken-language-identification.html">Gradle: Spoken language identification</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-speaker-diarization.html">Gradle: Speaker diarization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-itn.html">Gradle: Inverse text normalization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-websocket.html">Gradle: WebSocket client</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-kts-version-test.html">Gradle KTS: Version test</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-kts-asr.html">Gradle KTS: Offline ASR</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-kts-streaming-asr.html">Gradle KTS: Streaming ASR</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-kts-tts.html">Gradle KTS: TTS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-kts-vad.html">Gradle KTS: VAD</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-kts-forced-alignment.html">Gradle KTS: Forced alignment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-kts-kws.html">Gradle KTS: Keyword spotting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-kts-punctuation.html">Gradle KTS: Punctuation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-kts-diacritics.html">Gradle KTS: Diacritics</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-kts-speaker-identification.html">Gradle KTS: Speaker identification</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-kts-audio-tagging.html">Gradle KTS: Audio tagging</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-kts-speech-enhancement.html">Gradle KTS: Speech enhancement</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-kts-spoken-language-identification.html">Gradle KTS: Spoken language identification</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-kts-speaker-diarization.html">Gradle KTS: Speaker diarization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-kts-itn.html">Gradle KTS: Inverse text normalization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-kts-websocket.html">Gradle KTS: WebSocket client</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#useful-links">Useful links</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../javascript-api/index.html">Javascript API (Node-Addon)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kotlin-api/index.html">Kotlin API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../swift-api/index.html">Swift API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../go-api/index.html">Go API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rust-api/index.html">Rust API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../csharp-api/index.html">C# API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pascal-api/index.html">Pascal API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lazarus/index.html">Lazarus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../wasm/index.html">WebAssembly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../android/index.html">Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../harmony-os/index.html">HarmonyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ios/index.html">iOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../flutter/index.html">Flutter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tauri/index.html">Tauri Desktop Apps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../websocket/index.html">WebSocket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../hotwords/index.html">Hotwords (Contextual biasing)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kws/index.html">Keyword spotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../punctuation/index.html">Punctuation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../audio-tagging/index.html">Audio tagging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spoken-language-identification/index.html">Spoken language identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vad/index.html">VAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../medasr/index.html">Google MedASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/index.html">Pre-trained models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/whisper/index.html">Whisper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../moonshine/index.html">Moonshine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../omnilingual-asr/index.html">Omnilingual ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sense-voice/index.html">SenseVoice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cohere_transcribe/index.html">Cohere Transcribe</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../funasr-nano/index.html">FunASR Nano</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qwen3-asr/index.html">Qwen3-ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../paraformer/index.html">Paraformer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nemo/index.html">NeMo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../FireRedAsr/index.html">FireRedAsr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Dolphin/index.html">Dolphin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../homophone-replacer/index.html">拼音词组匹配替换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-diarization/index.html">Speaker Diarization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-identification/index.html">Speaker Identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speech-enhancement/index.html">Speech enhancement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../source-separation/index.html">Source separation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qnn/index.html">Qualcomm NPU (QNN, HTP)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rknn/index.html">rknn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spacemit/index.html">SpacemiT CPUs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ascend/index.html">Ascend NPU (昇腾 NPU)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tts/index.html">Text-to-speech (TTS)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../forced-alignment/index.html">Forced alignment</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">sherpa-onnx</a> &raquo;</li>
+          <li><a href="index.html">Java API</a> &raquo;</li>
+      <li>Maven: WebSocket client</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/onnx/java-api/maven-websocket.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="maven-websocket-client">
+<span id="java-maven-websocket"></span><h1>Maven: WebSocket client<a class="headerlink" href="#maven-websocket-client" title="Permalink to this heading"></a></h1>
+<p>This example is a WebSocket client for the Python server <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/blob/master/python-api-examples/non_streaming_server.py">non_streaming_server.py</a>. The client sends a wave file to the server and prints the recognition result returned by the server.</p>
+<p>It is the Java version of <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/blob/master/java-api-examples/NonStreamingWebsocketClient.java">NonStreamingWebsocketClient.java</a> in <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/tree/master/java-api-examples">sherpa-onnx/java-api-examples</a>.</p>
+<div class="contents local topic" id="on-this-page">
+<p class="topic-title">On this page</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#requirements" id="id4">Requirements</a></p>
+<ul>
+<li><p><a class="reference internal" href="#step-1-create-the-project-directory" id="id5">Step 1. Create the project directory</a></p></li>
+<li><p><a class="reference internal" href="#step-2-create-the-build-file" id="id6">Step 2. Create the build file</a></p></li>
+<li><p><a class="reference internal" href="#step-3-download-the-model" id="id7">Step 3. Download the model</a></p></li>
+<li><p><a class="reference internal" href="#step-4-save-the-code" id="id8">Step 4. Save the code</a></p></li>
+<li><p><a class="reference internal" href="#step-5-check-the-project-layout" id="id9">Step 5. Check the project layout</a></p></li>
+<li><p><a class="reference internal" href="#step-6-build-and-run" id="id10">Step 6. Build and run</a></p></li>
+<li><p><a class="reference internal" href="#output" id="id11">Output</a></p></li>
+</ul>
+</li>
+</ul>
+</div>
+<section id="requirements">
+<h2><a class="toc-backref" href="#id4">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p>JDK 11 or above</p></li>
+<li><p>Maven 3.x</p></li>
+</ul>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The sherpa-onnx Java packages are hosted on <a class="reference external" href="https://jitpack.io/">JitPack</a>, so you need to add the JitPack repository.</p>
+</div>
+<section id="step-1-create-the-project-directory">
+<h3><a class="toc-backref" href="#id5">Step 1. Create the project directory</a><a class="headerlink" href="#step-1-create-the-project-directory" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>sherpa-onnx-java-demo
+<span class="nb">cd</span><span class="w"> </span>sherpa-onnx-java-demo
+</pre></div>
+</div>
+</section>
+<section id="step-2-create-the-build-file">
+<h3><a class="toc-backref" href="#id6">Step 2. Create the build file</a><a class="headerlink" href="#step-2-create-the-build-file" title="Permalink to this heading"></a></h3>
+<p>Save the following as <code class="docutils literal notranslate"><span class="pre">pom.xml</span></code>:</p>
+<div class="highlight-xml notranslate"><div class="highlight"><pre><span></span><span class="cp">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+<span class="nt">&lt;project</span><span class="w"> </span><span class="na">xmlns=</span><span class="s">"http://maven.apache.org/POM/4.0.0"</span>
+<span class="w">         </span><span class="na">xmlns:xsi=</span><span class="s">"http://www.w3.org/2001/XMLSchema-instance"</span>
+<span class="w">         </span><span class="na">xsi:schemaLocation=</span><span class="s">"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"</span><span class="nt">&gt;</span>
+<span class="w">    </span><span class="nt">&lt;modelVersion&gt;</span>4.0.0<span class="nt">&lt;/modelVersion&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;groupId&gt;</span>com.example<span class="nt">&lt;/groupId&gt;</span>
+<span class="w">    </span><span class="nt">&lt;artifactId&gt;</span>sherpa-onnx-java-example<span class="nt">&lt;/artifactId&gt;</span>
+<span class="w">    </span><span class="nt">&lt;version&gt;</span>1.0<span class="nt">&lt;/version&gt;</span>
+<span class="w">    </span><span class="nt">&lt;packaging&gt;</span>jar<span class="nt">&lt;/packaging&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;properties&gt;</span>
+<span class="w">        </span><span class="nt">&lt;maven.compiler.release&gt;</span>11<span class="nt">&lt;/maven.compiler.release&gt;</span>
+<span class="w">        </span><span class="nt">&lt;project.build.sourceEncoding&gt;</span>UTF-8<span class="nt">&lt;/project.build.sourceEncoding&gt;</span>
+<span class="w">        </span><span class="nt">&lt;sherpa-onnx.version&gt;</span>v2.0.1<span class="nt">&lt;/sherpa-onnx.version&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/properties&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;repositories&gt;</span>
+<span class="w">        </span><span class="cm">&lt;!-- sherpa-onnx packages are hosted on JitPack --&gt;</span>
+<span class="w">        </span><span class="nt">&lt;repository&gt;</span>
+<span class="w">            </span><span class="nt">&lt;id&gt;</span>jitpack.io<span class="nt">&lt;/id&gt;</span>
+<span class="w">            </span><span class="nt">&lt;url&gt;</span>https://jitpack.io<span class="nt">&lt;/url&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/repository&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/repositories&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;dependencies&gt;</span>
+<span class="w">        </span><span class="nt">&lt;dependency&gt;</span>
+<span class="w">            </span><span class="nt">&lt;groupId&gt;</span>com.github.k2-fsa<span class="nt">&lt;/groupId&gt;</span>
+<span class="w">            </span><span class="nt">&lt;artifactId&gt;</span>sherpa-onnx<span class="nt">&lt;/artifactId&gt;</span>
+<span class="w">            </span><span class="nt">&lt;version&gt;</span>${sherpa-onnx.version}<span class="nt">&lt;/version&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/dependency&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/dependencies&gt;</span>
+
+<span class="w">    </span><span class="nt">&lt;build&gt;</span>
+<span class="w">        </span><span class="nt">&lt;plugins&gt;</span>
+<span class="w">            </span><span class="nt">&lt;plugin&gt;</span>
+<span class="w">                </span><span class="nt">&lt;groupId&gt;</span>org.apache.maven.plugins<span class="nt">&lt;/groupId&gt;</span>
+<span class="w">                </span><span class="nt">&lt;artifactId&gt;</span>maven-jar-plugin<span class="nt">&lt;/artifactId&gt;</span>
+<span class="w">                </span><span class="nt">&lt;version&gt;</span>3.3.0<span class="nt">&lt;/version&gt;</span>
+<span class="w">                </span><span class="nt">&lt;configuration&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;archive&gt;</span>
+<span class="w">                        </span><span class="nt">&lt;manifest&gt;</span>
+<span class="w">                            </span><span class="nt">&lt;mainClass&gt;</span>NonStreamingWebsocketClient<span class="nt">&lt;/mainClass&gt;</span>
+<span class="w">                        </span><span class="nt">&lt;/manifest&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;/archive&gt;</span>
+<span class="w">                </span><span class="nt">&lt;/configuration&gt;</span>
+<span class="w">            </span><span class="nt">&lt;/plugin&gt;</span>
+<span class="w">            </span><span class="nt">&lt;plugin&gt;</span>
+<span class="w">                </span><span class="nt">&lt;groupId&gt;</span>org.apache.maven.plugins<span class="nt">&lt;/groupId&gt;</span>
+<span class="w">                </span><span class="nt">&lt;artifactId&gt;</span>maven-shade-plugin<span class="nt">&lt;/artifactId&gt;</span>
+<span class="w">                </span><span class="nt">&lt;version&gt;</span>3.5.1<span class="nt">&lt;/version&gt;</span>
+<span class="w">                </span><span class="nt">&lt;executions&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;execution&gt;</span>
+<span class="w">                        </span><span class="nt">&lt;phase&gt;</span>package<span class="nt">&lt;/phase&gt;</span>
+<span class="w">                        </span><span class="nt">&lt;goals&gt;</span>
+<span class="w">                            </span><span class="nt">&lt;goal&gt;</span>shade<span class="nt">&lt;/goal&gt;</span>
+<span class="w">                        </span><span class="nt">&lt;/goals&gt;</span>
+<span class="w">                    </span><span class="nt">&lt;/execution&gt;</span>
+<span class="w">                </span><span class="nt">&lt;/executions&gt;</span>
+<span class="w">            </span><span class="nt">&lt;/plugin&gt;</span>
+<span class="w">        </span><span class="nt">&lt;/plugins&gt;</span>
+<span class="w">    </span><span class="nt">&lt;/build&gt;</span>
+<span class="nt">&lt;/project&gt;</span>
+</pre></div>
+</div>
+</section>
+<section id="step-3-download-the-model">
+<h3><a class="toc-backref" href="#id7">Step 3. Download the model</a><a class="headerlink" href="#step-3-download-the-model" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget<span class="w"> </span>https://huggingface.co/csukuangfj/sherpa-onnx-sense-voice-zh-en-ja-ko-yue-2024-07-17/resolve/main/test_wavs/zh.wav
+</pre></div>
+</div>
+</section>
+<section id="step-4-save-the-code">
+<h3><a class="toc-backref" href="#id8">Step 4. Save the code</a><a class="headerlink" href="#step-4-save-the-code" title="Permalink to this heading"></a></h3>
+<p>Save the following as <code class="docutils literal notranslate"><span class="pre">src/main/java/NonStreamingWebsocketClient.java</span></code>:</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="c1">// Refer to</span>
+<span class="c1">// https://stackoverflow.com/questions/55380813/require-assistance-with-simple-pure-java-11-websocket-client-example</span>
+<span class="c1">//</span>
+<span class="c1">//</span>
+<span class="c1">// This is a WebSocketClient client for ../python-api-examples/non_streaming_server.py</span>
+<span class="c1">//</span>
+<span class="c1">// Please see ./run-non-streaming-websocket-client.sh</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">com.k2fsa.sherpa.onnx.*</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.net.URI</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.net.http.HttpClient</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.net.http.WebSocket</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.nio.*</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.util.concurrent.CompletionStage</span><span class="p">;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">java.util.concurrent.CountDownLatch</span><span class="p">;</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">NonStreamingWebsocketClient</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="kd">throws</span><span class="w"> </span><span class="n">Exception</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">CountDownLatch</span><span class="w"> </span><span class="n">latch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">CountDownLatch</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">WebSocket</span><span class="w"> </span><span class="n">ws</span><span class="w"> </span><span class="o">=</span>
+<span class="w">        </span><span class="n">HttpClient</span><span class="p">.</span><span class="na">newHttpClient</span><span class="p">()</span>
+<span class="w">            </span><span class="p">.</span><span class="na">newWebSocketBuilder</span><span class="p">()</span>
+<span class="w">            </span><span class="p">.</span><span class="na">buildAsync</span><span class="p">(</span><span class="n">URI</span><span class="p">.</span><span class="na">create</span><span class="p">(</span><span class="s">"ws://localhost:6006"</span><span class="p">),</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">WebSocketClient</span><span class="p">(</span><span class="n">latch</span><span class="p">))</span>
+<span class="w">            </span><span class="p">.</span><span class="na">join</span><span class="p">();</span>
+
+<span class="w">    </span><span class="c1">// Please use a 16-bit, single channel wav for testing.</span>
+<span class="w">    </span><span class="c1">// the sample rate does not need to be 16kHz</span>
+<span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="n">waveFilename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"./zh.wav"</span><span class="p">;</span>
+<span class="w">    </span><span class="n">WaveReader</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">WaveReader</span><span class="p">(</span><span class="n">waveFilename</span><span class="p">);</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">sampleRate</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">getSampleRate</span><span class="p">();</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">numSamples</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">getSamples</span><span class="p">().</span><span class="na">length</span><span class="p">;</span>
+
+<span class="w">    </span><span class="c1">// Here is the format of the message</span>
+<span class="w">    </span><span class="c1">// byte 0-3 in little endian: sampleRate</span>
+<span class="w">    </span><span class="c1">// byte 4-7 in little endian: number of bytes for samples</span>
+<span class="w">    </span><span class="c1">// remaining bytes: samples. Each sample is a float32</span>
+<span class="w">    </span><span class="n">ByteBuffer</span><span class="w"> </span><span class="n">buffer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ByteBuffer</span><span class="p">.</span><span class="na">allocate</span><span class="p">(</span><span class="mi">8</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">numSamples</span><span class="p">).</span><span class="na">order</span><span class="p">(</span><span class="n">ByteOrder</span><span class="p">.</span><span class="na">LITTLE_ENDIAN</span><span class="p">);</span>
+<span class="w">    </span><span class="n">buffer</span><span class="p">.</span><span class="na">putInt</span><span class="p">(</span><span class="n">sampleRate</span><span class="p">);</span>
+<span class="w">    </span><span class="n">buffer</span><span class="p">.</span><span class="na">putInt</span><span class="p">(</span><span class="n">numSamples</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">4</span><span class="p">);</span><span class="w"> </span><span class="c1">// each sample has 4 bytes</span>
+
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">float</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">getSamples</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="n">buffer</span><span class="p">.</span><span class="na">putFloat</span><span class="p">(</span><span class="n">s</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="n">buffer</span><span class="p">.</span><span class="na">rewind</span><span class="p">();</span>
+<span class="w">    </span><span class="n">buffer</span><span class="p">.</span><span class="na">flip</span><span class="p">();</span>
+<span class="w">    </span><span class="n">buffer</span><span class="p">.</span><span class="na">order</span><span class="p">(</span><span class="n">ByteOrder</span><span class="p">.</span><span class="na">LITTLE_ENDIAN</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">ws</span><span class="p">.</span><span class="na">sendBinary</span><span class="p">(</span><span class="n">ByteBuffer</span><span class="p">.</span><span class="na">wrap</span><span class="p">(</span><span class="n">buffer</span><span class="p">.</span><span class="na">array</span><span class="p">()),</span><span class="w"> </span><span class="kc">true</span><span class="p">).</span><span class="na">join</span><span class="p">();</span>
+
+<span class="w">    </span><span class="c1">// Send Done to the server to indicate that we don't have new wave files to decode</span>
+<span class="w">    </span><span class="n">ws</span><span class="p">.</span><span class="na">sendText</span><span class="p">(</span><span class="s">"Done"</span><span class="p">,</span><span class="w"> </span><span class="kc">true</span><span class="p">).</span><span class="na">join</span><span class="p">();</span>
+
+<span class="w">    </span><span class="n">latch</span><span class="p">.</span><span class="na">await</span><span class="p">();</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="kd">private</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kd">class</span> <span class="nc">WebSocketClient</span><span class="w"> </span><span class="kd">implements</span><span class="w"> </span><span class="n">WebSocket</span><span class="p">.</span><span class="na">Listener</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">final</span><span class="w"> </span><span class="n">CountDownLatch</span><span class="w"> </span><span class="n">latch</span><span class="p">;</span>
+
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="nf">WebSocketClient</span><span class="p">(</span><span class="n">CountDownLatch</span><span class="w"> </span><span class="n">latch</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="k">this</span><span class="p">.</span><span class="na">latch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">latch</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="nd">@Override</span>
+<span class="w">    </span><span class="kd">public</span><span class="w"> </span><span class="n">CompletionStage</span><span class="o">&lt;?&gt;</span><span class="w"> </span><span class="nf">onText</span><span class="p">(</span><span class="n">WebSocket</span><span class="w"> </span><span class="n">webSocket</span><span class="p">,</span><span class="w"> </span><span class="n">CharSequence</span><span class="w"> </span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="kt">boolean</span><span class="w"> </span><span class="n">last</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">println</span><span class="p">(</span><span class="s">"Result is "</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">data</span><span class="p">);</span>
+<span class="w">      </span><span class="n">latch</span><span class="p">.</span><span class="na">countDown</span><span class="p">();</span>
+<span class="w">      </span><span class="k">return</span><span class="w"> </span><span class="n">WebSocket</span><span class="p">.</span><span class="na">Listener</span><span class="p">.</span><span class="na">super</span><span class="p">.</span><span class="na">onText</span><span class="p">(</span><span class="n">webSocket</span><span class="p">,</span><span class="w"> </span><span class="n">data</span><span class="p">,</span><span class="w"> </span><span class="n">last</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="step-5-check-the-project-layout">
+<h3><a class="toc-backref" href="#id9">Step 5. Check the project layout</a><a class="headerlink" href="#step-5-check-the-project-layout" title="Permalink to this heading"></a></h3>
+<p>Your project directory should now look like this:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ tree .
+.
+├── pom.xml
+├── src
+│   └── main
+│       └── java
+│           └── NonStreamingWebsocketClient.java
+└── zh.wav
+
+4 directories, 3 files
+
+$ ls -lh
+total 360
+-rw-r--r--@ 1 fangjun  wheel   2.1K 19 Nov 14:00 pom.xml
+drwxr-xr-x@ 3 fangjun  wheel    96B 19 Nov 14:00 src
+-rw-r--r--@ 1 fangjun  wheel   175K 19 Nov 14:00 zh.wav
+</pre></div>
+</div>
+</section>
+<section id="step-6-build-and-run">
+<h3><a class="toc-backref" href="#id10">Step 6. Build and run</a><a class="headerlink" href="#step-6-build-and-run" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mvn<span class="w"> </span>-q<span class="w"> </span>package
+java<span class="w"> </span>-jar<span class="w"> </span>target/sherpa-onnx-java-example-1.0.jar
+</pre></div>
+</div>
+</section>
+<section id="output">
+<h3><a class="toc-backref" href="#id11">Output</a><a class="headerlink" href="#output" title="Permalink to this heading"></a></h3>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Result is 开放时间早上九点至下午五点
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Please start the server first in a separate terminal. For instance:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python3</span> <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">python</span><span class="o">-</span><span class="n">api</span><span class="o">-</span><span class="n">examples</span><span class="o">/</span><span class="n">non_streaming_server</span><span class="o">.</span><span class="n">py</span> \
+  <span class="o">--</span><span class="n">paraformer</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">paraformer</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="mi">2023</span><span class="o">-</span><span class="mi">09</span><span class="o">-</span><span class="mi">14</span><span class="o">/</span><span class="n">model</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span> \
+  <span class="o">--</span><span class="n">tokens</span><span class="o">=./</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">paraformer</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="mi">2023</span><span class="o">-</span><span class="mi">09</span><span class="o">-</span><span class="mi">14</span><span class="o">/</span><span class="n">tokens</span><span class="o">.</span><span class="n">txt</span> \
+  <span class="o">--</span><span class="n">port</span><span class="o">=</span><span class="mi">6006</span> \
+  <span class="o">--</span><span class="n">doc</span><span class="o">-</span><span class="n">root</span><span class="o">=/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">python</span><span class="o">-</span><span class="n">api</span><span class="o">-</span><span class="n">examples</span><span class="o">/</span><span class="n">web</span>
+</pre></div>
+</div>
+<p>Run it in the project directory, so the model paths above are those downloaded in this project. The client connects to <code class="docutils literal notranslate"><span class="pre">ws://localhost:6006</span></code>. Please see <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/blob/master/python-api-examples/non_streaming_server.py">non_streaming_server.py</a> for more options.</p>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="maven-itn.html" class="btn btn-neutral float-left" title="Maven: Inverse text normalization" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="gradle-version-test.html" class="btn btn-neutral float-right" title="Gradle: Version test" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

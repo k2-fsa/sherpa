@@ -1,0 +1,5 @@
+<map id="SherpaOnnxForcedAlignerConfig" name="SherpaOnnxForcedAlignerConfig">
+<area shape="rect" id="Node000001" title="Configuration of a forced aligner." alt="" coords="5,123,236,151"/>
+<area shape="rect" id="Node000002" href="$structSherpaOnnxForcedAlignmentOptions.html" title="Options of a forced aligner. A stream can override any of them via its own option mechanism before th..." alt="" coords="15,5,226,50"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="123,64,123,124,118,122,118,67"/>
+</map>

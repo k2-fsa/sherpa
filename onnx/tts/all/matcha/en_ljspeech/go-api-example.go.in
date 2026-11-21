@@ -1,0 +1,48 @@
+package main
+
+import (
+	"fmt"
+	sherpa "github.com/k2-fsa/sherpa-onnx-go/sherpa_onnx"
+)
+
+func main() {
+	config := sherpa.OfflineTtsConfig{
+		Model: sherpa.OfflineTtsModelConfig{
+			Matcha: sherpa.OfflineTtsMatchaModelConfig{
+				AcousticModel: "{{acoustic_model}}",
+				Vocoder:       "{{vocoder}}",
+				Tokens:        "{{tokens}}",
+{%- if data_dir %}
+				DataDir:       "{{data_dir}}",
+{%- endif %}
+{%- if lexicon %}
+				Lexicon:       "{{lexicon}}",
+{%- endif %}
+			},
+			NumThreads: 1,
+			Debug:      true,
+		},
+{%- if rule_fsts %}
+		RuleFsts: "{{rule_fsts}}",
+{%- endif %}
+		MaxNumSentences: 1,
+	}
+
+	tts := sherpa.NewOfflineTts(&config)
+	defer tts.Delete()
+
+	text := "{{text}}"
+
+	genConfig := sherpa.GenerationConfig{
+		Sid:          0,
+		Speed:        1.0,
+		SilenceScale: 0.2,
+	}
+
+	audio := tts.GenerateWithConfig(text, &genConfig, nil)
+
+	filename := "./test.wav"
+	sherpa.WriteWave(filename, audio.Samples, audio.SampleRate)
+
+	fmt.Printf("Saved to %s\n", filename)
+}

@@ -1,0 +1,637 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gradle: Speaker diarization &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Gradle: Inverse text normalization" href="gradle-itn.html" />
+    <link rel="prev" title="Gradle: Spoken language identification" href="gradle-spoken-language-identification.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">sherpa-onnx</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../install/index.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../faqs/index.html">Frequently Asked Question (FAQs)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python/index.html">Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../c-api/index.html">C API</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Java API</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="index.html#requirements">Requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#supported-platforms">Supported platforms</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#dependencies">Dependencies</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html#examples">Examples</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="android.html">Java for Android</a></li>
+<li class="toctree-l4"><a class="reference internal" href="maven-version-test.html">Maven: Version test</a></li>
+<li class="toctree-l4"><a class="reference internal" href="maven-asr.html">Maven: Offline ASR</a></li>
+<li class="toctree-l4"><a class="reference internal" href="maven-streaming-asr.html">Maven: Streaming ASR</a></li>
+<li class="toctree-l4"><a class="reference internal" href="maven-tts.html">Maven: TTS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="maven-vad.html">Maven: VAD</a></li>
+<li class="toctree-l4"><a class="reference internal" href="maven-forced-alignment.html">Maven: Forced alignment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="maven-kws.html">Maven: Keyword spotting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="maven-punctuation.html">Maven: Punctuation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="maven-diacritics.html">Maven: Diacritics</a></li>
+<li class="toctree-l4"><a class="reference internal" href="maven-speaker-identification.html">Maven: Speaker identification</a></li>
+<li class="toctree-l4"><a class="reference internal" href="maven-audio-tagging.html">Maven: Audio tagging</a></li>
+<li class="toctree-l4"><a class="reference internal" href="maven-speech-enhancement.html">Maven: Speech enhancement</a></li>
+<li class="toctree-l4"><a class="reference internal" href="maven-spoken-language-identification.html">Maven: Spoken language identification</a></li>
+<li class="toctree-l4"><a class="reference internal" href="maven-speaker-diarization.html">Maven: Speaker diarization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="maven-itn.html">Maven: Inverse text normalization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="maven-websocket.html">Maven: WebSocket client</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-version-test.html">Gradle: Version test</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-asr.html">Gradle: Offline ASR</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-streaming-asr.html">Gradle: Streaming ASR</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-tts.html">Gradle: TTS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-vad.html">Gradle: VAD</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-forced-alignment.html">Gradle: Forced alignment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-kws.html">Gradle: Keyword spotting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-punctuation.html">Gradle: Punctuation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-diacritics.html">Gradle: Diacritics</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-speaker-identification.html">Gradle: Speaker identification</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-audio-tagging.html">Gradle: Audio tagging</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-speech-enhancement.html">Gradle: Speech enhancement</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-spoken-language-identification.html">Gradle: Spoken language identification</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Gradle: Speaker diarization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-itn.html">Gradle: Inverse text normalization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-websocket.html">Gradle: WebSocket client</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-kts-version-test.html">Gradle KTS: Version test</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-kts-asr.html">Gradle KTS: Offline ASR</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-kts-streaming-asr.html">Gradle KTS: Streaming ASR</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-kts-tts.html">Gradle KTS: TTS</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-kts-vad.html">Gradle KTS: VAD</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-kts-forced-alignment.html">Gradle KTS: Forced alignment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-kts-kws.html">Gradle KTS: Keyword spotting</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-kts-punctuation.html">Gradle KTS: Punctuation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-kts-diacritics.html">Gradle KTS: Diacritics</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-kts-speaker-identification.html">Gradle KTS: Speaker identification</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-kts-audio-tagging.html">Gradle KTS: Audio tagging</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-kts-speech-enhancement.html">Gradle KTS: Speech enhancement</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-kts-spoken-language-identification.html">Gradle KTS: Spoken language identification</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-kts-speaker-diarization.html">Gradle KTS: Speaker diarization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-kts-itn.html">Gradle KTS: Inverse text normalization</a></li>
+<li class="toctree-l4"><a class="reference internal" href="gradle-kts-websocket.html">Gradle KTS: WebSocket client</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#useful-links">Useful links</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../javascript-api/index.html">Javascript API (Node-Addon)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kotlin-api/index.html">Kotlin API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../swift-api/index.html">Swift API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../go-api/index.html">Go API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rust-api/index.html">Rust API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../csharp-api/index.html">C# API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pascal-api/index.html">Pascal API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lazarus/index.html">Lazarus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../wasm/index.html">WebAssembly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../android/index.html">Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../harmony-os/index.html">HarmonyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ios/index.html">iOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../flutter/index.html">Flutter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tauri/index.html">Tauri Desktop Apps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../websocket/index.html">WebSocket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../hotwords/index.html">Hotwords (Contextual biasing)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kws/index.html">Keyword spotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../punctuation/index.html">Punctuation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../audio-tagging/index.html">Audio tagging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spoken-language-identification/index.html">Spoken language identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vad/index.html">VAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../medasr/index.html">Google MedASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/index.html">Pre-trained models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/whisper/index.html">Whisper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../moonshine/index.html">Moonshine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../omnilingual-asr/index.html">Omnilingual ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sense-voice/index.html">SenseVoice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cohere_transcribe/index.html">Cohere Transcribe</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../funasr-nano/index.html">FunASR Nano</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qwen3-asr/index.html">Qwen3-ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../paraformer/index.html">Paraformer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nemo/index.html">NeMo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../FireRedAsr/index.html">FireRedAsr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Dolphin/index.html">Dolphin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../homophone-replacer/index.html">拼音词组匹配替换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-diarization/index.html">Speaker Diarization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-identification/index.html">Speaker Identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speech-enhancement/index.html">Speech enhancement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../source-separation/index.html">Source separation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qnn/index.html">Qualcomm NPU (QNN, HTP)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rknn/index.html">rknn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spacemit/index.html">SpacemiT CPUs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ascend/index.html">Ascend NPU (昇腾 NPU)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tts/index.html">Text-to-speech (TTS)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../forced-alignment/index.html">Forced alignment</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">sherpa-onnx</a> &raquo;</li>
+          <li><a href="index.html">Java API</a> &raquo;</li>
+      <li>Gradle: Speaker diarization</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/onnx/java-api/gradle-speaker-diarization.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="gradle-speaker-diarization">
+<span id="java-gradle-speaker-diarization"></span><h1>Gradle: Speaker diarization<a class="headerlink" href="#gradle-speaker-diarization" title="Permalink to this heading"></a></h1>
+<p>This example shows how to perform speaker diarization, i.e., to figure out who spoke when. It needs a speaker segmentation model and a speaker embedding model.</p>
+<p>It is the Java version of <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/blob/master/java-api-examples/OfflineSpeakerDiarizationDemo.java">OfflineSpeakerDiarizationDemo.java</a> in <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/tree/master/java-api-examples">sherpa-onnx/java-api-examples</a>.</p>
+<div class="contents local topic" id="on-this-page">
+<p class="topic-title">On this page</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#requirements" id="id3">Requirements</a></p>
+<ul>
+<li><p><a class="reference internal" href="#step-1-create-the-project-directory" id="id4">Step 1. Create the project directory</a></p></li>
+<li><p><a class="reference internal" href="#step-2-create-the-build-files" id="id5">Step 2. Create the build files</a></p></li>
+<li><p><a class="reference internal" href="#step-3-download-the-model" id="id6">Step 3. Download the model</a></p></li>
+<li><p><a class="reference internal" href="#step-4-save-the-code" id="id7">Step 4. Save the code</a></p></li>
+<li><p><a class="reference internal" href="#step-5-check-the-project-layout" id="id8">Step 5. Check the project layout</a></p></li>
+<li><p><a class="reference internal" href="#step-6-build-and-run" id="id9">Step 6. Build and run</a></p></li>
+<li><p><a class="reference internal" href="#output" id="id10">Output</a></p></li>
+</ul>
+</li>
+</ul>
+</div>
+<section id="requirements">
+<h2><a class="toc-backref" href="#id3">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p>JDK 11 or above</p></li>
+<li><p>Gradle 8.x+ (or use the included Gradle wrapper, no separate install needed)</p></li>
+</ul>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The sherpa-onnx Java packages are hosted on <a class="reference external" href="https://jitpack.io/">JitPack</a>, so you need to add the JitPack repository.</p>
+</div>
+<section id="step-1-create-the-project-directory">
+<h3><a class="toc-backref" href="#id4">Step 1. Create the project directory</a><a class="headerlink" href="#step-1-create-the-project-directory" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>sherpa-onnx-java-demo
+<span class="nb">cd</span><span class="w"> </span>sherpa-onnx-java-demo
+</pre></div>
+</div>
+</section>
+<section id="step-2-create-the-build-files">
+<h3><a class="toc-backref" href="#id5">Step 2. Create the build files</a><a class="headerlink" href="#step-2-create-the-build-files" title="Permalink to this heading"></a></h3>
+<p>Save the following as <code class="docutils literal notranslate"><span class="pre">build.gradle</span></code>:</p>
+<div class="highlight-groovy notranslate"><div class="highlight"><pre><span></span><span class="n">plugins</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="n">id</span><span class="w"> </span><span class="s1">'application'</span>
+<span class="w">    </span><span class="n">id</span><span class="w"> </span><span class="s1">'java'</span>
+<span class="o">}</span>
+
+<span class="n">application</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="n">mainClass</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'OfflineSpeakerDiarizationDemo'</span>
+<span class="o">}</span>
+
+<span class="n">repositories</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="n">mavenCentral</span><span class="o">()</span>
+<span class="w">    </span><span class="c1">// sherpa-onnx packages are hosted on JitPack</span>
+<span class="w">    </span><span class="n">maven</span><span class="w"> </span><span class="o">{</span><span class="w"> </span><span class="n">url</span><span class="w"> </span><span class="s1">'https://jitpack.io'</span><span class="w"> </span><span class="o">}</span>
+<span class="o">}</span>
+
+<span class="n">dependencies</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="n">implementation</span><span class="w"> </span><span class="s1">'com.github.k2-fsa:sherpa-onnx:v2.0.1'</span>
+<span class="o">}</span>
+
+<span class="n">java</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="n">sourceCompatibility</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">JavaVersion</span><span class="o">.</span><span class="na">VERSION_11</span>
+<span class="w">    </span><span class="n">targetCompatibility</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">JavaVersion</span><span class="o">.</span><span class="na">VERSION_11</span>
+<span class="o">}</span>
+</pre></div>
+</div>
+<p>Save the following as <code class="docutils literal notranslate"><span class="pre">settings.gradle</span></code>:</p>
+<div class="highlight-groovy notranslate"><div class="highlight"><pre><span></span><span class="n">rootProject</span><span class="o">.</span><span class="na">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'sherpa-onnx-java-example'</span>
+</pre></div>
+</div>
+</section>
+<section id="step-3-download-the-model">
+<h3><a class="toc-backref" href="#id6">Step 3. Download the model</a><a class="headerlink" href="#step-3-download-the-model" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/speaker-segmentation-models/sherpa-onnx-pyannote-segmentation-3-0.tar.bz2
+tar<span class="w"> </span>xf<span class="w"> </span>sherpa-onnx-pyannote-segmentation-3-0.tar.bz2
+rm<span class="w"> </span>sherpa-onnx-pyannote-segmentation-3-0.tar.bz2
+
+wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/speaker-recongition-models/3dspeaker_speech_eres2net_base_sv_zh-cn_3dspeaker_16k.onnx
+
+wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/speaker-segmentation-models/0-four-speakers-zh.wav
+</pre></div>
+</div>
+</section>
+<section id="step-4-save-the-code">
+<h3><a class="toc-backref" href="#id7">Step 4. Save the code</a><a class="headerlink" href="#step-4-save-the-code" title="Permalink to this heading"></a></h3>
+<p>Save the following as <code class="docutils literal notranslate"><span class="pre">src/main/java/OfflineSpeakerDiarizationDemo.java</span></code>:</p>
+<div class="highlight-java notranslate"><div class="highlight"><pre><span></span><span class="c1">// Copyright 2024 Xiaomi Corporation</span>
+
+<span class="c1">// This file shows how to use sherpa-onnx Java API for speaker diarization,</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">com.k2fsa.sherpa.onnx.*</span><span class="p">;</span>
+
+<span class="kd">public</span><span class="w"> </span><span class="kd">class</span> <span class="nc">OfflineSpeakerDiarizationDemo</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="kd">public</span><span class="w"> </span><span class="kd">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">String</span><span class="o">[]</span><span class="w"> </span><span class="n">args</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="cm">/* Please use the following commands to download files used in this file</span>
+<span class="cm">    Step 1: Download a speaker segmentation model</span>
+
+<span class="cm">    Please visit https://github.com/k2-fsa/sherpa-onnx/releases/tag/speaker-segmentation-models</span>
+<span class="cm">    for a list of available models. The following is an example</span>
+
+<span class="cm">      wget https://github.com/k2-fsa/sherpa-onnx/releases/download/speaker-segmentation-models/sherpa-onnx-pyannote-segmentation-3-0.tar.bz2</span>
+<span class="cm">      tar xvf sherpa-onnx-pyannote-segmentation-3-0.tar.bz2</span>
+<span class="cm">      rm sherpa-onnx-pyannote-segmentation-3-0.tar.bz2</span>
+
+<span class="cm">    Step 2: Download a speaker embedding extractor model</span>
+
+<span class="cm">    Please visit https://github.com/k2-fsa/sherpa-onnx/releases/tag/speaker-recongition-models</span>
+<span class="cm">    for a list of available models. The following is an example</span>
+
+<span class="cm">      wget https://github.com/k2-fsa/sherpa-onnx/releases/download/speaker-recongition-models/3dspeaker_speech_eres2net_base_sv_zh-cn_3dspeaker_16k.onnx</span>
+
+<span class="cm">    Step 3. Download test wave files</span>
+
+<span class="cm">    Please visit https://github.com/k2-fsa/sherpa-onnx/releases/tag/speaker-segmentation-models</span>
+<span class="cm">    for a list of available test wave files. The following is an example</span>
+
+<span class="cm">      wget https://github.com/k2-fsa/sherpa-onnx/releases/download/speaker-segmentation-models/0-four-speakers-zh.wav</span>
+
+<span class="cm">    Step 4. Run it</span>
+<span class="cm">        */</span>
+
+<span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="n">segmentationModel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"./sherpa-onnx-pyannote-segmentation-3-0/model.onnx"</span><span class="p">;</span>
+<span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="n">embeddingModel</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"./3dspeaker_speech_eres2net_base_sv_zh-cn_3dspeaker_16k.onnx"</span><span class="p">;</span>
+<span class="w">    </span><span class="n">String</span><span class="w"> </span><span class="n">waveFilename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"./0-four-speakers-zh.wav"</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">WaveReader</span><span class="w"> </span><span class="n">reader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">WaveReader</span><span class="p">(</span><span class="n">waveFilename</span><span class="p">);</span>
+
+<span class="w">    </span><span class="n">OfflineSpeakerSegmentationPyannoteModelConfig</span><span class="w"> </span><span class="n">pyannote</span><span class="w"> </span><span class="o">=</span>
+<span class="w">        </span><span class="n">OfflineSpeakerSegmentationPyannoteModelConfig</span><span class="p">.</span><span class="na">builder</span><span class="p">()</span>
+<span class="w">            </span><span class="p">.</span><span class="na">setModel</span><span class="p">(</span><span class="n">segmentationModel</span><span class="p">)</span>
+<span class="w">            </span><span class="p">.</span><span class="na">setWindowShiftRatio</span><span class="p">(</span><span class="mf">0.1f</span><span class="p">)</span>
+<span class="w">            </span><span class="p">.</span><span class="na">build</span><span class="p">();</span>
+
+<span class="w">    </span><span class="n">OfflineSpeakerSegmentationModelConfig</span><span class="w"> </span><span class="n">segmentation</span><span class="w"> </span><span class="o">=</span>
+<span class="w">        </span><span class="n">OfflineSpeakerSegmentationModelConfig</span><span class="p">.</span><span class="na">builder</span><span class="p">()</span>
+<span class="w">            </span><span class="p">.</span><span class="na">setPyannote</span><span class="p">(</span><span class="n">pyannote</span><span class="p">)</span>
+<span class="w">            </span><span class="p">.</span><span class="na">setDebug</span><span class="p">(</span><span class="kc">true</span><span class="p">)</span>
+<span class="w">            </span><span class="p">.</span><span class="na">build</span><span class="p">();</span>
+
+<span class="w">    </span><span class="n">SpeakerEmbeddingExtractorConfig</span><span class="w"> </span><span class="n">embedding</span><span class="w"> </span><span class="o">=</span>
+<span class="w">        </span><span class="n">SpeakerEmbeddingExtractorConfig</span><span class="p">.</span><span class="na">builder</span><span class="p">().</span><span class="na">setModel</span><span class="p">(</span><span class="n">embeddingModel</span><span class="p">).</span><span class="na">setDebug</span><span class="p">(</span><span class="kc">true</span><span class="p">).</span><span class="na">build</span><span class="p">();</span>
+
+<span class="w">    </span><span class="c1">// The test wave file ./0-four-speakers-zh.wav contains four speakers, so</span>
+<span class="w">    </span><span class="c1">// we use numClusters=4 here. If you don't know the number of speakers</span>
+<span class="w">    </span><span class="c1">// in the test wave file, please set the numClusters to -1 and provide</span>
+<span class="w">    </span><span class="c1">// threshold for clustering</span>
+<span class="w">    </span><span class="n">FastClusteringConfig</span><span class="w"> </span><span class="n">clustering</span><span class="w"> </span><span class="o">=</span>
+<span class="w">        </span><span class="n">FastClusteringConfig</span><span class="p">.</span><span class="na">builder</span><span class="p">()</span>
+<span class="w">            </span><span class="p">.</span><span class="na">setNumClusters</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="w"> </span><span class="c1">// set it to -1 if you don't know the actual number</span>
+<span class="w">            </span><span class="p">.</span><span class="na">setThreshold</span><span class="p">(</span><span class="mf">0.5f</span><span class="p">)</span>
+<span class="w">            </span><span class="p">.</span><span class="na">setComputeConfidence</span><span class="p">(</span><span class="kc">true</span><span class="p">)</span><span class="w"> </span><span class="c1">// enable confidence computation</span>
+<span class="w">            </span><span class="p">.</span><span class="na">build</span><span class="p">();</span>
+
+<span class="w">    </span><span class="n">OfflineSpeakerDiarizationConfig</span><span class="w"> </span><span class="n">config</span><span class="w"> </span><span class="o">=</span>
+<span class="w">        </span><span class="n">OfflineSpeakerDiarizationConfig</span><span class="p">.</span><span class="na">builder</span><span class="p">()</span>
+<span class="w">            </span><span class="p">.</span><span class="na">setSegmentation</span><span class="p">(</span><span class="n">segmentation</span><span class="p">)</span>
+<span class="w">            </span><span class="p">.</span><span class="na">setEmbedding</span><span class="p">(</span><span class="n">embedding</span><span class="p">)</span>
+<span class="w">            </span><span class="p">.</span><span class="na">setClustering</span><span class="p">(</span><span class="n">clustering</span><span class="p">)</span>
+<span class="w">            </span><span class="p">.</span><span class="na">setMinDurationOn</span><span class="p">(</span><span class="mf">0.2f</span><span class="p">)</span>
+<span class="w">            </span><span class="p">.</span><span class="na">setMinDurationOff</span><span class="p">(</span><span class="mf">0.5f</span><span class="p">)</span>
+<span class="w">            </span><span class="p">.</span><span class="na">build</span><span class="p">();</span>
+
+<span class="w">    </span><span class="n">OfflineSpeakerDiarization</span><span class="w"> </span><span class="n">sd</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">new</span><span class="w"> </span><span class="n">OfflineSpeakerDiarization</span><span class="p">(</span><span class="n">config</span><span class="p">);</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">sd</span><span class="p">.</span><span class="na">getSampleRate</span><span class="p">()</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">getSampleRate</span><span class="p">())</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">printf</span><span class="p">(</span>
+<span class="w">          </span><span class="s">"Expected sample rate: %d, given: %d\n"</span><span class="p">,</span><span class="w"> </span><span class="n">sd</span><span class="p">.</span><span class="na">getSampleRate</span><span class="p">(),</span><span class="w"> </span><span class="n">reader</span><span class="p">.</span><span class="na">getSampleRate</span><span class="p">());</span>
+<span class="w">      </span><span class="n">sd</span><span class="p">.</span><span class="na">release</span><span class="p">();</span>
+<span class="w">      </span><span class="k">return</span><span class="p">;</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// OfflineSpeakerDiarizationSegment[] segments = sd.process(reader.getSamples());</span>
+<span class="w">    </span><span class="c1">// without callback is also ok</span>
+
+<span class="w">    </span><span class="c1">// or you can use a callback to show the progress</span>
+<span class="w">    </span><span class="n">OfflineSpeakerDiarizationSegment</span><span class="o">[]</span><span class="w"> </span><span class="n">segments</span><span class="w"> </span><span class="o">=</span>
+<span class="w">        </span><span class="n">sd</span><span class="p">.</span><span class="na">processWithCallback</span><span class="p">(</span>
+<span class="w">            </span><span class="n">reader</span><span class="p">.</span><span class="na">getSamples</span><span class="p">(),</span>
+<span class="w">            </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">numProcessedChunks</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">numTotalChunks</span><span class="p">,</span><span class="w"> </span><span class="kt">long</span><span class="w"> </span><span class="n">arg</span><span class="p">)</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="p">{</span>
+<span class="w">              </span><span class="kt">float</span><span class="w"> </span><span class="n">progress</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">100.0f</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">numProcessedChunks</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">numTotalChunks</span><span class="p">;</span>
+<span class="w">              </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">printf</span><span class="p">(</span><span class="s">"Progress: %.2f%%\n"</span><span class="p">,</span><span class="w"> </span><span class="n">progress</span><span class="p">);</span>
+
+<span class="w">              </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">            </span><span class="p">});</span>
+
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">OfflineSpeakerDiarizationSegment</span><span class="w"> </span><span class="n">s</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="n">segments</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="n">System</span><span class="p">.</span><span class="na">out</span><span class="p">.</span><span class="na">printf</span><span class="p">(</span><span class="s">"%.3f -- %.3f speaker_%02d confidence=%.3f\n"</span><span class="p">,</span><span class="w"> </span><span class="n">s</span><span class="p">.</span><span class="na">getStart</span><span class="p">(),</span><span class="w"> </span><span class="n">s</span><span class="p">.</span><span class="na">getEnd</span><span class="p">(),</span><span class="w"> </span><span class="n">s</span><span class="p">.</span><span class="na">getSpeaker</span><span class="p">(),</span><span class="w"> </span><span class="n">s</span><span class="p">.</span><span class="na">getConfidence</span><span class="p">());</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="n">sd</span><span class="p">.</span><span class="na">release</span><span class="p">();</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="step-5-check-the-project-layout">
+<h3><a class="toc-backref" href="#id8">Step 5. Check the project layout</a><a class="headerlink" href="#step-5-check-the-project-layout" title="Permalink to this heading"></a></h3>
+<p>Your project directory should now look like this:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ tree .
+.
+├── 0-four-speakers-zh.wav
+├── 3dspeaker_speech_eres2net_base_sv_zh-cn_3dspeaker_16k.onnx
+├── build.gradle
+├── settings.gradle
+├── sherpa-onnx-pyannote-segmentation-3-0
+│   ├── export-onnx.py
+│   ├── LICENSE
+│   ├── model.int8.onnx
+│   ├── model.onnx
+│   ├── README.md
+│   ├── run.sh
+│   ├── show-onnx.py
+│   ├── speaker-diarization-onnx.py
+│   ├── speaker-diarization-torch.py
+│   ├── vad-onnx.py
+│   └── vad-torch.py
+└── src
+    └── main
+        └── java
+            └── OfflineSpeakerDiarizationDemo.java
+
+5 directories, 16 files
+
+$ ls -lh
+total 80912
+-rw-r--r--@  1 fangjun  wheel   1.7M 19 Nov 14:00 0-four-speakers-zh.wav
+-rw-r--r--@  1 fangjun  wheel    38M 19 Nov 14:00 3dspeaker_speech_eres2net_base_sv_zh-cn_3dspeaker_16k.onnx
+-rw-r--r--@  1 fangjun  wheel   421B 19 Nov 14:00 build.gradle
+-rw-r--r--@  1 fangjun  wheel    45B 19 Nov 14:00 settings.gradle
+drwxr-xr-x@ 13 fangjun  wheel   416B  8 Oct  2024 sherpa-onnx-pyannote-segmentation-3-0
+drwxr-xr-x@  3 fangjun  wheel    96B 19 Nov 14:00 src
+</pre></div>
+</div>
+</section>
+<section id="step-6-build-and-run">
+<h3><a class="toc-backref" href="#id9">Step 6. Build and run</a><a class="headerlink" href="#step-6-build-and-run" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Generate the Gradle wrapper (only once; requires Gradle to be installed)</span>
+gradle<span class="w"> </span>wrapper
+
+./gradlew<span class="w"> </span>run
+</pre></div>
+</div>
+</section>
+<section id="output">
+<h3><a class="toc-backref" href="#id10">Output</a><a class="headerlink" href="#output" title="Permalink to this heading"></a></h3>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>[Incubating] Problems report is available at: file:///private/tmp/java-doc-work/layouts-java/gradle-speaker-diarization/build/reports/problems/problems-report.html
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/9.6.1/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+
+1 actionable task: 1 executed
+Consider enabling configuration cache to speed up this build: https://docs.gradle.org/9.6.1/userguide/configuration_cache_enabling.html
+
+version=1
+model_author=pyannote
+num_classes=7
+maintainer=k2-fsa
+model_type=pyannote-segmentation-3.0
+receptive_field_shift=270
+window_size=160000
+license=https://huggingface.co/pyannote/segmentation-3.0/blob/main/LICENSE
+receptive_field_size=991
+onnx.quant.pre_process=onnxruntime.quant
+sample_rate=16000
+num_speakers=3
+powerset_max_classes=2
+url_1=https://huggingface.co/pyannote/segmentation-3.0
+
+normalize_samples=1
+output_dim=512
+language=Chinese
+sample_rate=16000
+comment=This model is from damo/speech_eres2net_base_sv_zh-cn_3dspeaker_16k
+url=https://www.modelscope.cn/models/damo/speech_eres2net_base_sv_zh-cn_3dspeaker_16k/summary
+framework=3d-speaker
+
+normalize_samples=1
+output_dim=512
+language=Chinese
+sample_rate=16000
+comment=This model is from damo/speech_eres2net_base_sv_zh-cn_3dspeaker_16k
+url=https://www.modelscope.cn/models/damo/speech_eres2net_base_sv_zh-cn_3dspeaker_16k/summary
+framework=3d-speaker
+
+Progress: 1.30%
+Progress: 2.60%
+Progress: 3.90%
+Progress: 5.19%
+Progress: 6.49%
+Progress: 7.79%
+Progress: 9.09%
+Progress: 10.39%
+Progress: 11.69%
+Progress: 12.99%
+Progress: 14.29%
+Progress: 15.58%
+Progress: 16.88%
+Progress: 18.18%
+Progress: 19.48%
+Progress: 20.78%
+Progress: 22.08%
+Progress: 23.38%
+Progress: 24.68%
+Progress: 25.97%
+Progress: 27.27%
+Progress: 28.57%
+Progress: 29.87%
+Progress: 31.17%
+Progress: 32.47%
+Progress: 33.77%
+Progress: 35.06%
+Progress: 36.36%
+Progress: 37.66%
+Progress: 38.96%
+Progress: 40.26%
+Progress: 41.56%
+Progress: 42.86%
+Progress: 44.16%
+Progress: 45.45%
+Progress: 46.75%
+Progress: 48.05%
+Progress: 49.35%
+Progress: 50.65%
+Progress: 51.95%
+Progress: 53.25%
+Progress: 54.55%
+Progress: 55.84%
+Progress: 57.14%
+Progress: 58.44%
+Progress: 59.74%
+Progress: 61.04%
+Progress: 62.34%
+Progress: 63.64%
+Progress: 64.94%
+Progress: 66.23%
+Progress: 67.53%
+Progress: 68.83%
+Progress: 70.13%
+Progress: 71.43%
+Progress: 72.73%
+Progress: 74.03%
+Progress: 75.32%
+Progress: 76.62%
+Progress: 77.92%
+Progress: 79.22%
+Progress: 80.52%
+Progress: 81.82%
+Progress: 83.12%
+Progress: 84.42%
+Progress: 85.71%
+Progress: 87.01%
+Progress: 88.31%
+Progress: 89.61%
+Progress: 90.91%
+Progress: 92.21%
+Progress: 93.51%
+Progress: 94.81%
+Progress: 96.10%
+Progress: 97.40%
+Progress: 98.70%
+Progress: 100.00%
+0.318 -- 6.865 speaker_00 confidence=0.621
+7.017 -- 10.747 speaker_01 confidence=0.826
+11.455 -- 13.632 speaker_01 confidence=0.756
+13.750 -- 17.041 speaker_02 confidence=0.507
+22.137 -- 24.837 speaker_00 confidence=0.672
+27.638 -- 29.478 speaker_03 confidence=0.628
+30.001 -- 31.553 speaker_03 confidence=0.694
+33.680 -- 37.932 speaker_03 confidence=0.669
+48.040 -- 50.470 speaker_02 confidence=0.631
+52.529 -- 54.605 speaker_00 confidence=0.570
+
+[Incubating] Problems report is available at: file:///private/tmp/java-doc-work/layouts-java/gradle-speaker-diarization/build/reports/problems/problems-report.html
+
+You can use '--warning-mode all' to show the individual deprecation warnings and determine if they come from your own scripts or plugins.
+
+For more on this, please refer to https://docs.gradle.org/9.6.1/userguide/command_line_interface.html#sec:command_line_warnings in the Gradle documentation.
+
+2 actionable tasks: 2 executed
+Consider enabling configuration cache to speed up this build: https://docs.gradle.org/9.6.1/userguide/configuration_cache_enabling.html
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="gradle-spoken-language-identification.html" class="btn btn-neutral float-left" title="Gradle: Spoken language identification" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="gradle-itn.html" class="btn btn-neutral float-right" title="Gradle: Inverse text normalization" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>
