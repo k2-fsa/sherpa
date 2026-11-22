@@ -10,6 +10,22 @@ The code
 
 See `<https://github.com/Wasser1462/Qwen3-ASR-onnx>`_
 
+Checkpoints saved with Transformers
+-----------------------------------
+
+The exporter above reads the original Qwen3-ASR ``thinker`` layout. A native
+Transformers checkpoint can instead store the audio encoder, projector and
+language model separately. If the checkpoint ties the output head to the token
+embeddings, the exporter also needs that table as the output-head weight.
+
+For a working English example, the `Fourier 2B conversion guide
+<https://huggingface.co/oruk/oruk-fourier-2b/blob/main/examples/sherpa-onnx/README.md>`_
+prepares the `source checkpoint <https://huggingface.co/oruk/oruk-fourier-2b>`_
+and runs the exporter. The resulting directory contains ``conv_frontend.onnx``,
+``encoder.onnx``, ``decoder.onnx``, their external weight files and the
+tokenizer. Keep the ``.onnx.data`` files next to the matching graph when copying
+the model. The source and conversion are licensed under CC BY-NC 4.0.
+
 Where to find exported models
 ------------------------------
 
