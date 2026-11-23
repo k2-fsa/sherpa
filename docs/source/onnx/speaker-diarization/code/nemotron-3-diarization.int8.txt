@@ -1,0 +1,19 @@
+/path/to/sherpa-onnx/sherpa-onnx/csrc/parse-options.cc:Read:374 ./build/bin/sherpa-onnx-offline-speaker-diarization --segmentation.sortformer-model=./sherpa-onnx-nemotron-3-diarization/model.int8.onnx ./0-four-speakers-zh.wav 
+
+OfflineSpeakerDiarizationConfig(segmentation=OfflineSpeakerSegmentationModelConfig(pyannote=OfflineSpeakerSegmentationPyannoteModelConfig(model="", window_shift_ratio=0.1), sortformer=OfflineSpeakerSegmentationSortformerModelConfig(model="./sherpa-onnx-nemotron-3-diarization/model.int8.onnx", threshold=0.5), num_threads=1, debug=False, provider="cpu"), embedding=SpeakerEmbeddingExtractorConfig(model="", num_threads=1, debug=False, provider="cpu"), clustering=FastClusteringConfig(num_clusters=-1, threshold=0.5, compute_confidence=False), min_duration_on=0.3, min_duration_off=0.5)
+Started
+progress 33.33%
+progress 66.67%
+progress 100.00%
+0.600 -- 6.810 speaker_00
+7.030 -- 10.810 speaker_01
+11.440 -- 13.680 speaker_01
+13.790 -- 17.060 speaker_02
+22.160 -- 24.850 speaker_00
+27.670 -- 31.610 speaker_03
+33.710 -- 38.050 speaker_03
+48.070 -- 50.490 speaker_02
+52.580 -- 54.610 speaker_00
+Duration : 56.861 s
+Elapsed seconds: 3.110 s
+Real time factor (RTF): 3.110 / 56.861 = 0.055
