@@ -8,6 +8,7 @@
 #include <utility>
 #include <vector>
 
+#include "sherpa/cpp_api/macros.h"
 #include "sherpa/csrc/macros.h"
 #include "sherpa/csrc/speaker-embedding-extractor-model-meta-data.h"
 
@@ -38,6 +39,7 @@ class SpeakerEmbeddingExtractorModel::Impl {
   }
 
   torch::Tensor Compute(torch::Tensor x) {
+    InferenceMode no_grad;
     return model_.run_method("forward", x).toTensor();
   }
 
