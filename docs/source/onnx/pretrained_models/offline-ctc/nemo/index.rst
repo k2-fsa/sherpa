@@ -16,5 +16,6 @@ This page lists all offline CTC models from `NeMo`_.
    how-to-export
    english
    russian
+   gigaam-v4
    uzbek
    japanese
