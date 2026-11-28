@@ -1,0 +1,17 @@
+<map id="c&#45;api/cxx&#45;api.h" name="c&#45;api/cxx&#45;api.h">
+<area shape="rect" id="Node000001" title="Public C++ wrapper for the sherpa&#45;onnx C API." alt="" coords="244,5,362,33"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,90,92,117"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="256,36,104,84,97,86,94,81,102,78,257,31"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="116,90,192,117"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="277,35,193,84,190,79,281,32"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="217,90,275,117"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="296,32,265,79,262,75,292,35"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="299,90,422,117"/>
+<area shape="poly" id="edge4_Node000001_Node000005" title=" " alt="" coords="313,31,345,77,340,76,311,36"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="447,90,509,117"/>
+<area shape="poly" id="edge5_Node000001_Node000006" title=" " alt="" coords="332,31,435,79,440,83,434,82,433,83,331,36"/>
+<area shape="rect" id="Node000007" href="$c-api_8h.html" title="Public C API for sherpa&#45;onnx." alt="" coords="532,81,682,126"/>
+<area shape="poly" id="edge6_Node000001_Node000007" title=" " alt="" coords="352,31,520,77,515,79,352,36"/>
+<area shape="rect" id="Node000008" title=" " alt="" coords="572,174,642,201"/>
+<area shape="poly" id="edge7_Node000007_Node000008" title=" " alt="" coords="609,124,609,160,605,156,605,128"/>
+</map>

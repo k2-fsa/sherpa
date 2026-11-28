@@ -1,0 +1,7 @@
+<map id="SherpaOnnxForcedAlignmentResult" name="SherpaOnnxForcedAlignmentResult">
+<area shape="rect" id="Node000001" title="The result of SherpaOnnxForcedAlignerCompute()." alt="" coords="18,224,228,268"/>
+<area shape="rect" id="Node000002" href="$structSherpaOnnxForcedAlignmentTier.html" title=" " alt="" coords="5,123,241,151"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="125,165,126,224,120,222,121,168"/>
+<area shape="rect" id="Node000003" href="$structSherpaOnnxForcedAlignmentInterval.html" title=" " alt="" coords="18,5,228,50"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="124,63,126,123,120,122,122,68"/>
+</map>

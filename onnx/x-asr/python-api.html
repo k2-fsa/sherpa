@@ -1,0 +1,589 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Python &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="C" href="c-api.html" />
+    <link rel="prev" title="X-ASR" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">sherpa-onnx</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../install/index.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../faqs/index.html">Frequently Asked Question (FAQs)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python/index.html">Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../c-api/index.html">C API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../java-api/index.html">Java API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../javascript-api/index.html">Javascript API (Node-Addon)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kotlin-api/index.html">Kotlin API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../swift-api/index.html">Swift API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../go-api/index.html">Go API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rust-api/index.html">Rust API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../csharp-api/index.html">C# API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pascal-api/index.html">Pascal API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lazarus/index.html">Lazarus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../wasm/index.html">WebAssembly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../android/index.html">Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../harmony-os/index.html">HarmonyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ios/index.html">iOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../flutter/index.html">Flutter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tauri/index.html">Tauri Desktop Apps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../websocket/index.html">WebSocket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../hotwords/index.html">Hotwords (Contextual biasing)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kws/index.html">Keyword spotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../punctuation/index.html">Punctuation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../audio-tagging/index.html">Audio tagging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spoken-language-identification/index.html">Spoken language identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vad/index.html">VAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../medasr/index.html">Google MedASR</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../pretrained_models/index.html">Pre-trained models</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/online-transducer/index.html">Online transducer models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/online-paraformer/index.html">Online paraformer models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/online-ctc/index.html">Online CTC models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/offline-transducer/index.html">Offline transducer models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/offline-paraformer/index.html">Offline paraformer models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/offline-ctc/index.html">Offline CTC models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/telespeech/index.html">TeleSpeech</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/whisper/index.html">Whisper</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/wenet/index.html">WeNet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/small-online-models.html">Small models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sense-voice/index.html">SenseVoice</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">X-ASR</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="index.html#non-streaming-models">Non-streaming models</a></li>
+<li class="toctree-l4"><a class="reference internal" href="index.html#streaming-models">Streaming models</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="index.html#use-x-asr-with-our-apis">Use X-ASR with our APIs</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/whisper/index.html">Whisper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../moonshine/index.html">Moonshine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../omnilingual-asr/index.html">Omnilingual ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sense-voice/index.html">SenseVoice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cohere_transcribe/index.html">Cohere Transcribe</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../funasr-nano/index.html">FunASR Nano</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qwen3-asr/index.html">Qwen3-ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../paraformer/index.html">Paraformer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nemo/index.html">NeMo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../FireRedAsr/index.html">FireRedAsr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Dolphin/index.html">Dolphin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../homophone-replacer/index.html">拼音词组匹配替换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-diarization/index.html">Speaker Diarization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-identification/index.html">Speaker Identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speech-enhancement/index.html">Speech enhancement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../source-separation/index.html">Source separation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qnn/index.html">Qualcomm NPU (QNN, HTP)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rknn/index.html">rknn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spacemit/index.html">SpacemiT CPUs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ascend/index.html">Ascend NPU (昇腾 NPU)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tts/index.html">Text-to-speech (TTS)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../forced-alignment/index.html">Forced alignment</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">sherpa-onnx</a> &raquo;</li>
+          <li><a href="../pretrained_models/index.html">Pre-trained models</a> &raquo;</li>
+          <li><a href="index.html">X-ASR</a> &raquo;</li>
+      <li>Python</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/onnx/x-asr/python-api.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="python">
+<span id="onnx-x-asr-python-api"></span><h1>Python<a class="headerlink" href="#python" title="Permalink to this heading"></a></h1>
+<p>This page shows how to use <a class="reference external" href="https://github.com/Gilgamesh-J/X-ASR">X-ASR</a> models with <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a> in Python. Two demos are given: one with a non-streaming model and one with a streaming model.</p>
+<div class="contents local topic" id="on-this-page">
+<p class="topic-title">On this page</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#requirements" id="id9">Requirements</a></p></li>
+<li><p><a class="reference internal" href="#non-streaming-x-asr" id="id10">Non-streaming X-ASR</a></p>
+<ul>
+<li><p><a class="reference internal" href="#step-1-create-the-project-directory" id="id11">Step 1. Create the project directory</a></p></li>
+<li><p><a class="reference internal" href="#step-2-download-the-model" id="id12">Step 2. Download the model</a></p></li>
+<li><p><a class="reference internal" href="#step-3-save-the-code" id="id13">Step 3. Save the code</a></p></li>
+<li><p><a class="reference internal" href="#step-4-check-the-project-layout" id="id14">Step 4. Check the project layout</a></p></li>
+<li><p><a class="reference internal" href="#step-5-build-and-run" id="id15">Step 5. Build and run</a></p></li>
+<li><p><a class="reference internal" href="#output" id="id16">Output</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#streaming-x-asr" id="id17">Streaming X-ASR</a></p>
+<ul>
+<li><p><a class="reference internal" href="#id1" id="id18">Step 1. Create the project directory</a></p></li>
+<li><p><a class="reference internal" href="#id2" id="id19">Step 2. Download the model</a></p></li>
+<li><p><a class="reference internal" href="#id3" id="id20">Step 3. Save the code</a></p></li>
+<li><p><a class="reference internal" href="#id4" id="id21">Step 4. Check the project layout</a></p></li>
+<li><p><a class="reference internal" href="#id5" id="id22">Step 5. Build and run</a></p></li>
+<li><p><a class="reference internal" href="#id6" id="id23">Output</a></p></li>
+</ul>
+</li>
+</ul>
+</div>
+<section id="requirements">
+<h2><a class="toc-backref" href="#id9">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p>Python 3.8 or above</p></li>
+<li><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>, installed with <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">sherpa-onnx</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">soundfile</span></code>: <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">soundfile</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">numpy</span></code>, which is installed together with <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a></p></li>
+</ul>
+</section>
+<section id="non-streaming-x-asr">
+<h2><a class="toc-backref" href="#id10">Non-streaming X-ASR</a><a class="headerlink" href="#non-streaming-x-asr" title="Permalink to this heading"></a></h2>
+<section id="step-1-create-the-project-directory">
+<h3><a class="toc-backref" href="#id11">Step 1. Create the project directory</a><a class="headerlink" href="#step-1-create-the-project-directory" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>x-asr-demo
+<span class="nb">cd</span><span class="w"> </span>x-asr-demo
+</pre></div>
+</div>
+</section>
+<section id="step-2-download-the-model">
+<h3><a class="toc-backref" href="#id12">Step 2. Download the model</a><a class="headerlink" href="#step-2-download-the-model" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-x-asr-zipformer-transducer-zh-en-punct-int8-2026-06-03.tar.bz2
+tar<span class="w"> </span>xf<span class="w"> </span>sherpa-onnx-x-asr-zipformer-transducer-zh-en-punct-int8-2026-06-03.tar.bz2
+rm<span class="w"> </span>sherpa-onnx-x-asr-zipformer-transducer-zh-en-punct-int8-2026-06-03.tar.bz2
+</pre></div>
+</div>
+</section>
+<section id="step-3-save-the-code">
+<h3><a class="toc-backref" href="#id13">Step 3. Save the code</a><a class="headerlink" href="#step-3-save-the-code" title="Permalink to this heading"></a></h3>
+<p>Save the following as <code class="docutils literal notranslate"><span class="pre">x-asr-offline.py</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env python3</span>
+<span class="c1"># This file shows how to use a non-streaming X-ASR model with sherpa-onnx</span>
+<span class="c1"># in Python.</span>
+<span class="c1">#</span>
+<span class="c1"># Before you run it, please download the model:</span>
+<span class="c1">#</span>
+<span class="c1">#   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-x-asr-zipformer-transducer-zh-en-punct-int8-2026-06-03.tar.bz2</span>
+<span class="c1">#   tar xf sherpa-onnx-x-asr-zipformer-transducer-zh-en-punct-int8-2026-06-03.tar.bz2</span>
+<span class="c1">#</span>
+<span class="c1"># and install sherpa-onnx:</span>
+<span class="c1">#</span>
+<span class="c1">#   pip install sherpa-onnx</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">soundfile</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sf</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">sherpa_onnx</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">read_wave</span><span class="p">(</span><span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Read a WAVE file.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">      A tuple of (samples, sample_rate), where samples is a 1-D float32</span>
+<span class="sd">      array normalized to the range [-1, 1].</span>
+<span class="sd">    """</span>
+    <span class="c1"># See https://python-soundfile.readthedocs.io/en/0.11.0/#soundfile.read</span>
+    <span class="n">data</span><span class="p">,</span> <span class="n">sample_rate</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">read</span><span class="p">(</span>
+        <span class="n">filename</span><span class="p">,</span>
+        <span class="n">always_2d</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">dtype</span><span class="o">=</span><span class="s2">"float32"</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>  <span class="c1"># use only the first channel</span>
+    <span class="n">samples</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ascontiguousarray</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+    <span class="c1"># samples is a 1-D array of dtype float32</span>
+    <span class="c1"># sample_rate is a scalar</span>
+    <span class="k">return</span> <span class="n">samples</span><span class="p">,</span> <span class="n">sample_rate</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+    <span class="n">model_dir</span> <span class="o">=</span> <span class="s2">"./sherpa-onnx-x-asr-zipformer-transducer-zh-en-punct-int8-2026-06-03"</span>
+
+    <span class="c1"># Step 1: Create the recognizer from the X-ASR model files.</span>
+    <span class="n">recognizer</span> <span class="o">=</span> <span class="n">sherpa_onnx</span><span class="o">.</span><span class="n">OfflineRecognizer</span><span class="o">.</span><span class="n">from_transducer</span><span class="p">(</span>
+        <span class="n">encoder</span><span class="o">=</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">model_dir</span><span class="si">}</span><span class="s2">/encoder-epoch-99-avg-1.int8.onnx"</span><span class="p">,</span>
+        <span class="n">decoder</span><span class="o">=</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">model_dir</span><span class="si">}</span><span class="s2">/decoder-epoch-99-avg-1.onnx"</span><span class="p">,</span>
+        <span class="n">joiner</span><span class="o">=</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">model_dir</span><span class="si">}</span><span class="s2">/joiner-epoch-99-avg-1.int8.onnx"</span><span class="p">,</span>
+        <span class="n">tokens</span><span class="o">=</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">model_dir</span><span class="si">}</span><span class="s2">/tokens.txt"</span><span class="p">,</span>
+        <span class="n">num_threads</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+        <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Step 2: Read the wave file you want to transcribe.</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">model_dir</span><span class="si">}</span><span class="s2">/test_wavs/0.wav"</span>
+    <span class="n">samples</span><span class="p">,</span> <span class="n">sample_rate</span> <span class="o">=</span> <span class="n">read_wave</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+
+    <span class="c1"># Step 3: Create a stream, send the whole audio to it, and decode.</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="n">stream</span> <span class="o">=</span> <span class="n">recognizer</span><span class="o">.</span><span class="n">create_stream</span><span class="p">()</span>
+    <span class="n">stream</span><span class="o">.</span><span class="n">accept_waveform</span><span class="p">(</span><span class="n">sample_rate</span><span class="p">,</span> <span class="n">samples</span><span class="p">)</span>
+    <span class="n">recognizer</span><span class="o">.</span><span class="n">decode_stream</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
+
+    <span class="n">elapsed</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span>
+
+    <span class="c1"># Step 4: Print the result. X-ASR punct models also add punctuations.</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">filename</span><span class="si">}</span><span class="se">\n</span><span class="si">{</span><span class="n">stream</span><span class="o">.</span><span class="n">result</span><span class="o">.</span><span class="n">text</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+    <span class="n">audio_duration</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span> <span class="o">/</span> <span class="n">sample_rate</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"audio duration: </span><span class="si">{</span><span class="n">audio_duration</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> s"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"elapsed seconds: </span><span class="si">{</span><span class="n">elapsed</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> s"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"RTF = </span><span class="si">{</span><span class="n">elapsed</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">audio_duration</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">elapsed</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">audio_duration</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="step-4-check-the-project-layout">
+<h3><a class="toc-backref" href="#id14">Step 4. Check the project layout</a><a class="headerlink" href="#step-4-check-the-project-layout" title="Permalink to this heading"></a></h3>
+<p>Your project directory should now look like this:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ tree .
+.
+├── sherpa-onnx-x-asr-zipformer-transducer-zh-en-punct-int8-2026-06-03
+│   ├── bpe.model
+│   ├── decoder-epoch-99-avg-1.onnx
+│   ├── encoder-epoch-99-avg-1.int8.onnx
+│   ├── joiner-epoch-99-avg-1.int8.onnx
+│   ├── README.md
+│   ├── test_onnx.py
+│   ├── test_wavs
+│   │   ├── 0.wav
+│   │   ├── 1.wav
+│   │   ├── 2.wav
+│   │   └── 3.wav
+│   └── tokens.txt
+└── x-asr-offline.py
+
+3 directories, 12 files
+
+$ ls -lh
+total 8
+drwxr-xr-x@ 10 fangjun  wheel   320B 29 Jun 16:31 sherpa-onnx-x-asr-zipformer-transducer-zh-en-punct-int8-2026-06-03
+-rw-r--r--@  1 fangjun  wheel   2.4K 19 Nov 12:23 x-asr-offline.py
+</pre></div>
+</div>
+</section>
+<section id="step-5-build-and-run">
+<h3><a class="toc-backref" href="#id15">Step 5. Build and run</a><a class="headerlink" href="#step-5-build-and-run" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>./x-asr-offline.py
+</pre></div>
+</div>
+</section>
+<section id="output">
+<h3><a class="toc-backref" href="#id16">Output</a><a class="headerlink" href="#output" title="Permalink to this heading"></a></h3>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>./sherpa-onnx-x-asr-zipformer-transducer-zh-en-punct-int8-2026-06-03/test_wavs/0.wav
+昨天是 Monday, today is 礼拜二， the day after tomorrow 是星期三。
+audio duration: 10.053 s
+elapsed seconds: 0.129 s
+RTF = 0.129/10.053 = 0.013
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The timing above was measured on a MacBook Pro (Apple M4) using 2 threads. Please increase the number of threads for a smaller RTF on your machine.</p>
+</div>
+</section>
+</section>
+<section id="streaming-x-asr">
+<h2><a class="toc-backref" href="#id17">Streaming X-ASR</a><a class="headerlink" href="#streaming-x-asr" title="Permalink to this heading"></a></h2>
+<section id="id1">
+<h3><a class="toc-backref" href="#id18">Step 1. Create the project directory</a><a class="headerlink" href="#id1" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>x-asr-demo
+<span class="nb">cd</span><span class="w"> </span>x-asr-demo
+</pre></div>
+</div>
+</section>
+<section id="id2">
+<h3><a class="toc-backref" href="#id19">Step 2. Download the model</a><a class="headerlink" href="#id2" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-x-asr-480ms-streaming-zipformer-transducer-zh-en-punct-int8-2026-06-05.tar.bz2
+tar<span class="w"> </span>xf<span class="w"> </span>sherpa-onnx-x-asr-480ms-streaming-zipformer-transducer-zh-en-punct-int8-2026-06-05.tar.bz2
+rm<span class="w"> </span>sherpa-onnx-x-asr-480ms-streaming-zipformer-transducer-zh-en-punct-int8-2026-06-05.tar.bz2
+</pre></div>
+</div>
+</section>
+<section id="id3">
+<h3><a class="toc-backref" href="#id20">Step 3. Save the code</a><a class="headerlink" href="#id3" title="Permalink to this heading"></a></h3>
+<p>Save the following as <code class="docutils literal notranslate"><span class="pre">x-asr-streaming.py</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env python3</span>
+<span class="c1"># This file shows how to use a streaming X-ASR model with sherpa-onnx</span>
+<span class="c1"># in Python.</span>
+<span class="c1">#</span>
+<span class="c1"># Before you run it, please download the model:</span>
+<span class="c1">#</span>
+<span class="c1">#   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-x-asr-480ms-streaming-zipformer-transducer-zh-en-punct-int8-2026-06-05.tar.bz2</span>
+<span class="c1">#   tar xf sherpa-onnx-x-asr-480ms-streaming-zipformer-transducer-zh-en-punct-int8-2026-06-05.tar.bz2</span>
+<span class="c1">#</span>
+<span class="c1"># and install sherpa-onnx:</span>
+<span class="c1">#</span>
+<span class="c1">#   pip install sherpa-onnx</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">soundfile</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sf</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">sherpa_onnx</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">read_wave</span><span class="p">(</span><span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Read a WAVE file.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">      A tuple of (samples, sample_rate), where samples is a 1-D float32</span>
+<span class="sd">      array normalized to the range [-1, 1].</span>
+<span class="sd">    """</span>
+    <span class="c1"># See https://python-soundfile.readthedocs.io/en/0.11.0/#soundfile.read</span>
+    <span class="n">data</span><span class="p">,</span> <span class="n">sample_rate</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">read</span><span class="p">(</span>
+        <span class="n">filename</span><span class="p">,</span>
+        <span class="n">always_2d</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">dtype</span><span class="o">=</span><span class="s2">"float32"</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>  <span class="c1"># use only the first channel</span>
+    <span class="n">samples</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ascontiguousarray</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+    <span class="c1"># samples is a 1-D array of dtype float32</span>
+    <span class="c1"># sample_rate is a scalar</span>
+    <span class="k">return</span> <span class="n">samples</span><span class="p">,</span> <span class="n">sample_rate</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+    <span class="n">model_dir</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="s2">"./sherpa-onnx-x-asr-480ms-streaming-zipformer-transducer-zh-en-punct-int8-2026-06-05"</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Step 1: Create the recognizer from the X-ASR model files.</span>
+    <span class="n">recognizer</span> <span class="o">=</span> <span class="n">sherpa_onnx</span><span class="o">.</span><span class="n">OnlineRecognizer</span><span class="o">.</span><span class="n">from_transducer</span><span class="p">(</span>
+        <span class="n">encoder</span><span class="o">=</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">model_dir</span><span class="si">}</span><span class="s2">/encoder.int8.onnx"</span><span class="p">,</span>
+        <span class="n">decoder</span><span class="o">=</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">model_dir</span><span class="si">}</span><span class="s2">/decoder.onnx"</span><span class="p">,</span>
+        <span class="n">joiner</span><span class="o">=</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">model_dir</span><span class="si">}</span><span class="s2">/joiner.int8.onnx"</span><span class="p">,</span>
+        <span class="n">tokens</span><span class="o">=</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">model_dir</span><span class="si">}</span><span class="s2">/tokens.txt"</span><span class="p">,</span>
+        <span class="n">num_threads</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+        <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Step 2: Read the wave file you want to transcribe.</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">model_dir</span><span class="si">}</span><span class="s2">/test_wavs/0.wav"</span>
+    <span class="n">samples</span><span class="p">,</span> <span class="n">sample_rate</span> <span class="o">=</span> <span class="n">read_wave</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+
+    <span class="c1"># Step 3: Create a stream and feed the audio in small chunks, just like</span>
+    <span class="c1"># a microphone would do in a real-time application.</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="n">stream</span> <span class="o">=</span> <span class="n">recognizer</span><span class="o">.</span><span class="n">create_stream</span><span class="p">()</span>
+
+    <span class="c1"># 0.2 second for 16 kHz audio</span>
+    <span class="n">chunk_size</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mf">0.2</span> <span class="o">*</span> <span class="n">sample_rate</span><span class="p">)</span>
+
+    <span class="n">last</span> <span class="o">=</span> <span class="s2">""</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">samples</span><span class="p">),</span> <span class="n">chunk_size</span><span class="p">):</span>
+        <span class="n">stream</span><span class="o">.</span><span class="n">accept_waveform</span><span class="p">(</span><span class="n">sample_rate</span><span class="p">,</span> <span class="n">samples</span><span class="p">[</span><span class="n">i</span> <span class="p">:</span> <span class="n">i</span> <span class="o">+</span> <span class="n">chunk_size</span><span class="p">])</span>
+
+        <span class="k">while</span> <span class="n">recognizer</span><span class="o">.</span><span class="n">is_ready</span><span class="p">(</span><span class="n">stream</span><span class="p">):</span>
+            <span class="n">recognizer</span><span class="o">.</span><span class="n">decode_stream</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
+
+        <span class="c1"># Print the latest partial result when it changes.</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">recognizer</span><span class="o">.</span><span class="n">get_result</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">result</span> <span class="ow">and</span> <span class="n">result</span> <span class="o">!=</span> <span class="n">last</span><span class="p">:</span>
+            <span class="n">last</span> <span class="o">=</span> <span class="n">result</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+
+    <span class="c1"># Send some tail padding so the last words are flushed out.</span>
+    <span class="n">stream</span><span class="o">.</span><span class="n">accept_waveform</span><span class="p">(</span><span class="n">sample_rate</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">sample_rate</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">))</span>
+    <span class="k">while</span> <span class="n">recognizer</span><span class="o">.</span><span class="n">is_ready</span><span class="p">(</span><span class="n">stream</span><span class="p">):</span>
+        <span class="n">recognizer</span><span class="o">.</span><span class="n">decode_stream</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span>
+
+    <span class="c1"># Step 4: Print the final result.</span>
+    <span class="n">elapsed</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">"Final result:"</span><span class="p">,</span> <span class="n">recognizer</span><span class="o">.</span><span class="n">get_result</span><span class="p">(</span><span class="n">stream</span><span class="p">))</span>
+
+    <span class="n">audio_duration</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">samples</span><span class="p">)</span> <span class="o">/</span> <span class="n">sample_rate</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"audio duration: </span><span class="si">{</span><span class="n">audio_duration</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> s"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"elapsed seconds: </span><span class="si">{</span><span class="n">elapsed</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> s"</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"RTF = </span><span class="si">{</span><span class="n">elapsed</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">audio_duration</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">elapsed</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">audio_duration</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="id4">
+<h3><a class="toc-backref" href="#id21">Step 4. Check the project layout</a><a class="headerlink" href="#id4" title="Permalink to this heading"></a></h3>
+<p>Your project directory should now look like this:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ tree .
+.
+├── sherpa-onnx-x-asr-480ms-streaming-zipformer-transducer-zh-en-punct-int8-2026-06-05
+│   ├── bpe.model
+│   ├── decoder.onnx
+│   ├── encoder.int8.onnx
+│   ├── joiner.int8.onnx
+│   ├── README.md
+│   ├── test_onnx.py
+│   ├── test_wavs
+│   │   ├── 0.wav
+│   │   ├── 1.wav
+│   │   ├── 2.wav
+│   │   └── 3.wav
+│   └── tokens.txt
+└── x-asr-streaming.py
+
+3 directories, 12 files
+
+$ ls -lh
+total 8
+drwxr-xr-x@ 10 fangjun  wheel   320B 29 Jun 16:30 sherpa-onnx-x-asr-480ms-streaming-zipformer-transducer-zh-en-punct-int8-2026-06-05
+-rw-r--r--@  1 fangjun  wheel   3.1K 19 Nov 12:23 x-asr-streaming.py
+</pre></div>
+</div>
+</section>
+<section id="id5">
+<h3><a class="toc-backref" href="#id22">Step 5. Build and run</a><a class="headerlink" href="#id5" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>./x-asr-streaming.py
+</pre></div>
+</div>
+</section>
+<section id="id6">
+<h3><a class="toc-backref" href="#id23">Output</a><a class="headerlink" href="#id6" title="Permalink to this heading"></a></h3>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>昨
+昨天是
+昨天是 Mon
+昨天是 Monday
+昨天是 Monday，
+昨天是 Monday， today
+昨天是 Monday， today is 礼
+昨天是 Monday， today is 礼拜二
+昨天是 Monday， today is 礼拜二，
+昨天是 Monday， today is 礼拜二， the day
+昨天是 Monday， today is 礼拜二， the day after
+昨天是 Monday， today is 礼拜二， the day after tomorro
+昨天是 Monday， today is 礼拜二， the day after tomorrow
+昨天是 Monday， today is 礼拜二， the day after tomorrow 是
+Final result: 昨天是 Monday， today is 礼拜二， the day after tomorrow 是星期
+audio duration: 10.053 s
+elapsed seconds: 0.305 s
+RTF = 0.305/10.053 = 0.030
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The timing above was measured on a MacBook Pro (Apple M4) using 2 threads. Please increase the number of threads for a smaller RTF on your machine.</p>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="X-ASR" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="c-api.html" class="btn btn-neutral float-right" title="C" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

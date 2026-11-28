@@ -1,0 +1,11 @@
+<map id="sherpa_onnx::cxx::SourceSeparationOutput" name="sherpa_onnx::cxx::SourceSeparationOutput">
+<area shape="rect" id="Node000001" title="Output of a source&#45;separation run." alt="" coords="18,476,206,521"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="5,341,219,403"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="114,417,115,476,109,475,110,420"/>
+<area shape="rect" id="Node000003" href="$structsherpa__onnx_1_1cxx_1_1SourceSeparationStem.html" title="A single stem (output track) with one or more channels." alt="" coords="18,224,206,268"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="113,281,115,341,109,340,111,286"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="25,106,199,151"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="113,164,115,223,109,223,111,169"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="37,5,187,33"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="112,46,115,106,109,105,112,51"/>
+</map>

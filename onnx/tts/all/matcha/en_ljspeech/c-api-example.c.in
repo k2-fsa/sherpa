@@ -1,0 +1,50 @@
+#include <stdio.h>
+#include <string.h>
+
+#include "sherpa-onnx/c-api/c-api.h"
+
+int main() {
+  SherpaOnnxOfflineTtsConfig config;
+  memset(&config, 0, sizeof(config));
+
+  config.model.matcha.acoustic_model = "{{acoustic_model}}";
+  config.model.matcha.vocoder = "{{vocoder}}";
+{%- if lexicon %}
+  config.model.matcha.lexicon = "{{lexicon}}";
+{%- endif %}
+  config.model.matcha.tokens = "{{tokens}}";
+{%- if data_dir %}
+  config.model.matcha.data_dir = "{{data_dir}}";
+{%- endif %}
+  config.model.num_threads = 1;
+
+  // If you want to see debug messages, please set it to 1
+  config.model.debug = 0;
+
+{%- if rule_fsts %}
+  config.rule_fsts = "{{rule_fsts}}";
+{%- endif %}
+
+  const SherpaOnnxOfflineTts *tts = SherpaOnnxCreateOfflineTts(&config);
+
+  const char *text = "{{text}}";
+
+  SherpaOnnxGenerationConfig gen_cfg;
+  memset(&gen_cfg, 0, sizeof(gen_cfg));
+  gen_cfg.sid = 0;
+  gen_cfg.speed = 1.0;
+
+  const SherpaOnnxGeneratedAudio *audio =
+      SherpaOnnxOfflineTtsGenerateWithConfig(tts, text, &gen_cfg, NULL, NULL);
+
+  SherpaOnnxWriteWave(audio->samples, audio->n, audio->sample_rate,
+                      "./test.wav");
+
+  // You need to free the pointers to avoid memory leak in your app
+  SherpaOnnxDestroyOfflineTtsGeneratedAudio(audio);
+  SherpaOnnxDestroyOfflineTts(tts);
+
+  printf("Saved to ./test.wav\n");
+
+  return 0;
+}

@@ -1,0 +1,31 @@
+import sherpa_onnx
+import soundfile as sf
+
+tts_config = sherpa_onnx.OfflineTtsConfig(
+    model=sherpa_onnx.OfflineTtsModelConfig(
+        supertonic=sherpa_onnx.OfflineTtsSupertonicModelConfig(
+            duration_predictor="{{model_dir}}/duration_predictor.int8.onnx",
+            text_encoder="{{model_dir}}/text_encoder.int8.onnx",
+            vector_estimator="{{model_dir}}/vector_estimator.int8.onnx",
+            vocoder="{{model_dir}}/vocoder.int8.onnx",
+            tts_json="{{model_dir}}/tts.json",
+            unicode_indexer="{{model_dir}}/unicode_indexer.bin",
+            voice_style="{{model_dir}}/voice.bin",
+        ),
+        debug=False,
+        num_threads=2,
+        provider="cpu",
+    ),
+)
+
+tts = sherpa_onnx.OfflineTts(tts_config)
+
+gen_config = sherpa_onnx.GenerationConfig()
+gen_config.sid = 0
+gen_config.num_steps = 8
+gen_config.speed = 1.0
+gen_config.extra["lang"] = "{{lang}}"
+
+audio = tts.generate("{{text}}", gen_config)
+
+sf.write("test.wav", audio.samples, samplerate=audio.sample_rate)

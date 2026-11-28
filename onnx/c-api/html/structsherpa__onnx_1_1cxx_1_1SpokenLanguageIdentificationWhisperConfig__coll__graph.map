@@ -1,0 +1,7 @@
+<map id="sherpa_onnx::cxx::SpokenLanguageIdentificationWhisperConfig" name="sherpa_onnx::cxx::SpokenLanguageIdentificationWhisperConfig">
+<area shape="rect" id="Node000001" title="Whisper model configuration for spoken language identification." alt="" coords="5,222,228,284"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="73,99,160,127"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="119,141,119,223,114,221,114,144"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="47,5,186,50"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="117,63,119,99,114,98,116,68"/>
+</map>

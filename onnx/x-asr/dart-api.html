@@ -1,0 +1,602 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dart/Flutter &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Swift" href="swift-api.html" />
+    <link rel="prev" title="JavaScript (WASM)" href="javascript-wasm-api.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">sherpa-onnx</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../install/index.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../faqs/index.html">Frequently Asked Question (FAQs)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python/index.html">Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../c-api/index.html">C API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../java-api/index.html">Java API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../javascript-api/index.html">Javascript API (Node-Addon)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kotlin-api/index.html">Kotlin API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../swift-api/index.html">Swift API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../go-api/index.html">Go API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rust-api/index.html">Rust API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../csharp-api/index.html">C# API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pascal-api/index.html">Pascal API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lazarus/index.html">Lazarus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../wasm/index.html">WebAssembly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../android/index.html">Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../harmony-os/index.html">HarmonyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ios/index.html">iOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../flutter/index.html">Flutter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tauri/index.html">Tauri Desktop Apps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../websocket/index.html">WebSocket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../hotwords/index.html">Hotwords (Contextual biasing)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kws/index.html">Keyword spotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../punctuation/index.html">Punctuation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../audio-tagging/index.html">Audio tagging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spoken-language-identification/index.html">Spoken language identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vad/index.html">VAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../medasr/index.html">Google MedASR</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../pretrained_models/index.html">Pre-trained models</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/online-transducer/index.html">Online transducer models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/online-paraformer/index.html">Online paraformer models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/online-ctc/index.html">Online CTC models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/offline-transducer/index.html">Offline transducer models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/offline-paraformer/index.html">Offline paraformer models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/offline-ctc/index.html">Offline CTC models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/telespeech/index.html">TeleSpeech</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/whisper/index.html">Whisper</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/wenet/index.html">WeNet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/small-online-models.html">Small models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sense-voice/index.html">SenseVoice</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="index.html">X-ASR</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="index.html#non-streaming-models">Non-streaming models</a></li>
+<li class="toctree-l4"><a class="reference internal" href="index.html#streaming-models">Streaming models</a></li>
+<li class="toctree-l4 current"><a class="reference internal" href="index.html#use-x-asr-with-our-apis">Use X-ASR with our APIs</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/whisper/index.html">Whisper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../moonshine/index.html">Moonshine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../omnilingual-asr/index.html">Omnilingual ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sense-voice/index.html">SenseVoice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cohere_transcribe/index.html">Cohere Transcribe</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../funasr-nano/index.html">FunASR Nano</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qwen3-asr/index.html">Qwen3-ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../paraformer/index.html">Paraformer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nemo/index.html">NeMo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../FireRedAsr/index.html">FireRedAsr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Dolphin/index.html">Dolphin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../homophone-replacer/index.html">拼音词组匹配替换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-diarization/index.html">Speaker Diarization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-identification/index.html">Speaker Identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speech-enhancement/index.html">Speech enhancement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../source-separation/index.html">Source separation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qnn/index.html">Qualcomm NPU (QNN, HTP)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rknn/index.html">rknn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spacemit/index.html">SpacemiT CPUs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ascend/index.html">Ascend NPU (昇腾 NPU)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tts/index.html">Text-to-speech (TTS)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../forced-alignment/index.html">Forced alignment</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">sherpa-onnx</a> &raquo;</li>
+          <li><a href="../pretrained_models/index.html">Pre-trained models</a> &raquo;</li>
+          <li><a href="index.html">X-ASR</a> &raquo;</li>
+      <li>Dart/Flutter</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/onnx/x-asr/dart-api.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="dart-flutter">
+<span id="onnx-x-asr-dart-api"></span><h1>Dart/Flutter<a class="headerlink" href="#dart-flutter" title="Permalink to this heading"></a></h1>
+<p>This page shows how to use <a class="reference external" href="https://github.com/Gilgamesh-J/X-ASR">X-ASR</a> models with <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a> in Dart and Flutter. Two demos are given: one with a non-streaming model and one with a streaming model.</p>
+<div class="contents local topic" id="on-this-page">
+<p class="topic-title">On this page</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#requirements" id="id10">Requirements</a></p></li>
+<li><p><a class="reference internal" href="#non-streaming-x-asr" id="id11">Non-streaming X-ASR</a></p>
+<ul>
+<li><p><a class="reference internal" href="#step-1-create-the-project-directory" id="id12">Step 1. Create the project directory</a></p></li>
+<li><p><a class="reference internal" href="#step-2-create-the-build-file" id="id13">Step 2. Create the build file</a></p></li>
+<li><p><a class="reference internal" href="#step-3-download-the-model" id="id14">Step 3. Download the model</a></p></li>
+<li><p><a class="reference internal" href="#step-4-save-the-code" id="id15">Step 4. Save the code</a></p></li>
+<li><p><a class="reference internal" href="#step-5-check-the-project-layout" id="id16">Step 5. Check the project layout</a></p></li>
+<li><p><a class="reference internal" href="#step-6-build-and-run" id="id17">Step 6. Build and run</a></p></li>
+<li><p><a class="reference internal" href="#output" id="id18">Output</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#streaming-x-asr" id="id19">Streaming X-ASR</a></p>
+<ul>
+<li><p><a class="reference internal" href="#id1" id="id20">Step 1. Create the project directory</a></p></li>
+<li><p><a class="reference internal" href="#id2" id="id21">Step 2. Create the build file</a></p></li>
+<li><p><a class="reference internal" href="#id3" id="id22">Step 3. Download the model</a></p></li>
+<li><p><a class="reference internal" href="#id4" id="id23">Step 4. Save the code</a></p></li>
+<li><p><a class="reference internal" href="#id5" id="id24">Step 5. Check the project layout</a></p></li>
+<li><p><a class="reference internal" href="#id6" id="id25">Step 6. Build and run</a></p></li>
+<li><p><a class="reference internal" href="#id7" id="id26">Output</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#notes" id="id27">Notes</a></p></li>
+</ul>
+</div>
+<section id="requirements">
+<h2><a class="toc-backref" href="#id10">Requirements</a><a class="headerlink" href="#requirements" title="Permalink to this heading"></a></h2>
+<ul class="simple">
+<li><p>Dart 3.0 or above (or Flutter)</p></li>
+</ul>
+</section>
+<section id="non-streaming-x-asr">
+<h2><a class="toc-backref" href="#id11">Non-streaming X-ASR</a><a class="headerlink" href="#non-streaming-x-asr" title="Permalink to this heading"></a></h2>
+<section id="step-1-create-the-project-directory">
+<h3><a class="toc-backref" href="#id12">Step 1. Create the project directory</a><a class="headerlink" href="#step-1-create-the-project-directory" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>x-asr-demo
+<span class="nb">cd</span><span class="w"> </span>x-asr-demo
+</pre></div>
+</div>
+</section>
+<section id="step-2-create-the-build-file">
+<h3><a class="toc-backref" href="#id13">Step 2. Create the build file</a><a class="headerlink" href="#step-2-create-the-build-file" title="Permalink to this heading"></a></h3>
+<p>Save the following as <code class="docutils literal notranslate"><span class="pre">pubspec.yaml</span></code>:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">x_asr_demo</span>
+<span class="nt">environment</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">sdk</span><span class="p">:</span><span class="w"> </span><span class="s">'&gt;=3.0.0</span><span class="nv"> </span><span class="s">&lt;4.0.0'</span>
+<span class="nt">dependencies</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">sherpa_onnx</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">^2.0.1</span>
+</pre></div>
+</div>
+</section>
+<section id="step-3-download-the-model">
+<h3><a class="toc-backref" href="#id14">Step 3. Download the model</a><a class="headerlink" href="#step-3-download-the-model" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-x-asr-zipformer-transducer-zh-en-punct-int8-2026-06-03.tar.bz2
+tar<span class="w"> </span>xf<span class="w"> </span>sherpa-onnx-x-asr-zipformer-transducer-zh-en-punct-int8-2026-06-03.tar.bz2
+rm<span class="w"> </span>sherpa-onnx-x-asr-zipformer-transducer-zh-en-punct-int8-2026-06-03.tar.bz2
+</pre></div>
+</div>
+</section>
+<section id="step-4-save-the-code">
+<h3><a class="toc-backref" href="#id15">Step 4. Save the code</a><a class="headerlink" href="#step-4-save-the-code" title="Permalink to this heading"></a></h3>
+<p>Save the following as <code class="docutils literal notranslate"><span class="pre">bin/x-asr-offline.dart</span></code>:</p>
+<div class="highlight-dart notranslate"><div class="highlight"><pre><span></span><span class="c1">// This file shows how to use a non-streaming X-ASR model with sherpa-onnx</span>
+<span class="c1">// in Dart/Flutter.</span>
+<span class="c1">//</span>
+<span class="c1">// Before you run it, please add sherpa_onnx to your pubspec.yaml:</span>
+<span class="c1">//</span>
+<span class="c1">//   dependencies:</span>
+<span class="c1">//     sherpa_onnx: ^2.0.1</span>
+<span class="c1">//</span>
+<span class="c1">// and download the model:</span>
+<span class="c1">//</span>
+<span class="c1">//   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-x-asr-zipformer-transducer-zh-en-punct-int8-2026-06-03.tar.bz2</span>
+<span class="c1">//   tar xf sherpa-onnx-x-asr-zipformer-transducer-zh-en-punct-int8-2026-06-03.tar.bz2</span>
+<span class="k">import</span><span class="w"> </span><span class="s1">'package:sherpa_onnx/sherpa_onnx.dart'</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">sherpa_onnx</span><span class="p">;</span>
+
+<span class="n">Future</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span><span class="w"> </span><span class="n">main</span><span class="p">()</span><span class="w"> </span><span class="kd">async</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// Load the sherpa-onnx native library.</span>
+<span class="w">  </span><span class="kd">await</span><span class="w"> </span><span class="n">sherpa_onnx</span><span class="p">.</span><span class="n">initBindingsAsync</span><span class="p">();</span>
+
+<span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="n">modelDir</span><span class="w"> </span><span class="o">=</span>
+<span class="w">      </span><span class="s1">'./sherpa-onnx-x-asr-zipformer-transducer-zh-en-punct-int8-2026-06-03'</span><span class="p">;</span>
+
+<span class="w">  </span><span class="c1">// Step 1: Create the recognizer from the X-ASR model files.</span>
+<span class="w">  </span><span class="kd">final</span><span class="w"> </span><span class="n">transducer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sherpa_onnx</span><span class="p">.</span><span class="n">OfflineTransducerModelConfig</span><span class="p">(</span>
+<span class="w">    </span><span class="nl">encoder:</span><span class="w"> </span><span class="s1">'</span><span class="si">$</span><span class="n">modelDir</span><span class="s1">/encoder-epoch-99-avg-1.int8.onnx'</span><span class="p">,</span>
+<span class="w">    </span><span class="nl">decoder:</span><span class="w"> </span><span class="s1">'</span><span class="si">$</span><span class="n">modelDir</span><span class="s1">/decoder-epoch-99-avg-1.onnx'</span><span class="p">,</span>
+<span class="w">    </span><span class="nl">joiner:</span><span class="w"> </span><span class="s1">'</span><span class="si">$</span><span class="n">modelDir</span><span class="s1">/joiner-epoch-99-avg-1.int8.onnx'</span><span class="p">,</span>
+<span class="w">  </span><span class="p">);</span>
+<span class="w">  </span><span class="kd">final</span><span class="w"> </span><span class="n">modelConfig</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sherpa_onnx</span><span class="p">.</span><span class="n">OfflineModelConfig</span><span class="p">(</span>
+<span class="w">    </span><span class="nl">transducer:</span><span class="w"> </span><span class="n">transducer</span><span class="p">,</span>
+<span class="w">    </span><span class="nl">tokens:</span><span class="w"> </span><span class="s1">'</span><span class="si">$</span><span class="n">modelDir</span><span class="s1">/tokens.txt'</span><span class="p">,</span>
+<span class="w">    </span><span class="nl">numThreads:</span><span class="w"> </span><span class="m">2</span><span class="p">,</span>
+<span class="w">    </span><span class="nl">debug:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">  </span><span class="p">);</span>
+<span class="w">  </span><span class="kd">final</span><span class="w"> </span><span class="n">config</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sherpa_onnx</span><span class="p">.</span><span class="n">OfflineRecognizerConfig</span><span class="p">(</span><span class="nl">model:</span><span class="w"> </span><span class="n">modelConfig</span><span class="p">);</span>
+<span class="w">  </span><span class="kd">final</span><span class="w"> </span><span class="n">recognizer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sherpa_onnx</span><span class="p">.</span><span class="n">OfflineRecognizer</span><span class="p">(</span><span class="n">config</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">// Step 2: Read the wave file you want to transcribe.</span>
+<span class="w">  </span><span class="kd">final</span><span class="w"> </span><span class="n">filename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'</span><span class="si">$</span><span class="n">modelDir</span><span class="s1">/test_wavs/0.wav'</span><span class="p">;</span>
+<span class="w">  </span><span class="kd">final</span><span class="w"> </span><span class="n">wave</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sherpa_onnx</span><span class="p">.</span><span class="n">readWave</span><span class="p">(</span><span class="n">filename</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">// Step 3: Create a stream, send the whole audio to it, and decode.</span>
+<span class="w">  </span><span class="kd">final</span><span class="w"> </span><span class="n">stopwatch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Stopwatch</span><span class="p">()..</span><span class="n">start</span><span class="p">();</span>
+<span class="w">  </span><span class="kd">final</span><span class="w"> </span><span class="n">stream</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">recognizer</span><span class="p">.</span><span class="n">createStream</span><span class="p">();</span>
+<span class="w">  </span><span class="n">stream</span><span class="p">.</span><span class="n">acceptWaveform</span><span class="p">(</span><span class="nl">samples:</span><span class="w"> </span><span class="n">wave</span><span class="p">.</span><span class="n">samples</span><span class="p">,</span><span class="w"> </span><span class="nl">sampleRate:</span><span class="w"> </span><span class="n">wave</span><span class="p">.</span><span class="n">sampleRate</span><span class="p">);</span>
+<span class="w">  </span><span class="n">recognizer</span><span class="p">.</span><span class="n">decode</span><span class="p">(</span><span class="n">stream</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">// Step 4: Print the result. X-ASR punct models also add punctuations.</span>
+<span class="w">  </span><span class="n">print</span><span class="p">(</span><span class="n">filename</span><span class="p">);</span>
+<span class="w">  </span><span class="n">stopwatch</span><span class="p">.</span><span class="n">stop</span><span class="p">();</span>
+<span class="w">  </span><span class="kd">final</span><span class="w"> </span><span class="n">elapsed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">stopwatch</span><span class="p">.</span><span class="n">elapsedMicroseconds</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="m">1e6</span><span class="p">;</span>
+<span class="w">  </span><span class="n">print</span><span class="p">(</span><span class="n">recognizer</span><span class="p">.</span><span class="n">getResult</span><span class="p">(</span><span class="n">stream</span><span class="p">).</span><span class="n">text</span><span class="p">);</span>
+
+<span class="w">  </span><span class="kd">final</span><span class="w"> </span><span class="n">audioDuration</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">wave</span><span class="p">.</span><span class="n">samples</span><span class="p">.</span><span class="n">length</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">wave</span><span class="p">.</span><span class="n">sampleRate</span><span class="p">;</span>
+<span class="w">  </span><span class="n">print</span><span class="p">(</span><span class="s1">'audio duration: </span><span class="si">${</span><span class="n">audioDuration</span><span class="p">.</span><span class="n">toStringAsFixed</span><span class="p">(</span><span class="m">3</span><span class="p">)</span><span class="si">}</span><span class="s1"> s'</span><span class="p">);</span>
+<span class="w">  </span><span class="n">print</span><span class="p">(</span><span class="s1">'elapsed seconds: </span><span class="si">${</span><span class="n">elapsed</span><span class="p">.</span><span class="n">toStringAsFixed</span><span class="p">(</span><span class="m">3</span><span class="p">)</span><span class="si">}</span><span class="s1"> s'</span><span class="p">);</span>
+<span class="w">  </span><span class="n">print</span><span class="p">(</span><span class="s1">'RTF = </span><span class="si">${</span><span class="n">elapsed</span><span class="p">.</span><span class="n">toStringAsFixed</span><span class="p">(</span><span class="m">3</span><span class="p">)</span><span class="si">}</span><span class="s1">/</span><span class="si">${</span><span class="n">audioDuration</span><span class="p">.</span><span class="n">toStringAsFixed</span><span class="p">(</span><span class="m">3</span><span class="p">)</span><span class="si">}</span><span class="s1"> = </span><span class="si">${</span><span class="p">(</span><span class="n">elapsed</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">audioDuration</span><span class="p">).</span><span class="n">toStringAsFixed</span><span class="p">(</span><span class="m">3</span><span class="p">)</span><span class="si">}</span><span class="s1">'</span><span class="p">);</span>
+
+<span class="w">  </span><span class="n">stream</span><span class="p">.</span><span class="n">free</span><span class="p">();</span>
+<span class="w">  </span><span class="n">recognizer</span><span class="p">.</span><span class="n">free</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="step-5-check-the-project-layout">
+<h3><a class="toc-backref" href="#id16">Step 5. Check the project layout</a><a class="headerlink" href="#step-5-check-the-project-layout" title="Permalink to this heading"></a></h3>
+<p>Your project directory should now look like this:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ tree .
+.
+├── bin
+│   └── x-asr-offline.dart
+├── pubspec.yaml
+└── sherpa-onnx-x-asr-zipformer-transducer-zh-en-punct-int8-2026-06-03
+    ├── bpe.model
+    ├── decoder-epoch-99-avg-1.onnx
+    ├── encoder-epoch-99-avg-1.int8.onnx
+    ├── joiner-epoch-99-avg-1.int8.onnx
+    ├── README.md
+    ├── test_onnx.py
+    ├── test_wavs
+    │   ├── 0.wav
+    │   ├── 1.wav
+    │   ├── 2.wav
+    │   └── 3.wav
+    └── tokens.txt
+
+4 directories, 13 files
+
+$ ls -lh
+total 8
+drwxr-xr-x@  3 fangjun  wheel    96B 19 Nov 12:23 bin
+-rw-r--r--@  1 fangjun  wheel    90B 19 Nov 12:23 pubspec.yaml
+drwxr-xr-x@ 10 fangjun  wheel   320B 29 Jun 16:31 sherpa-onnx-x-asr-zipformer-transducer-zh-en-punct-int8-2026-06-03
+</pre></div>
+</div>
+</section>
+<section id="step-6-build-and-run">
+<h3><a class="toc-backref" href="#id17">Step 6. Build and run</a><a class="headerlink" href="#step-6-build-and-run" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>dart<span class="w"> </span>pub<span class="w"> </span>get
+dart<span class="w"> </span>run<span class="w"> </span>./bin/x-asr-offline.dart
+</pre></div>
+</div>
+</section>
+<section id="output">
+<h3><a class="toc-backref" href="#id18">Output</a><a class="headerlink" href="#output" title="Permalink to this heading"></a></h3>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>./sherpa-onnx-x-asr-zipformer-transducer-zh-en-punct-int8-2026-06-03/test_wavs/0.wav
+昨天是 Monday, today is 礼拜二， the day after tomorrow 是星期三。
+audio duration: 10.053 s
+elapsed seconds: 0.200 s
+RTF = 0.200/10.053 = 0.020
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The timing above was measured on a MacBook Pro (Apple M4) using 2 threads. Please increase the number of threads for a smaller RTF on your machine.</p>
+</div>
+</section>
+</section>
+<section id="streaming-x-asr">
+<h2><a class="toc-backref" href="#id19">Streaming X-ASR</a><a class="headerlink" href="#streaming-x-asr" title="Permalink to this heading"></a></h2>
+<section id="id1">
+<h3><a class="toc-backref" href="#id20">Step 1. Create the project directory</a><a class="headerlink" href="#id1" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>x-asr-demo
+<span class="nb">cd</span><span class="w"> </span>x-asr-demo
+</pre></div>
+</div>
+</section>
+<section id="id2">
+<h3><a class="toc-backref" href="#id21">Step 2. Create the build file</a><a class="headerlink" href="#id2" title="Permalink to this heading"></a></h3>
+<p>Save the following as <code class="docutils literal notranslate"><span class="pre">pubspec.yaml</span></code>:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">x_asr_demo</span>
+<span class="nt">environment</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">sdk</span><span class="p">:</span><span class="w"> </span><span class="s">'&gt;=3.0.0</span><span class="nv"> </span><span class="s">&lt;4.0.0'</span>
+<span class="nt">dependencies</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">sherpa_onnx</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">^2.0.1</span>
+</pre></div>
+</div>
+</section>
+<section id="id3">
+<h3><a class="toc-backref" href="#id22">Step 3. Download the model</a><a class="headerlink" href="#id3" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>wget<span class="w"> </span>https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-x-asr-480ms-streaming-zipformer-transducer-zh-en-punct-int8-2026-06-05.tar.bz2
+tar<span class="w"> </span>xf<span class="w"> </span>sherpa-onnx-x-asr-480ms-streaming-zipformer-transducer-zh-en-punct-int8-2026-06-05.tar.bz2
+rm<span class="w"> </span>sherpa-onnx-x-asr-480ms-streaming-zipformer-transducer-zh-en-punct-int8-2026-06-05.tar.bz2
+</pre></div>
+</div>
+</section>
+<section id="id4">
+<h3><a class="toc-backref" href="#id23">Step 4. Save the code</a><a class="headerlink" href="#id4" title="Permalink to this heading"></a></h3>
+<p>Save the following as <code class="docutils literal notranslate"><span class="pre">bin/x-asr-streaming.dart</span></code>:</p>
+<div class="highlight-dart notranslate"><div class="highlight"><pre><span></span><span class="c1">// This file shows how to use a streaming X-ASR model with sherpa-onnx</span>
+<span class="c1">// in Dart/Flutter.</span>
+<span class="c1">//</span>
+<span class="c1">// Before you run it, please add sherpa_onnx to your pubspec.yaml:</span>
+<span class="c1">//</span>
+<span class="c1">//   dependencies:</span>
+<span class="c1">//     sherpa_onnx: ^2.0.1</span>
+<span class="c1">//</span>
+<span class="c1">// and download the model:</span>
+<span class="c1">//</span>
+<span class="c1">//   wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-x-asr-480ms-streaming-zipformer-transducer-zh-en-punct-int8-2026-06-05.tar.bz2</span>
+<span class="c1">//   tar xf sherpa-onnx-x-asr-480ms-streaming-zipformer-transducer-zh-en-punct-int8-2026-06-05.tar.bz2</span>
+<span class="k">import</span><span class="w"> </span><span class="s1">'dart:typed_data'</span><span class="p">;</span>
+
+<span class="k">import</span><span class="w"> </span><span class="s1">'package:sherpa_onnx/sherpa_onnx.dart'</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="n">sherpa_onnx</span><span class="p">;</span>
+
+<span class="n">Future</span><span class="o">&lt;</span><span class="kt">void</span><span class="o">&gt;</span><span class="w"> </span><span class="n">main</span><span class="p">()</span><span class="w"> </span><span class="kd">async</span><span class="w"> </span><span class="p">{</span>
+<span class="w">  </span><span class="c1">// Load the sherpa-onnx native library.</span>
+<span class="w">  </span><span class="kd">await</span><span class="w"> </span><span class="n">sherpa_onnx</span><span class="p">.</span><span class="n">initBindingsAsync</span><span class="p">();</span>
+
+<span class="w">  </span><span class="k">const</span><span class="w"> </span><span class="n">modelDir</span><span class="w"> </span><span class="o">=</span>
+<span class="w">      </span><span class="s1">'./sherpa-onnx-x-asr-480ms-streaming-zipformer-transducer-zh-en-punct-int8-2026-06-05'</span><span class="p">;</span>
+
+<span class="w">  </span><span class="c1">// Step 1: Create the recognizer from the X-ASR model files.</span>
+<span class="w">  </span><span class="kd">final</span><span class="w"> </span><span class="n">transducer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sherpa_onnx</span><span class="p">.</span><span class="n">OnlineTransducerModelConfig</span><span class="p">(</span>
+<span class="w">    </span><span class="nl">encoder:</span><span class="w"> </span><span class="s1">'</span><span class="si">$</span><span class="n">modelDir</span><span class="s1">/encoder.int8.onnx'</span><span class="p">,</span>
+<span class="w">    </span><span class="nl">decoder:</span><span class="w"> </span><span class="s1">'</span><span class="si">$</span><span class="n">modelDir</span><span class="s1">/decoder.onnx'</span><span class="p">,</span>
+<span class="w">    </span><span class="nl">joiner:</span><span class="w"> </span><span class="s1">'</span><span class="si">$</span><span class="n">modelDir</span><span class="s1">/joiner.int8.onnx'</span><span class="p">,</span>
+<span class="w">  </span><span class="p">);</span>
+<span class="w">  </span><span class="kd">final</span><span class="w"> </span><span class="n">modelConfig</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sherpa_onnx</span><span class="p">.</span><span class="n">OnlineModelConfig</span><span class="p">(</span>
+<span class="w">    </span><span class="nl">transducer:</span><span class="w"> </span><span class="n">transducer</span><span class="p">,</span>
+<span class="w">    </span><span class="nl">tokens:</span><span class="w"> </span><span class="s1">'</span><span class="si">$</span><span class="n">modelDir</span><span class="s1">/tokens.txt'</span><span class="p">,</span>
+<span class="w">    </span><span class="nl">numThreads:</span><span class="w"> </span><span class="m">2</span><span class="p">,</span>
+<span class="w">    </span><span class="nl">debug:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">  </span><span class="p">);</span>
+<span class="w">  </span><span class="kd">final</span><span class="w"> </span><span class="n">config</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sherpa_onnx</span><span class="p">.</span><span class="n">OnlineRecognizerConfig</span><span class="p">(</span><span class="nl">model:</span><span class="w"> </span><span class="n">modelConfig</span><span class="p">);</span>
+<span class="w">  </span><span class="kd">final</span><span class="w"> </span><span class="n">recognizer</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sherpa_onnx</span><span class="p">.</span><span class="n">OnlineRecognizer</span><span class="p">(</span><span class="n">config</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">// Step 2: Read the wave file you want to transcribe.</span>
+<span class="w">  </span><span class="kd">final</span><span class="w"> </span><span class="n">filename</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'</span><span class="si">$</span><span class="n">modelDir</span><span class="s1">/test_wavs/0.wav'</span><span class="p">;</span>
+<span class="w">  </span><span class="kd">final</span><span class="w"> </span><span class="n">wave</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sherpa_onnx</span><span class="p">.</span><span class="n">readWave</span><span class="p">(</span><span class="n">filename</span><span class="p">);</span>
+
+<span class="w">  </span><span class="c1">// Step 3: Create a stream and feed the audio in small chunks, just like</span>
+<span class="w">  </span><span class="c1">// a microphone would do in a real-time application.</span>
+<span class="w">  </span><span class="kd">final</span><span class="w"> </span><span class="n">stopwatch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Stopwatch</span><span class="p">()..</span><span class="n">start</span><span class="p">();</span>
+<span class="w">  </span><span class="kd">final</span><span class="w"> </span><span class="n">stream</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">recognizer</span><span class="p">.</span><span class="n">createStream</span><span class="p">();</span>
+
+<span class="w">  </span><span class="c1">// 0.2 second for 16 kHz audio</span>
+<span class="w">  </span><span class="kd">final</span><span class="w"> </span><span class="n">chunkSize</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">3200</span><span class="p">;</span>
+<span class="w">  </span><span class="kd">final</span><span class="w"> </span><span class="n">numChunks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">wave</span><span class="p">.</span><span class="n">samples</span><span class="p">.</span><span class="n">length</span><span class="w"> </span><span class="o">~/</span><span class="w"> </span><span class="n">chunkSize</span><span class="p">;</span>
+
+<span class="w">  </span><span class="kd">var</span><span class="w"> </span><span class="n">last</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">''</span><span class="p">;</span>
+<span class="w">  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">numChunks</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="kt">int</span><span class="w"> </span><span class="n">start</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">chunkSize</span><span class="p">;</span>
+<span class="w">    </span><span class="n">stream</span><span class="p">.</span><span class="n">acceptWaveform</span><span class="p">(</span>
+<span class="w">      </span><span class="nl">samples:</span><span class="w"> </span><span class="n">Float32List</span><span class="p">.</span><span class="n">sublistView</span><span class="p">(</span>
+<span class="w">          </span><span class="n">wave</span><span class="p">.</span><span class="n">samples</span><span class="p">,</span><span class="w"> </span><span class="n">start</span><span class="p">,</span><span class="w"> </span><span class="n">start</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">chunkSize</span><span class="p">),</span>
+<span class="w">      </span><span class="nl">sampleRate:</span><span class="w"> </span><span class="n">wave</span><span class="p">.</span><span class="n">sampleRate</span><span class="p">,</span>
+<span class="w">    </span><span class="p">);</span>
+
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">recognizer</span><span class="p">.</span><span class="n">isReady</span><span class="p">(</span><span class="n">stream</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="n">recognizer</span><span class="p">.</span><span class="n">decode</span><span class="p">(</span><span class="n">stream</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// Print the latest partial result when it changes.</span>
+<span class="w">    </span><span class="kd">final</span><span class="w"> </span><span class="n">text</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">recognizer</span><span class="p">.</span><span class="n">getResult</span><span class="p">(</span><span class="n">stream</span><span class="p">).</span><span class="n">text</span><span class="p">;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">text</span><span class="p">.</span><span class="n">isNotEmpty</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">text</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">last</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="n">last</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">text</span><span class="p">;</span>
+<span class="w">      </span><span class="n">print</span><span class="p">(</span><span class="n">text</span><span class="p">);</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="c1">// Send some tail padding so the last words are flushed out.</span>
+<span class="w">  </span><span class="n">stream</span><span class="p">.</span><span class="n">acceptWaveform</span><span class="p">(</span>
+<span class="w">    </span><span class="nl">samples:</span><span class="w"> </span><span class="n">Float32List</span><span class="p">((</span><span class="m">0.5</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">wave</span><span class="p">.</span><span class="n">sampleRate</span><span class="p">).</span><span class="n">toInt</span><span class="p">()),</span>
+<span class="w">    </span><span class="nl">sampleRate:</span><span class="w"> </span><span class="n">wave</span><span class="p">.</span><span class="n">sampleRate</span><span class="p">,</span>
+<span class="w">  </span><span class="p">);</span>
+<span class="w">  </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="n">recognizer</span><span class="p">.</span><span class="n">isReady</span><span class="p">(</span><span class="n">stream</span><span class="p">))</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">recognizer</span><span class="p">.</span><span class="n">decode</span><span class="p">(</span><span class="n">stream</span><span class="p">);</span>
+<span class="w">  </span><span class="p">}</span>
+
+<span class="w">  </span><span class="c1">// Step 4: Print the final result.</span>
+<span class="w">  </span><span class="n">stopwatch</span><span class="p">.</span><span class="n">stop</span><span class="p">();</span>
+<span class="w">  </span><span class="kd">final</span><span class="w"> </span><span class="n">elapsed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">stopwatch</span><span class="p">.</span><span class="n">elapsedMicroseconds</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="m">1e6</span><span class="p">;</span>
+<span class="w">  </span><span class="n">print</span><span class="p">(</span><span class="s1">'Final result: </span><span class="si">${</span><span class="n">recognizer</span><span class="p">.</span><span class="n">getResult</span><span class="p">(</span><span class="n">stream</span><span class="p">).</span><span class="n">text</span><span class="si">}</span><span class="s1">'</span><span class="p">);</span>
+
+<span class="w">  </span><span class="kd">final</span><span class="w"> </span><span class="n">audioDuration</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">wave</span><span class="p">.</span><span class="n">samples</span><span class="p">.</span><span class="n">length</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">wave</span><span class="p">.</span><span class="n">sampleRate</span><span class="p">;</span>
+<span class="w">  </span><span class="n">print</span><span class="p">(</span><span class="s1">'audio duration: </span><span class="si">${</span><span class="n">audioDuration</span><span class="p">.</span><span class="n">toStringAsFixed</span><span class="p">(</span><span class="m">3</span><span class="p">)</span><span class="si">}</span><span class="s1"> s'</span><span class="p">);</span>
+<span class="w">  </span><span class="n">print</span><span class="p">(</span><span class="s1">'elapsed seconds: </span><span class="si">${</span><span class="n">elapsed</span><span class="p">.</span><span class="n">toStringAsFixed</span><span class="p">(</span><span class="m">3</span><span class="p">)</span><span class="si">}</span><span class="s1"> s'</span><span class="p">);</span>
+<span class="w">  </span><span class="n">print</span><span class="p">(</span><span class="s1">'RTF = </span><span class="si">${</span><span class="n">elapsed</span><span class="p">.</span><span class="n">toStringAsFixed</span><span class="p">(</span><span class="m">3</span><span class="p">)</span><span class="si">}</span><span class="s1">/</span><span class="si">${</span><span class="n">audioDuration</span><span class="p">.</span><span class="n">toStringAsFixed</span><span class="p">(</span><span class="m">3</span><span class="p">)</span><span class="si">}</span><span class="s1"> = </span><span class="si">${</span><span class="p">(</span><span class="n">elapsed</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">audioDuration</span><span class="p">).</span><span class="n">toStringAsFixed</span><span class="p">(</span><span class="m">3</span><span class="p">)</span><span class="si">}</span><span class="s1">'</span><span class="p">);</span>
+
+<span class="w">  </span><span class="n">stream</span><span class="p">.</span><span class="n">free</span><span class="p">();</span>
+<span class="w">  </span><span class="n">recognizer</span><span class="p">.</span><span class="n">free</span><span class="p">();</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="id5">
+<h3><a class="toc-backref" href="#id24">Step 5. Check the project layout</a><a class="headerlink" href="#id5" title="Permalink to this heading"></a></h3>
+<p>Your project directory should now look like this:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>$ tree .
+.
+├── bin
+│   └── x-asr-streaming.dart
+├── pubspec.yaml
+└── sherpa-onnx-x-asr-480ms-streaming-zipformer-transducer-zh-en-punct-int8-2026-06-05
+    ├── bpe.model
+    ├── decoder.onnx
+    ├── encoder.int8.onnx
+    ├── joiner.int8.onnx
+    ├── README.md
+    ├── test_onnx.py
+    ├── test_wavs
+    │   ├── 0.wav
+    │   ├── 1.wav
+    │   ├── 2.wav
+    │   └── 3.wav
+    └── tokens.txt
+
+4 directories, 13 files
+
+$ ls -lh
+total 8
+drwxr-xr-x@  3 fangjun  wheel    96B 19 Nov 12:23 bin
+-rw-r--r--@  1 fangjun  wheel    90B 19 Nov 12:23 pubspec.yaml
+drwxr-xr-x@ 10 fangjun  wheel   320B 29 Jun 16:30 sherpa-onnx-x-asr-480ms-streaming-zipformer-transducer-zh-en-punct-int8-2026-06-05
+</pre></div>
+</div>
+</section>
+<section id="id6">
+<h3><a class="toc-backref" href="#id25">Step 6. Build and run</a><a class="headerlink" href="#id6" title="Permalink to this heading"></a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>dart<span class="w"> </span>pub<span class="w"> </span>get
+dart<span class="w"> </span>run<span class="w"> </span>./bin/x-asr-streaming.dart
+</pre></div>
+</div>
+</section>
+<section id="id7">
+<h3><a class="toc-backref" href="#id26">Output</a><a class="headerlink" href="#id7" title="Permalink to this heading"></a></h3>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>昨
+昨天是
+昨天是 Mon
+昨天是 Monday
+昨天是 Monday，
+昨天是 Monday， today
+昨天是 Monday， today is 礼
+昨天是 Monday， today is 礼拜二
+昨天是 Monday， today is 礼拜二，
+昨天是 Monday， today is 礼拜二， the day
+昨天是 Monday， today is 礼拜二， the day after
+昨天是 Monday， today is 礼拜二， the day after tomorro
+昨天是 Monday， today is 礼拜二， the day after tomorrow
+昨天是 Monday， today is 礼拜二， the day after tomorrow 是
+Final result: 昨天是 Monday， today is 礼拜二， the day after tomorrow 是星期
+audio duration: 10.053 s
+elapsed seconds: 0.356 s
+RTF = 0.356/10.053 = 0.035
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The timing above was measured on a MacBook Pro (Apple M4) using 2 threads. Please increase the number of threads for a smaller RTF on your machine.</p>
+</div>
+</section>
+</section>
+<section id="notes">
+<h2><a class="toc-backref" href="#id27">Notes</a><a class="headerlink" href="#notes" title="Permalink to this heading"></a></h2>
+<p>In a Flutter app, call <code class="docutils literal notranslate"><span class="pre">await</span> <span class="pre">sherpa_onnx.initBindingsAsync()</span></code> once before using the API; the rest of the code is the same.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="javascript-wasm-api.html" class="btn btn-neutral float-left" title="JavaScript (WASM)" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="swift-api.html" class="btn btn-neutral float-right" title="Swift" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

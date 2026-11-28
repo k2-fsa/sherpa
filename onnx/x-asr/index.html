@@ -1,0 +1,482 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>X-ASR &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Python" href="python-api.html" />
+    <link rel="prev" title="Python API for SenseVoice" href="../sense-voice/python-api.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">sherpa-onnx</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../install/index.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../faqs/index.html">Frequently Asked Question (FAQs)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../python/index.html">Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../c-api/index.html">C API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../java-api/index.html">Java API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../javascript-api/index.html">Javascript API (Node-Addon)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kotlin-api/index.html">Kotlin API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../swift-api/index.html">Swift API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../go-api/index.html">Go API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rust-api/index.html">Rust API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../csharp-api/index.html">C# API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pascal-api/index.html">Pascal API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lazarus/index.html">Lazarus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../wasm/index.html">WebAssembly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../android/index.html">Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../harmony-os/index.html">HarmonyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ios/index.html">iOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../flutter/index.html">Flutter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tauri/index.html">Tauri Desktop Apps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../websocket/index.html">WebSocket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../hotwords/index.html">Hotwords (Contextual biasing)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kws/index.html">Keyword spotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../punctuation/index.html">Punctuation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../audio-tagging/index.html">Audio tagging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spoken-language-identification/index.html">Spoken language identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vad/index.html">VAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../medasr/index.html">Google MedASR</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="../pretrained_models/index.html">Pre-trained models</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/online-transducer/index.html">Online transducer models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/online-paraformer/index.html">Online paraformer models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/online-ctc/index.html">Online CTC models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/offline-transducer/index.html">Offline transducer models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/offline-paraformer/index.html">Offline paraformer models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/offline-ctc/index.html">Offline CTC models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/telespeech/index.html">TeleSpeech</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/whisper/index.html">Whisper</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/wenet/index.html">WeNet</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../pretrained_models/small-online-models.html">Small models</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sense-voice/index.html">SenseVoice</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">X-ASR</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#non-streaming-models">Non-streaming models</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#streaming-models">Streaming models</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#use-x-asr-with-our-apis">Use X-ASR with our APIs</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/whisper/index.html">Whisper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../moonshine/index.html">Moonshine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../omnilingual-asr/index.html">Omnilingual ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sense-voice/index.html">SenseVoice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cohere_transcribe/index.html">Cohere Transcribe</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../funasr-nano/index.html">FunASR Nano</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qwen3-asr/index.html">Qwen3-ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../paraformer/index.html">Paraformer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nemo/index.html">NeMo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../FireRedAsr/index.html">FireRedAsr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Dolphin/index.html">Dolphin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../homophone-replacer/index.html">拼音词组匹配替换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-diarization/index.html">Speaker Diarization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-identification/index.html">Speaker Identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speech-enhancement/index.html">Speech enhancement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../source-separation/index.html">Source separation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qnn/index.html">Qualcomm NPU (QNN, HTP)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rknn/index.html">rknn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spacemit/index.html">SpacemiT CPUs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ascend/index.html">Ascend NPU (昇腾 NPU)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tts/index.html">Text-to-speech (TTS)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../forced-alignment/index.html">Forced alignment</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">sherpa-onnx</a> &raquo;</li>
+          <li><a href="../pretrained_models/index.html">Pre-trained models</a> &raquo;</li>
+      <li>X-ASR</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/onnx/x-asr/index.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="x-asr">
+<span id="onnx-x-asr"></span><h1>X-ASR<a class="headerlink" href="#x-asr" title="Permalink to this heading"></a></h1>
+<p>This section describes how to use models from
+<a class="reference external" href="https://github.com/Gilgamesh-J/X-ASR">X-ASR</a>.</p>
+<p><a class="reference external" href="https://github.com/Gilgamesh-J/X-ASR">X-ASR</a> is a zipformer transducer
+model supporting both Chinese and English. We have exported it to
+<a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a> with the scripts in
+<a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/tree/master/scripts/zipformer-transducer/x-asr">scripts/zipformer-transducer/x-asr</a>
+and uploaded the models to the <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/tag/asr-models">asr-models</a> release.</p>
+<p>We provide both non-streaming (offline) and streaming models. Every model
+comes in four flavors:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">punct</span></code> or <code class="docutils literal notranslate"><span class="pre">no-punct</span></code>: the <code class="docutils literal notranslate"><span class="pre">punct</span></code> models also add punctuations to
+the recognition result</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">int8</span></code> or <code class="docutils literal notranslate"><span class="pre">fp32</span></code>: the <code class="docutils literal notranslate"><span class="pre">int8</span></code> models are much smaller and faster;
+the <code class="docutils literal notranslate"><span class="pre">fp32</span></code> models are a bit more accurate</p></li>
+</ul>
+</div></blockquote>
+<section id="non-streaming-models">
+<h2>Non-streaming models<a class="headerlink" href="#non-streaming-models" title="Permalink to this heading"></a></h2>
+<p>The model names in the table below are shortened; for instance,
+<code class="docutils literal notranslate"><span class="pre">punct-int8</span></code> is short for
+<code class="docutils literal notranslate"><span class="pre">sherpa-onnx-x-asr-zipformer-transducer-zh-en-punct-int8-2026-06-03</span></code>.
+Please click a name to download the model archive.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Model</p></th>
+<th class="head"><p>Size</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-x-asr-zipformer-transducer-zh-en-punct-int8-2026-06-03.tar.bz2">punct-int8</a></p></td>
+<td><p>136 MB</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-x-asr-zipformer-transducer-zh-en-punct-2026-06-03.tar.bz2">punct-fp32</a></p></td>
+<td><p>587 MB</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-x-asr-zipformer-transducer-zh-en-int8-2026-06-03.tar.bz2">no-punct-int8</a></p></td>
+<td><p>137 MB</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-x-asr-zipformer-transducer-zh-en-2026-06-03.tar.bz2">no-punct-fp32</a></p></td>
+<td><p>583 MB</p></td>
+</tr>
+</tbody>
+</table>
+<section id="download">
+<h3>Download<a class="headerlink" href="#download" title="Permalink to this heading"></a></h3>
+<p>Please use the following commands to download the <code class="docutils literal notranslate"><span class="pre">punct</span></code>, <code class="docutils literal notranslate"><span class="pre">int8</span></code> model:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span>
+
+<span class="n">wget</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">k2</span><span class="o">-</span><span class="n">fsa</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="n">download</span><span class="o">/</span><span class="n">asr</span><span class="o">-</span><span class="n">models</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">x</span><span class="o">-</span><span class="n">asr</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">transducer</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="n">punct</span><span class="o">-</span><span class="n">int8</span><span class="o">-</span><span class="mi">2026</span><span class="o">-</span><span class="mi">06</span><span class="o">-</span><span class="mf">03.</span><span class="n">tar</span><span class="o">.</span><span class="n">bz2</span>
+<span class="n">tar</span> <span class="n">xvf</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">x</span><span class="o">-</span><span class="n">asr</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">transducer</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="n">punct</span><span class="o">-</span><span class="n">int8</span><span class="o">-</span><span class="mi">2026</span><span class="o">-</span><span class="mi">06</span><span class="o">-</span><span class="mf">03.</span><span class="n">tar</span><span class="o">.</span><span class="n">bz2</span>
+<span class="n">rm</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">x</span><span class="o">-</span><span class="n">asr</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">transducer</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="n">punct</span><span class="o">-</span><span class="n">int8</span><span class="o">-</span><span class="mi">2026</span><span class="o">-</span><span class="mi">06</span><span class="o">-</span><span class="mf">03.</span><span class="n">tar</span><span class="o">.</span><span class="n">bz2</span>
+</pre></div>
+</div>
+<p>After downloading, you should find the following files:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ls</span> <span class="o">-</span><span class="n">lh</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">x</span><span class="o">-</span><span class="n">asr</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">transducer</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="n">punct</span><span class="o">-</span><span class="n">int8</span><span class="o">-</span><span class="mi">2026</span><span class="o">-</span><span class="mi">06</span><span class="o">-</span><span class="mi">03</span>
+
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--@</span> <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">116</span><span class="n">K</span> <span class="mi">29</span> <span class="n">Jun</span> <span class="mi">16</span><span class="p">:</span><span class="mi">31</span> <span class="n">bpe</span><span class="o">.</span><span class="n">model</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--@</span> <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>    <span class="mi">11</span><span class="n">M</span> <span class="mi">29</span> <span class="n">Jun</span> <span class="mi">16</span><span class="p">:</span><span class="mi">31</span> <span class="n">decoder</span><span class="o">-</span><span class="n">epoch</span><span class="o">-</span><span class="mi">99</span><span class="o">-</span><span class="n">avg</span><span class="o">-</span><span class="mf">1.</span><span class="n">onnx</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--@</span> <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">154</span><span class="n">M</span> <span class="mi">29</span> <span class="n">Jun</span> <span class="mi">16</span><span class="p">:</span><span class="mi">31</span> <span class="n">encoder</span><span class="o">-</span><span class="n">epoch</span><span class="o">-</span><span class="mi">99</span><span class="o">-</span><span class="n">avg</span><span class="o">-</span><span class="mf">1.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--@</span> <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mf">2.5</span><span class="n">M</span> <span class="mi">29</span> <span class="n">Jun</span> <span class="mi">16</span><span class="p">:</span><span class="mi">31</span> <span class="n">joiner</span><span class="o">-</span><span class="n">epoch</span><span class="o">-</span><span class="mi">99</span><span class="o">-</span><span class="n">avg</span><span class="o">-</span><span class="mf">1.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--@</span> <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>    <span class="mi">96</span><span class="n">B</span> <span class="mi">29</span> <span class="n">Jun</span> <span class="mi">16</span><span class="p">:</span><span class="mi">31</span> <span class="n">README</span><span class="o">.</span><span class="n">md</span>
+<span class="o">-</span><span class="n">rwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span><span class="o">@</span> <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mf">6.7</span><span class="n">K</span> <span class="mi">29</span> <span class="n">Jun</span> <span class="mi">16</span><span class="p">:</span><span class="mi">31</span> <span class="n">test_onnx</span><span class="o">.</span><span class="n">py</span>
+<span class="n">drwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span><span class="o">@</span> <span class="mi">6</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">192</span><span class="n">B</span> <span class="mi">29</span> <span class="n">Jun</span> <span class="mi">16</span><span class="p">:</span><span class="mi">27</span> <span class="n">test_wavs</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--@</span> <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>    <span class="mi">57</span><span class="n">K</span> <span class="mi">29</span> <span class="n">Jun</span> <span class="mi">16</span><span class="p">:</span><span class="mi">31</span> <span class="n">tokens</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">fp32</span></code> models use <code class="docutils literal notranslate"><span class="pre">encoder-epoch-99-avg-1.onnx</span></code> and
+<code class="docutils literal notranslate"><span class="pre">joiner-epoch-99-avg-1.onnx</span></code> instead; the <code class="docutils literal notranslate"><span class="pre">no-punct</span></code> models contain
+the same files with a different <code class="docutils literal notranslate"><span class="pre">tokens.txt</span></code>. Every model archive
+contains <code class="docutils literal notranslate"><span class="pre">test_wavs</span></code> for testing.</p>
+</div>
+</section>
+<section id="decode-files">
+<h3>Decode files<a class="headerlink" href="#decode-files" title="Permalink to this heading"></a></h3>
+<p>Please use the following command to decode wave files:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./build/bin/sherpa-onnx-offline<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span>./sherpa-onnx-x-asr-zipformer-transducer-zh-en-punct-int8-2026-06-03/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--encoder<span class="o">=</span>./sherpa-onnx-x-asr-zipformer-transducer-zh-en-punct-int8-2026-06-03/encoder-epoch-99-avg-1.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--decoder<span class="o">=</span>./sherpa-onnx-x-asr-zipformer-transducer-zh-en-punct-int8-2026-06-03/decoder-epoch-99-avg-1.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--joiner<span class="o">=</span>./sherpa-onnx-x-asr-zipformer-transducer-zh-en-punct-int8-2026-06-03/joiner-epoch-99-avg-1.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--num-threads<span class="o">=</span><span class="m">1</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--debug<span class="o">=</span><span class="m">0</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-x-asr-zipformer-transducer-zh-en-punct-int8-2026-06-03/test_wavs/0.wav<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-x-asr-zipformer-transducer-zh-en-punct-int8-2026-06-03/test_wavs/1.wav
+</pre></div>
+</div>
+<p>You should see the following output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Creating recognizer ...
+recognizer created in 1.380 s
+Started
+Done!
+
+./sherpa-onnx-x-asr-zipformer-transducer-zh-en-punct-int8-2026-06-03/test_wavs/0.wav
+----
+./sherpa-onnx-x-asr-zipformer-transducer-zh-en-punct-int8-2026-06-03/test_wavs/1.wav
+----
+num threads: 1
+decoding method: greedy_search
+Elapsed seconds: 0.325 s
+Real time factor (RTF): 0.325 / 15.153 = 0.021
+{"lang": "", "emotion": "", "event": "", "text": "昨天是 Monday, today is 礼拜二， the day after tomorrow 是星期三。", "timestamps": [0.96, 1.28, 1.72, 2.20, 2.24, 2.32, 2.56, 2.84, 3.64, 4.12, 5.00, 5.52, 5.76, 6.04, 6.60, 6.96, 7.24, 7.64, 8.00, 8.28, 8.40, 8.52, 8.60, 8.96, 9.28, 9.48, 9.72, 9.96], "durations": [], "tokens":[" 昨", " 天", " 是", " ", "M", "on", "da", "y", " ,", " today", " is", " 礼", " 拜", " 二", " ，", " the", " day", " after", " to", "m", "or", "ro", "w", " 是", " 星", " 期", " 三", " 。"], "ys_log_probs": [-0.004674, -0.060819, -0.001961, -0.603339, -0.003649, -0.287405, -0.506671, -0.014338, -0.718201, -0.433950, -0.062588, -0.029154, -0.675700, -0.300030, -0.478703, -0.430641, -0.056190, -0.002273, -0.065140, -0.022382, -0.065881, -0.214587, -0.020467, -0.001062, -0.001376, -0.002102, -0.010578, -0.533596], "words": []}
+{"lang": "", "emotion": "", "event": "", "text": "这是第一种， 第二种叫呃与 always， always 什么意思啊？", "timestamps": [0.96, 1.08, 1.32, 1.48, 1.60, 1.88, 2.04, 2.28, 2.48, 2.76, 3.16, 3.56, 3.88, 4.20, 4.36, 4.68, 4.72, 4.80, 4.88, 4.96, 5.00], "durations": [], "tokens":[" 这", " 是", " 第", " 一", " 种", " ，", " 第", " 二", " 种", " 叫", " 呃", " 与", " always", " ，", " always", " 什", " 么", " 意", " 思", " 啊", " ？"], "ys_log_probs": [-0.002082, -0.215847, -0.134162, -0.071787, -0.550960, -0.274389, -0.395646, -0.000075, -0.030338, -0.003742, -0.643629, -0.268322, -0.137604, -0.364014, -0.071556, -0.009150, -0.005190, -0.011646, -0.000898, -0.046764, -0.010682], "words": []}
+</pre></div>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>The results contain punctuations since this is a <code class="docutils literal notranslate"><span class="pre">punct</span></code> model.</p>
+</div>
+</section>
+</section>
+<section id="streaming-models">
+<h2>Streaming models<a class="headerlink" href="#streaming-models" title="Permalink to this heading"></a></h2>
+<p>The streaming models support four chunk sizes: 160 ms, 480 ms, 960 ms, and
+1920 ms. A smaller chunk size means lower latency.</p>
+<p>The model names in the table below are shortened; for instance,
+<code class="docutils literal notranslate"><span class="pre">480ms-punct-int8</span></code> is short for
+<code class="docutils literal notranslate"><span class="pre">sherpa-onnx-x-asr-480ms-streaming-zipformer-transducer-zh-en-punct-int8-2026-06-05</span></code>.
+Please click a name to download the model archive.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Model</p></th>
+<th class="head"><p>Size</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-x-asr-160ms-streaming-zipformer-transducer-zh-en-punct-int8-2026-06-05.tar.bz2">160ms-punct-int8</a></p></td>
+<td><p>134 MB</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-x-asr-160ms-streaming-zipformer-transducer-zh-en-punct-2026-06-05.tar.bz2">160ms-punct-fp32</a></p></td>
+<td><p>584 MB</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-x-asr-160ms-streaming-zipformer-transducer-zh-en-int8-2026-06-05.tar.bz2">160ms-no-punct-int8</a></p></td>
+<td><p>134 MB</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-x-asr-160ms-streaming-zipformer-transducer-zh-en-2026-06-05.tar.bz2">160ms-no-punct-fp32</a></p></td>
+<td><p>580 MB</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-x-asr-480ms-streaming-zipformer-transducer-zh-en-punct-int8-2026-06-05.tar.bz2">480ms-punct-int8</a></p></td>
+<td><p>134 MB</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-x-asr-480ms-streaming-zipformer-transducer-zh-en-punct-2026-06-05.tar.bz2">480ms-punct-fp32</a></p></td>
+<td><p>584 MB</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-x-asr-480ms-streaming-zipformer-transducer-zh-en-int8-2026-06-05.tar.bz2">480ms-no-punct-int8</a></p></td>
+<td><p>134 MB</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-x-asr-480ms-streaming-zipformer-transducer-zh-en-2026-06-05.tar.bz2">480ms-no-punct-fp32</a></p></td>
+<td><p>580 MB</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-x-asr-960ms-streaming-zipformer-transducer-zh-en-punct-int8-2026-06-05.tar.bz2">960ms-punct-int8</a></p></td>
+<td><p>134 MB</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-x-asr-960ms-streaming-zipformer-transducer-zh-en-punct-2026-06-05.tar.bz2">960ms-punct-fp32</a></p></td>
+<td><p>584 MB</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-x-asr-960ms-streaming-zipformer-transducer-zh-en-int8-2026-06-05.tar.bz2">960ms-no-punct-int8</a></p></td>
+<td><p>134 MB</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-x-asr-960ms-streaming-zipformer-transducer-zh-en-2026-06-05.tar.bz2">960ms-no-punct-fp32</a></p></td>
+<td><p>580 MB</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-x-asr-1920ms-streaming-zipformer-transducer-zh-en-punct-int8-2026-06-05.tar.bz2">1920ms-punct-int8</a></p></td>
+<td><p>134 MB</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-x-asr-1920ms-streaming-zipformer-transducer-zh-en-punct-2026-06-05.tar.bz2">1920ms-punct-fp32</a></p></td>
+<td><p>584 MB</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-x-asr-1920ms-streaming-zipformer-transducer-zh-en-int8-2026-06-05.tar.bz2">1920ms-no-punct-int8</a></p></td>
+<td><p>134 MB</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-x-asr-1920ms-streaming-zipformer-transducer-zh-en-2026-06-05.tar.bz2">1920ms-no-punct-fp32</a></p></td>
+<td><p>580 MB</p></td>
+</tr>
+</tbody>
+</table>
+<section id="id15">
+<h3>Download<a class="headerlink" href="#id15" title="Permalink to this heading"></a></h3>
+<p>Please use the following commands to download the <code class="docutils literal notranslate"><span class="pre">480</span> <span class="pre">ms</span></code>, <code class="docutils literal notranslate"><span class="pre">punct</span></code>,
+<code class="docutils literal notranslate"><span class="pre">int8</span></code> model:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span>
+
+<span class="n">wget</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">k2</span><span class="o">-</span><span class="n">fsa</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="n">download</span><span class="o">/</span><span class="n">asr</span><span class="o">-</span><span class="n">models</span><span class="o">/</span><span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">x</span><span class="o">-</span><span class="n">asr</span><span class="o">-</span><span class="mi">480</span><span class="n">ms</span><span class="o">-</span><span class="n">streaming</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">transducer</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="n">punct</span><span class="o">-</span><span class="n">int8</span><span class="o">-</span><span class="mi">2026</span><span class="o">-</span><span class="mi">06</span><span class="o">-</span><span class="mf">05.</span><span class="n">tar</span><span class="o">.</span><span class="n">bz2</span>
+<span class="n">tar</span> <span class="n">xvf</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">x</span><span class="o">-</span><span class="n">asr</span><span class="o">-</span><span class="mi">480</span><span class="n">ms</span><span class="o">-</span><span class="n">streaming</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">transducer</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="n">punct</span><span class="o">-</span><span class="n">int8</span><span class="o">-</span><span class="mi">2026</span><span class="o">-</span><span class="mi">06</span><span class="o">-</span><span class="mf">05.</span><span class="n">tar</span><span class="o">.</span><span class="n">bz2</span>
+<span class="n">rm</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">x</span><span class="o">-</span><span class="n">asr</span><span class="o">-</span><span class="mi">480</span><span class="n">ms</span><span class="o">-</span><span class="n">streaming</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">transducer</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="n">punct</span><span class="o">-</span><span class="n">int8</span><span class="o">-</span><span class="mi">2026</span><span class="o">-</span><span class="mi">06</span><span class="o">-</span><span class="mf">05.</span><span class="n">tar</span><span class="o">.</span><span class="n">bz2</span>
+</pre></div>
+</div>
+<p>After downloading, you should find the following files:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ls</span> <span class="o">-</span><span class="n">lh</span> <span class="n">sherpa</span><span class="o">-</span><span class="n">onnx</span><span class="o">-</span><span class="n">x</span><span class="o">-</span><span class="n">asr</span><span class="o">-</span><span class="mi">480</span><span class="n">ms</span><span class="o">-</span><span class="n">streaming</span><span class="o">-</span><span class="n">zipformer</span><span class="o">-</span><span class="n">transducer</span><span class="o">-</span><span class="n">zh</span><span class="o">-</span><span class="n">en</span><span class="o">-</span><span class="n">punct</span><span class="o">-</span><span class="n">int8</span><span class="o">-</span><span class="mi">2026</span><span class="o">-</span><span class="mi">06</span><span class="o">-</span><span class="mi">05</span>
+
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--@</span> <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">116</span><span class="n">K</span> <span class="mi">29</span> <span class="n">Jun</span> <span class="mi">16</span><span class="p">:</span><span class="mi">30</span> <span class="n">bpe</span><span class="o">.</span><span class="n">model</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--@</span> <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>    <span class="mi">11</span><span class="n">M</span> <span class="mi">29</span> <span class="n">Jun</span> <span class="mi">16</span><span class="p">:</span><span class="mi">30</span> <span class="n">decoder</span><span class="o">.</span><span class="n">onnx</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--@</span> <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">148</span><span class="n">M</span> <span class="mi">29</span> <span class="n">Jun</span> <span class="mi">16</span><span class="p">:</span><span class="mi">30</span> <span class="n">encoder</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--@</span> <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mf">2.5</span><span class="n">M</span> <span class="mi">29</span> <span class="n">Jun</span> <span class="mi">16</span><span class="p">:</span><span class="mi">30</span> <span class="n">joiner</span><span class="o">.</span><span class="n">int8</span><span class="o">.</span><span class="n">onnx</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--@</span> <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>    <span class="mi">96</span><span class="n">B</span> <span class="mi">29</span> <span class="n">Jun</span> <span class="mi">16</span><span class="p">:</span><span class="mi">30</span> <span class="n">README</span><span class="o">.</span><span class="n">md</span>
+<span class="o">-</span><span class="n">rwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span><span class="o">@</span> <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mf">7.1</span><span class="n">K</span> <span class="mi">29</span> <span class="n">Jun</span> <span class="mi">16</span><span class="p">:</span><span class="mi">30</span> <span class="n">test_onnx</span><span class="o">.</span><span class="n">py</span>
+<span class="n">drwxr</span><span class="o">-</span><span class="n">xr</span><span class="o">-</span><span class="n">x</span><span class="o">@</span> <span class="mi">6</span> <span class="n">fangjun</span>  <span class="n">staff</span>   <span class="mi">192</span><span class="n">B</span> <span class="mi">29</span> <span class="n">Jun</span> <span class="mi">16</span><span class="p">:</span><span class="mi">27</span> <span class="n">test_wavs</span>
+<span class="o">-</span><span class="n">rw</span><span class="o">-</span><span class="n">r</span><span class="o">--</span><span class="n">r</span><span class="o">--@</span> <span class="mi">1</span> <span class="n">fangjun</span>  <span class="n">staff</span>    <span class="mi">57</span><span class="n">K</span> <span class="mi">29</span> <span class="n">Jun</span> <span class="mi">16</span><span class="p">:</span><span class="mi">30</span> <span class="n">tokens</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
+</div>
+<div class="admonition hint">
+<p class="admonition-title">Hint</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">fp32</span></code> models use <code class="docutils literal notranslate"><span class="pre">encoder.onnx</span></code> and <code class="docutils literal notranslate"><span class="pre">joiner.onnx</span></code> instead; the
+<code class="docutils literal notranslate"><span class="pre">no-punct</span></code> models contain the same files with a different <code class="docutils literal notranslate"><span class="pre">tokens.txt</span></code>.</p>
+</div>
+</section>
+<section id="decode-a-file">
+<h3>Decode a file<a class="headerlink" href="#decode-a-file" title="Permalink to this heading"></a></h3>
+<p>Please use the following command to decode a wave file:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./build/bin/sherpa-onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span>./sherpa-onnx-x-asr-480ms-streaming-zipformer-transducer-zh-en-punct-int8-2026-06-05/tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--encoder<span class="o">=</span>./sherpa-onnx-x-asr-480ms-streaming-zipformer-transducer-zh-en-punct-int8-2026-06-05/encoder.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--decoder<span class="o">=</span>./sherpa-onnx-x-asr-480ms-streaming-zipformer-transducer-zh-en-punct-int8-2026-06-05/decoder.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--joiner<span class="o">=</span>./sherpa-onnx-x-asr-480ms-streaming-zipformer-transducer-zh-en-punct-int8-2026-06-05/joiner.int8.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--num-threads<span class="o">=</span><span class="m">1</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--debug<span class="o">=</span><span class="m">0</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-x-asr-480ms-streaming-zipformer-transducer-zh-en-punct-int8-2026-06-05/test_wavs/0.wav
+</pre></div>
+</div>
+<p>You should see the following output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Start to create recognizer
+Recognizer created in 1.13888 s
+./sherpa-onnx-x-asr-480ms-streaming-zipformer-transducer-zh-en-punct-int8-2026-06-05/test_wavs/0.wav
+Number of threads: 1, Elapsed seconds: 0.36, Audio duration (s): 10, Real time factor (RTF) = 0.36/10 = 0.036
+昨天是 Monday， today is 礼拜二， the day after tomorrow 是星期三
+{ "text": "昨天是 Monday， today is 礼拜二， the day after tomorrow 是星期三", "tokens": [" 昨", " 天", " 是", " ", "M", "on", "da", "y", " ，", " today", " is", " 礼", " 拜", " 二", " ，", " the", " day", " after", " to", "m", "or", "ro", "w", " 是", " 星", " 期", " 三"], "timestamps": [1.68, 2.04, 2.36, 2.76, 2.80, 2.84, 3.08, 3.32, 4.44, 4.92, 5.76, 6.08, 6.36, 6.68, 7.24, 7.68, 7.92, 8.24, 8.68, 8.92, 9.08, 9.24, 9.28, 9.68, 10.08, 10.36, 10.76], "ys_probs": [-0.485657, -0.020656, -0.670995, -1.413756, -0.081861, -0.510467, -0.485225, -0.203742, -0.892859, -0.741048, -0.470651, -0.411964, -1.222843, -0.530162, -0.878422, -0.802895, -0.157161, -0.756924, -0.660144, -0.488669, -0.045272, -0.355056, -0.614424, -0.680222, -0.349567, -0.194051, -0.286354], "lm_probs": [], "context_scores": [], "segment": 0, "words": [], "num_trailing_blanks": 6, "start_time": 0.00, "is_final": false, "is_eof": false}
+</pre></div>
+</div>
+</section>
+</section>
+<section id="use-x-asr-with-our-apis">
+<h2>Use X-ASR with our APIs<a class="headerlink" href="#use-x-asr-with-our-apis" title="Permalink to this heading"></a></h2>
+<p>You can use the <a class="reference external" href="https://github.com/Gilgamesh-J/X-ASR">X-ASR</a> models with all APIs of <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>. In the
+following pages, we describe step by step how to use the models above in
+each programming language; every demo was tested and the expected output is
+shown.</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="python-api.html">Python</a></li>
+<li class="toctree-l1"><a class="reference internal" href="c-api.html">C</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cxx-api.html">C++</a></li>
+<li class="toctree-l1"><a class="reference internal" href="java-api.html">Java</a></li>
+<li class="toctree-l1"><a class="reference internal" href="kotlin-api.html">Kotlin</a></li>
+<li class="toctree-l1"><a class="reference internal" href="go-api.html">Go</a></li>
+<li class="toctree-l1"><a class="reference internal" href="rust-api.html">Rust</a></li>
+<li class="toctree-l1"><a class="reference internal" href="csharp-api.html">C#</a></li>
+<li class="toctree-l1"><a class="reference internal" href="javascript-api.html">JavaScript (Node.js)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="javascript-wasm-api.html">JavaScript (WASM)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dart-api.html">Dart/Flutter</a></li>
+<li class="toctree-l1"><a class="reference internal" href="swift-api.html">Swift</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pascal-api.html">Pascal</a></li>
+</ul>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../sense-voice/python-api.html" class="btn btn-neutral float-left" title="Python API for SenseVoice" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="python-api.html" class="btn btn-neutral float-right" title="Python" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>

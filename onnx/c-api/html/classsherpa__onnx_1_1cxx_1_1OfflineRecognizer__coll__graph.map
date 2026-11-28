@@ -1,0 +1,5 @@
+<map id="sherpa_onnx::cxx::OfflineRecognizer" name="sherpa_onnx::cxx::OfflineRecognizer">
+<area shape="rect" id="Node000001" title="RAII wrapper for an offline recognizer." alt="" coords="31,115,218,160"/>
+<area shape="rect" id="Node000002" href="$classsherpa__onnx_1_1cxx_1_1MoveOnly.html" title=" " alt="" coords="5,5,244,67"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="126,81,127,116,122,113,123,85"/>
+</map>

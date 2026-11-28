@@ -1,0 +1,27 @@
+<map id="sherpa_onnx::cxx::KeywordSpotterConfig" name="sherpa_onnx::cxx::KeywordSpotterConfig">
+<area shape="rect" id="Node000001" title="Configuration for the C++ keyword spotting wrapper." alt="" coords="1072,65,1271,110"/>
+<area shape="rect" id="Node000002" href="$structsherpa__onnx_1_1cxx_1_1FeatureConfig.html" title="Feature extraction settings shared by ASR and KWS wrappers." alt="" coords="737,5,929,50"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="944,45,1074,69,1069,71,945,50"/>
+<area shape="rect" id="Node000003" href="$structsherpa__onnx_1_1cxx_1_1OnlineModelConfig.html" title="Acoustic model configuration for streaming ASR." alt="" coords="740,381,926,426"/>
+<area shape="poly" id="edge2_Node000001_Node000003" title=" " alt="" coords="868,368,1143,112,1148,110,871,373"/>
+<area shape="rect" id="Node000004" href="$structsherpa__onnx_1_1cxx_1_1OnlineTransducerModelConfig.html" title="Streaming transducer model files." alt="" coords="393,312,578,357"/>
+<area shape="poly" id="edge3_Node000003_Node000004" title=" " alt="" coords="593,348,713,370,749,381,743,381,712,376,593,353"/>
+<area shape="rect" id="Node000005" title=" " alt="" coords="193,416,279,444"/>
+<area shape="poly" id="edge15_Node000001_Node000005" title=" " alt="" coords="239,400,251,337,277,258,296,217,320,179,350,146,386,119,441,97,516,83,605,74,703,69,903,70,1074,80,1069,82,903,76,703,75,605,79,517,88,442,102,389,123,354,150,325,182,301,220,282,260,256,339,244,402"/>
+<area shape="poly" id="edge14_Node000003_Node000005" title=" " alt="" coords="239,400,245,371,257,338,275,306,302,281,339,267,388,261,444,262,505,269,624,292,714,320,765,348,808,381,803,381,762,352,712,325,623,297,505,274,444,268,388,267,340,272,305,286,280,310,262,340,250,372,244,402"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="263,404,302,379,346,361,395,349,390,352,348,366,305,383,266,408"/>
+<area shape="rect" id="Node000007" href="$structsherpa__onnx_1_1cxx_1_1OnlineParaformerModelConfig.html" title="Streaming Paraformer model files." alt="" coords="393,381,578,426"/>
+<area shape="poly" id="edge7_Node000007_Node000005" title=" " alt="" coords="294,429,363,426,395,423,390,425,364,431,295,434"/>
+<area shape="rect" id="Node000008" href="$structsherpa__onnx_1_1cxx_1_1OnlineZipformer2CtcModelConfig.html" title="Streaming Zipformer2 CTC model file." alt="" coords="387,451,584,495"/>
+<area shape="poly" id="edge9_Node000008_Node000005" title=" " alt="" coords="275,449,304,459,345,467,389,473,384,475,344,473,303,465,275,454"/>
+<area shape="rect" id="Node000009" href="$structsherpa__onnx_1_1cxx_1_1OnlineNemoCtcModelConfig.html" title="Streaming NeMo CTC model file." alt="" coords="393,520,578,565"/>
+<area shape="poly" id="edge11_Node000009_Node000005" title=" " alt="" coords="256,454,278,479,305,500,348,519,395,533,390,533,346,524,302,504,275,483,254,459"/>
+<area shape="rect" id="Node000010" href="$structsherpa__onnx_1_1cxx_1_1OnlineToneCtcModelConfig.html" title="Streaming T&#45;One CTC model file." alt="" coords="393,589,578,634"/>
+<area shape="poly" id="edge13_Node000010_Node000005" title=" " alt="" coords="247,457,269,507,285,532,305,553,347,579,395,598,390,598,345,584,302,557,281,535,264,510,244,461"/>
+<area shape="rect" id="Node000006" title=" " alt="" coords="5,408,144,453"/>
+<area shape="poly" id="edge5_Node000005_Node000006" title=" " alt="" coords="158,428,195,429,190,432,160,433"/>
+<area shape="poly" id="edge6_Node000003_Node000007" title=" " alt="" coords="593,401,742,403,737,404,594,406"/>
+<area shape="poly" id="edge8_Node000003_Node000008" title=" " alt="" coords="598,453,712,431,747,426,742,427,713,437,599,458"/>
+<area shape="poly" id="edge10_Node000003_Node000009" title=" " alt="" coords="592,521,652,504,712,482,761,454,801,428,806,426,764,459,714,487,654,509,593,526"/>
+<area shape="poly" id="edge12_Node000003_Node000010" title=" " alt="" coords="593,594,654,576,711,548,746,520,775,487,817,428,822,425,780,490,749,524,714,552,656,581,594,599"/>
+</map>

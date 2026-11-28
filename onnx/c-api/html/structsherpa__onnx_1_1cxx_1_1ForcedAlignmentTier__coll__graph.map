@@ -1,0 +1,12 @@
+<map id="sherpa_onnx::cxx::ForcedAlignmentTier" name="sherpa_onnx::cxx::ForcedAlignmentTier">
+<area shape="rect" id="Node000001" title="One tier of the alignment (phones or words)." alt="" coords="5,452,192,497"/>
+<area shape="rect" id="Node000002" title=" " alt="" coords="55,99,142,127"/>
+<area shape="poly" id="edge1_Node000001_Node000002" title=" " alt="" coords="101,142,101,452,96,452,96,143"/>
+<area shape="rect" id="Node000005" href="$structsherpa__onnx_1_1cxx_1_1ForcedAlignmentInterval.html" title="One aligned interval: a phone in the &quot;phones&quot; tier or a word in the &quot;words&quot; tier." alt="" coords="120,200,306,245"/>
+<area shape="poly" id="edge5_Node000005_Node000002" title=" " alt="" coords="124,135,192,198,187,200,124,141"/>
+<area shape="rect" id="Node000003" title=" " alt="" coords="29,5,168,50"/>
+<area shape="poly" id="edge2_Node000002_Node000003" title=" " alt="" coords="99,63,101,99,96,99,98,68"/>
+<area shape="rect" id="Node000004" title=" " alt="" coords="115,318,324,379"/>
+<area shape="poly" id="edge3_Node000001_Node000004" title=" " alt="" coords="182,390,121,454,118,450,177,391"/>
+<area shape="poly" id="edge4_Node000004_Node000005" title=" " alt="" coords="216,258,221,318,216,316,214,262"/>
+</map>

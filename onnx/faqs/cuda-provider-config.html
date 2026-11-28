@@ -1,0 +1,312 @@
+<!-- see https://stackoverflow.com/questions/2454577/sphinx-restructuredtext-show-hide-code-snippets -->
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How do I configure CUDA for Whisper and FireRedASR? &mdash; sherpa 1.3 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/copybutton.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/user.define.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/clipboard.min.js"></script>
+        <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Transducer decoding is slow with many concurrent streams on GPU" href="conv-free-decoder.html" />
+    <link rel="prev" title="Memory usage stays high after decoding long audio files" href="reduce-memory-usage.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> sherpa
+          </a>
+              <div class="version">
+                1.3
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pdf.html">Download pdf</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../social-groups.html">Social groups</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../huggingface/index.html">Run Next-gen Kaldi in your browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../pretrained-models.html">Pre-trained models</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../sherpa/index.html">sherpa</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-ncnn</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../ncnn/index.html">sherpa-ncnn</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">k2-fsa/sherpa-onnx</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">sherpa-onnx</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../tutorials/index.html">Tutorials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../install/index.html">Installation</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Frequently Asked Question (FAQs)</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="diff-online-offline.html">在线、离线、流式、非流式的区别</a></li>
+<li class="toctree-l3"><a class="reference internal" href="change-kotlin-and-java-package-name.html">How to change the package name of our kotlin and/or java API</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fix-libasound-module-conf-pulse.html">Cannot open shared library libasound_module_conf_pulse.so</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fix-tts-encoding-for-chinese-models.html">TTS 中文模型没有声音</a></li>
+<li class="toctree-l3"><a class="reference internal" href="fix-libtoolize.html">./gitcompile: line 89: libtoolize: command not found</a></li>
+<li class="toctree-l3"><a class="reference internal" href="static-onnxruntime-linux-x64.html">undefined reference to `std::__throw_bad_array_new_length()’</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cann.html">error while loading shared libraries: libascendcl.so</a></li>
+<li class="toctree-l3"><a class="reference internal" href="tts-ios-add-folder.html">SherpaOnnxTts.app/espeak-ng-data/phontab’ does not exist. Please check –vits-data-dir</a></li>
+<li class="toctree-l3"><a class="reference internal" href="reduce-memory-usage.html">Memory usage stays high after decoding long audio files</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">How do I configure CUDA for Whisper and FireRedASR?</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#create-a-configuration-file">Create a configuration file</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#use-it-from-python-or-the-command-line">Use it from Python or the command line</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#select-another-gpu">Select another GPU</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="conv-free-decoder.html">Transducer decoding is slow with many concurrent streams on GPU</a></li>
+<li class="toctree-l3"><a class="reference internal" href="update-v1.x-to-v2.x-espeak-ng.html">How to use espeak-ng with sherpa-onnx v2.x</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#oserror-portaudio-library-not-found">OSError: PortAudio library not found</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#imports-github-com-k2-fsa-sherpa-onnx-go-linux-build-constraints-exclude-all-go-files">imports github.com/k2-fsa/sherpa-onnx-go-linux: build constraints exclude all Go files</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#external-buffers-are-not-allowed">External buffers are not allowed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="index.html#the-given-version-17-is-not-supported-only-version-1-to-10-is-supported-in-this-build">The given version [17] is not supported, only version 1 to 10 is supported in this build</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../python/index.html">Python</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../c-api/index.html">C API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../java-api/index.html">Java API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../javascript-api/index.html">Javascript API (Node-Addon)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kotlin-api/index.html">Kotlin API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../swift-api/index.html">Swift API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../go-api/index.html">Go API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rust-api/index.html">Rust API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../csharp-api/index.html">C# API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pascal-api/index.html">Pascal API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../lazarus/index.html">Lazarus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../wasm/index.html">WebAssembly</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../android/index.html">Android</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../harmony-os/index.html">HarmonyOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ios/index.html">iOS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../flutter/index.html">Flutter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tauri/index.html">Tauri Desktop Apps</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../websocket/index.html">WebSocket</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../hotwords/index.html">Hotwords (Contextual biasing)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../kws/index.html">Keyword spotting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../punctuation/index.html">Punctuation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../audio-tagging/index.html">Audio tagging</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spoken-language-identification/index.html">Spoken language identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../vad/index.html">VAD</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../medasr/index.html">Google MedASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/index.html">Pre-trained models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pretrained_models/whisper/index.html">Whisper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../moonshine/index.html">Moonshine</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../omnilingual-asr/index.html">Omnilingual ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sense-voice/index.html">SenseVoice</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../cohere_transcribe/index.html">Cohere Transcribe</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../funasr-nano/index.html">FunASR Nano</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qwen3-asr/index.html">Qwen3-ASR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../paraformer/index.html">Paraformer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../nemo/index.html">NeMo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../FireRedAsr/index.html">FireRedAsr</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Dolphin/index.html">Dolphin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../homophone-replacer/index.html">拼音词组匹配替换</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-diarization/index.html">Speaker Diarization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speaker-identification/index.html">Speaker Identification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../speech-enhancement/index.html">Speech enhancement</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../source-separation/index.html">Source separation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../qnn/index.html">Qualcomm NPU (QNN, HTP)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../rknn/index.html">rknn</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../spacemit/index.html">SpacemiT CPUs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../ascend/index.html">Ascend NPU (昇腾 NPU)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../tts/index.html">Text-to-speech (TTS)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../forced-alignment/index.html">Forced alignment</a></li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Triton</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../triton/overview.html">Triton</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">sherpa</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">sherpa-onnx</a> &raquo;</li>
+          <li><a href="index.html">Frequently Asked Question (FAQs)</a> &raquo;</li>
+      <li>How do I configure CUDA for Whisper and FireRedASR?</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/k2-fsa/sherpa/blob/master/docs/source/onnx/faqs/cuda-provider-config.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="how-do-i-configure-cuda-for-whisper-and-fireredasr">
+<span id="sherpa-onnx-cuda-provider-config"></span><h1>How do I configure CUDA for Whisper and FireRedASR?<a class="headerlink" href="#how-do-i-configure-cuda-for-whisper-and-fireredasr" title="Permalink to this heading"></a></h1>
+<p>Use <code class="docutils literal notranslate"><span class="pre">provider=&quot;cuda:/path/to/cuda.config&quot;</span></code> to pass CUDA execution-provider
+options to <a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx">sherpa-onnx</a>. For Whisper and FireRedASR AED, this also keeps the
+encoder and decoder attention caches on the selected GPU, just as
+<code class="docutils literal notranslate"><span class="pre">provider=&quot;cuda&quot;</span></code> does. No additional cache option is needed.</p>
+<p>This behavior requires a CUDA-enabled build containing
+<a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/pull/4160">sherpa-onnx PR #4160</a>.
+Before that fix, using a CUDA configuration file disabled these models’
+CUDA I/O binding, causing extra CPU/GPU cache copies during decoding.
+FireRedASR CTC is not affected by this cache-binding change.</p>
+<p><code class="docutils literal notranslate"><span class="pre">v2.0.1</span></code> and earlier do not contain this fix. For a source build, use commit
+<a class="reference external" href="https://github.com/k2-fsa/sherpa-onnx/commit/aa273e8029af4e0aabac7d7455a177c5b493aa34">aa273e8</a>
+or a later commit containing it.</p>
+<p>See <a class="reference internal" href="../python/install.html"><span class="doc">Install the Python Package</span></a> for CUDA-enabled Python packages. The CUDA and
+cuDNN libraries must match the ONNX Runtime included in your build.
+Forwarding CUDA options from a file requires ONNX Runtime 1.12 or newer.</p>
+<p>With older ONNX Runtime versions, the file is still read, but its CUDA
+provider options are ignored. For the offline recognizers shown below,
+<code class="docutils literal notranslate"><span class="pre">device_id=1</span></code> in the file therefore still uses GPU 0. Upgrade ONNX Runtime
+to use these options. If you only need to select a GPU on an older runtime,
+use <code class="docutils literal notranslate"><span class="pre">provider=&quot;cuda&quot;</span></code> and set <code class="docutils literal notranslate"><span class="pre">CUDA_VISIBLE_DEVICES</span></code> before starting the
+application, as explained below.</p>
+<section id="create-a-configuration-file">
+<h2>Create a configuration file<a class="headerlink" href="#create-a-configuration-file" title="Permalink to this heading"></a></h2>
+<p>Save the following as <code class="docutils literal notranslate"><span class="pre">cuda.config</span></code>:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span># Select the first GPU visible to this process.
+device_id=0
+</pre></div>
+</div>
+<p>The file uses one <code class="docutils literal notranslate"><span class="pre">key=value</span></code> pair per line. Empty lines and lines starting
+with <code class="docutils literal notranslate"><span class="pre">#</span></code> are ignored. Comments must be on separate lines: trailing inline
+comments are not supported. For example, <code class="docutils literal notranslate"><span class="pre">device_id=0</span> <span class="pre">#</span> <span class="pre">first</span> <span class="pre">GPU</span></code> is not
+a valid device setting.</p>
+<p>The path must point to a readable file; a relative path is resolved from the
+application’s working directory.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>A missing or unreadable configuration file terminates the process. This
+does not trigger the CPU fallback described below. Check the file path
+and permissions before creating a recognizer.</p>
+</div>
+<p>You can add other CUDA execution-provider options, for example:</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>device_id=0
+arena_extend_strategy=kSameAsRequested
+</pre></div>
+</div>
+<p>See the <a class="reference external" href="https://onnxruntime.ai/docs/execution-providers/CUDA-ExecutionProvider.html#configuration-options">ONNX Runtime CUDA execution-provider options</a>
+for supported keys and values. Available options depend on your ONNX Runtime
+version; the second setting above is optional.</p>
+</section>
+<section id="use-it-from-python-or-the-command-line">
+<h2>Use it from Python or the command line<a class="headerlink" href="#use-it-from-python-or-the-command-line" title="Permalink to this heading"></a></h2>
+<p>For example, download <a class="reference internal" href="../pretrained_models/whisper/tiny.en.html#whisper-tiny-en-sherpa-onnx"><span class="std std-ref">tiny.en</span></a>, then create a
+recognizer with the FP32 model files:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sherpa_onnx</span>
+
+<span class="n">recognizer</span> <span class="o">=</span> <span class="n">sherpa_onnx</span><span class="o">.</span><span class="n">OfflineRecognizer</span><span class="o">.</span><span class="n">from_whisper</span><span class="p">(</span>
+    <span class="n">encoder</span><span class="o">=</span><span class="s2">"./sherpa-onnx-whisper-tiny.en/tiny.en-encoder.onnx"</span><span class="p">,</span>
+    <span class="n">decoder</span><span class="o">=</span><span class="s2">"./sherpa-onnx-whisper-tiny.en/tiny.en-decoder.onnx"</span><span class="p">,</span>
+    <span class="n">tokens</span><span class="o">=</span><span class="s2">"./sherpa-onnx-whisper-tiny.en/tiny.en-tokens.txt"</span><span class="p">,</span>
+    <span class="n">provider</span><span class="o">=</span><span class="s2">"cuda:./cuda.config"</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>Accept audio and decode as usual. For FireRedASR AED, pass the same
+<code class="docutils literal notranslate"><span class="pre">provider=&quot;cuda:./cuda.config&quot;</span></code> argument to
+<code class="docutils literal notranslate"><span class="pre">sherpa_onnx.OfflineRecognizer.from_fire_red_asr()</span></code> with your FireRedASR
+model files.</p>
+<p>The equivalent Whisper command-line example is:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>./sherpa-onnx-offline<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--provider<span class="o">=</span><span class="s2">"cuda:./cuda.config"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--whisper-encoder<span class="o">=</span>./sherpa-onnx-whisper-tiny.en/tiny.en-encoder.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--whisper-decoder<span class="o">=</span>./sherpa-onnx-whisper-tiny.en/tiny.en-decoder.onnx<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tokens<span class="o">=</span>./sherpa-onnx-whisper-tiny.en/tiny.en-tokens.txt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>./sherpa-onnx-whisper-tiny.en/test_wavs/0.wav
+</pre></div>
+</div>
+</section>
+<section id="select-another-gpu">
+<h2>Select another GPU<a class="headerlink" href="#select-another-gpu" title="Permalink to this heading"></a></h2>
+<p>Set <code class="docutils literal notranslate"><span class="pre">device_id=1</span></code> to select the second GPU visible to the process. The ID
+must be a non-negative integer identifying an available CUDA device.
+With the offline recognizers above, omitting <code class="docutils literal notranslate"><span class="pre">device_id</span></code> defaults to 0.</p>
+<p><code class="docutils literal notranslate"><span class="pre">CUDA_VISIBLE_DEVICES</span></code> changes which devices are visible and renumbers them.
+For example, with <code class="docutils literal notranslate"><span class="pre">CUDA_VISIBLE_DEVICES=1</span></code>, only one GPU is visible to the
+process, so use <code class="docutils literal notranslate"><span class="pre">device_id=0</span></code> in the file, not <code class="docutils literal notranslate"><span class="pre">device_id=1</span></code>. Set the
+environment variable before starting the application.</p>
+<p>If CUDA is unavailable or its provider options are rejected during provider
+registration, check the log: recognition can fall back to CPU, without CUDA
+cache binding. A successful transcript alone does not confirm GPU execution.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="reduce-memory-usage.html" class="btn btn-neutral float-left" title="Memory usage stays high after decoding long audio files" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="conv-free-decoder.html" class="btn btn-neutral float-right" title="Transducer decoding is slow with many concurrent streams on GPU" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2022-2026, sherpa development team.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+ <script type="text/javascript">
+    $(document).ready(function() {
+        $(".toggle > *").hide();
+        $(".toggle .header").show();
+        $(".toggle .header").click(function() {
+            $(this).parent().children().not(".header").toggle(400);
+            $(this).parent().children(".header").toggleClass("open");
+        })
+    });
+</script>
+
+
+</body>
+</html>
